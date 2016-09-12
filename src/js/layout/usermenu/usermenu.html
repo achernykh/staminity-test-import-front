@@ -1,0 +1,27 @@
+<md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+    <md-button class="md-icon-button md-primary" ng-click="$ctrl.onUserMenu($mdOpenMenu, $event)"
+               aria-label="User">
+        <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg" class="fill-white-medium" size="24"></md-icon>
+    </md-button>
+    <md-menu-content width="4">
+        <md-menu-item ng-repeat="menu in $ctrl.menu">
+            <md-button ng-href="{{menu.link}}">
+                <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="fill-black-medium" md-menu-align-target></md-icon>
+                <span translate>{{menu.name}}</span>
+            </md-button>
+        </md-menu-item>
+        <md-menu-divider></md-menu-divider>
+        <md-menu-item>
+            <md-button ng-click="changeLanguage('ru')">
+                <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target></md-icon>
+                <span translate>Русский</span>
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button ng-click="changeLanguage('en')">
+                <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target></md-icon>
+                <span translate>English</span>
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>

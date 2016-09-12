@@ -1,0 +1,54 @@
+<div flex="100" layout="column"  layout-align="center center" layout-align-xs="start center"
+     class="app-body">
+    <div hide-xs class="animated fadeInDown logo">
+        <img src="/assets/picture/logolp.svg"/>
+    </div>
+
+    <form ng-submit='$ctrl.onSignIn($ctrl.credentials)'
+          class="small animated fadeInUp medium" md-theme="dark"
+          novalidate name="authForm">
+        <div flex>
+            <md-input-container md-no-float>
+                <input required type="email" name="email" ng-model="$ctrl.credentials.email"
+                       autocomplete="off" autofocus ng-disabled="!$ctrl.formEnabled"
+                       minlength="5" maxlength="100"
+                       ng-pattern="/^.+@.+\..+$/"
+                       placeholder="{{ 'app.auth.email' | translate }}">
+                <div ng-messages="authForm.email.$error" role="alert">
+                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
+                        app.auth.errMail
+                    </div>
+                </div>
+            </md-input-container>
+        </div>
+        <div flex>
+            <md-input-container md-no-float>
+                <input required type="password" name="password" ng-model="$ctrl.credentials.password"
+                       ng-disabled="!$ctrl.formEnabled"
+                       minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       placeholder="{{ 'app.auth.pass' | translate }}">
+                <div ng-messages="authForm.password.$error" role="alert">
+                    <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>app.auth.errPass</div>
+                </div>
+            </md-input-container>
+        </div>
+        <div flex>
+            <md-checkbox aria-label="Checkbox No Ink" class="md-primary"
+                         ng-model="$ctrl.storage"
+                         ng-disabled="!$ctrl.formEnabled"
+                         ng-change="$ctrl.onStorage($ctrl.storage)"
+                         style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
+                <span translate>app.signin.remember</span>
+            </md-checkbox>
+        </div>
+        <div flex>
+            <md-button ng-disabled = "!authForm.$valid || !$ctrl.formEnabled" class="md-raised" type="submit"
+                       ng-class="{'md-primary': authForm.$valid && !ul.auth, 'md-disabled': authForm.$error}"
+                       translate='app.signin.button'
+                       aria-label="SignIn Button"></md-button>
+            <!--<div class="hint" ng-class="{'hide-me': authForm.$dirty}">Для тестирования фнукций тренера <b>login
+                - coach pass - coach</b>, для входа атлетом <b>login: athlete pass: athlete</b></div>-->
+        </div>
+    </form>
+
+</div>

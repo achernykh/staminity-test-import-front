@@ -1,0 +1,37 @@
+<div flex="auto" layout="row" layout-align="end center">
+    <div flex="none" layout="row" hide-xs>
+        <a href="#" translate>app.landing.nav.link1</a>
+        <a href="#" translate>app.landing.nav.link2</a>
+        <a href="#" translate>app.landing.nav.link3</a>
+        <a href="#" translate>app.landing.nav.link4</a>
+    </div>
+    <div flex="none" ng-show="!$ctrl._Auth.isAuthenticated()">
+        <a ng-link="['SignIn']" class="button" translate>app.landing.nav.signIn</a>
+    </div>
+    <div flex="none" ng-show="$ctrl._Auth.isAuthenticated()">
+        <a ng-link="['SignOut']" class="button" translate>app.landing.nav.signOut</a>
+    </div>
+    <div flex="none">
+        <md-menu md-position-mode="target-right target" md-offset="0 40">
+            <md-button class="md-icon-button md-primary"
+                        ng-click="$ctrl.languageClick($mdOpenMenu, $event)"
+                        aria-label="User">
+                <md-icon md-svg-src="/assets/icon/{{$ctrl.getLanguage()}}.svg" md-24 aria-label="Language Icon"></md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.changeLanguage('ru')">
+                        <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target aria-label="Russian"></md-icon>
+                        <span>Русский</span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.changeLanguage('en')">
+                        <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target aria-label="English"></md-icon>
+                        <span>English</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+</div>

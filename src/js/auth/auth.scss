@@ -1,0 +1,74 @@
+sign-up, sign-in {
+  .conf {
+    text-align: center;
+    color: rgba(white, 0.54);
+    margin-top: 24px;
+
+    a {
+      cursor: pointer;
+      font-weight: 900;
+      color: rgba(white, 0.54);
+      text-decoration: none;
+
+      &:hover {
+        color: rgba(white, 0.7);
+      }
+    }
+  }
+  .logo {
+    width: 15vh;
+  }
+  form, .confirm-message {
+    color: rgba(white, 0.7);
+    width: 70%;
+    overflow: hidden;
+
+    @media (max-width: 600px){
+      width: 100%;
+      -margin: 0px 8px;
+    }
+
+    &.small {
+      max-width: 300px;
+      min-width: 300px;
+    }
+
+    &.medium {
+      max-width: 450px;
+      @media (max-width: 600px){
+        max-width: 320px;
+      }
+    }
+
+    div {
+      text-align: center;
+    }
+
+    md-input-container {
+      margin: 8px 0px;
+
+      & [ng-message-exp] {
+        color: rgba(white, 0.7);
+      }
+    }
+
+    md-checkbox {
+      text-align: left;
+      -width: 100%;
+    }
+
+    button {
+      width: 70%;
+      max-width: 150px;
+      margin: 24px 0px;
+    }
+    .hint {
+      font-size: 12px;
+      @include transition(all, 2s, ease-out, 0s);
+
+      &.hide-me{
+        opacity: 0.1;
+      }
+    }
+  }
+}

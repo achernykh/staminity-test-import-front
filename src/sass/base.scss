@@ -1,0 +1,245 @@
+$gt-sm: 960px;
+
+@mixin transition($transition-property, $transition-time, $method, $transition-delay) {
+  -webkit-transition: $transition-property $transition-time $method $transition-delay;
+  -moz-transition: $transition-property $transition-time $method $transition-delay;
+  -ms-transition: $transition-property $transition-time $method $transition-delay;
+  -o-transition: $transition-property $transition-time $method $transition-delay;
+  transition: $transition-property $transition-time $method $transition-delay;
+}
+
+@mixin border-radius($radius-property) {
+  border-radius: $radius-property;
+  -moz-border-radius: $radius-property;
+  -webkit-border-radius: $radius-property;
+  -khtml-border-radius: $radius-property;
+  -ms-border-radius: $radius-property;
+}
+
+.back-primary-900 {
+  background: $primary-900;
+  -border-radius: 3px;
+}
+
+.back-primary-hue-3 {
+  background: $primary-hue-3;
+}
+
+noscript {
+  #center {
+    background: $primary-hue-3;
+    color: rgba(white, 0.7);
+    height: 100%;
+  }
+
+  .logo {
+    width: 70%;
+    max-width: 150px;
+    margin: 8px 0px;
+  }
+}
+
+.disabled{
+  &.dark {
+    color: rgba(black,0.26);
+  }
+}
+
+md-icon {
+  &.white {
+    svg {
+      fill: rgba(white,1);
+    }
+  }
+  &.black {
+    svg {
+      fill: rgba(black,0.54);
+    }
+  }
+  &.accent {
+    svg {
+      fill: rgba(#FF6F00,1);
+    }
+  }
+
+}
+
+/* Background layer */
+div {
+  -background: black;
+  -opacity: 0.7;
+  -border: 1px solid pink;
+  -color: black;
+}
+
+md-card {
+
+  .padding-00-24 {
+    padding: 0px 24px !important;
+  }
+
+  .padding-04-24 {
+    padding: 4px 24px !important;
+  }
+
+  .padding-08-24 {
+    padding: 8px 24px !important;
+  }
+
+  .padding-16-24 {
+    padding: 16px 24px !important;
+  }
+
+  .padding-24-24 {
+    padding: 24px 24px !important;
+  }
+
+  .padding-0-24-24-24 {
+    padding: 0px 24px 24px 24px;
+  }
+}
+
+img.avatar{
+  border: 2px solid rgba(white, 0.7);
+  padding: 0px;
+
+  &.mini{
+    width: 24px;
+    height: 24px;
+    @include border-radius(12px);
+  },
+&.small {
+  width: 48px;
+  height: 48px;
+  @include border-radius(24px);
+},
+&.medium {
+  width: 56px;
+  height: 56px;
+  @include border-radius(28px);
+},
+&.big{
+  width: 96px;
+  height: 96px;
+  @include border-radius(48px);
+}
+
+}
+
+.progress-bar {
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+
+  @include transition(all, 1s, ease-in-out, 2s);
+
+  &.ng-hide {
+    opacity: 0;
+  }
+  &.show-me {
+    opacity: 1;
+  }
+
+}
+
+.app-title {
+  text-align: center;
+  line-height: 40px;
+  color: white;
+
+  .md-button.md-icon-button {
+    margin: 0 0;
+  }
+}
+
+.app-toolbar {
+  width: 100%;
+  -height: $app-toolbar-height;
+}
+.app-body {
+  height: 100%;
+  transition: opacity 2s ease-in-out 0.5s;
+}
+
+
+
+.app-frame md-card {
+  margin: 0px 0px !important;
+}
+
+
+
+/* Registration form */
+
+html, body, .container {
+  height: 100%;
+}
+
+body {
+  background-color: $primary-hue-3;
+  overflow: hidden;
+  min-width: 320px;
+  min-height: 480px;
+}
+
+.landing-page {
+  -z-index: 100;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  opacity: 1;
+  -transition: all 0.5s ease-out;
+}
+.content.ng-hide {
+
+  opacity: 0;
+}
+
+.reg {
+  max-width: 150px;
+}
+
+.content button {
+  font-size: 24px !important;
+  color: white !important;
+  padding: 16px;
+  max-width: 400px;
+
+}
+
+
+
+.landing-page {
+  height: 100%;
+}
+
+.auth-form {
+  text-align: center;
+  width: 300px;
+  opacity: 1;
+  -transition: all 0.5s ease-out 0.5s;
+}
+.auth-form.ng-hide {
+  -height: 0;
+  opacity: 0;
+}
+
+md-input-container {
+  width: 100%;
+}
+
+md-icon {
+  &.fill-black-medium {
+    svg {
+      fill: rgba(black, $contrast-black-medium);
+    }
+  }
+  &.fill-white-medium {
+    svg {
+      fill: rgba(white, $contrast-white-medium);
+    }
+  }
+}

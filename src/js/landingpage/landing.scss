@@ -1,0 +1,72 @@
+landing-page {
+	overflow: hidden;
+
+  	.logo {
+	  width: 20vh;
+	  &.big {
+		@media (max-height: 600px) and (min-width: 900px){
+		  display: none;
+		}
+	  }
+	}
+	h1 {
+		color: rgba(white,0.84);
+		text-transform: uppercase;
+		font-size: 8vw;
+		font-weight: 700;
+		margin: 8px 0px;
+		text-align: center;
+	}
+	h2 {
+		color: rgba(white,0.84);
+		text-transform: uppercase;
+		font-size: 3vw;
+		font-weight: 400;
+		margin: 8px 0px;
+		text-align: center;
+	}
+
+	button.big {
+		font-size: 18px !important;
+		color: white !important;
+		padding: 8px 24px;
+		max-width: 400px;
+		margin-top: 16px;
+		&.focus {
+			--webkit-animation: focus 5s infinite; /* Chrome, Safari, Opera */
+			-animation: focus 5s infinite;
+		}
+	}
+
+	/* Chrome, Safari, Opera */
+	@-webkit-keyframes focus {
+		0% {
+			margin-top: 16px;
+			animation-timing-function: ease-in;
+		}
+		5% {
+			margin-top: 18px;
+			animation-timing-function: ease-in;
+		}
+		10% {
+			margin-top: 16px;
+			animation-timing-function: ease-in;
+		}
+	}
+
+	@keyframes focus {
+		0% {
+			margin-top: 16px;
+			animation-timing-function: ease-in;
+		}
+		5% {
+			margin-top: 24px;
+			animation-timing-function: ease-in;
+		}
+		10% {
+			margin-top: 16px;
+			animation-timing-function: ease-in;
+		}
+	}
+
+}

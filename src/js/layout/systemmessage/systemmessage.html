@@ -1,0 +1,10 @@
+<div id="message" class="{{$ctrl.status}}" ng-show="$ctrl.show" ng-click="$ctrl.close()"
+     layout="column" layout-align="center center" layout-padding ng-class="{'show-me': $ctrl.show}">
+    <div class="md-title title" translate>{{$ctrl.title}}</div>
+    <div class="md-body-1 text" translate>{{$ctrl.text}}</div>
+    <div class="close-button">
+        <md-button class="md-icon-button md-primary" aria-label="Settings">
+            <md-icon md-svg-src="/assets/icon/close.svg" class="fill-white-medium" size="24" ng-click="$ctrl.close()"></md-icon>
+        </md-button>
+    </div>
+</div>

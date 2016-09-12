@@ -1,0 +1,172 @@
+#calendar {
+  background-color: $grey-300;
+  border-radius: 3px;
+  padding-bottom: 4px;
+  margin: 0px;
+  -padding: 16px;
+}
+
+.app-toolbar{
+
+  color: rgba(white,0.54);
+
+  .md-button {
+    margin: 0px;
+    padding: 4px 4px;
+
+    svg {
+      fill: rgba(white,0.54);
+    }
+  }
+}
+
+.week {
+  -height: 100%;
+  border-bottom: 1px solid $grey-400;
+}
+
+.day-toolbar {
+  position: static;
+  padding: 8px 0px;
+  -line-height: 24px;
+  min-height: 30px;
+  background: $primary-hue-3 !important;
+  -border-top-left-radius: 3px;
+  -border-top-right-radius: 3px;
+
+  div {
+    -height: 100%;
+    padding: 0px 4px;
+    color: rgba(white,0.54);
+  }
+}
+
+.day {
+  -background: white;
+  min-height: 100px;
+  -min-width: 12%;
+  padding: 0px 4px;
+  padding-bottom: 8px;
+  height: 100%;
+
+
+  @media (min-width: 1279px){
+    width: 12%;
+    max-width: 250px;
+  }
+
+  @media (min-width: 959px) and (max-width: 1280px){
+    width: 14%;
+  }
+
+  &.select {
+    background: $primary-100;
+
+  }
+
+  &:hover{
+    background: $primary-100;
+
+  }
+  transition: all 0.5s ease-in-out 0.2s;
+}
+
+.summary {
+  -min-height: 100px;
+  border-left: 1px solid $grey-400;
+}
+
+.activity{
+  margin: 4px 0px;
+  background: white;
+  border-radius: 3px;
+  -padding-bottom: 12px;
+  cursor: pointer;
+
+  @media (max-width: 1919px) and (min-width: 1280px){
+    -min-width: 10%;
+    -max-width: 175px;
+  }
+
+  @media (max-width: 960px){
+    border-radius: 0px;
+    margin: 0px 4px;
+    min-width: 200px;
+    padding-bottom: 0px;
+  }
+
+  &:focus {
+    outline:0;
+  }
+
+  .header {
+    -height: 50px;
+    padding: 8px;
+    color: rgba(white,1);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    font-weight: 500;
+
+    @media (max-width: 960px){
+      border-radius: 0px;
+      height: 100%;
+      margin-bottom: 0px;
+    }
+
+    &.success{
+      background: $success-color;
+      &:hover, &.select{
+        background: $success-color-hover;
+      }
+    }
+    &.warning{
+      background: $warning-color;
+      &:hover, &.select{
+        background: $warning-color-hover;
+      }
+    }
+    &.error{
+      background: $error-color;
+      &:hover, &.select {
+        background: $error-color-hover;
+      }
+    }
+    &.noplan{
+      background: $grey-700;
+      &:hover {
+        background: $primary-hue-3;
+      }
+    }
+  }
+  .content {
+    padding: 8px;
+    color: rgba(black,0.8);
+
+    span{
+      color: rgba(black,0.54);
+    }
+  }
+  .type {
+    font-size: 12px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word
+  }
+}
+
+.new {
+  border-radius: 3px;
+  margin: 4px 0px;
+  -background: white;
+  visibility: hidden;
+  cursor: pointer;
+
+  &.show {
+    visibility: visible;
+  }
+
+  &:hover {
+    -background: white;
+  }
+
+}

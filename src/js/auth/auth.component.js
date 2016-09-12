@@ -1,0 +1,182 @@
+import {_PageAccess} from '../config/app.constants.js';
+
+class SignUpCtrl {
+    constructor($log, Auth) {
+        'ngInject';
+        this._$log = $log;
+        this._Auth = Auth;
+        this.state = 'form';
+        this.formEnabled = true;
+        this.credentials = {
+            firstName: 'Alexander',
+            lastName: 'Chernykh',
+            email: 'chernykh@me.com',
+            password: 'qPTwkl!1234',
+            personal: {
+                role: true
+            }
+        }
+    }
+    $onInit() {
+
+    }
+
+    /**
+     * Регистрация нового пользователя
+     * @param credentials
+     */
+    onSignUp(credentials) {
+        this.formEnabled = false;
+        credentials.personal.role = credentials.personal.role ? 'coach' : 'user';
+        this._Auth.signUp(credentials).then(
+            (result) => {
+                this._$log.debug('SignUp: onSignUp success = ', result);
+                this.changeState('confirm');
+            }, (error) => {
+                this._$log.debug('SignUp: onSignUp error = ', error);
+            });
+    }
+    changeState(state){
+        this.state = state;
+    }
+
+}
+
+class SignOutCtrl {
+    constructor ($log, $location, $timeout, Auth, User) {
+        'ngInject';
+        this._$log = $log;
+        this._$location = $location;
+        this._$timeout = $timeout;
+        this._Auth = Auth;
+        this._User = User;
+    }
+    $onInit(){
+        this._$log.debug('SignOut: onInit()');
+        this._Auth.signOut().finally(() => {
+                this._User.logout();
+                this.app.userLogout();
+                this._$timeout(() => this._$location.path("/welcome"),3000);
+            }
+        )
+    }
+}
+
+class SignInCtrl {
+    constructor ($q, $log, $location, Auth, Storage, User) {
+        'ngInject';
+        this._$log = $log;
+        this._$q = $q;
+        this._$location = $location;
+        this._Auth = Auth;
+        this._Storage = Storage;
+        this._User = User;
+        this.request = 'request';
+        this.storage = false;
+        this.formEnabled = true;
+        this.credentials = {
+            email: 'chernykh@me.com',
+            password: 'qPTwkl!1234'
+        }
+    }
+    $onInit(){
+    }
+    $routerOnActivate(next){
+        /**
+         * Если в строке присутсвует параметр request - значит пользователь прошел по ссылке на активацию аккаунта.
+         * Необходимо подтвердить актуальность ссылки на сервере и если все ок, то предложить ввести свой логин и пароль
+         */
+        if(next.params[this.request])
+            this._Auth.confirmAccount(next.params[this.request]).then(
+                (result) => this.$router.navigate(['SignIn']),
+                (error) => {
+
+                }
+            )
+    }
+
+    /**
+     * Активация/деактивация хранения данных в localStorage. Если установлено false, то данные будут сохраняться в
+     * sessionStorage
+     * @param value
+     */
+    onStorage(value){
+        this._Storage.setIncognitoSession(value);
+    }
+    onSignIn(credentials){
+        this._Storage.setIncognitoSession(this.storage);
+        this.formEnabled = false;
+        this._Auth.signIn(credentials).then(
+            (response) => {
+                this._$log.debug('SignIn: SignIn success, response', response);
+                // Устанавливаем текущего пользователя
+                this._User.setCurrentUser(response.userId).then(
+                    (result) => {
+                        this.app.userLogin(result);
+                        this._$log.debug('SignIn: SignIn success, userId=', this.app.currentUser.userId);
+                        this.$router.navigate(['Calendar']);
+                    }, (error) => {});
+
+            }, (error) => {
+                this._$log.debug('SignIn: SignIn error = ', error);
+                this.formEnabled = true;
+            });
+    }
+}
+export let SignOut = {
+    bindings: {
+    },
+    require: {
+        app: '^staminityApplication'
+    },
+    transclude: false,
+    controller: SignOutCtrl,
+    templateUrl: 'auth/signin.html'
+};
+
+export let SignUp = {
+    bindings: {
+    },
+    transclude: false,
+    controller: SignUpCtrl,
+    templateUrl: 'auth/signup.html'
+};
+
+export let SignIn = {
+    bindings: {
+        $router: '<'
+    },
+    require: {
+        app: '^staminityApplication'
+    },
+    transclude: false,
+    controller: SignInCtrl,
+    templateUrl: 'auth/signin.html',
+
+    $canActivate: (Auth, $location, AppMessage) => {
+        'ngInject';
+        // Проверяем достаточность полномочий пользователя, на вход даем информацию по необходмим ролям для данной
+        // страницы ($location.path)
+        let authorizedRoles = _PageAccess[$location.$$path.substr(1)];
+        if (Auth.isAuthorized(authorizedRoles)) {
+            if (Auth.isAuthenticated())
+                AppMessage.show({
+                    status: 'warning',
+                    title: 'Ошибка авторизации',
+                    text: 'К сожалению у вас не достаточно прав для просмотра запрашиваемой страницы.' +
+                    ' Необхоимы полномочия '+ authorizedRoles
+                });
+            else {
+                AppMessage.show({
+                    status: 'warning',
+                    title: 'Ошибка аутентификации',
+                    text: 'Для просмотра данной страницы необходимо пройти аутентификацию'
+                });
+                $location.path('/signin');
+            }
+            return false;
+        } else
+            return true;
+    }
+};
+

@@ -1,0 +1,12 @@
+<div id="welcome" flex="100" layout="column"  layout-align="center center"
+    class="app-body" md-theme="dark">
+    <div class="logo big">
+        <img src="/assets/picture/logolp.svg"/>
+    </div>
+    <h1 translate class="animated fadeInDown">app.landing.welcome.title1</h1>
+    <h2 translate class="animated fadeInUp">app.landing.welcome.title2</h2>
+    <md-button ng-click="$ctrl.goTo(!$ctrl.app.isAuthenticated ? 'SignUp' : 'Calendar')"
+               class="md-raised md-primary big focus"
+               aria-label="start"
+               translate="{{!$ctrl.app.isAuthenticated ? 'app.landing.welcome.buttonSignUp' : 'app.landing.welcome.buttonStart'}}"></md-button>
+</div>

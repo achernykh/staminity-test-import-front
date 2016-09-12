@@ -1,0 +1,42 @@
+
+    <div flex="100" layout="row" id="athlete-selector" ng-if="$ctrl.show" style="color: white">
+        <div flex="5"></div>
+        <div flex="90" layout="column">
+            <div layout="row" flex="none">
+                <md-input-container md-no-float style="margin-bottom: 0px">
+                    <input ng-model="search.name" autocomplete="off" autofocus
+                           style="border: 1px solid rgba(255,255,255,0.54); border-radius: 26px; padding-left: 16px;
+                              margin: 0;
+                             color: white; -background: #263238"
+                           placeholder="Поиск">
+                </md-input-container>
+            </div>
+            <div flex="none" ng-repeat="(id, group) in $ctrl.athletes"
+                 layout="row" layout-align="start center" layout-wrap
+                 style="-border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 16px">
+                <div flex="100" class="md-subhead">{{::group.code}}</div>
+                <div ng-repeat="athlete in group.members | filter: search.name"
+                     flex-lg="20" flex-gt-md="20" flex-md="25" flex-sm="33" flex-xs="50" layout="row"
+                     layout-align="start start" layout-padding
+                     class="athlete animated fadeIn"
+                     ng-class="{'back-primary-900': athlete.userId == vm.athlete.id}"
+                     style="cursor: pointer"
+                     ng-click="$ctrl.select(athlete)">
+                    <div>
+                        <img ng-src="/assets/avatar/{{::athlete.userId}}.jpg"
+                             style="width: 24px; height: 24px; border-radius: 13px;
+                           border: 1px solid whitesmoke;">
+                        </img>
+                    </div>
+                    <div layout="column" layout-nowrap>
+                        <div class="md-caption" style="opacity: 0.54">{{athlete.personal.city}}, {{athlete.personal.country}}</div>
+                        <div class="md-body-1">{{athlete.public.firstName}} {{athlete.public.lastName}}</div>
+                        <!--<div hide show-gt-sm class="md-caption" style="opacity: 0.54">
+                            {{athlete.personal.about | limitTo: 60 }}{{athlete.personal.about > 60 ? ' ...' : ''}}</div>-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div flex="5"></div>
+    </div>

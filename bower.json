@@ -1,0 +1,41 @@
+{
+  "name": "staminity",
+  "version": "0.0.0",
+  "description": "staminity",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "staminity"
+  ],
+  "authors": [
+    "Alexander Chernykh"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "main": "index.html",
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-component-router": "^0.2.1",
+    "angular-material": "^1.0.9",
+    "angular-sanitize": "^1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-aria": "^1.5.7",
+    "angular-translate": "^2.11.1",
+    "angular-messages": "^1.5.7",
+    "angular-scroll": "^1.0.0",
+    "ng-notify": "^0.8.0",
+    "animate.css": "^3.5.2",
+    "angular-websocket": "^2.0.0",
+    "moment": "^2.14.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.5.7"
+  }
+}
