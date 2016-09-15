@@ -45,25 +45,6 @@ noscript {
   }
 }
 
-md-icon {
-  &.white {
-    svg {
-      fill: rgba(white,1);
-    }
-  }
-  &.black {
-    svg {
-      fill: rgba(black,0.54);
-    }
-  }
-  &.accent {
-    svg {
-      fill: rgba(#FF6F00,1);
-    }
-  }
-
-}
-
 /* Background layer */
 div {
   -background: black;
@@ -229,17 +210,4 @@ body {
 
 md-input-container {
   width: 100%;
-}
-
-md-icon {
-  &.fill-black-medium {
-    svg {
-      fill: rgba(black, $contrast-black-medium);
-    }
-  }
-  &.fill-white-medium {
-    svg {
-      fill: rgba(white, $contrast-white-medium);
-    }
-  }
 }

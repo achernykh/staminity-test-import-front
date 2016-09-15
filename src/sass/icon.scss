@@ -1,0 +1,52 @@
+// dense icon, высота-ширина=40, иконка=20
+md-icon.dense {
+	width: 20px;
+	height: 20px;
+}
+// цветовая схема иконок
+md-icon {
+	&.light-active svg {
+		fill: rgba(white, 1.00);
+	}
+	&.light-inactive svg {
+		fill: rgba(white, 0.30);
+	}
+	&.dark-active svg {
+		fill: rgba(black, 0.54);
+	}
+	&.dark-inactive svg {
+		fill: rgba(black, 0.26);
+	}
+}
+
+// TODO Старые стили для иконок, нужно обновить везде по тексту на новые
+md-icon {
+	&.white {
+		svg {
+			fill: rgba(white,1);
+		}
+	}
+	&.black {
+		svg {
+			fill: rgba(black,0.54);
+		}
+	}
+	&.accent {
+		svg {
+			fill: rgba(#FF6F00,1);
+		}
+	}
+}
+
+md-icon {
+	&.fill-black-medium {
+		svg {
+			fill: rgba(black, $contrast-black-medium);
+		}
+	}
+	&.fill-white-medium {
+		svg {
+			fill: rgba(white, $contrast-white-medium);
+		}
+	}
+}
