@@ -4,6 +4,14 @@
   padding-bottom: 4px;
   margin: 0px;
   -padding: 16px;
+
+  width: 100%;
+  max-width: 1400px;
+
+  @media (max-width: 959px){
+    width: 100vw!important;
+    max-width: none;
+  }
 }
 
 .app-toolbar{
@@ -45,8 +53,7 @@
   -background: white;
   min-height: 100px;
   -min-width: 12%;
-  padding: 0px 4px;
-  padding-bottom: 8px;
+  padding: 0px 4px 8px;
   height: 100%;
 
 
@@ -150,7 +157,7 @@
     font-size: 12px;
     overflow-wrap: break-word;
     word-wrap: break-word;
-    word-break: break-word
+    word-break: break-all;
   }
 }
 
@@ -169,4 +176,12 @@
     -background: white;
   }
 
+}
+
+.cg-width {
+  width: 100%;
+
+  @media (max-width: 959px) {
+    width: auto;
+  }
 }
