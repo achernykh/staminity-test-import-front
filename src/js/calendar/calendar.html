@@ -33,7 +33,9 @@
             <div layout="raw" layout-xs="column" layout-sm="column" layout-align="space-between start" flex="none"
                  ng-repeat="week in $ctrl.grid"
                  class="week" style="-height: 100%">
-                <div layout-gt-sm="column" flex-gt-sm="none" layout="row" flex="100" layout-fill
+                <!-- При мобильном виде все в строку при наведении-->
+                <!--<div layout-gt-sm="column" flex-gt-sm="none" layout="row" flex="100" layout-fill-->
+                <div flex="none" layout="column" layout-fill
                      ng-repeat="day in week track by $index"
                      class="day"
                      ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false"
@@ -42,13 +44,13 @@
 
                     <!-- current day header-->
                     <div layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
-                        <div flex="none" class="md-body-1" style="min-width: 24px">{{::day.title}}</div>
+                        <div flex="none"  class="md-body-1" style="min-width: 24px">{{::day.title}}</div>
                         <div flex="none" ng-show="showMenu || selected">
                             <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
                                          style="margin-bottom: 0px; margin-left: 12px">
                             </md-checkbox>
                         </div>
-                        <div flex="none" ng-show="showMenu || selected">
+                        <div flex="none"  ng-show="showMenu || selected">
                             <md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
                                 <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
                                          aria-label="Back"></md-icon>
