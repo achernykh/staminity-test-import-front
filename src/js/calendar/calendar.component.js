@@ -37,6 +37,7 @@ class CalendarCtrl {
      * 4) получение актуальных данных от сервера, обновление представление на экране
      */
     $onInit() {
+        // первый день текущей недели currDay
         let currDay     = moment().weekday(0),
             startDay    = moment(currDay).add(-CalendarSettings.weekRange,'w'),
             endDay      = moment(currDay).add(CalendarSettings.weekRange,'w');
@@ -54,6 +55,7 @@ class CalendarCtrl {
             (success) => {
                 this.grid = success;
                 this._$log.debug('Calendar: getCalendarGrid', this.grid);
+
                 this.getActivityList(moment(currDay).add(-2,'w'), moment(currDay).add(2,'w')).then(
                     (success) => {
                         this.activity = success;
@@ -188,6 +190,8 @@ class CalendarCtrl {
         // Проходим циклом по всем дням от начала до конца. На вход передается первый день недели начала и последний
         // день недели окончания, таким образом работаем с полными неделями
         while (diff != 0){
+            /* TODO: узнать можно ли завести переменную day.month и в мобильном показывать её, а также не забыть про вывод дня недели */
+            this._$log.debug('Calendar:  xs', this._$rootScope.xs);
             (start.format('DD') == '01') ? day.title = start.format('DD MMM') : day.title = start.format('DD');
             angular.extend(week, {[start.format('YYYYMMDD')]: day});
             //this._$log.debug('Calendar: getCalendarGrid, curr day=', start.format('DD MMM'), diff, diff % 7);

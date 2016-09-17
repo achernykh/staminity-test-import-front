@@ -59,56 +59,56 @@
                     </div>
 
                     <!-- Days body: start -->
-                    <!--<div ng-repeat="activity in day.activity" layout-wrap-->
-                         <!--flex-gt-sm="none" flex="auto" class="animated fadeIn activity md-whiteframe-1dp" draggable="true"-->
-                         <!--ng-click="showActivity($event, activity)"-->
-                         <!--ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false" ng-init="showMenu=false">-->
-                        <!--<div layout="row" layout-xs="column" layout-gt-sm="column">-->
-                            <!--<div class="header {{activity.intervals[0].status}} md-caption"-->
-                                 <!--ng-class="{select: selected}">-->
-                                <!--<div layout="row" layout-align="space-between start">-->
-                                    <!--<div flex="none" style="margin-right: 4px">-->
-                                        <!--<md-icon md-svg-src="/assets/icon/{{!showMenu ? 'running.svg' : 'more_vert.svg'}}" class="fill-white-medium"-->
-                                                 <!--aria-label="Back"></md-icon>-->
-                                    <!--</div>-->
-                                    <!--<div flex="100" class="type">{{activity.activityCategory.code | uppercase}}</div>-->
-                                <!--</div>-->
-                                <!--<div layout="row" layout-align="space-between start" style="margin-top: 8px">-->
-                                    <!--<div flex="none" style="margin-right: 4px">-->
-                                        <!--<md-icon md-svg-src="/assets/icon/heartRate.svg" class="fill-white-medium" size="s18"-->
-                                                 <!--aria-label="Back"></md-icon>-->
-                                    <!--</div>-->
-                                    <!--<div flex="100" class="md-caption">-->
-                                        <!--<span>{{activity.intervals[0].duration}}</span><span> min</span><br>-->
-                                        <!--<span>{{activity.intervals[0].distance}}</span><span> km</span><br>-->
-                                        <!--<span>{{activity.intervals[0].assessment}}</span><span>%</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div ng-show="!viewCompact" layout="row" layout-align="space-between start" class="content md-caption">-->
-                                <!--<div flex="none" style="margin-right: 4px">-->
-                                    <!--<md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="fill-black-medium" size="s18"-->
-                                             <!--aria-label="Back"></md-icon>-->
-                                <!--</div>-->
-                                <!--<div flex="100" class="type">-->
-                                    <!--<div>{{activity.intervals[0].bpmAvr}}<span> bpm</span></div>-->
-                                    <!--<div>{{activity.intervals[0].TSS}}<span> TL</span></div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div ng-show="!viewCompact && (activity.social.userLikesCount + activity.social.userCommentsCount)>0" layout="row" layout-align="end center" class="content md-caption">-->
+                    <div ng-repeat="activity in day.activity" layout-wrap
+                         flex-gt-sm="none" flex="auto" class="animated fadeIn activity md-whiteframe-1dp" draggable="true"
+                         ng-click="showActivity($event, activity)"
+                         ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false" ng-init="showMenu=false">
+                        <div layout="row" layout-xs="column" layout-gt-sm="column">
+                            <div class="header {{activity.intervals[0].status}} md-caption"
+                                 ng-class="{select: selected}">
+                                <div layout="row" layout-align="space-between start">
+                                    <div flex="none" style="margin-right: 4px">
+                                        <md-icon md-svg-src="/assets/icon/{{!showMenu ? 'running.svg' : 'more_vert.svg'}}" class="fill-white-medium"
+                                                 aria-label="Back"></md-icon>
+                                    </div>
+                                    <div flex="100" class="type">{{activity.activityCategory.code | uppercase}}</div>
+                                </div>
+                                <div layout="row" layout-align="space-between start" style="margin-top: 8px">
+                                    <div flex="none" style="margin-right: 4px">
+                                        <md-icon md-svg-src="/assets/icon/heartRate.svg" class="fill-white-medium" size="s18"
+                                                 aria-label="Back"></md-icon>
+                                    </div>
+                                    <div flex="100" class="md-caption">
+                                        <span>{{activity.intervals[0].duration}}</span><span> min</span><br>
+                                        <span>{{activity.intervals[0].distance}}</span><span> km</span><br>
+                                        <span>{{activity.intervals[0].assessment}}</span><span>%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="!viewCompact" layout="row" layout-align="space-between start" class="content md-caption">
+                                <div flex="none" style="margin-right: 4px">
+                                    <md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="fill-black-medium" size="s18"
+                                             aria-label="Back"></md-icon>
+                                </div>
+                                <div flex="100" class="type">
+                                    <div>{{activity.intervals[0].bpmAvr}}<span> bpm</span></div>
+                                    <div>{{activity.intervals[0].TSS}}<span> TL</span></div>
+                                </div>
+                            </div>
+                            <div ng-show="!viewCompact && (activity.social.userLikesCount + activity.social.userCommentsCount)>0" layout="row" layout-align="end center" class="content md-caption">
 
-                                <!--<md-icon md-svg-src="/assets/icon/thumb_up.svg" class="fill-black-medium" ng-if="activity.social.userLikesCount >0"-->
-                                         <!--style="width: 14px; height: 14px; margin: 0px 8px;"-->
-                                         <!--aria-label="Back"></md-icon>-->
-                                <!--<span ng-if="activity.social.userLikesCount >0">{{::activity.social.userLikesCount}}</span>-->
-                                <!--<md-icon md-svg-src="/assets/icon/chat_bubble.svg" class="fill-black-medium" ng-if="activity.social.userCommentsCount >0"-->
-                                         <!--style="width: 14px; height: 14px; margin: 0px 8px;"-->
-                                         <!--aria-label="Back"></md-icon>-->
-                                <!--<span ng-if="::activity.social.userCommentsCount >0">{{::activity.social.userCommentsCount}}</span>-->
+                                <md-icon md-svg-src="/assets/icon/thumb_up.svg" class="fill-black-medium" ng-if="activity.social.userLikesCount >0"
+                                         style="width: 14px; height: 14px; margin: 0px 8px;"
+                                         aria-label="Back"></md-icon>
+                                <span ng-if="activity.social.userLikesCount >0">{{::activity.social.userLikesCount}}</span>
+                                <md-icon md-svg-src="/assets/icon/chat_bubble.svg" class="fill-black-medium" ng-if="activity.social.userCommentsCount >0"
+                                         style="width: 14px; height: 14px; margin: 0px 8px;"
+                                         aria-label="Back"></md-icon>
+                                <span ng-if="::activity.social.userCommentsCount >0">{{::activity.social.userCommentsCount}}</span>
 
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
                     <!-- Days: end -->
 
                     <!-- Add new task: choise : start -->
