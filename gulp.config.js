@@ -28,7 +28,9 @@ var jsLibs = [
     //bower+"nvd3/build/nv.d3.js",
     //bower+"angular-nvd3/dist/angular-nvd3.js",
     bower+"angular-scroll/angular-scroll.js",
-    bower+"localforage/dist/localforage.min.js"
+    bower+"localforage/dist/localforage.min.js",
+    bower+"angular-ui-scroll/dist/ui-scroll.js", // бесконечный скролл
+    bower+"angular-ui-scroll/dist/ui-scroll-jqlite.js" // дополнение к бесконечному скролу
 ];
 
 var cssLibs = [

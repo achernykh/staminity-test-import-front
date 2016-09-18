@@ -5,15 +5,17 @@ import {_PageAccess} from '../config/app.constants.js';
  *
  */
 class CalendarCtrl {
-    constructor($log, $q, $timeout, $rootScope, Auth, AppMessage) {
+    constructor($log, $q, $timeout, $rootScope, $scope, Auth, AppMessage) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
         this._$timeout = $timeout;
         this._$rootScope = $rootScope;
+        this._$scope = $scope; //bad test
         this._Auth = Auth;
         this._AppMessage = AppMessage;
         this.grid = {};
+        this.datasource = {}; // bad test
         /**
          * Слушаем события, которые могут обновить данные Календаря:
          * 1) newActivity - добавлена новая запись
@@ -37,6 +39,20 @@ class CalendarCtrl {
      * 4) получение актуальных данных от сервера, обновление представление на экране
      */
     $onInit() {
+
+        /* for bad test */
+        
+        this.datasource.get = function (index, count, success) {
+                var result = [];
+                for (var i = index; i <= index + count - 1; i++) {
+                    result.push("item #" + i);
+                }
+                success(result);
+        };
+
+        this._$scope.datasource = this.datasource;
+        /* end bad test*/
+
         // первый день текущей недели currDay
         let currDay     = moment().weekday(0),
             startDay    = moment(currDay).add(-CalendarSettings.weekRange,'w'),
