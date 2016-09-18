@@ -37,7 +37,7 @@
                      ng-class="{select: selected}"
                      ng-init="showMenu=false">
 
-                    <div layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
+                    <div ng-class="{today: day.today}" layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
                         <div flex="none" class="md-body-1" style="min-width: 24px">{{::day.title}}</div>
                         <div flex="none" ng-show="showMenu || selected">
                             <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
