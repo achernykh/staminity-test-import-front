@@ -195,6 +195,11 @@ class CalendarCtrl {
             (start.format('DD') == '01') ? day.title = start.format('DD MMM') : day.title = start.format('DD');
             angular.extend(week, {[start.format('YYYYMMDD')]: day});
             //this._$log.debug('Calendar: getCalendarGrid, curr day=', start.format('DD MMM'), diff, diff % 7);
+            //Проверяем все дни на соответствие текущему, если соответствует - добавляем свойство today: true в
+            //объект day. Далее с помощь ng-class добавляем класс today
+            if (( start.format('DD MMM YYYY') ==  moment().format('DD MMM YYYY'))) {
+                day.today = true;
+            }
             day = {
                 title: null,
                 activity: []
