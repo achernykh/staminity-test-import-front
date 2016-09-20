@@ -73,6 +73,7 @@
 
   @media(max-width: 1280px){
     padding: 1em;
+    border-bottom: 1px solid $grey-400;
   }
 
   &.select {
@@ -85,6 +86,19 @@
 
   }
   transition: all 0.5s ease-in-out 0.2s;
+}
+
+.md-toolbar-tools .md-caption{
+  padding: 0 4px;
+
+  @media (min-width: 1279px){
+    width: 12%;
+    max-width: 250px;
+  }
+
+  @media (min-width: 959px) and (max-width: 1280px){
+    width: 14%;
+  }
 }
 
 .summary {
@@ -198,3 +212,12 @@
   border-top:solid $orange-800 ;
 }
 
+.md-position-fab{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.md-position-fab.md-fab.md-primary.md-icon-button {
+  background-color: $orange-900;
+}

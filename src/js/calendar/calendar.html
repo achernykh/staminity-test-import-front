@@ -1,6 +1,6 @@
 <div layout="column" layout-align="start center" flex="100" style="height: 100%;">
     <!--    toolbar: start  -->
-    <div layout="row" layout-align="start center" flex="none" class="app-toolbar">
+    <div hide-xs hide-sm layout="row" layout-align="start center" flex="none" class="app-toolbar">
         <div class="md-body-2">2016 July</div>
         <md-button class="md-icon-button md-primary" aria-label="Settings"
                    ng-click="vm.beforeWeek()">
@@ -26,7 +26,24 @@
     <!--    toolbar: end  -->
     <div layout="row" flex="100" class="cg-width">
         <section layout="column" layout-align="start stretch" id="calendar" class="app-body animated zoomIn" style="width: 100%;">
-            <md-toolbar hide-xs hide-sm class="md-primary"><div class="md-toolbar-tools"><h3>weekdays</h3></div></md-toolbar>
+            <!--<md-toolbar class="md-primary"><div class="md-toolbar-tools">-->
+                <!--<h3>weekdays</h3>-->
+            <!--</div>-->
+            <!--</md-toolbar>-->
+
+                <md-toolbar class="md-primary">
+                    <div flex="none" layout="raw" layout-align="space-between center" class="md-toolbar-tools" hide show-gt-sm >
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_1</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_2</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_3</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_4</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_5</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_6</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_7</div>
+                        <!--<div flex="none" translate hide show-gt-md class="md-caption">app.calendar.weekdays.totalDays</div>-->
+                    </div>
+                </md-toolbar>
+
 
             <!-- Grid: start -->
             <md-content flex layout-padding style="overflow: auto;">
@@ -42,12 +59,17 @@
                      ng-class="{select: selected}"
                      ng-init="showMenu=false">
 
-                    <div ng-class="{today: day.today}" layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
+                    <div ng-class="{today: day.today}" layout="row" layout-align="space-between center"
+                         flex-gt-sm="none" flex="none" style="height: 30px">
                         <div flex="none">
-                        <div hide-gt-sm flex="none" class="md-body-1" style="min-width: 24px">{{::day.month | uppercase | limitTo:3}}</div>
-                        <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px">{{::day.title}}
-                        <span hide-gt-sm style="margin-left: 0.6em;">{{::day.day}}</span>
-                        </div>
+                            <div hide-gt-sm flex="none" class="md-body-1" style="min-width: 24px">
+                                {{::day.month | uppercase}}
+                            </div>
+                            <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px">
+                                {{::day.title}}
+                                <span hide-gt-sm style="margin-left: 0.6em;">{{::day.day}}</span>
+                                <span hide-xs hide-sm ng-if="day.title == '01'" style="margin-left: 0.4em;">{{::day.month}}</span>
+                            </div>
                         </div>
                         <div flex="none" ng-show="showMenu || selected">
                             <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
@@ -139,9 +161,9 @@
             <!--    Grid: end  -->
 
             <!-- Fab button -->
-            <md-button class="md-fab md-primary md-icon-button" aria-label="add">
+            <md-button hide-gt-sm class="md-position-fab md-fab md-primary md-icon-button" aria-label="Add task">
                 <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s22"
-                         aria-label="Back"></md-icon>
+                         aria-label="Add task"></md-icon>
             </md-button>
 
                 <!--<md-toolbar felx="auto" hide show-gt-sm layout="raw" class="day-toolbar">
