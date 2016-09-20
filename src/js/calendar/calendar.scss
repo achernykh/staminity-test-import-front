@@ -31,6 +31,11 @@
 .week {
   -height: 100%;
   border-bottom: 1px solid $grey-400;
+
+  @media(max-width: 1280px){
+    padding: 0;
+    border-bottom: none;
+  }
 }
 
 .day-toolbar {
@@ -64,6 +69,10 @@
 
   @media (min-width: 959px) and (max-width: 1280px){
     width: 14%;
+  }
+
+  @media(max-width: 1280px){
+    padding: 1em;
   }
 
   &.select {
@@ -186,5 +195,6 @@
   }
 }
 .today {
-  border-top:solid #ef6c00 ;
+  border-top:solid $orange-800 ;
 }
+

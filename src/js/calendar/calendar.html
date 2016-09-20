@@ -43,7 +43,12 @@
                      ng-init="showMenu=false">
 
                     <div ng-class="{today: day.today}" layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
-                        <div flex="none" class="md-body-1" style="min-width: 24px">{{::day.title}}</div>
+                        <div flex="none">
+                        <div hide-gt-sm flex="none" class="md-body-1" style="min-width: 24px">{{::day.month | uppercase | limitTo:3}}</div>
+                        <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px">{{::day.title}}
+                        <span hide-gt-sm style="margin-left: 0.6em;">{{::day.day}}</span>
+                        </div>
+                        </div>
                         <div flex="none" ng-show="showMenu || selected">
                             <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
                                          style="margin-bottom: 0px; margin-left: 12px">
@@ -132,6 +137,12 @@
 
             </md-content>
             <!--    Grid: end  -->
+
+            <!-- Fab button -->
+            <md-button class="md-fab md-primary md-icon-button" aria-label="add">
+                <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s22"
+                         aria-label="Back"></md-icon>
+            </md-button>
 
                 <!--<md-toolbar felx="auto" hide show-gt-sm layout="raw" class="day-toolbar">
                 <div flex class="md-caption">{{vm.weekDays[0] | capitalizeFirstLetter}}</div>

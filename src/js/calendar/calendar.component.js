@@ -191,8 +191,12 @@ class CalendarCtrl {
         // день недели окончания, таким образом работаем с полными неделями
         while (diff != 0){
             /* TODO: узнать можно ли завести переменную day.month и в мобильном показывать её, а также не забыть про вывод дня недели */
-            this._$log.debug('Calendar:  xs', this._$rootScope.xs);
-            (start.format('DD') == '01') ? day.title = start.format('DD MMM') : day.title = start.format('DD');
+            // this._$log.debug('Calendar:  xs', this._$rootScope.xs);
+            // (start.format('DD') == '01') ? day.title = start.format('DD MMM') : day.title = start.format('DD');
+            day.title = start.format('DD');
+            day.month = start.format('MMM');
+            day.day = start.format('dd');
+
             angular.extend(week, {[start.format('YYYYMMDD')]: day});
             //this._$log.debug('Calendar: getCalendarGrid, curr day=', start.format('DD MMM'), diff, diff % 7);
             //Проверяем все дни на соответствие текущему, если соответствует - добавляем свойство today: true в
@@ -202,6 +206,8 @@ class CalendarCtrl {
             }
             day = {
                 title: null,
+                month: null,
+                day: null,
                 activity: []
             };
 
