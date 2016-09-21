@@ -5,7 +5,7 @@ import {_PageAccess} from '../config/app.constants.js';
  *
  */
 class CalendarCtrl {
-    constructor($log, $q, $timeout, $rootScope, Auth, AppMessage) {
+    constructor($log, $q, $timeout, $rootScope, Auth, AppMessage, Calendar) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -13,6 +13,7 @@ class CalendarCtrl {
         this._$rootScope = $rootScope;
         this._Auth = Auth;
         this._AppMessage = AppMessage;
+        this._Calendar = Calendar;
         this.grid = {};
         /**
          * Слушаем события, которые могут обновить данные Календаря:
@@ -88,8 +89,12 @@ class CalendarCtrl {
     /**
      * Получение списка событий календаря за период времени
      */
-    getActivityList(){
-
+    getCalendarItem(request){
+        this._Calendar.getItem(request).then(
+            (items) => {
+                this._$log.debug('Calendar: getCalendarItem response', items);
+            }
+        );
     }
     /**
      * Изменение активности

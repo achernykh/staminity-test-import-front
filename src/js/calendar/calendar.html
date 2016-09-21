@@ -20,6 +20,9 @@
 
         <md-button ng-click="$ctrl.mockGetActivityList()">Get Activity List</md-button>
         <md-button ng-click="$ctrl.mockClearActivityList()">Clear Activity List</md-button>
+        <!-- Для теста вызова API -->
+        <md-button  ng-init="request = { startDate: '2016-10-01', endDate: '2016-12-15'}"
+                    ng-click="$ctrl.getCalendarItem(request)">API: getCalendarItem()</md-button>
 
     </div>
     <div layout="row" flex="100" style="width: 100%; max-width: 1400px">
