@@ -220,4 +220,8 @@
 
 .md-position-fab.md-fab.md-primary.md-icon-button {
   background-color: $orange-900;
+
+  &:hover {
+    background-color: $orange-700;
+  }
 }

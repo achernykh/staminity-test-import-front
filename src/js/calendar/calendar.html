@@ -31,7 +31,7 @@
             <!--</div>-->
             <!--</md-toolbar>-->
 
-                <md-toolbar class="md-primary">
+                <md-toolbar hide show-gt-sm class="md-primary">
                     <div flex="none" layout="raw" layout-align="space-between center" class="md-toolbar-tools" hide show-gt-sm >
                         <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_1</div>
                         <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_2</div>
@@ -71,12 +71,12 @@
                                 <span hide-xs hide-sm ng-if="day.title == '01'" style="margin-left: 0.4em;">{{::day.month}}</span>
                             </div>
                         </div>
-                        <div flex="none" ng-show="showMenu || selected">
+                        <div hide show-gt-sm flex="none" ng-show="showMenu || selected">
                             <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
                                          style="margin-bottom: 0px; margin-left: 12px">
                             </md-checkbox>
                         </div>
-                        <div flex="none"  ng-show="showMenu || selected">
+                        <div  hide show-gt-sm flex="none"  ng-show="showMenu || selected">
                             <md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
                                 <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
                                          aria-label="Back"></md-icon>
@@ -140,7 +140,7 @@
                     <!-- Add new task: choise : start -->
                     <div layout="row" layout-align="center center" flex="grow" layout-fill
                          class="new" ng-class="{show: showMenu}">
-                        <md-button class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">
+                        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">
                             <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"
                                      aria-label="Back"></md-icon>
                         </md-button>
