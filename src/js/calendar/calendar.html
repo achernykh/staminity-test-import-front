@@ -30,107 +30,107 @@
 
             <!-- Grid: start -->
             <md-content flex layout-padding class="viewport" id="viewport-serviceDatasource" ui-scroll-viewport>
-                <div class="item" ui-scroll="item in datasource">{{item}}</div>
-            <!--<div layout="raw" layout-xs="column" layout-sm="column" layout-align="space-between start" flex="none"-->
-                 <!--ng-repeat="week in $ctrl.grid"-->
-                 <!--class="week" style="-height: 100%">-->
-                <!--&lt;!&ndash; При мобильном виде все в строку при наведении&ndash;&gt;-->
-                <!--&lt;!&ndash;<div layout-gt-sm="column" flex-gt-sm="none" layout="row" flex="100" layout-fill&ndash;&gt;-->
-                <!--<div flex="none" layout="column" layout-fill-->
-                     <!--ng-repeat="day in week"-->
-                     <!--class="day"-->
-                     <!--ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false"-->
-                     <!--ng-class="{select: selected}"-->
-                     <!--ng-init="showMenu=false">-->
+                <!--<div class="item" ui-scroll="item in datasource">{{item}}</div>-->
+            <div layout="raw" layout-xs="column" layout-sm="column" layout-align="space-between start" flex="none"
+                 ui-scroll="week in $ctrl.grid"
+                 class="week" style="-height: 100%">
+                <!-- При мобильном виде все в строку при наведении-->
+                <!--<div layout-gt-sm="column" flex-gt-sm="none" layout="row" flex="100" layout-fill-->
+                <div flex="none" layout="column" layout-fill
+                     ng-repeat="day in week"
+                     class="day"
+                     ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false"
+                     ng-class="{select: selected}"
+                     ng-init="showMenu=false">
 
-                    <!--&lt;!&ndash; current day header&ndash;&gt;-->
-                    <!--<div layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">-->
-                        <!--<div flex="none"  class="md-body-1" style="min-width: 24px">{{::day.title}}</div>-->
-                        <!--&lt;!&ndash;<div flex="none" ng-show="showMenu || selected">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"&ndash;&gt;-->
-                                         <!--&lt;!&ndash;style="margin-bottom: 0px; margin-left: 12px">&ndash;&gt;-->
-                            <!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div flex="none"  ng-show="showMenu || selected">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"&ndash;&gt;-->
-                                         <!--&lt;!&ndash;aria-label="Back"></md-icon>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!-- current day header-->
+                    <div layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
+                        <div flex="none"  class="md-body-1" style="min-width: 24px">{{::day.title}}</div>
+                        <!--<div flex="none" ng-show="showMenu || selected">-->
+                            <!--<md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"-->
+                                         <!--style="margin-bottom: 0px; margin-left: 12px">-->
+                            <!--</md-checkbox>-->
+                        <!--</div>-->
+                        <!--<div flex="none"  ng-show="showMenu || selected">-->
+                            <!--<md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">-->
+                                <!--<md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"-->
+                                         <!--aria-label="Back"></md-icon>-->
+                            <!--</md-button>-->
+                        <!--</div>-->
+                    </div>
+
+                    <!-- Days body: start -->
+                    <!--<div ng-repeat="activity in day.activity" layout-wrap-->
+                         <!--flex-gt-sm="none" flex="auto" class="animated fadeIn activity md-whiteframe-1dp" draggable="true"-->
+                         <!--ng-click="showActivity($event, activity)"-->
+                         <!--ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false" ng-init="showMenu=false">-->
+                        <!--<div layout="row" layout-xs="column" layout-gt-sm="column">-->
+                            <!--<div class="header {{activity.intervals[0].status}} md-caption"-->
+                                 <!--ng-class="{select: selected}">-->
+                                <!--<div layout="row" layout-align="space-between start">-->
+                                    <!--<div flex="none" style="margin-right: 4px">-->
+                                        <!--<md-icon md-svg-src="/assets/icon/{{!showMenu ? 'running.svg' : 'more_vert.svg'}}" class="fill-white-medium"-->
+                                                 <!--aria-label="Back"></md-icon>-->
+                                    <!--</div>-->
+                                    <!--<div flex="100" class="type">{{activity.activityCategory.code | uppercase}}</div>-->
+                                <!--</div>-->
+                                <!--<div layout="row" layout-align="space-between start" style="margin-top: 8px">-->
+                                    <!--<div flex="none" style="margin-right: 4px">-->
+                                        <!--<md-icon md-svg-src="/assets/icon/heartRate.svg" class="fill-white-medium" size="s18"-->
+                                                 <!--aria-label="Back"></md-icon>-->
+                                    <!--</div>-->
+                                    <!--<div flex="100" class="md-caption">-->
+                                        <!--<span>{{activity.intervals[0].duration}}</span><span> min</span><br>-->
+                                        <!--<span>{{activity.intervals[0].distance}}</span><span> km</span><br>-->
+                                        <!--<span>{{activity.intervals[0].assessment}}</span><span>%</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div ng-show="!viewCompact" layout="row" layout-align="space-between start" class="content md-caption">-->
+                                <!--<div flex="none" style="margin-right: 4px">-->
+                                    <!--<md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="fill-black-medium" size="s18"-->
+                                             <!--aria-label="Back"></md-icon>-->
+                                <!--</div>-->
+                                <!--<div flex="100" class="type">-->
+                                    <!--<div>{{activity.intervals[0].bpmAvr}}<span> bpm</span></div>-->
+                                    <!--<div>{{activity.intervals[0].TSS}}<span> TL</span></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div ng-show="!viewCompact && (activity.social.userLikesCount + activity.social.userCommentsCount)>0" layout="row" layout-align="end center" class="content md-caption">-->
+
+                                <!--<md-icon md-svg-src="/assets/icon/thumb_up.svg" class="fill-black-medium" ng-if="activity.social.userLikesCount >0"-->
+                                         <!--style="width: 14px; height: 14px; margin: 0px 8px;"-->
+                                         <!--aria-label="Back"></md-icon>-->
+                                <!--<span ng-if="activity.social.userLikesCount >0">{{::activity.social.userLikesCount}}</span>-->
+                                <!--<md-icon md-svg-src="/assets/icon/chat_bubble.svg" class="fill-black-medium" ng-if="activity.social.userCommentsCount >0"-->
+                                         <!--style="width: 14px; height: 14px; margin: 0px 8px;"-->
+                                         <!--aria-label="Back"></md-icon>-->
+                                <!--<span ng-if="::activity.social.userCommentsCount >0">{{::activity.social.userCommentsCount}}</span>-->
+
+                            <!--</div>-->
+                        <!--</div>-->
                     <!--</div>-->
+                    <!-- Days: end -->
 
-                    <!--&lt;!&ndash; Days body: start &ndash;&gt;-->
-                    <!--&lt;!&ndash;<div ng-repeat="activity in day.activity" layout-wrap&ndash;&gt;-->
-                         <!--&lt;!&ndash;flex-gt-sm="none" flex="auto" class="animated fadeIn activity md-whiteframe-1dp" draggable="true"&ndash;&gt;-->
-                         <!--&lt;!&ndash;ng-click="showActivity($event, activity)"&ndash;&gt;-->
-                         <!--&lt;!&ndash;ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false" ng-init="showMenu=false">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div layout="row" layout-xs="column" layout-gt-sm="column">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<div class="header {{activity.intervals[0].status}} md-caption"&ndash;&gt;-->
-                                 <!--&lt;!&ndash;ng-class="{select: selected}">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div layout="row" layout-align="space-between start">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div flex="none" style="margin-right: 4px">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<md-icon md-svg-src="/assets/icon/{{!showMenu ? 'running.svg' : 'more_vert.svg'}}" class="fill-white-medium"&ndash;&gt;-->
-                                                 <!--&lt;!&ndash;aria-label="Back"></md-icon>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div flex="100" class="type">{{activity.activityCategory.code | uppercase}}</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div layout="row" layout-align="space-between start" style="margin-top: 8px">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div flex="none" style="margin-right: 4px">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<md-icon md-svg-src="/assets/icon/heartRate.svg" class="fill-white-medium" size="s18"&ndash;&gt;-->
-                                                 <!--&lt;!&ndash;aria-label="Back"></md-icon>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div flex="100" class="md-caption">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<span>{{activity.intervals[0].duration}}</span><span> min</span><br>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<span>{{activity.intervals[0].distance}}</span><span> km</span><br>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<span>{{activity.intervals[0].assessment}}</span><span>%</span>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<div ng-show="!viewCompact" layout="row" layout-align="space-between start" class="content md-caption">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div flex="none" style="margin-right: 4px">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="fill-black-medium" size="s18"&ndash;&gt;-->
-                                             <!--&lt;!&ndash;aria-label="Back"></md-icon>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div flex="100" class="type">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div>{{activity.intervals[0].bpmAvr}}<span> bpm</span></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div>{{activity.intervals[0].TSS}}<span> TL</span></div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<div ng-show="!viewCompact && (activity.social.userLikesCount + activity.social.userCommentsCount)>0" layout="row" layout-align="end center" class="content md-caption">&ndash;&gt;-->
+                    <!-- Add new task: choise : start -->
+                    <!--<div layout="row" layout-align="center center" flex="grow" layout-fill-->
+                         <!--class="new" ng-class="{show: showMenu}">-->
+                        <!--<md-button class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">-->
+                            <!--<md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"-->
+                                     <!--aria-label="Back"></md-icon>-->
+                        <!--</md-button>-->
+                    <!--</div>-->
+                    <!-- Add new task: choise : end -->
+                </div>
 
-                                <!--&lt;!&ndash;<md-icon md-svg-src="/assets/icon/thumb_up.svg" class="fill-black-medium" ng-if="activity.social.userLikesCount >0"&ndash;&gt;-->
-                                         <!--&lt;!&ndash;style="width: 14px; height: 14px; margin: 0px 8px;"&ndash;&gt;-->
-                                         <!--&lt;!&ndash;aria-label="Back"></md-icon>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<span ng-if="activity.social.userLikesCount >0">{{::activity.social.userLikesCount}}</span>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<md-icon md-svg-src="/assets/icon/chat_bubble.svg" class="fill-black-medium" ng-if="activity.social.userCommentsCount >0"&ndash;&gt;-->
-                                         <!--&lt;!&ndash;style="width: 14px; height: 14px; margin: 0px 8px;"&ndash;&gt;-->
-                                         <!--&lt;!&ndash;aria-label="Back"></md-icon>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<span ng-if="::activity.social.userCommentsCount >0">{{::activity.social.userCommentsCount}}</span>&ndash;&gt;-->
-
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash; Days: end &ndash;&gt;-->
-
-                    <!--&lt;!&ndash; Add new task: choise : start &ndash;&gt;-->
-                    <!--&lt;!&ndash;<div layout="row" layout-align="center center" flex="grow" layout-fill&ndash;&gt;-->
-                         <!--&lt;!&ndash;class="new" ng-class="{show: showMenu}">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<md-button class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"&ndash;&gt;-->
-                                     <!--&lt;!&ndash;aria-label="Back"></md-icon>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash; Add new task: choise : end &ndash;&gt;-->
+                <!-- Week: start -->
+                <!--<div flex-order="-1" flex-order-gt-sm="10"-->
+                     <!--flex-xs="100" flex-sm="100" flex-gt-sm="noshrink" hide show-gt-md flex class="md-caption summary"-->
+                        <!--style="width: calc(100% - 7*12%)">-->
+                    <!--<div flex-gt-sm="none" flex="none" class="md-body-1">Неделя {{startIndex+$index}}</div>-->
                 <!--</div>-->
-
-                <!--&lt;!&ndash; Week: start &ndash;&gt;-->
-                <!--&lt;!&ndash;<div flex-order="-1" flex-order-gt-sm="10"&ndash;&gt;-->
-                     <!--&lt;!&ndash;flex-xs="100" flex-sm="100" flex-gt-sm="noshrink" hide show-gt-md flex class="md-caption summary"&ndash;&gt;-->
-                        <!--&lt;!&ndash;style="width: calc(100% - 7*12%)">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div flex-gt-sm="none" flex="none" class="md-body-1">Неделя {{startIndex+$index}}</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash; Week: end &ndash;&gt;-->
-            <!--</div>-->
+                <!-- Week: end -->
+            </div>
 
             </md-content>
             <!--    Grid: end  -->

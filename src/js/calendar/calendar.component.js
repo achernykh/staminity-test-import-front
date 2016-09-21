@@ -69,7 +69,17 @@ class CalendarCtrl {
 
         this.getCalendarGrid(startDay, endDay).then(
             (success) => {
-                this.grid = success;
+                var result = success;
+                var grid = {};
+
+                grid.get = (index, count, success) =>{
+                    index = index <= 0 ? index + 1 : index -1;
+                    success(result.slice(index, index + count));
+                };
+
+                this.grid = grid;
+
+
                 this._$log.debug('Calendar: getCalendarGrid', this.grid);
 
                 this.getActivityList(moment(currDay).add(-2,'w'), moment(currDay).add(2,'w')).then(
