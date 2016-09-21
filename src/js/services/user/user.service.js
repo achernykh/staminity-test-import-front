@@ -33,6 +33,7 @@ export default class UserService {
 
         this.get(id).then(
             (success) => {
+                this._$log.debug('UserService: setCurrentUser ', success);
                 this.currentUser = success;
                 let subscriptions = success.subscriptions;
                 // Заполняем массив ролей на основании имеющихся у пользователя подписок

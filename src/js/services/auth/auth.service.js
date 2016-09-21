@@ -23,8 +23,12 @@ export default class AuthService {
         else
             this._Storage.get('authToken').then(
                 (data) => {
-                    this._$log.debug('AuthService: getSession success, data =', data);
-                    this.login(data);
+                    // если данные не найдены в хранилище, то data == null
+                    // если данные найдены по сессии, то осуществялет вход и запуск websocket сессии
+                    if (data) {
+                        this.login(data);
+                    }
+                    //this._$log.debug('AuthService: getSession success, data =', data);
                     result.resolve(this.session)
                 },(error) => result.reject(error)
             );
@@ -104,9 +108,11 @@ export default class AuthService {
     }
     login(data){
         this.session = data;
+        this._api.wsOpen(this.session.token);
     }
     logout(){
         //this._$log.debug('AuthService: session clear for userid=', this.session.userId);
         this.session = null;
+        this._api.wsClose();
     }
 }

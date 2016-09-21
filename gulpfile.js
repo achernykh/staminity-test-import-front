@@ -14,6 +14,7 @@ var rename        = require('gulp-rename');
 var templateCache = require('gulp-angular-templatecache');
 var uglify        = require('gulp-uglify');
 var merge         = require('merge-stream');
+var sftp_new      = require('gulp-sftp-new');
 
 // Get/set variables
 var config = require('./gulp.config');
@@ -127,6 +128,24 @@ gulp.task('serve', function () {
     return gulp.src(config.build)
         .pipe(server(config.localServer));
     //browserSync.init(['./build/**/**.**'], config.serve);
+    //browserSync.init({
+    //    server: {
+    //        baseDir: "./build",
+    //        index: 'index.html'
+    //        //middleware: [ historyApiFallback() ]
+    //    },
+    //    cors: true
+    //});
+});
+
+gulp.task('sftp', function () {
+    return gulp.src('build/**')
+        .pipe(sftp_new({
+            host: '193.124.181.87',
+            user: 'webroot_dev',
+            pass: '1P1IeqPn0uTjuWlalzXZ',
+            remotePath: 'www'
+        }));
 });
 
 // Creates a watch task to watch files and build async

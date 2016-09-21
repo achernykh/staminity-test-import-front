@@ -1,5 +1,5 @@
 export const _AppConstants = {
-    api: 'ws://193.124.181.87/'
+    api: '193.124.181.87'
     //api: 'http://localhost:8000/api'
 };
 export const _UserRoles = {
