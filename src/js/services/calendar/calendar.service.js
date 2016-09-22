@@ -12,17 +12,13 @@ export class CalendarService {
         this.currentUser = null;
         this.currentUserRole = [];
     }
-
     /**
      *
      * @param {Object} request
      * @returns {Promise|Promise<T>}
      */
     getItem(request){
-        //this._$log.debug(`CalendarService: getItem() ${request}`);
         return this._api.wsRequest('getCalendarItem', request).then((response) => {
-            //this._$log.debug('CalendarService: getItem() return', response);
-
             return new Promise( (resolve) => {
                 resolve(response.map( (item) => {
                     if (item.type == 'calendarItem')
@@ -31,17 +27,36 @@ export class CalendarService {
             });
         });
     }
-
-    putItem(item){
-
+    /**
+     * Создать запись календаря
+     * @param request {Object}
+     * @returns {Promise}
+     */
+    putItem(request){
+        return this._api.wsRequest('putCalendarItem', request).then((response) => {
+            return new Promise( (resolve) => {
+                resolve(response.map( (item) => {
+                    if (item.type == 'calendarItem')
+                        return item.value;
+                }))
+            });
+        });
     }
-
-    postItem(){
-
+    /**
+     * Изменить запись календаря
+     * @param request
+     * @returns {*}
+     */
+    postItem(request){
+        return this._api.wsRequest('postCalendarItem', request);
     }
-
-    deleteItem(item){
-
+    /**
+     * Удалить запись календаря
+     * @param request
+     * @returns {*}
+     */
+    deleteItem(request){
+        return this._api.wsRequest('deleteCalendarItem', request);
     }
 
     getCompetitionDetails(){
