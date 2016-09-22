@@ -88,26 +88,101 @@ class CalendarCtrl {
      */
     /**
      * Получение списка событий календаря за период времени
+     * @param request {Object} Параметры запроса элементов календаря, содержащий calendarItemId - идентификатор записи.
+     * Наивысший приоритет, userId - Идентификатор владельца событий (для сбора данных под ролью тренера),
+     * userGroupId - идентификатор группы владельцев событий. Анализируется, если не указан userId,
+     * startDate - дата начала интервала (ГГГГ-ММ-ДД), endDate - дата конца интервала (ГГГГ-ММ-ДД)
      */
     getCalendarItem(request){
         this._Calendar.getItem(request).then(
             (items) => {
                 this._$log.debug('Calendar: getCalendarItem response', items);
+                // В этом месте можно сделать присвоение для переменной компонента, например
+                // this.items = this.items.concat(items),
+                // где this.items (может у вас что-то другое) тот обьект который связан с разметкой и выводом элементов
+                // Если вам нужно будет, то можно и в return записать результаты, но тогда потеряется ассинхронность
+                // Как доберетесь до готовности подключить api - выходите на связь, решим как сделать
             }
         );
     }
     /**
-     * Изменение активности
+     * Изменение записи календаря
+     * @param items {Array|Object} Запись или записи календаря в формате calendarItem с указанием данных в соотв-х
+     * объектах заголовков
      */
-    postActivity(){
+    postCalendarItem(items){
+        // Если передана только одна запись, то переводим ее в массив из одного элемента
+        if (angular.isObject(items))
+            items = [items];
 
+        // Для каждой записи отправляем ассинхронное задание на сервер
+        for (let item of items){
+            this._Calendar.postItem(item).then(
+                (success) => {
+                    // Обработка успешно выполненных заданий по изменению активностей, скорее всего тут ничего
+                    // дописывать не надо, так как в ответ будет приходить системное сообщение об успешном выполнение
+                    // TODO toast message
+
+                }, (error) => {
+                    // обработка события в случае ошибки, возможно, что потребуется откатывать изменения
+                    // TODO toast message
+                }
+            )
+        }
     }
+    /**
+     * Создание записи календаря
+     * @param items {Array|Object} Запись или записи календаря в формате calendarItem с указанием данных в соотв-х
+     * объектах заголовков
+     */
+    putCalendarItem(items){
+        // Если передана только одна запись, то переводим ее в массив из одного элемента
+        if (angular.isObject(items))
+            items = [items];
 
+        // Для каждой записи отправляем ассинхронное задание на сервер
+        for (let item of items){
+            //TODO добавить userProfileOwner внутрь CalendarItem = currentAthlete.public || currentUser.public
+            this._Calendar.putItem(item).then(
+                (success) => {
+                    // Обработка успешно выполненных заданий по созданию активностей
+                    // Сервер вернет такой же обьект CalendarItem, только будет заполнен id и revision
+                    // TODO toast message
+
+                }, (error) => {
+                    // обработка события в случае ошибки, возможно, что потребуется откатывать изменения
+                    // TODO toast message
+                }
+            )
+        }
+    }
     /**
      * Удаление активности
+     * @param items {Object} Параметр запроса, где mode: [P] - удаление плановой информации из activityHeader,
+     * [D] -удаление детальных даннных их activityDetails, [F] - полное удаление записи и детальных данных;
+     * calendarItems: массив с числовыми идентификаторами тренировок
      */
-    deleteActivity(){
+    deleteCalendarItem(mode = 'F', items = []){
+        // Если передана только одна запись, то переводим ее в массив из одного элемента
+        if (angular.isObject(items))
+            items = [items];
 
+        let request = {
+            mode: mode,
+            // Перебираем массив items и оставляем только id
+            calendarItems: items.map( (item) => {return item.calendarItemId})
+        };
+
+        this._Calendar.deleteItem(request).then(
+            (success) => {
+                // Обработка успешно выполненных заданий по удалению активностей
+                // TODO toast message
+
+            }, (error) => {
+                // обработка события в случае ошибки, возможно, что потребуется откатывать изменения
+                // TODO toast message
+            }
+        )
     }
 
     /**
