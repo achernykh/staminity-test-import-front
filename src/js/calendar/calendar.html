@@ -14,6 +14,13 @@
         <!--<div class="md-body-1">-->
             <!--week: {{vm.weekIndex}}</div><div> startIndex: {{currentStartIndex}} endIndex: {{currentEndIndex}}</div>-->
         <md-button class="md-icon-button md-primary" aria-label="Settings"
+                   ng-init="today = 0"
+                   ng-click="$ctrl.gotoIndex(today)">
+            <md-icon md-svg-src="/assets/icon/today.svg" aria-label="Back"></md-icon>
+        </md-button>
+        <!--TODO внести в config/translete branch 5-calendar-grid-pg -->
+        <div class="md-body-1">Сегодня</div>
+        <md-button class="md-icon-button md-primary" aria-label="Settings"
                    ng-init="viewCompact = false"
                    ng-click="viewCompact = !viewCompact">
             <md-icon md-svg-src="/assets/icon/view_comfy.svg" aria-label="Back"></md-icon>
