@@ -1,17 +1,18 @@
 <div layout="column" layout-align="start center" flex="100" style="height: 100%;">
     <!--    toolbar: start  -->
     <div layout="row" layout-align="start center" flex="none" class="app-toolbar">
-        <div class="md-body-2">2016 July</div>
         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-click="vm.beforeWeek()">
+                   ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.id - 1)">
             <md-icon md-svg-src="/assets/icon/navigate_before.svg" aria-label="Back"></md-icon>
         </md-button>
         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-click="vm.nextWeek()">
+                   ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.id + 1)">
             <md-icon md-svg-src="/assets/icon/navigate_next.svg" aria-label="Back"></md-icon>
         </md-button>
-        <div class="md-body-1">
-            week: {{vm.weekIndex}}</div><div> startIndex: {{currentStartIndex}} endIndex: {{currentEndIndex}}</div>
+        <div class="md-body-2">2016 July</div>
+
+        <!--<div class="md-body-1">-->
+            <!--week: {{vm.weekIndex}}</div><div> startIndex: {{currentStartIndex}} endIndex: {{currentEndIndex}}</div>-->
         <md-button class="md-icon-button md-primary" aria-label="Settings"
                    ng-init="viewCompact = false"
                    ng-click="viewCompact = !viewCompact">
@@ -21,6 +22,7 @@
 
         <md-button ng-click="$ctrl.mockGetActivityList()">Get Activity List</md-button>
         <md-button ng-click="$ctrl.mockClearActivityList()">Clear Activity List</md-button>
+        <span>top visible:</span> {{$ctrl.scrollAdapter.topVisible.name}}
 
     </div>
     <!--    toolbar: end  -->
@@ -31,13 +33,16 @@
             <!-- Grid: start -->
             <md-content flex layout-padding class="viewport" id="viewport-serviceDatasource" ui-scroll-viewport>
                 <!--<div class="item" ui-scroll="item in datasource">{{item}}</div>-->
-            <div layout="raw" layout-xs="column" layout-sm="column" layout-align="space-between start" flex="none"
+            <div id="anchor{{::item.id}}" layout="raw" layout-xs="column" layout-sm="column" layout-align="space-between start" flex="none"
                  ui-scroll="week in $ctrl.grid"
+                 adapter="$ctrl.scrollAdapter"
+                 buffer-size="20"
+                 start-index="0"
                  class="week" style="-height: 100%">
                 <!-- При мобильном виде все в строку при наведении-->
                 <!--<div layout-gt-sm="column" flex-gt-sm="none" layout="row" flex="100" layout-fill-->
                 <div flex="none" layout="column" layout-fill
-                     ng-repeat="day in week"
+                     ng-repeat="day in week.week"
                      class="day"
                      ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false"
                      ng-class="{select: selected}"
@@ -46,17 +51,17 @@
                     <!-- current day header-->
                     <div layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
                         <div flex="none"  class="md-body-1" style="min-width: 24px">{{::day.title}}</div>
-                        <!--<div flex="none" ng-show="showMenu || selected">-->
-                            <!--<md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"-->
-                                         <!--style="margin-bottom: 0px; margin-left: 12px">-->
-                            <!--</md-checkbox>-->
-                        <!--</div>-->
-                        <!--<div flex="none"  ng-show="showMenu || selected">-->
-                            <!--<md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">-->
-                                <!--<md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"-->
-                                         <!--aria-label="Back"></md-icon>-->
-                            <!--</md-button>-->
-                        <!--</div>-->
+                        <div flex="none" ng-show="showMenu || selected">
+                            <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
+                                         style="margin-bottom: 0px; margin-left: 12px">
+                            </md-checkbox>
+                        </div>
+                        <div flex="none"  ng-show="showMenu || selected">
+                            <md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
+                                <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
+                                         aria-label="Back"></md-icon>
+                            </md-button>
+                        </div>
                     </div>
 
                     <!-- Days body: start -->
@@ -113,13 +118,13 @@
                     <!-- Days: end -->
 
                     <!-- Add new task: choise : start -->
-                    <!--<div layout="row" layout-align="center center" flex="grow" layout-fill-->
-                         <!--class="new" ng-class="{show: showMenu}">-->
-                        <!--<md-button class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">-->
-                            <!--<md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"-->
-                                     <!--aria-label="Back"></md-icon>-->
-                        <!--</md-button>-->
-                    <!--</div>-->
+                    <div layout="row" layout-align="center center" flex="grow" layout-fill
+                         class="new" ng-class="{show: showMenu}">
+                        <md-button class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">
+                            <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"
+                                     aria-label="Back"></md-icon>
+                        </md-button>
+                    </div>
                     <!-- Add new task: choise : end -->
                 </div>
 

@@ -5,17 +5,50 @@ import {_PageAccess} from '../config/app.constants.js';
  *
  */
 class CalendarCtrl {
-    constructor($log, $q, $timeout, $rootScope, $scope, Auth, AppMessage) {
+    constructor($log, $q, $timeout,$anchorScroll, $location, $rootScope, Auth, AppMessage) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
         this._$timeout = $timeout;
+        this._$anchorScroll = $anchorScroll;
+        this._$location = $location;
         this._$rootScope = $rootScope;
-        this._$scope = $scope; //bad test
+        // this._$scope = $scope;
         this._Auth = Auth;
         this._AppMessage = AppMessage;
-        this.grid = {};
-        this.datasource = {}; // bad test
+        // this.grid = {};
+        // this.datasource = {}; // bad test
+
+        this.grid = {
+            get: (index, count, success) => {
+                this._$timeout( () => {
+                    this._$log.info(`get grid index=${index} count=${count}`);
+                    this._$log.info("grid=",this.grid, this.scrollAdapter);
+                    let result = [];
+                    for (let i = index; i <= index + count - 1; i++) {
+                        let currDay     = moment().weekday(0),
+                          startDay    = moment(currDay).add(i,'w'),
+                          endDay      = moment(currDay).add(i+1,'w');
+                        let week = {};
+                        week = this.getCalendarWeek(startDay, endDay);
+
+                        let grid = {
+                            id: i,
+                            size: (Math.floor(Math.random() * (200)) + 50),
+                            style: {
+                                'height': (Math.floor(Math.random() * (200)) + 50) + "px"
+                            },
+                            name: "item #"+i,
+                            week: week
+                        };
+                        result.push(grid);
+                    }
+                    success(result);
+                }, 100);
+            }
+        };
+
+        this.scrollAdapter = {};
         /**
          * Слушаем события, которые могут обновить данные Календаря:
          * 1) newActivity - добавлена новая запись
@@ -40,23 +73,10 @@ class CalendarCtrl {
      */
     $onInit() {
 
-        /* for bad test */
-        
-        this.datasource.get = function (index, count, success) {
-                var result = [];
-                for (var i = index; i <= index + count - 1; i++) {
-                    result.push("item #" + i);
-                }
-                success(result);
-        };
-
-        this._$scope.datasource = this.datasource;
-        /* end bad test*/
-
         // первый день текущей недели currDay
-        let currDay     = moment().weekday(0),
-            startDay    = moment(currDay).add(-CalendarSettings.weekRange,'w'),
-            endDay      = moment(currDay).add(CalendarSettings.weekRange,'w');
+        // let currDay     = moment().weekday(0),
+        //     startDay    = moment(currDay).add(-CalendarSettings.weekRange,'w'),
+        //     endDay      = moment(currDay).add(CalendarSettings.weekRange,'w');
 
         // this._$log.debug('', moment.weekdaysMin());
 
@@ -67,35 +87,35 @@ class CalendarCtrl {
         //    });
 
 
-        this.getCalendarGrid(startDay, endDay).then(
-            (success) => {
-                var result = success;
-                var grid = {};
-
-                grid.get = (index, count, success) =>{
-                    index = index <= 0 ? index + 1 : index -1;
-                    success(result.slice(index, index + count));
-                };
-
-                this.grid = grid;
-
-
-                this._$log.debug('Calendar: getCalendarGrid', this.grid);
-
-                this.getActivityList(moment(currDay).add(-2,'w'), moment(currDay).add(2,'w')).then(
-                    (success) => {
-                        this.activity = success;
-                        /*this.showActivity(this.activity).then(
-                            (success) => {
-                                this._$log.debug('Calendar: grid after showActivity', this.grid);
-                            }
-                        )*/
-                    }
-                )
-            },
-            (error) => this._$log.debug('Calendar: onInit, getCalendar error', error),
-            (week) => this._$log.debug('Calendar: onInit, getCalendar notify', week)
-        );
+        // this.getCalendarGrid(startDay, endDay).then(
+        //     (success) => {
+        //         this.grid = success;
+        //         // var grid = {};
+        //         //
+        //         // grid.get = (index, count, success) =>{
+        //         //     index = index <= 0 ? index + 1 : index -1;
+        //         //     success(result.slice(index, index + count));
+        //         // };
+        //         //
+        //         // this.grid = grid;
+        //
+        //
+        //         this._$log.debug('Calendar: getCalendarGrid', this.grid);
+        //
+        //         this.getActivityList(moment(currDay).add(-2,'w'), moment(currDay).add(2,'w')).then(
+        //             (success) => {
+        //                 this.activity = success;
+        //                 /*this.showActivity(this.activity).then(
+        //                     (success) => {
+        //                         this._$log.debug('Calendar: grid after showActivity', this.grid);
+        //                     }
+        //                 )*/
+        //             }
+        //         )
+        //     },
+        //     (error) => this._$log.debug('Calendar: onInit, getCalendar error', error),
+        //     (week) => this._$log.debug('Calendar: onInit, getCalendar notify', week)
+        // );
 
     }
 
@@ -196,6 +216,95 @@ class CalendarCtrl {
         result.resolve(true);
         return result.promise;
     }
+
+    /**
+     *
+     * @returns {Object}
+     */
+    getCalendarWeek(startDay, endDay){
+        let start = startDay, end = endDay;
+        let diff = end.diff(start,'d'),
+          day = {
+              title: null,
+              activity: []
+          },
+          week = {};
+
+        while (diff != 0) {
+
+            day.title = start.format('DD');
+            angular.extend(week, {[start.format('YYYYMMDD')]: day});
+
+            day = {
+                title: null,
+                activity: []
+            };
+
+            start.add(1,'d');
+            diff = end.diff(start,'d');
+        }
+        // this._$log.debug("Calendar: Week", week);
+        return week;
+    }
+
+    // Goto week
+    gotoAnchor(index){
+        // this._$mdToast.show(
+        //   this._$mdToast.simple()
+        //   .textContent('Simple Toast!')
+        //   .position("top right")
+        //   .hideDelay(3000)
+        // );
+        this._$log.info(`scrollto index= ${index}`);
+        this._$log.debug("Calendar: hash", this._$location.hash());
+        let newHash = 'anchor' + index;
+        if (this._$location.hash() !== newHash) {
+            // set the $location.hash to `newHash` and
+            // $anchorScroll will automatically scroll to it
+            this._$location.hash('anchor' + index);
+
+        } else {
+            // call $anchorScroll() explicitly,
+            // since $location.hash hasn't changed
+            this._$anchorScroll();
+        }
+    }
+
+    gotoIndex(index) {
+        this._$log.info(`goto index= ${index}`);
+        index = parseInt(index, 10);
+        index = isNaN(index) ? 1 : index;
+        this.scrollAdapter.reload(index);
+
+        // this._$mdToast.show({
+        //     hideDelay   : 3000,
+        //     position    : 'top right',
+        //     textContent : 'Simple Toast!'
+        // });
+
+    }
+
+    //for test activity
+    addActivity(index, day) {
+        this._$log.info(`add activity to item= ${index} day= ${day}`);
+        return this.scrollAdapter.applyUpdates( (item, scope) => {
+
+            let activity = [];
+            if (item.id == index) {
+                this._$log.debug("item add data", item.week[day]);
+                let setHere = item.week[day];
+                for (let i=0; i <=60; i++) {
+                    setHere.activity.push('activity #'+i);
+                }
+                this._$log.debug("applyUpdates=", item, scope, index);
+                item.name += '*';
+                item.activity = activity;
+            }
+
+            return item;
+        });
+    }
+
     /**
      *
      * @returns {Array}
@@ -216,8 +325,6 @@ class CalendarCtrl {
         // Проходим циклом по всем дням от начала до конца. На вход передается первый день недели начала и последний
         // день недели окончания, таким образом работаем с полными неделями
         while (diff != 0){
-            /* TODO: узнать можно ли завести переменную day.month и в мобильном показывать её, а также не забыть про вывод дня недели */
-            this._$log.debug('Calendar:  xs', this._$rootScope.xs);
             (start.format('DD') == '01') ? day.title = start.format('DD MMM') : day.title = start.format('DD');
             angular.extend(week, {[start.format('YYYYMMDD')]: day});
             //this._$log.debug('Calendar: getCalendarGrid, curr day=', start.format('DD MMM'), diff, diff % 7);
