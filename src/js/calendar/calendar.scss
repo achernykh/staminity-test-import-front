@@ -157,7 +157,7 @@
     font-size: 12px;
     overflow-wrap: break-word;
     word-wrap: break-word;
-    word-break: break-all;
+    -word-break: break-all;
   }
 }
 
@@ -184,4 +184,14 @@
   @media (max-width: 959px) {
     width: auto;
   }
+}
+.status {
+  width: 7px;
+  height: 7px;
+  border-radius: 7px;
+  content: " ";
+}
+.space{
+  margin-left: 3px;
+  margin-right: 3px;
 }

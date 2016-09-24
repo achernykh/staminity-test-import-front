@@ -59,6 +59,7 @@ class CalendarCtrl {
                 this.getActivityList(moment(currDay).add(-2,'w'), moment(currDay).add(2,'w')).then(
                     (success) => {
                         this.activity = success;
+                        this.mockGetActivityList();
                         /*this.showActivity(this.activity).then(
                             (success) => {
                                 this._$log.debug('Calendar: grid after showActivity', this.grid);
