@@ -23,7 +23,7 @@ class CalendarCtrl {
             cache: {
                 initialize: function() {
                     this.isEnabled = true;
-                    this.items = {};
+                    this.weeks = {};
                     this.getPure = self.grid.get;
                     return self.grid.get = this.getCached;
                 },
@@ -31,11 +31,11 @@ class CalendarCtrl {
                     var self;
                     self = this.grid.cache;
                     if (self.isEnabled) {
-                        if (self.getItems(index, count, successCallback)) {
+                        if (self.getWeeks(index, count, successCallback)) {
                             return;
                         }
                         return self.getPure(index, count, function(result) {
-                            self.saveItems(index, count, result);
+                            self.saveWeeks(index, count, result);
                             return successCallback(result);
                         });
                     }
@@ -43,16 +43,16 @@ class CalendarCtrl {
                 },
                 toggle: function() {
                     this.isEnabled = !this.isEnabled;
-                    return this.items = {};
+                    return this.weeks = {};
                 },
 
-                saveItems: function(index, count, resultItems) {
+                saveWeeks: function(index, count, resultWeeks) {
                     var i, item, j, len, results;
                     results = [];
-                    for (i = j = 0, len = resultItems.length; j < len; i = ++j) {
-                        item = resultItems[i];
-                        if (!this.items.hasOwnProperty(index + i)) {
-                            results.push(this.items[index + i] = item);
+                    for (i = j = 0, len = resultWeeks.length; j < len; i = ++j) {
+                        item = resultWeeks[i];
+                        if (!this.weeks.hasOwnProperty(index + i)) {
+                            results.push(this.weeks[index + i] = item);
                         } else {
                             results.push(void 0);
                         }
@@ -60,16 +60,16 @@ class CalendarCtrl {
                     return results;
                 },
 
-                getItems: function(index, count, successCallback) {
+                getWeeks: function(index, count, successCallback) {
                     var i, isCached, j, ref, ref1, result;
                     result = [];
                     isCached = true;
                     for (i = j = ref = index, ref1 = index + count - 1; j <= ref1; i = j += 1) {
-                        if (!this.items.hasOwnProperty(i)) {
+                        if (!this.weeks.hasOwnProperty(i)) {
                             isCached = false;
                             return;
                         }
-                        result.push(this.items[i]);
+                        result.push(this.weeks[i]);
                     }
                     successCallback(result);
                     return true;
@@ -80,28 +80,29 @@ class CalendarCtrl {
                     this._$log.info(`get grid index=${index} count=${count}`);
                     this._$log.info("grid=",this.grid, this.scrollAdapter);
                     // let result = [];
-                    var i, grid, j, ref, ref1,result;
+                    let i, grid, j, ref, ref1,result;
                     result = [];
-                    for (i = j = ref = index, ref1 = index + count - 1; ref <= ref1 ? j <= ref1 : j >= ref1; i = ref <= ref1 ? ++j : --j) {
-                    // for (let i = index; i <= index + count - 1; i++) {
-                        let currWeek     = moment().weekday(0),
+                    // i,j,ref - указывают на первый элемент запрошенных данных
+                    // ref1 - количество запрошенных данных
+                    for (i = j = ref = index, ref1 = index + count - 1;
+                         ref <= ref1 ? j <= ref1 : j >= ref1;
+                         i = ref <= ref1 ? ++j : --j) {
+                        let currWeek     = moment().weekday(i),
                           startDay    = moment(currWeek).add(i,'w'),
                           endDay      = moment(currWeek).add(i+1,'w');
-                          //weekID = moment(startDay).format('YYYYWW');
-
-                        // this._$log.debug(`Calendar moment JS weekID ${weekID} week2 ${weekID2} currWeek = ${currWeek}, startDay = ${startDay}, endDay = ${startDay}`);
 
                         let week = {};
                         week = this.getCalendarWeek(startDay, endDay);
 
+                        // [start.format('YYYYWW')]
                         grid ={
-                        // let grid = {
-
                             id: i,
                             month: moment(startDay).format('YYYY MMMM'),
-                            weekId: moment(startDay).format('YYYYWW'),
+                            weekId: moment(currWeek).format('YYYYWW'),
                             week: week
                         };
+                        this._$log.debug("Calendar grid", grid);
+
                         result.push(grid);
                     }
                     success(result);
@@ -136,11 +137,10 @@ class CalendarCtrl {
     $onInit() {
 
         // первый день текущей недели currDay
-        // let currDay     = moment().weekday(0),
-        //     startDay    = moment(currDay).add(-CalendarSettings.weekRange,'w'),
-        //     endDay      = moment(currDay).add(CalendarSettings.weekRange,'w');
+        let currDay     = moment().weekday(0); //,
+            // startDay    = moment(currDay).add(-CalendarSettings.weekRange,'w'),
+            // endDay      = moment(currDay).add(CalendarSettings.weekRange,'w');
 
-        // this._$log.debug('', moment.weekdaysMin());
 
         //this._$timeout(()=>angular.noop, 0).then(
         //    () => {
@@ -163,17 +163,17 @@ class CalendarCtrl {
         //
         //
         //         this._$log.debug('Calendar: getCalendarGrid', this.grid);
-        //
-        //         this.getActivityList(moment(currDay).add(-2,'w'), moment(currDay).add(2,'w')).then(
-        //             (success) => {
-        //                 this.activity = success;
-        //                 /*this.showActivity(this.activity).then(
-        //                     (success) => {
-        //                         this._$log.debug('Calendar: grid after showActivity', this.grid);
-        //                     }
-        //                 )*/
-        //             }
-        //         )
+
+                this.getActivityList(moment(currDay).add(0,'w'), moment(currDay).add(2,'w')).then(
+                    (success) => {
+                        this.activity = success;
+                        /*this.showActivity(this.activity).then(
+                            (success) => {
+                                this._$log.debug('Calendar: grid after showActivity', this.grid);
+                            }
+                        )*/
+                    }
+                );
         //     },
         //     (error) => this._$log.debug('Calendar: onInit, getCalendar error', error),
         //     (week) => this._$log.debug('Calendar: onInit, getCalendar notify', week)
@@ -264,16 +264,29 @@ class CalendarCtrl {
         });
     }
 
+    //TODO переделать под текущую сетку и ui-scroll
     showActivity(data){
         let result = this._$q.defer();
+        this._$log.debug('Calendar: showActivity, new task to data', data);
+
+            //
+            // let iW = moment(data[8].value.startTimestamp, 'X').format('YYYYWW'),
+            //   iD = moment(data[8].value.startTimestamp, 'X').format('YYYYMMDD');
+            // this._$log.debug('Calendar: showActivity, ID', iD);
+            // this.addActivity({iw: iW, id:iD, value: data[10]});
+            // //this.grid[iW][iD].activity.push(activity.value);
+
+
 
         data.forEach( activity => {
+
             let iW = moment(activity.value.startTimestamp, 'X').format('YYYYWW'),
                 iD = moment(activity.value.startTimestamp, 'X').format('YYYYMMDD');
 
-            this.grid[iW][iD].activity.push(activity.value);
+            this.addActivity({iw: iW, id:iD, value: activity.value});
+            //this.grid[iW][iD].activity.push(activity.value);
 
-            this._$log.debug('Calendar: showActivity, new task fo id', iW, iD, this.grid[iW][iD]);
+
         });
         result.resolve(true);
         return result.promise;
@@ -283,6 +296,7 @@ class CalendarCtrl {
      *
      * @returns {Object}
      */
+    // возращает дни недели.
     getCalendarWeek(startDay, endDay){
         let start = startDay, end = endDay;
         let diff = end.diff(start,'d'),
@@ -347,33 +361,37 @@ class CalendarCtrl {
         index = parseInt(index, 10);
         index = isNaN(index) ? 1 : index;
         this.scrollAdapter.reload(index);
-
-        // this._$mdToast.show({
-        //     hideDelay   : 3000,
-        //     position    : 'top right',
-        //     textContent : 'Simple Toast!'
-        // });
-
     }
 
     //for test activity
-    addActivity(index, day) {
-        this._$log.info(`add activity to item= ${index} day= ${day}`);
-        return this.scrollAdapter.applyUpdates( (item, scope) => {
+    addActivity(data) {
+        let weekId = data.iw, day = data.id, value = data.value;
+
+        this._$log.debug("Calendar Activity",this.activity);
+
+        this._$log.info(`add activity to weekId= ${weekId} day= ${day}`);
+        return this.scrollAdapter.applyUpdates( (week, scope) => {
 
             let activity = [];
-            if (item.id == index) {
-                this._$log.debug("item add data", item.week[day]);
-                let setHere = item.week[day];
-                for (let i=0; i <=60; i++) {
-                    setHere.activity.push('activity #'+i);
+            try{
+                if (week.weekId == weekId) {
+                    let index = week.id;
+                    this._$log.debug("week add data", week);
+                    let setHere = week.week[day];
+                    setHere.activity.push(value);
+                    // for (let i=0; i <=60; i++) {
+                    //     setHere.activity.push('activity #'+i);
+                    // }
+                    this._$log.debug("applyUpdates=", week, scope, index);
+
+                    // week.activity = activity;
                 }
-                this._$log.debug("applyUpdates=", item, scope, index);
-                item.name += '*';
-                item.activity = activity;
+            } catch (error){
+                this._$log.error("Calendar error ", error);
             }
 
-            return item;
+
+            return week;
         });
     }
 
