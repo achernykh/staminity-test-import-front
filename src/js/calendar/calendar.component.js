@@ -87,7 +87,7 @@ class CalendarCtrl {
                     for (i = j = ref = index, ref1 = index + count - 1;
                          ref <= ref1 ? j <= ref1 : j >= ref1;
                          i = ref <= ref1 ? ++j : --j) {
-                        let currWeek     = moment().weekday(i),
+                        let currWeek     = moment().weekday(0),
                           startDay    = moment(currWeek).add(i,'w'),
                           endDay      = moment(currWeek).add(i+1,'w');
 
@@ -98,10 +98,12 @@ class CalendarCtrl {
                         grid ={
                             id: i,
                             month: moment(startDay).format('YYYY MMMM'),
-                            weekId: moment(currWeek).format('YYYYWW'),
+                            // Необходимо отнимать 1 от недели, т.к. обычное получение недели отличается на 1 от реального
+                            //TODO протестировать с разными локализациями.
+                            weekId: moment(startDay).format('YYYYWW')-1,
                             week: week
                         };
-                        this._$log.debug("Calendar grid", grid);
+                        // this._$log.debug("Calendar grid", grid);
 
                         result.push(grid);
                     }
@@ -164,7 +166,7 @@ class CalendarCtrl {
         //
         //         this._$log.debug('Calendar: getCalendarGrid', this.grid);
 
-                this.getActivityList(moment(currDay).add(0,'w'), moment(currDay).add(2,'w')).then(
+                this.getActivityList(moment(currDay).add(-3,'w'), moment(currDay).add(2,'w')).then(
                     (success) => {
                         this.activity = success;
                         /*this.showActivity(this.activity).then(
@@ -260,7 +262,7 @@ class CalendarCtrl {
             let iW = moment(activity.value.startTimestamp, 'X').format('YYYYWW'),
                 iD = moment(activity.value.startTimestamp, 'X').format('YYYYMMDD');
 
-            this.grid[iW][iD].activity = [];
+            this.destroyActivity({iw: iW, id:iD, value: []});
         });
     }
 
@@ -390,6 +392,30 @@ class CalendarCtrl {
                 this._$log.error("Calendar error ", error);
             }
 
+
+            return week;
+        });
+    }
+
+
+    destroyActivity(data) {
+        let weekId = data.iw, day = data.id, value = data.value;
+
+        this._$log.debug(`add activity to weekId= ${weekId} day= ${day}`);
+        return this.scrollAdapter.applyUpdates( (week, scope) => {
+
+            let activity = [];
+            try{
+                if (week.weekId == weekId) {
+                    let index = week.id;
+                    this._$log.debug("week add data", week);
+                    let setHere = week.week[day];
+                    setHere.activity = value;
+                    this._$log.debug("applyUpdates=", week, scope, index);
+                }
+            } catch (error){
+                this._$log.error("Calendar error ", error);
+            }
 
             return week;
         });
