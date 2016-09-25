@@ -9,7 +9,7 @@
                    ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.id + 1)">
             <md-icon md-svg-src="/assets/icon/navigate_next.svg" aria-label="Back"></md-icon>
         </md-button>
-        <div class="md-body-2">2016 July</div>
+        <div class="md-body-2">{{$ctrl.scrollAdapter.topVisible.month}}</div>
 
         <!--<div class="md-body-1">-->
             <!--week: {{vm.weekIndex}}</div><div> startIndex: {{currentStartIndex}} endIndex: {{currentEndIndex}}</div>-->
@@ -29,7 +29,7 @@
 
         <md-button ng-click="$ctrl.mockGetActivityList()">Get Activity List</md-button>
         <md-button ng-click="$ctrl.mockClearActivityList()">Clear Activity List</md-button>
-        <span>top visible:</span> {{$ctrl.scrollAdapter.topVisible.name}}
+        <!--<span>top visible:</span> {{$ctrl.scrollAdapter.topVisible.month}}-->
 
     </div>
     <!--    toolbar: end  -->
