@@ -29,6 +29,10 @@
         <md-button ng-click="$ctrl.mockClearActivityList()">Clear Activity List</md-button>
         <span>top visible:</span> {{$ctrl.scrollAdapter.topVisible.weekId}}
 
+        <!-- Для теста вызова API -->
+        <md-button  ng-init="request = { startDate: '2016-10-01', endDate: '2016-12-15'}"
+                    ng-click="$ctrl.getCalendarItem(request)">API: getCalendarItem()</md-button>
+
     </div>
     <!--    toolbar: end  -->
     <div layout="row" flex="100" class="cg-width">
