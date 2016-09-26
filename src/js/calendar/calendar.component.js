@@ -80,6 +80,7 @@ class CalendarCtrl {
                     //TODO продумать как лучше связывать через index count или через
                     // adapter который отслеживает {YYYYWW}
                     // this._$log.info(`get grid index=${index} count=${count}`);
+                    this.adaptetGetCalendarItem(index);
                     // this._$log.info("grid=",this.grid, this.scrollAdapter);
 
                     let i, grid, j, ref, ref1,result;
@@ -114,7 +115,7 @@ class CalendarCtrl {
                         result.push(grid);
                     }
                     success(result);
-                }, 100);
+                }, 0);
             }
         };
 
@@ -154,16 +155,18 @@ class CalendarCtrl {
         //    });
 
                 // Происходит инициализация данных.
-                this.getActivityList(moment(currDay).add(-3,'w'), moment(currDay).add(2,'w')).then(
-                    (success) => {
-                        this.activity = success;
-                        /*this.showActivity(this.activity).then(
-                            (success) => {
-                                this._$log.debug('Calendar: grid after showActivity', this.grid);
-                            }
-                        )*/
-                    }
-                );
+            // this._$timeout( () => {
+            //     this.getActivityList(moment(currDay).add(-3, 'w'), moment(currDay).add(2, 'w')).then(
+            //       (success) => {
+            //           this.activity = success;
+            //           this.showActivity(this.activity).then(
+            //             (success) => {
+            //                 this._$log.debug('Calendar: grid after showActivity', this.grid, success);
+            //             }
+            //           )
+            //       }
+            //     );
+            // }, 5000);
 
     }
 
@@ -408,7 +411,7 @@ class CalendarCtrl {
      * @param index - значени для перехода
      */
     gotoIndex(index) {
-        this._$log.info(`goto index= ${index}`);
+        this._$log.info(`Calendar goto index= ${index}`);
         index = parseInt(index, 10);
         index = isNaN(index) ? 1 : index;
         this.scrollAdapter.reload(index);
@@ -443,7 +446,7 @@ class CalendarCtrl {
     destroyActivity(data) {
         let weekId = data.iw, day = data.id, value = data.value;
 
-        this._$log.debug(`add activity to weekId= ${weekId} day= ${day}`);
+        // this._$log.debug(`Calendar add activity to weekId= ${weekId} day= ${day}`);
         return this.scrollAdapter.applyUpdates( (week, scope) => {
             try{
                 if (week.weekId == weekId) {
@@ -457,6 +460,39 @@ class CalendarCtrl {
         });
     }
 
+    adaptetGetCalendarItem(index) {
+        let currDay = moment().weekday(0);
+        let startWeek, endWeek;
+        if(index==0){
+            startWeek = moment(currDay).add(index-CalendarSettings.weekRange,'w');
+            endWeek = moment(currDay).add(index+CalendarSettings.weekRange,'w');
+            this._$log.debug("Calendar start and end", moment(currDay).add(index-CalendarSettings.weekRange,'w').format("YYYYWW"), moment(currDay).add(index+CalendarSettings.weekRange,'w').format("YYYYWW"));
+        } else if(index<0){
+            startWeek = moment(currDay).add(index.weekRange,'w');
+            endWeek = moment(currDay).add(index-CalendarSettings.weekRange,'w');
+            this._$log.debug("Calendar start and end",moment(currDay).add(index,'w').format("YYYYWW"), moment(currDay).add(index-CalendarSettings.weekRange,'w').format("YYYYWW"));
+        } else {
+            startWeek = moment(currDay).add(index,'w').format("YYYYWW");
+            endWeek = moment(currDay).add(index+CalendarSettings.weekRange,'w');
+            this._$log.debug("Calendar start and end",moment(currDay).add(index,'w').format("YYYYWW"), moment(currDay).add(index+CalendarSettings.weekRange,'w').format("YYYYWW"));
+        }
+
+
+        this.getActivityList(startWeek, endWeek).then(
+          (success) => {
+              this.activity = success;
+              this.showActivity(this.activity).then(
+                (success) => {
+                    this._$log.debug('Calendar: grid after showActivity', success);
+                }
+              )
+          }
+        );
+        
+
+
+
+    }
     /**
      * Запрашивает на сервере сводные данные по тренировкам с период в ремени (с, по)
      * @param start - начальная дата запроса

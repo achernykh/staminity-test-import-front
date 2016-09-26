@@ -1,3 +1,3 @@
 export const CalendarSettings = {
-  weekRange: 5
+  weekRange: 10
 };
