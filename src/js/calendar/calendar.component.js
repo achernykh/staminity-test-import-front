@@ -195,6 +195,12 @@ class CalendarCtrl {
         this._Calendar.getItem(request).then(
             (items) => {
                 this._$log.debug('Calendar: getCalendarItem response', items);
+                // this.activity = items;
+                // this.showActivity(this.activity).then(
+                //   (success) => {
+                //       this._$log.debug('Calendar: grid after showActivity', success);
+                //   })
+
                 // В этом месте можно сделать присвоение для переменной компонента, например
                 // this.items = this.items.concat(items),
                 // где this.items (может у вас что-то другое) тот обьект который связан с разметкой и выводом элементов
@@ -472,22 +478,23 @@ class CalendarCtrl {
             endWeek = moment(currDay).add(index-CalendarSettings.weekRange,'w');
             this._$log.debug("Calendar start and end",moment(currDay).add(index,'w').format("YYYYWW"), moment(currDay).add(index-CalendarSettings.weekRange,'w').format("YYYYWW"));
         } else {
-            startWeek = moment(currDay).add(index,'w').format("YYYYWW");
+            startWeek = moment(currDay).add(index,'w');
             endWeek = moment(currDay).add(index+CalendarSettings.weekRange,'w');
-            this._$log.debug("Calendar start and end",moment(currDay).add(index,'w').format("YYYYWW"), moment(currDay).add(index+CalendarSettings.weekRange,'w').format("YYYYWW"));
+            this._$log.debug("Calendar start and end",moment(currDay).add(index,'w').format("YYYY-MM-DD"), moment(currDay).add(index+CalendarSettings.weekRange,'w').format("YYYYWW"));
         }
 
 
-        this.getActivityList(startWeek, endWeek).then(
-          (success) => {
-              this.activity = success;
-              this.showActivity(this.activity).then(
-                (success) => {
-                    this._$log.debug('Calendar: grid after showActivity', success);
-                }
-              )
-          }
-        );
+
+        this.getCalendarItem({startDate:startWeek.format("YYYY-MM-DD"), endDate:endWeek.format("YYYY-MM-DD")});
+        // this.getActivityList(startWeek, endWeek).then(
+        //   (success) => {
+        //       this.activity = success;
+        //       this.showActivity(this.activity).then(
+        //         (success) => {
+        //             this._$log.debug('Calendar: grid after showActivity', success);
+        //         })
+        //   }
+        // );
         
 
 
