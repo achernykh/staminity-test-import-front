@@ -52,12 +52,25 @@
                         </div>
 
                         <div flex="none"  ng-show="showMenu || selected">
-                            <md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
-                                <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
-                                         aria-label="Back">
-                                </md-icon>
-                            </md-button>
-
+                            <!--<md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">-->
+                                <!--<md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"-->
+                                         <!--aria-label="Back">-->
+                                <!--</md-icon>-->
+                            <!--</md-button>-->
+                            <md-menu>
+                                <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
+                                    <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
+                                             aria-label="More">
+                                    </md-icon>
+                                </md-button>
+                                <md-menu-content>
+                                    <md-menu-item><md-button>Добавить запись</md-button></md-menu-item>
+                                    <md-menu-item><md-button>Выделить/Снять выделение</md-button></md-menu-item>
+                                    <md-menu-item><md-button>Удалить/Удалить все</md-button></md-menu-item>
+                                    <md-menu-item><md-button>Скопировать/Скопировать все</md-button></md-menu-item>
+                                    <md-menu-item><md-button>Вставить</md-button></md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
 
 
 
@@ -67,12 +80,13 @@
                     <!-- Days body: start -->
                     <div ng-repeat="activity in day.activity" layout-wrap
                          flex-gt-sm="none" flex="auto" class="animated fadeIn activity md-whiteframe-1dp" draggable="true"
+                         style="text-align: center"
                          ng-click="showActivity($event, activity)">
 
                         <div layout="row" layout-xs="column" layout-gt-sm="column">
                             <div class="header {{activity.intervals[0].status}} md-caption"
                                  ng-class="{select: selected}">
-                                <div layout="row" layout-align="start center">
+                                <div layout="row" layout-align="space-between center">
                                     <!--Icon + Menu started-->
                                     <!--<div flex="none" style="margin-right: 4px">-->
                                     <!--Процент выполнения-->
@@ -80,11 +94,20 @@
                                     layout-align="start center">100%</div>
                                     <!--Процент выполнения конец-->
                                     <!--иконка вида активности-->
-                                    <md-icon flex="auto" layout-align-xs="center center"  md-svg-src="/assets/icon/running.svg" class="fill-white-medium icon-background"
-                                                 aria-label="Back"></md-icon>
-                                    <!--иконка вида активности конец-->
+                                    <div layout="row" class="activity-icon {{activity.intervals[0].status}}" layout-align="center center"
+                                    >
+                                    <md-icon
+                                             md-svg-src="/assets/icon/running.svg"
+                                             class="fill-white-medium "
+                                                 aria-label="Back">
+                                    </md-icon>
+                                    <md-icon class="fill-white-medium badge-icon" md-svg-src="/assets/icon/paceSpeed.svg"
+                                             ></md-icon>
+                                    <div layout="column" layout-align="end end" class="badge">5</div>
+                                    </div>
+                                        <!--иконка вида активности конец-->
                                     <!--меню задания-->
-                                    <md-menu layout-align="end center">
+                                    <md-menu layout-align="none center">
                                         <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
                                             <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-white-medium" size="s18"
                                                      aria-label="Task context menu">
@@ -105,14 +128,13 @@
 
                                 </div>
                                 <!--Тип активности-->
-                                <div layout="row" flex="100" class="type md-caption center dark">{{activity.activityCategory.code | uppercase}}</div>
+                                <div layout="row" layout-align="center center" class="type md-caption center dark">{{activity.activityCategory.code}}</div>
                                 <!--Тип активности конец-->
                                 <!--Время и продолжительность тренировки-->
-                                <div layout="row" layout-align="center" class="md-title  small  center  tight-10">
-                                    <div style="margin-right: 5px">{{activity.intervals[0].duration}}</div>
+                                <div layout="row" layout-align="center center" class="md-title  small  center  tight-10" style="padding-top: 5px">
+                                    <div style="padding-right: 4px">1:23:46</div>
                                     <div>
-                                        <div>{{activity.intervals[0].distance}} km</div>
-
+                                        <div style="padding-left: 4px">{{activity.intervals[0].distance}} km</div>
                                     </div>
                                 </div>
                                 <!--Время и продолжительность тренировки конец-->
@@ -133,28 +155,33 @@
                                 <!--Сердце и показатели-->
                             </div>
                             <!--Давление-->
-                            <div ng-show="!viewCompact"  layout="row"  layout-align="center center" class="content md-caption">
+                            <div ng-show="!viewCompact"  layout="row"  layout-align="start center" class="md-caption">
 
                                 <!--Классическое представление-->
-                                <!--<div layout="row" layout-align="start center" class="md-caption tight-07  dark  secondary">-->
-                                        <!--<md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="" size="s18"-->
-                                        <!--aria-label="Back"></md-icon>-->
-                                        <!--&lt;!&ndash;Нет иконки секундомера!!!&ndash;&gt;-->
-                                    <!--<div class="space">{{activity.intervals[0].duration}}</div>-->
-                                    <!--<div class="right space">{{activity.intervals[0].bpmAvr}}</div>-->
-                                    <!--<div class="disable">чсс</div>-->
-                                <!--</div>-->
+                                <div layout="row" layout-align="start center" class="classic md-caption tight-07  dark  secondary">
+                                        <md-icon layout="column" md-svg-src="/assets/icon/paceSpeed.svg"
+                                        aria-label="Back"></md-icon>
+                                        <!--Нет иконки секундомера!!!-->
+                                    <div layout="row">
+                                    <div class="space">4.53</div>
+                                    <div class="space disable">мин/км</div>
+                                    </div>
+                                    <div layout="row">
+                                    <div class="right space">{{activity.intervals[0].bpmAvr}}</div>
+                                    <div class="disable">чсс</div>
+                                    </div>
+                                </div>
                                 <!--Классическое представление конец-->
                                     <!--Табличное представление данных-->
-                                    <div layout="row" class="md-caption tight-07  dark  secondary " >
-                                        <div class="space" layout="column" layout-align="center center">
-                                        <div class="status {{activity.intervals[0].status}}"></div>
-                                        </div>
-                                        <div class="space">{{activity.intervals[0].duration}}</div>
-                                        <div class="right space">{{activity.intervals[0].bpmAvr}}</div>
-                                        <div class="disable">чсс</div>
-                                    </div>
-                                    <!--Табличное представление конец-->
+                                    <!--<div layout="row" class="md-caption tight-07  dark  secondary " >-->
+                                        <!--<div class="space" layout="column" layout-align="center center">-->
+                                        <!--<div class="status {{activity.intervals[0].status}}"></div>-->
+                                        <!--</div>-->
+                                        <!--<div class="space">{{activity.intervals[0].duration}}</div>-->
+                                        <!--<div class="right space">{{activity.intervals[0].bpmAvr}}</div>-->
+                                        <!--<div class="disable">чсс</div>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;Табличное представление конец&ndash;&gt;-->
                                 <!--<div flex="none" style="margin-right: 4px">-->
                                     <!--<md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="fill-black-medium" size="s18"-->
                                              <!--aria-label="Back"></md-icon>-->
