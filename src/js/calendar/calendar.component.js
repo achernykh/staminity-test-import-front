@@ -144,29 +144,12 @@ class CalendarCtrl {
      * 4) получение актуальных данных от сервера, обновление представление на экране
      */
     $onInit() {
-
-        // первый день текущей недели currDay
-        let currDay     = moment().weekday(0);
-
         //this._$timeout(()=>angular.noop, 0).then(
         //    () => {
                 this._$log.debug('Calendar: $onInit for user=',
                     this.app.currentUser, this.app.currentAthlete);
         //    });
-
-                // Происходит инициализация данных.
-            // this._$timeout( () => {
-            //     this.getActivityList(moment(currDay).add(-3, 'w'), moment(currDay).add(2, 'w')).then(
-            //       (success) => {
-            //           this.activity = success;
-            //           this.showActivity(this.activity).then(
-            //             (success) => {
-            //                 this._$log.debug('Calendar: grid after showActivity', this.grid, success);
-            //             }
-            //           )
-            //       }
-            //     );
-            // }, 5000);
+        
 
     }
 
@@ -195,11 +178,11 @@ class CalendarCtrl {
         this._Calendar.getItem(request).then(
             (items) => {
                 this._$log.debug('Calendar: getCalendarItem response', items);
-                // this.activity = items;
-                // this.showActivity(this.activity).then(
-                //   (success) => {
-                //       this._$log.debug('Calendar: grid after showActivity', success);
-                //   })
+                this.activity = items;
+                this.showActivity(this.activity).then(
+                  (success) => {
+                      this._$log.debug('Calendar: grid after showActivity', success);
+                  })
 
                 // В этом месте можно сделать присвоение для переменной компонента, например
                 // this.items = this.items.concat(items),
@@ -331,8 +314,8 @@ class CalendarCtrl {
     mockClearActivityList(){
 
         this.activity.forEach( activity => {
-            let iW = moment(activity.value.startTimestamp, 'X').format('YYYYWW'),
-                iD = moment(activity.value.startTimestamp, 'X').format('YYYYMMDD');
+            let iW = moment(activity.value.startTimestamp, 'YYYY-MM-DD').format('YYYYWW'),
+                iD = moment(activity.value.startTimestamp, 'YYYY-MM-DD').format('YYYYMMDD');
 
             this.destroyActivity({iw: iW, id:iD, value: []});
         });
@@ -344,11 +327,13 @@ class CalendarCtrl {
         this._$log.debug('Calendar: showActivity, new task to data', data);
 
         data.forEach( activity => {
-            let iW = moment(activity.value.startTimestamp, 'X').format('YYYYWW'),
-                iD = moment(activity.value.startTimestamp, 'X').format('YYYYMMDD');
 
-            this.addActivity({iw: iW, id:iD, value: activity.value});
+            let iW = moment(activity.date, 'YYYY-MM-DD').format('YYYYWW'),
+                iD = moment(activity.date, 'YYYY-MM-DD').format('YYYYMMDD');
+
+            this.addActivity({iw: iW, id:iD, value: activity.calendarItemType});
         });
+
         result.resolve(true);
         return result.promise;
     }
@@ -397,7 +382,7 @@ class CalendarCtrl {
      */
     gotoAnchor(index){
         this._$log.debug(`scrollto index= ${index}`);
-        this._$log.debug("Calendar: hash", this._$location.hash());
+        this._$log.debug('Calendar: hash', this._$location.hash());
         let newHash = 'anchor' + index;
         if (this._$location.hash() !== newHash) {
             // set the $location.hash to `newHash` and
@@ -437,13 +422,13 @@ class CalendarCtrl {
 
             // weekId должны совпадать, и в добавок в week должна находится перемення
             // совпадающая с day
-            // this._$log.debug("Calendar week", week);
+            // this._$log.debug('Calendar week', week);
             try{
                 if (week.weekId == weekId) {
                     week.week[day].activity.push(value);
                 }
             } catch (error){
-                this._$log.error("Calendar: add activity error ", error);
+                this._$log.error('Calendar: add activity error ', error);
             }
             return week;
         });
@@ -457,10 +442,10 @@ class CalendarCtrl {
             try{
                 if (week.weekId == weekId) {
                     week.week[day].activity = value;
-                    // this._$log.debug("applyUpdates=", week, scope);
+                    // this._$log.debug('applyUpdates=', week, scope);
                 }
             } catch (error){
-                this._$log.error("Calendar error ", error);
+                this._$log.error('Calendar error ', error);
             }
             return week;
         });
@@ -472,33 +457,18 @@ class CalendarCtrl {
         if(index==0){
             startWeek = moment(currDay).add(index-CalendarSettings.weekRange,'w');
             endWeek = moment(currDay).add(index+CalendarSettings.weekRange,'w');
-            this._$log.debug("Calendar start and end", moment(currDay).add(index-CalendarSettings.weekRange,'w').format("YYYYWW"), moment(currDay).add(index+CalendarSettings.weekRange,'w').format("YYYYWW"));
+            this._$log.debug('Calendar start and end =', moment(currDay).add(index-CalendarSettings.weekRange,'w').format('YYYYWW'), moment(currDay).add(index+CalendarSettings.weekRange,'w').format('YYYYWW'));
         } else if(index<0){
-            startWeek = moment(currDay).add(index.weekRange,'w');
-            endWeek = moment(currDay).add(index-CalendarSettings.weekRange,'w');
-            this._$log.debug("Calendar start and end",moment(currDay).add(index,'w').format("YYYYWW"), moment(currDay).add(index-CalendarSettings.weekRange,'w').format("YYYYWW"));
+            startWeek = moment(currDay).add(index-CalendarSettings.weekRange,'w');
+            endWeek = moment(currDay).add(index.weekRange,'w');
+            this._$log.debug('Calendar start and end -', moment(currDay).add(index-CalendarSettings.weekRange,'w').format('YYYYWW'), moment(currDay).add(index,'w').format('YYYYWW'));
         } else {
             startWeek = moment(currDay).add(index,'w');
             endWeek = moment(currDay).add(index+CalendarSettings.weekRange,'w');
-            this._$log.debug("Calendar start and end",moment(currDay).add(index,'w').format("YYYY-MM-DD"), moment(currDay).add(index+CalendarSettings.weekRange,'w').format("YYYYWW"));
+            this._$log.debug('Calendar start and end +',moment(currDay).add(index,'w').format('YYYYWW'), moment(currDay).add(index+CalendarSettings.weekRange,'w').format('YYYYWW'));
         }
 
-
-
-        this.getCalendarItem({startDate:startWeek.format("YYYY-MM-DD"), endDate:endWeek.format("YYYY-MM-DD")});
-        // this.getActivityList(startWeek, endWeek).then(
-        //   (success) => {
-        //       this.activity = success;
-        //       this.showActivity(this.activity).then(
-        //         (success) => {
-        //             this._$log.debug('Calendar: grid after showActivity', success);
-        //         })
-        //   }
-        // );
-        
-
-
-
+        this.getCalendarItem({startDate:startWeek.format('YYYY-MM-DD'), endDate:endWeek.format('YYYY-MM-DD')});
     }
     /**
      * Запрашивает на сервере сводные данные по тренировкам с период в ремени (с, по)
