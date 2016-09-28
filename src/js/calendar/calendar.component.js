@@ -82,7 +82,7 @@ class CalendarCtrl {
 
                     //Связываем по index, получаемые данные с точками реалгироания прокрутки
                     this.adapterGetCalendarItem(index);
-                    // this._$log.info("grid=",this.grid, this.scrollAdapter);
+                    // this._$log.info('grid=',this.grid, this.scrollAdapter);
 
                     let i, grid, j, ref, ref1,result;
                     result = [];
@@ -111,7 +111,7 @@ class CalendarCtrl {
                             weekId: moment(startDay).format('YYYYWW')-1,
                             week: week
                         };
-                        // this._$log.debug("Calendar grid", grid);
+                        // this._$log.debug('Calendar grid', grid);
 
                         result.push(grid);
                     }
@@ -486,15 +486,15 @@ class CalendarCtrl {
     determineStatus(items){
         // TODO Документация 46-48
         // Если не активити тогда, сразу без расчетов выводим цвет.
-        if(items.calendarItemType != "activity"){
-            this._$log.debug('TEST items.calendarItemType', items.calendarItemType);
+        if(items.calendarItemType != 'activity'){
+            // this._$log.debug('TEST items.calendarItemType', items.calendarItemType);
         } else {
             // Выполнено, если в {{$.activityHeader.intervals}} присутствует интервал с типом W;
             if(items.activityHeader.intervals){
 
             }
 
-            this._$log.debug('TEST items.calendarItemType', items);
+            // this._$log.debug('TEST items.calendarItemType', items);
         }
         return items;
     }
