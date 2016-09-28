@@ -76,11 +76,12 @@ class CalendarCtrl {
                 }
             },
             get: (index, count, success) => {
-                this._$timeout( () => {
                     //TODO продумать как лучше связывать через index count или через
                     // adapter который отслеживает {YYYYWW}
                     // this._$log.info(`get grid index=${index} count=${count}`);
-                    this.adaptetGetCalendarItem(index);
+
+                    //Связываем по index, получаемые данные с точками реалгироания прокрутки
+                    this.adapterGetCalendarItem(index);
                     // this._$log.info("grid=",this.grid, this.scrollAdapter);
 
                     let i, grid, j, ref, ref1,result;
@@ -115,7 +116,6 @@ class CalendarCtrl {
                         result.push(grid);
                     }
                     success(result);
-                }, 0);
             }
         };
 
@@ -178,10 +178,10 @@ class CalendarCtrl {
         this._Calendar.getItem(request).then(
             (items) => {
                 this._$log.debug('Calendar: getCalendarItem response', items);
-                this.activity = items;
-                this.showActivity(this.activity).then(
+                this.items = items;
+                this.showCalendarItem(this.items).then(
                   (success) => {
-                      this._$log.debug('Calendar: grid after showActivity', success);
+                      this._$log.debug('Calendar: grid after showCalendarItem', success);
                   })
 
                 // В этом месте можно сделать присвоение для переменной компонента, например
@@ -303,35 +303,42 @@ class CalendarCtrl {
 
     }
 
+    //TODO под удаление
     mockGetActivityList(){
 
-        this.showActivity(this.activity).then(
+        this.showCalendarItem(this.items).then(
             (success) => {
-                this._$log.debug('Calendar: grid after showActivity', this.grid);
+                this._$log.debug('Calendar: grid after showCalendarItem', this.grid);
             }
         )
     }
+
+    //TODO под удаление
     mockClearActivityList(){
 
-        this.activity.forEach( activity => {
-            let iW = moment(activity.value.startTimestamp, 'YYYY-MM-DD').format('YYYYWW'),
-                iD = moment(activity.value.startTimestamp, 'YYYY-MM-DD').format('YYYYMMDD');
+        this.items.forEach( activity => {
+            let iW = moment(items.date, 'YYYY-MM-DD').format('YYYYWW'),
+                iD = moment(items.date, 'YYYY-MM-DD').format('YYYYMMDD');
 
-            this.destroyActivity({iw: iW, id:iD, value: []});
+            this.destroyCalendarItem({iw: iW, id:iD, value: []});
         });
     }
 
 
-    showActivity(data){
+    showCalendarItem(data){
         let result = this._$q.defer();
-        this._$log.debug('Calendar: showActivity, new task to data', data);
+        // this._$log.debug('Calendar: showCalendarItem, new task to data', data);
+        let today = moment().format('YYYY-MM-DD');
+        data.forEach( items => {
 
-        data.forEach( activity => {
+            let iW = moment(items.date, 'YYYY-MM-DD').format('YYYYWW'),
+                iD = moment(items.date, 'YYYY-MM-DD').format('YYYYMMDD');
 
-            let iW = moment(activity.date, 'YYYY-MM-DD').format('YYYYWW'),
-                iD = moment(activity.date, 'YYYY-MM-DD').format('YYYYMMDD');
 
-            this.addActivity({iw: iW, id:iD, value: activity.calendarItemType});
+            items = this.determineStatus(items);
+
+
+            this.addCalendarItem({iw: iW, id:iD, value: items});
         });
 
         result.resolve(true);
@@ -348,7 +355,7 @@ class CalendarCtrl {
         let diff = end.diff(start,'d'),
           day = {
               title: null,
-              activity: []
+              items: []
           },
           week = {};
         while (diff != 0) {
@@ -367,7 +374,7 @@ class CalendarCtrl {
                 title: null,
                 month: null,
                 day: null,
-                activity: []
+                items: []
             };
 
             start.add(1,'d');
@@ -415,9 +422,9 @@ class CalendarCtrl {
      * @params data.value - значения для добавления
      * @returns {*}
      */
-    addActivity(data) {
+    addCalendarItem(data) {
         let weekId = data.iw, day = data.id, value = data.value;
-        this._$log.info(`Calendar activity to weekId= ${weekId} day= ${day}`);
+        // this._$log.info(`Calendar activity to weekId= ${weekId} day= ${day}`);
         return this.scrollAdapter.applyUpdates( (week, scope) => {
 
             // weekId должны совпадать, и в добавок в week должна находится перемення
@@ -425,7 +432,7 @@ class CalendarCtrl {
             // this._$log.debug('Calendar week', week);
             try{
                 if (week.weekId == weekId) {
-                    week.week[day].activity.push(value);
+                    week.week[day].items.push(value);
                 }
             } catch (error){
                 this._$log.error('Calendar: add activity error ', error);
@@ -433,15 +440,15 @@ class CalendarCtrl {
             return week;
         });
     }
-    //TODO необходим рефакторинг и пути объединения с addActivity
-    destroyActivity(data) {
+    //TODO необходим рефакторинг и найти путь объединения с addCalendarItem
+    destroyCalendarItem(data) {
         let weekId = data.iw, day = data.id, value = data.value;
 
         // this._$log.debug(`Calendar add activity to weekId= ${weekId} day= ${day}`);
         return this.scrollAdapter.applyUpdates( (week, scope) => {
             try{
                 if (week.weekId == weekId) {
-                    week.week[day].activity = value;
+                    week.week[day].items = value;
                     // this._$log.debug('applyUpdates=', week, scope);
                 }
             } catch (error){
@@ -451,7 +458,7 @@ class CalendarCtrl {
         });
     }
 
-    adaptetGetCalendarItem(index) {
+    adapterGetCalendarItem(index) {
         let currDay = moment().weekday(0);
         let startWeek, endWeek;
         if(index==0){
@@ -470,6 +477,29 @@ class CalendarCtrl {
 
         this.getCalendarItem({startDate:startWeek.format('YYYY-MM-DD'), endDate:endWeek.format('YYYY-MM-DD')});
     }
+
+    /**
+     * Выполняем проверку статуса задания.
+     * @param items - переданый items
+     * @returns {Object}
+     */
+    determineStatus(items){
+        // TODO Документация 46-48
+        // Если не активити тогда, сразу без расчетов выводим цвет.
+        if(items.calendarItemType != "activity"){
+            this._$log.debug('TEST items.calendarItemType', items.calendarItemType);
+        } else {
+            // Выполнено, если в {{$.activityHeader.intervals}} присутствует интервал с типом W;
+            if(items.activityHeader.intervals){
+
+            }
+
+            this._$log.debug('TEST items.calendarItemType', items);
+        }
+        return items;
+    }
+
+    //TODO под удаление
     /**
      * Запрашивает на сервере сводные данные по тренировкам с период в ремени (с, по)
      * @param start - начальная дата запроса
@@ -516,6 +546,7 @@ class CalendarCtrl {
     //     return result.promise;
     // }
 
+    //TODO под удаление
     /**
      * Запрашивает на сервере сводные данные по тренировкам с период в ремени (с, по)
      * @param start - начальная дата запроса
@@ -532,7 +563,7 @@ class CalendarCtrl {
         let mock = {
             type: ['бег','велосипед','плавание'],
             subType: ['Короткие интервалы', 'Длинные интервалы', 'Восстановление', 'Развитие мощности', 'Длинный' +
-            ' темп', 'Работа на уровне МПК','Работа на уровне ПАНО'],
+            ' темп', 'Работа на уровне МПК','Интервалы ПАНО'],
             timeDay: ['утро','день','вечер', null],
             result: {
                 status: ['success','success','success','success','success','success','success','success','success',

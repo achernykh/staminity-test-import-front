@@ -131,7 +131,8 @@
 
   .header {
     -height: 50px;
-    padding: 8px;
+    padding: 12px;
+    margin: 0;
     color: rgba(white,1);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -147,30 +148,43 @@
       background: $success-color;
       &:hover, &.select{
         background: $success-color-hover;
+        & .activity-icon{
+          background: $teal-900;
+        }
       }
     }
     &.warning{
       background: $warning-color;
       &:hover, &.select{
         background: $warning-color-hover;
+        & .activity-icon{
+          background: $orange-900;
+        }
       }
     }
     &.error{
       background: $error-color;
       &:hover, &.select {
         background: $error-color-hover;
+        & .activity-icon{
+          background: $red-900;
+        }
       }
     }
     &.noplan{
       background: $grey-700;
       &:hover {
         background: $primary-hue-3;
+        & .activity-icon{
+          background: $blue-grey-900;
+        }
       }
     }
   }
   .content {
     padding: 8px;
     color: rgba(black,0.8);
+    background-color: #EEEEEE;
 
     span{
       color: rgba(black,0.54);
@@ -180,7 +194,7 @@
     font-size: 12px;
     overflow-wrap: break-word;
     word-wrap: break-word;
-    word-break: break-all;
+    -word-break: break-all;
   }
 }
 
@@ -224,4 +238,44 @@
   &:hover {
     background-color: $orange-700;
   }
+}
+.status {
+  width: 7px;
+  height: 7px;
+  border-radius: 7px;
+  content: " ";
+}
+.space{
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.activity-icon {
+  border-radius: 20px;
+  padding: 3px 5px 3px 5px;
+  &.success {
+    background: $success-color-hover;
+
+  }
+  &.warning {
+    background: $warning-color-hover;
+  }
+  &.error {
+    background: $error-color-hover;
+  }
+  &.noplan {
+    background: $primary-hue-3;
+  }
+}
+.badge {
+  font-size: 12px;
+  padding-top: 10px;
+}
+.badge-icon{
+ height: 12px;
+ width: 12px;
+ min-height: 12px;
+ min-width: 12px
+}
+.classic{
+  padding: 10px 12px 10px 12px;
 }
