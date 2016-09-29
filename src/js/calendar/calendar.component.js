@@ -454,7 +454,7 @@ class CalendarCtrl {
                         //Если такая запись есть, тогда удаляем её из массива и отправляем на сервер запрос на удаление.
                        if(item.calendarItemId == data.calendarItemId) {
                            week.week[date.id].items.splice(index, 1);
-                           this.deleteCalendarItem(mode,item.calendarItemId);
+                           this.deleteCalendarItem(mode,item);
                        }
                     });
                 }
@@ -509,7 +509,7 @@ class CalendarCtrl {
     }
 
     /**
-     * Выполняем проверку статуса задания.
+     * Возращаем дату в необходимом формате.
      * @param date - дата типа '2016-12-25'
      * @returns {Object}
      */
