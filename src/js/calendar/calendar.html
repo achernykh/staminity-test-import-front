@@ -59,7 +59,7 @@
             <!-- Grid: start -->
             <md-content flex layout-padding class="viewport" id="viewport-serviceDatasource" ui-scroll-viewport>
                 <!--<div class="item" ui-scroll="item in datasource">{{item}}</div>-->
-            <div id="anchor{{::item.id}}" layout="raw" layout-xs="column" layout-sm="column" layout-align="space-between start" flex="none"
+            <div id="week{{::item.id}}" layout="raw" layout-xs="column" layout-sm="column" layout-align="space-between start" flex="none"
                  ui-scroll="week in $ctrl.grid"
                  adapter="$ctrl.scrollAdapter"
                  buffer-size="5"
@@ -161,7 +161,7 @@
                                             <md-menu-item><md-button>Открыть в отдельном окне</md-button></md-menu-item>
                                             <md-menu-item><md-button>Выделить/Снять выделение</md-button></md-menu-item>
                                             <md-menu-item><md-button>Скопировать/Скопировать все</md-button></md-menu-item>
-                                            <md-menu-item><md-button>Удалить/Удалить все</md-button></md-menu-item>
+                                            <md-menu-item><md-button><span ng-click="$ctrl.destroyCalendarItem(item)">Удалить/</span>Удалить все</md-button></md-menu-item>
                                         </md-menu-content>
                                     </md-menu>
                                     <!--меню задания конец-->
