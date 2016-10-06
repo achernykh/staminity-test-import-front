@@ -28,7 +28,8 @@ var jsLibs = [
     //bower+"nvd3/build/nv.d3.js",
     //bower+"angular-nvd3/dist/angular-nvd3.js",
     bower+"angular-scroll/angular-scroll.js",
-    bower+"localforage/dist/localforage.min.js"
+    bower+"localforage/dist/localforage.min.js",
+    npm+"angular-ui-router/release/angular-ui-router.min.js"
 ];
 
 var cssLibs = [
@@ -47,7 +48,7 @@ module.exports = {
         index: src + 'index.html',
         jsLibs: jsLibs,
         app: src + 'js/app.js',
-        jsApp: src + 'js/**/*.js',
+        jsApp: [src + 'js/**/*.js', src + 'js/**//**/*.js' ],
         cssLibs: cssLibs,
         assets: src + 'assets/**/*.*',
         sass: src + 'sass/app.scss',

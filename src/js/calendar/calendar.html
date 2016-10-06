@@ -1,5 +1,13 @@
-<div layout="column" layout-align="start center" flex="100" style="height: 100%;">
-    <div layout="row" layout-align="start center" flex="none" class="app-toolbar">
+<!-- common section -->
+<application-frame class='{{$ctrl.view.style}}'>
+    <div layout="row" layout-align="center start" class="app-layer">
+        <div flex-gt-sm="{{$ctrl.view.margin}}" hide-sm></div>
+        <div flex="{{$ctrl.view.size}}" layout="column" class="body">
+            <div flex="100" layout="column" layout-align="center center" layout-fill>
+
+<!-- application section -->
+                <div layout="column" layout-align="start center" flex="100" style="height: 100%; width: 100%">
+                    <div layout="row" layout-align="start center" flex="none" class="app-toolbar">
         <div class="md-body-2">2016 July</div>
         <md-button class="md-icon-button md-primary" aria-label="Settings"
                    ng-click="vm.beforeWeek()">
@@ -22,7 +30,7 @@
         <md-button ng-click="$ctrl.mockClearActivityList()">Clear Activity List</md-button>
 
     </div>
-    <div layout="row" flex="100" style="width: 100%; max-width: 1400px">
+                    <div layout="row" flex="100" style="width: 100%; max-width: 1400px">
         <section layout="column" layout-align="start stretch" id="calendar" class="app-body animated zoomIn" style="width: 100%;">
             <md-toolbar class="md-primary"><div class="md-toolbar-tools"><h3>weekdays</h3></div></md-toolbar>
 
@@ -226,7 +234,14 @@
 
         </section>
     </div>
+                    <div layout="row" flex="none" hide show-gt-sm class="footer"></div>
+                </div>
 
-    <div layout="row" flex="none" hide show-gt-sm class="footer"></div>
+<!-- end of application section -->
+            </div>
+        </div>
+        <div flex-gt-sm="{{$ctrl.view.margin}}" hide-sm></div>
+    </div>
+</application-frame>
+<!-- end of common section -->
 
-</div>

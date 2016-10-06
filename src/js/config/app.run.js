@@ -1,11 +1,58 @@
-function AppRun($rootScope, $timeout, $log, $location, $mdMedia, $window) {
+function AppRun($rootScope, $timeout, $log, $location, $mdMedia, $window, Auth, User) {
     'ngInject';
     $log.debug('AppRun: Start');
 
-    $rootScope.path = '';
-    $rootScope.auth = {};
-    $rootScope.xs = $mdMedia('gt-xs');
+    // Параметры ниже передаются на вход главному компоненту сервиса StaminityApplication
+    // Сессия пользователя, включает userId и набор полномочий пользователя
+    $rootScope.session = {};
+    // Размер экрана, необходимо для отслеживания изменений
+    $rootScope.screen = {
+        xs : $mdMedia('gt-xs'),
+        md : $mdMedia('gt-md'),
+        lg : $mdMedia('gt-lg')
+    };
+    // Текущий пользователь сервсиа, содержит public от userProfile
+    $rootScope.currentUser = null;
+    // Текущий атлет тренера, содержит public от userProfile
+    $rootScope.currentAthlete = null;
 
+    /**
+     * Восстанавливаем сессию пользователя из хранилища браузера
+     */
+    function restore(){
+        "use strict";
+        Auth.getSession().then(
+            (session) => {
+                // Если сессия установлена
+                if (session) {
+                    $rootScope.session = session;
+                    // Устанавливаем текущего пользователя. В ответ приходит userProfile
+                    User.setCurrentUser(session.userId).then(
+                        (user) => {
+                            $rootScope.currentUser = user;
+                            $log.debug('AppRun: restoreSession => session repair for userId=', $rootScope.currentUser.userId);
+                        }, (error) => {
+                            // TODO случай, если по номеру сессии не удается получить обьект пользователя
+                            $log.debug('AppRun: restoreSession => not find user with id =', session.userId);
+                        });
+                }
+                // Пользовательская сессия не восстановлена
+                else
+                    $log.debug('AppRun: restoreSession => user session not find');
+
+            },(error) => $log.debug('AppRun: restoreSession => error', error)
+        );
+    }
+
+    /**
+     *
+     */
+    function watch(){
+        "use strict";
+
+    }
+
+    restore();
 
     /**
      * Необходимо отслеживать изменения трех входящих параметров для основного компонента StaminityApplication:

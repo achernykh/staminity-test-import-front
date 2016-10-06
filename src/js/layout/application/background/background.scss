@@ -1,6 +1,6 @@
 $header-bar-height: 160px;
 
-application-background {
+.application-background {
 
   /*position: absolute;
   width: 100%;
@@ -92,7 +92,7 @@ application-background {
 	padding-right: 12px;
 	text-align: center;
 	color: white;
-	background: $primary-hue-3 !important;
+	background: $primary-900 !important;
 	-z-index: 20;
   }
 

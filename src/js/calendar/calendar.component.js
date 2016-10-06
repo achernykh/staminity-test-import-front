@@ -53,7 +53,7 @@ class CalendarCtrl {
         this.getCalendarGrid(startDay, endDay).then(
             (success) => {
                 this.grid = success;
-                this._$log.debug('Calendar: getCalendarGrid', this.grid);
+                //this._$log.debug('Calendar: getCalendarGrid', this.grid);
                 this.getActivityList(moment(currDay).add(-2,'w'), moment(currDay).add(2,'w')).then(
                     (success) => {
                         this.activity = success;
@@ -163,7 +163,7 @@ class CalendarCtrl {
 
             this.grid[iW][iD].activity.push(activity.value);
 
-            this._$log.debug('Calendar: showActivity, new task fo id', iW, iD, this.grid[iW][iD]);
+            //this._$log.debug('Calendar: showActivity, new task fo id', iW, iD, this.grid[iW][iD]);
         });
         result.resolve(true);
         return result.promise;
@@ -184,7 +184,8 @@ class CalendarCtrl {
             },
             week = {};
 
-        this._$log.debug('Calendar: getCalendarGrid, new request from', start.format('DD MMM'), 'to', end.format('DD MMM'));
+        //this._$log.debug('Calendar: getCalendarGrid, new request from', start.format('DD MMM'), 'to',
+        // end.format('DD MMM'));
         // Проходим циклом по всем дням от начала до конца. На вход передается первый день недели начала и последний
         // день недели окончания, таким образом работаем с полными неделями
         while (diff != 0){
@@ -221,7 +222,8 @@ class CalendarCtrl {
     getActivityList(start, end){
         let result = this._$q.defer();
         let list = [];
-        this._$log.debug('Calendar: getActivityList, new request from', start.format('DD MMM'), 'to', end.format('DD MMM'));
+        //this._$log.debug('Calendar: getActivityList, new request from', start.format('DD MMM'), 'to',
+        // end.format('DD MMM'));
         // Генерируем случайные тестовые данные по всему диапазону запроса
         let diff = end.diff(start,'d');
         let activity = {};
@@ -286,7 +288,7 @@ class CalendarCtrl {
  */
 let Calendar = {
     bindings: {
-        $router: '<'
+        view: '<'
     },
     require: {
         app: '^staminityApplication'

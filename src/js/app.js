@@ -2,6 +2,7 @@
  * Created by akexander on 22/07/16.
  */
 //import { UserRoles, PageAccess } from './config/app.constants.js';
+//import ApplicationService from './services/application/app.service';
 import appConfig from './config/app.config.js';
 import appRun from './config/app.run.js'
 import appMock from './config/e2e/app.mock.js';
@@ -14,11 +15,12 @@ import './config/app.templates';
 import './services';
 
 const requires = [
-    'ngComponentRouter',
+    //'ngComponentRouter',
     'ngMaterial',
     'pascalprecht.translate',
     'ngWebSocket',
-    'staminity.mock',
+    'ui.router',
+    //'staminity.mock',
     'staminity.layout',
     'staminity.templates',
     'staminity.landing',
@@ -31,6 +33,7 @@ angular
     .module('staminity.application', requires)
     //.constant('_UserRoles', UserRoles)
     //.constant('_PageAccess', PageAccess)
+    //.factory('ViewService', ApplicationService)
     .config(appConfig)
     .run(appRun);
 

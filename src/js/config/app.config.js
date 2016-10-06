@@ -4,9 +4,64 @@
 
 import translateApp from './translate/appbox.translate';
 
-function AppConfig($locationProvider, $mdThemingProvider, $translateProvider){
+function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
+                   $urlRouterProvider){
     'ngInject';
-    $locationProvider.html5Mode(true);
+
+	//TODO добавить коммент
+	$locationProvider.html5Mode({
+		enabled: true,
+		requireBase: false
+	});
+
+	$urlRouterProvider.otherwise('/welcome');
+
+	// Настройка state (Представлений)
+	// TODO переписать на какой-нибуь структурированный массив в Settings
+	$stateProvider
+		.state('welcome', {
+			url: "/welcome",
+			views: {
+				"background": {
+					template: "welcome background"
+				},
+				"header": {
+					template: "welcome header"
+				},
+				"application": {
+					template: "welcome body"
+				}
+			}
+		})
+		.state('calendar', {
+			url: "/calendar",
+			access: [],
+			resolve: {
+				view: function(ViewService) {
+					return ViewService.getParams('calendar')
+				}
+			},
+			views: {
+				"background": {
+					component: "background",
+					bindings: {
+						view: 'view.background'
+					}
+				},
+				"header": {
+					component: 'header',
+					bindings: {
+						view: 'view.header'
+					}
+				},
+				"application": {
+					component: "calendar",
+					bindings: {
+						view: 'view.application'
+					}
+				}
+			}
+		});
 
     // Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
   	$mdThemingProvider.theme('default')
@@ -32,7 +87,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider){
         .backgroundPalette('blue-grey').dark();
 
     // Текст представлений
-		$translateProvider.translations('en', { app: translateApp['en'] });
+	$translateProvider.translations('en', { app: translateApp['en'] });
     $translateProvider.translations('ru', { app: translateApp['ru'] });
     $translateProvider.preferredLanguage('en');
     $translateProvider.fallbackLanguage('en');

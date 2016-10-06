@@ -11,8 +11,10 @@ export default class ApplicationService {
     }
     getParams(application){
         return angular.merge({}, this.settings[application],{
-            fullTitle:  'app.' + application + '.fullTitle',
-            shortTitle: 'app.' + application + '.shortTitle'
+            header: {
+                fullTitle:  'app.' + application + '.fullTitle',
+                shortTitle: 'app.' + application + '.shortTitle'
+            }
         });
     }
 

@@ -5,16 +5,14 @@ import UserService from './user/user.service';
 import GroupsService from './groups/groups.service';
 import ApiService from './api/api.service';
 import ApplicationMessageService from './appmessage/appmessage.service';
-//import ViewConstants from './app.service.constants';
 
-let serviceModule = angular.module('staminity.services',[]);
-//    serviceModule.constant('_SETTINGS', ViewConstants);
-    serviceModule.service('Application', ApplicationService);
-    serviceModule.service('Storage', StorageService);
-    serviceModule.service('AppMessage', ApplicationMessageService);
-    serviceModule.service('Auth', AuthService);
-    serviceModule.service('User', UserService);
-    serviceModule.service('Groups', GroupsService);
-    serviceModule.service('API', ApiService);
+export const services = angular.module('staminity.services',[])
+    .service('ViewService', ApplicationService)
+    .service('Storage', StorageService)
+    .service('AppMessage', ApplicationMessageService)
+    .service('Auth', AuthService)
+    .service('User', UserService)
+    .service('Groups', GroupsService)
+    .service('API', ApiService);
 
-export default serviceModule
+export default services
