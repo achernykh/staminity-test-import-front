@@ -72,6 +72,17 @@ const translateApp = {
       calendar: {
           fullTitle: 'Календарь',
           shortTitle: 'Календарь',
+          weekdays: {
+              weekDays_1: 'Понедельник',
+              weekDays_2: 'Вторник',
+              weekDays_3: 'Среда',
+              weekDays_4: 'Четверг',
+              weekDays_5: 'Пятница',
+              weekDays_6: 'Суббота',
+              weekDays_7: 'Воскресенье',
+              totalDays: 'Итоги'
+          },
+          today: 'Сегодня'
       },
       // Страницы Ленты
       feeds: {
@@ -258,7 +269,18 @@ const translateApp = {
       // Страница Календаря
       calendar: {
           fullTitle: 'Calendar',
-          shortTitle: 'Calendar'
+          shortTitle: 'Calendar',
+          weekdays: {
+              weekDays_1: 'Monday',
+              weekDays_2: 'Tuesday',
+              weekDays_3: 'Wednesday',
+              weekDays_4: 'Thursday',
+              weekDays_5: 'Friday',
+              weekDays_6: 'Saturday',
+              weekDays_7: 'Sunday',
+              totalDays: 'Total'
+          },
+          today: 'Today'
       },
       // Страницы Ленты
       feeds: {

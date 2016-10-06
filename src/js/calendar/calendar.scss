@@ -4,6 +4,14 @@
   padding-bottom: 4px;
   margin: 0px;
   -padding: 16px;
+
+  width: 100%;
+  max-width: 1400px;
+
+  @media (max-width: 1280px){
+    width: 100vw!important;
+    max-width: none;
+  }
 }
 
 .app-toolbar{
@@ -23,6 +31,11 @@
 .week {
   -height: 100%;
   border-bottom: 1px solid $grey-400;
+
+  @media(max-width: 959px){
+    padding: 0;
+    border-bottom: none;
+  }
 }
 
 .day-toolbar {
@@ -45,8 +58,7 @@
   -background: white;
   min-height: 100px;
   -min-width: 12%;
-  padding: 0px 4px;
-  padding-bottom: 8px;
+  padding: 0px 4px 8px;
   height: 100%;
 
 
@@ -59,6 +71,11 @@
     width: 14%;
   }
 
+  @media(max-width: 959px){
+    padding: 1em;
+    border-bottom: 1px solid $grey-400;
+  }
+
   &.select {
     background: $primary-100;
 
@@ -69,6 +86,19 @@
 
   }
   transition: all 0.5s ease-in-out 0.2s;
+}
+
+.md-toolbar-tools .md-caption{
+  padding: 0 4px;
+
+  @media (min-width: 1279px){
+    width: 12%;
+    max-width: 250px;
+  }
+
+  @media (min-width: 959px) and (max-width: 1280px){
+    width: 14%;
+  }
 }
 
 .summary {
@@ -101,7 +131,8 @@
 
   .header {
     -height: 50px;
-    padding: 8px;
+    padding: 12px;
+    margin: 0;
     color: rgba(white,1);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -117,30 +148,43 @@
       background: $success-color;
       &:hover, &.select{
         background: $success-color-hover;
+        & .activity-icon{
+          background: $teal-900;
+        }
       }
     }
     &.warning{
       background: $warning-color;
       &:hover, &.select{
         background: $warning-color-hover;
+        & .activity-icon{
+          background: $orange-900;
+        }
       }
     }
     &.error{
       background: $error-color;
       &:hover, &.select {
         background: $error-color-hover;
+        & .activity-icon{
+          background: $red-900;
+        }
       }
     }
     &.noplan{
       background: $grey-700;
       &:hover {
         background: $primary-hue-3;
+        & .activity-icon{
+          background: $blue-grey-900;
+        }
       }
     }
   }
   .content {
     padding: 8px;
     color: rgba(black,0.8);
+    background-color: #EEEEEE;
 
     span{
       color: rgba(black,0.54);
@@ -150,7 +194,7 @@
     font-size: 12px;
     overflow-wrap: break-word;
     word-wrap: break-word;
-    word-break: break-word
+    -word-break: break-all;
   }
 }
 
@@ -169,4 +213,69 @@
     -background: white;
   }
 
+}
+
+.cg-width {
+  width: 100%;
+
+  @media (max-width: 959px) {
+    width: auto;
+  }
+}
+.today {
+  border-top:solid $orange-800 ;
+}
+
+.md-position-fab{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.md-position-fab.md-fab.md-primary.md-icon-button {
+  background-color: $orange-900;
+
+  &:hover {
+    background-color: $orange-700;
+  }
+}
+.status {
+  width: 7px;
+  height: 7px;
+  border-radius: 7px;
+  content: " ";
+}
+.space{
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.activity-icon {
+  border-radius: 20px;
+  padding: 3px 5px 3px 5px;
+  &.success {
+    background: $success-color-hover;
+
+  }
+  &.warning {
+    background: $warning-color-hover;
+  }
+  &.error {
+    background: $error-color-hover;
+  }
+  &.noplan {
+    background: $primary-hue-3;
+  }
+}
+.badge {
+  font-size: 12px;
+  padding-top: 10px;
+}
+.badge-icon{
+ height: 12px;
+ width: 12px;
+ min-height: 12px;
+ min-width: 12px
+}
+.classic{
+  padding: 10px 12px 10px 12px;
 }

@@ -5,16 +5,122 @@ import {_PageAccess} from '../config/app.constants.js';
  *
  */
 class CalendarCtrl {
-    constructor($log, $q, $timeout, $rootScope, Auth, AppMessage, Calendar) {
+    constructor($log, $q, $timeout,$anchorScroll, $location, $rootScope, Auth, AppMessage, Calendar) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
         this._$timeout = $timeout;
+        this._$anchorScroll = $anchorScroll;
+        this._$location = $location;
         this._$rootScope = $rootScope;
         this._Auth = Auth;
         this._AppMessage = AppMessage;
         this._Calendar = Calendar;
-        this.grid = {};
+        // this.grid = {};
+        // this.datasource = {}; // bad test
+        var self = this;
+        this.grid = {
+            cache: {
+                initialize: function() {
+                    this.isEnabled = true;
+                    this.weeks = {};
+                    this.getPure = self.grid.get;
+                    return self.grid.get = this.getCached;
+                },
+                getCached: (index, count, successCallback) => {
+                    var self;
+                    self = this.grid.cache;
+                    if (self.isEnabled) {
+                        if (self.getWeeks(index, count, successCallback)) {
+                            return;
+                        }
+                        return self.getPure(index, count, function(result) {
+                            self.saveWeeks(index, count, result);
+                            return successCallback(result);
+                        });
+                    }
+                    return self.getPure(index, count, successCallback);
+                },
+                toggle: function() {
+                    this.isEnabled = !this.isEnabled;
+                    return this.weeks = {};
+                },
+
+                saveWeeks: function(index, count, resultWeeks) {
+                    var i, item, j, len, results;
+                    results = [];
+                    for (i = j = 0, len = resultWeeks.length; j < len; i = ++j) {
+                        item = resultWeeks[i];
+                        if (!this.weeks.hasOwnProperty(index + i)) {
+                            results.push(this.weeks[index + i] = item);
+                        } else {
+                            results.push(void 0);
+                        }
+                    }
+                    return results;
+                },
+
+                getWeeks: function(index, count, successCallback) {
+                    var i, isCached, j, ref, ref1, result;
+                    result = [];
+                    isCached = true;
+                    for (i = j = ref = index, ref1 = index + count - 1; j <= ref1; i = j += 1) {
+                        if (!this.weeks.hasOwnProperty(i)) {
+                            isCached = false;
+                            return;
+                        }
+                        result.push(this.weeks[i]);
+                    }
+                    successCallback(result);
+                    return true;
+                }
+            },
+            get: (index, count, success) => {
+                    //TODO продумать как лучше связывать через index count или через
+                    // adapter который отслеживает {YYYYWW}
+                    // this._$log.info(`get grid index=${index} count=${count}`);
+
+                    //Связываем по index, получаемые данные с точками реалгироания прокрутки
+                    this.adapterGetCalendarItem(index);
+                    // this._$log.info('grid=',this.grid, this.scrollAdapter);
+
+                    let i, grid, j, ref, ref1,result;
+                    result = [];
+                    // i,j,ref - указывают на первый элемент запрошенных данных
+                    // ref1 - количество запрошенных данных
+                    for (i = j = ref = index, ref1 = index + count - 1;
+                         ref <= ref1 ? j <= ref1 : j >= ref1;
+                         i = ref <= ref1 ? ++j : --j) {
+
+                        // первый день недели зависит от локализации
+                        let currWeek     = moment().weekday(0),
+                        //добавляем {i} недель
+                          startDay    = moment(currWeek).add(i,'w'),
+                        //добавляем следующую неделю
+                          endDay      = moment(currWeek).add(i+1,'w');
+
+                        let week = {};
+                        week = this.getCalendarWeek(startDay, endDay);
+
+                        // [start.format('YYYYWW')]
+                        grid ={
+                            id: i,
+                            month: moment(startDay).format('YYYY MMMM'),
+                            // Необходимо отнимать 1 от недели, т.к. обычное получение недели отличается на 1 от реального
+                            //TODO протестировать с разными локализациями.
+                            weekId: moment(startDay).format('YYYYWW')-1,
+                            week: week
+                        };
+                        // this._$log.debug('Calendar grid', grid);
+
+                        result.push(grid);
+                    }
+                    success(result);
+            }
+        };
+
+        this.grid.cache.initialize();
+        this.scrollAdapter = {};
         /**
          * Слушаем события, которые могут обновить данные Календаря:
          * 1) newActivity - добавлена новая запись
@@ -38,37 +144,12 @@ class CalendarCtrl {
      * 4) получение актуальных данных от сервера, обновление представление на экране
      */
     $onInit() {
-        let currDay     = moment().weekday(0),
-            startDay    = moment(currDay).add(-CalendarSettings.weekRange,'w'),
-            endDay      = moment(currDay).add(CalendarSettings.weekRange,'w');
-
-        // this._$log.debug('', moment.weekdaysMin());
-
         //this._$timeout(()=>angular.noop, 0).then(
         //    () => {
                 this._$log.debug('Calendar: $onInit for user=',
                     this.app.currentUser, this.app.currentAthlete);
         //    });
-
-
-        this.getCalendarGrid(startDay, endDay).then(
-            (success) => {
-                this.grid = success;
-                this._$log.debug('Calendar: getCalendarGrid', this.grid);
-                this.getActivityList(moment(currDay).add(-2,'w'), moment(currDay).add(2,'w')).then(
-                    (success) => {
-                        this.activity = success;
-                        /*this.showActivity(this.activity).then(
-                            (success) => {
-                                this._$log.debug('Calendar: grid after showActivity', this.grid);
-                            }
-                        )*/
-                    }
-                )
-            },
-            (error) => this._$log.debug('Calendar: onInit, getCalendar error', error),
-            (week) => this._$log.debug('Calendar: onInit, getCalendar notify', week)
-        );
+        // User ­ getTimeZone(userId=currentUser.userId)
 
     }
 
@@ -97,6 +178,12 @@ class CalendarCtrl {
         this._Calendar.getItem(request).then(
             (items) => {
                 this._$log.debug('Calendar: getCalendarItem response', items);
+                this.items = items;
+                this.showCalendarItem(this.items).then(
+                  (success) => {
+                      this._$log.debug('Calendar: grid after showCalendarItem', success);
+                  })
+
                 // В этом месте можно сделать присвоение для переменной компонента, например
                 // this.items = this.items.concat(items),
                 // где this.items (может у вас что-то другое) тот обьект который связан с разметкой и выводом элементов
@@ -159,7 +246,7 @@ class CalendarCtrl {
     /**
      * Удаление активности
      * @param items {Object} Параметр запроса, где mode: [P] - удаление плановой информации из activityHeader,
-     * [D] -удаление детальных даннных их activityDetails, [F] - полное удаление записи и детальных данных;
+     * [D] -удаление детальных даннных из activityDetails, [F] - полное удаление записи и детальных данных;
      * calendarItems: массив с числовыми идентификаторами тренировок
      */
     deleteCalendarItem(mode = 'F', items = []){
@@ -175,10 +262,13 @@ class CalendarCtrl {
 
         this._Calendar.deleteItem(request).then(
             (success) => {
+                this._$log.debug('Delete item success', success);
                 // Обработка успешно выполненных заданий по удалению активностей
                 // TODO toast message
 
             }, (error) => {
+
+              this._$log.debug('Delete item error', error);
                 // обработка события в случае ошибки, возможно, что потребуется откатывать изменения
                 // TODO toast message
             }
@@ -216,82 +306,221 @@ class CalendarCtrl {
 
     }
 
+    //TODO под удаление
     mockGetActivityList(){
 
-        this.showActivity(this.activity).then(
+        this.showCalendarItem(this.items).then(
             (success) => {
-                this._$log.debug('Calendar: grid after showActivity', this.grid);
+                this._$log.debug('Calendar: grid after showCalendarItem', this.grid);
             }
         )
     }
+
+    //TODO под удаление
     mockClearActivityList(){
 
-        this.activity.forEach( activity => {
-            let iW = moment(activity.value.startTimestamp, 'X').format('YYYYWW'),
-                iD = moment(activity.value.startTimestamp, 'X').format('YYYYMMDD');
+        this.items.forEach( activity => {
+            // let iW = moment(items.date, 'YYYY-MM-DD').format('YYYYWW'),
+            //     iD = moment(items.date, 'YYYY-MM-DD').format('YYYYMMDD');
+            let date = this.getDate(items.date);
 
-            this.grid[iW][iD].activity = [];
+            // this.destroyCalendarItem({iw: date.iw, id: date.id, value: []});
         });
     }
 
-    showActivity(data){
+
+    showCalendarItem(data){
         let result = this._$q.defer();
-
-        data.forEach( activity => {
-            let iW = moment(activity.value.startTimestamp, 'X').format('YYYYWW'),
-                iD = moment(activity.value.startTimestamp, 'X').format('YYYYMMDD');
-
-            this.grid[iW][iD].activity.push(activity.value);
-
-            this._$log.debug('Calendar: showActivity, new task fo id', iW, iD, this.grid[iW][iD]);
+        data.forEach( items => {
+            let date = this.getDate(items.date);
+            items = this.determineStatus(items);
+            this.addCalendarItem({iw: date.iw, id: date.id, value: items});
         });
         result.resolve(true);
         return result.promise;
     }
     /**
-     *
-     * @returns {Array}
+     * Получаем все дни недели что входят в промежуток от startDay до endDay
+     * @param startDay - начало недели
+     * @param endDay - конец недели
+     * @returns {Object}
      */
-    getCalendarGrid(startDay, endDay){
+    getCalendarWeek(startDay, endDay){
         let start = startDay, end = endDay;
-        let result = this._$q.defer(),
-            grid = {},
-            index = 0,
-            diff = end.diff(start,'d'),
-            day = {
-                title: null,
-                activity: []
-            },
-            week = {};
+        let diff = end.diff(start,'d'),
+          day = {
+              title: null,
+              items: []
+          },
+          week = {};
+        while (diff != 0) {
 
-        this._$log.debug('Calendar: getCalendarGrid, new request from', start.format('DD MMM'), 'to', end.format('DD MMM'));
-        // Проходим циклом по всем дням от начала до конца. На вход передается первый день недели начала и последний
-        // день недели окончания, таким образом работаем с полными неделями
-        while (diff != 0){
-            (start.format('DD') == '01') ? day.title = start.format('DD MMM') : day.title = start.format('DD');
+            day.title = start.format('DD');
+            day.month = start.format('MMM');
+            day.day = start.format('dd');
             angular.extend(week, {[start.format('YYYYMMDD')]: day});
-            //this._$log.debug('Calendar: getCalendarGrid, curr day=', start.format('DD MMM'), diff, diff % 7);
+
+            //Проверяем все дни на соответствие текущему, если соответствует - добавляем свойство today: true в
+            //объект day. Далее с помощь ng-class добавляем класс today
+            if (( start.format('DD MMM YYYY') ==  moment().format('DD MMM YYYY'))) {
+                day.today = true;
+            }
             day = {
                 title: null,
-                activity: []
+                month: null,
+                day: null,
+                items: []
             };
-
-            //
-            if ((diff % 7 == 1) || diff == 0){
-
-                week = { [start.format('YYYYWW')]: week };
-                angular.extend(grid,week);
-                result.notify(week);
-                week = {};
-            }
 
             start.add(1,'d');
             diff = end.diff(start,'d');
         }
-        result.resolve(grid);
-        return result.promise;
+        return week;
     }
 
+    /**
+     * Переход к Елементу по id
+     * @param index - на который необходимо перейти
+     */
+    gotoAnchor(index){
+        this._$log.debug(`scrollto index= ${index}`);
+        this._$log.debug('Calendar: hash', this._$location.hash());
+        let newHash = 'week' + index;
+        if (this._$location.hash() !== newHash) {
+            // set the $location.hash to `newHash` and
+            // $anchorScroll will automatically scroll to it
+            this._$location.hash('week' + index);
+
+        } else {
+            // call $anchorScroll() explicitly,
+            // since $location.hash hasn't changed
+            this._$anchorScroll();
+        }
+    }
+
+    // TODO добавить проверку на содержание в кэше, необходимой недели/дня.
+    /**
+     * Переходим по неделям.
+     * @param index - значени для перехода
+     */
+    gotoIndex(index) {
+        this._$log.info(`Calendar goto index= ${index}`);
+        index = parseInt(index, 10);
+        index = isNaN(index) ? 1 : index;
+        this.scrollAdapter.reload(index);
+    }
+
+    /**
+     * Добавляем задания для каждого дня.
+     * @param data.iw - неделя на которой находится день
+     * @params data.id - день в который необходимо добавить
+     * @params data.value - значения для добавления
+     * @returns {*}
+     */
+    addCalendarItem(data) {
+        let weekId = data.iw, day = data.id, value = data.value;
+        // this._$log.info(`Calendar activity to weekId= ${weekId} day= ${day}`);
+        return this.scrollAdapter.applyUpdates( (week, scope) => {
+
+            // weekId должны совпадать, и в добавок в week должна находится перемення
+            // совпадающая с day
+            // this._$log.debug('Calendar week', week);
+            try{
+                if (week.weekId == weekId) {
+                    week.week[day].items.push(value);
+                }
+            } catch (error){
+                this._$log.error('Calendar: add activity error ', error);
+            }
+            return week;
+        });
+    }
+    //TODO необходим рефакторинг и найти путь объединения с addCalendarItem
+    /**
+     * Удаляем любой Item. только один елемент.
+     * @param data - object содержащий {date} и {calendarItemId} и {mode} подробнее
+     *               документация deleteCalendarItem
+     * @returns {Object}
+     */
+    destroyCalendarItem(data, mode = 'F') {
+
+        let date = this.getDate(data.date);
+
+        return this.scrollAdapter.applyUpdates( (week, scope) => {
+            try{
+                if (week.weekId == date.iw) {
+
+                    week.week[date.id].items.forEach((item, index) => {
+                        //Если такая запись есть, тогда удаляем её из массива и отправляем на сервер запрос на удаление.
+                       if(item.calendarItemId == data.calendarItemId) {
+                           week.week[date.id].items.splice(index, 1);
+                           this.deleteCalendarItem(mode,item);
+                       }
+                    });
+                }
+            } catch (error){
+                this._$log.error('Calendar error ', error);
+            }
+            return week;
+        });
+    }
+    /**
+     * Переводим полученные значения от ui-scroll в количество запрашиваемых недель.
+     * @param index - переданый index срабатывания события пролистывания
+     */
+    adapterGetCalendarItem(index) {
+        let currDay = moment().weekday(0);
+        let startWeek, endWeek;
+        if(index==0){
+            startWeek = moment(currDay).add(index-CalendarSettings.weekRange,'w');
+            endWeek = moment(currDay).add(index+CalendarSettings.weekRange,'w');
+            this._$log.debug('Calendar start and end =', moment(currDay).add(index-CalendarSettings.weekRange,'w').format('YYYYWW'), moment(currDay).add(index+CalendarSettings.weekRange,'w').format('YYYYWW'));
+        } else if(index<0){
+            startWeek = moment(currDay).add(index-CalendarSettings.weekRange,'w');
+            endWeek = moment(currDay).add(index.weekRange,'w');
+            this._$log.debug('Calendar start and end -', moment(currDay).add(index-CalendarSettings.weekRange,'w').format('YYYYWW'), moment(currDay).add(index,'w').format('YYYYWW'));
+        } else {
+            startWeek = moment(currDay).add(index,'w');
+            endWeek = moment(currDay).add(index+CalendarSettings.weekRange,'w');
+            this._$log.debug('Calendar start and end +',moment(currDay).add(index,'w').format('YYYYWW'), moment(currDay).add(index+CalendarSettings.weekRange,'w').format('YYYYWW'));
+        }
+
+        this.getCalendarItem({startDate:startWeek.format('YYYY-MM-DD'), endDate:endWeek.format('YYYY-MM-DD')});
+    }
+    /**
+     * Выполняем проверку статуса задания.
+     * @param items - переданый items
+     * @returns {Object}
+     */
+    determineStatus(items){
+        // TODO Документация 46-48
+        // Если не активити тогда, сразу без расчетов выводим цвет.
+        if(items.calendarItemType != 'activity'){
+            // this._$log.debug('TEST items.calendarItemType', items.calendarItemType);
+        } else {
+            // Выполнено, если в {{$.activityHeader.intervals}} присутствует интервал с типом W;
+            if(items.activityHeader.intervals){
+
+            }
+
+            // this._$log.debug('TEST items.calendarItemType', items);
+        }
+        return items;
+    }
+
+    /**
+     * Возращаем дату в необходимом формате.
+     * @param date - дата типа '2016-12-25'
+     * @returns {Object}
+     */
+    getDate(date){
+        let iW = moment(date, 'YYYY-MM-DD').format('YYYYWW'),
+            iD = moment(date, 'YYYY-MM-DD').format('YYYYMMDD');
+        return {iw: iW, id: iD};
+    }
+
+
+    //TODO под удаление
     /**
      * Запрашивает на сервере сводные данные по тренировкам с период в ремени (с, по)
      * @param start - начальная дата запроса
@@ -308,7 +537,7 @@ class CalendarCtrl {
         let mock = {
             type: ['бег','велосипед','плавание'],
             subType: ['Короткие интервалы', 'Длинные интервалы', 'Восстановление', 'Развитие мощности', 'Длинный' +
-            ' темп', 'Работа на уровне МПК','Работа на уровне ПАНО'],
+            ' темп', 'Работа на уровне МПК','Интервалы ПАНО'],
             timeDay: ['утро','день','вечер', null],
             result: {
                 status: ['success','success','success','success','success','success','success','success','success',

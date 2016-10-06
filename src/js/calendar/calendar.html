@@ -1,16 +1,23 @@
 <div layout="column" layout-align="start center" flex="100" style="height: 100%;">
-    <div layout="row" layout-align="start center" flex="none" class="app-toolbar">
-        <div class="md-body-2">2016 July</div>
+    <!--    toolbar: start  -->
+    <div hide-xs hide-sm layout="row" layout-align="start center" flex="none" class="app-toolbar">
         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-click="vm.beforeWeek()">
+                   ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.id - 1)">
             <md-icon md-svg-src="/assets/icon/navigate_before.svg" aria-label="Back"></md-icon>
         </md-button>
         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-click="vm.nextWeek()">
+                   ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.id + 1)">
             <md-icon md-svg-src="/assets/icon/navigate_next.svg" aria-label="Back"></md-icon>
         </md-button>
-        <div class="md-body-1">
-            week: {{vm.weekIndex}}</div><div> startIndex: {{currentStartIndex}} endIndex: {{currentEndIndex}}</div>
+        <div class="md-body-2">{{$ctrl.scrollAdapter.topVisible.month}}</div>
+
+        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                   ng-init="today = 0"
+                   ng-click="$ctrl.gotoIndex(today)">
+            <md-icon md-svg-src="/assets/icon/today.svg" aria-label="Back"></md-icon>
+        </md-button>
+        <!--TODO внести в config/translete branch 5-calendar-grid-pg -->
+        <div class="md-body-1" translate class="md-caption">app.calendar.today</div>
         <md-button class="md-icon-button md-primary" aria-label="Settings"
                    ng-init="viewCompact = false"
                    ng-click="viewCompact = !viewCompact">
@@ -20,108 +27,249 @@
 
         <md-button ng-click="$ctrl.mockGetActivityList()">Get Activity List</md-button>
         <md-button ng-click="$ctrl.mockClearActivityList()">Clear Activity List</md-button>
+        <span>top visible:</span> {{$ctrl.scrollAdapter.topVisible.weekId}}
+
         <!-- Для теста вызова API -->
         <md-button  ng-init="request = { startDate: '2016-10-01', endDate: '2016-12-15'}"
                     ng-click="$ctrl.getCalendarItem(request)">API: getCalendarItem()</md-button>
 
     </div>
-    <div layout="row" flex="100" style="width: 100%; max-width: 1400px">
+    <!--    toolbar: end  -->
+    <div layout="row" flex="100" class="cg-width">
         <section layout="column" layout-align="start stretch" id="calendar" class="app-body animated zoomIn" style="width: 100%;">
-            <md-toolbar class="md-primary"><div class="md-toolbar-tools"><h3>weekdays</h3></div></md-toolbar>
+            <!--<md-toolbar class="md-primary"><div class="md-toolbar-tools">-->
+                <!--<h3>weekdays</h3>-->
+            <!--</div>-->
+            <!--</md-toolbar>-->
 
-            <md-content flex layout-padding style="overflow: auto;">
-            <div layout="raw" layout-align="space-between start" flex="none"
-                 ng-repeat="week in $ctrl.grid"
+                <md-toolbar hide show-gt-sm class="md-primary">
+                    <div flex="none" layout="raw" layout-align="space-between center" class="md-toolbar-tools" hide show-gt-sm >
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_1</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_2</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_3</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_4</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_5</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_6</div>
+                        <div flex="none" translate class="md-caption">app.calendar.weekdays.weekDays_7</div>
+                        <!--<div flex="none" translate hide show-gt-md class="md-caption">app.calendar.weekdays.totalDays</div>-->
+                    </div>
+                </md-toolbar>
+
+
+            <!-- Grid: start -->
+            <md-content flex layout-padding class="viewport" id="viewport-serviceDatasource" ui-scroll-viewport>
+                <!--<div class="item" ui-scroll="item in datasource">{{item}}</div>-->
+            <div id="week{{::item.id}}" layout="raw" layout-xs="column" layout-sm="column" layout-align="space-between start" flex="none"
+                 ui-scroll="week in $ctrl.grid"
+                 adapter="$ctrl.scrollAdapter"
+                 buffer-size="5"
+                 start-index="0"
                  class="week" style="-height: 100%">
-                <div layout-gt-sm="column" flex-gt-sm="none" layout="row" flex="100" layout-fill
-                     ng-repeat="day in week track by $index"
+                <!-- При мобильном виде все в строку при наведении-->
+                <!--<div layout-gt-sm="column" flex-gt-sm="none" layout="row" flex="100" layout-fill-->
+                <div flex="none" layout="column" layout-fill
+                     ng-repeat="day in week.week"
                      class="day"
                      ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false"
                      ng-class="{select: selected}"
                      ng-init="showMenu=false">
 
-                    <div layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
-                        <div flex="none" class="md-body-1" style="min-width: 24px">{{::day.title}}</div>
-                        <div flex="none" ng-show="showMenu || selected">
+                    <div ng-class="{today: day.today}" layout="row" layout-align="space-between center"
+                         flex-gt-sm="none" flex="none" style="height: 30px">
+                        <div flex="none">
+                            <div hide-gt-sm flex="none" class="md-body-1" style="min-width: 24px">
+                                {{::day.month | uppercase}}
+                            </div>
+                            <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px">
+                                {{::day.title}}
+                                <span hide-gt-sm style="margin-left: 0.6em;">{{::day.day}}</span>
+                                <span hide-xs hide-sm ng-if="day.title == '01'" style="margin-left: 0.4em;">{{::day.month}}</span>
+                            </div>
+                        </div>
+                        <div hide show-gt-sm flex="none" ng-show="showMenu || selected">
                             <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
                                          style="margin-bottom: 0px; margin-left: 12px">
                             </md-checkbox>
                         </div>
-                        <div flex="none" ng-show="showMenu || selected">
-                            <md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
-                                <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
-                                         aria-label="Back"></md-icon>
-                            </md-button>
+
+                        <div  hide show-gt-sm flex="none"  ng-show="showMenu || selected">
+                            <!--<md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">-->
+                                <!--<md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"-->
+                                         <!--aria-label="Back">-->
+                                <!--</md-icon>-->
+                            <!--</md-button>-->
+                            <md-menu>
+                                <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
+                                    <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
+                                             aria-label="More">
+                                    </md-icon>
+                                </md-button>
+                                <md-menu-content>
+                                    <md-menu-item><md-button>Добавить запись</md-button></md-menu-item>
+                                    <md-menu-item><md-button>Выделить/Снять выделение</md-button></md-menu-item>
+                                    <md-menu-item><md-button>Удалить/Удалить все</md-button></md-menu-item>
+                                    <md-menu-item><md-button>Скопировать/Скопировать все</md-button></md-menu-item>
+                                    <md-menu-item><md-button>Вставить</md-button></md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+
+
+
                         </div>
                     </div>
 
-                    <div ng-repeat="activity in day.activity" layout-wrap
+                    <!-- Days body: start -->
+                    <div ng-repeat="item in day.items" layout-wrap
                          flex-gt-sm="none" flex="auto" class="animated fadeIn activity md-whiteframe-1dp" draggable="true"
-                         ng-click="showActivity($event, activity)"
-                         ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false" ng-init="showMenu=false">
+                         style="text-align: center"
+                         ng-click="showActivity($event, item)">
+
                         <div layout="row" layout-xs="column" layout-gt-sm="column">
-                            <div class="header {{activity.intervals[0].status}} md-caption"
+                            <!-- TODO делать расчет в js, Захардкожено error -->
+                            <div class="header {{item.intervals[0].status}} error md-caption"
                                  ng-class="{select: selected}">
-                                <div layout="row" layout-align="space-between start">
-                                    <div flex="none" style="margin-right: 4px">
-                                        <md-icon md-svg-src="/assets/icon/{{!showMenu ? 'running.svg' : 'more_vert.svg'}}" class="fill-white-medium"
-                                                 aria-label="Back"></md-icon>
+                                <div layout="row" layout-align="space-between center">
+                                    <!--Icon + Menu started-->
+                                    <!--<div flex="none" style="margin-right: 4px">-->
+                                    <!--Процент выполнения-->
+                                    <div hide-xs class="md-caption  tight-07  secondary  light"
+                                    layout-align="start center">100%</div>
+                                    <!--Процент выполнения конец-->
+                                    <!--иконка вида активности-->
+                                    <!-- TODO делать расчет в js, Захардкожено error -->
+                                    <div layout="row" class="activity-icon error {{item.intervals[0].status}}" layout-align="center center"
+                                    >
+                                    <md-icon
+                                             md-svg-src="/assets/icon/running.svg"
+                                             class="fill-white-medium "
+                                                 aria-label="Back">
+                                    </md-icon>
+                                    <md-icon class="fill-white-medium badge-icon" md-svg-src="/assets/icon/paceSpeed.svg"
+                                             ></md-icon>
+                                    <div layout="column" layout-align="end end" class="badge">5</div>
                                     </div>
-                                    <div flex="100" class="type">{{activity.activityCategory.code | uppercase}}</div>
+                                        <!--иконка вида активности конец-->
+                                    <!--меню задания-->
+                                    <md-menu layout-align="none center">
+                                        <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
+                                            <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-white-medium" size="s18"
+                                                     aria-label="Task context menu">
+                                            </md-icon>
+                                        </md-button>
+                                        <md-menu-content>
+                                            <md-menu-item><md-button>Просмотреть</md-button></md-menu-item>
+                                            <md-menu-item><md-button>Открыть в отдельном окне</md-button></md-menu-item>
+                                            <md-menu-item><md-button>Выделить/Снять выделение</md-button></md-menu-item>
+                                            <md-menu-item><md-button>Скопировать/Скопировать все</md-button></md-menu-item>
+                                            <md-menu-item><md-button><span ng-click="$ctrl.destroyCalendarItem(item)">Удалить/</span>Удалить все</md-button></md-menu-item>
+                                        </md-menu-content>
+                                    </md-menu>
+                                    <!--меню задания конец-->
+                                    <!--</div>-->
+                                    <!--Icon =Menu finished-->
+
+
                                 </div>
+                                <!--Тип активности-->
+                                <div layout="row" layout-align="center center" class="type md-caption center dark">
+                                    {{::item.activityHeader.activityCategory.code}}
+                                </div>
+                                <!--Тип активности конец-->
+                                <!--Время и продолжительность тренировки-->
+                                <div layout="row" layout-align="center center" class="md-title  small  center  tight-10" style="padding-top: 5px">
+                                    <!--<div style="padding-right: 4px">1:23:46</div>-->
+                                    <div>
+                                        <div style="padding-left: 4px">{{item.intervals[0].distance}} km</div>
+                                    </div>
+                                </div>
+                                <!--Время и продолжительность тренировки конец-->
+                                <!--Сердце и показатели-->
                                 <div layout="row" layout-align="space-between start" style="margin-top: 8px">
-                                    <div flex="none" style="margin-right: 4px">
-                                        <md-icon md-svg-src="/assets/icon/heartRate.svg" class="fill-white-medium" size="s18"
-                                                 aria-label="Back"></md-icon>
-                                    </div>
-                                    <div flex="100" class="md-caption">
-                                        <span>{{activity.intervals[0].duration}}</span><span> min</span><br>
-                                        <span>{{activity.intervals[0].distance}}</span><span> km</span><br>
-                                        <span>{{activity.intervals[0].assessment}}</span><span>%</span>
-                                    </div>
+                                    <!--<div flex="none" style="margin-right: 4px">-->
+                                        <!--<md-icon md-svg-src="/assets/icon/heartRate.svg" class="fill-white-medium" size="s18"-->
+                                                 <!--aria-label="Back"></md-icon>-->
+                                <div class="graph"></div>
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;&ndash;&gt;-->
+                                    <!--<div flex="100" class="md-caption">-->
+                                        <!--<span>{{item.intervals[0].duration}}</span><span> min</span><br>-->
+                                        <!--<span>{{item.intervals[0].distance}}</span><span> km</span><br>-->
+                                        <!--<span>{{item.intervals[0].assessment}}</span><span>%</span>-->
+                                    <!--</div>-->
                                 </div>
+                                <!--Сердце и показатели-->
                             </div>
-                            <div ng-show="!viewCompact" layout="row" layout-align="space-between start" class="content md-caption">
-                                <div flex="none" style="margin-right: 4px">
-                                    <md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="fill-black-medium" size="s18"
-                                             aria-label="Back"></md-icon>
-                                </div>
-                                <div flex="100" class="type">
-                                    <div>{{activity.intervals[0].bpmAvr}}<span> bpm</span></div>
-                                    <div>{{activity.intervals[0].TSS}}<span> TL</span></div>
-                                </div>
-                            </div>
-                            <div ng-show="!viewCompact && (activity.social.userLikesCount + activity.social.userCommentsCount)>0" layout="row" layout-align="end center" class="content md-caption">
+                            <!--Давление-->
+                            <div ng-show="!viewCompact"  layout="row"  layout-align="start center" class="md-caption">
 
-                                <md-icon md-svg-src="/assets/icon/thumb_up.svg" class="fill-black-medium" ng-if="activity.social.userLikesCount >0"
-                                         style="width: 14px; height: 14px; margin: 0px 8px;"
-                                         aria-label="Back"></md-icon>
-                                <span ng-if="activity.social.userLikesCount >0">{{::activity.social.userLikesCount}}</span>
-                                <md-icon md-svg-src="/assets/icon/chat_bubble.svg" class="fill-black-medium" ng-if="activity.social.userCommentsCount >0"
-                                         style="width: 14px; height: 14px; margin: 0px 8px;"
-                                         aria-label="Back"></md-icon>
-                                <span ng-if="::activity.social.userCommentsCount >0">{{::activity.social.userCommentsCount}}</span>
-
+                                <!--Классическое представление-->
+                                <div layout="row" layout-align="start center" class="classic md-caption tight-07  dark  secondary">
+                                        <md-icon layout="column" md-svg-src="/assets/icon/paceSpeed.svg"
+                                        aria-label="Back"></md-icon>
+                                        <!--Нет иконки секундомера!!!-->
+                                    <div layout="row">
+                                    <div class="space">4.53</div>
+                                    <div class="space disable">мин/км</div>
+                                    </div>
+                                    <div layout="row">
+                                    <div class="right space">{{item.intervals[0].bpmAvr}}</div>
+                                    <div class="disable">чсс</div>
+                                    </div>
+                                </div>
+                                <!--Классическое представление конец-->
+                                    <!--Табличное представление данных-->
+                                    <!--<div layout="row" class="md-caption tight-07  dark  secondary " >-->
+                                        <!--<div class="space" layout="column" layout-align="center center">-->
+                                        <!--<div class="status {{item.intervals[0].status}}"></div>-->
+                                        <!--</div>-->
+                                        <!--<div class="space">{{item.intervals[0].duration}}</div>-->
+                                        <!--<div class="right space">{{item.intervals[0].bpmAvr}}</div>-->
+                                        <!--<div class="disable">чсс</div>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;Табличное представление конец&ndash;&gt;-->
+                                <!--<div flex="none" style="margin-right: 4px">-->
+                                    <!--<md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="fill-black-medium" size="s18"-->
+                                             <!--aria-label="Back"></md-icon>-->
+                                <!--</div>-->
+                                <!--<div flex="100" class="type">-->
+                                    <!--<div>{{item.intervals[0].bpmAvr}}<span> bpm</span></div>-->
+                                    <!--<div>{{item.intervals[0].TSS}}<span> TL</span></div>-->
+                                <!--</div>-->
                             </div>
+
                         </div>
                     </div>
+                    <!-- Days: end -->
+
+                    <!-- Add new task: choise : start -->
                     <div layout="row" layout-align="center center" flex="grow" layout-fill
                          class="new" ng-class="{show: showMenu}">
-                        <md-button class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">
+                        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">
                             <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"
                                      aria-label="Back"></md-icon>
                         </md-button>
-
                     </div>
+                    <!-- Add new task: choise : end -->
                 </div>
-                <div flex-order="-1" flex-order-gt-sm="10"
-                     flex-xs="100" flex-sm="100" flex-gt-sm="noshrink" hide show-gt-md flex class="md-caption summary"
-                        style="width: calc(100% - 7*12%)">
-                    <div flex-gt-sm="none" flex="none" class="md-body-1">Неделя {{startIndex+$index}}</div>
-                </div>
+
+                <!-- Week: start -->
+                <!--<div flex-order="-1" flex-order-gt-sm="10"-->
+                     <!--flex-xs="100" flex-sm="100" flex-gt-sm="noshrink" hide show-gt-md flex class="md-caption summary"-->
+                        <!--style="width: calc(100% - 7*12%)">-->
+                    <!--<div flex-gt-sm="none" flex="none" class="md-body-1">Неделя {{startIndex+$index}}</div>-->
+                <!--</div>-->
+                <!-- Week: end -->
             </div>
 
             </md-content>
+            <!--    Grid: end  -->
+
+            <!-- Fab button -->
+            <md-button hide hide-gt-sm class="md-position-fab md-fab md-primary md-icon-button" aria-label="Add task">
+                <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s22"
+                         aria-label="Add task"></md-icon>
+            </md-button>
+
                 <!--<md-toolbar felx="auto" hide show-gt-sm layout="raw" class="day-toolbar">
                 <div flex class="md-caption">{{vm.weekDays[0] | capitalizeFirstLetter}}</div>
                 <div flex class="md-caption">{{vm.weekDays[1] | capitalizeFirstLetter}}</div>
