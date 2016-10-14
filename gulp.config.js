@@ -30,7 +30,8 @@ var jsLibs = [
     bower+"angular-scroll/angular-scroll.js",
     bower+"localforage/dist/localforage.min.js",
     bower+"angular-ui-scroll/dist/ui-scroll.js", // бесконечный скролл
-    bower+"angular-ui-scroll/dist/ui-scroll-jqlite.js" // дополнение к бесконечному скролу
+    bower+"angular-ui-scroll/dist/ui-scroll-jqlite.js", // дополнение к бесконечному скролу
+    bower+"angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js" //библиотека drug & drop
 ];
 
 var cssLibs = [
