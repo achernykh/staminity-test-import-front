@@ -189,12 +189,14 @@ class CalendarCtrl {
                         start = moment(start).add(index,'w');
                         end = moment(start).add(count,'w').add(-1,'d');
                         this._$log.debug(`CalendarCtrl: get api start=${start.format('YYYY-MM-DD')} end=${end.format('YYYY-MM-DD')}`);
-                        this.getCalendarItem({startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')});
+                        this.getCalendarItem({startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}).then(
+                            (success) => {}, (error) => {}
+                        );
                     //},100);
                     //this.scrollAdapter.disabled = false;
                     success(result);
 
-                }, 100);
+                }, 1);
 
             }
         };
@@ -294,6 +296,22 @@ class CalendarCtrl {
      * startDate - дата начала интервала (ГГГГ-ММ-ДД), endDate - дата конца интервала (ГГГГ-ММ-ДД)
      */
     getCalendarItem(request){
+
+        return new Promise( (resolve,reject) => {
+            "use strict";
+            this._Calendar.getItem(request).then(
+                (items) => {
+                    this.showCalendarItem(items).then(
+                        (success) => {
+                            //      this._$log.debug('Calendar: grid after showCalendarItem', success);
+                            resolve(success);
+                        }, (error) => {
+                            reject(error);
+                        });
+                }
+            );
+        });
+        /*
         this._Calendar.getItem(request).then(
             (items) => {
                 //this._$log.debug('Calendar: getCalendarItem response', items);
@@ -309,7 +327,7 @@ class CalendarCtrl {
                 // Если вам нужно будет, то можно и в return записать результаты, но тогда потеряется ассинхронность
                 // Как доберетесь до готовности подключить api - выходите на связь, решим как сделать
             }
-        );
+        );*/
     }
     /**
      * Изменение записи календаря
