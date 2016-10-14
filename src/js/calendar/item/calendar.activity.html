@@ -1,0 +1,42 @@
+<div flex layout="column"
+     class="header {{::$ctrl.item.status}}"
+     ng-class="{selected: $ctrl.selected}">
+    <div layout="row" layout-align="space-between center">
+        <div flex="30" class="md-caption center">{{::$ctrl.item.statusPercent}}</div>
+
+        <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
+            <md-icon md-svg-src="assets/icon/{{::$ctrl.item.activityHeader.activityType.code}}.svg"
+                     class="s24 light-active"></md-icon>
+        </div>
+
+        <div flex="30">
+            <md-menu>
+                <md-button class="md-icon-button" aria-label="More Event"
+                           style="margin-right: 0px"
+                           ng-click="$mdOpenMenu($event)">
+                    <md-icon id="more" md-svg-src="assets/icon/more_vert.svg"
+                             class="s18"></md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item><md-button>Открыть</md-button></md-menu-item>
+                    <md-menu-item><md-button disabled="disabled">Выделить</md-button></md-menu-item>
+                    <md-menu-item><md-button>Скопировать</md-button></md-menu-item>
+                    <md-menu-item><md-button ng-click="$ctrl.onDelete()">Удалить</md-button></md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+    </div>
+    <div flex layout="row" layout-align="center center"
+         class="md-caption secondary center"
+         style="margin-top: 8px;">
+        <div flex="none" class="line-14">{{::$ctrl.item.activityHeader.activityCategory.code}}</div>
+    </div>
+    <div flex layout="row" layout-align="center center"
+         class="md-title small secondary center tight-10"
+         style=""
+            ng-if="!!$ctrl.item.duration || $ctrl.item.distance">
+        <div flex="none">{{::$ctrl.item.duration}}</div>
+        <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
+        <div flex="none">{{::$ctrl.item.distance}}</div>
+    </div>
+</div>
