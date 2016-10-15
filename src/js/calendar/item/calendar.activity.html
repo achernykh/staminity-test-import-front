@@ -1,8 +1,9 @@
 <div flex layout="column"
      class="header {{::$ctrl.item.status}}"
-     ng-class="{selected: $ctrl.selected}">
+     ng-class="{selected: $ctrl.selected}"
+     ng-click="$ctrl.show($env)">
     <div layout="row" layout-align="space-between center">
-        <div flex="30" class="md-caption center">{{::$ctrl.item.statusPercent}}</div>
+        <div flex="30" class="md-caption tight-07">{{::$ctrl.statusPercent}}{{!!$ctrl.statusPercent ? '%' : ''}}</div>
 
         <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
             <md-icon md-svg-src="assets/icon/{{::$ctrl.item.activityHeader.activityType.code}}.svg"

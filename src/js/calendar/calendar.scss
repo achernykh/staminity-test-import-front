@@ -112,17 +112,23 @@
   transition: all 1s ease-in-out 0s;
 }
 
-.md-toolbar-tools .md-caption{
-  padding: 0 4px;
+calendar {
+	md-toolbar {
+		min-height: 32px;
+		padding-left: 12px;
+		padding-right: 12px;
 
-  @media (min-width: 1279px){
-    width: 12%;
-    max-width: 250px;
-  }
-
-  @media (min-width: 959px) and (max-width: 1280px){
-    width: 14%;
-  }
+		.weekday{
+			text-transform: capitalize;
+			@media (min-width: 1279px){
+				width: 12%;
+				max-width: 250px;
+			}
+			@media (min-width: 959px) and (max-width: 1280px){
+				width: 14%;
+			}
+		}
+	}
 }
 
 .summary {
@@ -159,24 +165,27 @@
 }
 
 calendar-measurement, calendar-activity, calendar-event, calendar-competition {
-  position: relative;
-  min-height: 50px;
-  margin: 6px 6px 0px 6px;
-  cursor: pointer;
-  border-radius: 3px;
+  	position: relative;
+  	min-height: 50px;
+  	margin: 6px 6px 0px 6px;
+  	cursor: pointer;
+  	border-radius: 3px;
 
-  @media (max-width: 1919px) and (min-width: 1280px){
-    -min-width: 10%;
-    -max-width: 175px;
-  }
+	&:focus {
+		outline:0;
+	}
 
-  @media (max-width: 960px){
-    border-radius: 0px;
-    margin: 0px 4px;
-    min-width: 200px;
-    padding-bottom: 0px;
-  }
+  	@media (max-width: 1919px) and (min-width: 1280px){
+    	-min-width: 10%;
+    	-max-width: 175px;
+  	}
 
+  	@media (max-width: 960px){
+    	border-radius: 0px;
+    	margin: 0px 4px;
+    	min-width: 200px;
+    	padding-bottom: 0px;
+  	}
 }
 
 calendar-activity {
@@ -189,24 +198,57 @@ calendar-activity {
     padding: 10px 12px 12px 12px;
 
     &.complete {
-      @extend .bg-teal-500;
-      color: white;
+		// Задание выполнено без отклонений
 
-      .bg-circle-32 {
-        @extend .bg-teal-800;
-      }
+		color: white;
+		#more {
+			@extend .light-active;
+		}
 
-      #more {
-        @extend .light-active;
-      }
+		@extend .bg-teal-500;
+		.bg-circle-32 {
+			@extend .bg-teal-800;
+		}
 
-      &:hover, &.selected {
-        @extend .bg-teal-800;
+      	&:hover, &.selected {
+        	@extend .bg-teal-800;
 
-        .bg-circle-32 {
-          @extend .bg-teal-900;
-        }
-      }
+        	.bg-circle-32 {
+          		@extend .bg-teal-900;
+        	}
+      	}
+
+		// Задание выполнено с отклонениями
+		&.warn {
+			@extend .bg-orange-500;
+			.bg-circle-32 {
+				@extend .bg-orange-800;
+			}
+
+			&:hover, &.selected {
+				@extend .bg-orange-800;
+
+				.bg-circle-32 {
+					@extend .bg-orange-900;
+				}
+			}
+		}
+
+		// Задание выполнено с существенными отклонениями
+		&.error {
+			@extend .bg-red-500;
+			.bg-circle-32 {
+				@extend .bg-red-800;
+			}
+
+			&:hover, &.selected {
+				@extend .bg-red-800;
+
+				.bg-circle-32 {
+					@extend .bg-red-900;
+				}
+			}
+		}
     }
 
     &.dismiss {
@@ -274,9 +316,7 @@ calendar-event, calendar-competition {
     padding-bottom: 0px;
   }
 
-  &:focus {
-    outline:0;
-  }
+
 
   .header {
     -height: 50px;
@@ -372,7 +412,7 @@ calendar-event, calendar-competition {
   }
 }
 .today {
-  border-top:solid $orange-800 ;
+  border-top:solid 4px $orange-800 ;
 }
 
 .md-position-fab{

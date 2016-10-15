@@ -6,7 +6,8 @@ class CalendarDayCtrl {
     }
     $onInit(){
         "use strict";
-        //this._$log.debug('CalendarDay: onInit id=', this.data);
+	    let diff = moment().diff(moment(this.data.date),'days',true);
+        this.today = diff >= 0 && diff < 1;
     }
     onDelete(){
         "use strict";

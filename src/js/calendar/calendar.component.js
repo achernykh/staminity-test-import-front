@@ -45,7 +45,7 @@ class ScrollCalendar {
                 result.push(item);
             }
             success(result);
-        }, 100);
+        }, 200);
     }
     /**
      * Генерирует массив состоящих из календарных недель, которые в свою очередь содержат соответсвующие дни недели.
@@ -261,7 +261,13 @@ class CalendarCtrl {
      */
     $onInit() {
         moment.locale('ru');
-        this._$log.debug(`CalendarCtrl: omIniti firstDayWeek = ${moment.localeData().firstDayOfWeek()}`)
+        this.weekdays = []
+
+        for (let day=0; day <7; day++) {
+            this.weekdays.push(moment().weekday(day).format('dddd'));
+        }
+
+        this._$log.debug(`CalendarCtrl: omIniti firstDayWeek = ${this.weekdays}`)
 
         //this._$timeout(()=>angular.noop, 0).then(
         //    () => {
@@ -484,7 +490,8 @@ class CalendarCtrl {
             let week = day.format('WW') - init.format('WW');
             //let date = this.getDate(items.date);
             //items = this.determineStatus(items);
-            this._$log.debug(`CalendarCtrl: showCalendarItem itemDay=${item.date} itemId=${item.calendarItemId} day=${day.format('YYYY-MM-DD')} week=${week} week#=${day.format('WW')} week#=${init.format('WW')}`);
+            //this._$log.debug(`CalendarCtrl: showCalendarItem itemDay=${item.date} itemId=${item.calendarItemId}
+            // day=${day.format('YYYY-MM-DD')} week=${week} week#=${day.format('WW')} week#=${init.format('WW')}`);
             this.addCalendarItem(week, day.weekday(), item);
         });
         result.resolve(true);
