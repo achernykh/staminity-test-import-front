@@ -16,6 +16,14 @@ $gt-sm: 960px;
   -ms-border-radius: $radius-property;
 }
 
+@mixin border-radius-custom($top-right, $top-left, $bottom-right, $bottom-left) {
+	border-radius: $top-right $top-left $bottom-right $bottom-left;
+	-moz-border-radius: $top-right $top-left $bottom-right $bottom-left;
+	-webkit-border-radius: $top-right $top-left $bottom-right $bottom-left;
+	-khtml-border-radius: $top-right $top-left $bottom-right $bottom-left;
+	-ms-border-radius: $top-right $top-left $bottom-right $bottom-left;
+}
+
 .back-primary-900 {
   background: $primary-900;
   -border-radius: 3px;

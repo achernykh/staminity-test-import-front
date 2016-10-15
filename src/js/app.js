@@ -18,6 +18,7 @@ const requires = [
     'ngMaterial',
     'pascalprecht.translate',
     'ngWebSocket',
+	'hm.readmore',
 //    'staminity.mock',
     'staminity.layout',
     'staminity.templates',

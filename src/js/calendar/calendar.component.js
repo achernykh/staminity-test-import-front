@@ -90,6 +90,11 @@ class CalendarCtrl {
         this._Auth = Auth;
         this._AppMessage = AppMessage;
         this._Calendar = Calendar;
+
+        this.view = {
+	        compact: false
+	    };
+
         var self = this;
         //this.grid = new ScrollCalendar(this._$timeout, this._$log);
 
@@ -190,7 +195,7 @@ class CalendarCtrl {
                         end = moment(start).add(count,'w').add(-1,'d');
                         this._$log.debug(`CalendarCtrl: get api start=${start.format('YYYY-MM-DD')} end=${end.format('YYYY-MM-DD')}`);
                         this.getCalendarItem({startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}).then(
-                            (success) => {}, (error) => {}
+                            () => {}, () => {}
                         );
                     //},100);
                     //this.scrollAdapter.disabled = false;

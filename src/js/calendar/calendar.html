@@ -16,22 +16,13 @@
                    ng-click="$ctrl.gotoIndex(today)">
             <md-icon md-svg-src="/assets/icon/today.svg" aria-label="Back"></md-icon>
         </md-button>
-        <!--TODO внести в config/translete branch 5-calendar-grid-pg -->
+
         <div class="md-body-1" translate class="md-caption">app.calendar.today</div>
         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-init="viewCompact = false"
-                   ng-click="viewCompact = !viewCompact">
+                   ng-click="$ctrl.view.compact = !$ctrl.view.compact">
             <md-icon md-svg-src="/assets/icon/view_comfy.svg" aria-label="Back"></md-icon>
         </md-button>
         <div class="md-body-1">{{!viewCompact ? 'View compact' : 'View details'}}</div>
-
-        <md-button ng-click="$ctrl.mockGetActivityList()">Get Activity List</md-button>
-        <md-button ng-click="$ctrl.mockClearActivityList()">Clear Activity List</md-button>
-        <span>top visible:</span> {{$ctrl.scrollAdapter.topVisible.weekId}}
-
-        <!-- Для теста вызова API -->
-        <md-button  ng-init="request = { startDate: '2016-10-01', endDate: '2016-12-15'}"
-                    ng-click="$ctrl.getCalendarItem(request)">API: getCalendarItem()</md-button>
 
     </div>
     <!--    toolbar: end  -->
