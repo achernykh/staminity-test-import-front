@@ -92,7 +92,7 @@
 
 // Уменьшенная версия .md-title для вложенных элементов экрана
 .md-title {
-  	.small {
+  	&.small {
 		font-size: 16px;
 		line-height: 20px;
   	}

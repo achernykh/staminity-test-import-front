@@ -5,16 +5,25 @@
          ng-class="{selected: $ctrl.selected}"
          ng-click="$ctrl.show($env)">
         <div layout="row" layout-align="space-between center">
-            <div flex="30" class="md-caption tight-07">{{::$ctrl.data.statusPercent}}{{!!$ctrl.data.statusPercent ? '%'
+            <div flex="25" class="md-caption tight-07">{{::$ctrl.data.statusPercent}}{{!!$ctrl.data.statusPercent ? '%'
                 : ''}}</div>
 
             <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
                 <md-icon md-svg-src="assets/icon/{{::$ctrl.item.activityHeader.activityType.code}}.svg"
+                         style="margin-left: 4px"
                          class="s24 light-active"></md-icon>
+                <md-icon ng-if="$ctrl.structured"
+                         md-svg-src="assets/icon/{{::$ctrl.intensityMeasure}}.svg"
+                         style="margin-left: 2px; margin-right: 2px"
+                         class="s18 light-active"></md-icon>
+                <div ng-if="$ctrl.structured"
+                     style="margin-right: 8px; margin-left: -3px; margin-bottom: -14px; font-size: 12px;">
+                    {{::$ctrl.intensityFtpMax}}
+                </div>
             </div>
 
-            <div flex="30">
-                <md-menu>
+            <div flex="25">
+                <md-menu style="margin-right: -12px">
                     <md-button class="md-icon-button" aria-label="More Event"
                                style="margin-right: 0px"
                                ng-click="$mdOpenMenu($event)">
@@ -69,7 +78,7 @@
              flex layout="row"
              class="md-caption">
             <div flex="none">
-                <md-icon md-svg-src="assets/icon/timer.svg"
+                <md-icon md-svg-src="assets/icon/watch.svg"
                          class="s18 dark-active"
                          style="margin-right: 8px"></md-icon>
             </div>
@@ -97,6 +106,7 @@
                         <div ng-repeat="item in interval.subItem"
                              ng-if="item.show || $ctrl.collapse"
                              flex layout="row"
+                             class="segment-list"
                              ng-class="{'newlinesvg': interval.keyInterval}">
                             <div flex="none" style="height: 15px; margin-right: 4px">
                                 <img src="{{::$ctrl.getBullet($first, $middle, $last)}}"
@@ -114,6 +124,7 @@
                      flex layout="row">
                     <div flex="none" style="width: 20px"></div>
                     <div flex layout="row"
+                         class="segment-list"
                          ng-class="{'newlinesvg': interval.keyInterval}">
                         <div flex="none" style="height: 15px; margin-right: 4px">
                             <img src="assets/icon/bullet.svg"

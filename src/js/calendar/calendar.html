@@ -11,14 +11,14 @@
                     <!--    toolbar: start  -->
                     <div hide-xs hide-sm layout="row" layout-align="start center" flex="none" class="app-toolbar">
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                                   ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.id - 1)">
+                                   ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.sid - 1)">
                             <md-icon md-svg-src="/assets/icon/navigate_before.svg" class="s18" aria-label="Back"></md-icon>
                         </md-button>
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                                   ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.id + 1)">
+                                   ng-click="$ctrl.gotoAnchor($ctrl.scrollAdapter.topVisible.sid + 1)">
                             <md-icon md-svg-src="/assets/icon/navigate_next.svg" class="s18" aria-label="Back"></md-icon>
                         </md-button>
-                        <div class="md-body-2">{{$ctrl.scrollAdapter.topVisible.toolbarDate}}</div>
+                        <div class="md-title">{{$ctrl.scrollAdapter.topVisible.toolbarDate}}</div>
 
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-init="today = 0"
@@ -65,7 +65,7 @@
                                      adapter="$ctrl.scrollAdapter"
                                      buffer-size="5"
                                      start-index="0"
-                                     padding="0.5"
+                                     padding="1.0"
                                      class="week">
                                     <calendar-day flex="100" flex-gt-md="12" flex-sm="14"
                                                   layout="row" layout-gt-sm="column"

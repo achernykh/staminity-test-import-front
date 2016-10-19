@@ -79,7 +79,7 @@ class ScrollCalendar {
  *
  */
 class CalendarCtrl {
-    constructor($log, $q, $timeout, $anchorScroll, $location, $rootScope, Auth, AppMessage, Calendar) {
+    constructor($log, $q, $timeout, $anchorScroll, $location, $rootScope, Auth, AppMessage, Calendar, ActionMessage) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -89,8 +89,10 @@ class CalendarCtrl {
         this._$rootScope = $rootScope;
         this._Auth = Auth;
         this._AppMessage = AppMessage;
+	    this._ActionMessage = ActionMessage;
         this._Calendar = Calendar;
 
+	    this.buffer = [];
         this.view.compact = false;
 
         var self = this;
@@ -238,6 +240,32 @@ class CalendarCtrl {
      *
      *----------------------------------------------------------------------------------------------------------------*/
 
+	onNextWeek(){
+	    "use strict";
+
+    }
+	onPrevWeek(){
+		"use strict";
+
+	}
+	onScrollDate(){
+		"use strict";
+
+	}
+	gotoAnchor(index){
+		this._$log.info(`scrollto index= ${index}`);
+		let newHash = 'week' + index;
+		if (this._$location.hash() !== newHash) {
+			// set the $location.hash to `newHash` and
+			// $anchorScroll will automatically scroll to it
+			this._$location.hash('week' + index);
+
+		} else {
+			// call $anchorScroll() explicitly,
+			// since $location.hash hasn't changed
+			this._$anchorScroll();
+		}
+	}
 
     /**-----------------------------------------------------------------------------------------------------------------
      *
@@ -255,6 +283,14 @@ class CalendarCtrl {
      *
      *----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 *
+	 * @param item - обьект формата calendarItem
+	 */
+	onCopyItem(item) {
+	    "use strict";
+	    this.buffer.push(item);
+    }
 
     /**
      *
@@ -579,6 +615,7 @@ class CalendarCtrl {
                 // TODO добавить api
                 // TODO добавить toast
                 console.log('Calendar: onDeleteCalendarItem', success);
+	            this._ActionMessage.simple('Запись удалена');
                 //resolve(success);
             }, (error) => {
                 //reject(error);

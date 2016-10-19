@@ -54,6 +54,12 @@ class CalendarActivityCtrl {
                     this.prepareSegmentChart(interval, segmetDuration);
                     segmetDuration = interval.calcMeasures.movingDurationLength;
                 }
+	            if (interval.type == 'pW') {
+		            // TODO Добавить функцию вычисления номера зоны по значению показателя
+		            this.intensityMeasure = interval.intensityMeasure;
+		            this.intensityFtpMax = (interval.intensityFtpMax/10).toFixed(0);
+	            }
+
             }
             /**
              * Вывод segmentList ограничен
@@ -144,8 +150,9 @@ class CalendarActivityCtrl {
 
                 }
                 if (interval.type == 'pW') {
-	                //complete = true;
-                    //this.statusPercent = interval.calcMeasures.completePercent.value;
+	                // TODO Добавить функцию вычисления номера зоны по значению показателя
+	                this.intensityMeasure = interval.intensityMeasure;
+	                this.intensityFtpMax = (interval.intensityFtpMax/10).toFixed(0);
                 }
             }
             if (!complete) {

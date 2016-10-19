@@ -10,12 +10,12 @@
 
 .bg-circle {
   &-18{
-    width: 18px;
+    min-width: 18px;
     height: 18px;
     @include border-radius(9px);
   }
   &-32{
-    width: 32px;
+    min-width: 32px;
     height: 32px;
     @include border-radius(16px);
   }
@@ -178,6 +178,25 @@ calendar {
   -margin-bottom: -1px;
 }
 
+.segment-list {
+  outline: 0;
+}
+
+.segment-list.ng-enter, .segment-list.ng-leave {
+  transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.segment-list.ng-enter,
+.segment-list.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.segment-list.ng-leave,
+.segment-list.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+
 calendar-measurement, calendar-activity, calendar-event, calendar-competition {
   	position: relative;
   	min-height: 50px;
@@ -209,8 +228,6 @@ calendar-activity {
 
   @extend .bg-grey-400;
   @extend .md-whiteframe-1dp;
-
-
 
   .activity-header {
     @include border-radius-custom(3px, 3px, 0px, 0px);
