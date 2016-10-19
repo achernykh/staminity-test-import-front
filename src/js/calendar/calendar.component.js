@@ -19,129 +19,12 @@ class CalendarCtrl {
 	    this._ActionMessage = ActionMessage;
         this._Calendar = Calendar;
 
-	    this.buffer = [];
-        this.view.compact = false;
-
+	    this.buffer = []; //для операций copy/paste
+        this.view.compact = false; //компактный/полный режим отображения calendarItems
         var self = this;
         this.scrollAdapter = {};
 
-        this.grid = new CalendarScroll(this._$timeout, this, this.scrollAdapter);
-
-
-
-        this.grid2 = {
-            cache: {
-                initialize: function () {
-                    this.isEnabled = true;
-                    this.weeks = {};
-                    this.getPure = self.grid.get;
-                    return self.grid.get = this.getCached;
-                },
-                getCached: (index, count, successCallback) => {
-                    var self;
-                    self = this.grid.cache;
-                    if (self.isEnabled) {
-                        if (self.getWeeks(index, count, successCallback)) {
-                            return;
-                        }
-                        return self.getPure(index, count, function (result) {
-                            self.saveWeeks(index, count, result);
-                            return successCallback(result);
-                        });
-                    }
-                    return self.getPure(index, count, successCallback);
-                },
-                toggle: function () {
-                    this.isEnabled = !this.isEnabled;
-                    return this.weeks = {};
-                },
-
-                saveWeeks: function (index, count, resultWeeks) {
-                    var i, item, j, len, results;
-                    results = [];
-                    for (i = j = 0, len = resultWeeks.length; j < len; i = ++j) {
-                        item = resultWeeks[i];
-                        if (!this.weeks.hasOwnProperty(index + i)) {
-                            results.push(this.weeks[index + i] = item);
-                        } else {
-                            results.push(void 0);
-                        }
-                    }
-                    return results;
-                },
-
-                getWeeks: function (index, count, successCallback) {
-                    var i, isCached, j, ref, ref1, result;
-                    result = [];
-                    isCached = true;
-                    for (i = j = ref = index, ref1 = index + count - 1; j <= ref1; i = j += 1) {
-                        if (!this.weeks.hasOwnProperty(i)) {
-                            isCached = false;
-                            return;
-                        }
-                        result.push(this.weeks[i]);
-                    }
-                    successCallback(result);
-                    return true;
-                }
-            },
-            get: (index, count, success) => {
-                /**
-                 * Формируем календарную сетку. Без тайм-аута библиотека не работает
-                 */
-                console.log('CalendarCtrl: get ', index, count, moment().format('mm:ss'));
-                this._$timeout(() => {
-                    //this.scrollAdapter.disabled = true;
-                    let result = [];
-                    let init, start, end;
-                    for (let i = index; i <= index + count - 1; i++) {
-                        /**
-                         * Начальная позиция календарной сетки - это первый день текущей недели. Первый день недели
-                         * определяется настройками пользователя, это может быть Понедельник, Воскрсенье...
-                         * Текущая неделя с точки зрения бесконечного скролла соответствует index=0,
-                         * последующие недели - index++, предидущие недели index--
-                         * @type {number|Moment|*}
-                         */
-                            // TODO добавить получение настроек пользователя (вынести из данной функции в конструктор или инициализацию)
-                        init = moment().startOf('week');
-                        start = moment(init).add(i, 'w');
-                        end = moment(init).add(i + 1, 'w');
-                        let item = {
-                            // scroll index (sid) для навигации по календарной сетке
-                            sid: i,
-                            // номер изменений недели, используем для отслеживания и пересчета итогов недели
-                            changes: 0,
-                            // для отображения даты в туллбаре по свойству topVisible
-                            toolbarDate: moment(init).add(i, 'w').format('YYYY MMMM'),
-                            selected: false,
-                            // массив дней для недели
-                            subItem: this.getScrollSubItems(start, end)
-                        };
-                        result.push(item);
-                    }
-                    /**
-                     * Заправшиваем данные на сервере (calendarItem). Функция getCalendarItem ...
-                     * Начальная дата = первый день недели от текщуей недели (index)
-                     * Дата окончания = последний день недели, которая больше текущей недели (index) на count
-                     */
-                    start = moment().startOf('week').add(index, 'w').format('YYYY-MM-DD');
-                    end = moment(start).add(count, 'w').add(-1, 'd').format('YYYY-MM-DD');
-
-                    console.log('CalendarCtrl: api request ', index, count, moment().format('mm:ss'));
-                    this.getCalendarItem({startDate: start, endDate: end}).then(
-                        () => {
-                            "use strict";
-                            console.log('CalendarCtrl: html update success', index, count, moment().format('mm:ss'));
-                        }, () => {
-                        }
-                    );
-
-                    success(result);
-
-                }, 1);
-
-            }
-        };
+        this.grid = new CalendarScroll(this._$timeout, this); //подключаем скролл
         /**
          * Слушаем события, которые могут обновить данные Календаря:
          * 1) newActivity - добавлена новая запись
@@ -189,25 +72,20 @@ class CalendarCtrl {
      *
      * TOOLBAR ACTIONS
      *
-     * 1) onNextWeek()
-     * 2) onPrevWeek()
-     * 3) onScrollDate()
+     * 1) onScrollDate()
+     * 2) gotoAnchor() - переход по неделям, без обновления
      *
      *----------------------------------------------------------------------------------------------------------------*/
 
-	onNextWeek(){
-	    "use strict";
-
-    }
-	onPrevWeek(){
-		"use strict";
-
-	}
 	onScrollDate(){
 		"use strict";
-
 	}
 
+    /**
+     * Переход на неделю по ее индексу
+     * Используется для кнопок: "вперед", "назад"
+     * @param index
+     */
 	gotoAnchor(index){
 		this._$log.info(`scrollto index= ${index}`);
 		let newHash = 'week' + index;
@@ -245,8 +123,13 @@ class CalendarCtrl {
 	 */
 	onCopyItem(item) {
 	    "use strict";
-	    this.buffer.push(item);
+        if (!angular.isArray(item))
+            item = [item];
+
+        this.buffer = item;
+        this._ActionMessage.simple(`Записи скопированы (${this.buffer.length})`);
     }
+
     /**
      * Удаление записи календаря
      * @param calendarItem
@@ -261,7 +144,7 @@ class CalendarCtrl {
                 this._ActionMessage.simple('Запись удалена');
                 //resolve(success);
             }, (error) => {
-                //reject(error);
+                // TODO добавить toast с ошибкой
             });
     }
     /**
@@ -273,27 +156,60 @@ class CalendarCtrl {
      */
     onDropItem(targetDate, index, calendarItem) {
         "use strict";
-        let init = moment();
-        let date = moment(targetDate, 'YYYY-MM-DD');
-        let dayPos = date.weekday();
-        let weekPos = date.format('WW') - init.format('WW');
+        this.grid.update('dropCalendarItem',calendarItem, {date: targetDate, index: index}).then(
+            (success) => {
+                // TODO добавить api
+                console.log('Calendar: onDeleteCalendarItem', success);
+                this._ActionMessage.simple('Запись перемещена');
+                return calendarItem;
+                //resolve(success);
+            }, (error) => {
+                //reject(error);
+                // TODO добавить toast с ошибкой
+            });
+    }
+    onCopyDay() {
+        "use strict";
 
-        this.scrollAdapter.applyUpdates((item, scope) => {
+    }
+    /**
+     * Вставка буфера скопированных записей
+     * @param date
+     */
+    onPasteDay(date){
+        "use strict";
+        /**
+         * Так как скопировать можно диапазон дней-недель, то целевые дни-недели могут иметь разные даты. Поэтому
+         * необходимо отдавать по одному элементу на вставку, так как функция grid.update универсальна и работает в
+         * рамках одного дня/недели
+         */
+        // Для массового копирования/вставки необходимо отсортировать буфер по дате от самой ранней к последней.
+        // Разница дат между записями в буфере должна остаться и в целевом дипазоне вставки, для этого отслеживается
+        // дата предидущего элемента, на эту разнцу сдвигается дата вставки
 
-            try {
-                if (item.sid == weekPos) {
-                    calendarItem.date = targetDate;
-                    this._$log.info('Calendar: drop activity info', item, targetDate, index);
-                    item.subItem[dayPos].data.calendarItems.splice(index, 0, calendarItem);
-                }
-            } catch (error) {
-                this._$log.error('Calendar: drop activity error ', error);
+        let task = [];
+        let previewItem, targetDay = date, shift;
+
+        for (let calendarItem of this.buffer) {
+            // Для второй и последующих записей буфера вычисляем смещение в днях для вставки
+            if (!!previewItem) {
+                shift = moment(calendarItem.date, 'YYYY-MM-DD').diff(moment(previewItem.date,'YYYY-MM-DD'), 'days');
+                targetDay = moment(date, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
             }
-            return item;
-        });
-
-        return calendarItem;
-
+            // Сразу не выполняем, сохраняем задание для общего запуска и отслеживания статуса
+            task.push(this.grid.update('pasteCalendarItem', calendarItem, {date: targetDay}));
+            previewItem = calendarItem;
+        }
+        // Запускаем выполнение
+        Promise.all(task).then(
+            () => {
+                this._ActionMessage.simple(`Записи вставлены (${this.buffer.length})`);
+                this.buffer = [];
+            },
+            (error) => {
+                console.log('CalendarCtrl: onPasteDay => error=', error);
+            }
+        );
     }
 
     /**

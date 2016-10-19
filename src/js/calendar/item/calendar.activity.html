@@ -32,8 +32,7 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item><md-button>Открыть</md-button></md-menu-item>
-                        <md-menu-item><md-button disabled="disabled">Выделить</md-button></md-menu-item>
-                        <md-menu-item><md-button>Скопировать</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
                         <md-menu-item><md-button ng-click="$ctrl.onDelete()">Удалить</md-button></md-menu-item>
                     </md-menu-content>
                 </md-menu>
@@ -95,18 +94,19 @@
              flex layout="column"
              class="md-caption">
             <div ng-repeat="interval in $ctrl.segmentList"
+                 class="animate-repeat"
                  ng-switch on="::interval.group"
                  flex layout="row">
                 <!-- группа интервалов -->
                 <div ng-switch-when="true"
                      ng-if="interval.show || $ctrl.collapse"
+                     class="segment-list"
                      flex layout="row" layout-align="start center">
                     <div flex="none" style="width: 20px" class="md-body-2">{{::interval.repeatCount}}x</div>
                     <div flex="auto" layout="column">
                         <div ng-repeat="item in interval.subItem"
                              ng-if="item.show || $ctrl.collapse"
                              flex layout="row"
-                             class="segment-list"
                              ng-class="{'newlinesvg': interval.keyInterval}">
                             <div flex="none" style="height: 15px; margin-right: 4px">
                                 <img src="{{::$ctrl.getBullet($first, $middle, $last)}}"
@@ -121,10 +121,10 @@
                 <!-- отдельный сегмент -->
                 <div ng-switch-when="false"
                      ng-if="interval.show || $ctrl.collapse"
+                     class="segment-list"
                      flex layout="row">
                     <div flex="none" style="width: 20px"></div>
                     <div flex layout="row"
-                         class="segment-list"
                          ng-class="{'newlinesvg': interval.keyInterval}">
                         <div flex="none" style="height: 15px; margin-right: 4px">
                             <img src="assets/icon/bullet.svg"

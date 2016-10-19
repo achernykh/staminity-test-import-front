@@ -178,7 +178,7 @@ calendar {
   -margin-bottom: -1px;
 }
 
-.segment-list {
+/*.segment-list {
   outline: 0;
 }
 
@@ -189,13 +189,14 @@ calendar {
 .segment-list.ng-enter,
 .segment-list.ng-leave.ng-leave-active {
   opacity:0;
+  height:0;
 }
 
 .segment-list.ng-leave,
 .segment-list.ng-enter.ng-enter-active {
-  opacity:1;
-}
-
+  opacity: 1;
+  height: auto;
+}*/
 
 calendar-measurement, calendar-activity, calendar-event, calendar-competition {
   	position: relative;

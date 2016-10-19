@@ -6,7 +6,6 @@ class CalendarDayCtrl {
     }
     $onInit(){
         "use strict";
-        this._$log.debug('CalendarDay: onInit week=', this.data);
 	    let diff = moment().diff(moment(this.data.date),'days',true);
         this.today = diff >= 0 && diff < 1;
     }
@@ -16,9 +15,17 @@ class CalendarDayCtrl {
         console.log('CalendarDay: onDelete items=', items, this.data);
         //for (let item of items) {
             //this._$log.debug('CalendarDay: onDelete item=', item);
-            this.calendar.onDeleteCalendarItem(this.data.calendarItems);
+            this.calendar.onDeleteItem(this.data.calendarItems);
         //}
 
+    }
+    onPaste(){
+        "use strict";
+        this.calendar.onPasteDay(this.data.date)
+    }
+    onCopy(){
+        "use strict";
+        this.calendar.onCopyItem(this.data.calendarItems)
     }
 }
 

@@ -37,8 +37,8 @@
                         </md-button>
                     </md-menu-item>
                     <md-menu-item><md-button ng-click="$ctrl.onDelete()">Удалить</md-button></md-menu-item>
-                    <md-menu-item><md-button>Скопировать</md-button></md-menu-item>
-                    <md-menu-item><md-button disabled="disabled">Вставить</md-button></md-menu-item>
+                    <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
+                    <md-menu-item><md-button ng-click="$ctrl.onPaste()">Вставить</md-button></md-menu-item>
                 </md-menu-content>
             </md-menu>
         </div>

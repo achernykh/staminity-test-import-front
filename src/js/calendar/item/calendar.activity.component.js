@@ -273,6 +273,10 @@ class CalendarActivityCtrl {
         return icon;
     }
 
+    /**
+     *
+     * @param $event
+     */
 	show($event){
 
 		this._$dialog.show(
@@ -286,11 +290,28 @@ class CalendarActivityCtrl {
 				.targetEvent($event)
 		);
 	}
+
+    /**
+     * Копировать запись календаря
+     */
+    onCopy(){
+        "use strict";
+        this.calendar.onCopyItem([this.item]);
+    }
+
+    /**
+     * Удалить запись
+     */
     onDelete(){
         "use strict";
         console.log('CalendarActivity: onDelete ', this.item);
         this.calendar.onDeleteItem(this.item);
     }
+
+    /**
+     *
+     * @param value
+     */
     onToggleCollapse(value) {
         "use strict";
         !!value ? this.collapse = '' : this.collapse = false;
