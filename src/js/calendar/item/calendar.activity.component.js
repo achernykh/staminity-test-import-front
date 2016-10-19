@@ -289,7 +289,7 @@ class CalendarActivityCtrl {
     onDelete(){
         "use strict";
         console.log('CalendarActivity: onDelete ', this.item);
-        this.calendar.onDeleteCalendarItem(this.item);
+        this.calendar.onDeleteItem(this.item);
     }
     onToggleCollapse(value) {
         "use strict";
