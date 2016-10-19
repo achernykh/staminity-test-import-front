@@ -14,10 +14,10 @@ import './config/app.templates';
 import './services';
 
 const requires = [
-    'ngComponentRouter',
     'ngMaterial',
     'pascalprecht.translate',
     'ngWebSocket',
+    'ui.router',
     'ui.scroll',
     'ui.scroll.jqlite',
     'dndLists',
@@ -27,6 +27,7 @@ const requires = [
     'staminity.templates',
     'staminity.landing',
     'staminity.auth',
+    //calendar,
     'staminity.calendar',
     'staminity.services'
 ];

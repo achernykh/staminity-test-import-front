@@ -3,10 +3,11 @@
 @import './animation';
 @import './font';
 @import './icon';
+@import "./layout";
 
 @import './base';
 
-@import '../js/layout/application/background';
+@import '../js/layout/application/background/background';
 @import '../js/layout/application/header/header';
 @import '../js/layout/application/frame';
 @import '../js/layout/appmenu/appmenu';

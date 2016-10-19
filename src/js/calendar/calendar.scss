@@ -22,22 +22,6 @@
 
 }
 
-#calendar {
-  background-color: $grey-300;
-  border-radius: 3px;
-  padding-bottom: 4px;
-  margin: 0px;
-  -padding: 16px;
-
-  width: 100%;
-  max-width: 1400px;
-
-  @media (max-width: 1280px){
-    width: 100vw!important;
-    max-width: none;
-  }
-}
-
 .app-toolbar{
 
   color: rgba(white,0.54);
@@ -61,6 +45,9 @@
     padding: 0;
     border-bottom: none;
   }
+
+  transition: all 1s ease-in-out 0s;
+
 }
 
 .day-toolbar {
@@ -79,21 +66,44 @@
   }
 }
 
-.day {
-  -background: white;
+.calendar-grid {
+  @extend .bg-grey-200;
+  padding: 12px;
+
+  // xs size
+  @media (max-width: 599px) {
+    padding: 0px;
+  }
+
+}
+
+calendar-day {
+
   min-height: 100px;
-  -min-width: 12%;
-  padding: 0px 4px 8px;
+
+  padding: 0px 6px 8px 6px;
   height: 100%;
 
 
+  //xs	'(max-width: 599px)'
+  //gt-xs	'(min-width: 600px)'
+  //sm	'(min-width: 600px) and (max-width: 959px)'
+  //gt-sm	'(min-width: 960px)'
+  //md	'(min-width: 960px) and (max-width: 1279px)'
+  //gt-md	'(min-width: 1280px)'
+  //lg	'(min-width: 1280px) and (max-width: 1919px)'
+  //gt-lg	'(min-width: 1920px)'
+  //xl	'(min-width: 1920px)'
+
+
   @media (min-width: 1279px){
-    width: 12%;
-    max-width: 250px;
+    -width: 12%;
+    -max-width: 250px;
   }
 
-  @media (min-width: 959px) and (max-width: 1280px){
-    width: 14%;
+  // md size
+  @media (min-width: 960px) and (max-width: 1279px){
+    padding: 0px 2px 8px 2px;
   }
 
   @media(max-width: 959px){
@@ -132,6 +142,10 @@ calendar {
 }
 
 .summary {
+  &:hover {
+    @extend .bg-blue-grey-100;
+  }
+
   -min-height: 100px;
   border-left: 1px solid $grey-400;
 }
@@ -167,20 +181,23 @@ calendar {
 calendar-measurement, calendar-activity, calendar-event, calendar-competition {
   	position: relative;
   	min-height: 50px;
-  	margin: 6px 6px 0px 6px;
+  	margin: 6px 0px 0px 0px;
   	cursor: pointer;
 	@include border-radius(3px);
 
-	&:focus {
-		outline:0;
-	}
+
+    // md size
+    @media (min-width: 960px) and (max-width: 1279px){
+      @include border-radius(0px);
+      box-shadow: none;
+    }
 
   	@media (max-width: 1919px) and (min-width: 1280px){
     	-min-width: 10%;
     	-max-width: 175px;
   	}
 
-  	@media (max-width: 960px){
+  	@media (max-width: 959px){
     	border-radius: 0px;
     	margin: 0px 4px;
     	min-width: 200px;
@@ -193,16 +210,20 @@ calendar-activity {
   @extend .bg-grey-400;
   @extend .md-whiteframe-1dp;
 
-	.activity-footer {
-		@include border-radius-custom(0px, 0px, 3px, 3px);
-		padding: 10px 12px 12px 12px;
-		border-top: solid 1px rgba($grey-500, 0.5);
-		@extend .bg-grey-300;
-	}
+
 
   .activity-header {
     @include border-radius-custom(3px, 3px, 0px, 0px);
     padding: 10px 12px 12px 12px;
+
+    &:focus {
+      outline:0;
+    }
+
+    // md size
+    @media (min-width: 960px) and (max-width: 1279px){
+      @include border-radius(0px);
+    }
 
     &.complete {
 		// Задание выполнено без отклонений
@@ -280,6 +301,21 @@ calendar-activity {
 
   }
 
+  .activity-footer {
+    @include border-radius-custom(0px, 0px, 3px, 3px);
+    padding: 10px 12px 12px 12px;
+    border-top: solid 1px rgba($grey-500, 0.5);
+    @extend .bg-grey-300;
+
+    .bt-more {
+      color: grey;
+      margin-top: 8px;
+      &:focus {
+        outline:0;
+      }
+    }
+
+  }
 
 }
 

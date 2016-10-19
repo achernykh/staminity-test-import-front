@@ -75,6 +75,31 @@ const ViewConstants = {
     }
   },
   calendar: {
+    background: {
+      style: 'application-light',
+      toolbar: true,
+      size: '160'
+    },
+    header: {
+      enabled: true,
+      title: true,
+      athletes: true,
+      leftPanel: {
+        url: 'layout/application/header/appmenutoolbar.html',
+        size: 20
+      },
+      rightPanel: {
+        url: 'layout/application/header/usertoolbar.html',
+        size: 20
+      }
+    },
+    application: {
+      style: 'app-page',
+      margin: 2,
+      size: 'grow'
+    }
+  }
+  /*calendar: {
     style: 'app-page',
     background: 'application-light',
     header: {
@@ -98,6 +123,6 @@ const ViewConstants = {
     athletes: {
       show: true
     }
-  }
+  }*/
 };
 export default ViewConstants

@@ -1,15 +1,17 @@
 import {_UserRoles} from '../../config/app.constants.js';
 
 export default class AuthService {
-    constructor($q, $log, $rootScope, API, Storage, User){
+    constructor($q, $log, $rootScope, $timeout, API, Storage, User){
         'ngInject';
         this.session = null;
         this._$q = $q;
         this._$log = $log;
         this._$rootScope = $rootScope;
+        this._$timeout = $timeout;
         this._Storage = Storage;
         this._User = User;
         this._api = API;
+        //this.firstAuthRequest = true;
     }
     /**
      *
@@ -43,6 +45,17 @@ export default class AuthService {
      * @returns {boolean} - true - авторизован, false - не авторизован
      */
     isAuthenticated(){
+        /*if (this.firstAuthRequest) {
+            this._$timeout(()=> angular.noop(),5000).then(()=> {
+                this._$log.info('AuthService: isAuthenticated', !!this.session, this.firstAuthRequest);
+                this.firstAuthRequest = false;
+                return !!this.session;
+            });
+        } else {
+            this._$log.info('AuthService: isAuthenticated', !!this.session, this.firstAuthRequest);
+            return !!this.session;
+        }*/
+        this._$log.debug(`AuthService: isAuthenticated() check`);
         return !!this.session;
     }
 

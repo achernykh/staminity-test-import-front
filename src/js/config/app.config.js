@@ -4,18 +4,64 @@
 
 import translateApp from './translate/appbox.translate';
 
-function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $httpProvider){
+function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
+                   $urlRouterProvider){
     'ngInject';
-    $locationProvider.html5Mode(true);
-    //$httpProvider.defaults.useXDomain = true;
-    //delete $httpProvider.defaults.headers.common["X-Requested-With"];
-    //$httpProvider.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-    //$httpProvider.defaults.headers.common["Accept"] = "application/json";
-    //$httpProvider.defaults.headers.common["Content-Type"] = "application/json";
 
-    //$httpProvider.defaults.headers.common = {};
-    //$httpProvider.defaults.headers.post = {};
+	//TODO добавить коммент
+	$locationProvider.html5Mode({
+		enabled: true,
+		requireBase: false
+	});
 
+	$urlRouterProvider.otherwise('/welcome');
+
+	// Настройка state (Представлений)
+	// TODO переписать на какой-нибуь структурированный массив в Settings
+	$stateProvider
+		.state('welcome', {
+			url: "/welcome",
+			views: {
+				"background": {
+					template: "welcome background"
+				},
+				"header": {
+					template: "welcome header"
+				},
+				"application": {
+					template: "welcome body"
+				}
+			}
+		})
+		.state('calendar', {
+			url: "/calendar",
+			access: [],
+			resolve: {
+				view: function(ViewService) {
+					return ViewService.getParams('calendar')
+				}
+			},
+			views: {
+				"background": {
+					component: "background",
+					bindings: {
+						view: 'view.background'
+					}
+				},
+				"header": {
+					component: 'header',
+					bindings: {
+						view: 'view.header'
+					}
+				},
+				"application": {
+					component: "calendar",
+					bindings: {
+						view: 'view.application'
+					}
+				}
+			}
+		});
 
     // Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
   	$mdThemingProvider.theme('default')

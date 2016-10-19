@@ -102,20 +102,21 @@ export default class StorageService {
             }
             else {
                 // Если формат single (хранение в формате ключ=type#id...
-                if(this.settings[type].format === 'single' && this.settings[type].key != null){
+                if(this.settings[type].format === 'single' && !!this.settings[type].key){
                     if(!angular.isArray(dataKey))
                         dataKey = [dataKey];
-                    if (this.settings[objKey].key)
-                        this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
+                    this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
                 }
                 this.storage.getItem(objKey).then((data) => {
-                    this._$log.debug('StorageService: get result', type, data);
+                    this._$log.debug('StorageService: get, data=', type, data);
                     if (this.settings[type].format == 'multi' && !!data && !!dataKey)
                         resolve(data[dataKey]);
                     else
                         resolve(data);
-                }).catch((error) =>
-                    reject(error));
+                }).catch((error) => {
+                    this._$log.error('StorageService: get, error=', error);
+                    reject(error);
+                });
             }
 
         });

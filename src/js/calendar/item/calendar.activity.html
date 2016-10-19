@@ -32,11 +32,13 @@
         </div>
         <div flex layout="row" layout-align="center center"
              class="md-caption secondary center"
+             ng-class="{'dark' : ($ctrl.status == 'planned')}"
              style="margin-top: 8px;">
             <div flex="none" class="line-14">{{::$ctrl.item.activityHeader.activityCategory.code}}</div>
         </div>
         <div flex layout="row" layout-align="center center"
              class="md-title small secondary center tight-10"
+             ng-class="{'dark' : ($ctrl.status == 'planned')}"
              style=""
              ng-if="!!$ctrl.data.duration || $ctrl.data.distance">
             <div flex="none">{{::$ctrl.data.duration}}</div>
@@ -45,11 +47,14 @@
         </div>
     </div>
     <!-- Заголовок тренировки (верхняя часть): начало -->
-    <div flex layout="column" class="activity-footer line-12"
+    <div flex layout="column"
+         hide show-gt-md
+         class="activity-footer line-12"
          ng-switch on="::$ctrl.bottomPanel"
          ng-if="!$ctrl.calendar.view.compact && !!$ctrl.bottomPanel">
-        <div flex class="md-caption"
-             ng-switch-when="prescription"
+        <!-- Панель: Установка тренера -->
+        <div ng-switch-when="prescription"
+             flex class="md-caption"
              ng-if="!!$ctrl.trainersPrescription"
              hm-read-more
              hm-text="{{::$ctrl.trainersPrescription}}"
@@ -59,9 +64,10 @@
              hm-dots-class="read-more-dots"
              hm-link-class="read-more-links">
         </div>
-        <div flex layout="row"
-             class="md-caption"
-             ng-switch-when="data">
+        <!-- Панель: Фактические данные по неструктурированной тренировке -->
+        <div ng-switch-when="data"
+             flex layout="row"
+             class="md-caption">
             <div flex="none">
                 <md-icon md-svg-src="assets/icon/timer.svg"
                          class="s18 dark-active"
@@ -74,7 +80,57 @@
                 <div flex>{{::$ctrl.data.heartRateAvg}}<span class="disable dark"> чсс</span></div>
                 <div flex>{{::$ctrl.data.powerAvg}}<span class="disable dark"> ватт</span></div>
             </div>
+        </div>
+        <!-- Панель: Перечень сегментов структурированной тренировки -->
+        <div ng-switch-when="segmentList"
+             flex layout="column"
+             class="md-caption">
+            <div ng-repeat="interval in $ctrl.segmentList"
+                 ng-switch on="::interval.group"
+                 flex layout="row">
+                <!-- группа интервалов -->
+                <div ng-switch-when="true"
+                     ng-if="interval.show || $ctrl.collapse"
+                     flex layout="row" layout-align="start center">
+                    <div flex="none" style="width: 20px" class="md-body-2">{{::interval.repeatCount}}x</div>
+                    <div flex="auto" layout="column">
+                        <div ng-repeat="item in interval.subItem"
+                             ng-if="item.show || $ctrl.collapse"
+                             flex layout="row"
+                             ng-class="{'newlinesvg': interval.keyInterval}">
+                            <div flex="none" style="height: 15px; margin-right: 4px">
+                                <img src="{{::$ctrl.getBullet($first, $middle, $last)}}"
+                                         style="width: 15px; height: 15px; min-width: 15px; min-height: 15px"
+                                         class="dark-active"/>
+                            </div>
+                            <div flex="none" style="width: 40px">{{::item.calcMeasures.distance.value}} км</div>
+                            <div flex="auto">{{::item.calcMeasures.heartRate.value}}чсс</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- отдельный сегмент -->
+                <div ng-switch-when="false"
+                     ng-if="interval.show || $ctrl.collapse"
+                     flex layout="row">
+                    <div flex="none" style="width: 20px"></div>
+                    <div flex layout="row"
+                         ng-class="{'newlinesvg': interval.keyInterval}">
+                        <div flex="none" style="height: 15px; margin-right: 4px">
+                            <img src="assets/icon/bullet.svg"
+                                     style="width: 15px; height: 15px; min-width: 15px; min-height: 15px"
+                                     class="dark-active"/></div>
+                        <div flex="none" style="width: 40px">{{::interval.calcMeasures.distance.value}} км</div>
+                        <div flex="auto">{{::interval.calcMeasures.heartRate.value}}чсс</div>
+                    </div>
+                </div>
+            </div>
 
+        </div>
+        <div ng-if="$ctrl.segmentList.length > 4"
+             flex layout="row" layout-align="center start"
+             class="md-caption bt-more"
+             ng-click="$ctrl.collapse = !$ctrl.collapse">
+            <div>{{!$ctrl.collapse ? '...more' : '...less'}}</div>
         </div>
     </div>
 </div>

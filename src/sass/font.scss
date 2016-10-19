@@ -80,15 +80,22 @@
   line-height: 18px;
 }
 
+// Medium
+.font-medium {
+  font-weight: 500;
+}
+
 // Жирный шрифт
 .black {
 	font-weight: 900;
 }
 
 // Уменьшенная версия .md-title для вложенных элементов экрана
-.md-title.small {
-	font-size: 16px;
-	line-height: 20px;
+.md-title {
+  	.small {
+		font-size: 16px;
+		line-height: 20px;
+  	}
 }
 
 // Стили текста для скрытых больших текстов
