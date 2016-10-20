@@ -19,6 +19,7 @@ class CalendarCtrl {
 	    this._ActionMessage = ActionMessage;
         this._Calendar = Calendar;
 
+        this.weekdays = []; // название дней недели
 	    this.buffer = []; //для операций copy/paste
         this.view.compact = false; //компактный/полный режим отображения calendarItems
         var self = this;
@@ -51,7 +52,11 @@ class CalendarCtrl {
     $onInit() {
         // TODO убрать в ApplicationComponent или run()
         moment.locale('ru');
-        console.log(`CalendarCtrl: omIniti firstDayWeek = ${moment.localeData().firstDayOfWeek()}`);
+
+        for (let i=0; i<7; i++) {
+            this.weekdays.push(moment().startOf('week').add(i,'d').format('dddd'));
+        }
+        console.log('CalendarCtrl: omIniti => weedays',this.weekdays);
         // TODO добавить рассчет padding для скролла (зависит от размера экрана)
 
     }

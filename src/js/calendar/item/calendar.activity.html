@@ -4,25 +4,52 @@
          class="activity-header {{::$ctrl.status}}"
          ng-class="{selected: $ctrl.selected}"
          ng-click="$ctrl.show($env)">
-        <div layout="row" layout-align="space-between center">
-            <div flex="25" class="md-caption tight-07">{{::$ctrl.data.statusPercent}}{{!!$ctrl.data.statusPercent ? '%'
-                : ''}}</div>
+        <div layout="row" layout-align="space-between center" layout-align-xs="space-between start">
 
-            <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
-                <md-icon md-svg-src="assets/icon/{{::$ctrl.item.activityHeader.activityType.code}}.svg"
-                         style="margin-left: 4px"
-                         class="s24 light-active"></md-icon>
-                <md-icon ng-if="$ctrl.structured"
-                         md-svg-src="assets/icon/{{::$ctrl.intensityMeasure}}.svg"
-                         style="margin-left: 2px; margin-right: 2px"
-                         class="s18 light-active"></md-icon>
-                <div ng-if="$ctrl.structured"
-                     style="margin-right: 8px; margin-left: -3px; margin-bottom: -14px; font-size: 12px;">
-                    {{::$ctrl.intensityFtpMax}}
+            <div flex="25" hide show-gt-sm
+                 class="md-caption tight-07">
+                {{::$ctrl.data.statusPercent}}{{!!$ctrl.data.statusPercent ? '%' : ''}}</div>
+
+            <div flex="none" flex-xs="30" flex-sm="30"
+                 layout="row">
+                <div flex="none" layout="row" layout-align="center center"
+                     class="bg-circle-32 bg-blue-grey-A700">
+                    <md-icon md-svg-src="assets/icon/{{::$ctrl.item.activityHeader.activityType.code}}.svg"
+                             style="margin-left: 4px"
+                             class="s24 light-active"></md-icon>
+                    <md-icon ng-if="$ctrl.structured"
+                             md-svg-src="assets/icon/{{::$ctrl.intensityMeasure}}.svg"
+                             style="margin-left: 2px; margin-right: 2px"
+                             class="s18 light-active"></md-icon>
+                    <div ng-if="$ctrl.structured"
+                         style="margin-right: 8px; margin-left: -3px; margin-bottom: -14px; font-size: 12px;">
+                        {{::$ctrl.intensityFtpMax}}
+                    </div>
                 </div>
+
             </div>
 
-            <div flex="25">
+            <div flex="auto" layout="column" layout-align="center start" hide show-xs show-sm>
+
+                <div flex layout="row" layout-align="start start"
+                     class="md-caption secondary data-category"
+                     ng-class="{'dark' : ($ctrl.status == 'planned')}">
+                    <div flex="none" class="line-14">{{::$ctrl.item.activityHeader.activityCategory.code}}</div>
+                </div>
+
+                <div flex layout="row" layout-align="start start"
+                     class="md-title small secondary tight-10"
+                     ng-class="{'dark' : ($ctrl.status == 'planned')}"
+                     style=""
+                     ng-if="!!$ctrl.data.duration || $ctrl.data.distance">
+                    <div flex="none">{{::$ctrl.data.duration}}</div>
+                    <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
+                    <div flex="none">{{::$ctrl.data.distance}}</div>
+                </div>
+
+            </div>
+
+            <div flex="25" flex-xs="15" flex-sm="15">
                 <md-menu style="margin-right: -12px">
                     <md-button class="md-icon-button" aria-label="More Event"
                                style="margin-right: 0px"
@@ -38,13 +65,13 @@
                 </md-menu>
             </div>
         </div>
-        <div flex layout="row" layout-align="center center"
-             class="md-caption secondary center"
-             ng-class="{'dark' : ($ctrl.status == 'planned')}"
-             style="margin-top: 8px;">
+
+        <div flex layout="row" layout-align="center center" hide show-gt-sm
+             class="md-caption secondary center data-category"
+             ng-class="{'dark' : ($ctrl.status == 'planned')}">
             <div flex="none" class="line-14">{{::$ctrl.item.activityHeader.activityCategory.code}}</div>
         </div>
-        <div flex layout="row" layout-align="center center"
+        <div flex layout="row" layout-align="center center" hide show-gt-sm
              class="md-title small secondary center tight-10"
              ng-class="{'dark' : ($ctrl.status == 'planned')}"
              style=""
@@ -53,6 +80,7 @@
             <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
             <div flex="none">{{::$ctrl.data.distance}}</div>
         </div>
+
     </div>
     <!-- Заголовок тренировки (верхняя часть): начало -->
     <div flex layout="column"
