@@ -95,6 +95,11 @@ calendar-day {
   //gt-lg	'(min-width: 1920px)'
   //xl	'(min-width: 1920px)'
 
+  // xs & sm size
+  @media (min-width: 0px) and (max-width: 959px) {
+    padding: 12px 8px 12px 8px;
+    border-bottom: 1px solid $grey-400;
+  }
 
   @media (min-width: 1279px){
     -width: 12%;
@@ -104,11 +109,6 @@ calendar-day {
   // md size
   @media (min-width: 960px) and (max-width: 1279px){
     padding: 0px 2px 8px 2px;
-  }
-
-  @media(max-width: 959px){
-    padding: 1em;
-    border-bottom: 1px solid $grey-400;
   }
 
   &.select {
@@ -361,6 +361,7 @@ calendar-event, calendar-competition {
 
 }
 
+/*
 .activity{
   margin: 4px 0px;
   background: white;
@@ -449,7 +450,7 @@ calendar-event, calendar-competition {
     word-wrap: break-word;
     -word-break: break-all;
   }
-}
+} */
 
 .new {
   border-radius: 3px;
@@ -475,6 +476,7 @@ calendar-event, calendar-competition {
     width: auto;
   }
 }
+
 .today {
   border-top:solid 4px $orange-800 ;
 }
