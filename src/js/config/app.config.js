@@ -21,15 +21,30 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 	$stateProvider
 		.state('welcome', {
 			url: "/welcome",
+			access: [],
+			resolve: {
+				view: function(ViewService) {
+					return ViewService.getParams('welcome')
+				}
+			},
 			views: {
 				"background": {
-					template: "welcome background"
+					component: "background",
+					bindings: {
+						view: 'view.background'
+					}
 				},
 				"header": {
-					template: "welcome header"
+					component: 'header',
+					bindings: {
+						view: 'view.header'
+					}
 				},
 				"application": {
-					template: "welcome body"
+					component: "landingPage",
+					bindings: {
+						view: 'view.application'
+					}
 				}
 			}
 		})

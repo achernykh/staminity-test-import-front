@@ -1,3 +1,145 @@
+.cover-01 {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.40) 80%, rgba(#546E7A, 0.99)),
+  					url(/assets/picture/welcome01.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cover-02 {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)),
+  					url(/assets/picture/lp-bg-01.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cover-03 {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)),
+  url(/assets/picture/lp-bg-02.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.soon {
+  color: #EF6C00
+}
+
+.welcome-block {
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  padding: 128px 8px;
+
+  @extend .cover-01;
+
+  .md-body {
+	@extend .center, .light, .secondary;
+	margin-bottom: 54px;
+	max-width: 350px;
+  }
+  .md-display-2 {
+	@extend .font-black, .center;
+	line-height: 48px;
+  }
+
+}
+
+.main-features-block {
+  width: 100vw;
+  padding: 128px 8px;
+  color: white;
+
+  @media (min-width: 1920px) {
+	padding: 256px 8px;
+  }
+
+  .md-display-2 {
+	@extend .font-black, .center;
+  }
+
+  .md-subhead {
+	@extend .secondary, .light, .center;
+	margin-bottom: 32px;
+  }
+
+  md-icon {
+	width: 120px;
+	height: 120px;
+	fill: white
+  }
+
+  .md-title {
+	margin-bottom: 8px
+  }
+
+  .md-body {
+	@extend .secondary, .light;
+  }
+  
+  .info {
+	max-width: 400px;
+  }
+
+
+}
+
+.feedback-block {
+
+  width: 100vw;
+  padding: 128px 8px;
+  color: black;
+  @extend .bg-grey-300;
+
+  @media (min-width: 1920px) {
+	//padding: 256px 8px;
+  }
+
+  .md-display-2 {
+	@extend .font-black;
+	@extend .secondary, .dark;
+  }
+
+  .md-subhead {
+	@extend .disable, .dark, .center;
+	margin-bottom: 32px;
+  }
+
+  .md-body {
+	@extend .secondary, .dark;
+  }
+
+  img {
+	border-radius: 60px;
+	width: 120px;
+	height: 120px;
+  }
+
+  .md-body-2 {
+	@extend .secondary, .dark;
+	margin-top: 16px;
+	padding: 0px;
+  }
+
+  .md-caption {
+	@extend .disable, .dark;
+	padding: 0px;
+  }
+
+  .info {
+	max-width: 400px;
+  }
+
+}
+
+.block-100 {
+  width: 100%;
+}
+
+
+
+
 landing-page {
 	overflow: hidden;
 
@@ -12,7 +154,7 @@ landing-page {
 	h1 {
 		color: rgba(white,0.84);
 		text-transform: uppercase;
-		font-size: 8vw;
+		font-size: 7vw;
 		font-weight: 700;
 		margin: 8px 0px;
 		text-align: center;

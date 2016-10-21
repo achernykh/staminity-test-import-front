@@ -21,6 +21,10 @@
   @include animate(0.5s, 1s, 1);
 }
 
+#landingpage-soon {
+  @include animate(3s, 1.5s, 1);
+}
+
 #header-caption {
   @include animate(1s, 0s, 1);
 }

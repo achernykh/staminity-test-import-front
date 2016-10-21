@@ -161,14 +161,15 @@ img.avatar{
 /* Registration form */
 
 html, body, .container {
-  height: 100%;
+  //height: 100%;
 }
 
 body {
   background-color: $primary-hue-3;
-  overflow: hidden;
+  //overflow: hidden;
   min-width: 320px;
   min-height: 480px;
+  height: initial;
 }
 
 .landing-page {

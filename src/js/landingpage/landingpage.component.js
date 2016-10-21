@@ -21,7 +21,7 @@ class LandingPageCtrl {
 
 let LandingPage = {
     bindings: {
-        $router: '<'
+        view: '<'
     },
     require: {
         app: '^staminityApplication'

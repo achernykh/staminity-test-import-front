@@ -1,12 +1,171 @@
-<div id="welcome" flex="100" layout="column"  layout-align="center center"
-    class="app-body" md-theme="dark">
-    <div class="logo big">
-        <img src="/assets/picture/logolp.svg"/>
+<!-- common section -->
+<application-frame class='{{$ctrl.view.style}}'>
+    <div layout="row" layout-align="center start"
+         class="app-layer"
+         style="height: auto; top: 0px; z-index: 10; position: initial">
+        <!-- common left margin -->
+
+        <div class="body">
+
+
+                <!-- application section: start -->
+                <!--
+                <div id="welcome" flex="100" layout="column"  layout-align="center center"
+                    class="app-body" md-theme="dark">
+                    <div class="logo big">
+                        <img src="/assets/picture/logolp.svg"/>
+                    </div>
+                    <h1 translate class="animated fadeInDown">app.landing.welcome.title1</h1>
+                    <h2 translate class="animated fadeInUp">app.landing.welcome.title2</h2>
+                    <md-button ng-click="$ctrl.goTo(!$ctrl.app.isAuthenticated ? 'SignUp' : 'Calendar')"
+                               class="md-raised md-primary big focus"
+                               aria-label="start"
+                               translate="{{!$ctrl.app.isAuthenticated ? 'app.landing.welcome.buttonSignUp' : 'app.landing.welcome.buttonStart'}}"></md-button>
+                </div> -->
+                <!-- application section: end -->
+
+                <div layout="row"
+                     class="welcome-block" md-theme="dark">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="center center">
+                        <h1 id="landingpage-soon" translate class="soon animated fadeInDown">Этой зимой</h1>
+                        <h2 translate class="animated fadeIn">Удаленная работа с тренером и социальная сеть для спортсменов</h2>
+                        <div flex="none" layout="column" layout-gt-sm="row" style="width: 100%">
+                            <md-input-container flex="33" class="md-block">
+                                <label>Address</label>
+                                <input ng-model="user.address">
+                            </md-input-container>
+                            <md-input-container flex="33" class="md-block">
+                                <label>Address</label>
+                                <input ng-model="user.address">
+                            </md-input-container>
+                            <md-button flex="33" class="md-raised md-primary">Subscribe</md-button>
+                        </div>
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </div>
+
+                <div layout="row"
+                     class="main-features-block cover-02">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="start center">
+                        <div flex="none" class="md-display-2">Для спортсменов</div>
+                        <div flex="none" class="md-subhead">Помогаем заниматься с тренером и достигать спортивных целей</div>
+                        <div flex="auto" layout="column" layout-gt-sm="row"
+                             class="block-100">
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/statistics-1.svg"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Планируйте</div>
+                                <div flex="none" class="md-body info">Получайте плановые задания от тренера или создавайте их сами. Вы узнаете о новом задании, а тренер – о выполненной тренировке</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-speed.svg"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Тренируйтесь</div>
+                                <div flex="none" class="md-body info">Выполняйте задания и анализируйте их. Записанные треки со спортивных часов и смартфонов попадут в ваш тренировочный дневник и будут сопоставлены с планом</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-browser.svg"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Оставайтесь вовлеченными</div>
+                                <div flex="none" class="md-body info">Находите друзей, общайтесь, поддерживайте друг друга. Тренировки друзей и комментарии к вашим занятиям помогут сохранить мотивацию.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </div>
+
+                <div layout="row"
+                     class="feedback-block">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="start center">
+                        <div flex="none" class="md-display-2">Client's review</div>
+                        <div flex="none" class="md-subhead">Our clients help us to improve and strive for more.</div>
+
+                        <div flex="auto" layout="column" layout-gt-sm="row"
+                             class="block-100">
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-01.png"/>
+                                </div>
+
+                                <div flex="40" class="md-body info">Создавайте плановые задания для своих учеников. Пишите план на каждый сегмент или на тренировку в целом, используйте шаблоны, задавайте интенсивность по тренировочным зонам.
+                                    Ваши спортсмены узнают обо всех изменениях плана.</div>
+                                <div flex="none" class="md-body-2">Захаринский Евгений</div>
+                                <div flex="none" class="md-caption">Марафонец, Москва</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-02.png"/>
+                                </div>
+
+                                <div flex="40" class="md-body info">Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам.</div>
+                                <div flex="none" class="md-body-2">Иванов Денис</div>
+                                <div flex="none" class="md-caption">Триатлет-любитель, Москва</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-03.png"/>
+                                </div>
+                                <div flex="40" class="md-body info">Узнавайте о выполнении тренировок спортсменами, получайте подробную информацию по ним. Мы рассчитаем % выполнения и основные показатели по тренировочным сегментам и в целом по заданию.</div>
+                                <div flex="none" class="md-body-2">Черных Александр</div>
+                                <div flex="none" class="md-caption">Триатлет-любитель, Люберцы</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+
+                </div>
+
+                <div layout="row"
+                     class="main-features-block cover-03">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="start center">
+                        <div flex="none" class="md-display-2">Для тренеров</div>
+                        <div flex="none" class="md-subhead">Cокращаем рутину в тренировочном процессе</div>
+
+                        <div flex="auto" layout="column" layout-gt-sm="row"
+                             class="block-100">
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon class="icon" md-svg-src="/assets/icon/lp-goal-1.svg"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Планируйте подготовку</div>
+                                <div flex="none" class="md-body info secondary light">Создавайте плановые задания для своих учеников. Пишите план на каждый сегмент или на тренировку в целом, используйте шаблоны, задавайте интенсивность по тренировочным зонам.
+                                    Ваши спортсмены узнают обо всех изменениях плана.</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/research-1.svg" class="icon"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Контролируйте выполнение</div>
+                                <div flex="none" class="md-body info secondary light">Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам.</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-statistics.svg" class="icon"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Анализируйте тренировки</div>
+                                <div flex="none" class="md-body info secondary light">Узнавайте о выполнении тренировок спортсменами, получайте подробную информацию по ним. Мы рассчитаем % выполнения и основные показатели по тренировочным сегментам и в целом по заданию.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </div>
+
+
+
+
+        </div>
+        <!-- common right margin -->
+
     </div>
-    <h1 translate class="animated fadeInDown">app.landing.welcome.title1</h1>
-    <h2 translate class="animated fadeInUp">app.landing.welcome.title2</h2>
-    <md-button ng-click="$ctrl.goTo(!$ctrl.app.isAuthenticated ? 'SignUp' : 'Calendar')"
-               class="md-raised md-primary big focus"
-               aria-label="start"
-               translate="{{!$ctrl.app.isAuthenticated ? 'app.landing.welcome.buttonSignUp' : 'app.landing.welcome.buttonStart'}}"></md-button>
-</div>
+</application-frame>
+<!-- end of common section -->
