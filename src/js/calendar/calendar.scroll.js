@@ -84,7 +84,8 @@ export class CalendarScroll {
         /**
          * Формируем календарную сетку. Без тайм-аута библиотека не работает
          */
-        console.log('CalendarScroll: get ', index, count, moment().format('mm:ss'));
+        //console.profile();
+        console.info('CalendarScroll: get ', index, count, moment().format('mm:ss'));
         this._$timeout(() => {
             //this.scrollAdapter.disabled = true;
             let result = [];
@@ -125,7 +126,7 @@ export class CalendarScroll {
             console.log('CalendarScroll: api request ', index, count, moment().format('mm:ss'));
             this.calendar.getCalendarItem({startDate: start, endDate: end}).then(
                 () => {
-                    "use strict";
+                    //console.profileEnd();
                     console.log('CalendarScroll: html update success', index, count, moment().format('mm:ss'));
                 }, () => {
                 }
@@ -177,7 +178,6 @@ export class CalendarScroll {
      * @returns {Promise}
      */
     update(action, calendarItems, params) {
-        "use strict";
         console.log('Calendar: updateScrollItem ', action, calendarItems);
         if (!angular.isArray(calendarItems))
             calendarItems = [calendarItems];
