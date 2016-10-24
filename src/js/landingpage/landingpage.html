@@ -32,12 +32,12 @@
                         <div flex="none" layout="row"
                              class="logo-box"
                              style="">
-                            <div flex="none"
-                                 class="md-display-2 soon animated fadeInDown">Этой зимой
+                            <div flex="none" id="landingpage-soon"
+                                 class="md-display-2 soon animated fadeInRight">Этой зимой
                             </div>
                             <div flex="none" layout="column" layout-align="start center"
                                  class="logo">
-                                <div flex="none">
+                                <div flex="none" id="landingpage-logo" class="animated pulse">
                                     <img class="icon" src="/assets/icon/logo_mono.svg"/>
                                 </div>
                                 <div flex="none">
@@ -47,20 +47,17 @@
                             </div>
                         </div>
 
-
-
                         <div flex="auto" layout="column" layout-align="center center"
+                             id="landingpage-title"
                              translate class="animated fadeIn md-display-3">
-                            <div flex="none" >Удаленная работа с тренером и социальная сеть для спортсменов
+                            <div flex="none">Удаленная работа с тренером и социальная сеть для спортсменов
                             </div>
                         </div>
-
-
 
                         <div flex="none" layout="column"
                              class="subscribe">
 
-                            <input ng-model="email" placeholder="Укажите ваш email">
+                            <input ng-model="email" class="email" placeholder="Укажите ваш email">
                             <md-button ng-click="$ctrl.onSubscribe(email)"
                                     class="md-raised md-primary">Подписаться</md-button>
 
@@ -69,12 +66,55 @@
 
                         </div>
 
-                        <md-button flex="none" class="md-icon-button" aria-label="more">
+                        <md-button flex="none" class="md-icon-button more" aria-label="more">
                             <md-icon class="light-active" md-svg-icon="assets/icon/expand_more.svg"></md-icon>
                         </md-button>
 
                     </div>
                     <div flex-gt-sm="10" hide show-gt-sm></div>
+                </div>
+
+                <div layout="row"
+                     class="feedback-block">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="start center">
+                        <div flex="none" class="md-display-2">Client's review</div>
+                        <div flex="none" class="md-subhead">Our clients help us to improve and strive for more.</div>
+
+                        <div flex="auto" layout="column" layout-gt-sm="row"
+                             class="block-100">
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-01.png"/>
+                                </div>
+
+                                <div flex="40" class="md-body info">Создавайте плановые задания для своих учеников. Пишите план на каждый сегмент или на тренировку в целом, используйте шаблоны, задавайте интенсивность по тренировочным зонам.
+                                    Ваши спортсмены узнают обо всех изменениях плана.</div>
+                                <div flex="none" class="md-body-2">Захаринский Евгений</div>
+                                <div flex="none" class="md-caption">Марафонец, Москва</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-02.png"/>
+                                </div>
+
+                                <div flex="40" class="md-body info">Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам.</div>
+                                <div flex="none" class="md-body-2">Иванов Денис</div>
+                                <div flex="none" class="md-caption">Триатлет-любитель, Москва</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-03.png"/>
+                                </div>
+                                <div flex="40" class="md-body info">Узнавайте о выполнении тренировок спортсменами, получайте подробную информацию по ним. Мы рассчитаем % выполнения и основные показатели по тренировочным сегментам и в целом по заданию.</div>
+                                <div flex="none" class="md-body-2">Черных Александр</div>
+                                <div flex="none" class="md-caption">Триатлет-любитель, Люберцы</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+
                 </div>
 
                 <div layout="row"
@@ -105,6 +145,88 @@
                                 </div>
                                 <div flex="none" class="md-title">Оставайтесь вовлеченными</div>
                                 <div flex="none" class="md-body info">Находите друзей, общайтесь, поддерживайте друг друга. Тренировки друзей и комментарии к вашим занятиям помогут сохранить мотивацию.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </div>
+
+
+                <div layout="row"
+                     class="feedback-block">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="start center">
+                        <div flex="none" class="md-display-2">Client's review</div>
+                        <div flex="none" class="md-subhead">Our clients help us to improve and strive for more.</div>
+
+                        <div flex="auto" layout="column" layout-gt-sm="row"
+                             class="block-100">
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-01.png"/>
+                                </div>
+
+                                <div flex="40" class="md-body info">Создавайте плановые задания для своих учеников. Пишите план на каждый сегмент или на тренировку в целом, используйте шаблоны, задавайте интенсивность по тренировочным зонам.
+                                    Ваши спортсмены узнают обо всех изменениях плана.</div>
+                                <div flex="none" class="md-body-2">Захаринский Евгений</div>
+                                <div flex="none" class="md-caption">Марафонец, Москва</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-02.png"/>
+                                </div>
+
+                                <div flex="40" class="md-body info">Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам.</div>
+                                <div flex="none" class="md-body-2">Иванов Денис</div>
+                                <div flex="none" class="md-caption">Триатлет-любитель, Москва</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <img src="/assets/picture/lp-feedback-03.png"/>
+                                </div>
+                                <div flex="40" class="md-body info">Узнавайте о выполнении тренировок спортсменами, получайте подробную информацию по ним. Мы рассчитаем % выполнения и основные показатели по тренировочным сегментам и в целом по заданию.</div>
+                                <div flex="none" class="md-body-2">Черных Александр</div>
+                                <div flex="none" class="md-caption">Триатлет-любитель, Люберцы</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+
+                </div>
+
+
+                <div layout="row"
+                     class="main-features-block cover-03">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="start center">
+                        <div flex="none" class="md-display-2">Для тренеров</div>
+                        <div flex="none" class="md-subhead">Cокращаем рутину в тренировочном процессе</div>
+
+                        <div flex="auto" layout="column" layout-gt-sm="row"
+                             class="block-100">
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon class="icon" md-svg-src="/assets/icon/lp-goal-1.svg"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Планируйте подготовку</div>
+                                <div flex="none" class="md-body info secondary light">Создавайте плановые задания для своих учеников. Пишите план на каждый сегмент или на тренировку в целом, используйте шаблоны, задавайте интенсивность по тренировочным зонам.
+                                    Ваши спортсмены узнают обо всех изменениях плана.</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/research-1.svg" class="icon"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Контролируйте выполнение</div>
+                                <div flex="none" class="md-body info secondary light">Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам.</div>
+                            </div>
+                            <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-statistics.svg" class="icon"></md-icon>
+                                </div>
+                                <div flex="none" class="md-title">Анализируйте тренировки</div>
+                                <div flex="none" class="md-body info secondary light">Узнавайте о выполнении тренировок спортсменами, получайте подробную информацию по ним. Мы рассчитаем % выполнения и основные показатели по тренировочным сегментам и в целом по заданию.</div>
                             </div>
                         </div>
 
@@ -156,35 +278,34 @@
                 </div>
 
                 <div layout="row"
-                     class="main-features-block cover-03">
+                     class="main-features-block cover-04">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="auto" layout="column" layout-align="start center">
-                        <div flex="none" class="md-display-2">Для тренеров</div>
-                        <div flex="none" class="md-subhead">Cокращаем рутину в тренировочном процессе</div>
+                        <div flex="none" class="md-display-2">Для клубов</div>
+                        <div flex="none" class="md-subhead">Помогаем управлять клубом</div>
 
                         <div flex="auto" layout="column" layout-gt-sm="row"
                              class="block-100">
                             <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
-                                    <md-icon class="icon" md-svg-src="/assets/icon/lp-goal-1.svg"></md-icon>
+                                    <md-icon class="icon" md-svg-src="/assets/icon/hierarchical-structure.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Планируйте подготовку</div>
-                                <div flex="none" class="md-body info secondary light">Создавайте плановые задания для своих учеников. Пишите план на каждый сегмент или на тренировку в целом, используйте шаблоны, задавайте интенсивность по тренировочным зонам.
-                                    Ваши спортсмены узнают обо всех изменениях плана.</div>
+                                <div flex="none" class="md-title">Собирайте команду</div>
+                                <div flex="none" class="md-body info secondary light">Создайте клуб, подключайте тренеров и спортсменов, назначайте тренеров для спортсменов. Вы сможете управлять запросами на вступление в клуб от других пользователей сервиса.</div>
                             </div>
                             <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
-                                    <md-icon md-svg-src="/assets/icon/research-1.svg" class="icon"></md-icon>
+                                    <md-icon md-svg-src="/assets/icon/lp-screen.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Контролируйте выполнение</div>
-                                <div flex="none" class="md-body info secondary light">Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам.</div>
+                                <div flex="none" class="md-title">Контролируйте подготовку</div>
+                                <div flex="none" class="md-body info secondary light">Будьте в курсе, как работают тренеры и занимаются спортсмены. Недельный обзор покажет наличие плана и сводный статус его выполнения по всем ученикам</div>
                             </div>
                             <div flex="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
-                                    <md-icon md-svg-src="/assets/icon/lp-statistics.svg" class="icon"></md-icon>
+                                    <md-icon md-svg-src="/assets/icon/lp-analytics.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Анализируйте тренировки</div>
-                                <div flex="none" class="md-body info secondary light">Узнавайте о выполнении тренировок спортсменами, получайте подробную информацию по ним. Мы рассчитаем % выполнения и основные показатели по тренировочным сегментам и в целом по заданию.</div>
+                                <div flex="none" class="md-title">Повышайте эффективность</div>
+                                <div flex="none" class="md-body info secondary light">Выбирайте лучшие методы подготовки. Шаблоны тренировок клуба и статистика их выполнения помогут найти самые эффективные задания.</div>
                             </div>
                         </div>
 
@@ -192,8 +313,27 @@
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                 </div>
 
+                <div layout="row"
+                     class="main-features-block" md-theme="dark"
+                        style="padding: 48px 8px;">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="space-between center">
 
+                        <div flex="none" layout="column"
+                             class="subscribe">
 
+                            <input ng-model="email" class="email" placeholder="Укажите ваш email">
+                            <md-button ng-click="$ctrl.onSubscribe(email)"
+                                       class="md-raised md-primary">Подписаться</md-button>
+
+                            <div class="note">Рассказываем о создании сервиса, делимся новостями, анонсируем
+                                запуск</div>
+
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </div>
 
         </div>
         <!-- common right margin -->

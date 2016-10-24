@@ -22,6 +22,23 @@
   background-size: cover;
 }
 
+.cover-04 {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)),
+  url(/assets/picture/lp-bg-04.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cover-05 {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.40), rgba(black, 0.40) 73%, rgba(black, 0.40)),
+  url(/assets/picture/lp-bg-05.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: black;
+}
+
 .soon {
   color: #EF6C00
 }
@@ -57,7 +74,7 @@
 	.logo-box{
 		width: 240px;
 		height: 100px;
-		padding-top: 25px;
+	  	margin-top: 10vh;
 
 		@media (min-width: 600px) {
 			width: 400px;
@@ -83,7 +100,7 @@
 			}
 
 			@extend .md-display-2, .font-black, .light, .disable;
-			background: orangered;
+			background: rgba(orangered, 0.8);
 			color: currentColor;
 			text-transform: uppercase;
 			text-align: right;
@@ -115,96 +132,10 @@
 		}
 
 	}
-
-	.subscribe {
-
-		width: 290px;
-
-
-		.note {
-
-			font-size: 14px;
-
-			@media (min-width: 600px) {
-				font-size: 18px;
-			}
-
-			@extend .md-body, .center;
-			margin-top: 8px;
-			padding: 0px 16px;
-
-		}
-
-		input {
-
-			height: 30px;
-			min-height: 30px;
-			font-size: 14px;
-
-			@media (min-width: 600px) {
-				height: 50px;
-				min-height: 50px;
-				font-size: 20px;
-			}
-
-			background: none;
-			border: none;
-			padding: 0px;
-			margin: 0px;
-			font-weight: 900;
-			color: white;
-			text-align: center;
-
-			&:focus {
-				border: red;
-				outline: none;
-			}
-		}
-
-		button {
-
-			height: 50px;
-			min-height: 50px;
-			font-size: 14px;
-
-			@media (min-width: 600px) {
-				height: 70px;
-				min-height: 70px;
-				font-size: 20px;
-			}
-
-			background: none !important;
-			border: 1px solid white;
-			font-weight: 900;
-			color: white !important;
-			text-transform: uppercase;
-		}
-
+	.more.md-button {
+		margin-top: 2vh;
+		margin-bottom: 2vh;
 	}
-
-	md-button {
-		margin-top: 8px;
-		margin-bottom: 8px;
-	}
-}
-
-::-webkit-input-placeholder {
-
-	font-size: 14px;
-
-	@media (min-width: 600px) {
-		font-size: 20px;
-	}
-
-	font-weight: 400;
-	color: rgba(white, 1.0);
-	opacity: 1;
-	transition: opacity 0.3s ease;
-}
-
-:focus::-webkit-input-placeholder {
-	opacity: 0;
-	transition: opacity 0.3s ease;
 }
 
 .main-features-block {
@@ -298,6 +229,91 @@
   width: 100%;
 }
 
+
+.subscribe {
+
+  width: 290px;
+
+
+  .note {
+
+	font-size: 14px;
+
+	@media (min-width: 600px) {
+	  font-size: 18px;
+	}
+
+	@extend .md-body, .center;
+	margin-top: 8px;
+	padding: 0px 16px;
+
+  }
+
+  input.email {
+
+	height: 30px;
+	min-height: 30px;
+	font-size: 14px;
+
+	@media (min-width: 600px) {
+	  height: 50px;
+	  min-height: 50px;
+	  font-size: 20px;
+	}
+
+	background: none;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	font-weight: 900;
+	color: white;
+	text-align: center;
+
+	&::-webkit-input-placeholder {
+
+	  font-size: 14px;
+
+	  @media (min-width: 600px) {
+		font-size: 20px;
+	  }
+
+	  font-weight: 400;
+	  color: rgba(white, 1.0);
+	  opacity: 1;
+	  transition: opacity 0.3s ease;
+	}
+
+	&:focus::-webkit-input-placeholder {
+	  opacity: 0;
+	  transition: opacity 0.3s ease;
+	}
+
+	&:focus {
+	  border: red;
+	  outline: none;
+	}
+  }
+
+  button {
+
+	height: 50px;
+	min-height: 50px;
+	font-size: 14px;
+
+	@media (min-width: 600px) {
+	  height: 70px;
+	  min-height: 70px;
+	  font-size: 20px;
+	}
+
+	background: none !important;
+	border: 1px solid white;
+	font-weight: 900;
+	color: white !important;
+	text-transform: uppercase;
+  }
+
+}
 
 
 

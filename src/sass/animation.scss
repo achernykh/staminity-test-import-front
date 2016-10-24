@@ -22,7 +22,15 @@
 }
 
 #landingpage-soon {
-  @include animate(3s, 1.5s, 1);
+  @include animate(1.5s, 2s, 1);
+}
+
+#landingpage-logo {
+  @include animate(1s, 1s, 0);
+}
+
+#landingpage-title {
+  @include animate(4s, 0.5s, 1);
 }
 
 #header-caption {
