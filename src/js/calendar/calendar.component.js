@@ -265,7 +265,7 @@ class CalendarCtrl {
             "use strict";
             this._Calendar.getItem(request).then(
                 (items) => {
-                    console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
+                    console.log('CalendarScroll: api request complete success', moment().format('mm:ss:SS'));
                     this.grid.update('putCalendarItem',items).then(
                         (success) => {
                             //      this._$log.debug('Calendar: grid after showCalendarItem', success);

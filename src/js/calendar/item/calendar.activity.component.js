@@ -41,7 +41,7 @@ class CalendarActivityCtrl {
         this.planned = moment().diff(moment(this.item.date, 'YYYY-MM-DD'),'d') < 1;
 
         if (this.structured) {
-            let segmetDuration = 0;
+            let comulativeDuration = 0;
             for (let interval of this.item.activityHeader.intervals) {
                 // Собираем лист сегментов
                 // Если интервал является плановым сегментов или группой, то формируем лист сегментов
@@ -51,8 +51,7 @@ class CalendarActivityCtrl {
                 }
                 // Собираем график сегментов
                 if (interval.type == 'P'){
-                    this.prepareSegmentChart(interval, segmetDuration);
-                    segmetDuration = interval.calcMeasures.movingDurationLength;
+                    comulativeDuration = this.prepareSegmentChart(interval, comulativeDuration);
                 }
 	            if (interval.type == 'pW') {
 		            // TODO Добавить функцию вычисления номера зоны по значению показателя
@@ -61,6 +60,16 @@ class CalendarActivityCtrl {
 	            }
 
             }
+
+            // Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
+            if(this.segmentChart.length){
+                this.segmentChart.map( (item) => {
+                    item[0] = item[0] / comulativeDuration;
+                    item[1] = item[1] / 100;
+                    return item;
+                })
+            }
+
             /**
              * Вывод segmentList ограничен
              * Если количество сегментов более 4, то список выводится с ограниченным количеством строк,
@@ -173,11 +182,10 @@ class CalendarActivityCtrl {
             }
         }
 
-        if (this.structured)
+        if (this.structured) {
             this.bottomPanel = 'segmentList';
-
-        this._$log.debug('CalendarActivityCtrl: $onInit()', this.status);
-
+            //console.info('segmentChart', JSON.stringify(this.segmentChart));
+        }
     }
 
     $onChange(changes){
@@ -226,22 +234,25 @@ class CalendarActivityCtrl {
         }
     }
 
-    prepareSegmentChart(interval, sumDuration) {
+    prepareSegmentChart(interval, duration) {
         "use strict";
         /**
          * Для каждого интервала создается две точки на графике: начало и окончание.
          * Начало рассчитывается как время окончания предидущих интервалов и значение intensityByFtpFrom
          * Окончание рассчитывается как сумма предидущих интервалов +movingDurationLength и значение intensityByFtpTo
          */
+        let comulativeDuration = duration + interval.movingDurationLength;
         this.segmentChart.push(
-            {
-                time: sumDuration,
-                ftp: interval.intensityByFtpFrom
-            },
-            {
-                time: sumDuration + interval.calcMeasures.movingDurationLength,
-                ftp: interval.intensityByFtpTo
-            });
+            [
+                duration,
+                interval.intensityByFtpFrom
+            ],
+            [
+                comulativeDuration,
+                interval.intensityByFtpTo
+            ]);
+
+        return comulativeDuration;
     }
 
     /**
@@ -283,7 +294,7 @@ class CalendarActivityCtrl {
 			this._$dialog.alert()
 				.parent(angular.element(document.querySelector('#popupContainer')))
 				.clickOutsideToClose(true)
-				.title(`structured: ${this.structured}, planned: ${this.planned}, listSiz: ${this.calculateSegmentListSize(this.segmentList)}`)
+				.title(`structured: ${this.structured}, planned: ${this.planned}, status: ${this.status}, listSize: ${this.calculateSegmentListSize(this.segmentList)}`)
 				.textContent(this.item)
 				.ariaLabel('Alert Dialog Demo')
 				.ok('Got it!')

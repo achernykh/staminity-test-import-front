@@ -35,7 +35,7 @@ class StaminityApplicationCtrl {
      */
     $onChanges(changes){
         if(changes.session){
-            this._$log.debug(`StaminityApplication: $onChanges => session new value = ${this.session.userId} ${changes.session.userId}`)
+            //this._$log.debug(`StaminityApplication: $onChanges => session new value = ${this.session.userId} ${changes.session.userId}`)
         }
             // TODO убрать после перехода на ui-router
           if (changes.application){

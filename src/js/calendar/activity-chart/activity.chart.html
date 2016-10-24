@@ -1,0 +1,13 @@
+<svg viewBox="0 0 1 1" preserveAspectRatio="none"
+     ng-class="['calendar-activity-chart']"
+     style="transform: scale(1, -1); margin-top: 8px; max-height: 30px; overflow: visible;">
+    <defs>
+        <linearGradient id="green" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"  ng-attr-stop-color="{{::$ctrl.color[0]}}"/>
+            <stop offset="100%" ng-attr-stop-color="{{::$ctrl.color[1]}}"/>
+        </linearGradient>
+    </defs>
+    <path ng-attr-d="{{::$ctrl.d}}"
+          stroke-width="1" stroke="rgba(255, 255, 255, 0.70)" fill="url({{$ctrl.url}}#green)"
+          vector-effect="non-scaling-stroke" gradientUnits="objectBoundingBox"/>
+</svg>

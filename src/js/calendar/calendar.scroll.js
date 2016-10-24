@@ -14,6 +14,8 @@ export class CalendarScroll {
         this.adapter = {};
         this._$timeout = $timeout;
         this.calendar = CalendarCtrl;
+        this.buffer = 5;
+        this.padding = 1;
     }
     // TODO добавить кэширование
     /*
@@ -84,8 +86,8 @@ export class CalendarScroll {
         /**
          * Формируем календарную сетку. Без тайм-аута библиотека не работает
          */
-        //console.profile();
-        console.info('CalendarScroll: get ', index, count, moment().format('mm:ss'));
+        console.profile();
+        console.info('CalendarScroll: get ', index, count, moment().format('mm:ss:SS'));
         this._$timeout(() => {
             //this.scrollAdapter.disabled = true;
             let result = [];
@@ -123,18 +125,19 @@ export class CalendarScroll {
             start = moment().startOf('week').add(index, 'w').format('YYYY-MM-DD');
             end = moment(start).add(count, 'w').add(-1, 'd').format('YYYY-MM-DD');
 
-            console.log('CalendarScroll: api request ', index, count, moment().format('mm:ss'));
+            console.profileEnd();
+            console.log('CalendarScroll: api request ', index, count, moment().format('mm:ss:SS'));
             this.calendar.getCalendarItem({startDate: start, endDate: end}).then(
                 () => {
-                    //console.profileEnd();
-                    console.log('CalendarScroll: html update success', index, count, moment().format('mm:ss'));
+
+                    console.log('CalendarScroll: html update success', index, count, moment().format('mm:ss:SS'));
                 }, () => {
                 }
             );
 
             success(result);
 
-        }, 1);
+        }, 100);
     }
 
     /**
@@ -178,7 +181,7 @@ export class CalendarScroll {
      * @returns {Promise}
      */
     update(action, calendarItems, params) {
-        console.log('Calendar: updateScrollItem ', action, calendarItems);
+        //console.log('Calendar: updateScrollItem ', action, calendarItems);
         if (!angular.isArray(calendarItems))
             calendarItems = [calendarItems];
 
@@ -198,7 +201,7 @@ export class CalendarScroll {
                 this.adapter.applyUpdates((item, scope) => {
                     if (item.sid == weekPos) {
 
-                        console.log('Calendar: updateScrollItem search true', action, item.sid);
+                        //console.log('Calendar: updateScrollItem search true', action, item.sid);
                         switch (action) {
                             // Добавляем запись календаря в неделю (scrollItem) -> день (subItem.data.calendarItems)
                             case 'putCalendarItem': {

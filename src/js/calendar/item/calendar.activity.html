@@ -80,9 +80,13 @@
             <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
             <div flex="none">{{::$ctrl.data.distance}}</div>
         </div>
+        <calendar-activity-chart
+                ng-if="$ctrl.segmentChart.length > 2"
+                hide show-gt-sm data="$ctrl.segmentChart" status="$ctrl.status">
+        </calendar-activity-chart>
 
     </div>
-    <!-- Заголовок тренировки (верхняя часть): начало -->
+    <!-- Заголовок тренировки (нижняя часть): начало -->
     <div flex layout="column"
          hide show-gt-md
          class="activity-footer line-12"
@@ -121,19 +125,20 @@
         <div ng-switch-when="segmentList"
              flex layout="column"
              class="md-caption">
-            <div ng-repeat="interval in $ctrl.segmentList"
+            <div ng-repeat="interval in $ctrl.segmentList | filter:{show: true} track by $index"
                  class="animate-repeat"
                  ng-switch on="::interval.group"
                  flex layout="row">
-                <!-- группа интервалов -->
+                <!-- группа интервалов
+                    ng-if="interval.show || $ctrl.collapse"
+                -->
                 <div ng-switch-when="true"
-                     ng-if="interval.show || $ctrl.collapse"
+
                      class="segment-list"
                      flex layout="row" layout-align="start center">
                     <div flex="none" style="width: 20px" class="md-body-2">{{::interval.repeatCount}}x</div>
                     <div flex="auto" layout="column">
-                        <div ng-repeat="item in interval.subItem"
-                             ng-if="item.show || $ctrl.collapse"
+                        <div ng-repeat="item in interval.subItem track by $index"
                              flex layout="row"
                              ng-class="{'newlinesvg': interval.keyInterval}">
                             <div flex="none" style="height: 15px; margin-right: 4px">
@@ -148,7 +153,6 @@
                 </div>
                 <!-- отдельный сегмент -->
                 <div ng-switch-when="false"
-                     ng-if="interval.show || $ctrl.collapse"
                      class="segment-list"
                      flex layout="row">
                     <div flex="none" style="width: 20px"></div>

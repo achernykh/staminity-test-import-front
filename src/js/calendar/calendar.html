@@ -18,7 +18,7 @@
                                    ng-click="$ctrl.gotoAnchor($ctrl.grid.adapter.topVisible.sid + 1)">
                             <md-icon md-svg-src="/assets/icon/navigate_next.svg" class="s18" aria-label="Back"></md-icon>
                         </md-button>
-                        <div class="md-title">{{$ctrl.scrollAdapter.topVisible.toolbarDate}}</div>
+                        <div class="md-title">{{$ctrl.grid.adapter.topVisible.toolbarDate}}</div>
 
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-init="today = 0"
@@ -53,7 +53,7 @@
 
 
                             </md-toolbar>
-                            <md-progress-linear ng-show="$ctrl.scrollAdapter.isLoading" class="md-accent"
+                            <md-progress-linear ng-show="$ctrl.grid.adapter.isLoading" class="md-accent"
                                                 md-mode="indeterminate"></md-progress-linear>
                             <!-- weekdays panel: end -->
 
@@ -66,9 +66,9 @@
                                      layout-align-gt-sm="start stretch" flex="none"
                                      ui-scroll="week in $ctrl.grid"
                                      adapter="$ctrl.grid.adapter"
-                                     buffer-size="5"
+                                     buffer-size="ctrl.grid.buffer"
                                      start-index="0"
-                                     padding="1.0"
+                                     padding="ctrl.grid.padding"
                                      class="week">
                                     <calendar-day flex="100" flex-gt-md="12" flex-sm="14"
                                                   layout="row" layout-gt-sm="column"
