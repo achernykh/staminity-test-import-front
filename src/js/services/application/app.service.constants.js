@@ -15,8 +15,8 @@ const ViewConstants = {
         size: 20
       },
       leftPanel: {
-        url: 'layout/application/header/logo.html',
-        size: 'auto'
+        //url: 'layout/application/header/logo.html',
+        //size: 'auto'
       },
       rightPanel: {
         url: 'layout/application/header/welcome.links.html',

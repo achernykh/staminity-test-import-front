@@ -27,20 +27,52 @@
                 <div layout="row"
                      class="welcome-block" md-theme="dark">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
-                    <div flex="auto" layout="column" layout-align="center center">
-                        <h1 id="landingpage-soon" translate class="soon animated fadeInDown">Этой зимой</h1>
-                        <h2 translate class="animated fadeIn">Удаленная работа с тренером и социальная сеть для спортсменов</h2>
-                        <div flex="none" layout="column" layout-gt-sm="row" style="width: 100%">
-                            <md-input-container flex="33" class="md-block">
-                                <label>Address</label>
-                                <input ng-model="user.address">
-                            </md-input-container>
-                            <md-input-container flex="33" class="md-block">
-                                <label>Address</label>
-                                <input ng-model="user.address">
-                            </md-input-container>
-                            <md-button flex="33" class="md-raised md-primary">Subscribe</md-button>
+                    <div flex="auto" layout="column" layout-align="space-between center">
+
+                        <div flex="none" layout="row"
+                             class="logo-box"
+                             style="">
+                            <div flex="none"
+                                 class="md-display-2 soon animated fadeInDown">Этой зимой
+                            </div>
+                            <div flex="none" layout="column" layout-align="start center"
+                                 class="logo">
+                                <div flex="none">
+                                    <img class="icon" src="/assets/icon/logo_mono.svg"/>
+                                </div>
+                                <div flex="none">
+                                    <img class="typo" src="/assets/icon/logo_typo_mono.svg"/>
+                                </div>
+
+                            </div>
                         </div>
+
+
+
+                        <div flex="auto" layout="column" layout-align="center center"
+                             translate class="animated fadeIn md-display-3">
+                            <div flex="none" >Удаленная работа с тренером и социальная сеть для спортсменов
+                            </div>
+                        </div>
+
+
+
+                        <div flex="none" layout="column"
+                             class="subscribe">
+
+                            <input ng-model="email" placeholder="Укажите ваш email">
+                            <md-button ng-click="$ctrl.onSubscribe(email)"
+                                    class="md-raised md-primary">Подписаться</md-button>
+
+                            <div class="note">Рассказываем о создании сервиса, делимся новостями, анонсируем
+                                запуск</div>
+
+                        </div>
+
+                        <md-button flex="none" class="md-icon-button" aria-label="more">
+                            <md-icon class="light-active" md-svg-icon="assets/icon/expand_more.svg"></md-icon>
+                        </md-button>
+
                     </div>
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                 </div>

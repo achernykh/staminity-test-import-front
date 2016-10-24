@@ -1,6 +1,6 @@
 .cover-01 {
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.40) 80%, rgba(#546E7A, 0.99)),
-  					url(/assets/picture/welcome01.jpg);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)),
+  					url(/assets/picture/lp-bg-03.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -27,23 +27,184 @@
 }
 
 .welcome-block {
-  width: 100vw;
-  height: 100vh;
-  color: white;
-  padding: 128px 8px;
+  	width: 100vw;
+  	height: 100vh;
+  	color: white;
+	padding: 24px 8px 0px 8px;
+
+	@media (min-width: 600px) {
+		padding: 48px 16px 0px 16px;
+	}
+
 
   @extend .cover-01;
 
-  .md-body {
-	@extend .center, .light, .secondary;
-	margin-bottom: 54px;
-	max-width: 350px;
-  }
-  .md-display-2 {
-	@extend .font-black, .center;
-	line-height: 48px;
-  }
+	.md-display-3 {
 
+		line-height: 7.2vw;
+		font-size: 7vw;
+
+		@media (min-width: 600px) {
+			line-height: 4.3vw;
+			font-size: 4.1vw;
+		}
+
+		@extend .font-black, .center, .light, .secondary;
+		text-transform: uppercase;
+		opacity: 0.8;
+	}
+
+	.logo-box{
+		width: 240px;
+		height: 100px;
+		padding-top: 25px;
+
+		@media (min-width: 600px) {
+			width: 400px;
+			height: 200px;
+			padding-top: 50px;
+		}
+
+
+		.soon {
+
+			width: 120px;
+			height: 40px;
+			font-size: 14px;
+			line-height: 40px;
+			padding-right: 20px;
+
+			@media (min-width: 600px) {
+				width: 215px;
+				height: 75px;
+				font-size: 24px;
+				line-height: 75px;
+				padding-right: 40px;
+			}
+
+			@extend .md-display-2, .font-black, .light, .disable;
+			background: orangered;
+			color: currentColor;
+			text-transform: uppercase;
+			text-align: right;
+		}
+
+		.logo {
+			width: auto;
+			margin-left: -50px;
+			margin-top: 0px;
+			z-index: 2;
+
+			@media (min-width: 600px) {
+				margin-left: -100px;
+			}
+
+			.icon {
+				height: 40px;
+				@media (min-width: 600px) {
+					height: 75px;
+				}
+			}
+
+			.typo {
+				width: 100px;
+				@media (min-width: 600px) {
+					width: 200px;
+				}
+			}
+		}
+
+	}
+
+	.subscribe {
+
+		width: 290px;
+
+
+		.note {
+
+			font-size: 14px;
+
+			@media (min-width: 600px) {
+				font-size: 18px;
+			}
+
+			@extend .md-body, .center;
+			margin-top: 8px;
+			padding: 0px 16px;
+
+		}
+
+		input {
+
+			height: 30px;
+			min-height: 30px;
+			font-size: 14px;
+
+			@media (min-width: 600px) {
+				height: 50px;
+				min-height: 50px;
+				font-size: 20px;
+			}
+
+			background: none;
+			border: none;
+			padding: 0px;
+			margin: 0px;
+			font-weight: 900;
+			color: white;
+			text-align: center;
+
+			&:focus {
+				border: red;
+				outline: none;
+			}
+		}
+
+		button {
+
+			height: 50px;
+			min-height: 50px;
+			font-size: 14px;
+
+			@media (min-width: 600px) {
+				height: 70px;
+				min-height: 70px;
+				font-size: 20px;
+			}
+
+			background: none !important;
+			border: 1px solid white;
+			font-weight: 900;
+			color: white !important;
+			text-transform: uppercase;
+		}
+
+	}
+
+	md-button {
+		margin-top: 8px;
+		margin-bottom: 8px;
+	}
+}
+
+::-webkit-input-placeholder {
+
+	font-size: 14px;
+
+	@media (min-width: 600px) {
+		font-size: 20px;
+	}
+
+	font-weight: 400;
+	color: rgba(white, 1.0);
+	opacity: 1;
+	transition: opacity 0.3s ease;
+}
+
+:focus::-webkit-input-placeholder {
+	opacity: 0;
+	transition: opacity 0.3s ease;
 }
 
 .main-features-block {
