@@ -112,7 +112,7 @@ gulp.task('templates', function() {
 });
 
 // This task is used for building production ready
-gulp.task('build', ['html', 'app', 'sass'], function() {
+gulp.task('build', ['default'], function() {
     var html = gulp.src("build/index.html")
         .pipe(gulp.dest('./dist/'));
 
@@ -141,10 +141,10 @@ gulp.task('serve', function () {
 gulp.task('sftp', function () {
     return gulp.src('build/**')
         .pipe(sftp_new({
-            host: '193.124.181.87',
-            user: 'webroot_dev',
-            pass: '1P1IeqPn0uTjuWlalzXZ',
-            remotePath: 'www'
+            host: 'ftp.staminity.com:21',
+            user: 'dev1ftpuser@dev1.staminity.com',
+            pass: 'DpziUbiqPJ84w9xIf3ll',
+            remotePath: '/'
         }));
 });
 
