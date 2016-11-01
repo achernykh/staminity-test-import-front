@@ -19,7 +19,7 @@ class CalendarActivityCtrl {
         this.segmentList = [];
         this.segmentListSize = null;
         this.segmentChart = [];
-        this.collapse = false;
+        this.collapse = { show: true };
     }
     $onInit(){
 
@@ -32,8 +32,6 @@ class CalendarActivityCtrl {
          * [L] - фактическая отсечка круга с устройства
          * [pW] - итоговый плановый сегмент по тренировке
          */
-
-	    //let type = this.item.activityHeader.activityType.code;
 
         // Структурированная тренировка имеет хотябы один сегмент с типом P
         this.structured = this.item.activityHeader.intervals.some( (seg) => {return seg.type == "P"});

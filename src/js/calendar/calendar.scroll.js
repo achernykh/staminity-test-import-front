@@ -86,6 +86,7 @@ export class CalendarScroll {
         /**
          * Формируем календарную сетку. Без тайм-аута библиотека не работает
          */
+        this.calendar.isLoading++;
         console.profile();
         console.info('CalendarScroll: get ', index, count, moment().format('mm:ss:SS'));
         this._$timeout(() => {
@@ -129,8 +130,8 @@ export class CalendarScroll {
             console.log('CalendarScroll: api request ', index, count, moment().format('mm:ss:SS'));
             this.calendar.getCalendarItem({startDate: start, endDate: end}).then(
                 () => {
-
                     console.log('CalendarScroll: html update success', index, count, moment().format('mm:ss:SS'));
+                    this.calendar.isLoading--;
                 }, () => {
                 }
             );

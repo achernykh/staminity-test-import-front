@@ -19,6 +19,7 @@ const requires = [
     'pascalprecht.translate',
     'ngWebSocket',
     'ui.router',
+    'duScroll',
     'ui.scroll',
     'ui.scroll.jqlite',
     'dndLists',

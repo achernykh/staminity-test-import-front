@@ -13,7 +13,7 @@ class CalendarCtrl {
         this._$timeout = $timeout;
         this._$anchorScroll = $anchorScroll;
         this._$location = $location;
-        this._$rootScope = $rootScope;
+        this._$rootScope = $rootScope; // слушаем новые сообщения от api
         this._Auth = Auth;
         this._AppMessage = AppMessage;
 	    this._ActionMessage = ActionMessage;
@@ -24,6 +24,7 @@ class CalendarCtrl {
         this.view.compact = false; //компактный/полный режим отображения calendarItems
         var self = this;
         this.scrollAdapter = {};
+        this.isLoading = 0; // индикатор загрузки данных
 
         this.grid = new CalendarScroll(this._$timeout, this); //подключаем скролл
         /**
@@ -94,10 +95,13 @@ class CalendarCtrl {
 	gotoAnchor(index){
 		this._$log.info(`scrollto index= ${index}`);
 		let newHash = 'week' + index;
+
 		if (this._$location.hash() !== newHash) {
 			// set the $location.hash to `newHash` and
 			// $anchorScroll will automatically scroll to it
 			this._$location.hash('week' + index);
+            //let week =  angular.element(document.getElementById(newHash));
+            //this._$document.scrollToElement(week, 0, 500);
 
 		} else {
 			// call $anchorScroll() explicitly,

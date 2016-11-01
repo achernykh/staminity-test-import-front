@@ -125,20 +125,18 @@
         <div ng-switch-when="segmentList"
              flex layout="column"
              class="md-caption">
-            <div ng-repeat="interval in $ctrl.segmentList | filter:{show: true} track by $index"
-                 class="animate-repeat"
-                 ng-switch on="::interval.group"
+            <div ng-repeat="interval in $ctrl.segmentList | filter:$ctrl.collapse track by $index"
+                 ng-switch on="interval.group"
                  flex layout="row">
                 <!-- группа интервалов
                     ng-if="interval.show || $ctrl.collapse"
                 -->
                 <div ng-switch-when="true"
-
                      class="segment-list"
                      flex layout="row" layout-align="start center">
                     <div flex="none" style="width: 20px" class="md-body-2">{{::interval.repeatCount}}x</div>
                     <div flex="auto" layout="column">
-                        <div ng-repeat="item in interval.subItem track by $index"
+                        <div ng-repeat="item in interval.subItem | filter:$ctrl.collapse track by $index"
                              flex layout="row"
                              ng-class="{'newlinesvg': interval.keyInterval}">
                             <div flex="none" style="height: 15px; margin-right: 4px">
@@ -172,8 +170,8 @@
         <div ng-if="$ctrl.segmentList.length > 4"
              flex layout="row" layout-align="center start"
              class="md-caption bt-more"
-             ng-click="$ctrl.collapse = !$ctrl.collapse">
-            <div>{{!$ctrl.collapse ? '...more' : '...less'}}</div>
+             ng-click="$ctrl.collapse.hasOwnProperty('show') ? $ctrl.collapse = {} : $ctrl.collapse = {show: true}">
+            <div>{{$ctrl.collapse.hasOwnProperty('show') ? '...more' : '...less'}}</div>
         </div>
     </div>
 </div>

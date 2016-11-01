@@ -39,6 +39,15 @@
                     <div layout="row" flex="100" style="width: 100%; max-width: 1400px">
                         <section layout="column" layout-align="start stretch" id="calendar" class="app-body animated zoomIn" style="width: 100%;">
 
+                            <!-- блок экрана при закгрузе данных
+                            <div ng-if="$ctrl.isLoading > 0"
+                                    style="background: black; opacity: 0.7; width: 100%; height: 100%;
+                                    position: fixed; z-index: 1">
+
+                            </div>
+
+                            -->
+
                             <!-- weekdays panel: start -->
                             <md-toolbar flex="none" layout="raw" layout-align="space-between center" hide show-gt-sm
                                         class="md-primary"
@@ -58,7 +67,9 @@
                             <!-- weekdays panel: end -->
 
                             <!-- grid: start -->
-                            <md-content flex class="calendar-grid" id="viewport-serviceDatasource" ui-scroll-viewport>
+                            <md-content flex class="calendar-grid"
+                                        id="viewport-serviceDatasource"
+                                        ui-scroll-viewport>
 
                                 <!-- grid-week: start -->
                                 <div id="week{{::week.sid}}"
