@@ -8,6 +8,66 @@
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
+      <meta name="keywords" content="Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером">
+      <meta name="description" content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта">
+
+      <!-- Open graph -->
+      <meta property="og:locale"        content="ru_RU">
+      <meta property="og:type"          content="website">
+      <meta property="og:title"         content="Стаминити | Staminity">
+      <meta property="og:url"           content="http://staminity.com/">
+      <meta property="og:site_name"     content="Стаминити">
+      <meta property="og:image"         content="http://dev1.staminity.com/assets/picture/og-staminity-01.jpg">
+      <meta property="og:image:url"     content="http://dev1.staminity.com/assets/picture/og-staminity-01.jpg">
+      <meta property="og:image:type"    content="image/jpeg">
+      <meta property="og:image:width"   content="500">
+      <meta property="og:image:width"   content="320">
+
+      <meta property="fb:app_id" content=""> <!-- Facebook application id -->
+
+      <!-- Google analytics -->
+      <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-86484345-1', 'auto');
+          ga('send', 'pageview');
+
+      </script>
+      <!-- /Google analytics -->
+
+      <!-- Yandex.Metrika counter -->
+      <script type="text/javascript">
+          (function (d, w, c) {
+              (w[c] = w[c] || []).push(function() {
+                  try {
+                      w.yaCounter40653114 = new Ya.Metrika({
+                          id:40653114,
+                          clickmap:true,
+                          trackLinks:true,
+                          accurateTrackBounce:true,
+                          webvisor:true
+                      });
+                  } catch(e) { }
+              });
+
+              var n = d.getElementsByTagName("script")[0],
+                      s = d.createElement("script"),
+                      f = function () { n.parentNode.insertBefore(s, n); };
+              s.type = "text/javascript";
+              s.async = true;
+              s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+              if (w.opera == "[object Opera]") {
+                  d.addEventListener("DOMContentLoaded", f, false);
+              } else { f(); }
+          })(document, window, "yandex_metrika_callbacks");
+      </script>
+      <noscript><div><img src="https://mc.yandex.ru/watch/40653114" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+      <!-- /Yandex.Metrika counter -->
+
     <!-- Style sheets-->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,900&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/libs.css">
@@ -24,77 +84,43 @@
       </style>
   </head>
   <body>
-    <staminity-application screen="screen" session="session" user="currentUser" athlete="currentAthlete">
-        <div style="width: 100%; height: auto; bottom: 0px; top: 0px; left: 0; position: absolute;">
-            <img src="/assets/icon/infinity.svg" />
-            <div style="text-align: center; position: absolute; width: 100px; height: 50px; top: 50%; left: 50%;
-                        margin-top: -25px; margin-left: -50px; color: whitesmoke">Loading...</div>
-        </div>
-    </staminity-application>
-  <!-- <noscript>
-      <div id="center" layout="column"  layout-align="center center" layout-padding>
-          <div flex="auto" hide-xs class="logo">
-              <img src="/pic/logolp.svg"/>
+
+      <staminity-application screen="screen" session="session" user="currentUser" athlete="currentAthlete">
+            <div class="screen-center-block">
+                <div>
+                    <img src="/assets/icon/logo_mono.svg" width="40"/>
+                </div>
+                <div>
+                    <img src="/assets/icon/logo_typo_mono.svg" width="120"/>
+                </div>
+                <div>
+                    <img src="/assets/icon/ripple.svg" width="60"/>
+                </div>
+            </div>
+        </staminity-application>
+
+      <noscript>
+          <div class="screen-center-block">
+              <div>
+                  <img src="/assets/icon/logo_mono.svg" width="100"/>
+              </div>
+              <div class="message md-title">
+                  <p>Please enable JavaScript in your browser to enjoy staminity.com.</p>
+              </div>
           </div>
-          <div flex="auto" class="md-display-1">
-              <p>Please enable JavaScript in your browser to enjoy staminity.com.</p>
+      </noscript>
+
+      <!--[if lt IE 11]>
+      <div id="screen-center-block">
+          <div class="message md-body-1">Вы используете устаревшую версию браузера. <br> Обновите
+              Ваш браузер или установите нормальный и современный<br>
+              <a href="https://www.google.com/chrome/browser/desktop/index.html">Google Chrome</a><br>
+              <a href="https://www.mozilla.org/ru/firefox/new/">Mozilla Firefox</a><br>
+              <a href="http://www.opera.com/ru/computer/windows">Opera</a><br>
+              для лучшего отображения данного сайта.
           </div>
       </div>
-  </noscript> -->
-
-  <!--
-  <div class="{{GUI.style}}" ng-controller="AppBoxCtrl as vm" ng-cloak>
-      <app-background></app-background>
-      <app-header></app-header>
-      <app-frame>
-          <div flex="100" layout="column" layout-align="start center" ng-view></div>
-      </app-frame>
-      <app-menu ng-if="GUI.style == 'app-page'"></app-menu>
-
-
-      <div ng-controller="NotificationCtrl as vm" style="overflow: hidden; height: 100%">
-          <md-sidenav class="md-sidenav-right md-whiteframe-z2" style="width: 400px !important;" md-component-id="right">
-              <md-toolbar class="md-theme-light">
-                  <h1 class="md-toolbar-tools">Sidenav Right</h1>
-              </md-toolbar>
-              <md-content style="overflow: scroll">
-                  <md-list flex>
-                      <md-subheader class="md-no-sticky">Не прочитанные ({{vm.notification}})</md-subheader>
-                      <md-list-item class="md-3-line toast-message" layout="row" md-theme="default" layout-padding
-                                    ng-repeat="item in vm.buffer | orderBy : '-time'">
-                          <div>
-                              <img src="/pic/01.jpg" style="width: 40px; height: 40px; border-radius: 20px"/>
-                          </div>
-                          <div layout="column" style="width: 100%">
-                              <div layout="row" layout-align="space-between start">
-                                  <a ng-href="/profile?user={{item.authorFullName}}"
-                                     class="md-body-1 title" ng-bind-html="item.authorFullName"></a>
-                                  <div class="md-body-1 text" style="text-align: right; padding-left: 12px">{{item.time | date:
-                                      'short'}}</div>
-                              </div>
-                              <div>
-                                  <a ng-href="/settings#syncGarmin?user={{item.authorFullName}}"
-                                     class="md-body-1 text" ng-click="click(toaster)">
-                                      {{item.message | limitTo: 100 }}{{item.message.length > 100 ? ' ...' : ''}}</a>
-                              </div>
-                          </div>
-                      </md-list-item>
-                      <md-subheader class="md-no-sticky">Прочитанные</md-subheader>
-                  </md-list>
-              </md-content>
-          </md-sidenav>
-      </div>
-
-      <div class="progress-bar" ng-show="vm.progressShow" ng-class="{'show-me': vm.progressShow}">
-          <md-progress-linear class="md-accent" md-mode="determinate" value="{{vm.progressStatus}}"></md-progress-linear>
-      </div>
-
-      <athlete-selector>
-      </athlete-selector>
-
-      <system-message></system-message>
-      <toaster-container>
-      </toaster-container> -->
+      <![endif]-->
 
       <!-- Application Scripts (gulp compilation) -->
       <script src="js/libs.js"></script>

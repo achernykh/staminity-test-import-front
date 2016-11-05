@@ -15,6 +15,11 @@ var templateCache = require('gulp-angular-templatecache');
 var uglify        = require('gulp-uglify');
 var merge         = require('merge-stream');
 var sftp_new      = require('gulp-sftp-new');
+var gutil         = require('gulp-util');
+var ftp           = require('gulp-ftp');
+var imagemin      = require('gulp-imagemin');
+var cssmin        = require('gulp-cssmin');
+
 
 // Get/set variables
 var config = require('./gulp.config');
@@ -88,6 +93,7 @@ gulp.task('sass', function(){
 // Copy assets
 gulp.task('assets', function() {
     return gulp.src(config.src.assets)
+        //.pipe(imagemin())
         .on('error', interceptErrors)
         .pipe(gulp.dest(config.build+'assets/'));
 });
@@ -112,15 +118,24 @@ gulp.task('templates', function() {
 });
 
 // This task is used for building production ready
-gulp.task('build', ['default'], function() {
+gulp.task('build', function() {
     var html = gulp.src("build/index.html")
         .pipe(gulp.dest('./dist/'));
 
-    var js = gulp.src("build/main.js")
+    var css = gulp.src('build/css/*.css')
+        .pipe(cssmin())
+        //.pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./dist/css/'));
+
+    var js = gulp.src("build/js/**.js")
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js/'));
 
-    return merge(html,js);
+    var assets = gulp.src("build/assets/**")
+        //.pipe(imagemin())
+        .pipe(gulp.dest('./dist/assets/'));
+
+    return merge(html,js, css, assets);
 });
 
 // Start local http server
@@ -146,6 +161,19 @@ gulp.task('sftp', function () {
             pass: 'DpziUbiqPJ84w9xIf3ll',
             remotePath: '/'
         }));
+});
+
+gulp.task('ftp', ['build'], function () {
+    return gulp.src('dist/**')
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'dev1ftpuser@dev1.staminity.com',
+            pass: 'DpziUbiqPJ84w9xIf3ll'
+        }))
+        // you need to have some kind of stream after gulp-ftp to make sure it's flushed
+        // this can be a gulp plugin, gulp.dest, or any kind of stream
+        // here we use a passthrough stream
+        .pipe(gutil.noop());
 });
 
 // Creates a watch task to watch files and build async

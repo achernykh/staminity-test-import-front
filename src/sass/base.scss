@@ -32,20 +32,41 @@ $gt-sm: 960px;
 .back-primary-hue-3 {
   background: $primary-hue-3;
 }
+/**
+  Стили для разметки главной страницы в случае, если в браузере нет поодежки JavaScript
+**/
 
-noscript {
-  #center {
-    background: $primary-hue-3;
-    color: rgba(white, 0.7);
-    height: 100%;
-  }
+.screen-center-block {
+  
+  position: fixed;
+  top: 0;
+
+  background: $primary-hue-3;
+  color: rgba(white, 0.7);
+  width: 100vw;
+  height: 100vh;
+  background: #37474F;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: space-around;
 
   .logo {
-    width: 70%;
-    max-width: 150px;
     margin: 8px 0px;
   }
+
+  .message {
+    text-align: center;
+    margin-top: 24px;
+    margin-left: 20vw;
+    margin-right: 20vw;
+  }
+
+
 }
+
 
 .disabled{
   &.dark {

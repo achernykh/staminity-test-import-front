@@ -37,7 +37,7 @@ class LandingPageCtrl {
         //this._$log.debug('LandingPage: Destroy');
     }
 
-	onSubscribe(email) {
+	onSubscribe(form) {
 
 		/**
 		 * curl --request POST \
@@ -47,31 +47,7 @@ class LandingPageCtrl {
 		 --data '{"name":"Freddie'\''s Favorite Hats","contact":{"company":"MailChimp","address1":"675 Ponce De Leon Ave NE","address2":"Suite 5000","city":"Atlanta","state":"GA","zip":"30308","country":"US","phone":""},"permission_reminder":"You'\''re receiving this email because you signed up for updates about Freddie'\''s newest hats.","campaign_defaults":{"from_name":"Freddie","from_email":"freddie@freddiehats.com","subject":"","language":"en"},"email_type_option":true}' \
 		 --include		 *
 		 */
-
-
-		console.debug('onSubscribe: ', email);
-		let mailchimp = 'https://us14.api.mailchimp.com/3.0/';
-		let list = '224d40e5a0';
-		let api = `https://achernykh:5b2404f300d5d106c68325a849b57b02-us14@us14.api.mailchimp.com/3.0/lists/224d40e5a0/members/`;
-		this._$http({
-					method: 'POST',
-					url: api,
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': 'apikey 5b2404f300d5d106c68325a849b57b02-us14',
-						user: 'achernykh:5b2404f300d5d106c68325a849b57b02-us14',
-					},
-					data: {
-						email_address: email,
-						status: 'subscribed'
-					}
-				}).then(
-					(success) => {
-						console.debug('onSubscribe: ', api, success);
-					},
-					(error) => {
-						console.error('onSubscribe: ', api, error);
-					});
+		console.debug('onSubscribe: ', form);
 	}
 
     goTo(link){

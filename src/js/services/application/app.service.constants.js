@@ -19,7 +19,7 @@ const ViewConstants = {
         //size: 'auto'
       },
       rightPanel: {
-        url: 'layout/application/header/welcome.links.html',
+        //url: 'layout/application/header/welcome.links.html',
         size: 80
       }
     },

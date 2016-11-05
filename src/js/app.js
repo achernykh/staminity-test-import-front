@@ -16,6 +16,7 @@ import './services';
 const requires = [
     'ngMaterial',
     'ngAnimate',
+    'ngMessages',
     'pascalprecht.translate',
     'ngWebSocket',
     'ui.router',

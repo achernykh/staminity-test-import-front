@@ -14,13 +14,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 		requireBase: false
 	});
 
-	$urlRouterProvider.otherwise('/welcome');
+	$urlRouterProvider.otherwise('/');
 
 	// Настройка state (Представлений)
 	// TODO переписать на какой-нибуь структурированный массив в Settings
 	$stateProvider
 		.state('welcome', {
-			url: "/welcome",
+			url: "/",
 			access: [],
 			resolve: {
 				view: function(ViewService) {
@@ -96,7 +96,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
     // Дополнительная цветовая схема для контрастных форм и фрагментов,
     // с темным задним фоном
     $mdThemingProvider.theme('dark')
-        .primaryPalette('orange')
+        .primaryPalette('deep-orange')
         .accentPalette('blue-grey')
         .warnPalette('red')
         .backgroundPalette('blue-grey').dark();
