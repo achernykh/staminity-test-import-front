@@ -184,20 +184,18 @@ img.avatar{
   margin: 0px 0px !important;
 }
 
-
-
-/* Registration form */
-
 html, body, .container {
   //height: 100%;
 }
 
 body {
   background-color: $primary-hue-3;
-  //overflow: hidden;
   min-width: 320px;
   min-height: 480px;
-  height: initial;
+  height: auto;
+  width: auto;
+  overflow-x: hidden;
+
 }
 
 .landing-page {

@@ -163,16 +163,40 @@ gulp.task('sftp', function () {
         }));
 });
 
-gulp.task('ftp', ['build'], function () {
+gulp.task('ftp-dev', ['build'], function () {
     return gulp.src('dist/**')
         .pipe(ftp({
             host: 'ftp.staminity.com',
             user: 'dev1ftpuser@dev1.staminity.com',
             pass: 'DpziUbiqPJ84w9xIf3ll'
         }))
-        // you need to have some kind of stream after gulp-ftp to make sure it's flushed
-        // this can be a gulp plugin, gulp.dest, or any kind of stream
-        // here we use a passthrough stream
+        .pipe(gutil.noop());
+});
+gulp.task('ftp-dev-core', ['build'], function () {
+    return gulp.src(['dist/index.html','dist/css/**','dist/js/**'])
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'dev1ftpuser@dev1.staminity.com',
+            pass: 'DpziUbiqPJ84w9xIf3ll'
+        }))
+        .pipe(gutil.noop());
+});
+gulp.task('ftp-prd', ['build'], function () {
+    return gulp.src('dist/**')
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'ih207328ac@staminity.com',
+            pass: 'kgQ6uPqTP4271FQe'
+        }))
+        .pipe(gutil.noop());
+});
+gulp.task('ftp-prd-core', ['build'], function () {
+    return gulp.src(['dist/index.html','dist/css/**','dist/js/**'])
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'ih207328ac@staminity.com',
+            pass: 'kgQ6uPqTP4271FQe'
+        }))
         .pipe(gutil.noop());
 });
 
