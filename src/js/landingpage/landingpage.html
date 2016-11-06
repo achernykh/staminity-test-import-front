@@ -17,7 +17,8 @@
                              class="logo-box"
                              style="">
                             <div flex="none" id="landingpage-soon"
-                                 class="md-display-2 soon animated fadeInRight">Этой зимой
+                                 class="md-display-2 soon animated fadeInRight"
+                                 translate="app.landing.welcome.promo">
                             </div>
                             <div flex="none" layout="column" layout-align="start center"
                                  class="logo">
@@ -34,34 +35,34 @@
                         <div flex="auto" layout="column" layout-align="center center"
                              id="landingpage-title"
                              translate class="animated fadeIn md-display-3">
-                            <div flex="100">Удаленная работа с тренером и социальная сеть для спортсменов
+                            <div flex="none" translate="app.landing.welcome.description">
                             </div>
                         </div>
 
                         <div id="mc_embed_signup" flex="none" layout="column">
                             <form flex="none" layout="column" class="subscribe"
                                   action="//staminity.us14.list-manage.com/subscribe/post?u=0f9d8fcdbbc8ab7bb9f344b02&amp;id=0caa4cfc49"
-                                  ng-submit=''
                                   method="post" id="mc-embedded-subscribe-form" name="subscribeForm"
                                   target="_blank" novalidate>
                                     <md-input-container flex="none"  md-no-float class="md-block center">
-                                        <input ng-model="$ctrl.credentials.name" placeholder="Имя"
+                                        <input ng-model="$ctrl.credentials.name"
+                                               placeholder="{{ 'app.landing.subscribe.name' | translate }}"
                                                name="NAME" id="mce-NAME" autocomplete="off"
                                                required maxlength="30">
                                         <div ng-messages="subscribeForm.NAME.$error" role="alert">
-                                            <div ng-message="required" translate>app.auth.required</div>
-                                            <div ng-message="md-maxlength"
-                                                 translate translate-value-field="{{'app.auth.firstName' | translate}}">app.auth.err30</div>
+                                            <div ng-message="required" translate="app.landing.subscribe.required"></div>
                                         </div>
                                     </md-input-container>
                                     <md-input-container flex="none" md-no-float class="md-block center">
                                         <input ng-model="$ctrl.credentials.email" placeholder="Email"
                                                name="EMAIL" id="mce-EMAIL" autocomplete="off"
-                                               required minlength="5" maxlength="100"
-                                               ng-pattern="/^.+@.+\..+$/">
+                                               required minlength="4" maxlength="100"
+                                               ng-pattern="/^.+@.+\..+$/"
+                                               placeholder="{{ 'app.landing.subscribe.email' | translate }}">
                                         <div ng-messages="subscribeForm.EMAIL.$error" role="alert">
-                                            <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                                                app.auth.errMail
+                                            <div ng-message="required" translate="app.landing.subscribe.required"></div>
+                                            <div ng-message-exp="['minlength', 'maxlength', 'pattern']"
+                                                 translate="app.landing.subscribe.errMail">
                                             </div>
                                         </div>
                                     </md-input-container>
@@ -75,13 +76,14 @@
                                 </div>
                                 <md-button flex='none' class="md-raised md-primary"
                                            ng-disabled = "!subscribeForm.$valid"
-                                           type="submit" name="subscribe" id="mc-embedded-subscribe">Подписаться</md-button>
+                                           type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                           translate="app.landing.subscribe.action"></md-button>
 
-                                <div class="note md-body">Рассказываем о создании сервиса, делимся новостями, анонсируем
-                                    запуск</div>
+                                <div class="note md-body"
+                                     translate="app.landing.subscribe.note"></div>
                             </form>
                         </div>
-                        <md-button flex="none" class="md-icon-button more" aria-label="more">
+                        <md-button disabled md-ink-ripple="false" flex="none" class="md-icon-button more" aria-label="more">
                             <md-icon class="light-active" md-svg-icon="assets/icon/expand_more.svg"></md-icon>
                         </md-button>
 
@@ -97,30 +99,33 @@
                      class="main-features-block cover-02">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="auto" layout="column" layout-align="start center">
-                        <div flex="none" class="md-display-2">Для спортсменов</div>
-                        <div flex="none" class="md-headline">Помогаем заниматься с тренером и достигать спортивных целей</div>
+                        <div flex="none" class="md-display-2" translate="app.landing.features.athletes.title"></div>
+                        <div flex="none" class="md-headline" translate="app.landing.features.athletes.subtitle"></div>
                         <div flex="auto" layout="column" layout-gt-sm="row"
                              class="block-100">
-                            <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
+                                 class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/statistics-1.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Планируйте</div>
-                                <div flex="none" class="md-body info">Получайте плановые задания от тренера или создавайте их сами. Вы узнаете о новом задании, а тренер – о выполненной тренировке</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.athletes.title1"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.athletes.text1"></div>
                             </div>
-                            <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
+                                 class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-speed.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Тренируйтесь</div>
-                                <div flex="none" class="md-body info">Выполняйте задания и анализируйте их. Записанные треки со спортивных часов и смартфонов попадут в ваш тренировочный дневник и будут сопоставлены с планом</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.athletes.title2"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.athletes.text2"></div>
                             </div>
-                            <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
+                                 class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-browser.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Оставайтесь вовлеченными</div>
-                                <div flex="none" class="md-body info">Находите друзей, общайтесь, поддерживайте друг друга. Тренировки друзей и комментарии к вашим занятиям помогут сохранить мотивацию.</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.athletes.title3"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.athletes.text3"></div>
                             </div>
                         </div>
                     </div>
@@ -131,8 +136,8 @@
                      class="main-features-block cover-03">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="auto" layout="column" layout-align="start center">
-                        <div flex="none" class="md-display-2">Для тренеров</div>
-                        <div flex="none" class="md-headline">Cокращаем рутину в тренировочном процессе</div>
+                        <div flex="none" class="md-display-2" translate="app.landing.features.coaches.title"></div>
+                        <div flex="none" class="md-headline" translate="app.landing.features.coaches.subtitle"></div>
 
                         <div flex="auto" layout="column" layout-gt-sm="row"
                              class="block-100">
@@ -140,23 +145,22 @@
                                 <div flex="none">
                                     <md-icon class="icon" md-svg-src="/assets/icon/lp-goal-1.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Планируйте подготовку</div>
-                                <div flex="none" class="md-body info secondary light">Создавайте плановые задания для своих учеников. Пишите план на каждый сегмент или на тренировку в целом, используйте шаблоны, задавайте интенсивность по тренировочным зонам.
-                                    Ваши спортсмены узнают обо всех изменениях плана.</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title1"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.coaches.text1"></div>
                             </div>
                             <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/research-1.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Контролируйте выполнение</div>
-                                <div flex="none" class="md-body info secondary light">Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам.</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title2"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.coaches.text2"></div>
                             </div>
                             <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-statistics.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Анализируйте тренировки</div>
-                                <div flex="none" class="md-body info secondary light">Узнавайте о выполнении тренировок спортсменами, получайте подробную информацию по ним. Мы рассчитаем процент выполнения и основные показатели по тренировочным сегментам и в целом по заданию.</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title3"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.coaches.text3"></div>
                             </div>
                         </div>
 
@@ -168,8 +172,8 @@
                      class="main-features-block cover-04">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="auto" layout="column" layout-align="start center">
-                        <div flex="none" class="md-display-2">Для клубов</div>
-                        <div flex="none" class="md-headline">Помогаем управлять клубом</div>
+                        <div flex="none" class="md-display-2" translate="app.landing.features.clubs.title"></div>
+                        <div flex="none" class="md-headline" translate="app.landing.features.clubs.subtitle"></div>
 
                         <div flex="auto" layout="column" layout-gt-sm="row"
                              class="block-100">
@@ -177,22 +181,22 @@
                                 <div flex="none">
                                     <md-icon class="icon" md-svg-src="/assets/icon/hierarchical-structure.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Собирайте команду</div>
-                                <div flex="none" class="md-body info secondary light">Создайте клуб, подключайте тренеров и спортсменов, назначайте тренеров для спортсменов. Вы сможете управлять запросами на вступление в клуб от других пользователей сервиса.</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title1"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.coaches.text1"></div>
                             </div>
                             <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-screen.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Контролируйте подготовку</div>
-                                <div flex="none" class="md-body info secondary light">Будьте в курсе, как работают тренеры и занимаются спортсмены. Недельный обзор покажет наличие плана и сводный статус его выполнения по всем ученикам</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title2"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.coaches.text2"></div>
                             </div>
                             <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-analytics.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title">Повышайте эффективность</div>
-                                <div flex="none" class="md-body info secondary light">Выбирайте лучшие методы подготовки. Шаблоны тренировок клуба и статистика их выполнения помогут найти самые эффективные задания.</div>
+                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title3"></div>
+                                <div flex="none" class="md-body info" translate="app.landing.features.coaches.text3"></div>
                             </div>
                         </div>
 
@@ -206,42 +210,34 @@
 
                     <div id="mc_embed_signup" flex="auto" layout="column" layout-align="space-between center">
 
-                        <div flex="none" class="md-title">Рассылка</div>
+                        <div flex="none" class="md-title" translate="app.landing.subscribe.title"></div>
 
                         <form flex="none" layout="column" class="subscribe"
                               action="//staminity.us14.list-manage.com/subscribe/post?u=0f9d8fcdbbc8ab7bb9f344b02&amp;id=0caa4cfc49"
-                              ng-submit=''
                               method="post" id="mc-embedded-subscribe-form" name="subscribeForm"
                               target="_blank" novalidate>
-
-
                             <md-input-container flex="none"  md-no-float class="md-block center">
-                                <input ng-model="$ctrl.credentials.name" placeholder="Имя"
+                                <input ng-model="$ctrl.credentials.name"
+                                       placeholder="{{ 'app.landing.subscribe.name' | translate }}"
                                        name="NAME" id="mce-NAME" autocomplete="off"
                                        required maxlength="30">
                                 <div ng-messages="subscribeForm.NAME.$error" role="alert">
-                                    <div ng-message="required" translate>app.auth.required</div>
-                                    <div ng-message="md-maxlength"
-                                         translate translate-value-field="{{'app.auth.firstName' | translate}}">app.auth.err30</div>
+                                    <div ng-message="required" translate="app.landing.subscribe.required"></div>
                                 </div>
                             </md-input-container>
-
-
-
                             <md-input-container flex="none" md-no-float class="md-block center">
                                 <input ng-model="$ctrl.credentials.email" placeholder="Email"
                                        name="EMAIL" id="mce-EMAIL" autocomplete="off"
-                                       required minlength="5" maxlength="100"
-                                       ng-pattern="/^.+@.+\..+$/">
+                                       required minlength="4" maxlength="100"
+                                       ng-pattern="/^.+@.+\..+$/"
+                                       placeholder="{{ 'app.landing.subscribe.email' | translate }}">
                                 <div ng-messages="subscribeForm.EMAIL.$error" role="alert">
-                                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                                        app.auth.errMail
+                                    <div ng-message="required" translate="app.landing.subscribe.required"></div>
+                                    <div ng-message-exp="['minlength', 'maxlength', 'pattern']"
+                                         translate="app.landing.subscribe.errMail">
                                     </div>
                                 </div>
                             </md-input-container>
-
-
-
                             <div id="mce-responses" class="clear">
                                 <div class="response" id="mce-error-response" style="display:none"></div>
                                 <div class="response" id="mce-success-response" style="display:none"></div>
@@ -250,13 +246,13 @@
                             <div style="position: absolute; left: -5000px;" aria-hidden="true">
                                 <input type="text" name="b_c49c777942c67c1e4df468558_224d40e5a0" tabindex="-1" value="">
                             </div>
-
                             <md-button flex='none' class="md-raised md-primary"
                                        ng-disabled = "!subscribeForm.$valid"
-                                       type="submit" name="subscribe" id="mc-embedded-subscribe">Подписаться</md-button>
+                                       type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                       translate="app.landing.subscribe.action"></md-button>
 
-                            <div class="note md-body">Рассказываем о создании сервиса, делимся новостями, анонсируем
-                                запуск</div>
+                            <div class="note md-body"
+                                 translate="app.landing.subscribe.note"></div>
                         </form>
 
                         <div flex="none" layout="row" class="social-buttons">
@@ -274,7 +270,8 @@
                         </div>
 
                         <div flex="none" class="note md-body">
-                            <span>Есть вопросы? Напишите нам: </span><a href="mailto:mail.@staminity.ru">mail@staminity.ru</a>
+                            <span translate="app.landing.subscribe.question"></span>
+                            <a href="mailto:mail.@staminity.ru">mail@staminity.ru</a>
                         </div>
 
                     </div>

@@ -49,7 +49,7 @@ var cssLibs = [
 module.exports = {
     gulp: './gulp.config.js',
     src: {
-        index: src + 'index.html',
+        index: [src + 'index.html', src + 'browserconfig.xml'],
         jsLibs: jsLibs,
         app: src + 'js/app.js',
         jsApp: [src + 'js/**/*.js', src + 'js/**//**/*.js' ],

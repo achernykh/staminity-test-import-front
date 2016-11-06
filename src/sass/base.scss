@@ -43,8 +43,8 @@ $gt-sm: 960px;
 
   background: $primary-hue-3;
   color: rgba(white, 0.7);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: #37474F;
 
   display: flex;
@@ -62,8 +62,15 @@ $gt-sm: 960px;
     margin-top: 24px;
     margin-left: 20vw;
     margin-right: 20vw;
+    max-width: 300px;
   }
 
+  a {
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+    color: white;
+  }
 
 }
 

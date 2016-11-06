@@ -119,7 +119,7 @@ gulp.task('templates', function() {
 
 // This task is used for building production ready
 gulp.task('build', function() {
-    var html = gulp.src("build/index.html")
+    var html = gulp.src(["build/index.html", "build/browserconfig.xml"])
         .pipe(gulp.dest('./dist/'));
 
     var css = gulp.src('build/css/*.css')

@@ -23,9 +23,9 @@
 }
 
 .cover-04 {
-  background-image: linear-gradient(to top, rgba(#37474F, 1), rgba(#37474F, 1) 10%, rgba(#000000, 0.4) 75%, rgba(#403A4E, 1)),
+  background-image: linear-gradient(to top, rgba(#37474F, 1), rgba(#37474F, 1) 10%, rgba(#000000, 0.5) 75%, rgba(#403A4E, 1)),
   url(/assets/picture/lp-bg-11-1440.jpg);
-  background-position: 20% 50%;
+  background-position: 45% 100%;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -33,7 +33,7 @@
 .cover-05 {
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0.40), rgba(black, 0.40) 73%, rgba(black, 0.40)),
   url(/assets/picture/lp-bg-05.jpg);
-  background-position: center 100%;
+  background-position: 35% 100%;
   background-repeat: no-repeat;
   background-size: cover;
   color: black;
@@ -317,7 +317,8 @@ form.subscribe {
   }
 
   .md-title {
-	margin-bottom: 8px
+	margin-bottom: 8px;
+	min-height: 62px;
   }
 
   .md-body {

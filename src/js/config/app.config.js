@@ -102,10 +102,10 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         .backgroundPalette('blue-grey').dark();
 
     // Текст представлений
-		$translateProvider.translations('en', { app: translateApp['en'] });
+	$translateProvider.translations('en', { app: translateApp['en'] });
     $translateProvider.translations('ru', { app: translateApp['ru'] });
-    $translateProvider.preferredLanguage('en');
-    $translateProvider.fallbackLanguage('en');
+    $translateProvider.preferredLanguage('ru');
+    $translateProvider.fallbackLanguage('ru');
     //$translateProvider.useSanitizeValueStrategy('escape');
 
 }

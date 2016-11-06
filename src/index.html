@@ -8,8 +8,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-      <meta name="keywords" content="Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером">
-      <meta name="description" content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта">
+      <meta name="keywords" ng-attr-content="{{keywords | translate}}">
+      <meta name="description" ng-attr-content="{{description | translate}}">
 
       <!-- Open graph -->
       <meta property="og:locale"        content="ru_RU">
@@ -22,8 +22,15 @@
       <meta property="og:image:type"    content="image/jpeg">
       <meta property="og:image:width"   content="500">
       <meta property="og:image:width"   content="320">
-
       <meta property="fb:app_id" content=""> <!-- Facebook application id -->
+
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:site" content="@staminity">
+      <meta name="twitter:creator" content="@staminity">
+      <meta name="twitter:title" ng-attr-content="{{fullTitle | translate}}">
+      <meta name="twitter:description"  ng-attr-content="{{description | translate}}">
+      <meta name="twitter:image" content="http://dev1.staminity.com/assets/picture/og-staminity-01.jpg">
+
 
       <!-- Google analytics -->
       <script>
@@ -73,6 +80,21 @@
     <link rel="stylesheet" href="css/libs.css">
     <link rel="stylesheet" href="css/app.css">
     <!-- Place favicon.ico in the root directory -->
+      <link rel="icon" type="image/png" href="/assets/icon/favicon-16x16.png" sizes="16x16">
+      <link rel="icon" type="image/png" href="/assets/icon/favicon-32x32.png" sizes="32x32">
+      <link rel="icon" type="image/png" href="/assets/icon/favicon-96x96.png" sizes="96x96">
+
+      <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-touch-icon-57x57.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="/assets/icon/apple-touch-icon-114x114.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="/assets/icon/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="144x144" href="/assets/icon/apple-touch-icon-144x144.png">
+      <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/apple-touch-icon-60x60.png">
+      <link rel="apple-touch-icon" sizes="120x120" href="/assets/icon/apple-touch-icon-120x120.png">
+      <link rel="apple-touch-icon" sizes="76x76" href="/assets/icon/apple-touch-icon-76x76.png">
+      <link rel="apple-touch-icon" sizes="152x152" href="/assets/icon/apple-touch-icon-152x152.png">
+
+      <meta name="msapplication-TileColor" content="#253238">
+      <meta name="msapplication-TileImage" content="/assets/icon/mstile-144x144.png">
 
       <style type="text/css">
           /**
@@ -98,26 +120,40 @@
                 </div>
             </div>
         </staminity-application>
-
       <noscript>
           <div class="screen-center-block">
               <div>
                   <img src="/assets/icon/logo_mono.svg" width="100"/>
               </div>
-              <div class="message md-title">
-                  <p>Please enable JavaScript in your browser to enjoy staminity.com.</p>
+              <div class="message">
+                  <p class="md-body">Пожалуйста <a href="http://enable-javascript.com/">активируйте JavaScript</a> в браузере для просмотра staminity.com</p>
+                  <p class="md-body">Please <a href="http://enable-javascript.com/">enable JavaScript</a> in your browser to enjoy staminity.com</p>
               </div>
           </div>
       </noscript>
-
-      <!--[if lt IE 11]>
+      <!--[if lte IE11]>
       <div id="screen-center-block">
-          <div class="message md-body-1">Вы используете устаревшую версию браузера. <br> Обновите
-              Ваш браузер или установите нормальный и современный<br>
-              <a href="https://www.google.com/chrome/browser/desktop/index.html">Google Chrome</a><br>
-              <a href="https://www.mozilla.org/ru/firefox/new/">Mozilla Firefox</a><br>
-              <a href="http://www.opera.com/ru/computer/windows">Opera</a><br>
-              для лучшего отображения данного сайта.
+          <div class="message md-body-1">
+              <p class="md-title center">Ваш браузер не поддерживается</p>
+              <p class="md-body">Ваш браузер не поддерживается. Для просмотра staminity.com используйте современные
+                  версии браузеров, например
+                  <a href="https://www.google.ru/chrome/">Chrome</a>,
+                  <a href="https://www.mozilla.org/ru/firefox/new/">Firefox</a>,
+                  <a href="http://www.opera.com/">Opera</a>,
+                  <a href="https://browser.yandex.ru/">Yandex, </a>
+                  <a href="http://www.apple.com/safari/download">Safari</a>,
+                  <a href="https://www.microsoft.com/ru-ru/windows/microsoft-edge">Microsoft Edge</a>
+              </p>
+              <p class="md-title center">Sorry, your browser isn't supported</p>
+              <p class="md-body">Sorry, your browser isn't supported. Please use one of modern browsers like
+                  <a href="https://www.google.com/chrome/">Chrome</a>,
+                  <a href="https://www.mozilla.org/en/firefox/new/">Firefox</a>,
+                  <a href="http://www.opera.com/">Opera</a>,
+                  <a href="https://browser.yandex.com/">Yandex, </a>
+                  <a href="http://www.apple.com/safari/download">Safari</a>,
+                  <a href="https://www.microsoft.com/windows/microsoft-edge">Microsoft Edge</a>
+              </p>
+
           </div>
       </div>
       <![endif]-->
