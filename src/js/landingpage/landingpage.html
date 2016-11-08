@@ -8,7 +8,7 @@
         <div class="body">
 
             <!-- welcome block: start -->
-            <div flex="grow" layout="row" class="welcome-block" md-theme="dark">
+            <section flex="grow" layout="row" class="welcome-block" md-theme="dark">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="100" layout="column" layout-align="space-between center">
                         <div flex="none" layout="row"
@@ -32,9 +32,8 @@
 
                         <div flex="auto" layout="column" layout-align="center center"
                              id="landingpage-title"
-                             translate class="animated fadeIn md-display-3">
-                            <div flex="none" translate="app.landing.welcome.description">
-                            </div>
+                             translate class="animated fadeIn">
+                            <h1 flex="none" class="md-display-3" translate="app.landing.welcome.description"></h1>
                         </div>
 
                         <div id="mc_embed_signup" flex="none" layout="column">
@@ -45,7 +44,7 @@
                                     <md-input-container flex="none"  md-no-float class="md-block center">
                                         <input ng-model="$ctrl.credentials.name"
                                                placeholder="{{ 'app.landing.subscribe.name' | translate }}"
-                                               name="NAME" id="mce-NAME" autocomplete="off"
+                                               name="NAME" id="mce-NAME" autocomplete="on"
                                                required maxlength="30">
                                         <div ng-messages="subscribeForm.NAME.$error" role="alert">
                                             <div ng-message="required" translate="app.landing.subscribe.required"></div>
@@ -53,9 +52,9 @@
                                     </md-input-container>
                                     <md-input-container flex="none" md-no-float class="md-block center">
                                         <input ng-model="$ctrl.credentials.email" placeholder="Email"
-                                               name="EMAIL" id="mce-EMAIL" autocomplete="off"
+                                               name="EMAIL" id="mce-EMAIL" autocomplete="on"
                                                required minlength="4" maxlength="100"
-                                               ng-pattern="/^.+@.+\..+$/"
+                                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                                placeholder="{{ 'app.landing.subscribe.email' | translate }}">
                                         <div ng-messages="subscribeForm.EMAIL.$error" role="alert">
                                             <div ng-message="required" translate="app.landing.subscribe.required"></div>
@@ -87,17 +86,17 @@
 
                     </div>
                     <div flex-gt-sm="10" hide show-gt-sm></div>
-            </div>
+            </section>
             <!-- welcome block: end -->
 
 
 
 
-                <div flex="grow" layout="row" class="main-features-block cover-02">
+                <section flex="grow" layout="row" class="main-features-block cover-02">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="100" layout="column" layout-align="start center">
-                        <div flex="none" class="md-display-2" translate="app.landing.features.athletes.title"></div>
-                        <div flex="none" class="md-headline" translate="app.landing.features.athletes.subtitle"></div>
+                        <h2 flex="none" class="md-display-2" translate="app.landing.features.athletes.title"></h2>
+                        <h3 flex="none" class="md-headline" translate="app.landing.features.athletes.subtitle"></h3>
                         <div flex="auto" layout="column" layout-gt-sm="row"
                              class="block-100">
                             <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
@@ -105,7 +104,7 @@
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/statistics-1.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.athletes.title1"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.athletes.title1"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.athletes.text1"></div>
                             </div>
                             <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
@@ -113,7 +112,7 @@
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-speed.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.athletes.title2"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.athletes.title2"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.athletes.text2"></div>
                             </div>
                             <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
@@ -121,20 +120,19 @@
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-browser.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.athletes.title3"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.athletes.title3"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.athletes.text3"></div>
                             </div>
                         </div>
                     </div>
                     <div flex-gt-sm="10" hide show-gt-sm></div>
-                </div>
+                </section>
 
-                <div layout="row"
-                     class="main-features-block cover-03">
+                <section layout="row" class="main-features-block cover-03">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="auto" layout="column" layout-align="start center">
-                        <div flex="none" class="md-display-2" translate="app.landing.features.coaches.title"></div>
-                        <div flex="none" class="md-headline" translate="app.landing.features.coaches.subtitle"></div>
+                        <h2 flex="none" class="md-display-2" translate="app.landing.features.coaches.title"></h2>
+                        <h3 flex="none" class="md-headline" translate="app.landing.features.coaches.subtitle"></h3>
 
                         <div flex="auto" layout="column" layout-gt-sm="row"
                              class="block-100">
@@ -142,35 +140,34 @@
                                 <div flex="none">
                                     <md-icon class="icon" md-svg-src="/assets/icon/lp-goal-1.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title1"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.coaches.title1"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.coaches.text1"></div>
                             </div>
                             <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/research-1.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title2"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.coaches.title2"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.coaches.text2"></div>
                             </div>
                             <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-statistics.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.coaches.title3"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.coaches.title3"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.coaches.text3"></div>
                             </div>
                         </div>
 
                     </div>
                     <div flex-gt-sm="10" hide show-gt-sm></div>
-                </div>
+                </section>
 
-                <div layout="row"
-                     class="main-features-block cover-04">
+                <section layout="row" class="main-features-block cover-04">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="auto" layout="column" layout-align="start center">
-                        <div flex="none" class="md-display-2" translate="app.landing.features.clubs.title"></div>
-                        <div flex="none" class="md-headline" translate="app.landing.features.clubs.subtitle"></div>
+                        <h2 flex="none" class="md-display-2" translate="app.landing.features.clubs.title"></h2>
+                        <h3 flex="none" class="md-headline" translate="app.landing.features.clubs.subtitle"></h3>
 
                         <div flex="auto" layout="column" layout-gt-sm="row"
                              class="block-100">
@@ -178,30 +175,30 @@
                                 <div flex="none">
                                     <md-icon class="icon" md-svg-src="/assets/icon/hierarchical-structure.svg"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.clubs.title1"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.clubs.title1"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.clubs.text1"></div>
                             </div>
                             <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-screen.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.clubs.title2"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.clubs.title2"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.clubs.text2"></div>
                             </div>
                             <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
                                 <div flex="none">
                                     <md-icon md-svg-src="/assets/icon/lp-analytics.svg" class="icon"></md-icon>
                                 </div>
-                                <div flex="none" class="md-title" translate="app.landing.features.clubs.title3"></div>
+                                <h4 flex="none" class="md-title" translate="app.landing.features.clubs.title3"></h4>
                                 <div flex="none" class="md-body info" translate="app.landing.features.clubs.text3"></div>
                             </div>
                         </div>
 
                     </div>
                     <div flex-gt-sm="10" hide show-gt-sm></div>
-                </div>
+                </section>
 
-                <div layout="row"
+                <section layout="row"
                      class="footer-block" md-theme="dark">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
 
@@ -216,7 +213,7 @@
                             <md-input-container flex="none"  md-no-float class="md-block center">
                                 <input ng-model="$ctrl.credentials.name"
                                        placeholder="{{ 'app.landing.subscribe.name' | translate }}"
-                                       name="NAME" id="mce-NAME" autocomplete="off"
+                                       name="NAME" id="mce-NAME" autocomplete="on"
                                        required maxlength="30">
                                 <div ng-messages="subscribeForm.NAME.$error" role="alert">
                                     <div ng-message="required" translate="app.landing.subscribe.required"></div>
@@ -224,9 +221,9 @@
                             </md-input-container>
                             <md-input-container flex="none" md-no-float class="md-block center">
                                 <input ng-model="$ctrl.credentials.email" placeholder="Email"
-                                       name="EMAIL" id="mce-EMAIL" autocomplete="off"
+                                       name="EMAIL" id="mce-EMAIL" autocomplete="on"
                                        required minlength="4" maxlength="100"
-                                       ng-pattern="/^.+@.+\..+$/"
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                        placeholder="{{ 'app.landing.subscribe.email' | translate }}">
                                 <div ng-messages="subscribeForm.EMAIL.$error" role="alert">
                                     <div ng-message="required" translate="app.landing.subscribe.required"></div>
@@ -268,13 +265,13 @@
 
                         <div flex="none" class="note md-body">
                             <span translate="app.landing.subscribe.question"></span>
-                            <a href="mailto:mail.@staminity.com">mail@staminity.com</a>
+                            <a href="mailto:mail@staminity.com">mail@staminity.com</a>
                         </div>
 
                     </div>
 
                     <div flex-gt-sm="10" hide show-gt-sm></div>
-                </div>
+                </section>
 
         </div>
         <!-- common right margin -->

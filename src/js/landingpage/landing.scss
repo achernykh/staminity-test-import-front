@@ -54,11 +54,13 @@
 	padding: 48px 16px 48px 16px;
   }
 
-  .md-display-3 {
+  h1.md-display-3 {
 
 	@extend .font-black, .center, .light, .secondary;
 	text-transform: uppercase;
 	opacity: 0.8;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
 
 	@media (max-width: 599px){
 	  line-height: 7.2vw;
@@ -89,7 +91,7 @@
 	}
 
 	@media (min-width: 600px) and (min-height: 700px){
-	  width: 400px;
+	  width: 420px;
 	  //height: 150px;
 	  margin-top: 8vh;
 	}
@@ -113,7 +115,7 @@
 	  }
 
 	  @media (min-width: 600px) and (min-height: 700px){
-		width: 215px;
+		width: 210px;
 		height: 75px;
 		font-size: 24px;
 		line-height: 75px;
@@ -306,14 +308,17 @@ form.subscribe {
 		padding: 256px 8px;
   	}
 
-  .md-display-2 {
+  h2.md-display-2 {
 	@extend .font-black, .center;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
   }
 
-  .md-headline {
+  h3.md-headline {
 	@extend .center;
 	max-width: 400px;
 	margin-bottom: 32px;
+	-webkit-margin-before: 0;
   }
 
   md-icon {
@@ -322,9 +327,10 @@ form.subscribe {
 	fill: white
   }
 
-  .md-title {
+  h4.md-title {
 	margin-bottom: 8px;
 	min-height: 62px;
+	-webkit-margin-after: 0;
   }
 
   .md-body {
@@ -332,7 +338,9 @@ form.subscribe {
   }
   
   .info {
-	max-width: 400px;
+	@media (max-width: 959px){
+	  max-width: 400px;
+	}
   }
 
 

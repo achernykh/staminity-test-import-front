@@ -20,7 +20,6 @@ var ftp           = require('gulp-ftp');
 var imagemin      = require('gulp-imagemin');
 var cssmin        = require('gulp-cssmin');
 
-
 // Get/set variables
 var config = require('./gulp.config');
 
@@ -117,9 +116,19 @@ gulp.task('templates', function() {
         .pipe(gulp.dest('./src/js/config/'));
 });
 
+gulp.task('version', function () {
+    gulp.src(['build/css/app.css', 'build/js/app.js'])
+        .pipe(assetsVersionReplace({
+            replaceTemplateList: [
+                'build/index.html'
+            ]
+        }))
+        .pipe(gulp.dest('build/'))
+});
+
 // This task is used for building production ready
 gulp.task('build', function() {
-    var html = gulp.src(["build/index.html", "build/browserconfig.xml"])
+    var html = gulp.src(["build/index.html", "build/browserconfig.xml", "build/favicon.ico"])
         .pipe(gulp.dest('./dist/'));
 
     var css = gulp.src('build/css/*.css')

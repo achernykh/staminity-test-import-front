@@ -25,7 +25,7 @@ const translateApp = {
               buttonSignUp: 'НАЧАТЬ'
           },
           subscribe: {
-              title: 'Рассылка',
+              title: 'Рассылка Стаминити',
               name: 'Имя',
               email: 'Email',
               required: 'Обязательное поле',
