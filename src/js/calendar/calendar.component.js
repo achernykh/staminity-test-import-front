@@ -2,11 +2,102 @@ import {CalendarSettings} from './calendar.constants.js';
 import {_PageAccess} from '../config/app.constants.js';
 import { CalendarScroll } from './calendar.scroll.js'
 
+
+const times = (n) => [...new Array(n)].map((_, i) => i)
+
+
+class Datasource {
+  constructor (item) {
+    this.item = item
+    this.range = [0, 1]
+    this.items = []
+    this.isLoadingUp = false
+    this.isLoadingDown = false
+    this.onLoad = () => {}
+  }
+  
+  up (n = 10) {
+    if (this.isLoadingUp) return
+    console.log('up')
+    this.isLoadingUp = true
+    
+    let i0 = this.range[0]
+    this.range[0] -= n
+    
+    let items = times(n)
+      .map((i) => i0 - i)
+      .map(this.item)
+      
+    return Promise.all(items)
+      .then((items) => { this.items = [...items.reverse(), ...this.items] })
+      .then(() => { this.isLoadingUp = false })
+      .then(() => this.onLoad())
+  }
+  
+  down (n = 10) {
+    if (this.isLoadingDown) return
+    console.log('down')
+    this.isLoadingDown = true
+    
+    let i0 = this.range[1]
+    this.range[1] += n
+    
+    let items = times(n)
+      .map((i) => i0 + i)
+      .map(this.item)
+      
+    return Promise.all(items)
+      .then((items) => { this.items = [...this.items, ...items] })
+      .then(() => { this.isLoadingDown = false })
+      .then(() => this.onLoad())
+  }
+}
+
+
+function getWeek(calendar) {
+    return (index) => {
+        let init = moment().startOf('week');
+        let start = moment(init).add(index, 'w');
+        let end = moment(start).add(1, 'w');
+        
+        return calendar.getItem({ startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD') })
+        .then((items) => {
+            console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
+            
+            let days = times(7).map((i) => {
+                let day = start.add(i, 'd');
+                let calendarItems = items.filter(item => moment(item.date, 'YYYY-MM-DD').weekday() == i);
+                
+                return {
+                    selected: false,
+                    date: day.format('YYYY-MM-DD'),
+                    data: {
+                        title: day.format('DD'),
+                        month: day.format('MMM'),
+                        day: day.format('dd'),
+                        date: day.format('YYYY-MM-DD'),
+                        calendarItems: calendarItems
+                    }
+                };
+            });
+            
+            return {
+                sid: index,
+                changes: 0,
+                toolbarDate: start.format('YYYY MMMM'),
+                selected: false,
+                subItem: days
+            };    
+        });
+    }
+}
+
+  
 /**
  *
  */
 class CalendarCtrl {
-    constructor($log, $q, $timeout, $anchorScroll, $location, $rootScope, Auth, AppMessage, Calendar, ActionMessage) {
+    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, Auth, AppMessage, Calendar, ActionMessage) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -23,9 +114,10 @@ class CalendarCtrl {
 	    this.buffer = []; //для операций copy/paste
         this.view.compact = false; //компактный/полный режим отображения calendarItems
         var self = this;
-        this.scrollAdapter = {};
-
-        this.grid = new CalendarScroll(this._$timeout, this); //подключаем скролл
+        
+        this.datasource = new Datasource(getWeek(Calendar));
+        this.datasource.onLoad = () => $scope.$apply();
+        
         /**
          * Слушаем события, которые могут обновить данные Календаря:
          * 1) newActivity - добавлена новая запись

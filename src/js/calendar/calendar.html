@@ -58,18 +58,23 @@
                             <!-- weekdays panel: end -->
 
                             <!-- grid: start -->
-                            <md-content flex class="calendar-grid" id="viewport-serviceDatasource" ui-scroll-viewport>
+                            <md-content flex class="calendar-grid" id="viewport-serviceDatasource" keep-scroll-position>
 
+                                <div ng-if="$ctrl.datasource.items.length" scroll-fire="$ctrl.datasource.up(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.datasource.isLoadingUp" ng-click="$ctrl.datasource.up(3)" aria-label="menu"> More </md-button>
+                                    <md-progress-circular ng-if="$ctrl.datasource.isLoadingUp" md-mode="indeterminate"></md-progress-circular>
+                                </div>
+                                
                                 <!-- grid-week: start -->
                                 <div id="week{{::week.sid}}"
                                      layout="raw" layout-xs="column" layout-sm="column"
                                      layout-align-gt-sm="start stretch" flex="none"
-                                     ui-scroll="week in $ctrl.grid"
-                                     adapter="$ctrl.grid.adapter"
+                                     ng-repeat="week in $ctrl.datasource.items track by week.sid"
                                      buffer-size="5"
                                      start-index="0"
                                      padding="1.0"
-                                     class="week">
+                                     class="week"
+                                     ng-class="{'keep-scroll-position-pivot': week.sid == 1}">
                                     <calendar-day flex="100" flex-gt-md="12" flex-sm="14"
                                                   layout="row" layout-gt-sm="column"
                                                   ng-repeat="day in week.subItem"
@@ -100,7 +105,14 @@
 
                                 </div>
                                 <!-- grid-week: end -->
-
+  
+                                <div class="keep-scroll-position-pivot"></div>
+                                
+                                <div scroll-fire="$ctrl.datasource.down(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.datasource.isLoadingDown" ng-click="$ctrl.datasource.down(3)" aria-label="menu"> More </md-button>
+                                    <md-progress-circular ng-if="$ctrl.datasource.isLoadingDown" md-mode="indeterminate"></md-progress-circular>
+                                </div>
+                                
                             </md-content>
                             <!-- grid-weekdays: end -->
 
