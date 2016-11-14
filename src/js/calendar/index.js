@@ -4,6 +4,31 @@ import { CalendarTotal } from './total/calendar.total.component.js'
 import { CalendarActivity } from './item/calendar.activity.component.js'
 
 
+const scrollCurrentItem = () => ({
+  link (scope, element, attrs) {
+    var currentItem
+    
+    check()
+    
+    function check() {
+      let item = [...element[0].children].find(isCurrent)
+      if (item != currentItem) {
+        let itemElement = angular.element(item)
+        let itemScope = itemElement.scope()
+        let itemHandler = itemElement.attr('on-scroll-current-item')
+        itemScope && itemHandler && itemScope.$apply(itemHandler)
+        currentItem = item
+      }
+      requestAnimationFrame(check)
+    }
+    
+    function isCurrent(child) {
+      return child.getBoundingClientRect && child.getBoundingClientRect().top > element[0].getBoundingClientRect().top && angular.element(child).attr('on-scroll-current-item')
+    }
+  }
+})
+
+
 const scrollFire = () => ({
   scope: {
     scrollFire: '&'
@@ -30,9 +55,6 @@ const scrollFire = () => ({
 
 
 const keepScrollPosition = () => ({
-  scope: {
-  },
-
   link (scope, element, attrs) {
     var pivot
     var height, scrollPosition
@@ -64,12 +86,14 @@ const keepScrollPosition = () => ({
   }
 })
 
+
 export const calendar  = angular.module('staminity.calendar',[])
                             .component('calendarDay', CalendarDay)
                             .component('calendarTotal', CalendarTotal)
                             .component('calendarActivity', CalendarActivity)
                             .component('calendar', Calendar)
                             .directive('scrollFire', scrollFire)
-                            .directive('keepScrollPosition', keepScrollPosition);
+                            .directive('keepScrollPosition', keepScrollPosition)
+                            .directive('scrollCurrentItem', scrollCurrentItem);
 
 export default calendar;

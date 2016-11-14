@@ -18,7 +18,7 @@
                                    ng-click="$ctrl.gotoAnchor($ctrl.grid.adapter.topVisible.sid + 1)">
                             <md-icon md-svg-src="/assets/icon/navigate_next.svg" class="s18" aria-label="Back"></md-icon>
                         </md-button>
-                        <div class="md-title">{{$ctrl.scrollAdapter.topVisible.toolbarDate}}</div>
+                        <div class="md-title">{{$ctrl.currentWeek.toolbarDate}}</div>
 
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-init="today = 0"
@@ -53,12 +53,12 @@
 
 
                             </md-toolbar>
-                            <md-progress-linear ng-show="$ctrl.scrollAdapter.isLoading" class="md-accent"
+                            <md-progress-linear ng-show="$ctrl.datasource.isLoadingUp || $ctrl.datasource.isLoadingDown" class="md-accent"
                                                 md-mode="indeterminate"></md-progress-linear>
                             <!-- weekdays panel: end -->
-
+                            
                             <!-- grid: start -->
-                            <md-content flex class="calendar-grid" id="viewport-serviceDatasource" keep-scroll-position>
+                            <md-content flex class="calendar-grid" id="viewport-serviceDatasource" keep-scroll-position scroll-current-item>
 
                                 <div ng-if="$ctrl.datasource.items.length" scroll-fire="$ctrl.datasource.up(3)" layout="row" layout-sm="column" layout-align="space-around">
                                     <md-button ng-if="!$ctrl.datasource.isLoadingUp" ng-click="$ctrl.datasource.up(3)" aria-label="menu"> More </md-button>
@@ -70,6 +70,7 @@
                                      layout="raw" layout-xs="column" layout-sm="column"
                                      layout-align-gt-sm="start stretch" flex="none"
                                      ng-repeat="week in $ctrl.datasource.items track by week.sid"
+                                     on-scroll-current-item="$ctrl.currentWeek = week"
                                      buffer-size="5"
                                      start-index="0"
                                      padding="1.0"
@@ -77,7 +78,7 @@
                                      ng-class="{'keep-scroll-position-pivot': week.sid == 1}">
                                     <calendar-day flex="100" flex-gt-md="12" flex-sm="14"
                                                   layout="row" layout-gt-sm="column"
-                                                  ng-repeat="day in week.subItem"
+                                                  ng-repeat="day in week.subItem track by day.key"
                                                   ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
                                                   ng-init="accent=false"
                                                   ng-class="{select: day.selected}"

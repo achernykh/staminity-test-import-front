@@ -65,10 +65,11 @@ function getWeek(calendar) {
             console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
             
             let days = times(7).map((i) => {
-                let day = start.add(i, 'd');
+                let day = moment(start).add(i, 'd');
                 let calendarItems = items.filter(item => moment(item.date, 'YYYY-MM-DD').weekday() == i);
                 
                 return {
+                    key: day.format('YYYY-MM-DD'),
                     selected: false,
                     date: day.format('YYYY-MM-DD'),
                     data: {
@@ -116,7 +117,7 @@ class CalendarCtrl {
         var self = this;
         
         this.datasource = new Datasource(getWeek(Calendar));
-        this.datasource.onLoad = () => $scope.$apply();
+        this.datasource.onLoad = () => $scope.$digest();
         
         /**
          * Слушаем события, которые могут обновить данные Календаря:
