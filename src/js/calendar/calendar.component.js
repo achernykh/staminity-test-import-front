@@ -1,57 +1,8 @@
-import {CalendarSettings} from './calendar.constants.js';
-import {_PageAccess} from '../config/app.constants.js';
-import { CalendarScroll } from './calendar.scroll.js'
-
+import { CalendarSettings } from './calendar.constants.js';
+import { _PageAccess } from '../config/app.constants.js';
+import { Datasource } from './calendar.scroll.js'
 
 const times = (n) => [...new Array(n)].map((_, i) => i)
-
-
-class Datasource {
-  constructor (item) {
-    this.item = item
-    this.range = [0, 1]
-    this.items = []
-    this.isLoadingUp = false
-    this.isLoadingDown = false
-    this.onLoad = () => {}
-  }
-  
-  up (n = 10) {
-    if (this.isLoadingUp) return
-    console.log('up')
-    this.isLoadingUp = true
-    
-    let i0 = this.range[0]
-    this.range[0] -= n
-    
-    let items = times(n)
-      .map((i) => i0 - i)
-      .map(this.item)
-      
-    return Promise.all(items)
-      .then((items) => { this.items = [...items.reverse(), ...this.items] })
-      .then(() => { this.isLoadingUp = false })
-      .then(() => this.onLoad())
-  }
-  
-  down (n = 10) {
-    if (this.isLoadingDown) return
-    console.log('down')
-    this.isLoadingDown = true
-    
-    let i0 = this.range[1]
-    this.range[1] += n
-    
-    let items = times(n)
-      .map((i) => i0 + i)
-      .map(this.item)
-      
-    return Promise.all(items)
-      .then((items) => { this.items = [...this.items, ...items] })
-      .then(() => { this.isLoadingDown = false })
-      .then(() => this.onLoad())
-  }
-}
 
 
 function getWeek(calendar) {
@@ -227,24 +178,30 @@ class CalendarCtrl {
         this.buffer = item;
         this._ActionMessage.simple(`Записи скопированы (${this.buffer.length})`);
     }
-
+    
     /**
      * Удаление записи календаря
      * @param calendarItem
      */
-    onDeleteItem(calendarItem){
+    onDeleteItem(calendarItem) {
         "use strict";
-        this.grid.update('deleteCalendarItem',calendarItem).then(
-            (success) => {
-                // TODO добавить api
-                // TODO добавить toast
-                console.log('Calendar: onDeleteCalendarItem', success);
-                this._ActionMessage.simple('Запись удалена');
-                //resolve(success);
-            }, (error) => {
-                // TODO добавить toast с ошибкой
-            });
+        
+        let init = moment()
+        let dayPos = moment(calendarItem.date, 'YYYY-MM-DD')
+        let weekPos = dayPos.format('WW') - init.format('WW')
+        let weekItem = this.datasource.items.find((item) => item.sid == weekPos)
+        let dayItem = weekItem && weekItem.subItem[dayPos.weekday()]
+        
+        if (weekItem && dayItem) {
+            console.log('Calendar: delete activity info', weekItem, dayItem, calendarItem);
+            weekItem.changes = weekItem.changes + 1;
+            let id = calendarItem.calendarItemId;
+            let ind = dayItem.data.calendarItems.map((el) => el.calendarItemId).indexOf(id);
+            dayItem.data.calendarItems.splice(ind, 1);
+            this._ActionMessage.screen('Запись удалена');
+        }
     }
+    
     /**
      * Drop записи календаря (операция drag&drop)
      * @param targetDate
@@ -254,22 +211,27 @@ class CalendarCtrl {
      */
     onDropItem(targetDate, index, calendarItem) {
         "use strict";
-        this.grid.update('dropCalendarItem',calendarItem, {date: targetDate, index: index}).then(
-            (success) => {
-                // TODO добавить api
-                console.log('Calendar: onDeleteCalendarItem', success);
-                this._ActionMessage.simple('Запись перемещена');
-                return calendarItem;
-                //resolve(success);
-            }, (error) => {
-                //reject(error);
-                // TODO добавить toast с ошибкой
-            });
+        
+        let init = moment()
+        let dayPos = moment(targetDate, 'YYYY-MM-DD');
+        let weekPos = dayPos.format('WW') - init.format('WW');
+        let weekItem = this.datasource.items.find((item) => item.sid == weekPos)
+        let dayItem = weekItem && weekItem.subItem[dayPos.weekday()]
+        
+        if (weekItem && dayItem) {
+            console.log('Calendar: drag&drop', targetDate, index, weekItem, dayItem, calendarItem);
+            weekItem.changes = weekItem.changes + 1;
+            calendarItem.date = dayPos;
+            dayItem.data.calendarItems.splice(index, 0, calendarItem);
+            this._ActionMessage.simple('Запись перемещена');
+        }
     }
+    
     onCopyDay() {
         "use strict";
 
     }
+    
     /**
      * Вставка буфера скопированных записей
      * @param date
@@ -295,7 +257,12 @@ class CalendarCtrl {
                 targetDay = moment(date, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
             }
             // Сразу не выполняем, сохраняем задание для общего запуска и отслеживания статуса
-            task.push(this.grid.update('pasteCalendarItem', calendarItem, {date: targetDay}));
+            // task.push(this.grid.update('pasteCalendarItem', calendarItem, {date: targetDay}));
+            //                     item.changes = item.changes + 1;
+            //                     dayPos = moment(params.date, 'YYYY-MM-DD');
+            //                     weekPos = dayPos.format('WW') - init.format('WW');
+            //                     calendarItem.date = dayPos; // меняем дату в записи на целевую
+            //                     item.subItem[dayPos.weekday()].data.calendarItems.push(calendarItem);
             previewItem = calendarItem;
         }
         // Запускаем выполнение
@@ -344,32 +311,6 @@ class CalendarCtrl {
      * 4) deleteCalendarItem()
      *
      *----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Получение списка событий календаря за период времени
-     * @param request {Object} Параметры запроса элементов календаря, содержащий calendarItemId - идентификатор записи.
-     * Наивысший приоритет, userId - Идентификатор владельца событий (для сбора данных под ролью тренера),
-     * userGroupId - идентификатор группы владельцев событий. Анализируется, если не указан userId,
-     * startDate - дата начала интервала (ГГГГ-ММ-ДД), endDate - дата конца интервала (ГГГГ-ММ-ДД)
-     */
-    getCalendarItem(request) {
-
-        return new Promise((resolve, reject) => {
-            "use strict";
-            this._Calendar.getItem(request).then(
-                (items) => {
-                    console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
-                    this.grid.update('putCalendarItem',items).then(
-                        (success) => {
-                            //      this._$log.debug('Calendar: grid after showCalendarItem', success);
-                            resolve(success);
-                        }, (error) => {
-                            reject(error);
-                        });
-                }
-            );
-        });
-    }
 
     /**
      * Изменение записи календаря
