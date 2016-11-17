@@ -46,4 +46,12 @@ export class Datasource {
       .then(() => { this.isLoadingDown = false })
       .then(() => this.onLoad())
   }
+  
+  first () {
+    return this.items[0]
+  }
+  
+  last () {
+    return this.items[this.items.length - 1]
+  }
 }

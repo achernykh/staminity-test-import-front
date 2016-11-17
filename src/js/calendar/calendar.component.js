@@ -142,7 +142,6 @@ class CalendarCtrl {
 			// set the $location.hash to `newHash` and
 			// $anchorScroll will automatically scroll to it
 			this._$location.hash('week' + index);
-
 		} else {
 			// call $anchorScroll() explicitly,
 			// since $location.hash hasn't changed

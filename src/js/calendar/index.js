@@ -23,7 +23,7 @@ const scrollCurrentItem = () => ({
     }
     
     function isCurrent(child) {
-      return child.getBoundingClientRect && child.getBoundingClientRect().top > element[0].getBoundingClientRect().top && angular.element(child).attr('on-scroll-current-item')
+      return child.getBoundingClientRect && child.getBoundingClientRect().bottom > element[0].getBoundingClientRect().top && angular.element(child).attr('on-scroll-current-item')
     }
   }
 })
