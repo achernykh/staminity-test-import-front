@@ -48,11 +48,7 @@
     <div flex layout="column">
         <div id="dayzone"
              flex="100" layout-wrap
-<<<<<<< HEAD
-             ng-repeat="item in $ctrl.data.calendarItems track by $index"
-=======
              ng-repeat="item in $ctrl.data.calendarItems track by item.calendarItemId"
->>>>>>> 19-scroll-perfomance
              ng-switch on="::item.calendarItemType"
              dnd-list="items"
              dnd-allowed-types="['itemType']"

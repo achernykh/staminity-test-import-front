@@ -143,12 +143,8 @@ class CalendarCtrl {
 			// set the $location.hash to `newHash` and
 			// $anchorScroll will automatically scroll to it
 			this._$location.hash('week' + index);
-<<<<<<< HEAD
             //let week =  angular.element(document.getElementById(newHash));
             //this._$document.scrollToElement(week, 0, 500);
-
-=======
->>>>>>> 19-scroll-perfomance
 		} else {
 			// call $anchorScroll() explicitly,
 			// since $location.hash hasn't changed
@@ -319,7 +315,6 @@ class CalendarCtrl {
      *----------------------------------------------------------------------------------------------------------------*/
 
     /**
-<<<<<<< HEAD
      * Получение списка событий календаря за период времени
      * @param request {Object} Параметры запроса элементов календаря, содержащий calendarItemId - идентификатор записи.
      * Наивысший приоритет, userId - Идентификатор владельца событий (для сбора данных под ролью тренера),
@@ -346,8 +341,6 @@ class CalendarCtrl {
     }
 
     /**
-=======
->>>>>>> 19-scroll-perfomance
      * Изменение записи календаря
      * @param items {Array|Object} Запись или записи календаря в формате calendarItem с указанием данных в соотв-х
      * объектах заголовков

@@ -70,7 +70,6 @@ const keepScrollPosition = () => ({
       [scrollPosition, prevScrollPosition] = [getScrollPosition(pivot), scrollPosition];
       if (pivot && prevPivot && height != prevHeight) {
         let shift = getScrollPosition(prevPivot) - prevScrollPosition
-        console.log(shift, new Date().getTime())
         element[0].scrollTop += shift
       }
       requestAnimationFrame(check)
