@@ -56,32 +56,36 @@ const scrollFire = () => ({
 
 const keepScrollPosition = () => ({
   link (scope, element, attrs) {
-    var pivot
-    var height, scrollPosition
+    var pivot = getPivot(), prevPivot = pivot
+    var height = getHeight(), prevHeight = height
+    var scrollPosition = getScrollPosition(pivot), prevScrollPosition = scrollPosition
     
     check()
     
     function check() {
-      pivot = element[0].querySelector('.keep-scroll-position-pivot')
-      let newHeight = getHeight()
-      let newScrollPosition = getScrollPosition()
-      if (newHeight != height) {
-        console.log(newScrollPosition - scrollPosition)
-        element[0].scrollTop += newScrollPosition - scrollPosition
+      [pivot, prevPivot] = [getPivot(), pivot];
+      [height, prevHeight] = [getHeight(), height];
+      [scrollPosition, prevScrollPosition] = [getScrollPosition(pivot), scrollPosition];
+      if (pivot && prevPivot && height != prevHeight) {
+        let shift = getScrollPosition(prevPivot) - prevScrollPosition
+        console.log(shift, new Date().getTime())
+        element[0].scrollTop += shift
       }
-      height = newHeight
-      scrollPosition = newScrollPosition
       requestAnimationFrame(check)
     }
-  
+    
+    function getPivot() {
+      return element[0].querySelector('.keep-scroll-position-pivot')
+    }
+
     function getHeight() {
       let first = element[0].firstElementChild
       let last = element[0].lastElementChild
       return last.getBoundingClientRect().bottom - first.getBoundingClientRect().top
     }
     
-    function getScrollPosition() {
-      return pivot.getBoundingClientRect().top
+    function getScrollPosition(pivot) {
+      return pivot && pivot.getBoundingClientRect().top
     }
   }
 })
