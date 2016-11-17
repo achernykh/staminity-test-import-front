@@ -1,12 +1,55 @@
-import {CalendarSettings} from './calendar.constants.js';
-import {_PageAccess} from '../config/app.constants.js';
-import { CalendarScroll } from './calendar.scroll.js'
+import { CalendarSettings } from './calendar.constants.js';
+import { _PageAccess } from '../config/app.constants.js';
+import { Datasource } from './calendar.scroll.js'
 
+const times = (n) => [...new Array(n)].map((_, i) => i)
+
+
+function getWeek(calendar) {
+    return (index) => {
+        let init = moment().startOf('week');
+        let start = moment(init).add(index, 'w');
+        let end = moment(start).add(1, 'w');
+        
+        return calendar.getItem({ startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD') })
+        .then((items) => {
+            console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
+            
+            let days = times(7).map((i) => {
+                let day = moment(start).add(i, 'd');
+                let calendarItems = items.filter(item => moment(item.date, 'YYYY-MM-DD').weekday() == i);
+                
+                return {
+                    key: day.format('YYYY-MM-DD'),
+                    selected: false,
+                    date: day.format('YYYY-MM-DD'),
+                    data: {
+                        title: day.format('DD'),
+                        month: day.format('MMM'),
+                        day: day.format('dd'),
+                        date: day.format('YYYY-MM-DD'),
+                        calendarItems: calendarItems
+                    }
+                };
+            });
+            
+            return {
+                sid: index,
+                changes: 0,
+                toolbarDate: start.format('YYYY MMMM'),
+                selected: false,
+                subItem: days
+            };    
+        });
+    }
+}
+
+  
 /**
  *
  */
 class CalendarCtrl {
-    constructor($log, $q, $timeout, $anchorScroll, $location, $rootScope, Auth, AppMessage, Calendar, ActionMessage) {
+    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, Auth, AppMessage, Calendar, ActionMessage) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -23,10 +66,10 @@ class CalendarCtrl {
 	    this.buffer = []; //для операций copy/paste
         this.view.compact = false; //компактный/полный режим отображения calendarItems
         var self = this;
-        this.scrollAdapter = {};
-        this.isLoading = 0; // индикатор загрузки данных
-
-        this.grid = new CalendarScroll(this._$timeout, this); //подключаем скролл
+        
+        this.datasource = new Datasource(getWeek(Calendar));
+        this.datasource.onLoad = () => $scope.$digest();
+        
         /**
          * Слушаем события, которые могут обновить данные Календаря:
          * 1) newActivity - добавлена новая запись
@@ -100,9 +143,12 @@ class CalendarCtrl {
 			// set the $location.hash to `newHash` and
 			// $anchorScroll will automatically scroll to it
 			this._$location.hash('week' + index);
+<<<<<<< HEAD
             //let week =  angular.element(document.getElementById(newHash));
             //this._$document.scrollToElement(week, 0, 500);
 
+=======
+>>>>>>> 19-scroll-perfomance
 		} else {
 			// call $anchorScroll() explicitly,
 			// since $location.hash hasn't changed
@@ -138,24 +184,30 @@ class CalendarCtrl {
         this.buffer = item;
         this._ActionMessage.simple(`Записи скопированы (${this.buffer.length})`);
     }
-
+    
     /**
      * Удаление записи календаря
      * @param calendarItem
      */
-    onDeleteItem(calendarItem){
+    onDeleteItem(calendarItem) {
         "use strict";
-        this.grid.update('deleteCalendarItem',calendarItem).then(
-            (success) => {
-                // TODO добавить api
-                // TODO добавить toast
-                console.log('Calendar: onDeleteCalendarItem', success);
-                this._ActionMessage.simple('Запись удалена');
-                //resolve(success);
-            }, (error) => {
-                // TODO добавить toast с ошибкой
-            });
+        
+        let init = moment()
+        let dayPos = moment(calendarItem.date, 'YYYY-MM-DD')
+        let weekPos = dayPos.format('WW') - init.format('WW')
+        let weekItem = this.datasource.items.find((item) => item.sid == weekPos)
+        let dayItem = weekItem && weekItem.subItem[dayPos.weekday()]
+        
+        if (weekItem && dayItem) {
+            console.log('Calendar: delete activity info', weekItem, dayItem, calendarItem);
+            weekItem.changes = weekItem.changes + 1;
+            let id = calendarItem.calendarItemId;
+            let ind = dayItem.data.calendarItems.map((el) => el.calendarItemId).indexOf(id);
+            dayItem.data.calendarItems.splice(ind, 1);
+            this._ActionMessage.screen('Запись удалена');
+        }
     }
+    
     /**
      * Drop записи календаря (операция drag&drop)
      * @param targetDate
@@ -165,22 +217,27 @@ class CalendarCtrl {
      */
     onDropItem(targetDate, index, calendarItem) {
         "use strict";
-        this.grid.update('dropCalendarItem',calendarItem, {date: targetDate, index: index}).then(
-            (success) => {
-                // TODO добавить api
-                console.log('Calendar: onDeleteCalendarItem', success);
-                this._ActionMessage.simple('Запись перемещена');
-                return calendarItem;
-                //resolve(success);
-            }, (error) => {
-                //reject(error);
-                // TODO добавить toast с ошибкой
-            });
+        
+        let init = moment()
+        let dayPos = moment(targetDate, 'YYYY-MM-DD');
+        let weekPos = dayPos.format('WW') - init.format('WW');
+        let weekItem = this.datasource.items.find((item) => item.sid == weekPos)
+        let dayItem = weekItem && weekItem.subItem[dayPos.weekday()]
+        
+        if (weekItem && dayItem) {
+            console.log('Calendar: drag&drop', targetDate, index, weekItem, dayItem, calendarItem);
+            weekItem.changes = weekItem.changes + 1;
+            calendarItem.date = dayPos;
+            dayItem.data.calendarItems.splice(index, 0, calendarItem);
+            this._ActionMessage.simple('Запись перемещена');
+        }
     }
+    
     onCopyDay() {
         "use strict";
 
     }
+    
     /**
      * Вставка буфера скопированных записей
      * @param date
@@ -206,7 +263,12 @@ class CalendarCtrl {
                 targetDay = moment(date, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
             }
             // Сразу не выполняем, сохраняем задание для общего запуска и отслеживания статуса
-            task.push(this.grid.update('pasteCalendarItem', calendarItem, {date: targetDay}));
+            // task.push(this.grid.update('pasteCalendarItem', calendarItem, {date: targetDay}));
+            //                     item.changes = item.changes + 1;
+            //                     dayPos = moment(params.date, 'YYYY-MM-DD');
+            //                     weekPos = dayPos.format('WW') - init.format('WW');
+            //                     calendarItem.date = dayPos; // меняем дату в записи на целевую
+            //                     item.subItem[dayPos.weekday()].data.calendarItems.push(calendarItem);
             previewItem = calendarItem;
         }
         // Запускаем выполнение
@@ -257,6 +319,7 @@ class CalendarCtrl {
      *----------------------------------------------------------------------------------------------------------------*/
 
     /**
+<<<<<<< HEAD
      * Получение списка событий календаря за период времени
      * @param request {Object} Параметры запроса элементов календаря, содержащий calendarItemId - идентификатор записи.
      * Наивысший приоритет, userId - Идентификатор владельца событий (для сбора данных под ролью тренера),
@@ -283,6 +346,8 @@ class CalendarCtrl {
     }
 
     /**
+=======
+>>>>>>> 19-scroll-perfomance
      * Изменение записи календаря
      * @param items {Array|Object} Запись или записи календаря в формате calendarItem с указанием данных в соотв-х
      * объектах заголовков

@@ -1,3 +1,5 @@
+var port = process.env.PORT;
+
 var src = 'src/',
     bower = 'bower_components/',
     npm = 'node_modules/',
@@ -63,17 +65,17 @@ module.exports = {
     build: build,
     serve: {
         server: "./build",
-        port: 4000,
+        port: port || 4000,
         notify: false,
         ui: {
             port: 4001
         }
     },
     localServer: {
-        port:8000,
-        host:"0.0.0.0",
+        port: port || 8000,
+        host: process.env.HOST || "0.0.0.0",
         livereload: {
-            enable: true
+            enable: false
         },
         directoryListing: false,
         defaultFile: 'index.html',

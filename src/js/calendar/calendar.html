@@ -11,18 +11,19 @@
                     <!--    toolbar: start  -->
                     <div hide-xs hide-sm layout="row" layout-align="start center" flex="none" class="app-toolbar">
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                                   ng-click="$ctrl.gotoAnchor($ctrl.grid.adapter.topVisible.sid - 1)">
+                                   ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid - 1)">
                             <md-icon md-svg-src="/assets/icon/navigate_before.svg" class="s18" aria-label="Back"></md-icon>
                         </md-button>
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                                   ng-click="$ctrl.gotoAnchor($ctrl.grid.adapter.topVisible.sid + 1)">
+                                   ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid + 1)">
                             <md-icon md-svg-src="/assets/icon/navigate_next.svg" class="s18" aria-label="Back"></md-icon>
                         </md-button>
-                        <div class="md-title">{{$ctrl.grid.adapter.topVisible.toolbarDate}}</div>
+                        
+                        <div class="md-title">{{$ctrl.currentWeek.toolbarDate}}</div>
 
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-init="today = 0"
-                                   ng-click="$ctrl.gotoIndex(today)">
+                                   ng-click="$ctrl.gotoAnchor(today)">
                             <md-icon md-svg-src="/assets/icon/today.svg" aria-label="Back"></md-icon>
                         </md-button>
 
@@ -62,28 +63,34 @@
 
 
                             </md-toolbar>
-                            <md-progress-linear ng-show="$ctrl.grid.adapter.isLoading" class="md-accent"
+                            
+                            <md-progress-linear ng-show="$ctrl.datasource.isLoadingUp || $ctrl.datasource.isLoadingDown" class="md-accent"
                                                 md-mode="indeterminate"></md-progress-linear>
                             <!-- weekdays panel: end -->
-
+                            
                             <!-- grid: start -->
-                            <md-content flex class="calendar-grid"
-                                        id="viewport-serviceDatasource"
-                                        ui-scroll-viewport>
+                            <md-content flex class="calendar-grid" id="viewport-serviceDatasource" keep-scroll-position scroll-current-item>
 
+                                <div id="week{{$ctrl.datasource.first().sid - 1}}" ng-if="$ctrl.datasource.items.length" scroll-fire="$ctrl.datasource.up(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.datasource.isLoadingUp" ng-click="$ctrl.datasource.up(3)" aria-label="menu"> More </md-button>
+                                    <md-progress-circular ng-if="$ctrl.datasource.isLoadingUp" md-mode="indeterminate"></md-progress-circular>
+                                </div>
+                                
                                 <!-- grid-week: start -->
                                 <div id="week{{::week.sid}}"
                                      layout="raw" layout-xs="column" layout-sm="column"
                                      layout-align-gt-sm="start stretch" flex="none"
-                                     ui-scroll="week in $ctrl.grid"
-                                     adapter="$ctrl.grid.adapter"
-                                     buffer-size="ctrl.grid.buffer"
+                                     ng-repeat="week in $ctrl.datasource.items track by week.sid"
+                                     on-scroll-current-item="$ctrl.currentWeek = week"
+                                     buffer-size="5"
                                      start-index="0"
-                                     padding="ctrl.grid.padding"
-                                     class="week">
+                                     padding="1.0"
+                                     class="week"
+                                     ng-class="{'keep-scroll-position-pivot': week.sid == $ctrl.currentWeek.sid}">
+                                     
                                     <calendar-day flex="100" flex-gt-md="12" flex-sm="14"
                                                   layout="row" layout-gt-sm="column"
-                                                  ng-repeat="day in week.subItem"
+                                                  ng-repeat="day in week.subItem track by day.key"
                                                   ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
                                                   ng-init="accent=false"
                                                   ng-class="{select: day.selected}"
@@ -111,7 +118,14 @@
 
                                 </div>
                                 <!-- grid-week: end -->
-
+  
+                                <div class="keep-scroll-position-pivot"></div>
+                                
+                                <div id="week{{$ctrl.datasource.last().sid + 1}}" scroll-fire="$ctrl.datasource.down(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.datasource.isLoadingDown" ng-click="$ctrl.datasource.down(3)" aria-label="menu"> More </md-button>
+                                    <md-progress-circular ng-if="$ctrl.datasource.isLoadingDown" md-mode="indeterminate"></md-progress-circular>
+                                </div>
+                                
                             </md-content>
                             <!-- grid-weekdays: end -->
 
