@@ -64,23 +64,23 @@
 
                             </md-toolbar>
                             
-                            <md-progress-linear ng-show="$ctrl.datasource.isLoadingUp || $ctrl.datasource.isLoadingDown" class="md-accent"
+                            <md-progress-linear ng-show="$ctrl.isLoadingUp || $ctrl.isLoadingDown" class="md-accent"
                                                 md-mode="indeterminate"></md-progress-linear>
                             <!-- weekdays panel: end -->
                             
                             <!-- grid: start -->
                             <md-content flex class="calendar-grid" id="viewport-serviceDatasource" keep-scroll-position scroll-current-item>
 
-                                <div id="week{{$ctrl.datasource.first().sid - 1}}" ng-if="$ctrl.datasource.items.length" scroll-fire="$ctrl.datasource.up(3)" layout="row" layout-sm="column" layout-align="space-around">
-                                    <md-button ng-if="!$ctrl.datasource.isLoadingUp" ng-click="$ctrl.datasource.up(3)" aria-label="menu"> More </md-button>
-                                    <md-progress-circular ng-if="$ctrl.datasource.isLoadingUp" md-mode="indeterminate"></md-progress-circular>
+                                <div id="week{{$ctrl.first().sid - 1}}" scroll-fire="$ctrl.up(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.isLoadingUp" ng-click="$ctrl.up(3)" aria-label="menu"> More </md-button>
+                                    <md-progress-circular ng-if="$ctrl.isLoadingUp" md-mode="indeterminate"></md-progress-circular>
                                 </div>
                                 
                                 <!-- grid-week: start -->
                                 <div id="week{{::week.sid}}"
                                      layout="raw" layout-xs="column" layout-sm="column"
                                      layout-align-gt-sm="start stretch" flex="none"
-                                     ng-repeat="week in $ctrl.datasource.items track by week.sid"
+                                     ng-repeat="week in $ctrl.items track by week.sid"
                                      on-scroll-current-item="$ctrl.currentWeek = week"
                                      buffer-size="5"
                                      start-index="0"
@@ -121,9 +121,9 @@
   
                                 <div class="keep-scroll-position-pivot"></div>
                                 
-                                <div id="week{{$ctrl.datasource.last().sid + 1}}" scroll-fire="$ctrl.datasource.down(3)" layout="row" layout-sm="column" layout-align="space-around">
-                                    <md-button ng-if="!$ctrl.datasource.isLoadingDown" ng-click="$ctrl.datasource.down(3)" aria-label="menu"> More </md-button>
-                                    <md-progress-circular ng-if="$ctrl.datasource.isLoadingDown" md-mode="indeterminate"></md-progress-circular>
+                                <div id="week{{$ctrl.last().sid + 1}}" ng-if="$ctrl.items.length" scroll-fire="$ctrl.down(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.isLoadingDown" ng-click="$ctrl.down(3)" aria-label="menu"> More </md-button>
+                                    <md-progress-circular ng-if="$ctrl.isLoadingDown" md-mode="indeterminate"></md-progress-circular>
                                 </div>
                                 
                             </md-content>

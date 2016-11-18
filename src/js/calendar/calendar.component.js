@@ -4,46 +4,6 @@ import { Datasource } from './calendar.scroll.js'
 
 const times = (n) => [...new Array(n)].map((_, i) => i)
 
-
-function getWeek(calendar) {
-    return (index) => {
-        let init = moment().startOf('week');
-        let start = moment(init).add(index, 'w');
-        let end = moment(start).add(1, 'w');
-        
-        return calendar.getItem({ startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD') })
-        .then((items) => {
-            console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
-            
-            let days = times(7).map((i) => {
-                let day = moment(start).add(i, 'd');
-                let calendarItems = items.filter(item => moment(item.date, 'YYYY-MM-DD').weekday() == i);
-                
-                return {
-                    key: day.format('YYYY-MM-DD'),
-                    selected: false,
-                    date: day.format('YYYY-MM-DD'),
-                    data: {
-                        title: day.format('DD'),
-                        month: day.format('MMM'),
-                        day: day.format('dd'),
-                        date: day.format('YYYY-MM-DD'),
-                        calendarItems: calendarItems
-                    }
-                };
-            });
-            
-            return {
-                sid: index,
-                changes: 0,
-                toolbarDate: start.format('YYYY MMMM'),
-                selected: false,
-                subItem: days
-            };    
-        });
-    }
-}
-
   
 /**
  *
@@ -61,14 +21,15 @@ class CalendarCtrl {
         this._AppMessage = AppMessage;
 	    this._ActionMessage = ActionMessage;
         this._Calendar = Calendar;
+        this._$scope = $scope;
 
         this.weekdays = []; // название дней недели
 	    this.buffer = []; //для операций copy/paste
         this.view.compact = false; //компактный/полный режим отображения calendarItems
         var self = this;
         
-        this.datasource = new Datasource(getWeek(Calendar));
-        this.datasource.onLoad = () => $scope.$digest();
+        this.onLoad = () => $scope.$apply()
+        this.reset(new Date())
         
         /**
          * Слушаем события, которые могут обновить данные Календаря:
@@ -116,6 +77,98 @@ class CalendarCtrl {
         if (next.params.athlete)
             this._$log.debug('Calendar: $routerOnActivate with athlete number', next.params.athlete);
     }
+    
+    /**
+     * Data source methods
+     */
+     
+    getWeek (date, index) {
+        let start = moment(date).startOf('week');
+        let end = moment(start).add(1, 'w');
+        
+        return this._Calendar.getItem({ startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD') })
+        .then((items) => {
+            console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
+            
+            let days = times(7).map((i) => {
+                let day = moment(start).add(i, 'd');
+                let calendarItems = items.filter(item => moment(item.date, 'YYYY-MM-DD').weekday() == i);
+                
+                return {
+                    key: day.format('YYYY-MM-DD'),
+                    selected: false,
+                    date: day.format('YYYY-MM-DD'),
+                    data: {
+                        title: day.format('DD'),
+                        month: day.format('MMM'),
+                        day: day.format('dd'),
+                        date: day.format('YYYY-MM-DD'),
+                        calendarItems: calendarItems
+                    }
+                };
+            });
+            
+            return {
+                sid: index,
+                changes: 0,
+                toolbarDate: start.format('YYYY MMMM'),
+                selected: false,
+                subItem: days
+            };    
+        });
+    }
+    
+    reset (date) {
+        this.date = date
+        this.range = [0, 1]
+        this.items = []
+        this.isLoadingUp = false
+        this.isLoadingDown = false
+    }
+    
+    up (n = 10) {
+        if (this.isLoadingUp) return
+        console.log('up')
+        this.isLoadingUp = true
+        
+        let i0 = this.range[0]
+        this.range[0] -= n
+        
+        let items = times(n)
+            .map((i) => i0 - i)
+            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i))
+        
+        return Promise.all(items)
+            .then((items) => { this.items = [...items.reverse(), ...this.items] })
+            .then(() => { this.isLoadingUp = false })
+            .then(() => this.onLoad())
+    }
+    
+    down (n = 10) {
+        if (this.isLoadingDown) return
+        console.log('down')
+        this.isLoadingDown = true
+        
+        let i0 = this.range[1]
+        this.range[1] += n
+        
+        let items = times(n)
+            .map((i) => i0 + i)
+            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i))
+        
+        return Promise.all(items)
+            .then((items) => { this.items = [...this.items, ...items] })
+            .then(() => { this.isLoadingDown = false })
+            .then(() => this.onLoad())
+    }
+    
+    first () {
+        return this.items[0]
+    }
+    
+    last () {
+        return this.items[this.items.length - 1]
+    }
 
     /**-----------------------------------------------------------------------------------------------------------------
      *
@@ -125,7 +178,7 @@ class CalendarCtrl {
      * 2) gotoAnchor() - переход по неделям, без обновления
      *
      *----------------------------------------------------------------------------------------------------------------*/
-
+    
 	onScrollDate(){
 		"use strict";
 	}
