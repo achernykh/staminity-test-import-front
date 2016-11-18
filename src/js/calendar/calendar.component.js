@@ -1,6 +1,5 @@
 import { CalendarSettings } from './calendar.constants.js';
 import { _PageAccess } from '../config/app.constants.js';
-import { Datasource } from './calendar.scroll.js'
 
 const times = (n) => [...new Array(n)].map((_, i) => i)
 
@@ -79,9 +78,10 @@ class CalendarCtrl {
     }
     
     /**
-     * Data source methods
+     * Предоставляет объекты WeekItem
+     * @param date - любой Datetime недели
+     * @param index - позиция в списке
      */
-     
     getWeek (date, index) {
         let start = moment(date).startOf('week');
         let end = moment(start).add(1, 'w');
@@ -118,6 +118,10 @@ class CalendarCtrl {
         });
     }
     
+    /**
+     * Переход на дату, на пустой календарь
+     * @patam date
+     */
     reset (date) {
         this.date = date
         this.range = [0, 1]
@@ -126,6 +130,10 @@ class CalendarCtrl {
         this.isLoadingDown = false
     }
     
+    /**
+     * Подгрузка n записей вверх
+     * @patam n
+     */
     up (n = 10) {
         if (this.isLoadingUp) return
         console.log('up')
@@ -144,6 +152,10 @@ class CalendarCtrl {
             .then(() => this.onLoad())
     }
     
+    /**
+     * Подгрузка n записей вниз
+     * @patam n
+     */
     down (n = 10) {
         if (this.isLoadingDown) return
         console.log('down')
@@ -162,10 +174,16 @@ class CalendarCtrl {
             .then(() => this.onLoad())
     }
     
+    /**
+     * Верхний загруженный Week Item
+     */
     first () {
         return this.items[0]
     }
     
+    /**
+     * Нижний загруженный Week Item
+     */
     last () {
         return this.items[this.items.length - 1]
     }
