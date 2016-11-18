@@ -42,6 +42,13 @@ $orange-700: #F57C00;
 $orange-800: #EF6C00;
 $orange-900: #E65100;
 
+// Палитра Deep-Orange Google Material
+$deep-orange-300: #FF8A65;
+$deep-orange-500: #FF5722;
+$deep-orange-700: #E64A19;
+$deep-orange-800: #D84315;
+$deep-orange-900: #BF360C;
+
 // Палитра Red Google Material
 $red-500: #F44336;
 $red-700: #D32F2F;
@@ -69,6 +76,12 @@ $warning-color-hover:	$orange-900;
 $success-color:			$teal-700;
 $success-color-hover:	$teal-900;
 
+// Темно-оранжевый, акцент
+.bg-deep-orange {
+  &-500 {
+	background-color: $deep-orange-500;
+  }
+}
 
 // Серо-голубой, основной цвет
 .bg-blue-grey {

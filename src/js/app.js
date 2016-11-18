@@ -19,6 +19,7 @@ sessionStorage.setItem('userProfile#4', '{ "email": "sneik2@mail.ru", "public": 
 const requires = [
     'ngMaterial',
     'ngAnimate',
+    'ngMessages',
     'pascalprecht.translate',
     'ngWebSocket',
     'ui.router',

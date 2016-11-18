@@ -14,22 +14,37 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 		requireBase: false
 	});
 
-	$urlRouterProvider.otherwise('/welcome');
+	$urlRouterProvider.otherwise('/');
 
 	// Настройка state (Представлений)
 	// TODO переписать на какой-нибуь структурированный массив в Settings
 	$stateProvider
 		.state('welcome', {
-			url: "/welcome",
+			url: "/",
+			access: [],
+			resolve: {
+				view: function(ViewService) {
+					return ViewService.getParams('welcome')
+				}
+			},
 			views: {
 				"background": {
-					template: "welcome background"
+					component: "background",
+					bindings: {
+						view: 'view.background'
+					}
 				},
 				"header": {
-					template: "welcome header"
+					component: 'header',
+					bindings: {
+						view: 'view.header'
+					}
 				},
 				"application": {
-					template: "welcome body"
+					component: "landingPage",
+					bindings: {
+						view: 'view.application'
+					}
 				}
 			}
 		})
@@ -81,16 +96,16 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
     // Дополнительная цветовая схема для контрастных форм и фрагментов,
     // с темным задним фоном
     $mdThemingProvider.theme('dark')
-        .primaryPalette('orange')
+        .primaryPalette('deep-orange')
         .accentPalette('blue-grey')
         .warnPalette('red')
         .backgroundPalette('blue-grey').dark();
 
     // Текст представлений
-		$translateProvider.translations('en', { app: translateApp['en'] });
+	$translateProvider.translations('en', { app: translateApp['en'] });
     $translateProvider.translations('ru', { app: translateApp['ru'] });
-    $translateProvider.preferredLanguage('en');
-    $translateProvider.fallbackLanguage('en');
+    $translateProvider.preferredLanguage('ru');
+    $translateProvider.fallbackLanguage('ru');
     //$translateProvider.useSanitizeValueStrategy('escape');
 
 }

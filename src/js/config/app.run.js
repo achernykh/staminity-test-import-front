@@ -1,20 +1,16 @@
-function AppRun($rootScope, $timeout, $log, $location, $mdMedia, $window, Auth, User) {
+function AppRun($rootScope, $timeout, $log, $location, $mdMedia, $window, Auth, User, $state, $stateParams) {
     'ngInject';
-    $log.debug('AppRun: Start');
+    console.log('AppRun: Start');
 
     // Параметры ниже передаются на вход главному компоненту сервиса StaminityApplication
     // Сессия пользователя, включает userId и набор полномочий пользователя
     $rootScope.session = {};
-    // Размер экрана, необходимо для отслеживания изменений
-    $rootScope.screen = {
-        xs : $mdMedia('gt-xs'),
-        md : $mdMedia('gt-md'),
-        lg : $mdMedia('gt-lg')
-    };
-    // Текущий пользователь сервсиа, содержит public от userProfile
-    $rootScope.currentUser = null;
-    // Текущий атлет тренера, содержит public от userProfile
-    $rootScope.currentAthlete = null;
+    $rootScope.screen = { xs : $mdMedia('gt-xs'), md : $mdMedia('gt-md'), lg : $mdMedia('gt-lg') };
+    $rootScope.currentUser = null;  // Текущий пользователь сервсиа, содержит public от userProfile
+    $rootScope.currentAthlete = null; // Текущий атлет тренера, содержит public от userProfile
+    $rootScope.fullTitle = 'app.landing.fullTitle';
+    $rootScope.description = 'app.landing.description';
+    $rootScope.keywords = 'app.landing.keywords';
 
     /**
      * Восстанавливаем сессию пользователя из хранилища браузера
@@ -51,6 +47,19 @@ function AppRun($rootScope, $timeout, $log, $location, $mdMedia, $window, Auth, 
         "use strict";
 
     }
+
+    $rootScope.$on('$stateChangeStart',
+        function(event, toState, toParams, fromState, fromParams, options) {
+            "use strict";
+            console.log('$stateChangeStart ', toState, toParams);
+        });
+
+    $rootScope.$on('$stateChangeSuccess',
+        function(event, toState, toParams, fromState, fromParams){
+            "use strict";
+            $rootScope.fullTitle = 'Landing Page';
+            console.log('$stateChangeSuccess ', toState, toParams);
+        });
 
     restore();
 

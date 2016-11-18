@@ -8,14 +8,14 @@ var src = 'src/',
 
 var jsLibs = [
     bower+"angular/angular.js",
-    bower+"angular-component-router/angular_1_router.js",
+    //bower+"angular-component-router/angular_1_router.js",
     bower+"angular-animate/angular-animate.js",
     bower+"angular-aria/angular-aria.js",
     bower+"angular-material/angular-material.js",
     bower+"angular-translate/angular-translate.js",// перевод интерфейса пользователя
     bower+"angular-messages/angular-messages.js", // подсказки в формах ввода
-    bower+"angular-material-icons/angular-material-icons.js", // добавление иконок (УДАЛИТЬ)
-    bower+"angular-mocks/angular-mocks.js", // httpBackend
+    //bower+"angular-material-icons/angular-material-icons.js", // добавление иконок (УДАЛИТЬ)
+    //bower+"angular-mocks/angular-mocks.js", // httpBackend
     bower+"angular-sanitize/angular-sanitize.js",
     bower+"angular-websocket/dist/angular-websocket.js", // веб-сокеты
     //bower+"AngularJS-Toaster/toaster.js", // нотификация
@@ -39,7 +39,7 @@ var jsLibs = [
 ];
 
 var cssLibs = [
-    //bower+"normalize-css/normalize.css",
+    bower+"normalize-css/normalize.css",
     bower+"angular-material/angular-material.min.css",
     bower+"animate.css/animate.min.css"
     //bower+"angular-material/angular-material.layouts.css",
@@ -51,7 +51,7 @@ var cssLibs = [
 module.exports = {
     gulp: './gulp.config.js',
     src: {
-        index: src + 'index.html',
+        index: [src + 'index.html', src + 'browserconfig.xml', src + 'favicon.ico'],
         jsLibs: jsLibs,
         app: src + 'js/app.js',
         jsApp: [src + 'js/**/*.js', src + 'js/**//**/*.js' ],

@@ -1,27 +1,32 @@
 const ViewConstants = {
+  // Настройка страницы: Стартовая страница ../welcome
   welcome: {
-    style: 'welcome-page',
-    background: 'landing-background',
-    header: {
-      title: {
-        show: false
-      },
+    background: {
+      style: 'application-light', //'landing-background',
       toolbar: false,
+      size: '160'
+    },
+    header: {
+      enabled: true,
+      title: false,
+      athletes: false,
       leftPanel: {
         url: null,
         size: 20
       },
+      leftPanel: {
+        //url: 'layout/application/header/logo.html',
+        //size: 'auto'
+      },
       rightPanel: {
-        url: 'layout/application/header/welcome.links.html',
+        //url: 'layout/application/header/welcome.links.html',
         size: 80
       }
     },
-    frame: {
-      size: 'none',
-      margin: 'auto'
-    },
-    athletes: {
-      show: false
+    application: {
+      style: 'welcome-page',
+      margin: 'auto',
+      size: 80
     }
   },
   signup: {
@@ -74,6 +79,7 @@ const ViewConstants = {
       show: false
     }
   },
+  // Настройка страницы: Календарь ../calendar
   calendar: {
     background: {
       style: 'application-light',
@@ -99,30 +105,5 @@ const ViewConstants = {
       size: 'grow'
     }
   }
-  /*calendar: {
-    style: 'app-page',
-    background: 'application-light',
-    header: {
-      title: {
-        show: true
-      },
-      toolbar: true,
-      leftPanel: {
-        url: 'layout/application/header/appmenutoolbar.html',
-        size: 20
-      },
-      rightPanel: {
-        url: 'layout/application/header/usertoolbar.html',
-        size: 20
-      }
-    },
-    frame: {
-      size: 'grow',
-      margin: '5'
-    },
-    athletes: {
-      show: true
-    }
-  }*/
 };
 export default ViewConstants

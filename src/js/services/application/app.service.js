@@ -10,7 +10,7 @@ export default class ApplicationService {
         this.language = 'ru';
     }
     getParams(application){
-        return angular.merge({}, this.settings[application],{
+        return angular.merge({}, ViewConstants[application],{
             header: {
                 fullTitle:  'app.' + application + '.fullTitle',
                 shortTitle: 'app.' + application + '.shortTitle'
