@@ -48,6 +48,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 				}
 			}
 		})
+    // Представление Календарь
 		.state('calendar', {
 			url: "/calendar",
 			access: [],
@@ -75,8 +76,38 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 						view: 'view.application'
 					}
 				}
+			},
+		})
+    // Представление Настройки пользователя
+    .state('settings', {
+			url: "/settings",
+			access: [],
+			resolve: {
+				view: function(ViewService) {
+					return ViewService.getParams('settings')
+				}
+			},
+			views: {
+				"background": {
+					component: "background",
+					bindings: {
+						view: 'view.background'
+					}
+				},
+				"header": {
+					component: 'header',
+					bindings: {
+						view: 'view.header'
+					}
+				},
+				"application": {
+					component: "settings",
+					bindings: {
+						view: 'view.application'
+					}
+				}
 			}
-		});
+    })
 
     // Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
   	$mdThemingProvider.theme('default')

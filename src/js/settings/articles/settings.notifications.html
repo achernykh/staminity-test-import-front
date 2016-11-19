@@ -1,0 +1,38 @@
+<md-card flex="none" layout="column" id="notifications">
+    <div class="h1">
+        <p class="md-title" translate>app.settings.notification.header</p>
+
+        <div class="hint light">app.settings.notification.hint</div>
+    </div>
+    <form name="vm.notificationForm">
+        <div ng-repeat="notification in vm.notifications">
+            <p class="md-body-2 padding-16-24">{{::notification.group}}</p>
+
+            <div layout-gt-sm="row" class="padding-00-24" ng-repeat="event in notification.events">
+                <div flex-gt-sm class="md-body-1" style="padding-bottom: 16px">{{::event.name}}</div>
+                <fieldset flex-gt-sm>
+                    <div layout="row" layout-wrap flex>
+                        <div flex="33">
+                            <md-checkbox class="md-body-1" ng-model="event.email" aria-label="email">
+                                Email
+                            </md-checkbox>
+                        </div>
+                        <div flex="33">
+                            <md-checkbox class="md-body-1" ng-model="event.phone" aria-label="phone">
+                                Phone
+                            </md-checkbox>
+                        </div>
+
+                        <div flex="33">
+                            <md-checkbox class="md-body-1" ng-model="event.web" aria-label="web">
+                                Site
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <md-divider ng-if="!$last" style="margin-top: 16px"></md-divider>
+        </div>
+        <div class="padding-00-24"></div>
+    </form>
+</md-card>
