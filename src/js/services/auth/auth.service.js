@@ -1,15 +1,17 @@
 import {_UserRoles} from '../../config/app.constants.js';
 
 export default class AuthService {
-    constructor($q, $log, $rootScope, API, Storage, User){
+    constructor($q, $log, $rootScope, $timeout, API, Storage, User){
         'ngInject';
         this.session = null;
         this._$q = $q;
         this._$log = $log;
         this._$rootScope = $rootScope;
+        this._$timeout = $timeout;
         this._Storage = Storage;
         this._User = User;
         this._api = API;
+        //this.firstAuthRequest = true;
     }
     /**
      *
@@ -23,8 +25,12 @@ export default class AuthService {
         else
             this._Storage.get('authToken').then(
                 (data) => {
-                    this._$log.debug('AuthService: getSession success, data =', data);
-                    this.login(data);
+                    // если данные не найдены в хранилище, то data == null
+                    // если данные найдены по сессии, то осуществялет вход и запуск websocket сессии
+                    if (data) {
+                        this.login(data);
+                    }
+                    //this._$log.debug('AuthService: getSession success, data =', data);
                     result.resolve(this.session)
                 },(error) => result.reject(error)
             );
@@ -39,6 +45,17 @@ export default class AuthService {
      * @returns {boolean} - true - авторизован, false - не авторизован
      */
     isAuthenticated(){
+        /*if (this.firstAuthRequest) {
+            this._$timeout(()=> angular.noop(),5000).then(()=> {
+                this._$log.info('AuthService: isAuthenticated', !!this.session, this.firstAuthRequest);
+                this.firstAuthRequest = false;
+                return !!this.session;
+            });
+        } else {
+            this._$log.info('AuthService: isAuthenticated', !!this.session, this.firstAuthRequest);
+            return !!this.session;
+        }*/
+        this._$log.debug(`AuthService: isAuthenticated() check`);
         return !!this.session;
     }
 
@@ -104,9 +121,11 @@ export default class AuthService {
     }
     login(data){
         this.session = data;
+        this._api.wsOpen(this.session.token);
     }
     logout(){
         //this._$log.debug('AuthService: session clear for userid=', this.session.userId);
         this.session = null;
+        this._api.wsClose();
     }
 }

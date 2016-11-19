@@ -4,6 +4,7 @@
 
 www/*
 build/*
+dist/*
 bower_components/*
 node_modules/*
 src/js/config/app.templates.js

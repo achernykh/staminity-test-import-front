@@ -14,6 +14,11 @@ var rename        = require('gulp-rename');
 var templateCache = require('gulp-angular-templatecache');
 var uglify        = require('gulp-uglify');
 var merge         = require('merge-stream');
+var sftp_new      = require('gulp-sftp-new');
+var gutil         = require('gulp-util');
+var ftp           = require('gulp-ftp');
+var imagemin      = require('gulp-imagemin');
+var cssmin        = require('gulp-cssmin');
 
 // Get/set variables
 var config = require('./gulp.config');
@@ -87,6 +92,7 @@ gulp.task('sass', function(){
 // Copy assets
 gulp.task('assets', function() {
     return gulp.src(config.src.assets)
+        //.pipe(imagemin())
         .on('error', interceptErrors)
         .pipe(gulp.dest(config.build+'assets/'));
 });
@@ -110,16 +116,35 @@ gulp.task('templates', function() {
         .pipe(gulp.dest('./src/js/config/'));
 });
 
+gulp.task('version', function () {
+    gulp.src(['build/css/app.css', 'build/js/app.js'])
+        .pipe(assetsVersionReplace({
+            replaceTemplateList: [
+                'build/index.html'
+            ]
+        }))
+        .pipe(gulp.dest('build/'))
+});
+
 // This task is used for building production ready
-gulp.task('build', ['html', 'app', 'sass'], function() {
-    var html = gulp.src("build/index.html")
+gulp.task('build', function() {
+    var html = gulp.src(["build/index.html", "build/browserconfig.xml", "build/favicon.ico"])
         .pipe(gulp.dest('./dist/'));
 
-    var js = gulp.src("build/main.js")
+    var css = gulp.src('build/css/*.css')
+        .pipe(cssmin())
+        //.pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./dist/css/'));
+
+    var js = gulp.src("build/js/**.js")
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js/'));
 
-    return merge(html,js);
+    var assets = gulp.src("build/assets/**")
+        //.pipe(imagemin())
+        .pipe(gulp.dest('./dist/assets/'));
+
+    return merge(html,js, css, assets);
 });
 
 // Start local http server
@@ -127,6 +152,61 @@ gulp.task('serve', function () {
     return gulp.src(config.build)
         .pipe(server(config.localServer));
     //browserSync.init(['./build/**/**.**'], config.serve);
+    //browserSync.init({
+    //    server: {
+    //        baseDir: "./build",
+    //        index: 'index.html'
+    //        //middleware: [ historyApiFallback() ]
+    //    },
+    //    cors: true
+    //});
+});
+
+gulp.task('sftp', function () {
+    return gulp.src('build/**')
+        .pipe(sftp_new({
+            host: 'ftp.staminity.com:21',
+            user: 'dev1ftpuser@dev1.staminity.com',
+            pass: 'DpziUbiqPJ84w9xIf3ll',
+            remotePath: '/'
+        }));
+});
+
+gulp.task('ftp-dev', ['build'], function () {
+    return gulp.src('dist/**')
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'dev1ftpuser@dev1.staminity.com',
+            pass: 'DpziUbiqPJ84w9xIf3ll'
+        }))
+        .pipe(gutil.noop());
+});
+gulp.task('ftp-dev-core', ['build'], function () {
+    return gulp.src(['dist/index.html','dist/css/**','dist/js/**'])
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'dev1ftpuser@dev1.staminity.com',
+            pass: 'DpziUbiqPJ84w9xIf3ll'
+        }))
+        .pipe(gutil.noop());
+});
+gulp.task('ftp-prd', ['build'], function () {
+    return gulp.src('dist/**')
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'ih207328ac@staminity.com',
+            pass: 'kgQ6uPqTP4271FQe'
+        }))
+        .pipe(gutil.noop());
+});
+gulp.task('ftp-prd-core', ['build'], function () {
+    return gulp.src(['dist/index.html','dist/css/**','dist/js/**'])
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'ih207328ac@staminity.com',
+            pass: 'kgQ6uPqTP4271FQe'
+        }))
+        .pipe(gutil.noop());
 });
 
 // Creates a watch task to watch files and build async

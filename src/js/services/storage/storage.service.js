@@ -82,13 +82,9 @@ export default class StorageService {
     get(type, dataKey){
         let objKey = type;
 
-        this._$timeout(()=> {
-            this._$rootScope.$broadcast('addActivity', {data: 'new data'});
-        }, 5000);
-
         return new Promise((resolve, reject) => {
 
-            this._$log.debug('StorageService: new get task =', objKey, dataKey);
+            this._$log.debug(`StorageService: get()\n\ttype=${objKey}\n\tkey=${dataKey}\n\tincognitoSession=${this.incognitoSession}`);
             if (this.incognitoSession)
             {
                 if (objKey == 'authToken' || objKey == 'userProfile')
@@ -106,22 +102,21 @@ export default class StorageService {
             }
             else {
                 // Если формат single (хранение в формате ключ=type#id...
-                if(this.settings[type].format === 'single'){
+                if(this.settings[type].format === 'single' && !!this.settings[type].key){
                     if(!angular.isArray(dataKey))
                         dataKey = [dataKey];
-                    if (this.settings[objKey].key)
-                        this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
+                    this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
                 }
-                this._$log.debug('StorageService: get=', objKey, dataKey);
-
                 this.storage.getItem(objKey).then((data) => {
                     this._$log.debug('StorageService: get, data=', type, data);
                     if (this.settings[type].format == 'multi' && !!data && !!dataKey)
                         resolve(data[dataKey]);
                     else
                         resolve(data);
-                }).catch((error) =>
-                    reject(error));
+                }).catch((error) => {
+                    this._$log.error('StorageService: get, error=', error);
+                    reject(error);
+                });
             }
 
         });

@@ -13,7 +13,7 @@ class AthleteSelectorCtrl {
      * В инициализации контроллера запрашиваем группы для текущего пользователя
      */
     $onInit(){
-        this._Groups.get().then(
+        /*this._Groups.get().then(
             (response) => {
                 this.athletes = response;
                 this._$log.debug('AthleteSelector: onInit=', this.athletes);
@@ -21,7 +21,7 @@ class AthleteSelectorCtrl {
             (error) => {
 
             }
-        )
+        )*/
     }
 
     /**
