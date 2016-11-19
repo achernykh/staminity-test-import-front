@@ -11,17 +11,28 @@ export default class ApiService {
         this._AppMessage = AppMessage;
         this._Storage = Storage;
         this.ws = null;
+        this.requestId = 0;
+        this.requests = [];
     }
     /**
      *
      * @param token
      */
     wsOpen(token){
-        this.ws = this._$websocket(_AppConstants.api + token);
-        this._$log.debug("ApiService: websocket open with token: ", token);
+        this.ws = this._$websocket('ws://' + _AppConstants.api + '/' + token);
+        this._$log.debug(`ApiService: websocket open with ${token} ${this.ws.readyState}`);
 
         this.ws.onMessage((event) => {
-            this._$log.info('ApiService: new websocket message: ', JSON.parse(event.data));
+            let data = angular.fromJson(event.data);
+            this._$log.info('ApiService: new websocket message event', data, this.requests);
+            if (angular.isDefined(this.requests[data.requestId])) {
+                this._$log.info('ApiService: callback', this.requests[data.requestId]);
+                let callback = this.requests[data.requestId];
+                delete this.requests[data.requestId];
+                callback.resolve(data.data);
+            } else {
+
+            }
             //responseComplete(JSON.parse(event.data));
         });
     }
@@ -33,6 +44,35 @@ export default class ApiService {
         //this._$log.debug('ApiService: websocket session closed');
         this.ws.close(true);
     }
+
+    /**
+     *
+     * @returns {number}
+     */
+    getRequestId(){
+        return ++this.requestId;
+    }
+
+    /**
+     *
+     * @param type
+     * @param data
+     * @returns {*}
+     */
+    wsRequest(type, data){
+        this._$log.debug(`ApiService: wsRequest ${type}`);
+        let deferred = this._$q.defer();
+        let request = {
+            requestId: this.getRequestId(),
+            requestType: type,
+            requestData: data
+        };
+
+        this.requests[this.requestId] = deferred;
+        this.ws.send(angular.toJson(request));
+        return deferred.promise;
+    }
+
     /**
      * HTTP запрос POST по api
      * @param url - адрес api
@@ -76,12 +116,17 @@ export default class ApiService {
         this._$log.debug('ApiService: createRequest ', url, data)
         return {
             method: 'POST',
-            url: url,
-            data: {
+            url: 'http://'+_AppConstants.api + url,
+            data: angular.toJson({
                 requestType: url,
                 requestData: data,
                 token: token
-            }
+            }),
+            //data: " ",
+            /*headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }*/
         }
     }
 

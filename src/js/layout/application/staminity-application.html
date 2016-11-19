@@ -1,9 +1,21 @@
+<!--  Экран состоит из трех меняющихся ui-view:
+      1) background - отвечает за задний фон текущего Представления
+      2) header - отвечает за заголовок приложения, куда входят различные панели и элемент с названием Представления
+      3) application - отвечает за само Представление, в том числе и за toolbar Представления -->
+
+<div class="application-background" ui-view="background"></div>
+<div class="application-header" ui-view="header"></div>
+<div ui-view="application"></div>
+
+<!--
 <application-background>
   <div flex="100" layout="column" class="{{$ctrl.settings.background}}">
     <md-toolbar class="animates slideInDown" ng-show="$ctrl.settings.header.toolbar" layout="row" layout-align="space-between start">
     </md-toolbar>
   </div>
-</application-background>
+</application-background> -->
+
+<!--
 
 <application-header>
   <div layout="row" layout-align="space-between start">
@@ -49,8 +61,9 @@
          layout="row" layout-align="end center" class="">
     </div>
   </div>
-</application-header>
+</application-header> -->
 
+<!--
 <application-frame class='{{$ctrl.settings.style}}'>
   <div layout="row" layout-align="center start" class="app-layer">
     <div flex-gt-sm="{{$ctrl.settings.frame.margin}}" hide-sm></div>
@@ -61,11 +74,11 @@
     </div>
     <div flex-gt-sm="{{$ctrl.settings.frame.margin}}" hide-sm></div>
   </div>
-</application-frame>
+</application-frame> -->
 
-<application-menu user="$ctrl.currentUser"></application-menu>
+<!--<application-menu user="$ctrl.currentUser"></application-menu>
 
 <athlete-selector show="$ctrl.showAthleteSelector"
                   user="$ctrl.currentUser"
                   athlete='$ctrl.currentAthlete'
-                  on-select="$ctrl.athleteSelect(athlete)"></athlete-selector>
+                  on-select="$ctrl.athleteSelect(athlete)"></athlete-selector>-->

@@ -1,3 +1,108 @@
-.body-1.shrink{
+/* Общий набор стилей шритфа для сервиса.
+ * Шрифт сервиса - Roboto, подключен на странице index.html
+ * href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,900&subset=latin,cyrillic'
+ *
+ * Набор собственных стилей шрифта должен быть основан на библиотеке Angular Material,
+ * которая включает следующие стили header:
+ * class:			weight:		size:		line:
+ * .md-display-4	light		112px
+ * .md-display-3	regular		56px
+ * .md-display-2	regular		45px
+ * .md-display-1	regular		34px
+ * .md-headline		regular		24px		32px
+ * .md-title		medium		20px		28px
+ * .md-subhead		regular		16px		24px
+ *
+ * и body стили:
+ * .md-body-1		regular		14px		20px
+ * .md-body-2		medium		14px		24px
+ * .md-button		medium		14px		16px
+ * .md-caption		regular		12px		16px
+ *
+ * Цветовая схема шрифта,
+ * для темного фона:
+ * Primary			#FFFFFF		100%
+ * Secondary		#FFFFFF		70%
+ * Disable			#FFFFFF		50%
+ *
+ * для светлого фона:
+ * Primary			#FFFFFF		87%
+ * Secondary		#FFFFFF		54%
+ * Disable			#FFFFFF		38%
+ *
+ * Добавление новых стилей, должно быть основано на концепции https://material.google.com/style/typography.html
+ * */
 
+
+// текст по центру
+.center{
+	text-align: center;
+}
+.right{
+	text-align: right;
+}
+// Прозрачность по Material Design
+.secondary {
+	&.light {
+		color: rgba(white, 0.70);
+	}
+	&.dark {
+		color: rgba(black, 0.54);
+	}
+}
+.disable {
+	&.light {
+		color: rgba(white, 0.50);
+	}
+	&.dark {
+		color: rgba(black, 0.38);
+	}
+}
+
+// Узкий текст
+.tight-07 {
+	letter-spacing: -0.7px;
+}
+
+// Сильно узкий текст
+.tight-10 {
+	letter-spacing: -1.0px;
+}
+
+// Узкий параграф
+.line-12 {
+	line-height: 12px;
+}
+.line-14 {
+	line-height: 14px;
+}
+.line-18 {
+  line-height: 18px;
+}
+
+// Medium
+.font-medium {
+  font-weight: 500;
+}
+
+// Жирный шрифт
+.font-black {
+	font-weight: 900;
+}
+
+// Уменьшенная версия .md-title для вложенных элементов экрана
+.md-title {
+  	&.small {
+		font-size: 16px;
+		line-height: 20px;
+  	}
+}
+
+// Стили текста для скрытых больших текстов
+.read-more-dots {
+	color: darkgrey;
+}
+
+.read-more-links {
+	color: darkgrey;
 }

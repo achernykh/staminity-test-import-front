@@ -1,0 +1,97 @@
+<!--
+  <div class="{{GUI.style}}" ng-controller="AppBoxCtrl as vm" ng-cloak>
+      <app-background></app-background>
+      <app-header></app-header>
+      <app-frame>
+          <div flex="100" layout="column" layout-align="start center" ng-view></div>
+      </app-frame>
+      <app-menu ng-if="GUI.style == 'app-page'"></app-menu>
+
+
+      <div ng-controller="NotificationCtrl as vm" style="overflow: hidden; height: 100%">
+          <md-sidenav class="md-sidenav-right md-whiteframe-z2" style="width: 400px !important;" md-component-id="right">
+              <md-toolbar class="md-theme-light">
+                  <h1 class="md-toolbar-tools">Sidenav Right</h1>
+              </md-toolbar>
+              <md-content style="overflow: scroll">
+                  <md-list flex>
+                      <md-subheader class="md-no-sticky">Не прочитанные ({{vm.notification}})</md-subheader>
+                      <md-list-item class="md-3-line toast-message" layout="row" md-theme="default" layout-padding
+                                    ng-repeat="item in vm.buffer | orderBy : '-time'">
+                          <div>
+                              <img src="/pic/01.jpg" style="width: 40px; height: 40px; border-radius: 20px"/>
+                          </div>
+                          <div layout="column" style="width: 100%">
+                              <div layout="row" layout-align="space-between start">
+                                  <a ng-href="/profile?user={{item.authorFullName}}"
+                                     class="md-body-1 title" ng-bind-html="item.authorFullName"></a>
+                                  <div class="md-body-1 text" style="text-align: right; padding-left: 12px">{{item.time | date:
+                                      'short'}}</div>
+                              </div>
+                              <div>
+                                  <a ng-href="/settings#syncGarmin?user={{item.authorFullName}}"
+                                     class="md-body-1 text" ng-click="click(toaster)">
+                                      {{item.message | limitTo: 100 }}{{item.message.length > 100 ? ' ...' : ''}}</a>
+                              </div>
+                          </div>
+                      </md-list-item>
+                      <md-subheader class="md-no-sticky">Прочитанные</md-subheader>
+                  </md-list>
+              </md-content>
+          </md-sidenav>
+      </div>
+
+      <div class="progress-bar" ng-show="vm.progressShow" ng-class="{'show-me': vm.progressShow}">
+          <md-progress-linear class="md-accent" md-mode="determinate" value="{{vm.progressStatus}}"></md-progress-linear>
+      </div>
+
+      <athlete-selector>
+      </athlete-selector>
+
+      <system-message></system-message>
+      <toaster-container>
+      </toaster-container> -->
+
+
+<!-- feedback block
+
+              <div layout="row" class="feedback-block">
+                  <div flex-gt-sm="10" hide show-gt-sm></div>
+                  <div flex="auto" layout="column" layout-align="start center">
+                      <div flex="none" class="md-display-2">Client's review</div>
+                      <div flex="none" class="md-subhead">Our clients help us to improve and strive for more.</div>
+
+                      <div flex="auto" layout="column" layout-gt-sm="row"
+                           class="block-100">
+                          <div flex="auto" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                              <div flex="none">
+                                  <img src="/assets/picture/lp-feedback-01.png"/>
+                              </div>
+                              <div flex="none" flex-gt-sm="none" class="md-body info">Создавайте плановые задания для своих учеников. Пишите план на каждый сегмент или на тренировку в целом, используйте шаблоны, задавайте интенсивность по тренировочным зонам.
+                                  Ваши спортсмены узнают обо всех изменениях плана.</div>
+                              <div flex="none" class="md-body-2">Захаринский Евгений</div>
+                              <div flex="none" class="md-caption">Марафонец, Москва</div>
+                          </div>
+                          <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                              <div flex="none">
+                                  <img src="/assets/picture/lp-feedback-02.png"/>
+                              </div>
+
+                              <div flex="none" flex-gt-sm="40" class="md-body info">Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам.</div>
+                              <div flex="none" class="md-body-2">Иванов Денис</div>
+                              <div flex="none" class="md-caption">Триатлет-любитель, Москва</div>
+                          </div>
+                          <div flex flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                              <div flex="none">
+                                  <img src="/assets/picture/lp-feedback-03.png"/>
+                              </div>
+                              <div flex="none" flex-gt-sm="40" class="md-body info">Узнавайте о выполнении тренировок спортсменами, получайте подробную информацию по ним. Мы рассчитаем % выполнения и основные показатели по тренировочным сегментам и в целом по заданию.</div>
+                              <div flex="none" class="md-body-2">Черных Александр</div>
+                              <div flex="none" class="md-caption">Триатлет-любитель, Люберцы</div>
+                          </div>
+                      </div>
+
+                  </div>
+                  <div flex-gt-sm="10" hide show-gt-sm></div>
+
+              </div> -->

@@ -2,7 +2,7 @@
  * Created by akexander on 22/07/16.
  */
 class StaminityApplicationCtrl {
-    constructor ($q, $log, $timeout, $location, $window, $mdDialog, $mdSidenav, $rootScope, Application, Auth, User) {
+    constructor ($q, $log, $timeout, $location, $window, $mdDialog, $mdSidenav, $rootScope, Auth, User) {
         'ngInject';
         this._$log = $log;
         this._$timeout = $timeout;
@@ -11,42 +11,19 @@ class StaminityApplicationCtrl {
         this._$mdSidenav = $mdSidenav;
         this._$rootScope = $rootScope;
         this.settings = {};
-        this._Application = Application;
         this._Auth = Auth;
         this._User = User;
-        this.currentUser = null;
-        this.currentAthlete = null;
-        this.isAuthenticated = false;
         this.notification = 0;
     }
     toggleSlide(component){
         this._$mdSidenav(component).toggle().then(() => angular.noop);
     }
     /**
-     * В инициализации контроллера компонента необходимо получить данные по текущей сессии пользователя: есть ли
-     * авторизация, и если есть, то какой пользователь авторизован. В дальнешем параметрв userId будет исользован для
-     * запроса всех остальных данных по окружению пользователя. Смена параметров сессии отслеживается в функции
-     * $onChanges(changes = auth)
+     * Инициализация сервсиа производится в app.run.js и передается в компонент в виде аттрибутов session, user,
+     * athlete и screen. В связи с тем, что восстановление сессии происходит не моментально, то при инициализации
+     * компонента аттрибуты будут пустые, а через несколько мс они обновятся на сформированные значения в $rootScope
      */
     $onInit() {
-        // Запрашиваем сессию пользователя
-        this._Auth.getSession().then(
-            (response) => {
-                // Если сессия установлена
-                if (response)
-                    // Устанавливаем текущего пользователя. В ответ приходит userProfile
-                    this._User.setCurrentUser(response.userId).then(
-                        (result) => {
-                            this.currentUser = result;
-                            this._$log.info('StaminityApplication: onInit => session repair for userId=', this.currentUser.userId);
-                        // TODO случай, если по номеру сессии не удается получить обьект пользователя
-                        }, (error) => {});
-                // Пользовательская сессия не восстановлена
-                else
-                    this._$log.debug('StaminityApplication: onInit => user session not find');
-
-            },(error) => this._$log.debug('StaminityApplication: onInit => error', error)
-        );
     }
     /**
      * Настройка отоборажания текущего представления. В набор параметров входят, стиль окна, формат отображения
@@ -57,9 +34,13 @@ class StaminityApplicationCtrl {
      * @returns {*}
      */
     $onChanges(changes){
+        if(changes.session){
+            //this._$log.debug(`StaminityApplication: $onChanges => session new value = ${this.session.userId} ${changes.session.userId}`)
+        }
+            // TODO убрать после перехода на ui-router
           if (changes.application){
-              this.settings = this._Application.getParams(this.application);
-              this._$log.debug('StaminityApplication: onChange, application=', changes.application);
+              //this.settings = this._Application.getParams(this.application);
+              //this._$log.debug('StaminityApplication: onChange, application=', changes.application);
           }
           // TODO возможно можно обойтись без rootScope и входящего параметра auth
           if (changes.auth){
@@ -114,14 +95,22 @@ class StaminityApplicationCtrl {
 
 let StaminityApplication = {
     bindings: {
-        application: '<',
-        auth: '<',
-        xs: '<'
+        session: '<',
+        user: '<',
+        athlete: '<',
+        screen: '<'
     },
     transclude: false,
     controller: StaminityApplicationCtrl,
     templateUrl: 'layout/application/staminity-application.html',
-    $routeConfig: [
+    $canActivate: function($log, $timeout) {
+        "use strict";
+        /*return $timeout(()=>{
+            $log.info('StaminityApplication: $canActivate timeout=500mc');
+        },500)*/
+    }
+    // TODO убрать после того как полностью заработает ui-router
+    /*$routeConfig: [
         { path: "/welcome", component: "landingPage", name: "LandingPage", useAsDefault: true},
         { path: "/signin", component: "signIn", name: "SignIn"},
         { path: "/signup", component: "signUp", name: "SignUp"},
@@ -129,7 +118,7 @@ let StaminityApplication = {
         { path: "/signout", component: "signOut", name: "SignOut"},
         { path: "/calendar", component: "calendar", name: "Calendar"},
         { path: "/**", redirectTo: ["LandingPage"]}
-    ]
+    ]*/
 };
 
 export default StaminityApplication;

@@ -1,232 +1,152 @@
-<div layout="column" layout-align="start center" flex="100" style="height: 100%;">
-    <div layout="row" layout-align="start center" flex="none" class="app-toolbar">
-        <div class="md-body-2">2016 July</div>
-        <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-click="vm.beforeWeek()">
-            <md-icon md-svg-src="/assets/icon/navigate_before.svg" aria-label="Back"></md-icon>
-        </md-button>
-        <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-click="vm.nextWeek()">
-            <md-icon md-svg-src="/assets/icon/navigate_next.svg" aria-label="Back"></md-icon>
-        </md-button>
-        <div class="md-body-1">
-            week: {{vm.weekIndex}}</div><div> startIndex: {{currentStartIndex}} endIndex: {{currentEndIndex}}</div>
-        <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-init="viewCompact = false"
-                   ng-click="viewCompact = !viewCompact">
-            <md-icon md-svg-src="/assets/icon/view_comfy.svg" aria-label="Back"></md-icon>
-        </md-button>
-        <div class="md-body-1">{{!viewCompact ? 'View compact' : 'View details'}}</div>
+<!-- common section -->
+<application-frame class='{{$ctrl.view.style}}'>
+    <div layout="row" layout-align="center start" class="app-layer">
+        <!-- common left margin -->
+        <div flex-gt-md="{{$ctrl.view.margin}}" hide-md></div>
+        <div flex="{{$ctrl.view.size}}" layout="column" class="body">
+            <div flex="100" layout="column" layout-align="center center" layout-fill>
 
-        <md-button ng-click="$ctrl.mockGetActivityList()">Get Activity List</md-button>
-        <md-button ng-click="$ctrl.mockClearActivityList()">Clear Activity List</md-button>
+                <!-- application section: start -->
+                <div layout="column" layout-align="start center" flex="100" style="height: 100%; width: 100%">
+                    <!--    toolbar: start  -->
+                    <div hide-xs hide-sm layout="row" layout-align="start center" flex="none" class="app-toolbar">
+                        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                                   ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid - 1)">
+                            <md-icon md-svg-src="/assets/icon/navigate_before.svg" class="s18" aria-label="Back"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                                   ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid + 1)">
+                            <md-icon md-svg-src="/assets/icon/navigate_next.svg" class="s18" aria-label="Back"></md-icon>
+                        </md-button>
+                        
+                        <div class="md-title">{{$ctrl.currentWeek.toolbarDate}}</div>
 
-    </div>
-    <div layout="row" flex="100" style="width: 100%; max-width: 1400px">
-        <section layout="column" layout-align="start stretch" id="calendar" class="app-body animated zoomIn" style="width: 100%;">
-            <md-toolbar class="md-primary"><div class="md-toolbar-tools"><h3>weekdays</h3></div></md-toolbar>
-
-            <md-content flex layout-padding style="overflow: auto;">
-            <div layout="raw" layout-align="space-between start" flex="none"
-                 ng-repeat="week in $ctrl.grid"
-                 class="week" style="-height: 100%">
-                <div layout-gt-sm="column" flex-gt-sm="none" layout="row" flex="100" layout-fill
-                     ng-repeat="day in week track by $index"
-                     class="day"
-                     ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false"
-                     ng-class="{select: selected}"
-                     ng-init="showMenu=false">
-
-                    <div layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
-                        <div flex="none" class="md-body-1" style="min-width: 24px">{{::day.title}}</div>
-                        <div flex="none" ng-show="showMenu || selected">
-                            <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
-                                         style="margin-bottom: 0px; margin-left: 12px">
-                            </md-checkbox>
-                        </div>
-                        <div flex="none" ng-show="showMenu || selected">
-                            <md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
-                                <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
-                                         aria-label="Back"></md-icon>
-                            </md-button>
-                        </div>
-                    </div>
-
-                    <div ng-repeat="activity in day.activity" layout-wrap
-                         flex-gt-sm="none" flex="auto" class="animated fadeIn activity md-whiteframe-1dp" draggable="true"
-                         ng-click="showActivity($event, activity)"
-                         ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false" ng-init="showMenu=false">
-                        <div layout="row" layout-xs="column" layout-gt-sm="column">
-                            <div class="header {{activity.intervals[0].status}} md-caption"
-                                 ng-class="{select: selected}">
-                                <div layout="row" layout-align="space-between start">
-                                    <div flex="none" style="margin-right: 4px">
-                                        <md-icon md-svg-src="/assets/icon/{{!showMenu ? 'running.svg' : 'more_vert.svg'}}" class="fill-white-medium"
-                                                 aria-label="Back"></md-icon>
-                                    </div>
-                                    <div flex="100" class="type">{{activity.activityCategory.code | uppercase}}</div>
-                                </div>
-                                <div layout="row" layout-align="space-between start" style="margin-top: 8px">
-                                    <div flex="none" style="margin-right: 4px">
-                                        <md-icon md-svg-src="/assets/icon/heartRate.svg" class="fill-white-medium" size="s18"
-                                                 aria-label="Back"></md-icon>
-                                    </div>
-                                    <div flex="100" class="md-caption">
-                                        <span>{{activity.intervals[0].duration}}</span><span> min</span><br>
-                                        <span>{{activity.intervals[0].distance}}</span><span> km</span><br>
-                                        <span>{{activity.intervals[0].assessment}}</span><span>%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div ng-show="!viewCompact" layout="row" layout-align="space-between start" class="content md-caption">
-                                <div flex="none" style="margin-right: 4px">
-                                    <md-icon md-svg-src="/assets/icon/paceSpeed.svg" class="fill-black-medium" size="s18"
-                                             aria-label="Back"></md-icon>
-                                </div>
-                                <div flex="100" class="type">
-                                    <div>{{activity.intervals[0].bpmAvr}}<span> bpm</span></div>
-                                    <div>{{activity.intervals[0].TSS}}<span> TL</span></div>
-                                </div>
-                            </div>
-                            <div ng-show="!viewCompact && (activity.social.userLikesCount + activity.social.userCommentsCount)>0" layout="row" layout-align="end center" class="content md-caption">
-
-                                <md-icon md-svg-src="/assets/icon/thumb_up.svg" class="fill-black-medium" ng-if="activity.social.userLikesCount >0"
-                                         style="width: 14px; height: 14px; margin: 0px 8px;"
-                                         aria-label="Back"></md-icon>
-                                <span ng-if="activity.social.userLikesCount >0">{{::activity.social.userLikesCount}}</span>
-                                <md-icon md-svg-src="/assets/icon/chat_bubble.svg" class="fill-black-medium" ng-if="activity.social.userCommentsCount >0"
-                                         style="width: 14px; height: 14px; margin: 0px 8px;"
-                                         aria-label="Back"></md-icon>
-                                <span ng-if="::activity.social.userCommentsCount >0">{{::activity.social.userCommentsCount}}</span>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div layout="row" layout-align="center center" flex="grow" layout-fill
-                         class="new" ng-class="{show: showMenu}">
-                        <md-button class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">
-                            <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"
-                                     aria-label="Back"></md-icon>
+                        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                                   ng-init="today = 0"
+                                   ng-click="$ctrl.gotoAnchor(today)">
+                            <md-icon md-svg-src="/assets/icon/today.svg" aria-label="Back"></md-icon>
                         </md-button>
 
+                        <div class="md-body-1" translate class="md-caption">app.calendar.today</div>
+                        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                                   ng-click="$ctrl.view.compact = !$ctrl.view.compact">
+                            <md-icon md-svg-src="/assets/icon/view_comfy.svg" aria-label="Back"></md-icon>
+                        </md-button>
+                        <div class="md-body-1">{{!viewCompact ? 'View compact' : 'View details'}}</div>
                     </div>
-                </div>
-                <div flex-order="-1" flex-order-gt-sm="10"
-                     flex-xs="100" flex-sm="100" flex-gt-sm="noshrink" hide show-gt-md flex class="md-caption summary"
-                        style="width: calc(100% - 7*12%)">
-                    <div flex-gt-sm="none" flex="none" class="md-body-1">Неделя {{startIndex+$index}}</div>
-                </div>
-            </div>
+                    <!-- toolbar: end  -->
 
-            </md-content>
-                <!--<md-toolbar felx="auto" hide show-gt-sm layout="raw" class="day-toolbar">
-                <div flex class="md-caption">{{vm.weekDays[0] | capitalizeFirstLetter}}</div>
-                <div flex class="md-caption">{{vm.weekDays[1] | capitalizeFirstLetter}}</div>
-                <div flex class="md-caption">{{vm.weekDays[2] | capitalizeFirstLetter}}</div>
-                <div flex class="md-caption">{{vm.weekDays[3] | capitalizeFirstLetter}}</div>
-                <div flex class="md-caption">{{vm.weekDays[4] | capitalizeFirstLetter}}</div>
-                <div flex class="md-caption">{{vm.weekDays[5] | capitalizeFirstLetter}}</div>
-                <div flex class="md-caption">{{vm.weekDays[6] | capitalizeFirstLetter}}</div>
-                <div flex hide show-gt-md class="md-caption">Итоги</div>
-            </md-toolbar> -->
+                    <!-- calendar: start -->
+                    <div layout="row" flex="100" style="width: 100%; max-width: 1400px">
+                        <section layout="column" layout-align="start stretch" id="calendar" class="app-body animated zoomIn" style="width: 100%;">
 
-            <!--
-            <div felx vs-repeat vs-autoresize
-                 ng-init="setUpWatcher()" vs-excess="5" startIndex="5"
-                 style="overflow-y: auto">
-                <div ng-repeat="week in vm.calendar" class="week" layout="raw" layout-wrap>
-                    <div ng-repeat="day in week"
-                         layout="row" layout-gt-sm="column" flex-xs="100" flex-sm="100" flex-gt-sm="10" class="day"
-                         ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false"
-                         ng-class="{select: selected}"
-                         ng-init="showMenu=false">
+                            <!-- блок экрана при закгрузе данных
+                            <div ng-if="$ctrl.isLoading > 0"
+                                    style="background: black; opacity: 0.7; width: 100%; height: 100%;
+                                    position: fixed; z-index: 1">
 
-
-                        <div layout="row" layout-align="space-between center" flex-gt-sm="none" flex="none" style="height: 30px">
-                            <div flex="none" class="md-body-2" style="min-width: 24px">{{day.title}}</div>
-                            <div flex="none" ng-show="showMenu || selected">
-                                <md-checkbox ng-model="selected" aria-label="Checkbox 1" class="md-primary"
-                                             style="margin-bottom: 0px; margin-left: 12px">
-                                </md-checkbox>
-                            </div>
-                            <div flex="none" ng-show="showMenu || selected">
-                                <md-button class="md-icon-button" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
-                                    <md-icon md-svg-src="/pic/more_vert.svg" class="black" size="s18"
-                                             aria-label="Back"></md-icon>
-                                </md-button>
                             </div>
 
-                        </div>
+                            -->
+
+                            <!-- weekdays panel: start -->
+                            <md-toolbar flex="none" layout="raw" layout-align="space-between center" hide show-gt-sm
+                                        class="md-primary"
+                                        style="min-height: 32px;">
+
+                                    <div ng-repeat="day in $ctrl.weekdays"
+                                         flex="auto"
+                                         class="md-caption weekday">{{::day}}</div>
+                                    <div hide show-gt-md
+                                         flex="auto"
+                                         class="md-caption weekday">Итоги</div>
 
 
-                        <div ng-repeat="activity in day.activity" layout-wrap
-                             flex-gt-sm="none" flex="auto" class="activity md-whiteframe-1dp" draggable="true"
-                             ng-click="showActivity($event, activity)"
-                             ng-mouseover="showMenu=true" ng-mouseleave="showMenu=false" ng-init="showMenu=false">
-                            <div layout="row" layout-xs="column" layout-gt-sm="column">
-                                <div class="header {{activity.result.status}} md-caption"
-                                     ng-class="{select: selected}">
-                                    <div layout="row" layout-align="space-between start">
-                                        <div flex="none" style="margin-right: 4px">
-                                            <md-icon md-svg-src="/pic/{{!showMenu ? 'running.svg' : 'more_vert.svg'}}" class="white"
-                                                     aria-label="Back"></md-icon>
-                                        </div>
-                                        <div flex="100" class="type">{{activity.subType | uppercase}}</div>
-                                    </div>
-                                    <div layout="row" layout-align="space-between start" style="margin-top: 8px">
-                                        <div flex="none" style="margin-right: 4px">
-                                            <md-icon md-svg-src="/pic/heartRate.svg" class="white" size="s18"
-                                                     aria-label="Back"></md-icon>
-                                        </div>
-                                        <div flex="100" class="md-caption">
-                                            <span>{{activity.result.duration}}</span><span> min</span><br>
-                                            <span>{{activity.result.distance}}</span><span> km</span><br>
-                                            <span>{{activity.result.assessment}}</span><span>%</span>
-                                        </div>
-                                    </div>
+                            </md-toolbar>
+                            
+                            <md-progress-linear ng-show="$ctrl.isLoadingUp || $ctrl.isLoadingDown" class="md-accent"
+                                                md-mode="indeterminate"></md-progress-linear>
+                            <!-- weekdays panel: end -->
+                            
+                            <!-- grid: start -->
+                            <md-content flex class="calendar-grid" id="viewport-serviceDatasource" keep-scroll-position scroll-current-item>
+
+                                <div id="week{{$ctrl.first().sid - 1}}" scroll-fire="$ctrl.up(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.isLoadingUp" ng-click="$ctrl.up(3)" aria-label="menu"> More </md-button>
+                                    <md-progress-circular ng-if="$ctrl.isLoadingUp" md-mode="indeterminate"></md-progress-circular>
                                 </div>
-                                <div ng-show="!viewCompact" layout="row" layout-align="space-between start" class="content md-caption">
-                                    <div flex="none" style="margin-right: 4px">
-                                        <md-icon md-svg-src="/pic/paceSpeed.svg" class="black" size="s18"
-                                                 aria-label="Back"></md-icon>
-                                    </div>
-                                    <div flex="100" class="type">
-                                        <div>{{activity.result.bpmAvr}}<span> bpm</span></div>
-                                        <div>{{activity.result.TSS}}<span> TL</span></div>
-                                    </div>
-                                </div>
-                                <div ng-show="!viewCompact && (activity.like + activity.comment)>0" layout="row" layout-align="end center" class="content md-caption">
+                                
+                                <!-- grid-week: start -->
+                                <div id="week{{::week.sid}}"
+                                     layout="raw" layout-xs="column" layout-sm="column"
+                                     layout-align-gt-sm="start stretch" flex="none"
+                                     ng-repeat="week in $ctrl.items track by week.sid"
+                                     on-scroll-current-item="$ctrl.currentWeek = week"
+                                     buffer-size="5"
+                                     start-index="0"
+                                     padding="1.0"
+                                     class="week"
+                                     ng-class="{'keep-scroll-position-pivot': week.sid == $ctrl.currentWeek.sid}">
+                                     
+                                    <calendar-day flex="100" flex-gt-md="12" flex-sm="14"
+                                                  layout="row" layout-gt-sm="column"
+                                                  ng-repeat="day in week.subItem track by day.key"
+                                                  ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
+                                                  ng-init="accent=false"
+                                                  ng-class="{select: day.selected}"
+                                                  selected="day.selected"
+                                                  accent="accentDay"
+                                                  data="day.data"
+                                                  on-select="day.selected = !day.selected">
+                                    </calendar-day>
 
-                                    <md-icon md-svg-src="/pic/thumb_up.svg" class="black" ng-if="activity.like >0"
-                                             style="width: 14px; height: 14px; margin: 0px 8px;"
-                                             aria-label="Back"></md-icon>
-                                    <span ng-if="activity.like >0">{{::activity.like}}</span>
-                                    <md-icon md-svg-src="/pic/chat_bubble.svg" class="black" ng-if="activity.comment >0"
-                                             style="width: 14px; height: 14px; margin: 0px 8px;"
-                                             aria-label="Back"></md-icon>
-                                    <span ng-if="::activity.comment >0">{{activity.comment}}</span>
+                                    <!-- grid-weektotals: start -->
+
+                                    <calendar-total flex-gt-md="12" layout="column" hide show-gt-md
+                                                    class="md-caption summary"
+                                                    ng-mouseover="accentTotal=true" ng-mouseleave="accentTotal=false"
+                                                    ng-init="accent=false"
+                                                    ng-class="{select: day.selected}"
+                                                    selected="week.selected"
+                                                    accent="accentTotal"
+                                                    update="week.changes"
+                                                    week="week"
+                                                    on-toggle="$ctrl.onToggleWeek(sid, value)">
+                                        <div flex class="md-body-1">Неделя {{$index}}</div>
+                                    </calendar-total>
+                                    <!-- grid-weektotals: end -->
 
                                 </div>
-                            </div>
-                        </div>
-                        <div layout="row" layout-align="center center" class="new" ng-class="{show: showMenu}">
-                            <md-button class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">
-                                <md-icon md-svg-src="/pic/add_circle_outline.svg" class="black" size="s18"
-                                         aria-label="Back"></md-icon>
+                                <!-- grid-week: end -->
+  
+                                <div class="keep-scroll-position-pivot"></div>
+                                
+                                <div id="week{{$ctrl.last().sid + 1}}" ng-if="$ctrl.items.length" scroll-fire="$ctrl.down(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.isLoadingDown" ng-click="$ctrl.down(3)" aria-label="menu"> More </md-button>
+                                    <md-progress-circular ng-if="$ctrl.isLoadingDown" md-mode="indeterminate"></md-progress-circular>
+                                </div>
+                                
+                            </md-content>
+                            <!-- grid-weekdays: end -->
+
+                            <!-- Fab button -->
+                            <md-button hide hide-gt-sm class="md-position-fab md-fab md-primary md-icon-button" aria-label="Add task">
+                                <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s22"
+                                         aria-label="Add task"></md-icon>
                             </md-button>
 
-                        </div>
+                         </section>
                     </div>
-                    <div flex-order="-1" flex-order-gt-sm="10"
-                         flex-xs="100" flex-sm="100" hide show-xs show-sm show-gt-md flex class="md-caption summary">
-                        <div flex-gt-sm="none" flex="none">Неделя {{startIndex+$index}}</div>
-                    </div>
+                    <!-- calendar: end -->
+
+                    <div layout="row" flex="none" hide show-gt-md class="footer"></div>
                 </div>
-            </div> -->
-
-        </section>
+                <!-- application section: end -->
+            </div>
+        </div>
+        <!-- common right margin -->
+        <div flex-gt-md="{{$ctrl.view.margin}}" hide-md></div>
     </div>
+</application-frame>
+<!-- end of common section -->
 
-    <div layout="row" flex="none" hide show-gt-sm class="footer"></div>
-
-</div>

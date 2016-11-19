@@ -16,6 +16,14 @@ $gt-sm: 960px;
   -ms-border-radius: $radius-property;
 }
 
+@mixin border-radius-custom($top-right, $top-left, $bottom-right, $bottom-left) {
+	border-radius: $top-right $top-left $bottom-right $bottom-left;
+	-moz-border-radius: $top-right $top-left $bottom-right $bottom-left;
+	-webkit-border-radius: $top-right $top-left $bottom-right $bottom-left;
+	-khtml-border-radius: $top-right $top-left $bottom-right $bottom-left;
+	-ms-border-radius: $top-right $top-left $bottom-right $bottom-left;
+}
+
 .back-primary-900 {
   background: $primary-900;
   -border-radius: 3px;
@@ -24,44 +32,53 @@ $gt-sm: 960px;
 .back-primary-hue-3 {
   background: $primary-hue-3;
 }
+/**
+  Стили для разметки главной страницы в случае, если в браузере нет поодежки JavaScript
+**/
 
-noscript {
-  #center {
-    background: $primary-hue-3;
-    color: rgba(white, 0.7);
-    height: 100%;
-  }
+.screen-center-block {
+  
+  position: fixed;
+  top: 0;
+
+  background: $primary-hue-3;
+  color: rgba(white, 0.7);
+  width: 100%;
+  height: 100%;
+  background: #37474F;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: space-around;
 
   .logo {
-    width: 70%;
-    max-width: 150px;
     margin: 8px 0px;
   }
+
+  .message {
+    text-align: center;
+    margin-top: 24px;
+    margin-left: 20vw;
+    margin-right: 20vw;
+    max-width: 300px;
+  }
+
+  a {
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+    color: white;
+  }
+
 }
+
 
 .disabled{
   &.dark {
     color: rgba(black,0.26);
   }
-}
-
-md-icon {
-  &.white {
-    svg {
-      fill: rgba(white,1);
-    }
-  }
-  &.black {
-    svg {
-      fill: rgba(black,0.54);
-    }
-  }
-  &.accent {
-    svg {
-      fill: rgba(#FF6F00,1);
-    }
-  }
-
 }
 
 /* Background layer */
@@ -167,19 +184,18 @@ img.avatar{
   margin: 0px 0px !important;
 }
 
-
-
-/* Registration form */
-
 html, body, .container {
-  height: 100%;
+  //height: 100%;
 }
 
 body {
   background-color: $primary-hue-3;
-  overflow: hidden;
   min-width: 320px;
   min-height: 480px;
+  height: auto;
+  width: auto;
+  overflow-x: hidden;
+
 }
 
 .landing-page {
@@ -229,17 +245,4 @@ body {
 
 md-input-container {
   width: 100%;
-}
-
-md-icon {
-  &.fill-black-medium {
-    svg {
-      fill: rgba(black, $contrast-black-medium);
-    }
-  }
-  &.fill-white-medium {
-    svg {
-      fill: rgba(white, $contrast-white-medium);
-    }
-  }
 }

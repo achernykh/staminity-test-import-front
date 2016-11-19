@@ -1,0 +1,151 @@
+/* Расширение формата layout в angular material
+ * блоки flex представлены с шагом 5%, для реализации сервиса необходимы дополнительные значения
+ * xs	    '(max-width: 599px)'
+ * gt-xs	'(min-width: 600px)'
+ * sm	    '(min-width: 600px) and (max-width: 959px)'
+ * gt-sm	'(min-width: 960px)'
+ * md	    '(min-width: 960px) and (max-width: 1279px)'
+ * gt-md	'(min-width: 1280px)'
+ * lg	    '(min-width: 1280px) and (max-width: 1919px)'
+ * gt-lg	'(min-width: 1920px)'
+ * xl	    '(min-width: 1920px)'
+ * */
+
+// flex-gt-md-2
+// используется для для внешинх границ календаря, потому что 5% слишком много
+@media (min-width: 1280px) {
+  .flex-gt-md-2 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 2%;
+    flex: 1 1 2%;
+    max-width: 2%;
+    max-height: 100%;
+    box-sizing: border-box; }
+
+  .layout-row > .flex-gt-md-2 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 2%;
+    flex: 1 1 2%;
+    max-width: 2%;
+    max-height: 100%;
+    box-sizing: border-box; }
+
+  .layout-column > .flex-gt-md-2 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 2%;
+    flex: 1 1 2%;
+    max-width: 100%;
+    max-height: 2%;
+    box-sizing: border-box; }
+
+  .layout-gt-md-row > .flex-gt-md-2 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 2%;
+    flex: 1 1 2%;
+    max-width: 2%;
+    max-height: 100%;
+    box-sizing: border-box; }
+  .layout-gt-md-column > .flex-gt-md-2 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 2%;
+    flex: 1 1 2%;
+    max-width: 100%;
+    max-height: 2%;
+    box-sizing: border-box; }
+}
+
+// flex-gt-md-12.5
+// используется для для календарных столбцов (7дней + итоги)
+  @media (min-width: 1280px) {
+    .flex-gt-md-12 {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 12.5%;
+      flex: 1 1 12.5%;
+      max-width: 12.5%;
+      max-height: 100%;
+      box-sizing: border-box;
+    }
+
+    .layout-row > .flex-gt-md-12 {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 12.5%;
+      flex: 1 1 12.5%;
+      max-width: 12.5%;
+      max-height: 100%;
+      box-sizing: border-box;
+    }
+
+    .layout-column > .flex-gt-md-12 {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 12.5%;
+      flex: 1 1 12.5%;
+      max-width: 100%;
+      max-height: 12.5%;
+      box-sizing: border-box;
+    }
+
+    .layout-gt-md-row > .flex-gt-md-12 {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 12.5%;
+      flex: 1 1 12.5%;
+      max-width: 12.5%;
+      max-height: 100%;
+      box-sizing: border-box;
+    }
+    .layout-gt-md-column > .flex-gt-md-12 {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 1 12.5%;
+      flex: 1 1 12.5%;
+      max-width: 100%;
+      max-height: 12.5%;
+      box-sizing: border-box;
+    }
+  }
+
+// flex-sm-14.3
+// используется для для календарных столбцов (7дней)
+@media (min-width: 960px) and (max-width: 1279px) {
+  .flex-sm-14 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 14.3%;
+    flex: 1 1 14.3%;
+    max-width: 14.3%;
+    max-height: 100%;
+    box-sizing: border-box; }
+
+  .layout-row > .flex-sm-14 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 14.3%;
+    flex: 1 1 14.3%;
+    max-width: 14.3%;
+    max-height: 100%;
+    box-sizing: border-box; }
+
+  .layout-column > .flex-sm-14 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 14.3%;
+    flex: 1 1 14.3%;
+    max-width: 100%;
+    max-height: 14.3%;
+    box-sizing: border-box; }
+
+  .layout-sm-row > .flex-sm-14 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 14.3%;
+    flex: 1 1 14.3%;
+    max-width: 14.3%;
+    max-height: 100%;
+    box-sizing: border-box; }
+  .layout-sm-column > .flex-sm-14 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 14.3%;
+    flex: 1 1 14.3%;
+    max-width: 100%;
+    max-height: 14.3%;
+    box-sizing: border-box; }
+}
+
+md-toast.md-center {
+	left: 50%;
+	transform: translate3d(-50%, 0, 0);
+}
