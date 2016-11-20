@@ -10,6 +10,7 @@ import './layout';
 import './landingpage';
 import './auth';
 import './calendar';
+import './profile';
 import './config/app.templates';
 import './services';
 
@@ -34,6 +35,7 @@ const requires = [
     'staminity.auth',
     //calendar,
     'staminity.calendar',
+    'staminity.profile',
     'staminity.services'
 ];
 
@@ -44,6 +46,6 @@ angular
     .config(appConfig)
     .run(appRun);
 
-    angular.bootstrap(document, ['staminity.application'], {
+angular.bootstrap(document, ['staminity.application'], {
         strictDi: true
 });

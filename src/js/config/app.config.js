@@ -61,6 +61,32 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 					}
 				}
 			}
+		})
+		.state('profile', {
+			url: "/profile",
+			access: [],
+			resolve: {
+			},
+			views: {
+				"background": {
+					component: "background",
+					bindings: {
+						view: 'view.background'
+					}
+				},
+				"header": {
+					component: 'header',
+					bindings: {
+						view: 'view.header'
+					}
+				},
+				"application": {
+					component: "profile",
+					bindings: {
+						view: 'view.application'
+					}
+				}
+			}
 		});
 
     // Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
