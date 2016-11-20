@@ -2,7 +2,7 @@
 <application-frame class='{{$ctrl.view.style}}'>
     <div layout="row" layout-align="center start" class="app-layer">
         <!-- common left margin -->
-        <div flex-gt-md="{{$ctrl.view.margin}}" hide-md></div>
+        <section flex-gt-md="{{$ctrl.view.margin}}" hide-md></section>
         <div flex="{{$ctrl.view.size}}" layout="column" class="body">
             <div flex="100" layout="column" layout-align="center center" layout-fill>
 
@@ -43,16 +43,9 @@
                         </md-fab-trigger>
                     </md-fab-speed-dial>
 
-                    <div layout="column" flex="100" style="height: 100%;">
-                        <div flex="auto" layout="row" class="app-body">
-                            <div layout="column" class="settings-navbar" hide show-gt-xs flex="noshrink" style="padding-left: 8px; margin: 0px;">
-                                <div flex="none" layout="row" layout-align="start center" layout-align-sm="center center" style="margin-top: 8px; margin-left: 8px; padding: 16px 0px">
-                                    <img class="avatar medium" ng-src="/assets/avatar/{{::$ctrl.app.user.userId}}.jpg"/>
-                                    <div flex hide-sm class="md-body-1" style="margin: 5px 16px; color: white;">{{$ctrl.app.user.public.firstName}}
-                                        {{$ctrl.app.user.public.firstName}}
-                                        <br>{{$ctrl.app.user.email}}</br>
-                                    </div>
-                                </div>
+                    <div layout="column" flex="100" style="width: 100%;">
+                        <div flex="auto" layout="row" class="app-body" layout-align="center start">
+                            <div flex="none" layout="column" class="settings-navbar animated fadeInLeft" hide show-gt-xs flex="noshrink" style="padding-left: 8px; margin: 0px; margin-top: 120px">
                                 <md-content flex="auto" du-scroll-container="settings-container" style="overflow-y: auto;">
                                     <md-list-item ng-repeat="nav in $ctrl._NAVBAR" ng-href="{{::nav.link}}" duration="1500" du-smooth-scroll du-scrollspy ng-disabled="!nav.active">
                                         <md-icon flex="none" md-svg-src="/assets/icon/{{::nav.icon}}" class="s24" ng-class="{disable: !nav.active}"></md-icon>
@@ -60,37 +53,27 @@
                                     </md-list-item>
                                 </md-content>
                             </div>
-
-
                             <!-- ЛЕНТА НАСТРОЕК -->
-                            <div id="settings-container" flex="auto" layout="column" du-scroll-container>
-
-                                <ng-include src="'settings/articles/settings.personal.html'"></ng-include>
+                            <section id="settings-container" class="settings-feed" flex="100" layout="column" du-scroll-container>
+                                <article ng-include="'settings/articles/settings.personal.html'"></article>
+                                <!--
                                 <ng-include src="'settings/articles/settings.privacy.html'"></ng-include>
                                 <ng-include src="'settings/articles/settings.display.html'"></ng-include>
                                 <ng-include src="'settings/articles/settings.account.html'"></ng-include>
                                 <ng-include src="'settings/articles/settings.sync.html'"></ng-include>
                                 <ng-include src="'settings/articles/settings.zones.html'"></ng-include>
                                 <ng-include src="'settings/articles/settings.notifications.html'"></ng-include>
-                                <ng-include src="'settings/articles/settings.templates.html'"></ng-include>
-
-
-
-
-
-
-
-                                    
-                                </div>
-                            </div>
+                                <ng-include src="'settings/articles/settings.templates.html'"></ng-include> -->
+                            </section>
                         </div>
-
                     </div>
-                    <!-- application section: end -->
+
                 </div>
+                <!-- application section: end -->
             </div>
-            <!-- common right margin -->
-            <div flex-gt-md="{{$ctrl.view.margin}}" hide-md></div>
         </div>
-    </application-frame>
-    <!-- end of common section -->
+        <!-- common right margin -->
+        <section flex-gt-md="{{$ctrl.view.margin}}" hide-md></section>
+    </div>
+</application-frame>
+<!-- end of common section -->

@@ -1,0 +1,9 @@
+form md-list {
+    md-input-container .md-input, textarea {
+        border-color: rgba(0,0,0,0.05);
+        padding-left: 0px;
+    }
+    md-input-container label {
+      padding-left: 0px;
+    }
+}

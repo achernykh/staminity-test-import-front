@@ -64,18 +64,64 @@ md-fab-speed-dial {
 }
 
 #settings-container {
+  max-width: 600px;
     overflow-y: auto;
-    -overflow-x: hidden;
+    //overflow-x: hidden;
     padding-right: 12px;
     @media (max-width: 600px) {
         padding: 0;
     }
 
     md-card {
-        padding-bottom: 24px;
+        background-color: rgb(250,250,250);
+        //padding-bottom: 24px;
         @media (max-width: 600px) {
             border-radius: 0;
             margin: 0;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 100%;
+            position: absolute;
+            left: 18px;
+            top: 170px;
+            margin-bottom: 30px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border: 3px solid white;
+        }
+
+        .edit-user-avatar {
+            top: 3px;
+            right: 3px;
+            bottom: 3px;
+            left: 3px;
+            margin: 0px;
+            padding: 0px;
+            width: calc(100% - 0px);
+            background: rgba(0,0,0,.5);
+            color: #fff;
+            text-decoration: none;
+            line-height: 56px;
+            opacity: 100;
+            transition: opacity 0.3s ease;
+            border-radius: 100%;
+            border: none;
+
+            &.ng-hide {
+              opacity: 0;
+            }
+        }
+
+        .user-background {
+            min-height: 200px;
+            background-image: linear-gradient(to top, rgba(#37474F, 1), rgba(0, 0, 0, 0.40) 30%, rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)), url("/background/4.jpg");
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         div.h1 {
