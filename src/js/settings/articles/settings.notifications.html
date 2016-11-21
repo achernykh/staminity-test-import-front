@@ -5,7 +5,7 @@
         <div class="hint light">app.settings.notification.hint</div>
     </div>
     <form name="vm.notificationForm">
-        <div ng-repeat="notification in vm.notifications">
+        <div ng-repeat="notification in $ctrl.app.user.notifications">
             <p class="md-body-2 padding-16-24">{{::notification.group}}</p>
 
             <div layout-gt-sm="row" class="padding-00-24" ng-repeat="event in notification.events">

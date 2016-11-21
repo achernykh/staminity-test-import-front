@@ -29,13 +29,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             },
             views: {
                 "background": {
-                    component: "background",
+                    component: "staminityBackground",
                     bindings: {
                         view: 'view.background'
                     }
                 },
                 "header": {
-                    component: 'header',
+                    component: 'staminityHeader',
                     bindings: {
                         view: 'view.header'
                     }
@@ -59,13 +59,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             },
             views: {
                 "background": {
-                    component: "background",
+                    component: "staminityBackground",
                     bindings: {
                         view: 'view.background'
                     }
                 },
                 "header": {
-                    component: 'header',
+                    component: 'staminityHeader',
                     bindings: {
                         view: 'view.header'
                     }
@@ -89,13 +89,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             },
             views: {
                 "background": {
-                    component: "background",
+                    component: "staminityBackground",
                     bindings: {
                         view: 'view.background'
                     }
                 },
                 "header": {
-                    component: 'header',
+                    component: 'staminityHeader',
                     bindings: {
                         view: 'view.header'
                     }
