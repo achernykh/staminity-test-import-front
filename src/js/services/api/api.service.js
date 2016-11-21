@@ -113,21 +113,33 @@ export default class ApiService {
      * @returns {{url: *, data: {requestType: *, requestData: *, token: *}}}
      */
     createRequest(url, data, token = this._token){
-        this._$log.debug('ApiService: createRequest ', url, data)
-        return {
-            method: 'POST',
-            url: 'http://'+_AppConstants.api + url,
-            data: angular.toJson({
-                requestType: url,
-                requestData: data,
-                token: token
-            }),
-            //data: " ",
-            /*headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }*/
+        console.log('ApiService: createRequest ', url, data)
+        let request = {
+          method: 'POST',
+          url: 'http://'+_AppConstants.api + url,
         }
+        // Если передаем обьект = файл с картинкой
+        if (typeof(data) == 'object' && ('type' in data))
+          if (data.type.search('image') != -1)
+              Object.assign(request, {
+                mode: 'no-cors',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                credentials: 'include',
+                body: data
+              })
+        // Если передаем обычный json обьект
+        else {
+            Object.assign(request, {
+              data: angular.toJson({
+                  requestType: url,
+                  requestData: data,
+                  token: token
+              })
+            })
+        }
+        return request
     }
 
     /**
