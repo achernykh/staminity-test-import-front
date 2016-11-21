@@ -1,14 +1,20 @@
+import { _AppConstants } from '../../config/app.constants';
+
+
 export default class UserService {
-    constructor($q, $log, Storage){
+    
+    constructor ($q, $log, Storage, API) {
         'ngInject'
         this._$q = $q;
         this._$log = $log;
         this._Storage = Storage;
+        this.API = API;
         this.currentUser = null;
         this.currentUserRole = [];
         this.apiType = 'userProfile';
     }
-    get(key){
+    
+    get (key) {
         return this._Storage.get('userProfile', key).then(
             (success) => {
                 this._$log.info('UserService: get userProfile', success);
@@ -23,12 +29,14 @@ export default class UserService {
                 }
             )
     }
+    
     /**
      * Устанавливаем текущего пользователя
      * @param id - индентивифкатор пользователя (userId)
      * @returns {*} - Возращаем текущего пользователя в формате обьекта userProfile
      */
-    setCurrentUser(id){
+     
+    setCurrentUser (id) {
         let result = this._$q.defer();
 
         this.get(id).then(
@@ -44,21 +52,51 @@ export default class UserService {
 
         return result.promise;
     }
+    
     /**
      *
      */
-    logout(){
+    logout () {
         this.currentUser = null;
         this.currentUserRole = [];
     }
-    getCurrentUser(){
+    
+    getCurrentUser () {
         return this.currentUser;
     }
-    getCurrentUserRole(){
+    
+    getCurrentUserRole () {
         return this.currentUserRole;
     }
-    getCurrentUserId(){
+    
+    getCurrentUserId () {
         return this.currentUser.userId;
+    }
+    
+    setUserpic (file) {
+        return this._Storage.get('authToken')
+            .then((authToken) => fetch('http://' + _AppConstants.api + "/user/avatar", {
+                method: "POST",
+                mode: 'no-cors',
+                headers: { 
+                    "Authorization": "Bearer " + authToken.token
+                },
+                credentials: 'include',
+                body: file
+            }));
+    }
+    
+    setHeader (file) {
+        return this._Storage.get('authToken')
+            .then((authToken) => fetch('http://' + _AppConstants.api + "/user/background", {
+                method: "POST",
+                mode: 'no-cors',
+                headers: { 
+                    "Authorization": "Bearer " + authToken.token
+                },
+                credentials: 'include',
+                body: file
+            }));
     }
 
 }

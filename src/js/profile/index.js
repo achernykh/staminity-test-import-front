@@ -4,6 +4,7 @@ class ProfileCtrl {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
+        this.User = User;
         console.log(this.profile);
         console.log($scope);
     }
@@ -15,7 +16,8 @@ class ProfileCtrl {
         parent: angular.element(document.body),
         clickOutsideToClose: true
       })
-      .then((picture) => { this.app.user && (this.app.user.userpic = picture) });   
+      .then((file) => this.User.setUserpic(file))
+      .then((picture) => { this.app.user && (this.app.user.userpic = `/content/avatar/${this.app.user.userId}.jpg`) });   
     }
     
     uploadHeader () {
@@ -25,7 +27,8 @@ class ProfileCtrl {
         parent: angular.element(document.body),
         clickOutsideToClose: true
       })
-      .then((picture) => { this.app.user && (this.app.user.header = picture) }); 
+      .then((file) => this.User.setHeader(file))
+      .then((picture) => { this.app.user && (this.app.user.header = `/content/background/${this.app.user.userId}.jpg`) }); 
     }
     
     getUsername () {
@@ -33,7 +36,7 @@ class ProfileCtrl {
     }
     
     getUserpic () {
-        return this.app.user && this.app.user.userpic
+        return this.app.user && this.app.user.userpic || '/assets/avatar/default.png'
     }
     
     getHeader () {
@@ -46,13 +49,14 @@ class ProfileCtrl {
 function UploadDialogController($scope, $mdDialog) {
   'ngInject';
   
-  var src;
+  var file, src;
   
   $scope.files = (files) => {
+    file = files[0];
     let onLoad = (event) => (scope) => { src = event.target.result };
     let reader = new FileReader();
     reader.onload = (event) => { $scope.$apply(onLoad(event)) };
-    reader.readAsDataURL(files[0]);
+    reader.readAsDataURL(file);
   };
   
   $scope.src = () => src;
@@ -66,7 +70,7 @@ function UploadDialogController($scope, $mdDialog) {
   };
 
   $scope.upload = () => {
-    $mdDialog.hide(src);
+    $mdDialog.hide(file);
   };
 }
 
@@ -98,7 +102,6 @@ const profile = {
 
 function onFiles() {
     return {
-      
         scope: {
             onFiles: "<"
         },
@@ -107,7 +110,6 @@ function onFiles() {
             let onFiles = (event) => (scope) => { scope.onFiles(event.target.files) };
             element.bind("change", (event) => { scope.$apply(onFiles(event)) });
         }
-        
     };
 }
 

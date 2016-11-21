@@ -10,8 +10,12 @@
         
         <md-dialog-content>
             <div class="md-dialog-content">
-                <div class="upload-picture">
+                <div class="upload-picture masked">
                     <img src="{{src()}}"/>
+                    <div ng-if="!src()" class="no-image">
+                        <div style="margin-top:17%; text-align: center">Select picture</div>
+                    </div>
+                    <div class="mask"></div>
                     <input type="file" on-files="files"/>
                 </div>
             </div>
