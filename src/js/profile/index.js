@@ -17,11 +17,7 @@ class ProfileCtrl {
         clickOutsideToClose: true
       })
       .then((file) => this.User.setUserpic(file))
-      .then(
-        (picture) => {
-          console.log('setUserpic success');
-          this.app.user && (this.app.user.userpic = `/content/avatar/${this.app.user.userId}.jpg`)
-        },(error) => console.log('setUserpic error=', error));
+      .then((url) => { this.app.user.userpic = url });
     }
 
     uploadHeader () {
@@ -32,7 +28,7 @@ class ProfileCtrl {
         clickOutsideToClose: true
       })
       .then((file) => this.User.setHeader(file))
-      .then((picture) => { this.app.user && (this.app.user.header = `/content/background/${this.app.user.userId}.jpg`) });
+      .then((url) => { this.app.user.header = url });
     }
 
     getUsername () {

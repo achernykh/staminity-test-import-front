@@ -72,6 +72,22 @@ export default class ApiService {
         this.ws.send(angular.toJson(request));
         return deferred.promise;
     }
+    
+    uploadPicture (url, file, token) {
+        var formData = new FormData();
+        formData.append(file.name, file);
+        return this._$http({
+                url: 'http://'+_AppConstants.api + url,
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": undefined
+                },
+                withCredentials: true,
+                data: formData
+            });
+    }
 
     /**
      * HTTP запрос POST по api
@@ -79,9 +95,9 @@ export default class ApiService {
      * @param data - параметры запроса
      * @returns {*} - возвращаем promise
      */
-    post(url, data = {}){
+    post(url, data = {}, token = this._token){
         // TODO Добавить трекер работы с сервером (startProgress, stopProgress)
-        return this._$http(this.createRequest(url,data)).then(
+        return this._$http(this.createRequest(url, data, token)).then(
             (response) => {
                 return this.handleResponse(response.data).then(
                     (response) => {
@@ -122,12 +138,13 @@ export default class ApiService {
         if (typeof(data) == 'object' && ('type' in data))
           if (data.type.search('image') != -1)
               Object.assign(request, {
-                mode: 'no-cors',
+                // mode: 'cors',
                 headers: {
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/octet-stream"
                 },
-                credentials: 'include',
-                body: data
+                withCredentials: true,
+                file: data
               })
         // Если передаем обычный json обьект
         else {
