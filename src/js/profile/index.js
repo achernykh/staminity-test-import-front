@@ -1,10 +1,12 @@
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, User) {
+    constructor ($scope, $mdDialog, User, API) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this.User = User;
+        this.API = API;
+        this.updateNoCache();
         console.log(this.profile);
         console.log($scope);
     }
@@ -17,7 +19,8 @@ class ProfileCtrl {
         clickOutsideToClose: true
       })
       .then((file) => this.User.setUserpic(file))
-      .then((url) => { this.app.user.userpic = url });
+      .then((userProfile) => { this.app.user = userProfile })
+      .then(() => { this.updateNoCache() });
     }
 
     uploadHeader () {
@@ -28,7 +31,8 @@ class ProfileCtrl {
         clickOutsideToClose: true
       })
       .then((file) => this.User.setHeader(file))
-      .then((url) => { this.app.user.header = url });
+      .then((userProfile) => { this.app.user = userProfile })
+      .then(() => { this.updateNoCache() });
     }
 
     getUsername () {
@@ -36,11 +40,19 @@ class ProfileCtrl {
     }
 
     getUserpic () {
-        return this.app.user && this.app.user.userpic || '/assets/avatar/default.png'
+        return `url('${this.app.user && this.app.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.app.user.public.avatar + this.getNoCache()) : '/assets/avatar/default.png'}')`
     }
 
     getHeader () {
-        return this.app.user && this.app.user.header
+        return `url('${this.app.user &&  this.app.user.public.background? this.API.apiUrl('/content/background/' + this.app.user.public.background + this.getNoCache()) : ''}')`
+    }
+    
+    updateNoCache () {
+      this.noCache = new Date().getTime()
+    }
+    
+    getNoCache () {
+      return '?noCache=' + this.noCache
     }
 
 };

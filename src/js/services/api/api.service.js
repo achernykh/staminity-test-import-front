@@ -73,11 +73,23 @@ export default class ApiService {
         return deferred.promise;
     }
     
+    /**
+     * @params url
+     * @returns string
+     */
+    apiUrl (url) {
+        return 'http://' + _AppConstants.api + url
+    }
+    
+    /**
+     * @params url, file, token
+     * @returns Promise<UserProfile>
+     */
     uploadPicture (url, file, token) {
         var formData = new FormData();
         formData.append(file.name, file);
         return this._$http({
-                url: 'http://'+_AppConstants.api + url,
+                url: this.apiUrl(url),
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -86,6 +98,13 @@ export default class ApiService {
                 },
                 withCredentials: true,
                 data: formData
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    return response.data[0].value;
+                } else {
+                    throw new Error(response);
+                }
             });
     }
 

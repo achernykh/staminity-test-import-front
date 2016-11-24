@@ -1,17 +1,3 @@
-import { _AppConstants } from '../../config/app.constants';
-
-
-function readFile(file) {
-    return new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        
-        reader.onload = (event) => { resolve(event.target.result); };
-        
-        reader.readAsBinaryString(file);
-    });    
-}
-
-
 export default class UserService {
 
     constructor ($q, $log, Storage, API) {
@@ -87,45 +73,11 @@ export default class UserService {
     setUserpic (file) {
       return Promise.all([this._Storage.get('authToken'), file])
         .then(([authToken, data]) => this._api.uploadPicture('/user/avatar', data, authToken.token))
-        .then((response) => {
-            if (response.status == 200) {
-                return 'http://' + _AppConstants.api + '/content/avatar/' + response.data[0].value.public.avatar;
-            } else {
-                throw new Error(response);
-            }
-        });
-        /*return this._Storage.get('authToken')
-            .then((authToken) => fetch('http://' + _AppConstants.api + "/user/avatar", {
-                method: "POST",
-                mode: 'no-cors',
-                headers: {
-                    "Authorization": "Bearer " + authToken.token
-                },
-                credentials: 'include',
-                body: file
-            }));*/
     }
 
     setHeader (file) {
       return Promise.all([this._Storage.get('authToken'), file])
         .then(([authToken, data]) => this._api.uploadPicture('/user/background', data, authToken.token))
-        .then((response) => {
-            if (response.status == 200) {
-                return 'http://' + _AppConstants.api + '/content/background/' + response.data[0].value.public.background;
-            } else {
-                throw new Error(response);
-            }
-        });
-        /*return this._Storage.get('authToken')
-            .then((authToken) => fetch('http://' + _AppConstants.api + "/user/background", {
-                method: "POST",
-                mode: 'no-cors',
-                headers: {
-                    "Authorization": "Bearer " + authToken.token
-                },
-                credentials: 'include',
-                body: file
-            }));*/
     }
 
 }
