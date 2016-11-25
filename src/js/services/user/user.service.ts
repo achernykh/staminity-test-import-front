@@ -1,9 +1,12 @@
+import { UserProfile } from './user.interface'
+
+
 export default class UserService {
     _$q: any;
     _$log: any;
     _Storage: any;
     _api: any;
-    currentUser: any;
+    currentUser: UserProfile;
     currentUserRole: Array<any>;
     apiType: string;
     
@@ -17,7 +20,7 @@ export default class UserService {
         this.apiType = 'userProfile';
     }
 
-    get (key) {
+    get (key) : Promise<UserProfile> {
         return this._Storage.get('userProfile', key)
             .then((success) => {
                 this._$log.info('UserService: get userProfile', success);
@@ -33,7 +36,7 @@ export default class UserService {
             })
     }
 
-    setCurrentUser (id) {
+    setCurrentUser (id: number) : Promise<any> {
         let result = this._$q.defer();
 
         this.get(id).then((success) => {
@@ -56,24 +59,24 @@ export default class UserService {
         this.currentUserRole = [];
     }
 
-    getCurrentUser () {
+    getCurrentUser () : UserProfile {
         return this.currentUser;
     }
 
-    getCurrentUserRole () {
+    getCurrentUserRole () : any {
         return this.currentUserRole;
     }
 
-    getCurrentUserId () {
+    getCurrentUserId () : number {
         return this.currentUser.userId;
     }
 
-    setUserpic (file) {
+    setUserpic (file: any) : Promise<UserProfile> {
       return Promise.all([this._Storage.get('authToken'), file])
         .then(([authToken, data]) => this._api.uploadPicture('/user/avatar', data, authToken.token))
     }
 
-    setHeader (file) {
+    setHeader (file: any) : Promise<UserProfile> {
       return Promise.all([this._Storage.get('authToken'), file])
         .then(([authToken, data]) => this._api.uploadPicture('/user/background', data, authToken.token))
     }
