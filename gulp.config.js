@@ -54,7 +54,7 @@ module.exports = {
         index: src + 'index.html',
         jsLibs: jsLibs,
         app: src + 'js/app.js',
-        jsApp: [src + 'js/**/*.js', src + 'js/**//**/*.js' ],
+        jsApp: [src + 'js/**/*.js', src + 'js/**/*.ts' ],
         cssLibs: cssLibs,
         assets: src + 'assets/**/*.*',
         sass: src + 'sass/app.scss',

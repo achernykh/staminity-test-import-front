@@ -16,7 +16,7 @@ export const services = angular.module('staminity.services', [])
     .service('Storage', StorageService)
     .service('AppMessage', ApplicationMessageService)
     .service('Auth', AuthService)
-    .service('User', UserService)
+    .service('User', ['$q', '$log', 'Storage', 'API', UserService])
     .service('Groups', GroupsService)
     .service('Calendar', CalendarService)
     .service('API', ApiService);

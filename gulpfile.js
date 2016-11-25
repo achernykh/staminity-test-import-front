@@ -50,9 +50,19 @@ gulp.task('jsLibs', function() {
         .pipe(gulp.dest('js/', { cwd: config.build }));
 });
 
+// var ts = require("gulp-typescript");
+const tsify = require('tsify');
+ 
 // Compile application
 gulp.task('jsApp', ['templates'], function() {
+    // var tsProject = ts.createProject("./tsconfig.json")
+    // return tsProject.src()
+    //     .pipe(ts(tsProject)).js
+    //     .pipe(source('main.js'))
+    //     .on('error', interceptErrors)
+    //     .pipe(gulp.dest('./build/js/'));
     return browserify(config.src.app)
+        .plugin(tsify)
         .transform(babelify, {presets: ["es2015"]})
         .transform(ngAnnotate)
         .bundle()
