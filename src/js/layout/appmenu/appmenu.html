@@ -9,11 +9,11 @@
                  -background-attachment: fixed;
                  -webkit-filter: grayscale(10%) brightness(90%);">
         <div layout-padding>
-            <img class="avatar medium" src="/assets/avatar/01.jpg"/>
+            <img class="avatar medium" ng-src="/assets/avatar/{{$ctrl.app.user.userId}}.jpg"/>
         </div>
         <div flex layout="row" layout-align="space-between start" layout-padding>
             <div flex>
-                <p class="md-body-2" style="margin: 0px">{{$ctrl.user.public.firstName}} {{$ctrl.user.public.lastName}}</p>
+                <p class="md-body-2" style="margin: 0px">{{$ctrl.app.user.public.firstName}} {{$ctrl.app.user.public.lastName}}</p>
             </div>
             <div flex="none" style="padding: 0px">
                 <md-button class="md-icon-button md-primary" aria-label="User menu" ng-click="showUserMenu = !showUserMenu">

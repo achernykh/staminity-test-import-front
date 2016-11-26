@@ -3,6 +3,8 @@
  */
 
 import translateApp from './translate/appbox.translate';
+import { _APP_MENU } from './translate/appmenu.translate.js'
+import { _USER_MENU } from './translate/usermenu.translate.js'
 
 function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
     $urlRouterProvider) {
@@ -172,15 +174,15 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         }).dark()
 
     // Текст представлений
-    $translateProvider.translations('en', {
-        app: translateApp['en']
-    });
-    $translateProvider.translations('ru', {
-        app: translateApp['ru']
-    });
-    $translateProvider.preferredLanguage('ru');
+  	$translateProvider.translations('en', { app: translateApp['en'] });
+    $translateProvider.translations('ru', { app: translateApp['ru'] });
+	$translateProvider.translations('ru', { appMenu: _APP_MENU['ru'] });
+	$translateProvider.translations('en', { appMenu: _APP_MENU['en'] });
+	$translateProvider.translations('ru', { userMenu: _USER_MENU['ru'] });
+	$translateProvider.translations('en', { userMenu: _USER_MENU['en'] });
+
+	$translateProvider.preferredLanguage('ru');
     $translateProvider.fallbackLanguage('ru');
-    //$translateProvider.useSanitizeValueStrategy('escape');
 
 }
 export default AppConfig;

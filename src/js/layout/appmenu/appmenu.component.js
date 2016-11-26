@@ -1,20 +1,25 @@
 import { UserMenuSettings, AppMenuSettings } from '../app.constants';
 
 class ApplicationMenuCtrl {
-    constructor($mdDialog, Auth) {
+    constructor($mdDialog, Auth, $mdSidenav) {
         'ngInject';
-        this.appmenu = AppMenuSettings;
-        this.usermenu = UserMenuSettings;
-        this._Auth = Auth;
+        this.appmenu = AppMenuSettings
+        this.usermenu = UserMenuSettings
+        this._Auth = Auth
+        this._$mdSidenav = $mdSidenav
     }
     $onInit(){
+    }
+
+    toggleSlide(component){
+        this._$mdSidenav(component).toggle().then(() => angular.noop);
     }
 
 }
 
 let ApplicationMenu = {
-    bindings: {
-        user: '<'
+    require: {
+        app: '^staminityApplication'
     },
     transclude: false,
     controller: ApplicationMenuCtrl,
