@@ -72,6 +72,41 @@ export default class ApiService {
         this.ws.send(angular.toJson(request));
         return deferred.promise;
     }
+    
+    /**
+     * @params url
+     * @returns string
+     */
+    apiUrl (url) {
+        return 'http://' + _AppConstants.api + url
+    }
+    
+    /**
+     * @params url, file, token
+     * @returns Promise<UserProfile>
+     */
+    uploadPicture (url, file, token) {
+        var formData = new FormData();
+        formData.append(file.name, file);
+        return this._$http({
+                url: this.apiUrl(url),
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": undefined
+                },
+                withCredentials: true,
+                data: formData
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    return response.data[0].value;
+                } else {
+                    throw new Error(response);
+                }
+            });
+    }
 
     /**
      * HTTP запрос POST по api
@@ -79,9 +114,9 @@ export default class ApiService {
      * @param data - параметры запроса
      * @returns {*} - возвращаем promise
      */
-    post(url, data = {}){
+    post(url, data = {}, token = this._token){
         // TODO Добавить трекер работы с сервером (startProgress, stopProgress)
-        return this._$http(this.createRequest(url,data)).then(
+        return this._$http(this.createRequest(url, data, token)).then(
             (response) => {
                 return this.handleResponse(response.data).then(
                     (response) => {
@@ -113,21 +148,34 @@ export default class ApiService {
      * @returns {{url: *, data: {requestType: *, requestData: *, token: *}}}
      */
     createRequest(url, data, token = this._token){
-        this._$log.debug('ApiService: createRequest ', url, data)
-        return {
-            method: 'POST',
-            url: 'http://'+_AppConstants.api + url,
-            data: angular.toJson({
-                requestType: url,
-                requestData: data,
-                token: token
-            }),
-            //data: " ",
-            /*headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }*/
+        console.log('ApiService: createRequest ', url, data)
+        let request = {
+          method: 'POST',
+          url: 'http://'+_AppConstants.api + url,
         }
+        // Если передаем обьект = файл с картинкой
+        if (typeof(data) == 'object' && ('type' in data))
+          if (data.type.search('image') != -1)
+              Object.assign(request, {
+                // mode: 'cors',
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/octet-stream"
+                },
+                withCredentials: true,
+                file: data
+              })
+        // Если передаем обычный json обьект
+        else {
+            Object.assign(request, {
+              data: angular.toJson({
+                  requestType: url,
+                  requestData: data,
+                  token: token
+              })
+            })
+        }
+        return request
     }
 
     /**

@@ -1,0 +1,14 @@
+<application-frame>
+    <div class="profile-header">
+        <div class="profile-header-image masked" ng-click="$ctrl.uploadHeader()" ng-style="{'background-image': $ctrl.getHeader()}">
+            <div class="mask"></div>
+        </div>
+        <div style="position: absolute; bottom: -20px; left: 10px;">
+            <div class="userpic masked" style="margin-right: 5px;" ng-click="$ctrl.uploadUserpic()" ng-style="{'background-image': $ctrl.getUserpic()}">
+                <div class="mask"></div>
+            </div>
+            <span style="vertical-align: middle; line-height: 60px; display: inline-block;">{{$ctrl.getUsername()}}</span>
+        </div>
+    </div>
+</application-frame>
+

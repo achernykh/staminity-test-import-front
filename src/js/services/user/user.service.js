@@ -1,14 +1,17 @@
 export default class UserService {
-    constructor($q, $log, Storage){
+
+    constructor ($q, $log, Storage, API) {
         'ngInject'
         this._$q = $q;
         this._$log = $log;
         this._Storage = Storage;
+        this._api = API;
         this.currentUser = null;
         this.currentUserRole = [];
         this.apiType = 'userProfile';
     }
-    get(key){
+
+    get (key) {
         return this._Storage.get('userProfile', key).then(
             (success) => {
                 this._$log.info('UserService: get userProfile', success);
@@ -23,12 +26,14 @@ export default class UserService {
                 }
             )
     }
+
     /**
      * Устанавливаем текущего пользователя
      * @param id - индентивифкатор пользователя (userId)
      * @returns {*} - Возращаем текущего пользователя в формате обьекта userProfile
      */
-    setCurrentUser(id){
+
+    setCurrentUser (id) {
         let result = this._$q.defer();
 
         this.get(id).then(
@@ -44,21 +49,35 @@ export default class UserService {
 
         return result.promise;
     }
+
     /**
      *
      */
-    logout(){
+    logout () {
         this.currentUser = null;
         this.currentUserRole = [];
     }
-    getCurrentUser(){
+
+    getCurrentUser () {
         return this.currentUser;
     }
-    getCurrentUserRole(){
+
+    getCurrentUserRole () {
         return this.currentUserRole;
     }
-    getCurrentUserId(){
+
+    getCurrentUserId () {
         return this.currentUser.userId;
+    }
+
+    setUserpic (file) {
+      return Promise.all([this._Storage.get('authToken'), file])
+        .then(([authToken, data]) => this._api.uploadPicture('/user/avatar', data, authToken.token))
+    }
+
+    setHeader (file) {
+      return Promise.all([this._Storage.get('authToken'), file])
+        .then(([authToken, data]) => this._api.uploadPicture('/user/background', data, authToken.token))
     }
 
 }
