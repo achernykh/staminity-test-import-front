@@ -14,8 +14,8 @@ let layouteModule = angular.module('staminity.layout',[]);
     // TODO убрать после того как полностью заработает ui-router
     //layouteModule.value('$routerRootComponent', 'staminityApplication');
     layouteModule.component('staminityApplication', StaminityApplication);
-    layouteModule.component('background', Background);
-    layouteModule.component('header', Header);
+    layouteModule.component('staminityBackground', Background);
+    layouteModule.component('staminityHeader', Header);
     layouteModule.component('userMenu', UserMenu);
     layouteModule.component('applicationMenu', ApplicationMenu);
     //layouteModule.component('applicationHeader', ApplicationHeader);

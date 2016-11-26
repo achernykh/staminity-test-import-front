@@ -189,8 +189,8 @@ const translateApp = {
               },
               sportShape: {
                   header: 'Спортивная форма',
-                  weight: 'Вес',
-                  height: 'Рост',
+                  weight: 'Вес (кг)',
+                  height: 'Рост (см)',
                   sportLevel: 'Уровень спортсмена',
                   activityTypes: {
                       header: 'Виды спорта',

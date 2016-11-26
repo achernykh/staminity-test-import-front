@@ -1,0 +1,130 @@
+<md-card flex="none" layout="column" id="display">
+    <div class="h1" layout="column" layout-wrap>
+        <div flex layout="row" layout-align="space-between center">
+            <div flex="auto" layout="row" layout-align="start center">
+                <p class="md-title" translate>app.settings.display.header</p>
+            </div>
+            <md-icon flex="none" md-svg-icon="/pic/dvr.svg" class="fill-light"></md-icon>
+        </div>
+        <div flex class="hint light" translate>app.settings.display.hint</div>
+    </div>
+    <form name="vm.displayForm">
+
+        <div layout="row" layout-align="start center" md-theme="auth" class="padding-00-24 back-primary-hue-3">
+            <md-icon flex="none" md-svg-icon="/pic/translate.svg" style="margin-right: 8px" class="fill-light"></md-icon>
+            <md-input-container flex="auto" class="md-block message">
+                <label>Language</label>
+                <md-select flex="auto" name="language" ng-model="vm.display.language" style="margin-top: 0px;" class="md-body-1 light" placeholder="select language please">
+                    <md-option class="md-body-1" value="ru">Russian</md-option>
+                    <md-option class="md-body-1" value="en">English</md-option>
+                </md-select>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-input-container flex="auto" class="md-block message">
+                <label>Format Language</label>
+                <md-select name="formatLanguage" ng-model="vm.display.formatLanguage" style="margin-top: 0px;" class="md-body-1 light">
+                    <md-option class="md-body-1" value="ru" class="md-body-1">Русский</md-option>
+                    <md-option class="md-body-1" value="en" class="md-body-1">English</md-option>
+                </md-select>
+                <div class="select-hint light" ng-if="true">Определяет настройки времени и чисел</div>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="start center" class="padding-00-24" style="margin-top: 16px">
+            <md-icon flex="none" md-svg-icon="/pic/earth.svg" style="margin-right: 8px" class="fill-dark"></md-icon>
+            <md-input-container flex="auto">
+                <label>Time Zone</label>
+                <md-select name="timezone" ng-model="vm.display.timezone" md-selected-text="timezoneSelectedText" style="margin-top: 0px;" class="md-body-1 no-message" placeholder="select timezone please">
+                    <md-option class="md-body-1" ng-repeat="timezone in vm.timezones" value="{{timezone.value}}">{{timezone.name}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+        <div layout="row" class="padding-00-24">
+            <md-icon flex="none" md-svg-icon="/pic/calendar-multiple-check.svg" style="margin-right: 8px" class="fill-dark"></md-icon>
+            <md-input-container flex="auto">
+                <label>chooseCalendar</label>
+                <md-select name="language" ng-model="vm.display.calendar" style="margin-top: 0px;" class="md-body-1 no-message">
+                    <md-option class="md-body-1" value="0">Греогианский</md-option>
+                </md-select>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-icon flex="none" md-svg-icon="/pic/calendar-today.svg" style="margin-right: 8px" class="fill-dark"></md-icon>
+            <md-input-container flex="auto">
+                <label>chooseFistDayWeek</label>
+                <md-select name="firstDay" ng-model="vm.display.firstDayOfWeek" style="margin-top: 0px;" class="md-body-1 no-message">
+                    <md-option value="1" class="md-body-1">Понедельник</md-option>
+                    <md-option value="6" class="md-body-1">Суббота
+                    </md-option>
+                    <md-option value="7" class="md-body-1">Воскресенье</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <md-divider></md-divider>
+        <p class="md-body-2 padding-16-24" style="padding-bottom: 0px">Формат чисел и дат</p>
+        <div layout="row" layout-align="start center" class="padding-08-24">
+            <div flex="none" style="min-width: 130px; margin-top: 4px" class="md-body-1">Система мер:</div>
+            <md-input-container flex="auto" class="">
+                <md-select name="firstDay" ng-model="vm.display.units" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="0" class="md-body-1">Метрическая(км/кг)</md-option>
+                    <md-option value="1" class="md-body-1">Имперская(фунты/мили)
+                    </md-option>
+                </md-select>
+                <div class="select-hint" ng-if="vm.display.units">
+                    <span>км/кг</span>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout="row" layout-align="start center" class="padding-00-24">
+            <div flex="none" style="min-width: 130px; margin-top: 4px" class="md-body-1">Формат чисел:</div>
+            <md-input-container flex="auto" class="">
+                <label>Grouping</label>
+                <md-select name="firstDay" ng-model="vm.display.numGroup" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="" class="md-body-1">None</md-option>
+                    <md-option value="space" class="md-body-1">Space</md-option>
+                    <md-option value="dot" class="md-body-1">Точка</md-option>
+                    <md-option value="comma" class="md-body-1">Запятая</md-option>
+                </md-select>
+                <div class="select-hint" ng-if="vm.display.numGroup">
+                    <span>1 234,45</span>
+                </div>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-input-container flex="auto" class="">
+                <label>Decimal</label>
+                <md-select name="firstDay" ng-model="vm.display.numSeparator" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="dot" class="md-body-1">Точка</md-option>
+                    <md-option value="comma" class="md-body-1">Запятая</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+        <div layout="row" layout-align="start center" class="padding-00-24">
+            <div flex="none" style="min-width: 130px; margin-top: 4px" class="md-body-1">Формат даты:</div>
+            <md-input-container flex="auto" class="">
+                <label>Format</label>
+                <md-select name="firstDay" ng-model="vm.display.dateGroup" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="MMDDYYYY" class="md-body-1">MMDDYYYY</md-option>
+                    <md-option value="DDMMYYYY" class="md-body-1">DDMMYYYY</md-option>
+                    <md-option value="YYYYMMDD" class="md-body-1">YYYYMMDD</md-option>
+                </md-select>
+                <div class="select-hint" ng-if="vm.display.dateGroup">13.10.1984</div>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-input-container flex="auto" class="">
+                <label>Separator</label>
+                <md-select name="firstDay" ng-model="vm.display.dateSeparator" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="/" class="md-body-1">Backspace</md-option>
+                    <md-option value="." class="md-body-1">Dot</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="start center" class="padding-16-24">
+            <div flex="none" style="min-width: 130px" class="md-body-1">Формат времени:</div>
+            <md-switch ng-model="vm.display.timeFormat" aria-label="Switch 2" ng-true-value="12" ng-false-value="24" class="md-primary" style="margin: 0px 16px">
+                {{ data.cb2 }}
+            </md-switch>
+            <div class="hint dark">{{vm.display.timeFormat === 12 ? "12H AM/PM" : "24H"}}</div>
+        </div>
+    </form>
+</md-card>

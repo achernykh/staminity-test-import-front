@@ -2,17 +2,19 @@
  * Created by akexander on 22/07/16.
  */
 //import { UserRoles, PageAccess } from './config/app.constants.js';
-import appConfig from './config/app.config.js';
+import appConfig from './config/app.config.js'
 import appRun from './config/app.run.js'
-import appMock from './config/e2e/app.mock.js';
+import appMock from './config/e2e/app.mock.js'
 
-import './layout';
-import './landingpage';
-import './auth';
-import './calendar';
-import './profile';
-import './config/app.templates';
-import './services';
+
+import './layout'
+import './landingpage'
+import './auth'
+import './calendar'
+import './profile'
+import './settings'
+import './config/app.templates'
+import './services'
 
 sessionStorage.setItem('authToken', '{ "token": "c5850e1b-80c8-c5b2-abd4-641ed2bb8af4", "userId": 4 }')
 sessionStorage.setItem('userProfile#4', `{ 
@@ -36,25 +38,22 @@ const requires = [
     'ui.scroll',
     'ui.scroll.jqlite',
     'dndLists',
-	'hm.readmore',
-//    'staminity.mock',
+    'hm.readmore',
     'staminity.layout',
     'staminity.templates',
     'staminity.landing',
     'staminity.auth',
-    //calendar,
     'staminity.calendar',
     'staminity.profile',
+    'staminity.settings',
     'staminity.services'
-];
+]
 
 angular
     .module('staminity.application', requires)
     //.constant('_UserRoles', UserRoles)
     //.constant('_PageAccess', PageAccess)
     .config(appConfig)
-    .run(appRun);
+    .run(appRun)
 
-angular.bootstrap(document, ['staminity.application'], {
-        strictDi: true
-});
+angular.bootstrap(document, ['staminity.application'], {strictDi: true});

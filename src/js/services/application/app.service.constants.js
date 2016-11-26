@@ -104,6 +104,32 @@ const ViewConstants = {
       margin: 2,
       size: 'grow'
     }
+  },
+  // Настройка страницы: Настройки пользователя ../settings
+  settings: {
+    background: {
+      style: 'light-grey',
+      toolbar: true,
+      size: '160'
+    },
+    header: {
+      enabled: true,
+      title: true,
+      athletes: true,
+      leftPanel: {
+        url: 'layout/application/header/appmenutoolbar.html',
+        size: 20
+      },
+      rightPanel: {
+        url: 'layout/application/header/usertoolbar.html',
+        size: 20
+      }
+    },
+    application: {
+      style: 'app-page',
+      margin: 20,
+      size: 'grow'
+    }
   }
 };
 export default ViewConstants

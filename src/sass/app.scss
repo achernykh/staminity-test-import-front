@@ -4,7 +4,7 @@
 @import './font';
 @import './icon';
 @import "./layout";
-//@import "./margin-padding";
+@import "./form";
 
 @import './base';
 
@@ -18,3 +18,4 @@
 @import '../js/auth/auth';
 @import '../js/calendar/calendar';
 @import '../js/profile/profile';
+@import '../js/settings/settings';

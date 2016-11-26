@@ -15,6 +15,11 @@ $header-bar-height: 160px;
         height: 100vh
     }
     // Задний фон для представлений с заголовком
+    .light-grey {
+        background-image: none;
+        background-color: $grey-300;
+    }
+    // Задний фон для представлений с заголовком
     .application-light {
         background-image: none;
         background-color: $primary-300;

@@ -1,0 +1,19 @@
+<md-card flex="none" layout="column" id="privacy" class="animated zoomIn">
+    <div class="h1">
+        <p class="md-title" translate>app.settings.privacy.header</p>
+        <div class="hint light" translate>app.settings.privacy.hint</div>
+    </div>
+    <form name="vm.privacyForm">
+        <div ng-repeat="group in $ctrl.app.user.privacy">
+            <p class="md-body-2 padding-16-24">
+                {{ 'app.settings.privacy.groups.' + group.name | translate }}</p>
+            <div class="hint dark padding-00-24">
+                {{ 'app.settings.privacy.groups.' + group.name + 'Hint' | translate }}</div>
+
+            <md-select flex class="md-body-1 padding-00-24 no-border" ng-model="group.setup" arial-label="Privacy Level">
+                <md-option class="md-body-1" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL">{{::level.name | translate}}</md-option>
+            </md-select>
+            <md-divider ng-if="!$last" style="margin-top: 16px"></md-divider>
+        </div>
+    </form>
+</md-card>

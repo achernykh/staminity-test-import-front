@@ -1,0 +1,51 @@
+<md-card flex="none" layout="column" id="account">
+    <div class="h1" layout="column" layout-wrap>
+        <div flex layout="row" layout-align="space-between center">
+            <div flex="auto" layout="row" layout-align="start center">
+                <p class="md-title" translate>app.settings.account.header</p>
+            </div>
+            <md-icon flex="none" md-svg-icon="/pic/vpn_key.svg" class="fill-light"></md-icon>
+        </div>
+        <div flex class="hint light" translate>app.settings.account.hint</div>
+    </div>
+    <form name="vm.accountForm">
+        <div layout="row" class="padding-0-24-24-24 back-primary-hue-3" md-theme="auth">
+            <md-input-container flex-gt-sm class="md-body-1">
+                <label translate>app.settings.account.email</label>
+                <input type="text" name="firstName" ng-model="vm.personal.email" autocomplete="off" autofocus ng-disabled="true" minlength="2" maxlength="100">
+                <div class="hint light">Логином в нашем сервисе является email указанный при регистрации</div>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-input-container flex-gt-sm class="md-body-1">
+                <label translate>app.settings.account.password</label>
+                <input type="password" name="lastName" ng-model="vm.password" autocomplete="off" ng-disabled="true" minlength="2" maxlength="100">
+                <div class="hint light">Для смены пароля перейдите по
+                    <a href="#">ссылке</a>
+                </div>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="space-between center" class="padding-16-24">
+            <p class="md-subhead">Billing Information</p>
+            <md-button flex="none" class="md-raised" ng-disabled="true" ng-click="">+ add
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+        <div layout="row" layout-align="space-between center" class="padding-16-24">
+            <p class="md-subhead">Subscriptions</p>
+            <md-button flex="none" class="md-raised" ng-disabled="true" ng-click="">+ add
+            </md-button>
+        </div>
+        <div flex layout="column" ng-repeat="subscription in vm.subscriptions" ng-class="{'padding-00-24' : $last, 'padding-0-24-24-24': !$last}">
+            <div flex layout="row" layout-align="space-between center">
+                <md-icon flex="none" md-svg-icon="/pic/staminity.svg" class="fill-light s24" style="margin-right: 8px"></md-icon>
+                <div flex="auto" class="md-body-2">Staminity:
+                    {{::subscription.code}}</div>
+                <md-button flex="none" ng-class="{'md-primary' : !$first}" ng-disabled="$first" ng-click="">{{$first ? 'Не активна' : 'Активна'}}
+                </md-button>
+            </div>
+            <div flex layout="row" class="hint dark" style="margin-left: 32px; margin-right: 100px">
+                Статус подписки, комментарий по дате следующего платежа, периоду расчета, ссылке на описание доступных функций в подписке
+            </div>
+        </div>
+    </form>
+</md-card>
