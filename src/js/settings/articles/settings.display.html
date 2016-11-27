@@ -1,14 +1,46 @@
 <md-card flex="none" layout="column" id="display">
-    <div class="h1" layout="column" layout-wrap>
-        <div flex layout="row" layout-align="space-between center">
-            <div flex="auto" layout="row" layout-align="start center">
-                <p class="md-title" translate>app.settings.display.header</p>
-            </div>
-            <md-icon flex="none" md-svg-icon="/pic/dvr.svg" class="fill-light"></md-icon>
-        </div>
-        <div flex class="hint light" translate>app.settings.display.hint</div>
-    </div>
+    <md-card-title>
+        <h2 class="md-title" translate="settings.display.header"></h2>
+    </md-card-title>
     <form name="vm.displayForm">
+        <md-list>
+            <md-list-item>
+                <md-icon class="dark-active" md-svg-src="/assets/icon/translate.svg"></md-icon>
+                <p>Язык инетрфейса</p>
+                <md-menu class="md-secondary">
+                    <md-button aria-label="User"><div style="line-height: 24px; display: inline-block">{{$ctrl.app.user.display.language}}</div>
+                        <md-icon md-svg-src="/assets/icon/{{$ctrl.app.user.display.language}}.svg" md-24 aria-label="Language Icon"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.app.user.display.language = 'ru'">
+                                <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target aria-label="Russian"></md-icon>
+                                <span>Русский</span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.app.user.display.language = 'en'">
+                                <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target aria-label="English"></md-icon>
+                                <span>English</span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+        </md-list>
+
+        <md-list>
+            <md-list-item class="secondary-button-padding">
+                <p>Начало недели</p>
+                <md-radio-group class="md-secondary" ng-model="data.group1" layout="row">
+                    <md-radio-button flex value="Apple" class="md-primary">Пн</md-radio-button>
+                    <md-radio-button flex value="Banana">Вт</md-radio-button>
+                    <md-radio-button flex value="Mango">Ср</md-radio-button>
+                </md-radio-group>
+            </md-list-item>
+        </md-list>
+
+        <!--
 
         <div layout="row" layout-align="start center" md-theme="auth" class="padding-00-24 back-primary-hue-3">
             <md-icon flex="none" md-svg-icon="/pic/translate.svg" style="margin-right: 8px" class="fill-light"></md-icon>
@@ -125,6 +157,6 @@
                 {{ data.cb2 }}
             </md-switch>
             <div class="hint dark">{{vm.display.timeFormat === 12 ? "12H AM/PM" : "24H"}}</div>
-        </div>
+        </div>-->
     </form>
 </md-card>

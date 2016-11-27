@@ -106,3 +106,26 @@
 .read-more-links {
 	color: darkgrey;
 }
+
+// Текст подсказок
+.hint {
+  /* Copy styles from ng-messages */
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  margin: 8px 0px;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+  /* Set our own color */
+  a {
+	text-decoration: none;
+	font-weight: 500;
+
+	&:hover {
+	  color: rgba($accent-900,0.8);
+	}
+  }
+}
+
+.md-subheader .md-subheader-inner {
+  color: $blue-grey-700;
+}

@@ -1,38 +1,36 @@
 <md-card flex="none" layout="column" id="notifications">
-    <div class="h1">
-        <p class="md-title" translate>app.settings.notification.header</p>
-
-        <div class="hint light">app.settings.notification.hint</div>
-    </div>
-    <form name="vm.notificationForm">
-        <div ng-repeat="notification in $ctrl.app.user.notifications">
-            <p class="md-body-2 padding-16-24">{{::notification.group}}</p>
-
-            <div layout-gt-sm="row" class="padding-00-24" ng-repeat="event in notification.events">
-                <div flex-gt-sm class="md-body-1" style="padding-bottom: 16px">{{::event.name}}</div>
+    <md-card-title>
+        <h2 class="md-title" translate="settings.notification.header"></h2>
+    </md-card-title>
+    <form name="formNotification">
+        <div ng-repeat-start="notification in $ctrl.app.user.notifications"
+             class="md-no-stiky md-subheader">
+            <span class="md-subheader-inner" translate>{{::notification.group}}</span>
+        </div>
+        <md-card-content>
+            <div layout-gt-sm="row" ng-repeat="event in notification.events">
+                <div flex-gt-sm class="" style="padding-bottom: 16px">{{::event.name}}</div>
                 <fieldset flex-gt-sm>
                     <div layout="row" layout-wrap flex>
                         <div flex="33">
-                            <md-checkbox class="md-body-1" ng-model="event.email" aria-label="email">
+                            <md-checkbox class="md-primary" ng-model="event.email" aria-label="email">
                                 Email
                             </md-checkbox>
                         </div>
                         <div flex="33">
-                            <md-checkbox class="md-body-1" ng-model="event.phone" aria-label="phone">
+                            <md-checkbox class="md-primary" ng-model="event.phone" aria-label="phone">
                                 Phone
                             </md-checkbox>
                         </div>
-
                         <div flex="33">
-                            <md-checkbox class="md-body-1" ng-model="event.web" aria-label="web">
+                            <md-checkbox class="md-primary" ng-model="event.web" aria-label="web">
                                 Site
                             </md-checkbox>
                         </div>
                     </div>
                 </fieldset>
             </div>
-            <md-divider ng-if="!$last" style="margin-top: 16px"></md-divider>
-        </div>
-        <div class="padding-00-24"></div>
+        </md-card-content>
+        <md-divider ng-repeat-end ng-if="!$last"></md-divider>
     </form>
 </md-card>

@@ -1,9 +1,20 @@
-form md-list {
-    md-input-container .md-input, textarea {
+form md-list, md-list form {
+    md-input-container .md-input, textarea, md-select .md-select-value{
         border-color: rgba(0,0,0,0.05);
         padding-left: 0px;
     }
     md-input-container label {
       padding-left: 0px;
     }
+
+    md-list-item md-select:first-child {
+        margin-top: 0px;
+    }
+
+    // В стандарте стоит 16 вверху и 12 внизу, не ровно с последующим текстом
+    md-list-item .md-list-item-inner>md-icon:first-child:not(.md-avatar-icon){
+        margin-top: 14px !important;
+        margin-bottom: 14px !important;
+    }
+
 }

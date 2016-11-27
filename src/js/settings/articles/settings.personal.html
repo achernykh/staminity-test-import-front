@@ -1,131 +1,128 @@
 <md-card flex="none" layout="column" style="position: relative">
-    <!--<md-content md-theme="dark" class="user-background">
-        <md-card-content layout="row" layout-align="space-between center">
-            <div flex="auto">
-              <h2 class="md-title" translate>app.settings.personalInfo.header</h2>
-            </div>
-            <div flex=none>
-              <md-button>Изменить</md-button>
-            </div>
 
-        </md-card-content>
-    </md-content>
-    <div ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url(/assets/avatar/{{::$ctrl.app.user.userId}}.jpg)">
-        <button ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
-    </div>-->
-    <form name="vm.publicForm">
-        <md-list>
-            <md-list-item layout="row" class="">
-                <md-input-container flex="45" class="md-block no-message">
-                    <label translate>app.settings.personalInfo.main.firstName</label>
-                    <input required type="text" name="firstName" ng-model="$ctrl.app.user.public.firstName" autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
-                    <div ng-messages="public.email.$error" role="alert">
-                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                            app.settings.personalInfo.main.firstName
+    <md-list>
+        <form name="formPublic">
+            <md-list-item layout="row" layout-wrap>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.firstName"></label>
+                    <input type="text" name="firstName"
+                           ng-model="$ctrl.app.user.public.firstName"
+                           required autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
+                    <div ng-messages="formPublic.firstName.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
                         </div>
                     </div>
                 </md-input-container>
                 <div flex="10"></div>
-                <md-input-container flex="45" class="md-block no-message">
-                    <label translate>app.settings.personalInfo.main.lastName</label>
-                    <input required type="text" name="lastName" ng-model="$ctrl.app.user.public.lastName" autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
-                    <div ng-messages="public.email.$error" role="alert">
-                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                            app.settings.personalInfo.main.lastName
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.lastName"></label>
+                    <input type="text" name="lastName"
+                           ng-model="$ctrl.app.user.public.lastName"
+                           autocomplete="off" ng-disabled="false" required minlength="2" maxlength="100">
+                    <div ng-messages="formPublic.lastName.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
                         </div>
                     </div>
                 </md-input-container>
             </md-list-item>
-        </md-list>
-    </form>
-    <form name="vm.personalFirstForm">
-        <md-list style="padding-top: 0px">
-
-            <md-list-item layout="row" layout-xs="column">
-                <md-input-container flex="45" flex-xs="100">
-                    <label translate>app.settings.personalInfo.main.country</label>
+        </form>
+        <form name="formPersonal">
+            <md-list-item layout="row" layout-wrap>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.country"></label>
                     <input type="text" name="city" ng-model="$ctrl.app.user.personal.country" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
-                    <div ng-messages="authForm.email.$error" role="alert">
-                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                            app.settings.personalInfo.main.lastName
+                    <div ng-messages="formPersonalFirst.country.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
                         </div>
                     </div>
                 </md-input-container>
-
-                <div hide show-gt-xs flex="10"></div>
-                <md-input-container flex="45" flex-xs="100">
-                    <label translate>app.settings.personalInfo.main.city</label>
+                <div flex="10"></div>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.city"></label>
                     <input type="text" name="city" ng-model="$ctrl.app.user.personal.city" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
-                    <div ng-messages="authForm.email.$error" role="alert">
-                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                            app.settings.personalInfo.main.lastName
+                    <div ng-messages="formPersonalFirst.city.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
                         </div>
                     </div>
                 </md-input-container>
             </md-list-item>
 
             <md-list-item layout="row">
-                <div flex="none">Пол:</div>
-                <div flex="none">
-                    <md-radio-group name="sex" class="md-primary" ng-model="$ctrl.app.user.personal.sex" layout="row" layout-align="start center">
-                        <md-radio-button value="M">Мужской</md-radio-button>
-                        <md-radio-button value="F">Женский</md-radio-button>
+                <div flex="none" translate="settings.personalInfo.sex"></div>
+                <div flex="none" style="margin-left: 20px">
+                    <md-radio-group name="sex" class="md-primary"
+                                    ng-model="$ctrl.app.user.personal.sex"
+                                    layout="row" layout-align="start center">
+                        <md-radio-button value="M"><span translate="settings.personalInfo.M"></span></md-radio-button>
+                        <md-radio-button value="F"><span translate="settings.personalInfo.W"></span></md-radio-button>
                     </md-radio-group>
                 </div>
             </md-list-item>
 
             <md-list-item flex layout="row">
                 <md-input-container flex class="md-block">
-                    <label>О себе...</label>
+                    <label translate="settings.personalInfo.about"></label>
                     <textarea ng-model="$ctrl.app.user.personal.about" name="about" md-maxlength="500" rows="1" md-select-on-focus></textarea>
                 </md-input-container>
             </md-list-item>
-
+        </form>
+        <form name="formPrivate">
             <md-divider></md-divider>
             <div class="md-no-stiky md-subheader">
                 <div class="md-subheader-inner">
-                    <div class="md-subheader-content"><span>Спортивная форма</span></div>
+                    <div class="md-subheader-content">
+                        <span translate="settings.personalInfo.sportShape.header"></span>
+                    </div>
                 </div>
             </div>
-
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label translate>app.settings.personalInfo.sportShape.weight</label>
-                    <input name="weight" ng-model="$ctrl.app.user.private.weight" autocomplete="off" type="number" step="0.1" min="10" max="500">
-                    <div ng-messages="private.weight.$error" role="alert">
-                        <div ng-message-exp="['min', 'max']">
-                            Вес должен быть в интервале от 10 до 500
+                    <label translate="settings.personalInfo.sportShape.weight"></label>
+                    <input name="weight" ng-model="$ctrl.app.user.private.weight"
+                           autocomplete="off" type="number" step="0.1" min="10" max="500">
+                    <div ng-messages="personalFirstForm.weight.$error" role="alert">
+                        <div ng-message-exp="['min', 'max']"
+                             translate="form.rangeNum" translate-values="{min:2, max:100}">
                         </div>
                     </div>
                 </md-input-container>
                 <div hide show-gt-xs flex="10"></div>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label translate>app.settings.personalInfo.sportShape.height</label>
-                    <input name="height" ng-model="$ctrl.app.user.private.height" autocomplete="off" type="number" step="1" min="10" max="500">
-                    <div ng-messages="private.height.$error" role="alert">
-                        <div ng-message-exp="['min', 'max']">
-                            Вес должен быть в интервале от 10 до 500
+                    <label translate="settings.personalInfo.sportShape.height"></label>
+                    <input name="height" ng-model="$ctrl.app.user.private.height"
+                           autocomplete="off" type="number" step="1" min="10" max="500">
+                    <div ng-messages="personalFirstForm.height.$error" role="alert">
+                        <div ng-message-exp="['min', 'max']"
+                             translate="form.rangeNum" translate-values="{min:'10', max:'500'}">
                         </div>
                     </div>
                 </md-input-container>
             </md-list-item>
-
             <md-list-item layout="row">
-                <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label translate>Тренировки (час/неделю)</label>
-                    <input name="weight" ng-model="$ctrl.app.user.private.weight" autocomplete="off" type="number" step="0.1" min="10" max="500">
-                    <div ng-messages="private.weight.$error" role="alert">
-                        <div ng-message-exp="['min', 'max']">
-                            Вес должен быть в интервале от 10 до 500
-                        </div>
+                <md-input-container flex="100" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.sportShape.level"></label>
+                    <input name="level" ng-model="$ctrl.app.user.private.level"
+                           autocomplete="off" type="number" step="0.1" min="10" max="100">
+                    <div ng-messages="personalFirstForm.level.$error" role="alert">
+                        <div ng-message-exp="['min', 'max']"
+                             translate="form.rangeNum" translate-values="{min:'10', max:'100'}"></div>
                     </div>
                 </md-input-container>
             </md-list-item>
-
             <md-list-item layout="row">
-                <form name="vm.personalSecondForm" flex="100">
+                <form name="formPersonalSecond" flex="100">
                     <fieldset class="" name="activity" flex="100" style="margin: 18px 0px">
-                        <legend class="" style="margin-bottom: 16px">Виды спорта:</legend>
+                        <legend style="margin-bottom: 16px" translate="settings.personalInfo.sportShape.activityTypes.header"></legend>
                         <div layout="row" layout-wrap flex>
                             <div flex="33" ng-repeat="item in $ctrl._ACTIVITY">
                                 <md-checkbox class="md-body-1 md-primary" aria-label={{::item}} ng-checked="vm.itemChecked(item, $ctrl.app.user.personal.activity)" ng-click="vm.itemToggle(item, $ctrl.app.user.personal.activity)">
@@ -136,175 +133,34 @@
                     </fieldset>
                 </form>
             </md-list-item>
-
             <md-divider></md-divider>
             <div class="md-no-stiky md-subheader">
                 <div class="md-subheader-inner">
-                    <div class="md-subheader-content"><span>Контакты</span></div>
+                    <div class="md-subheader-content">
+                        <span translate="settings.personalInfo.contacts.header"></span></div>
                 </div>
             </div>
-
             <md-list-item layout="row" layout-xs="column">
-                <md-input-container flex="45" flex-xs="100">
-                    <label translate>app.settings.personalInfo.contacts.extEmail</label>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.contacts.extEmail"></label>
                     <input type="email" name="extEmail" ng-model="$ctrl.app.user.private.extEmail" autocomplete="off" autofocus ng-disabled="false" minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/">
                     <div ng-messages="private.email.$error" role="alert">
-                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                            app.settings.personalInfo.main.firstName
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
                         </div>
                     </div>
                 </md-input-container>
-                <div hide show-gt-xs flex="10"></div>
-                <md-input-container flex="45" flex-xs="100">
-                    <label translate>app.settings.personalInfo.contacts.phone</label>
+                <div flex="10"></div>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.contacts.phone"></label>
                     <input type="text" name="phone" ng-model="$ctrl.app.user.private.phone" autocomplete="off" ng-disabled="false" minlength="5" maxlength="100">
                     <div ng-messages="private.email.$error" role="alert">
-                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                            app.settings.personalInfo.main.lastName
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
                         </div>
                     </div>
                 </md-input-container>
             </md-list-item>
-
-
-        </md-list>
-    </form>
+        </form>
+    </md-list>
 </md-card>
-
-<!--
-<md-card flex="none" layout="column" id="personal" class="animated">
-    <div class="h1">
-        <p class="md-title" translate>app.settings.personalInfo.header</p>
-        <div class="hint light">Подсказка...</div>
-    </div>
-    <form name="vm.publicForm">
-        <div layout="row" class="padding-00-24 back-primary-hue-3" md-theme="auth">
-            <md-input-container flex-gt-sm class="md-body-1">
-                <label translate>app.settings.personalInfo.main.firstName</label>
-                <input required type="text" name="firstName" ng-model="$ctrl.app.user.public.firstName" autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
-                <div ng-messages="public.email.$error" role="alert">
-                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                        app.settings.personalInfo.main.firstName
-                    </div>
-                </div>
-            </md-input-container>
-            <div flex="5"></div>
-            <md-input-container flex-gt-sm class="md-body-1">
-                <label translate>app.settings.personalInfo.main.lastName</label>
-                <input required type="text" name="lastName" ng-model="$ctrl.app.user.public.lastName" autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
-                <div ng-messages="public.email.$error" role="alert">
-                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                        app.settings.personalInfo.main.lastName
-                    </div>
-                </div>
-            </md-input-container>
-        </div>
-    </form>
-    <form name="vm.personalFirstForm">
-        <div flex layout="row" layout-align="start center" class="padding-08-24">
-            <p style="margin-right: 16px" class="md-body-1" translate>app.settings.personalInfo.main.sex</p>
-            <md-radio-group name="sex" class="md-primary" ng-model="$ctrl.app.user.personal.sex" layout="row" layout-align="start center">
-                <md-radio-button class="md-body-1" value="M">
-                    Мужской</md-radio-button>
-                <md-radio-button class="md-body-1" value="F">
-                    Женский</md-radio-button>
-            </md-radio-group>
-        </div>
-        <div flex layout="row" layout-align="start center" class="padding-08-24">
-            <am-date-picker flex-gt-sm class="md-body-1" ng-model="date" am-locale="ru" am-input-date-format="L" am-input-label="День рождения" am-max-date="maxDate" am-max-year="2010" am-min-date="minDate" am-min-year="1920" am-popup-date-format="D/M" am-show-input-icon="false"></am-date-picker>
-        </div>
-
-        <div flex layout-gt-xs="row" class="padding-00-24">
-            <md-autocomplete flex required class="md-body-1 no-message" md-min-length="0" md-input-name="country" md-no-cache="vm.noCache" md-selected-item="$ctrl.app.user.personal.country" md-search-text="vm.searchCountry" md-items="item in vm.querySearch(vm.searchCountry, vm.countries, false)"
-                md-item-text="item.name" md-floating-label="Country" placeholder="please select country">
-                <md-item-template>
-                    <span md-highlight-text="vm.searchCountry">{{item.name}}</span>
-                </md-item-template>
-            </md-autocomplete>
-
-            <div flex-gt-sm="5"></div>
-            <md-input-container flex class="md-body-1">
-                <label translate>app.settings.personalInfo.main.city</label>
-                <input type="text" name="city" ng-model="$ctrl.app.user.personal.city" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
-                <div ng-messages="authForm.email.$error" role="alert">
-                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                        app.settings.personalInfo.main.lastName
-                    </div>
-                </div>
-            </md-input-container>
-        </div>
-        <div flex class="padding-00-24">
-            <md-input-container flex class="md-block md-body-1">
-                <label>О себе</label>
-                <textarea ng-model="vm.personal.about" name="about" md-maxlength="500" rows="5" md-select-on-focus></textarea>
-            </md-input-container>
-        </div>
-    </form>
-    <form name="vm.privateFirstForm">
-        <p class="md-body-2 padding-16-24" translate>app.settings.personalInfo.sportShape.header</p>
-        <div flex layout="row" class="padding-00-24">
-            <md-input-container class="md-body-1">
-                <label translate>app.settings.personalInfo.sportShape.weight</label>
-                <input name="weight" ng-model="$ctrl.app.user.private.weight" autocomplete="off" type="number" step="0.1" min="10" max="500">
-                <div ng-messages="private.weight.$error" role="alert">
-                    <div ng-message-exp="['min', 'max']">
-                        Вес должен быть в интервале от 10 до 500
-                    </div>
-                </div>
-            </md-input-container>
-            <div class="md-body-1" style="margin-top: 24px" translate>kg</div>
-            <div flex="5"></div>
-            <md-input-container class="md-body-1">
-                <label translate>app.settings.personalInfo.sportShape.height</label>
-                <input name="height" ng-model="$ctrl.app.user.private.height" autocomplete="off" type="number" step="1" min="10" max="500">
-                <div ng-messages="private.height.$error" role="alert">
-                    <div ng-message-exp="['min', 'max']">
-                        Вес должен быть в интервале от 10 до 500
-                    </div>
-                </div>
-            </md-input-container>
-            <div style="margin-top: 24px" translate>sm</div>
-        </div>
-        <div layout-gt-md="row" class="padding-00-24">
-            <div flex-gt-md style="line-height: 48px" class="md-body-1">Тренировочных часов в неделю: {{vm.private.level}}
-            </div>
-            <md-slider flex-gt-md name="level" ng-model="$ctrl.app.user.private.level" class="md-primary" step="1" min="0" max="50" aria-label="level">
-        </div>
-    </form>
-    <form name="vm.personalSecondForm">
-        <fieldset class="padding-00-24" name="activity">
-            <legend class="md-body-1" style="margin-bottom: 16px">Виды спорта:</legend>
-            <div layout="row" layout-wrap flex>
-                <div flex="33" ng-repeat="item in $ctrl._ACTIVITY">
-                    <md-checkbox class="md-body-1 md-primary" aria-label={{::item}} ng-checked="vm.itemChecked(item, $ctrl.app.user.personal.activity)" ng-click="vm.itemToggle(item, $ctrl.app.user.personal.activity)">
-                        {{::item}}
-                    </md-checkbox>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-    <form name="vm.privateSecondForm">
-        <p class="md-body-2 padding-16-24" translate>app.settings.personalInfo.contacts.header</p>
-        <div layout-gt-xs="row" class="padding-00-24">
-            <md-input-container flex-gt-sm class="md-body-1">
-                <label translate>app.settings.personalInfo.contacts.extEmail</label>
-                <input type="email" name="extEmail" ng-model="$ctrl.app.user.private.extEmail" autocomplete="off" autofocus ng-disabled="false" minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/">
-                <div ng-messages="private.email.$error" role="alert">
-                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                        app.settings.personalInfo.main.firstName
-                    </div>
-                </div>
-            </md-input-container>
-            <div flex-gt-sm="5"></div>
-            <md-input-container flex-gt-sm class="md-body-1">
-                <label translate>app.settings.personalInfo.contacts.phone</label>
-                <input type="text" name="phone" ng-model="$ctrl.app.user.private.phone" autocomplete="off" ng-disabled="false" minlength="5" maxlength="100">
-                <div ng-messages="private.email.$error" role="alert">
-                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                        app.settings.personalInfo.main.lastName
-                    </div>
-                </div>
-            </md-input-container>
-        </div>
-    </form>
-</md-card>-->

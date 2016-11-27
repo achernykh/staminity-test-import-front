@@ -2,9 +2,11 @@
  * Created by akexander on 22/07/16.
  */
 
-import translateApp from './translate/appbox.translate';
+import translateApp from './translate/appbox.translate'
 import { _APP_MENU } from './translate/appmenu.translate.js'
 import { _USER_MENU } from './translate/usermenu.translate.js'
+import { _SETTINGS } from './translate/settings.translate.js'
+import { _FORM } from './translate/form.translate.js'
 
 function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
     $urlRouterProvider) {
@@ -115,6 +117,9 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             url: "/profile",
             access: [],
             resolve: {
+                view: function(ViewService) {
+                    return ViewService.getParams('profile')
+                }
             },
             views: {
                 "background": {
@@ -180,6 +185,10 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 	$translateProvider.translations('en', { appMenu: _APP_MENU['en'] });
 	$translateProvider.translations('ru', { userMenu: _USER_MENU['ru'] });
 	$translateProvider.translations('en', { userMenu: _USER_MENU['en'] });
+    $translateProvider.translations('ru', { settings: _SETTINGS['ru'] });
+    $translateProvider.translations('en', { settings: _SETTINGS['en'] });
+    $translateProvider.translations('ru', { form: _FORM['ru'] });
+    $translateProvider.translations('en', { form: _FORM['en'] });
 
 	$translateProvider.preferredLanguage('ru');
     $translateProvider.fallbackLanguage('ru');

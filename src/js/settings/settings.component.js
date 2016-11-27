@@ -8,6 +8,8 @@ class SettingsCtrl {
         this._PRIVACY_LEVEL = _PRIVACY_LEVEL
     }
     $onInit() {
+        "use strict";
+        console.log('settings=', this)
     }
 
 }
