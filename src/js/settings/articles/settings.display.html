@@ -5,6 +5,34 @@
     <form name="vm.displayForm">
         <md-list>
             <md-list-item>
+                <md-input-container>
+                    <label>Язык интерфейса</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL"
+                                   translate="{{::'settings.privacy.level.id'+level.id | translate}}"></md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container>
+                    <label>Часовой пояс</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL"
+                                   translate="{{::'settings.privacy.level.id'+level.id | translate}}"></md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container>
+                    <label>Начало недели</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL"
+                                   translate="{{::'settings.privacy.level.id'+level.id | translate}}"></md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+
+            <md-list-item>
                 <md-icon class="dark-active" md-svg-src="/assets/icon/translate.svg"></md-icon>
                 <p>Язык инетрфейса</p>
                 <md-menu class="md-secondary">

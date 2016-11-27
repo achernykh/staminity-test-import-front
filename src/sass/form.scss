@@ -7,7 +7,7 @@ form md-list, md-list form {
       padding-left: 0px;
     }
 
-    md-list-item md-select:first-child {
+    md-list-item md-select:first-child,  md-list-item md-input-container:first-child{
         margin-top: 0px;
     }
 
