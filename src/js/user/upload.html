@@ -1,0 +1,30 @@
+<md-dialog>
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+            <h2>Upload picture</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">x</md-button>
+            </div>
+        </md-toolbar>
+        
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="upload-picture masked">
+                    <img src="{{src()}}"/>
+                    <div ng-if="!src()" class="no-image">
+                        <div style="margin-top:17%; text-align: center">Select picture</div>
+                    </div>
+                    <div class="mask"></div>
+                    <input type="file" on-files="files"/>
+                </div>
+            </div>
+        </md-dialog-content>
+        
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <span flex></span>
+            <md-button ng-click="upload()">Upload</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

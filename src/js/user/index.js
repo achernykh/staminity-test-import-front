@@ -151,7 +151,7 @@ function UploadDialogController($scope, $mdDialog) {
 }
 
 
-const profile = {
+const user = {
 
     bindings: {
         view: '<',
@@ -166,11 +166,11 @@ const profile = {
 
     controller: ProfileCtrl,
 
-    templateUrl: 'profile/profile.html',
+    templateUrl: 'user/user.html',
 
     $routeConfig: [
-        { path: '/', name: 'Profile', component: 'profile', useAsDefault: true },
-        { path: '/:id', name: 'Profile', component: 'profile' }
+        { path: '/', name: 'Profile', component: 'user', useAsDefault: true },
+        { path: '/:id', name: 'Profile', component: 'user' }
     ]
 
 };
@@ -190,6 +190,6 @@ function onFiles() {
 }
 
 
-angular.module('staminity.profile', ['ngMaterial'])
-    .component('profile', profile)
+angular.module('staminity.user', ['ngMaterial'])
+    .component('user', user)
     .directive("onFiles", onFiles);

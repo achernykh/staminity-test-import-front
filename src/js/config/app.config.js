@@ -111,12 +111,12 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
-        .state('profile', {
-            url: "/profile",
+        .state('user', {
+            url: "/user",
             access: [],
             resolve: {
                 view: function(ViewService) {
-                    return ViewService.getParams('settings')
+                    return ViewService.getParams('user')
                 }
             },
             views: {
@@ -133,7 +133,36 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     }
                 },
                 "application": {
-                    component: "profile",
+                    component: "user",
+                    bindings: {
+                        view: 'view.application'
+                    }
+                }
+            }
+        })
+        .state('club', {
+            url: "/club",
+            access: [],
+            resolve: {
+                view: function(ViewService) {
+                    return ViewService.getParams('club')
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {
+                        view: 'view.background'
+                    }
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {
+                        view: 'view.header'
+                    }
+                },
+                "application": {
+                    component: "club",
                     bindings: {
                         view: 'view.application'
                     }

@@ -131,8 +131,34 @@ const ViewConstants = {
       size: 'grow'
     }
   },
-  // Настройка страницы: Профиль пользователя /profile
-  profile: {
+  // Настройка страницы: Профиль пользователя /user
+  user: {
+    background: {
+      style: 'light-grey',
+      toolbar: true,
+      size: '160'
+    },
+    header: {
+      enabled: true,
+      title: true,
+      athletes: true,
+      leftPanel: {
+        url: 'layout/application/header/appmenutoolbar.html',
+        size: 20
+      },
+      rightPanel: {
+        url: 'layout/application/header/usertoolbar.html',
+        size: 20
+      }
+    },
+    application: {
+      style: 'app-page',
+      margin: 20,
+      size: 'grow'
+    }
+  },
+  // Настройка страницы: Профиль тренрского клуба /club
+  club: {
     background: {
       style: 'light-grey',
       toolbar: true,

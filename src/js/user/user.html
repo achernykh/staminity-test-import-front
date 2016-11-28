@@ -3,9 +3,7 @@
         
         <div class="profile-card">
             <div class="profile-card-background">
-                <div class="profile-background masked" ng-click="$ctrl.uploadHeader()" ng-style="{'background-image': $ctrl.getHeader()}">
-                    <div class="mask"></div>
-                </div>
+                <div class="profile-background" ng-style="{'background-image': $ctrl.getHeader()}"></div>
                 
                 <div class="profile-header">
                     <div layout="row">
@@ -14,9 +12,7 @@
                             <div class="chip"> <span ng-style="{color: '#ff5722'}">⚫</span> Премиум</div>
                         </div>
                         <div flex="20">
-                            <div class="userpic masked" ng-click="$ctrl.uploadUserpic()" ng-style="{'background-image': $ctrl.getUserpic()}" layout-align="center">
-                                <div class="mask"></div>
-                            </div>
+                            <div class="userpic" ng-click="$ctrl.uploadUserpic()" ng-style="{'background-image': $ctrl.getUserpic()}" layout-align="center"></div>
                         </div>
                         <div flex="40">
                         </div>
@@ -42,7 +38,7 @@
                 </div>
                 
                 <div class="profile-fab">
-                    <md-button class="md-fab shadow-deep">
+                    <md-button class="md-fab">
                         <i class="material-icons">mode_edit</i>
                     </md-button>
                 </div>

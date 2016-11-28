@@ -11,7 +11,8 @@ import './layout'
 import './landingpage'
 import './auth'
 import './calendar'
-import './profile'
+import './user'
+import './club'
 import './settings'
 import './config/app.templates'
 import './services'
@@ -44,7 +45,8 @@ const requires = [
     'staminity.landing',
     'staminity.auth',
     'staminity.calendar',
-    'staminity.profile',
+    'staminity.user',
+    'staminity.club',
     'staminity.settings',
     'staminity.services'
 ]
