@@ -1,14 +1,160 @@
 <application-frame>
-    <div class="profile-header">
-        <div class="profile-header-image masked" ng-click="$ctrl.uploadHeader()" ng-style="{'background-image': $ctrl.getHeader()}">
-            <div class="mask"></div>
-        </div>
-        <div style="position: absolute; bottom: -20px; left: 10px;">
-            <div class="userpic masked" style="margin-right: 5px;" ng-click="$ctrl.uploadUserpic()" ng-style="{'background-image': $ctrl.getUserpic()}">
-                <div class="mask"></div>
+    <div class="profile">
+        
+        <div class="profile-card">
+            <div class="profile-card-background">
+                <div class="profile-background masked" ng-click="$ctrl.uploadHeader()" ng-style="{'background-image': $ctrl.getHeader()}">
+                    <div class="mask"></div>
+                </div>
+                
+                <div class="profile-header">
+                    <div layout="row">
+                        <div flex="40" layout-align="end" style="text-align: right; padding-top: 10px;">
+                            <div class="chip">Тренер</div>  <br/>
+                            <div class="chip"> <span ng-style="{color: '#ff5722'}">⚫</span> Премиум</div>
+                        </div>
+                        <div flex="20">
+                            <div class="userpic masked" ng-click="$ctrl.uploadUserpic()" ng-style="{'background-image': $ctrl.getUserpic()}" layout-align="center">
+                                <div class="mask"></div>
+                            </div>
+                        </div>
+                        <div flex="40">
+                        </div>
+                    </div>
+                    <div class="name">
+                        {{$ctrl.getUsername()}}
+                    </div>
+                    <div class="text">
+                        Россия, г. Москва, M30-34
+                    </div>
+                    <div class="text">
+                        Триатлон, Бег, Плавание, Велоспорт
+                    </div>
+                    <div>
+                        <md-button class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                            Начать тренироваться
+                        </md-button>
+                        <md-button style="width: 56px; min-width: 56px; min-height: 36px; height: 36px; border-radius: 2px; background-color: rgba(0, 0, 0, 0.12); border: solid 1px #ffffff;">
+                            <i class="material-icons" style="line-height: 33px;">person_add</i> 
+                            <i class="material-icons" style="line-height: 33px;">arrow_drop_down</i>
+                        </md-button>
+                    </div>
+                </div>
+                
+                <div class="profile-fab">
+                    <md-button class="md-fab">
+                        <i class="material-icons">mode_edit</i>
+                    </md-button>
+                </div>
             </div>
-            <span style="vertical-align: middle; line-height: 60px; display: inline-block;">{{$ctrl.getUsername()}}</span>
+                
+            <div class="profile-card-text">
+                <div class="title">О себе</div>
+                <div class="text">
+                    <p>Персональный тренер PRO TRENER</p>
+                    <p>Спортом увлекался с детства, с 7 лет занимался хоккеем. За двенадцатилетнюю спортивную карьеру неоднократно становился призером российских и международных хоккейных турниров. С 2012 года принимает участие в соревнованиях по триатлону. Лучший результат на дистанции Ironman – 09:52 (Ironman Barcelona 2015). Обладает высокими компетенциями для персональной подготовки спортсменов любителей и профессионалов в игровых видах …</p>
+                    <p>Вес: 84 кг     Рост: 184 кг</p>
+                </div>
+                
+                <div class="title">Связи</div>
+                <div class="text">
+                    <span class="label">Клуб:</span> <span class="value">PRO TRENER</span>
+                    <span class="label">Тренеры:</span> <span class="value">-</span>
+                    <span class="label">Спортсмены:</span> <span class="value">3</span>
+                    <br/>
+                    <span class="label">Подписчики:</span> <span class="value">24</span>
+                    <span class="label">Подписан:</span> <span class="value">12</span>
+                    <span class="label">Друзья:</span> <span class="value">11</span>
+                    <span class="label">Группы:</span> <span class="value">-</span>
+                </div>
+                
+                <div class="title">Контакты</div>
+                <div class="text">
+                    <span class="label">Телефон:</span> <span class="value">+79267891541</span>
+                    <span class="label">Email:</span> <span class="value">ivan.zhukov@gmail.com</span>
+                </div>
+            </div>
         </div>
+        
+        <div class="profile-chart">
+            <div class="title">
+                Личная статистика
+            </div>
+            
+            <div class="controls" layout="row">
+                <md-button class="paging">
+                    <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_left</i>
+                </md-button>
+                <md-button class="paging">
+                    <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_right</i>
+                </md-button>
+                <div>
+                    <md-select ng-model="$ctrl.year">
+                        <md-option ng-repeat="year in $ctrl.years" value="{{year}}">
+                            {{year}}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div flex layout-align="center">
+                    <md-select ng-model="$ctrl.range" style="font-size: 15px; color: white; width: 150px; margin-left: auto; margin-right: auto;">
+                        <md-option ng-repeat="range in $ctrl.ranges" value="{{range}}">
+                            {{range}}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div>
+                    <md-select ng-model="$ctrl.order">
+                        <md-option ng-repeat="order in $ctrl.orders" value="{{order}}">
+                            {{order}}
+                        </md-option>
+                    </md-select>
+                </div>
+            </div>
+            
+            <div class="chart">
+                <svg ng-attr-width="{{$ctrl.chart.width + 20}}" ng-attr-height="{{$ctrl.chart.height + 25}}">
+                    <g ng-repeat="bar in $ctrl.chart.bars()" ng-attr-transform="translate({{$ctrl.chart.x($index)}} 0)">
+                        <rect ng-attr-x="{{-$ctrl.chart.barWidth/2}}" ng-attr-width="{{$ctrl.chart.barWidth}}" ng-attr-y="{{$ctrl.chart.height - bar.height}}" ng-attr-height="{{bar.height}}"/>
+                        <line x1="0" x2="0" y1="150" y2="155"/>
+                        <text x="0" ng-attr-y="{{$ctrl.chart.height + 20}}">{{bar.label}}</text>
+                    </g>
+                    <g ng-repeat="line in $ctrl.chart.lines()" ng-attr-transform="translate(0 {{line.y}})">
+                        <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" y1="0" y2="0"/>
+                        <text ng-attr-x="{{$ctrl.chart.width + 15}}">{{line.label}}</text>
+                    </g>
+                    <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" ng-attr-y1="{{$ctrl.chart.height}}" ng-attr-y2="{{$ctrl.chart.height}}"/>
+                    
+                    <linearGradient id="chart-bars" x1="0" x2="0" y1="0" ng-attr-y2="{{$ctrl.chart.height}}" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#37474f"/>
+                        <stop offset="100%" stop-color="#607d8b"/>
+                    </linearGradient>
+                </svg>
+            </div>
+            
+            <div class="table">
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>км</th>
+                        <th>время</th>
+                        <th style="max-width: 90px;" width="90">кол-во трен.</th>
+                    </tr>
+                    <tr ng-repeat="row in $ctrl.table.data">
+                        <td><i class="material-icons">{{row.icon}}</i></td>
+                        <td>{{row.dist}}</td>
+                        <td>{{row.hrs}}</td>
+                        <td>{{row.count}}</td>
+                    </tr>
+                    <tr ng-init="row = $ctrl.table.total" class="row-total">
+                        <td><i class="material-icons">{{row.icon}}</i></td>
+                        <td>{{row.dist}}</td>
+                        <td>{{row.hrs}}</td>
+                        <td>{{row.count}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+            
     </div>
 </application-frame>
 

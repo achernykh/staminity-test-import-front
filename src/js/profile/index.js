@@ -1,3 +1,56 @@
+const chart = {
+  width: 430,
+  height: 150,
+  barWidth: 20,
+  data: [
+    { label: "Янв", value: 18 },
+    { label: "Фев", value: 23 },
+    { label: "Мар", value: 19 },
+    { label: "Апр", value: 25 },
+    { label: "Май", value: 26 },
+    { label: "Июн", value: 27 },
+    { label: "Июл", value: 24 },
+    { label: "Авг", value: 29 },
+    { label: "Сен", value: 28 },
+    { label: "Окт", value: 30 },
+    { label: "Ноя", value: 31 },
+    { label: "Дек", value: 33 }
+  ],
+  x (index) {
+    return (index + 0.5) * (this.width / this.data.length);
+  },
+  y (value) {
+    if (!this.yScale) {
+      this.yScale = this.height / this.data.reduce((m, { value }) => Math.max(m, value), 0);
+    }
+    return this.height - value * this.yScale;
+  },
+  bars () {
+    if (!this._bars) {
+      this._bars = this.data.map(({ label, value }) => ({ label, value, height: this.height - this.y(value) }));
+    }
+    return this._bars;
+  },
+  lines () {
+    if (!this._lines) {
+      this._lines = [10, 20, 30, 40].map((value) => ({ label: `${value} ч`, y: this.y(value) }));
+    }
+    return this._lines;
+  }
+};
+
+
+const table = {
+  data: [
+    { icon: 'pool', dist: 210, hrs: '16:08', count: 18 },
+    { icon: 'fitness_center', dist: 210, hrs: '15:23', count: 18 },
+    { icon: 'directions_run', dist: 210, hrs: '32:33', count: 18 },
+    { icon: 'directions_bike', dist: 210, hrs: '04:47', count: 18 }
+  ],
+  total: { icon: 'functions', dist: 210, hrs: '68:51', count: 18 }
+};
+
+
 class ProfileCtrl {
 
     constructor ($scope, $mdDialog, User, API) {
@@ -7,6 +60,17 @@ class ProfileCtrl {
         this.User = User;
         this.API = API;
         this.updateNoCache();
+        
+        this.years = [2015, 2016];
+        this.year = 2016;
+        this.ranges = ['Обзор года', 'Обзор месяца'];
+        this.range = 'Обзор года';
+        this.orders = ['время', 'кол-во трен.'];
+        this.order = 'время';
+        
+        this.chart = chart;
+        this.table = table;
+        
         console.log(this.profile);
         console.log($scope);
     }
@@ -44,7 +108,7 @@ class ProfileCtrl {
     }
 
     getHeader () {
-        return `url('${this.app.user &&  this.app.user.public.background? this.API.apiUrl('/content/background/' + this.app.user.public.background + this.getNoCache()) : ''}')`
+        return `url('${this.app.user &&  this.app.user.public.background? this.API.apiUrl('/content/background/' + this.app.user.public.background + this.getNoCache()) : '/assets/picture/pattern0.jpg'}')`
     }
     
     updateNoCache () {

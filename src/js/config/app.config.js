@@ -115,6 +115,9 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             url: "/profile",
             access: [],
             resolve: {
+                view: function(ViewService) {
+                    return ViewService.getParams('settings')
+                }
             },
             views: {
                 "background": {
