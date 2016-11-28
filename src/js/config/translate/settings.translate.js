@@ -61,7 +61,19 @@ export const _SETTINGS = {
         },
         display: {
             header: 'Представление',
-            hint: 'Пояснение, подсказка....'
+            hint: 'Пояснение, подсказка....',
+            language: 'Язык интерфейса',
+            timezone: 'Часовой пояс',
+            units: 'Система мер',
+            metric: {
+                short: 'КГ/КМ',
+                full: 'Метрическая (КГ/КМ)'
+            },
+            imperial: {
+              short: 'Фунт/Миля',
+              full: 'Имперская (Фунт/Миля)'
+            },
+            firstDayOfWeek: 'Первый день недели'
         },
         account: {
             header: 'Учетная запись',

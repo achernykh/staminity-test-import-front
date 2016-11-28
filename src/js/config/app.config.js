@@ -90,6 +90,9 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('settings')
+                },
+                user: function(User) {
+                  return User.currentUser
                 }
             },
             views: {
@@ -108,7 +111,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 "application": {
                     component: "settings",
                     bindings: {
-                        view: 'view.application'
+                        view: 'view.application',
+                        user: 'user'
                     }
                 }
             }

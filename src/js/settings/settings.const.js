@@ -15,7 +15,7 @@ export const _NAVBAR = [
         icon: "dvr.svg",
         name: 'settings.display.header',
         link: '#display',
-        active: false
+        active: true
     },
     {
         icon: "vpn_key.svg",
@@ -73,6 +73,9 @@ export const _NAVBAR = [
         active: false
     }*/
 ]
+
+export const _LANGUAGE = {'ru': {text: 'Русский'},'en': {text: 'English'}}
+export const _UNITS = ['metric','imperial']
 
 export const _DELIVERY_METHOD = [{
     id: 'W',
