@@ -95,7 +95,7 @@ class StaminityApplicationCtrl {
 
 let StaminityApplication = {
     bindings: {
-        session: '<',
+        isLoading: '<',
         user: '<',
         athlete: '<',
         screen: '<'

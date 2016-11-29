@@ -13,43 +13,6 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
     $rootScope.keywords = 'app.landing.keywords';
 
     /**
-     * Восстанавливаем сессию пользователя из хранилища браузера
-     */
-    function restore(){
-        "use strict";
-
-        //User.currProfile().then((result)=>console.log('user=',result), (error)=>console.log('user error=', error))
-        /*Auth.getSession().then(
-            (session) => {
-                // Если сессия установлена
-                if (session) {
-                    $rootScope.session = session;
-                    // Устанавливаем текущего пользователя. В ответ приходит userProfile
-                    User.setCurrentUser(session.userId).then(
-                        (user) => {
-                            $rootScope.currentUser = user;
-                            $log.debug('AppRun: restoreSession => session repair for userId=', $rootScope.currentUser.userId);
-                        }, (error) => {
-                            // TODO случай, если по номеру сессии не удается получить обьект пользователя
-                            $log.debug('AppRun: restoreSession => not find user with id =', session.userId);
-                        });
-                }
-                // Пользовательская сессия не восстановлена
-                else
-                    $log.debug('AppRun: restoreSession => user session not find');
-
-            },(error) => $log.debug('AppRun: restoreSession => error', error)
-        );*/
-    }
-
-    /**
-     *
-     */
-    function watch(){
-        "use strict";
-
-    }
-    /**
      *  Для переход на защищенные страницы использует проверка аутенитифкации и авторизации пользователя.
      *  Запрос полномочий осуществляется в настройках $stateProvider.state, через параметры:
      *  1) loginRequired - true/false 2) authRequired - [функции доступа]
@@ -58,6 +21,7 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
         {to: '*', from: '*'},
         (state) => {
             let toState = state.$to()
+            $rootScope.isLoading = true;
             console.info('transition start to state = ', state.$to().name)
             return new Promise((resolve, reject) => {
 
@@ -87,9 +51,7 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
         }
     )
 
-    $transitions.onSuccess(
-        {to: '*', from: '*'}, (state) => console.info('transition success to state = ', state.$to().name)
-    )
+    $transitions.onSuccess({to: '*', from: '*'}, (state) => $rootScope.isLoading = false)
 
     restore();
 

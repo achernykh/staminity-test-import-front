@@ -17,6 +17,42 @@ class SettingsCtrl {
         console.log('settings=', this)
     }
 
+    isDirty(){
+        return  this.publicForm.$dirty ||
+                this.personalFirstForm.$dirty || this.personalSecondForm.$dirty ||
+                this.privateForm.$dirty ||
+                this.notificationsForm.$dirty ||
+                this.privacyForm.$dirty
+
+
+    }
+
+    isValid(){
+        return  this.publicForm.$valid ||
+                this.personalFirstForm.$valid || this.personalSecondForm.$valid ||
+                this.privateForm.$valid ||
+                this.notificationsForm.$valid ||
+                this.privacyForm.$valid
+    }
+
+    update(form){
+        var profile = {};
+        for (var name in form) {
+            if (form[name]){
+                profile[name] = this.user[name];
+                console.log('settings ctrl => update profile form: ', name);
+                if (name == "personal") {
+                    this[name + 'FirstForm'].$setPristine();
+                    this[name + 'SecondForm'].$setPristine();
+                } else
+                    this[name + 'Form'].$setPristine();
+            }
+        }
+        console.log('settings ctrl => update profile form: ', profile);
+        this._UserService.putProfile(profile)
+            .then((succes)=>console.log('success',error),(error)=>console.log('error=',error));
+    }
+
     get language() {
 
     }

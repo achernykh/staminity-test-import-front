@@ -1,11 +1,10 @@
 import { _AppConstants } from '../../config/app.constants.js';
 
 export default class ApiService {
-    constructor($q, $log, $http, $websocket, AppMessage, StorageService, SessionService) {
+    constructor($q, $http, $websocket, AppMessage, StorageService, SessionService) {
         'ngInject';
         this.token = null,
         this._$q = $q;
-        this._$log = $log;
         this._$http = $http;
         this._$websocket = $websocket;
         this._AppMessage = AppMessage;
@@ -40,7 +39,7 @@ export default class ApiService {
                              // Если во входящем сообшение есть признак requestId,
                              // то закрываем запущенное ранее задание
                              if (angular.isDefined(this.requests[data.requestId])) {
-                                 this._$log.info('ApiService: callback', this.requests[data.requestId]);
+                                 console.info('ApiService: callback', this.requests[data.requestId]);
                                  let callback = this.requests[data.requestId];
                                  delete this.requests[data.requestId];
                                  callback.resolve(data.data);
@@ -83,7 +82,7 @@ export default class ApiService {
      * @returns {*}
      */
     wsRequest(type, data){
-        this._$log.debug(`ApiService: wsRequest ${type}`);
+        console.log(`ApiService: wsRequest ${type}`);
         let deferred = this._$q.defer();
         let request = {
             requestId: this.getRequestId(),
@@ -143,17 +142,17 @@ export default class ApiService {
             (response) => {
                 return this.handleResponse(response.data).then(
                     (response) => {
-                        this._$log.debug("ApiService: Then storage task for result=", response);
+                        console.debug("ApiService: Then storage task for result=", response);
                         return this._StorageService.upload(response).then(
                             (success) => {
-                                this._$log.debug("ApiService: Storage success", success, response);
+                                console.debug("ApiService: Storage success", success, response);
                                 return response;
                             },
                             (error) => {
-                                this._$log.debug("ApiService: Storage error", error);
+                                console.debug("ApiService: Storage error", error);
                                 return error
                             },
-                            (status) => this._$log.debug("ApiService: Storage update", status)
+                            (status) => console.debug("ApiService: Storage update", status)
                         );
                     },
                     (error) => {return error}
@@ -212,7 +211,7 @@ export default class ApiService {
      */
     handleResponse(response){
         let result = this._$q.defer();
-        this._$log.debug("ApiService: received response:", response);
+        console.debug("ApiService: received response:", response);
         // Если формат даты не массив, отвечаем ошибкой
         if (angular.isArray(response.data)) {
             response.data.forEach((message) => {

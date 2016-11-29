@@ -16,11 +16,11 @@ export const services = angular.module('staminity.services', [])
     .service('ViewService', ApplicationService)
     .service('StorageService', StorageService)
     .service('AppMessage', ApplicationMessageService)
-    .service('UserService', ['$q', '$log', 'StorageService', 'API', UserService])
+    .service('SessionService',SessionService)
+    .service('UserService', ['StorageService','SessionService','API', UserService])
     .service('AuthService', AuthService)
     .service('GroupsService', GroupsService)
     .service('CalendarService', CalendarService)
-    .service('API', ApiService)
-    .service('SessionService',SessionService);
+    .service('API', ApiService);
 
 export default services

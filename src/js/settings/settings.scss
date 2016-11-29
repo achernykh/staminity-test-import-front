@@ -5,6 +5,17 @@ settings application-frame section.app-layer {
     }
 }
 
+settings section.content {
+    max-width: 600px;
+    width: 100%;
+    @media (max-width: 960px) {
+        max-width: 500px;
+    }
+    @media (max-width: 600px) {
+        max-width: 600px;
+    }
+}
+
 nav.settings-navbar md-content {
     background: none;
     padding-left: 8px;
@@ -60,12 +71,11 @@ nav.settings-navbar md-content {
 
 md-fab-speed-dial {
     position: absolute;
-    top: 64px;
-    right: 5%;
-    @media (max-width: 960px) {
-        bottom: 8px;
-        right: 8px;
-        top: initial;
+    top: 166px;
+    right: 24px;
+    @media (max-width: 600px) {
+        top: 94px;
+        right: 16px;
     }
 }
 
@@ -76,7 +86,7 @@ section.settings-container {
 
 section.settings-container header,
 section.settings-feed {
-    max-width: 600px;
+
     padding-right: 12px;
     @media (max-width: 600px) {
         padding: 0;

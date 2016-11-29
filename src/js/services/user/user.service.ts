@@ -2,26 +2,22 @@ import { UserProfile } from './user.interface'
 
 
 export default class UserService {
-    _$q: any;
-    _$log: any;
+
     _StorageService: any;
+    _SessionService: any;
     _api: any;
-    _AuthService: any;
     profile: UserProfile;
     currentUser: UserProfile;
     currentUserRole: Array<any>;
     apiType: string;
     
-    constructor ($q: any, $log: any, StorageService: any, API: any, AuthService: any) {
-        this._$q = $q;
-        this._$log = $log;
+    constructor (StorageService: any, SessionService: any, API: any) {
         this._StorageService = StorageService;
+        this._SessionService = SessionService;
         this._api = API;
-        this._AuthService = AuthService;
         this.profile = null;
         this.currentUser = null;
         this.currentUserRole = [];
-        this.apiType = 'userProfile';
     }
 
     currProfile() {
@@ -31,15 +27,15 @@ export default class UserService {
     getProfile(id: number) : Promise<UserProfile> {
 
         return new Promise((resolve, reject) => {
-            console.log('getProfile, id=', id)
+            console.log('getProfile, id=', id);
             this._StorageService.get('userProfile', id)
-                .then((success) => {
+                .then((success: UserProfile) => {
                     console.log('getProfile storage success', success);
                     resolve(success);
                 }, (empty) => {
                     console.log('getProfile storage empty', empty);
                     this._api.send('getUserProfile', id)
-                        .then((success) => {
+                        .then((success: UserProfile) => {
                             resolve(success)
                         }, (error) => {
                             console.log('getProfile: error in get() with key=', id);
@@ -51,15 +47,15 @@ export default class UserService {
     get (key) : Promise<UserProfile> {
         return this._StorageService.get('userProfile', key)
             .then((success) => {
-                this._$log.info('UserService: get userProfile', success);
+                console.log('UserService: get userProfile', success);
                 return success;
             }, (error) => {
-                this._$log.error('UserService: get userProfile', error);
+                console.log('UserService: get userProfile', error);
                 this._api.send('getUserProfile', key)
                     .then((success) => {
                         return success
                     }, (error) => {
-                        this._$log.error('UserService: error in get() with key=', key);
+                        console.log('UserService: error in get() with key=', key);
                     });
             })
     }
@@ -91,16 +87,15 @@ export default class UserService {
     }
 
     getCurrentUserRole () : Promise<any> {
-        console.log('getCurrentUserRole user, role', !!this.currentUser, this.currentUserRole)
 
         return new Promise((resolve,reject) => {
             if (!!this.currentUser)
-                return resolve(this.currentUserRole);
+                resolve(this.currentUserRole);
             else {
-                console.log('setCurrentUser user')
-                this.setCurrentUser(4).then(()=> {
+                console.log('setCurrentUser user', this)
+                this.setCurrentUser(this._SessionService.getUser()).then(()=> {
                     console.log('setCurrentUser user, role', !!this.currentUser, this.currentUserRole)
-                    return resolve(this.currentUserRole)
+                    resolve(this.currentUserRole)
                 })
             }
 
@@ -119,6 +114,10 @@ export default class UserService {
     setHeader (file: any) : Promise<UserProfile> {
       return Promise.all([this._StorageService.get('authToken'), file])
         .then(([authToken, data]) => this._api.uploadPicture('/user/background', data, authToken.token))
+    }
+
+    putProfile (data: UserProfile): Promise<any> {
+        return this._api.wsRequest('postUserProfile',data)
     }
 
 }

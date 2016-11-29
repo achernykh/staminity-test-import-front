@@ -4,16 +4,26 @@ export default class SessionService {
   private memoryStore: any;
   private storageType: string;
   private tokenKey: string;
+  private userKey: string;
 
   constructor(private $window: any) {
     this.storageType = 'sessionStorage';
     this.tokenKey = 'authToken';
+    this.userKey = 'authToken';
     this.memoryStore = {};
   }
 
   get(): string {
     try {
       return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey)).token;
+    } catch (e) {
+      return this.memoryStore[this.tokenKey];
+    }
+  }
+
+  getUser(): number {
+    try {
+      return JSON.parse(this.$window[this.storageType].getItem(this.userKey)).userId;
     } catch (e) {
       return this.memoryStore[this.tokenKey];
     }

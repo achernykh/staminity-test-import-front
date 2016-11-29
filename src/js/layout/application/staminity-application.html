@@ -6,8 +6,7 @@
 <div class="application-background" ui-view="background"></div>
 <div class="application-header" ui-view="header"></div>
 <div ui-view="application"></div>
-
-<!--<application-menu></application-menu>-->
+<application-menu ng-if="!$ctrl.isLoading"></application-menu>
 
 <!--
 <application-background>
