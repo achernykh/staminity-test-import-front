@@ -53,8 +53,6 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
 
     $transitions.onSuccess({to: '*', from: '*'}, (state) => $rootScope.isLoading = false)
 
-    restore();
-
     $rootScope.$watch(function() { return $mdMedia('gt-xs'); }, function(result) {
         $rootScope.xs = !result;
     });
