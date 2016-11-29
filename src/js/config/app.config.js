@@ -85,14 +85,18 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         })
         // Представление Настройки пользователя
         .state('settings', {
-            url: "/settings",
-            access: [],
+            url: "/settings/:id",
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('settings')
                 },
-                user: function(User) {
-                  return User.currentUser
+                user: function(UserService, $stateParams){
+                    return UserService.getProfile($stateParams.id)
+                },
+                wsRequired: function(API) {
+                    return API.wsOpen()
                 }
             },
             views: {

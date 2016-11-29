@@ -3,33 +3,35 @@ export default class SessionService {
 
   private memoryStore: any;
   private storageType: string;
+  private tokenKey: string;
 
   constructor(private $window: any) {
-    this.storageType = 'localStorage';
+    this.storageType = 'sessionStorage';
+    this.tokenKey = 'authToken';
     this.memoryStore = {};
   }
 
-  get(key: string): string {
+  get(): string {
     try {
-      return this.$window[this.storageType].getItem(key);
+      return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey)).token;
     } catch (e) {
-      return this.memoryStore[key];
+      return this.memoryStore[this.tokenKey];
     }
   }
 
-  set(key: string, value: string): void {
+  set(value: string): void {
     try {
-      this.$window[this.storageType].setItem(key, value);
+      this.$window[this.storageType].setItem(this.tokenKey, value);
     } catch (e) {
-      this.memoryStore[key] = value;
+      this.memoryStore[this.tokenKey] = value;
     }
   }
 
-  remove(key: string): void {
+  remove(): void {
     try {
-      this.$window[this.storageType].removeItem(key);
+      this.$window[this.storageType].removeItem(this.tokenKey);
     } catch (e) {
-      delete this.memoryStore[key];
+      delete this.memoryStore[this.tokenKey];
     }
   }
 

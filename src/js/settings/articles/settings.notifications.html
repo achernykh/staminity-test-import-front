@@ -3,7 +3,7 @@
         <h2 class="md-title" translate="settings.notification.header"></h2>
     </md-card-title>
     <form name="formNotification">
-        <div ng-repeat-start="notification in $ctrl.app.user.notifications"
+        <div ng-repeat-start="notification in $ctrl.user.notifications"
              class="md-no-stiky md-subheader">
             <span class="md-subheader-inner" translate>{{::notification.group}}</span>
         </div>

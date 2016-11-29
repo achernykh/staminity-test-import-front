@@ -2,8 +2,17 @@
 <application-frame class='{{$ctrl.view.style}}'>
     <section layout="row" layout-align="space-between start" class="app-layer">
         <!-- common left margin -->
-        <section flex-gt-md="{{$ctrl.view.margin}}" hide-md class="margin"></section>
-        <section flex="{{$ctrl.view.size}}" layout="row" layout-align="center start" class="content">
+        <section layout="row" layout-align="end start" flex-gt-xs="grow" hide-xs class="margin">
+            <nav class="settings-navbar animated fadeInLeft" flex="none" layout="column" hide show-gt-xs>
+                <md-content flex="auto" du-scroll-container="settings-container" style="overflow-y: auto;">
+                    <md-list-item ng-repeat="nav in $ctrl._NAVBAR" ng-href="{{::nav.link}}" duration="1500" du-smooth-scroll du-scrollspy ng-disabled="!nav.active">
+                        <md-icon flex="none" md-svg-src="/assets/icon/{{::nav.icon}}" class="s24" ng-class="{disable: !nav.active}"></md-icon>
+                        <div flex hide show-gt-md class="md-body-1" style="opacity: 0.87" translate>{{::nav.name}}</div>
+                    </md-list-item>
+                </md-content>
+            </nav>
+        </section>
+        <section flex="none" layout="row" layout-align="center start" class="content">
             <!--<div flex="100" layout="column" layout-align="center center" layout-fill>-->
                 <!-- application section: start -->
                 <!--<div layout="column" layout-align="start center" flex="100" style="height: 100%; width: 100%">-->
@@ -44,20 +53,13 @@
 
                     <!--<div layout="column" flex="100" style="width: 100%;">-->
                         <!--<div flex="auto" layout="row" class="app-body" layout-align="center start">-->
-                            <nav class="settings-navbar animated fadeInLeft" flex="none" layout="column" hide show-gt-xs>
-                                <md-content flex="auto" du-scroll-container="settings-container" style="overflow-y: auto;">
-                                    <md-list-item ng-repeat="nav in $ctrl._NAVBAR" ng-href="{{::nav.link}}" duration="1500" du-smooth-scroll du-scrollspy ng-disabled="!nav.active">
-                                        <md-icon flex="none" md-svg-src="/assets/icon/{{::nav.icon}}" class="s24" ng-class="{disable: !nav.active}"></md-icon>
-                                        <div flex hide-sm class="md-body-1" style="opacity: 0.87" translate>{{::nav.name}}</div>
-                                    </md-list-item>
-                                </md-content>
-                            </nav>
+
                             <!-- ЛЕНТА НАСТРОЕК -->
                             <section class="settings-container" flex="auto" layout="column" du-scroll-container>
                                 <header flex="none" layout="column" md-theme="dark">
                                     <md-card class="user-background" flex="none" layout-align="end center" >
                                       <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
-                                        <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url(/assets/avatar/{{::$ctrl.app.user.userId}}.jpg)">
+                                        <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url(/assets/avatar/{{::$ctr.user.userId}}.jpg)">
                                             <button ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
                                         </div>
                                         <div class="bage">P</div>
@@ -87,7 +89,7 @@
             <!--</div>-->
         </section>
         <!-- common right margin -->
-        <section flex-gt-md="{{$ctrl.view.margin}}" hide-md class="margin"></section>
+        <section flex-gt-xs="grow" hide-xs class="margin"></section>
     </section>
 </application-frame>
 <!-- end of common section -->

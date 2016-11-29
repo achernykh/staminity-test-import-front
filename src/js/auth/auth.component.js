@@ -1,10 +1,10 @@
 import {_PageAccess} from '../config/app.constants.js';
 
 class SignUpCtrl {
-    constructor($log, Auth) {
+    constructor($log, AuthService) {
         'ngInject';
         this._$log = $log;
-        this._Auth = Auth;
+        this._AuthService = AuthService;
         this.state = 'form';
         this.formEnabled = true;
         this.credentials = {
@@ -28,7 +28,7 @@ class SignUpCtrl {
     onSignUp(credentials) {
         this.formEnabled = false;
         credentials.personal.role = credentials.personal.role ? 'coach' : 'user';
-        this._Auth.signUp(credentials).then(
+        this._AuthService.signUp(credentials).then(
             (result) => {
                 this._$log.debug('SignUp: onSignUp success = ', result);
                 this.changeState('confirm');
@@ -43,17 +43,17 @@ class SignUpCtrl {
 }
 
 class SignOutCtrl {
-    constructor ($log, $location, $timeout, Auth, User) {
+    constructor ($log, $location, $timeout, AuthService, User) {
         'ngInject';
         this._$log = $log;
         this._$location = $location;
         this._$timeout = $timeout;
-        this._Auth = Auth;
+        this._AuthService = AuthService;
         this._User = User;
     }
     $onInit(){
         this._$log.debug('SignOut: onInit()');
-        this._Auth.signOut().finally(() => {
+        this._AuthService.signOut().finally(() => {
                 this._User.logout();
                 this.app.userLogout();
                 this._$timeout(() => this._$location.path("/welcome"),3000);
@@ -63,12 +63,12 @@ class SignOutCtrl {
 }
 
 class SignInCtrl {
-    constructor ($q, $log, $location, Auth, Storage, User) {
+    constructor ($q, $log, $location, AuthService, Storage, User) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
         this._$location = $location;
-        this._Auth = Auth;
+        this._AuthService = AuthService;
         this._Storage = Storage;
         this._User = User;
         this.request = 'request';
@@ -87,7 +87,7 @@ class SignInCtrl {
          * Необходимо подтвердить актуальность ссылки на сервере и если все ок, то предложить ввести свой логин и пароль
          */
         if(next.params[this.request])
-            this._Auth.confirmAccount(next.params[this.request]).then(
+            this._AuthService.confirmAccount(next.params[this.request]).then(
                 (result) => this.$router.navigate(['SignIn']),
                 (error) => {
 
@@ -106,7 +106,7 @@ class SignInCtrl {
     onSignIn(credentials){
         this._Storage.setIncognitoSession(this.storage);
         this.formEnabled = false;
-        this._Auth.signIn(credentials).then(
+        this._AuthService.signIn(credentials).then(
             (response) => {
                 this._$log.debug('SignIn: SignIn success, response', response);
                 // Устанавливаем текущего пользователя
@@ -151,32 +151,6 @@ export let SignIn = {
     },
     transclude: false,
     controller: SignInCtrl,
-    templateUrl: 'auth/signin.html',
-
-    $canActivate: (Auth, $location, AppMessage) => {
-        'ngInject';
-        // Проверяем достаточность полномочий пользователя, на вход даем информацию по необходмим ролям для данной
-        // страницы ($location.path)
-        let authorizedRoles = _PageAccess[$location.$$path.substr(1)];
-        if (Auth.isAuthorized(authorizedRoles)) {
-            if (Auth.isAuthenticated())
-                AppMessage.show({
-                    status: 'warning',
-                    title: 'Ошибка авторизации',
-                    text: 'К сожалению у вас не достаточно прав для просмотра запрашиваемой страницы.' +
-                    ' Необхоимы полномочия '+ authorizedRoles
-                });
-            else {
-                AppMessage.show({
-                    status: 'warning',
-                    title: 'Ошибка аутентификации',
-                    text: 'Для просмотра данной страницы необходимо пройти аутентификацию'
-                });
-                $location.path('/signin');
-            }
-            return false;
-        } else
-            return true;
-    }
+    templateUrl: 'auth/signin.html'
 };
 

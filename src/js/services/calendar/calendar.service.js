@@ -4,10 +4,10 @@
  */
 
 export class CalendarService {
-    constructor($log, Storage, API) {
+    constructor($log, StorageService, API) {
         'ngInject'
         this._$log = $log;
-        this._Storage = Storage;
+        this._StorageService = StorageService;
         this._api = API;
         this.currentUser = null;
         this.currentUserRole = [];

@@ -8,7 +8,7 @@ const times = (n) => [...new Array(n)].map((_, i) => i)
  *
  */
 class CalendarCtrl {
-    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, Auth, AppMessage, Calendar, ActionMessage) {
+    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, AppMessage, CalendarService, ActionMessage) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -16,10 +16,9 @@ class CalendarCtrl {
         this._$anchorScroll = $anchorScroll;
         this._$location = $location;
         this._$rootScope = $rootScope; // слушаем новые сообщения от api
-        this._Auth = Auth;
         this._AppMessage = AppMessage;
 	    this._ActionMessage = ActionMessage;
-        this._Calendar = Calendar;
+        this._CalendarService = CalendarService;
         this._$scope = $scope;
 
         this.weekdays = []; // название дней недели
@@ -86,7 +85,7 @@ class CalendarCtrl {
         let start = moment(date).startOf('week');
         let end = moment(start).add(1, 'w');
         
-        return this._Calendar.getItem({ startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD') })
+        return this._CalendarService.getItem({ startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD') })
         .then((items) => {
             console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
             
@@ -552,50 +551,7 @@ let Calendar = {
     },
     transclude: false,
     controller: CalendarCtrl,
-    templateUrl: 'calendar/calendar.html',
-    /*$routeConfig: [
-        {path: '/',    name: 'Calendar',   component: 'calendar', useAsDefault: true},
-        {path: '/:id', name: 'Calendar', component: 'calendar'}
-    ],*/
-    $canActivate: function($log, $timeout, $nextInstruction, $prevInstruction, Auth, AppMessage, $rootRouter) {
-        'ngInject';
-        /**
-         * Выполняем проверку полномочий с задержкой на 100мс на случай, если пользотватель не перешел на данную
-         * страницу, а запустил ее сразу. При таком варианте инициализация сессии пользователя еще не завершиться и
-         * проверка полномочий вернет ошибку
-         */
-        return new Promise((resolve, reject) => {
-            $timeout(()=>angular.noop,500).then(
-                () => {
-                    $log.debug('Calendar: check auth=', $rootRouter, _PageAccess[$nextInstruction.componentType]);
-                    let authorizedRoles = _PageAccess[$nextInstruction.componentType];
-                    if (!Auth.isAuthorized(authorizedRoles)) {
-                        $log.debug('Calendar: check auth false');
-                        if (Auth.isAuthenticated())
-                            AppMessage.show({
-                                status: 'warning',
-                                title: 'Ошибка авторизации',
-                                text: 'К сожалению у вас не достаточно прав для просмотра запрашиваемой страницы.' +
-                                ' Необхоимы полномочия '+ authorizedRoles
-                            });
-                        else {
-                            AppMessage.show({
-                                status: 'warning',
-                                title: 'Ошибка аутентификации',
-                                text: 'Для просмотра данной страницы необходимо пройти аутентификацию'
-                            });
-                        }
-                        if ($prevInstruction == undefined) $rootRouter.navigate(['SignIn']);
-                        return reject(false);
-                    } else {
-                        $log.debug('Calendar: check auth success');
-                        return resolve(true);
-                    }
-                    //return reject;
-                }
-            )
-        })
-    }
+    templateUrl: 'calendar/calendar.html'
 };
 
 export default Calendar;

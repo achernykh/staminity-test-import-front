@@ -2,7 +2,7 @@
  * Created by akexander on 22/07/16.
  */
 class StaminityApplicationCtrl {
-    constructor ($q, $log, $timeout, $location, $window, $mdDialog, $mdSidenav, $rootScope, Auth, User) {
+    constructor ($q, $log, $timeout, $location, $window, $mdDialog, $mdSidenav, $rootScope, AuthService, UserService) {
         'ngInject';
         this._$log = $log;
         this._$timeout = $timeout;
@@ -11,8 +11,8 @@ class StaminityApplicationCtrl {
         this._$mdSidenav = $mdSidenav;
         this._$rootScope = $rootScope;
         this.settings = {};
-        this._Auth = Auth;
-        this._User = User;
+        this._AuthService = AuthService;
+        this._UserService = UserService;
         this.notification = 0;
     }
     toggleSlide(component){
@@ -54,7 +54,7 @@ class StaminityApplicationCtrl {
     }
     // TODO перенести в компонент application-header
 
-    // TODO скорее всего должно быть в сервисе User
+    // TODO скорее всего должно быть в сервисе UserService
     getLanguage() {
         return this._Application.getLanguage()
 

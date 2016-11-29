@@ -2,7 +2,7 @@ import { _NAVBAR, _DELIVERY_METHOD, _LANGUAGE, _UNITS,
          _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD } from './settings.const.js'
 
 class SettingsCtrl {
-    constructor(User) {
+    constructor(UserService) {
       'ngInject'
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -10,8 +10,7 @@ class SettingsCtrl {
         this._PRIVACY_LEVEL = _PRIVACY_LEVEL
         this._LANGUAGE = _LANGUAGE
         this._UNITS = _UNITS
-        this._User = User
-        this._currentUser = User.currentUser
+        this._UserService = UserService
     }
     $onInit() {
         "use strict";
@@ -27,12 +26,12 @@ class SettingsCtrl {
     }
 
     get firstDayOfWeek() {
-      return moment.weekdays(this.app.user.display.firstDayOfWeek)
+      return moment.weekdays(this.user.display.firstDayOfWeek)
     }
 
     set firstDayOfWeek(day) {
       console.log('firstDayOfWeek', day)
-      this.app.user.display.firstDayOfWeek = day
+      this.user.display.firstDayOfWeek = day
     }
 
     log(){
@@ -49,9 +48,6 @@ let Settings = {
     bindings: {
         view: '<',
         user: '<'
-    },
-    require: {
-        app: '^staminityApplication'
     },
     transclude: false,
     controller: SettingsCtrl,

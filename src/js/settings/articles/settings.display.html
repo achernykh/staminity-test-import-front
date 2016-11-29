@@ -7,7 +7,7 @@
             <md-list-item class="mobile-select">
                 <p translate="settings.display.language"></p>
                 <div class="md-secondary"
-                     ng-bind="$ctrl._LANGUAGE[$ctrl.app.user.display.language].text"></div>
+                     ng-bind="$ctrl._LANGUAGE[$ctrl.user.display.language].text"></div>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
@@ -15,7 +15,7 @@
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat='(id,language) in $ctrl._LANGUAGE'>
                             <md-button ng-bind="language.text"
-                                       ng-click="$ctrl.app.user.display.language = id">
+                                       ng-click="$ctrl.user.display.language = id">
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -43,14 +43,14 @@
             <md-list-item class="mobile-select">
                 <p translate="settings.display.units"></p>
                 <div class="md-secondary"
-                     translate="settings.display.{{$ctrl.app.user.display.units}}.short"></div>
+                     translate="settings.display.{{$ctrl.user.display.units}}.short"></div>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat="unit in $ctrl._UNITS">
-                            <md-button ng-click="$ctrl.app.user.display.units = unit"
+                            <md-button ng-click="$ctrl.user.display.units = unit"
                                        translate="settings.display.{{unit}}.full"></md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -107,18 +107,18 @@
                 <p>Язык инетрфейса</p>
                 <md-menu class="md-secondary">
                     <md-button aria-label="User">
-                        <div style="line-height: 24px; display: inline-block">{{$ctrl.app.user.display.language}}</div>
-                        <md-icon md-svg-src="/assets/icon/{{$ctrl.app.user.display.language}}.svg" md-24 aria-label="Language Icon"></md-icon>
+                        <div style="line-height: 24px; display: inline-block">{{$ctrl.user.display.language}}</div>
+                        <md-icon md-svg-src="/assets/icon/{{$ctrl.user.display.language}}.svg" md-24 aria-label="Language Icon"></md-icon>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.app.user.display.language = 'ru'">
+                            <md-button ng-click="$ctrl.user.display.language = 'ru'">
                                 <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target aria-label="Russian"></md-icon>
                                 <span>Русский</span>
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.app.user.display.language = 'en'">
+                            <md-button ng-click="$ctrl.user.display.language = 'en'">
                                 <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target aria-label="English"></md-icon>
                                 <span>English</span>
                             </md-button>
@@ -130,18 +130,18 @@
                 <p>Язык инетрфейса</p>
                 <md-menu class="md-secondary">
                     <md-button aria-label="User">
-                        <div style="line-height: 24px; display: inline-block">{{$ctrl.app.user.display.language}}</div>
+                        <div style="line-height: 24px; display: inline-block">{{$ctrl.user.display.language}}</div>
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg" md-24 aria-label="Language Icon"></md-icon>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.app.user.display.language = 'ru'">
+                            <md-button ng-click="$ctrl.user.display.language = 'ru'">
                                 <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target aria-label="Russian"></md-icon>
                                 <span>Русский</span>
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.app.user.display.language = 'en'">
+                            <md-button ng-click="$ctrl.user.display.language = 'en'">
                                 <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target aria-label="English"></md-icon>
                                 <span>English</span>
                             </md-button>

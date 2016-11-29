@@ -14,13 +14,13 @@ import { CalendarService } from './calendar/calendar.service.js';
 export const services = angular.module('staminity.services', [])
 	.service('ActionMessage', ActionMessageService)
     .service('ViewService', ApplicationService)
-    .service('Storage', StorageService)
+    .service('StorageService', StorageService)
     .service('AppMessage', ApplicationMessageService)
-    .service('Auth', AuthService)
-    .service('User', ['$q', '$log', 'Storage', 'API', UserService])
-    .service('Groups', GroupsService)
-    .service('Calendar', CalendarService)
+    .service('UserService', ['$q', '$log', 'StorageService', 'API', UserService])
+    .service('AuthService', AuthService)
+    .service('GroupsService', GroupsService)
+    .service('CalendarService', CalendarService)
     .service('API', ApiService)
-		.service('Session',SessionService);
+    .service('SessionService',SessionService);
 
 export default services

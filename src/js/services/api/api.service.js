@@ -1,7 +1,7 @@
 import { _AppConstants } from '../../config/app.constants.js';
 
 export default class ApiService {
-    constructor($q, $log, $http, $websocket, AppMessage, Storage) {
+    constructor($q, $log, $http, $websocket, AppMessage, StorageService, SessionService) {
         'ngInject';
         this.token = null,
         this._$q = $q;
@@ -9,32 +9,55 @@ export default class ApiService {
         this._$http = $http;
         this._$websocket = $websocket;
         this._AppMessage = AppMessage;
-        this._Storage = Storage;
+        this._StorageService = StorageService;
+        this._SessionService = SessionService;
         this.ws = null;
         this.requestId = 0;
         this.requests = [];
+        this.wsState = {CONNECTING: 0, OPEN: 1, CLOSING: 2, CLOSED: 3}
     }
     /**
      *
      * @param token
      */
-    wsOpen(token){
-        this.ws = this._$websocket('ws://' + _AppConstants.api + '/' + token);
-        this._$log.debug(`ApiService: websocket open with ${token} ${this.ws.readyState}`);
+    wsOpen(session){
+         return new Promise((resolve,reject) => {
+             if (this.ws != null && this.ws.readyState == this.wsState['OPEN']) resolve(this.ws.readyState)
+             // Если соедение не открыто
+             try {
+                 // Попытка установить соедение в течение 100 мс
+                 this.ws = this._$websocket('ws://' + _AppConstants.api + '/' + this._SessionService.get())
+                 setTimeout(()=>{
+                     console.log('wsOpen', this.ws.readyState)
+                     if(this.ws.readyState == this.wsState['CLOSED'])
+                         resolve(this.ws.readyState)
+                     // Соединие установлено успешно
+                     else if (this.ws.readyState == this.wsState['OPEN']){
+                         // Слушаем входящие сообщения
+                         this.ws.onMessage((event) => {
+                             let data = angular.fromJson(event.data);
+                             console.log('ApiService: new websocket message event', data, this.requests);
+                             // Если во входящем сообшение есть признак requestId,
+                             // то закрываем запущенное ранее задание
+                             if (angular.isDefined(this.requests[data.requestId])) {
+                                 this._$log.info('ApiService: callback', this.requests[data.requestId]);
+                                 let callback = this.requests[data.requestId];
+                                 delete this.requests[data.requestId];
+                                 callback.resolve(data.data);
+                             } else {
+                                 // Обработкчик сообщений без requestId
+                                 // TODO Согласовать с Денисом наличие таких сообщений
+                             }
+                         })
+                         resolve(this.ws.readyState)
+                     }
+                 },100)
 
-        this.ws.onMessage((event) => {
-            let data = angular.fromJson(event.data);
-            this._$log.info('ApiService: new websocket message event', data, this.requests);
-            if (angular.isDefined(this.requests[data.requestId])) {
-                this._$log.info('ApiService: callback', this.requests[data.requestId]);
-                let callback = this.requests[data.requestId];
-                delete this.requests[data.requestId];
-                callback.resolve(data.data);
-            } else {
-
-            }
-            //responseComplete(JSON.parse(event.data));
-        });
+             } catch (err) {
+                 console.error(err)
+                 resolve(err)
+             }
+         })
     }
 
     /**
@@ -114,14 +137,14 @@ export default class ApiService {
      * @param data - параметры запроса
      * @returns {*} - возвращаем promise
      */
-    post(url, data = {}, token = this._token){
+    post(url, data = {}, token = this._SessionService.get()){
         // TODO Добавить трекер работы с сервером (startProgress, stopProgress)
         return this._$http(this.createRequest(url, data, token)).then(
             (response) => {
                 return this.handleResponse(response.data).then(
                     (response) => {
                         this._$log.debug("ApiService: Then storage task for result=", response);
-                        return this._Storage.upload(response).then(
+                        return this._StorageService.upload(response).then(
                             (success) => {
                                 this._$log.debug("ApiService: Storage success", success, response);
                                 return response;
@@ -147,7 +170,7 @@ export default class ApiService {
      * @param token
      * @returns {{url: *, data: {requestType: *, requestData: *, token: *}}}
      */
-    createRequest(url, data, token = this._token){
+    createRequest(url, data, token){
         console.log('ApiService: createRequest ', url, data)
         let request = {
           method: 'POST',

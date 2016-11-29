@@ -1,7 +1,7 @@
 class HeaderCtrl {
-	constructor(Auth, $log, $mdSidenav) {
+	constructor(AuthService, $log, $mdSidenav) {
 		'ngInject';
-		this._Auth = Auth;
+		this._AuthService = AuthService;
 		this._$log = $log;
 		this._$mdSidenav = $mdSidenav;
 	}
