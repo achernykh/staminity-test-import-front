@@ -5,7 +5,7 @@ export const scrollCurrentItem = () => ({
     check()
     
     function check() {
-      let item = [...element[0].children].find(isCurrent)
+      let item = Array.from(element[0].children).find(isCurrent)
       if (item != currentItem) {
         let itemElement = angular.element(item)
         let itemScope = itemElement.scope()
