@@ -75,7 +75,7 @@ module.exports = {
         port: port || 8000,
         host: process.env.HOST || "0.0.0.0",
         livereload: {
-            enable: false
+            enable: true
         },
         directoryListing: false,
         defaultFile: 'index.html',

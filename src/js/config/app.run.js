@@ -1,4 +1,4 @@
-function AppRun($rootScope, $timeout, $log, $location, $mdMedia, $window, Auth, User, $state, $stateParams) {
+function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
     'ngInject';
     console.log('AppRun: Start');
 
@@ -13,79 +13,47 @@ function AppRun($rootScope, $timeout, $log, $location, $mdMedia, $window, Auth, 
     $rootScope.keywords = 'app.landing.keywords';
 
     /**
-     * Восстанавливаем сессию пользователя из хранилища браузера
+     *  Для переход на защищенные страницы использует проверка аутенитифкации и авторизации пользователя.
+     *  Запрос полномочий осуществляется в настройках $stateProvider.state, через параметры:
+     *  1) loginRequired - true/false 2) authRequired - [функции доступа]
      */
-    function restore(){
-        "use strict";
-        Auth.getSession().then(
-            (session) => {
-                // Если сессия установлена
-                if (session) {
-                    $rootScope.session = session;
-                    // Устанавливаем текущего пользователя. В ответ приходит userProfile
-                    User.setCurrentUser(session.userId).then(
-                        (user) => {
-                            $rootScope.currentUser = user;
-                            $log.debug('AppRun: restoreSession => session repair for userId=', $rootScope.currentUser.userId);
-                        }, (error) => {
-                            // TODO случай, если по номеру сессии не удается получить обьект пользователя
-                            $log.debug('AppRun: restoreSession => not find user with id =', session.userId);
-                        });
-                }
-                // Пользовательская сессия не восстановлена
-                else
-                    $log.debug('AppRun: restoreSession => user session not find');
+    $transitions.onBefore(
+        {to: '*', from: '*'},
+        (state) => {
+            let toState = state.$to()
+            $rootScope.isLoading = true;
+            console.info('transition start to state = ', state.$to().name)
+            return new Promise((resolve, reject) => {
 
-            },(error) => $log.debug('AppRun: restoreSession => error', error)
-        );
-    }
+                    if (toState.loginRequired) {
+                        // Проверка авторизации
+                        if (AuthService.isAuthenticated()) {
+                            console.log('transition check authenticated success')
+                            if (!!toState.authRequired)
+                            // Проверка полномочий
+                                AuthService.isAuthorized(toState.authRequired)
+                                    .then(()=>{
+                                        console.log('transition check authorized success')
+                                        resolve()
+                                    },
+                                    ()=>{
+                                        console.log('transition check authorized error')
+                                        reject()
+                                    })
+                        }
+                        else {
+                            console.log('transition check authenticated error')
+                            reject()
+                        }
+                    } else resolve()
 
-    /**
-     *
-     */
-    function watch(){
-        "use strict";
+            })
+        }
+    )
 
-    }
-
-    $rootScope.$on('$stateChangeStart',
-        function(event, toState, toParams, fromState, fromParams, options) {
-            "use strict";
-            console.log('$stateChangeStart ', toState, toParams);
-        });
-
-    $rootScope.$on('$stateChangeSuccess',
-        function(event, toState, toParams, fromState, fromParams){
-            "use strict";
-            $rootScope.fullTitle = 'Landing Page';
-            console.log('$stateChangeSuccess ', toState, toParams);
-        });
+    $transitions.onSuccess({to: '*', from: '*'}, (state) => $rootScope.isLoading = false)
 
     restore();
-
-    /**
-     * Необходимо отслеживать изменения трех входящих параметров для основного компонента StaminityApplication:
-     * 1) application - какое представление необходимо отобразить на экране (Календарь, Настройки...). Его значение
-     * определяется через путь в браузре 2) auth - определяет текущую сессиию пользователя и содержит номер пользователя
-     * и дополнительные аттрибуты. При изменение значений, они будут автоматически обработаны в компоненте через
-     * &onChanges
-     */
-
-    $rootScope.$on( "$routeChangeSuccess", function() {
-        let path = $location.$$path;
-        $rootScope.path = path.substr(1);
-				$log.debug('AppRun: Route change success:', path, $rootScope.path);
-				//$rootScope.$broadcast('viewUpdate', GUIService.getParams($location.$$path.substr(1)));
-			});
-
-    /**
-     * В Component Router нет возможности использования события $routerChangeStart, в котором можно было прописать
-     * общий алгоритм проверки полномочий по страницам. Есть несколько решений: 1) ui-router с событиями state
-     * 2) использовать $locationChangeStart, но в нем нет параметров роутера 3) создать событие $routerChangeStart -
-     * http://weblogs.asp.net/dwahlin/cancelling-route-navigation-in-angularjs 4) запускать проверку параметром
-     * $caActivate в каждом компоненте
-     */
-
 
     $rootScope.$watch(function() { return $mdMedia('gt-xs'); }, function(result) {
         $rootScope.xs = !result;

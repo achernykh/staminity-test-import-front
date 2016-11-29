@@ -1,11 +1,11 @@
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, User, API) {
+    constructor ($scope, $mdDialog, UserService, API) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
-        this.User = User;
-        this.API = API;
+        this._UserService = UserService;
+        this._API = API;
         this.updateNoCache();
         console.log(this.profile);
         console.log($scope);
