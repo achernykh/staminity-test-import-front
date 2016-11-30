@@ -9,6 +9,10 @@
                ng-click="toggleRight()" data-badge="{{$ctrl.notification}}">
         <md-icon md-svg-src="/assets/icon/notifications.svg"></md-icon>
     </md-button>
+    
+    <md-button class="md-icon-button md-primary" ng-click="$ctrl.toggleSlide('requests')">
+        <md-icon md-font-set="material-icons">group</md-icon>
+    </md-button>
 
     <div hide show-gt-sm layout="row" class="user-frame">
         <div>

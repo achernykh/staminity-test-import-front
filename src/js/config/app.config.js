@@ -169,6 +169,35 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
+        .state('users', {
+            url: "/users",
+            access: [],
+            resolve: {
+                view: function(ViewService) {
+                    return ViewService.getParams('users')
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {
+                        view: 'view.background'
+                    }
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {
+                        view: 'view.header'
+                    }
+                },
+                "application": {
+                    component: "users",
+                    bindings: {
+                        view: 'view.application'
+                    }
+                }
+            }
+        })
 
     // Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
     $mdThemingProvider.theme('default')

@@ -1,0 +1,83 @@
+.users {
+    top: 65px;
+    width: 1000px;
+    left: calc(50% - 500px);
+    border-radius: 2px;
+    background: white;
+    position: absolute;
+    z-index: 10;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.13), 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    
+    .filters {
+        .title {
+            padding: 25px;
+            font-size: 20px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.4;
+            text-align: left;
+            color: rgba(0, 0, 0, 0.87);
+        }
+        
+        .controls {
+            float: right;
+            color: #797979;
+            
+            button {
+                min-width: 30px;
+                min-height: 30px;
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+    
+    .selected-items {
+        padding: 25px;
+        background-color: #cfd8dc;
+        font-size: 15px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        text-align: left;
+        color: #607d8b;
+        
+        .controls {
+            float: right;
+            color: #5e6364;
+            
+            button {
+                min-width: 30px;
+                min-height: 30px;
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+    
+    table {
+        width: 100%;
+        padding: 25px;
+        
+        th {
+            font-size: 12px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            color: rgba(0, 0, 0, 0.54);
+            text-align: left;
+            line-height: 30px;
+        }
+        
+        td {
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            color: rgba(0, 0, 0, 0.87);
+            text-align: left;
+            line-height: 30px;
+        }
+    }
+}

@@ -1,0 +1,69 @@
+<application-frame>
+    <div class="requests">
+        
+        <div class="titlebar">
+            <i class="material-icons">group</i>
+            Запросы
+            <md-button ng-click="$ctrl.close()" class="close">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
+        
+        <md-tabs md-stretch-tabs='always' md-dynamic-height="true">
+            <md-tab label="Входящие">
+                <md-tab-body>
+                    <div class="title">
+                        Ожидают подтверждения
+                    </div>
+                    <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
+                        <div layout="row">
+                            <div>
+                                <img style="height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg"/>
+                            </div>
+                            <div flex class="from">
+                                {{request.from.username}}                        
+                            </div>
+                            <div class="time">
+                                {{request.time}}
+                            </div>
+                        </div>
+                        <div class="type">
+                            {{request.type}}
+                        </div>
+                        <div>
+                            <md-button> Принять </md-button>
+                            <md-button> Отклонить </md-button>
+                        </div>
+                    </div>
+                    <div class="title">
+                        История
+                    </div>
+                    <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">
+                        <div layout="row">
+                            <div>
+                                <img style="height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg"/>
+                            </div>
+                            <div flex class="from">
+                                {{request.from.username}}                        
+                            </div>
+                            <div class="time">
+                                <i class="material-icons">{{request.fulfilled? 'check' : 'close'}}</i>
+                            </div>
+                        </div>
+                        <div class="type">
+                            {{request.type}}
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+            
+            <md-tab label="Исходящие">
+                <md-tab-body>
+                
+                </md-tab-body>    
+            </md-tab>
+        </md-tabs>
+            
+    </div>
+</application-frame>
+

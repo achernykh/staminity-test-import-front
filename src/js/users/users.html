@@ -1,0 +1,52 @@
+<application-frame>
+    <div class="users">
+        
+        <div class="filters">
+            <div class="title">
+                Все (212)
+                <div class="controls">
+                    <md-button class="md-primary"> <i class="material-icons">filter_list</i> </md-button>
+                    <md-button class="md-primary"> <i class="material-icons">search</i> </md-button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="selected-items">
+            2 items selected
+            <div class="controls">
+                <md-button class="md-primary"> <i class="material-icons">supervisor_account</i> </md-button>
+                <md-button class="md-primary"> <i class="material-icons">share</i> </md-button>
+                <md-button class="md-primary"> <i class="material-icons">select_all</i> </md-button>
+                <md-button class="md-primary"> <i class="material-icons">delete</i> </md-button>
+            </div>
+        </div>
+        
+        <table>
+            <tr>
+                <th> <md-checkbox ng-model="$ctrl.allChecked"></md-checkbox> </th>
+                <th>Член клуба</th>
+                <th>Роль</th>
+                <th>Тренер</th>
+                <th>Тариф</th>
+                <th>Спортсмены</th>
+                <th>Город</th>
+                <th>Возрастная группа</th>
+            </tr>
+            <tr ng-repeat="user in $ctrl.users">
+                <td> <md-checkbox ng-model="user.checked"></md-checkbox> </td>
+                <td>
+                    <img style="vertical-align: middle; height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg">
+                    {{user.username}}
+                </td>
+                <td>{{user.role}}</td>
+                <td>{{user.coach}}</td>
+                <td>{{user.subscription}}</td>
+                <td>{{user.athlets}}</td>
+                <td>{{user.city}}</td>
+                <td>{{user.ageGroup}}</td>
+            </tr>
+        </table>
+            
+    </div>
+</application-frame>
+
