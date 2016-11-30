@@ -23,7 +23,7 @@
   "dependencies": {
     "angular": "^1.5.7",
     "angular-component-router": "^0.2.1",
-    "angular-material": "^1.0.9",
+    "angular-material": "^1.1.1",
     "angular-sanitize": "^1.5.7",
     "angular-animate": "^1.5.7",
     "angular-aria": "^1.5.7",

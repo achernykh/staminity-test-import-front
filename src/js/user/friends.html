@@ -1,0 +1,14 @@
+<md-dialog>
+    <md-dialog-content class="friends">
+        
+        <div class="title">
+            Друзья ({{friends.length}})
+        </div>
+        
+        <div class="friend" ng-repeat="friend in friends">
+            <img style="height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg"/>
+            {{friend.username}}
+        </div>
+        
+    </md-dialog-content>
+</md-dialog>

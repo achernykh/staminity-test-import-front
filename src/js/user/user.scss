@@ -300,3 +300,42 @@
     bottom: 20px;
     left: 20px;
 }
+
+.friends {
+    padding: 20px;
+    height: 500px;
+    
+    .title {
+        padding-bottom: 10px;
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.4;
+        text-align: left;
+        color: rgba(0, 0, 0, 0.87);
+    }
+    
+    .friend {
+        font-size: 16px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 2.5;
+        color: rgba(0, 0, 0, 0.87);
+        
+        img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    }
+}
+
+
+// md-select fix https://github.com/angular/material/issues/4603
+body { 
+    height: auto !important;
+    width: 100% !important;
+    top: auto !important;
+    overflow: auto !important;
+}

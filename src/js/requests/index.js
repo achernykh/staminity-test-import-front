@@ -28,8 +28,24 @@ const requestsList = {
     }]
   },
   outbox: {
-    new: [],
-    old: []
+    new: [{ 
+      from: users[0], type: types[0], time: '2 мин'
+    }, {
+      from: users[0], type: types[0], time: '3 д'
+    }],
+    old: [{ 
+      from: users[0], type: types[0], fulfilled: true
+    }, { 
+      from: users[0], type: types[0], fulfilled: false
+    }, { 
+      from: users[0], type: types[0], fulfilled: true
+    }, { 
+      from: users[0], type: types[0], fulfilled: true
+    }, { 
+      from: users[0], type: types[0], fulfilled: false
+    }, { 
+      from: users[0], type: types[0], fulfilled: true
+    }]
   }
 };
 

@@ -12,7 +12,7 @@
                             <div class="chip"> <span ng-style="{color: '#ff5722'}">⚫</span> Премиум</div>
                         </div>
                         <div flex="20">
-                            <div class="userpic" ng-click="$ctrl.uploadUserpic()" ng-style="{'background-image': $ctrl.getUserpic()}" layout-align="center"></div>
+                            <div class="userpic" ng-style="{'background-image': $ctrl.getUserpic()}" layout-align="center"></div>
                         </div>
                         <div flex="40">
                         </div>
@@ -30,7 +30,7 @@
                         <md-button class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
                             Начать тренироваться
                         </md-button>
-                        <md-button style="width: 56px; min-width: 56px; min-height: 36px; height: 36px; border-radius: 2px; background-color: rgba(0, 0, 0, 0.12); border: solid 1px #ffffff;">
+                        <md-button ng-click="$ctrl.showFriends()" style="width: 56px; min-width: 56px; min-height: 36px; height: 36px; border-radius: 2px; background-color: rgba(0, 0, 0, 0.12); border: solid 1px #ffffff;">
                             <i class="material-icons" style="line-height: 33px;">person_add</i> 
                             <i class="material-icons" style="line-height: 33px;">arrow_drop_down</i>
                         </md-button>
@@ -85,13 +85,13 @@
                     <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_right</i>
                 </md-button>
                 <div>
-                    <md-select ng-model="$ctrl.year">
+                    <md-select ng-model="$ctrl.year" class="md-no-underline" aria-label="Year">
                         <md-option ng-repeat="year in $ctrl.years" value="{{year}}">
                             {{year}}
                         </md-option>
                     </md-select>
                 </div>
-                <div flex layout-align="center">
+                <div flex layout-align="center" class="md-no-underline" aria-label="Range">
                     <md-select ng-model="$ctrl.range" style="font-size: 15px; color: white; width: 150px; margin-left: auto; margin-right: auto;">
                         <md-option ng-repeat="range in $ctrl.ranges" value="{{range}}">
                             {{range}}
@@ -99,7 +99,7 @@
                     </md-select>
                 </div>
                 <div>
-                    <md-select ng-model="$ctrl.order">
+                    <md-select ng-model="$ctrl.order" class="md-no-underline" aria-label="Order">
                         <md-option ng-repeat="order in $ctrl.orders" value="{{order}}">
                             {{order}}
                         </md-option>
@@ -150,7 +150,7 @@
                 </table>
             </div>
         </div>
-            
+        
     </div>
 </application-frame>
 

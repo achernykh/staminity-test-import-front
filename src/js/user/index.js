@@ -51,6 +51,19 @@ const table = {
 };
 
 
+const friends = [
+  { userpic: '', username: 'Черных Александр', online: false },
+  { userpic: '', username: 'Захаринский Евгений', online: true },
+  { userpic: '', username: 'Иванов Денис', online: false },
+  { userpic: '', username: 'Черных Александр', online: false },
+  { userpic: '', username: 'Захаринский Евгений', online: true },
+  { userpic: '', username: 'Иванов Денис', online: false },
+  { userpic: '', username: 'Черных Александр', online: false },
+  { userpic: '', username: 'Захаринский Евгений', online: true },
+  { userpic: '', username: 'Иванов Денис', online: false },
+];
+
+
 class ProfileCtrl {
 
     constructor ($scope, $mdDialog, User, API) {
@@ -70,6 +83,7 @@ class ProfileCtrl {
         
         this.chart = chart;
         this.table = table;
+        this.friends = friends;
         
         console.log(this.profile);
         console.log($scope);
@@ -119,7 +133,27 @@ class ProfileCtrl {
       return '?noCache=' + this.noCache
     }
 
+    showFriends () {
+      this.$mdDialog.show({
+        controller: FriendsController,
+        locals: { friends: this.friends },
+        templateUrl: 'user/friends.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: true
+      });
+    }
 };
+
+
+function FriendsController($scope, $mdDialog, friends) {
+  'ngInject';
+  
+  $scope.friends = friends;
+
+  $scope.close = () => {
+    $mdDialog.cancel();
+  };
+}
 
 
 function UploadDialogController($scope, $mdDialog) {
