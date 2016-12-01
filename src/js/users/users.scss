@@ -24,17 +24,30 @@
             float: right;
             color: #797979;
             
+            md-input-container, md-menu {
+                margin: 0;
+                
+                button {
+                    padding: 0;
+                }
+                
+                input {
+                    color: #607d8b;
+                }
+            }
+            
             button {
                 min-width: 30px;
                 min-height: 30px;
                 width: 30px;
                 height: 30px;
+                margin: 0;
             }
         }
     }
     
     .selected-items {
-        padding: 25px;
+        padding: 15px 25px;
         background-color: #cfd8dc;
         font-size: 15px;
         font-weight: normal;
@@ -42,6 +55,7 @@
         font-stretch: normal;
         text-align: left;
         color: #607d8b;
+        line-height: 30px;
         
         .controls {
             float: right;
@@ -52,6 +66,7 @@
                 min-height: 30px;
                 width: 30px;
                 height: 30px;
+                margin: 0;
             }
         }
     }
@@ -78,6 +93,72 @@
             color: rgba(0, 0, 0, 0.87);
             text-align: left;
             line-height: 30px;
+        }
+    }
+}
+
+.subscriptions,
+.roles, 
+.coaches {
+    padding: 20px;
+    height: 500px;
+    width: 270px;
+    
+    .title {
+        padding-bottom: 10px;
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.4;
+        text-align: left;
+        color: rgba(0, 0, 0, 0.87);
+    }
+    
+    .row {
+        font-size: 16px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 2.5;
+        color: rgba(0, 0, 0, 0.87);
+        
+        md-switch {
+            float: right;
+            margin: 0;
+        }
+        
+        .date {
+            font-size: 12px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.33;
+            text-align: left;
+            color: rgba(0, 0, 0, 0.34);
+        }
+    }
+    
+    .label {
+        padding: 15px 0;
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        text-align: left;
+        color: #455a64;
+    }
+    
+    .actions {  
+        button {
+            font-size: 14px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            letter-spacing: 0.5px;
+            text-align: center;
+            color: #607d8b;
         }
     }
 }

@@ -5,25 +5,59 @@
             <div class="title">
                 Все (212)
                 <div class="controls">
-                    <md-button class="md-primary"> <i class="material-icons">filter_list</i> </md-button>
+                    <md-menu>
+                        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                            <i class="material-icons">filter_list</i>
+                        </md-button>
+                        <md-menu-content>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('role')"> Все </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('role', 'coaches')"> Тренеры </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('role', 'athlets')"> Спортсмены </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('role', 'management')"> Управление </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('coach')"> Все </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('coach', 'Без тренера')"> Без тренера </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('coach', 'Евгений Захаринский')"> Евгений Захаринский </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('coach', 'Черных Александр')"> Черных Александр </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filter('coach', 'Иванов Денис')"> Иванов Денис </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                    <md-input-container style="width: auto;"> <input ng-model="$ctrl.search"/> </md-input-container>
                     <md-button class="md-primary"> <i class="material-icons">search</i> </md-button>
                 </div>
             </div>
         </div>
         
-        <div class="selected-items">
-            2 items selected
+        <div class="selected-items" ng-if="$ctrl.checked.length">
+            {{$ctrl.checked.length}} items selected
             <div class="controls">
-                <md-button class="md-primary"> <i class="material-icons">supervisor_account</i> </md-button>
-                <md-button class="md-primary"> <i class="material-icons">share</i> </md-button>
-                <md-button class="md-primary"> <i class="material-icons">select_all</i> </md-button>
-                <md-button class="md-primary"> <i class="material-icons">delete</i> </md-button>
+                <md-button class="md-primary" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.coaches()"> <i class="material-icons">supervisor_account</i> </md-button>
+                <md-button class="md-primary" ng-if="$ctrl.subscriptionsAvailable" ng-click="$ctrl.subscriptions()"> <i class="material-icons">share</i> </md-button>
+                <md-button class="md-primary" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.roles()"> <i class="material-icons">select_all</i> </md-button>
+                <md-button class="md-primary" ng-click="$ctrl.remove()"> <i class="material-icons">delete</i> </md-button>
             </div>
         </div>
         
         <table>
             <tr>
-                <th> <md-checkbox ng-model="$ctrl.allChecked"></md-checkbox> </th>
+                <th> <md-checkbox ng-model="$ctrl.allChecked" aria-label="all checked"></md-checkbox> </th>
                 <th>Член клуба</th>
                 <th>Роль</th>
                 <th>Тренер</th>
@@ -33,7 +67,7 @@
                 <th>Возрастная группа</th>
             </tr>
             <tr ng-repeat="user in $ctrl.users">
-                <td> <md-checkbox ng-model="user.checked"></md-checkbox> </td>
+                <td> <md-checkbox ng-model="user.checked" aria-label="user checked"></md-checkbox> </td>
                 <td>
                     <img style="vertical-align: middle; height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg">
                     {{user.username}}
