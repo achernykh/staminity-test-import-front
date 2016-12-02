@@ -12,6 +12,19 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
     $rootScope.description = 'app.landing.description';
     $rootScope.keywords = 'app.landing.keywords';
 
+    let request = [];
+    let index = 1;
+    let promise = new Promise(()=>{});
+
+    request[index] = promise;
+    console.log('AppRun, test=', request, promise);
+
+    promise = request[index];
+    promise.then();
+
+    console.log('AppRun, test=', request, promise);
+
+
     /**
      *  Для переход на защищенные страницы использует проверка аутенитифкации и авторизации пользователя.
      *  Запрос полномочий осуществляется в настройках $stateProvider.state, через параметры:

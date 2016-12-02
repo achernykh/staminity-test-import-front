@@ -20,7 +20,7 @@ export default class AuthService {
     getSession(){
 
         return !!this.session ? this.session: new Promise ((resolve, reject) => {
-            this._StorageService.get('authToken').then(
+            this._StorageService.getToken('authToken').then(
                 (data) => {
                     // если данные не найдены в хранилище, то data == null
                     // если данные найдены по сессии, то осуществялет вход и запуск websocket сессии
@@ -40,7 +40,7 @@ export default class AuthService {
      * @returns {boolean} - true - авторизован, false - не авторизован
      */
     isAuthenticated(){
-        return !!this._SessionService.get()
+        return !!this._SessionService.getToken()
     }
 
     /**

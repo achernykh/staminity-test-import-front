@@ -95,8 +95,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 user: function(UserService, $stateParams){
                     return UserService.getProfile($stateParams.id)
                 },
-                wsRequired: function(API) {
-                    return API.wsOpen()
+                wsRequired: function(WS) {
+                    return WS.wsOpen()
                 }
             },
             views: {

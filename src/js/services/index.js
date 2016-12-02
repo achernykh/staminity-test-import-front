@@ -9,7 +9,7 @@ import { ActionMessageService } from './actionmessage/actionmessage.component.js
 import SessionService from './session/session.service'
 
 import { CalendarService } from './calendar/calendar.service.js';
-//import ViewConstants from './app.service.constants';
+import {WS} from './api/ws.service'
 
 export const services = angular.module('staminity.services', [])
 	.service('ActionMessage', ActionMessageService)
@@ -17,10 +17,11 @@ export const services = angular.module('staminity.services', [])
     .service('StorageService', StorageService)
     .service('AppMessage', ApplicationMessageService)
     .service('SessionService',SessionService)
-    .service('UserService', ['StorageService','SessionService','API', UserService])
+    .service('UserService', ['StorageService','SessionService','WS', UserService])
     .service('AuthService', AuthService)
     .service('GroupsService', GroupsService)
     .service('CalendarService', CalendarService)
-    .service('API', ApiService);
+    .service('API', ApiService)
+    .service('WS', ['$q','$websocket','StorageService','SessionService',WS]);
 
 export default services

@@ -1,4 +1,11 @@
-export default class SessionService {
+export interface ISessionService {
+    getToken(): string;
+    getUser(): number;
+    setToken(value: string): void;
+    delToken(): void;
+}
+
+export default class SessionService implements ISessionService {
   static $inject = ['$window'];
 
   private memoryStore: any;
@@ -13,7 +20,7 @@ export default class SessionService {
     this.memoryStore = {};
   }
 
-  get(): string {
+  getToken(): string {
     try {
       return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey)).token;
     } catch (e) {
@@ -29,7 +36,7 @@ export default class SessionService {
     }
   }
 
-  set(value: string): void {
+  setToken(value: string): void {
     try {
       this.$window[this.storageType].setItem(this.tokenKey, value);
     } catch (e) {
@@ -37,7 +44,7 @@ export default class SessionService {
     }
   }
 
-  remove(): void {
+  delToken(): void {
     try {
       this.$window[this.storageType].removeItem(this.tokenKey);
     } catch (e) {
