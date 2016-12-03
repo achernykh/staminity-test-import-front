@@ -9,7 +9,7 @@
         <div flex class="hint light" style="margin-left: 32px" translate>app.settings.zones.hint</div>
     </div>
     <form name="vm.trainingZonesForm">
-        <div ng-repeat="param in vm.trainingZones">
+        <div ng-repeat="param in $ctrl.user.trainingZones">
             <div layout="row" layout-align="space-between center" class="h2">
                 <div layout="row" layout-align="start center">
                     <md-icon flex="none" md-svg-src="/pic/{{param.type}}.svg" style="margin-right: 8px" class="s24 fill-light"></md-icon>

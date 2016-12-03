@@ -1,4 +1,4 @@
-import { IGroupProfile } from '../groups/group.interface'
+import { IGroupProfile } from '../group/group.interface'
 type TrainingZonesType = 'bpm' | 'power' | 'pace';
 
 export interface IUserProfilePublic {
