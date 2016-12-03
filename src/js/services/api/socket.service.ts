@@ -13,7 +13,7 @@ export interface IWSRequest {
 }
 
 export interface ISocketService {
-    open(token:string):Promise<number>;
+    open(token:string):number;
     response(event:any);
     close();
     send(request:IWSRequest):Promise<any>;
@@ -48,46 +48,44 @@ export class SocketService implements ISocketService {
      * @returns {Promise<T>}
      * @param token
      */
-    open(token:string = this._SessionService.getToken(), delay:number = 100):Promise<number> {
-        return new Promise((resolve) => {
-            if (this.ws != null && this.ws.readyState == 1)  //CONNECTING =0, OPEN=1, CLOSING=2, CLOSED=3
-                resolve(this.ws.readyState);
-            // Если соединение не открыто
-            try {
-                // Попытка установить соедение в течение 100 мс
-                this.ws = this._$websocket('ws://' + _connection.server + '/' + token);
-                setTimeout(()=> {
-                    console.log('wsOpen', this.ws.readyState);
-                    if (this.ws.readyState == 2)
-                        resolve(this.ws.readyState);
-                    // Соединие установлено успешно
-                    else if (this.ws.readyState == 1) {
-                        // Слушаем входящие сообщения
-                        this.ws.onMessage((event:MessageEvent) => {
-                            console.log('ApiService: new websocket message event', event);
-                            let response:IWSResponse = JSON.parse(<string>event.data);
-                            // Если во входящем сообшение есть признак requestId,
-                            // то закрываем запущенное ранее задание
-                            if (!!this.requests[response.requestId]) {
-                                console.info('ApiService: callback', this.requests[response.requestId]);
-                                let callback:any = this.requests[response.requestId];
-                                delete this.requests[response.requestId];
-                                // TODO после обновления API добавить определение status и развилку на reject, resolve
-                                console.log('onMessage resolve=', response);
-                                callback.resolve(response.data.value);
-                            } else {
-                                // Обработкчик сообщений без requestId//
-                                // TODO Согласовать с Денисом наличие таких сообщений
-                            }
-                        });
-                        resolve(this.ws.readyState);
-                    }
-                }, delay)
-            } catch (err) {
-                console.error(err);
-                resolve(2);
-            }
-        })
+    open(token:string = this._SessionService.getToken(), delay:number = 100):number {
+        if (this.ws != null && this.ws.readyState == 1)  //CONNECTING =0, OPEN=1, CLOSING=2, CLOSED=3
+            return this.ws.readyState;
+        // Если соединение не открыто
+        try {
+            // Попытка установить соедение в течение 100 мс
+            this.ws = this._$websocket('ws://' + _connection.server + '/' + token);
+            setTimeout(()=> {
+                console.log('wsOpen', this.ws.readyState);
+                if (this.ws.readyState == 2)
+                    return this.ws.readyState;
+                // Соединие установлено успешно
+                else if (this.ws.readyState == 1) {
+                    // Слушаем входящие сообщения
+                    this.ws.onMessage((event:any) => {
+                        console.log('ApiService: new websocket message event', event);
+                        let response:IWSResponse = JSON.parse(<string>event.data);
+                        // Если во входящем сообшение есть признак requestId,
+                        // то закрываем запущенное ранее задание
+                        if (!!this.requests[response.requestId]) {
+                            console.info('ApiService: callback', this.requests[response.requestId]);
+                            let callback:any = this.requests[response.requestId];
+                            delete this.requests[response.requestId];
+                            // TODO после обновления API добавить определение status и развилку на reject, resolve
+                            console.log('onMessage resolve=', response);
+                            callback.resolve(response.data.value);
+                        } else {
+                            // Обработкчик сообщений без requestId//
+                            // TODO Согласовать с Денисом наличие таких сообщений
+                        }
+                    });
+                    return this.ws.readyState;
+                }
+            }, delay)
+        } catch (err) {
+            console.error(err);
+            return 2;
+        }
     }
 
     /**
@@ -95,6 +93,7 @@ export class SocketService implements ISocketService {
      * Полученный запрос проверяем по requestId на наличие в массиве отправленных запросов. Если запрос присутствует,
      * то выполняем сохраненный ранее Promise, сообщая ответ по цепочке вверх к компоненту инициатору запроса
      * @param event
+     * @param WS
      */
     response(event:any, WS:any = this) {
         console.log('ApiService: new websocket message event', event, WS);
