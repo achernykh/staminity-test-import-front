@@ -115,7 +115,7 @@ export interface IUserProfile {
     // Connections
     connections: {
         coaches: Array<IUserProfileShort>; // тренеры текущего владельца профиля
-        clubs: Array<IUserProfileShort>; // клубы, в которых состоит владелец профиля
+        clubs: Array<IGroupProfile>; // клубы, в которых состоит владелец профиля
         athletes: Array<IUserProfileShort>; // атлеты, которых тренирует владелец профиля
         followers: Array<IUserProfileShort>; // подписчики владельца профиля
         following: Array<IUserProfileShort>; // подписки владельца профиля

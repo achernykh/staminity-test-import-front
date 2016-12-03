@@ -1,43 +1,40 @@
-import { ISessionService } from '../session/session.service';
+import {_connection} from './api.constants';
+import {ISessionService} from '../session/session.service';
 
 export interface IWSResponse {
-    requestId: number;
-    data: any;
+    requestId:number;
+    data:any;
 }
 
 export interface IWSRequest {
-    requestId?: number;
-    requestType?: string;
-    requestData?: any;
+    requestId?:number;
+    requestType?:string;
+    requestData?:any;
 }
 
-const ApiConstants = {
-    api: '193.124.181.87'
-};
-
-export interface IWS {
-    wsOpen(token: string): Promise<number>;
-    wsResponse(event: any);
-    wsClose();
-    wsRequest(request: IWSRequest): Promise<any>;
+export interface ISocketService {
+    open(token:string):Promise<number>;
+    response(event:any);
+    close();
+    send(request:IWSRequest):Promise<any>;
 }
 
 /**
  * Класс для работы с websoсket сессией
  */
-export class WS implements IWS {
+export class SocketService implements ISocketService {
     //static $inject = ["$websocket","StorageService","SessionService"];
-    ws: any;
-    requests: Array<any>;
-    requestId: number;
+    ws:any;
+    requests:Array<any>;
+    requestId:number;
 
-    _$q: any;
-    _$websocket: any;
+    _$q:any;
+    _$websocket:any;
 
-    _StorageService: any;
-    _SessionService: ISessionService;
+    _StorageService:any;
+    _SessionService:ISessionService;
 
-    constructor($q: any, $websocket: any, StorageService: any, SessionService: ISessionService) {
+    constructor($q:any, $websocket:any, StorageService:any, SessionService:ISessionService) {
         this._$q = $q;
         this._$websocket = $websocket;
         this._StorageService = StorageService;
@@ -51,24 +48,24 @@ export class WS implements IWS {
      * @returns {Promise<T>}
      * @param token
      */
-    wsOpen(token: string = this._SessionService.getToken()): Promise<number> {
+    open(token:string = this._SessionService.getToken(), delay:number = 100):Promise<number> {
         return new Promise((resolve) => {
-            if(this.ws != null && this.ws.readyState == 1)  //CONNECTING =0, OPEN=1, CLOSING=2, CLOSED=3
+            if (this.ws != null && this.ws.readyState == 1)  //CONNECTING =0, OPEN=1, CLOSING=2, CLOSED=3
                 resolve(this.ws.readyState);
             // Если соединение не открыто
             try {
                 // Попытка установить соедение в течение 100 мс
-                this.ws = this._$websocket('ws://' + ApiConstants.api + '/' + token);
-                setTimeout(()=>{
+                this.ws = this._$websocket('ws://' + _connection.server + '/' + token);
+                setTimeout(()=> {
                     console.log('wsOpen', this.ws.readyState);
-                    if(this.ws.readyState == 2)
+                    if (this.ws.readyState == 2)
                         resolve(this.ws.readyState);
                     // Соединие установлено успешно
-                    else if (this.ws.readyState == 1){
+                    else if (this.ws.readyState == 1) {
                         // Слушаем входящие сообщения
-                        this.ws.onMessage((event: MessageEvent) => {
+                        this.ws.onMessage((event:MessageEvent) => {
                             console.log('ApiService: new websocket message event', event);
-                            let response: IWSResponse = JSON.parse(event.data);
+                            let response:IWSResponse = JSON.parse(<string>event.data);
                             // Если во входящем сообшение есть признак requestId,
                             // то закрываем запущенное ранее задание
                             if (!!this.requests[response.requestId]) {
@@ -77,7 +74,7 @@ export class WS implements IWS {
                                 delete this.requests[response.requestId];
                                 // TODO после обновления API добавить определение status и развилку на reject, resolve
                                 console.log('onMessage resolve=', response);
-                                callback.resolve(response.data);
+                                callback.resolve(response.data.value);
                             } else {
                                 // Обработкчик сообщений без requestId//
                                 // TODO Согласовать с Денисом наличие таких сообщений
@@ -85,7 +82,7 @@ export class WS implements IWS {
                         });
                         resolve(this.ws.readyState);
                     }
-                },100)
+                }, delay)
             } catch (err) {
                 console.error(err);
                 resolve(2);
@@ -99,10 +96,10 @@ export class WS implements IWS {
      * то выполняем сохраненный ранее Promise, сообщая ответ по цепочке вверх к компоненту инициатору запроса
      * @param event
      */
-    wsResponse(event:any, WS:any = this) {
+    response(event:any, WS:any = this) {
         console.log('ApiService: new websocket message event', event, WS);
         if (typeof event !== 'undefined') {
-            let response: IWSResponse = JSON.parse(event.data);
+            let response:IWSResponse = JSON.parse(event.data);
             // Если во входящем сообшение есть признак requestId,
             // то закрываем запущенное ранее задание
             if (this.requests.indexOf(response.requestId) !== -1) {
@@ -120,7 +117,7 @@ export class WS implements IWS {
     /**
      * Закрываем websocket сессию
      */
-    wsClose() {
+    close() {
         this.ws.close(true);
     }
 
@@ -131,7 +128,7 @@ export class WS implements IWS {
      * @param request
      * @returns {Promise<T>}
      */
-    wsRequest(request: IWSRequest): Promise<any> {
+    send(request:IWSRequest):Promise<any> {
         request.requestId = this.requestId + 1;
         this.ws.send(JSON.stringify(request));
         let deferred = this._$q.defer();

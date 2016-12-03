@@ -1,56 +1,69 @@
 import {IUserProfile} from './user.interface';
-import {IWS, IWSRequest} from '../api/ws.service';
-
+import {ISocketService, IWSRequest} from '../api/socket.service';
+import {ISessionService} from '../session/session.service';
+import {PostData, PostFile, IRESTService} from '../api/rest.service'
 /**
  * Сборщик запроса getUserProfile
  */
-class UserProfileGetRequest implements IWSRequest {
-    requestId:number;
-    requestType:string = 'getUserProfile';
+class GetRequest implements IWSRequest {
+
+    requestType:string;
     requestData:{userId:number; uri:string;}
 
-    constructor(userId:number) {
+    constructor(userId:number, uri:string = "") {
+        this.requestType = 'getUserProfile';
         this.requestData.userId = userId;
+        this.requestData.uri = uri;
     }
 }
-
 /**
  * Сборщик запроса putUserProfile
  */
-class UserProfilePutRequest implements IWSRequest {
-    requestId:number;
-    requestType:string = 'updateUserProfile';
+class PutRequest implements IWSRequest {
+
+    requestType:string;
     requestData:IUserProfile;
 
     constructor(profile:IUserProfile) {
+        this.requestType = 'putUserProfile';
         this.requestData = profile;
+    }
+}
+
+class GetSummaryStatistics implements IWSRequest {
+    requestType:string;
+    requestData:any;
+
+    constructor(id: number, start: Date, end: Date, group: string, data: Array<string>) {
+        this.requestType = 'getUserProfileSummaryStatistics';
+        this.requestData = {
+            userId: id,
+            startDate: start, // период активностей: начало
+            endDate: end, // период активностей: конец
+            groupBy: group, // Y - Year, M - Month, D - Day// Y - Year, M - Month, D - Day
+            activityTypes: data //список видов спорта["run", "etc.", "* = ALL"]
+        };
     }
 }
 
 export default class UserService {
 
-    _StorageService:any;
-    _SessionService:any;
-    _API:IWS;
+    StorageService:any;
+    SessionService:ISessionService;
+    SocketService:ISocketService;
+    RESTService:IRESTService;
+
     profile:IUserProfile;
     currentUser:IUserProfile;
     currentUserRole:Array<any>;
 
-    constructor(StorageService:any, SessionService:any, API2:IWS) {
-        this._StorageService = StorageService;
-        this._SessionService = SessionService;
-        this._API = API2;
+    constructor(StorageService:any, SessionService:ISessionService, SocketService:ISocketService, RESTService:IRESTService) {
+        this.StorageService = StorageService;
+        this.SessionService = SessionService;
+        this.SocketService = SocketService;
         this.profile = null;
         this.currentUser = null;
         this.currentUserRole = [];
-    }
-
-    /**
-     *
-     * @returns {IUserProfile}
-     */
-    currProfile() {
-        return this.currentUser
     }
 
     /**
@@ -60,24 +73,19 @@ export default class UserService {
      */
     getProfile(id:number):Promise<IUserProfile> {
 
-        return new Promise((resolve) => {
-            console.log('getProfile, id=', id);
-            this._StorageService.get('userProfile', id)
-                .then((success:IUserProfile) => {
-                    console.log('getProfile storage success', success);
-                    resolve(success);
-                }, (empty) => {
-                    console.log('getProfile storage empty', empty);
-                    let request = new UserProfileGetRequest(id);
-                    request.requestType = 'getUserProfile';
-                    this._API.wsRequest(request)
-                        .then((success:IUserProfile) => {
-                            resolve(success)
-                        }, (error) => {
-                            console.log('getProfile: error in get() with key=', request.requestData.userId);
-                        });
-                })
-        })
+        return this.StorageService.get('userProfile', id)
+            .then((profile:IUserProfile) => {
+                console.log('getProfile storage success', profile);
+                return profile;
+            }, (empty) => {
+                console.log('getProfile storage empty', empty);
+                this.SocketService.send(new GetRequest(id))
+                    .then((success:IUserProfile) => {
+                        return success;
+                    }, (error) => {
+                        throw new Error(error);
+                    });
+            })
     }
 
     /**
@@ -86,13 +94,50 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     putProfile(profile:IUserProfile):Promise<IUserProfile> {
-        return new Promise((resolve)=> {
-            let request = new UserProfilePutRequest(profile);
-            console.log('putProfile=', request);
-            this._API.wsRequest(request)
-                .then((profile:IUserProfile) => resolve(profile));
+        return this.SocketService.send(new PutRequest(profile))
+            .then((profile:IUserProfile) => {
+                return profile
+            });
+    }
 
-        })
+    /**
+     * Аплоад аватара пользователя
+     * @param file
+     * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
+     */
+    postProfileAvatar(file:any):Promise<IUserProfile> {
+        return this.RESTService.postFile(new PostFile('/user/avatar',file))
+            .then((profile:IUserProfile) => {
+                return profile
+            });
+    }
+
+    /**
+     * Аплоад фонового изоражения пользователя
+     * @param file
+     * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
+     */
+    postProfileBackground(file:any):Promise<IUserProfile> {
+        return this.RESTService.postFile(new PostFile('/user/background',file))
+            .then((profile:IUserProfile) => {
+                return profile
+            });
+    }
+
+    /**
+     * Запрос итоговой ститистики по тренировкам
+     * @param id
+     * @param start
+     * @param end
+     * @param group
+     * @param data
+     * @returns {Promise<TResult>}
+     */
+    getSummaryStatistics(id: number, start: Date, end: Date, group: string, data: Array<string>):Promise<Object> {
+        return this.SocketService.send(new GetSummaryStatistics(id,start,end,group,data))
+            .then((data:any) => {
+                return data.value
+            });
     }
 
     /**
@@ -112,6 +157,14 @@ export default class UserService {
             })
     }
 
+    /**
+     *
+     * @returns {IUserProfile}
+     */
+    currProfile() {
+        return this.currentUser
+    }
+
     logout() {
         this.currentUser = null;
         this.currentUserRole = [];
@@ -128,7 +181,7 @@ export default class UserService {
                 resolve(this.currentUserRole);
             else {
                 console.log('setCurrentUser user', this);
-                this.setCurrentUser(this._SessionService.getUser()).then(()=> {
+                this.setCurrentUser(this.SessionService.getUser()).then(()=> {
                     console.log('setCurrentUser user, role', !!this.currentUser, this.currentUserRole);
                     resolve(this.currentUserRole)
                 })
