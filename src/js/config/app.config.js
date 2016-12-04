@@ -56,7 +56,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         // Представление Календарь
         .state('calendar', {
             url: "/calendar",
-            access: [],
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('calendar')
@@ -123,7 +124,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         })
         .state('user', {
             url: "/user/:id",
-            access: [],
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('user')
@@ -158,7 +160,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         })
         .state('club', {
             url: "/club/:id",
-            access: [],
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('club')
@@ -193,7 +196,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         })
         .state('users', {
             url: "/users",
-            access: [],
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('users')
