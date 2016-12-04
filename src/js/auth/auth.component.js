@@ -1,5 +1,37 @@
 import {_PageAccess} from '../config/app.constants.js';
 
+
+class AuthCtrl {
+    constructor(AuthService, SystemMessageService){
+        'ngInject'
+        this._AuthService = AuthService;
+        this._SystemMessageService = SystemMessageService;
+        this.enabled = true;
+
+    }
+
+    signin(credentials){
+        this.enabled = false; // форма ввода недоступна до получения ответа
+        this._AuthService.signIn(credentials)
+            .finally(()=>this.enabled = true)
+            .then((success) => {
+                console.log('signin success=', success)
+            }, (error) => {
+                console.log('signin error=', error)
+                this._SystemMessageService.show(error)
+            })
+    }
+}
+
+export let Auth = {
+    bindings: {
+        view: '<'
+    },
+    transclude: false,
+    controller: AuthCtrl,
+    templateUrl: "auth/auth.html"
+}
+
 class SignUpCtrl {
     constructor($log, AuthService) {
         'ngInject';
@@ -131,7 +163,7 @@ export let SignOut = {
     },
     transclude: false,
     controller: SignOutCtrl,
-    templateUrl: 'auth/signin.html'
+    templateUrl: 'auth/state/signin.html'
 };
 
 export let SignUp = {
@@ -139,7 +171,7 @@ export let SignUp = {
     },
     transclude: false,
     controller: SignUpCtrl,
-    templateUrl: 'auth/signup.html'
+    templateUrl: 'auth/state/signup.html'
 };
 
 export let SignIn = {
@@ -151,6 +183,6 @@ export let SignIn = {
     },
     transclude: false,
     controller: SignInCtrl,
-    templateUrl: 'auth/signin.html'
+    templateUrl: 'auth/state/signin.html'
 };
 

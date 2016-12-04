@@ -38,12 +38,18 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
                                     console.log('transition check authorized error')
                                     return false
                                 })
+                    // Проверка полномочий не требуется
+                    else
+                        return true
                 }
+                // Пользователь на зарегестрирован
                 else {
                     console.log('transition check authenticated error')
-                    return true
+                    return false
                 }
-            } else return false
+                // Проверка аутентификации не требуется
+            } else
+                return true
         }
     )
 

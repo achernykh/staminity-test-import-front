@@ -51,28 +51,28 @@ const ViewConstants = {
     }
   },
   signin: {
-    style: 'welcome-page',
-    background: 'application-dark',
+    background: {
+      style: 'dark-blue-grey',
+      toolbar: true,
+      size: '160'
+    },
     header: {
-      title: {
-        show: false
-      },
-      toolbar: false,
+      enabled: true,
+      title: false,
+      athletes: false,
       leftPanel: {
         url: 'layout/application/header/backbar.html',
-        size: 50
+        size: 30
       },
       rightPanel: {
         url: null,
-        size: 50
+        size: 30
       }
     },
-    frame: {
-      size: 'none',
-      margin: 'auto'
-    },
-    athletes: {
-      show: false
+    application: {
+      style: 'app-page',
+      margin: 20,
+      size: 'grow'
     }
   },
   // Настройка страницы: Календарь ../calendar

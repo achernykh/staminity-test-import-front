@@ -1,7 +1,8 @@
 import {_UserRoles} from '../../config/app.constants.js';
+import {PostData, PostFile, IRESTService} from '../api/rest.service'
 
 export default class AuthService {
-    constructor($q, $log, $rootScope, $timeout, API, StorageService, UserService, SessionService){
+    constructor($q, $log, $rootScope, $timeout, API, StorageService, UserService, SessionService, RESTService){
         'ngInject';
         this.session = null;
         this._$q = $q;
@@ -11,7 +12,9 @@ export default class AuthService {
         this._StorageService = StorageService;
         this._UserService = UserService;
         this._api = API;
-        this._SessionService = SessionService
+        this._SessionService = SessionService;
+        this._RESTService = RESTService;
+        console.log('Auth start=',this)
     }
     /**
      *
@@ -55,7 +58,7 @@ export default class AuthService {
 
         // TODO модель полномочий изменилась на функциональную с ролевой, код ниже надо переписать
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this._UserService.getCurrentUserRole().then((roles)=> resolve(roles))
         })
 
@@ -82,7 +85,11 @@ export default class AuthService {
         return this._api.post('/signup', request);
     }
     signIn(request) {
-        return this._api.post('/signin', request).then(
+        return this._RESTService.postData(new PostData('/signin',request))
+            .then((response) => {
+                return response
+            })
+        /*return this._api.post('/signin', request).then(
             (success) => {
                 this._$log.debug('AuthService: signIn => response success:', success);
                 // Регистрируем полученную сессию, для дальнейшей работы сервиса
@@ -92,7 +99,7 @@ export default class AuthService {
                 return  this.session;
             },
             (error) => this._$log.debug('AuthService: signIn => response error:', error)
-        );
+        );*/
     }
     signOut() {
         return this._api.post('/signout').finally(

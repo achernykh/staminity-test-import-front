@@ -1,13 +1,13 @@
 import { _AppConstants } from '../../config/app.constants.js';
 
 export default class ApiService {
-    constructor($q, $http, $websocket, AppMessage, StorageService, SessionService) {
+    constructor($q, $http, $websocket, SystemMessageService, StorageService, SessionService) {
         'ngInject';
         this.token = null,
         this._$q = $q;
         this._$http = $http;
         this._$websocket = $websocket;
-        this._AppMessage = AppMessage;
+        this._SystemMessageService = SystemMessageService;
         this._StorageService = StorageService;
         this._SessionService = SessionService;
         this.ws = null;
@@ -219,7 +219,7 @@ export default class ApiService {
                 switch (message.type) {
                     case "systemMessage":
                     {
-                        this._AppMessage.show(message.value);
+                        this._SystemMessageService.show(message.value);
                         break;
                     }
                 }
