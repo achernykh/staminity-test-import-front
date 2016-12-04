@@ -2,9 +2,11 @@
  * Created by akexander on 22/07/16.
  */
 
-import translateApp from './translate/appbox.translate';
+import translateApp from './translate/appbox.translate'
 import { _APP_MENU } from './translate/appmenu.translate.js'
 import { _USER_MENU } from './translate/usermenu.translate.js'
+import { _SETTINGS } from './translate/settings.translate.js'
+import { _FORM } from './translate/form.translate.js'
 
 function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
     $urlRouterProvider) {
@@ -83,11 +85,18 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         })
         // Представление Настройки пользователя
         .state('settings', {
-            url: "/settings",
-            access: [],
+            url: "/settings/:id",
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('settings')
+                },
+                user: function(UserService, $stateParams){
+                    return UserService.getProfile($stateParams.id)
+                },
+                wsRequired: function(API) {
+                    return API.wsOpen()
                 }
             },
             views: {
@@ -106,7 +115,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 "application": {
                     component: "settings",
                     bindings: {
-                        view: 'view.application'
+                        view: 'view.application',
+                        user: 'user'
                     }
                 }
             }
@@ -116,6 +126,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             access: [],
             resolve: {
                 view: function(ViewService) {
+<<<<<<< HEAD
                     return ViewService.getParams('user')
                 }
             },
@@ -175,6 +186,9 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('users')
+=======
+                    return ViewService.getParams('profile')
+>>>>>>> 562b7570559324793d70966a4e35b2c72a5538e6
                 }
             },
             views: {
@@ -241,6 +255,10 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 	$translateProvider.translations('en', { appMenu: _APP_MENU['en'] });
 	$translateProvider.translations('ru', { userMenu: _USER_MENU['ru'] });
 	$translateProvider.translations('en', { userMenu: _USER_MENU['en'] });
+    $translateProvider.translations('ru', { settings: _SETTINGS['ru'] });
+    $translateProvider.translations('en', { settings: _SETTINGS['en'] });
+    $translateProvider.translations('ru', { form: _FORM['ru'] });
+    $translateProvider.translations('en', { form: _FORM['en'] });
 
 	$translateProvider.preferredLanguage('ru');
     $translateProvider.fallbackLanguage('ru');

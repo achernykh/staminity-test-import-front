@@ -1,15 +1,15 @@
 export default class GroupsService {
-    constructor($q, $log, Storage){
+    constructor($q, $log, StorageService){
         'ngInject'
         this._$q = $q;
         this._$log = $log;
-        this._Storage = Storage;
+        this._StorageService = StorageService;
         this.currentUser = null;
         this.currentUserRole = [];
         this.apiType = 'userProfile';
     }
     get(key){
-        return this._Storage.get('userGroup', key).then(
+        return this._StorageService.get('userGroup', key).then(
             (success) => {
                 this._$log.info('GroupsService: get userGroup', success);
                 return success},

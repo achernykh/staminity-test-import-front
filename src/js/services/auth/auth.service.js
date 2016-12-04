@@ -1,40 +1,35 @@
 import {_UserRoles} from '../../config/app.constants.js';
 
 export default class AuthService {
-    constructor($q, $log, $rootScope, $timeout, API, Storage, User){
+    constructor($q, $log, $rootScope, $timeout, API, StorageService, UserService, SessionService){
         'ngInject';
         this.session = null;
         this._$q = $q;
         this._$log = $log;
         this._$rootScope = $rootScope;
         this._$timeout = $timeout;
-        this._Storage = Storage;
-        this._User = User;
+        this._StorageService = StorageService;
+        this._UserService = UserService;
         this._api = API;
-        //this.firstAuthRequest = true;
+        this._SessionService = SessionService
     }
     /**
      *
      * @returns {*}
      */
     getSession(){
-        let result = this._$q.defer();
 
-        if (this.session != null)
-            result.resolve(this.session);
-        else
-            this._Storage.get('authToken').then(
+        return !!this.session ? this.session: new Promise ((resolve, reject) => {
+            this._StorageService.get('authToken').then(
                 (data) => {
                     // если данные не найдены в хранилище, то data == null
                     // если данные найдены по сессии, то осуществялет вход и запуск websocket сессии
-                    if (data) {
-                        this.login(data);
-                    }
-                    //this._$log.debug('AuthService: getSession success, data =', data);
-                    result.resolve(this.session)
-                },(error) => result.reject(error)
-            );
-         return result.promise;
+                    if (data) this.login(data)
+                    resolve(this.session)
+                },
+                (error) => reject(error)
+            )
+        })
     }
 
     /**
@@ -45,18 +40,7 @@ export default class AuthService {
      * @returns {boolean} - true - авторизован, false - не авторизован
      */
     isAuthenticated(){
-        /*if (this.firstAuthRequest) {
-            this._$timeout(()=> angular.noop(),5000).then(()=> {
-                this._$log.info('AuthService: isAuthenticated', !!this.session, this.firstAuthRequest);
-                this.firstAuthRequest = false;
-                return !!this.session;
-            });
-        } else {
-            this._$log.info('AuthService: isAuthenticated', !!this.session, this.firstAuthRequest);
-            return !!this.session;
-        }*/
-        this._$log.debug(`AuthService: isAuthenticated() check`);
-        return !!this.session;
+        return !!this._SessionService.get()
     }
 
     /**
@@ -68,9 +52,16 @@ export default class AuthService {
      * @returns {boolean}
      */
     isAuthorized(authorizedRoles) {
+
+        // TODO модель полномочий изменилась на функциональную с ролевой, код ниже надо переписать
+
+        return new Promise((resolve, reject) => {
+            this._UserService.getCurrentUserRole().then((roles)=> resolve(roles))
+        })
+
+        /*
         // Роли пользователя храняться в UserService
         let userRoles = this._User.getCurrentUserRole();
-
         if (!angular.isArray(authorizedRoles)) {
             authorizedRoles = [authorizedRoles];
         }
@@ -84,8 +75,9 @@ export default class AuthService {
         //this._$log.debug('AuthService: check authorized for=', authorizedRoles, userRoles, authorizedRoles.length, unionRoles.length, userRoles.length, this.isAuthenticated(),(unionRoles.length < (authorizedRoles.length + userRoles.length)));
 
         return (this.isAuthenticated() && (unionRoles.length < (authorizedRoles.length + userRoles.length))) ||
-            (authorizedRoles == _UserRoles.all);
+            (authorizedRoles == _UserRoles.all);*/
     }
+
     signUp(request) {
         return this._api.post('/signup', request);
     }
@@ -112,7 +104,7 @@ export default class AuthService {
                 this.logout();
                 // Сообщаем rootScope, что данные по авторизации изменились
                 // TODO Очищаем данные хранилища браузера, если был установлен режим ???
-                this._Storage.clear('authToken');
+                this._StorageService.clear('authToken');
             }
         );
     }
@@ -120,8 +112,8 @@ export default class AuthService {
         return this._api.post('/confirm', request);
     }
     login(data){
-        this.session = data;
-        this._api.wsOpen(this.session.token);
+        return this.session = data;
+        //this._api.wsOpen(this.session.token);
     }
     logout(){
         //this._$log.debug('AuthService: session clear for userid=', this.session.userId);

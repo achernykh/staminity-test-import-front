@@ -1,12 +1,13 @@
 class HeaderCtrl {
-	constructor(Auth, $log, $mdSidenav) {
+	constructor(AuthService, $log, $mdSidenav, UserService) {
 		'ngInject';
-		this._Auth = Auth;
+		this._AuthService = AuthService;
 		this._$log = $log;
 		this._$mdSidenav = $mdSidenav;
+		this.user = UserService.getCurrentUser();
 	}
 	$onInit() {
-		this._$log.debug(`HeaderComponent: $onInit session = ${this.app.session.userId}`);
+		console.log(`HeaderComponent: $onInit session = ${this.user}`);
 	}
 
 	$onChanges(changes){
@@ -23,9 +24,6 @@ export const Header = {
 		leftPanel: '<',
 		rightPanel: '<',
 		view: '<'
-	},
-	require: {
-		app: '^staminityApplication'
 	},
 	transclude: false,
 	controller: HeaderCtrl,

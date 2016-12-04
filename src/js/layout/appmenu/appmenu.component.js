@@ -1,12 +1,13 @@
 import { UserMenuSettings, AppMenuSettings } from '../app.constants';
 
 class ApplicationMenuCtrl {
-    constructor($mdDialog, Auth, $mdSidenav) {
+    constructor($mdDialog, AuthService, UserService, $mdSidenav) {
         'ngInject';
         this.appmenu = AppMenuSettings
         this.usermenu = UserMenuSettings
-        this._Auth = Auth
+        this._AuthService = AuthService
         this._$mdSidenav = $mdSidenav
+        this.user = UserService.getCurrentUser();
     }
     $onInit(){
     }
@@ -15,12 +16,13 @@ class ApplicationMenuCtrl {
         this._$mdSidenav(component).toggle().then(() => angular.noop);
     }
 
+    checkAuth(role) {
+        return this._AuthService.isAuthorized(role).then(()=> {return true}, ()=> {return false});
+    }
+
 }
 
 let ApplicationMenu = {
-    require: {
-        app: '^staminityApplication'
-    },
     transclude: false,
     controller: ApplicationMenuCtrl,
     templateUrl: 'layout/appmenu/appmenu.html'

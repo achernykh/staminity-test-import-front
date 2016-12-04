@@ -1,9 +1,60 @@
-form md-list {
-    md-input-container .md-input, textarea {
+form md-list, md-list form {
+    // В стандарте линия подчекивания почти такаяже темная как и разделитель блоков md-devider
+    // Вместе они смотрятся плохо, поэтому были варианты или вообще не делать линию в блоках
+    // ввода или сделать ее сильно светлее, чтобы существено отличалась от разделителя
+    md-input-container .md-input, textarea, md-select .md-select-value{
         border-color: rgba(0,0,0,0.05);
         padding-left: 0px;
     }
+    // Текст внутри поля ввода идет с отступом в 2px, что брасается в глаза при наличие других
+    // текстовых элементах, которые идут с ровным отступаом от края
     md-input-container label {
       padding-left: 0px;
     }
+    // Подзаголовок md-subheader имеет 16px отсупа снизу, при наличии 16px отступа сверху у первых
+    // элементов ввода или селекта расстояние становится очень большим
+    div.md-subheader + md-list-item md-select{
+        margin-top: 0px;
+    }
+
+    // В стандарте стоит 16 вверху и 12 внизу, не ровно с последующим текстом
+    md-list-item .md-list-item-inner>md-icon:first-child:not(.md-avatar-icon){
+        margin-top: 14px !important;
+        margin-bottom: 14px !important;
+    }
+
+    // В стандарте нет элемента для списка md-list, где элемент select и есть подчеркивание с
+    // отсупой слева, как в iOS или Android (http://ionicframework.com/docs/v2/components/#select)
+    md-list-item.mobile-select {
+      div.md-list-item-inner {
+        padding-left: 0px;
+        margin-left: 16px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+      p {
+        @extend .secondary, .dark;
+      }
+    }
+
+    md-autocomplete,
+    md-input-container,
+    md-select {
+      &.no-message {
+        .md-errors-spacer {
+          min-height: 0 !important;
+        }
+      }
+    }
+
+}
+// Подзаголовок md-subheader имеет 16px отсупа снизу, при наличии 16px отступа сверху у первых
+// элементов ввода или селекта расстояние становится очень большим
+form md-card-title + md-list md-list-item:first-child md-input-container:first-child{
+    margin-top: 0px;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
 }

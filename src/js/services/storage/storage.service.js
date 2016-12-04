@@ -70,7 +70,7 @@ export default class StorageService {
         //this._$log.debug('StorageService: run in incognito session', !!this._$window.sessionStorage.getItem('authToken'));
         this.incognitoSession = !!this._$window.sessionStorage.getItem('authToken');
         if(this.incognitoSession)
-            this._$log.debug('StorageService: run in incognito session',!!this._$window.sessionStorage.getItem('authToken'));
+            console.log('StorageService: run in incognito session',!!this._$window.sessionStorage.getItem('authToken'));
 
     }
     /**
@@ -80,11 +80,11 @@ export default class StorageService {
      * @returns {Promise}
      */
     get(type, dataKey){
-        let objKey = type;
+        let objKey = type, result;
 
         return new Promise((resolve, reject) => {
 
-            this._$log.debug(`StorageService: get()\n\ttype=${objKey}\n\tkey=${dataKey}\n\tincognitoSession=${this.incognitoSession}`);
+            console.log(`StorageService: get()\n\ttype=${objKey}\n\tkey=${dataKey}\n\tincognitoSession=${this.incognitoSession}`);
             if (this.incognitoSession)
             {
                 if (objKey == 'authToken' || objKey == 'userProfile')
@@ -96,7 +96,9 @@ export default class StorageService {
                         if (this.settings[objKey].key)
                             this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
                     }
-                    resolve(JSON.parse(this._$window.sessionStorage.getItem(objKey)) || null);
+                    result = JSON.parse(this._$window.sessionStorage.getItem(objKey)) || null
+                    console.log('get storage result=',result)
+                    resolve(result);
                 } else
                     resolve(null);
             }

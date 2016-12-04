@@ -1,4 +1,4 @@
-<div layout="row" layout-align="end center" layout-fill ng-show="!!$ctrl.app.session">
+<div layout="row" layout-align="end center" layout-fill ng-show="!!$ctrl._AuthService.isAuthenticated()">
 
     <md-button ng-if="$ctrl.notification > 0" class="md-icon-button md-primary badge1" aria-label="Notification"
                ng-click="toggleRight()" data-badge="{{$ctrl.notification}}">
@@ -16,10 +16,10 @@
 
     <div hide show-gt-sm layout="row" class="user-frame">
         <div>
-            <img ng-src="/assets/avatar/{{::$ctrl.app.user.userId}}.jpg"
+            <img ng-src="/assets/avatar/{{::$ctrl.user.userId}}.jpg"
                  style="height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white"/>
         </div>
-        <div class="md-body" style="line-height: 24px; -color: white; padding: 0 8px">{{$ctrl.app.user.public.firstName}}</div>
+        <div class="md-body" style="line-height: 24px; -color: white; padding: 0 8px">{{$ctrl.user.public.firstName}}</div>
         <user-menu></user-menu>
     </div>
 </div>
