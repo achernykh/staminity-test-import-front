@@ -1,5 +1,4 @@
 import {IUserProfileShort} from '../user/user.interface'
-
 // Профайл группы: public секция
 interface IGroupProfilePublic {
 	name:string,
