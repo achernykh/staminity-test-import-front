@@ -66,11 +66,11 @@ const friends = [
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, User, API) {
+    constructor ($scope, $mdDialog, UserService, API) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
-        this.User = User;
+        this.UserService = UserService;
         this.API = API;
         this.updateNoCache();
         

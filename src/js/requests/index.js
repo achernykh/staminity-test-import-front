@@ -52,12 +52,12 @@ const requestsList = {
 
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, User, API) {
+    constructor ($scope, $mdDialog, $mdSidenav, UserService, API) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this._$mdSidenav = $mdSidenav;
-        this.User = User;
+        this.UserService = UserService;
         this.API = API;
         
         this.requests = requestsList;

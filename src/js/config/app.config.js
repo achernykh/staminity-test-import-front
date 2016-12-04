@@ -126,7 +126,65 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             access: [],
             resolve: {
                 view: function(ViewService) {
-                    return ViewService.getParams('profile')
+                    return ViewService.getParams('user')
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {
+                        view: 'view.background'
+                    }
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {
+                        view: 'view.header'
+                    }
+                },
+                "application": {
+                    component: "user",
+                    bindings: {
+                        view: 'view.application'
+                    }
+                }
+            }
+        })
+        .state('club', {
+            url: "/club",
+            access: [],
+            resolve: {
+                view: function(ViewService) {
+                    return ViewService.getParams('club')
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {
+                        view: 'view.background'
+                    }
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {
+                        view: 'view.header'
+                    }
+                },
+                "application": {
+                    component: "club",
+                    bindings: {
+                        view: 'view.application'
+                    }
+                }
+            }
+        })
+        .state('users', {
+            url: "/users",
+            access: [],
+            resolve: {
+                view: function(ViewService) {
+                    return ViewService.getParams('users')
                 }
             },
             views: {
