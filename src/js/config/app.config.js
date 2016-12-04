@@ -126,69 +126,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             access: [],
             resolve: {
                 view: function(ViewService) {
-<<<<<<< HEAD
-                    return ViewService.getParams('user')
-                }
-            },
-            views: {
-                "background": {
-                    component: "staminityBackground",
-                    bindings: {
-                        view: 'view.background'
-                    }
-                },
-                "header": {
-                    component: 'staminityHeader',
-                    bindings: {
-                        view: 'view.header'
-                    }
-                },
-                "application": {
-                    component: "user",
-                    bindings: {
-                        view: 'view.application'
-                    }
-                }
-            }
-        })
-        .state('club', {
-            url: "/club",
-            access: [],
-            resolve: {
-                view: function(ViewService) {
-                    return ViewService.getParams('club')
-                }
-            },
-            views: {
-                "background": {
-                    component: "staminityBackground",
-                    bindings: {
-                        view: 'view.background'
-                    }
-                },
-                "header": {
-                    component: 'staminityHeader',
-                    bindings: {
-                        view: 'view.header'
-                    }
-                },
-                "application": {
-                    component: "club",
-                    bindings: {
-                        view: 'view.application'
-                    }
-                }
-            }
-        })
-        .state('users', {
-            url: "/users",
-            access: [],
-            resolve: {
-                view: function(ViewService) {
-                    return ViewService.getParams('users')
-=======
                     return ViewService.getParams('profile')
->>>>>>> 562b7570559324793d70966a4e35b2c72a5538e6
                 }
             },
             views: {
