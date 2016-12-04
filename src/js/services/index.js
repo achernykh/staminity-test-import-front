@@ -2,7 +2,7 @@ import ApplicationService from './application/app.service';
 import StorageService from './storage/storage.service';
 import AuthService from './auth/auth.service';
 import UserService from './user/user.service';
-import GroupsService from './groups/groups.service';
+//import GroupsService from './groups/groups.service';
 import ApiService from './api/api.service';
 import ApplicationMessageService from './appmessage/appmessage.service';
 import { ActionMessageService } from './actionmessage/actionmessage.component.js';
@@ -19,7 +19,7 @@ export const services = angular.module('staminity.services', [])
     .service('SessionService',SessionService)
     .service('UserService', ['StorageService','SessionService','SocketService','RESTService', UserService])
     .service('AuthService', AuthService)
-    .service('GroupsService', GroupsService)
+    //.service('GroupsService', GroupsService)
     .service('CalendarService', CalendarService)
     .service('API', ApiService)
     .service('SocketService', ['$q','$websocket','StorageService','SessionService',SocketService])
