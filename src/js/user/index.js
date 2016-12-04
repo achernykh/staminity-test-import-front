@@ -85,7 +85,6 @@ class ProfileCtrl {
         this.table = table;
         this.friends = friends;
         
-        console.log(this.profile);
         console.log($scope);
     }
 
@@ -189,7 +188,7 @@ const user = {
 
     bindings: {
         view: '<',
-        profile: '<currentUser'
+        user: '<'
     },
 
     require: {

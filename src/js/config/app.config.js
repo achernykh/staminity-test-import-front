@@ -122,11 +122,17 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             }
         })
         .state('user', {
-            url: "/user",
+            url: "/user/:id",
             access: [],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('user')
+                },
+                user: function(UserService, $stateParams){
+                    return UserService.getProfile($stateParams.id)
+                },
+                wsRequired: function(API) {
+                    return API.wsOpen()
                 }
             },
             views: {
@@ -151,11 +157,17 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             }
         })
         .state('club', {
-            url: "/club",
+            url: "/club/:id",
             access: [],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('club')
+                },
+                user: function(UserService, $stateParams){
+                    return UserService.getProfile($stateParams.id)
+                },
+                wsRequired: function(API) {
+                    return API.wsOpen()
                 }
             },
             views: {
@@ -185,6 +197,9 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('users')
+                },
+                wsRequired: function(API) {
+                    return API.wsOpen()
                 }
             },
             views: {
