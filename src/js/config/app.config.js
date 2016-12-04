@@ -95,8 +95,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 user: function(UserService, $stateParams){
                     return UserService.getProfile($stateParams.id)
                 },
-                wsRequired: function(API) {
-                    return API.wsOpen()
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {
@@ -131,8 +131,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 user: function(UserService, $stateParams){
                     return UserService.getProfile($stateParams.id)
                 },
-                wsRequired: function(API) {
-                    return API.wsOpen()
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {
@@ -166,8 +166,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 user: function(UserService, $stateParams){
                     return UserService.getProfile($stateParams.id)
                 },
-                wsRequired: function(API) {
-                    return API.wsOpen()
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {
@@ -198,8 +198,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function(ViewService) {
                     return ViewService.getParams('users')
                 },
-                wsRequired: function(API) {
-                    return API.wsOpen()
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {
