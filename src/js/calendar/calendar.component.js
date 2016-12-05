@@ -8,7 +8,7 @@ const times = (n) => Array.from(new Array(n)).map((_, i) => i)
  *
  */
 class CalendarCtrl {
-    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, AppMessage, CalendarService, ActionMessage) {
+    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, SystemMessageService, CalendarService, ActionMessage) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -16,7 +16,7 @@ class CalendarCtrl {
         this._$anchorScroll = $anchorScroll;
         this._$location = $location;
         this._$rootScope = $rootScope; // слушаем новые сообщения от api
-        this._AppMessage = AppMessage;
+        this._SystemMessageService = SystemMessageService;
 	    this._ActionMessage = ActionMessage;
         this._CalendarService = CalendarService;
         this._$scope = $scope;

@@ -142,7 +142,7 @@ export default class UserService {
 
     /**
      * Устанавливаем пользователя сессии
-     * Номер текущего пользователя берется 1) ответа на sign in 2) application storage authToken.userId
+     * Номер текущего пользователя берется 1) ответа на signin 2) application storage authToken.userId
      * @param id
      * @returns {Promise<T>}
      */
