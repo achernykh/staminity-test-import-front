@@ -14,7 +14,6 @@ export default class AuthService {
         this._api = API;
         this._SessionService = SessionService;
         this._RESTService = RESTService;
-        console.log('Auth start=',this)
     }
     /**
      *
@@ -81,12 +80,24 @@ export default class AuthService {
             (authorizedRoles == _UserRoles.all);*/
     }
 
+	/**
+	 * Регистрация пользователя
+	 * @param request
+	 * @returns {Promise<any>}
+	 */
     signUp(request) {
         return this._RESTService.postData(new PostData('/signup',request))
     }
-    signIn(request) {
+
+	/**
+	 * Вход пользователя
+	 * @param request
+	 * @returns {Promise<any>|Promise<TResult2|TResult1>|Promise<TResult>|*|Promise.<TResult>}
+	 */
+	signIn(request) {
         return this._RESTService.postData(new PostData('/signin',request))
             .then((response) => {
+                // Дописать функции для регистрации входа пользователя
                 return response
             })
         /*return this._api.post('/signin', request).then(
@@ -101,19 +112,23 @@ export default class AuthService {
             (error) => this._$log.debug('AuthService: signIn => response error:', error)
         );*/
     }
-    signOut() {
+
+	/***
+	 * Выход пользователя из сервиса
+	 * @returns {*}
+	 */
+	signOut() {
         return this._api.post('/signout').finally(
             () => {
-                //this._$log.debug('AuthService: logout start...');
                 // Закрываем ws сессию
-                this._api.wsClose();
+                this._api.wsClose()
                 // Очищаем данные по открытой сессии
-                this.logout();
+                this.logout()
                 // Сообщаем rootScope, что данные по авторизации изменились
-                // TODO Очищаем данные хранилища браузера, если был установлен режим ???
-                this._StorageService.clear('authToken');
+                // TODO Очищаем данные хранилища браузера, если был установлен режим
+                this._StorageService.clear('authToken')
             }
-        );
+        )
     }
     confirmAccount(request) {
         return this._api.post('/confirm', request);

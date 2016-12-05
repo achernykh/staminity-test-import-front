@@ -1,6 +1,5 @@
 import {_PageAccess} from '../config/app.constants.js';
 
-
 class AuthCtrl {
     constructor(AuthService, SystemMessageService){
         'ngInject'
@@ -18,11 +17,10 @@ class AuthCtrl {
 			    role: true
 		    }
 	    }
-
     }
 
 	/**
-	 *
+	 * Вход пользователя
 	 * @param credentials
 	 */
     signin(credentials){
@@ -38,7 +36,7 @@ class AuthCtrl {
     }
 
 	/**
-	 *
+	 * Регистрация/создание нового пользователя
 	 * @param credentials
 	 */
 	signup(credentials){
@@ -82,9 +80,6 @@ class SignUpCtrl {
             }
         }
     }
-    $onInit() {
-
-    }
 
     /**
      * Регистрация нового пользователя
@@ -101,10 +96,10 @@ class SignUpCtrl {
                 this._$log.debug('SignUp: onSignUp error = ', error);
             });
     }
+
     changeState(state){
         this.state = state;
     }
-
 }
 
 class SignOutCtrl {
@@ -144,8 +139,7 @@ class SignInCtrl {
             password: 'qPTwkl!1234'
         }
     }
-    $onInit(){
-    }
+
     $routerOnActivate(next){
         /**
          * Если в строке присутсвует параметр request - значит пользователь прошел по ссылке на активацию аккаунта.
@@ -168,6 +162,7 @@ class SignInCtrl {
     onStorage(value){
         this._Storage.setIncognitoSession(value);
     }
+
     onSignIn(credentials){
         this._Storage.setIncognitoSession(this.storage);
         this.formEnabled = false;
@@ -197,7 +192,7 @@ export let SignOut = {
     transclude: false,
     controller: SignOutCtrl,
     templateUrl: 'auth/state/signin.html'
-};
+}
 
 export let SignUp = {
     bindings: {
@@ -205,7 +200,7 @@ export let SignUp = {
     transclude: false,
     controller: SignUpCtrl,
     templateUrl: 'auth/state/signup.html'
-};
+}
 
 export let SignIn = {
     bindings: {
