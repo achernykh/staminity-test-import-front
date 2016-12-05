@@ -7,9 +7,24 @@ class AuthCtrl {
         this._AuthService = AuthService;
         this._SystemMessageService = SystemMessageService;
         this.enabled = true;
+	    this.state = 'form';
+	    this.showConfirm = false;
+	    this.credentials = {
+		    firstName: 'Alexander',
+		    lastName: 'Chernykh',
+		    email: 'chernykh@me.com',
+		    password: 'qPTwkl!1234',
+		    personal: {
+			    role: true
+		    }
+	    }
 
     }
 
+	/**
+	 *
+	 * @param credentials
+	 */
     signin(credentials){
         this.enabled = false; // форма ввода недоступна до получения ответа
         this._AuthService.signIn(credentials)
@@ -21,6 +36,24 @@ class AuthCtrl {
                 this._SystemMessageService.show(error)
             })
     }
+
+	/**
+	 *
+	 * @param credentials
+	 */
+	signup(credentials){
+		this.enabled = false; // форма ввода недоступна до получения ответа
+		this._AuthService.signUp(credentials)
+			.finally(()=>this.enabled = true)
+			.then((success) => {
+				console.log('signup success=', success)
+				this.showConfirm = true
+			}, (error) => {
+				console.log('signup error=', error)
+				this._SystemMessageService.show(error)
+			})
+	}
+
 }
 
 export let Auth = {

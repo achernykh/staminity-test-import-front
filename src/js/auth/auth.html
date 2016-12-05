@@ -2,10 +2,11 @@
 <application-frame class='{{$ctrl.view.style}}'>
     <section layout="row" layout-align="space-between start" class="app-layer">
         <!-- common left margin -->
-        <section layout="row" layout-align="end start" flex-gt-xs="grow" hide-xs class="margin">
+        <section flex-gt-xs="grow" hide-xs class="margin">
         </section>
         <!-- application section: start -->
-        <div flex="none" layout="column" style="height: 100%" layout-align="center center" class="content" ui-view="form">
+        <div flex="none" flex-xs="100" layout="column" style="height: 100%" layout-align="center center" class="content"
+             ui-view="form">
 
         </div>
         <!-- application section: end -->

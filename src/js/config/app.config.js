@@ -82,6 +82,34 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
+        // Представление Auth: SignUp
+	    .state('signup', {
+		    url: "/signup",
+		    loginRequired: false,
+		    authRequired: ['func1'],
+		    resolve: {
+			    view: function (ViewService) {
+				    return ViewService.getParams('signup')
+			    }
+		    },
+		    views: {
+			    "background": {
+				    component: "staminityBackground",
+				    bindings: {view: 'view.background'}
+			    },
+			    "header": {
+				    component: 'staminityHeader',
+				    bindings: {view: 'view.header'}
+			    },
+			    "application": {
+				    component: "auth",
+				    bindings: {view: 'view.application'}
+			    },
+			    "form@signup": {
+				    templateUrl: 'auth/state/signup.html'
+			    }
+		    }
+	    })
         // Представление Календарь
         .state('calendar', {
             url: "/calendar",

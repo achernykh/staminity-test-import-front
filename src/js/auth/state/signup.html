@@ -1,78 +1,78 @@
-<div flex="100" layout="column"  layout-align-xs="start center" layout-align="center center"
-     class="app-body">
-    <div hide-xs class="animated fadeInDown logo">
-        <img src="/assets/picture/logolp.svg"/>
-    </div>
-    <div ng-if="$ctrl.state == 'confirm'" class="confirm-message medium">
-        <p flex translate>app.auth.signUpSuccess</p>
-    </div>
-
-    <form ng-if="$ctrl.state == 'form'" ng-submit='$ctrl.onSignUp($ctrl.credentials)' class="animated fadeInUp medium"
-          name="authForm" novalidate md-theme="dark">
-        <div flex layout="row">
-            <div flex>
-                <md-input-container md-no-float>
-                    <input maxlength="30" ng-model="$ctrl.credentials.firstName" name="name"
-                           required ng-disabled="!$ctrl.formEnabled"
-                           autofocus autocomplete="off"
-                           placeholder="{{ 'app.auth.firstName' | translate }}">
-                    <div ng-messages="authForm.name.$error">
-                        <div ng-message="required" translate>app.auth.required</div>
-                        <div ng-message="md-maxlength"
-                             translate translate-value-field="{{'app.auth.firstName' | translate}}">app.auth.err30</div>
-                    </div>
-                </md-input-container>
-            </div>
-            <div flex="10"></div>
-            <div flex>
-                <md-input-container md-no-float>
-                    <input maxlength="30" ng-model="$ctrl.credentials.lastName" name="surname"
-                           required ng-disabled="!$ctrl.formEnabled"
-                           autocomplete="off"
-                           placeholder="{{ 'app.auth.lastName' | translate }}">
-                    <div ng-messages="authForm.surname.$error">
-                        <div ng-message="required" translate>app.auth.required</div>
-                        <div ng-message="md-maxlength" translate>app.auth.err30</div>
-                    </div>
-                </md-input-container>
-            </div>
-        </div>
-        <div flex>
-            <md-input-container md-no-float>
-                <input required type="email" name="email" ng-model="$ctrl.credentials.email" minlength="5" maxlength="100"
-                       ng-pattern="/^.+@.+\..+$/"
-                       autocomplete="off" ng-disabled="!$ctrl.formEnabled"
-                       placeholder="{{ 'app.auth.email' | translate }}">
-                <div ng-messages="authForm.email.$error" role="alert">
-                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
-                        app.auth.errMail
-                    </div>
-                </div>
-            </md-input-container>
-        </div>
-        <div flex>
-            <md-input-container md-no-float>
-                <input required type="password" name="password" ng-model="$ctrl.credentials.password" minlength="8"
-                       ng-disabled="!$ctrl.formEnabled"
-                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="{{ 'app.auth.pass' | translate }}">
-                <div ng-messages="authForm.password.$error" role="alert">
-                    <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>app.auth.errPass</div>
-                </div>
-            </md-input-container>
-        </div>
-        <div flex layout="row" layout-align="center center">
-            <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.credentials.personal.role" class="md-primary"
-                         ng-disabled="!$ctrl.formEnabled"
-                         style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
-                <span translate>app.signup.coach</span>
-            </md-checkbox>
-        </div>
-        <div flex>
-            <md-button type="submit" translate='app.signup.button' class="md-raised"
-                       ng-disabled = "!authForm.$valid || !$ctrl.formEnabled"
-                       ng-class="{'md-primary': authForm.$valid && !ul.auth, 'md-disabled': authForm.$error}"></md-button>
-        </div>
-        <p class="md-caption conf" translate>app.auth.confirmation</p>
-    </form>
-
+<div hide-xs class="animated fadeInDown logo">
+    <img src="/assets/picture/logolp.svg"/>
 </div>
+<div ng-if="$ctrl.showConfirm" class="confirm-message medium">
+    <p flex translate>app.auth.signUpSuccess</p>
+</div>
+
+<form ng-if="!$ctrl.showConfirm" ng-submit='$ctrl.signup($ctrl.credentials)' class="animated fadeInUp medium"
+      name="$ctrl.signupForm" novalidate md-theme="dark">
+    <div flex layout="row">
+        <div flex>
+            <md-input-container md-no-float>
+                <input maxlength="30" ng-model="$ctrl.credentials.firstName" name="name"
+                       required ng-disabled="!$ctrl.enabled"
+                       autofocus autocomplete="off"
+                       placeholder="{{ 'app.auth.firstName' | translate }}">
+                <div ng-messages="$ctrl.signupForm.name.$error">
+                    <div ng-message="required" translate>app.auth.required</div>
+                    <div ng-message="md-maxlength"
+                         translate translate-value-field="{{'app.auth.firstName' | translate}}">app.auth.err30
+                    </div>
+                </div>
+            </md-input-container>
+        </div>
+        <div flex="10"></div>
+        <div flex>
+            <md-input-container md-no-float>
+                <input maxlength="30" ng-model="$ctrl.credentials.lastName" name="surname"
+                       required ng-disabled="!$ctrl.enabled"
+                       autocomplete="off"
+                       placeholder="{{ 'app.auth.lastName' | translate }}">
+                <div ng-messages="$ctrl.signupForm.surname.$error">
+                    <div ng-message="required" translate>app.auth.required</div>
+                    <div ng-message="md-maxlength" translate>app.auth.err30</div>
+                </div>
+            </md-input-container>
+        </div>
+    </div>
+    <div flex>
+        <md-input-container md-no-float>
+            <input required type="email" name="email" ng-model="$ctrl.credentials.email" minlength="5"
+                   maxlength="100"
+                   ng-pattern="/^.+@.+\..+$/"
+                   autocomplete="off" ng-disabled="!$ctrl.enabled"
+                   placeholder="{{ 'app.auth.email' | translate }}">
+            <div ng-messages="$ctrl.signupForm.email.$error" role="alert">
+                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
+                    app.auth.errMail
+                </div>
+            </div>
+        </md-input-container>
+    </div>
+    <div flex>
+        <md-input-container md-no-float>
+            <input required type="password" name="password" ng-model="$ctrl.credentials.password" minlength="8"
+                   ng-disabled="!$ctrl.enabled"
+                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="{{ 'app.auth.pass' | translate }}">
+            <div ng-messages="$ctrl.signupForm.password.$error" role="alert">
+                <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>app.auth.errPass</div>
+            </div>
+        </md-input-container>
+    </div>
+    <div flex layout="row" layout-align="center center">
+        <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.credentials.personal.role" class="md-primary"
+                     ng-disabled="!$ctrl.enabled"
+                     style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
+            <span translate>app.signup.coach</span>
+        </md-checkbox>
+    </div>
+    <div flex>
+        <md-button type="submit" translate='app.signup.button' class="md-raised"
+                   ng-disabled="!$ctrl.signupForm.$valid || !$ctrl.enabled"
+                   ng-class="{'md-primary': $ctrl.signupForm.$valid && !ul.auth, 'md-disabled': $ctrl.signupForm.$error}"></md-button>
+    </div>
+    <p class="md-caption conf" translate>app.auth.confirmation</p>
+</form>
+
+

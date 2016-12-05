@@ -82,7 +82,7 @@ export default class AuthService {
     }
 
     signUp(request) {
-        return this._api.post('/signup', request);
+        return this._RESTService.postData(new PostData('/signup',request))
     }
     signIn(request) {
         return this._RESTService.postData(new PostData('/signin',request))

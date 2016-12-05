@@ -79,6 +79,7 @@ export class RESTService implements IRESTService {
 
     postData(request:IPostDataRequest):Promise<any> {
         request.data.token = this.SessionService.getToken();
+        console.log('REST Service => postData=', request)
         return this.$http(request)
             .then((result:any)=> {
                 return result.data
