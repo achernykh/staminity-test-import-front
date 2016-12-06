@@ -1,4 +1,4 @@
-function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
+function AppRun($rootScope, $mdMedia, AuthService, $transitions, $state, SystemMessageService) {
     'ngInject';
     console.log('AppRun: Start');
 
@@ -44,7 +44,7 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
                 }
                 // Пользователь на зарегестрирован
                 else {
-                    console.log('transition check authenticated error')
+                    console.log('transition check authentificated error')
                     return false
                 }
                 // Проверка аутентификации не требуется

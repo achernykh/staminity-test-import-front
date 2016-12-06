@@ -12,8 +12,10 @@ class GetRequest implements IWSRequest {
 
     constructor(userId:number, uri:string = "") {
         this.requestType = 'getUserProfile';
-        this.requestData.userId = userId;
-        this.requestData.uri = uri;
+        this.requestData = {
+            userId: userId,
+            uri: uri
+        }
     }
 }
 /**
@@ -53,17 +55,14 @@ export default class UserService {
     SocketService:ISocketService;
     RESTService:IRESTService;
 
-    profile:IUserProfile;
-    currentUser:IUserProfile;
-    currentUserRole:Array<any>;
+    private _profile: IUserProfile;
+    private _permissions: Array<Object>;
 
     constructor(StorageService:any, SessionService:ISessionService, SocketService:ISocketService, RESTService:IRESTService) {
         this.StorageService = StorageService;
         this.SessionService = SessionService;
         this.SocketService = SocketService;
-        this.profile = null;
-        this.currentUser = null;
-        this.currentUserRole = [];
+        this.RESTService = RESTService;
     }
 
     /**
@@ -72,20 +71,8 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     getProfile(id:number):Promise<IUserProfile> {
-
-        return this.StorageService.get('userProfile', id)
-            .then((profile:IUserProfile) => {
-                console.log('getProfile storage success', profile);
-                return profile;
-            }, (empty) => {
-                console.log('getProfile storage empty', empty);
-                this.SocketService.send(new GetRequest(id))
-                    .then((success:IUserProfile) => {
-                        return success;
-                    }, (error) => {
-                        throw new Error(error);
-                    });
-            })
+        return this.SocketService.send(new GetRequest(id))
+            .then((result) => {return result[0].value})
     }
 
     /**
@@ -95,9 +82,6 @@ export default class UserService {
      */
     putProfile(profile:IUserProfile):Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(profile))
-            .then((profile:IUserProfile) => {
-                return profile
-            });
     }
 
     /**
@@ -107,9 +91,6 @@ export default class UserService {
      */
     postProfileAvatar(file:any):Promise<IUserProfile> {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
-            .then((profile:IUserProfile) => {
-                return profile
-            });
     }
 
     /**
@@ -140,58 +121,19 @@ export default class UserService {
             });
     }
 
-    /**
-     * Устанавливаем пользователя сессии
-     * Номер текущего пользователя берется 1) ответа на signin 2) application storage authToken.userId
-     * @param id
-     * @returns {Promise<T>}
-     */
-    setCurrentUser(id:number):Promise<any> {
-        return this.getProfile(id)
-            .then((success) => {
-                console.log('setCurrentUser get success', success);
-                this.currentUser = success;
-                return success;
-            }, (error) => {
-                return error
-            })
+    get profile():IUserProfile {
+        if (!!!this._profile) {
+            this._profile = this.SessionService.getUser();
+        }
+        return this._profile;
     }
 
-    /**
-     *
-     * @returns {IUserProfile}
-     */
-    currProfile() {
-        return this.currentUser
+    set profile(profile:IUserProfile) {
+        this._profile = profile;
     }
 
-    logout() {
-        this.currentUser = null;
-        this.currentUserRole = [];
-    }
-
-    getCurrentUser():IUserProfile {
-        return this.currentUser;
-    }
-
-    getCurrentUserRole():Promise<any> {
-
-        return new Promise((resolve) => {
-            if (!!this.currentUser)
-                resolve(this.currentUserRole);
-            else {
-                console.log('setCurrentUser user', this);
-                this.setCurrentUser(this.SessionService.getUser()).then(()=> {
-                    console.log('setCurrentUser user, role', !!this.currentUser, this.currentUserRole);
-                    resolve(this.currentUserRole)
-                })
-            }
-
-        })
-    }
-
-    getCurrentUserId():number {
-        return this.currentUser.userId;
+    get permissions():Array<Object> {
+        return this.SessionService.getPermissions();
     }
 
     /*setUserpic (file: any) : Promise<IUserProfile> {

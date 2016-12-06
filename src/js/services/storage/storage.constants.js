@@ -1,4 +1,4 @@
-const StorageSettings = {
+export let _settings = {
     authToken: {
         format: 'single',
         key: null
@@ -10,6 +10,14 @@ const StorageSettings = {
     userGroup: {
         format: 'multi',
         key: 'userGroupId'
+    },
+    getUserProfile: {
+
     }
 }
-export default StorageSettings
+export let _requests = {
+    getUserProfile: {
+        type: 'userProfile',
+        key: 'userId'
+    }
+}

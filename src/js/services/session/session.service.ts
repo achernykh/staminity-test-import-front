@@ -1,7 +1,10 @@
+import {IUserProfile} from '../user/user.interface';
+
 export interface ISessionService {
 	getToken():string;
-	getUser():number;
-	setToken(value:string):void;
+	getUser():IUserProfile;
+	getPermissions():Array<Object>
+	setToken(value:Object):void;
 	delToken():void;
 }
 
@@ -11,15 +14,16 @@ export default class SessionService implements ISessionService {
 	private storageType:string;
 	private tokenKey:string;
 	private userKey:string;
+	private permissionsKey:string;
 	private $window: any;
 
 	constructor($window:any) {
-		this.storageType = 'sessionStorage';
+		this.storageType = 'localStorage';
 		this.tokenKey = 'authToken';
-		this.userKey = 'authToken';
+		this.userKey = 'userProfile';
+		this.permissionsKey = 'systemFunctions';
 		this.memoryStore = {};
 		this.$window = $window;
-		console.log('SessionService => constructor =', this)
 	}
 
 	getToken():string {
@@ -30,16 +34,24 @@ export default class SessionService implements ISessionService {
 		}
 	}
 
-	getUser():number {
+	getUser():IUserProfile {
 		try {
-			return JSON.parse(this.$window[this.storageType].getItem(this.userKey)).userId;
+			console.log('SessionService => getUser', this.$window.localStorage.getItem(this.tokenKey))
+			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
 		}
 	}
 
-	setToken(value:string):void {
-		//console.log('SessionService => setToken =', JSON.stringify(value), this);
+	getPermissions():Array<Object> {
+		try {
+			return JSON.parse(this.$window[this.storageType].getItem(this.userKey))[this.permissionsKey];
+		} catch (e) {
+			return this.memoryStore[this.tokenKey];
+		}
+	}
+
+	setToken(value:Object):void {
 		try {
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(value));
 		} catch (e) {

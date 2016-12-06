@@ -31,6 +31,10 @@ system-message {
     &.show-me {
       opacity: 1;
       height: 15vh;
+
+      @media (max-width: 600px) {
+        height: 20vh;
+      }
     }
 
     .title, .text {

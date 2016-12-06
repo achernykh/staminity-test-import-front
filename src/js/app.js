@@ -16,8 +16,8 @@ import './settings'
 import './config/app.templates'
 import './services'
 
-sessionStorage.setItem('authToken', '{ "token": "c5850e1b-80c8-c5b2-abd4-641ed2bb8af4", "userId": 4 }')
-sessionStorage.setItem('userProfile#4', `{
+//sessionStorage.setItem('authToken', '{ "token": "c5850e1b-80c8-c5b2-abd4-641ed2bb8af4", "userId": 4 }')
+localStorage.setItem('userProfile#4', `{
     "email": "sneik2@mail.ru",
     "public": { "lastName": "Евгений", "firstName": "Хабаров" },
     "display": {"language": "ru","units":"metric","firstDayOfWeek":1},
@@ -27,7 +27,7 @@ sessionStorage.setItem('userProfile#4', `{
     "privacy": [ { "name": "personalInfo", "setup": 10}, {"name": "personalSummary","setup": 20}, {"name": "activitySummary","setup": 30},{"name": "activityActualDetails",	"setup": 40	},{	"name": "activityPlanDetails","setup": 50}]}
 `)
 
-sessionStorage.setItem('userProfile#5', `{
+localStorage.setItem('userProfile#5', `{
     "email": "sneik2@mail.ru",
     "public": { "lastName": "Черных", "firstName": "Александр" },
     "display": {"language": "ru","units":"metric","firstDayOfWeek":1},

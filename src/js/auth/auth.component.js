@@ -9,10 +9,12 @@ class AuthCtrl {
 		this._$state = $state;
 		this.enabled = true;
 		this.state = 'form';
-		this.showConfirm = false;
+		this.showConfirm = true;
 		this.credentials = {
-			firstName: 'Alexander',
-			lastName: 'Chernykh',
+			public: {
+				firstName: 'Alexander',
+				lastName: 'Chernykh'
+			},
 			email: 'sneik2@mail.ru',
 			password: '!QAZxsw2',
 			personal: {

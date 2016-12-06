@@ -73,7 +73,7 @@ export class SocketService implements ISocketService {
                             delete this.requests[response.requestId];
                             // TODO после обновления API добавить определение status и развилку на reject, resolve
                             console.log('onMessage resolve=', response);
-                            callback.resolve(response.data.value);
+                            callback.resolve(response.data);
                         } else {
                             // Обработкчик сообщений без requestId//
                             // TODO Согласовать с Денисом наличие таких сообщений
@@ -128,11 +128,20 @@ export class SocketService implements ISocketService {
      * @returns {Promise<T>}
      */
     send(request:IWSRequest):Promise<any> {
-        request.requestId = this.requestId + 1;
-        this.ws.send(JSON.stringify(request));
-        let deferred = this._$q.defer();
-        this.requests[request.requestId] = deferred;
-        console.log('WS Service: wsRequest', request, this.requests, deferred);
-        return deferred.promise; // ожидаем ответа по заданию в wsResponse
+        // Сначала запрашиваем обьект в локальном хранилище, если не найдено значение, то отправляем запрос на сервер
+        return this._StorageService.get(request)
+                .then((result) => {
+                    console.log('storage data found=', result)
+                    return Promise.resolve(result);
+                }, () => {
+                    console.log('storage data not found')
+                    request.requestId = this.requestId + 1;
+                    this.ws.send(JSON.stringify(request));
+                    let deferred = this._$q.defer();
+                    this.requests[request.requestId] = deferred;
+                    console.log('WS Service: wsRequest', request, this.requests, deferred);
+                    return deferred.promise; // ожидаем ответа по заданию в wsResponse
+                })
+
     }
 }

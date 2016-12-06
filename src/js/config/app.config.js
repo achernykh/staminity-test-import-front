@@ -110,6 +110,17 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
 			    }
 		    }
 	    })
+        // Представление Auth: SignOut
+        .state('signout', {
+            url: "/signout",
+            loginRequired: true,
+            authRequired: ['func1'],
+            onEnter: ($state, SessionService, UserService) => {
+                SessionService.delToken()
+                $state.go('signin')
+            }
+
+        })
         // Представление Календарь
         .state('calendar', {
             url: "/calendar",
@@ -151,7 +162,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     return ViewService.getParams('settings')
                 },
                 user: function (UserService, $stateParams) {
-                    return UserService.getProfile($stateParams.id)
+                    return UserService.getProfile(Number($stateParams.id))
                 },
                 wsRequired: function (SocketService) {
                     return SocketService.open()

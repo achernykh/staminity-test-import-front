@@ -84,7 +84,7 @@ export class RESTService implements IRESTService {
 			.then((result:any)=> {
 				return result.data
 			}, (response) => {
-				throw response.data.data[0].value // Предполагаем, что сервер ответил ошибкой в формате systemMessage
+				throw response.data.value // Предполагаем, что сервер ответил ошибкой в формате systemMessage
 			});
 	}
 

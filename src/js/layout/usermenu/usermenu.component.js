@@ -6,8 +6,11 @@ class UserMenuCtrl {
         this._$location = $location;
         this.menu = UserMenuSettings;
     }
-    $onInit(){
+
+    getAvatar() {
+        return
     }
+
     onUserMenu($mdOpenMenu, ev){
         let originatorEv = ev;
         $mdOpenMenu(ev);

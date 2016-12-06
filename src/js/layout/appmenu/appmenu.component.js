@@ -7,7 +7,7 @@ class ApplicationMenuCtrl {
         this.usermenu = UserMenuSettings
         this._AuthService = AuthService
         this._$mdSidenav = $mdSidenav
-        this.user = UserService.getCurrentUser();
+        this.user = UserService.profile;
     }
     $onInit(){
     }

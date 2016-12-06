@@ -16,10 +16,11 @@ export default class ApplicationMessageService {
     show(message){
         let id = "appmes#" + ++this.count;
         let delay = message.delay || 10;
+        let status = message.status || 'error';
         angular
             .element(document.getElementsByTagName('staminity-application'))
             .append(this._$compile(
-                '<system-message id='+id+' show="true" status="\'' + message.status +
+                '<system-message id='+id+' show="true" status="\'' + status +
                 '\'" title="\'' + message.title +
                 '\'" text="\'' + message.text +
                 '\'" delay="\'' + delay +
