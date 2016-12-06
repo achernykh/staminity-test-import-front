@@ -9,14 +9,16 @@ class AuthCtrl {
 		this._$state = $state;
 		this.enabled = true;
 		this.state = 'form';
-		this.showConfirm = true;
+		this.showConfirm = false;
 		this.credentials = {
 			public: {
-				firstName: 'Alexander',
-				lastName: 'Chernykh'
+				firstName: '',
+				lastName: '',
+				avatar: 'default.jpg',
+				background: 'default.jpg'
 			},
-			email: 'sneik2@mail.ru',
-			password: '!QAZxsw2',
+			email: '',
+			password: '',
 			personal: {
 				role: true
 			}
@@ -54,6 +56,7 @@ class AuthCtrl {
 			.then((success) => {
 				console.log('signup success=', success)
 				this.showConfirm = true
+				this._SystemMessageService.show(success)
 			}, (error) => {
 				console.log('signup error=', error)
 				this._SystemMessageService.show(error)

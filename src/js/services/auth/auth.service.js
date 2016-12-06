@@ -87,6 +87,9 @@ export default class AuthService {
 	 */
     signUp(request) {
         return this._RESTService.postData(new PostData('/signup',request))
+	        .then((response) => {
+				return response.value; // ожидаем получить systemMessage
+			})
     }
 
 	/**
