@@ -62,9 +62,9 @@ export class SocketService implements ISocketService {
                 // Соединие установлено успешно
                 else if (this.ws.readyState == 1) {
                     // Слушаем входящие сообщения
-                    this.ws.onMessage((event:any) => {
+                    this.ws.onMessage((event) => {
                         console.log('ApiService: new websocket message event', event);
-                        let response:IWSResponse = JSON.parse(<string>event.data);
+                        let response:IWSResponse = JSON.parse(<string>event['data']);
                         // Если во входящем сообшение есть признак requestId,
                         // то закрываем запущенное ранее задание
                         if (!!this.requests[response.requestId]) {
@@ -73,7 +73,7 @@ export class SocketService implements ISocketService {
                             delete this.requests[response.requestId];
                             // TODO после обновления API добавить определение status и развилку на reject, resolve
                             console.log('onMessage resolve=', response);
-                            callback.resolve(response.data.value);
+                            callback.resolve(response);
                         } else {
                             // Обработкчик сообщений без requestId//
                             // TODO Согласовать с Денисом наличие таких сообщений

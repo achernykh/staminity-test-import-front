@@ -30,7 +30,7 @@ class PutRequest implements IWSRequest {
     }
 }
 
-class GetSummaryStatistics implements IWSRequest {
+class GetSummaryStatisticsRequest implements IWSRequest {
     requestType:string;
     requestData:any;
 
@@ -134,7 +134,7 @@ export default class UserService {
      * @returns {Promise<TResult>}
      */
     getSummaryStatistics(id: number, start: Date, end: Date, group: string, data: Array<string>):Promise<Object> {
-        return this.SocketService.send(new GetSummaryStatistics(id,start,end,group,data))
+        return this.SocketService.send(new GetSummaryStatisticsRequest(id,start,end,group,data))
             .then((data:any) => {
                 return data.value
             });

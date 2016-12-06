@@ -29,9 +29,9 @@
                                             <button ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
                                         </div>
                                         <div flex=none hide show-gt-xs>
-                                              <md-button>Изменить</md-button>
+                                              <md-button class="flat">Изменить</md-button>
                                         </div>
-                                          <md-fab-speed-dial md-theme="default">
+                                          <md-fab-speed-dial class="animated bounceIn" md-theme="default">
                                               <md-fab-trigger>
                                                   <md-button aria-label="menu" class="md-fab md-accent"
                                                              ng-disabled="!$ctrl.isDirty()"
@@ -56,8 +56,8 @@
                                   <ng-include src="'settings/articles/settings.privacy.html'"></ng-include>
                                   <ng-include src="'settings/articles/settings.display.html'"></ng-include> <!--
                                   <ng-include src="'settings/articles/settings.account.html'"></ng-include>
-                                  <ng-include src="'settings/articles/settings.sync.html'"></ng-include>
-                                  <ng-include src="'settings/articles/settings.zones.html'"></ng-include> -->
+                                  <ng-include src="'settings/articles/settings.sync.html'"></ng-include>-->
+                                  <ng-include src="'settings/articles/settings.zones.html'"></ng-include>
                                   <article flex="none" ng-include="'settings/articles/settings.notifications.html'"></article>
                                   <!--<ng-include src="'settings/articles/settings.templates.html'"></ng-include> -->
                                 </section>
@@ -75,40 +75,3 @@
     </section>
 </application-frame>
 <!-- end of common section -->
-<!--
-<md-fab-speed-dial ng-class="demo.selectedMode">
-    <md-fab-trigger>
-        <md-button
-                aria-label="menu"
-                class="md-fab md-accent"
-                ng-class="{'md-warn': (!vm.publicForm.$valid ||
-                                          !vm.personalFirstForm.$valid || !vm.personalSecondForm.$valid ||
-                                          !vm.privateFirstForm.$valid || !vm.privateSecondForm.$valid ||
-                                          !vm.privacyForm.$valid ||
-                                          !vm.displayForm.$valid ||
-                                          !vm.trainingZonesForm.$valid ||
-                                          !vm.notificationForm.$valid
-                                          )}"
-                ng-disabled="!vm.publicForm.$dirty &&
-                                !vm.personalFirstForm.$dirty && !vm.personalSecondForm.$dirty &&
-                                !vm.privateFirstForm.$dirty && !vm.privateSecondForm.$dirty &&
-                                !vm.privacyForm.$dirty &&
-                                !vm.displayForm.$dirty &&
-                                !vm.trainingZonesForm.$dirty &&
-                                !vm.notificationForm.$dirty"
-                ng-click="vm.updateProfile({
-                                public: vm.publicForm.$dirty,
-                                personal: vm.personalFirstForm.$dirty || vm.personalSecondForm.$dirty,
-                                private: vm.privateFirstForm.$dirty || vm.privateSecondForm.$dirty,
-                                privacy: vm.privacyForm.$dirty,
-                                display: vm.displayForm.$dirty,
-                                trainingZones: vm.trainingZonesForm.$dirty,
-                                notifications: vm.notificationForm.$dirty})">
-
-            <md-icon md-svg-src="/pic/save.svg"></md-icon>
-        </md-button>
-    </md-fab-trigger>
-</md-fab-speed-dial>
-</md-card-content>
-
-</md-card>-->

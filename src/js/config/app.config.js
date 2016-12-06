@@ -61,6 +61,9 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('calendar')
+                },
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {
