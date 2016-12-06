@@ -50,7 +50,7 @@ export class CalendarService {
         return this.SocketService.send(new GetRequest(start, end, userId, itemId))
             .then((result) => {
                 console.log('getCalendarItem=', result)
-                return result.data.map((item) => {
+                return result.map((item) => {
                     if(item.type == 'calendarItem')
                         return item.value
                 });

@@ -29,7 +29,6 @@
                 <md-input-container md-no-float class="no-message">
                     <input required type="password" name="password" ng-model="$ctrl.credentials.password"
                            ng-disabled="!$ctrl.enabled"
-                           minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                            placeholder="{{ 'app.auth.pass' | translate }}">
                     <div ng-messages="$ctrl.signinForm.password.$error" role="alert">
                         <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>app.auth.errPass</div>

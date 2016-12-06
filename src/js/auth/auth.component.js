@@ -17,8 +17,8 @@ class AuthCtrl {
 				avatar: 'default.jpg',
 				background: 'default.jpg'
 			},
-			email: '',
-			password: '',
+			email: 'testuser3@mail.ru',
+			password: 'testuser3',
 			personal: {
 				role: true
 			}

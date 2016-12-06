@@ -645,9 +645,9 @@ let userProfile2 = {
 
 }
 
-sessionStorage.setItem('authToken', JSON.stringify(authToken))
-sessionStorage.setItem('userProfile#4', JSON.stringify(userProfile1))
-sessionStorage.setItem('userProfile#5', JSON.stringify(userProfile2))
+//localStorage.setItem('authToken', JSON.stringify(authToken))
+//localStorage.setItem('userProfile#4', JSON.stringify(userProfile1))
+//localStorage.setItem('userProfile#5', JSON.stringify(userProfile2))
 
 const requires = [
     'ngMaterial',
