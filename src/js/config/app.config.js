@@ -56,10 +56,14 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         // Представление Календарь
         .state('calendar', {
             url: "/calendar",
-            access: [],
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('calendar')
+                },
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {

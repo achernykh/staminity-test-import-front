@@ -16,7 +16,7 @@ import './settings'
 import './config/app.templates'
 import './services'
 
-let authToken = {token: "c5850e1b-80c8-c5b2-abd4-641ed2bb8af4", userId: 4}
+let authToken = {token: "431c2df6-151f-ca5a-b8e0-afd76f99b7aa", userId: 4}
 let userProfile1 = {
 	userId: 4,
 	revision: 1,

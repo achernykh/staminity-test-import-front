@@ -73,7 +73,7 @@ export class SocketService implements ISocketService {
                             delete this.requests[response.requestId];
                             // TODO после обновления API добавить определение status и развилку на reject, resolve
                             console.log('onMessage resolve=', response);
-                            callback.resolve(response.data.value);
+                            callback.resolve(response);
                         } else {
                             // Обработкчик сообщений без requestId//
                             // TODO Согласовать с Денисом наличие таких сообщений
