@@ -3,13 +3,14 @@
  */
 
 import translateApp from './translate/appbox.translate'
-import { _APP_MENU } from './translate/appmenu.translate.js'
-import { _USER_MENU } from './translate/usermenu.translate.js'
-import { _SETTINGS } from './translate/settings.translate.js'
-import { _FORM } from './translate/form.translate.js'
+import {_APP_MENU} from './translate/appmenu.translate.js'
+import {_USER_MENU} from './translate/usermenu.translate.js'
+import {_SETTINGS} from './translate/settings.translate.js'
+import {_FORM} from './translate/form.translate.js'
+import {_MESSAGE} from './translate/message.translate.js'
 
 function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
-    $urlRouterProvider) {
+                   $urlRouterProvider) {
     'ngInject';
 
     //TODO добавить коммент
@@ -28,7 +29,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             url: "/",
             access: [],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('welcome')
                 }
             },
@@ -53,13 +54,80 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
+        // Представление Auth: SignIn
+        .state('signin', {
+            url: "/signin",
+            loginRequired: false,
+            authRequired: ['func1'],
+            resolve: {
+                view: function (ViewService) {
+                    return ViewService.getParams('signin')
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {view: 'view.background'}
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {view: 'view.header'}
+                },
+                "application": {
+                    component: "auth",
+                    bindings: {view: 'view.application'}
+                },
+                "form@signin": {
+                    templateUrl: 'auth/state/signin.html'
+                }
+            }
+        })
+        // Представление Auth: SignUp
+	    .state('signup', {
+		    url: "/signup",
+		    loginRequired: false,
+		    authRequired: ['func1'],
+		    resolve: {
+			    view: function (ViewService) {
+				    return ViewService.getParams('signup')
+			    }
+		    },
+		    views: {
+			    "background": {
+				    component: "staminityBackground",
+				    bindings: {view: 'view.background'}
+			    },
+			    "header": {
+				    component: 'staminityHeader',
+				    bindings: {view: 'view.header'}
+			    },
+			    "application": {
+				    component: "auth",
+				    bindings: {view: 'view.application'}
+			    },
+			    "form@signup": {
+				    templateUrl: 'auth/state/signup.html'
+			    }
+		    }
+	    })
+        // Представление Auth: SignOut
+        .state('signout', {
+            url: "/signout",
+            loginRequired: true,
+            authRequired: ['func1'],
+            onEnter: ($state, SessionService, UserService) => {
+                SessionService.delToken()
+                $state.go('signin')
+            }
+
+        })
         // Представление Календарь
         .state('calendar', {
             url: "/calendar",
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('calendar')
                 },
                 wsRequired: function(SocketService) {
@@ -93,14 +161,19 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('settings')
-                },
-                user: function(UserService, $stateParams){
-                    return UserService.getProfile($stateParams.id)
                 },
                 wsRequired: function(SocketService) {
                     return SocketService.open()
+                },
+                user: function (UserService, $stateParams, SystemMessageService) {
+                    return UserService.getProfile(Number($stateParams.id))
+	                    .catch((error) => {
+		                    SystemMessageService.show(error,'warning')
+		                    // TODO перейти на страницу 404
+		                    throw error
+	                    })
                 }
             },
             views: {
@@ -130,13 +203,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('user')
                 },
-                user: function(UserService, $stateParams){
+                user: function (UserService, $stateParams) {
                     return UserService.getProfile($stateParams.id)
                 },
-                wsRequired: function(SocketService) {
+                wsRequired: function (SocketService) {
                     return SocketService.open()
                 }
             },
@@ -166,13 +239,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('club')
                 },
-                user: function(UserService, $stateParams){
+                user: function (UserService, $stateParams) {
                     return UserService.getProfile($stateParams.id)
                 },
-                wsRequired: function(SocketService) {
+                wsRequired: function (SocketService) {
                     return SocketService.open()
                 }
             },
@@ -202,10 +275,10 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('users')
                 },
-                wsRequired: function(SocketService) {
+                wsRequired: function (SocketService) {
                     return SocketService.open()
                 }
             },
@@ -267,18 +340,20 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         }).dark()
 
     // Текст представлений
-  	$translateProvider.translations('en', { app: translateApp['en'] });
-    $translateProvider.translations('ru', { app: translateApp['ru'] });
-	$translateProvider.translations('ru', { appMenu: _APP_MENU['ru'] });
-	$translateProvider.translations('en', { appMenu: _APP_MENU['en'] });
-	$translateProvider.translations('ru', { userMenu: _USER_MENU['ru'] });
-	$translateProvider.translations('en', { userMenu: _USER_MENU['en'] });
-    $translateProvider.translations('ru', { settings: _SETTINGS['ru'] });
-    $translateProvider.translations('en', { settings: _SETTINGS['en'] });
-    $translateProvider.translations('ru', { form: _FORM['ru'] });
-    $translateProvider.translations('en', { form: _FORM['en'] });
+    $translateProvider.translations('en', {app: translateApp['en']});
+    $translateProvider.translations('ru', {app: translateApp['ru']});
+    $translateProvider.translations('ru', {appMenu: _APP_MENU['ru']});
+    $translateProvider.translations('en', {appMenu: _APP_MENU['en']});
+    $translateProvider.translations('ru', {userMenu: _USER_MENU['ru']});
+    $translateProvider.translations('en', {userMenu: _USER_MENU['en']});
+    $translateProvider.translations('ru', {settings: _SETTINGS['ru']});
+    $translateProvider.translations('en', {settings: _SETTINGS['en']});
+    $translateProvider.translations('ru', {form: _FORM['ru']});
+    $translateProvider.translations('en', {form: _FORM['en']});
+    $translateProvider.translations('ru', {message: _MESSAGE['ru']});
+    $translateProvider.translations('en', {message: _MESSAGE['en']});
 
-	$translateProvider.preferredLanguage('ru');
+    $translateProvider.preferredLanguage('ru');
     $translateProvider.fallbackLanguage('ru');
 
 }

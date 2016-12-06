@@ -71,9 +71,15 @@ export class SocketService implements ISocketService {
                             console.info('ApiService: callback', this.requests[response.requestId]);
                             let callback:any = this.requests[response.requestId];
                             delete this.requests[response.requestId];
-                            // TODO после обновления API добавить определение status и развилку на reject, resolve
+                            if(response.hasOwnProperty('errorMessage'))
+                                // возвращаем код ошибки в компонент для дальнейшей обработки
+	                            callback.reject(response.errorMessage)
+	                        else
+                            // возвращаем результат ответа
+	                        	callback.resolve(response.data)
+
                             console.log('onMessage resolve=', response);
-                            callback.resolve(response);
+
                         } else {
                             // Обработкчик сообщений без requestId//
                             // TODO Согласовать с Денисом наличие таких сообщений
@@ -134,5 +140,21 @@ export class SocketService implements ISocketService {
         this.requests[request.requestId] = deferred;
         console.log('WS Service: wsRequest', request, this.requests, deferred);
         return deferred.promise; // ожидаем ответа по заданию в wsResponse
+
+        // Посик в storage
+        // Сначала запрашиваем обьект в локальном хранилище, если не найдено значение, то отправляем запрос на сервер
+        /*return this._StorageService.get(request)
+            .then((result) => {
+                console.log('storage data found=', result)
+                return Promise.resolve(result);
+            }, () => {
+                console.log('storage data not found')
+                request.requestId = this.requestId + 1;
+                this.ws.send(JSON.stringify(request));
+                let deferred = this._$q.defer();
+                this.requests[request.requestId] = deferred;
+                console.log('WS Service: wsRequest', request, this.requests, deferred);
+                return deferred.promise; // ожидаем ответа по заданию в wsResponse
+            })*/
     }
 }

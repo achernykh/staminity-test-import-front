@@ -184,14 +184,10 @@ img.avatar{
   margin: 0px 0px !important;
 }
 
-html, body, .container {
-  //height: 100%;
-}
-
 body {
   background-color: $primary-hue-3;
   min-width: 320px;
-  min-height: 480px;
+  //min-height: 480px;
   height: auto;
   width: auto;
   overflow-x: hidden;

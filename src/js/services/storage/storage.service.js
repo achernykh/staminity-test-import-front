@@ -1,4 +1,4 @@
-import StorageSettings from './storage.constants';
+import {_settings, _requests} from './storage.constants';
 
 /**
  * StorageService предназчен для ускорения работы пользователя с данными, за счет формирования и обработки кэша данных.
@@ -8,7 +8,7 @@ import StorageSettings from './storage.constants';
  * В качестве библиотеки для работы с хранилищем в браузере используется localForage, а если пользователь не пожелал
  * сохранять свои данные то через $window.sessionStorage
  *
- * Обьекты в кэше храняться в формате key/value. Через настройки StorageSettings определяется механизм формирования
+ * Обьекты в кэше храняться в формате key/value. Через настройки _settings определяется механизм формирования
  * ключа для каждого обьекта, а также формат хранения значения.
  *
  * Варианты хранения ключа:
@@ -58,7 +58,7 @@ export default class StorageService {
         this._$rootScope = $rootScope;
         this._$window = $window;
         this.incognitoSession = false;
-        this.settings = StorageSettings;
+        //_settings = _settings;
 
         // Конфигурация доступа к локальному хранилищу данных
         this.storage = localforage.createInstance({
@@ -67,10 +67,9 @@ export default class StorageService {
             storeName : 'general', // Should be alphanumeric, with underscores.
             name: 'StaminityAppCache'
         });
-        //this._$log.debug('StorageService: run in incognito session', !!this._$window.sessionStorage.getItem('authToken'));
-        this.incognitoSession = !!this._$window.sessionStorage.getItem('authToken');
+        this.incognitoSession = !!this._$window.localStorage.getItem('authToken');
         if(this.incognitoSession)
-            console.log('StorageService: run in incognito session',!!this._$window.sessionStorage.getItem('authToken'));
+            console.log('StorageService: run in incognito session',!!this._$window.localStorage.getItem('authToken'));
 
     }
     /**
@@ -79,39 +78,49 @@ export default class StorageService {
      * @param dataKey
      * @returns {Promise}
      */
-    get(type, dataKey){
-        let objKey = type, result;
+    get(request){
+        let requestType = request['requestType']; // название типа запроса по api
+        let objKey = _requests[requestType].type, result; // название типа обьекта по api
+        let dataKey = request['requestData'][_requests[requestType].key];
 
         return new Promise((resolve, reject) => {
 
-            console.log(`StorageService: get()\n\ttype=${objKey}\n\tkey=${dataKey}\n\tincognitoSession=${this.incognitoSession}`);
+            console.log(`StorageService: get()
+                        type=${objKey}
+                        key=${dataKey}
+                        request=${request['requestData.userId']}
+                        incognitoSession=${this.incognitoSession}`);
+
             if (this.incognitoSession)
             {
                 if (objKey == 'authToken' || objKey == 'userProfile')
                 {
                     // Если формат single (хранение в формате ключ=type#id...
-                    if(this.settings[type].format == 'single'){
+                    if(_settings[objKey].format == 'single'){
                         if(!angular.isArray(dataKey))
                             dataKey = [dataKey];
-                        if (this.settings[objKey].key)
-                            this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
+                        if (_settings[objKey].key)
+                            _settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
                     }
-                    result = JSON.parse(this._$window.sessionStorage.getItem(objKey)) || null
+                    result = JSON.parse(this._$window.localStorage.getItem(objKey)) || null
                     console.log('get storage result=',result)
-                    resolve(result);
+                    if(!!result)
+                        resolve(result);
+                    else
+                        throw new Error('data not found');
                 } else
                     resolve(null);
             }
             else {
                 // Если формат single (хранение в формате ключ=type#id...
-                if(this.settings[type].format === 'single' && !!this.settings[type].key){
+                if(_settings[type].format === 'single' && !!_settings[type].key){
                     if(!angular.isArray(dataKey))
                         dataKey = [dataKey];
-                    this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
+                    _settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
                 }
                 this.storage.getItem(objKey).then((data) => {
                     this._$log.debug('StorageService: get, data=', type, data);
-                    if (this.settings[type].format == 'multi' && !!data && !!dataKey)
+                    if (_settings[type].format == 'multi' && !!data && !!dataKey)
                         resolve(data[dataKey]);
                     else
                         resolve(data);
@@ -133,11 +142,11 @@ export default class StorageService {
             .then((local)=>{
                 this._$log.debug('StorageService: get, location=', type, local);
                 // Если формат single (хранение в формате ключ=type#id...
-                if(this.settings[type].format === 'single'){
+                if(_settings[type].format === 'single'){
                     if(!angular.isArray(dataKey))
                         dataKey = [dataKey];
-                    if (this.settings[objKey].key)
-                        this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
+                    if (_settings[objKey].key)
+                        _settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
                 }
                 // Поиск в IndexDB
                 if(local){
@@ -156,7 +165,7 @@ export default class StorageService {
                 }
             });*/
 
-        //this._$log.debug('StorageService: new task ', type, dataKey, ' settings=', this.settings[type], ' key=', objKey);
+        //this._$log.debug('StorageService: new task ', type, dataKey, ' settings=', _settings[type], ' key=', objKey);
         //this._$log.debug('StorageService: search result=', !this.storage.getItem(objKey));
         /*if(!this.storage.getItem(objKey) && !this._$window.sessionStorage.getItem(objKey))
             result.reject('EMPTY');
@@ -167,7 +176,7 @@ export default class StorageService {
                     objData = JSON.parse(objData);
                     if(angular.isObject(objData) || angular.isArray(objData)){
                         //this._$log.debug('StorageService: data get=', objData, type, dataKey, objData[dataKey]);
-                        if (this.settings[type].format === 'multi'){
+                        if (_settings[type].format === 'multi'){
                             // Если не передан ключ для обьекта, то возвращаем весь обьект. Если передан, то только его
                             // значение
                             if(!angular.isUndefined(dataKey))
@@ -212,22 +221,22 @@ export default class StorageService {
                     if (objKey == 'authToken' || objKey == 'userProfile')
                     {
                         // Формат хранения single
-                        if(this.settings[message.type].format == 'single')
-                            if (this.settings[objKey].key)
-                                this.settings[objKey].key.forEach((index) => {objKey = objKey + '#' + message.value[index]});
+                        if(_settings[message.type].format == 'single')
+                            if (_settings[objKey].key)
+                                _settings[objKey].key.forEach((index) => {objKey = objKey + '#' + message.value[index]});
                         this._$window.sessionStorage.setItem(objKey, JSON.stringify(message.value));
                     }
                 } else {
                     // Формат хранения single
-                    if(this.settings[message.type].format == 'single')
-                        if (this.settings[objKey].key)
-                            this.settings[objKey].key.forEach((index) => {message.type = message.type + '#' + message.value[index]});
+                    if(_settings[message.type].format == 'single')
+                        if (_settings[objKey].key)
+                            _settings[objKey].key.forEach((index) => {message.type = message.type + '#' + message.value[index]});
 
                     task.push(
                         this.storage.getItem(message.type).then((data) => {
                             // Если уже есть данные в обьекте
-                            if (!!data && this.settings[message.type].format == 'multi') {
-                                dataKey = message.value[this.settings[message.type].key];
+                            if (!!data && _settings[message.type].format == 'multi') {
+                                dataKey = message.value[_settings[message.type].key];
                                 message.value = angular.merge({}, data, {[dataKey]: message.value});
                             }
                             this._$log.debug('StorageService: upload task=', objKey, message.type, message.value);
@@ -264,16 +273,16 @@ export default class StorageService {
                 objKey = this.formDataKey(type, dataKey);
                 objKey = message.type;
                 // Формат хранения single
-                if(this.settings[message.type].format == 'single'){
-                    if (this.settings[objKey].key)
-                        this.settings[objKey].key.forEach( index => {
+                if(_settings[message.type].format == 'single'){
+                    if (_settings[objKey].key)
+                        _settings[objKey].key.forEach( index => {
                             objKey = objKey + '#' + message.value[index];
                         });
                     //result.notify('upload'+message.type+' '+message.value);
                 }
                 // Формат хранения multi
                 else {
-                    dataKey = message.value[this.settings[message.type].key];
+                    dataKey = message.value[_settings[message.type].key];
                     // Если в хранилище есть данные по данному типу
                     if (this._$window.sessionStorage.getItem(message.type) && this.storage.getItem(message.type)){
                         storageValue = JSON.parse(this._$window.sessionStorage[message.type] ||
@@ -316,11 +325,11 @@ export default class StorageService {
         // Если формат single (хранение в формате ключ=type#id...
         //this._$log.debug('StorageService: new task for clear=', objKey);
 
-        if(this.settings[objKey].format === 'single'){
+        if(_settings[objKey].format === 'single'){
             if(!angular.isArray(dataKey))
                 dataKey = [dataKey];
-            if (this.settings[objKey].key)
-                this.settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
+            if (_settings[objKey].key)
+                _settings[objKey].key.forEach( (index, i) => objKey = objKey + '#' + dataKey[i]);
         }
 
         if (this.local)

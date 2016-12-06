@@ -4,16 +4,9 @@ class HeaderCtrl {
 		this._AuthService = AuthService;
 		this._$log = $log;
 		this._$mdSidenav = $mdSidenav;
-		this.user = UserService.getCurrentUser();
+		this.user = UserService.profile;
+		console.log('HeaderComponent: $onInit session = ', this.user);
 	}
-	$onInit() {
-		console.log(`HeaderComponent: $onInit session = ${this.user}`);
-	}
-
-	$onChanges(changes){
-		this._$log.debug('HeaderComponent: $onChanges', changes);
-	}
-
 	toggleSlide(component) {
 		this._$mdSidenav(component).toggle().then(() => angular.noop);
 	}

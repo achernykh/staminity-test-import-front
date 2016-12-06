@@ -1,7 +1,5 @@
 import appConfig from './config/app.config.js'
 import appRun from './config/app.run.js'
-import appMock from './config/e2e/app.mock.js'
-
 
 import './layout'
 import './landingpage'
@@ -678,8 +676,6 @@ const requires = [
 
 angular
 	.module('staminity.application', requires)
-	//.constant('_UserRoles', UserRoles)
-	//.constant('_PageAccess', PageAccess)
 	.config(appConfig)
 	.run(appRun)
 
