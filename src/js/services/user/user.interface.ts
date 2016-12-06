@@ -114,12 +114,12 @@ export interface IUserProfile {
     };
     // Connections
     connections: {
-        coaches: Array<IUserProfileShort>; // тренеры текущего владельца профиля
-        clubs: Array<IGroupProfile>; // клубы, в которых состоит владелец профиля
-        athletes: Array<IUserProfileShort>; // атлеты, которых тренирует владелец профиля
-        followers: Array<IUserProfileShort>; // подписчики владельца профиля
-        following: Array<IUserProfileShort>; // подписки владельца профиля
-        friends: Array<IUserProfileShort>; // список друзей владельца профиля
+        coaches: IGroupProfile; // тренеры текущего владельца профиля
+        clubs: IGroupProfile; // клубы, в которых состоит владелец профиля
+        athletes: IGroupProfile; // атлеты, которых тренирует владелец профиля
+        followers: IGroupProfile; // подписчики владельца профиля
+        following: IGroupProfile; // подписки владельца профиля
+        friends: IGroupProfile; // список друзей владельца профиля
     };
     // Кнопки возможного взаимодействия, доступные посетителю профиля
     availableInteractions: {
