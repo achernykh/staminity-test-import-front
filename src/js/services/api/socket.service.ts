@@ -3,6 +3,7 @@ import {ISessionService} from '../session/session.service';
 
 export interface IWSResponse {
     requestId:number;
+    errorMessage?:string;
     data:any;
 }
 
