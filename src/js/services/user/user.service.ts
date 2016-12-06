@@ -24,40 +24,43 @@ export default class UserService {
         return this.currentUser
     }
 
-    getProfile(id: number) : Promise<UserProfile> {
-
-        return new Promise((resolve, reject) => {
-            console.log('getProfile, id=', id);
-            this._StorageService.get('userProfile', id)
-                .then((success: UserProfile) => {
-                    console.log('getProfile storage success', success);
-                    resolve(success);
-                }, (empty) => {
-                    console.log('getProfile storage empty', empty);
-                    this._api.send('getUserProfile', id)
-                        .then((success: UserProfile) => {
-                            resolve(success)
-                        }, (error) => {
-                            console.log('getProfile: error in get() with key=', id);
-                        });
-                })
-        })
+    getProfile (id: number) : Promise<UserProfile> {
+        return this._api.wsRequest('getUserProfile', { userId: id, uri: "" })
+            .then((response) => response[0].value)
+        // new Promise((resolve, reject) => {
+        //     console.log('getProfile, id=', id);
+        //     this._StorageService.get('userProfile', id)
+        //         .then((success: UserProfile) => {
+        //             console.log('getProfile storage success', success);
+        //             resolve(success);
+        //         }, (empty) => {
+        //             console.log('getProfile storage empty', empty);
+        //             this._api.send('getUserProfile', id)
+        //                 .then((success: UserProfile) => {
+        //                     resolve(success)
+        //                 }, (error) => {
+        //                     console.log('getProfile: error in get() with key=', id);
+        //                 });
+        //         })
+        // })
     }
 
     get (key) : Promise<UserProfile> {
-        return this._StorageService.get('userProfile', key)
-            .then((success) => {
-                console.log('UserService: get userProfile', success);
-                return success;
-            }, (error) => {
-                console.log('UserService: get userProfile', error);
-                this._api.send('getUserProfile', key)
-                    .then((success) => {
-                        return success
-                    }, (error) => {
-                        console.log('UserService: error in get() with key=', key);
-                    });
-            })
+        return this._api.wsRequest('getUserProfile', { userId: key, uri: "" })
+            .then((response) => response[0].value)
+        // this._StorageService.get('userProfile', key)
+        //     .then((success) => {
+        //         console.log('UserService: get userProfile', success);
+        //         return success;
+        //     }, (error) => {
+        //         console.log('UserService: get userProfile', error);
+        //         this._api.send('getUserProfile', key)
+        //             .then((success) => {
+        //                 return success
+        //             }, (error) => {
+        //                 console.log('UserService: error in get() with key=', key);
+        //             });
+        //     })
     }
 
     setCurrentUser (id: number) : Promise<any> {

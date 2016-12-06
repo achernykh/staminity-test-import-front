@@ -1,0 +1,24 @@
+<md-card flex="none" layout="column" id="privacy" class="">
+    <md-card-title>
+        <h2 class="md-title" translate="settings.privacy.header"></h2>
+    </md-card-title>
+    <form name="$ctrl.privacyForm">
+      <md-list>
+        <div ng-repeat-start="group in $ctrl.user.privacy"
+             class="md-no-stiky md-subheader">
+            <div class="md-subheader-inner">
+                <div class="" translate="{{'settings.privacy.groups.'+group.name | translate }}"></div>
+                <div class="hint secondary dark" translate="{{'settings.privacy.groups.'+ group.name + 'Hint' | translate }}"></div>
+            </div>
+        </div>
+        <md-list-item>
+                <md-select flex class="" ng-model="group.setup" arial-label="Privacy Level">
+                    <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL"
+                            translate="{{::'settings.privacy.level.id'+level.id | translate}}"></md-option>
+                </md-select>
+        </md-list-item>
+
+        <md-divider ng-repeat-end ng-if="!$last"></md-divider>
+      </md-list>
+    </form>    
+</md-card>

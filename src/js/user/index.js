@@ -66,10 +66,11 @@ const friends = [
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, UserService, API) {
+    constructor ($scope, $mdDialog, dialogs, UserService, API) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
+        this.dialogs = dialogs;
         this.UserService = UserService;
         this.API = API;
         this.updateNoCache();
@@ -89,39 +90,29 @@ class ProfileCtrl {
     }
 
     uploadUserpic () {
-      this.$mdDialog.show({
-        controller: UploadDialogController,
-        templateUrl: 'profile/upload.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      })
+      this.dialogs.uploadPicture()
       .then((file) => this.User.setUserpic(file))
       .then((userProfile) => { this.app.user = userProfile })
       .then(() => { this.updateNoCache() });
     }
 
     uploadHeader () {
-      this.$mdDialog.show({
-        controller: UploadDialogController,
-        templateUrl: 'profile/upload.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      })
+      this.dialogs.uploadPicture()
       .then((file) => this.User.setHeader(file))
       .then((userProfile) => { this.app.user = userProfile })
       .then(() => { this.updateNoCache() });
     }
 
     getUsername () {
-        return this.app.user && `${this.app.user.public.firstName} ${this.app.user.public.lastName}`
+        return `${this.user.public.firstName} ${this.user.public.lastName}`
     }
 
     getUserpic () {
-        return `url('${this.app.user && this.app.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.app.user.public.avatar + this.getNoCache()) : '/assets/avatar/default.png'}')`
+        return `url('${this.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.user.public.avatar + this.getNoCache()) : '/assets/avatar/default.png'}')`
     }
 
     getHeader () {
-        return `url('${this.app.user &&  this.app.user.public.background? this.API.apiUrl('/content/background/' + this.app.user.public.background + this.getNoCache()) : '/assets/picture/pattern0.jpg'}')`
+        return `url('${this.user.public.background? this.API.apiUrl('/content/background/' + this.user.public.background + this.getNoCache()) : '/assets/picture/pattern0.jpg'}')`
     }
     
     updateNoCache () {

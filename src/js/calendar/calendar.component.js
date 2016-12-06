@@ -1,7 +1,6 @@
 import { CalendarSettings } from './calendar.constants.js';
 import { _PageAccess } from '../config/app.constants.js';
-
-const times = (n) => Array.from(new Array(n)).map((_, i) => i)
+import { times } from '../util/util'; 
 
   
 /**

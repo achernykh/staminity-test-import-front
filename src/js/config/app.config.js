@@ -2,6 +2,7 @@
  * Created by akexander on 22/07/16.
  */
 
+import util from '../util/util'
 import translateApp from './translate/appbox.translate'
 import { _APP_MENU } from './translate/appmenu.translate.js'
 import { _USER_MENU } from './translate/usermenu.translate.js'
@@ -92,11 +93,11 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function(ViewService) {
                     return ViewService.getParams('settings')
                 },
-                user: function(UserService, $stateParams){
-                    return UserService.getProfile($stateParams.id)
-                },
                 wsRequired: function(API) {
                     return API.wsOpen()
+                },
+                user: function(wsRequired, UserService, $stateParams){
+                    return UserService.getProfile($stateParams.id)
                 }
             },
             views: {
@@ -128,11 +129,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function(ViewService) {
                     return ViewService.getParams('user')
                 },
-                user: function(UserService, $stateParams){
-                    return UserService.getProfile($stateParams.id)
-                },
                 wsRequired: function(API) {
-                    return API.wsOpen()
+                    console.log('required start')
+                    return API.wsOpen().then(util.log('wsRequired'))
+                },
+                user: function(wsRequired, UserService, $stateParams) {
+                    console.log('user start')
+                    return UserService.getProfile($stateParams.id).then(util.log('user'))
                 }
             },
             views: {
@@ -163,11 +166,11 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function(ViewService) {
                     return ViewService.getParams('club')
                 },
-                user: function(UserService, $stateParams){
-                    return UserService.getProfile($stateParams.id)
-                },
                 wsRequired: function(API) {
                     return API.wsOpen()
+                },
+                user: function(wsRequired, UserService, $stateParams) {
+                    return UserService.getProfile($stateParams.id)
                 }
             },
             views: {
