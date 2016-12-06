@@ -44,12 +44,11 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions, $state, SystemM
                 }
                 // Пользователь на зарегестрирован
                 else {
-                    console.log('transition check authentificated error')
+                    console.log('transition check authenticated error')
                     return false
                 }
                 // Проверка аутентификации не требуется
-            } else
-                return true
+            } else return true
         }
     )
 

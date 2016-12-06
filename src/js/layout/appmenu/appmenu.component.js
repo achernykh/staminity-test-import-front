@@ -1,13 +1,14 @@
 import { UserMenuSettings, AppMenuSettings } from '../app.constants';
 
 class ApplicationMenuCtrl {
-    constructor($mdDialog, AuthService, UserService, $mdSidenav) {
+    constructor($mdDialog, AuthService, UserService, $mdSidenav, $state) {
         'ngInject';
         this.appmenu = AppMenuSettings
         this.usermenu = UserMenuSettings
         this._AuthService = AuthService
         this._$mdSidenav = $mdSidenav
         this.user = UserService.profile;
+        this._$state = $state
     }
     $onInit(){
     }

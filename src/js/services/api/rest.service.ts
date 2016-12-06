@@ -12,14 +12,15 @@ interface IPostDataRequest {
 }
 
 interface IPostFileRequest {
-	method:string;
-	url:string;
-	headers:{
-		'Authorization':string,
-		'Content-Type':string
-	};
-	withCredentials:boolean;
-	file:any
+    method:string;
+    url:string;
+    headers:{
+        'Authorization':string,
+        'Content-Type':string
+    };
+    withCredentials:boolean;
+    file:any
+
 }
 
 export class PostData implements IPostDataRequest {

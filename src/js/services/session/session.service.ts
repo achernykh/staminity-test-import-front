@@ -15,7 +15,7 @@ export default class SessionService implements ISessionService {
 	private tokenKey:string;
 	private userKey:string;
 	private permissionsKey:string;
-	private $window: any;
+	private $window:any;
 
 	constructor($window:any) {
 		this.storageType = 'localStorage';
@@ -36,7 +36,6 @@ export default class SessionService implements ISessionService {
 
 	getUser():IUserProfile {
 		try {
-			console.log('SessionService => getUser', this.$window.localStorage.getItem(this.tokenKey))
 			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
@@ -45,7 +44,7 @@ export default class SessionService implements ISessionService {
 
 	getPermissions():Array<Object> {
 		try {
-			return JSON.parse(this.$window[this.storageType].getItem(this.userKey))[this.permissionsKey];
+			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.permissionsKey];
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
 		}
@@ -66,5 +65,4 @@ export default class SessionService implements ISessionService {
 			delete this.memoryStore[this.tokenKey];
 		}
 	}
-
 }

@@ -13,16 +13,15 @@ export default class ApplicationMessageService {
      * через прямой вызов this.parent.showMessage
      * @param message{show, status, title, text, delay}
      */
-    show(message){
+    show(code, status = 'error', delay = 10){
         let id = "appmes#" + ++this.count;
-        let delay = message.delay || 10;
-        let status = message.status || 'error';
+        //let delay = message.delay || 10;
+        //let status = message.status || 'error';
         angular
             .element(document.getElementsByTagName('staminity-application'))
             .append(this._$compile(
                 '<system-message id='+id+' show="true" status="\'' + status +
-                '\'" title="\'' + message.title +
-                '\'" text="\'' + message.text +
+                '\'" code="\'' + code +
                 '\'" delay="\'' + delay +
                 '\'"/>')(this._$rootScope));
 

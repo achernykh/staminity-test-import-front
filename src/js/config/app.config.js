@@ -161,11 +161,16 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function (ViewService) {
                     return ViewService.getParams('settings')
                 },
-                user: function (UserService, $stateParams) {
-                    return UserService.getProfile(Number($stateParams.id))
-                },
-                wsRequired: function (SocketService) {
+                wsRequired: function(SocketService) {
                     return SocketService.open()
+                },
+                user: function (UserService, $stateParams, SystemMessageService) {
+                    return UserService.getProfile(Number($stateParams.id))
+	                    .catch((error) => {
+		                    SystemMessageService.show(error,'warning')
+		                    // TODO перейти на страницу 404
+		                    throw error
+	                    })
                 }
             },
             views: {
