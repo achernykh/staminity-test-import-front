@@ -22,6 +22,7 @@ class UserMenuCtrl {
 
 let UserMenu = {
     bindings: {
+        id: '<'
     },
     transclude: false,
     controller: UserMenuCtrl,
