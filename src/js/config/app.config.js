@@ -57,10 +57,14 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         // Представление Календарь
         .state('calendar', {
             url: "/calendar",
-            access: [],
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
                 view: function(ViewService) {
                     return ViewService.getParams('calendar')
+                },
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {
@@ -94,9 +98,9 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     return ViewService.getParams('settings')
                 },
                 wsRequired: function(API) {
-                    return API.wsOpen()
+                    return this.SocketService.open()
                 },
-                user: function(wsRequired, UserService, $stateParams){
+                user: function(wsRequired, UserService, $stateParams) {
                     return UserService.getProfile($stateParams.id)
                 }
             },

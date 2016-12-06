@@ -50,7 +50,7 @@ class SettingsCtrl {
         }
         console.log('settings ctrl => update profile form: ', profile);
         this._UserService.putProfile(profile)
-            .then((succes)=>console.log('success',error),(error)=>console.log('error=',error));
+            .then((success)=>console.log('success=',success),(error)=>console.log('error=',error));
     }
 
     get language() {

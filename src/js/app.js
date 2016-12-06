@@ -52,10 +52,10 @@ const requires = [
 ]
 
 angular
-    .module('staminity.application', requires)
-    //.constant('_UserRoles', UserRoles)
-    //.constant('_PageAccess', PageAccess)
-    .config(appConfig)
-    .run(appRun)
+	.module('staminity.application', requires)
+	//.constant('_UserRoles', UserRoles)
+	//.constant('_PageAccess', PageAccess)
+	.config(appConfig)
+	.run(appRun)
 
 angular.bootstrap(document, ['staminity.application'], {strictDi: true});

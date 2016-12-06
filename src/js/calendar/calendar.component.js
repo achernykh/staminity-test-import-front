@@ -84,14 +84,16 @@ class CalendarCtrl {
         let start = moment(date).startOf('week');
         let end = moment(start).add(1, 'w');
         
-        return this._CalendarService.getItem({ startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD') })
+        return this._CalendarService.getCalendarItem(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'))
         .then((items) => {
             console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
             
             let days = times(7).map((i) => {
                 let day = moment(start).add(i, 'd');
                 let calendarItems = items.filter(item => moment(item.date, 'YYYY-MM-DD').weekday() == i);
-                
+
+                console.log('getWeek=', items, calendarItems)
+
                 return {
                     key: day.format('YYYY-MM-DD'),
                     selected: false,

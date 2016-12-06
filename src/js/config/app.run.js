@@ -5,7 +5,7 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
     // Параметры ниже передаются на вход главному компоненту сервиса StaminityApplication
     // Сессия пользователя, включает userId и набор полномочий пользователя
     $rootScope.session = {};
-    $rootScope.screen = { xs : $mdMedia('gt-xs'), md : $mdMedia('gt-md'), lg : $mdMedia('gt-lg') };
+    $rootScope.screen = {xs: $mdMedia('gt-xs'), md: $mdMedia('gt-md'), lg: $mdMedia('gt-lg')};
     $rootScope.currentUser = null;  // Текущий пользователь сервсиа, содержит public от userProfile
     $rootScope.currentAthlete = null; // Текущий атлет тренера, содержит public от userProfile
     $rootScope.fullTitle = 'app.landing.fullTitle';
@@ -23,37 +23,35 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions) {
             let toState = state.$to()
             $rootScope.isLoading = true;
             console.info('transition start to state = ', state.$to().name)
-            return new Promise((resolve, reject) => {
-
-                    if (toState.loginRequired) {
-                        // Проверка авторизации
-                        if (AuthService.isAuthenticated()) {
-                            console.log('transition check authenticated success')
-                            if (!!toState.authRequired)
-                            // Проверка полномочий
-                                AuthService.isAuthorized(toState.authRequired)
-                                    .then(()=>{
-                                        console.log('transition check authorized success')
-                                        resolve()
-                                    },
-                                    ()=>{
-                                        console.log('transition check authorized error')
-                                        reject()
-                                    })
-                        }
-                        else {
-                            console.log('transition check authenticated error')
-                            reject()
-                        }
-                    } else resolve()
-
-            })
+            if (toState.loginRequired) {
+                // Проверка авторизации
+                if (AuthService.isAuthenticated()) {
+                    console.log('transition check authenticated success')
+                    if (!!toState.authRequired)
+                    // Проверка полномочий
+                        AuthService.isAuthorized(toState.authRequired)
+                            .then(()=> {
+                                    console.log('transition check authorized success')
+                                    return true
+                                },
+                                ()=> {
+                                    console.log('transition check authorized error')
+                                    return false
+                                })
+                }
+                else {
+                    console.log('transition check authenticated error')
+                    return true
+                }
+            } else return false
         }
     )
 
     $transitions.onSuccess({to: '*', from: '*'}, (state) => $rootScope.isLoading = false)
 
-    $rootScope.$watch(function() { return $mdMedia('gt-xs'); }, function(result) {
+    $rootScope.$watch(function () {
+        return $mdMedia('gt-xs');
+    }, function (result) {
         $rootScope.xs = !result;
     });
 }

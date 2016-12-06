@@ -24,19 +24,16 @@
         </div>
     </md-toolbar>
     <md-content class="usermenu" hide-gt-xs>
-        <md-list-item ng-repeat="menu in $ctrl.usermenu" ng-click="go(menu.link)">
+        <md-list-item ng-repeat="menu in $ctrl.usermenu" ng-click="$ctrl._$state.go(menu.link)">
             <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="s24 fill-black-medium"></md-icon>
             <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
         </md-list-item>
     </md-content>
 
     <md-content>
-        <md-list-item ng-repeat="menu in $ctrl.appmenu" ng-click="go(menu.link)"
+        <md-list-item ng-repeat="menu in $ctrl.appmenu" ng-click="$ctrl._$state.go(menu.link)"
                       ng-show="true">
             <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="s24 fill-black-medium"></md-icon>
-            <!--
-            <ng-md-icon icon="{{menu.icon}}" style="fill: black; opacity: 0.87; margin-top: 12px"
-                        size="24"></ng-md-icon> -->
             <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
         </md-list-item>
     </md-content>

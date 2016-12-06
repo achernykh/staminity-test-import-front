@@ -25,7 +25,7 @@ export default class ApiService {
              // Если соедение не открыто
              try {
                  // Попытка установить соедение в течение 100 мс
-                 this.ws = this._$websocket('ws://' + _AppConstants.api + '/' + this._SessionService.get())
+                 this.ws = this._$websocket('ws://' + _AppConstants.api + '/' + this._SessionService.getToken())
                  setTimeout(()=>{
                      console.log('wsOpen', this.ws.readyState)
                      if(this.ws.readyState == this.wsState['CLOSED'])
