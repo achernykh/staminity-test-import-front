@@ -128,7 +128,7 @@ export class SocketService implements ISocketService {
      * @returns {Promise<T>}
      */
     send(request:IWSRequest):Promise<any> {
-        request.requestId = this.requestId + 1;
+        request.requestId = this.requestId++;
         this.ws.send(JSON.stringify(request));
         let deferred = this._$q.defer();
         this.requests[request.requestId] = deferred;
