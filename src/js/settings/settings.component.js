@@ -62,12 +62,12 @@ class SettingsCtrl {
     }
 
     get firstDayOfWeek() {
-      return moment.weekdays(this.user.display.firstDayOfWeek)
+      //return moment.weekdays(this.user.display.firstDayOfWeek)
     }
 
     set firstDayOfWeek(day) {
-      console.log('firstDayOfWeek', day)
-      this.user.display.firstDayOfWeek = day
+      //console.log('firstDayOfWeek', day)
+      //this.user.display.firstDayOfWeek = day
     }
 
     log(){
