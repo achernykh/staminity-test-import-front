@@ -1,15 +1,10 @@
 <md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu">
     <md-toolbar class="md-hue-3"
-                style="
-                 background: #263238;
-                 /*noinspection CssUnknownTarget*/background: url(/assets/avatar/01bg.jpg);
-                 background-position: center center;
-                 background-size: cover;
-                 background-repeat: no-repeat;
-                 -background-attachment: fixed;
-                 -webkit-filter: grayscale(10%) brightness(90%);">
+                style=" background-image:
+                        linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)),
+                        url('{{$ctrl.backgroundUrl}}')">
         <div layout-padding>
-            <img class="avatar medium" ng-src="/assets/avatar/{{$ctrl.user.userId}}.jpg"/>
+            <div class="avatar medium" style="background-image: url('{{$ctrl.avatarUrl}}')"></div>
         </div>
         <div flex layout="row" layout-align="space-between start" layout-padding>
             <div flex>

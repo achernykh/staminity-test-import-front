@@ -1,4 +1,5 @@
 import { UserMenuSettings, AppMenuSettings } from '../app.constants';
+import { _connection } from '../../../services/api/api.constants'
 
 class ApplicationMenuCtrl {
     constructor($mdDialog, AuthService, UserService, $mdSidenav, $state) {
@@ -9,6 +10,8 @@ class ApplicationMenuCtrl {
         this._$mdSidenav = $mdSidenav
         this.user = UserService.profile;
         this._$state = $state
+        this.avatarUrl = /*_connection.server + */'/content/avatar/' + this.user.public.avatar;
+        this.backgroundUrl = /*_connection.server + */'/content/background/' + this.user.public.background;
     }
     $onInit(){
     }

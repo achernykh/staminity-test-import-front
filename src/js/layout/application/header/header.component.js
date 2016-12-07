@@ -1,3 +1,4 @@
+import { _connection } from '../../../services/api/api.constants'
 class HeaderCtrl {
 	constructor(AuthService, $log, $mdSidenav, UserService) {
 		'ngInject';
@@ -6,6 +7,7 @@ class HeaderCtrl {
 		this._$mdSidenav = $mdSidenav;
 		this.user = UserService.profile;
 		console.log('HeaderComponent: $onInit session = ', this.user);
+		this.avatarUrl = /*_connection.server + */'/content/avatar/' + this.user.public.avatar;
 	}
 	toggleSlide(component) {
 		this._$mdSidenav(component).toggle().then(() => angular.noop);
