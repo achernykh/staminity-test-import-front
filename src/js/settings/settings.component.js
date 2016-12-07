@@ -2,7 +2,7 @@ import { _NAVBAR, _DELIVERY_METHOD, _LANGUAGE, _UNITS,
          _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD } from './settings.const.js'
 
 class SettingsCtrl {
-    constructor(UserService) {
+    constructor(UserService, SystemMessageService, ActionMessageService) {
       'ngInject'
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -11,6 +11,8 @@ class SettingsCtrl {
         this._LANGUAGE = _LANGUAGE
         this._UNITS = _UNITS
         this._UserService = UserService
+        this._SystemMessageService = SystemMessageService
+        this._ActionMessageService = ActionMessageService
     }
     $onInit() {
         "use strict";
@@ -50,7 +52,12 @@ class SettingsCtrl {
         }
         console.log('settings ctrl => update profile form: ', profile);
         this._UserService.putProfile(profile)
-            .then((success)=>console.log('success=',success),(error)=>console.log('error=',error));
+            .then((success)=>{
+                console.log('success=',success)
+            },(error)=>{
+                //this._SystemMessageService.show(error)
+                this._ActionMessageService.simple(error)
+            });
     }
 
     get language() {

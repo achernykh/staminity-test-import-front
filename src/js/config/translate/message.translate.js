@@ -1,5 +1,9 @@
 export const _MESSAGE = {
     ru: {
+        null: {
+            title: 'Неопозднаная ошибка',
+            text: 'Что-то пошло не так, мы уже знаем об этом. Ваша ошибка была отправлена на адрес support@staminity.com'
+        },
         signupSuccess: { // в ответ на успешный /signup
             title: 'Поздравляем!',
             text: 'Ваша учетная запись создана'
