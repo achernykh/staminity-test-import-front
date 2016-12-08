@@ -1,7 +1,8 @@
 import {_UserRoles} from '../../config/app.constants.js';
+import {PostData, PostFile, IRESTService} from '../api/rest.service'
 
 export default class AuthService {
-    constructor($q, $log, $rootScope, $timeout, API, StorageService, UserService, SessionService){
+    constructor($q, $log, $rootScope, $timeout, API, StorageService, UserService, SessionService, RESTService){
         'ngInject';
         this.session = null;
         this._$q = $q;
@@ -11,7 +12,8 @@ export default class AuthService {
         this._StorageService = StorageService;
         this._UserService = UserService;
         this._api = API;
-        this._SessionService = SessionService
+        this._SessionService = SessionService;
+        this._RESTService = RESTService;
     }
     /**
      *
@@ -55,8 +57,8 @@ export default class AuthService {
 
         // TODO модель полномочий изменилась на функциональную с ролевой, код ниже надо переписать
 
-        return new Promise((resolve, reject) => {
-            this._UserService.getCurrentUserRole().then((roles)=> resolve(roles))
+        return new Promise((resolve) => {
+            this._UserService.permissions.then((roles)=> resolve(roles))
         })
 
         /*
@@ -78,11 +80,30 @@ export default class AuthService {
             (authorizedRoles == _UserRoles.all);*/
     }
 
+	/**
+	 * Регистрация пользователя
+	 * @param request
+	 * @returns {Promise<any>}
+	 */
     signUp(request) {
-        return this._api.post('/signup', request);
+        return this._RESTService.postData(new PostData('/signup',request))
+	        .then((response) => {
+				return response.value; // ожидаем получить systemMessage
+			})
     }
-    signIn(request) {
-        return this._api.post('/signin', request).then(
+
+	/**
+	 * Вход пользователя
+	 * @param request
+	 * @returns {Promise<any>|Promise<TResult2|TResult1>|Promise<TResult>|*|Promise.<TResult>}
+	 */
+	signIn(request) {
+        return this._RESTService.postData(new PostData('/signin',request))
+            .then((response) => {
+                // Согласно API результат передается в {data: [0]}, в value лежит authToken
+                return response.data[0].value
+            })
+        /*return this._api.post('/signin', request).then(
             (success) => {
                 this._$log.debug('AuthService: signIn => response success:', success);
                 // Регистрируем полученную сессию, для дальнейшей работы сервиса
@@ -92,21 +113,25 @@ export default class AuthService {
                 return  this.session;
             },
             (error) => this._$log.debug('AuthService: signIn => response error:', error)
-        );
+        );*/
     }
-    signOut() {
+
+	/***
+	 * Выход пользователя из сервиса
+	 * @returns {*}
+	 */
+	signOut() {
         return this._api.post('/signout').finally(
             () => {
-                //this._$log.debug('AuthService: logout start...');
                 // Закрываем ws сессию
-                this._api.wsClose();
+                this._api.wsClose()
                 // Очищаем данные по открытой сессии
-                this.logout();
+                this.logout()
                 // Сообщаем rootScope, что данные по авторизации изменились
-                // TODO Очищаем данные хранилища браузера, если был установлен режим ???
-                this._StorageService.clear('authToken');
+                // TODO Очищаем данные хранилища браузера, если был установлен режим
+                this._StorageService.clear('authToken')
             }
-        );
+        )
     }
     confirmAccount(request) {
         return this._api.post('/confirm', request);

@@ -38,7 +38,7 @@
     </div>
 
     <div id="header-right-toolbar" flex="{{$ctrl.view.rightPanel.size}}"
-         ng-include="$ctrl.view.rightPanel.url"
          layout="row" layout-align="end center" class="">
+        <ng-include src="$ctrl.view.rightPanel.url"></ng-include>
     </div>
 </div>

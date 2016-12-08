@@ -20,6 +20,11 @@ $header-bar-height: 160px;
         background-color: $grey-300;
     }
     // Задний фон для представлений с заголовком
+    .dark-blue-grey {
+        background-image: none;
+        background-color: $blue-grey-800;
+    }
+    // Задний фон для представлений с заголовком
     .application-light {
         background-image: none;
         background-color: $primary-300;
@@ -80,7 +85,7 @@ $header-bar-height: 160px;
         padding-right: 12px;
         text-align: center;
         color: white;
-        background: $primary-900 !important;
+        background: $blue-grey-800 !important;
         -z-index: 20;
     }
 }

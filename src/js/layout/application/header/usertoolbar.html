@@ -15,11 +15,9 @@
     </md-button>
 
     <div hide show-gt-sm layout="row" class="user-frame">
-        <div>
-            <img ng-src="/assets/avatar/{{::$ctrl.user.userId}}.jpg"
-                 style="height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white"/>
+        <div class="avatar mini" style="background-image: url('{{$ctrl.avatarUrl}}')">
         </div>
         <div class="md-body" style="line-height: 24px; -color: white; padding: 0 8px">{{$ctrl.user.public.firstName}}</div>
-        <user-menu></user-menu>
+        <user-menu id="$ctrl.user.public.uri || $ctrl.user.userId"></user-menu>
     </div>
 </div>

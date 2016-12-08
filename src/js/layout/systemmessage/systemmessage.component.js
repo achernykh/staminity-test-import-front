@@ -22,8 +22,7 @@ let SystemMessage = {
     bindings: {
         show: '<',
         status: '<',
-        title: '<',
-        text: '<',
+        code: '<',
         delay: '<'
     },
     require:{

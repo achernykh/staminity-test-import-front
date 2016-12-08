@@ -1,4 +1,4 @@
-import {IUserProfileShort} from '../user/user.interface'
+import {IUserProfileShort} from '../../../../api/user/user.interface'
 
 interface IActivityMeasureZones {
     code:string;

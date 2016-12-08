@@ -7,7 +7,7 @@ import { times } from '../util/util';
  *
  */
 class CalendarCtrl {
-    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, AppMessage, CalendarService, ActionMessage) {
+    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, SystemMessageService, CalendarService, ActionMessageService) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -15,8 +15,8 @@ class CalendarCtrl {
         this._$anchorScroll = $anchorScroll;
         this._$location = $location;
         this._$rootScope = $rootScope; // слушаем новые сообщения от api
-        this._AppMessage = AppMessage;
-	    this._ActionMessage = ActionMessage;
+        this._SystemMessageService = SystemMessageService;
+	    this._ActionMessageService = ActionMessageService;
         this._CalendarService = CalendarService;
         this._$scope = $scope;
 
@@ -27,6 +27,8 @@ class CalendarCtrl {
         
         this.onLoad = () => $scope.$apply()
         this.reset(new Date())
+        
+        this.dateFormat = 'YYYY-MM-DD'
         
         /**
          * Слушаем события, которые могут обновить данные Календаря:
@@ -76,6 +78,42 @@ class CalendarCtrl {
     }
     
     /**
+     * DayItem view model
+     * @param date
+     * @param calendarItems
+     */
+    dayItem (date, calendarItems) {
+        return {
+            key: date.format(this.dateFormat),
+            selected: false,
+            date: date.format(this.dateFormat),
+            data: {
+                title: date.format('DD'),
+                month: date.format('MMM'),
+                day: date.format('dd'),
+                date: date.format(this.dateFormat),
+                calendarItems: calendarItems
+            }
+        };
+    }
+    
+    /**
+     * WeekItem view model
+     * @param index 
+     * @param date - дата начала недели
+     * @param days : DayItem[]
+     */
+    weekItem (index, date, days) {
+        return {
+            sid: index,
+            changes: 0,
+            toolbarDate: date.format('YYYY MMMM'),
+            selected: false,
+            subItem: days
+        };
+    }
+    
+    /**
      * Предоставляет объекты WeekItem
      * @param date - любой Datetime недели
      * @param index - позиция в списке
@@ -84,38 +122,17 @@ class CalendarCtrl {
         let start = moment(date).startOf('week');
         let end = moment(start).add(1, 'w');
         
-        return this._CalendarService.getCalendarItem(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'))
-        .then((items) => {
-            console.log('CalendarCtrl: api request complete success', moment().format('mm:ss'));
-            
-            let days = times(7).map((i) => {
-                let day = moment(start).add(i, 'd');
-                let calendarItems = items.filter(item => moment(item.date, 'YYYY-MM-DD').weekday() == i);
-
-                console.log('getWeek=', items, calendarItems)
-
-                return {
-                    key: day.format('YYYY-MM-DD'),
-                    selected: false,
-                    date: day.format('YYYY-MM-DD'),
-                    data: {
-                        title: day.format('DD'),
-                        month: day.format('MMM'),
-                        day: day.format('dd'),
-                        date: day.format('YYYY-MM-DD'),
-                        calendarItems: calendarItems
-                    }
-                };
-            });
-            
-            return {
-                sid: index,
-                changes: 0,
-                toolbarDate: start.format('YYYY MMMM'),
-                selected: false,
-                subItem: days
-            };    
-        });
+        return this._CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat))
+            .then((items) => {
+                let days = times(7).map((i) => {
+                    let date = moment(start).add(i, 'd')
+                    let calendarItems = items.filter(item => moment(item.date, this.dateFormat).weekday() == i)
+                    
+                    return this.dayItem(date, calendarItems)
+                })
+                
+                return this.weekItem(index, start, days)
+            })
     }
     
     /**
@@ -132,7 +149,7 @@ class CalendarCtrl {
     
     /**
      * Подгрузка n записей вверх
-     * @patam n
+     * @param n
      */
     up (n = 10) {
         if (this.isLoadingUp) return
@@ -148,13 +165,14 @@ class CalendarCtrl {
         
         return Promise.all(items)
             .then((items) => { this.items = [...items.reverse(), ...this.items] })
+            .catch((exc) => { console.log('Calendar loading fail', exc) })
             .then(() => { this.isLoadingUp = false })
             .then(() => this.onLoad())
     }
     
     /**
      * Подгрузка n записей вниз
-     * @patam n
+     * @param n
      */
     down (n = 10) {
         if (this.isLoadingDown) return
@@ -170,6 +188,7 @@ class CalendarCtrl {
         
         return Promise.all(items)
             .then((items) => { this.items = [...this.items, ...items] })
+            .catch((exc) => { console.log('Calendar loading fail', exc) })
             .then(() => { this.isLoadingDown = false })
             .then(() => this.onLoad())
     }
@@ -249,7 +268,7 @@ class CalendarCtrl {
             item = [item];
 
         this.buffer = item;
-        this._ActionMessage.simple(`Записи скопированы (${this.buffer.length})`);
+        this._ActionMessageService.simple(`Записи скопированы (${this.buffer.length})`);
     }
     
     /**
@@ -271,7 +290,7 @@ class CalendarCtrl {
             let id = calendarItem.calendarItemId;
             let ind = dayItem.data.calendarItems.map((el) => el.calendarItemId).indexOf(id);
             dayItem.data.calendarItems.splice(ind, 1);
-            this._ActionMessage.screen('Запись удалена');
+            this._ActionMessageService.screen('Запись удалена');
         }
     }
     
@@ -296,7 +315,7 @@ class CalendarCtrl {
             weekItem.changes = weekItem.changes + 1;
             calendarItem.date = dayPos;
             dayItem.data.calendarItems.splice(index, 0, calendarItem);
-            this._ActionMessage.simple('Запись перемещена');
+            this._ActionMessageService.simple('Запись перемещена');
         }
     }
     
@@ -341,7 +360,7 @@ class CalendarCtrl {
         // Запускаем выполнение
         Promise.all(task).then(
             () => {
-                this._ActionMessage.simple(`Записи вставлены (${this.buffer.length})`);
+                this._ActionMessageService.simple(`Записи вставлены (${this.buffer.length})`);
                 this.buffer = [];
             },
             (error) => {

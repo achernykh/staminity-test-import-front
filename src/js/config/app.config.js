@@ -4,13 +4,14 @@
 
 import util from '../util/util'
 import translateApp from './translate/appbox.translate'
-import { _APP_MENU } from './translate/appmenu.translate.js'
-import { _USER_MENU } from './translate/usermenu.translate.js'
-import { _SETTINGS } from './translate/settings.translate.js'
-import { _FORM } from './translate/form.translate.js'
+import {_APP_MENU} from './translate/appmenu.translate.js'
+import {_USER_MENU} from './translate/usermenu.translate.js'
+import {_SETTINGS} from './translate/settings.translate.js'
+import {_FORM} from './translate/form.translate.js'
+import {_MESSAGE} from './translate/message.translate.js'
 
 function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
-    $urlRouterProvider) {
+                   $urlRouterProvider) {
     'ngInject';
 
     //TODO добавить коммент
@@ -29,7 +30,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             url: "/",
             access: [],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('welcome')
                 }
             },
@@ -54,13 +55,80 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
+        // Представление Auth: SignIn
+        .state('signin', {
+            url: "/signin",
+            loginRequired: false,
+            authRequired: ['func1'],
+            resolve: {
+                view: function (ViewService) {
+                    return ViewService.getParams('signin')
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {view: 'view.background'}
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {view: 'view.header'}
+                },
+                "application": {
+                    component: "auth",
+                    bindings: {view: 'view.application'}
+                },
+                "form@signin": {
+                    templateUrl: 'auth/state/signin.html'
+                }
+            }
+        })
+        // Представление Auth: SignUp
+	    .state('signup', {
+		    url: "/signup",
+		    loginRequired: false,
+		    authRequired: ['func1'],
+		    resolve: {
+			    view: function (ViewService) {
+				    return ViewService.getParams('signup')
+			    }
+		    },
+		    views: {
+			    "background": {
+				    component: "staminityBackground",
+				    bindings: {view: 'view.background'}
+			    },
+			    "header": {
+				    component: 'staminityHeader',
+				    bindings: {view: 'view.header'}
+			    },
+			    "application": {
+				    component: "auth",
+				    bindings: {view: 'view.application'}
+			    },
+			    "form@signup": {
+				    templateUrl: 'auth/state/signup.html'
+			    }
+		    }
+	    })
+        // Представление Auth: SignOut
+        .state('signout', {
+            url: "/signout",
+            loginRequired: true,
+            authRequired: ['func1'],
+            onEnter: ($state, SessionService, UserService) => {
+                SessionService.delToken()
+                $state.go('signin')
+            }
+
+        })
         // Представление Календарь
         .state('calendar', {
             url: "/calendar",
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('calendar')
                 },
                 wsRequired: function(SocketService) {
@@ -90,18 +158,23 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         })
         // Представление Настройки пользователя
         .state('settings', {
-            url: "/settings/:id",
+            url: "/settings/:uri",
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('settings')
                 },
-                wsRequired: function(API) {
-                    return this.SocketService.open()
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 },
-                user: function(wsRequired, UserService, $stateParams) {
-                    return UserService.getProfile($stateParams.id)
+                user: function (UserService, $stateParams, SystemMessageService) {
+                    return UserService.getProfile($stateParams.uri)
+	                    .catch((error) => {
+		                    SystemMessageService.show(error,'warning')
+		                    // TODO перейти на страницу 404
+		                    throw error
+	                    })
                 }
             },
             views: {
@@ -127,19 +200,18 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             }
         })
         .state('user', {
-            url: "/user/:id",
-            access: [],
+            url: "/user/:uri",
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('user')
                 },
-                wsRequired: function(API) {
-                    console.log('required start')
-                    return this.SocketService.open().then(util.log('wsRequired'))
+                wsRequired: function (SocketService) {
+                    return SocketService.open()
                 },
-                user: function(wsRequired, UserService, $stateParams) {
-                    console.log('user start')
-                    return UserService.getProfile($stateParams.id).then(util.log('user'))
+                user: function (wsRequired, UserService, $stateParams) {
+                    return UserService.getProfile($stateParams.uri)
                 }
             },
             views: {
@@ -164,17 +236,18 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             }
         })
         .state('club', {
-            url: "/club/:id",
-            access: [],
+            url: "/club/:uri",
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('club')
                 },
-                wsRequired: function(API) {
-                    return this.SocketService.open().then(util.log('wsRequired'))
+                wsRequired: function (SocketService) {
+                    return SocketService.open()
                 },
-                user: function(wsRequired, UserService, $stateParams) {
-                    return UserService.getProfile($stateParams.id)
+                user: function (wsRequired, UserService, $stateParams) {
+                    return UserService.getProfile($stateParams.uri)
                 }
             },
             views: {
@@ -200,13 +273,14 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         })
         .state('users', {
             url: "/users",
-            access: [],
+            loginRequired: true,
+            authRequired: ['func1'],
             resolve: {
-                view: function(ViewService) {
+                view: function (ViewService) {
                     return ViewService.getParams('users')
                 },
-                wsRequired: function(API) {
-                    return API.wsOpen()
+                wsRequired: function (SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {
@@ -267,18 +341,20 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         }).dark()
 
     // Текст представлений
-  	$translateProvider.translations('en', { app: translateApp['en'] });
-    $translateProvider.translations('ru', { app: translateApp['ru'] });
-	$translateProvider.translations('ru', { appMenu: _APP_MENU['ru'] });
-	$translateProvider.translations('en', { appMenu: _APP_MENU['en'] });
-	$translateProvider.translations('ru', { userMenu: _USER_MENU['ru'] });
-	$translateProvider.translations('en', { userMenu: _USER_MENU['en'] });
-    $translateProvider.translations('ru', { settings: _SETTINGS['ru'] });
-    $translateProvider.translations('en', { settings: _SETTINGS['en'] });
-    $translateProvider.translations('ru', { form: _FORM['ru'] });
-    $translateProvider.translations('en', { form: _FORM['en'] });
+    $translateProvider.translations('en', {app: translateApp['en']});
+    $translateProvider.translations('ru', {app: translateApp['ru']});
+    $translateProvider.translations('ru', {appMenu: _APP_MENU['ru']});
+    $translateProvider.translations('en', {appMenu: _APP_MENU['en']});
+    $translateProvider.translations('ru', {userMenu: _USER_MENU['ru']});
+    $translateProvider.translations('en', {userMenu: _USER_MENU['en']});
+    $translateProvider.translations('ru', {settings: _SETTINGS['ru']});
+    $translateProvider.translations('en', {settings: _SETTINGS['en']});
+    $translateProvider.translations('ru', {form: _FORM['ru']});
+    $translateProvider.translations('en', {form: _FORM['en']});
+    $translateProvider.translations('ru', {message: _MESSAGE['ru']});
+    $translateProvider.translations('en', {message: _MESSAGE['en']});
 
-	$translateProvider.preferredLanguage('ru');
+    $translateProvider.preferredLanguage('ru');
     $translateProvider.fallbackLanguage('ru');
 
 }

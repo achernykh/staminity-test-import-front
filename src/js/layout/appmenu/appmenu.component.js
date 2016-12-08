@@ -1,4 +1,5 @@
-import { UserMenuSettings, AppMenuSettings } from '../app.constants';
+import { UserMenuSettings, AppMenuSettings } from '../app.constants'
+import { _connection } from '../../services/api/api.constants'
 
 class ApplicationMenuCtrl {
     constructor($mdDialog, AuthService, UserService, $mdSidenav, $state) {
@@ -7,10 +8,10 @@ class ApplicationMenuCtrl {
         this.usermenu = UserMenuSettings
         this._AuthService = AuthService
         this._$mdSidenav = $mdSidenav
+        this.user = UserService.profile;
         this._$state = $state
-        this.user = UserService.getCurrentUser();
-    }
-    $onInit(){
+        this.avatarUrl = _connection.content + '/content/user/avatar/' + this.user.public.avatar;
+        this.backgroundUrl = _connection.content + '/content/user/background/' + this.user.public.background;
     }
 
     toggleSlide(component){
