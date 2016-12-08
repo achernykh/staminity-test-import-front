@@ -1,4 +1,4 @@
-import {IUserProfile} from '../user/user.interface';
+import {IUserProfile} from '../../../../api/user/user.interface';
 
 export interface ISessionService {
 	getToken():string;

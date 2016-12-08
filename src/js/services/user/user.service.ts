@@ -1,53 +1,8 @@
-import {IUserProfile} from './user.interface';
-import {ISocketService, IWSRequest} from '../api/socket.service';
+import {IUserProfile} from '../../../../api/user/user.interface';
+import { GetRequest, PutRequest, GetSummaryStatisticsRequest } from '../../../../api/user/user.request'
+import {ISocketService} from '../api/socket.service';
 import {ISessionService} from '../session/session.service';
-import {PostData, PostFile, IRESTService} from '../api/rest.service'
-/**
- * Сборщик запроса getUserProfile
- */
-class GetRequest implements IWSRequest {
-
-    requestType:string;
-    requestData:{
-        uri: number | string;
-    }
-
-    constructor(uri:string) {
-        this.requestType = 'getUserProfile';
-        this.requestData = {
-            uri: uri
-        }
-    }
-}
-/**
- * Сборщик запроса putUserProfile
- */
-class PutRequest implements IWSRequest {
-
-    requestType:string;
-    requestData:IUserProfile;
-
-    constructor(profile:IUserProfile) {
-        this.requestType = 'putUserProfile';
-        this.requestData = profile;
-    }
-}
-
-class GetSummaryStatisticsRequest implements IWSRequest {
-    requestType:string;
-    requestData:any;
-
-    constructor(id: number, start: Date, end: Date, group: string, data: Array<string>) {
-        this.requestType = 'getUserProfileSummaryStatistics';
-        this.requestData = {
-            userId: id,
-            startDate: start, // период активностей: начало
-            endDate: end, // период активностей: конец
-            groupBy: group, // Y - Year, M - Month, D - Day// Y - Year, M - Month, D - Day
-            activityTypes: data //список видов спорта["run", "etc.", "* = ALL"]
-        };
-    }
-}
+import {PostData, PostFile, IRESTService} from '../api/rest.service';
 
 export default class UserService {
 
@@ -72,7 +27,6 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     getProfile(uri:string):Promise<IUserProfile> {
-        console.log('getProfile =', uri);
         return this.SocketService.send(new GetRequest(uri))
             .then((result) => {return result[0].value})
     }
