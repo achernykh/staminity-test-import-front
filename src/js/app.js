@@ -21,7 +21,7 @@ import './settings'
 import './config/app.templates'
 import './services'
 
-sessionStorage.setItem('authToken', '{ "token": "431c2df6-151f-ca5a-b8e0-afd76f99b7aa", "userId": 21 }')
+sessionStorage.setItem('authToken', '{ "token": "75cbd20b-4729-f57a-96d0-f37c6cbfa50a", "userId": 21 }')
 
 
 const requires = [
@@ -50,6 +50,7 @@ const requires = [
     'staminity.settings',
     'staminity.services'
 ]
+
 
 angular
 	.module('staminity.application', requires)

@@ -135,7 +135,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 },
                 wsRequired: function(API) {
                     console.log('required start')
-                    return API.wsOpen().then(util.log('wsRequired'))
+                    return this.SocketService.open().then(util.log('wsRequired'))
                 },
                 user: function(wsRequired, UserService, $stateParams) {
                     console.log('user start')
@@ -171,7 +171,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     return ViewService.getParams('club')
                 },
                 wsRequired: function(API) {
-                    return API.wsOpen()
+                    return this.SocketService.open().then(util.log('wsRequired'))
                 },
                 user: function(wsRequired, UserService, $stateParams) {
                     return UserService.getProfile($stateParams.id)
