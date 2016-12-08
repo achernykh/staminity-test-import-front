@@ -35,13 +35,16 @@ var jsLibs = [
     bower+"angular-ui-scroll/dist/ui-scroll.js", // бесконечный скролл
     bower+"angular-ui-scroll/dist/ui-scroll-jqlite.js", // дополнение к бесконечному скролу
     bower+"angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js", // библиотека drug & drop
-	bower+"angular-read-more/dist/readmore.min.js" // библиотека для показа больших текстов [hm.readmore]
+	bower+"angular-read-more/dist/readmore.min.js", // библиотека для показа больших текстов [hm.readmore]
+    bower+"jsoneditor/dist/jsoneditor.min.js", // json editor
+    bower+"ng-jsoneditor/ng-jsoneditor.js" // json editor directive
 ];
 
 var cssLibs = [
     bower+"normalize-css/normalize.css",
     bower+"angular-material/angular-material.min.css",
-    bower+"animate.css/animate.min.css"
+    bower+"animate.css/animate.min.css",
+    bower+"jsoneditor/dist/jsoneditor.css"
     //bower+"angular-material/angular-material.layouts.css",
     //bower+"leaflet/dist/leaflet.css",
     //bower+"nvd3/build/nv.d3.css",
@@ -75,7 +78,7 @@ module.exports = {
         port: port || 8000,
         host: process.env.HOST || "0.0.0.0",
         livereload: {
-            enable: true
+            enable: false
         },
         directoryListing: false,
         defaultFile: 'index.html',

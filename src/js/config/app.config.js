@@ -54,6 +54,34 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
+        // Тестовое представления для отправки/получения запросов по WS
+        .state('api', {
+            url: "/api",
+            loginRequired: false,
+            authRequired: ['func1'],
+            resolve: {
+                view: function (ViewService) {
+                    return ViewService.getParams('api')
+                },
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {view: 'view.background'}
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {view: 'view.header'}
+                },
+                "application": {
+                    component: "api",
+                    bindings: {view: 'view.application'}
+                }
+            }
+        })
         // Представление Auth: SignIn
         .state('signin', {
             url: "/signin",

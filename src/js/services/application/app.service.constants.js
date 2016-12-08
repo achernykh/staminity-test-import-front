@@ -77,6 +77,31 @@ const ViewConstants = {
       size: 'grow'
     }
   },
+  api: {
+    background: {
+      style: 'dark-blue-grey',
+      toolbar: true,
+      size: '160'
+    },
+    header: {
+      enabled: true,
+      title: true,
+      athletes: false,
+      leftPanel: {
+        url: 'layout/application/header/appmenutoolbar.html',
+        size: 30
+      },
+      rightPanel: {
+        url: 'layout/application/header/usertoolbar.html',
+        size: 30
+      }
+    },
+    application: {
+      style: 'app-page',
+      margin: 20,
+      size: 'grow'
+    }
+  },
   // Настройка страницы: Календарь ../calendar
   calendar: {
     background: {

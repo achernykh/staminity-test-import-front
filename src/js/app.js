@@ -12,6 +12,7 @@ import './requests'
 import './settings'
 import './config/app.templates'
 import './services'
+import './api'
 
 let authToken = {token: "75cbd20b-4729-f57a-96d0-f37c6cbfa50a", userId: 4}
 let userProfile1 = {
@@ -671,7 +672,8 @@ const requires = [
     'staminity.users',
     'staminity.requests',
     'staminity.settings',
-    'staminity.services'
+    'staminity.services',
+	'staminity.api'
 ]
 
 angular

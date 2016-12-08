@@ -1,0 +1,84 @@
+<!-- common section -->
+<application-frame class='{{$ctrl.view.style}}'>
+    <section layout="row" layout-align="space-between start" class="app-layer">
+        <!-- common left margin -->
+        <section flex-gt-xs="5" hide-xs class="margin"></section>
+        <!-- application section: start -->
+
+        <section flex="none" class="form" layout="column" md-theme="dark" layout="column">
+            <h2 class="md-subhead">Форма</h2>
+            <form flex="none" ng-submit='$ctrl.send()'
+                  novalidate name="$ctrl.signinForm">
+                <md-list>
+                    <md-list-item>
+                        <md-input-container>
+                            <label>Тип запроса</label>
+                            <md-select flex class="" ng-model="group.setup" arial-label="Privacy Level">
+                                <md-optgroup ng-repeat="(obj, requests) in $ctrl._apiRequest" label="{{obj}}">
+                                    <md-option ng-repeat="(request,form) in requests"
+                                               ng-value="request"
+                                               ng-click="$ctrl.form = form; $ctrl.request = {}; $ctrl.request['requestType'] = request">
+                                        {{::request}}
+                                    </md-option>
+                                </md-optgroup>
+
+                            </md-select>
+                        </md-input-container>
+                    </md-list-item>
+                    <md-list-item ng-repeat="(element, prop) in $ctrl.form" ng-switch="prop.element">
+                        <md-input-container md-no-float class="no-message" ng-switch-when="input">
+                            <label>{{element}}</label>
+                            <input required type="prop.type" name="element"
+                                   ng-model="$ctrl.request['requestData'][element]">
+                        </md-input-container>
+                    </md-list-item>
+                    <md-list-item>
+
+                    </md-list-item>
+                </md-list>
+            </form>
+        </section>
+
+        <section flex="grow" class="request" layout="column">
+            <div layout="row"  layout-align="space-between start">
+                <h3 class="md-subhead">Запрос</h3>
+                <md-switch ng-init="change = false" ng-model="change" aria-label="Switch 1" ng-change="change? $ctrl.obj.options.mode = 'tree' : $ctrl.obj.options.mode = 'code'">
+                    Редактор: {{ change }}
+                </md-switch>
+            </div>
+
+            <div ng-jsoneditor="$ctrl.onLoad" ng-model="$ctrl.request" options="$ctrl.obj.options" class="editor"></div>
+        </section>
+
+        <section flex="none" class="send" md-theme="dark" layout="column" layout-align="center center">
+            <md-button ng-disabled="!!!$ctrl.request" class="md-fab md-raised md-acccent"
+                       ng-click='$ctrl.send()'
+                       ng-class="{'md-primary': $ctrl.signinForm.$valid && !ul.auth, 'md-disabled': $ctrl.signinForm.$error}"
+                       aria-label="SignIn Button">->
+            </md-button>
+        </section>
+
+        <section flex="grow" class="response" layout="column">
+            <h3 class="md-subhead">Ответ</h3>
+            <div ng-jsoneditor="$ctrl.onLoad" ng-model="$ctrl.response" options="$ctrl.obj.options"
+                 class="editor"></div>
+        </section>
+
+        <!-- application section: end -->
+        <!-- common right margin -->
+
+        <section flex="none" class="response" layout="column">
+            <div ng-if="$ctrl.success">
+                <h3 class="md-subhead">Success</h3>
+                <pre class="md-caption" ng-bind="$ctrl.success | json:2">
+                     </pre>
+            </div>
+            <div ng-if="$ctrl.error" style="color: red">
+                <h3 class="md-subhead">Ответ Error</h3>
+                <pre class="md-caption" ng-bind="$ctrl.error | json:2">
+                     </pre>
+            </div>
+        </section>
+
+    </section>
+</application-frame>
