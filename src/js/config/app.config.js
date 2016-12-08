@@ -157,7 +157,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         })
         // Представление Настройки пользователя
         .state('settings', {
-            url: "/settings/:id",
+            url: "/settings/:uri",
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
@@ -168,7 +168,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     return SocketService.open()
                 },
                 user: function (UserService, $stateParams, SystemMessageService) {
-                    return UserService.getProfile(Number($stateParams.id))
+                    return UserService.getProfile($stateParams.uri)
 	                    .catch((error) => {
 		                    SystemMessageService.show(error,'warning')
 		                    // TODO перейти на страницу 404
@@ -199,7 +199,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             }
         })
         .state('user', {
-            url: "/user/:id",
+            url: "/user/:uri",
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
@@ -207,7 +207,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     return ViewService.getParams('user')
                 },
                 user: function (UserService, $stateParams) {
-                    return UserService.getProfile($stateParams.id)
+                    return UserService.getProfile($stateParams.uri)
                 },
                 wsRequired: function (SocketService) {
                     return SocketService.open()
@@ -235,7 +235,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             }
         })
         .state('club', {
-            url: "/club/:id",
+            url: "/club/:uri",
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
@@ -243,7 +243,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     return ViewService.getParams('club')
                 },
                 user: function (UserService, $stateParams) {
-                    return UserService.getProfile($stateParams.id)
+                    return UserService.getProfile($stateParams.uri)
                 },
                 wsRequired: function (SocketService) {
                     return SocketService.open()

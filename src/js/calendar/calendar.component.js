@@ -8,7 +8,7 @@ const times = (n) => Array.from(new Array(n)).map((_, i) => i)
  *
  */
 class CalendarCtrl {
-    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, SystemMessageService, CalendarService, ActionMessage) {
+    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, SystemMessageService, CalendarService, ActionMessageService) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -17,7 +17,7 @@ class CalendarCtrl {
         this._$location = $location;
         this._$rootScope = $rootScope; // слушаем новые сообщения от api
         this._SystemMessageService = SystemMessageService;
-	    this._ActionMessage = ActionMessage;
+	    this._ActionMessageService = ActionMessageService;
         this._CalendarService = CalendarService;
         this._$scope = $scope;
 
@@ -269,7 +269,7 @@ class CalendarCtrl {
             item = [item];
 
         this.buffer = item;
-        this._ActionMessage.simple(`Записи скопированы (${this.buffer.length})`);
+        this._ActionMessageService.simple(`Записи скопированы (${this.buffer.length})`);
     }
     
     /**
@@ -291,7 +291,7 @@ class CalendarCtrl {
             let id = calendarItem.calendarItemId;
             let ind = dayItem.data.calendarItems.map((el) => el.calendarItemId).indexOf(id);
             dayItem.data.calendarItems.splice(ind, 1);
-            this._ActionMessage.screen('Запись удалена');
+            this._ActionMessageService.screen('Запись удалена');
         }
     }
     
@@ -316,7 +316,7 @@ class CalendarCtrl {
             weekItem.changes = weekItem.changes + 1;
             calendarItem.date = dayPos;
             dayItem.data.calendarItems.splice(index, 0, calendarItem);
-            this._ActionMessage.simple('Запись перемещена');
+            this._ActionMessageService.simple('Запись перемещена');
         }
     }
     
@@ -361,7 +361,7 @@ class CalendarCtrl {
         // Запускаем выполнение
         Promise.all(task).then(
             () => {
-                this._ActionMessage.simple(`Записи вставлены (${this.buffer.length})`);
+                this._ActionMessageService.simple(`Записи вставлены (${this.buffer.length})`);
                 this.buffer = [];
             },
             (error) => {

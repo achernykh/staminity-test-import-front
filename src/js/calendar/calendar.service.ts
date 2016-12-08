@@ -1,36 +1,7 @@
-import {ISocketService, IWSRequest} from '../api/socket.service';
-import {ICalendarItem} from '../calendar/calendar.interface'
-/**
- * Сборщик запроса getUserProfile
- */
-class GetRequest implements IWSRequest {
+import {ISocketService} from '../services/api/socket.service';
+import {ICalendarItem} from '../../../api/calendar/calendar.interface'
+import {GetRequest} from '../../../api/calendar/calendar.request'
 
-    requestType:string;
-    requestData:{
-        calendarItemId?:number;
-        userId?:number;
-        userGroupId?:number;
-        startDate:Date;
-        endDate:Date;
-    }
-
-    /**
-     *
-     * @param itemId - идентификатор записи. Наивысший приоритет.
-     * @param userId - Идентификатор владельца событий. Если указан, производится поиск событий только в рамках этого атлета
-     * @param start - если не указана, NOW() - 7 Days
-     * @param end - если не указана, NOW() + 7 Days
-     */
-    constructor(start:Date, end:Date, userId:number = null, itemId:number = null) {
-        this.requestType = 'getCalendarItem';
-        this.requestData = {
-            calendarItemId: itemId,
-            userId: userId,
-            startDate: start,
-            endDate: end
-        }
-    }
-}
 export class CalendarService {
     SocketService:ISocketService;
 

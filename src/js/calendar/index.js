@@ -1,3 +1,4 @@
+import { CalendarService } from './calendar.service.ts';
 import Calendar from './calendar.component';
 import { CalendarDay } from './day/calendar.day.component.js';
 import { CalendarTotal } from './total/calendar.total.component.js';
@@ -8,6 +9,7 @@ import { scrollCurrentItem, scrollFire, keepScrollPosition } from './scroll.dire
 
 
 export const calendar  = angular.module('staminity.calendar',[])
+                            .service('CalendarService', ['SocketService',CalendarService])
                             .component('calendarActivityChart', CalendarActivityChart)
                             .component('calendarTotalChart', CalendarTotalChart)
                             .component('calendarDay', CalendarDay)

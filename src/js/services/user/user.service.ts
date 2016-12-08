@@ -8,12 +8,13 @@ import {PostData, PostFile, IRESTService} from '../api/rest.service'
 class GetRequest implements IWSRequest {
 
     requestType:string;
-    requestData:{userId:number; uri:string;}
+    requestData:{
+        uri: number | string;
+    }
 
-    constructor(userId:number, uri:string = "") {
+    constructor(uri:string) {
         this.requestType = 'getUserProfile';
         this.requestData = {
-            userId: userId,
             uri: uri
         }
     }
@@ -70,8 +71,9 @@ export default class UserService {
      * @param request
      * @returns {Promise<T>}
      */
-    getProfile(id:number):Promise<IUserProfile> {
-        return this.SocketService.send(new GetRequest(id))
+    getProfile(uri:string):Promise<IUserProfile> {
+        console.log('getProfile =', uri);
+        return this.SocketService.send(new GetRequest(uri))
             .then((result) => {return result[0].value})
     }
 
