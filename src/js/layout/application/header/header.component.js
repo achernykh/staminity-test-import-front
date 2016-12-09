@@ -8,7 +8,7 @@ class HeaderCtrl {
 		this._$mdSidenav = $mdSidenav;
 		this.user = UserService.profile;
 		console.log('HeaderComponent: $onInit session = ', this.user);
-		this.avatarUrl = _connection.content + '/content/user/avatar/' + this.user.public.avatar;
+		this.avatarUrl = this.user? _connection.content + '/content/user/avatar/' + this.user.public.avatar : '';
 	}
 	toggleSlide(component) {
 		this._$mdSidenav(component).toggle().then(() => angular.noop);

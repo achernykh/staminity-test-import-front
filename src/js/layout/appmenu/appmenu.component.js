@@ -10,8 +10,8 @@ class ApplicationMenuCtrl {
         this._$mdSidenav = $mdSidenav
         this.user = UserService.profile;
         this._$state = $state
-        this.avatarUrl = _connection.content + '/content/user/avatar/' + this.user.public.avatar;
-        this.backgroundUrl = _connection.content + '/content/user/background/' + this.user.public.background;
+        this.avatarUrl =  this.user? _connection.content + '/content/user/avatar/' + this.user.public.avatar : '';
+        this.backgroundUrl = this.user? _connection.content + '/content/user/background/' + this.user.public.background : '';
     }
 
     toggleSlide(component){

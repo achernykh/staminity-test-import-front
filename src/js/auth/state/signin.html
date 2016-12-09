@@ -44,7 +44,7 @@
                 </md-checkbox>
             </md-list-item>
             <md-list-item>
-                <md-button ng-disabled="!$ctrl.signinForm.$valid || !$ctrl.enabled" class="md-raised" type="submit"
+                <md-button ng-disabled="!$ctrl.signinForm.$valid || !$ctrl.formEnabled" class="md-raised" type="submit"
                            ng-class="{'md-primary': $ctrl.signinForm.$valid && !ul.auth, 'md-disabled': $ctrl.signinForm.$error}"
                            translate='app.signin.button'
                            aria-label="SignIn Button"></md-button>

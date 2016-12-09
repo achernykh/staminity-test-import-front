@@ -15,10 +15,10 @@ import './settings'
 import './config/app.templates'
 import './services'
 
-<<<<<<< HEAD
 sessionStorage.setItem('authToken', '{ "token": "75cbd20b-4729-f57a-96d0-f37c6cbfa50a", "userId": 21 }')
 
-=======
+
+
 let authToken = {token: "75cbd20b-4729-f57a-96d0-f37c6cbfa50a", userId: 4}
 let userProfile1 = {
 	userId: 4,
@@ -651,10 +651,10 @@ let userProfile2 = {
 
 }
 
-//localStorage.setItem('authToken', JSON.stringify(authToken))
-//localStorage.setItem('userProfile#4', JSON.stringify(userProfile1))
-//localStorage.setItem('userProfile#5', JSON.stringify(userProfile2))
->>>>>>> develop
+localStorage.setItem('authToken', JSON.stringify(authToken))
+localStorage.setItem('userProfile#4', JSON.stringify(userProfile1))
+localStorage.setItem('userProfile#5', JSON.stringify(userProfile2))
+
 
 const requires = [
     'ngMaterial',
