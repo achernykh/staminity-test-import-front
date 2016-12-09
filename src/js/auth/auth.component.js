@@ -175,7 +175,7 @@ class SignInCtrl {
 		this._Storage.setIncognitoSession(value);
 	}
 
-	onSignIn(credentials) {
+	signin(credentials) {
 		this._Storage.setIncognitoSession(this.storage);
 		this.formEnabled = false;
 		this._AuthService.signIn(credentials).then(
