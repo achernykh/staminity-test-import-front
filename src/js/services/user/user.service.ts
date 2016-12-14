@@ -28,7 +28,6 @@ export default class UserService {
      */
     getProfile(uri:string):Promise<IUserProfile> {
         return this.SocketService.send(new GetRequest(uri))
-            .then((result) => {return result[0].value})
     }
 
     /**
