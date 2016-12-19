@@ -49,7 +49,7 @@ export class SocketService implements ISocketService {
      * @returns {Promise<T>}
      * @param token
      */
-    open(token:string = this._SessionService.getToken(), delay:number = 100):number {
+    open(token:string = this._SessionService.getToken(), delay:number = 300):number {
         if (this.ws != null && this.ws.readyState == 1)  //CONNECTING =0, OPEN=1, CLOSING=2, CLOSED=3
             return this.ws.readyState;
         // Если соединение не открыто

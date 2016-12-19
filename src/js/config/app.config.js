@@ -10,7 +10,7 @@ import {_FORM} from './translate/form.translate.js'
 import {_MESSAGE} from './translate/message.translate.js'
 
 function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
-                   $urlRouterProvider) {
+                   $urlRouterProvider, $sceDelegateProvider) {
     'ngInject';
 
     //TODO добавить коммент
@@ -18,6 +18,11 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         enabled: true,
         requireBase: false
     })
+    // https://docs.angularjs.org/api/ng/provider/$sceDelegateProvider#resourceUrlWhitelist
+    $sceDelegateProvider.resourceUrlWhitelist([
+        'self',
+        'https://maps.googleapis.com/**'
+    ])
 
     $urlRouterProvider.otherwise('/')
 
@@ -154,7 +159,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     }
                 }
             }
-        })
+        })/*
         // Представление Настройки пользователя
         .state('settings', {
             url: "/settings/:uri",
@@ -197,7 +202,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     }
                 }
             }
-        })
+        })*/
         .state('user', {
             url: "/user/:uri",
             loginRequired: true,

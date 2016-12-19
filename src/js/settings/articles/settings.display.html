@@ -3,11 +3,11 @@
         <md-card-title>
             <h2 class="md-title" translate="settings.display.header"></h2>
         </md-card-title>
-        <md-list>
+        <md-list class="md-dense">
             <md-list-item class="mobile-select">
-                <p translate="settings.display.language"></p>
-                <div class="md-secondary"
-                     ng-bind="$ctrl._LANGUAGE[$ctrl.user.display.language].text"></div>
+                <span translate="settings.display.language"></span>
+                <span class="md-secondary"
+                     ng-bind="$ctrl._LANGUAGE[$ctrl.user.display.language].text"></span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
@@ -23,8 +23,8 @@
             </md-list-item>
 
             <md-list-item class="mobile-select">
-                <p translate="settings.display.timezone"></p>
-                <div class="md-secondary">+3:00 Москва</div>
+                <span translate="settings.display.timezone"></span>
+                <span class="md-secondary">+3:00 Москва</span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
@@ -41,9 +41,9 @@
             </md-list-item>
 
             <md-list-item class="mobile-select">
-                <p translate="settings.display.units"></p>
-                <div class="md-secondary"
-                     translate="settings.display.{{$ctrl.user.display.units}}.short"></div>
+                <span translate="settings.display.units"></span>
+                <span class="md-secondary"
+                     translate="settings.display.{{$ctrl.user.display.units}}.short"></span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
@@ -58,10 +58,10 @@
             </md-list-item>
 
             <md-list-item class="mobile-select">
-                <p translate="settings.display.firstDayOfWeek"></p>
-                <div class="md-secondary"
+                <span translate="settings.display.firstDayOfWeek"></span>
+                <span class="md-secondary"
                      ng-bind="$ctrl.firstDayOfWeek"
-                     style="text-transform: capitalize"></div>
+                     style="text-transform: capitalize"></span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
@@ -225,12 +225,12 @@
                 </md-input-container>
             </md-list-item>-->
             <md-list-item class="secondary-button-padding">
-                <p>Формат времени: 24ч</p>{{ data.cb1 }}
+                <span>Формат времени: 24ч</span>{{ data.cb1 }}
                 <md-switch class="md-secondary" ng-model="data.cb1" aria-label="Switch 1">
                 </md-switch>
             </md-list-item>
             <md-list-item class="secondary-button-padding">
-                <p>Начало недели</p>
+                <span>Начало недели</span>
                 <md-radio-group class="md-secondary" ng-model="data.group1" layout="row">
                     <md-radio-button flex value="Apple" class="md-primary">Пн</md-radio-button>
                     <md-radio-button flex value="Banana">Вт</md-radio-button>
