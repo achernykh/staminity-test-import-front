@@ -7,8 +7,9 @@
         <div ng-repeat-start="group in $ctrl.user.privacy"
              class="md-no-stiky md-subheader">
             <div class="md-subheader-inner">
-                <div class="" translate="{{'settings.privacy.groups.'+group.name | translate }}"></div>
-                <div class="hint secondary dark" translate="{{'settings.privacy.groups.'+ group.name + 'Hint' | translate }}"></div>
+                <div class="" translate="{{'settings.privacy.groups.'+group.key | translate }}"></div>
+                <div class="hint secondary dark"
+                     translate="{{'settings.privacy.groups.'+ group.key + 'Hint' | translate }}"></div>
             </div>
         </div>
         <md-list-item ng-repeat-end>
