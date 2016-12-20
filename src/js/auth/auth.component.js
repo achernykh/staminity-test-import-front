@@ -56,7 +56,7 @@ class AuthCtrl {
 			.then((success) => {
 				console.log('signup success=', success)
 				this.showConfirm = true
-				this._SystemMessageService.show(success)
+				this._SystemMessageService.show(success.title, success.status, success.delay)
 			}, (error) => {
 				console.log('signup error=', error)
 				this._SystemMessageService.show(error)

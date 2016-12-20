@@ -101,7 +101,7 @@ export default class AuthService {
         return this._RESTService.postData(new PostData('/signin',request))
             .then((response) => {
                 // Согласно API результат передается в {data: [0]}, в value лежит authToken
-                return response.data[0].value
+                return response.data
             })
         /*return this._api.post('/signin', request).then(
             (success) => {
@@ -133,8 +133,14 @@ export default class AuthService {
             }
         )
     }
-    confirmAccount(request) {
-        return this._api.post('/confirm', request);
+    /**
+     * Подтверждение регистрации пользователя
+     * @param request
+     * @returns {Promise<any>}
+     */
+    confirm(request) {
+        return this._RESTService.postData(new PostData('/confirm',request))
+            .then((result) => {return result.value}) // Ожидаем system message
     }
     login(data){
         return this.session = data;

@@ -11,7 +11,7 @@
     <requests/>
 </md-sidenav>
 
-<application-menu ng-if="!$ctrl.isLoading"></application-menu>
+<application-menu ng-if="!$ctrl.isLoading && !!$ctrl.user"></application-menu>
 
 <!--
 <application-background>

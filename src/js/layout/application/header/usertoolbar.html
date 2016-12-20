@@ -15,7 +15,7 @@
     </md-button>
 
     <div hide show-gt-sm layout="row" class="user-frame">
-        <div class="avatar mini" style="background-image: url('{{$ctrl.avatarUrl}}')">
+        <div class="avatar mini" style="background-image: url('{{$ctrl.avatarUrl()}}')">
         </div>
         <div class="md-body" style="line-height: 24px; -color: white; padding: 0 8px">{{$ctrl.user.public.firstName}}</div>
         <user-menu id="$ctrl.user.public.uri || $ctrl.user.userId"></user-menu>
