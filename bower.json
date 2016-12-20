@@ -41,7 +41,7 @@
     "angular-read-more": "^1.0.5",
     "normalize-css": "^5.0.0",
     "angular-dynamic-locale": "^0.1.32",
-    "angular-i18n": "^1.6.0"
+    "angular-i18n": "^1.6.0",
     "normalize-css": "^5.0.0",
     "ng-jsoneditor": "angular-tools/ng-jsoneditor#^1.0.0"
   },
