@@ -59,6 +59,101 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
+        // Тестовое представления для отправки/получения запросов по WS
+        .state('api', {
+            url: "/api",
+            loginRequired: false,
+            authRequired: ['func1'],
+            resolve: {
+                view: function (ViewService) {
+                    return ViewService.getParams('api')
+                },
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {view: 'view.background'}
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {view: 'view.header'}
+                },
+                "application": {
+                    component: "api",
+                    bindings: {view: 'view.application'}
+                }
+            }
+        })
+        // Представление Auth: SignIn
+        .state('signin', {
+            url: "/signin",
+            loginRequired: false,
+            authRequired: ['func1'],
+            resolve: {
+                view: function (ViewService) {
+                    return ViewService.getParams('signin')
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {view: 'view.background'}
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {view: 'view.header'}
+                },
+                "application": {
+                    component: "auth",
+                    bindings: {view: 'view.application'}
+                },
+                "form@signin": {
+                    templateUrl: 'auth/state/signin.html'
+                }
+            }
+        })
+        // Представление Auth: SignUp
+	    .state('signup', {
+		    url: "/signup",
+		    loginRequired: false,
+		    authRequired: ['func1'],
+		    resolve: {
+			    view: function (ViewService) {
+				    return ViewService.getParams('signup')
+			    }
+		    },
+		    views: {
+			    "background": {
+				    component: "staminityBackground",
+				    bindings: {view: 'view.background'}
+			    },
+			    "header": {
+				    component: 'staminityHeader',
+				    bindings: {view: 'view.header'}
+			    },
+			    "application": {
+				    component: "auth",
+				    bindings: {view: 'view.application'}
+			    },
+			    "form@signup": {
+				    templateUrl: 'auth/state/signup.html'
+			    }
+		    }
+	    })
+        // Представление Auth: SignOut
+        .state('signout', {
+            url: "/signout",
+            loginRequired: true,
+            authRequired: ['func1'],
+            onEnter: ($state, SessionService, UserService) => {
+                SessionService.delToken()
+                $state.go('signin')
+            }
+
+        })
         // Представление Календарь
         .state('calendar', {
             url: "/calendar",
