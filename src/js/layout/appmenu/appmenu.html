@@ -1,10 +1,10 @@
-<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu">
+<!--<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu">-->
     <md-toolbar class="md-hue-3"
                 style=" background-image:
                         linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)),
-                        url('{{$ctrl.backgroundUrl}}')">
+                        url('{{$ctrl.backgroundUrl()}}')">
         <div layout-padding>
-            <div class="avatar medium" style="background-image: url('{{$ctrl.avatarUrl}}')"></div>
+            <div class="avatar medium" style="background-image: url('{{$ctrl.avatarUrl()}}')"></div>
         </div>
         <div flex layout="row" layout-align="space-between start" layout-padding>
             <div flex>
@@ -33,4 +33,4 @@
         </md-list-item>
     </md-content>
 
-</md-sidenav>
+<!--</md-sidenav>-->
