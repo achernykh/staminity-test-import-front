@@ -12,7 +12,7 @@ let module = angular.module('staminity.settings',[]);
                     view: function (ViewService) {
                         return ViewService.getParams('settings')
                     },
-                    wsRequired: function(SocketService) {
+                    wsRequired: function(SocketService, UserService, $stateParams) {
                         return SocketService.open()
                     },
                     user: function (wsRequired, UserService, $stateParams, SystemMessageService) {
