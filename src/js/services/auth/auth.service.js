@@ -58,7 +58,7 @@ export default class AuthService {
         // TODO модель полномочий изменилась на функциональную с ролевой, код ниже надо переписать
 
         return new Promise((resolve) => {
-            this._UserService.permissions.then((roles)=> resolve(roles))
+            resolve(this._UserService.permissions)
         })
 
         /*

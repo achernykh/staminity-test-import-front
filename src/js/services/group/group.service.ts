@@ -24,10 +24,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     getProfile(uri:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new GetRequest(uri))
-            .then((data) => {
-                return data[0].value;
-            });
+        return this.SocketService.send(new GetRequest(uri));
     }
 
     /**
@@ -37,6 +34,16 @@ export default class GroupService {
      */
     putProfile(profile:IGroupProfile):Promise<any>{
         return this.SocketService.send(new PutRequest(profile));
+    }
+
+    /**
+     * Запрос состава группы
+     * @param id
+     * @param uri
+     * @returns {Promise<IGroupProfile>}
+     */
+    getMembershipRequest(offset:number, limit: number):Promise<IGroupProfile> {
+        return this.SocketService.send(new GetMembershipRequest(offset, limit));
     }
 
     /**

@@ -1,0 +1,14 @@
+<md-dialog>
+    <md-dialog-content class="friends">
+        
+        <div class="title">
+            {{title}} ({{users.groupMembers.length}})
+        </div>
+        
+        <div class="friend" ng-repeat="user in users.groupMembers" ui-sref="/user/{{user.public.userId}}">
+            <img style="height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="http://193.124.181.87/content/avatar/{{user.public.avatar}}"/>
+            {{user.public.firstName}} {{user.public.lastName}}
+        </div>
+        
+    </md-dialog-content>
+</md-dialog>

@@ -59,44 +59,8 @@ class ProfileCtrl {
         this.$mdDialog = $mdDialog;
         this._UserService = UserService;
         this._API = API;
-        this.updateNoCache();
-        
-        this.years = [2015, 2016];
-        this.year = 2016;
-        this.ranges = ['Обзор года', 'Обзор месяца'];
-        this.range = 'Обзор года';
-        this.orders = ['время', 'кол-во трен.'];
-        this.order = 'время';
-        
-        this.chart = chart;
-        this.table = table;
-        
-        console.log(this.profile);
+
         console.log($scope);
-    }
-
-    uploadUserpic () {
-      this.$mdDialog.show({
-        controller: UploadDialogController,
-        templateUrl: 'profile/upload.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      })
-      .then((file) => this.User.setUserpic(file))
-      .then((userProfile) => { this.app.user = userProfile })
-      .then(() => { this.updateNoCache() });
-    }
-
-    uploadHeader () {
-      this.$mdDialog.show({
-        controller: UploadDialogController,
-        templateUrl: 'profile/upload.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      })
-      .then((file) => this.User.setHeader(file))
-      .then((userProfile) => { this.app.user = userProfile })
-      .then(() => { this.updateNoCache() });
     }
 
     getUsername () {
@@ -104,19 +68,11 @@ class ProfileCtrl {
     }
 
     getUserpic () {
-        return `url('${this.app.user && this.app.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.app.user.public.avatar + this.getNoCache()) : '/assets/avatar/default.png'}')`
+        return `url('${this.app.user && this.app.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.app.user.public.avatar) : '/assets/avatar/default.png'}')`
     }
 
     getHeader () {
-        return `url('${this.app.user &&  this.app.user.public.background? this.API.apiUrl('/content/background/' + this.app.user.public.background + this.getNoCache()) : '/assets/picture/pattern0.jpg'}')`
-    }
-    
-    updateNoCache () {
-      this.noCache = new Date().getTime()
-    }
-    
-    getNoCache () {
-      return '?noCache=' + this.noCache
+        return `url('${this.app.user &&  this.app.user.public.background? this.API.apiUrl('/content/background/' + this.app.user.public.background) : '/assets/picture/pattern0.jpg'}')`
     }
 
 };
@@ -155,7 +111,7 @@ const club = {
 
     bindings: {
         view: '<',
-        profile: '<currentUser'
+        club: '<'
     },
 
     require: {

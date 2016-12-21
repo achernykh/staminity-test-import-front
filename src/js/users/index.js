@@ -164,7 +164,8 @@ const users = {
 
     bindings: {
         view: '<',
-        profile: '<currentUser'
+        club: '<',
+        membership: '<'
     },
 
     require: {

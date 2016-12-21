@@ -210,8 +210,16 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 wsRequired: function (SocketService) {
                     return SocketService.open()
                 },
-                user: function (wsRequired, UserService, $stateParams) {
-                    return UserService.getProfile($stateParams.uri)
+                userId: function (SocketService, $stateParams) {
+                    return $stateParams.uri
+                },
+                user: function (wsRequired, UserService, userId) {
+                    return UserService.getProfile(userId)
+                },
+                summaryStatistics: function (wsRequired, UserService, userId) {
+                    let start = new Date().setFullYear(new Date().getFullYear() + 1)
+                    let end = new Date()
+                    // return UserService.getSummaryStatistics(userId, start, end, 'M', ['*'])
                 }
             },
             views: {
@@ -244,10 +252,12 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     return ViewService.getParams('club')
                 },
                 wsRequired: function (SocketService) {
+                    console.log('wsRequired')
                     return SocketService.open()
                 },
-                user: function (wsRequired, UserService, $stateParams) {
-                    return UserService.getProfile($stateParams.uri)
+                club: function (wsRequired, GroupService, $stateParams) {
+                    console.log('club')
+                    return GroupService.getProfile('/club/' + $stateParams.uri)
                 }
             },
             views: {
@@ -272,7 +282,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             }
         })
         .state('users', {
-            url: "/users",
+            url: "/users/:uri",
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
@@ -281,6 +291,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 },
                 wsRequired: function (SocketService) {
                     return SocketService.open()
+                },
+                club: function (wsRequired, GroupService, $stateParams) {
+                    return GroupService.getProfile('/club/' + $stateParams.uri)
+                },
+                membership: function (wsRequired, GroupService, $stateParams) {
+                    console.log('membership')
+                    return GroupService.getMembershipRequest(0, 100)
                 }
             },
             views: {

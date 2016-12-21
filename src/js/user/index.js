@@ -51,19 +51,6 @@ const table = {
 };
 
 
-const friends = [
-  { userpic: '', username: 'Черных Александр', online: false },
-  { userpic: '', username: 'Захаринский Евгений', online: true },
-  { userpic: '', username: 'Иванов Денис', online: false },
-  { userpic: '', username: 'Черных Александр', online: false },
-  { userpic: '', username: 'Захаринский Евгений', online: true },
-  { userpic: '', username: 'Иванов Денис', online: false },
-  { userpic: '', username: 'Черных Александр', online: false },
-  { userpic: '', username: 'Захаринский Евгений', online: true },
-  { userpic: '', username: 'Иванов Денис', online: false },
-];
-
-
 class ProfileCtrl {
 
     constructor ($scope, $mdDialog, dialogs, UserService, API) {
@@ -73,7 +60,6 @@ class ProfileCtrl {
         this.dialogs = dialogs;
         this.UserService = UserService;
         this.API = API;
-        this.updateNoCache();
         
         this.years = [2015, 2016];
         this.year = 2016;
@@ -84,23 +70,8 @@ class ProfileCtrl {
         
         this.chart = chart;
         this.table = table;
-        this.friends = friends;
         
         console.log($scope);
-    }
-
-    uploadUserpic () {
-      this.dialogs.uploadPicture()
-      .then((file) => this.User.setUserpic(file))
-      .then((userProfile) => { this.app.user = userProfile })
-      .then(() => { this.updateNoCache() });
-    }
-
-    uploadHeader () {
-      this.dialogs.uploadPicture()
-      .then((file) => this.User.setHeader(file))
-      .then((userProfile) => { this.app.user = userProfile })
-      .then(() => { this.updateNoCache() });
     }
 
     getUsername () {
@@ -108,26 +79,68 @@ class ProfileCtrl {
     }
 
     getUserpic () {
-        return `url('${this.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.user.public.avatar + this.getNoCache()) : '/assets/avatar/default.png'}')`
+        return `url('${this.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.user.public.avatar) : '/assets/avatar/default.png'}')`
     }
 
     getHeader () {
-        return `url('${this.user.public.background? this.API.apiUrl('/content/background/' + this.user.public.background + this.getNoCache()) : '/assets/picture/pattern0.jpg'}')`
+        return `url('${this.user.public.background? this.API.apiUrl('/content/background/' + this.user.public.background) : '/assets/picture/pattern0.jpg'}')`
     }
     
-    updateNoCache () {
-      this.noCache = new Date().getTime()
+    coaches () {
+      this.$mdDialog.show({
+        controller: FriendsController,
+        locals: { users: this.user.connections.Coaches, title: 'Тренеры' },
+        templateUrl: 'user/usersList.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: true
+      });
     }
     
-    getNoCache () {
-      return '?noCache=' + this.noCache
+    athletes () {
+      this.$mdDialog.show({
+        controller: FriendsController,
+        locals: { users: this.user.connections.Athletes, title: 'Спортсмены' },
+        templateUrl: 'user/usersList.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: true
+      });
+    }
+    
+    friends () {
+      this.$mdDialog.show({
+        controller: FriendsController,
+        locals: { users: this.user.connections.Friends, title: 'Друзья' },
+        templateUrl: 'user/usersList.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: true
+      });
+    }
+    
+    subscriptions () {
+      this.$mdDialog.show({
+        controller: FriendsController,
+        locals: { users: this.user.connections.Following, title: 'Подписки' },
+        templateUrl: 'user/usersList.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: true
+      });
+    }
+    
+    subscribers () {
+      this.$mdDialog.show({
+        controller: FriendsController,
+        locals: { users: this.user.connections.Followers, title: 'Подписчики' },
+        templateUrl: 'user/usersList.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: true
+      });
     }
 
     showFriends () {
       this.$mdDialog.show({
         controller: FriendsController,
-        locals: { friends: this.friends },
-        templateUrl: 'user/friends.html',
+        locals: { users: this.user.connections.Friends, title: 'Друзья' },
+        templateUrl: 'user/usersList.html',
         parent: angular.element(document.body),
         clickOutsideToClose: true
       });
@@ -135,10 +148,11 @@ class ProfileCtrl {
 };
 
 
-function FriendsController($scope, $mdDialog, friends) {
+function FriendsController($scope, $mdDialog, users, title) {
   'ngInject';
   
-  $scope.friends = friends;
+  $scope.users = users;
+  $scope.title = title;
 
   $scope.close = () => {
     $mdDialog.cancel();

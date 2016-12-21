@@ -2,14 +2,14 @@
     <div class="profile">
         
         <div class="profile-card">
-            <div class="profile-card-background" ng-click="$ctrl.uploadHeader()">
+            <div class="profile-card-background">
                 <div class="profile-background" ng-style="{'background-image': $ctrl.getHeader()}"></div>
                 
                 <div class="profile-header">
                     <div layout="row">
                         <div flex="40" layout-align="end" style="text-align: right; padding-top: 10px;">
-                            <div class="chip">Тренер</div>  <br/>
-                            <div class="chip"> <span ng-style="{color: '#ff5722'}">⚫</span> Премиум</div>
+                            <div class="chip" ng-if="$ctrl.user.public.isCoach">Тренер</div>  <br/>
+                            <div class="chip"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
                         </div>
                         <div flex="20">
                             <div class="userpic" ng-style="{'background-image': $ctrl.getUserpic()}" layout-align="center"></div>
@@ -55,12 +55,12 @@
                 <div class="title">Связи</div>
                 <div class="text">
                     <span class="label">Клуб:</span> <span class="value">PRO TRENER</span>
-                    <span class="label">Тренеры:</span> <span class="value">-</span>
-                    <span class="label">Спортсмены:</span> <span class="value">3</span>
+                    <span class="label">Тренеры:</span> <span class="value" ng-click="$ctrl.coaches()">{{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</span>
+                    <span class="label">Спортсмены:</span> <span class="value" ng-click="$ctrl.athlets()">{{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</span>
                     <br/>
-                    <span class="label">Подписчики:</span> <span class="value">24</span>
-                    <span class="label">Подписан:</span> <span class="value">12</span>
-                    <span class="label">Друзья:</span> <span class="value">11</span>
+                    <span class="label">Подписчики:</span> <span class="value" ng-click="$ctrl.subscribers()">{{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</span>
+                    <span class="label">Подписан:</span> <span class="value" ng-click="$ctrl.subscriptions()">{{$ctrl.user.connections.Following.groupMembers.length || '-'}}</span>
+                    <span class="label">Друзья:</span> <span class="value" ng-click="$ctrl.friends()">{{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</span>
                     <span class="label">Группы:</span> <span class="value">-</span>
                 </div>
                 

@@ -66,18 +66,18 @@
                 <th>Город</th>
                 <th>Возрастная группа</th>
             </tr>
-            <tr ng-repeat="user in $ctrl.users">
+            <tr ng-repeat="user in $ctrl.club.groupMembers">
                 <td> <md-checkbox ng-model="user.checked" aria-label="user checked"></md-checkbox> </td>
                 <td>
                     <img style="vertical-align: middle; height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg">
-                    {{user.username}}
+                    {{user.public.firstName}} {{user.public.lastName}}
                 </td>
-                <td>{{user.role}}</td>
-                <td>{{user.coach}}</td>
-                <td>{{user.subscription}}</td>
-                <td>{{user.athlets}}</td>
-                <td>{{user.city}}</td>
-                <td>{{user.ageGroup}}</td>
+                <td>{{user.public.role}}</td>
+                <td>{{user.public.coach}}</td>
+                <td>{{user.public.subscription}}</td>
+                <td>{{user.public.athlets}}</td>
+                <td>{{user.public.city}}</td>
+                <td>{{user.public.ageGroup}}</td>
             </tr>
         </table>
             
