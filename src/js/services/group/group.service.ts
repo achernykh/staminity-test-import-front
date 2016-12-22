@@ -1,4 +1,4 @@
-import {IGroupProfile, IGroupProfileShort} from '../../../../api/group/group.interface';
+import {IGroupProfile, IGroupProfileShort, IGroupManagementProfile} from '../../../../api/group/group.interface';
 import {
     GetRequest,
     PutRequest,
@@ -6,7 +6,8 @@ import {
     LeaveRequest,
     GetMembershipRequest,
     ProcessMembershipRequest,
-    GetMembersRequest
+    GetMembersRequest,
+    GetGroupMembershipProfile
 } from '../../../../api/group/group.request';
 import {ISocketService, IWSRequest} from '../api/socket.service';
 
@@ -54,7 +55,16 @@ export default class GroupService {
      * @returns {Promise<any>}
      */
     leave(groupId: number, userId: number = null):Promise<any>{
-        return this.SocketService.send(new JoinRequest(groupId, userId));
+        return this.SocketService.send(new LeaveRequest(groupId, userId));
+    }
+
+    /**
+     * Запрос информации о членах клуба для управления тарифами и ролями
+     * @param groupId
+     * @returns {Promise<any>}
+     */
+    getMembershipProfile(groupId: number):Promise<IGroupManagementProfile>{
+        return this.SocketService.send(new GetGroupMembershipProfile(groupId));
     }
 
 
