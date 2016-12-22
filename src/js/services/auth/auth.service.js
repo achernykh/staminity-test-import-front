@@ -99,10 +99,7 @@ export default class AuthService {
 	 */
 	signIn(request) {
         return this._RESTService.postData(new PostData('/signin',request))
-            .then((response) => {
-                // Согласно API результат передается в {data: [0]}, в value лежит authToken
-                return response.data[0].value
-            })
+            .then((response) => response.data)
         /*return this._api.post('/signin', request).then(
             (success) => {
                 this._$log.debug('AuthService: signIn => response success:', success);

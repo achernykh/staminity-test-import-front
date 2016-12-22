@@ -217,9 +217,10 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     return UserService.getProfile(userId)
                 },
                 summaryStatistics: function (wsRequired, UserService, userId) {
-                    let start = new Date().setFullYear(new Date().getFullYear() + 1)
+                    let start = new Date()
+                    start.setFullYear(new Date().getFullYear() + 1)
                     let end = new Date()
-                    // return UserService.getSummaryStatistics(userId, start, end, 'M', ['*'])
+                    return UserService.getSummaryStatistics(userId, start, end, 'month', ['*'])
                 }
             },
             views: {
