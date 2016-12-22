@@ -1,4 +1,78 @@
-<md-card flex="none" layout="column" id="account">
+<md-card flex="none" layout="column" id="account" class="">
+    <md-card-title>
+        <h2 class="md-title" translate="settings.account.header"></h2>
+    </md-card-title>
+    <form name="$ctrl.syncForm">
+        <md-list class="md-dense section">
+            <md-subheader>Регистрационные данные</md-subheader>
+            <md-list-item>
+                <md-input-container md-no-float class="md-block no-message">
+                    <md-icon md-svg-src="/assets/icon/person.svg"></md-icon>
+                    <input ng-model="$ctrl.provider.login" type="text" autocomplete="off"
+                           placeholder="Учетная запись">
+                </md-input-container>
+                <md-input-container md-no-float class="md-block no-message">
+                    <md-icon md-svg-src="/assets/icon/vpn_key.svg"></md-icon>
+                    <input ng-model="$ctrl.provider.login" type="text" autocomplete="off"
+                           placeholder="Пароль">
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <!--<p>Поясняющий текст</p>-->
+                <md-button class="md-secondary" ng-click="doSecondaryAction($event)">Новый пароль</md-button>
+            </md-list-item>
+        </md-list>
+        <md-divider></md-divider>
+        <md-list class="md-dense section">
+            <md-subheader>Тарифные планы</md-subheader>
+            <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
+                          ng-repeat-start="tariff in $ctrl.user.billing.tariffs">
+                <md-icon  md-svg-src="/assets/icon/person.svg"></md-icon>
+                <div class="md-list-item-text" ng-switch="property.enabled">
+                    <h3> {{ tariff.code }} </h3>
+                    <p> {{ tariff.status}}</p>
+                </div>
+                <md-switch class="md-secondary" ng-model="tariff.enabled"
+                           ng-disabled="!tariff.editable"
+                           ng-class="{'md-primary' : tariff.editable}"
+                           ng-change="$ctrl.showProviderSettings($event, service, property)"
+                           aria-label="Switch 1">
+                </md-switch>
+            </md-list-item>
+            <md-divider ng-repeat-end ng-if="!$last"/>
+        </md-list>
+        <md-divider></md-divider>
+        <md-list class="md-dense section">
+            <md-subheader>Счета на оплату</md-subheader>
+            <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
+                          ng-repeat-start="bill in $ctrl.user.billing.bills"
+                          ng-switch="bill.status">
+                <md-icon  md-svg-src="/assets/icon/payment.svg"></md-icon>
+                <div class="md-list-item-text">
+                    <h3> Счет на {{ bill.amount | currency}} </h3>
+                    <p> Период {{ bill.start | date: shortDate}} - {{ bill.start | date: shortDate}}</p>
+                </div>
+                <div class="md-secondary" ng-switch-when="new">
+                    <md-button ng-click="doSecondaryAction($event)">Формируется</md-button>
+                </div>
+                <div class="md-secondary" ng-switch-when="ready">
+                    <md-button class="md-accent"
+                               ng-click="doSecondaryAction($event)">Оплатить {{bill.amount | currency}}</md-button>
+                </div>
+                <div class="md-secondary" ng-switch-when="complete">
+                    <md-button ng-click="doSecondaryAction($event)">Подробно</md-button>
+                </div>
+            </md-list-item>
+            <md-divider ng-repeat-end ng-if="!$last"></md-divider>
+            <md-list-item>
+                <!--<p>Поясняющий текст</p>-->
+                <md-button class="md-secondary" ng-click="doSecondaryAction($event)">Реестр счетов</md-button>
+            </md-list-item>
+        </md-list>
+    </form>
+</md-card>
+
+<!--<md-card flex="none" layout="column" id="account">
     <div class="h1" layout="column" layout-wrap>
         <div flex layout="row" layout-align="space-between center">
             <div flex="auto" layout="row" layout-align="start center">
@@ -12,13 +86,15 @@
         <div layout="row" class="padding-0-24-24-24 back-primary-hue-3" md-theme="auth">
             <md-input-container flex-gt-sm class="md-body-1">
                 <label translate>app.settings.account.email</label>
-                <input type="text" name="firstName" ng-model="vm.personal.email" autocomplete="off" autofocus ng-disabled="true" minlength="2" maxlength="100">
+                <input type="text" name="firstName" ng-model="vm.personal.email" autocomplete="off" autofocus
+                       ng-disabled="true" minlength="2" maxlength="100">
                 <div class="hint light">Логином в нашем сервисе является email указанный при регистрации</div>
             </md-input-container>
             <div flex="5"></div>
             <md-input-container flex-gt-sm class="md-body-1">
                 <label translate>app.settings.account.password</label>
-                <input type="password" name="lastName" ng-model="vm.password" autocomplete="off" ng-disabled="true" minlength="2" maxlength="100">
+                <input type="password" name="lastName" ng-model="vm.password" autocomplete="off" ng-disabled="true"
+                       minlength="2" maxlength="100">
                 <div class="hint light">Для смены пароля перейдите по
                     <a href="#">ссылке</a>
                 </div>
@@ -35,17 +111,22 @@
             <md-button flex="none" class="md-raised" ng-disabled="true" ng-click="">+ add
             </md-button>
         </div>
-        <div flex layout="column" ng-repeat="subscription in vm.subscriptions" ng-class="{'padding-00-24' : $last, 'padding-0-24-24-24': !$last}">
+        <div flex layout="column" ng-repeat="subscription in vm.subscriptions"
+             ng-class="{'padding-00-24' : $last, 'padding-0-24-24-24': !$last}">
             <div flex layout="row" layout-align="space-between center">
-                <md-icon flex="none" md-svg-icon="/pic/staminity.svg" class="fill-light s24" style="margin-right: 8px"></md-icon>
+                <md-icon flex="none" md-svg-icon="/pic/staminity.svg" class="fill-light s24"
+                         style="margin-right: 8px"></md-icon>
                 <div flex="auto" class="md-body-2">Staminity:
-                    {{::subscription.code}}</div>
-                <md-button flex="none" ng-class="{'md-primary' : !$first}" ng-disabled="$first" ng-click="">{{$first ? 'Не активна' : 'Активна'}}
+                    {{::subscription.code}}
+                </div>
+                <md-button flex="none" ng-class="{'md-primary' : !$first}" ng-disabled="$first" ng-click="">{{$first ?
+                    'Не активна' : 'Активна'}}
                 </md-button>
             </div>
             <div flex layout="row" class="hint dark" style="margin-left: 32px; margin-right: 100px">
-                Статус подписки, комментарий по дате следующего платежа, периоду расчета, ссылке на описание доступных функций в подписке
+                Статус подписки, комментарий по дате следующего платежа, периоду расчета, ссылке на описание доступных
+                функций в подписке
             </div>
         </div>
     </form>
-</md-card>
+</md-card>-->

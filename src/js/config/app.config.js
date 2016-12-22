@@ -235,7 +235,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             'hue-2': '600',
             'hue-3': '800'
         })
-        .accentPalette('orange', {
+        .accentPalette('deep-orange', {
             'default': 'A700',
             'hue-1': '50',
             'hue-2': '600',

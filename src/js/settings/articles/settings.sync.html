@@ -14,7 +14,7 @@
                     <p ng-switch-when="true">Последняя синхронизация выполнена {{property.lastSync | date :
                         shortDate}}</p>
                 </div>
-                <md-switch class="md-secondary" ng-model="property.enabled"
+                <md-switch class="md-secondary md-primary" ng-model="property.enabled"
                            ng-change="$ctrl.showProviderSettings($event, service, property)"
                            aria-label="Switch 1">
                 </md-switch>

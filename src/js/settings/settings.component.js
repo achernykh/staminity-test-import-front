@@ -48,6 +48,55 @@ class SettingsCtrl {
 					enabled: false
 				}
 			}
+		}, {
+			billing: {
+				tariffs: [
+					{
+						code: 'Базовый',
+						status: '',
+						enabled: true,
+						editable: false
+					},
+					{
+						code: 'Премиум',
+						status: 'Подкючен до 30.12.16',
+						enabled: true,
+						editable: true
+					},
+					{
+						code: 'Тренер',
+						status: 'Подкоючен за счет клуба ЦПС ТЕМП',
+						enabled: true,
+						editable: false
+					},
+					{
+						code: 'Клуб',
+						status: 'Пробный период до 30.01.17',
+						enabled: false,
+						editable: false
+					}
+				],
+				bills: [
+					{
+						amount: '106',
+						start: new Date(),
+						end: new Date(),
+						status: 'new'
+					},
+					{
+						amount: '1072',
+						start: new Date(),
+						end: new Date(),
+						status: 'ready'
+					},
+					{
+						amount: '360',
+						start: new Date(),
+						end: new Date(),
+						status: 'complete'
+					}
+				]
+			}
 		})
 	}
 
