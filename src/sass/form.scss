@@ -45,16 +45,44 @@ form md-list, md-list form {
         }
       }
     }
-
 }
 // Подзаголовок md-subheader имеет 16px отсупа снизу, при наличии 16px отступа сверху у первых
 // элементов ввода или селекта расстояние становится очень большим
 form md-card-title + md-list md-list-item:first-child md-input-container:first-child{
     margin-top: 0px;
 }
+// На макетах представлены в виде списков из элементов ввода, выбора и т.д. Секции разделеются md-divider. Заголовки
+// оформляются через dev.md-subheader. Чтобы обеспечить необходимый отступ между секциями (24 px от полседнего элемента)
+// предлагается использовать стиль .section для md-list
+md-list.section {
+    padding-bottom: 20px;
+}
 
 fieldset {
   border: 0;
   margin: 0;
   padding: 0;
+}
+
+// Согласно спецификации Google Material Design для элементов input, list предусмотрен формат dense. Он предполгает
+// уменьшенный размер элементов.
+// Пример для input можно посмотреть тут https://material.io/guidelines/components/text-fields.html#text-fields-labels
+// В issue есть упоминание, что вскоре будет выполнена доработка, а возможно будет создан специальный сервис для
+// работы с dense форматом
+form md-list.md-dense, md-list.md-dense form {
+
+    md-input-container {
+        margin-bottom: 4px;
+    }
+
+    md-select {
+        margin-bottom: 4px;
+    }
+
+    legend, p, span, md-input-container input, md-input-container textarea,
+    md-input-container label:not(.md-no-float):not(.md-container-ignore),
+    md-input-container input::-webkit-input-placeholder,
+    md-input-container textarea::-webkit-input-placeholder {
+        font-size: 13px;
+    }
 }

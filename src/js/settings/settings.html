@@ -4,8 +4,9 @@
         <!-- common left margin -->
         <section layout="row" layout-align="end start" flex-gt-xs="grow" hide-xs class="margin">
             <nav class="settings-navbar animated fadeInLeft" flex="none" layout="column" hide show-gt-xs>
-                <md-content flex="auto" du-scroll-container="settings-container" style="overflow-y: auto;">
-                    <md-list-item ng-repeat="nav in $ctrl._NAVBAR" ng-href="{{::nav.link}}" duration="1500" du-smooth-scroll du-scrollspy ng-disabled="!nav.active">
+                <md-content flex="auto" du-scroll-container="settings-scroll-container" style="overflow-y: auto;">
+                    <md-list-item ng-repeat="nav in $ctrl._NAVBAR" ng-href="{{::nav.link}}"
+                                  duration="500" du-smooth-scroll du-scrollspy ng-disabled="!nav.active">
                         <md-icon flex="none" md-svg-src="/assets/icon/{{::nav.icon}}" class="s24" ng-class="{disable: !nav.active}"></md-icon>
                         <div flex hide show-gt-md class="md-body-1" style="opacity: 0.87" translate>{{::nav.name}}</div>
                     </md-list-item>
@@ -50,13 +51,14 @@
 
                                     </md-card>
                                 </header>
-                                <section class="settings-feed" flex="grow" layout="column" du-scroll-container>
+                                <section class="settings-feed" flex="grow" layout="column" id="settings-scroll-container">
+
                                     <article flex="none" ng-include="'settings/articles/settings.personal.html'"></article>
 
                                   <ng-include src="'settings/articles/settings.privacy.html'"></ng-include>
-                                  <ng-include src="'settings/articles/settings.display.html'"></ng-include> <!--
+                                  <ng-include src="'settings/articles/settings.display.html'"></ng-include>
                                   <ng-include src="'settings/articles/settings.account.html'"></ng-include>
-                                  <ng-include src="'settings/articles/settings.sync.html'"></ng-include>--><!--
+                                  <ng-include src="'settings/articles/settings.sync.html'"></ng-include><!--
                                   <ng-include src="'settings/articles/settings.zones.html'"></ng-include>-->
                                   <article flex="none" ng-include="'settings/articles/settings.notifications.html'"></article>
                                   <!--<ng-include src="'settings/articles/settings.templates.html'"></ng-include> -->

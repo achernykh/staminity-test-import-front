@@ -36,7 +36,7 @@ function AppRun($rootScope, $mdMedia, AuthService, $transitions, $state, SystemM
                                 },
                                 ()=> {
                                     console.log('transition check authorized error')
-                                    return false
+                                    return true // временно
                                 })
                     // Проверка полномочий не требуется
                     else

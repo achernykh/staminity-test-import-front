@@ -11,7 +11,7 @@ import {_FORM} from './translate/form.translate.js'
 import {_MESSAGE} from './translate/message.translate.js'
 
 function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $stateProvider,
-                   $urlRouterProvider) {
+                   $urlRouterProvider, $sceDelegateProvider) {
     'ngInject';
 
     //TODO добавить коммент
@@ -19,6 +19,11 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
         enabled: true,
         requireBase: false
     })
+    // https://docs.angularjs.org/api/ng/provider/$sceDelegateProvider#resourceUrlWhitelist
+    $sceDelegateProvider.resourceUrlWhitelist([
+        'self',
+        'https://maps.googleapis.com/**'
+    ])
 
     $urlRouterProvider.otherwise('/')
 
@@ -55,14 +60,17 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
-        // Представление Auth: SignIn
-        .state('signin', {
-            url: "/signin",
+        // Тестовое представления для отправки/получения запросов по WS
+        .state('api', {
+            url: "/api",
             loginRequired: false,
             authRequired: ['func1'],
             resolve: {
                 view: function (ViewService) {
-                    return ViewService.getParams('signin')
+                    return ViewService.getParams('api')
+                },
+                wsRequired: function(SocketService) {
+                    return SocketService.open()
                 }
             },
             views: {
@@ -75,52 +83,10 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     bindings: {view: 'view.header'}
                 },
                 "application": {
-                    component: "auth",
+                    component: "api",
                     bindings: {view: 'view.application'}
-                },
-                "form@signin": {
-                    templateUrl: 'auth/state/signin.html'
                 }
             }
-        })
-        // Представление Auth: SignUp
-	    .state('signup', {
-		    url: "/signup",
-		    loginRequired: false,
-		    authRequired: ['func1'],
-		    resolve: {
-			    view: function (ViewService) {
-				    return ViewService.getParams('signup')
-			    }
-		    },
-		    views: {
-			    "background": {
-				    component: "staminityBackground",
-				    bindings: {view: 'view.background'}
-			    },
-			    "header": {
-				    component: 'staminityHeader',
-				    bindings: {view: 'view.header'}
-			    },
-			    "application": {
-				    component: "auth",
-				    bindings: {view: 'view.application'}
-			    },
-			    "form@signup": {
-				    templateUrl: 'auth/state/signup.html'
-			    }
-		    }
-	    })
-        // Представление Auth: SignOut
-        .state('signout', {
-            url: "/signout",
-            loginRequired: true,
-            authRequired: ['func1'],
-            onEnter: ($state, SessionService, UserService) => {
-                SessionService.delToken()
-                $state.go('signin')
-            }
-
         })
         // Представление Календарь
         .state('calendar', {
@@ -152,49 +118,6 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     component: "calendar",
                     bindings: {
                         view: 'view.application'
-                    }
-                }
-            }
-        })
-        // Представление Настройки пользователя
-        .state('settings', {
-            url: "/settings/:uri",
-            loginRequired: true,
-            authRequired: ['func1'],
-            resolve: {
-                view: function (ViewService) {
-                    return ViewService.getParams('settings')
-                },
-                wsRequired: function(SocketService) {
-                    return SocketService.open()
-                },
-                user: function (UserService, $stateParams, SystemMessageService) {
-                    return UserService.getProfile($stateParams.uri)
-	                    .catch((error) => {
-		                    SystemMessageService.show(error,'warning')
-		                    // TODO перейти на страницу 404
-		                    throw error
-	                    })
-                }
-            },
-            views: {
-                "background": {
-                    component: "staminityBackground",
-                    bindings: {
-                        view: 'view.background'
-                    }
-                },
-                "header": {
-                    component: 'staminityHeader',
-                    bindings: {
-                        view: 'view.header'
-                    }
-                },
-                "application": {
-                    component: "settings",
-                    bindings: {
-                        view: 'view.application',
-                        user: 'user'
                     }
                 }
             }
@@ -331,7 +254,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             'hue-2': '600',
             'hue-3': '800'
         })
-        .accentPalette('orange', {
+        .accentPalette('deep-orange', {
             'default': 'A700',
             'hue-1': '50',
             'hue-2': '600',

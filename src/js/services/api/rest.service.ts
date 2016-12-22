@@ -5,7 +5,7 @@ interface IPostDataRequest {
 	method:string;
 	url:string;
 	data:{
-		requestType:string;
+		//requestType:string;
 		requestData:any;
 		token?:string;
 	};
@@ -28,7 +28,7 @@ export class PostData implements IPostDataRequest {
 	method:string;
 	url:string;
 	data:{
-		requestType:string;
+		//requestType:string;
 		requestData:any;
 		token?:string; // указывается в момент отправки запроса
 	};
@@ -37,7 +37,7 @@ export class PostData implements IPostDataRequest {
 		this.method = 'POST';
 		this.url = 'http://' + _connection.server + type;
 		this.data = {
-			requestType: type,
+			//requestType: type,
 			requestData: data,
 		};
 	}
@@ -82,10 +82,12 @@ export class RESTService implements IRESTService {
 		request.data.token = this.SessionService.getToken();
 		console.log('REST Service => postData=', request)
 		return this.$http(request)
-			.then((result:any)=> {
-				return result.data
+			.then((response:any)=> {
+				console.log('REST Service => postData success=', response)
+				return response.data
 			}, (response) => {
-				throw response.data.value // Предполагаем, что сервер ответил ошибкой в формате systemMessage
+				console.log('REST Service => postData error=', response)
+				throw response.data.errorMessage // Предполагаем, что сервер ответил ошибкой в формате systemMessage
 			});
 	}
 

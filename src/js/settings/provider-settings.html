@@ -1,0 +1,53 @@
+<md-dialog style="min-width: 320px">
+    <form ng-cloak>
+        <md-toolbar style="background-color: white; color: black">
+            <div class="md-toolbar-tools">
+                <h2>{{::$ctrl.service}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/assets/icon/close.svg"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <md-list class="md-dense">
+                <md-list-item>
+                    <md-input-container md-no-float class="md-block no-message">
+                        <md-icon md-svg-src="/assets/icon/security.svg"></md-icon>
+                        <input ng-model="$ctrl.provider.login" type="text" autocomplete="off"
+                               placeholder="Учетная запись">
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item>
+                    <md-input-container md-no-float class="md-block no-message">
+                        <md-icon md-svg-src="/assets/icon/security.svg"></md-icon>
+                        <input ng-model="$ctrl.provider.password" type="password" autocomplete="off"
+                               placeholder="Учетная запись">
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item>
+                    <md-input-container md-no-float class="md-block">
+                        <md-datepicker ng-model="$ctrl.provider.startDate" name="dateField" md-min-date="minDate"
+                                       md-max-date="maxDate"></md-datepicker>
+
+                        <div class="hint">Если начальная дата не указана, то будет выполнена загрузка всех
+                            тренировок</div>
+                        <div ng-messages="myOtherForm.dateField.$error">
+                            <div ng-message="valid">The entered value is not a date!</div>
+                            <div ng-message="required">This date is required!</div>
+                            <div ng-message="mindate">Date is too early!</div>
+                            <div ng-message="maxdate">Date is too late!</div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+            </md-list>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <!--<span flex></span>-->
+            <md-button ng-click="answer()">Sync</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
