@@ -188,3 +188,20 @@ section.settings-feed {
         }
     }
 }
+
+md-list-item md-input-container {
+    md-datepicker {
+        button {
+            margin-left: 0px !important;
+            padding-left: 0px !important;
+            width: 24px !important;
+        }
+        div.md-datepicker-input-container {
+            margin-left: 0px !important;
+            width: calc(100% - 30px);
+        }
+    }
+    div.hint {
+        width: 300px;
+    }
+}
