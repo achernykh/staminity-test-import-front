@@ -148,9 +148,9 @@ export default class AuthService {
      * @param password
      * @returns {Promise<any>}
      */
-    setPassword(password) {
-        return this._RESTService.postData(new SetPasswordRequest(this._SessionService.getToken(), password))
-            .then((result) => {return result.value}) // Ожидаем system message
+    setPassword(password, token = this._SessionService.getToken()) {
+        return this._RESTService.postData(new SetPasswordRequest(token, password))
+            .then((result) => {return result.data}) // Ожидаем system message
     }
 
     login(data){
