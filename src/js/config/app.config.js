@@ -122,6 +122,51 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
+        .state('me', {
+            url: "/user",
+            loginRequired: true,
+            authRequired: ['func1'],
+            resolve: {
+                view: function (ViewService) {
+                    return ViewService.getParams('user')
+                },
+                wsRequired: function (SocketService) {
+                    return SocketService.open()
+                },
+                userId: function (SessionService) {
+                    return SessionService.getUser().userId
+                },
+                user: function (wsRequired, UserService, userId) {
+                    return UserService.getProfile(userId)
+                },
+                summaryStatistics: function (wsRequired, UserService, userId) {
+                    let start = new Date()
+                    start.setFullYear(new Date().getFullYear() + 1)
+                    let end = new Date()
+                    // return UserService.getSummaryStatistics(userId, start, end, 'month', ['*'])
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {
+                        view: 'view.background'
+                    }
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {
+                        view: 'view.header'
+                    }
+                },
+                "application": {
+                    component: "user",
+                    bindings: {
+                        view: 'view.application'
+                    }
+                }
+            }
+        })
         .state('user', {
             url: "/user/:uri",
             loginRequired: true,
@@ -143,7 +188,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     let start = new Date()
                     start.setFullYear(new Date().getFullYear() + 1)
                     let end = new Date()
-                    return UserService.getSummaryStatistics(userId, start, end, 'month', ['*'])
+                    // return UserService.getSummaryStatistics(userId, start, end, 'month', ['*'])
                 }
             },
             views: {

@@ -9,7 +9,7 @@
                     <div layout="row">
                         <div flex="40" layout-align="end" style="text-align: right; padding-top: 10px;">
                             <div class="chip" ng-if="$ctrl.user.public.isCoach">Тренер</div>  <br/>
-                            <div class="chip"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
+                            <div class="chip" ng-if="$ctrl.user.public.isPremium"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
                         </div>
                         <div flex="20">
                             <div class="userpic" ng-style="{'background-image': $ctrl.getUserpic()}" layout-align="center"></div>
@@ -47,14 +47,13 @@
             <div class="profile-card-text">
                 <div class="title">О себе</div>
                 <div class="text">
-                    <p>Персональный тренер PRO TRENER</p>
-                    <p>Спортом увлекался с детства, с 7 лет занимался хоккеем. За двенадцатилетнюю спортивную карьеру неоднократно становился призером российских и международных хоккейных турниров. С 2012 года принимает участие в соревнованиях по триатлону. Лучший результат на дистанции Ironman – 09:52 (Ironman Barcelona 2015). Обладает высокими компетенциями для персональной подготовки спортсменов любителей и профессионалов в игровых видах …</p>
+                    <p>{{$ctrl.user.personal.about || "Информация не указана"}}</p>
                     <p>Вес: 84 кг     Рост: 184 кг</p>
                 </div>
                 
                 <div class="title">Связи</div>
                 <div class="text">
-                    <span class="label">Клуб:</span> <span class="value">PRO TRENER</span>
+                    <span class="label">Клуб:</span> <span class="value">{{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</span>
                     <span class="label">Тренеры:</span> <span class="value" ng-click="$ctrl.coaches()">{{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</span>
                     <span class="label">Спортсмены:</span> <span class="value" ng-click="$ctrl.athlets()">{{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</span>
                     <br/>

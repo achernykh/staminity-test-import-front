@@ -4,7 +4,7 @@ import {
 } from './settings.const.js'
 
 class SettingsCtrl {
-	constructor(UserService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog) {
+	constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog) {
 		'ngInject'
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
@@ -14,7 +14,8 @@ class SettingsCtrl {
 		this._LANGUAGE = _LANGUAGE
 		this._UNITS = _UNITS
 		this._country_list = _country_list;
-		this._UserService = UserService
+		this._UserService = UserService;
+		this._AuthService = AuthService;
 		this._SystemMessageService = SystemMessageService
 		this._ActionMessageService = ActionMessageService
 		this._$http = $http
@@ -215,7 +216,7 @@ class SettingsCtrl {
 			this._$mdDialog.show({
 				controller: DialogController,
 				controllerAs: '$ctrl',
-				templateUrl: 'settings/provider-settings.html',
+				templateUrl: 'settings/dialogs/provider.html',
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				locals: {
@@ -236,6 +237,39 @@ class SettingsCtrl {
 				})
 		}
 	};
+
+	showPasswordChange(ev) {
+		//console.log('provider settings =', typeof ev, service, provider)
+
+		//if(provider.enabled) {
+			this._$mdDialog.show({
+				controller: DialogController,
+				controllerAs: '$ctrl',
+				templateUrl: 'settings/dialogs/changepassword.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				bindToController: true,
+				clickOutsideToClose: true,
+				escapeToClose: true,
+				fullscreen: false // Only for -xs, -sm breakpoints.
+			})
+				.then((password) => {
+					console.log(`You said the information was ${password}.`);
+					this._AuthService.setPassword(password)
+						.then((response) => {
+							console.log(response)
+							this._SystemMessageService.show(response.title, response.status, )
+						}, (error) => {
+							console.log(error)
+						})
+				}, () => {
+					// Если диалог открывается по вызову ng-change
+					if (typeof ev === 'undefined') provider.enabled = false
+					this.status = 'You cancelled the dialog.';
+				})
+		//}
+	};
+
 
 }
 

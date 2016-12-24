@@ -26,8 +26,16 @@ export default class UserService {
      * @param request
      * @returns {Promise<T>}
      */
-    getProfile(uri:string):Promise<IUserProfile> {
-        return this.SocketService.send(new GetRequest(uri))
+    getProfile(key:string|number):Promise<IUserProfile> {
+        let request = new GetRequest();
+        
+        if (typeof key === 'string') {
+            request.requestData.uri = key
+        } else {
+            request.requestData.userId = key
+        }
+        
+        return this.SocketService.send(request)
     }
 
     /**

@@ -26,6 +26,10 @@ export default class SessionService implements ISessionService {
 		this.$window = $window;
 	}
 
+	getAuth():Object {
+		return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
+	}
+
 	getToken():string {
 		try {
 			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey)).token;

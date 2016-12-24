@@ -12,7 +12,7 @@ class HeaderCtrl {
 	}
 
 	avatarUrl(){
-		return _connection.content + '/content/user/avatar/' + this.user.public.avatar;
+		return _connection.content + (this.user? '/content/user/avatar/' + this.user.public.avatar : '/assets/avatar/default.png')
 	}
 
 	toggleSlide(component) {

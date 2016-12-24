@@ -1,5 +1,6 @@
 import {_UserRoles} from '../../config/app.constants.js';
 import {PostData, PostFile, IRESTService} from '../api/rest.service'
+import {SetPasswordRequest} from '../../../../api/auth/auth.request'
 
 export default class AuthService {
     constructor($q, $log, $rootScope, $timeout, API, StorageService, UserService, SessionService, RESTService){
@@ -142,6 +143,16 @@ export default class AuthService {
         return this._RESTService.postData(new PostData('/confirm',request))
             .then((result) => {return result.value}) // Ожидаем system message
     }
+    /**
+     * Установка нового пароля текущего пользователя
+     * @param password
+     * @returns {Promise<any>}
+     */
+    setPassword(password, token = this._SessionService.getToken()) {
+        return this._RESTService.postData(new SetPasswordRequest(token, password))
+            .then((result) => {return result.data}) // Ожидаем system message
+    }
+
     login(data){
         return this.session = data;
         //this._api.wsOpen(this.session.token);
