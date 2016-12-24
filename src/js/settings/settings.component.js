@@ -258,6 +258,7 @@ class SettingsCtrl {
 					this._AuthService.setPassword(password)
 						.then((response) => {
 							console.log(response)
+							this._SystemMessageService.show(response.title, response.status, )
 						}, (error) => {
 							console.log(error)
 						})
