@@ -67,6 +67,16 @@ export default class GroupService {
         return this.SocketService.send(new GetGroupMembershipProfile(groupId));
     }
 
+    /**
+     *
+     * @param offset
+     * @param limit
+     * @returns {Promise<any>}
+     */
+    getMembershipRequest(offset:number = null, limit:number = 30):Promise<any> {
+        return this.SocketService.send(new GetMembershipRequest(offset, limit));
+    }
+
 
 }
 
