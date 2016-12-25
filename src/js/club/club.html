@@ -18,9 +18,18 @@
                     <div class="text">
                         Триатлон, Бег, Плавание, Велоспорт
                     </div>
-                    <div>
-                        <md-button class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
-                            Начать тренироваться
+                    <div ng-if="$ctrl.club.availableInteractions">
+                        <md-button ng-click="$ctrl.join()" ng-if="$ctrl.club.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                            Вступить в клуб
+                        </md-button>
+                        <md-button ng-click="$ctrl.leave()" ng-if="$ctrl.club.availableInteractions.$ctrl.club.availableInteractions.btnLeaveGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                            Выйти из клуба
+                        </md-button>
+                        <md-button ng-click="$ctrl.join()" ng-if="$ctrl.club.availableInteractions.btnCancelLeaveGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                            Отменить запрос
+                        </md-button>
+                        <md-button ng-click="$ctrl.leave()" ng-if="$ctrl.club.availableInteractions.btnCancelJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                            Отменить запрос
                         </md-button>
                     </div>
                 </div>

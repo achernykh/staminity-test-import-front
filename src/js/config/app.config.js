@@ -68,9 +68,6 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             resolve: {
                 view: function (ViewService) {
                     return ViewService.getParams('api')
-                },
-                wsRequired: function(SocketService) {
-                    return SocketService.open()
                 }
             },
             views: {
@@ -96,9 +93,6 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
             resolve: {
                 view: function (ViewService) {
                     return ViewService.getParams('calendar')
-                },
-                wsRequired: function(SocketService) {
-                    return SocketService.open()
                 }
             },
             views: {
@@ -130,16 +124,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function (ViewService) {
                     return ViewService.getParams('user')
                 },
-                wsRequired: function (SocketService) {
-                    return SocketService.open()
-                },
                 userId: function (SessionService) {
                     return SessionService.getUser().userId
                 },
-                user: function (wsRequired, UserService, userId) {
+                user: function (UserService, userId) {
                     return UserService.getProfile(userId)
                 },
-                summaryStatistics: function (wsRequired, UserService, userId) {
+                summaryStatistics: function (UserService, userId) {
                     let start = new Date()
                     start.setFullYear(new Date().getFullYear() + 1)
                     let end = new Date()
@@ -175,16 +166,13 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function (ViewService) {
                     return ViewService.getParams('user')
                 },
-                wsRequired: function (SocketService) {
-                    return SocketService.open()
-                },
                 userId: function (SocketService, $stateParams) {
                     return $stateParams.uri
                 },
-                user: function (wsRequired, UserService, userId) {
+                user: function (UserService, userId) {
                     return UserService.getProfile(userId)
                 },
-                summaryStatistics: function (wsRequired, UserService, userId) {
+                summaryStatistics: function (UserService, userId) {
                     let start = new Date()
                     start.setFullYear(new Date().getFullYear() + 1)
                     let end = new Date()
@@ -220,11 +208,10 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function (ViewService) {
                     return ViewService.getParams('club')
                 },
-                wsRequired: function (SocketService) {
-                    console.log('wsRequired')
-                    return SocketService.open()
+                userId: function (SessionService) {
+                    return SessionService.getUser().userId
                 },
-                club: function (wsRequired, GroupService, $stateParams) {
+                club: function (GroupService, $stateParams) {
                     console.log('club')
                     return GroupService.getProfile('/club/' + $stateParams.uri)
                 }
@@ -258,13 +245,10 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 view: function (ViewService) {
                     return ViewService.getParams('users')
                 },
-                wsRequired: function (SocketService) {
-                    return SocketService.open()
-                },
-                club: function (wsRequired, GroupService, $stateParams) {
+                club: function (GroupService, $stateParams) {
                     return GroupService.getProfile('/club/' + $stateParams.uri)
                 },
-                membership: function (wsRequired, GroupService, $stateParams) {
+                membership: function (GroupService, $stateParams) {
                     console.log('membership')
                     return GroupService.getMembershipRequest(0, 100)
                 }

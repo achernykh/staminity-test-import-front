@@ -52,15 +52,25 @@ const requestsList = {
 
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, UserService, API) {
+    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, API) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this._$mdSidenav = $mdSidenav;
         this.UserService = UserService;
+        this.GroupService = GroupService;
         this.API = API;
         
+        this.loadMore()
+        
         this.requests = requestsList;
+    }
+    
+    loadMore () {
+      this.GroupService.getMembershipRequest(0, 20)
+      .then((data) => {
+        console.log('requests', data)
+      })
     }
     
     close () {
