@@ -8,69 +8,49 @@ const types = [
 
 const requestsList = {
   inbox: {
-    new: [{ 
-      from: users[0], type: types[0], time: '2 мин'
-    }, {
-      from: users[0], type: types[0], time: '3 д'
-    }],
-    old: [{ 
-      from: users[0], type: types[0], fulfilled: true
-    }, { 
-      from: users[0], type: types[0], fulfilled: false
-    }, { 
-      from: users[0], type: types[0], fulfilled: true
-    }, { 
-      from: users[0], type: types[0], fulfilled: true
-    }, { 
-      from: users[0], type: types[0], fulfilled: false
-    }, { 
-      from: users[0], type: types[0], fulfilled: true
-    }]
+    new: [],
+    old: []
   },
   outbox: {
-    new: [{ 
-      from: users[0], type: types[0], time: '2 мин'
-    }, {
-      from: users[0], type: types[0], time: '3 д'
-    }],
-    old: [{ 
-      from: users[0], type: types[0], fulfilled: true
-    }, { 
-      from: users[0], type: types[0], fulfilled: false
-    }, { 
-      from: users[0], type: types[0], fulfilled: true
-    }, { 
-      from: users[0], type: types[0], fulfilled: true
-    }, { 
-      from: users[0], type: types[0], fulfilled: false
-    }, { 
-      from: users[0], type: types[0], fulfilled: true
-    }]
+    new: [],
+    old: []
   }
 };
 
 
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, API) {
+    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, API, dialogs) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this._$mdSidenav = $mdSidenav;
         this.UserService = UserService;
         this.GroupService = GroupService;
+        this.dialogs = dialogs;
         this.API = API;
         
-        this.loadMore()
+        this.update()
         
         this.requests = requestsList;
     }
     
-    loadMore () {
+    update () {
       this.GroupService.getMembershipRequest(0, 20)
-      .then((data) => {
-        console.log('requests', data)
+      .then((requests) => {
+        this.requests.inbox.new = requests.filter((request) => request.direction == 'I' && request.updated)
+        this.requests.inbox.old = requests.filter((request) => request.direction == 'I' && !request.updated)
+        this.requests.outbox.new = requests.filter((request) => request.direction == 'O' && request.updated)
+        this.requests.outbox.old = requests.filter((request) => request.direction == 'O' && !request.updated)
+        this.$scope.$apply()
       })
+    }
+    
+    processRequest (request, action) {
+      this.dialogs.confirm()
+      .then((confirmed) => { if (!confirmed) throw new Error() })
+      .then(() => this.GroupService.processMembershipRequest(request.id, action))
+      .then(() => this.update())
     }
     
     close () {
@@ -83,27 +63,31 @@ class RequestsCtrl {
 const requests = {
 
     bindings: {
-        view: '<',
-        profile: '<currentUser'
+        view: '<'
     },
 
     require: {
         app: '^staminityApplication'
     },
 
-    transclude: false,
-
     controller: RequestsCtrl,
 
-    templateUrl: 'requests/requests.html',
+    templateUrl: 'requests/requests.html'
 
-    $routeConfig: [
-        { path: '/', name: 'Profile', component: 'requests', useAsDefault: true },
-        { path: '/:id', name: 'Profile', component: 'requests' }
-    ]
-
-};
+}
 
 
-angular.module('staminity.requests', ['ngMaterial'])
-    .component('requests', requests);
+const requestType = () => (request) => {
+  if (request.groupProfile.groupCode == "ClubMembers") {
+    return 'Запрос на вступление в клуб'
+  } else {
+    let initiator = 'тренера'
+    let receiver = 'спортсмену'
+    return `Запрос от ${initiator} ${receiver}`
+  }
+}
+
+
+angular.module('staminity.requests', ['ngMaterial', 'staminity.components'])
+    .component('requests', requests)
+    .filter('requestType', requestType)

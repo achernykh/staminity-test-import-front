@@ -58,14 +58,16 @@ export class SocketService implements ISocketService {
                 })
             } 
             
-            this.ws.onOpen(() => { 
+            let onOpen = () => { 
                 console.log('wsOpen', this.ws.readyState)
                 if (this.ws.readyState == 2) {
                     reject(this.ws.readyState)
                 } else if (this.ws.readyState == 1) {
                     resolve(this.ws.readyState) 
                 }
-            })
+            }
+            
+            this.ws.readyState? onOpen() : this.ws.onOpen(onOpen)
         })
     }
 

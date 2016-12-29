@@ -12,13 +12,13 @@
                             <div class="chip" ng-if="$ctrl.user.public.isPremium"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
                         </div>
                         <div flex="20">
-                            <div class="userpic" ng-style="{'background-image': $ctrl.getUserpic()}" layout-align="center"></div>
+                            <div class="userpic" ng-style="{'background-image': ($ctrl.user | avatar)}" layout-align="center"></div>
                         </div>
                         <div flex="40">
                         </div>
                     </div>
                     <div class="name">
-                        {{$ctrl.getUsername()}}
+                        {{$ctrl.user | username}}
                     </div>
                     <div class="text">
                         Россия, г. Москва, M30-34
@@ -27,13 +27,8 @@
                         Триатлон, Бег, Плавание, Велоспорт
                     </div>
                     <div>
-                        <md-button class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
-                            Начать тренироваться
-                        </md-button>
-                        <md-button ng-click="$ctrl.showFriends()" style="width: 56px; min-width: 56px; min-height: 36px; height: 36px; border-radius: 2px; background-color: rgba(0, 0, 0, 0.12); border: solid 1px #ffffff;">
-                            <i class="material-icons" style="line-height: 33px;">person_add</i> 
-                            <i class="material-icons" style="line-height: 33px;">arrow_drop_down</i>
-                        </md-button>
+                        <group-actions ng-if="$ctrl.user.public.isCoach" group="$ctrl.user.connections.Athletes" onUpdate="$ctrl.update()"></group-actions>
+                        <group-actions group="$ctrl.user.connections.Followers" onUpdate="$ctrl.update()"></group-actions>
                     </div>
                 </div>
                 

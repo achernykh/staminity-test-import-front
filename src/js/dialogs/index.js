@@ -5,13 +5,37 @@ class DialogsService {
     }
     
     uploadPicture () {
-        this.$mdDialog.show({
+        return this.$mdDialog.show({
             controller: UploadPictureDialogController,
-            template: 'dialogs/upload.html',
+            templateUrl: 'dialogs/upload.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
     }
+    
+    confirm (message) {
+        return this.$mdDialog.show({
+            controller: ConfirmDialogController,
+            templateUrl: 'dialogs/confirm.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true
+        })
+    }
+}
+
+
+function ConfirmDialogController($scope, $mdDialog) {
+    'ngInject';
+    
+    $scope.mwssage = ''
+    
+    $scope.cancel = () => {
+        $mdDialog.cancel();
+    };
+    
+    $scope.confirm = () => {
+        $mdDialog.hide(true);
+    };
 }
 
 

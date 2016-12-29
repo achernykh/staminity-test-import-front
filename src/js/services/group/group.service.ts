@@ -38,9 +38,9 @@ export default class GroupService {
     }
 
     /**
-     * Запрос состава группы
-     * @param id
-     * @param uri
+     * Реестр запросов
+     * @param offset
+     * @param limit
      * @returns {Promise<IGroupProfile>}
      */
     getMembershipRequest(offset:number, limit: number):Promise<IGroupProfile> {
@@ -74,6 +74,14 @@ export default class GroupService {
         return this.SocketService.send(new GetGroupMembershipProfile(groupId));
     }
 
+    /**
+     * Принять/отклонить/отменить запрос
+     * @param id
+     * @returns {Promise<IGroupProfile>}
+     */
+    processMembershipRequest(requestId:number, action:string):Promise<IGroupProfile> {
+        return this.SocketService.send(new ProcessMembershipRequest(requestId, action));
+    }
 
 }
 

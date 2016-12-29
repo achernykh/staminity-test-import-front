@@ -172,19 +172,12 @@ const users = {
         app: '^staminityApplication'
     },
 
-    transclude: false,
-
     controller: UsersCtrl,
 
     templateUrl: 'users/users.html',
 
-    $routeConfig: [
-        { path: '/', name: 'Users', component: 'users', useAsDefault: true },
-        { path: '/:id', name: 'Users', component: 'users' }
-    ]
-
 };
 
 
-angular.module('staminity.users', ['ngMaterial'])
+angular.module('staminity.users', ['ngMaterial', 'staminity.components'])
     .component('users', users);

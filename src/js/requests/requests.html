@@ -4,7 +4,7 @@
         <div class="titlebar">
             <i class="material-icons icon">group</i>
             Запросы
-            <md-button ng-click="$ctrl.close()" class="close">
+            <md-button ng-click="close()" class="close">
                 <i class="material-icons">close</i>
             </md-button>
         </div>
@@ -18,21 +18,18 @@
                     <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
                         <div layout="row">
                             <div>
-                                <img style="height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg"/>
-                            </div>
-                            <div flex class="from">
-                                {{request.from.username}}                        
+                                <user-info user="request.initiator"/>
                             </div>
                             <div class="time">
-                                {{request.time}}
+                                {{request.created | date:'HH:mm'}}
                             </div>
                         </div>
                         <div class="type">
-                            {{request.type}}
+                            {{request | requestType}}
                         </div>
                         <div>
-                            <md-button> Принять </md-button>
-                            <md-button> Отклонить </md-button>
+                            <md-button ng-click="$ctrl.processRequest(request, 'A')"> Принять </md-button>
+                            <md-button ng-click="$ctrl.processRequest(request, 'D')"> Отклонить </md-button>
                         </div>
                     </div>
                     <div class="title">
@@ -41,17 +38,14 @@
                     <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">
                         <div layout="row">
                             <div>
-                                <img style="height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg"/>
-                            </div>
-                            <div flex class="from">
-                                {{request.from.username}}                        
+                                <user-info user="request.initiator"/>        
                             </div>
                             <div class="time">
-                                <i class="material-icons">{{request.fulfilled? 'check' : 'close'}}</i>
+                                <i class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</i>
                             </div>
                         </div>
                         <div class="type">
-                            {{request.type}}
+                            {{request.updated | date:'HH:mm'}}
                         </div>
                     </div>
                 </md-tab-body>
@@ -59,7 +53,41 @@
             
             <md-tab label="Исходящие">
                 <md-tab-body>
-                
+                    <div class="title">
+                        Ожидают подтверждения
+                    </div>
+                    <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
+                        <div layout="row">
+                            <div>
+                                <user-info user="request.receiver"/>
+                            </div>
+                            <div class="time">
+                                {{request.created | date:'HH:mm'}}
+                            </div>
+                        </div>
+                        <div class="type">
+                            {{request | requestType}}
+                        </div>
+                        <div>
+                            <md-button ng-click="$ctrl.processRequest(request, 'C')"> Отменить </md-button>
+                        </div>
+                    </div>
+                    <div class="title">
+                        История
+                    </div>
+                    <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">
+                        <div layout="row">
+                            <div>
+                                <user-info user="request.receiver"/>        
+                            </div>
+                            <div class="time">
+                                <i class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</i>
+                            </div>
+                        </div>
+                        <div class="type">
+                            {{request.updated | date:'HH:mm'}}
+                        </div>
+                    </div>
                 </md-tab-body>    
             </md-tab>
         </md-tabs>

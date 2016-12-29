@@ -1,5 +1,6 @@
 import {IUserProfile} from '../../../../api/user/user.interface';
-import { GetRequest, PutRequest, GetSummaryStatisticsRequest } from '../../../../api/user/user.request'
+import { GetUserProfileSummaryStatistics } from '../../../../api/statistics/statistics.request'
+import { GetRequest, PutRequest } from '../../../../api/user/user.request'
 import {ISocketService} from '../api/socket.service';
 import {ISessionService} from '../session/session.service';
 import {PostData, PostFile, IRESTService} from '../api/rest.service';
@@ -74,7 +75,7 @@ export default class UserService {
      * @returns {Promise<TResult>}
      */
     getSummaryStatistics(id: number, start: Date, end: Date, group: string, data: Array<string>):Promise<Object> {
-        return this.SocketService.send(new GetSummaryStatisticsRequest(id,start,end,group,data))
+        return this.SocketService.send(new GetUserProfileSummaryStatistics(id, start.toString(), end.toString(), group, data))
             .then((data:any) => {
                 return data.value
             });

@@ -53,12 +53,13 @@ const table = {
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, UserService, API) {
+    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, API) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this.dialogs = dialogs;
         this.UserService = UserService;
+        this.GroupService = GroupService;
         this.API = API;
         
         this.years = [2015, 2016];
@@ -73,13 +74,11 @@ class ProfileCtrl {
         
         console.log($scope);
     }
-
-    getUsername () {
-        return `${this.user.public.firstName} ${this.user.public.lastName}`
-    }
-
-    getUserpic () {
-        return `url('${this.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.user.public.avatar) : '/assets/avatar/default.png'}')`
+  
+    update () {
+        return this.UserService.getProfile(this.user.userId)
+            .then((user) => { this.user = user })
+            .then(() => { this.$scope.$apply() })
     }
 
     getHeader () {
@@ -214,20 +213,5 @@ const user = {
 };
 
 
-function onFiles() {
-    return {
-        scope: {
-            onFiles: "<"
-        },
-
-        link (scope, element, attributes) {
-            let onFiles = (event) => (scope) => { scope.onFiles(event.target.files) };
-            element.bind("change", (event) => { scope.$apply(onFiles(event)) });
-        }
-    };
-}
-
-
-angular.module('staminity.user', ['ngMaterial'])
-    .component('user', user)
-    .directive("onFiles", onFiles);
+angular.module('staminity.user', ['ngMaterial', 'staminity.components'])
+    .component('user', user);

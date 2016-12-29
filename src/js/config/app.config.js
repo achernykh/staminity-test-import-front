@@ -134,7 +134,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     let start = new Date()
                     start.setFullYear(new Date().getFullYear() + 1)
                     let end = new Date()
-                    // return UserService.getSummaryStatistics(userId, start, end, 'month', ['*'])
+                    return UserService.getSummaryStatistics(userId, start, end, 'month', ['*'])
                 }
             },
             views: {
@@ -172,11 +172,11 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 user: function (UserService, userId) {
                     return UserService.getProfile(userId)
                 },
-                summaryStatistics: function (UserService, userId) {
+                summaryStatistics: function (UserService, user) {
                     let start = new Date()
                     start.setFullYear(new Date().getFullYear() + 1)
                     let end = new Date()
-                    // return UserService.getSummaryStatistics(userId, start, end, 'month', ['*'])
+                    return UserService.getSummaryStatistics(user.userId, start, end, 'month', ['*'])
                 }
             },
             views: {
