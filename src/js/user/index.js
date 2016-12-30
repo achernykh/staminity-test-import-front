@@ -14,23 +14,26 @@ const icons = {
 }
 
 
+const valueTypes = [
+    { name: 'время', f: time },
+    { name: 'кол-во трен.', f: count }
+]
+
+
 const chart = {
     width: 430,
     height: 150,
     barWidth: 20,
+    
     data: [],
-
-    setStatistics (statistics) {
-        this.data = pipe(
-            filter(type),
-            groupBy(date),
-            entries,
-            map(([date, series]) => ({ 
-                label: moment(date).format('MMM'), 
-                value: fold((a, x) => a + time(x), 0) (series)
-            }))
-        ) (statistics.series)
-    }
+    trableRows: [],
+    tableTotal: null,
+    
+    update () {
+        this.yScale = 0
+        this._bars = null
+        this._lines = null
+    },
 
     x (index) {
         return (index + 0.5) * (this.width / this.data.length);
@@ -59,33 +62,6 @@ const chart = {
 };
 
 
-const table = {
-  setStatistics (statistics) {
-      this.data = pipe(
-          filter(type),
-          groupBy(type),
-          entries,
-          map(([type, series]) => ({ 
-              icon: icons[type], 
-              dist: '-', 
-              hrs: fold((a, x) => a + time(x), 0) (series), 
-              count: fold((a, x) => a + count(x), 0) (series)
-          }))
-      ) (statistics.series)
-
-      this.total = { 
-          icon: 'functions', 
-          dist: '-', 
-          hrs: fold((a, x) => a + time(x), 0) (statistics.series), 
-          count: fold((a, x) => a + count(x), 0) (statistics.series)
-      }
-  }
-
-  data: [],
-  total: null
-};
-
-
 class ProfileCtrl {
 
     constructor ($scope, $mdDialog, dialogs, UserService, GroupService, API) {
@@ -99,16 +75,65 @@ class ProfileCtrl {
         
         this.years = [2015, 2016];
         this.year = 2016;
-        this.ranges = ['Обзор года', 'Обзор месяца'];
+        this.ranges = ['Обзор года'];
         this.range = 'Обзор года';
-        this.orders = ['время', 'кол-во трен.'];
-        this.order = 'время';
+        this.valueTypes = valueTypes;
+        this.valueType = valueTypes[0];
         
         this.chart = chart;
-        this.table = table;
-
-        this.chart.setStatistics(this.summaryStatistics);
-        this.table.setStatistics(this.summaryStatistics);
+        this.updateStatistics();
+    }
+    
+    selectRange (range) {
+        this.range = range
+        this.updateStatistics()
+    }
+    
+    selectValueType (valueType) {
+        this.valueType = valueType
+        this.updateStatistics()
+    }
+    
+    selectYear (year) {
+        this.year = year
+        this.updateStatistics()
+    }
+    
+    updateStatistics () {
+        this.UserService.getSummaryStatistics(this.user.userId, this.year + '', this.year + 1 + '', 'month', ['*'])
+        .then((summaryStatistics) => this.summaryStatistics = summaryStatistics)
+        .then(() => {
+            this.chart.data = pipe(
+                filter(type),
+                groupBy(date),
+                entries,
+                map(([date, series]) => ({ 
+                    label: moment(date).format('MMM'), 
+                    value: fold((a, x) => a + this.valueType.f(x), 0) (series)
+                }))
+            ) (this.summaryStatistics.series)
+            
+            this.chart.update()
+            
+            this.chart.tableRows = pipe(
+                filter(type),
+                groupBy(type),
+                entries,
+                map(([type, series]) => ({ 
+                    icon: icons[type], 
+                    dist: '-', 
+                    hrs: fold((a, x) => a + time(x), 0) (series), 
+                    count: fold((a, x) => a + count(x), 0) (series)
+                }))
+            ) (this.summaryStatistics.series)
+            
+            this.chart.tableTotal = { 
+                icon: 'functions', 
+                dist: '-', 
+                hrs: fold((a, x) => a + time(x), 0) (this.summaryStatistics.series), 
+                count: fold((a, x) => a + count(x), 0) (this.summaryStatistics.series)
+            }  
+        })
     }
   
     update () {

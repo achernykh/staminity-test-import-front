@@ -72,35 +72,38 @@
             </div>
             
             <div class="controls" layout="row">
-                <md-button class="paging">
+                <md-button class="paging" ng-click="$ctrl.selectYear($ctrl.year - 1)">
                     <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_left</i>
                 </md-button>
-                <md-button class="paging">
+                <md-button class="paging" ng-click="$ctrl.selectYear($ctrl.year + 1)">
                     <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_right</i>
                 </md-button>
-                <div>
-                    <md-select ng-model="$ctrl.year" class="md-no-underline" aria-label="Year">
-                        <md-option ng-repeat="year in $ctrl.years" value="{{year}}">
+                <div style="position:relative" ng-click="showYears = !showYears">
+                    {{$ctrl.year}} ▾
+                    <div style="position:absolute; top:100%;" ng-style="{display: showYears? 'block':'none'}">
+                        <div ng-repeat="year in $ctrl.years" ng-click="$ctrl.selectYear(year)">
                             {{year}}
-                        </md-option>
-                    </md-select>
+                        </div>
+                    </div>
                 </div>
-                <div flex layout-align="center" class="md-no-underline" aria-label="Range">
-                    <md-select ng-model="$ctrl.range" style="font-size: 15px; color: white; width: 150px; margin-left: auto; margin-right: auto;">
-                        <md-option ng-repeat="range in $ctrl.ranges" value="{{range}}">
+                <div style="position:relative" ng-click="showRanges = !showRanges" flex layout-align="center" class="md-no-underline" aria-label="Range">
+                    {{$ctrl.range}} ▾
+                    <div style="position:absolute; top:100%;" ng-style="{display: showRanges? 'block':'none'}">
+                        <div ng-repeat="range in $ctrl.ranges" ng-click="$ctrl.selectRange(range)">
                             {{range}}
-                        </md-option>
-                    </md-select>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <md-select ng-model="$ctrl.order" class="md-no-underline" aria-label="Order">
-                        <md-option ng-repeat="order in $ctrl.orders" value="{{order}}">
-                            {{order}}
-                        </md-option>
-                    </md-select>
+                <div style="position:relative" ng-click="showValueTypes = !showValueTypes">
+                    {{$ctrl.valueType.name}} ▾
+                    <div style="position:absolute; top:100%;" ng-style="{display: showValueTypes? 'block':'none'}">
+                        <div ng-repeat="valueType in $ctrl.valueTypes" ng-click="$ctrl.selectValueType(valueType)">
+                            {{valueType.name}}
+                        </div>
+                    </div>
                 </div>
             </div>
-            
+
             <div class="chart">
                 <svg ng-attr-width="{{$ctrl.chart.width + 20}}" ng-attr-height="{{$ctrl.chart.height + 25}}">
                     <g ng-repeat="bar in $ctrl.chart.bars()" ng-attr-transform="translate({{$ctrl.chart.x($index)}} 0)">
@@ -129,13 +132,13 @@
                         <th>время</th>
                         <th style="max-width: 90px;" width="90">кол-во трен.</th>
                     </tr>
-                    <tr ng-repeat="row in $ctrl.table.data">
+                    <tr ng-repeat="row in $ctrl.chart.tableRows">
                         <td><i class="material-icons">{{row.icon}}</i></td>
                         <td>{{row.dist}}</td>
                         <td>{{row.hrs}}</td>
                         <td>{{row.count}}</td>
                     </tr>
-                    <tr ng-init="row = $ctrl.table.total" class="row-total">
+                    <tr ng-init="row = $ctrl.chart.tableTotal" class="row-total">
                         <td><i class="material-icons">{{row.icon}}</i></td>
                         <td>{{row.dist}}</td>
                         <td>{{row.hrs}}</td>
