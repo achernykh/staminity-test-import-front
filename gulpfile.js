@@ -56,26 +56,37 @@ gulp.task('jsLibs', function() {
 
 // var ts = require("gulp-typescript");
 const tsify = require('tsify');
+const watchify = require('watchify');
  
 // Compile application
 gulp.task('jsApp', ['templates'], function() {
-    // var tsProject = ts.createProject("./tsconfig.json")
-    // return tsProject.src()
-    //     .pipe(ts(tsProject)).js
-    //     .pipe(source('main.js'))
-    //     .on('error', interceptErrors)
-    //     .pipe(gulp.dest('./build/js/'));
-    return browserify(config.src.app)
+    var b = browserify(config.src.babel)
+        .plugin(watchify)
         .plugin(tsify)
         .transform(babelify, {presets: ["es2015"]})
-        .transform(ngAnnotate)
-        .bundle()
-        .on('error', interceptErrors)
-        //Pass desired output filename to vinyl-source-stream
+        .transform(ngAnnotate);
+
+    b.on('update', bundle);
+    bundle();
+
+    function bundle() {
+        console.log('rebundle')
+        b.bundle()
         .pipe(source('main.js'))
-        //.pipe(uglify())
-        // Start piping stream to tasks!
         .pipe(gulp.dest('./build/js/'));
+    }
+    // return browserify(config.src.babel)
+    //     .plugin(watchify)
+    //     .plugin(tsify)
+    //     .transform(babelify, {presets: ["es2015"]})
+    //     .transform(ngAnnotate)
+    //     .bundle()
+    //     .on('error', interceptErrors)
+    //     //Pass desired output filename to vinyl-source-stream
+    //     .pipe(source('main.js'))
+    //     //.pipe(uglify())
+    //     // Start piping stream to tasks!
+    //     .pipe(gulp.dest('./build/js/'));
 });
 
 // Compile vendor css libs

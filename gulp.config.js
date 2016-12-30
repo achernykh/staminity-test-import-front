@@ -56,6 +56,11 @@ module.exports = {
     src: {
         index: [src + 'index.html', src + 'browserconfig.xml', src + 'favicon.ico'],
         jsLibs: jsLibs,
+        babel: { 
+            cache: {}, 
+            packageCache: {},
+            entries: [src + 'js/app.js']
+        },
         app: src + 'js/app.js',
         jsApp: [src + 'js/**/*.js', src + 'js/**/*.ts' ],
         cssLibs: cssLibs,
