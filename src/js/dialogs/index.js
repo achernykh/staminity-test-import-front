@@ -21,6 +21,16 @@ class DialogsService {
             clickOutsideToClose: true
         })
     }
+
+    group (group, title) {
+        this.$mdDialog.show({
+            controller: FriendsController,
+            locals: { users: group, title: title },
+            templateUrl: 'dialogs/usersList.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true
+        });
+    }
 }
 
 
@@ -64,6 +74,18 @@ function UploadPictureDialogController($scope, $mdDialog) {
     
     $scope.upload = () => {
         $mdDialog.hide(file);
+    };
+}
+
+
+function FriendsController($scope, $mdDialog, users, title) {
+    'ngInject';
+
+    $scope.users = users;
+    $scope.title = title;
+
+    $scope.close = () => {
+        $mdDialog.cancel();
     };
 }
 

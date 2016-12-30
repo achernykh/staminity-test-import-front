@@ -1,53 +1,88 @@
+import { pipe, groupBy, log, map, entries, fold, filter } from '../util/util'
+
+
+const date = (x) => x[0]
+const type = (x) => x[1]
+const time = (x) => x[2] || 0
+const count = (x) => x[3] || 0
+
+const icons = {
+  run: 'directions_run',
+  swim: 'pool',
+  fitness: 'fitness_center',
+  bike: 'directions_bike'
+}
+
+
 const chart = {
-  width: 430,
-  height: 150,
-  barWidth: 20,
-  data: [
-    { label: "Янв", value: 18 },
-    { label: "Фев", value: 23 },
-    { label: "Мар", value: 19 },
-    { label: "Апр", value: 25 },
-    { label: "Май", value: 26 },
-    { label: "Июн", value: 27 },
-    { label: "Июл", value: 24 },
-    { label: "Авг", value: 29 },
-    { label: "Сен", value: 28 },
-    { label: "Окт", value: 30 },
-    { label: "Ноя", value: 31 },
-    { label: "Дек", value: 33 }
-  ],
-  x (index) {
-    return (index + 0.5) * (this.width / this.data.length);
-  },
-  y (value) {
-    if (!this.yScale) {
-      this.yScale = this.height / this.data.reduce((m, { value }) => Math.max(m, value), 0);
+    width: 430,
+    height: 150,
+    barWidth: 20,
+    data: [],
+
+    setStatistics (statistics) {
+        this.data = pipe(
+            filter(type),
+            groupBy(date),
+            entries,
+            map(([date, series]) => ({ 
+                label: moment(date).format('MMM'), 
+                value: fold((a, x) => a + time(x), 0) (series)
+            }))
+        ) (statistics.series)
     }
-    return this.height - value * this.yScale;
-  },
-  bars () {
-    if (!this._bars) {
-      this._bars = this.data.map(({ label, value }) => ({ label, value, height: this.height - this.y(value) }));
+
+    x (index) {
+        return (index + 0.5) * (this.width / this.data.length);
+    },
+
+    y (value) {
+        if (!this.yScale) {
+            this.yScale = this.height / this.data.reduce((m, { value }) => Math.max(m, value), 0);
+        }
+        return this.height - value * this.yScale;
+    },
+
+    bars () {
+        if (!this._bars) {
+            this._bars = this.data.map(({ label, value }) => ({ label, value, height: this.height - this.y(value) }));
+        }
+        return this._bars;
+    },
+
+    lines () {
+        if (!this._lines) {
+            this._lines = [10, 20, 30, 40].map((value) => ({ label: `${value} ч`, y: this.y(value) }));
+        }
+        return this._lines;
     }
-    return this._bars;
-  },
-  lines () {
-    if (!this._lines) {
-      this._lines = [10, 20, 30, 40].map((value) => ({ label: `${value} ч`, y: this.y(value) }));
-    }
-    return this._lines;
-  }
 };
 
 
 const table = {
-  data: [
-    { icon: 'pool', dist: 210, hrs: '16:08', count: 18 },
-    { icon: 'fitness_center', dist: 210, hrs: '15:23', count: 18 },
-    { icon: 'directions_run', dist: 210, hrs: '32:33', count: 18 },
-    { icon: 'directions_bike', dist: 210, hrs: '04:47', count: 18 }
-  ],
-  total: { icon: 'functions', dist: 210, hrs: '68:51', count: 18 }
+  setStatistics (statistics) {
+      this.data = pipe(
+          filter(type),
+          groupBy(type),
+          entries,
+          map(([type, series]) => ({ 
+              icon: icons[type], 
+              dist: '-', 
+              hrs: fold((a, x) => a + time(x), 0) (series), 
+              count: fold((a, x) => a + count(x), 0) (series)
+          }))
+      ) (statistics.series)
+
+      this.total = { 
+          icon: 'functions', 
+          dist: '-', 
+          hrs: fold((a, x) => a + time(x), 0) (statistics.series), 
+          count: fold((a, x) => a + count(x), 0) (statistics.series)
+      }
+  }
+
+  data: [],
+  total: null
 };
 
 
@@ -71,8 +106,9 @@ class ProfileCtrl {
         
         this.chart = chart;
         this.table = table;
-        
-        console.log($scope);
+
+        this.chart.setStatistics(this.summaryStatistics);
+        this.table.setStatistics(this.summaryStatistics);
     }
   
     update () {
@@ -86,113 +122,33 @@ class ProfileCtrl {
     }
     
     coaches () {
-      this.$mdDialog.show({
-        controller: FriendsController,
-        locals: { users: this.user.connections.Coaches, title: 'Тренеры' },
-        templateUrl: 'user/usersList.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      });
+        this.dialogs.group(this.user.connections.Coaches, 'Тренеры')
     }
     
     athletes () {
-      this.$mdDialog.show({
-        controller: FriendsController,
-        locals: { users: this.user.connections.Athletes, title: 'Спортсмены' },
-        templateUrl: 'user/usersList.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      });
+        this.dialogs.group(this.user.connections.Athletes, 'Спортсмены')
     }
     
     friends () {
-      this.$mdDialog.show({
-        controller: FriendsController,
-        locals: { users: this.user.connections.Friends, title: 'Друзья' },
-        templateUrl: 'user/usersList.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      });
+        this.dialogs.group(this.user.connections.Friends, 'Друзья')
     }
     
     subscriptions () {
-      this.$mdDialog.show({
-        controller: FriendsController,
-        locals: { users: this.user.connections.Following, title: 'Подписки' },
-        templateUrl: 'user/usersList.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      });
+        this.dialogs.group(this.user.connections.Following, 'Подписки')
     }
     
     subscribers () {
-      this.$mdDialog.show({
-        controller: FriendsController,
-        locals: { users: this.user.connections.Followers, title: 'Подписчики' },
-        templateUrl: 'user/usersList.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      });
-    }
-
-    showFriends () {
-      this.$mdDialog.show({
-        controller: FriendsController,
-        locals: { users: this.user.connections.Friends, title: 'Друзья' },
-        templateUrl: 'user/usersList.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      });
+        this.dialogs.group(this.user.connections.Followers, 'Подписчики')
     }
 };
-
-
-function FriendsController($scope, $mdDialog, users, title) {
-  'ngInject';
-  
-  $scope.users = users;
-  $scope.title = title;
-
-  $scope.close = () => {
-    $mdDialog.cancel();
-  };
-}
-
-
-function UploadDialogController($scope, $mdDialog) {
-  'ngInject';
-
-  var file, src;
-
-  $scope.files = (files) => {
-    file = files[0];
-    let onLoad = (event) => (scope) => { src = event.target.result };
-    let reader = new FileReader();
-    reader.onload = (event) => { $scope.$apply(onLoad(event)) };
-    reader.readAsDataURL(file);
-  };
-
-  $scope.src = () => src;
-
-  $scope.hide = () => {
-    $mdDialog.hide();
-  };
-
-  $scope.cancel = () => {
-    $mdDialog.cancel();
-  };
-
-  $scope.upload = () => {
-    $mdDialog.hide(file);
-  };
-}
 
 
 const user = {
 
     bindings: {
         view: '<',
-        user: '<'
+        user: '<',
+        summaryStatistics: '<'
     },
 
     require: {
