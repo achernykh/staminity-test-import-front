@@ -34,6 +34,4 @@ export const log = (msg) => (x) => {
     return x
 }
 
-console.log('util', filter)
-
 export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, pipe, isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, log }

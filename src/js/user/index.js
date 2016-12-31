@@ -14,50 +14,29 @@ const icons = {
 }
 
 
-const valueTypes = [
-    { name: 'время', f: time },
-    { name: 'кол-во трен.', f: count }
-]
-
-
 const chart = {
     width: 430,
     height: 150,
     barWidth: 20,
     
-    data: [],
-    trableRows: [],
-    tableTotal: null,
+    bars: [],
+    lines: [],
+    tableRows: [],
+    tableTotal: {},
     
-    update () {
-        this.yScale = 0
-        this._bars = null
-        this._lines = null
+    setData (data) {
+        this.maxValue = data.reduce((m, { value }) => Math.max(m, value), 0)
+        this.yScale = this.height / this.maxValue
+        this.bars = data.map(({ label, value }) => ({ label, value, height: this.height - this.y(value) }))
+        this.lines = [1/4 * this.maxValue | 0, 2/4 * this.maxValue | 0, 3/4 * this.maxValue | 0, 4/4 * this.maxValue | 0].map((value) => ({ label: `${value}`, y: this.y(value) }))
     },
 
     x (index) {
-        return (index + 0.5) * (this.width / this.data.length);
+        return this.bars.length? (index + 0.5) * (this.width / this.bars.length) : 0;
     },
 
     y (value) {
-        if (!this.yScale) {
-            this.yScale = this.height / this.data.reduce((m, { value }) => Math.max(m, value), 0);
-        }
         return this.height - value * this.yScale;
-    },
-
-    bars () {
-        if (!this._bars) {
-            this._bars = this.data.map(({ label, value }) => ({ label, value, height: this.height - this.y(value) }));
-        }
-        return this._bars;
-    },
-
-    lines () {
-        if (!this._lines) {
-            this._lines = [10, 20, 30, 40].map((value) => ({ label: `${value} ч`, y: this.y(value) }));
-        }
-        return this._lines;
     }
 };
 
@@ -73,12 +52,29 @@ class ProfileCtrl {
         this.GroupService = GroupService;
         this.API = API;
         
-        this.years = [2015, 2016];
-        this.year = 2016;
-        this.ranges = ['Обзор года'];
-        this.range = 'Обзор года';
-        this.valueTypes = valueTypes;
-        this.valueType = valueTypes[0];
+        this.ranges = [{ 
+            name: 'Обзор года', 
+            groupBy: 'month',
+            periodName: (x) => moment().add(-x, 'years').format('YYYY'),
+            dateLabel: (s) => moment(s).format('MMM'), 
+            start: (x) => moment().add(-(x + 1), 'years').format('YYYY-MM-DD'),
+            end: (x) => moment().add(-x, 'years').format('YYYY-MM-DD')
+        }, { 
+            name: 'Обзор месяца', 
+            groupBy: 'day',
+            periodName: (x) => moment().add(-x, 'months').format('YYYY-MM'),
+            dateLabel: (s) => moment(s).format('DD'), 
+            start: (x) => moment().add(-(x + 1), 'months').format('YYYY-MM-DD'),
+            end: (x) => moment().add(-x, 'months').format('YYYY-MM-DD')
+        }];
+        this.range = this.ranges[0];
+        this.period = 0;
+        
+        this.valueTypes = [
+            { name: 'время', f: time },
+            { name: 'кол-во трен.', f: count }
+        ];
+        this.valueType = this.valueTypes[0];
         
         this.chart = chart;
         this.updateStatistics();
@@ -86,6 +82,7 @@ class ProfileCtrl {
     
     selectRange (range) {
         this.range = range
+        this.period = 0
         this.updateStatistics()
     }
     
@@ -94,26 +91,25 @@ class ProfileCtrl {
         this.updateStatistics()
     }
     
-    selectYear (year) {
-        this.year = year
+    selectPeriod (period) {
+        this.period = period
         this.updateStatistics()
     }
     
     updateStatistics () {
-        this.UserService.getSummaryStatistics(this.user.userId, this.year + '', this.year + 1 + '', 'month', ['*'])
+        this.UserService.getSummaryStatistics(this.user.userId, this.range.start(this.period),  this.range.end(this.period), this.range.groupBy)
         .then((summaryStatistics) => this.summaryStatistics = summaryStatistics)
         .then(() => {
-            this.chart.data = pipe(
+            pipe(
                 filter(type),
                 groupBy(date),
                 entries,
                 map(([date, series]) => ({ 
-                    label: moment(date).format('MMM'), 
+                    label: this.range.dateLabel(date), 
                     value: fold((a, x) => a + this.valueType.f(x), 0) (series)
-                }))
+                })),
+                (data) => { this.chart.setData(data); }
             ) (this.summaryStatistics.series)
-            
-            this.chart.update()
             
             this.chart.tableRows = pipe(
                 filter(type),
@@ -134,6 +130,7 @@ class ProfileCtrl {
                 count: fold((a, x) => a + count(x), 0) (this.summaryStatistics.series)
             }  
         })
+        .then(() => { this.$scope.$apply() })
     }
   
     update () {

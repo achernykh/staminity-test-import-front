@@ -72,29 +72,29 @@
             </div>
             
             <div class="controls" layout="row">
-                <md-button class="paging" ng-click="$ctrl.selectYear($ctrl.year - 1)">
+                <md-button class="paging" ng-click="$ctrl.selectPeriod($ctrl.period + 1)">
                     <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_left</i>
                 </md-button>
-                <md-button class="paging" ng-click="$ctrl.selectYear($ctrl.year + 1)">
+                <md-button class="paging" ng-click="$ctrl.selectPeriod($ctrl.period - 1)">
                     <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_right</i>
                 </md-button>
-                <div style="position:relative" ng-click="showYears = !showYears">
-                    {{$ctrl.year}} ▾
+                <div style="position:relative; cursor:pointer; line-height: 30px;" ng-click="showYears = !showYears">
+                    {{$ctrl.range.periodName($ctrl.period)}} ▾
                     <div style="position:absolute; top:100%;" ng-style="{display: showYears? 'block':'none'}">
-                        <div ng-repeat="year in $ctrl.years" ng-click="$ctrl.selectYear(year)">
-                            {{year}}
+                        <div ng-repeat="period in [$ctrl.period, $ctrl.period-1, $ctrl.period-2, $ctrl.period-3]" ng-click="$ctrl.selectPeriod(period)">
+                            {{$ctrl.range.periodName(period)}}
                         </div>
                     </div>
                 </div>
-                <div style="position:relative" ng-click="showRanges = !showRanges" flex layout-align="center" class="md-no-underline" aria-label="Range">
-                    {{$ctrl.range}} ▾
+                <div style="position:relative; text-align:center; font-size:16px; cursor:pointer; line-height: 30px;" ng-click="showRanges = !showRanges" flex layout-align="center" class="md-no-underline" aria-label="Range">
+                    {{$ctrl.range.name}} ▾
                     <div style="position:absolute; top:100%;" ng-style="{display: showRanges? 'block':'none'}">
                         <div ng-repeat="range in $ctrl.ranges" ng-click="$ctrl.selectRange(range)">
-                            {{range}}
+                            {{range.name}}
                         </div>
                     </div>
                 </div>
-                <div style="position:relative" ng-click="showValueTypes = !showValueTypes">
+                <div style="position:relative; cursor:pointer; line-height: 30px;" ng-click="showValueTypes = !showValueTypes">
                     {{$ctrl.valueType.name}} ▾
                     <div style="position:absolute; top:100%;" ng-style="{display: showValueTypes? 'block':'none'}">
                         <div ng-repeat="valueType in $ctrl.valueTypes" ng-click="$ctrl.selectValueType(valueType)">
@@ -106,12 +106,12 @@
 
             <div class="chart">
                 <svg ng-attr-width="{{$ctrl.chart.width + 20}}" ng-attr-height="{{$ctrl.chart.height + 25}}">
-                    <g ng-repeat="bar in $ctrl.chart.bars()" ng-attr-transform="translate({{$ctrl.chart.x($index)}} 0)">
+                    <g ng-repeat="bar in $ctrl.chart.bars" ng-attr-transform="translate({{$ctrl.chart.x($index)}} 0)">
                         <rect ng-attr-x="{{-$ctrl.chart.barWidth/2}}" ng-attr-width="{{$ctrl.chart.barWidth}}" ng-attr-y="{{$ctrl.chart.height - bar.height}}" ng-attr-height="{{bar.height}}"/>
                         <line x1="0" x2="0" y1="150" y2="155"/>
                         <text x="0" ng-attr-y="{{$ctrl.chart.height + 20}}">{{bar.label}}</text>
                     </g>
-                    <g ng-repeat="line in $ctrl.chart.lines()" ng-attr-transform="translate(0 {{line.y}})">
+                    <g ng-repeat="line in $ctrl.chart.lines" ng-attr-transform="translate(0 {{line.y}})">
                         <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" y1="0" y2="0"/>
                         <text ng-attr-x="{{$ctrl.chart.width + 15}}">{{line.label}}</text>
                     </g>

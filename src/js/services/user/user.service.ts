@@ -74,8 +74,8 @@ export default class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    getSummaryStatistics(id: number, start: Date, end: Date, group: string, data: Array<string>):Promise<Object> {
-        return this.SocketService.send(new GetUserProfileSummaryStatistics(id))//, start.toString(), end.toString(), group, data))
+    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>):Promise<Object> {
+        return this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data))
     }
 
     get profile():IUserProfile {
