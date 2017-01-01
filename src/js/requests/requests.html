@@ -4,7 +4,7 @@
         <div class="titlebar">
             <i class="material-icons icon">group</i>
             Запросы
-            <md-button ng-click="close()" class="close">
+            <md-button ng-click="$ctrl.close()" class="close">
                 <i class="material-icons">close</i>
             </md-button>
         </div>
@@ -17,7 +17,7 @@
                     </div>
                     <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
                         <div layout="row">
-                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54)" ng-style="{background: (request.initiator | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
+                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54); margin-right: 10px;" ng-style="{background: (request.initiator | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
                             <div flex>
                                 <div class="username">{{request.initiator | username}}</div>
                                 <div class="type">{{request | requestType}}</div>        
@@ -36,7 +36,7 @@
                     </div>
                     <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">                        
                         <div layout="row">
-                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54)" ng-style="{background: (request.initiator | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
+                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54); margin-right: 10px;" ng-style="{background: (request.initiator | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
                             <div flex>
                                 <div class="username">{{request.initiator | username}}</div>
                                 <div class="type">{{request.updated | date:'HH:mm'}}</div>        
@@ -56,7 +56,7 @@
                     </div>
                     <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
                         <div layout="row">
-                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54)" ng-style="{background: (request.receiver | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
+                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54); margin-right: 10px;" ng-style="{background: (request.receiver | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
                             <div flex>
                                 <div class="username">{{request.receiver | username}}</div>
                                 <div class="type">{{request | requestType}}</div>        
@@ -74,7 +74,7 @@
                     </div>
                     <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">
                         <div layout="row">
-                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54)" ng-style="{background: (request.receiver | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
+                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54); margin-right: 10px;" ng-style="{background: (request.receiver | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
                             <div flex>
                                 <div class="username">{{request.receiver | username}}</div>
                                 <div class="type">{{request.updated | date:'HH:mm'}}</div>        
