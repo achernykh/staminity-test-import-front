@@ -17,15 +17,14 @@
                     </div>
                     <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
                         <div layout="row">
-                            <div>
-                                <user-info user="request.initiator"/>
-                            </div>
+                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54)" ng-style="{background: (request.initiator | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
+                            <div flex>
+                                <div class="username">{{request.initiator | username}}</div>
+                                <div class="type">{{request | requestType}}</div>        
+                            </div ui-sref="/user/{{request.initiator.public.userId}}">
                             <div class="time">
                                 {{request.created | date:'HH:mm'}}
                             </div>
-                        </div>
-                        <div class="type">
-                            {{request | requestType}}
                         </div>
                         <div>
                             <md-button ng-click="$ctrl.processRequest(request, 'A')"> Принять </md-button>
@@ -35,17 +34,16 @@
                     <div class="title">
                         История
                     </div>
-                    <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">
+                    <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">                        
                         <div layout="row">
-                            <div>
-                                <user-info user="request.initiator"/>        
-                            </div>
+                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54)" ng-style="{background: (request.initiator | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
+                            <div flex>
+                                <div class="username">{{request.initiator | username}}</div>
+                                <div class="type">{{request.updated | date:'HH:mm'}}</div>        
+                            </div ui-sref="/user/{{request.initiator.public.userId}}">
                             <div class="time">
                                 <i class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</i>
                             </div>
-                        </div>
-                        <div class="type">
-                            {{request.updated | date:'HH:mm'}}
                         </div>
                     </div>
                 </md-tab-body>
@@ -58,15 +56,14 @@
                     </div>
                     <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
                         <div layout="row">
-                            <div>
-                                <user-info user="request.receiver"/>
-                            </div>
+                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54)" ng-style="{background: (request.receiver | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
+                            <div flex>
+                                <div class="username">{{request.receiver | username}}</div>
+                                <div class="type">{{request | requestType}}</div>        
+                            </div ui-sref="/user/{{request.initiator.public.userId}}">
                             <div class="time">
                                 {{request.created | date:'HH:mm'}}
                             </div>
-                        </div>
-                        <div class="type">
-                            {{request | requestType}}
                         </div>
                         <div>
                             <md-button ng-click="$ctrl.processRequest(request, 'C')"> Отменить </md-button>
@@ -77,15 +74,14 @@
                     </div>
                     <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">
                         <div layout="row">
-                            <div>
-                                <user-info user="request.receiver"/>        
-                            </div>
+                            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54)" ng-style="{background: (request.receiver | avatar)}" ui-sref="/user/{{request.initiator.public.userId}}"></div>
+                            <div flex>
+                                <div class="username">{{request.receiver | username}}</div>
+                                <div class="type">{{request.updated | date:'HH:mm'}}</div>        
+                            </div ui-sref="/user/{{request.initiator.public.userId}}">
                             <div class="time">
                                 <i class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</i>
                             </div>
-                        </div>
-                        <div class="type">
-                            {{request.updated | date:'HH:mm'}}
                         </div>
                     </div>
                 </md-tab-body>    

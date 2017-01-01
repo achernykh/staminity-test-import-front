@@ -6,17 +6,6 @@ const types = [
   'Запрос от спортсмена тренеру'
 ];
 
-const requestsList = {
-  inbox: {
-    new: [],
-    old: []
-  },
-  outbox: {
-    new: [],
-    old: []
-  }
-};
-
 
 class RequestsCtrl {
 
@@ -32,7 +21,16 @@ class RequestsCtrl {
         
         this.update()
         
-        this.requests = requestsList;
+        this.requests = {
+          inbox: {
+            new: [],
+            old: []
+          },
+          outbox: {
+            new: [],
+            old: []
+          }
+        };
     }
     
     update () {
