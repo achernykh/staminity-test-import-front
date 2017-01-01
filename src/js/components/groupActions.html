@@ -1,16 +1,15 @@
 <span class="group-actions">
-    <md-button ng-click="$ctrl.join($ctrl.group)" ng-if="$ctrl.group.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+    <md-button ng-click="$ctrl.joinGroup($ctrl.group)" ng-if="$ctrl.group.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
         {{$ctrl.labels[$ctrl.group.groupCode].join}}
     </md-button>
     
     <md-menu ng-if="$ctrl.group.availableInteractions.btnLeaveGroup">
-      <md-button class="md-icon-button" ng-click="ctrl.openMenu($mdOpenMenu, $event)">
-        {{$ctrl.labels[$ctrl.group.groupCode].joined}}
-        <i class="material-icons" style="line-height: 33px;">arrow_drop_down</i>
+      <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+        {{$ctrl.labels[$ctrl.group.groupCode].joined}} ▾
       </md-button>
       <md-menu-content>
         <md-menu-item>
-          <md-buttonng-click="$ctrl.leave($ctrl.group)">
+          <md-button ng-click="$ctrl.leaveGroup($ctrl.group)">
             {{$ctrl.labels[$ctrl.group.groupCode].leave}}
           </md-button>
         </md-menu-item>
@@ -18,5 +17,3 @@
     </md-menu>
     
 </span>
-    
-{{$ctrl.labels[$ctrl.group.groupCode] | json}}

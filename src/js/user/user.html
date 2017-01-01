@@ -138,11 +138,11 @@
                         <td>{{row.hrs}}</td>
                         <td>{{row.count}}</td>
                     </tr>
-                    <tr ng-init="row = $ctrl.chart.tableTotal" class="row-total">
-                        <td><i class="material-icons">{{row.icon}}</i></td>
-                        <td>{{row.dist}}</td>
-                        <td>{{row.hrs}}</td>
-                        <td>{{row.count}}</td>
+                    <tr class="row-total">
+                        <td><i class="material-icons">{{$ctrl.chart.tableTotal.icon}}</i></td>
+                        <td>{{$ctrl.chart.tableTotal.dist}}</td>
+                        <td>{{$ctrl.chart.tableTotal.hrs}}</td>
+                        <td>{{$ctrl.chart.tableTotal.count}}</td>
                     </tr>
                 </table>
             </div>

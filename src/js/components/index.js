@@ -15,18 +15,6 @@ const userInfo = {
 }
 
 
-const groupActions = {
-    bindings: {
-        group: '<',
-        onUpdate: '&'
-    },
-    
-    controller: GroupActionsController,
-    
-    templateUrl: 'components/groupActions.html'
-}
-
-
 class GroupActionsController {
     labels = {
         Athletes: {
@@ -41,24 +29,41 @@ class GroupActionsController {
         }
     }
     
-    constructor ($scope, dialogs) {
+    constructor ($scope, dialogs, GroupService) {
+        'ngInject';
         this.dialogs = dialogs
-        console.log('GA', this)
+        this.GroupService = GroupService
     }
   
     joinGroup (group) {
         return this.dialogs.confirm()
             .then((confirmed) => { if (!confirmed) throw new Error() })
             .then(() => this.GroupService.join(group.groupId, this.userId))
-            .then(() => this.update())
+            .then(() => this.onUpdate())
     }
     
     leaveGroup (group) {
         return this.dialogs.confirm()
             .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.join(group.groupId, this.userId))
-            .then(() => this.update())
+            .then(() => this.GroupService.leave(group.groupId, this.userId))
+            .then(() => this.onUpdate())
     }
+    
+    openMenu ($mdOpenMenu, event) {
+        $mdOpenMenu(event)
+    }
+}
+
+
+const groupActions = {
+    bindings: {
+        group: '<',
+        onUpdate: '&'
+    },
+    
+    controller: GroupActionsController,
+    
+    templateUrl: 'components/groupActions.html'
 }
 
 
