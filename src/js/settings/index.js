@@ -1,10 +1,15 @@
 import Settings from './settings.component';
+import ClubSettings from './clubSettings.component';
 
 let module = angular.module('staminity.settings',[]);
-    module.component('settings', Settings);
+
+    module
+    .component('settings', Settings)
+    .component('clubSettings', ClubSettings);
+    
     module.config(($stateProvider)=>{
         $stateProvider
-            .state('settings', {
+            .state('clubSettings', {
                 url: "/settings/:uri",
                 loginRequired: true,
                 authRequired: ['func1'],
@@ -12,16 +17,45 @@ let module = angular.module('staminity.settings',[]);
                     view: function (ViewService) {
                         return ViewService.getParams('settings')
                     },
-                    wsRequired: function(SocketService, UserService, $stateParams) {
-                        return SocketService.open()
+                    club: function (GroupService, $stateParams) {
+                        return GroupService.getProfile('/club/' + $stateParams.uri)
+                    }
+                },
+                views: {
+                    "background": {
+                        component: "staminityBackground",
+                        bindings: {
+                            view: 'view.background'
+                        }
                     },
-                    user: function (wsRequired, UserService, $stateParams, SystemMessageService) {
-                        return UserService.getProfile($stateParams.uri)
-                            .catch((error) => {
-                                SystemMessageService.show(error,'warning')
-                                // TODO перейти на страницу 404
-                                throw error
-                            })
+                    "header": {
+                        component: 'staminityHeader',
+                        bindings: {
+                            view: 'view.header'
+                        }
+                    },
+                    "application": {
+                        component: "clubSettings",
+                        bindings: {
+                            view: 'view.application',
+                            club: 'club'
+                        }
+                    }
+                }
+            })
+            .state('settings', {
+                url: "/settings",
+                loginRequired: true,
+                authRequired: ['func1'],
+                resolve: {
+                    view: function (ViewService) {
+                        return ViewService.getParams('settings')
+                    },
+                    userId: function (SessionService) {
+                        return SessionService.getUser().userId
+                    },
+                    user: function (UserService, userId) {
+                        return UserService.getProfile(userId)
                     }
                 },
                 views: {

@@ -116,7 +116,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
-        .state('me', {
+        .state('user', {
             url: "/user",
             loginRequired: true,
             authRequired: ['func1'],
@@ -152,7 +152,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
-        .state('user', {
+        .state('user.uri', {
             url: "/user/:uri",
             loginRequired: true,
             authRequired: ['func1'],

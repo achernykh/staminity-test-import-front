@@ -47,7 +47,7 @@ class RequestsCtrl {
     processRequest (request, action) {
       this.dialogs.confirm()
       .then((confirmed) => { if (!confirmed) throw new Error() })
-      .then(() => this.GroupService.processMembershipRequest(request.id, action))
+      .then(() => this.GroupService.processMembershipRequest(request.userGroupRequestId, action))
       .then(() => this.update())
     }
     

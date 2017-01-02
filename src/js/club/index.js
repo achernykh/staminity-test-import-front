@@ -22,20 +22,6 @@ class ClubCtrl {
       .then((club) => { this.club = club })
       .then(() => { this.$scope.$apply() })
   }
-  
-  join () {
-    this.GroupService.join(this.club.groupId, this.userId)
-      .then(() => this.update())
-  }
-  
-  leave () {
-    this.GroupService.leave(this.club.groupId, this.userId)
-      .then(() => this.update())
-  }
-  
-  cancelRequest () {
-    
-  }
 
 };
 
@@ -66,5 +52,5 @@ const club = {
 };
 
 
-angular.module('staminity.club', ['ngMaterial'])
+angular.module('staminity.club', ['ngMaterial', 'staminity.components'])
     .component('club', club);

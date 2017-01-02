@@ -5,7 +5,7 @@
     </md-button>
     <md-menu-content width="4">
         <md-menu-item ng-repeat="menu in $ctrl.menu">
-            <md-button ng-href="{{(menu.link =='user' || menu.link=='settings') ? menu.link+'/'+$ctrl.id : menu.link}}">
+            <md-button ui-sref="{{menu.link}}">
                 <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="fill-black-medium" md-menu-align-target></md-icon>
                 <span translate>{{menu.name}}</span>
             </md-button>
