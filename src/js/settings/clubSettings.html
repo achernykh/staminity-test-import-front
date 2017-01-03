@@ -1,0 +1,56 @@
+<!-- common section -->
+<application-frame class='{{$ctrl.view.style}}'>
+    <section layout="row" layout-align="space-between start" class="app-layer">
+        <!-- common left margin -->
+        
+        <section layout="row" layout-align="end start" flex-gt-xs="grow" hide-xs class="margin">
+            <nav class="settings-navbar animated fadeInLeft" flex="none" layout="column" hide show-gt-xs>
+                <md-content flex="auto" du-scroll-container="settings-scroll-container" style="overflow-y: auto;">
+                    <md-list-item ng-repeat="nav in $ctrl._NAVBAR" ng-href="{{::nav.link}}"
+                                  duration="500" du-smooth-scroll du-scrollspy ng-disabled="!nav.active">
+                        <md-icon flex="none" md-svg-src="/assets/icon/{{::nav.icon}}" class="s24" ng-class="{disable: !nav.active}"></md-icon>
+                        <div flex hide show-gt-md class="md-body-1" style="opacity: 0.87" translate>{{::nav.name}}</div>
+                    </md-list-item>
+                </md-content>
+            </nav>
+        </section>
+        
+        <section flex="none" layout="row" layout-align="center start" class="content">
+            <section class="settings-container" flex="auto" layout="column">
+                <header flex="none" layout="column" md-theme="dark">
+                    <md-card class="user-background" flex="none" layout-align="end center" >
+                      <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
+                        <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url(/assets/avatar/{{::$ctr.user.userId}}.jpg)">
+                            <button ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
+                        </div>
+                        <div flex=none hide show-gt-xs>
+                              <md-button class="flat">Изменить</md-button>
+                        </div>
+                          <md-fab-speed-dial class="animated bounceIn" md-theme="default">
+                              <md-fab-trigger>
+                                  <md-button aria-label="menu" class="md-fab md-accent"
+                                             ng-disabled="!$ctrl.isDirty()"
+                                             ng-class="{'md-warn': !$ctrl.isValid()}"
+                                             ng-click="$ctrl.update({public: $ctrl.publicForm.$dirty})">
+                                      <md-icon class="light-active" md-svg-src="/assets/icon/save.svg"></md-icon>
+                                  </md-button>
+                              </md-fab-trigger>
+                          </md-fab-speed-dial>
+                      </md-card-content>
+
+                    </md-card>
+                </header>
+                
+                <section class="settings-feed" flex="grow" layout="column" id="settings-scroll-container">
+                    <article flex="none" ng-include="'settings/articles/clubSettings.public.html'"></article>
+                </section>
+                
+            </section>
+        </section>
+        <!-- common right margin -->
+        <section flex-gt-xs="grow" hide-xs class="margin">
+
+        </section>
+    </section>
+</application-frame>
+<!-- end of common section -->
