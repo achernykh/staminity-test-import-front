@@ -18,13 +18,13 @@
         <section flex="none" layout="row" layout-align="center start" class="content">
             <section class="settings-container" flex="auto" layout="column">
                 <header flex="none" layout="column" md-theme="dark">
-                    <md-card class="user-background" flex="none" layout-align="end center" >
+                    <md-card class="user-background" flex="none" layout-align="end center"  style="background-image: url({{'/group/background/' + $ctrl.club.public.background | image}})">
                       <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
-                        <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url(/assets/avatar/{{::$ctr.user.userId}}.jpg)">
-                            <button ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
+                        <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url({{'/group/avatar/' + $ctrl.club.public.avatar | image}})">
+                            <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
                         </div>
                         <div flex=none hide show-gt-xs>
-                              <md-button class="flat">Изменить</md-button>
+                              <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
                         </div>
                           <md-fab-speed-dial class="animated bounceIn" md-theme="default">
                               <md-fab-trigger>

@@ -19,7 +19,7 @@ interface IPostFileRequest {
         'Content-Type':string
     };
     withCredentials:boolean;
-    file:any
+    data:any
 
 }
 
@@ -52,15 +52,20 @@ export class PostFile implements IPostFileRequest {
 		'Content-Type':string
 	};
 	withCredentials:boolean;
-	file:any;
+	mode:string;
+	data:any;
 
 	constructor(type:string, file:any) {
 		this.method = 'POST';
 		this.url = 'http://' + _connection.server + type;
-		this.headers['Authorization'] = 'Bearer ';
-		this.headers['Content-type'] = 'application/octet-stream';
+		this.headers = {
+			'Authorization': 'Bearer ',
+			'Content-Type': undefined
+		};
+		this.mode = 'cors';
 		this.withCredentials = true;
-		this.file = file;
+		this.data = new FormData();
+		this.data.append('file', file);
 	}
 }
 

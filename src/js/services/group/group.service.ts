@@ -10,12 +10,15 @@ import {
     GetGroupMembershipProfile
 } from '../../../../api/group/group.request';
 import {ISocketService, IWSRequest} from '../api/socket.service';
+import {PostData, PostFile, IRESTService} from '../api/rest.service';
 
 export default class GroupService {
-    SocketService:ISocketService
+    SocketService:ISocketService;
+    RESTService:IRESTService;
 
-    constructor(SocketService:ISocketService) {
+    constructor(SocketService:ISocketService, RESTService:IRESTService) {
         this.SocketService = SocketService;
+        this.RESTService = RESTService;
     }
 
     /**
@@ -81,6 +84,28 @@ export default class GroupService {
      */
     processMembershipRequest(requestId:number, action:string):Promise<IGroupProfile> {
         return this.SocketService.send(new ProcessMembershipRequest(requestId, action));
+    }
+
+    /**
+     * Аплоад аватара клуба
+     * @param groupId
+     * @param file
+     * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
+     */
+    postProfileAvatar(groupId:number, file:any):Promise<IGroupProfile> {
+        return this.RESTService.postFile(new PostFile(`/group/avatar/${groupId}`, file))
+            .then((response) => response.data)
+    }
+    
+    /**
+     * Аплоад фонового изоражения клуба
+     * @param groupId
+     * @param file
+     * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
+     */
+    postProfileBackground(groupId:number, file:any):Promise<IGroupProfile> {
+        return this.RESTService.postFile(new PostFile(`/group/background/${groupId}`,file))
+            .then((response) => response.data)
     }
 
 }

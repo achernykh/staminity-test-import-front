@@ -4,7 +4,7 @@ import {
 } from './settings.const.js'
 
 class ClubSettingsCtrl {
-	constructor(GroupService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog) {
+	constructor($scope, GroupService,ActionMessageService, $locale, $http, dialogs) {
 		'ngInject'
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
@@ -13,13 +13,13 @@ class ClubSettingsCtrl {
 		this._PRIVACY_LEVEL = _PRIVACY_LEVEL
 		this._LANGUAGE = _LANGUAGE
 		this._UNITS = _UNITS
-		this._country_list = _country_list;
-		this.GroupService = GroupService;
-		this._AuthService = AuthService;
-		this._SystemMessageService = SystemMessageService
+		this._country_list = _country_list
+		
+		this.$scope = $scope
+		this.GroupService = GroupService
+		this.dialogs = dialogs
 		this._ActionMessageService = ActionMessageService
 		this._$http = $http
-		this._$mdDialog = $mdDialog
 		
 		this.club.public = this.club.public || {}
 		this.club.public.activityTypes = this.club.public.activityTypes || []
@@ -65,18 +65,29 @@ class ClubSettingsCtrl {
 		return this.publicForm && this.publicForm.$valid
 	}
 
-	update(form) {
+	update () {
 		this.GroupService.putProfile(this.club)
-			.then((success) => {
-				this._ActionMessageService.simple(success)
-				this.user.revision = success.value.revision
+			.then((result) => {
+				this.club = result
 			}, (error) => {
 				this._ActionMessageService.simple(error)
 			});
 	}
 
-	weekdays(day) {
+	weekdays (day) {
 		return moment.weekdays(day)
+	}
+	
+	uploadAvatar () {
+		this.dialogs.uploadPicture()
+		.then((picture) => this.GroupService.postProfileAvatar(this.club.groupId, picture))
+		.then((club) => { this.club = club })
+	}
+	
+	uploadBackground () {
+		this.dialogs.uploadPicture()
+		.then((picture) => this.GroupService.postProfileBackground(this.club.groupId, picture))
+		.then((club) => { this.club = club })
 	}
 }
 
