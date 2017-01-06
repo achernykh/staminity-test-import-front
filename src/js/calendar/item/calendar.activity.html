@@ -14,7 +14,7 @@
                  layout="row">
                 <div flex="none" layout="row" layout-align="center center"
                      class="bg-circle-32 bg-blue-grey-A700">
-                    <md-icon md-svg-src="assets/icon/{{::$ctrl.item.activityHeader.activityType.code}}.svg"
+                    <md-icon md-svg-src="assets/icon/{{::$ctrl.item.activityHeader.activityType.typeBasic}}.svg"
                              style="margin-left: 4px"
                              class="s24 light-active"></md-icon>
                     <md-icon ng-if="$ctrl.structured"
@@ -41,7 +41,7 @@
                      class="md-title small secondary tight-10"
                      ng-class="{'dark' : ($ctrl.status == 'planned')}"
                      style=""
-                     ng-if="!!$ctrl.data.duration || $ctrl.data.distance">
+                     ng-if="!!$ctrl.data.duration || !!$ctrl.data.distance">
                     <div flex="none">{{::$ctrl.data.duration}}</div>
                     <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
                     <div flex="none">{{::$ctrl.data.distance}}</div>

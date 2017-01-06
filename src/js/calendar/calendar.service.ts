@@ -19,13 +19,13 @@ export class CalendarService {
      */
     getCalendarItem(start:Date, end:Date, userId:number, itemId:number):Promise<Array<ICalendarItem>> {
         return this.SocketService.send(new GetRequest(start, end, userId, itemId))
-            .then((result) => {
+            /*.then((result) => {
                 console.log('getCalendarItem=', result)
                 return result.map((item) => {
                     if(item.type == 'calendarItem')
                         return item.value
                 });
-            })
+            })*/
     }
 
     /**

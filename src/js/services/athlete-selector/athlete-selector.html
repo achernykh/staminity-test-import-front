@@ -1,4 +1,32 @@
-<div flex="100" layout="row" id="athlete-selector" ng-if="$ctrl.show" style="color: white">
+<md-dialog style="min-width: 80%; min-height: 80%">
+    <md-toolbar style="background-color: white; color: black">
+        <div class="md-toolbar-tools">
+            <h2>Выбор спортсмена</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/assets/icon/close.svg"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-grid-list md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6" md-row-height-gt-md="1:1"
+                      md-row-height="4:3" md-gutter="8px" md-gutter-gt-sm="4px">
+
+            <md-grid-tile ng-repeat="athlete in $ctrl.athletes | filter: search.name"
+                          md-rowspan="1" md-colspan="1"
+                          md-colspan-sm="1" md-colspan-xs="1"
+                          ng-click="answer(athlete)"
+                          style="cursor: pointer">
+                <md-icon md-svg-icon="{{tile.icon}}"></md-icon>
+                <md-grid-tile-footer>
+                    <h3>{{athlete.userProfile.public.firstName}} {{athlete.userProfile.public.lastName}}
+                    </h3>
+                </md-grid-tile-footer>
+            </md-grid-tile>
+        </md-grid-list>
+    </md-dialog-content>
+</md-dialog>
+<!--<div flex="100" layout="row" id="athlete-selector" ng-if="$ctrl.show" style="color: white">
     <div flex="5"></div>
     <div flex="90" layout="column">
         <div layout="row" flex="none">
@@ -49,4 +77,4 @@
 
     </div>
     <div flex="5"></div>
-</div>
+</div>-->

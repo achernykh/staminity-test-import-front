@@ -331,6 +331,26 @@ calendar-activity {
       }
     }
 
+    &.noplan {
+      @extend .bg-blue-grey-500;
+      color: white;
+
+      .bg-circle-32 {
+        @extend .bg-blue-grey-800;
+      }
+
+      #more {
+        @extend .light-active;
+      }
+
+      &:hover, &.selected{
+        @extend .bg-blue-grey-800;
+        .bg-circle-32 {
+          @extend .bg-blue-grey-900;
+        }
+      }
+    }
+
   }
 
   .activity-footer {

@@ -662,6 +662,7 @@ const requires = [
     'ui.scroll.jqlite',
     'dndLists',
     'hm.readmore',
+	'rx',
     'staminity.layout',
     'staminity.templates',
     'staminity.landing',

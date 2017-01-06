@@ -9,12 +9,14 @@ import SessionService from './session/session.service'
 import {SocketService} from './api/socket.service'
 import {RESTService} from './api/rest.service'
 import {GroupService} from './group/group.service'
+import AthleteSelectorService from './athlete-selector/athlete-selector.service'
 
 export const services = angular.module('staminity.services', [])
 	.service('ActionMessageService', ActionMessageService)
     .service('ViewService', ApplicationService)
     .service('StorageService', StorageService)
     .service('SystemMessageService', SystemMessageService)
+	.service('AthleteSelectorService',AthleteSelectorService)
     .service('SessionService',['$window',SessionService])
     .service('UserService', ['StorageService','SessionService','SocketService','RESTService', UserService])
     .service('AuthService', AuthService)

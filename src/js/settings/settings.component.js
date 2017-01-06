@@ -4,7 +4,7 @@ import {
 } from './settings.const.js'
 
 class SettingsCtrl {
-	constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog) {
+	constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog, AthleteSelectorService) {
 		'ngInject'
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
@@ -99,6 +99,10 @@ class SettingsCtrl {
 				]
 			}
 		})
+
+		this._athlete$ = AthleteSelectorService._athlete$
+			.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
+		// Смена атлета тренера в основном окне приложения, необходмо перезагрузить все данные
 	}
 
 	$onInit() {

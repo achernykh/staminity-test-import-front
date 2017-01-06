@@ -127,7 +127,7 @@ class CalendarCtrl {
             .then((items) => {
                 let days = times(7).map((i) => {
                     let date = moment(start).add(i, 'd')
-                    let calendarItems = items.filter(item => moment(item.date, this.dateFormat).weekday() == i)
+                    let calendarItems = items.filter(item => moment(item.dateStart, this.dateFormat).weekday() == i)
                     
                     return this.dayItem(date, calendarItems)
                 })

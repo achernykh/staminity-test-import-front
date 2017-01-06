@@ -36,7 +36,7 @@ class CalendarActivityCtrl {
         // Структурированная тренировка имеет хотябы один сегмент с типом P
         this.structured = this.item.activityHeader.intervals.some( (seg) => {return seg.type == "P"});
         // Задание в прошлом или будущем
-        this.planned = moment().diff(moment(this.item.date, 'YYYY-MM-DD'),'d') < 1;
+        this.planned = moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'),'d') < 1;
 
         if (this.structured) {
             let comulativeDuration = 0;
@@ -129,30 +129,38 @@ class CalendarActivityCtrl {
 
 
         // Определеяем статус выполнения задания
-        if (moment().diff(moment(this.item.date, 'YYYY-MM-DD'),'d') >= 1){
+        if (moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'),'d') >= 1){
             // Задание в прошлом
             let complete = false;
             for (let interval of this.item.activityHeader.intervals) {
                 if (interval.type == 'W') {
                     complete = true;
 	                this.bottomPanel = 'data';
-                    this.data.duration = moment().startOf('day').second(interval.calcMeasures.movingDuration.value).format('H:mm:ss');
-                    this.data.distance = (interval.calcMeasures.distance.value).toFixed(2);
+                    if (interval.calcMeasures.hasOwnProperty('movingDuration'))
+                        this.data.duration = moment().startOf('day').second(interval.calcMeasures.movingDuration.maxValue).format('H:mm:ss');
+                    if (interval.calcMeasures.hasOwnProperty('distance'))
+                        this.data.distance = (interval.calcMeasures.distance.maxValue).toFixed(2);
 	                this.data.statusPercent = interval.calcMeasures.completePercent.value;
 
 	                // Набор данных по видам спорта
-	                this.data.speedAvg = interval.calcMeasures.speed.maxValue;
-	                this.data.heartRateAvg = interval.calcMeasures.heartRate.maxValue;
-	                this.data.powerAvg = interval.calcMeasures.power.maxValue;
+                    if (interval.calcMeasures.hasOwnProperty('speed'))
+	                    this.data.speedAvg = interval.calcMeasures.speed.avgValue.toFixed(0);
+                    if (interval.calcMeasures.hasOwnProperty('heartRate'))
+	                    this.data.heartRateAvg = interval.calcMeasures.heartRate.avgValue.toFixed(0);
+                    if (interval.calcMeasures.hasOwnProperty('power'))
+	                    this.data.powerAvg = interval.calcMeasures.power.avgValue.toFixed(0);
 
-	                if (this.data.statusPercent > 75){
+	                if(!this.planned)
+	                    // Заадние выполнено без плана
+	                    this.status = 'noplan'
+                    else if (this.data.statusPercent > 75)
 		                // Задание выполнено
 		                this.status = 'complete';
-	                } else if (this.data.statusPercent > 50) {
+	                else if (this.data.statusPercent > 50)
 		                // Задание выполнено, но с отклонением
 		                this.status = 'complete warn';
-	                } else
-	                // Задание выполнено c существенными отклонениями
+	                else
+	                    // Задание выполнено c существенными отклонениями
 		                this.status = 'complete error';
 
                 }
@@ -184,6 +192,7 @@ class CalendarActivityCtrl {
             this.bottomPanel = 'segmentList';
             //console.info('segmentChart', JSON.stringify(this.segmentChart));
         }
+        console.log('calendar activity =', this.item, this.data, this.bottomPanel, this.status, this.structured)
     }
 
     $onChange(changes){
