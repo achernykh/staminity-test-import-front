@@ -19,7 +19,25 @@
                         Триатлон, Бег, Плавание, Велоспорт
                     </div>
                     <div ng-if="$ctrl.club.availableInteractions">
-                        <group-actions group="$ctrl.club" onUpdate="$ctrl.update()"></group-actions>
+                        
+                        <span class="group-actions">
+                            <md-button ng-click="$ctrl.join()" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                                Начать тренироваться
+                            </md-button>
+                            
+                            <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup || $ctrl.user.connections.Athletes.availableInteractions.btnCancelJoinGroup">
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                                Ваш клуб ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.leave()">
+                                    Покинуть клуб
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+                        </span>
                     </div>
                 </div>
                 

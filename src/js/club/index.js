@@ -1,9 +1,9 @@
 class ClubCtrl {
 
-  constructor ($scope, $mdDialog, GroupService, API) {
+  constructor ($scope, dialogs, GroupService, API) {
     'ngInject';
     this.$scope = $scope;
-    this.$mdDialog = $mdDialog;
+    this.dialogs = dialogs;
     this.GroupService = GroupService;
 
     console.log($scope);
@@ -22,6 +22,20 @@ class ClubCtrl {
       .then((club) => { this.club = club })
       .then(() => { this.$scope.$apply() })
   }
+    
+    join () {
+        return this.dialogs.confirm('Отправить запрос тренеру?')
+            .then((confirmed) => { if (!confirmed) throw new Error() })
+            .then(() => this.GroupService.join(this.club.groupId, this.UserService.profile.userId))
+            .then(() => this.update())
+    }
+    
+    leave () {
+        return this.dialogs.confirm('Покинуть тренера?')
+            .then((confirmed) => { if (!confirmed) throw new Error() })
+            .then(() => this.GroupService.leave(this.club.groupId, this.UserService.profile.userId))
+            .then(() => this.update())
+    }
 
 };
 

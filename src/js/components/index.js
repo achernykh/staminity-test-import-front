@@ -18,23 +18,24 @@ const userInfo = {
 
 class GroupActionsController {
     
-    constructor ($scope, dialogs, GroupService) {
+    constructor ($scope, dialogs, GroupService, UserService) {
         'ngInject';
         this.dialogs = dialogs
         this.GroupService = GroupService
+        this.UserService = UserService
     }
   
     joinGroup (group) {
         return this.dialogs.confirm()
             .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.join(group.groupId, this.userId))
+            .then(() => this.GroupService.join(group.groupId, this.UserService.profile.userId))
             .then(() => this.onUpdate())
     }
     
     leaveGroup (group) {
         return this.dialogs.confirm()
             .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.leave(group.groupId, this.userId))
+            .then(() => this.GroupService.leave(group.groupId, this.UserService.profile.userId))
             .then(() => this.onUpdate())
     }
     

@@ -16,6 +16,7 @@ class DialogsService {
     confirm (message) {
         return this.$mdDialog.show({
             controller: ConfirmDialogController,
+            locals: { message: message },
             templateUrl: 'dialogs/confirm.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
@@ -34,10 +35,10 @@ class DialogsService {
 }
 
 
-function ConfirmDialogController($scope, $mdDialog) {
+function ConfirmDialogController($scope, $mdDialog, message) {
     'ngInject';
     
-    $scope.mwssage = ''
+    $scope.message = message
     
     $scope.cancel = () => {
         $mdDialog.cancel();

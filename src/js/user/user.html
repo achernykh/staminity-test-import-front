@@ -27,8 +27,44 @@
                         {{$ctrl.user.personal.activity.join(', ')}}
                     </div>
                     <div>
-                        <group-actions ng-if="$ctrl.user.public.isCoach" group="$ctrl.user.connections.Athletes" onUpdate="$ctrl.update()"></group-actions>
-                        <group-actions group="$ctrl.user.connections.Followers" onUpdate="$ctrl.update()"></group-actions>
+                        <span class="group-actions">
+                            <md-button ng-click="$ctrl.joinAthletes()" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                                Начать тренироваться
+                            </md-button>
+                            
+                            <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup || $ctrl.user.connections.Athletes.availableInteractions.btnCancelJoinGroup">
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                                Ваш тренер ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.leaveAthletes()">
+                                    Перестать тренироваться
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+                        </span>
+                        
+                        <span class="group-actions">
+                            <md-menu>
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)" style="border:1px solid white;">
+                                <i class="material-icons" style="vertical-align: middle;" md-ink-ripple="#FFFFFF">person_add</i> ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.joinFollowers()">
+                                    Подписаться
+                                  </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.joinFriends()">
+                                    Добавить в друзья
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+                        </span>
                     </div>
                 </div>
                 

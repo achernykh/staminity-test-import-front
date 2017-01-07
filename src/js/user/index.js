@@ -162,6 +162,24 @@ class ProfileCtrl {
     subscribers () {
         this.dialogs.group(this.user.connections.Followers, 'Подписчики')
     }
+    
+    joinAthletes (group) {
+        return this.dialogs.confirm('Отправить запрос тренеру?')
+            .then((confirmed) => { if (!confirmed) throw new Error() })
+            .then(() => this.GroupService.join(this.user.connections.Athletes.groupId, this.UserService.profile.userId))
+            .then(() => this.update())
+    }
+    
+    leaveAthletes (group) {
+        return this.dialogs.confirm('Покинуть тренера?')
+            .then((confirmed) => { if (!confirmed) throw new Error() })
+            .then(() => this.GroupService.leave(this.user.connections.Athletes.groupId, this.UserService.profile.userId))
+            .then(() => this.update())
+    }
+    
+    openMenu ($mdOpenMenu, event) {
+        $mdOpenMenu(event)
+    }
 };
 
 

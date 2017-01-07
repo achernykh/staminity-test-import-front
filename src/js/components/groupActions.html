@@ -16,4 +16,30 @@
       </md-menu-content>
     </md-menu>
     
+    <md-menu ng-if="$ctrl.group.availableInteractions.btnCancelJoinGroup">
+      <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+        You've requested to join {{$ctrl.group.groupCode}} ▾
+      </md-button>
+      <md-menu-content>
+        <md-menu-item>
+          <md-button ng-click="$ctrl.leaveGroup($ctrl.group)">
+            Cancel join {{$ctrl.group.groupCode}}
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+    
+    <md-menu ng-if="$ctrl.group.availableInteractions.btnCancelLeaveGroup">
+      <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+        You've requested to leave {{$ctrl.group.groupCode}} ▾
+      </md-button>
+      <md-menu-content>
+        <md-menu-item>
+          <md-button ng-click="$ctrl.joinGroup($ctrl.group)">
+            Cancel leave {{$ctrl.group.groupCode}}
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+    
 </span>
