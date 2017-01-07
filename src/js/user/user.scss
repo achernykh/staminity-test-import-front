@@ -134,6 +134,11 @@
         
         .value {
             color: rgba(0, 0, 0, 0.38);
+            cursor: pointer;
+            
+            &:hover {
+                text-decoration: underline;    
+            }
         }
     }
 }

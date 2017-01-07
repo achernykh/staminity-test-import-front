@@ -4,7 +4,7 @@ export const UserMenuSettings = [
     {
         icon: "account_circle.svg",
         name: "userMenu.profile",
-        link: "user"
+        link: "profile"
     },
     {
         icon: "settings.svg",

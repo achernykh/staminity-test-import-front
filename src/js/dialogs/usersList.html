@@ -5,8 +5,8 @@
             {{title}} ({{users.groupMembers.length}})
         </div>
         
-        <div class="friend" layout="row" ng-repeat="user in users.groupMembers" ui-sref="/user/{{user.public.userId}}">
-            <div style="height: 24px; width: 24px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.54); margin-right: 10px;" ng-style="{background: (user | avatar)}"></div>
+        <div class="friend" layout="row" ng-repeat="user in users.groupMembers" ui-sref="/user/{{user.public.uri}}">
+            <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{user | avatar}}; background-size: cover;"></div>
             {{user | username}}
         </div>
         
