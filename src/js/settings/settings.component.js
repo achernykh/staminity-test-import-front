@@ -4,7 +4,7 @@ import {
 } from './settings.const.js'
 
 class SettingsCtrl {
-	constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog) {
+	constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog, dialogs) {
 		'ngInject'
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
@@ -20,6 +20,11 @@ class SettingsCtrl {
 		this._ActionMessageService = ActionMessageService
 		this._$http = $http
 		this._$mdDialog = $mdDialog
+		this.dialogs = dialogs
+		
+		this.user.public = this.user.public || {}
+		this.user.personal = this.user.personal || {}
+		
 		this.user = Object.assign(this.user, {
 			externalDataProviders: {
 				GarminConnect: {
@@ -139,21 +144,23 @@ class SettingsCtrl {
 	}
 
 	isDirty() {
-		return this.publicForm.$dirty ||
-			this.personalFirstForm.$dirty || this.personalSecondForm.$dirty ||
-			this.privateForm.$dirty ||
-			this.notificationsForm.$dirty ||
-			this.privacyForm.$dirty
+		return this.publicForm && this.publicForm.$dirty ||
+			this.personalFirstForm && this.personalFirstForm.$dirty || 
+			this.personalSecondForm && this.personalSecondForm.$dirty ||
+			this.privateForm && this.privateForm.$dirty ||
+			this.notificationsForm && this.notificationsForm.$dirty ||
+			this.privacyForm && this.privacyForm.$dirty
 
 
 	}
 
 	isValid() {
-		return this.publicForm.$valid ||
-			this.personalFirstForm.$valid || this.personalSecondForm.$valid ||
-			this.privateForm.$valid ||
-			this.notificationsForm.$valid ||
-			this.privacyForm.$valid
+		return this.publicForm && this.publicForm.$valid ||
+			this.personalFirstForm && this.personalFirstForm.$valid || 
+			this.personalSecondForm && this.personalSecondForm.$valid ||
+			this.privateForm && this.privateForm.$valid ||
+			this.notificationsForm && this.notificationsForm.$valid ||
+			this.privacyForm && this.privacyForm.$valid
 	}
 
 	update(form) {
@@ -236,7 +243,7 @@ class SettingsCtrl {
 					this.status = 'You cancelled the dialog.';
 				})
 		}
-	};
+	}
 
 	showPasswordChange(ev) {
 		//console.log('provider settings =', typeof ev, service, provider)
@@ -268,9 +275,19 @@ class SettingsCtrl {
 					this.status = 'You cancelled the dialog.';
 				})
 		//}
-	};
+	}
 
-
+	uploadAvatar () {
+		this.dialogs.uploadPicture()
+		.then((picture) => this._UserService.postProfileAvatar(picture))
+		.then((user) => { this.user = user })
+	}
+	
+	uploadBackground () {
+		this.dialogs.uploadPicture()
+		.then((picture) => this._UserService.postProfileBackground(picture))
+		.then((user) => { this.user = user })
+	}
 }
 
 function DialogController($scope, $mdDialog) {

@@ -3,7 +3,7 @@
         
         <div class="profile-card">
             <div class="profile-card-background">
-                <div class="profile-background" ng-style="{'background-image': $ctrl.getHeader()}"></div>
+                <div class="profile-background" ng-style="{'background-image': 'url(' + ('/user/background/' + $ctrl.user.public.background | image) + ')'}"></div>
                 
                 <div class="profile-header">
                     <div layout="row">
@@ -12,7 +12,7 @@
                             <div class="chip" ng-if="$ctrl.user.public.isPremium"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
                         </div>
                         <div flex="20">
-                            <div class="userpic" ng-style="{'background-image': ($ctrl.user | avatar)}" layout-align="center"></div>
+                            <div class="userpic" ng-style="{'background-image': 'url(' + ('/user/avatar/' + $ctrl.user.public.avatar | image) + ')'}" layout-align="center"></div>
                         </div>
                         <div flex="40">
                         </div>
@@ -24,7 +24,7 @@
                         Россия, г. Москва, M30-34
                     </div>
                     <div class="text">
-                        Триатлон, Бег, Плавание, Велоспорт
+                        {{$ctrl.user.personal.activity.join(', ')}}
                     </div>
                     <div>
                         <group-actions ng-if="$ctrl.user.public.isCoach" group="$ctrl.user.connections.Athletes" onUpdate="$ctrl.update()"></group-actions>

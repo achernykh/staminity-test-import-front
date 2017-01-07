@@ -55,6 +55,7 @@ export default class UserService {
      */
     postProfileAvatar(file:any):Promise<IUserProfile> {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
+            .then((response) => response.data)
     }
     /**
      * Аплоад фонового изоражения пользователя
@@ -63,6 +64,7 @@ export default class UserService {
      */
     postProfileBackground(file:any):Promise<IUserProfile> {
         return this.RESTService.postFile(new PostFile('/user/background',file))
+            .then((response) => response.data)
     }
 
     /**
