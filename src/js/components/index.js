@@ -3,7 +3,7 @@ import { _connection } from '../services/api/api.constants'
 
 const avatar = () => (user) => _connection.content + (user? '/avatar/' + user.public.avatar : '/assets/avatar/default.png')
 
-const image = () => (relativeUrl) => _connection.content + relativeUrl
+const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl
 
 const username = () => (user) => `${user.public.firstName} ${user.public.lastName}`
 
