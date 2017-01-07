@@ -17,18 +17,6 @@ const userInfo = {
 
 
 class GroupActionsController {
-    labels = {
-        Athletes: {
-            join: 'Начать тренироваться',
-            joined: 'Ваш тренер',
-            leave: 'Прекратить тренироваться'
-        },
-        Followers: {
-            join: 'Подписаться',
-            joined: 'Вы подписаны',
-            leave: 'Отписаться'
-        }
-    }
     
     constructor ($scope, dialogs, GroupService) {
         'ngInject';
