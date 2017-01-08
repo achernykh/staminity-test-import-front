@@ -177,6 +177,13 @@ class ProfileCtrl {
             .then(() => this.update())
     }
     
+    cancelAthletes () {
+        return this.dialogs.confirm('Отменить заявку?')
+            .then((confirmed) => { if (!confirmed) throw new Error() })
+            .then(() => this.GroupService.processGroupMembership(this.user.connections.Athletes.groupId, 'C'))
+            .then(() => this.update())
+    }
+    
     openMenu ($mdOpenMenu, event) {
         $mdOpenMenu(event)
     }

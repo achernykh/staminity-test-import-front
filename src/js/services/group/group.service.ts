@@ -6,6 +6,7 @@ import {
     LeaveRequest,
     GetMembershipRequest,
     ProcessMembershipRequest,
+    ProcessGroupMembershipRequest,
     GetMembersRequest,
     GetGroupMembershipProfile
 } from '../../../../api/group/group.request';
@@ -84,6 +85,15 @@ export default class GroupService {
      */
     processMembershipRequest(requestId:number, action:string):Promise<IGroupProfile> {
         return this.SocketService.send(new ProcessMembershipRequest(requestId, action));
+    }
+    
+    /**
+     * Принять/отклонить/отменить запрос
+     * @param groupId
+     * @returns {Promise<IGroupProfile>}
+     */
+    processGroupMembership(groupId:number, action:string):Promise<IGroupProfile> {
+        return this.SocketService.send(new ProcessGroupMembershipRequest(groupId, action));
     }
 
     /**

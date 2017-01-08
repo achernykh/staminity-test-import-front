@@ -27,12 +27,26 @@
                         {{$ctrl.user.personal.activity.join(', ')}}
                     </div>
                     <div>
+                            
                         <span class="group-actions">
                             <md-button ng-click="$ctrl.joinAthletes()" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
                                 Начать тренироваться
                             </md-button>
                             
-                            <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup || $ctrl.user.connections.Athletes.availableInteractions.btnCancelJoinGroup">
+                             <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnCancelJoinGroup">
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                                Заявка отправлена ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.cancelAthletes()">
+                                    Отменить заявку
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+                            
+                            <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup">
                               <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
                                 Ваш тренер ▾
                               </md-button>
@@ -40,6 +54,19 @@
                                 <md-menu-item>
                                   <md-button ng-click="$ctrl.leaveAthletes()">
                                     Перестать тренироваться
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+                            
+                             <md-menu ng-if="$ctrl.user.connections.Athletes.btnCancelLeaveGroup">
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                                Вы отправили заявку на отказ от тренера ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.cancelAthletes()">
+                                    Отменить заявку
                                   </md-button>
                                 </md-menu-item>
                               </md-menu-content>

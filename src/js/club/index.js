@@ -25,16 +25,23 @@ class ClubCtrl {
   }
     
     join () {
-        return this.dialogs.confirm('Отправить запрос тренеру?')
+        return this.dialogs.confirm('Отправить заявку на вступление в клуб?')
             .then((confirmed) => { if (!confirmed) throw new Error() })
             .then(() => this.GroupService.join(this.club.groupId, this.UserService.profile.userId))
             .then(() => this.update())
     }
     
     leave () {
-        return this.dialogs.confirm('Покинуть тренера?')
+        return this.dialogs.confirm('Покинуть клуб?')
             .then((confirmed) => { if (!confirmed) throw new Error() })
             .then(() => this.GroupService.leave(this.club.groupId, this.UserService.profile.userId))
+            .then(() => this.update())
+    }
+    
+    cancel () {
+        return this.dialogs.confirm('Отменить заявку?')
+            .then((confirmed) => { if (!confirmed) throw new Error() })
+            .then(() => this.GroupService.processGroupMembership(this.club.groupId, 'C'))
             .then(() => this.update())
     }
     
