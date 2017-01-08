@@ -21,11 +21,11 @@
                     <div ng-if="$ctrl.club.availableInteractions">
                         
                         <span class="group-actions">
-                            <md-button ng-click="$ctrl.join()" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                            <md-button ng-click="$ctrl.join()" ng-if="$ctrl.club.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
                                 Начать тренироваться
                             </md-button>
                             
-                            <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup || $ctrl.user.connections.Athletes.availableInteractions.btnCancelJoinGroup">
+                             <md-menu ng-if="$ctrl.club.availableInteractions.btnLeaveGroup || $ctrl.club.availableInteractions.btnCancelJoinGroup">
                               <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
                                 Ваш клуб ▾
                               </md-button>

@@ -1,10 +1,11 @@
 class ClubCtrl {
 
-  constructor ($scope, dialogs, GroupService, API) {
+  constructor ($scope, dialogs, GroupService, UserService) {
     'ngInject';
     this.$scope = $scope;
     this.dialogs = dialogs;
     this.GroupService = GroupService;
+    this.UserService = UserService;
 
     console.log($scope);
   }
@@ -35,6 +36,10 @@ class ClubCtrl {
             .then((confirmed) => { if (!confirmed) throw new Error() })
             .then(() => this.GroupService.leave(this.club.groupId, this.UserService.profile.userId))
             .then(() => this.update())
+    }
+    
+    openMenu ($mdOpenMenu, event) {
+        $mdOpenMenu(event)
     }
 
 };

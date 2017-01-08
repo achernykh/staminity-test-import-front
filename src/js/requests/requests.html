@@ -15,6 +15,9 @@
                     <div class="title">
                         Ожидают подтверждения
                     </div>
+                    <div class="request-new" ng-if="!$ctrl.requests.inbox.new.length">
+                        Нет запросов
+                    </div>
                     <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
                         <a layout="row" ui-sref="/user/{{request.initiator.public.uri}}">
                             <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{request.initiator | avatar}}; background-size: cover;" ui-sref="/user/{{request.initiator.public.uri}}"></div>
@@ -33,6 +36,9 @@
                     </div>
                     <div class="title">
                         История
+                    </div>
+                    <div class="request-new" ng-if="!$ctrl.requests.inbox.old.length">
+                        Нет запросов
                     </div>
                     <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">                        
                         <a layout="row" ui-sref="/user/{{request.initiator.public.uri}}">
@@ -54,6 +60,9 @@
                     <div class="title">
                         Ожидают подтверждения
                     </div>
+                    <div class="request-new" ng-if="!$ctrl.requests.outbox.new.length">
+                        Нет запросов
+                    </div>
                     <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
                         <div layout="row">
                             <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{request.receiver | avatar}}; background-size: cover;" ui-sref="/user/{{request.receiver.public.uri}}"></div>
@@ -71,6 +80,9 @@
                     </div>
                     <div class="title">
                         История
+                    </div>
+                    <div class="request-new" ng-if="!$ctrl.requests.outbox.old.length">
+                        Нет запросов
                     </div>
                     <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">
                         <div layout="row">
