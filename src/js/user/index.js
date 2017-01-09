@@ -138,10 +138,6 @@ class ProfileCtrl {
             .then((user) => { this.user = user })
             .then(() => { this.$scope.$apply() })
     }
-
-    getHeader () {
-        return `url('${this.user.public.background? this.API.apiUrl('/content/background/' + this.user.public.background) : '/assets/picture/pattern0.jpg'}')`
-    }
     
     coaches () {
         this.dialogs.group(this.user.connections.Coaches, 'Тренеры')

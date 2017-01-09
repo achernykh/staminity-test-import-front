@@ -236,9 +236,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 club: function (GroupService, $stateParams) {
                     return GroupService.getProfile('/club/' + $stateParams.uri)
                 },
-                membership: function (GroupService, $stateParams) {
-                    console.log('membership')
-                    return GroupService.getMembershipRequest(0, 100)
+                management: function (GroupService, $stateParams, club) {
+                    return GroupService.getManagementProfile(club.groupId)
                 }
             },
             views: {

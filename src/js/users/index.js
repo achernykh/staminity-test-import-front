@@ -1,16 +1,3 @@
-const usersList = [
-    { userpic: '', username: 'Евгений Захаринский', role: 'Менеджер, +2', coach: 'Задорожный Андрей', subscription: 'Тренер, Премиум', athlets: '8', city: 'Россия, Москва', ageGroup: 'M40-44' },
-    { userpic: '', username: 'Черных Александр', role: 'Спортсмен', coach: 'Хабаров Евгений, +1', subscription: 'Премиум', athlets: '-', city: 'Россия, Москва', ageGroup: 'M30-34' },
-    { userpic: '', username: 'Иванов Денис', role: 'Спортсмен', coach: 'Задорожный Андрей', subscription: '', athlets: '-', city: 'Россия, Москва', ageGroup: 'M30-34' },
-    { userpic: '', username: 'Калинин Алексей', role: 'Спортсмен', coach: 'Хабаров Евгений', subscription: 'Премиум', athlets: '-', city: 'Россия, Москва', ageGroup: 'M40-44' },
-    { userpic: '', username: 'Евгений Захаринский', role: 'Спортсмен', coach: 'Хабаров Евгений', subscription: 'Премиум', athlets: '-', city: 'Россия, Москва', ageGroup: 'M35-39' },
-    { userpic: '', username: 'Калинин Алексей', role: 'Спортсмен', coach: 'Хабаров Евгений', subscription: '', athlets: '-', city: 'Россия, Москва', ageGroup: 'M40-44' },
-    { userpic: '', username: 'Черных Александр', role: 'Спортсмен', coach: 'Хабаров Евгений, +1', subscription: '', athlets: '-', city: 'Россия, Москва', ageGroup: 'M35-39' },
-    { userpic: '', username: 'Иванов Денис', role: 'Спортсмен', coach: 'Задорожный Андрей', subscription: '', athlets: '-', city: 'Россия, Москва', ageGroup: 'M40-44' },
-    { userpic: '', username: 'Калинин Алексей', role: 'Спортсмен', coach: 'Задорожный Андрей', subscription: 'Премиум', athlets: '-', city: 'Россия, Москва', ageGroup: 'M30-34' },
-    { userpic: '', username: 'Евгений Захаринский', role: 'Спортсмен', coach: 'Хабаров Евгений', subscription: '', athlets: '-', city: 'Россия, Москва', ageGroup: 'M35-39' }
-];
-
 const roles = ['Спортсмен', 'Тренер', 'Менеджер'];
 
 const coaches = ['Задорожный Андрей', 'Хабаров Евгений'];
@@ -33,30 +20,34 @@ function allEqual (xs, p = equals) {
 
 class UsersCtrl {
 
-    constructor ($scope, $mdDialog, UserService, API) {
+    constructor ($scope, $mdDialog, GroupService, dialogs) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
-        this.UserService = UserService;
-        this.API = API;
-        
-        this.users = usersList;
+        this.GroupService = GroupService;
+        this.dialogs = dialogs;
+    }
+    
+    update () {
+        return this.GroupService.getManagementProfile(this.club.groupId)
+            .then((management) => { this.management = management })
+            .then(() => { this.$scope.$apply() })
     }
     
     get checked () {
-        return this.users.filter((user) => user.checked);
+        return this.management.members.filter((user) => user.checked);
     }
     
     set allChecked (value) {
         if (this.allChecked) {
-            this.users.forEach((user) => { user.checked = false; });
+            this.management.members.forEach((user) => { user.checked = false; });
         } else {
-            this.users.forEach((user) => { user.checked = true; });
+            this.management.members.forEach((user) => { user.checked = true; });
         }
     }
     
     get allChecked () {
-        return this.users.every((user) => user.checked);
+        return this.management.members.every((user) => user.checked);
     }
     
     get subscriptionsAvailable () {
@@ -102,7 +93,10 @@ class UsersCtrl {
     }
     
     remove () {
-        this.users = this.users.filter((user) => !user.checked);
+        this.dialogs.confirm('Удалить пользователей?')
+        .then((confirmed) => { if (!confirmed) throw new Error() })
+        .then(() => Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))))
+        .then(() => { this.update() })
     }
     
     filters (key, value) {
@@ -165,7 +159,7 @@ const users = {
     bindings: {
         view: '<',
         club: '<',
-        membership: '<'
+        management: '<'
     },
 
     require: {

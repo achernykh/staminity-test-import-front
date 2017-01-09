@@ -66,18 +66,18 @@
                 <th>Город</th>
                 <th>Возрастная группа</th>
             </tr>
-            <tr ng-repeat="user in $ctrl.club.groupMembers">
-                <td> <md-checkbox ng-model="user.checked" aria-label="user checked"></md-checkbox> </td>
+            <tr ng-repeat="member in $ctrl.management.members | filter:$ctrl.search">
+                <td> <md-checkbox ng-model="member.checked" aria-label="user checked"></md-checkbox> </td>
                 <td>
-                    <img style="vertical-align: middle; height: 24px; width: 24px; border-radius: 12px; -border: 1px solid white" ng-src="/assets/avatar/4.jpg" src="/assets/avatar/4.jpg">
-                    {{user.public.firstName}} {{user.public.lastName}}
+                    <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
+                    {{member.userProfile | username}}
                 </td>
-                <td>{{user.public.role}}</td>
-                <td>{{user.public.coach}}</td>
-                <td>{{user.public.subscription}}</td>
-                <td>{{user.public.athlets}}</td>
-                <td>{{user.public.city}}</td>
-                <td>{{user.public.ageGroup}}</td>
+                <td>{{member.roleMembership.join(' ')}}</td>
+                <td>{{member.coaches}}</td>
+                <td>{{member.userProfile.billing}}</td>
+                <td>{{member.athletes}}</td>
+                <td>{{member.userProfile.city}}</td>
+                <td>{{member.userProfile.sex}}</td>
             </tr>
         </table>
             

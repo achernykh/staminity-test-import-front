@@ -8,7 +8,7 @@ import {
     ProcessMembershipRequest,
     ProcessGroupMembershipRequest,
     GetMembersRequest,
-    GetGroupMembershipProfile
+    GetGroupManagementProfile
 } from '../../../../api/group/group.request';
 import {ISocketService, IWSRequest} from '../api/socket.service';
 import {PostData, PostFile, IRESTService} from '../api/rest.service';
@@ -74,8 +74,8 @@ export default class GroupService {
      * @param groupId
      * @returns {Promise<any>}
      */
-    getMembershipProfile(groupId: number):Promise<IGroupManagementProfile>{
-        return this.SocketService.send(new GetGroupMembershipProfile(groupId));
+    getManagementProfile(groupId: number):Promise<IGroupManagementProfile>{
+        return this.SocketService.send(new GetGroupManagementProfile(groupId));
     }
 
     /**
