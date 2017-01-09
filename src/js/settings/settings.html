@@ -32,7 +32,7 @@
                                         <div flex=none hide show-gt-xs>
                                               <md-button class="flat">Изменить</md-button>
                                         </div>
-                                          <md-fab-speed-dial class="animated bounceIn" md-theme="default">
+                                          <md-fab-speed-dial ng-cloak class="animated bounceIn" md-theme="default">
                                               <md-fab-trigger>
                                                   <md-button aria-label="menu" class="md-fab md-accent"
                                                              ng-disabled="!$ctrl.isDirty()"
@@ -42,6 +42,7 @@
                                                                        personal:        $ctrl.personalFirstForm.$dirty || $ctrl.personalSecondForm.$dirty,
                                                                        private:         $ctrl.privateFirstForm.$dirty || $ctrl.privateSecondForm.$dirty,
                                                                        privacy:         $ctrl.privacyForm.$dirty,
+                                                                       display:         $ctrl.displayForm.$dirty,
                                                                        notifications:   $ctrl.notificationForm.$dirty})">
                                                       <md-icon class="light-active" md-svg-src="/assets/icon/save.svg"></md-icon>
                                                   </md-button>

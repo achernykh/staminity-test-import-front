@@ -52,11 +52,22 @@ export const _activity_measurement_view = {
         "measure_code": "unit_code",
     },
     run: {
-        distance: 'km'
+        distance: {
+            unit: 'km',
+            fixed: 2
+        }
+    },
+    swim: {
+
     },
     bike: {
-        distance: 'km',
-        speed: 'kmph'
+        distance: {
+            unit: 'km',
+            fixed: 2
+        }
+    },
+    other: {
+
     }
     // например, вида спорта swim c показателем distance в справочнике нет, это означает, что он будет выводиться в
     // той единице измерения, которая задана по-умолчанию - meter
@@ -66,8 +77,15 @@ export const _activity_measurement_view = {
 export const _measurement = {
     icon: '', // базовый путь для хранения иконок единиц измерения
     "measure_code": "unit_code",
-    distance: "meter",
-    speed: "mps"
+    distance: {
+        unit: "meter",
+        fixed: 0
+    },
+    speed: "mps",
+    heartRate: {
+        unit: "bpm",
+        fixed: 0
+    }
 };
 
 // Справочник пересчета показателей
@@ -89,7 +107,7 @@ export const _measurement_calculate = {
 // Справочник пересчет единиц измерения из метрической системы в имперскую
 // Если единца измерения присутсвует в справочнике, то это означает что она релевантна для пересчета в другую систему
 // мер
-export const _mesurement_system_calculate = {
+export const _measurement_system_calculate = {
     "unit": {
         "unit": "unit_code",
         multiplier: 1
@@ -97,6 +115,10 @@ export const _mesurement_system_calculate = {
     km : {
         unit: 'mile',
         multiplier: 0.621371
+    },
+    meter: {
+        unit: 'yard',
+        multiplier: 1.09361
     },
     kmph : {
         unit: 'mph',

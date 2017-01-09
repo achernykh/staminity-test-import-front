@@ -110,6 +110,16 @@ class SettingsCtrl {
 		console.log('settings=', this)
 	}
 
+	changeUnit(units){
+		this.user.display.units = units;
+		this.displayForm.$dirty = true;
+	}
+
+	changefirstDayOfWeek(number){
+		this.user.display.firstDayOfWeek = number;
+		this.displayForm.$dirty = true;
+	}
+
 	countrySearch(query) {
 		return query ?
 			Object.keys(this._country_list['ru']).filter((key)=> {
@@ -146,6 +156,7 @@ class SettingsCtrl {
 		return this.publicForm.$dirty ||
 			this.personalFirstForm.$dirty || this.personalSecondForm.$dirty ||
 			this.privateForm.$dirty ||
+			this.displayForm.$dirty ||
 			this.notificationsForm.$dirty ||
 			this.privacyForm.$dirty
 
@@ -197,12 +208,12 @@ class SettingsCtrl {
 	}
 
 	get firstDayOfWeek() {
-		//return moment.weekdays(this.user.display.firstDayOfWeek)
+		return ((this.user.display.hasOwnProperty('firstDayOfWeek')) && moment.weekdays(this.user.display.firstDayOfWeek)) || null
 	}
 
-	set firstDayOfWeek(day) {
-		//console.log('firstDayOfWeek', day)
-		//this.user.display.firstDayOfWeek = day
+	set firstDayOfWeek(number) {
+		this.user.display.firstDayOfWeek = number;
+		this.displayForm.$dirty = true;
 	}
 
 	log() {

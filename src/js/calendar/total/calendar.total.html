@@ -48,12 +48,12 @@
 <calendar-total-chart value="30" max="50" status="'ok'"></calendar-total-chart>
 -->
 <!-- weektotal header: end -->
-<div flex="none" layout="column">
-    {{$ctrl.week.changes}}
-</div>
-<div flex="none" layout="column">
-    {{$ctrl.totalData.duration}}
-</div>
-<div flex="none" layout="column">
-    {{$ctrl.totalData.distance}}
+<div ng-repeat="sport in $ctrl.primarySport">
+    <div ng-if="$ctrl.total.hasOwnProperty(sport)">
+        <md-icon md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
+        <span>{{$ctrl.total[sport].completed.distance | measureCalc:sport:'distance'}}</span>
+        <span>&nbsp{{'distance' | measureUnit:sport | translate}}</span><br>
+        <span>{{$ctrl.total[sport].completed.movingDuration | duration}}</span>
+        <span>&nbsp({{$ctrl.total[sport].planned.movingDuration | duration}})</span>
+    </div>
 </div>
