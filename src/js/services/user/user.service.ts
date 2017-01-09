@@ -14,6 +14,7 @@ export default class UserService {
 
     private _profile: IUserProfile;
     private _permissions: Array<Object>;
+    private _displaySettings: Object;
 
     constructor(StorageService:any, SessionService:ISessionService, SocketService:ISocketService, RESTService:IRESTService) {
         this.StorageService = StorageService;
@@ -46,6 +47,11 @@ export default class UserService {
      */
     putProfile(profile:IUserProfile):Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(profile))
+                .then((result)=>{
+                    if (profile.hasOwnProperty('display'))
+                        this.displaySettings = profile.display;
+                    return result
+                })
     }
 
     /**
@@ -95,6 +101,18 @@ export default class UserService {
     	if(!!!this._permissions)
             this._permissions = this.SessionService.getPermissions();
         return this._permissions;
+    }
+
+    get displaySettings():Object {
+        if (!!!this._displaySettings) {
+            this._displaySettings = this.SessionService.getDisplaySettings();
+        }
+        return this._displaySettings;
+    }
+
+    set displaySettings(display:Object){
+        this._displaySettings = display
+        this.SessionService.setDisplaySettings(this._displaySettings)
     }
 
     /*setUserpic (file: any) : Promise<IUserProfile> {

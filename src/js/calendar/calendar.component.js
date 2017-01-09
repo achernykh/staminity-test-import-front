@@ -7,7 +7,7 @@ import { times } from '../util/util';
  *
  */
 class CalendarCtrl {
-    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, SystemMessageService, CalendarService, ActionMessageService) {
+    constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, SystemMessageService, CalendarService, ActionMessageService, UserService) {
         'ngInject';
         this._$log = $log;
         this._$q = $q;
@@ -18,6 +18,7 @@ class CalendarCtrl {
         this._SystemMessageService = SystemMessageService;
 	    this._ActionMessageService = ActionMessageService;
         this._CalendarService = CalendarService;
+        this.firstDayOfWeek = UserService.displaySettings;
         this._$scope = $scope;
 
         this.weekdays = []; // название дней недели
@@ -55,7 +56,12 @@ class CalendarCtrl {
      */
     $onInit() {
         // TODO убрать в ApplicationComponent или run()
-        moment.locale('ru');
+        //moment.locale('en');
+        moment.locale(moment.locale(), {
+            week : {
+                dow : this.firstDayOfWeek.firstDayOfWeek
+            }
+        })
 
         for (let i=0; i<7; i++) {
             this.weekdays.push(moment().startOf('week').add(i,'d').format('dddd'));
@@ -126,7 +132,10 @@ class CalendarCtrl {
             .then((items) => {
                 let days = times(7).map((i) => {
                     let date = moment(start).add(i, 'd')
-                    let calendarItems = items.filter(item => moment(item.date, this.dateFormat).weekday() == i)
+                    let calendarItems = items
+                        .filter(item => moment(item.dateStart, this.dateFormat).weekday() == i)
+                        .filter(item => (item.calendarItemType !== 'activity') ||
+                                        (item.calendarItemType === 'activity' && item.activityHeader.hasOwnProperty('intervals')))
                     
                     return this.dayItem(date, calendarItems)
                 })

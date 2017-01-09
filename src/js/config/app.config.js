@@ -310,6 +310,7 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
     $translateProvider.translations('en', {form: _FORM['en']});
     $translateProvider.translations('ru', {message: _MESSAGE['ru']});
     $translateProvider.translations('en', {message: _MESSAGE['en']});
+    $translateProvider.translations('ru', {'km': 'км','meter':'м','mile': 'мил', 'yard': 'ярд'});
 
     $translateProvider.preferredLanguage('ru');
     $translateProvider.fallbackLanguage('ru');

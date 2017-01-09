@@ -31,6 +31,7 @@ const requires = [
     'hm.readmore',
     'staminity.components',
     'staminity.dialogs',
+	'rx',
     'staminity.layout',
     'staminity.templates',
     'staminity.landing',

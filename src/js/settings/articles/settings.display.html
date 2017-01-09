@@ -49,9 +49,9 @@
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
                     </md-button>
                     <md-menu-content width="4">
-                        <md-menu-item ng-repeat="unit in $ctrl._UNITS">
-                            <md-button ng-click="$ctrl.user.display.units = unit"
-                                       translate="settings.display.{{unit}}.full"></md-button>
+                        <md-menu-item ng-repeat="units in $ctrl._UNITS">
+                            <md-button ng-click="$ctrl.changeUnit(units)"
+                                       translate="settings.display.{{units}}.full"></md-button>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
@@ -60,16 +60,16 @@
             <md-list-item class="mobile-select">
                 <span translate="settings.display.firstDayOfWeek"></span>
                 <span class="md-secondary"
-                     ng-bind="$ctrl.firstDayOfWeek"
+                     ng-bind="$ctrl.weekdays($ctrl.user.display.firstDayOfWeek)"
                      style="text-transform: capitalize"></span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
                     </md-button>
                     <md-menu-content width="4">
-                        <md-menu-item ng-repeat="day in [0,1]">
-                            <md-button ng-click="$ctrl.firstDayOfWeek = day"                    
-                                       ng-bind="$ctrl.weekdays(day)"
+                        <md-menu-item ng-repeat="number in [0,1]">
+                            <md-button ng-click="$ctrl.firstDayOfWeek = number"
+                                       ng-bind="$ctrl.weekdays(number)"
                                        style="text-transform: capitalize"></md-button>
                         </md-menu-item>
                     </md-menu-content>

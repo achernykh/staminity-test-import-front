@@ -37,7 +37,9 @@ var jsLibs = [
     bower+"angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js", // библиотека drug & drop
 	bower+"angular-read-more/dist/readmore.min.js", // библиотека для показа больших текстов [hm.readmore]
     bower+"jsoneditor/dist/jsoneditor.min.js", // json editor
-    bower+"ng-jsoneditor/ng-jsoneditor.js" // json editor directive
+    bower+"ng-jsoneditor/ng-jsoneditor.js", // json editor directive
+    bower+'rxjs/dist/rx.all.min.js',
+    bower+'rx-angular/dist/rx.angular.min.js'
 ];
 
 var cssLibs = [

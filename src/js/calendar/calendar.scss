@@ -279,7 +279,7 @@ calendar-activity {
       	}
 
 		// Задание выполнено с отклонениями
-		&.warn {
+		&-warn {
 			@extend .bg-orange-500;
 			.bg-circle-32 {
 				@extend .bg-orange-800;
@@ -295,7 +295,7 @@ calendar-activity {
 		}
 
 		// Задание выполнено с существенными отклонениями
-		&.error {
+		&-error {
 			@extend .bg-red-500;
 			.bg-circle-32 {
 				@extend .bg-red-800;
@@ -327,6 +327,26 @@ calendar-activity {
         @extend .bg-red-800;
         .bg-circle-32 {
           @extend .bg-red-900;
+        }
+      }
+    }
+
+    &.not-specified {
+      @extend .bg-blue-grey-500;
+      color: white;
+
+      .bg-circle-32 {
+        @extend .bg-blue-grey-800;
+      }
+
+      #more {
+        @extend .light-active;
+      }
+
+      &:hover, &.selected{
+        @extend .bg-blue-grey-800;
+        .bg-circle-32 {
+          @extend .bg-blue-grey-900;
         }
       }
     }

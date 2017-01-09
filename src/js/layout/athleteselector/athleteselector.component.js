@@ -1,27 +1,32 @@
 //import { UserMenuSettings, AppMenuSettings } from '../app.constants';
 
 class AthleteSelectorCtrl {
-    constructor($log, Groups) {
+    constructor() {
         'ngInject';
-        this._Groups = Groups;
-        this._$log = $log;
-        //this.appmenu = AppMenuSettings;
-        //this.usermenu = UserMenuSettings;
-        //this._Auth = Auth;
-    }
-    /**
-     * В инициализации контроллера запрашиваем группы для текущего пользователя
-     */
-    $onInit(){
-        /*this._Groups.get().then(
-            (response) => {
-                this.athletes = response;
-                this._$log.debug('AthleteSelector: onInit=', this.athletes);
-            },
-            (error) => {
 
+        this.athletes = [
+            {
+                userProfile: {
+                    userId: 12,
+                    public: {
+                        firstName: 'Александр',
+                        lastName: 'Черных',
+                        uri: ''
+                    }
+                }
+            },
+            {
+                userProfile: {
+                    userId: 13,
+                    public: {
+                        firstName: 'Захаринский',
+                        lastName: 'Евгений',
+                        uri: ''
+                    }
+                }
             }
-        )*/
+        ]
+
     }
 
     /**
@@ -29,7 +34,7 @@ class AthleteSelectorCtrl {
      * @param athlete
      */
     select(athlete){
-        this._$log.debug('AthleteSelector: select=', athlete);
+        console.log('AthleteSelector: select=', athlete);
         this.onSelect({athlete: athlete})
     }
 

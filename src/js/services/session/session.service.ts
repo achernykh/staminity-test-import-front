@@ -4,6 +4,8 @@ export interface ISessionService {
 	getToken():string;
 	getUser():IUserProfile;
 	getPermissions():Array<Object>
+	getDisplaySettings():Object;
+	setDisplaySettings(value:Object):void;
 	setToken(value:Object):void;
 	delToken():void;
 }
@@ -11,17 +13,14 @@ export interface ISessionService {
 export default class SessionService implements ISessionService {
 
 	private memoryStore:any;
-	private storageType:string;
-	private tokenKey:string;
-	private userKey:string;
-	private permissionsKey:string;
+	private storageType:string = 'localStorage';
+	private tokenKey:string = 'authToken';
+	private userKey:string = 'userProfile';
+	private permissionsKey:string = 'systemFunctions';
+	private displayKey:string = 'displaySettings';
 	private $window:any;
 
 	constructor($window:any) {
-		this.storageType = 'localStorage';
-		this.tokenKey = 'authToken';
-		this.userKey = 'userProfile';
-		this.permissionsKey = 'systemFunctions';
 		this.memoryStore = {};
 		this.$window = $window;
 	}
@@ -51,6 +50,24 @@ export default class SessionService implements ISessionService {
 			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.permissionsKey];
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
+		}
+	}
+
+	getDisplaySettings():Object {
+		try {
+			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.displayKey];
+		} catch (e) {
+			return this.memoryStore[this.tokenKey];
+		}
+	}
+
+	setDisplaySettings(value:Object):void{
+		try {
+			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
+			Object.assign(data, {'displaySettings': value});
+			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
+		} catch (e) {
+			throw new Error(e);
 		}
 	}
 

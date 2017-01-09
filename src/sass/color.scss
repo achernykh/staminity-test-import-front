@@ -91,8 +91,17 @@ $success-color-hover:	$teal-900;
   &-300 {
 	background-color: $blue-grey-300;
   }
+	&-500 {
+		background-color: $blue-grey-500;
+	}
+	&-800 {
+		background-color: $blue-grey-800;
+	}
+	&-900 {
+		background-color: $blue-grey-900;
+	}
   &-A700 {
-	  background-color: $blue-grey-700;
+	  background-color: $blue-grey-800;
 	  color: white;
   }
 }

@@ -4,7 +4,7 @@ import {
 } from './settings.const.js'
 
 class SettingsCtrl {
-	constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog, dialogs) {
+	constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog, dialogs, AthleteSelectorService) {
 		'ngInject'
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
@@ -104,11 +104,25 @@ class SettingsCtrl {
 				]
 			}
 		})
+
+		this._athlete$ = AthleteSelectorService._athlete$
+			.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
+		// Смена атлета тренера в основном окне приложения, необходмо перезагрузить все данные
 	}
 
 	$onInit() {
 		"use strict";
 		console.log('settings=', this)
+	}
+
+	changeUnit(units){
+		this.user.display.units = units;
+		this.displayForm.$dirty = true;
+	}
+
+	changefirstDayOfWeek(number){
+		this.user.display.firstDayOfWeek = number;
+		this.displayForm.$dirty = true;
 	}
 
 	countrySearch(query) {
@@ -148,10 +162,9 @@ class SettingsCtrl {
 			this.personalFirstForm && this.personalFirstForm.$dirty || 
 			this.personalSecondForm && this.personalSecondForm.$dirty ||
 			this.privateForm && this.privateForm.$dirty ||
+			this.displayForm && this.displayForm.$dirty ||
 			this.notificationsForm && this.notificationsForm.$dirty ||
 			this.privacyForm && this.privacyForm.$dirty
-
-
 	}
 
 	isValid() {
@@ -159,6 +172,7 @@ class SettingsCtrl {
 			this.personalFirstForm && this.personalFirstForm.$valid || 
 			this.personalSecondForm && this.personalSecondForm.$valid ||
 			this.privateForm && this.privateForm.$valid ||
+			this.displayForm && this.displayForm.$valid ||
 			this.notificationsForm && this.notificationsForm.$valid ||
 			this.privacyForm && this.privacyForm.$valid
 	}
@@ -200,12 +214,12 @@ class SettingsCtrl {
 	}
 
 	get firstDayOfWeek() {
-		//return moment.weekdays(this.user.display.firstDayOfWeek)
+		return ((this.user.display.hasOwnProperty('firstDayOfWeek')) && moment.weekdays(this.user.display.firstDayOfWeek)) || null
 	}
 
-	set firstDayOfWeek(day) {
-		//console.log('firstDayOfWeek', day)
-		//this.user.display.firstDayOfWeek = day
+	set firstDayOfWeek(number) {
+		this.user.display.firstDayOfWeek = number;
+		this.displayForm.$dirty = true;
 	}
 
 	log() {
