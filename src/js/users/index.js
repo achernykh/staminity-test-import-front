@@ -1,13 +1,6 @@
-const roles = ['Спортсмен', 'Тренер', 'Менеджер'];
+import { flatMap, unique, keys } from '../util/util'
 
 const coaches = ['Задорожный Андрей', 'Хабаров Евгений'];
-
-function unique (xs) {
-    return Object.keys(xs.reduce((r, x) => {
-        r[x] = true;
-        return r;
-    }, {}));
-}
 
 function equals (x0, x1) {
     return x0 === x1;
@@ -20,12 +13,14 @@ function allEqual (xs, p = equals) {
 
 class UsersCtrl {
 
-    constructor ($scope, $mdDialog, GroupService, dialogs) {
+    constructor ($scope, $mdDialog, GroupService, dialogs, $mdMedia, $mdBottomSheet) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
+        this.$mdBottomSheet = $mdBottomSheet;
         this.GroupService = GroupService;
         this.dialogs = dialogs;
+        this.isScreenSmall = $mdMedia('max-width: 959px');
     }
     
     update () {
@@ -83,13 +78,36 @@ class UsersCtrl {
     }
     
     roles () {
+        let checked = this.checked
+        let checkedRoles = checked[0].roleMembership || []
+        let roles = keys(this.management.availableGroups)
+            .map((role) => ({
+                role: role,
+                checked: checkedRoles.includes(role)
+            }))
+        console.log('roles', checkedRoles, roles)
         this.$mdDialog.show({
             controller: RolesController,
-            locals: { users: this.checked },
+            locals: { roles: roles },
             templateUrl: 'users/roles.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
-        });
+        })
+        .then((roles) => {
+            if (roles) {
+                let requests = flatMap(member => roles.map(role => {
+                    if (role.checked && !checkedRoles.includes(role.role)) {
+                        return this.GroupService.join(this.management.availableGroups[role.role], member.userProfile.userId)
+                    } else if (!role.checked && checkedRoles.includes(role.role)) {
+                        return this.GroupService.leave(this.management.availableGroups[role.role], member.userProfile.userId)
+                    }
+                })) (checked)
+                return Promise.all(requests)
+            } else {
+                throw new Error()
+            }
+        })
+        .then(() => this.update())
     }
     
     remove () {
@@ -102,16 +120,22 @@ class UsersCtrl {
     filters (key, value) {
       
     }
+    
+    showActions (member) {
+        this.management.members.forEach((m) => { m.checked = m === member })
+        
+        this.$mdBottomSheet.show({
+            templateUrl: 'users/member-actions.html',
+            scope: this.$scope
+        })
+    }
 };
 
 
-function RolesController ($scope, users, $mdDialog) {
+function RolesController ($scope, roles, $mdDialog) {
     'ngInject';
     
-    $scope.roles = roles.map((role) => ({ 
-        name: role, 
-        checked: users[0].role.includes(role) 
-    }));
+    $scope.roles = roles;
     
     $scope.commit = () => {
         $mdDialog.hide($scope.roles);
