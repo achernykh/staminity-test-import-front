@@ -15,6 +15,7 @@ import './settings'
 import './config/app.templates'
 import './services'
 import './api'
+import './shared'
 
 
 const requires = [
@@ -43,7 +44,8 @@ const requires = [
     'staminity.requests',
     'staminity.settings',
     'staminity.services',
-	'staminity.api'
+	'staminity.api',
+    'staminity.shared'
 ]
 
 

@@ -1,4 +1,8 @@
-import {IGroupProfile, IGroupProfileShort, IGroupManagementProfile} from '../../../../api/group/group.interface';
+import {
+    IGroupProfile,
+    IGroupProfileShort,
+    IGroupManagementProfile,
+    IBulkGroupMembership} from '../../../../api/group/group.interface';
 import {
     GetRequest,
     PutRequest,
@@ -8,7 +12,8 @@ import {
     ProcessMembershipRequest,
     ProcessGroupMembershipRequest,
     GetMembersRequest,
-    GetGroupManagementProfile
+    GetGroupManagementProfile,
+    PutGroupMembershipBulk
 } from '../../../../api/group/group.request';
 import {ISocketService, IWSRequest} from '../api/socket.service';
 import {PostData, PostFile, IRESTService} from '../api/rest.service';
@@ -94,6 +99,16 @@ export default class GroupService {
      */
     processGroupMembership(groupId:number, action:string):Promise<IGroupProfile> {
         return this.SocketService.send(new ProcessGroupMembershipRequest(groupId, action));
+    }
+
+    /**
+     * Массовая смена члентсва в группах для списка пользователей
+     * @param membership
+     * @param users
+     * @returns {Promise<any>}
+     */
+    putGroupMembershipBulk(membership: Array<IBulkGroupMembership>, users: Array<number>):Promise<any> {
+        return this.SocketService.send(new PutGroupMembershipBulk(membership, users));
     }
 
     /**

@@ -55,10 +55,17 @@ export const _activity_measurement_view = {
         distance: {
             unit: 'km',
             fixed: 2
+        },
+        speed: {
+            unit: 'minpkm',
+            fixed: 0
         }
     },
     swim: {
-
+        speed: {
+            unit: 'minp100m',
+            fixed: 0
+        }
     },
     bike: {
         distance: {
@@ -81,12 +88,18 @@ export const _measurement = {
         unit: "meter",
         fixed: 0
     },
-    speed: "mps",
+    speed: {
+        unit: "mps",
+        fixed: 0
+    },
     heartRate: {
         unit: "bpm",
         fixed: 0
     }
 };
+
+// Перечень показателей релевантных для пересчета скорости в темп (10км/ч = 6:00 мин/км)
+export const _measurement_pace_unit = ['minpkm','minp100m']
 
 // Справочник пересчета показателей
 export const _measurement_calculate = {
@@ -94,13 +107,15 @@ export const _measurement_calculate = {
         "measure_code": "multiplier"
     },
     meter : {
-        km: 0.001
+        km: (x) => x * 0.001
     },
     km : {
-        meter: 1000
+        meter: (x) => x * 1000
     },
     mps: {
-       kmph: 3.6
+        kmph: (x) => x * 3.6,
+        minpkm: (x) => (60 * 60) / (x * 3.6),
+        minp100m: (x) => (60 * 60) / (x * 3.6 * 10)
     }
 }
 
@@ -114,15 +129,15 @@ export const _measurement_system_calculate = {
     },
     km : {
         unit: 'mile',
-        multiplier: 0.621371
+        multiplier: (x) => x * 0.621371
     },
     meter: {
         unit: 'yard',
-        multiplier: 1.09361
+        multiplier: (x) => x * 1.09361
     },
     kmph : {
         unit: 'mph',
-        multiplier: 0.621371
+        multiplier: (x) => x * 0.621371
     }
 }
 

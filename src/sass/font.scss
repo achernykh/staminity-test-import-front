@@ -41,6 +41,20 @@
 .right{
 	text-align: right;
 }
+
+.dark {
+	color: black;
+	&-primary {
+
+	}
+	&-secondary {
+
+	}
+	&-disable {
+
+	}
+}
+
 // Прозрачность по Material Design
 .secondary {
 	&.light {
