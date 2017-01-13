@@ -1,4 +1,4 @@
-<md-toolbar id="calendar" class="md-hue-3">
+<md-toolbar class="md-hue-3">
     <div class="md-toolbar-tools">
         <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -29,7 +29,7 @@
     </div>
 </md-toolbar>
 
-<md-content>
+<md-dialog-content>
     <form name="$ctrl.measurementForm">
         <md-list class="md-dense">
             <md-list-item layout="row">
@@ -135,7 +135,9 @@
             <md-list-item flex layout="row">
                 <md-input-container flex class="no-message">
                     <label translate="settings.personalInfo.main.firstName"></label>
-                    <md-select flex class="" ng-model="sleepQuality" arial-label="Privacy Level">
+                    <md-select flex class=""
+                               ng-model="$ctrl.item.measurementHeader.sleepData.sleepQuality"
+                               arial-label="Privacy Level">
                         <md-option class="" ng-value="$index" ng-repeat="level in $ctrl.feeling"
                                    translate="{{'measurement.sentiment.'+level | translate}}"></md-option>
                     </md-select>
@@ -160,4 +162,6 @@
             </md-list-item>
         </md-list>
     </form>
-</md-content>
+</md-dialog-content>
+
+

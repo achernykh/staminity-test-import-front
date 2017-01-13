@@ -34,10 +34,14 @@ class CalendarDayCtrl {
             this._$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
-                template: `<calendar-item-measurement class="calendar-item-measurement"` +
-                                                     `data="$ctrl.data" mode="put"` +
-                                                     `on-cancel="cancel()" on-answer="answer(response)">` +
-                           `</calendar-item-measurement>`,
+                template:
+                    `<md-dialog id="measurement" aria-label="Measurement">`+
+                        `<calendar-item-measurement `+
+                                `flex layout="column" class="calendar-item-measurement"`+
+                                `data="$ctrl.data" mode="put"` +
+                                `on-cancel="cancel()" on-answer="answer(response)">`+
+                        `</calendar-item-measurement>`+
+                    `</md-dialog>`,
                 parent: angular.element(document.body),
                 targetEvent: $event,
                 locals: {
