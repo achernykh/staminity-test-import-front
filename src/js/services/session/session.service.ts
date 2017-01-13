@@ -17,7 +17,7 @@ export default class SessionService implements ISessionService {
 	private tokenKey:string = 'authToken';
 	private userKey:string = 'userProfile';
 	private permissionsKey:string = 'systemFunctions';
-	private displayKey:string = 'displaySettings';
+	private displayKey:string = 'display';
 	private $window:any;
 
 	constructor($window:any) {

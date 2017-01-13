@@ -18,7 +18,7 @@ class CalendarCtrl {
         this._SystemMessageService = SystemMessageService;
 	    this._ActionMessageService = ActionMessageService;
         this._CalendarService = CalendarService;
-        this.firstDayOfWeek = UserService.displaySettings;
+        this.firstDayOfWeek = UserService.profile.display.firstDayOfWeek || null;
         this._$scope = $scope;
 
         this.weekdays = []; // название дней недели
@@ -57,11 +57,12 @@ class CalendarCtrl {
     $onInit() {
         // TODO убрать в ApplicationComponent или run()
         //moment.locale('en');
-        moment.locale(moment.locale(), {
-            week : {
-                dow : this.firstDayOfWeek.firstDayOfWeek
-            }
-        })
+        if(!!this.firstDayOfWeek)
+            moment.locale(moment.locale(), {
+                week : {
+                    dow : this.firstDayOfWeek
+                }
+            })
 
         for (let i=0; i<7; i++) {
             this.weekdays.push(moment().startOf('week').add(i,'d').format('dddd'));
@@ -69,18 +70,6 @@ class CalendarCtrl {
         console.log('CalendarCtrl: omIniti => weedays',this.weekdays);
         // TODO добавить рассчет padding для скролла (зависит от размера экрана)
 
-    }
-
-    /**
-     * Стандартная функция, срабатывает после успешного перехода на представление
-     * Проверяем полученные параметры в ссылке url
-     * @param next
-     */
-    $routerOnActivate(next) {
-        // Если передан параметр 'athlete' в ссылке, то календарь загружаем для данного атлета, а не текущего
-        // пользователя
-        if (next.params.athlete)
-            this._$log.debug('Calendar: $routerOnActivate with athlete number', next.params.athlete);
     }
     
     /**
@@ -115,7 +104,8 @@ class CalendarCtrl {
             changes: 0,
             toolbarDate: date.format('YYYY MMMM'),
             selected: false,
-            subItem: days
+            subItem: days,
+            week: date.format('GGGG-WW')
         };
     }
     
@@ -130,16 +120,18 @@ class CalendarCtrl {
         
         return this._CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat))
             .then((items) => {
+                console.log('CalendarCtrl, getweek = ', items)
                 let days = times(7).map((i) => {
                     let date = moment(start).add(i, 'd')
                     let calendarItems = items
                         .filter(item => moment(item.dateStart, this.dateFormat).weekday() == i)
-                        .filter(item => (item.calendarItemType !== 'activity') ||
-                                        (item.calendarItemType === 'activity' && item.activityHeader.hasOwnProperty('intervals')))
+                        /*.filter(item => (item.calendarItemType !== 'activity') ||
+                                        (item.calendarItemType === 'activity' && item.activityHeader.hasOwnProperty('intervals')))*/
                     
                     return this.dayItem(date, calendarItems)
                 })
-                
+
+                console.log('CalendarCtrl, result=', days)
                 return this.weekItem(index, start, days)
             })
     }
@@ -216,6 +208,49 @@ class CalendarCtrl {
         return this.items[this.items.length - 1]
     }
 
+    /**
+     * Создание записи календаря
+     * @param item<ICalendarItem>
+     */
+    onPostItem(item) {
+        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'))
+        let d = moment(item.dateStart).weekday()
+
+        console.log('onPostItem to',w,d)
+        this.items[w].subItem[d].data.calendarItems.push(item)
+
+    }
+
+    /**
+     * Изменение записи календаря
+     * @param item<ICalendarItem>
+     */
+    onPutItem(item) {
+
+    }
+
+    /**
+     * Удаление записи календаря
+     * @param item
+     */
+    onDeleteItem(item) {
+        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'))
+        let d = moment(item.dateStart).weekday()
+        let p = this.items[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId == item.calendarItemId)
+
+        console.log('onDeleteItem', w,d,p,item,this.items)
+        this.items[w].subItem[d].data.calendarItems.splice(p,1)
+    }
+
+    /**
+     * Получение индекса недели в массиве календаря
+     * @param w - неделя в формате GGGG-WW
+     * @returns {number}
+     */
+    getDayIndex(w) {
+        return this.items.findIndex(item => item.week == w)
+    }
+
     /**-----------------------------------------------------------------------------------------------------------------
      *
      * TOOLBAR ACTIONS
@@ -284,7 +319,7 @@ class CalendarCtrl {
      * Удаление записи календаря
      * @param calendarItem
      */
-    onDeleteItem(calendarItem) {
+    /*onDeleteItem(calendarItem) {
         "use strict";
         
         let init = moment()
@@ -301,7 +336,7 @@ class CalendarCtrl {
             dayItem.data.calendarItems.splice(ind, 1);
             this._ActionMessageService.screen('Запись удалена');
         }
-    }
+    }*/
     
     /**
      * Drop записи календаря (операция drag&drop)

@@ -6,8 +6,19 @@ import {
     _measurement_pace_unit
 } from '../calendar-item/activity.constants'
 
+import {_MEASURE_TRANSLATE} from './measure.translate'
+
 export let SharedModule = angular.module('staminity.shared', []);
 
+// Перевод показателей и едениц измерений
+SharedModule.config($translateProvider => {
+    $translateProvider.translations('ru',_MEASURE_TRANSLATE.ru);
+    $translateProvider.translations('en',_MEASURE_TRANSLATE.en);
+})
+
+/**
+ *
+ */
 SharedModule.filter('measureCalc', (UserService)=> {
     return (data, sport, measure) => {
         if (!!data) {
@@ -19,7 +30,7 @@ SharedModule.filter('measureCalc', (UserService)=> {
                 data = _measurement_calculate[_measurement[measure].unit][unit](data)
 
             // Необходим пересчет системы мер
-            if (UserService.displaySettings.units !== 'metric')
+            if (UserService.profile.display.units !== 'metric')
                 data = data * _measurement_system_calculate[unit].multiplier
 
             // Показатель релевантен для пересчета скорости в темп
@@ -31,10 +42,13 @@ SharedModule.filter('measureCalc', (UserService)=> {
     }
 })
 
+/**
+ *
+ */
 SharedModule.filter('measureUnit', (UserService)=> {
     return (measure, sport) => {
         let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit
-        return (UserService.displaySettings.units === 'metric') ? unit : _measurement_system_calculate[unit].unit
+        return (UserService.profile.display.units === 'metric') ? unit : _measurement_system_calculate[unit].unit
     }
 })
 

@@ -16,7 +16,7 @@ import './config/app.templates'
 import './services'
 import './api'
 import './shared'
-
+import './calendar-item'
 
 const requires = [
     'ngMaterial',
@@ -33,6 +33,7 @@ const requires = [
     'staminity.components',
     'staminity.dialogs',
 	'rx',
+
     'staminity.layout',
     'staminity.templates',
     'staminity.landing',
@@ -45,7 +46,8 @@ const requires = [
     'staminity.settings',
     'staminity.services',
 	'staminity.api',
-    'staminity.shared'
+    'staminity.shared',
+    'staminity.calendar-item'
 ]
 
 

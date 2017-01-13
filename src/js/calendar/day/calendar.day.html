@@ -71,7 +71,8 @@
                                   dnd-type="'itemType'"
                                   dnd-effect-allowed="copyMove"
                                   dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                                  dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)">
+                                  dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)"
+                                  ng-click="$ctrl.onOpen($event,'measurement', item)">
                 <div flex="none">
                     <md-icon md-svg-src="assets/icon/straighten.svg"
                              class="s18 dark-inactive" style="margin-right: 8px"></md-icon>
@@ -79,7 +80,11 @@
                 <div flex="auto" style="margin-top: 2px">
                     <div ng-repeat="(key,value) in item.measurementHeader.sizes"
                          class="md-caption secondary dark">
-                        {{::key}}: {{::value}}
+                        {{key}}: {{value}}
+                    </div>
+                    <div ng-repeat="(key,value) in item.measurementHeader.generalMeasures"
+                         class="md-caption secondary dark">
+                        {{key}}: {{value}}
                     </div>
                 </div>
             </calendar-measurement>
@@ -161,7 +166,8 @@
     <!-- add item: start -->
     <div layout="row" layout-align="center center" flex="grow" hide show-gt-sm
          class="new" ng-class="{show: $ctrl.accent}">
-        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px">
+        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px"
+        ng-click="$ctrl.newItem($event,$ctrl.data)">
             <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"
                      aria-label="Back"></md-icon>
         </md-button>

@@ -8,6 +8,7 @@ class HeaderCtrl {
 		this._$mdSidenav = $mdSidenav;
 		this.user = UserService.profile;
 		this._AthleteSelectorService = AthleteSelectorService;
+		console.log('headerctrl',this)
 	}
 
 	avatarUrl(){

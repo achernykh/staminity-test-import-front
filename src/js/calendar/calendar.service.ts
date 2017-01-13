@@ -1,6 +1,6 @@
 import {ISocketService} from '../services/api/socket.service';
 import {ICalendarItem} from '../../../api/calendar/calendar.interface'
-import {GetRequest} from '../../../api/calendar/calendar.request'
+import {GetRequest, PostRequest, PutRequest, DeleteRequest} from '../../../api/calendar/calendar.request'
 
 export class CalendarService {
     SocketService:ISocketService;
@@ -49,29 +49,29 @@ export class CalendarService {
      * @param request {Object}
      * @returns {Promise}
      */
-    /*putItem(request){
-     return this._api.wsRequest('putCalendarItem', request).then((response) => {
-     return new Promise( (resolve) => {
-     resolve(response.map( (item) => {
-     if (item.type == 'calendarItem')
-     return item.value;
-     }))
-     });
-     });
-     }
-     /**
+    postItem(item:ICalendarItem):Promise<any> {
+        return this.SocketService.send(new PostRequest(item))
+    }
+
+    /**
      * Изменить запись календаря
-     * @param request
-     * @returns {*}
+     * @param request {Object}
+     * @returns {Promise}
      */
-    /*postItem(request){
-     return this._api.wsRequest('postCalendarItem', request);
-     }
-     /**
-     * Удалить запись календаря
-     * @param request
-     * @returns {*}
+    putItem(item:ICalendarItem):Promise<any> {
+        return this.SocketService.send(new PutRequest(item))
+    }
+
+    /**
+     * Удаление записи календаря
+     * @param mode
+     * @param items
+     * @returns {Promise<any>}
      */
+    deleteItem(mode: string, items: Array<number>):Promise<any> {
+        return this.SocketService.send(new DeleteRequest(mode,items))
+    }
+
     /*deleteItem(request){
      return this._api.wsRequest('deleteCalendarItem', request);
      }

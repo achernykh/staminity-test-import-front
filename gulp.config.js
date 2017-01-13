@@ -39,14 +39,16 @@ var jsLibs = [
     bower+"jsoneditor/dist/jsoneditor.min.js", // json editor
     bower+"ng-jsoneditor/ng-jsoneditor.js", // json editor directive
     bower+'rxjs/dist/rx.all.min.js',
-    bower+'rx-angular/dist/rx.angular.min.js'
+    bower+'rx-angular/dist/rx.angular.min.js',
+    bower+'smDateTimeRangePicker/src/picker.js'
 ];
 
 var cssLibs = [
     bower+"normalize-css/normalize.css",
     bower+"angular-material/angular-material.min.css",
     bower+"animate.css/animate.min.css",
-    bower+"jsoneditor/dist/jsoneditor.css"
+    bower+"jsoneditor/dist/jsoneditor.css",
+    bower+'smDateTimeRangePicker/src/picker.css'
     //bower+"angular-material/angular-material.layouts.css",
     //bower+"leaflet/dist/leaflet.css",
     //bower+"nvd3/build/nv.d3.css",
