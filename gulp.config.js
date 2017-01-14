@@ -7,7 +7,7 @@ var src = 'src/',
     build = 'build/';
 
 var jsLibs = [
-    bower+"angular/angular.js",
+    npm+"angular/angular.js",
     //bower+"angular-component-router/angular_1_router.js",
     npm+"angular-animate/angular-animate.js",
     npm+"angular-aria/angular-aria.js",
