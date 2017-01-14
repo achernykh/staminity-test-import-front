@@ -23,7 +23,7 @@ class CalendarCtrl {
 
         this.weekdays = []; // название дней недели
 	    this.buffer = []; //для операций copy/paste
-        this.view.compact = false; //компактный/полный режим отображения calendarItems
+        //this.view.compact = false; //компактный/полный режим отображения calendarItems
         var self = this;
         
         this.onLoad = () => $scope.$apply()

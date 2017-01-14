@@ -7,7 +7,7 @@
 
             <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
                           ng-repeat-start="(service, property) in $ctrl.user.externalDataProviders">
-                <md-icon  md-svg-src="/assets/icon/security.svg"></md-icon>
+                <img  md-svg-src="/assets/icon/garmin.jpg"></img>
                 <div class="md-list-item-text" ng-switch="property.enabled">
                     <h3> {{ service }} </h3>
                     <h4> {{ property.enabled ? "Синхронизировано" : ""}} </h4>

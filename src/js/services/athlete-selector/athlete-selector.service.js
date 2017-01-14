@@ -5,7 +5,7 @@ export default class AthleteSelectorService {
         this._$compile = $compile;
         this._$timeout = $timeout;
         this._$rootScope = $rootScope;
-        this._athlete$ = new Rx.Subject();
+        //this._athlete$ = new Rx.Subject();
         //this.athlete = this.athlete.asObservable();
         this._$mdDialog = $mdDialog
     }
@@ -58,7 +58,7 @@ export default class AthleteSelectorService {
         })
             .then((answer) => {
                 console.log(`You said the information was ${answer}.`);
-                this._athlete$.onNext(answer)
+                //this._athlete$.onNext(answer)
                 /*this._AuthService.setPassword(password)
                     .then((response) => {
                         console.log(response)

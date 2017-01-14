@@ -8,3 +8,19 @@
     "./src/js/app.js"
   ]
 }
+
+/*
+{
+    "compilerOptions": {
+        "module": "es2015",
+        "moduleResolution": "node",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "noUnusedParameters": false,
+        "noUnusedLocals": false
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}*/

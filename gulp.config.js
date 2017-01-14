@@ -7,21 +7,21 @@ var src = 'src/',
     build = 'build/';
 
 var jsLibs = [
-    bower+"angular/angular.js",
+    npm+"angular/angular.js",
     //bower+"angular-component-router/angular_1_router.js",
-    bower+"angular-animate/angular-animate.js",
-    bower+"angular-aria/angular-aria.js",
-    bower+"angular-material/angular-material.js",
-    bower+"angular-translate/angular-translate.js",// перевод интерфейса пользователя
-    bower+"angular-messages/angular-messages.js", // подсказки в формах ввода
+    npm+"angular-animate/angular-animate.js",
+    npm+"angular-aria/angular-aria.js",
+    npm+"angular-material/angular-material.js",
+    npm+"angular-translate/dist/angular-translate.js",// перевод интерфейса пользователя
+    npm+"angular-messages/angular-messages.js", // подсказки в формах ввода
     //bower+"angular-material-icons/angular-material-icons.js", // добавление иконок (УДАЛИТЬ)
     //bower+"angular-mocks/angular-mocks.js", // httpBackend
-    bower+"angular-sanitize/angular-sanitize.js",
-    bower+"angular-websocket/dist/angular-websocket.js", // веб-сокеты
+    npm+"angular-sanitize/angular-sanitize.js",
+    npm+"angular-websocket/dist/angular-websocket.js", // веб-сокеты
     //bower+"AngularJS-Toaster/toaster.js", // нотификация
     //bower+"angular-moment/angular-moment.js", // директивы и фильтры для работы с датой
-    bower+"moment/min/moment.min.js", // библиотека для работы с датой и временем
-    bower+"moment/locale/ru.js", // библиотека для работы с датой и временем
+    npm+"moment/min/moment.min.js", // библиотека для работы с датой и временем
+    npm+"moment/locale/ru.js", // библиотека для работы с датой и временем
     //bower+"angular-vs-repeat/src/angular-vs-repeat.js", //библиотека для бесконечного скрола
     //bower+"angular-leaflet-directive/dist/angular-leaflet-directive.js",
     //bower+"leaflet/dist/leaflet.js",
@@ -29,26 +29,26 @@ var jsLibs = [
     //bower+"d3/d3.js",
     //bower+"nvd3/build/nv.d3.js",
     //bower+"angular-nvd3/dist/angular-nvd3.js",
-    bower+"angular-scroll/angular-scroll.js",
-    bower+"localforage/dist/localforage.min.js",
+    npm+"angular-scroll/angular-scroll.js",
+    npm+"localforage/dist/localforage.min.js",
     npm+"angular-ui-router/release/angular-ui-router.min.js",
-    bower+"angular-ui-scroll/dist/ui-scroll.js", // бесконечный скролл
-    bower+"angular-ui-scroll/dist/ui-scroll-jqlite.js", // дополнение к бесконечному скролу
-    bower+"angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js", // библиотека drug & drop
-	bower+"angular-read-more/dist/readmore.min.js", // библиотека для показа больших текстов [hm.readmore]
-    bower+"jsoneditor/dist/jsoneditor.min.js", // json editor
-    bower+"ng-jsoneditor/ng-jsoneditor.js", // json editor directive
-    bower+'rxjs/dist/rx.all.min.js',
-    bower+'rx-angular/dist/rx.angular.min.js',
-    bower+'smDateTimeRangePicker/src/picker.js'
+    //npm+"angular-ui-scroll/dist/ui-scroll.js", // бесконечный скролл
+    //npm+"angular-ui-scroll/dist/ui-scroll-jqlite.js", // дополнение к бесконечному скролу
+    npm+"angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js", // библиотека drug & drop
+    bower+"angular-read-more/dist/readmore.min.js", // библиотека для показа больших текстов [hm.readmore]
+    npm+"jsoneditor/dist/jsoneditor.min.js", // json editor
+    npm+"ng-jsoneditor/ng-jsoneditor.js", // json editor directive
+    //npm+'rxjs/dist/rx.all.min.js',
+    //npm+'rx-angular/dist/rx.angular.min.js',
+    npm+'smDateTimeRangePicker/src/picker.js'
 ];
 
 var cssLibs = [
-    bower+"normalize-css/normalize.css",
-    bower+"angular-material/angular-material.min.css",
-    bower+"animate.css/animate.min.css",
-    bower+"jsoneditor/dist/jsoneditor.css",
-    bower+'smDateTimeRangePicker/src/picker.css'
+    npm+"normalize-css/normalize.css",
+    npm+"angular-material/angular-material.min.css",
+    npm+"animate.css/animate.min.css",
+    npm+"jsoneditor/dist/jsoneditor.css",
+    npm+'smDateTimeRangePicker/src/picker.css'
     //bower+"angular-material/angular-material.layouts.css",
     //bower+"leaflet/dist/leaflet.css",
     //bower+"nvd3/build/nv.d3.css",

@@ -105,8 +105,8 @@ class SettingsCtrl {
 			}
 		})
 
-		this._athlete$ = AthleteSelectorService._athlete$
-			.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
+		//this._athlete$ = AthleteSelectorService._athlete$
+		//	.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
 		// Смена атлета тренера в основном окне приложения, необходмо перезагрузить все данные
 	}
 
