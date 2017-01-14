@@ -7,7 +7,7 @@ var src = 'src/',
     build = 'build/';
 
 var jsLibs = [
-    npm+"angular/angular.js",
+    bower+"angular/angular.js",
     //bower+"angular-component-router/angular_1_router.js",
     npm+"angular-animate/angular-animate.js",
     npm+"angular-aria/angular-aria.js",
@@ -31,7 +31,7 @@ var jsLibs = [
     //bower+"angular-nvd3/dist/angular-nvd3.js",
     npm+"angular-scroll/angular-scroll.js",
     npm+"localforage/dist/localforage.min.js",
-    npm+"angular-ui-router/release/angular-ui-router.min.js",
+    npm+"angular-ui-router/release/angular-ui-router.js",
     //npm+"angular-ui-scroll/dist/ui-scroll.js", // бесконечный скролл
     //npm+"angular-ui-scroll/dist/ui-scroll-jqlite.js", // дополнение к бесконечному скролу
     npm+"angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js", // библиотека drug & drop

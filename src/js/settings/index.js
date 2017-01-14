@@ -10,7 +10,7 @@ let module = angular.module('staminity.settings',[]);
     module.config(($stateProvider)=>{
         $stateProvider
             .state('clubSettings', {
-                url: "/settings/:uri",
+                url: "/settings/club/:uri",
                 loginRequired: true,
                 authRequired: ['func1'],
                 resolve: {
@@ -44,18 +44,20 @@ let module = angular.module('staminity.settings',[]);
                 }
             })
             .state('settings', {
-                url: "/settings",
+                url: "/settings/user/:uri",
                 loginRequired: true,
                 authRequired: ['func1'],
                 resolve: {
                     view: function (ViewService) {
                         return ViewService.getParams('settings')
                     },
-                    userId: function (SessionService) {
-                        return SessionService.getUser().userId
-                    },
-                    user: function (UserService, userId) {
-                        return UserService.getProfile(userId)
+                    user: function (UserService, SystemMessageService, $stateParams) {
+                        return UserService.getProfile($stateParams.uri)
+                                .catch((error)=> {
+                                    SystemMessageService.show(error,'warning');
+                                    // TODO перейти на страницу 404
+                                    throw error;
+                                })
                     }
                 },
                 views: {
