@@ -9,10 +9,13 @@
   "description": "Staminity application",
   "main": "index.html",
   "scripts": {
-    "prestart": "npm update",
-    "initial": "npm install",
-    "install": "bower install",
-    "run": "gulp serve"
+    "build": "webpack-dev-server --inline --hot",
+    "display-error": "webpack --display-error-details",
+    "dist": "webpack",
+    "distLocal": "webpack",
+    "analyseBuild": "webpack --json > status.json",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cleanjs": "rimraf src/app/*.js, src/app/**/*.js, src/app/**/**/*.js"
   },
   "keywords": [
     "staminity",
@@ -79,14 +82,14 @@
     "webpack-merge": "2.0.0"
   },
   "dependencies": {
-    "angular": "^1.5.8",
-    "angular-animate": "^1.5.8",
-    "angular-aria": "^1.5.8",
+    "angular": "1.5.8",
+    "angular-animate": "1.5.8",
+    "angular-aria": "1.5.8",
     "angular-drag-and-drop-lists": "^2.0.0",
-    "angular-i18n": "^1.5.8",
-    "angular-material": "^1.1.1",
-    "angular-messages": "^1.5.8",
-    "angular-sanitize": "^1.5.8",
+    "angular-i18n": "1.5.8",
+    "angular-material": "1.1.1",
+    "angular-messages": "1.5.8",
+    "angular-sanitize": "1.5.8",
     "angular-scroll": "^1.0.0",
     "angular-translate": "^2.13.1",
     "angular-ui-router": "^1.0.0-beta.3",

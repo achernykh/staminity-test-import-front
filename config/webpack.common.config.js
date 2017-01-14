@@ -16,8 +16,10 @@ module.exports = {
             'angular-animate',
             'angular-messages',
             'angular-material',
-            'oclazyload'
+            'angular-translate'
+            //'oclazyload'
         ],
+        // вход для приложения
         app: './src/app/app.module.ts'
     },
     module: {

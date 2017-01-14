@@ -12,8 +12,8 @@ const hostEndPoint = {
 };
 
 let cwd = process.cwd();
-let ENV = process.env.npm_lifecycle_event;
-let outputPath = path.join(cwd, '/', ENV);
+var ENV = process.env.npm_lifecycle_event;
+var outputPath = path.join(cwd, '/', ENV);
 
 module.exports = {
     output: {
