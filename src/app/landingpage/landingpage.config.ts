@@ -1,9 +1,9 @@
 import {StateProvider, StateDeclaration} from 'angular-ui-router';
 import {_translate} from './landingpage.translate';
+//import {ITranslateProvider} from "angular-translate";
 
-function configure(
-	$stateProvider:StateProvider,
-	$translateProvider: any) {
+function configure($stateProvider:StateProvider,
+                   $translateProvider:any) {
 
 	$stateProvider
 		.state('welcome', <StateDeclaration>{
@@ -19,18 +19,18 @@ function configure(
 				console.log('on enter');
 			},
 			views: {
-				/*"background": {
-				 component: "staminityBackground",
-				 bindings: {
-				 view: 'display.background'
-				 }
-				 },
-				 "header": {
-				 component: 'staminityHeader',
-				 bindings: {
-				 view: 'display.header'
-				 }
-				 },*/
+				"background": {
+					component: "staminityBackground",
+					bindings: {
+						view: 'display.background'
+					}
+				},
+				"header": {
+					component: 'staminityHeader',
+					bindings: {
+						view: 'display.header'
+					}
+				},
 				"application": {
 					component: "landingPage",
 					bindings: {
@@ -47,6 +47,6 @@ function configure(
 
 }
 
-configure.$inject = ['$stateProvider','$translateProvider'];
+configure.$inject = ['$stateProvider', '$translateProvider'];
 
 export default configure;

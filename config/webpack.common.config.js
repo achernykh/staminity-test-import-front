@@ -16,7 +16,8 @@ module.exports = {
             'angular-animate',
             'angular-messages',
             'angular-material',
-            'angular-translate'
+            'angular-translate',
+            //'angular-websocket'
             //'oclazyload'
         ],
         // вход для приложения

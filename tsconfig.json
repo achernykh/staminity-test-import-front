@@ -18,7 +18,8 @@
         "noImplicitAny": false,
         "sourceMap": false,
         "noUnusedParameters": false,
-        "noUnusedLocals": false
+        "noUnusedLocals": false,
+        "allowJs": true
     },
     "exclude": [
         "node_modules"

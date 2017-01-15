@@ -1,5 +1,5 @@
 import { IComponentOptions, IComponentController} from 'angular';
-require('./landingpage.scss');
+require('./landingpage.component.scss');
 
 class LandingPageCtrl implements IComponentController {
 
