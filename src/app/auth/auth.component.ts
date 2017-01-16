@@ -1,6 +1,6 @@
 import { IComponentOptions, IComponentController} from 'angular';
 import SessionService from "../../js/services/session/session.service";
-import { StateService } from 'angular-ui-router';
+import {StateService, LocationServices} from 'angular-ui-router';
 require('./auth.component.scss');
 
 class AuthCtrl implements IComponentController {
@@ -9,16 +9,41 @@ class AuthCtrl implements IComponentController {
 	private showConfirm: boolean = false;
 	private credentials: Object = null;
 
-	static $inject = ['AuthService','SessionService','$state','SystemMessageService'];
+	static $inject = ['AuthService','SessionService','$state','SystemMessageService','$location','ActionMessageService'];
 
 	constructor(
 		private AuthService: any,
 		private SessionService: SessionService,
 		private $state: StateService,
-		private SystemMessageService: any) {
+		private SystemMessageService: any,
+		private $location: LocationServices,
+		private ActionMessageService: any) {
 	}
 
 	$onInit() {
+
+		if(this.$state.$current.name === 'signout') {
+			this.SessionService.delToken();
+			this.$state.go('signin');
+		}
+
+		if(this.$state.$current.name === 'confirm') {
+			if(this.$location.search.hasOwnProperty('request')) {
+				this.AuthService.confirm({request: this.$location.search['request']})
+					.then((success) => {
+						console.log('confirm success=', success);
+						this.SystemMessageService.show(success.title, success.status, success.delay);
+						this.$state.go('signin');
+					}, (error) => {
+						this.SystemMessageService.show(error);
+						this.$state.go('signup');
+					});
+			} else {
+				this.$state.go('signup');
+			}
+
+		}
+
 		// Типовая структура для создания нового пользователя
 		this.credentials = {
 			public: {
@@ -52,7 +77,8 @@ class AuthCtrl implements IComponentController {
 			}, (error) => {
 				// show system message
 				console.log('signin error=', error);
-				this.SystemMessageService.show(error);
+				//this.SystemMessageService.show(error);
+				this.ActionMessageService.simple(error);
 			});
 	}
 

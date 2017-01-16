@@ -1,10 +1,7 @@
 class CalendarDayCtrl {
-    constructor($log, $mdDialog,ActionMessageService){
-        "use strict";
-        'ngInject'
-        this._$log = $log;
-        this._$mdDialog = $mdDialog;
-        this._ActionMessageService = ActionMessageService;
+    constructor($mdDialog,ActionMessageService){
+        this.$mdDialog = $mdDialog;
+        this.ActionMessageService = ActionMessageService;
     }
     $onInit(){
         "use strict";
@@ -16,7 +13,7 @@ class CalendarDayCtrl {
         let items = this.data.calendarItems;
         console.log('CalendarDay: onDelete items=', items, this.data);
         //for (let item of items) {
-            //this._$log.debug('CalendarDay: onDelete item=', item);
+
             this.calendar.onDeleteItem(this.data.calendarItems);
         //}
 
@@ -31,7 +28,7 @@ class CalendarDayCtrl {
     }
     onOpen($event, type, data) {
         if(type === 'measurement')
-            this._$mdDialog.show({
+            this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
                 template:
@@ -60,12 +57,12 @@ class CalendarDayCtrl {
                     if(response.type == 'put'){
                         this.calendar.onDeleteItem(data)
                         this.calendar.onPostItem(response.item)
-                        this._ActionMessageService.simple('Изменения сохранены')
+                        this.ActionMessageService.simple('Изменения сохранены')
                     }
 
                     if(response.type == 'delete') {
                         this.calendar.onDeleteItem(response.item)
-                        this._ActionMessageService.simple('Запись удалена')
+                        this.ActionMessageService.simple('Запись удалена')
                     }
 
 
@@ -74,7 +71,7 @@ class CalendarDayCtrl {
                 })
     }
     newItem($event, data){
-        this._$mdDialog.show({
+        this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
             template: `<calendar-item-measurement class="calendar-item-measurement"` +
@@ -96,7 +93,7 @@ class CalendarDayCtrl {
                 console.log('user close dialog with =', response)
                 if(response.type == 'post') {
                     this.calendar.onPostItem(response.item)
-                    this._ActionMessageService.simple('Создана новая запись')
+                    this.ActionMessageService.simple('Создана новая запись')
                 }
 
             }, ()=> {
@@ -104,6 +101,7 @@ class CalendarDayCtrl {
             })
     }
 }
+CalendarDayCtrl.$inject = ['$mdDialog','ActionMessageService'];
 
 export let CalendarDay = {
     bindings: {
@@ -116,11 +114,12 @@ export let CalendarDay = {
         calendar: '^calendar'
     },
     controller: CalendarDayCtrl,
-    templateUrl: 'calendar/day/calendar.day.html'
+    template: require('./calendar-day.component.html')
 };
 
+export default CalendarDay;
+
 function DialogController($scope, $mdDialog) {
-    'ngInject'
     $scope.hide = function() {
         $mdDialog.hide();
     };
@@ -134,3 +133,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
+DialogController.$inject = ['$mdDialog']

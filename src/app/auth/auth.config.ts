@@ -1,6 +1,7 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateProvider, StateDeclaration, StateService, State} from 'angular-ui-router';
 import {_translate} from './auth.translate';
 import { _display_view } from "../core/display.constants";
+import SessionService from "../core/session.service";
 
 function configure(
 	$stateProvider:StateProvider,
@@ -68,12 +69,18 @@ function configure(
 		.state('signout', <StateDeclaration>{
 			url: "/signout",
 			loginRequired: true,
-			//authRequired: ['func1']
-			/*,
-			onEnter: ($state:StateService, SessionService:SessionService) => {
-				SessionService.delToken()
-				$state.go('signin')
-			}*/
+			//authRequired: ['func1'],
+			/* waite for https://github.com/angular-ui/ui-router/issues/3260
+			onEnter: ['$state','SessionService', ($state:StateService, SessionService: SessionService) => {
+				SessionService.delToken();
+				$state.go('signin');
+			}]*/
+			views: {
+				"application": {
+					component: "auth",
+					bindings: "view.application"
+				}
+			}
 
 		})
 		// Представление Auth: Confirm
@@ -81,7 +88,7 @@ function configure(
 			url: "/confirm",
 			loginRequired: false,
 			//authRequired: ['func1']
-			/*,
+			/* waite for https://github.com/angular-ui/ui-router/issues/3260
 			onEnter: ($state:StateService, $location:Location, SessionService, AuthService, SystemMessageService) => {
 				console.log('confirm=', $location.search, $location.search.hasOwnProperty('request'))
 				// Если пользователь проше по ссылке в письме

@@ -1,11 +1,12 @@
-//import { CalendarSettings } from './calendar.constants.js';
-import { _PageAccess } from '../config/app.constants.js';
-import { times } from '../util/util'; 
+import * as moment from "moment";
+import { times } from '../share/util';
 
-  
+require('./calendar.component.scss')
 /**
  *
  */
+
+
 class CalendarCtrl {
     constructor($scope, $log, $q, $timeout, $anchorScroll, $location, $rootScope, SystemMessageService, CalendarService, ActionMessageService, UserService) {
         'ngInject';
@@ -600,6 +601,8 @@ class CalendarCtrl {
 
 }
 
+CalendarCtrl.$inject = ['$scope','$log','$q','$timeout','$anchorScroll','$location','$rootScope','SystemMessageService','CalendarService','ActionMessageService','UserService'];
+
 
 /**
  * Компонент Calendar
@@ -615,7 +618,7 @@ let Calendar = {
     },
     transclude: false,
     controller: CalendarCtrl,
-    templateUrl: 'calendar/calendar.html'
+    template: require('./calendar.component.html')
 };
 
 export default Calendar;

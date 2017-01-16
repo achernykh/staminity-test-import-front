@@ -8,8 +8,11 @@ import uiRouter from 'angular-ui-router';
 import 'angular-material/angular-material.scss';
 
 import Core from './core/core.module';
+import Share from './share/share.module';
 import Auth from './auth/auth.module';
 import Landing from './landingpage/landingpage.module';
+import SettingsUser from './settings-user/settings-user.module';
+import Calendar from './calendar/calendar.module';
 
 import run from './app.run';
 import configure from './app.config';
@@ -23,9 +26,11 @@ const root = module('staminity.application', [
 	uiRouter,
 	//'ngWebSocket',
 	Core,
+	Share,
 	Auth,
-	Landing
-	//translate
+	Landing,
+	SettingsUser,
+	Calendar
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

@@ -57,15 +57,12 @@ export class SocketService implements ISocketService {
     open(token:string = this.SessionService.getToken(), delay:number = 100):Promise<number> {
         return new Promise((resolve, reject) => {
             if (!this.socket) {
+                console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
-
-                this.socket.onopen = () => {
-                    this.socket.onmessage = this.response.bind(this);
-                };
+                this.socket.onmessage = this.response.bind(this);
             }
 
             let onOpen = () => {
-                console.log('wsOpen', this.socket.readyState);
                 if (this.socket.readyState === 2) {
                     reject(this.socket.readyState);
                 } else if (this.socket.readyState === 1) {
@@ -73,7 +70,7 @@ export class SocketService implements ISocketService {
                 }
             };
 
-            this.socket.readyState? onOpen() : this.socket.onopen = onOpen;
+            this.socket.readyState ? onOpen() : this.socket.onopen = onOpen;
         });
         /*return new Promise((resolve, reject) => {
             if (!this.ws) {
@@ -104,18 +101,16 @@ export class SocketService implements ISocketService {
      * @param WS
      */
     response(event:any, WS:any = this) {
-        console.log('ApiService: new websocket message event', event);
+        console.log('SocketService: new websocket message event', event);
         let response:IWSResponse = JSON.parse(<string>event['data']);
         
         if (this.requests[response.requestId]) {
             let callback:any = this.requests[response.requestId];
-            
             if (response['errorMessage']) {
                 callback.reject(response.errorMessage);
             } else {
             	callback.resolve(response.data);
             }
-            
             delete this.requests[response.requestId];
         }
     }

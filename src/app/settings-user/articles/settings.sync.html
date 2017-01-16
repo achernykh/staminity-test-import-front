@@ -1,0 +1,26 @@
+<md-card flex="none" layout="column" id="sync" class="">
+    <md-card-title>
+        <h2 class="md-title" translate="settings.sync.header"></h2>
+    </md-card-title>
+    <form name="$ctrl.syncForm">
+        <md-list class="md-dense section">
+
+            <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
+                          ng-repeat-start="(service, property) in $ctrl.user.externalDataProviders">
+                <img  md-svg-src="/assets/icon/garmin.jpg"></img>
+                <div class="md-list-item-text" ng-switch="property.enabled">
+                    <h3> {{ service }} </h3>
+                    <h4> {{ property.enabled ? "Синхронизировано" : ""}} </h4>
+                    <p ng-switch-when="true">Последняя синхронизация выполнена {{property.lastSync | date :
+                        shortDate}}</p>
+                </div>
+                <md-switch class="md-secondary md-primary" ng-model="property.enabled"
+                           ng-change="$ctrl.showProviderSettings($event, service, property)"
+                           aria-label="Switch 1">
+                </md-switch>
+            </md-list-item>
+            <md-divider ng-repeat-end ng-if="!$last"/>
+
+        </md-list>
+    </form>
+</md-card>

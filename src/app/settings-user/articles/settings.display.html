@@ -1,0 +1,359 @@
+<md-card flex="none" layout="column" id="display">
+    <form name="$ctrl.displayForm">
+        <md-card-title>
+            <h2 class="md-title" translate="settings.display.header"></h2>
+        </md-card-title>
+        <md-list class="md-dense">
+            <md-list-item class="mobile-select">
+                <span translate="settings.display.language"></span>
+                <span class="md-secondary"
+                     ng-bind="$ctrl._LANGUAGE[$ctrl.user.display.language].text"></span>
+                <md-menu class="md-secondary">
+                    <md-button class="md-icon-button">
+                        <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item ng-repeat='(id,language) in $ctrl._LANGUAGE'>
+                            <md-button ng-bind="language.text"
+                                       ng-click="$ctrl.user.display.language = id">
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+
+            <md-list-item class="mobile-select">
+                <span translate="settings.display.timezone"></span>
+                <span class="md-secondary">+3:00 Москва</span>
+                <md-menu class="md-secondary">
+                    <md-button class="md-icon-button">
+                        <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button>Русский</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button>English</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+
+            <md-list-item class="mobile-select">
+                <span translate="settings.display.units"></span>
+                <span class="md-secondary"
+                     translate="settings.display.{{$ctrl.user.display.units}}.short"></span>
+                <md-menu class="md-secondary">
+                    <md-button class="md-icon-button">
+                        <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item ng-repeat="units in $ctrl._UNITS">
+                            <md-button ng-click="$ctrl.changeUnit(units)"
+                                       translate="settings.display.{{units}}.full"></md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+
+            <md-list-item class="mobile-select">
+                <span translate="settings.display.firstDayOfWeek"></span>
+                <span class="md-secondary"
+                     ng-bind="$ctrl.weekdays($ctrl.user.display.firstDayOfWeek)"
+                     style="text-transform: capitalize"></span>
+                <md-menu class="md-secondary">
+                    <md-button class="md-icon-button">
+                        <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item ng-repeat="number in [0,1]">
+                            <md-button ng-click="$ctrl.firstDayOfWeek = number"
+                                       ng-bind="$ctrl.weekdays(number)"
+                                       style="text-transform: capitalize"></md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+
+
+            <!--<md-list-item>
+                <md-input-container>
+                    <label>Язык интерфейса</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL" translate="{{::'settings.privacy.level.id'+level.id | translate}}"></md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container>
+                    <label>Часовой пояс</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL" translate="{{::'settings.privacy.level.id'+level.id | translate}}"></md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container>
+                    <label>Начало недели</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL" translate="{{::'settings.privacy.level.id'+level.id | translate}}"></md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+
+            <md-list-item>
+                <md-icon class="dark-active" md-svg-src="/assets/icon/translate.svg"></md-icon>
+                <p>Язык инетрфейса</p>
+                <md-menu class="md-secondary">
+                    <md-button aria-label="User">
+                        <div style="line-height: 24px; display: inline-block">{{$ctrl.user.display.language}}</div>
+                        <md-icon md-svg-src="/assets/icon/{{$ctrl.user.display.language}}.svg" md-24 aria-label="Language Icon"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.user.display.language = 'ru'">
+                                <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target aria-label="Russian"></md-icon>
+                                <span>Русский</span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.user.display.language = 'en'">
+                                <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target aria-label="English"></md-icon>
+                                <span>English</span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+            <md-list-item>
+                <p>Язык инетрфейса</p>
+                <md-menu class="md-secondary">
+                    <md-button aria-label="User">
+                        <div style="line-height: 24px; display: inline-block">{{$ctrl.user.display.language}}</div>
+                        <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg" md-24 aria-label="Language Icon"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.user.display.language = 'ru'">
+                                <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target aria-label="Russian"></md-icon>
+                                <span>Русский</span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.user.display.language = 'en'">
+                                <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target aria-label="English"></md-icon>
+                                <span>English</span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+            <md-list-item class="mobile-select">
+                <p>Язык интерфейса:</p>
+                <div class="md-secondary">RU</div>
+                <md-menu class="md-secondary">
+                    <md-button class="md-icon-button">
+                        <md-icon md-svg-src="/assets/icon/arrow_drop_down.svg"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button>
+                                Redial
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button>
+                                Check voicemail
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button>
+                                Notifications
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+
+            </md-list-item>
+        </md-list>
+        <md-divider></md-divider>
+        <md-subheader>Формат чисел и дат</md-subheader>
+        <md-list>
+            <md-list-item>
+                <md-input-container>
+                    <label>Система мер</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-option class="" ng-value="metr">Метрическая (кг/км)</md-option>
+                        <md-option class="" ng-value="imper">Имперская (фунты/мили)</md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container>
+                    <label>Формат даты</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-optgroup label="Разделитель точка">
+                            <md-option class="" ng-value="metr">ММ.ДД.ГГГ</md-option>
+                            <md-option class="" ng-value="imper">ДД.ММ.ГГГ</md-option>
+                            <md-option class="" ng-value="imper">ГГГГ.ММ.ДД</md-option>
+                            </md-group>
+                            <md-optgroup label="Разделитель слэш">
+                                <md-option class="" ng-value="metr">ММ/ДД/ГГГ</md-option>
+                                <md-option class="" ng-value="imper">ДД/ММ/ГГГ</md-option>
+                                <md-option class="" ng-value="imper">ГГГГ/ММ/ДД</md-option>
+                                </md-group>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container>
+                    <label>Формат чисел</label>
+                    <md-select flex class="" ng-model="settings.display.language" arial-label="Languge UI">
+                        <md-optgroup label="Разделитель запятая">
+                            <md-option class="" ng-value="metr">1234,5</md-option>
+                            <md-option class="" ng-value="imper">1 234,5</md-option>
+                            <md-option class="" ng-value="imper">1.234,5</md-option>
+                            </md-group>
+                            <md-optgroup label="Разделитель точка">
+                                <md-option class="" ng-value="metr">1234.5</md-option>
+                                <md-option class="" ng-value="imper">1 234.5</md-option>
+                                <md-option class="" ng-value="imper">1,234.5</md-option>
+                                </md-group>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>-->
+            <md-list-item class="secondary-button-padding">
+                <span>Формат времени: 24ч</span>{{ data.cb1 }}
+                <md-switch class="md-secondary" ng-model="data.cb1" aria-label="Switch 1">
+                </md-switch>
+            </md-list-item>
+            <md-list-item class="secondary-button-padding">
+                <span>Начало недели</span>
+                <md-radio-group class="md-secondary" ng-model="data.group1" layout="row">
+                    <md-radio-button flex value="Apple" class="md-primary">Пн</md-radio-button>
+                    <md-radio-button flex value="Banana">Вт</md-radio-button>
+                    <md-radio-button flex value="Mango">Ср</md-radio-button>
+                </md-radio-group>
+            </md-list-item>
+        </md-list>
+        <!--
+        <div layout="row" layout-align="start center" md-theme="auth" class="padding-00-24 back-primary-hue-3">
+            <md-icon flex="none" md-svg-icon="/pic/translate.svg" style="margin-right: 8px" class="fill-light"></md-icon>
+            <md-input-container flex="auto" class="md-block message">
+                <label>Language</label>
+                <md-select flex="auto" name="language" ng-model="vm.display.language" style="margin-top: 0px;" class="md-body-1 light" placeholder="select language please">
+                    <md-option class="md-body-1" value="ru">Russian</md-option>
+                    <md-option class="md-body-1" value="en">English</md-option>
+                </md-select>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-input-container flex="auto" class="md-block message">
+                <label>Format Language</label>
+                <md-select name="formatLanguage" ng-model="vm.display.formatLanguage" style="margin-top: 0px;" class="md-body-1 light">
+                    <md-option class="md-body-1" value="ru" class="md-body-1">Русский</md-option>
+                    <md-option class="md-body-1" value="en" class="md-body-1">English</md-option>
+                </md-select>
+                <div class="select-hint light" ng-if="true">Определяет настройки времени и чисел</div>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="start center" class="padding-00-24" style="margin-top: 16px">
+            <md-icon flex="none" md-svg-icon="/pic/earth.svg" style="margin-right: 8px" class="fill-dark"></md-icon>
+            <md-input-container flex="auto">
+                <label>Time Zone</label>
+                <md-select name="timezone" ng-model="vm.display.timezone" md-selected-text="timezoneSelectedText" style="margin-top: 0px;" class="md-body-1 no-message" placeholder="select timezone please">
+                    <md-option class="md-body-1" ng-repeat="timezone in vm.timezones" value="{{timezone.value}}">{{timezone.name}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+        <div layout="row" class="padding-00-24">
+            <md-icon flex="none" md-svg-icon="/pic/calendar-multiple-check.svg" style="margin-right: 8px" class="fill-dark"></md-icon>
+            <md-input-container flex="auto">
+                <label>chooseCalendar</label>
+                <md-select name="language" ng-model="vm.display.calendar" style="margin-top: 0px;" class="md-body-1 no-message">
+                    <md-option class="md-body-1" value="0">Греогианский</md-option>
+                </md-select>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-icon flex="none" md-svg-icon="/pic/calendar-today.svg" style="margin-right: 8px" class="fill-dark"></md-icon>
+            <md-input-container flex="auto">
+                <label>chooseFistDayWeek</label>
+                <md-select name="firstDay" ng-model="vm.display.firstDayOfWeek" style="margin-top: 0px;" class="md-body-1 no-message">
+                    <md-option value="1" class="md-body-1">Понедельник</md-option>
+                    <md-option value="6" class="md-body-1">Суббота
+                    </md-option>
+                    <md-option value="7" class="md-body-1">Воскресенье</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <md-divider></md-divider>
+        <p class="md-body-2 padding-16-24" style="padding-bottom: 0px">Формат чисел и дат</p>
+        <div layout="row" layout-align="start center" class="padding-08-24">
+            <div flex="none" style="min-width: 130px; margin-top: 4px" class="md-body-1">Система мер:</div>
+            <md-input-container flex="auto" class="">
+                <md-select name="firstDay" ng-model="vm.display.units" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="0" class="md-body-1">Метрическая(км/кг)</md-option>
+                    <md-option value="1" class="md-body-1">Имперская(фунты/мили)
+                    </md-option>
+                </md-select>
+                <div class="select-hint" ng-if="vm.display.units">
+                    <span>км/кг</span>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout="row" layout-align="start center" class="padding-00-24">
+            <div flex="none" style="min-width: 130px; margin-top: 4px" class="md-body-1">Формат чисел:</div>
+            <md-input-container flex="auto" class="">
+                <label>Grouping</label>
+                <md-select name="firstDay" ng-model="vm.display.numGroup" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="" class="md-body-1">None</md-option>
+                    <md-option value="space" class="md-body-1">Space</md-option>
+                    <md-option value="dot" class="md-body-1">Точка</md-option>
+                    <md-option value="comma" class="md-body-1">Запятая</md-option>
+                </md-select>
+                <div class="select-hint" ng-if="vm.display.numGroup">
+                    <span>1 234,45</span>
+                </div>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-input-container flex="auto" class="">
+                <label>Decimal</label>
+                <md-select name="firstDay" ng-model="vm.display.numSeparator" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="dot" class="md-body-1">Точка</md-option>
+                    <md-option value="comma" class="md-body-1">Запятая</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+        <div layout="row" layout-align="start center" class="padding-00-24">
+            <div flex="none" style="min-width: 130px; margin-top: 4px" class="md-body-1">Формат даты:</div>
+            <md-input-container flex="auto" class="">
+                <label>Format</label>
+                <md-select name="firstDay" ng-model="vm.display.dateGroup" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="MMDDYYYY" class="md-body-1">MMDDYYYY</md-option>
+                    <md-option value="DDMMYYYY" class="md-body-1">DDMMYYYY</md-option>
+                    <md-option value="YYYYMMDD" class="md-body-1">YYYYMMDD</md-option>
+                </md-select>
+                <div class="select-hint" ng-if="vm.display.dateGroup">13.10.1984</div>
+            </md-input-container>
+            <div flex="5"></div>
+            <md-input-container flex="auto" class="">
+                <label>Separator</label>
+                <md-select name="firstDay" ng-model="vm.display.dateSeparator" style="margin-top: 0px;" class="md-body-1">
+                    <md-option value="/" class="md-body-1">Backspace</md-option>
+                    <md-option value="." class="md-body-1">Dot</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="start center" class="padding-16-24">
+            <div flex="none" style="min-width: 130px" class="md-body-1">Формат времени:</div>
+            <md-switch ng-model="vm.display.timeFormat" aria-label="Switch 2" ng-true-value="12" ng-false-value="24" class="md-primary" style="margin: 0px 16px">
+                {{ data.cb2 }}
+            </md-switch>
+            <div class="hint dark">{{vm.display.timeFormat === 12 ? "12H AM/PM" : "24H"}}</div>
+        </div>-->
+    </form>
+</md-card>

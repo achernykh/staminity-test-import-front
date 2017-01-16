@@ -1,0 +1,36 @@
+<!--<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu">-->
+    <md-toolbar class="md-hue-3"
+                style=" background-image:
+                        linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)),
+                        url('{{$ctrl.backgroundUrl()}}')">
+        <div layout-padding>
+            <div class="avatar medium" style="background-image: url('{{$ctrl.avatarUrl()}}')"></div>
+        </div>
+        <div flex layout="row" layout-align="space-between start" layout-padding>
+            <div flex>
+                <p class="md-body-2" style="margin: 0px">{{$ctrl.user.public.firstName}} {{$ctrl.user.public.lastName}}</p>
+            </div>
+            <div flex="none" style="padding: 0px">
+                <md-button class="md-icon-button md-primary" aria-label="User menu" ng-click="showUserMenu = !showUserMenu">
+                    <md-icon md-svg-src="/pic/{{menuOpenIcon[showUserMenu]}}"
+                             class="s24" style="fill: white !important;"></md-icon>
+                </md-button>
+            </div>
+        </div>
+    </md-toolbar>
+    <md-content class="usermenu" hide-gt-xs>
+        <md-list-item ng-repeat="menu in $ctrl.usermenu" ng-click="$ctrl._$state.go(menu.link)">
+            <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="s24 fill-black-medium"></md-icon>
+            <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
+        </md-list-item>
+    </md-content>
+
+    <md-content>
+        <md-list-item ng-repeat="menu in $ctrl.appmenu" ng-click="$ctrl._$state.go(menu.link)"
+                      ng-show="true">
+            <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="s24 fill-black-medium"></md-icon>
+            <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
+        </md-list-item>
+    </md-content>
+
+<!--</md-sidenav>-->

@@ -18,7 +18,7 @@ function configure($stateProvider:StateProvider,
 			onEnter: ()=> {
 				console.log('on enter');
 			},
-			views: {
+			views: {/*
 				"background": {
 					component: "staminityBackground",
 					bindings: {
@@ -30,7 +30,7 @@ function configure($stateProvider:StateProvider,
 					bindings: {
 						view: 'display.header'
 					}
-				},
+				},*/
 				"application": {
 					component: "landingPage",
 					bindings: {

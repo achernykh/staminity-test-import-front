@@ -1,3 +1,20 @@
+import { merge } from 'angular';
+
+export class DisplayView  {
+	constructor(private state: string){
+		merge(
+			this,
+			_display_view[this.state],
+			{
+				header: {
+					fullTitle: state+'.fullTitle',
+					shortTitle: state+'.shortTitle'
+				}
+			}
+		);
+	}
+}
+
 export const _display_view = {
 	// Настройка страницы: Стартовая страница ../welcome
 	welcome: {
@@ -88,11 +105,11 @@ export const _display_view = {
 			title: true,
 			athletes: false,
 			leftPanel: {
-				url: 'layout/application/header/appmenutoolbar.html',
+				url: 'header/appmenutoolbar.html',
 				size: 30
 			},
 			rightPanel: {
-				url: 'layout/application/header/usertoolbar.html',
+				url: 'header/usertoolbar.html',
 				size: 30
 			}
 		},
@@ -114,11 +131,11 @@ export const _display_view = {
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'layout/application/header/appmenutoolbar.html',
+				url: 'header/appmenutoolbar.html',
 				size: 20
 			},
 			rightPanel: {
-				url: 'layout/application/header/usertoolbar.html',
+				url: 'header/usertoolbar.html',
 				size: 20
 			}
 		},
@@ -140,11 +157,11 @@ export const _display_view = {
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'layout/application/header/appmenutoolbar.html',
+				url: 'header/appmenutoolbar.html',
 				size: 20
 			},
 			rightPanel: {
-				url: 'layout/application/header/usertoolbar.html',
+				url: 'header/usertoolbar.html',
 				size: 20
 			}
 		},
@@ -166,11 +183,11 @@ export const _display_view = {
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'layout/application/header/appmenutoolbar.html',
+				url: 'header/appmenutoolbar.html',
 				size: 20
 			},
 			rightPanel: {
-				url: 'layout/application/header/usertoolbar.html',
+				url: 'header/usertoolbar.html',
 				size: 20
 			}
 		},
@@ -192,11 +209,11 @@ export const _display_view = {
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'layout/application/header/appmenutoolbar.html',
+				url: 'header/appmenutoolbar.html',
 				size: 20
 			},
 			rightPanel: {
-				url: 'layout/application/header/usertoolbar.html',
+				url: 'header/usertoolbar.html',
 				size: 20
 			}
 		},
@@ -218,11 +235,11 @@ export const _display_view = {
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'layout/application/header/appmenutoolbar.html',
+				url: 'header/appmenutoolbar.html',
 				size: 20
 			},
 			rightPanel: {
-				url: 'layout/application/header/usertoolbar.html',
+				url: 'header/usertoolbar.html',
 				size: 20
 			}
 		},
