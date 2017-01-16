@@ -1,7 +1,5 @@
 import { flatMap, unique, keys } from '../util/util'
 
-const coaches = ['Задорожный Андрей', 'Хабаров Евгений'];
-
 function equals (x0, x1) {
     return x0 === x1;
 }
@@ -11,7 +9,18 @@ function allEqual (xs, p = equals) {
 }
 
 
-class UsersCtrl {
+const orderings = {
+    username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
+    tariff: (member) => member.tariffs && member.tariffs.map(t => t.tariffCode).join(', '),
+    city: (member) => member.userProfile.public.city,
+    ageGroup: (member) => member.userProfile.public.sex,
+    roles: (member) => member.roleMembership.join(' '),
+    coaches: (member) => member.coaches.map(c => c.userId).join(' '),
+    athletes: (member) => member.athletes.map(a => a.public.userId).join(' '),
+}
+
+
+class ManagementCtrl {
 
     constructor ($scope, $mdDialog, GroupService, dialogs, $mdMedia, $mdBottomSheet) {
         'ngInject';
@@ -21,6 +30,15 @@ class UsersCtrl {
         this.GroupService = GroupService;
         this.dialogs = dialogs;
         this.isScreenSmall = $mdMedia('max-width: 959px');
+        this.filter = null;
+        this.order = {
+            by: 'username',
+            reverse: false
+        }
+    }
+    
+    member (id) {
+        return this.management.members.find(m => m.userProfile.userId === id)
     }
     
     update () {
@@ -50,27 +68,38 @@ class UsersCtrl {
     }
     
     subscriptions () {
-        this.$mdDialog.show({
-            controller: SubscriptionsController,
-            locals: { users: this.checked },
-            templateUrl: 'users/subscriptions.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true
-        });
+        this.dialogs.subscriptions(this.checked)
+    }
+    
+    get coaches () {
+        return this.management.members.filter(m => (m.roleMembership || []).includes('ClubCoaches'))
     }
     
     get coachesAvailable () {
         return allEqual(this.checked.map((user) => user.coach))
     }
     
-    coaches () {
-        this.$mdDialog.show({
-            controller: CoachesController,
-            locals: { users: this.checked },
-            templateUrl: 'users/coaches.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true
-        });
+    showCoaches () {
+        let checked = this.checked
+        let checkedCoaches = checked[0].coaches || []
+        let coaches = this.coaches
+        
+        this.dialogs.coaches(checked, coaches) 
+        .then((coaches) => {
+            if (coaches) {
+                let requests = flatMap(member => coaches.map(coach => {
+                    if (coach.checked && !checkedCoaches.find(c => c.userId == coach.userProfile.userId)) {
+                        return this.GroupService.join(coach.ClubAthletesGroupId, member.userProfile.userId)
+                    } else if (!coach.checked && checkedCoaches.find(c => c.userId == coach.userProfile.userId)) {
+                        return this.GroupService.leave(coach.ClubAthletesGroupId, member.userProfile.userId)
+                    }
+                })) (checked)
+                return Promise.all(requests)
+            } else {
+                throw new Error()
+            }
+        })
+        .then(() => this.update(), () => this.update())
     }
     
     get rolesAvailable() {
@@ -85,14 +114,8 @@ class UsersCtrl {
                 role: role,
                 checked: checkedRoles.includes(role)
             }))
-        console.log('roles', checkedRoles, roles)
-        this.$mdDialog.show({
-            controller: RolesController,
-            locals: { roles: roles },
-            templateUrl: 'users/roles.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true
-        })
+
+        this.dialogs.roles(roles)
         .then((roles) => {
             if (roles) {
                 let requests = flatMap(member => roles.map(role => {
@@ -107,7 +130,7 @@ class UsersCtrl {
                 throw new Error()
             }
         })
-        .then(() => this.update())
+        .then(() => this.update(), () => this.update())
     }
     
     remove () {
@@ -115,10 +138,6 @@ class UsersCtrl {
         .then((confirmed) => { if (!confirmed) throw new Error() })
         .then(() => Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))))
         .then(() => { this.update() })
-    }
-    
-    filters (key, value) {
-      
     }
     
     showActions (member) {
@@ -129,56 +148,54 @@ class UsersCtrl {
             scope: this.$scope
         })
     }
+    
+    clearFilter () {
+        this.filter = null
+    }
+    
+    filterNoCoach () {
+        this.filter = {
+            type: 'no coach',
+            pred: (member) => !member.coaches || !member.coaches.length
+        }
+    }
+    
+    filterCoach (coach) {
+        this.filter = {
+            type: 'coach',
+            coach: coach,
+            pred: (member) => member.coaches && member.coaches.find((c) => c.userId === coach.userProfile.userId)
+        }
+    }
+    
+    filterRole (role) {
+        this.filter = {
+            type: 'role',
+            role: role,
+            pred: (member) => member.roleMembership && member.roleMembership.find((r) => r === role)
+        }
+    }
+    
+    isVisible () {
+        return (member) => !this.filter || this.filter.pred(member)
+    }
+    
+    orderBy () {
+        return orderings[this.order.by]
+    }
+    
+    setOrder (by) {
+        if (this.order.by == by) {
+            this.order.reverse = !this.order.reverse
+        } else {
+            this.order.by = by
+            this.order.reverse = false
+        }
+    }
 };
 
 
-function RolesController ($scope, roles, $mdDialog) {
-    'ngInject';
-    
-    $scope.roles = roles;
-    
-    $scope.commit = () => {
-        $mdDialog.hide($scope.roles);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
-}
-
-
-function SubscriptionsController ($scope, users, $mdDialog) {
-    'ngInject';
-    
-    $scope.commit = () => {
-        $mdDialog.hide($scope.subscriptions);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
-}
-
-
-function CoachesController ($scope, users, $mdDialog) {
-    'ngInject';
-    
-    $scope.coaches = coaches.map((coach) => ({ 
-        name: coach, 
-        checked: users[0].coach.includes(coach) 
-    }));
-    
-    $scope.commit = () => {
-        $mdDialog.hide($scope.coaches);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
-}
-
-
-const users = {
+const management = {
 
     bindings: {
         view: '<',
@@ -190,12 +207,12 @@ const users = {
         app: '^staminityApplication'
     },
 
-    controller: UsersCtrl,
+    controller: ManagementCtrl,
 
-    templateUrl: 'users/users.html',
+    templateUrl: 'management/management.html',
 
 };
 
 
-angular.module('staminity.users', ['ngMaterial', 'staminity.components'])
-    .component('users', users);
+angular.module('staminity.management', ['ngMaterial', 'staminity.components'])
+    .component('management', management);

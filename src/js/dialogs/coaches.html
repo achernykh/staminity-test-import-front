@@ -6,7 +6,7 @@
         </div>
         
         <div ng-repeat="coach in coaches" class="row">
-            {{coach.name}}
+            {{coach.userProfile | username}}
             <md-switch  ng-model="coach.checked" aria-label="coach checked"></md-switch>
         </div>
         

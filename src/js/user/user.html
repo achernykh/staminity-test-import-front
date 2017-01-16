@@ -141,30 +141,42 @@
                 <md-button class="paging" ng-click="$ctrl.selectPeriod($ctrl.period - 1)">
                     <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_right</i>
                 </md-button>
-                <div style="position:relative; cursor:pointer; line-height: 30px;" ng-click="showYears = !showYears">
-                    {{$ctrl.range.periodName($ctrl.period)}} ▾
-                    <div style="position:absolute; top:100%;" ng-style="{display: showYears? 'block':'none'}">
-                        <div ng-repeat="period in [$ctrl.period, $ctrl.period-1, $ctrl.period-2, $ctrl.period-3]" ng-click="$ctrl.selectPeriod(period)">
-                            {{$ctrl.range.periodName(period)}}
-                        </div>
-                    </div>
-                </div>
-                <div style="position:relative; text-align:center; font-size:16px; cursor:pointer; line-height: 30px;" ng-click="showRanges = !showRanges" flex layout-align="center" class="md-no-underline" aria-label="Range">
-                    {{$ctrl.range.name}} ▾
-                    <div style="position:absolute; top:100%;" ng-style="{display: showRanges? 'block':'none'}">
-                        <div ng-repeat="range in $ctrl.ranges" ng-click="$ctrl.selectRange(range)">
-                            {{range.name}}
-                        </div>
-                    </div>
-                </div>
-                <div style="position:relative; cursor:pointer; line-height: 30px;" ng-click="showValueTypes = !showValueTypes">
-                    {{$ctrl.valueType.name}} ▾
-                    <div style="position:absolute; top:100%;" ng-style="{display: showValueTypes? 'block':'none'}">
-                        <div ng-repeat="valueType in $ctrl.valueTypes" ng-click="$ctrl.selectValueType(valueType)">
-                            {{valueType.name}}
-                        </div>
-                    </div>
-                </div>
+                <md-menu>
+                    <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
+                        {{$ctrl.range.periodName($ctrl.period)}} ▾
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="period in [$ctrl.period, $ctrl.period-1, $ctrl.period-2, $ctrl.period-3]">
+                            <md-button ng-click="$ctrl.selectPeriod(period)">
+                                {{$ctrl.range.periodName(period)}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu flex layout-align="center" style="text-align:center;">
+                    <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
+                        {{$ctrl.range.name}} ▾
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="range in $ctrl.ranges">
+                            <md-button ng-click="$ctrl.selectRange(range)">
+                                {{range.name}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu>
+                    <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
+                        {{$ctrl.valueType.name}} ▾
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="valueType in $ctrl.valueTypes">
+                            <md-button  ng-click="$ctrl.selectValueType(valueType)">
+                                {{valueType.name}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
             </div>
 
             <div class="chart">

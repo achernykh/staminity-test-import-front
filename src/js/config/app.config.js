@@ -225,8 +225,8 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                 }
             }
         })
-        .state('users', {
-            url: "/users/:uri",
+        .state('management', {
+            url: "/management/:uri",
             loginRequired: true,
             authRequired: ['func1'],
             resolve: {
@@ -254,7 +254,43 @@ function AppConfig($locationProvider, $mdThemingProvider, $translateProvider, $s
                     }
                 },
                 "application": {
-                    component: "users",
+                    component: "management",
+                    bindings: {
+                        view: 'view.application'
+                    }
+                }
+            }
+        })
+        .state('athletes', {
+            url: "/athletes",
+            loginRequired: true,
+            authRequired: ['func1'],
+            resolve: {
+                view: function (ViewService) {
+                    return ViewService.getParams('users')
+                },
+                userId: function (SocketService, $stateParams) {
+                    return $stateParams.uri
+                },
+                user: function (UserService, userId) {
+                    return UserService.getProfile(userId)
+                }
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {
+                        view: 'view.background'
+                    }
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {
+                        view: 'view.header'
+                    }
+                },
+                "application": {
+                    component: "athletes",
                     bindings: {
                         view: 'view.application'
                     }

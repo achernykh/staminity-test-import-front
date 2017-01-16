@@ -1,0 +1,156 @@
+<application-frame>
+    <div ng-if="!$ctrl.isScreenSmall" class="users">
+        <div class="filters">
+            <div class="title">
+                Все ({{$ctrl.rows.length}})
+                <div class="controls">
+                    <md-menu>
+                        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                            <i class="material-icons">filter_list</i>
+                        </md-button>
+                        <md-menu-content>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.clearFilter()"> Все </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                Роль
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filterRole('ClubCoaches')"> Тренеры </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filterRole('ClubAthletes')"> Спортсмены </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filterRole('ClubManagement')"> Управление </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                Тренер
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="$ctrl.filterNoCoach()"> Без тренера </md-button>
+                            </md-menu-item>
+                            <md-menu-item ng-repeat="coach in $ctrl.coaches">
+                                <md-button ng-click="$ctrl.filterCoach(coach)">{{coach.userProfile | username}}</md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                    <md-input-container style="width: auto;"> <input ng-model="$ctrl.search"/> </md-input-container>
+                    <md-button class="md-primary"> <i class="material-icons">search</i> </md-button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="selected-items" ng-if="$ctrl.checked.length">
+            {{$ctrl.checked.length}} items selected
+            <div class="controls">
+                <md-button class="md-primary" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.showCoaches()"> <i class="material-icons">supervisor_account</i> </md-button>
+                <md-button class="md-primary" ng-if="$ctrl.subscriptionsAvailable" ng-click="$ctrl.subscriptions()"> <i class="material-icons">share</i> </md-button>
+                <md-button class="md-primary" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.roles()"> <i class="material-icons">select_all</i> </md-button>
+                <md-button class="md-primary" ng-click="$ctrl.remove()"> <i class="material-icons">delete</i> </md-button>
+            </div>
+        </div>
+        
+        <table>
+            <tr>
+                <th> <md-checkbox ng-model="$ctrl.allChecked" aria-label="all checked"></md-checkbox> </th>
+                <th ng-click="$ctrl.setOrder('username')">
+                    Член клуба
+                    <span ng-if="$ctrl.order.by=='username'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('roles')">
+                    Роль
+                    <span ng-if="$ctrl.order.by=='roles'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('coaches')">
+                    Тренер
+                    <span ng-if="$ctrl.order.by=='coaches'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('tariff')">
+                    Тариф
+                    <span ng-if="$ctrl.order.by=='tariff'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('athletes')">
+                    Спортсмены
+                    <span ng-if="$ctrl.order.by=='athletes'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('city')">
+                    Город
+                    <span ng-if="$ctrl.order.by=='city'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('ageGroup')">
+                    Возрастная группа
+                    <span ng-if="$ctrl.order.by=='ageGroup'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+            </tr>
+            <tr ng-repeat="member in ($ctrl.rows = $ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.order.by:$ctrl.order.reverse)">
+                <td> <md-checkbox ng-model="member.checked" aria-label="user checked"></md-checkbox> </td>
+                <td>
+                    <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
+                    {{member.userProfile | username}}
+                </td>
+                <td>{{member.roleMembership.join(' ')}}</td>
+                <td><span ng-repeat="coach in member.coaches">{{$ctrl.member(coach.userId).userProfile | username}} </span></td>
+                <td> 
+                    <span ng-repeat="tariff in athlete.tariffs">{{tariff.tariffCode}} </span>
+                </td>
+                <td>{{member.athletes}}</td>
+                <td>{{member.userProfile.city}}</td>
+                <td>{{member.userProfile.sex}}</td>
+            </tr>
+        </table>
+    </div>
+    
+    
+    <div ng-if="$ctrl.isScreenSmall" class="users" style="height:100%">
+        <md-list>
+            <md-list-item>
+                <md-icon class="material-icons">search</md-icon>
+                <md-input-container style="margin:0"> 
+                    <input ng-model="$ctrl.search"/> 
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-icon class="material-icons" style="margin-left:0">tune</md-icon>
+                <md-menu>
+                    <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
+                        Все ({{$ctrl.rows.length}})
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.clearFilter()"> Все </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            Роль
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.filterRole('ClubCoaches')"> Тренеры </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.filterRole('ClubAthletes')"> Спортсмены </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.filterRole('ClubManagement')"> Управление </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            Тренер
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.filterNoCoach()"> Без тренера </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-repeat="coach in $ctrl.coaches">
+                            <md-button ng-click="$ctrl.filterCoach(coach)">{{coach.userProfile | username}}</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+            <md-list-item ng-repeat="member in ($ctrl.rows = $ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible())" ng-click="$ctrl.showActions(member)">
+                <div class="md-avatar" style="height: 24px; width: 24px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
+                {{member.userProfile | username}}
+                <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
+            </md-list-item>
+        </md-list>
+    </div>
+        
+</application-frame>
+
