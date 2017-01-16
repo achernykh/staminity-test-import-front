@@ -1,9 +1,10 @@
 import { IComponentOptions, IComponentController} from 'angular';
 import { UserMenuSettings, AppMenuSettings } from './application-menu.constants';
 //import { _connection } from '../../services/api/api.constants';
-import {StateService} from "angular-ui-router/commonjs/ng1";
+import {StateService} from "angular-ui-router";
 import {IUserProfile} from "../../../../api/user/user.interface";
 
+//noinspection TsLint
 require('./application-menu.component.scss');
 
 class ApplicationMenuCtrl implements IComponentController{

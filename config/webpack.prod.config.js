@@ -11,7 +11,7 @@ const hostEndPoint = {
     distLocal: "http://localhost:75/"
 };
 
-let cwd = process.cwd();
+var cwd = process.cwd();
 var ENV = process.env.npm_lifecycle_event;
 var outputPath = path.join(cwd, '/', ENV);
 
