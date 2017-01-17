@@ -59,7 +59,7 @@ export class SocketService implements ISocketService {
             if (!this.socket) {
                 console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
-                this.socket.onmessage = this.response.bind(this);
+                this.socket.addEventListener('message', this.response.bind(this));
             }
 
             let onOpen = () => {
@@ -70,7 +70,7 @@ export class SocketService implements ISocketService {
                 }
             };
 
-            this.socket.readyState ? onOpen() : this.socket.onopen = onOpen;
+            this.socket.readyState ? onOpen() : this.socket.addEventListener('open', onOpen);
         });
         /*return new Promise((resolve, reject) => {
             if (!this.ws) {
