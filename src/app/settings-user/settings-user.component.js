@@ -32,7 +32,7 @@ class SettingsUserCtrl {
     }
 
     $onInit() {
-        console.log('settings=', this);
+        console.log('settings=', this, moment().format(), moment.locale());
         this.user.public = this.user.public || {}
         this.user.personal = this.user.personal || {}
 

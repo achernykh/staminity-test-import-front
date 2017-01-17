@@ -1,3 +1,5 @@
+import moment from 'moment/src/moment';
+
 class CalendarTotalCtrl {
     constructor(){
 

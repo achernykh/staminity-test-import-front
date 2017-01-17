@@ -1,3 +1,5 @@
+import moment from 'moment/src/moment';
+
 class CalendarActivityData {
 
     constructor(data) {
@@ -145,11 +147,11 @@ class CalendarActivityCtrl {
         this.segmentListSize = null;
         this.segmentChart = [];
         this.collapse = {show: true};
-        this.data = new CalendarActivityData(this.item);
         this.bottomPanelData = null;
     }
 
     $onInit() {
+        this.data = new CalendarActivityData(this.item);
         if (this.data.bottomPanel === 'data')
             this.bottomPanelData = this.data.summaryAvg
         //console.log('CalendarActivityCtrl $onInit, summaryAvg=', this.data.summaryAvg)

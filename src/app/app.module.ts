@@ -4,6 +4,8 @@ import {module, bootstrap} from 'angular';
 import * as ngMaterial from 'angular-material';
 import 'angular-translate/dist/angular-translate.js';
 import uiRouter from 'angular-ui-router';
+//import * as moment from 'moment';
+
 //import 'angular-websocket/dist/angular-websocket.js';
 import 'angular-material/angular-material.scss';
 
@@ -13,6 +15,7 @@ import Auth from './auth/auth.module';
 import Landing from './landingpage/landingpage.module';
 import SettingsUser from './settings-user/settings-user.module';
 import Calendar from './calendar/calendar.module';
+import CalendarItemMeasurement from './calendar-item/calendar-item.module';
 
 import run from './app.run';
 import configure from './app.config';
@@ -30,7 +33,8 @@ const root = module('staminity.application', [
 	Auth,
 	Landing,
 	SettingsUser,
-	Calendar
+	Calendar,
+	CalendarItemMeasurement
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

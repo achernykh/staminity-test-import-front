@@ -5,7 +5,9 @@
     </md-button>
     <md-menu-content width="4">
         <md-menu-item ng-repeat="menu in $ctrl.menu">
-            <md-button ui-sref="{{(menu.link === 'profile/user' || menu.link === 'settings/user') ? menu.link + '/' + $ctrl.user.profile.public.uri : menu.link}}">
+            <md-button
+                    ui-sref="{{menu.link}}{{(menu.link === 'profile/user' || menu.link === 'settings/user') ?
+                    '({uri:'+$ctrl.UserService.profile.public.uri+'})': ''}}"
                 <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="fill-black-medium" md-menu-align-target></md-icon>
                 <span translate>{{menu.name}}</span>
             </md-button>

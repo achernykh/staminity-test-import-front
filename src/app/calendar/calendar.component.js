@@ -1,4 +1,4 @@
-import * as moment from "moment";
+import moment from 'moment/src/moment';
 import { times } from '../share/util';
 
 require('./calendar.component.scss')
@@ -58,6 +58,7 @@ class CalendarCtrl {
     $onInit() {
         // TODO убрать в ApplicationComponent или run()
         //moment.locale('en');
+        console.log('calendar=', this, moment().format(), moment.locale());
         if(!!this.firstDayOfWeek)
             moment.locale(moment.locale(), {
                 week : {

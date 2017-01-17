@@ -25,9 +25,8 @@ class UserMenuCtrl implements IComponentController{
         let originatorEv = ev;
         $mdOpenMenu(ev);
     }
-    goTo(link){
-        this.$location.path('link');
-    }
+
+
 }
 
 let UserMenuComponent:IComponentOptions = {

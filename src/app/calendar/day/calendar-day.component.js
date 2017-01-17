@@ -1,10 +1,11 @@
+import moment from 'moment/src/moment';
+
 class CalendarDayCtrl {
     constructor($mdDialog,ActionMessageService){
         this.$mdDialog = $mdDialog;
         this.ActionMessageService = ActionMessageService;
     }
     $onInit(){
-        "use strict";
 	    let diff = moment().diff(moment(this.data.date),'days',true);
         this.today = diff >= 0 && diff < 1;
     }
@@ -133,4 +134,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ['$mdDialog']
+DialogController.$inject = ['$scope','$mdDialog'];
