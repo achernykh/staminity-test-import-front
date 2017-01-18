@@ -1,15 +1,13 @@
 import * as moment from "moment";
 import {
     _NAVBAR, _DELIVERY_METHOD, _LANGUAGE, _UNITS,
-    _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list
+    _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list, _SYNC_ADAPTORS, SyncPolicy
 } from './settings-user.constants'
-
 require('./settings-user.component.scss');
-require('./articles/settings.personal.html');
 
 class SettingsUserCtrl {
 
-    constructor(UserService,AuthService,SystemMessageService,ActionMessageService,$http,$mdDialog) {
+    constructor(UserService,AuthService,SystemMessageService,ActionMessageService,$http,$mdDialog, $auth) {
         console.log('SettingsCtrl constructor=',this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -18,12 +16,14 @@ class SettingsUserCtrl {
         this._LANGUAGE = _LANGUAGE
         this._UNITS = _UNITS
         this._country_list = _country_list;
+        this._SYNC_ADAPTORS = _SYNC_ADAPTORS;
         this._UserService = UserService;
         this._AuthService = AuthService;
         this._SystemMessageService = SystemMessageService
         this._ActionMessageService = ActionMessageService
         this._$http = $http
         this._$mdDialog = $mdDialog
+        this.$auth = $auth
         //this.dialogs = dialogs
 
         //this._athlete$ = AthleteSelectorService._athlete$
@@ -36,22 +36,8 @@ class SettingsUserCtrl {
         this.user.public = this.user.public || {}
         this.user.personal = this.user.personal || {}
 
-        this.user = Object.assign(this.user, {
-            externalDataProviders: {
-                GarminConnect: {
-                    login: 'chernykh@me.com',
-                    password: 'garmin',
-                    lastSync: new Date(),
-                    startDate: new Date(),
-                    enabled: true
-                },
-                Strava: {
-                    lastSync: Date,
-                    startDate: Date,
-                    enabled: false
-                }
-            }
-        }, {
+        this.user = Object.assign(this.user,
+            {
             billing: {
                 tariffs: [
                     {
@@ -218,8 +204,23 @@ class SettingsUserCtrl {
         return moment.weekdays(day)
     }
 
+    syncEnabled(service) {
+        return this.user.externalDataProviders.hasOwnProperty(service)
+            && this.user.externalDataProviders[service].enabled;
+    }
+
     showProviderSettings(ev, service, provider) {
         console.log('provider settings =', typeof ev, service, provider)
+
+        this.$auth.link('strava',{userId: this.user.userId})
+            .then(function(response) {
+                // You have successfully linked an account.
+                console.log('auth success', response)
+            })
+            .catch(function(response) {
+                // Handle errors here.
+                console.log('auth error', response)
+            });
 
         if(provider.enabled) {
             this._$mdDialog.show({
@@ -291,7 +292,7 @@ class SettingsUserCtrl {
             .then((user) => { this.user = user })
     }*/
 };
-SettingsUserCtrl.$inject = ['UserService','AuthService','SystemMessageService','ActionMessageService','$http','$mdDialog'];
+SettingsUserCtrl.$inject = ['UserService','AuthService','SystemMessageService','ActionMessageService','$http','$mdDialog', '$auth'];
 
 function DialogController($scope, $mdDialog) {
 

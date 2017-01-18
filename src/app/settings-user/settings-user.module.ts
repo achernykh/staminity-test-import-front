@@ -1,8 +1,10 @@
 import { module } from 'angular';
+import satellizer from 'satellizer';
+
 import SettingsUserComponent from './settings-user.component.js';
 import configure from './settings-user.config';
 
-const SettingsUser = module('staminity.settings-user', [])
+const SettingsUser = module('staminity.settings-user', [satellizer])
     .component('settingsUserPersonal',{template: require('./articles/settings.personal.html') as string})
     .component('settingsUser', SettingsUserComponent)
     .config(configure)

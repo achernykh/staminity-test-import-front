@@ -6,15 +6,17 @@
         <md-list class="md-dense section">
 
             <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
-                          ng-repeat-start="(service, property) in $ctrl.user.externalDataProviders">
-                <img  md-svg-src="/assets/icon/garmin.jpg"></img>
-                <div class="md-list-item-text" ng-switch="property.enabled">
-                    <h3> {{ service }} </h3>
-                    <h4> {{ property.enabled ? "Синхронизировано" : ""}} </h4>
-                    <p ng-switch-when="true">Последняя синхронизация выполнена {{property.lastSync | date :
+                          ng-repeat-start="(service, property) in $ctrl._SYNC_ADAPTORS">
+                <img ng-src="/assets/icon/{{service}}_{{$ctrl.syncEnabled(service) ? 'on':'off'}}.png"
+                     class="md-avatar" style="border-radius: 50%"/>
+                <div class="md-list-item-text" ng-if="$ctrl.syncEnabled(service)">
+                    <h3> {{ 'settings.sync.'+service | translate}} </h3>
+                    <h4>Синхронизировано</h4>
+                    <p>Последняя синхронизация выполнена {{$ctrl.user.externalDataProviders[service].startDate | date :
                         shortDate}}</p>
                 </div>
-                <md-switch class="md-secondary md-primary" ng-model="property.enabled"
+                <md-switch class="md-secondary md-primary"
+                           ng-model="$ctrl.user.externalDataProviders[service].enabled"
                            ng-change="$ctrl.showProviderSettings($event, service, property)"
                            aria-label="Switch 1">
                 </md-switch>

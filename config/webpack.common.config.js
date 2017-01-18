@@ -19,7 +19,8 @@ module.exports = {
             'angular-material',
             'angular-translate',
             'moment',
-            'angular-scroll'
+            'angular-scroll',
+            'satellizer'
             //'angular-websocket'
             //'oclazyload'
         ],
