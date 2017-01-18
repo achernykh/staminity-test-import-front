@@ -2,12 +2,12 @@
 
     <md-button ng-if="$ctrl.notification > 0" class="md-icon-button md-primary badge1" aria-label="Notification"
                ng-click="toggleRight()" data-badge="{{$ctrl.notification}}" style="min-width:40px">
-        <md-icon md-svg-src="/assets/icon/notifications_active.svg" class="fill-white-medium"></md-icon>
+        <md-icon calss="material-icons">notification_active</md-icon>
     </md-button>
     <md-button ng-if="$ctrl.notification == 0 || $ctrl.notification == null"
                class="md-icon-button md-primary" aria-label="Notification"
                ng-click="toggleRight()" data-badge="{{$ctrl.notification}}" style="min-width:40px">
-        <md-icon md-svg-src="/assets/icon/notifications.svg"></md-icon>
+        <md-icon calss="material-icons">notifications</md-icon>
     </md-button>
     
     <md-button class="md-icon-button md-primary" ng-click="$ctrl.toggleSlide('requests')" style="min-width:40px">

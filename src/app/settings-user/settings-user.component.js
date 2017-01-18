@@ -1,9 +1,11 @@
 import * as moment from "moment";
+import { merge } from 'angular';
+import {ExternalProviderState} from "../../../api/sync/sync.interface";
 import {
     _NAVBAR, _DELIVERY_METHOD, _LANGUAGE, _UNITS,
     _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list, _SYNC_ADAPTORS, SyncPolicy
-} from './settings-user.constants'
-require('./settings-user.component.scss');
+} from './settings-user.constants';
+import './settings-user.component.scss';
 
 class SettingsUserCtrl {
 
@@ -24,6 +26,7 @@ class SettingsUserCtrl {
         this._$http = $http
         this._$mdDialog = $mdDialog
         this.$auth = $auth
+        this.adaptors = [];
         //this.dialogs = dialogs
 
         //this._athlete$ = AthleteSelectorService._athlete$
@@ -33,8 +36,13 @@ class SettingsUserCtrl {
 
     $onInit() {
         console.log('settings=', this, moment().format(), moment.locale());
-        this.user.public = this.user.public || {}
-        this.user.personal = this.user.personal || {}
+        this.user.public = this.user.public || {};
+        this.user.personal = this.user.personal || {};
+
+        this.adaptors = this._SYNC_ADAPTORS.map((adaptor) => {
+            let settings = this.user.externalDataProviders.filter((a) => a.provider === adaptor.provider)[0];
+            return (settings && settings) || adaptor;
+        });
 
         this.user = Object.assign(this.user,
             {
@@ -204,9 +212,8 @@ class SettingsUserCtrl {
         return moment.weekdays(day)
     }
 
-    syncEnabled(service) {
-        return this.user.externalDataProviders.hasOwnProperty(service)
-            && this.user.externalDataProviders[service].enabled;
+    syncEnabled(adaptor) {
+        return adaptor.state === "Enabled";
     }
 
     showProviderSettings(ev, service, provider) {

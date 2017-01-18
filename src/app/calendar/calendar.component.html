@@ -12,11 +12,11 @@
                     <div hide-xs hide-sm layout="row" layout-align="start center" flex="none" class="app-toolbar">
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid - 1)">
-                            <md-icon md-svg-src="/assets/icon/navigate_before.svg" class="s18" aria-label="Back"></md-icon>
+                            <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
                         </md-button>
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid + 1)">
-                            <md-icon md-svg-src="/assets/icon/navigate_next.svg" class="s18" aria-label="Back"></md-icon>
+                            <md-icon class="material-icons md-18" aria-label="Back">navigate_next</md-icon>
                         </md-button>
                         
                         <div class="md-title">{{$ctrl.currentWeek.toolbarDate}}</div>
@@ -24,13 +24,13 @@
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-init="today = 0"
                                    ng-click="$ctrl.gotoAnchor(today)">
-                            <md-icon md-svg-src="/assets/icon/today.svg" aria-label="Back"></md-icon>
+                            <md-icon class="material-icons" aria-label="Back">today</md-icon>
                         </md-button>
 
                         <div class="md-body-1" translate class="md-caption">app.calendar.today</div>
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-click="$ctrl.view.compact = !$ctrl.view.compact">
-                            <md-icon md-svg-src="/assets/icon/view_comfy.svg" aria-label="Back"></md-icon>
+                            <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
                         </md-button>
                         <div class="md-body-1">{{!viewCompact ? 'View compact' : 'View details'}}</div>
                     </div>
@@ -131,8 +131,7 @@
 
                             <!-- Fab button -->
                             <md-button hide hide-gt-sm class="md-position-fab md-fab md-primary md-icon-button" aria-label="Add task">
-                                <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s22"
-                                         aria-label="Add task"></md-icon>
+                                <md-icon class="material-icons" aria-label="Add task">add_circle_outline</md-icon>
                             </md-button>
 
                          </section>

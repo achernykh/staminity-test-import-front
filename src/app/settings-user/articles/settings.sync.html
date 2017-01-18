@@ -6,17 +6,18 @@
         <md-list class="md-dense section">
 
             <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
-                          ng-repeat-start="(service, property) in $ctrl._SYNC_ADAPTORS">
-                <img ng-src="/assets/icon/{{service}}_{{$ctrl.syncEnabled(service) ? 'on':'off'}}.png"
+                          ng-repeat-start="adaptor in $ctrl.adaptors">
+                <img ng-src="/assets/icon/{{adaptor.provider}}_{{$ctrl.syncEnabled(adaptor) ? 'on':'off'}}.png"
                      class="md-avatar" style="border-radius: 50%"/>
-                <div class="md-list-item-text" ng-if="$ctrl.syncEnabled(service)">
-                    <h3> {{ 'settings.sync.'+service | translate}} </h3>
+                <div class="md-list-item-text" ng-if="$ctrl.syncEnabled(adaptor)">
+                    <h3> {{ 'settings.sync.'+adaptor.provider | translate}} </h3>
                     <h4>Синхронизировано</h4>
-                    <p>Последняя синхронизация выполнена {{$ctrl.user.externalDataProviders[service].startDate | date :
+                    <p>Последняя синхронизация выполнена {{adaptor.startDate | date :
                         shortDate}}</p>
                 </div>
                 <md-switch class="md-secondary md-primary"
-                           ng-model="$ctrl.user.externalDataProviders[service].enabled"
+                           ng-model="adaptor.state"
+                           ng-true-value="'Enabled'" ng-false-value="'Disabled'"
                            ng-change="$ctrl.showProviderSettings($event, service, property)"
                            aria-label="Switch 1">
                 </md-switch>

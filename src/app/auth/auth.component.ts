@@ -22,16 +22,23 @@ class AuthCtrl implements IComponentController {
 
 	$onInit() {
 
+		/**
+		 * Переход в компонент по ссылке /signout
+		 * Сбрасываем данные в localStorage и переходим на экран входа пользователя
+         */
 		if(this.$state.$current.name === 'signout') {
 			this.SessionService.delToken();
 			this.$state.go('signin');
 		}
 
+		/**
+		 * Переход в компонент по ссылке /confirm?request={request}
+		 * В AuthService отправляем POST - подтверждение, что пользователь активировал свою учетную запись
+		 */
 		if(this.$state.$current.name === 'confirm') {
 			if(this.$location.search.hasOwnProperty('request')) {
 				this.AuthService.confirm({request: this.$location.search['request']})
 					.then((success) => {
-						console.log('confirm success=', success);
 						this.SystemMessageService.show(success.title, success.status, success.delay);
 						this.$state.go('signin');
 					}, (error) => {
@@ -58,7 +65,6 @@ class AuthCtrl implements IComponentController {
 				role: false
 			}
 		};
-		console.log('AuthCtrl: $onInit()', this);
 	}
 
 	/**
@@ -70,14 +76,10 @@ class AuthCtrl implements IComponentController {
 		this.AuthService.signIn(credentials)
 			.finally(()=>this.enabled = true)
 			.then((result) => {
-				// goto state calendar
 				this.SessionService.setToken(result);
 				this.$state.go('calendar');
 				console.log('signin success=', result);
 			}, (error) => {
-				// show system message
-				console.log('signin error=', error);
-				//this.SystemMessageService.show(error);
 				this.ActionMessageService.simple(error);
 			});
 	}
@@ -90,14 +92,10 @@ class AuthCtrl implements IComponentController {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.signUp(credentials)
 			.finally(()=>this.enabled = true)
-			.then((success) => {
-				console.log('signup success=', success);
+			.then(success => {
 				this.showConfirm = true;
 				this.SystemMessageService.show(success.title, success.status, success.delay);
-			}, (error) => {
-				console.log('signup error=', error);
-				this.SystemMessageService.show(error);
-			});
+			}, error => this.SystemMessageService.show(error));
 	}
 
 }

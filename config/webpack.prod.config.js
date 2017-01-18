@@ -8,7 +8,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const fileName = "[name].[chunkhash]";
 const hostEndPoint = {
     dist: "https://george3447.github.io/angular-webpack-material-lazyload-typescript-starter-template/",
-    distLocal: "http://localhost:75/"
+    distLocal: "http://localhost:75/",
+    dev1: "http://dev1.staminity.com"
+};
+
+const contentBase = {
+    dist: './dist',
+    distLocal: './distLocal',
+    dev1: './dev1'
 };
 
 var cwd = process.cwd();
@@ -23,7 +30,16 @@ module.exports = {
         chunkFilename: `assets/js/${fileName}.js`
     },
     module: {
-        rules: [{
+        rules: [
+            {
+                test: /\.js$/,
+                use: [{
+                    loader: 'babel-loader',
+                    options: { presets: ['es2015'] }
+                }],
+                exclude: /node_modules/
+            },
+            {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader!sass-loader' })
             },
@@ -33,7 +49,7 @@ module.exports = {
             },
             {
                 test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$/,
-                loader: `file-loader?name=assets/images/[name].[hash].[ext]`
+                loader: [`url-loader?name=assets/images/[name].[ext]`,`file-loader?name=assets/images/[name].[hash].[ext]`]
             }
 
         ]
@@ -70,5 +86,16 @@ module.exports = {
             threshold: 10240,
             minRatio: 0.8
         })
-    ]
+    ],
+    devServer: {
+        contentBase: contentBase[ENV],
+        stats: 'minimal',
+        /*stats: {
+         colors: true,
+         modules: false,
+         cached: false,
+         chunk: false
+         },*/
+        historyApiFallback: true
+    }
 };

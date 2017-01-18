@@ -1,12 +1,11 @@
-<iframe width='465' height='548' frameborder='0' src='http://connect.garmin.com:80/activity/embed/463170767'></iframe>
-<!--<md-dialog style="min-width: 320px">
+<md-dialog style="min-width: 320px">
     <form ng-cloak>
         <md-toolbar style="background-color: white; color: black">
             <div class="md-toolbar-tools">
                 <h2>{{::$ctrl.service}}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon md-svg-src="/assets/icon/close.svg"></md-icon>
+                    <md-icon class="material-icons">close</md-icon>
                 </md-button>
             </div>
         </md-toolbar>
@@ -22,7 +21,7 @@
                 </md-list-item>
                 <md-list-item>
                     <md-input-container md-no-float class="md-block no-message">
-                        <md-icon md-svg-src="/assets/icon/security.svg"></md-icon>
+                        <md-icon class="material-icons">security</md-icon>
                         <input ng-model="$ctrl.provider.password" type="password" autocomplete="off"
                                placeholder="Учетная запись">
                     </md-input-container>
@@ -51,4 +50,4 @@
             <md-button ng-click="hide()">Sync</md-button>
         </md-dialog-actions>
     </form>
-</md-dialog>-->
+</md-dialog>

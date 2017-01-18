@@ -2,60 +2,60 @@
 import {ExternalProviderState} from "../../../api/sync/sync.interface";
 export const _NAVBAR = [
     {
-        icon: "person.svg",
+        icon: "person",
         name: 'settings.personalInfo.header',
         link: '#personal',
         active: true
     },
     {
-        icon: "security.svg",
+        icon: "security",
         name: 'settings.privacy.header',
         link: '#privacy',
         active: true
     },
     {
-        icon: "dvr.svg",
+        icon: "dvr",
         name: 'settings.display.header',
         link: '#display',
         active: true
     },
     {
-        icon: "vpn_key.svg",
+        icon: "vpn_key",
         name: 'settings.account.header',
         link: '#account',
         active: false
     },
     {
-        icon: "sync.svg",
+        icon: "sync",
         name: 'settings.sync.header',
         link: '#sync',
         active: true
     },
     {
-        icon: "straighten.svg",
+        icon: "straighten",
         name: 'settings.zones.header',
         link: '#zones',
         active: true,
         sub: [
             {
-                icon: "svg",
+                icon: "help",
                 name: 'settings.zones.bpm.header',
                 link: '#zonesBPM'
             },
             {
-                icon: "help.svg",
+                icon: "help",
                 name: 'settings.zones.power.header',
                 link: '#zonesPower'
             },
             {
-                icon: "help.svg",
+                icon: "help",
                 name: 'settings.zones.speed.header',
                 link: '#zonesSpeed'
             }
         ]
     },
     {
-        icon: "notifications.svg",
+        icon: "notifications",
         name: 'settings.notification.header',
         link: '#notifications',
         active: true
@@ -136,7 +136,7 @@ export const _SYNC_ADAPTORS = [
     },
     {
         provider: 'polar',
-        //policy: SyncPolicy.Feed,
+        state: ExternalProviderState,
         isAuth: false
     }
 ];

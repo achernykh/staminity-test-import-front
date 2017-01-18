@@ -29,14 +29,6 @@ module.exports = {
     },
     module: {
         rules: [
-            /*{
-                test: /\.js$/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: { presets: ['es2015'] }
-                }],
-                exclude: /node_modules/
-            },*/
             {
                 test: /\.ts$/,
                 enforce: "pre",

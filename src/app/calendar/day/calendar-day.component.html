@@ -25,9 +25,8 @@
 
             <md-menu>
                 <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
-                    <md-icon md-svg-src="/assets/icon/more_vert.svg" class="fill-black-medium" size="s18"
-                             aria-label="More">
-                    </md-icon>
+                    <md-icon class="material-icons md-18"
+                             aria-label="More">more_vert</md-icon>
                 </md-button>
                 <md-menu-content>
                     <md-menu-item><md-button>Добавить</md-button></md-menu-item>
@@ -74,8 +73,7 @@
                                   dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)"
                                   ng-click="$ctrl.onOpen($event,'measurement', item)">
                 <div flex="none">
-                    <md-icon md-svg-src="assets/icon/straighten.svg"
-                             class="s18 dark-inactive" style="margin-right: 8px"></md-icon>
+                    <md-icon class="material-icons md-18" style="margin-right: 8px">straighten</md-icon>
                 </div>
                 <div flex="auto" style="margin-top: 2px">
                     <div ng-repeat="(key,value) in item.measurementHeader.sizes"
@@ -101,14 +99,12 @@
                     <div flex="25"></div>
 
                     <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
-                        <md-icon md-svg-src="assets/icon/event_seat.svg"
-                                 class="s24 light-active"></md-icon>
+                        <md-icon class="material-icons">event_seat</md-icon>
                     </div>
 
                     <div flex="25">
                         <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px">
-                            <md-icon md-svg-src="assets/icon/more_vert.svg"
-                                     class="s18 dark-active"></md-icon>
+                            <md-icon class="material-icons md-18">more_vert</md-icon>
                         </md-button>
 
                     </div>
@@ -135,14 +131,12 @@
                     </div>
 
                     <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
-                        <md-icon md-svg-src="assets/icon/local_bar.svg"
-                                 class="s24 light-active"></md-icon>
+                        <md-icon class="material-icons">local_bar</md-icon>
                     </div>
 
                     <div flex="25">
                         <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px">
-                            <md-icon md-svg-src="assets/icon/more_vert.svg"
-                                     class="s18 dark-active"></md-icon>
+                            <md-icon class="material-icons">more_vert</md-icon>
                         </md-button>
 
                     </div>
@@ -168,8 +162,7 @@
          class="new" ng-class="{show: $ctrl.accent}">
         <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px"
         ng-click="$ctrl.newItem($event,$ctrl.data)">
-            <md-icon md-svg-src="/assets/icon/add_circle_outline.svg" class="fill-black-medium" size="s18"
-                     aria-label="Back"></md-icon>
+            <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
         </md-button>
     </div>
     <!-- add item: end -->

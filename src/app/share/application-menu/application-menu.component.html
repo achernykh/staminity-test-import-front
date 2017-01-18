@@ -12,15 +12,14 @@
             </div>
             <div flex="none" style="padding: 0px">
                 <md-button class="md-icon-button md-primary" aria-label="User menu" ng-click="showUserMenu = !showUserMenu">
-                    <md-icon md-svg-src="/pic/{{menuOpenIcon[showUserMenu]}}"
-                             class="s24" style="fill: white !important;"></md-icon>
+                    <md-icon class="material-icon" >{{showUserMenu ? 'arrow_drop_down':'arrow_drop_down'}}</md-icon>
                 </md-button>
             </div>
         </div>
     </md-toolbar>
     <md-content class="usermenu" hide-gt-xs>
         <md-list-item ng-repeat="menu in $ctrl.usermenu" ng-click="$ctrl.$state.go(menu.link)">
-            <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="s24 fill-black-medium"></md-icon>
+            <md-icon class="material-icon">{{::menu.icon}}</md-icon>
             <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
         </md-list-item>
     </md-content>
@@ -28,8 +27,8 @@
     <md-content>
         <md-list-item ng-repeat="menu in $ctrl.appmenu" ng-click="$ctrl.$state.go(menu.link)"
                       ng-show="true">
-            <md-icon md-svg-src="/assets/icon/{{menu.icon}}" class="s24 fill-black-medium"></md-icon>
-            <p class="md-body-2" style="    opacity: 0.87" translate>{{menu.name}}</p>
+            <md-icon class="material-icon">{{::menu.icon}}</md-icon>
+            <p class="md-body-2" translate>{{menu.name}}</p>
         </md-list-item>
     </md-content>
 

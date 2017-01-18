@@ -23,8 +23,7 @@
                        ng-init="$ctrl.enabledAthleteSelector = true"
                        ng-click="$ctrl.showAthleteSelector($event)"
                        style="padding: 0px; margin: 0px; height: 24px; width: 24px">
-                <md-icon md-svg-src="/assets/icon/{{showAthleteSelector ? 'arrow_drop_up.svg' : 'arrow_drop_down.svg'}}"
-                         size="s24" class="fill-white-medium">
+                <md-icon class="material-icons">{{$ctrl.showAthleteSelector ? 'arrow_drop_up.svg' : 'arrow_drop_down.svg'}}
                 </md-icon>
             </md-button>
 
@@ -32,7 +31,7 @@
                        class="md-icon-button md-primary" aria-label="User"
                        style="padding: 0px; margin: 0px; height: 24px; width: 24px"
                        ng-click="$ctrl.athleteDiscard()">
-                <md-icon md-svg-src="/assets/icon/remove.svg" class="fill-white-medium" size="24"></md-icon>
+                <md-icon class="material-icons">remove</md-icon>
             </md-button>
         </div>
     </div>
