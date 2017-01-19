@@ -21,7 +21,7 @@
   ],
   "main": "index.html",
   "dependencies": {
-    "angular": "^1.5.7",
+    "angular": "1.5.7",
     "angular-component-router": "^0.2.1",
     "angular-material": "^1.1.1",
     "angular-sanitize": "^1.5.7",
@@ -47,5 +47,8 @@
   },
   "devDependencies": {
     "angular-mocks": "^1.5.7"
+  },
+  "resolutions": {
+    "angular": "1.5.7"
   }
 }

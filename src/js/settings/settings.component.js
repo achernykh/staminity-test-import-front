@@ -112,6 +112,12 @@ class SettingsCtrl {
 
 	$onInit() {
 		"use strict";
+		this.user = angular.merge({
+			display: {
+				units: null,
+				firstDayOfWeek: null
+			}
+		}, this.user)
 		console.log('settings=', this)
 	}
 
