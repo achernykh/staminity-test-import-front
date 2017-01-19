@@ -156,6 +156,7 @@ class ManagementCtrl {
     filterNoCoach () {
         this.filter = {
             type: 'no coach',
+            label: 'Без тренера',
             pred: (member) => !member.coaches || !member.coaches.length
         }
     }
@@ -163,6 +164,7 @@ class ManagementCtrl {
     filterCoach (coach) {
         this.filter = {
             type: 'coach',
+            label: coach.userProfile.public.firstName + ' ' +  coach.userProfile.public.lastName,
             coach: coach,
             pred: (member) => member.coaches && member.coaches.find((c) => c.userId === coach.userProfile.userId)
         }
@@ -171,6 +173,7 @@ class ManagementCtrl {
     filterRole (role) {
         this.filter = {
             type: 'role',
+            label: role,
             role: role,
             pred: (member) => member.roleMembership && member.roleMembership.find((r) => r === role)
         }

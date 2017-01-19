@@ -102,6 +102,11 @@
             line-height: 30px;
         }
     }
+}       
+        
+.filter-item-active {
+    font-weight: bold;
+    background-color: rgba(150,150,150,0.5);
 }
 
 .subscriptions,
