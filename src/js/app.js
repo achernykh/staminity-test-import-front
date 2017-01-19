@@ -13,6 +13,7 @@ import './management'
 import './athletes'
 import './requests'
 import './settings'
+import './club-settings'
 import './config/app.templates'
 import './services'
 import './api'
@@ -43,6 +44,7 @@ const requires = [
     'staminity.management',
     'staminity.athletes',
     'staminity.requests',
+    'staminity.clubSettings',
     'staminity.settings',
     'staminity.services',
 	'staminity.api'

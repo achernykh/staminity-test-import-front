@@ -1,48 +1,12 @@
 import Settings from './settings.component';
-import ClubSettings from './clubSettings.component';
 
 let module = angular.module('staminity.settings',[]);
 
     module
-    .component('settings', Settings)
-    .component('clubSettings', ClubSettings);
+    .component('settings', Settings);
     
     module.config(($stateProvider)=>{
         $stateProvider
-            .state('clubSettings', {
-                url: "/settings/club/:uri",
-                loginRequired: true,
-                authRequired: ['func1'],
-                resolve: {
-                    view: function (ViewService) {
-                        return ViewService.getParams('settings')
-                    },
-                    club: function (GroupService, $stateParams) {
-                        return GroupService.getProfile('/club/' + $stateParams.uri)
-                    }
-                },
-                views: {
-                    "background": {
-                        component: "staminityBackground",
-                        bindings: {
-                            view: 'view.background'
-                        }
-                    },
-                    "header": {
-                        component: 'staminityHeader',
-                        bindings: {
-                            view: 'view.header'
-                        }
-                    },
-                    "application": {
-                        component: "clubSettings",
-                        bindings: {
-                            view: 'view.application',
-                            club: 'club'
-                        }
-                    }
-                }
-            })
             .state('userSettings', {
                 url: "/settings/user/:uri",
                 loginRequired: true,

@@ -104,8 +104,8 @@ class ProfileCtrl {
                 filter(type),
                 groupBy(date),
                 entries,
-                map(([date, series]) => ({ 
-                    label: this.range.dateLabel(date), 
+                map(([date, series], i) => ({ 
+                    label: !(i % 2)? this.range.dateLabel(date) : '', 
                     value: fold((a, x) => a + this.valueType.f(x), 0) (series)
                 })),
                 (data) => { this.chart.setData(data); }

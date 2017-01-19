@@ -134,11 +134,11 @@
         
         .value {
             color: rgba(0, 0, 0, 0.38);
-            cursor: pointer;
-            
-            &:hover {
-                text-decoration: underline;    
-            }
+        }
+        
+        button.value {
+            color: rgba(0, 0, 0, 0.38);
+            margin: -10px;
         }
     }
 }
@@ -202,6 +202,7 @@
     }
     
     svg {
+        overflow: visible;
         width: 100%;
         margin-bottom: 20px;
         stroke: rgba(120, 144, 156, 0.7);

@@ -3,7 +3,7 @@
         
         <div class="profile-card">
             <div class="profile-card-background">
-                <div class="profile-background" ng-style="{'background-image': 'url(' + ('/user/background/' + $ctrl.user.public.background | image) + ')'}"></div>
+                <div class="profile-background" ng-style="{'background-image': 'linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url(' + ('/user/background/' + $ctrl.user.public.background | image) + ')'}"></div>
                 
                 <div class="profile-header">
                     <div layout="row">
@@ -96,8 +96,8 @@
                 </div>
                 
                 <div class="profile-fab">
-                    <md-button class="md-fab">
-                        <i class="material-icons">mode_edit</i>
+                    <md-button class="md-fab" ui-sref="userSettings({uri: $ctrl.user.public.uri})">
+                        <md-icon class="material-icons">mode_edit</md-icon>
                     </md-button>
                 </div>
             </div>
@@ -111,14 +111,14 @@
                 
                 <div class="title">Связи</div>
                 <div class="text">
-                    <span class="label">Клуб:</span> <span class="value">{{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</span>
-                    <span class="label">Тренеры:</span> <span class="value" ng-click="$ctrl.coaches()">{{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</span>
-                    <span class="label">Спортсмены:</span> <span class="value" ng-click="$ctrl.athlets()">{{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</span>
+                    <span class="label">Клуб:</span> <md-button class="value md-icon-button">{{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Тренеры:</span> <md-button class="value md-icon-button" ng-click="$ctrl.coaches()">{{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Спортсмены:</span> <md-button class="value md-icon-button" ng-click="$ctrl.athlets()">{{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</md-button>
                     <br/>
-                    <span class="label">Подписчики:</span> <span class="value" ng-click="$ctrl.subscribers()">{{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</span>
-                    <span class="label">Подписан:</span> <span class="value" ng-click="$ctrl.subscriptions()">{{$ctrl.user.connections.Following.groupMembers.length || '-'}}</span>
-                    <span class="label">Друзья:</span> <span class="value" ng-click="$ctrl.friends()">{{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</span>
-                    <span class="label">Группы:</span> <span class="value">-</span>
+                    <span class="label">Подписчики:</span> <md-button class="value md-icon-button" ng-click="$ctrl.subscribers()">{{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Подписан:</span> <md-button class="value md-icon-button" ng-click="$ctrl.subscriptions()">{{$ctrl.user.connections.Following.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Друзья:</span> <md-button class="value md-icon-button" ng-click="$ctrl.friends()">{{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Группы:</span> <md-button class="value md-icon-button">-</md-button>
                 </div>
                 
                 <div class="title">Контакты</div>
@@ -135,11 +135,11 @@
             </div>
             
             <div class="controls" layout="row">
-                <md-button class="paging" ng-click="$ctrl.selectPeriod($ctrl.period + 1)">
-                    <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_left</i>
+                <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period + 1)" style="margin-top: 12px;">
+                    <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_left</md-icon>
                 </md-button>
-                <md-button class="paging" ng-click="$ctrl.selectPeriod($ctrl.period - 1)">
-                    <i class="material-icons" md-ink-ripple="#FFFFFF">chevron_right</i>
+                <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period - 1)" style="margin-top: 12px;">
+                    <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_right</md-icon>
                 </md-button>
                 <md-menu>
                     <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
@@ -147,14 +147,14 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item ng-repeat="period in [$ctrl.period, $ctrl.period-1, $ctrl.period-2, $ctrl.period-3]">
-                            <md-button ng-click="$ctrl.selectPeriod(period)">
+                            <md-button style="font-size: 13px;" ng-click="$ctrl.selectPeriod(period)">
                                 {{$ctrl.range.periodName(period)}}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
                 <md-menu flex layout-align="center" style="text-align:center;">
-                    <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
+                    <md-button style="font-size: 15px;" ng-click="$mdOpenMenu($event)">
                         {{$ctrl.range.name}} ▾
                     </md-button>
                     <md-menu-content>
@@ -166,7 +166,7 @@
                     </md-menu-content>
                 </md-menu>
                 <md-menu>
-                    <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
+                    <md-button style="font-size: 13px;" ng-click="$mdOpenMenu($event)">
                         {{$ctrl.valueType.name}} ▾
                     </md-button>
                     <md-menu-content>

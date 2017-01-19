@@ -70,6 +70,15 @@ function onFiles() {
     }
 }
 
+function autoFocus() {
+    return {
+        link: {
+            post (scope, element, attr) {
+                element[0].focus()
+            }
+        }
+    }
+}
 
 angular.module('staminity.components', [])
     .filter('avatar', avatar)
@@ -78,3 +87,4 @@ angular.module('staminity.components', [])
     .component('userInfo', userInfo)
     .component('groupActions', groupActions)
     .directive("onFiles", onFiles)
+    .directive('autoFocus', autoFocus)

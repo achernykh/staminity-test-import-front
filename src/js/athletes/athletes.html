@@ -4,8 +4,12 @@
             <div class="title">
                 Все ({{$ctrl.rows.length}})
                 <div class="controls">
-                    <md-input-container style="width: auto;"> <input ng-model="$ctrl.search"/> </md-input-container>
-                    <md-button class="md-primary"> <i class="material-icons">search</i> </md-button>
+                    <md-input-container style="width: auto;" class="md-icon-float md-icon-right"> 
+                        <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
+                    </md-input-container>
+                    <md-button class="md-primary md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch"> 
+                        <md-icon class="material-icons">search</md-icon> 
+                    </md-button>
                 </div>
             </div>
         </div>
@@ -46,9 +50,9 @@
             </tr>
             <tr ng-repeat="athlete in ($ctrl.rows = $ctrl.athletes | filter:$ctrl.search | orderBy:$ctrl.order.by:$ctrl.order.reverse)">
                 <td> <md-checkbox ng-model="athlete.checked" aria-label="user checked"></md-checkbox> </td>
-                <td>
-                    <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{athlete | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
-                    {{athlete | username}}
+                <td ui-sref="user({uri: member.userProfile.public.uri})">
+                    <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{athlete | avatar}}; background-size: cover;"></div>
+                    <span>{{athlete | username}}</span>
                 </td>
                 <td>-</td>
                 <td>
@@ -74,8 +78,8 @@
                 Все ({{$ctrl.rows.length}})
             </md-list-item>
             <md-list-item ng-repeat="athlete in ($ctrl.rows = $ctrl.athletes | filter:$ctrl.search)">
-                <div class="md-avatar" style="height: 24px; width: 24px; background: {{athlete | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
-                {{athlete | username}}  
+                <div class="md-avatar" style="height: 24px; width: 24px; background: {{athlete | avatar}}; background-size: cover;" ui-sref="user({uri: member.userProfile.public.uri})"></div>
+                <span ui-sref="user({uri: member.userProfile.public.uri})">{{athlete | username}}</span>
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
             </md-list-item>
         </md-list>
