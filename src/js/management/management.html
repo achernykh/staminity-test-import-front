@@ -96,7 +96,7 @@
                 <td>{{member.roleMembership.join(' ')}}</td>
                 <td><span ng-repeat="coach in member.coaches">{{$ctrl.member(coach.userId).userProfile | username}} </span></td>
                 <td> 
-                    <span ng-repeat="tariff in athlete.tariffs">{{tariff.tariffCode}} </span>
+                    <span ng-repeat="tariff in member.tariffs">{{tariff.tariffCode}} </span>
                 </td>
                 <td>{{member.athletes}}</td>
                 <td>{{member.userProfile.city}}</td>
