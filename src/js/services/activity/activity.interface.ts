@@ -106,7 +106,7 @@ export interface IActivityHeader {
 
 }
 
-interface IActivityDetails {
+export interface IActivityDetails {
     activityId:number;
     revision:number; // поле полностью соответствует calendarItem.revision
     social:{

@@ -61,7 +61,8 @@
                                dnd-type="'itemType'"
                                dnd-effect-allowed="move"
                                dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                               dnd-moved="$ctrl.calendar.onDeleteItem(item)">
+                               dnd-moved="$ctrl.calendar.onDeleteItem(item)"
+                               ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
             </calendar-activity>
 
             <calendar-measurement ng-switch-when="measurement"
@@ -71,7 +72,7 @@
                                   dnd-effect-allowed="copyMove"
                                   dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
                                   dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)"
-                                  ng-click="$ctrl.onOpen($event,'measurement', item)">
+                                  ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
                 <div flex="none">
                     <md-icon class="material-icons md-18" style="margin-right: 8px">straighten</md-icon>
                 </div>

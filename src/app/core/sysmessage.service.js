@@ -1,4 +1,4 @@
-import {element} from 'angular';
+import * as angular from 'angular'; //ng.IAugmentedJQuery
 
 export class SystemMessageService {
 
@@ -16,19 +16,21 @@ export class SystemMessageService {
      * @param message{show, status, title, text, delay}
      */
     show(code, status = 'error', delay = 10){
-        //debugger;
         let id = "appmes#" + ++this.count;
         //let delay = message.delay || 10;
         //let status = message.status || 'error';
-        element(document.getElementsByTagName('staminity-application'))
-            .append(this.$compile(`<system-message id='+id+' show="true" status="${status}" code="${code}" delay="${delay}'/>`)
-        (this.$rootScope));
+        angular
+            .element(document.getElementsByTagName('staminity-application'))
+            //.append(this.$compile(`<system-message id="${id}" show="true" status="${status}" code="${code}" delay="${delay}"/>`)(this.$rootScope))
+            .append(this.$compile('<system-message id="'+id+'" show="true" status="'+status+'" code="'+code+'" delay="'+delay+'"/>')(this.$rootScope));
+
+        console.log('sys=',angular.element(document.getElementById(id)), angular.element(document.getElementById('appmenu')));
 
         if(!this.$rootScope.$$phase)
             this.$rootScope.$apply();
 
         this.$timeout(
-            () => angular.element(document.getElementById(id)).remove(), ++delay * 1000);
+            () => angular.element(document.getElementById(id)).remove(), ++delay * 10000);
     }
 }
 SystemMessageService.$inject = ['$compile','$timeout','$rootScope'];

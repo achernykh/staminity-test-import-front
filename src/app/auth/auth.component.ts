@@ -80,7 +80,8 @@ class AuthCtrl implements IComponentController {
 				this.$state.go('calendar');
 				console.log('signin success=', result);
 			}, (error) => {
-				this.ActionMessageService.simple(error);
+				//this.ActionMessageService.simple(error);
+				this.SystemMessageService.show(error);
 			});
 	}
 

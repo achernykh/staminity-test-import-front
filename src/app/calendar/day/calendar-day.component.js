@@ -1,9 +1,10 @@
 import moment from 'moment/src/moment';
 
 class CalendarDayCtrl {
-    constructor($mdDialog,ActionMessageService){
+    constructor($mdDialog,ActionMessageService, ActivityService){
         this.$mdDialog = $mdDialog;
         this.ActionMessageService = ActionMessageService;
+        this.ActivityService = ActivityService
     }
     $onInit(){
 	    let diff = moment().diff(moment(this.data.date),'days',true);
@@ -28,6 +29,12 @@ class CalendarDayCtrl {
         this.calendar.onCopyItem(this.data.calendarItems)
     }
     onOpen($event, type, data) {
+
+        if(type === 'activity') {
+            this.ActivityService.getDetails(data.activityHeader.activityId)
+                .then(response => console.log(JSON.stringify(response)), error => console.error(JSON.stringify(error)));
+        }
+
         if(type === 'measurement')
             this.$mdDialog.show({
                 controller: DialogController,
@@ -102,7 +109,7 @@ class CalendarDayCtrl {
             })
     }
 }
-CalendarDayCtrl.$inject = ['$mdDialog','ActionMessageService'];
+CalendarDayCtrl.$inject = ['$mdDialog','ActionMessageService', 'ActivityService'];
 
 export let CalendarDay = {
     bindings: {

@@ -1,0 +1,52 @@
+@import "../../sass/color";
+@import "../../sass/base";
+
+.error {
+  background: $error-color;
+}
+.warning{
+  background: $warning-color;
+}
+.success{
+  background: $success-color;
+}
+
+system-message {
+  cursor: pointer;
+
+  #message {
+    position: absolute;
+    color: rgba(white, 1);
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 0vh;
+    opacity: 0;
+
+    @include transition(all, 0.7s, ease-in-out, 0s);
+
+    &.ng-hide {
+      height: 0vh;
+      opacity: 0;
+    }
+
+    &.show-me {
+      opacity: 1;
+      height: 15vh;
+
+      @media (max-width: 600px) {
+        height: 20vh;
+      }
+    }
+
+    .title, .text {
+      text-align: center;
+    }
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}

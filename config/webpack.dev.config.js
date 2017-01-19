@@ -13,7 +13,7 @@ module.exports = {
     module: {
         rules: [{
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'url-loader!css-loader?sourceMap!sass-loader' })
+                loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?sourceMap!sass-loader' })
             },
 
             {
