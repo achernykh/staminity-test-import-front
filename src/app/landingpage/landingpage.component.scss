@@ -4,7 +4,7 @@
 landing-page {
 	.cover-01 {
 		background-image: linear-gradient(to top, rgba(#6E8B9B, 1), rgba(0, 0, 0, 0.40) 30%, rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)),
-		require('/assets/picture/lp-bg-03-1440.jpg') 25% center no-repeat;
+		require('../../assets/picture/lp-bg-03-1440.jpg') 25% center no-repeat;
 		//background-position: 25% center;
 		//background-repeat: no-repeat;
 		background-size: cover;

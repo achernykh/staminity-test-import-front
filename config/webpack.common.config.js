@@ -25,7 +25,8 @@ module.exports = {
             //'oclazyload'
         ],
         // вход для приложения
-        app: './src/app/app.module.ts'
+        app: './src/app/app.module.ts',
+        icon: './src/assets/icon'
     },
     module: {
         rules: [

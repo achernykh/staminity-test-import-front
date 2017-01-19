@@ -32,8 +32,8 @@ class ApplicationMenuCtrl implements IComponentController{
         //return _connection.content + (this.user? '/content/user/background/' + this.user.public.background : '/assets/picture/pattern0.jpg')
     }
 
-    toggleSlide(component){
-        this.$mdSidenav(component).toggle().then(() => angular.noop);
+    toggleSlide(){
+        this.$mdSidenav("appmenu").toggle().then(() => angular.noop);
     }
 
     checkAuth(role) {

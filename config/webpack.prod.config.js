@@ -49,7 +49,7 @@ module.exports = {
             },
             {
                 test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$/,
-                loader: [`url-loader?name=assets/images/[name].[ext]`,`file-loader?name=assets/images/[name].[hash].[ext]`]
+                loader: [`url-loader`,`file-loader?name=assets/images/[name].[hash].[ext]`]
             }
 
         ]

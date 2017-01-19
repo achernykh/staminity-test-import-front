@@ -25,7 +25,7 @@
     </md-content>
 
     <md-content>
-        <md-list-item ng-repeat="menu in $ctrl.appmenu" ng-click="$ctrl.$state.go(menu.link)"
+        <md-list-item ng-repeat="menu in $ctrl.appmenu" ng-click="$ctrl.$state.go(menu.link);$ctrl.toggleSlide()"
                       ng-show="true">
             <md-icon class="material-icon">{{::menu.icon}}</md-icon>
             <p class="md-body-2" translate>{{menu.name}}</p>
