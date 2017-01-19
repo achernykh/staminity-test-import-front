@@ -5,7 +5,7 @@ function equals (x0, x1) {
 }
 
 function allEqual (xs, p = equals) {
-    return !xs.length || !xs.find((x) => !equals(x, xs[0]));
+    return !xs.length || xs.every((x) => !(x, xs[0]));
 }
 
 
@@ -64,7 +64,7 @@ class ManagementCtrl {
     }
     
     get subscriptionsAvailable () {
-        return allEqual(this.checked.map((user) => user.subscription))
+        return allEqual(this.checked.map((user) => user.tariffs), angular.equals)
     }
     
     subscriptions () {
@@ -76,7 +76,7 @@ class ManagementCtrl {
     }
     
     get coachesAvailable () {
-        return allEqual(this.checked.map((user) => user.coach))
+        return allEqual(this.checked.map((user) => user.coaches), angular.equals)
     }
     
     showCoaches () {
@@ -103,7 +103,7 @@ class ManagementCtrl {
     }
     
     get rolesAvailable() {
-        return allEqual(this.checked.map((user) => user.role))
+        return allEqual(this.checked.map((user) => user.roles), angular.equals)
     }
     
     roles () {

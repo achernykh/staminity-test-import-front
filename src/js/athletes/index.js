@@ -5,7 +5,7 @@ function equals (x0, x1) {
 }
 
 function allEqual (xs, p = equals) {
-    return !xs.length || !xs.find((x) => !equals(x, xs[0]));
+    return !xs.length || xs.every((x) => p(x, xs[0]));
 }
 
 const orderings = {
@@ -59,7 +59,7 @@ class AthletesCtrl {
     }
     
     get subscriptionsAvailable () {
-        return allEqual(this.checked.map((user) => user.subscription))
+        return allEqual(this.checked.map((user) => user.tariffs), angular.equals)
     }
     
     subscriptions () {
