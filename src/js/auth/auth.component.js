@@ -36,8 +36,9 @@ class AuthCtrl {
 			.finally(()=>this.enabled = true)
 			.then((result) => {
 				// goto state calendar
+				// TODO убрать говнокод, заметить на подписку текущего профиля
+				this._SessionService.setToken(result);
 				this._UserService.profile = result.userProfile;
-				this._SessionService.setToken(result)
 				this._$state.go('calendar')
 				console.log('signin success=', result)
 			}, (error) => {
