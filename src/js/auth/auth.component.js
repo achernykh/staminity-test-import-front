@@ -1,11 +1,12 @@
 import {_PageAccess} from '../config/app.constants.js';
 
 class AuthCtrl {
-	constructor(AuthService, SystemMessageService, SessionService, $state) {
+	constructor(AuthService, SystemMessageService, SessionService, UserService, $state) {
 		'ngInject'
 		this._AuthService = AuthService;
 		this._SystemMessageService = SystemMessageService;
 		this._SessionService = SessionService;
+		this._UserService = UserService;
 		this._$state = $state;
 		this.enabled = true;
 		this.state = 'form';
@@ -35,7 +36,9 @@ class AuthCtrl {
 			.finally(()=>this.enabled = true)
 			.then((result) => {
 				// goto state calendar
-				this._SessionService.setToken(result)
+				// TODO убрать говнокод, заметить на подписку текущего профиля
+				this._SessionService.setToken(result);
+				this._UserService.profile = result.userProfile;
 				this._$state.go('calendar')
 				console.log('signin success=', result)
 			}, (error) => {

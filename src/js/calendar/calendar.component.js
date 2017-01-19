@@ -18,7 +18,7 @@ class CalendarCtrl {
         this._SystemMessageService = SystemMessageService;
 	    this._ActionMessageService = ActionMessageService;
         this._CalendarService = CalendarService;
-        this.firstDayOfWeek = UserService.displaySettings;
+        this.firstDayOfWeek = (UserService.profile.display.hasOwnProperty('firstDayOfWeek') && UserService.profile.display.firstDayOfWeek) || 0;
         this._$scope = $scope;
 
         this.weekdays = []; // название дней недели
@@ -59,7 +59,7 @@ class CalendarCtrl {
         //moment.locale('en');
         moment.locale(moment.locale(), {
             week : {
-                dow : this.firstDayOfWeek.firstDayOfWeek
+                dow : this.firstDayOfWeek
             }
         })
 

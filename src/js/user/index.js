@@ -43,7 +43,7 @@ const chart = {
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, API) {
+    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, API, SystemMessageService) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
@@ -51,6 +51,7 @@ class ProfileCtrl {
         this.UserService = UserService;
         this.GroupService = GroupService;
         this.API = API;
+        this.message = SystemMessageService;
         
         this.ranges = [{ 
             name: 'Обзор года', 
@@ -163,21 +164,21 @@ class ProfileCtrl {
         return this.dialogs.confirm('Отправить запрос тренеру?')
             .then((confirmed) => { if (!confirmed) throw new Error() })
             .then(() => this.GroupService.join(this.user.connections.Athletes.groupId, this.UserService.profile.userId))
-            .then(() => this.update())
+            .then(() => this.update(), error => this.message.show(error))
     }
     
     leaveAthletes (group) {
         return this.dialogs.confirm('Покинуть тренера?')
             .then((confirmed) => { if (!confirmed) throw new Error() })
             .then(() => this.GroupService.leave(this.user.connections.Athletes.groupId, this.UserService.profile.userId))
-            .then(() => this.update())
+            .then(() => this.update(), error => this.message.show(error))
     }
     
     cancelAthletes () {
         return this.dialogs.confirm('Отменить заявку?')
             .then((confirmed) => { if (!confirmed) throw new Error() })
             .then(() => this.GroupService.processGroupMembership(this.user.connections.Athletes.groupId, 'C'))
-            .then(() => this.update())
+            .then(() => this.update(), error => this.message.show(error))
     }
     
     openMenu ($mdOpenMenu, event) {

@@ -48,8 +48,8 @@ export default class UserService {
     putProfile(profile:IUserProfile):Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(profile))
                 .then((result)=>{
-                    if (profile.hasOwnProperty('display'))
-                        this.displaySettings = profile.display;
+                    if (result.value.id === this.profile.userId)
+                        this.profile = Object.assign(this.profile,profile);
                     return result
                 })
     }
@@ -95,6 +95,7 @@ export default class UserService {
 
     set profile(profile:IUserProfile) {
         this._profile = profile;
+        this.SessionService.setUser(this._profile);
     }
 
     get permissions():Array<Object> {

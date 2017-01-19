@@ -83,10 +83,10 @@ class ApiCtrl {
         this.error = null;
         this.isEdited = false;
         return this._SocketService.send(this.request)
-                    .finally(() => {
+                    /*.finally(() => {
                         this._ActionMessageService.simple('Ответ получен. История запросов сохранена');
                         this.obj.options.expanded = true;
-                    })
+                    })*/
                     .then((success) => {
                         this.response = success
                     }, (error) => {
