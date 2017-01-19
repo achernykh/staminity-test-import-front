@@ -9,7 +9,7 @@ const types = [
 
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, API, dialogs) {
+    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, API, dialogs, SystemMessageService) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
@@ -18,6 +18,7 @@ class RequestsCtrl {
         this.GroupService = GroupService;
         this.dialogs = dialogs;
         this.API = API;
+        this.SystemMessageService = SystemMessageService;
         
         this.update()
         
@@ -48,7 +49,7 @@ class RequestsCtrl {
       this.dialogs.confirm()
       .then((confirmed) => { if (!confirmed) throw new Error() })
       .then(() => this.GroupService.processMembershipRequest(request.userGroupRequestId, action))
-      .then(() => this.update())
+      .then(() => this.update(), (error) => { this.SystemMessageService.show(error) })
     }
     
     close () {

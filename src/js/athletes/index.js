@@ -18,13 +18,14 @@ const orderings = {
 
 class AthletesCtrl {
 
-    constructor ($scope, $mdDialog, GroupService, dialogs, $mdMedia, $mdBottomSheet) {
+    constructor ($scope, $mdDialog, GroupService, dialogs, $mdMedia, $mdBottomSheet, SystemMessageService) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this.$mdBottomSheet = $mdBottomSheet;
         this.GroupService = GroupService;
         this.dialogs = dialogs;
+        this.SystemMessageService = SystemMessageService;
         this.isScreenSmall = $mdMedia('max-width: 959px');
         this.order = {
             by: 'username',
@@ -39,7 +40,7 @@ class AthletesCtrl {
     update () {
         return this.UserService.getProfile(this.user.userId)
             .then((user) => { this.user = user })
-            .then(() => { this.$scope.$apply() })
+            .then(() => { this.$scope.$apply() }, (error) => { this.SystemMessageService.show(error) })
     }
     
     get checked () {
@@ -70,7 +71,7 @@ class AthletesCtrl {
         this.dialogs.confirm('Удалить пользователей?')
         .then((confirmed) => { if (!confirmed) throw new Error() })
         .then(() => Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))))
-        .then(() => { this.update() })
+        .then(() => { this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
     
     showActions (user) {
