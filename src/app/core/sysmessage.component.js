@@ -2,13 +2,12 @@ import './sysmessage.component.scss';
 
 class SystemMessageCtrl {
     constructor($log, $timeout) {
-        'ngInject';
         this._$log = $log;
         this._$timeout = $timeout;
     }
     $onInit(){
-        this._$log.debug('SystemMessage: onInit()');
-        this._$timeout(() => this.show = false, (this.delay || 10) * 10000);
+        //console.log('SystemMessage: onInit()', this);
+        this._$timeout(() => this.show = false, (this.delay || 10) * 1000);
 
     }
     $onChange(changes) {
@@ -25,9 +24,9 @@ SystemMessageCtrl.$inject = ['$log','$timeout'];
 
 let SystemMessageComponent = {
     bindings: {
-        show: '=',
-        status: '=',
-        code: '=',
+        show: '<',
+        status: '<',
+        code: '<',
         delay: '<'
     },
     require:{
