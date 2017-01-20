@@ -40,6 +40,8 @@ class SettingsUserCtrl {
     }
 
     $onInit() {
+        // deep copy test
+        this.user = angular.copy(this.user);
         console.log('settings=', this, moment().format(), moment.locale());
         this.user.public = this.user.public || {};
         this.user.personal = this.user.personal || {};
@@ -53,7 +55,6 @@ class SettingsUserCtrl {
             adaptor = (settings && settings) || adaptor;
             adaptor['status'] = syncStatus(adaptor.lastSync,adaptor.state);
             adaptor['startDate'] = (adaptor.hasOwnProperty('startDate') && new Date(adaptor.startDate)) || new Date();
-            debugger;
             return adaptor;
         });
 

@@ -8,7 +8,7 @@ export interface IAuthToken {
 }
 
 export interface ISessionService {
-	userProfile: any;
+	profile: any;
 	getToken():string;
 	getUser():IUserProfile;
 	setUser(value:IUserProfile):void;
@@ -27,8 +27,8 @@ export default class SessionService implements ISessionService {
 	private userKey:string = 'userProfile';
 	private permissionsKey:string = 'systemFunctions';
 	private displayKey:string = 'display';
-	private _userProfile: BehaviorSubject<IUserProfile>;
-	public userProfile: any;
+	private _profile: BehaviorSubject<IUserProfile>;
+	public profile: any;
 
 
 	static $inject = ['$window'];
@@ -36,8 +36,8 @@ export default class SessionService implements ISessionService {
 	constructor(private $window:IWindowService) {
 		this.memoryStore = {};
 		this.$window = $window;
-		this._userProfile = new BehaviorSubject(this.getUser());
-		this.userProfile = this._userProfile.asObservable();
+		this._profile = new BehaviorSubject(this.getUser());
+		this.profile = this._profile.asObservable();
 	}
 
 	getAuth():Object {
@@ -63,7 +63,7 @@ export default class SessionService implements ISessionService {
 	setUser(value:IUserProfile):void{
 		try {
 			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
-			this._userProfile.next(value);
+			this._profile.next(value);
 			Object.assign(data, {'userProfile': value});
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
 		} catch (e) {
@@ -99,7 +99,7 @@ export default class SessionService implements ISessionService {
 
 	setToken(value:Object):void {
 		try {
-			this._userProfile.next(value['userProfile']);
+			this._profile.next(value['userProfile']);
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(value));
 		} catch (e) {
 			throw new Error(e);

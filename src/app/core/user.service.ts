@@ -53,7 +53,6 @@ export default class UserService {
     putProfile(profile:IUserProfile):Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(profile))
                 .then((result)=>{
-                    debugger;
                     if (result.value.id === this._profile.userId){
                         this.profile = Object.assign(this._profile, profile, result.value);
                     }
@@ -101,7 +100,6 @@ export default class UserService {
     }
 
     set profile(profile:IUserProfile) {
-        debugger;
         this._profile = profile;
         this.SessionService.setUser(this._profile);
     }
