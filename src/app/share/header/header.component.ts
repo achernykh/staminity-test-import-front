@@ -1,22 +1,31 @@
 import { IComponentOptions, IComponentController} from 'angular';
 import UserService from "../../../js/services/user/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
+import SessionService from "../../core/session.service";
+import { Observable} from 'rxjs/Observable';
+//import 'rxjs/add/operator/subscribe';
+
 require('./header.component.scss');
 //import { _connection } from '../../../services/api/api.constants'
 
 class HeaderCtrl implements IComponentController {
 
 	private user: IUserProfile;
+	private profile$: Observable<IUserProfile>;
 
-	static $inject = ['$mdSidenav','UserService', 'AuthService'];
+	static $inject = ['$mdSidenav', 'AuthService', 'SessionService'];
 
 	constructor(
 		private $mdSidenav: any,
-		private UserService: UserService,
-		private AuthService: any) {
+		//private UserService: UserService,
+		private AuthService: any,
+		private SessionService: SessionService) {
 
-		this.user = UserService.profile;
-		console.log('headerctrl',this);
+		//this.user = UserService.profile;
+		this.profile$ = SessionService.userProfile.subscribe((profile)=> {
+			this.user = profile;
+		});
+
 	}
 
 	avatarUrl(){

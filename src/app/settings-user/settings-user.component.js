@@ -1,15 +1,18 @@
 import * as moment from "moment";
 import { merge } from 'angular';
-import {ExternalProviderState} from "../../../api/sync/sync.interface";
+import * as angular from 'angular';
 import {
     _NAVBAR, _DELIVERY_METHOD, _LANGUAGE, _UNITS,
-    _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list, _SYNC_ADAPTORS, SyncPolicy
+    _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list, _SYNC_ADAPTORS, syncStatus
 } from './settings-user.constants';
+
 import './settings-user.component.scss';
+
+//import 'rxjs/add/operator/subscribe';
 
 class SettingsUserCtrl {
 
-    constructor(UserService,AuthService,SystemMessageService,ActionMessageService,$http,$mdDialog, $auth) {
+    constructor(UserService,AuthService,SystemMessageService,ActionMessageService,$http,$mdDialog, $auth, SyncAdaptorService) {
         console.log('SettingsCtrl constructor=',this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -26,7 +29,9 @@ class SettingsUserCtrl {
         this._$http = $http
         this._$mdDialog = $mdDialog
         this.$auth = $auth
+        this.SyncAdaptorService = SyncAdaptorService;
         this.adaptors = [];
+        //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
         //this.dialogs = dialogs
 
         //this._athlete$ = AthleteSelectorService._athlete$
@@ -39,9 +44,17 @@ class SettingsUserCtrl {
         this.user.public = this.user.public || {};
         this.user.personal = this.user.personal || {};
 
+        /**
+         *
+         * @type {any|Array|U[]}
+         */
         this.adaptors = this._SYNC_ADAPTORS.map((adaptor) => {
             let settings = this.user.externalDataProviders.filter((a) => a.provider === adaptor.provider)[0];
-            return (settings && settings) || adaptor;
+            adaptor = (settings && settings) || adaptor;
+            adaptor['status'] = syncStatus(adaptor.lastSync,adaptor.state);
+            adaptor['startDate'] = (adaptor.hasOwnProperty('startDate') && new Date(adaptor.startDate)) || new Date();
+            debugger;
+            return adaptor;
         });
 
         this.user = Object.assign(this.user,
@@ -216,9 +229,9 @@ class SettingsUserCtrl {
         return adaptor.state === "Enabled";
     }
 
-    showProviderSettings(ev, service, provider) {
-        console.log('provider settings =', typeof ev, service, provider)
+    showProviderSettings(ev, adaptor) {
 
+        /* Подключение стравы
         this.$auth.link('strava',{userId: this.user.userId})
             .then(function(response) {
                 // You have successfully linked an account.
@@ -227,9 +240,9 @@ class SettingsUserCtrl {
             .catch(function(response) {
                 // Handle errors here.
                 console.log('auth error', response)
-            });
+            });*/
 
-        if(provider.enabled) {
+        if(adaptor.status.switch) {
             this._$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
@@ -237,21 +250,38 @@ class SettingsUserCtrl {
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 locals: {
-                    service: service,
-                    provider: provider
+                    adaptor: adaptor
                 },
                 bindToController: true,
                 clickOutsideToClose: true,
                 escapeToClose: true,
                 fullscreen: false // Only for -xs, -sm breakpoints.
             })
-                .then((answer) => {
-                    this.status = 'You said the information was "' + answer + '".';
+                .then((form) => {
+                    this.SyncAdaptorService.put(adaptor.provider, form.username, form.password,
+                        form.startDate, adaptor.status.switch ? "Enabled" : "Disabled")
+                        .then(response=>console.info(response), error=> adaptor.status.switch = false)
                 }, () => {
                     // Если диалог открывается по вызову ng-change
-                    if (typeof ev === 'undefined') provider.enabled = false
+                    if (typeof ev === 'undefined') adaptor.status.switch = false
                     this.status = 'You cancelled the dialog.';
                 })
+        }
+
+        if(!adaptor.status.switch) {
+            var confirm = this._$mdDialog.confirm()
+                .title('Вы хотите отключить синхронизацию?')
+                .textContent('После отключения данные из внешнего источника останутся достыпными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации')
+                .ariaLabel('Lucky day')
+                .targetEvent(ev)
+                .ok('Продолжить')
+                .cancel('Отменить');
+
+            this._$mdDialog.show(confirm)
+                .then(() => this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
+                    moment(adaptor.startDate).format('YYYY-MM-DD'), adaptor.status.switch ? "Enabled" : "Disabled")
+                                .then(response=>console.info(response), error=> console.error(error),
+                                    () => this.status = 'You decided to keep your debt.'));
         }
     }
 
@@ -299,7 +329,7 @@ class SettingsUserCtrl {
             .then((user) => { this.user = user })
     }*/
 };
-SettingsUserCtrl.$inject = ['UserService','AuthService','SystemMessageService','ActionMessageService','$http','$mdDialog', '$auth'];
+SettingsUserCtrl.$inject = ['UserService','AuthService','SystemMessageService','ActionMessageService','$http','$mdDialog', '$auth','SyncAdaptorService'];
 
 function DialogController($scope, $mdDialog) {
 
@@ -316,7 +346,7 @@ function DialogController($scope, $mdDialog) {
     };
 }
 
-DialogController.$inject = ['$mdDialog'];
+DialogController.$inject = ['$scope','$mdDialog'];
 
 let SettingsUser = {
     bindings: {

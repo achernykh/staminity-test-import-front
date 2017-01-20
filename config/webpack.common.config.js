@@ -20,7 +20,8 @@ module.exports = {
             'angular-translate',
             'moment',
             'angular-scroll',
-            'satellizer'
+            'satellizer',
+            'rxjs'
             //'angular-websocket'
             //'oclazyload'
         ],

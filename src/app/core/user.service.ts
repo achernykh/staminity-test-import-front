@@ -6,6 +6,7 @@ import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise } from 'angular';
 
+
 export default class UserService {
 
     private _profile: IUserProfile;
@@ -23,6 +24,8 @@ export default class UserService {
         //this.SessionService = SessionService;
         //this.SocketService = SocketService;
         //this.RESTService = RESTService;
+        //this._rxProfile = <BehaviorSubject<IUserProfile>>new BehaviorSubject([]);
+        //this.rxProfile = this._rxProfile.asObservable();
     }
 
     /**
@@ -50,8 +53,9 @@ export default class UserService {
     putProfile(profile:IUserProfile):Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(profile))
                 .then((result)=>{
-                    if (profile.hasOwnProperty('display')){
-                        this.displaySettings = profile.display;
+                    debugger;
+                    if (result.value.id === this._profile.userId){
+                        this.profile = Object.assign(this._profile, profile, result.value);
                     }
                     return result;
                 });
@@ -97,7 +101,9 @@ export default class UserService {
     }
 
     set profile(profile:IUserProfile) {
+        debugger;
         this._profile = profile;
+        this.SessionService.setUser(this._profile);
     }
 
     get permissions():Array<Object> {

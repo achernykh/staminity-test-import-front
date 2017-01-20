@@ -1,4 +1,5 @@
 import { TransitionService } from 'angular-ui-router';
+import SessionService from "./core/session.service";
 
 
 function run($transitions: TransitionService) {

@@ -1,10 +1,11 @@
 import { module } from 'angular';
 import satellizer from 'satellizer';
-
 import SettingsUserComponent from './settings-user.component.js';
+import SyncAdaptorService from './sync-adaptor.service';
 import configure from './settings-user.config';
 
 const SettingsUser = module('staminity.settings-user', [satellizer])
+    .service('SyncAdaptorService', SyncAdaptorService)
     .component('settingsUserPersonal',{template: require('./articles/settings.personal.html') as string})
     .component('settingsUser', SettingsUserComponent)
     .config(configure)

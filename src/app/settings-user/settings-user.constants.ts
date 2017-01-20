@@ -127,16 +127,83 @@ export const _SYNC_ADAPTORS = [
     {
         provider: 'garmin',
         isAuth: false,
-        state: ExternalProviderState
+        state: ExternalProviderState.Disabled
     },
     {
         provider: 'strava',
-        state: ExternalProviderState,
+        state: ExternalProviderState.Disabled,
         isAuth: true
     },
     {
         provider: 'polar',
-        state: ExternalProviderState,
+        state: ExternalProviderState.Disabled,
         isAuth: false
     }
 ];
+
+const _SYNC_ADAPTORS_STATUS = {
+    offNeverEnabled: {
+        code: 'offNeverEnabled',
+        switch: false
+    },
+    offEnabledEarly: {},
+    onSyncing: {},
+    onSyncComplete: {},
+    ofSyncError: {}
+};
+
+export const syncStatus = (last,state) => {
+
+    let status = {
+        offSyncNeverEnabled: {
+            code: 'offSyncNeverEnabled',
+            switch: false
+        },
+        offSyncEnabledEarly: {
+            code: 'offSyncEnabledEarly',
+            switch: false
+        },
+        onSyncing: {
+            code: 'onSyncing',
+            switch: true
+        },
+        onSyncComplete: {
+            code: 'onSyncComplete',
+            switch: true
+        },
+        offSyncError: {
+            code: 'offSyncError',
+            switch: false
+        },
+        offSyncUnauthorized: {
+            code: 'offSyncUnauthorized',
+            switch: false
+        }
+    };
+
+    // Статус 1: Интеграция выключена и ранее не выполнялась
+    if (typeof last === "undefined" && (state === "Disabled" || typeof state === "undefined")) {
+        return status.offSyncNeverEnabled;
+    }
+
+    // Статус 2: Интеграция выключена после того, как была ранее выполнена
+    if (state === "Disabled") {
+        return status.offSyncEnabledEarly;
+    }
+
+    // Статус 3: Интеграция включена, выполняется начальная синхронизация
+    if (typeof last === "undefined" && state === "Enabled") {
+        return status.onSyncing;
+    }
+
+    // Статус 4: Интеграция включена, синхронизация выполнена
+    if (typeof last !== "undefined" && state === "Enabled") {
+        return status.onSyncComplete;
+    }
+
+    // Статус 5: Интеграция выключена, ошибки авторизации
+    if (state === "Unauthorized") {
+        return status.offSyncUnauthorized;
+    }
+
+};
