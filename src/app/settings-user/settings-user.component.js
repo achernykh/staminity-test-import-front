@@ -1,5 +1,4 @@
 import * as moment from "moment";
-import { merge } from 'angular';
 import * as angular from 'angular';
 import {
     _NAVBAR, _DELIVERY_METHOD, _LANGUAGE, _UNITS,
@@ -40,11 +39,15 @@ class SettingsUserCtrl {
     }
 
     $onInit() {
-        // deep copy test
-        this.user = angular.copy(this.user);
-        console.log('settings=', this, moment().format(), moment.locale());
-        this.user.public = this.user.public || {};
-        this.user.personal = this.user.personal || {};
+        // deep copy test and initial data
+        this.user = angular.merge({
+            public: {},
+            personal: {},
+            display: {
+                units: null,
+                firstDayOfWeek: null
+            }
+        }, this.user);
 
         /**
          *

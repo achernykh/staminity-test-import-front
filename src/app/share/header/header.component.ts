@@ -4,9 +4,7 @@ import UserService from "../../../js/services/user/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import SessionService from "../../core/session.service";
 import { Observable} from 'rxjs/Observable';
-
-require('./header.component.scss');
-//import { _connection } from '../../../services/api/api.constants'
+import './header.component.scss';
 
 class HeaderCtrl implements IComponentController {
 

@@ -34,15 +34,7 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     getProfile(key:string|number):Promise<IUserProfile> {
-        let request = new GetRequest();
-        
-        if (typeof key === 'string') {
-            request.requestData.uri = key;
-        } else {
-            request.requestData.userId = key;
-        }
-        
-        return this.SocketService.send(request);
+        return this.SocketService.send(new GetRequest(key));
     }
 
     /**
@@ -53,8 +45,9 @@ export default class UserService {
     putProfile(profile:IUserProfile):Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(profile))
                 .then((result)=>{
-                    if (result.value.id === this._profile.userId){
-                        this.profile = Object.assign(this._profile, profile, result.value);
+                    let currentUser = this.SessionService.getUser();
+                    if (result.value.id === currentUser.userId){
+                        this.SessionService.setUser(Object.assign(currentUser, profile, result.value.revision));
                     }
                     return result;
                 });

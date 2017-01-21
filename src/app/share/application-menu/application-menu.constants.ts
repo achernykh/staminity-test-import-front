@@ -34,42 +34,41 @@ export const AppMenuSettings = [
         icon: "forum",
         name: "appMenu.feeds",
         link: "feeds",
+        state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: "insert_chart",
         name: "appMenu.reports",
         link: "reports",
+        state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: "show_chart",
         name: "appMenu.plan",
         link: "plan",
+        state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: "show_chart",
         name: "appMenu.season",
         link: "season",
+        state: 'soon'
         //role: [_UserRoles.user]
     },
     {
         icon: "group",
         name: "appMenu.groups",
         link: "groups",
+        state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
-    },
-    {
-        icon: "developer_board",
-        name: "appMenu.athletes",
-        link: "athletes",
-        //role: [_UserRoles.coach]
     },
     {
         icon: "security",
         name: "appMenu.admin",
-        link: "admin",
+        link: "api",
         //role: [_UserRoles.admin]
     }
 ];

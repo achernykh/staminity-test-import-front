@@ -29,7 +29,7 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     getProfile(key:string|number):Promise<IUserProfile> {
-        let request = new GetRequest();
+        let request = new GetRequest(key);
         
         if (typeof key === 'string') {
             request.requestData.uri = key

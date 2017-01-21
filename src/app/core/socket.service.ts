@@ -15,7 +15,7 @@ export interface IWSRequest {
 }
 
 export interface ISocketService {
-    open(token:string):Promise<number>;
+    open(token:string): Promise<number>;
     response(event:any);
     close();
     send(request:IWSRequest):Promise<any>;
@@ -27,9 +27,9 @@ export interface ISocketService {
 export class SocketService implements ISocketService {
     //static $inject = ["$websocket","StorageService","SessionService"];
     ws:any;
-    socket: WebSocket;
-    requests:Array<any> = [];
-    requestId:number = 1;
+    private socket: WebSocket;
+    private requests:Array<any> = [];
+    private requestId:number = 1;
 
     //_$q:any;
     //_$websocket:any;
@@ -56,7 +56,7 @@ export class SocketService implements ISocketService {
      */
     open(token:string = this.SessionService.getToken(), delay:number = 100):Promise<number> {
         return new Promise((resolve, reject) => {
-            if (!this.socket) {
+            if (!this.socket || (this.socket.readyState !== 1 && this.socket.readyState !== 0)) {
                 console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
                 this.socket.addEventListener('message', this.response.bind(this));

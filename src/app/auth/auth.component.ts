@@ -29,7 +29,7 @@ class AuthCtrl implements IComponentController {
 		 * Сбрасываем данные в localStorage и переходим на экран входа пользователя
          */
 		if(this.$state.$current.name === 'signout') {
-			this.SessionService.delToken();
+			this.AuthService.signOut();
 			this.$state.go('signin');
 		}
 
@@ -78,7 +78,7 @@ class AuthCtrl implements IComponentController {
 		this.AuthService.signIn(credentials)
 			.finally(()=>this.enabled = true)
 			.then((result) => {
-				this.SessionService.setToken(result);
+				//this.SessionService.setToken(result);
 				this.$state.go('calendar');
 				console.log('signin success=', result);
 			}, (error) => {
