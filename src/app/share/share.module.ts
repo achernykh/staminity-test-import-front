@@ -6,10 +6,11 @@ import BackgroundComponent from './background/background.component';
 import HeaderComponent from './header/header.component';
 import ApplicationMenu from './application-menu/application-menu.component';
 import UserMenuComponent from './user-menu/user-menu.component';
-
 import {_application_menu} from './application-menu/application-menu.translate';
 import {_user_menu} from "./user-menu/user-menu.tranlsate";
 import {_MEASURE_TRANSLATE} from './measure.translate';
+import LoaderComponent from './loader/loader.component';
+import LoaderService from './loader/loader.service';
 
 import {
     _measurement,
@@ -69,6 +70,8 @@ const Share = module('staminity.share', [])
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)
     .component('applicationMenu',ApplicationMenu)
+    .service('LoaderService',LoaderService)
+    .component('loader', LoaderComponent)
     .config(['$translateProvider',($translateProvider)=>{
 
         $translateProvider.translations('ru', {appMenu: _application_menu['ru']});

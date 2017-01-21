@@ -1,20 +1,31 @@
 import { TransitionService } from 'angular-ui-router';
 import SessionService from "./core/session.service";
+import LoaderService from "./share/loader/loader.service";
 
 
-function run($transitions: TransitionService) {
+function run($transitions: TransitionService, LoaderService: LoaderService) {
 	console.log('run application');
 
 	$transitions.onBefore(
 		{to: '*', from: '*'},
 		(state) => {
+			//LoaderService.show();
 			console.log('transition before', state.$to());
+		}
+	);
+
+	$transitions.onRetain(
+		{to:'*',from:'*'},
+		(state) => {
+			//LoaderService.hide();
+			console.log('transition retain', state);
 		}
 	);
 
 	$transitions.onSuccess(
 		{to:'*',from:'*'},
 		(state) => {
+			//LoaderService.hide();
 			console.log('transition finish success', state);
 		}
 	);
@@ -28,6 +39,6 @@ function run($transitions: TransitionService) {
 	});*/
 }
 
-run.$inject = ['$transitions'];
+run.$inject = ['$transitions','LoaderService'];
 
 export default run;

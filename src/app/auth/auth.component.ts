@@ -1,6 +1,7 @@
 import { IComponentOptions, IComponentController} from 'angular';
 import SessionService from "../../js/services/session/session.service";
 import {StateService, LocationServices} from 'angular-ui-router';
+import {IMessageService} from "../core/message.service";
 require('./auth.component.scss');
 
 class AuthCtrl implements IComponentController {
@@ -9,7 +10,7 @@ class AuthCtrl implements IComponentController {
 	private showConfirm: boolean = false;
 	private credentials: Object = null;
 
-	static $inject = ['AuthService','SessionService','$state','SystemMessageService','$location','ActionMessageService'];
+	static $inject = ['AuthService','SessionService','$state','SystemMessageService','$location','ActionMessageService', 'MessageService'];
 
 	constructor(
 		private AuthService: any,
@@ -17,7 +18,8 @@ class AuthCtrl implements IComponentController {
 		private $state: StateService,
 		private SystemMessageService: any,
 		private $location: LocationServices,
-		private ActionMessageService: any) {
+		private ActionMessageService: any,
+		private message: IMessageService) {
 	}
 
 	$onInit() {
@@ -81,7 +83,8 @@ class AuthCtrl implements IComponentController {
 				console.log('signin success=', result);
 			}, (error) => {
 				//this.ActionMessageService.simple(error);
-				this.SystemMessageService.show(error);
+				this.message.info(error);
+				//this.SystemMessageService.show(error);
 			});
 	}
 
