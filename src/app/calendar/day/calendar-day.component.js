@@ -1,4 +1,5 @@
 import moment from 'moment/src/moment';
+import * as angular from 'angular';
 
 class CalendarDayCtrl {
     constructor($mdDialog,ActionMessageService, ActivityService){
@@ -33,6 +34,49 @@ class CalendarDayCtrl {
         if(type === 'activity') {
             this.ActivityService.getDetails(data.activityHeader.activityId)
                 .then(response => console.log(JSON.stringify(response)), error => console.error(JSON.stringify(error)));
+
+            this.$mdDialog.show({
+                controller: DialogController,
+                controllerAs: '$ctrl',
+                template:
+                    `<md-dialog id="activity" aria-label="Activity">
+                        <calendar-item-activity
+                                flex layout="column" class="calendar-item-activity"
+                                data="$ctrl.data" mode="put"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-activity>
+                   </md-dialog>`,
+                parent: angular.element(document.body),
+                targetEvent: $event,
+                locals: {
+                    data: data
+                },
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: true
+
+            })
+                .then(response => {
+                    console.log('user close dialog with =', response)
+
+                    // При изменение записи сначала удаляем старую, потом создаем новую
+                    /*if(response.type == 'put'){
+                        this.calendar.onDeleteItem(data)
+                        this.calendar.onPostItem(response.item)
+                        this.ActionMessageService.simple('Изменения сохранены')
+                    }*/
+
+                    /*if(response.type == 'delete') {
+                        this.calendar.onDeleteItem(response.item)
+                        this.ActionMessageService.simple('Запись удалена')
+                    }*/
+
+
+                }, ()=> {
+                    console.log('user cancel dialog, data=',data)
+                })
+
         }
 
         if(type === 'measurement')

@@ -427,7 +427,7 @@ class CalendarActivityCtrl {
      * @param $event
      */
     show($event) {
-
+/*
         this._$dialog.show(
             this._$dialog.alert()
                 .parent(angular.element(document.querySelector('#popupContainer')))
@@ -437,7 +437,7 @@ class CalendarActivityCtrl {
                 .ariaLabel('Alert Dialog Demo')
                 .ok('Got it!')
                 .targetEvent($event)
-        );
+        );*/
     }
 
     /**

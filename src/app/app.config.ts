@@ -56,6 +56,25 @@ function configure(
 		})
 		.dark();
 
+	// Дополнительная цветовая схема для контрастных форм и фрагментов,
+	// с темным задним фоном
+	$mdThemingProvider.theme('nav')
+		.primaryPalette('blue-grey')
+		.accentPalette('deep-orange', {
+			'default': '800',
+			'hue-1': '50',
+			'hue-2': '600',
+			'hue-3': '800'
+		})
+		.warnPalette('red')
+		.backgroundPalette('blue-grey', {
+			'default': '800',
+			'hue-1': '50',
+			'hue-2': '600',
+			'hue-3': '800'
+		})
+		.dark();
+
 	$translateProvider.preferredLanguage('ru');
 	$translateProvider.fallbackLanguage('ru');
 
