@@ -20,6 +20,7 @@ class RequestsCtrl {
         this.API = API;
         this.SystemMessageService = SystemMessageService;
         
+        this.user = this.UserService.profile
         this.update()
         
         this.requests = {
@@ -37,10 +38,10 @@ class RequestsCtrl {
     update () {
       this.GroupService.getMembershipRequest(0, 20)
       .then((requests) => {
-        this.requests.inbox.new = requests.filter((request) => request.direction == 'I' && !request.updated)
-        this.requests.inbox.old = requests.filter((request) => request.direction == 'I' && request.updated)
-        this.requests.outbox.new = requests.filter((request) => request.direction == 'O' && !request.updated)
-        this.requests.outbox.old = requests.filter((request) => request.direction == 'O' && request.updated)
+        this.requests.inbox.new = requests.filter((request) => request.receiver.userId == this.user.userId && !request.updated)
+        this.requests.inbox.old = requests.filter((request) => request.receiver.userId == this.user.userId && request.updated)
+        this.requests.outbox.new = requests.filter((request) => request.initiator.userId == this.user.userId && !request.updated)
+        this.requests.outbox.old = requests.filter((request) => request.initiator.userId == this.user.userId && request.updated)
         this.$scope.$apply()
       })
     }

@@ -5,7 +5,7 @@
                 {{$ctrl.filter && $ctrl.filter.label || 'Все'}} ({{$ctrl.rows.length}})
                 <div class="controls">
                     <md-menu class="filters">
-                        <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                        <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" style="vertical-align: top;">
                             <i class="material-icons">filter_list</i>
                         </md-button>
                         <md-menu-content>
@@ -35,10 +35,10 @@
                             </md-menu-item>
                         </md-menu-content>
                     </md-menu>
-                    <md-input-container style="width: auto;" class="md-icon-float md-icon-right"> 
+                    <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}};" class="animated"> 
                         <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
                     </md-input-container>
-                    <md-button class="md-primary md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch"> 
+                    <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch" style="vertical-align: top;"> 
                         <md-icon class="material-icons">search</md-icon> 
                     </md-button>
                 </div>
@@ -87,7 +87,7 @@
                     <span ng-if="$ctrl.order.by=='ageGroup'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
                 </th>
             </tr>
-            <tr ng-repeat="member in ($ctrl.rows = $ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.order.by:$ctrl.order.reverse)">
+            <tr ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.order.by:$ctrl.order.reverse)">
                 <td> <md-checkbox ng-model="member.checked" aria-label="user checked"></md-checkbox> </td>
                 <td>
                     <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
@@ -150,7 +150,7 @@
                     </md-menu-content>
                 </md-menu>
             </md-list-item>
-            <md-list-item ng-repeat="member in ($ctrl.rows = $ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible())" ng-click="$ctrl.showActions(member)">
+            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible())" ng-click="$ctrl.showActions(member)">
                 <div class="md-avatar" style="height: 24px; width: 24px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
                 {{member.userProfile | username}}
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>

@@ -5,7 +5,7 @@
             <i class="material-icons icon">group</i>
             Запросы
             <md-button ng-click="$ctrl.close()" class="close md-icon-button">
-                <md-icon class="material-icons">close</md-icon>
+                <md-icon class="material-icons" style="color: white;">close</md-icon>
             </md-button>
         </div>
         
@@ -63,7 +63,7 @@
                     <div class="request-new" ng-if="!$ctrl.requests.outbox.new.length">
                         Нет запросов
                     </div>
-                    <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
+                    <div class="request-new" ng-repeat="request in $ctrl.requests.outbox.new">
                         <div layout="row">
                             <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{request.receiver | avatar}}; background-size: cover;" ui-sref="/user/{{request.receiver.public.uri}}"></div>
                             <div flex>
@@ -84,7 +84,7 @@
                     <div class="request-new" ng-if="!$ctrl.requests.outbox.old.length">
                         Нет запросов
                     </div>
-                    <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">
+                    <div class="request-old" ng-repeat="request in $ctrl.requests.outbox.old">
                         <div layout="row">
                             <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{request.receiver | avatar}}; background-size: cover;" ui-sref="/user/{{request.receiver.public.uri}}"></div>
                             <div flex>
