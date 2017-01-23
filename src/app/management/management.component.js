@@ -212,7 +212,7 @@ let ManagementComponent = {
         app: '^staminityApplication'
     },
     controller: ManagementCtrl,
-    template: './management.component.html',
+    template: require('./management.component.html'),
 
 };
 

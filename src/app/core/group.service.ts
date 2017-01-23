@@ -1,7 +1,7 @@
 import {
     IGroupProfile,
     IGroupManagementProfile,
-    IBulkGroupMembership} from '../../../api/group/group.interface';
+    IBulkGroupMembership } from '../../../api/group/group.interface';
 
 import {
     GetRequest,
@@ -12,8 +12,7 @@ import {
     ProcessMembershipRequest,
     ProcessGroupMembershipRequest,
     GetGroupManagementProfile,
-    PutGroupMembershipBulk
-} from '../../../api/group/group.request';
+    PutGroupMembershipBulk } from '../../../api/group/group.request';
 
 import {ISocketService} from './socket.service';
 import {PostFile, IRESTService} from './rest.service';
@@ -21,7 +20,7 @@ import { IHttpPromise } from 'angular';
 
 export default class GroupService {
 
-    static $inject = ['SessionService', 'SocketService','RESTService'];
+    static $inject = ['SocketService','RESTService'];
 
     constructor(
         private SocketService:ISocketService,

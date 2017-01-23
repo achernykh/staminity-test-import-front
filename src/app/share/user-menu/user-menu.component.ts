@@ -20,7 +20,6 @@ class UserMenuCtrl implements IComponentController{
         private $state: StateService) {
 
         this.profile$ = SessionService.profile.subscribe(profile=> {
-            debugger;
             this.user = angular.copy(profile);
         });
     }

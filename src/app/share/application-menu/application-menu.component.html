@@ -35,12 +35,13 @@
                  ng-bind="showClubMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
     </md-list-item>
     <md-list-item class="menu-coach"
-                  ng-click="$ctrl.$state.go('club',{uri: club.public.groupId})"
+                  ng-click="$ctrl.$state.go('club',{uri: club.groupUri});$ctrl.toggleSlide()"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">account_circle</md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>Профиль</p>
     </md-list-item>
-    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go(menu.link)"
+    <md-list-item class="menu-coach"
+                  ng-click="$ctrl.$state.go('management',{uri: club.groupUri});$ctrl.toggleSlide()"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">people</md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>Члены клуба</p>
@@ -54,11 +55,11 @@
         <md-icon class="md-secondary material-icon" class="" ng-click="showCoachMenu = !showCoachMenu"
                  ng-bind="showCoachMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
     </md-list-item>
-    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go(menu.link)" ng-if="showCoachMenu">
+    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go('athletes');$ctrl.toggleSlide()" ng-if="showCoachMenu">
         <md-icon class="material-icon">people</md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>Управление спортсменами</p>
     </md-list-item>
-    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go(menu.link)" ng-if="showCoachMenu">
+    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go('dashboard');$ctrl.toggleSlide()" ng-if="showCoachMenu">
         <md-icon class="material-icon">developer_board</md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>Дэшборд</p>
     </md-list-item>

@@ -12,9 +12,9 @@ function configure(
             authRequired: ['func1'],
             resolve: {
                 view: () => new DisplayView('users'),
-                userId: ['GroupService','$stateParams',
-                    (GroupService,$stateParams) => GroupService.getProfile(`/club/${$stateParams.uri}`)],
-                user: ['GroupService','club', (GroupService, club) => GroupService.getManagementProfile(club.groupId)]
+                club: ['GroupService','$stateParams',
+                    (GroupService,$stateParams) => GroupService.getProfile($stateParams.uri)],
+                management: ['GroupService','club', (GroupService, club) => GroupService.getManagementProfile(club.groupId)]
             },
             views: DefaultTemplate('management')
         });

@@ -14,6 +14,7 @@ import {_MEASURE_TRANSLATE} from './measure.translate';
 import LoaderComponent from './loader/loader.component';
 import LoaderService from './loader/loader.service';
 import DialogsService from './dialogs/';
+import RequestsComponent from './requests/requests.component.js';
 
 import {
     _measurement,
@@ -35,7 +36,7 @@ const userInfo = {
     bindings: {
         user: "<"
     },
-    template: './user-info.component.html'
+    template: require('./user-info.component.html') as string
 };
 
 class GroupActionsController {
@@ -77,7 +78,7 @@ const groupActions = {
         onUpdate: '&'
     },
     controller: GroupActionsController,
-    template: './group-actions.component.html'
+    template: require('./group-actions.component.html') as string
 };
 
 function onFiles() {
@@ -103,7 +104,7 @@ function autoFocus() {
     };
 }
 
-const Share = module('staminity.share', ['ngMaterial'])
+const Share = module('staminity.share', [])
     .filter('avatar', avatar)
     .filter('image', image)
     .filter('username', username)
@@ -155,6 +156,7 @@ const Share = module('staminity.share', ['ngMaterial'])
     .component('loader', LoaderComponent)
     .component('userInfo', userInfo)
     .component('groupActions', groupActions)
+    .component('requests', RequestsComponent)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .config(['$translateProvider',($translateProvider)=>{

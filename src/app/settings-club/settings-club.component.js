@@ -101,7 +101,7 @@ let SettingsClubComponent = {
 	},
 	transclude: false,
 	controller: SettingsClubCtrl,
-	template: "./settings-club.component.html"
+	template: require("./settings-club.component.html")
 }
 
 export default SettingsClubComponent

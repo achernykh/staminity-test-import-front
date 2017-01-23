@@ -4,6 +4,10 @@ import 'angular-translate/dist/angular-translate.js';
 import uiRouter from 'angular-ui-router';
 import 'angular-material/angular-material.scss';
 
+import run from './app.run';
+import configure from './app.config';
+import AppComponent from './app.component';
+
 import Core from './core/core.module';
 import Share from './share/share.module';
 import Auth from './auth/auth.module';
@@ -16,12 +20,7 @@ import Profile from './profile-user/profile-user.module';
 import SettingsClub from './settings-club/settings-club.module';
 import Management from "./management/managment.module";
 import Athletes from "./athletes/athletes.module";
-
-import run from './app.run';
-import configure from './app.config';
-
-import AppComponent from './app.component';
-
+import Club from "./club/club.module";
 
 const root = module('staminity.application', [
 	'pascalprecht.translate',
@@ -39,7 +38,8 @@ const root = module('staminity.application', [
 	Profile,
 	SettingsClub,
 	Management,
-	Athletes
+	Athletes,
+	Club
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

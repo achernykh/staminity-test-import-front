@@ -80,7 +80,7 @@ class AthletesCtrl {
         this.athletes.forEach((a) => { a.checked = a === user })
         
         this.$mdBottomSheet.show({
-            templateUrl: 'athletes/member-actions.html',
+            template: require('./member-actions.html'),
             scope: this.$scope
         })
     }
@@ -113,7 +113,7 @@ const AthletesComponent = {
 
     controller: AthletesCtrl,
 
-    template: './athletes.component.html',
+    template: require('./athletes.component.html'),
 
 };
 
