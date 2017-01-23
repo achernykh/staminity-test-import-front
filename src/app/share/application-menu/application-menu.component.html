@@ -21,7 +21,7 @@
     </div>
 </md-toolbar>
 <md-list class="menu-user" ng-if="showUserMenu">
-    <md-list-item ng-repeat="menu in $ctrl.usermenu" ng-click="$ctrl.$state.go(menu.link)">
+    <md-list-item ng-repeat="menu in $ctrl.usermenu" ng-click="$ctrl.$state.go(menu.link);$ctrl.toggleSlide()">
         <md-icon class="material-icon" ng-bind="menu.icon"></md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
     </md-list-item>

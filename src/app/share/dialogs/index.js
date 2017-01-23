@@ -7,7 +7,7 @@ export default class DialogsService {
     uploadPicture () {
         return this.$mdDialog.show({
             controller: UploadPictureDialogController,
-            template: './dialogs/upload.html',
+            template: require('./upload.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
@@ -17,7 +17,7 @@ export default class DialogsService {
         return this.$mdDialog.show({
             controller: ConfirmDialogController,
             locals: { message: message },
-            template: './dialogs/confirm.html',
+            template: require('./confirm.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
@@ -27,7 +27,7 @@ export default class DialogsService {
         return this.$mdDialog.show({
             controller: FriendsController,
             locals: { users: group, title: title },
-            template: './dialogs/usersList.html',
+            template: require('./usersList.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
@@ -37,7 +37,7 @@ export default class DialogsService {
         return this.$mdDialog.show({
             controller: SubscriptionsController,
             locals: { users },
-            template: './dialogs/subscriptions.html',
+            template: require('./subscriptions.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
@@ -47,7 +47,7 @@ export default class DialogsService {
         return this.$mdDialog.show({
             controller: CoachesController,
             locals: { users, coaches },
-            template: './dialogs/coaches.html',
+            template: require('./coaches.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
@@ -57,7 +57,7 @@ export default class DialogsService {
         return this.$mdDialog.show({
             controller: RolesController,
             locals: { roles },
-            template: './dialogs/roles.html',
+            template: require('./roles.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
