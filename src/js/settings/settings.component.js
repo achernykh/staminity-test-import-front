@@ -6,7 +6,7 @@ import {
 class SettingsCtrl {
 	constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $locale, $http, $mdDialog, dialogs, AthleteSelectorService) {
 		'ngInject'
-		console.log('$locale', $locale)
+		console.log('SettingsCtrl constructor=',this)
 		this._NAVBAR = _NAVBAR
 		this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
 		this._DELIVERY_METHOD = _DELIVERY_METHOD
@@ -104,9 +104,8 @@ class SettingsCtrl {
 				]
 			}
 		})
-
-		this._athlete$ = AthleteSelectorService._athlete$
-			.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
+		//this._athlete$ = AthleteSelectorService._athlete$
+		//	.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
 		// Смена атлета тренера в основном окне приложения, необходмо перезагрузить все данные
 	}
 

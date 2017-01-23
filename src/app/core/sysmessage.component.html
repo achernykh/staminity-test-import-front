@@ -1,0 +1,12 @@
+<div id="message" ng-show="$ctrl.show" ng-click="$ctrl.close()"
+     layout="column" layout-align="center center"
+     ng-class="{'show-me': $ctrl.show,
+                'error': $ctrl.status == 'error',
+                'warning': $ctrl.status == 'warning',
+                'success': $ctrl.status == 'success'}">
+    <div flex="none" class="md-title title" translate="{{'message.'+$ctrl.code+'.title'}}"></div>
+    <div flex="none" layout-padding class="md-body-1 text" translate="{{'message.'+$ctrl.code+'.text'}}"></div>
+    <md-button class="md-icon-button md-primary" aria-label="close">
+        <md-icon class="material-icons md-light" ng-click="$ctrl.close()">close</md-icon>
+    </md-button>
+</div>

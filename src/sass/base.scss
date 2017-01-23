@@ -1,3 +1,5 @@
+@import './color';
+
 $gt-sm: 960px;
 
 @mixin transition($transition-property, $transition-time, $method, $transition-delay) {
@@ -149,7 +151,7 @@ div.avatar{
 
 .app-toolbar {
   width: 100%;
-  -height: $app-toolbar-height;
+  //-height: $app-toolbar-height;
 }
 .app-body {
   height: 100%;

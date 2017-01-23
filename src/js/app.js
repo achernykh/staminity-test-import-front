@@ -21,20 +21,20 @@ import './shared'
 import './calendar-item'
 
 const requires = [
-    'ngMaterial',
-    'ngAnimate',
-    'ngMessages',
-    'pascalprecht.translate',
-    'ngWebSocket',
-    'ui.router',
-    'duScroll',
-    'ui.scroll',
-    'ui.scroll.jqlite',
-    'dndLists',
-    'hm.readmore',
+    'ngMaterial', // npm/angular-material
+    'ngAnimate', // npm/angular-animate
+    'ngMessages', // npm/angular-messages
+    'pascalprecht.translate', // npm/angular-translate
+    'ngWebSocket', // npm/angular-websocket
+    'ui.router', // npm/angular-router
+    'duScroll', // npm/angular-scroll
+    //'ui.scroll',
+    //'ui.scroll.jqlite',
+    'dndLists', // npm/angular-drag-and-drop-lists
+    'hm.readmore', // bower/angular-read-more
     'staminity.components',
     'staminity.dialogs',
-	'rx',
+	//'rx',
 
     'staminity.layout',
     'staminity.templates',

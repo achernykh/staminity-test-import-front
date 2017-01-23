@@ -1,0 +1,14 @@
+@import '../../../sass/color.scss';
+
+.measure-main-button {
+	button {
+		line-height: normal;
+		font-size: 13px;
+		margin: 2px 4px;
+		min-height: 28px;
+		text-align: left;
+		min-width: unset;
+		background: $grey-100;
+
+	};
+}

@@ -1,0 +1,82 @@
+<!--<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu">-->
+<md-toolbar class="md-hue-3" ng-if="!!$ctrl.user"
+            style=" background-image:
+                        linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)),
+                        url({{'/user/background/' + $ctrl.user.public.avatar | image}})">
+    <div layout-padding>
+        <div class="avatar medium"
+             style="background-image: url({{'/user/avatar/' + $ctrl.user.public.avatar | image}})"></div>
+    </div>
+    <div flex layout="row" layout-align="space-between start" layout-padding>
+        <div flex>
+            <p class="md-body-2" style="margin: 0px">{{$ctrl.user | username}}</p>
+        </div>
+        <div flex="none" style="padding: 0px">
+            <md-button class="md-icon-button md-primary" aria-label="User menu"
+                       ng-init="showUserMenu = false" ng-click="showUserMenu = !showUserMenu">
+                <md-icon class="material-icon md-light"
+                         ng-bind="showUserMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
+            </md-button>
+        </div>
+    </div>
+</md-toolbar>
+<md-list class="menu-user" ng-if="showUserMenu">
+    <md-list-item ng-repeat="menu in $ctrl.usermenu" ng-click="$ctrl.$state.go(menu.link)">
+        <md-icon class="material-icon" ng-bind="menu.icon"></md-icon>
+        <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
+    </md-list-item>
+</md-list>
+
+<md-list ng-init="showClubMenu = true" ng-if="!!$ctrl.user.connections.ControlledClubs">
+    <md-list-item ng-repeat-start="club in $ctrl.user.connections.ControlledClubs track by $index">
+        <p class="md-body-2" style="opacity: 0.87"
+           ng-bind="club.public.name"></p>
+        <md-icon class="md-secondary material-icon" class="" ng-click="showClubMenu = !showClubMenu"
+                 ng-bind="showClubMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
+    </md-list-item>
+    <md-list-item class="menu-coach"
+                  ng-click="$ctrl.$state.go('club',{uri: club.public.groupId})"
+                  ng-if="showClubMenu">
+        <md-icon class="material-icon">account_circle</md-icon>
+        <p class="md-body-2" style="opacity: 0.87" translate>Профиль</p>
+    </md-list-item>
+    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go(menu.link)"
+                  ng-if="showClubMenu">
+        <md-icon class="material-icon">people</md-icon>
+        <p class="md-body-2" style="opacity: 0.87" translate>Члены клуба</p>
+    </md-list-item>
+    <md-divider ng-repeat-end ng-if="!showClubMenu"></md-divider>
+</md-list>
+
+<md-list ng-init="showCoachMenu = true" ng-if="!!$ctrl.user.connections.Athletes">
+    <md-list-item>
+        <p class="md-body-2" style="opacity: 0.87" translate>Спортсмены</p>
+        <md-icon class="md-secondary material-icon" class="" ng-click="showCoachMenu = !showCoachMenu"
+                 ng-bind="showCoachMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
+    </md-list-item>
+    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go(menu.link)" ng-if="showCoachMenu">
+        <md-icon class="material-icon">people</md-icon>
+        <p class="md-body-2" style="opacity: 0.87" translate>Управление спортсменами</p>
+    </md-list-item>
+    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go(menu.link)" ng-if="showCoachMenu">
+        <md-icon class="material-icon">developer_board</md-icon>
+        <p class="md-body-2" style="opacity: 0.87" translate>Дэшборд</p>
+    </md-list-item>
+    <md-divider ng-if="!showCoachMenu"></md-divider>
+</md-list>
+
+
+<md-list>
+    <md-list-item ng-repeat="menu in $ctrl.appmenu" ng-disabled="menu.state === 'soon'"
+                  ng-click="$ctrl.$state.go(menu.link);$ctrl.toggleSlide()"
+                  ng-show="true">
+        <md-icon class="material-icon">{{::menu.icon}}</md-icon>
+        <p class="md-body-2" translate>{{menu.name}}</p>
+        <md-icon class="md-secondary material-icon md-dark md-inactive"
+                 ng-if="menu.state === 'soon'"
+                 ng-click=""
+                 ng-bind="'rss_feed'"></md-icon>
+    </md-list-item>
+</md-list>
+
+<!--</md-sidenav>-->

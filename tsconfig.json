@@ -1,4 +1,4 @@
-{
+/*{
   "compilerOptions": {
     "target": "es5",
     "allowJs": true,
@@ -7,4 +7,21 @@
   "files": [
     "./src/js/app.js"
   ]
+}*/
+
+
+{
+    "compilerOptions": {
+        "module": "es2015",
+        "moduleResolution": "node",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "noUnusedParameters": false,
+        "noUnusedLocals": false,
+        "allowJs": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }

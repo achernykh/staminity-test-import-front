@@ -1,6 +1,5 @@
 export class ActionMessageService {
 	constructor($mdToast){
-		'ngInject';
 		this._$mdToast = $mdToast;
 	}
 	/**
@@ -17,3 +16,4 @@ export class ActionMessageService {
 		);
 	}
 }
+ActionMessageService.$inject = ['$mdToast'];

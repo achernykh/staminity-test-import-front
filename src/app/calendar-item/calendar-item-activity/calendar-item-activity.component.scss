@@ -1,0 +1,118 @@
+@import "../../../sass/color";
+
+md-dialog#activity{
+  background: black;
+
+  @media (min-width: 960px) {
+      min-height: 95vh;
+      min-width: 95vw;
+  }
+
+}
+
+calendar-item-activity {
+
+  max-height: 100%;
+  overflow: none;
+  background-color: $grey-50;
+
+  .md-toolbar-tools md-menu:first-child {
+    margin-left: -8px;
+  }
+
+  form md-list:first-child {
+    //background-color: $grey-200;
+    //padding-bottom: 30px;
+  }
+
+  md-fab-speed-dial {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  section.overview {
+    background: white;
+  }
+
+  section.details {
+
+    min-width: 100%;
+
+    @media (min-width: 960px) {
+      max-width: 450px;
+      min-width: 360px;
+
+      md-toolbar {
+        min-height: 16px;
+      }
+
+    }
+
+    background: $grey-100;
+
+  }
+
+  section.overview-content  {
+    header {
+      //background-color: $grey-200;
+      padding: 0px 16px;
+
+      md-icon:first-child {
+        margin-right: 20px;
+      }
+
+      .md-button.md-icon-button:last-child {
+        margin-right: -8px;
+      }
+
+    }
+
+  }
+
+  div.map, div.chart {
+    //min-height: 300px;
+  }
+
+  div.map, div.chart, div.table {
+
+    transition: all 0.3s ease-in-out;
+
+    &.ng-enter {
+      max-height: 0px;
+      opacity: 0;
+    }
+    &.ng-enter.ng-enter-active {
+      max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave {
+      max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave.ng-leave-active {
+      max-height: 0px;
+      opacity: 0;
+    }
+  }
+
+
+  .md-button.md-nav-theme.md-accent {
+    color: white;
+  }
+
+  md-nav-bar
+
+  md-nav-bar.md-nav-theme .md-button._md-nav-button.md-unselected {
+    color: rgba(255,255,255,0.7);
+  }
+  md-nav-ink-bar {
+    top: 46px;
+  }
+
+  md-toolbar.panel {
+    background: white;
+    color: black;
+  }
+
+}

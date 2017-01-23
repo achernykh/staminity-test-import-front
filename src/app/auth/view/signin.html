@@ -1,0 +1,55 @@
+<!--<div flex="none" hide-xs class="animated fadeInDown logo">
+    <img src="/assets/picture/logolp.svg"/>
+</div>-->
+
+<md-card class="animated fadeInUp medium" md-theme="dark">
+    <md-card-title>
+        <h2 class="md-title">Вход</h2>
+    </md-card-title>
+
+    <form flex="none" ng-submit='$ctrl.signin($ctrl.credentials)'
+          novalidate name="$ctrl.signinForm">
+        <md-list>
+
+            <md-list-item>
+                <md-input-container md-no-float class="no-message">
+                    <input required type="email" name="email" ng-model="$ctrl.credentials.email"
+                           autocomplete="on" autofocus ng-disabled="!$ctrl.enabled"
+                           minlength="5" maxlength="100"
+                           ng-pattern="/^.+@.+\..+$/"
+                           placeholder="{{ 'auth.email' | translate }}">
+                    <div ng-messages="$ctrl.signinForm.email.$error" role="alert">
+                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
+                            auth.errMail
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container md-no-float class="no-message">
+                    <input required type="password" name="password" ng-model="$ctrl.credentials.password"
+                           ng-disabled="!$ctrl.enabled"
+                           placeholder="{{ 'auth.pass' | translate }}">
+                    <div ng-messages="$ctrl.signinForm.password.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <p translate="signin.remember"></p>
+                <md-checkbox aria-label="Checkbox No Ink" class="md-primary md-secondary"
+                             ng-model="$ctrl.storage"
+                             ng-disabled="!$ctrl.enabled"
+                             ng-change="$ctrl.onStorage($ctrl.storage)">
+                </md-checkbox>
+            </md-list-item>
+            <md-list-item>
+                <md-button ng-disabled="!$ctrl.signinForm.$valid" class="md-raised" type="submit"
+                           ng-class="{'md-primary': $ctrl.signinForm.$valid && !ul.auth, 'md-disabled': $ctrl.signinForm.$error}"
+                           translate='signin.button'
+                           aria-label="SignIn Button"></md-button>
+            </md-list-item>
+        </md-list>
+    </form>
+
+</md-card>

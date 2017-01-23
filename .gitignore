@@ -1,10 +1,14 @@
 .DS_Store
 .idea
+npm-debug.log
+tree
 
 content/*
 www/*
 build/*
 dist/*
+distLocal/*
+dev1/*
 bower_components/*
 node_modules/*
 src/js/config/app.templates.js

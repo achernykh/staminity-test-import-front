@@ -1,0 +1,40 @@
+<md-dialog>
+    <md-dialog-content class="subscriptions">
+        
+        <div class="title">
+            Тарифы
+        </div>
+        
+        <div class="label">
+            За счет клуба
+        </div>
+        
+        <div class="row">
+            <md-switch ng-model="coach.checked" aria-label="coach checked"></md-switch>
+            Тренер
+            <div class="date">21.10.2015</div>
+        </div>
+        
+        <div class="row">
+            <md-switch ng-model="coach.checked" aria-label="coach checked"></md-switch>
+            Премиум
+            <div class="date">не подключен</div>
+        </div>
+        
+        <div class="label">
+            За свой счет
+        </div>
+        
+        <div class="row">
+            <md-switch  ng-model="coach.checked" aria-label="coach checked"></md-switch>
+            Премиум
+            <div class="date">21.10.2015</div>
+        </div>
+        
+        <div class="actions">
+            <md-button ng-click="commit()"> Принять </md-button>
+            <md-button ng-click="cancel()"> Отклонить </md-button>
+        </div>
+        
+    </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,19 @@
+<md-dialog>
+    <md-dialog-content class="coaches">
+        
+        <div class="title">
+            Тренер
+        </div>
+        
+        <div ng-repeat="coach in coaches" class="row">
+            {{coach.userProfile | username}}
+            <md-switch  ng-model="coach.checked" aria-label="coach checked"></md-switch>
+        </div>
+        
+        <div class="actions">
+            <md-button ng-click="commit()"> Принять </md-button>
+            <md-button ng-click="cancel()"> Отклонить </md-button>
+        </div>
+        
+    </md-dialog-content>
+</md-dialog>

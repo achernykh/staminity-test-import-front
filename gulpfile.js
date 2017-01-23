@@ -19,9 +19,11 @@ var gutil         = require('gulp-util');
 var ftp           = require('gulp-ftp');
 var imagemin      = require('gulp-imagemin');
 var cssmin        = require('gulp-cssmin');
+var open          = require('gulp-open');
 
 // Get/set variables
 var config = require('./gulp.config');
+var ENV = process.env.npm_lifecycle_event;
 
 // Where our files are located
 var jsFiles   = "src/js/**/*.js";
@@ -246,3 +248,31 @@ gulp.task('watch', ['default', 'serve'], function () {
 gulp.task('default', ['html', 'jsLibs', 'cssLibs', 'jsApp', 'sass', 'assets'], function(cb) {
     return gulp.src(config.src.jsApp);
 });
+
+// Copy assets
+gulp.task('icons', function() {
+    return gulp.src(config.src.assets)
+        .pipe(gulp.dest('./'+ENV+'/assets'));
+});
+
+gulp.task('url', function(){
+    var sites = {
+        dev1: 'http://dev1.staminity.com',
+        prd: 'http://staminity.com'
+    }
+    return gulp.src('./index.html')
+        .pipe(open({uri: 'http://www.google.com'}));
+});
+
+gulp.task('ftp-copy', function () {
+    var src = './'+ENV;
+    return gulp.src('dev1/**/*')
+        .pipe(ftp({
+            host: 'ftp.staminity.com',
+            user: 'dev1ftpuser@dev1.staminity.com',
+            pass: 'DpziUbiqPJ84w9xIf3ll'
+        }))
+        .pipe(gutil.noop());
+});
+
+

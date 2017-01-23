@@ -1,0 +1,6 @@
+<div ng-class="calendar-total-chart-bar"
+     ng-style="{background: $ctrl.color.under, left: 0, width: $ctrl.valueUnder + '%', position: 'absolute', top: 0, bottom: 0}">
+</div>
+<div ng-show="$ctrl.isOver"
+     ng-class="calendar-total-chart-bar-over" ng-style="{background: $ctrl.color.over, left: $ctrl.max + '%', width: $ctrl.valueOver + '%', position: 'absolute', top: 0, bottom: 0, boxShadow: $ctrl.color.under + ' 0px 1px 6px, ' + $ctrl.color.over + ' 0px 1px 4px'}"></div>
+</div>

@@ -1,0 +1,123 @@
+<div flex layout="row" layout-no-wrap>
+    <section layout="column" class="overview" flex="auto" hide show-gt-sm>
+        <md-toolbar flex="none" class="md-hue-3">
+            <div class="md-toolbar-tools">
+                <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+                    <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
+                               aria-label="User">
+                        <md-icon class="material-icons">menu</md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.mode == 'post'">
+                                <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                                <span translate="measurement.toolbar.delete"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="" ng-disabled="true">
+                                <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
+                                <span translate="measurement.toolbar.settings"></span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <h2 translate="{{$ctrl.item.sport}}"></h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                    <md-tooltip md-direction="left">{{'measurement.toolbar.attach' | translate}}</md-tooltip>
+                    <md-icon class="material-icons" aria-label="Close dialog">attach_file</md-icon>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                    <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+                    <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <section flex="auto" class="overview-content" layout="column"
+                 ng-init="showMap = true;showChart = true;showTable = true">
+
+            <header flex="none" class="map" layout="row" layout-align="start center">
+                <md-icon class="material-icon">directions</md-icon>
+                <p class="md-body-2" translate>Карта</p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="showMap = !showMap">
+                    <md-icon class="md-secondary material-icon md-dark"
+                             ng-bind="showMap ? 'expand_more': 'expand_less'"></md-icon>
+                </md-button>
+            </header>
+            <div flex="auto" class="map" ng-if="showMap">Карта</div>
+            <md-divider ng-if="showChart"></md-divider>
+            <header flex="none" layout="row" layout-align="start center">
+                <md-icon class="material-icon">multiline_chart</md-icon>
+                <p class="md-body-2" translate>График</p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="showChart = !showChart">
+                    <md-icon class="md-secondary material-icon md-dark"
+                             ng-bind="showChart ? 'expand_more': 'expand_less'"></md-icon>
+                </md-button>
+            </header>
+            <div flex="auto" class="chart" ng-if="showChart">График</div>
+
+            <md-divider></md-divider>
+            <header flex="none" layout="row" layout-align="start center">
+                <md-icon class="material-icon">format_list_numbered</md-icon>
+                <p class="md-body-2" translate>Отрезки</p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="showTable = !showTable">
+                    <md-icon class="md-secondary material-icon md-dark"
+                             ng-bind="showTable ? 'expand_more': 'expand_less'"></md-icon>
+                </md-button>
+            </header>
+            <div flex="auto" class="table" ng-if="showTable">Таблица</div>
+
+        </section>
+    </section>
+
+    <section class="details" flex="none" layout="column">
+        <md-toolbar flex="none" class="md-hue-2">
+            <div class="md-toolbar-tools" hide-gt-sm>
+                <h2 translate="Тренировка"></h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+        <md-content flex="auto" class="md-hue-2" layout="column">
+            <md-tabs flex layout="column" layout-fill
+                     class="md-primary md-hue-2" md-selected="'1'">
+                <md-tab id="tab1" flex layout="column" label="Обзор" style="background:green">
+                    <md-tab-content style="background:blue">
+                        View for Item #1 <br/>
+                        data.selectedIndex = 0;
+                    </md-tab-content>
+                </md-tab>
+                <md-tab id="tab2" label="Детали" layout-fill>
+                    <md-tab-content layout-fill>
+                        <measures-avg-table class="measures-avg-table"
+                                            measures="$ctrl.item.calcMeasures"></measures-avg-table>
+                        <measure-main-button class="measure-main-button"
+                                             measures="$ctrl.item.calcMeasures"></measure-main-button>
+                    </md-tab-content>
+                </md-tab>
+                <md-tab id="tab3" label="Чат">
+                    <md-tab-content>
+                        View for Item #3 <br/>
+                        data.selectedIndex = 2;
+                    </md-tab-content>
+                </md-tab>
+                <md-tab id="tab4" label="Зоны">
+                    <md-tab-content>
+                        View for Item #3 <br/>
+                        data.selectedIndex = 2;
+                    </md-tab-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+
+    </section>
+</div>
+
+
+
+
+
+
