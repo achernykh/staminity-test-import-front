@@ -3,7 +3,7 @@
         
         <div class="profile-card">
             <div class="profile-card-background">
-                <div class="profile-background" style="background-image: url({{'/group/background/' + $ctrl.club.public.background | image}})"></div>
+                <div class="profile-background" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/group/background/' + $ctrl.club.public.background | image}})"></div>
                 
                 <div class="profile-header">
                     <div layout="row">
@@ -82,11 +82,16 @@
                 
                 <div class="title">Состав</div>
                 <div class="text" ng-if="$ctrl.club.innerGroups">
-                    <span class="label">Тренеры:</span> <span class="value">{{$ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-'}}</span>
-                    <span class="label">Спортсмены:</span> <span class="value">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</span>
+                    <span class="label">Тренеры:</span> 
+                    <md-button class="value md-icon-button" ui-sref="management({uri: $ctrl.club.public.uri})">{{$ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-'}}</md-button>
+                    
+                    <span class="label">Спортсмены:</span> 
+                    <md-button class="value md-icon-button"ui-sref="management({uri: $ctrl.club.public.uri})">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</md-button>
+                    <span class="value">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</span>
                 </div>
                 <div class="text" ng-if="!$ctrl.club.innerGroups">
-                    <span class="label">Участники:</span> <span class="value">{{$ctrl.club.groupMembersCount}}</span>
+                    <span class="label">Участники:</span> 
+                    <span class="value">{{$ctrl.club.groupMembersCount}}</span>
                 </div>
             </div>
         </div>

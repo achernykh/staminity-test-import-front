@@ -1,4 +1,6 @@
 import { _connection } from '../services/api/api.constants'
+import  { ageGroup } from '../../../api/user/user.interface'
+import  { requestType } from '../../../api/group/group.interface'
 
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl
 
@@ -70,11 +72,23 @@ function onFiles() {
     }
 }
 
+function autoFocus() {
+    return {
+        link: {
+            post (scope, element, attr) {
+                element[0].focus()
+            }
+        }
+    }
+}
 
 angular.module('staminity.components', [])
     .filter('avatar', avatar)
     .filter('image', image)
     .filter('username', username)
+    .filter('ageGroup', () => ageGroup)
+    .filter('requestType', () => requestType)
     .component('userInfo', userInfo)
     .component('groupActions', groupActions)
     .directive("onFiles", onFiles)
+    .directive('autoFocus', autoFocus)

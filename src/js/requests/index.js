@@ -1,15 +1,6 @@
-const users = [
-  { userpic: '', username: 'Черных Александр' },
-];
-
-const types = [
-  'Запрос от спортсмена тренеру'
-];
-
-
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, API, dialogs) {
+    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, API, dialogs, SystemMessageService) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
@@ -18,7 +9,9 @@ class RequestsCtrl {
         this.GroupService = GroupService;
         this.dialogs = dialogs;
         this.API = API;
+        this.SystemMessageService = SystemMessageService;
         
+        this.user = this.UserService.profile
         this.update()
         
         this.requests = {
@@ -36,10 +29,10 @@ class RequestsCtrl {
     update () {
       this.GroupService.getMembershipRequest(0, 20)
       .then((requests) => {
-        this.requests.inbox.new = requests.filter((request) => request.direction == 'I' && !request.updated)
-        this.requests.inbox.old = requests.filter((request) => request.direction == 'I' && request.updated)
-        this.requests.outbox.new = requests.filter((request) => request.direction == 'O' && !request.updated)
-        this.requests.outbox.old = requests.filter((request) => request.direction == 'O' && request.updated)
+        this.requests.inbox.new = requests.filter((request) => request.receiver.userId == this.user.userId && !request.updated)
+        this.requests.inbox.old = requests.filter((request) => request.receiver.userId == this.user.userId && request.updated)
+        this.requests.outbox.new = requests.filter((request) => request.initiator.userId == this.user.userId && !request.updated)
+        this.requests.outbox.old = requests.filter((request) => request.initiator.userId == this.user.userId && request.updated)
         this.$scope.$apply()
       })
     }
@@ -48,7 +41,7 @@ class RequestsCtrl {
       this.dialogs.confirm()
       .then((confirmed) => { if (!confirmed) throw new Error() })
       .then(() => this.GroupService.processMembershipRequest(request.userGroupRequestId, action))
-      .then(() => this.update())
+      .then(() => this.update(), (error) => { this.SystemMessageService.show(error) })
     }
     
     close () {
@@ -74,18 +67,5 @@ const requests = {
 
 }
 
-
-const requestType = () => (request) => {
-  if (request.groupProfile.groupCode == "ClubMembers") {
-    return 'Запрос на вступление в клуб'
-  } else {
-    let initiator = 'тренера'
-    let receiver = 'спортсмену'
-    return `Запрос от ${initiator} ${receiver}`
-  }
-}
-
-
 angular.module('staminity.requests', ['ngMaterial', 'staminity.components'])
     .component('requests', requests)
-    .filter('requestType', requestType)

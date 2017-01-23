@@ -40,3 +40,7 @@
 #calendar {
   @include animate(0.5s, 0.2s, 1);
 }
+
+.animated {
+  transition: all .3s !important;
+}

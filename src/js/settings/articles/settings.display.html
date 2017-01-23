@@ -42,7 +42,7 @@
 
             <md-list-item class="mobile-select">
                 <span translate="settings.display.units"></span>
-                <span class="md-secondary"
+                <span class="md-secondary" ng-if="$ctrl.user.display.units"
                      translate="settings.display.{{$ctrl.user.display.units}}.short"></span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
@@ -59,7 +59,7 @@
 
             <md-list-item class="mobile-select">
                 <span translate="settings.display.firstDayOfWeek"></span>
-                <span class="md-secondary"
+                <span class="md-secondary" ng-if="$ctrl.user.display.firstDayOfWeek"
                      ng-bind="$ctrl.weekdays($ctrl.user.display.firstDayOfWeek)"
                      style="text-transform: capitalize"></span>
                 <md-menu class="md-secondary">

@@ -1,13 +1,13 @@
 <md-dialog>
-    <md-dialog-content class="coaches">
-        
+    <md-dialog-content class="roles">
+
         <div class="title">
-            Тренер
+            Роль в клубе
         </div>
         
-        <div ng-repeat="coach in coaches" class="row">
-            {{coach.name}}
-            <md-switch  ng-model="coach.checked" aria-label="coach checked"></md-switch>
+        <div ng-repeat="role in roles" class="row">
+            {{role.role}}
+            <md-switch  ng-model="role.checked" aria-label="role checked"></md-switch >
         </div>
         
         <div class="actions">

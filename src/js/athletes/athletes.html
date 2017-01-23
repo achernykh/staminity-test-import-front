@@ -1,0 +1,88 @@
+<application-frame>
+    <div ng-if="!$ctrl.isScreenSmall" class="users">
+        <div class="filters">
+            <div class="title">
+                Все ({{$ctrl.rows.length}})
+                <div class="controls">
+                    <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}};" class="animated"> 
+                        <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
+                    </md-input-container>
+                    <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch" style="vertical-align: top;"> 
+                        <md-icon class="material-icons">search</md-icon> 
+                    </md-button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="selected-items" ng-if="$ctrl.checked.length">
+            {{$ctrl.checked.length}} items selected
+            <div class="controls">
+                <md-button class="md-primary" ng-if="$ctrl.subscriptionsAvailable" ng-click="$ctrl.subscriptions()"> <i class="material-icons">share</i> </md-button>
+                <md-button class="md-primary" ng-click="$ctrl.remove()"> <i class="material-icons">delete</i> </md-button>
+            </div>
+        </div>
+        
+        <table>
+            <tr>
+                <th> 
+                    <md-checkbox ng-model="$ctrl.allChecked" aria-label="all checked"></md-checkbox> 
+                </th>
+                <th ng-click="$ctrl.setOrder('username')">
+                    Cпортсмен
+                    <span ng-if="$ctrl.order.by=='username'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('club')">
+                    Клуб
+                    <span ng-if="$ctrl.order.by=='club'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('tariff')">
+                    Тариф
+                    <span ng-if="$ctrl.order.by=='tariff'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('city')">
+                    Город
+                    <span ng-if="$ctrl.order.by=='city'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+                <th ng-click="$ctrl.setOrder('ageGroup')">
+                    Возрастная группа
+                    <span ng-if="$ctrl.order.by=='ageGroup'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
+                </th>
+            </tr>
+            <tr ng-repeat="athlete in $ctrl.rows = ($ctrl.athletes | filter:$ctrl.search | orderBy:$ctrl.order.by:$ctrl.order.reverse)">
+                <td> <md-checkbox ng-model="athlete.checked" aria-label="user checked"></md-checkbox> </td>
+                <td ui-sref="user({uri: member.userProfile.public.uri})">
+                    <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{athlete | avatar}}; background-size: cover;"></div>
+                    <span>{{athlete | username}}</span>
+                </td>
+                <td>-</td>
+                <td>
+                    <span ng-repeat="tariff in athlete.tariffs">{{tariff.tariffCode}} </span>
+                </td>
+                <td>{{athlete.city}}</td>
+                <td>{{athlete | ageGroup}}</td>
+            </tr>
+        </table>
+    </div>
+    
+    
+    <div ng-if="$ctrl.isScreenSmall" class="users" style="height:100%">
+        <md-list>
+            <md-list-item>
+                <md-icon class="material-icons">search</md-icon>
+                <md-input-container style="margin:0"> 
+                    <input ng-model="$ctrl.search"/> 
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-icon class="material-icons" style="margin-left:0">tune</md-icon>
+                Все ({{$ctrl.rows.length}})
+            </md-list-item>
+            <md-list-item ng-repeat="athlete in $ctrl.rows = ($ctrl.athletes | filter:$ctrl.search)">
+                <div class="md-avatar" style="height: 24px; width: 24px; background: {{athlete | avatar}}; background-size: cover;" ui-sref="user({uri: member.userProfile.public.uri})"></div>
+                <span ui-sref="user({uri: member.userProfile.public.uri})">{{athlete | username}}</span>
+                <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
+            </md-list-item>
+        </md-list>
+    </div>
+</application-frame>
+

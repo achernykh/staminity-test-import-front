@@ -1,24 +1,22 @@
 import Settings from './settings.component';
-import ClubSettings from './clubSettings.component';
 
 let module = angular.module('staminity.settings',[]);
 
     module
-    .component('settings', Settings)
-    .component('clubSettings', ClubSettings);
+    .component('settings', Settings);
     
     module.config(($stateProvider)=>{
         $stateProvider
-            .state('clubSettings', {
-                url: "/settings/:uri",
+            .state('userSettings', {
+                url: "/settings/user/:uri",
                 loginRequired: true,
                 authRequired: ['func1'],
                 resolve: {
                     view: function (ViewService) {
                         return ViewService.getParams('settings')
                     },
-                    club: function (GroupService, $stateParams) {
-                        return GroupService.getProfile('/club/' + $stateParams.uri)
+                    user: function (UserService, $stateParams) {
+                        return UserService.getProfile($stateParams.uri)
                     }
                 },
                 views: {
@@ -35,10 +33,10 @@ let module = angular.module('staminity.settings',[]);
                         }
                     },
                     "application": {
-                        component: "clubSettings",
+                        component: "settings",
                         bindings: {
                             view: 'view.application',
-                            club: 'club'
+                            user: 'user'
                         }
                     }
                 }

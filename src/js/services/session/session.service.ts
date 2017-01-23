@@ -3,6 +3,7 @@ import {IUserProfile} from '../../../../api/user/user.interface';
 export interface ISessionService {
 	getToken():string;
 	getUser():IUserProfile;
+	setUser(value:Object):void;
 	getPermissions():Array<Object>
 	getDisplaySettings():Object;
 	setDisplaySettings(value:Object):void;
@@ -42,6 +43,15 @@ export default class SessionService implements ISessionService {
 			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
+		}
+	}
+	setUser(value:Object):void{
+		try {
+			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
+			Object.assign(data, {'userProfile': value});
+			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
+		} catch (e) {
+			throw new Error(e);
 		}
 	}
 

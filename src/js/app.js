@@ -9,9 +9,11 @@ import './auth'
 import './calendar'
 import './user'
 import './club'
-import './users'
+import './management'
+import './athletes'
 import './requests'
 import './settings'
+import './club-settings'
 import './config/app.templates'
 import './services'
 import './api'
@@ -41,8 +43,10 @@ const requires = [
     'staminity.calendar',
     'staminity.user',
     'staminity.club',
-    'staminity.users',
+    'staminity.management',
+    'staminity.athletes',
     'staminity.requests',
+    'staminity.clubSettings',
     'staminity.settings',
     'staminity.services',
 	'staminity.api',
