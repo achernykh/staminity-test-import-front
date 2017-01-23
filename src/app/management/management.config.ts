@@ -20,8 +20,8 @@ function configure(
         });
 
     // Текст представлений
-    $translateProvider.translations('en', {"user": _translate['en']});
-    $translateProvider.translations('ru', {"user": _translate['ru']});
+    $translateProvider.translations('en', {"users": _translate['en']});
+    $translateProvider.translations('ru', {"users": _translate['ru']});
 
 }
 

@@ -1,5 +1,7 @@
 import { module } from 'angular';
-import moment from 'moment/src/moment';
+import moment from 'moment/src/moment.js';
+import  { ageGroup } from '../../../api/user/user.interface';
+import  { requestType } from '../../../api/group/group.interface';
 
 import { _connection } from '../core/api.constants';
 import BackgroundComponent from './background/background.component';
@@ -11,6 +13,7 @@ import {_user_menu} from "./user-menu/user-menu.tranlsate";
 import {_MEASURE_TRANSLATE} from './measure.translate';
 import LoaderComponent from './loader/loader.component';
 import LoaderService from './loader/loader.service';
+import DialogsService from './dialogs/';
 
 import {
     _measurement,
@@ -20,15 +23,92 @@ import {
     _measurement_pace_unit
 } from './measure.constants';
 
+import './components.scss';
+import GroupService from "../core/group.service";
+import UserService from "../core/user.service";
 
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
 const avatar = () => (user) => `url(${user && user.public && user.public.avatar? image() ('/user/avatar/' + user.public.avatar) : '/assets/avatar/default.png'})`;
 const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
 
-const Share = module('staminity.share', [])
+const userInfo = {
+    bindings: {
+        user: "<"
+    },
+    template: './user-info.component.html'
+};
+
+class GroupActionsController {
+
+    static $inject = ['$scope','dialogs','GroupService','UserService'];
+
+    constructor (
+        private $scope: any,
+        private dialogs: any,
+        private GroupService: GroupService,
+        private UserService: UserService) {
+
+    }
+
+    joinGroup (group) {
+        return this.dialogs.confirm()
+            .then((confirmed) => { if (!confirmed) {throw new Error();}})
+            .then(() => this.GroupService.join(group.groupId, this.UserService.profile.userId));//
+            //.then(() => this.onUpdate());
+    }
+
+    leaveGroup (group) {
+        return this.dialogs.confirm()
+            .then((confirmed) => { if (!confirmed) {throw new Error();}})
+            .then(() => this.GroupService.leave(group.groupId, this.UserService.profile.userId));//
+            //.then(() => this.onUpdate());
+    }
+
+    openMenu ($mdOpenMenu, event) {
+        $mdOpenMenu(event);
+    }
+}
+
+
+
+const groupActions = {
+    bindings: {
+        group: '<',
+        onUpdate: '&'
+    },
+    controller: GroupActionsController,
+    template: './group-actions.component.html'
+};
+
+function onFiles() {
+    return {
+        scope: {
+            onFiles: "<"
+        },
+
+        link (scope, element, attributes) {
+            let onFiles = (event) => (scope) => { scope.onFiles(event.target.files) ;};
+            element.bind("change", (event) => { scope.$apply(onFiles(event)); });
+        }
+    };
+}
+
+function autoFocus() {
+    return {
+        link: {
+            post (scope, element, attr) {
+                element[0].focus();
+            }
+        }
+    };
+}
+
+const Share = module('staminity.share', ['ngMaterial'])
     .filter('avatar', avatar)
     .filter('image', image)
     .filter('username', username)
+    .filter('ageGroup', () => ageGroup)
+    .filter('requestType', () => requestType)
     .filter('measureCalc', ['UserService',(UserService)=> {
         return (data, sport, measure) => {
             if (!!data) {
@@ -71,7 +151,12 @@ const Share = module('staminity.share', [])
     .component('userMenu',UserMenuComponent)
     .component('applicationMenu',ApplicationMenu)
     .service('LoaderService',LoaderService)
+    .service("dialogs", DialogsService)
     .component('loader', LoaderComponent)
+    .component('userInfo', userInfo)
+    .component('groupActions', groupActions)
+    .directive("onFiles", onFiles)
+    .directive('autoFocus', autoFocus)
     .config(['$translateProvider',($translateProvider)=>{
 
         $translateProvider.translations('ru', {appMenu: _application_menu['ru']});

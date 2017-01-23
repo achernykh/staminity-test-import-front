@@ -1,4 +1,5 @@
-import { flatMap, unique, keys } from '../util/util'
+import { flatMap, unique, keys } from '../share/util.js';
+import './management.component.scss';
 
 function equals (x0, x1) {
     return x0 === x1;
@@ -18,7 +19,6 @@ const orderings = {
     coaches: (member) => member.coaches.map(c => c.userId).join(' '),
     athletes: (member) => member.athletes.map(a => a.public.userId).join(' '),
 }
-
 
 class ManagementCtrl {
 
@@ -198,27 +198,22 @@ class ManagementCtrl {
     }
 };
 
+ManagementCtrl.$inject = ['$scope','$mdDialog','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];
 
-const MenagementComponent = {
+
+let ManagementComponent = {
 
     bindings: {
         view: '<',
         club: '<',
         management: '<'
     },
-
     require: {
         app: '^staminityApplication'
     },
-
     controller: ManagementCtrl,
-
-    templateUrl: 'management/management.html',
+    template: './management.component.html',
 
 };
 
-default export MenagementComponent;
-
-
-angular.module('staminity.management', ['ngMaterial', 'staminity.components'])
-    .component('management', management);
+export default ManagementComponent;

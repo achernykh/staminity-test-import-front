@@ -12,11 +12,16 @@ import SettingsUser from './settings-user/settings-user.module';
 import Calendar from './calendar/calendar.module';
 import CalendarItemMeasurement from './calendar-item/calendar-item.module';
 import Activity from './activity/activity.module';
+import Profile from './profile-user/profile-user.module';
+import SettingsClub from './settings-club/settings-club.module';
+import Management from "./management/managment.module";
+import Athletes from "./athletes/athletes.module";
 
 import run from './app.run';
 import configure from './app.config';
 
 import AppComponent from './app.component';
+
 
 const root = module('staminity.application', [
 	'pascalprecht.translate',
@@ -30,7 +35,11 @@ const root = module('staminity.application', [
 	SettingsUser,
 	Calendar,
 	CalendarItemMeasurement,
-	Activity
+	Activity,
+	Profile,
+	SettingsClub,
+	Management,
+	Athletes
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

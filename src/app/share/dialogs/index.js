@@ -1,4 +1,4 @@
-class DialogsService {
+export default class DialogsService {
     
     constructor ($mdDialog) {
         this.$mdDialog = $mdDialog
@@ -7,7 +7,7 @@ class DialogsService {
     uploadPicture () {
         return this.$mdDialog.show({
             controller: UploadPictureDialogController,
-            templateUrl: 'dialogs/upload.html',
+            template: './dialogs/upload.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
@@ -17,7 +17,7 @@ class DialogsService {
         return this.$mdDialog.show({
             controller: ConfirmDialogController,
             locals: { message: message },
-            templateUrl: 'dialogs/confirm.html',
+            template: './dialogs/confirm.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
@@ -27,7 +27,7 @@ class DialogsService {
         return this.$mdDialog.show({
             controller: FriendsController,
             locals: { users: group, title: title },
-            templateUrl: 'dialogs/usersList.html',
+            template: './dialogs/usersList.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
@@ -37,7 +37,7 @@ class DialogsService {
         return this.$mdDialog.show({
             controller: SubscriptionsController,
             locals: { users },
-            templateUrl: 'dialogs/subscriptions.html',
+            template: './dialogs/subscriptions.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
@@ -47,7 +47,7 @@ class DialogsService {
         return this.$mdDialog.show({
             controller: CoachesController,
             locals: { users, coaches },
-            templateUrl: 'dialogs/coaches.html',
+            template: './dialogs/coaches.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
@@ -57,16 +57,15 @@ class DialogsService {
         return this.$mdDialog.show({
             controller: RolesController,
             locals: { roles },
-            templateUrl: 'dialogs/roles.html',
+            template: './dialogs/roles.html',
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
     }
 }
-
+DialogsService.$inject = ['$mdDialog'];
 
 function ConfirmDialogController($scope, $mdDialog, message) {
-    'ngInject';
     
     $scope.message = message
     
@@ -78,10 +77,10 @@ function ConfirmDialogController($scope, $mdDialog, message) {
         $mdDialog.hide(true);
     };
 }
+ConfirmDialogController.$inject = ['$scope','$mdDialog'];
 
 
 function UploadPictureDialogController($scope, $mdDialog) {
-    'ngInject';
     
     var file, src;
     
@@ -107,10 +106,9 @@ function UploadPictureDialogController($scope, $mdDialog) {
         $mdDialog.hide(file);
     };
 }
-
+UploadPictureDialogController.$inject = ['$scope','$mdDialog'];
 
 function FriendsController($scope, $mdDialog, users, title) {
-    'ngInject';
 
     $scope.users = users;
     $scope.title = title;
@@ -119,10 +117,9 @@ function FriendsController($scope, $mdDialog, users, title) {
         $mdDialog.cancel();
     };
 }
+FriendsController.$inject = ['$scope','$mdDialog'];
 
-
-function RolesController ($scope, roles, $mdDialog) {
-    'ngInject';
+function RolesController ($scope, $mdDialog, roles) {
     
     $scope.roles = roles;
     
@@ -134,10 +131,9 @@ function RolesController ($scope, roles, $mdDialog) {
         $mdDialog.hide();
     };
 }
+RolesController.$inject = ['$scope','$mdDialog'];
 
-
-function SubscriptionsController ($scope, users, $mdDialog) {
-    'ngInject';
+function SubscriptionsController ($scope, $mdDialog, users) {
     
     $scope.commit = () => {
         $mdDialog.hide($scope.subscriptions);
@@ -147,15 +143,14 @@ function SubscriptionsController ($scope, users, $mdDialog) {
         $mdDialog.hide();
     };
 }
+SubscriptionsController.$inject = ['$scope','$mdDialog'];
 
-
-function CoachesController ($scope, users, coaches, $mdDialog) {
-    'ngInject';
+function CoachesController ($scope, $mdDialog, users, coaches) {
     
-    $scope.coaches = coaches.map((coach) => ({ 
-        ...coach, 
+    /*$scope.coaches = coaches.map((coach) => ({
+        ...coach,
         checked: users[0].roleMembership.includes(coach) 
-    }));
+    }));*/
     
     $scope.commit = () => {
         $mdDialog.hide($scope.coaches);
@@ -165,7 +160,4 @@ function CoachesController ($scope, users, coaches, $mdDialog) {
         $mdDialog.hide();
     };
 }
-
-
-angular.module('staminity.dialogs', ['ngMaterial'])
-    .service("dialogs", DialogsService);
+CoachesController.$inject = ['$scope','$mdDialog'];

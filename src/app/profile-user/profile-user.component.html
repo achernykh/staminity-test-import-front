@@ -1,0 +1,228 @@
+<application-frame>
+    <div class="profile">
+
+        <div class="profile-card">
+            <div class="profile-card-background">
+                <div class="profile-background" ng-style="{'background-image': 'linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url(' + ('/user/background/' + $ctrl.user.public.background | image) + ')'}"></div>
+
+                <div class="profile-header">
+                    <div layout="row">
+                        <div flex="40" layout-align="end" style="text-align: right; padding-top: 10px;">
+                            <div class="chip" ng-if="$ctrl.user.public.isCoach">Тренер</div>  <br/>
+                            <div class="chip" ng-if="$ctrl.user.public.isPremium"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
+                        </div>
+                        <div flex="20">
+                            <div class="userpic" ng-style="{'background-image': 'url(' + ('/user/avatar/' + $ctrl.user.public.avatar | image) + ')'}" layout-align="center"></div>
+                        </div>
+                        <div flex="40">
+                        </div>
+                    </div>
+                    <div class="name">
+                        {{$ctrl.user | username}}
+                    </div>
+                    <div class="text">
+                        Россия, г. Москва, {{$ctrl.user.public | ageGroup}}
+                    </div>
+                    <div class="text">
+                        {{$ctrl.user.personal.activity.join(', ')}}
+                    </div>
+                    <div>
+
+                        <span class="group-actions">
+                            <md-button ng-click="$ctrl.joinAthletes()" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                                Начать тренироваться
+                            </md-button>
+
+                             <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnCancelJoinGroup">
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                                Заявка отправлена ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.cancelAthletes()">
+                                    Отменить заявку
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+
+                            <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup">
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                                Ваш тренер ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.leaveAthletes()">
+                                    Перестать тренироваться
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+
+                             <md-menu ng-if="$ctrl.user.connections.Athletes.btnCancelLeaveGroup">
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                                Вы отправили заявку на отказ от тренера ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.cancelAthletes()">
+                                    Отменить заявку
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+                        </span>
+
+                        <span class="group-actions">
+                            <md-menu>
+                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)" style="border:1px solid white;">
+                                <i class="material-icons" style="vertical-align: middle;" md-ink-ripple="#FFFFFF">person_add</i> ▾
+                              </md-button>
+                              <md-menu-content>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.joinFollowers()">
+                                    Подписаться
+                                  </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                  <md-button ng-click="$ctrl.joinFriends()">
+                                    Добавить в друзья
+                                  </md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </md-menu>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="profile-fab">
+                    <md-button class="md-fab" ui-sref="userSettings({uri: $ctrl.user.public.uri})">
+                        <md-icon class="material-icons">mode_edit</md-icon>
+                    </md-button>
+                </div>
+            </div>
+
+            <div class="profile-card-text">
+                <div class="title">О себе</div>
+                <div class="text">
+                    <p>{{$ctrl.user.personal.about || "Информация не указана"}}</p>
+                    <p>Вес: 84 кг     Рост: 184 кг</p>
+                </div>
+
+                <div class="title">Связи</div>
+                <div class="text">
+                    <span class="label">Клуб:</span> <md-button class="value md-icon-button">{{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Тренеры:</span> <md-button class="value md-icon-button" ng-click="$ctrl.coaches()">{{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Спортсмены:</span> <md-button class="value md-icon-button" ng-click="$ctrl.athlets()">{{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</md-button>
+                    <br/>
+                    <span class="label">Подписчики:</span> <md-button class="value md-icon-button" ng-click="$ctrl.subscribers()">{{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Подписан:</span> <md-button class="value md-icon-button" ng-click="$ctrl.subscriptions()">{{$ctrl.user.connections.Following.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Друзья:</span> <md-button class="value md-icon-button" ng-click="$ctrl.friends()">{{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</md-button>
+                    <span class="label">Группы:</span> <md-button class="value md-icon-button">-</md-button>
+                </div>
+
+                <div class="title">Контакты</div>
+                <div class="text">
+                    <span class="label">Телефон:</span> <span class="value">+79267891541</span>
+                    <span class="label">Email:</span> <span class="value">ivan.zhukov@gmail.com</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-chart">
+            <div class="title">
+                Личная статистика
+            </div>
+
+            <div class="controls" layout="row">
+                <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period + 1)" style="margin-top: 12px;">
+                    <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_left</md-icon>
+                </md-button>
+                <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period - 1)" style="margin-top: 12px;">
+                    <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_right</md-icon>
+                </md-button>
+                <md-menu>
+                    <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
+                        {{$ctrl.range.periodName($ctrl.period)}} ▾
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="period in [$ctrl.period, $ctrl.period-1, $ctrl.period-2, $ctrl.period-3]">
+                            <md-button style="font-size: 13px;" ng-click="$ctrl.selectPeriod(period)">
+                                {{$ctrl.range.periodName(period)}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu flex layout-align="center" style="text-align:center;">
+                    <md-button style="font-size: 15px;" ng-click="$mdOpenMenu($event)">
+                        {{$ctrl.range.name}} ▾
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="range in $ctrl.ranges">
+                            <md-button ng-click="$ctrl.selectRange(range)">
+                                {{range.name}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu>
+                    <md-button style="font-size: 13px;" ng-click="$mdOpenMenu($event)">
+                        {{$ctrl.valueType.name}} ▾
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="valueType in $ctrl.valueTypes">
+                            <md-button  ng-click="$ctrl.selectValueType(valueType)">
+                                {{valueType.name}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+
+            <div class="chart">
+                <svg ng-attr-width="{{$ctrl.chart.width + 20}}" ng-attr-height="{{$ctrl.chart.height + 25}}">
+                    <g ng-repeat="bar in $ctrl.chart.bars" ng-attr-transform="translate({{$ctrl.chart.x($index)}} 0)">
+                        <rect ng-attr-x="{{-$ctrl.chart.barWidth/2}}" ng-attr-width="{{$ctrl.chart.barWidth}}" ng-attr-y="{{$ctrl.chart.height - bar.height}}" ng-attr-height="{{bar.height}}"/>
+                        <line x1="0" x2="0" y1="150" y2="155"/>
+                        <text x="0" ng-attr-y="{{$ctrl.chart.height + 20}}">{{bar.label}}</text>
+                    </g>
+                    <g ng-repeat="line in $ctrl.chart.lines" ng-attr-transform="translate(0 {{line.y}})">
+                        <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" y1="0" y2="0"/>
+                        <text ng-attr-x="{{$ctrl.chart.width + 15}}">{{line.label}}</text>
+                    </g>
+                    <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" ng-attr-y1="{{$ctrl.chart.height}}" ng-attr-y2="{{$ctrl.chart.height}}"/>
+
+                    <linearGradient id="chart-bars" x1="0" x2="0" y1="0" ng-attr-y2="{{$ctrl.chart.height}}" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#37474f"/>
+                        <stop offset="100%" stop-color="#607d8b"/>
+                    </linearGradient>
+                </svg>
+            </div>
+
+            <div class="table">
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>км</th>
+                        <th>время</th>
+                        <th style="max-width: 90px;" width="90">кол-во трен.</th>
+                    </tr>
+                    <tr ng-repeat="row in $ctrl.chart.tableRows">
+                        <td><i class="material-icons">{{row.icon}}</i></td>
+                        <td>{{row.dist}}</td>
+                        <td>{{row.hrs}}</td>
+                        <td>{{row.count}}</td>
+                    </tr>
+                    <tr class="row-total">
+                        <td><i class="material-icons">{{$ctrl.chart.tableTotal.icon}}</i></td>
+                        <td>{{$ctrl.chart.tableTotal.dist}}</td>
+                        <td>{{$ctrl.chart.tableTotal.hrs}}</td>
+                        <td>{{$ctrl.chart.tableTotal.count}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</application-frame>
+

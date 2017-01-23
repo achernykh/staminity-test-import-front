@@ -1,36 +1,20 @@
-import { IComponentOptions, IComponentController} from 'angular';
+//import { IComponentOptions, IComponentController} from 'angular';
 import moment from 'moment/src/moment.js';
 import { pipe, groupBy, log, map, entries, fold, filter } from '../share/util.js';
 import './profile-user.component.scss';
-import UserService from "../core/user.service";
-import GroupService from "../core/group.service";
-import {IUserProfile} from "../../../api/user/user.interface";
-import {IUserProfileStatistics} from "../../../api/statistics/statistics.interface";
 
-const date = (x) => x[0];
-const type = (x) => x[1];
-const time = (x) => x[2] || 0;
-const count = (x) => x[3] || 0;
+const date = (x) => x[0]
+const type = (x) => x[1]
+const time = (x) => x[2] || 0
+const count = (x) => x[3] || 0
 
 const icons = {
     run: 'directions_run',
     swim: 'pool',
     fitness: 'fitness_center',
     bike: 'directions_bike'
-};
+}
 
-interface IChart {
-    width: number;
-    height: number;
-    barWidth: number;
-    bars: Array<any>;
-    lines: Array<any>;
-    tableRows: Array<any>;
-    tableTotal: {};
-    setData(data: any):void;
-    x (index:any): any;
-    y (value: any): any;
-};
 
 const chart = {
     width: 430,
@@ -43,10 +27,10 @@ const chart = {
     tableTotal: {},
 
     setData (data) {
-        this.maxValue = data.reduce((m, { value }) => Math.max(m, value), 0);
-        this.yScale = this.height / this.maxValue;
-        this.bars = data.map(({ label, value }) => ({ label, value, height: this.height - this.y(value) }));
-        this.lines = [1/4 * this.maxValue | 0, 2/4 * this.maxValue | 0, 3/4 * this.maxValue | 0, 4/4 * this.maxValue | 0].map((value) => ({ label: `${value}`, y: this.y(value) }));
+        this.maxValue = data.reduce((m, { value }) => Math.max(m, value), 0)
+        this.yScale = this.height / this.maxValue
+        this.bars = data.map(({ label, value }) => ({ label, value, height: this.height - this.y(value) }))
+        this.lines = [1/4 * this.maxValue | 0, 2/4 * this.maxValue | 0, 3/4 * this.maxValue | 0, 4/4 * this.maxValue | 0].map((value) => ({ label: `${value}`, y: this.y(value) }))
     },
 
     x (index) {
@@ -58,27 +42,17 @@ const chart = {
     }
 };
 
-class ProfileCtrl implements IComponentController {
 
-    private user: IUserProfile;
-    private summaryStatistics: IUserProfileStatistics;
-    private ranges: Array<any>;
-    private range: any;
-    private period: number;
-    private valueTypes: Array<{}>;
-    private valueType: {};
-    private chart: IChart = chart;
+class ProfileCtrl {
 
-    static $inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','API','SystemMessageService'];
-
-    constructor (
-        private $scope: any,
-        private $mdDialog: any,
-        private dialogs: any,
-        private UserService: UserService,
-        private GroupService: GroupService,
-        private API: any,
-        private message: any) {
+    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, SystemMessageService) {
+        'ngInject';
+        this.$scope = $scope;
+        this.$mdDialog = $mdDialog;
+        this.dialogs = dialogs;
+        this.UserService = UserService;
+        this.GroupService = GroupService;
+        this.message = SystemMessageService;
 
         this.ranges = [{
             name: 'Обзор года',
@@ -104,29 +78,29 @@ class ProfileCtrl implements IComponentController {
         ];
         this.valueType = this.valueTypes[0];
 
-        //this.chart = chart;
+        this.chart = chart;
         this.updateStatistics();
     }
 
     selectRange (range) {
-        this.range = range;
-        this.period = 0;
-        this.updateStatistics();
+        this.range = range
+        this.period = 0
+        this.updateStatistics()
     }
 
     selectValueType (valueType) {
-        this.valueType = valueType;
-        this.updateStatistics();
+        this.valueType = valueType
+        this.updateStatistics()
     }
 
     selectPeriod (period) {
-        this.period = period;
-        this.updateStatistics();
+        this.period = period
+        this.updateStatistics()
     }
 
     updateStatistics () {
         this.UserService.getSummaryStatistics(this.user.userId, this.range.start(this.period),  this.range.end(this.period), this.range.groupBy)
-            .then((summaryStatistics) => this.summaryStatistics = <IUserProfileStatistics>summaryStatistics)
+            .then((summaryStatistics) => this.summaryStatistics = summaryStatistics)
             .then(() => {
                 pipe(
                     filter(type),
@@ -137,7 +111,7 @@ class ProfileCtrl implements IComponentController {
                         value: fold((a, x) => a + this.valueType.f(x), 0) (series)
                     })),
                     (data) => { this.chart.setData(data); }
-                ) (this.summaryStatistics.series);
+                ) (this.summaryStatistics.series)
 
                 this.chart.tableRows = pipe(
                     filter(type),
@@ -149,42 +123,42 @@ class ProfileCtrl implements IComponentController {
                         hrs: fold((a, x) => a + time(x), 0) (series),
                         count: fold((a, x) => a + count(x), 0) (series)
                     }))
-                ) (this.summaryStatistics.series);
+                ) (this.summaryStatistics.series)
 
                 this.chart.tableTotal = {
                     icon: 'functions',
                     dist: '-',
                     hrs: fold((a, x) => a + time(x), 0) (this.summaryStatistics.series),
                     count: fold((a, x) => a + count(x), 0) (this.summaryStatistics.series)
-                };
+                }
             })
-            .then(() => { this.$scope.$apply() });
+            .then(() => { this.$scope.$apply() })
     }
 
     update () {
         return this.UserService.getProfile(this.user.userId)
             .then((user) => { this.user = user })
-            .then(() => { this.$scope.$apply() });
+            .then(() => { this.$scope.$apply() })
     }
 
     coaches () {
-        this.dialogs.group(this.user.connections.Coaches, 'Тренеры');
+        this.dialogs.group(this.user.connections.Coaches, 'Тренеры')
     }
 
     athletes () {
-        this.dialogs.group(this.user.connections.Athletes, 'Спортсмены');
+        this.dialogs.group(this.user.connections.Athletes, 'Спортсмены')
     }
 
     friends () {
-        this.dialogs.group(this.user.connections.Friends, 'Друзья');
+        this.dialogs.group(this.user.connections.Friends, 'Друзья')
     }
 
     subscriptions () {
-        this.dialogs.group(this.user.connections.Following, 'Подписки');
+        this.dialogs.group(this.user.connections.Following, 'Подписки')
     }
 
     subscribers () {
-        this.dialogs.group(this.user.connections.Followers, 'Подписчики');
+        this.dialogs.group(this.user.connections.Followers, 'Подписчики')
     }
 
     joinAthletes (group) {
@@ -209,18 +183,20 @@ class ProfileCtrl implements IComponentController {
     }
 
     openMenu ($mdOpenMenu, event) {
-        $mdOpenMenu(event);
+        $mdOpenMenu(event)
     }
-}
+};
 
-const ProfileComponent: IComponentOptions = {
+ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','SystemMessageService'];
+
+const ProfileComponent = {
     bindings: {
         view: '<',
         user: '<',
         summaryStatistics: '<'
     },
     controller: ProfileCtrl,
-    template: require('./profile-user.component.html') as string
+    template: require('./profile-user.component.html')
 };
 
 export default ProfileComponent;

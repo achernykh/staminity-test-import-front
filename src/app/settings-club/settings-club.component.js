@@ -1,11 +1,12 @@
 import {
 	_NAVBAR, _DELIVERY_METHOD, _LANGUAGE, _UNITS,
 	_PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list
-} from './settings.const.js'
+} from './settings-club.constants'
 
-class ClubSettingsCtrl {
+import './settings-club.component.scss';
+
+class SettingsClubCtrl {
 	constructor($scope, GroupService,ActionMessageService, $locale, $http, dialogs) {
-		'ngInject'
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
 		this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -20,10 +21,11 @@ class ClubSettingsCtrl {
 		this.dialogs = dialogs
 		this._ActionMessageService = ActionMessageService
 		this._$http = $http
-		
+	}
+
+	$onInit(){
 		this.club.public = this.club.public || {}
 		this.club.public.activityTypes = this.club.public.activityTypes || []
-		
 		console.log('clubsettings', this)
 	}
 
@@ -90,16 +92,16 @@ class ClubSettingsCtrl {
 		.then((club) => { this.club = club })
 	}
 }
+SettingsClubCtrl.$inject = ['$scope','GroupService','ActionMessageService','$locale','$http','dialogs'];
 
-
-let ClubSettings = {
+let SettingsClubComponent = {
 	bindings: {
 		view: '<',
 		club: '<'
 	},
 	transclude: false,
-	controller: ClubSettingsCtrl,
-	templateUrl: "settings/clubSettings.html"
+	controller: SettingsClubCtrl,
+	template: "./settings-club.component.html"
 }
 
-export default ClubSettings
+export default SettingsClubComponent

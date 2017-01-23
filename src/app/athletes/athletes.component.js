@@ -1,4 +1,5 @@
-import { flatMap, unique, keys } from '../util/util'
+import { flatMap, unique, keys } from '../share/util.js';
+import './athletes.component.scss';
 
 function equals (x0, x1) {
     return x0 === x1;
@@ -15,6 +16,7 @@ const orderings = {
     city: (user) => user.public.city,
     ageGroup: (user) => user.public.sex
 }
+
 
 class AthletesCtrl {
 
@@ -96,9 +98,9 @@ class AthletesCtrl {
         }
     }
 };
+AthletesCtrl.$inject = ['$scope','$mdDialog','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService']
 
-
-const athletes = {
+const AthletesComponent = {
 
     bindings: {
         view: '<',
@@ -111,10 +113,9 @@ const athletes = {
 
     controller: AthletesCtrl,
 
-    templateUrl: 'athletes/athletes.html',
+    template: './athletes.component.html',
 
 };
 
+export default AthletesComponent;
 
-angular.module('staminity.athletes', ['ngMaterial', 'staminity.components'])
-    .component('athletes', athletes);

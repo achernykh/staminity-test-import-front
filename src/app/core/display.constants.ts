@@ -15,6 +15,29 @@ export class DisplayView  {
 	}
 }
 
+export const DefaultTemplate = (component) => {
+	return {
+		"background": {
+			component: "staminityBackground",
+				bindings: {
+				view: 'view.background'
+			}
+		},
+		"header": {
+			component: 'staminityHeader',
+				bindings: {
+				view: 'view.header'
+			}
+		},
+		"application": {
+			component: component,
+				bindings: {
+				view: 'view.application'
+			}
+		}
+	};
+};
+
 export const _display_view = {
 	// Настройка страницы: Стартовая страница ../welcome
 	welcome: {
@@ -225,6 +248,32 @@ export const _display_view = {
 	},
 	// Настройка страницы: Список пользователей /users
 	users: {
+		background: {
+			style: 'light-grey',
+			toolbar: true,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: true,
+			athletes: true,
+			leftPanel: {
+				url: 'header/appmenutoolbar.html',
+				size: 20
+			},
+			rightPanel: {
+				url: 'header/usertoolbar.html',
+				size: 20
+			}
+		},
+		application: {
+			style: 'app-page',
+			margin: 20,
+			size: 'grow'
+		}
+	},
+	// Настройка страницы: Список пользователей /athletes
+	athletes: {
 		background: {
 			style: 'light-grey',
 			toolbar: true,
