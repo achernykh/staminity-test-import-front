@@ -3,7 +3,7 @@ import { UserMenuSettings } from '../application-menu/application-menu.constants
 import {IUserProfile} from "../../../../api/user/user.interface";
 import SessionService from "../../core/session.service";
 import { Observable} from 'rxjs/Observable';
-import {StateService} from "angular-ui-router/commonjs/ng1";
+import {StateService} from "angular-ui-router";
 
 class UserMenuCtrl implements IComponentController{
 

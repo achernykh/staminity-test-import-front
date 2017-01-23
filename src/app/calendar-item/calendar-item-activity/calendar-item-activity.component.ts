@@ -5,26 +5,16 @@ import UserService from "../../core/user.service";
 import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {IActivityHeader, IActivityDetails} from "../../../../api/activity/activity.interface";
+import ActivityData from '../../activity/activity.viewmodel';
 import './calendar-item-activity.component.scss';
 
-class CalendarItemActivityData {
 
-    constructor(mode, data) {
-
-    }
-    prepare(){
-
-    }
-    compile(){
-
-    }
-}
 //CalendarItemMeasurementData.$inject = ['UserService'];
 
 class CalendarItemActivityCtrl implements IComponentController{
 
-    private itemHeader: IActivityHeader;
-    private itemDetails: IActivityDetails;
+    private header: IActivityHeader;
+    private details: IActivityDetails;
     public data: any;
     public mode: any;
     public item: any;
@@ -43,8 +33,12 @@ class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-        console.log('data=',this, moment().format());
-        this.item = new CalendarItemActivityData( this.mode, this.data);
+        console.log('activity data=',this, moment().format());
+
+        //this.itemDetails = this.ActivityService.getDetails(this.data.activityHeader.activityId)
+        //    .then(response => this.itemDetails = response, error => console.error(error));
+
+        this.item = angular.copy(new ActivityData( this.mode, this.header, this.details));
     }
 
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.
@@ -80,7 +74,8 @@ class CalendarItemActivityCtrl implements IComponentController{
 
 const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
-        data: '=',
+        header: '=',
+        details: '=',
         mode: '@',
         onCancel: '&',
         onAnswer: '&'

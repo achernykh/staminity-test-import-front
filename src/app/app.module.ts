@@ -1,6 +1,4 @@
 import {module, bootstrap} from 'angular';
-//import {layoutModule} from '../js/layout/index.js'
-//import * as translate from 'angular-translate/dist';
 import * as ngMaterial from 'angular-material';
 import 'angular-translate/dist/angular-translate.js';
 import uiRouter from 'angular-ui-router';

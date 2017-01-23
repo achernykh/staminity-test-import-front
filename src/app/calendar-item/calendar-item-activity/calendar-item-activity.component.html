@@ -22,15 +22,16 @@
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
-                <h2 translate="measurement.toolbar.title"></h2>
+                <h2 translate="{{$ctrl.item.sport}}"></h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
-                    <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+                    <md-tooltip md-direction="left">{{'measurement.toolbar.attach' | translate}}</md-tooltip>
                     <md-icon class="material-icons" aria-label="Close dialog">attach_file</md-icon>
                 </md-button>
-            </div>
-            <div class="md-toolbar-tools" style="max-height: 48px; padding-left: 60px">
-                <div class="md-button">Бег: Длинные интервалы</div>
+                <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                    <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+                    <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+                </md-button>
             </div>
         </md-toolbar>
         <section flex="auto" class="overview-content" layout="column"
@@ -73,41 +74,41 @@
         </section>
     </section>
 
-    <section class="details" flex="none">
-        <md-toolbar class="md-hue-3">
-            <div class="md-toolbar-tools">
-                <h2 translate="measurement.toolbar.title"></h2>
+    <section class="details" flex="none" layout="column">
+        <md-toolbar flex="none" class="md-hue-2">
+            <div class="md-toolbar-tools" hide-gt-sm>
+                <h2 translate="Тренировка"></h2>
+                <span flex></span>
             </div>
         </md-toolbar>
-        <md-content>
-            <md-tabs class="md-primary md-hue-3" md-selected="'1'">
-                <md-tab id="tab1">
-                    <md-tab-label>Обзор</md-tab-label>
-                    <md-tab-body>
+        <md-content flex="auto" class="md-hue-2" layout="column">
+            <md-tabs flex layout="column" layout-fill
+                     class="md-primary md-hue-2" md-selected="'1'">
+                <md-tab id="tab1" flex layout="column" label="Обзор" style="background:green">
+                    <md-tab-content style="background:blue">
                         View for Item #1 <br/>
                         data.selectedIndex = 0;
-                    </md-tab-body>
+                    </md-tab-content>
                 </md-tab>
-                <md-tab id="tab2" ng-disabled="data.secondLocked">
-                    <md-tab-label>Детали</md-tab-label>
-                    <md-tab-body>
-                        View for Item #2 <br/>
-                        data.selectedIndex = 1;
-                    </md-tab-body>
+                <md-tab id="tab2" label="Детали" layout-fill>
+                    <md-tab-content layout-fill>
+                        <measures-avg-table class="measures-avg-table"
+                                            measures="$ctrl.item.calcMeasures"></measures-avg-table>
+                        <measure-main-button class="measure-main-button"
+                                             measures="$ctrl.item.calcMeasures"></measure-main-button>
+                    </md-tab-content>
                 </md-tab>
-                <md-tab id="tab3">
-                    <md-tab-label>Чат</md-tab-label>
-                    <md-tab-body>
+                <md-tab id="tab3" label="Чат">
+                    <md-tab-content>
                         View for Item #3 <br/>
                         data.selectedIndex = 2;
-                    </md-tab-body>
+                    </md-tab-content>
                 </md-tab>
-                <md-tab id="tab4">
-                    <md-tab-label>Зоны</md-tab-label>
-                    <md-tab-body>
+                <md-tab id="tab4" label="Зоны">
+                    <md-tab-content>
                         View for Item #3 <br/>
                         data.selectedIndex = 2;
-                    </md-tab-body>
+                    </md-tab-content>
                 </md-tab>
             </md-tabs>
         </md-content>

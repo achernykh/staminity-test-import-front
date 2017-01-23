@@ -13,6 +13,7 @@ md-dialog#activity{
 calendar-item-activity {
 
   max-height: 100%;
+  overflow: none;
   background-color: $grey-50;
 
   .md-toolbar-tools md-menu:first-child {
@@ -39,8 +40,13 @@ calendar-item-activity {
     min-width: 100%;
 
     @media (min-width: 960px) {
-      max-width: 400px;
+      max-width: 450px;
       min-width: 360px;
+
+      md-toolbar {
+        min-height: 16px;
+      }
+
     }
 
     background: $grey-100;
@@ -94,6 +100,8 @@ calendar-item-activity {
   .md-button.md-nav-theme.md-accent {
     color: white;
   }
+
+  md-nav-bar
 
   md-nav-bar.md-nav-theme .md-button._md-nav-button.md-unselected {
     color: rgba(255,255,255,0.7);
