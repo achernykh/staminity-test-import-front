@@ -21,7 +21,7 @@
                         {{$ctrl.user | username}}
                     </div>
                     <div class="text">
-                        Россия, г. Москва, M30-34
+                        Россия, г. Москва, {{$ctrl.user.public | ageGroup}}
                     </div>
                     <div class="text">
                         {{$ctrl.user.personal.activity.join(', ')}}

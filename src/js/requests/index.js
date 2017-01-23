@@ -1,12 +1,3 @@
-const users = [
-  { userpic: '', username: 'Черных Александр' },
-];
-
-const types = [
-  'Запрос от спортсмена тренеру'
-];
-
-
 class RequestsCtrl {
 
     constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, API, dialogs, SystemMessageService) {
@@ -76,18 +67,5 @@ const requests = {
 
 }
 
-
-const requestType = () => (request) => {
-  if (request.groupProfile.groupCode == "ClubMembers") {
-    return 'Запрос на вступление в клуб'
-  } else {
-    let initiator = 'тренера'
-    let receiver = 'спортсмену'
-    return `Запрос от ${initiator} ${receiver}`
-  }
-}
-
-
 angular.module('staminity.requests', ['ngMaterial', 'staminity.components'])
     .component('requests', requests)
-    .filter('requestType', requestType)

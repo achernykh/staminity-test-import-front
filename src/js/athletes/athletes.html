@@ -59,7 +59,7 @@
                     <span ng-repeat="tariff in athlete.tariffs">{{tariff.tariffCode}} </span>
                 </td>
                 <td>{{athlete.city}}</td>
-                <td>{{athlete.sex}}</td>
+                <td>{{athlete | ageGroup}}</td>
             </tr>
         </table>
     </div>

@@ -94,13 +94,13 @@
                     {{member.userProfile | username}}
                 </td>
                 <td>{{member.roleMembership.join(' ')}}</td>
-                <td><span ng-repeat="coach in member.coaches">{{$ctrl.member(coach.userId).userProfile | username}} </span></td>
+                <td><span ng-repeat="coach in member.coaches">{{$ctrl.member(coach).userProfile | username}} </span></td>
                 <td> 
                     <span ng-repeat="tariff in member.tariffs">{{tariff.tariffCode}} </span>
                 </td>
                 <td>{{member.athletes}}</td>
                 <td>{{member.userProfile.city}}</td>
-                <td>{{member.userProfile.sex}}</td>
+                <td>{{member.userProfile | ageGroup}}</td>
             </tr>
         </table>
     </div>
