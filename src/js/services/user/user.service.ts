@@ -29,15 +29,7 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     getProfile(key:string|number):Promise<IUserProfile> {
-        let request = new GetRequest();
-        
-        if (typeof key === 'string') {
-            request.requestData.uri = key
-        } else {
-            request.requestData.userId = key
-        }
-        
-        return this.SocketService.send(request)
+        return this.SocketService.send(new GetRequest(key));
     }
 
     /**
