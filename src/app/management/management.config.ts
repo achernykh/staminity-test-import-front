@@ -1,6 +1,7 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './management.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
+import GroupService from "../core/group.service";
 
 function configure(
     $stateProvider:StateProvider,
@@ -13,8 +14,9 @@ function configure(
             resolve: {
                 view: () => new DisplayView('users'),
                 club: ['GroupService','$stateParams',
-                    (GroupService,$stateParams) => GroupService.getProfile($stateParams.uri)],
-                management: ['GroupService','club', (GroupService, club) => GroupService.getManagementProfile(club.groupId)]
+                    (GroupService: GroupService,$stateParams) => GroupService.getProfile($stateParams.uri, 'club')],
+                management: ['GroupService','club',
+                    (GroupService: GroupService, club) => GroupService.getManagementProfile(club.groupId)]
             },
             views: DefaultTemplate('management')
         });

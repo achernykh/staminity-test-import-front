@@ -14,7 +14,7 @@ function configure(
                 view: () => new DisplayView('club'),
                 userId: ['SessionService', (SessionService) => SessionService.getUser().userId],
                 club: ['GroupService','$stateParams',
-                    (GroupService,$stateParams) => GroupService.getProfile($stateParams.uri)]
+                    (GroupService,$stateParams) => GroupService.getProfile($stateParams.uri,'club')]
             },
             views: DefaultTemplate('club')
         });

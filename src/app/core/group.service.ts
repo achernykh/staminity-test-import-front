@@ -33,8 +33,8 @@ export default class GroupService {
      * @param uri
      * @returns {Promise<IGroupProfile>}
      */
-    getProfile(uri:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new GetRequest(uri));
+    getProfile(id:string|number, type?:string):Promise<IGroupProfile> {
+        return this.SocketService.send(new GetRequest(id,type));
     }
 
     /**
