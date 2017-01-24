@@ -1,15 +1,21 @@
 @import '../../../sass/color.scss';
 
-.measures-avg-table {
+.measure-split-table {
 
   table.md-table:not(.md-row-select) td.md-cell:first-child,
   table.md-table:not(.md-row-select) th.md-column:first-child {
     padding-left: 0px !important;
   }
 
+  table.md-table.md-row-select td.md-cell:first-child,
+  table.md-table.md-row-select th.md-column:first-child {
+    padding-left: 0px !important;
+  }
+
+
   table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2),
   table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
-    padding-right: 26px;
+    padding-right: 56px;
   }
 
   table.md-table tbody.md-body > tr.md-row, table.md-table tfoot.md-foot > tr.md-row {

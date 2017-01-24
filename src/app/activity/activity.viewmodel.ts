@@ -1,20 +1,30 @@
-import {IActivityHeader, IActivityDetails,IActivityIntervalW, ICalcMeasures} from "../../../api/activity/activity.interface";
+import {
+	IActivityHeader,
+	IActivityDetails,
+	IActivityIntervalW,
+	IActivityIntervalL,
+	IActivityMeasure,
+	ICalcMeasures} from "../../../api/activity/activity.interface";
 import moment from 'moment/src/moment.js';
 
 class ActivityDatasource {
 
 	private intervalW: IActivityIntervalW;
-	private calcMeasures: ICalcMeasures;
-	//private measureMain: Array<>;
+	private intervalL: Array<IActivityIntervalL>;
+	private calcMeasures: Array<IActivityMeasure> = [];
 
 	constructor(
 		private method,
 		private header:IActivityHeader,
 		private details:IActivityDetails) {
 
-		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(interval => interval.type === "W")[0];
-		this.calcMeasures = this.intervalW.calcMeasures;
-		//this.measureMain = [this.calcMeasures.elevationGain, this.calcMeasures.elevationLoss];
+		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
+		this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
+
+		Object.keys(this.intervalW.calcMeasures)
+			.map((key, index) => this.calcMeasures.push(Object.assign(this.intervalW.calcMeasures[key],{code: key})));
+
+		console.info('Datasource',this.intervalL);
 
 	}
 
@@ -132,10 +142,6 @@ class ActivityDatasource {
 					return ((calc[measure].hasOwnProperty('avgValue')) &&
 						{ measure : measure, value: <number>calc[measure].avgValue}) || {[measure]: null, value: null};
 				}}).filter(measure => !!measure && !!measure.value);
-	}
-
-	getMeasuresMain() {
-		return [this.calcMeasures.elevationGain, this.calcMeasures.elevationLoss];
 	}
 
 }

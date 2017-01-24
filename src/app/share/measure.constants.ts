@@ -95,6 +95,14 @@ export const _measurement = {
     heartRate: {
         unit: "bpm",
         fixed: 0
+    },
+    elevationGain: {
+        unit: "meter",
+        fixed: 0
+    },
+    elevationLoss: {
+        unit: "meter",
+        fixed: 0
     }
 };
 

@@ -8,7 +8,17 @@
 		min-height: 28px;
 		text-align: left;
 		min-width: unset;
-		background: $grey-100;
-
+		background: $grey-200;
+		text-transform: none;
+		font-weight: normal;
 	};
+
+	button span:last-child {
+		text-transform: none;
+		color: rgba(0,0,0,0.34);
+	}
+
+	.md-subheader {
+		font-size: 12px;
+	}
 }

@@ -1,12 +1,21 @@
 export const _MEASURE_TRANSLATE = {
 	ru: {
+		// Единицы измерения
 		km: 'км',
 		meter: 'м',
 		mile: 'мл',
 		yard: 'ярд',
 		minpkm: 'мин/км',
 		minp100m: 'мин/100м',
-		bpm: 'чсс'
+		bpm: 'чсс',
+
+		// Измерения
+		heartRate: 'Пульс',
+		speed: 'Темп',
+		cadence: 'Каденс',
+		elevationGain: 'Набор высоты',
+		elevationLoss: 'Сброс высоты'
+
 	},
 	en: {
 		calendar: 'Calendar',

@@ -1,8 +1,10 @@
 import {module, bootstrap} from 'angular';
 import * as ngMaterial from 'angular-material';
+import * as ngMaterialTable from 'angular-material-data-table';
 import 'angular-translate/dist/angular-translate.js';
 import uiRouter from 'angular-ui-router';
 import 'angular-material/angular-material.scss';
+import 'angular-material-data-table/dist/md-data-table.css';
 
 import run from './app.run';
 import configure from './app.config';
@@ -23,10 +25,11 @@ import Athletes from "./athletes/athletes.module";
 import Club from "./club/club.module";
 
 const root = module('staminity.application', [
-	'pascalprecht.translate',
-	//Translate,
+	'pascalprecht.translate', // translate
 	ngMaterial,
 	uiRouter,
+	ngMaterialTable,
+
 	Core,
 	Share,
 	Auth,

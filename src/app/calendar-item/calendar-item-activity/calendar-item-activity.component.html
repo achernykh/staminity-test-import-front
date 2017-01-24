@@ -69,7 +69,11 @@
                              ng-bind="showTable ? 'expand_more': 'expand_less'"></md-icon>
                 </md-button>
             </header>
-            <div flex="auto" class="table" ng-if="showTable">Таблица</div>
+            <div flex="auto" class="table" ng-if="showTable">
+                <measure-split-table class="measure-split-table"
+                                     splits="$ctrl.item.intervalL"
+                                     sport="$ctrl.item.activityType"></measure-split-table>
+            </div>
 
         </section>
     </section>
@@ -84,18 +88,21 @@
         <md-content flex="auto" class="md-hue-2" layout="column">
             <md-tabs flex layout="column" layout-fill
                      class="md-primary md-hue-2" md-selected="'1'">
-                <md-tab id="tab1" flex layout="column" label="Обзор" style="background:green">
-                    <md-tab-content style="background:blue">
+                <md-tab id="tab1" flex layout="column" label="Обзор">
+                    <md-tab-content>
                         View for Item #1 <br/>
                         data.selectedIndex = 0;
                     </md-tab-content>
                 </md-tab>
-                <md-tab id="tab2" label="Детали" layout-fill>
+                <md-tab id="tab2" label="Детали" layout-fill layout-wrap>
                     <md-tab-content layout-fill>
                         <measures-avg-table class="measures-avg-table"
-                                            measures="$ctrl.item.calcMeasures"></measures-avg-table>
+                                            measures="$ctrl.item.calcMeasures"
+                                            sport="$ctrl.item.activityType">
+                        </measures-avg-table>
                         <measure-main-button class="measure-main-button"
-                                             measures="$ctrl.item.calcMeasures"></measure-main-button>
+                                             measures="$ctrl.item.calcMeasures"
+                                             sport="$ctrl.item.activityType"></measure-main-button>
                     </md-tab-content>
                 </md-tab>
                 <md-tab id="tab3" label="Чат">

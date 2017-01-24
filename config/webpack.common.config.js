@@ -21,7 +21,8 @@ module.exports = {
             'moment',
             'angular-scroll',
             'satellizer',
-            'rxjs'
+            'rxjs',
+            'angular-material-data-table'
             //'angular-websocket'
             //'oclazyload'
         ],

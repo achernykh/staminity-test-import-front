@@ -1,0 +1,33 @@
+<md-table-container>
+    <md-list-item>
+        <table md-table
+               md-row-select="$ctrl.options.rowSelection"
+               multiple="{{$ctrl.options.multiSelect}}"
+               ng-model="$ctrl.selected">
+            <thead ng-if="!$ctrl.options.decapitate" md-head>
+            <tr md-row>
+                <th md-column><span>#</span></th>
+                <th md-column md-numeric md-order-by="calcMeasures.movingDuration.maxValue"><span>Время</span></th>
+                <th md-column md-numeric md-order-by="calcMeasures.distance.maxValue"><span>Дистанция</span></th>
+                <th md-column md-numeric md-order-by="calcMeasures.heartRate.avgValue"><span>Пульс</span></th>
+                <th md-column md-numeric md-order-by="calcMeasures.speed.avgValue"><span>Темп</span></th>
+                <th md-column md-numeric md-order-by="calcMeasures.elevationGain.avgValue"><span>Набор</span></th>
+                <th md-column md-numeric md-order-by="calcMeasures.cadence.avgValue"><span>Каденс</span></th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row
+                md-select="split"
+                ng-repeat="split in $ctrl.splits">
+                <td md-cell>{{$index+1}}</td>
+                <td md-cell>{{split.calcMeasures.movingDuration.maxValue | duration}}</td>
+                <td md-cell>{{split.calcMeasures.distance.maxValue | measureCalc:$ctrl.sport:'distance'}}</td>
+                <td md-cell>{{split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</td>
+                <td md-cell>{{split.calcMeasures.speed.avgValue | measureCalc:$ctrl.sport:'speed'}}</td>
+                <td md-cell>{{split.calcMeasures.elevationGain.avgValue | measureCalc:$ctrl.sport:'elevationGain'}}</td>
+                <td md-cell>{{split.calcMeasures.cadence.avgValue | measureCalc:$ctrl.sport:'cadence'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-list-item>
+</md-table-container>
