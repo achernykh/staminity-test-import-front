@@ -4,16 +4,16 @@ md-dialog#activity{
   background: black;
 
   @media (min-width: 960px) {
-      min-height: 95vh;
-      min-width: 95vw;
+      max-height: 95vh;
+      max-width: 95vw;
   }
 
 }
 
 calendar-item-activity {
 
-  max-height: 100%;
-  overflow: none;
+  height: 100vh;
+  overflow: hidden;
   background-color: $grey-50;
 
   .md-toolbar-tools md-menu:first-child {
@@ -33,15 +33,18 @@ calendar-item-activity {
 
   section.overview {
     background: white;
+    min-width: 500px;
   }
 
   section.details {
 
     min-width: 100%;
+    min-height: 100%;
 
     @media (min-width: 960px) {
       max-width: 470px;
       min-width: 470px;
+      min-height: 640px;
 
       md-toolbar {
         min-height: 16px;
@@ -68,6 +71,18 @@ calendar-item-activity {
 
     }
 
+  }
+
+  div.map {
+    background-color: grey;
+  }
+
+  div.chart {
+    background-color: grey;
+  }
+
+  measure-split-table {
+    background-color: grey;
   }
 
   div.map, div.chart {
