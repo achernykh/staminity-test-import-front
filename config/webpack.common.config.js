@@ -22,7 +22,8 @@ module.exports = {
             'angular-scroll',
             'satellizer',
             'rxjs',
-            'angular-material-data-table'
+            'angular-material-data-table',
+            'smdatetimerangepicker'
             //'angular-websocket'
             //'oclazyload'
         ],

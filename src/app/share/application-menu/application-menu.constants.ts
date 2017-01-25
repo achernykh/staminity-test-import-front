@@ -4,7 +4,7 @@ export const UserMenuSettings = [
     {
         icon: "account_circle",
         name: "userMenu.profile",
-        link: "profile"
+        link: "user"
     },
     {
         icon: "settings",
