@@ -4,15 +4,15 @@ import {
     IBulkGroupMembership } from '../../../api/group/group.interface';
 
 import {
-    GetRequest,
-    PutRequest,
+    GetProfileRequest,
+    PutProfileRequest,
     JoinRequest,
     LeaveRequest,
     GetMembershipRequest,
-    ProcessMembershipRequest,
     ProcessGroupMembershipRequest,
-    GetGroupManagementProfile,
-    PutGroupMembershipBulk } from '../../../api/group/group.request';
+    GetMembersListRequest,
+    GetGroupManagementProfileRequest,
+    PutGroupMembershipBulkRequest } from '../../../api/group/group.request';
 
 import {ISocketService} from './socket.service';
 import {PostFile, IRESTService} from './rest.service';
@@ -34,7 +34,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     getProfile(id:string|number, type?:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new GetRequest(id,type));
+        return this.SocketService.send(new GetProfileRequest(id,type));
     }
 
     /**
@@ -43,17 +43,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     putProfile(profile:IGroupProfile):Promise<any>{
-        return this.SocketService.send(new PutRequest(profile));
-    }
-
-    /**
-     * Реестр запросов
-     * @param offset
-     * @param limit
-     * @returns {Promise<IGroupProfile>}
-     */
-    getMembershipRequest(offset:number, limit: number):Promise<IGroupProfile> {
-        return this.SocketService.send(new GetMembershipRequest(offset, limit));
+        return this.SocketService.send(new PutProfileRequest(profile));
     }
 
     /**
@@ -75,23 +65,15 @@ export default class GroupService {
     }
 
     /**
-     * Запрос информации о членах клуба для управления тарифами и ролями
-     * @param groupId
-     * @returns {Promise<any>}
-     */
-    getManagementProfile(groupId: number):Promise<IGroupManagementProfile>{
-        return this.SocketService.send(new GetGroupManagementProfile(groupId));
-    }
-
-    /**
-     * Принять/отклонить/отменить запрос
-     * @param id
+     * Получение реестра запросов
+     * @param offset
+     * @param limit
      * @returns {Promise<IGroupProfile>}
      */
-    processMembershipRequest(requestId:number, action:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new ProcessMembershipRequest(requestId, action));
+    getMembershipRequest(offset:number, limit: number):Promise<IGroupProfile> {
+        return this.SocketService.send(new GetMembershipRequest(offset, limit));
     }
-    
+
     /**
      * Принять/отклонить/отменить запрос
      * @param groupId
@@ -102,13 +84,32 @@ export default class GroupService {
     }
 
     /**
+     * Принять/отклонить/отменить запрос
+     * @param groupId
+     * @returns {Promise<IGroupProfile>}
+     */
+    getMembershipList(groupId:number):Promise<IGroupProfile> {
+        return this.SocketService.send(new GetMembersListRequest(groupId));
+    }
+
+    /**
+     * Запрос информации о членах клуба для управления тарифами и ролями
+     * @param groupId
+     * @param type - group | club | coach
+     * @returns {Promise<any>}
+     */
+    getManagementProfile(groupId: number, type: string):Promise<IGroupManagementProfile>{
+        return this.SocketService.send(new GetGroupManagementProfileRequest(groupId, type));
+    }
+
+    /**
      * Массовая смена члентсва в группах для списка пользователей
      * @param membership
      * @param users
      * @returns {Promise<any>}
      */
-    putGroupMembershipBulk(membership: Array<IBulkGroupMembership>, users: Array<number>):Promise<any> {
-        return this.SocketService.send(new PutGroupMembershipBulk(membership, users));
+    putGroupMembershipBulk(groupId: number, membership: Array<IBulkGroupMembership>, users: Array<number>):Promise<any> {
+        return this.SocketService.send(new PutGroupMembershipBulkRequest(groupId, membership, users));
     }
 
     /**

@@ -16,7 +16,7 @@ function configure(
                 club: ['GroupService','$stateParams',
                     (GroupService: GroupService,$stateParams) => GroupService.getProfile($stateParams.uri, 'club')],
                 management: ['GroupService','club',
-                    (GroupService: GroupService, club) => GroupService.getManagementProfile(club.groupId)]
+                    (GroupService: GroupService, club) => GroupService.getManagementProfile(club.groupId,'club')]
             },
             views: DefaultTemplate('management')
         });
