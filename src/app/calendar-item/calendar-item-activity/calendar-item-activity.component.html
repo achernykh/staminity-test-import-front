@@ -1,5 +1,7 @@
-<div flex layout="row" layout-no-wrap>
-    <section layout="column" class="overview" flex="auto" hide show-gt-sm>
+
+    <section class="overview" ng-if="true"
+             flex="auto" layout="column" hide show-gt-sm
+             style="background-color: greenyellow">
         <md-toolbar flex="none" class="md-hue-3">
             <div class="md-toolbar-tools">
                 <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
@@ -69,16 +71,15 @@
                              ng-bind="showTable ? 'expand_more': 'expand_less'"></md-icon>
                 </md-button>
             </header>
-            <div flex="auto" class="table" ng-if="showTable">
-                <measure-split-table class="measure-split-table"
-                                     splits="$ctrl.item.intervalL"
-                                     sport="$ctrl.item.activityType"></measure-split-table>
-            </div>
+            <measure-split-table flex="auto" layout-fill ng-if="showTable"
+                                 class="chart measure-split-table"
+                                 splits="$ctrl.item.intervalL"
+                                 sport="$ctrl.item.activityType"></measure-split-table>
 
         </section>
     </section>
 
-    <section class="details" flex="none" layout="column">
+    <section class="details" flex="none" layout-fill layout="column" style="background-color: indianred">
         <md-toolbar flex="none" class="md-hue-2">
             <div class="md-toolbar-tools" hide-gt-sm>
                 <h2 translate="Тренировка"></h2>
@@ -98,8 +99,8 @@
                     <md-tab-content layout-fill>
                         <measures-avg-table class="measures-avg-table"
                                             measures="$ctrl.item.calcMeasures"
-                                            sport="$ctrl.item.activityType">
-                        </measures-avg-table>
+                                            sport="$ctrl.item.activityType"></measures-avg-table>
+
                         <measure-main-button class="measure-main-button"
                                              measures="$ctrl.item.calcMeasures"
                                              sport="$ctrl.item.activityType"></measure-main-button>
@@ -119,9 +120,8 @@
                 </md-tab>
             </md-tabs>
         </md-content>
-
     </section>
-</div>
+
 
 
 

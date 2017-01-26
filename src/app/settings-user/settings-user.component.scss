@@ -18,6 +18,32 @@ settings-user section.content {
   }
 }
 
+settings-user md-datepicker {
+
+  .md-datepicker-input {
+    max-width: none;
+  }
+
+  div.md-datepicker-input-container {
+    width: 100% !important;
+  }
+
+  /*._md-datepicker-floating-label._md-datepicker-has-calendar-icon > label:not(.md-no-float):not(.md-container-ignore) {
+    right: 0px;
+  }
+
+  .md-button.md-icon-button {
+    display: none;
+  }
+  div.md-datepicker-input-container {
+    width: 100%;
+    margin-left: 0px;
+  }
+  input.md-datepicker-input {
+    max-width: none;
+  }*/
+}
+
 nav.settings-navbar md-content {
   background: none;
   padding-left: 8px;

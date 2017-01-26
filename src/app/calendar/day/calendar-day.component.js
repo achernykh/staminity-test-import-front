@@ -42,7 +42,7 @@ class CalendarDayCtrl {
                 template:
                     `<md-dialog id="activity" aria-label="Activity">
                         <calendar-item-activity
-                                flex layout="column" class="calendar-item-activity"
+                                layout="row" class="calendar-item-activity"
                                 header="$ctrl.header.activityHeader" details="$ctrl.details" mode="put"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-activity>

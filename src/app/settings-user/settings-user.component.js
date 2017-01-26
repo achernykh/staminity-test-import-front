@@ -7,12 +7,29 @@ import {
 
 import './settings-user.component.scss';
 
-//import 'rxjs/add/operator/subscribe';
+class SettingsUserModel {
+
+    // deep copy test and initial data
+
+    constructor(user) {
+        Object.assign(this, angular.merge({
+                public: {},
+                personal: {},
+                display: {
+                    units: null,
+                    firstDayOfWeek: null
+                }
+            }, user)
+        );
+
+        this.personal.birthday = (this.personal.hasOwnProperty('birthday') && new Date(this.personal.birthday)) || null;
+    }
+}
 
 class SettingsUserCtrl {
 
-    constructor(UserService,AuthService,SystemMessageService,ActionMessageService,$http,$mdDialog, $auth, SyncAdaptorService) {
-        console.log('SettingsCtrl constructor=',this)
+    constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs) {
+        console.log('SettingsCtrl constructor=', this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
         this._DELIVERY_METHOD = _DELIVERY_METHOD
@@ -29,6 +46,7 @@ class SettingsUserCtrl {
         this._$mdDialog = $mdDialog
         this.$auth = $auth
         this.SyncAdaptorService = SyncAdaptorService;
+        this.dialogs = dialogs;
         this.adaptors = [];
         //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
         //this.dialogs = dialogs
@@ -39,16 +57,8 @@ class SettingsUserCtrl {
     }
 
     $onInit() {
-        // deep copy test and initial data
-        this.user = angular.merge({
-            public: {},
-            personal: {},
-            display: {
-                units: null,
-                firstDayOfWeek: null
-            }
-        }, this.user);
-
+        // deep copy & some transormation
+        this.user = new SettingsUserModel(this.user);
         /**
          *
          * @type {any|Array|U[]}
@@ -56,70 +66,18 @@ class SettingsUserCtrl {
         this.adaptors = this._SYNC_ADAPTORS.map((adaptor) => {
             let settings = this.user.externalDataProviders.filter((a) => a.provider === adaptor.provider)[0];
             adaptor = (settings && settings) || adaptor;
-            adaptor['status'] = syncStatus(adaptor.lastSync,adaptor.state);
+            adaptor['status'] = syncStatus(adaptor.lastSync, adaptor.state);
             adaptor['startDate'] = (adaptor.hasOwnProperty('startDate') && new Date(adaptor.startDate)) || new Date();
             return adaptor;
         });
-
-        this.user = Object.assign(this.user,
-            {
-            billing: {
-                tariffs: [
-                    {
-                        code: 'Базовый',
-                        status: '',
-                        enabled: true,
-                        editable: false
-                    },
-                    {
-                        code: 'Премиум',
-                        status: 'Подкючен до 30.12.16',
-                        enabled: true,
-                        editable: true
-                    },
-                    {
-                        code: 'Тренер',
-                        status: 'Подкоючен за счет клуба ЦПС ТЕМП',
-                        enabled: true,
-                        editable: false
-                    },
-                    {
-                        code: 'Клуб',
-                        status: 'Пробный период до 30.01.17',
-                        enabled: false,
-                        editable: false
-                    }
-                ],
-                bills: [
-                    {
-                        amount: '106',
-                        start: new Date(),
-                        end: new Date(),
-                        status: 'new'
-                    },
-                    {
-                        amount: '1072',
-                        start: new Date(),
-                        end: new Date(),
-                        status: 'ready'
-                    },
-                    {
-                        amount: '360',
-                        start: new Date(),
-                        end: new Date(),
-                        status: 'complete'
-                    }
-                ]
-            }
-        })
     }
 
-    changeUnit(units){
+    changeUnit(units) {
         this.user.display.units = units;
         this.displayForm.$dirty = true;
     }
 
-    changefirstDayOfWeek(number){
+    changefirstDayOfWeek(number) {
         this.user.display.firstDayOfWeek = number;
         this.displayForm.$dirty = true;
     }
@@ -236,17 +194,17 @@ class SettingsUserCtrl {
     showProviderSettings(ev, adaptor) {
 
         /* Подключение стравы
-        this.$auth.link('strava',{userId: this.user.userId})
-            .then(function(response) {
-                // You have successfully linked an account.
-                console.log('auth success', response)
-            })
-            .catch(function(response) {
-                // Handle errors here.
-                console.log('auth error', response)
-            });*/
+         this.$auth.link('strava',{userId: this.user.userId})
+         .then(function(response) {
+         // You have successfully linked an account.
+         console.log('auth success', response)
+         })
+         .catch(function(response) {
+         // Handle errors here.
+         console.log('auth error', response)
+         });*/
 
-        if(adaptor.status.switch) {
+        if (adaptor.status.switch) {
             this._$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
@@ -272,7 +230,7 @@ class SettingsUserCtrl {
                 })
         }
 
-        if(!adaptor.status.switch) {
+        if (!adaptor.status.switch) {
             var confirm = this._$mdDialog.confirm()
                 .title('Вы хотите отключить синхронизацию?')
                 .textContent('После отключения данные из внешнего источника останутся достыпными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации')
@@ -284,8 +242,8 @@ class SettingsUserCtrl {
             this._$mdDialog.show(confirm)
                 .then(() => this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
                     moment(adaptor.startDate).format('YYYY-MM-DD'), adaptor.status.switch ? "Enabled" : "Disabled")
-                                .then(response=>console.info(response), error=> console.error(error),
-                                    () => this.status = 'You decided to keep your debt.'));
+                    .then(response=>console.info(response), error=> console.error(error),
+                        () => this.status = 'You decided to keep your debt.'));
         }
     }
 
@@ -321,36 +279,41 @@ class SettingsUserCtrl {
         //}
     }
 
-    /*uploadAvatar () {
+    uploadAvatar() {
         this.dialogs.uploadPicture()
             .then((picture) => this._UserService.postProfileAvatar(picture))
-            .then((user) => { this.user = user })
+            .then((user) => {
+                this.user = user
+            })
     }
 
-    uploadBackground () {
+    uploadBackground() {
         this.dialogs.uploadPicture()
             .then((picture) => this._UserService.postProfileBackground(picture))
-            .then((user) => { this.user = user })
-    }*/
-};
-SettingsUserCtrl.$inject = ['UserService','AuthService','SystemMessageService','ActionMessageService','$http','$mdDialog', '$auth','SyncAdaptorService'];
+            .then((user) => {
+                this.user = user
+            })
+    }
+}
+;
+SettingsUserCtrl.$inject = ['UserService', 'AuthService', 'SystemMessageService', 'ActionMessageService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs'];
 
 function DialogController($scope, $mdDialog) {
 
-    $scope.hide = function() {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }
 
-DialogController.$inject = ['$scope','$mdDialog'];
+DialogController.$inject = ['$scope', '$mdDialog'];
 
 let SettingsUser = {
     bindings: {

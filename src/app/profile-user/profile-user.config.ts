@@ -27,8 +27,8 @@ function configure(
             authRequired: ['func1'],
             resolve: {
                 view: () => new DisplayView('user'),
-                userId: ['$stateParams', $stateParams => $stateParams.uri],
-                user: ['UserService', (UserService, userId) => UserService.getProfile(userId)]
+                //userId: ['$stateParams', $stateParams =>  $stateParams.uri],
+                user: ['UserService', '$stateParams', (UserService, $stateParams) => UserService.getProfile($stateParams.uri)]
             },
             views: DefaultTemplate('user')
         });

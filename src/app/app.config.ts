@@ -7,7 +7,8 @@ function configure(
 	$urlRouterProvider: any,
 	$mdThemingProvider: ng.material.IThemingProvider,
 	$stateProvider:StateProvider,
-	$translateProvider: any) {
+	$translateProvider: any,
+	pickerProvider: any) {
 
 	let isProductionBuild: boolean = __ENV !== "build";
 
@@ -78,9 +79,14 @@ function configure(
 	$translateProvider.preferredLanguage('ru');
 	$translateProvider.fallbackLanguage('ru');
 
+	pickerProvider.setOkLabel('Save');
+	pickerProvider.setCancelLabel('Close');
+	//  Over ride day names by changing here
+	pickerProvider.setDayHeader('single');  //Options 'single','shortName', 'fullName'
+
 	console.log('config complete');
 }
 
-configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider','$stateProvider','$translateProvider'];
+configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider','$stateProvider','$translateProvider', 'pickerProvider'];
 
 export default configure;

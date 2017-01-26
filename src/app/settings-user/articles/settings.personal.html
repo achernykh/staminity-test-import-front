@@ -34,6 +34,23 @@
                     </div>
                 </md-input-container>
             </md-list-item>
+            <md-list-item layout="row" layout-wrap layout-align="start center">
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.uri"></label>
+                    <input type="text" name="uri"
+                           ng-model="$ctrl.user.public.uri"
+                           required autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
+                    <div ng-messages="$ctrl.publicForm.uri.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+                <div flex="10"></div>
+            </md-list-item>
         </form>
         <form name="$ctrl.personalFirstForm">
             <md-list-item layout="row" layout-wrap>
@@ -48,7 +65,7 @@
                     </md-select>
                     <input type="text"/>
                 </md-input-container>-->
-                <md-autocomplete flex="45" flex-xs="100" class="no-message" flex required
+                <md-autocomplete flex="45" flex-xs="100" class="no-message" flex
                                  md-input-name="country"
                                  md-input-minlength="2"
                                  md-input-maxlength="18"
@@ -57,7 +74,6 @@
                                  md-search-text="$ctrl.countrySearchText"
                                  md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
                                  md-item-text="$ctrl._country_list['ru'][id]"
-                                 md-require-match
                                  md-floating-label="{{'settings.personalInfo.main.country'|translate}}">
                     <md-item-template>
                         <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list['ru'][id]}}</span>
@@ -65,17 +81,10 @@
 
                     <div ng-messages="$ctrl.personalFirstForm.country.$error" role="alert"
                          ng-if="$ctrl.personalFirstForm.country.$touched">
-                        <div ng-message-exp="['minlength', 'maxlength']"
-                             translate="form.rangeStr" translate-values="{min:1, max:100}">
-                        </div>
-                        <div ng-message="required">You <b>must</b> have a favorite state.</div>
-                        <div ng-message="md-require-match">Please select an existing state.</div>
-                        <div ng-message="minlength">Your entry is not long enough.</div>
-                        <div ng-message="maxlength">Your entry is too long.</div>
                     </div>
                 </md-autocomplete>
                 <div flex="10"></div>
-                <!--<md-input-container flex="45" flex-xs="100" class="no-message">
+                <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="settings.personalInfo.main.city"></label>
                     <input type="text" name="city" ng-model="$ctrl.user.personal.city" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
                     <div ng-messages="$ctrl.personalFirstForm.city.$error" role="alert">
@@ -83,7 +92,8 @@
                              translate="form.rangeStr" translate-values="{min:1, max:100}">
                         </div>
                     </div>
-                </md-input-container>-->
+                </md-input-container>
+                <!-- autocmplete for city: cors problem
                 <md-autocomplete flex="45" flex-xs="100" class="no-message" flex
                                  md-input-name="city"
                                  md-input-minlength="2"
@@ -109,19 +119,31 @@
                         <div ng-message="minlength">Your entry is not long enough.</div>
                         <div ng-message="maxlength">Your entry is too long.</div>
                     </div>
-                </md-autocomplete>
+                </md-autocomplete> -->
             </md-list-item>
-
-            <md-list-item layout="row">
-                <p flex="none" translate="settings.personalInfo.sex"></p>
-                <div flex="none" style="margin-left: 20px">
-                    <md-radio-group name="sex" class="md-primary"
-                                    ng-model="$ctrl.user.personal.sex"
-                                    layout="row" layout-align="start center">
-                        <md-radio-button value="M"><span translate="settings.personalInfo.M"></span></md-radio-button>
-                        <md-radio-button value="F"><span translate="settings.personalInfo.W"></span></md-radio-button>
-                    </md-radio-group>
+            <md-list-item layout="row" layout-wrap layout-align="start center">
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label>День рождения</label>
+                    <md-datepicker ng-model="$ctrl.user.personal.birthday"
+                                   md-hide-icons="calendar"
+                                   name="birthday"></md-datepicker>
+                    <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                    </div>
+                </md-input-container>
+                <div flex="10"></div>
+                <div flex="45" flex-xs="100" layout="row" layout-align="space-between center" style="margin-top: 8px;">
+                    <div flex="none" class="md-caption" translate="settings.personalInfo.sex"></div>
+                    <div flex="auto" style="margin-left: 20px">
+                        <md-radio-group name="sex" class="md-primary"
+                                        ng-model="$ctrl.user.personal.sex"
+                                        layout="row" layout-align="end center">
+                            <md-radio-button value="M"><span translate="settings.personalInfo.M"></span></md-radio-button>
+                            <md-radio-button value="F"><span translate="settings.personalInfo.W"></span></md-radio-button>
+                        </md-radio-group>
+                    </div>
                 </div>
+
             </md-list-item>
 
             <md-list-item flex layout="row">
