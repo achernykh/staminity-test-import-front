@@ -1,7 +1,6 @@
 
     <section class="overview" ng-if="true"
-             flex="auto" layout="column" hide show-gt-sm
-             style="background-color: greenyellow">
+             flex="auto" layout="column" hide show-gt-sm>
         <md-toolbar flex="none" class="md-hue-3">
             <div class="md-toolbar-tools">
                 <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
@@ -36,19 +35,24 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <section flex="auto" class="overview-content" layout="column"
-                 ng-init="showMap = true;showChart = true;showTable = true">
+        <section flex="none" class="overview-content" layout="column"
+                 ng-init="showChart = true; showTable = true">
 
-            <header flex="none" class="map" layout="row" layout-align="start center">
+            <header flex="none" class="map" layout="row" layout-align="start center"
+                    ng-if="$ctrl.item.isRouteExist">
                 <md-icon class="material-icon">directions</md-icon>
                 <p class="md-body-2" translate>Карта</p>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="showMap = !showMap">
+                <md-button class="md-icon-button"
+                           ng-click="$ctrl.toggleMap()">
                     <md-icon class="md-secondary material-icon md-dark"
-                             ng-bind="showMap ? 'expand_more': 'expand_less'"></md-icon>
+                             ng-bind="$ctrl.showMap ? 'expand_more': 'expand_less'"></md-icon>
                 </md-button>
             </header>
-            <div flex="auto" class="map" ng-if="showMap">Карта</div>
+            <activity-route flex ng-if="$ctrl.showMap && $ctrl.item.isRouteExist"
+                            class="map activity-route"
+                            data="$ctrl.item.route" select="$ctrl.select" zoom-enabled="true" layer-enabled="true">
+            </activity-route >
             <md-divider ng-if="showChart"></md-divider>
             <header flex="none" layout="row" layout-align="start center">
                 <md-icon class="material-icon">multiline_chart</md-icon>

@@ -23,9 +23,10 @@ module.exports = {
             'satellizer',
             'rxjs',
             'angular-material-data-table',
-            'smdatetimerangepicker'
-            //'angular-websocket'
-            //'oclazyload'
+            'smdatetimerangepicker',
+            'angular-simple-logger', // какая-то хрень для ui-leaflet
+            'leaflet',
+            'ui-leaflet'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'

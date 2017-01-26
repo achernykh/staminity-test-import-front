@@ -7,11 +7,13 @@ import {
 	ICalcMeasures} from "../../../api/activity/activity.interface";
 import moment from 'moment/src/moment.js';
 
-class ActivityDatasource {
+class ActivityDatamodel {
 
 	private intervalW: IActivityIntervalW;
 	private intervalL: Array<IActivityIntervalL>;
 	private calcMeasures: Array<IActivityMeasure> = [];
+	private route: any;
+	private isRouteExist: boolean;
 
 	constructor(
 		private method,
@@ -24,8 +26,23 @@ class ActivityDatasource {
 		Object.keys(this.intervalW.calcMeasures)
 			.map((key, index) => this.calcMeasures.push(Object.assign(this.intervalW.calcMeasures[key],{code: key})));
 
-		console.info('Datasource',this.intervalL);
+		this.route = typeof this.details !== 'undefined' ? this.getRouteData(this.details) : null;
+		this.isRouteExist = !!this.route;
+		console.info('Datasource',this);
+	}
 
+	getRouteData(details) {
+
+		if (!details.measures.hasOwnProperty('longitude') || !details.measures.hasOwnProperty('latitude')) {
+			return null;
+		}
+
+		let lng = details.measures.longitude.idx; // lng index in array
+		let lat = details.measures.latitude.idx; // lat index in array
+		//let time = details.measures.timestamp.idx; // time index in array
+		return details.metrics
+			.filter(m => m[lng] !== 0 || m[lat] !== 0)
+			.map(m => ({lng: m[lng],lat: m[lat]}));
 	}
 
 	get completed() {
@@ -146,4 +163,4 @@ class ActivityDatasource {
 
 }
 
-export default ActivityDatasource;
+export default ActivityDatamodel;
