@@ -18,13 +18,20 @@ import {ISocketService} from './socket.service';
 import {PostFile, IRESTService} from './rest.service';
 import { IHttpPromise } from 'angular';
 
-export default class GroupService {
+import { Observable } from 'rxjs/Rx';
 
-    static $inject = ['SocketService','RESTService'];
+export default class GroupService {
+    requestsUpdates: Observable<any>;
+
+    static $inject = ['SocketService', 'RESTService'];
 
     constructor(
         private SocketService:ISocketService,
-        private RESTService:IRESTService) {
+        private RESTService:IRESTService
+    ) { 
+        this.requestsUpdates = this.SocketService.messages
+            .filter((m) => m.type === 'groupMembershipRequest')
+            .flatMap((m) => Observable.from(this.getMembershipRequest(0, 1000))); 
     }
 
     /**

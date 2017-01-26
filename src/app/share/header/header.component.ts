@@ -3,28 +3,33 @@ import { IComponentOptions, IComponentController} from 'angular';
 import UserService from "../../../js/services/user/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import SessionService from "../../core/session.service";
-import { Observable} from 'rxjs/Observable';
+import GroupService from "../../core/group.service";
+import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
 
 class HeaderCtrl implements IComponentController {
+	public requests: number;
 
 	private user: IUserProfile;
 	private profile$: Observable<IUserProfile>;
 
-	static $inject = ['$mdSidenav', 'AuthService', 'SessionService'];
+	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'GroupService'];
 
 	constructor(
+		private $scope,
 		private $mdSidenav: any,
 		private AuthService: any,
-		private SessionService: SessionService) {
-
+		private SessionService: SessionService,
+		private GroupService: GroupService
+	) {
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 
-	}
-
-
-	avatarUrl(){
-	//	return _connection.content + (this.user? '/content/user/avatar/' + this.user.public.avatar : '/assets/avatar/default.png')
+		this.GroupService.requestsUpdates
+		.map((requests) => requests.filter((request) => request.receiver.userId === this.user.userId && !request.updated))
+		.subscribe((requestsInboxNew) => {
+			this.requests = requestsInboxNew.length;
+			this.$scope.$apply();
+		});
 	}
 
 	toggleSlide(component) {

@@ -5,33 +5,38 @@ import { DisplayView, DefaultTemplate } from "../core/display.constants";
 function configure(
     $stateProvider:StateProvider,
     $translateProvider: any) {
-    /*$stateProvider
-        .state('profile', <StateDeclaration>{
-            url: "/user",
-            loginRequired: true,
-            authRequired: ['func1'],
-            resolve: {
-                view: () => new DisplayView('user'),
-                userId: ['SessionService', function(SessionService){
-                    return SessionService.getUser().userId;
-                }],
-                user: ['UserService', function (UserService, userId) {
-                    return UserService.getProfile(userId);
-                }]
-            },
-            views: DefaultTemplate('user')
-        })
-        .state('user', <StateDeclaration>{
-            url: "/user/:uri",
-            loginRequired: true,
-            authRequired: ['func1'],
-            resolve: {
-                view: () => new DisplayView('user'),
-                userId: ['$stateParams', $stateParams => $stateParams.uri],
-                user: ['UserService', (UserService, userId) => UserService.getProfile(userId)]
-            },
-            views: DefaultTemplate('user')
-        });*/
+    
+        $stateProvider
+            .state('clubSettings', <StateDeclaration> {
+                url: "/settings/club/:uri",
+                loginRequired: true,
+                authRequired: ['func1'],
+                resolve: {
+                    view: () => new DisplayView('settings'),
+                    club: (GroupService, $stateParams) => GroupService.getProfile($stateParams.uri, 'club')
+                },
+                views: {
+                    "background": {
+                        component: "staminityBackground",
+                        bindings: {
+                            view: 'view.background'
+                        }
+                    },
+                    "header": {
+                        component: 'staminityHeader',
+                        bindings: {
+                            view: 'view.header'
+                        }
+                    },
+                    "application": {
+                        component: "settingsClub",
+                        bindings: {
+                            view: 'view.application',
+                            club: 'club'
+                        }
+                    }
+                }
+            });
 
     // Текст представлений
     $translateProvider.translations('en', {"user": _translate['en']});
