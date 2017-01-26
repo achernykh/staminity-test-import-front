@@ -4,42 +4,106 @@ import {
 	IActivityIntervalW,
 	IActivityIntervalL,
 	IActivityMeasure,
-	ICalcMeasures} from "../../../api/activity/activity.interface";
+	ICalcMeasures, IActivityIntervalPW, IActivityInterval
+} from "../../../api/activity/activity.interface";
 import moment from 'moment/src/moment.js';
+
+export interface IRoute {
+	lat:number;
+	lng: number;
+}
+
+class Interval implements IActivityInterval{
+	//public type: string;
+	public trainersPrescription: string;
+	public durationMeasure: string;
+	public durationValue: number;
+	public calcMeasures: ICalcMeasures;
+
+	constructor(public type: string){
+		this.type = type;
+		this.trainersPrescription = null;
+		this.durationMeasure = null; //movingDuration/distance, каким показателем задается длительность планового сегмента
+		this.durationValue = null; // длительность интервала в ед.изм. показателя длительности
+		this.calcMeasures = {
+
+		};
+	}
+}
+
+class ActivityHeader implements IActivityHeader {
+
+	public startTimestamp: Date;
+	public activityCategory: {
+		id: number;
+		code: string;
+	};
+	public activityType: {
+		id: number;
+		code: string;
+		typeBasic: string;
+	};
+	public intervals: Array<IActivityIntervalW | IActivityIntervalPW | IActivityIntervalL>;
+
+	constructor(date: Date = new Date()){
+		this.startTimestamp = date;
+		this.activityCategory = { // категория тренировки
+			id: null,
+			code: null
+		};
+		this.activityType = { //вид спорта
+			id: null,
+				code: null,
+				typeBasic: null
+		};
+		this.intervals = [new Interval('pW')];
+	}
+}
 
 class ActivityDatamodel {
 
 	private intervalW: IActivityIntervalW;
 	private intervalL: Array<IActivityIntervalL>;
 	private calcMeasures: Array<IActivityMeasure> = [];
-	private route: any;
+	private route: Array<IRoute>;
 	private isRouteExist: boolean;
 
 	constructor(
-		private method,
+		private mode,
 		private header:IActivityHeader,
 		private details:IActivityDetails) {
 
-		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
-		this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
+		// Режим создания новой записи
+		if (mode === 'post') {
+			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW
+		}
+		// Режим просмотра (view) / редактирования записи (put)
+		else {
+			this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
+			this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 
-		Object.keys(this.intervalW.calcMeasures)
-			.map((key, index) => this.calcMeasures.push(Object.assign(this.intervalW.calcMeasures[key],{code: key})));
+			Object.keys(this.intervalW.calcMeasures)
+				.map((key, index) => this.calcMeasures.push(Object.assign(this.intervalW.calcMeasures[key],{code: key})));
 
-		this.route = typeof this.details !== 'undefined' ? this.getRouteData(this.details) : null;
-		this.isRouteExist = !!this.route;
-		console.info('Datasource',this);
+			this.route = typeof this.details !== 'undefined' ? this.getRouteData(this.details) : null;
+			this.isRouteExist = !!this.route;
+		}
+
 	}
 
-	getRouteData(details) {
+	/**
+	 * Получаем данные для построения маршрута тренировки
+	 * @param details
+	 * @returns {any}
+     */
+	getRouteData(details: IActivityDetails):Array<IRoute> {
 
 		if (!details.measures.hasOwnProperty('longitude') || !details.measures.hasOwnProperty('latitude')) {
 			return null;
 		}
 
-		let lng = details.measures.longitude.idx; // lng index in array
-		let lat = details.measures.latitude.idx; // lat index in array
-		//let time = details.measures.timestamp.idx; // time index in array
+		let lng = details.measures['longitude'].idx; // lng index in array
+		let lat = details.measures['latitude'].idx; // lat index in array
 		return details.metrics
 			.filter(m => m[lng] !== 0 || m[lat] !== 0)
 			.map(m => ({lng: m[lng],lat: m[lat]}));

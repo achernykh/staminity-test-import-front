@@ -25,8 +25,6 @@ class ActivityRouteCtrl implements IComponentController {
                 map.fitBounds(this.data.map(e => L.GeoJSON.coordsToLatLng([e.lng,e.lat])));
                 map.invalidateSize();
             });
-
-        console.log('route=',this);
     }
 
 }

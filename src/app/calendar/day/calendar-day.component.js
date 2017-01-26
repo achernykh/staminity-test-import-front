@@ -29,6 +29,7 @@ class CalendarDayCtrl {
         "use strict";
         this.calendar.onCopyItem(this.data.calendarItems)
     }
+
     onOpen($event, type, data) {
 
         if(type === 'activity') {
@@ -127,7 +128,37 @@ class CalendarDayCtrl {
                     console.log('user cancel dialog, data=',data)
                 })
     }
-    newItem($event, data){
+
+    newActivity($event, data){
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="post-activity" aria-label="Activity">
+                        <calendar-item-activity
+                                layout="row" class="calendar-item-activity"
+                                header="$ctrl.header.activityHeader" mode="post"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-activity>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                header: data
+            },
+            //resolve: {
+            //    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
+            //        .then(response => response, error => console.error(error))
+            //},
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: false,
+            fullscreen: true
+        })
+            .then(response => console.log('user close dialog with =', response),() => console.log('user cancel dialog, data=',data))
+    }
+
+    newMeasurement($event, data){
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',

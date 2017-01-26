@@ -23,13 +23,14 @@ class CalendarItemActivityCtrl implements IComponentController{
     private showMap: boolean = true;
 
 
-    static $inject = ['CalendarService','UserService','ActivityService','MessageService'];
+    static $inject = ['CalendarService','UserService','ActivityService','MessageService','$mdMedia'];
 
     constructor(
         private CalendarService: CalendarService,
         private UserService: UserService,
         private ActivityService: ActivityService,
-        private message: IMessageService) {
+        private message: IMessageService,
+        private $mdMedia: any) {
 
     }
 
