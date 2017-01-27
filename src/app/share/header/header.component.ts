@@ -3,7 +3,7 @@ import { IComponentOptions, IComponentController} from 'angular';
 import UserService from "../../../js/services/user/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import SessionService from "../../core/session.service";
-import GroupService from "../../core/group.service";
+import RequestsService from "../../core/requests.service";
 import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
 
@@ -13,20 +13,21 @@ class HeaderCtrl implements IComponentController {
 	private user: IUserProfile;
 	private profile$: Observable<IUserProfile>;
 
-	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'GroupService'];
+	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService'];
 
 	constructor(
 		private $scope,
 		private $mdSidenav: any,
 		private AuthService: any,
 		private SessionService: SessionService,
-		private GroupService: GroupService
+		private RequestsService: RequestsService
 	) {
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 
-		this.GroupService.requestsUpdates
+		this.RequestsService.requests
 		.map((requests) => requests.filter((request) => request.receiver.userId === this.user.userId && !request.updated))
 		.subscribe((requestsInboxNew) => {
+			console.log('requestsInboxNew', requestsInboxNew);
 			this.requests = requestsInboxNew.length;
 			this.$scope.$apply();
 		});

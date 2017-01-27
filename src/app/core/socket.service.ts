@@ -57,7 +57,9 @@ export class SocketService implements ISocketService {
                 console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
                 this.socket.addEventListener('message', this.response.bind(this));
-                Observable.fromEvent(this.socket, 'message').subscribe(this.messages);
+                Observable.fromEvent(this.socket, 'message')
+                    .map((message: any) => JSON.parse(message.data))
+                    .subscribe(this.messages);
             }
 
             let onOpen = () => {

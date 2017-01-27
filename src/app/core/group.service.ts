@@ -9,7 +9,6 @@ import {
     JoinRequest,
     LeaveRequest,
     GetMembershipRequest,
-    ProcessMembershipRequest,
     ProcessGroupMembershipRequest,
     GetGroupManagementProfile,
     PutGroupMembershipBulk } from '../../../api/group/group.request';
@@ -18,20 +17,14 @@ import {ISocketService} from './socket.service';
 import {PostFile, IRESTService} from './rest.service';
 import { IHttpPromise } from 'angular';
 
-import { Observable } from 'rxjs/Rx';
 
 export default class GroupService {
-    requestsUpdates: Observable<any>;
-
     static $inject = ['SocketService', 'RESTService'];
 
     constructor(
         private SocketService:ISocketService,
         private RESTService:IRESTService
     ) { 
-        this.requestsUpdates = this.SocketService.messages
-            .filter((m) => m.type === 'groupMembershipRequest')
-            .flatMap((m) => Observable.from(this.getMembershipRequest(0, 1000))); 
     }
 
     /**
@@ -96,7 +89,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     processMembershipRequest(requestId:number, action:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new ProcessMembershipRequest(requestId, action));
+        return this.SocketService.send(new ProcessGroupMembershipRequest(requestId, action));
     }
     
     /**
@@ -114,8 +107,8 @@ export default class GroupService {
      * @param users
      * @returns {Promise<any>}
      */
-    putGroupMembershipBulk(membership: Array<IBulkGroupMembership>, users: Array<number>):Promise<any> {
-        return this.SocketService.send(new PutGroupMembershipBulk(membership, users));
+    putGroupMembershipBulk(groupId: number, membership: Array<IBulkGroupMembership>, users: Array<number>):Promise<any> {
+        return this.SocketService.send(new PutGroupMembershipBulk(groupId, membership, users));
     }
 
     /**

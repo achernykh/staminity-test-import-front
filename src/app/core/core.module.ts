@@ -7,6 +7,7 @@ import SystemMessageComponent from './sysmessage.component.js';
 import { ActionMessageService } from "./actionmessage.service.js";
 import UserService from "./user.service";
 import GroupService from "./group.service";
+import RequestsService from "./requests.service";
 import MessageService from './message.service';
 import {_MESSAGE} from './message.translate';
 
@@ -19,6 +20,7 @@ const Core = module('staminity.core', [])
 	.service('ActionMessageService', ActionMessageService)
 	.service('UserService',UserService)
 	.service('GroupService',GroupService)
+	.service('RequestsService', RequestsService)
 	.service('MessageService', MessageService)
 	.component('systemMessage', SystemMessageComponent)
 	.config(['$translateProvider',($translateProvider)=>{
