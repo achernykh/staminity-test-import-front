@@ -55,7 +55,7 @@ class ManagementCtrl {
     }
     
     update () {
-        return this.GroupService.getManagementProfile(this.club.groupId)
+        return this.GroupService.getManagementProfile(this.club.groupId,'club')
             .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
             .then(() => { this.$scope.$apply() })
     }

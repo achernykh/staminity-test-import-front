@@ -4,14 +4,15 @@ import {
     IBulkGroupMembership } from '../../../api/group/group.interface';
 
 import {
-    GetRequest,
-    PutRequest,
+    GetProfileRequest,
+    PutProfileRequest,
     JoinRequest,
     LeaveRequest,
     GetMembershipRequest,
-    ProcessGroupMembershipRequest,
-    GetGroupManagementProfile,
-    PutGroupMembershipBulk } from '../../../api/group/group.request';
+    ProcessMembershipRequest,
+    GetMembersListRequest,
+    GetGroupManagementProfileRequest,
+    PutGroupMembershipBulkRequest } from '../../../api/group/group.request';
 
 import {ISocketService} from './socket.service';
 import {PostFile, IRESTService} from './rest.service';
@@ -69,21 +70,22 @@ export default class GroupService {
      * @param limit
      * @returns {Promise<IGroupProfile>}
      */
-    getMembershipRequest(offset:number, limit: number):Promise<IGroupProfile> {
+    getMembershipRequests(offset:number, limit: number):Promise<IGroupProfile> {
         return this.SocketService.send(new GetMembershipRequest(offset, limit));
     }
 
     /**
      * Принять/отклонить/отменить запрос
-     * @param groupId
+     * @param groupId - номер группы
+     * @param requestId - номер запроса
      * @returns {Promise<IGroupProfile>}
      */
-    processGroupMembership(groupId:number, action:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new ProcessGroupMembershipRequest(groupId, action));
+    processMembership(action:string, groupId?:number, requestId?:number, ):Promise<IGroupProfile> {
+        return this.SocketService.send(new ProcessMembershipRequest(action, groupId,requestId));
     }
 
     /**
-     * Принять/отклонить/отменить запрос
+     * Получение списка пользователей, входящих в группу
      * @param groupId
      * @returns {Promise<IGroupProfile>}
      */

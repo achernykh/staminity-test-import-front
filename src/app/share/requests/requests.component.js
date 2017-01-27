@@ -27,7 +27,7 @@ class RequestsCtrl {
     }
     
     update () {
-      this.GroupService.getMembershipRequest(0, 20)
+      this.GroupService.getMembershipRequests(0, 20)
       .then((requests) => {
         this.requests.inbox.new = requests.filter((request) => request.receiver.userId == this.user.userId && !request.updated)
         this.requests.inbox.old = requests.filter((request) => request.receiver.userId == this.user.userId && request.updated)
@@ -40,7 +40,7 @@ class RequestsCtrl {
     processRequest (request, action) {
       this.dialogs.confirm()
       .then((confirmed) => { if (!confirmed) throw new Error() })
-      .then(() => this.GroupService.processMembershipRequest(request.userGroupRequestId, action))
+      .then(() => this.GroupService.processMembership(action, null, request.userGroupRequestId))
       .then(() => this.update(), (error) => { this.SystemMessageService.show(error) })
     }
     

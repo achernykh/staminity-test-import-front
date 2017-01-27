@@ -1,5 +1,5 @@
 import { IGroupMembershipRequest } from '../../../api/group/group.interface';
-import { GetMembershipRequest, ProcessGroupMembershipRequest } from '../../../api/group/group.request';
+import { GetMembershipRequest, ProcessMembershipRequest } from '../../../api/group/group.request';
 import { ISocketService } from './socket.service';
 import { Observable } from 'rxjs/Rx';
 
@@ -39,8 +39,8 @@ export default class RequestsService {
      * @param id
      * @returns {Promise<any>}
      */
-    processMembershipRequest(requestId:number, action:string):Promise<any> {
-        return this.SocketService.send(new ProcessGroupMembershipRequest(requestId, action));
+    processMembershipRequest(action:string, groupId?: number, requestId?:number, ):Promise<any> {
+        return this.SocketService.send(new ProcessMembershipRequest(action, groupId, requestId));
     }
 }
 

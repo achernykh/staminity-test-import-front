@@ -20,7 +20,7 @@ class ClubCtrl {
   }
   
   update () {
-    return this.GroupService.getProfile(this.club.groupUri)
+    return this.GroupService.getProfile(this.club.groupUri,'club')
       .then((club) => { this.club = club }, (error) => { this.SystemMessageService.show(error) })
       .then(() => { this.$scope.$apply() })
   }
@@ -42,7 +42,7 @@ class ClubCtrl {
     cancel () {
         return this.dialogs.confirm('Отменить заявку?')
             .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.processGroupMembership(this.club.groupId, 'C'))
+            .then(() => this.GroupService.processMembership('C',this.club.groupId))
             .then(() => this.update(), (error) => { this.SystemMessageService.show(error) })
     }
     
