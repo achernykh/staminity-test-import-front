@@ -1,5 +1,18 @@
 @import "../../sass/color";
 @import "../../sass/font";
+@import "../../sass/animation";
+
+#landingpage-soon {
+	@include animate(1.5s, 2s, 1);
+}
+
+#landingpage-logo {
+	@include animate(1s, 1s, 0);
+}
+
+#landingpage-title {
+	@include animate(4s, 0.5s, 1);
+}
 
 landing-page {
 	.cover-01 {

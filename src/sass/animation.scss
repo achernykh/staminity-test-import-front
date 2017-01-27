@@ -17,30 +17,14 @@
   -ms-animation-iteration-count: $count;
 }
 
-#header-left-toolbar, #header-right-toolbar {
-  @include animate(0.5s, 1s, 1);
-}
-
-#landingpage-soon {
-  @include animate(1.5s, 2s, 1);
-}
-
-#landingpage-logo {
-  @include animate(1s, 1s, 0);
-}
-
-#landingpage-title {
-  @include animate(4s, 0.5s, 1);
-}
-
-#header-caption {
-  @include animate(1s, 0s, 1);
-}
-
-#calendar {
-  @include animate(0.5s, 0.2s, 1);
-}
-
 .animated {
   transition: all .3s !important;
 }
+
+
+
+
+
+
+
+
