@@ -4,15 +4,14 @@ import {
     IBulkGroupMembership } from '../../../api/group/group.interface';
 
 import {
-    GetProfileRequest,
-    PutProfileRequest,
+    GetRequest,
+    PutRequest,
     JoinRequest,
     LeaveRequest,
     GetMembershipRequest,
     ProcessGroupMembershipRequest,
-    GetMembersListRequest,
-    GetGroupManagementProfileRequest,
-    PutGroupMembershipBulkRequest } from '../../../api/group/group.request';
+    GetGroupManagementProfile,
+    PutGroupMembershipBulk } from '../../../api/group/group.request';
 
 import {ISocketService} from './socket.service';
 import {PostFile, IRESTService} from './rest.service';

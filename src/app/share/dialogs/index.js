@@ -33,10 +33,10 @@ export default class DialogsService {
         });
     }
     
-    subscriptions (users) {
+    subscriptions (tariffs) {
         return this.$mdDialog.show({
             controller: SubscriptionsController,
-            locals: { users },
+            locals: { tariffs },
             template: require('./subscriptions.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
@@ -133,8 +133,9 @@ function RolesController ($scope, $mdDialog, roles) {
 }
 RolesController.$inject = ['$scope','$mdDialog'];
 
-function SubscriptionsController ($scope, $mdDialog, users) {
-    
+function SubscriptionsController ($scope, $mdDialog, tariffs) {
+    $scope.tariffs = tariffs;
+
     $scope.commit = () => {
         $mdDialog.hide($scope.subscriptions);
     };
@@ -143,7 +144,7 @@ function SubscriptionsController ($scope, $mdDialog, users) {
         $mdDialog.hide();
     };
 }
-SubscriptionsController.$inject = ['$scope','$mdDialog'];
+SubscriptionsController.$inject = ['$scope', '$mdDialog', 'tariffs'];
 
 function CoachesController ($scope, $mdDialog, users, coaches) {
     

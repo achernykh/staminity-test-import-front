@@ -6,9 +6,21 @@ function equals (x0, x1) {
 }
 
 function allEqual (xs, p = equals) {
-    return !xs.length || xs.every((x) => !(x, xs[0]));
+    return !xs.length || xs.every((x) => p(x, xs[0]));
 }
 
+function tariffs (member) {
+    return {
+        byUs: {
+            Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile),
+            Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile)
+        },
+        bySelf: {
+            Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !t.clubProfile),
+            Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !t.clubProfile)
+        }
+    }
+}
 
 const orderings = {
     username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
@@ -65,11 +77,39 @@ class ManagementCtrl {
     }
     
     get subscriptionsAvailable () {
-        return allEqual(this.checked.map((user) => user.tariffs), angular.equals)
+        return allEqual(this.checked.map(tariffs), angular.equals)
     }
     
     subscriptions () {
-        this.dialogs.subscriptions(this.checked)
+        let checked = this.checked
+        let oldTariffs = tariffs(checked[0])
+
+        this.dialogs.subscriptions(oldTariffs)
+        .then((newTariffs) => {
+            if (newTariffs) {
+                let requests = flatMap(member => {
+                    let requests = []
+
+                    if (newTariffs.byUs.Coach && !oldTariffs.byUs.Coach) {
+                        requests.push(this.GroupService.join(this.management.availableGroups.CoachByGroup, member.userProfile.userId))
+                    } else if (!newTariffs.byUs.Coach && oldTariffs.byUs.Coach) {
+                        requests.push(this.GroupService.leave(this.management.availableGroups.CoachByGroup, member.userProfile.userId))
+                    }
+
+                    if (newTariffs.byUs.Premium && !oldTariffs.byUs.Premium) {
+                        requests.push(this.GroupService.join(this.management.availableGroups.PremiumByGroup, member.userProfile.userId))
+                    } else if (!newTariffs.byUs.Premium && oldTariffs.byUs.Premium) {
+                        requests.push(this.GroupService.leave(this.management.availableGroups.PremiumByGroup, member.userProfile.userId))
+                    }
+
+                    return requests
+                }) (checked)
+                return Promise.all(requests)
+            } else {
+                throw new Error()
+            }
+        })
+        .then(() => this.update(), (error) => { this.SystemMessageService.show(error); this.update(); })
     }
     
     get coaches () {

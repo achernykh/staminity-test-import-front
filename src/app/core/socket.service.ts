@@ -1,6 +1,7 @@
-import {_connection} from './api.constants';
-import {ISessionService} from './session.service';
-//import {IWebSocket} from "angular-websocket";
+import { _connection } from './api.constants';
+import { ISessionService } from './session.service';
+
+import { Observable, Subject } from 'rxjs/Rx';
 
 export interface IWSResponse {
     requestId:number;
@@ -18,7 +19,8 @@ export interface ISocketService {
     open(token:string): Promise<number>;
     response(event:any);
     close();
-    send(request:IWSRequest):Promise<any>;
+    send(request:IWSRequest): Promise<any>;
+    messages: Observable<any>;
 }
 
 /**
@@ -26,10 +28,11 @@ export interface ISocketService {
  */
 export class SocketService implements ISocketService {
     //static $inject = ["$websocket","StorageService","SessionService"];
-    ws:any;
     private socket: WebSocket;
-    private requests:Array<any> = [];
-    private requestId:number = 1;
+    private requests: Array<any> = [];
+    private requestId: number = 1;
+
+    public messages: Subject<any>;
 
     //_$q:any;
     //_$websocket:any;
@@ -39,14 +42,8 @@ export class SocketService implements ISocketService {
 
     static $inject = ['$q','SessionService'];
 
-    constructor(
-        private $q: any,
-        //private $websocket: any,
-        private SessionService:ISessionService) {
-        //this._$q = $q;
-        //this._$websocket = $websocket;
-        //this._StorageService = StorageService;
-        //this._SessionService = SessionService;
+    constructor (private $q: any, private SessionService:ISessionService) {
+        this.messages = new Subject();
     }
 
     /**
@@ -60,6 +57,9 @@ export class SocketService implements ISocketService {
                 console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
                 this.socket.addEventListener('message', this.response.bind(this));
+                Observable.fromEvent(this.socket, 'message')
+                    .map((message: any) => JSON.parse(message.data))
+                    .subscribe(this.messages);
             }
 
             let onOpen = () => {
@@ -72,25 +72,6 @@ export class SocketService implements ISocketService {
 
             this.socket.readyState ? onOpen() : this.socket.addEventListener('open', onOpen);
         });
-        /*return new Promise((resolve, reject) => {
-            if (!this.ws) {
-                this.ws = this.$websocket('ws://' + _connection.server + '/' + token)
-                this.ws.onOpen(() => {
-                    this.ws.onMessage(this.response.bind(this))
-                })
-            } 
-            
-            let onOpen = () => { 
-                console.log('wsOpen', this.ws.readyState)
-                if (this.ws.readyState == 2) {
-                    reject(this.ws.readyState)
-                } else if (this.ws.readyState == 1) {
-                    resolve(this.ws.readyState) 
-                }
-            }
-            
-            this.ws.readyState? onOpen() : this.ws.onOpen(onOpen)
-        })*/
     }
 
     /**
@@ -100,7 +81,7 @@ export class SocketService implements ISocketService {
      * @param event
      * @param WS
      */
-    response(event:any, WS:any = this) {
+    response (event:any, WS:any = this) {
         console.log('SocketService: new websocket message event', event);
         let response:IWSResponse = JSON.parse(<string>event['data']);
         
@@ -112,13 +93,13 @@ export class SocketService implements ISocketService {
             	callback.resolve(response.data);
             }
             delete this.requests[response.requestId];
-        }
+        } 
     }
 
     /**
      * Закрываем websocket сессию
      */
-    close() {
+    close () {
         this.socket.close();
         //this.ws.close(true);
     }
@@ -140,14 +121,5 @@ export class SocketService implements ISocketService {
                 console.log('WS Service: wsRequest', request, this.requests, deferred);
                 return deferred.promise;
             });
-        /*return this.open()
-            .then(() => {
-                request.requestId = this.requestId++;
-                this.ws.send(JSON.stringify(request));
-                let deferred = this.$q.defer();
-                this.requests[request.requestId] = deferred;
-                console.log('WS Service: wsRequest', request, this.requests, deferred);
-                return deferred.promise;
-            })*/
     }
 }
