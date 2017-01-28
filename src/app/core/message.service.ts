@@ -2,12 +2,16 @@ import * as angular from 'angular';
 import {IRootScopeService,ICompileService,ITimeoutService} from 'angular';
 
 export interface IMessageService {
-	info(code: string, provider?: string);
-	show(...args);
-	success();
-	warning();
-	error();
-	log();
+
+	system(code: string, status: string, context?: {}, delay?: number): void;
+	systemError(code: string, context?: {}, delay?: number): void;
+	systemWarning(code: string, context?: {}, delay?: number): void;
+	systemSuccess(code: string, context?: {}, delay?: number): void;
+
+	toast(code: string, status: string, context?: {}, delay?: number): void;
+	toastInfo(code: string, context?: {}, delay?: number): void;
+	toastError(code: string, context?: {}, delay?: number): void;
+	toastWarning(code: string, context?: {}, delay?: number): void;
 }
 /**
  * @ngdoc  service
@@ -32,7 +36,7 @@ export interface IMessageService {
  *
  * @usage
  * <hljs lang="js">
- *     this.message.show();
+ *     this.message.system('userUndefined',{name: 'Илья Муромец'});
  * </hljs>
  */
 export default class MessageService implements IMessageService{
@@ -55,41 +59,20 @@ export default class MessageService implements IMessageService{
 		private $mdToast:any) {
 	}
 
-
 	/**
 	 * @ngdoc method
-	 * @name info
-	 * @description Вывод информационного сообщения
+	 * @name system
+	 * @description Вывод System message
 	 * @param {string} code Код обьекта перевода из файла /core/message.translate.ts
-	 * @param {string} provider Тип сообщения, может принимать значания `system` или `toast`
-     */
-	info(code: string, provider:string = 'toast'){
-
-		this[provider](code);
-
-	}
-
-	show(...args){
-		console.debug('MessageService=',args);
-		this.blind(args[0],args[1]);
-		//console.log(...param);
-	}
-
-	success(){}
-	warning(){}
-	error(){}
-	log(){}
-
-	private blind(code: string, status: string = 'error', delay: number = 10) {
-		let id = "appmes#" + ++this.id;
-		//let delay = message.delay || 10;
-		//let status = message.status || 'error';
-		//console.info('sys',status, code);
+	 * @param {Object} context Набор переменных для вывода шаблона сообщения
+	 * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
+	 * @delay {number} delay Задержка в с показа сообщения на экране
+	 */
+	system(code: string, status: string = 'error', context: {} = null, delay: number = 10) {
+		let id = "system-message#" + ++this.id;
 
 		angular
 			.element(document.getElementsByTagName('staminity-application'))
-			//.append(this.$compile(`<system-message id="${id}" show="${false}" status="${status}" code="${code}"
-			// delay="${delay}"/>`)(this.$rootScope))
 			.append(this.$compile(
 				'<system-message id='+id+' show="true" status="\'' + status +
 				'\'" code="\'' + code +
@@ -105,19 +88,53 @@ export default class MessageService implements IMessageService{
 
 	}
 
-	private toast(code: string) {
+	systemError(code: string, context?: {}, delay?: number) {
+		this.system(code,'error',context,delay);
+	}
+
+	systemWarning(code: string, context?: {}, delay?: number) {
+		this.system(code,'warning',context,delay);
+	}
+
+	systemSuccess(code: string, context?: {}, delay?: number) {
+		this.system(code,'success',context,delay);
+	}
+
+	/**
+	 * @ngdoc method
+	 * @name toast
+	 * @description Вывод System message
+	 * @param {string} code Код обьекта перевода из файла /core/message.translate.ts
+	 * @param {Object} context Набор переменных для вывода шаблона сообщения
+	 * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
+	 * @delay {number} delay Задержка в с показа сообщения на экране
+	 */
+	toast(code: string, status: string = 'error', context: {} = null, delay: number = 10) {
 		this.$mdToast.show({
-			hideDelay: 3000,
+			hideDelay: delay * 1000,
 			position: 'bottom center',
 			bindToController: true,
 			controllerAs: '$ctrl',
 			controller: ToastCtrl,
 			locals: {
 				code: code,
-				context: {username: 'Alexander'}
+				context: context
 			},
+			toastClass: status,
 			template: this.toastTemplate
 		});
+	}
+
+	toastError(code: string, context?: {}, delay?: number) {
+		this.toast(code,'error',context,delay);
+	}
+
+	toastWarning(code: string, context?: {}, delay?: number) {
+		this.toast(code,'warning',context,delay);
+	}
+
+	toastInfo(code: string, context?: {}, delay?: number) {
+		this.toast(code,'info',context,delay);
 	}
 
 }

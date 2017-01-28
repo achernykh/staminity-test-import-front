@@ -21,7 +21,7 @@ const Core = module('staminity.core', [])
 	.service('UserService',UserService)
 	.service('GroupService',GroupService)
 	.service('RequestsService', RequestsService)
-	.service('MessageService', MessageService)
+	.service('message', MessageService)
 	.component('systemMessage', SystemMessageComponent)
 	.config(['$translateProvider',($translateProvider)=>{
 
