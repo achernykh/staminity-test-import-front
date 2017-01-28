@@ -28,7 +28,7 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs) {
+    constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, MessageService) {
         console.log('SettingsCtrl constructor=', this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -296,7 +296,7 @@ class SettingsUserCtrl {
     }
 }
 ;
-SettingsUserCtrl.$inject = ['UserService', 'AuthService', 'SystemMessageService', 'ActionMessageService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs'];
+SettingsUserCtrl.$inject = ['UserService', 'AuthService', 'SystemMessageService', 'ActionMessageService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','MessageService'];
 
 function DialogController($scope, $mdDialog) {
 

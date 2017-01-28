@@ -2,6 +2,7 @@ import { _connection } from './api.constants';
 import { ISessionService } from './session.service';
 
 import { Observable, Subject } from 'rxjs/Rx';
+import LoaderService from "../share/loader/loader.service";
 
 export interface IWSResponse {
     requestId:number;
@@ -40,9 +41,9 @@ export class SocketService implements ISocketService {
     //_StorageService:any;
     //_SessionService:ISessionService;
 
-    static $inject = ['$q','SessionService'];
+    static $inject = ['$q','SessionService', 'LoaderService'];
 
-    constructor (private $q: any, private SessionService:ISessionService) {
+    constructor (private $q: any, private SessionService:ISessionService, private loader:LoaderService) {
         this.messages = new Subject();
     }
 
@@ -93,6 +94,7 @@ export class SocketService implements ISocketService {
             	callback.resolve(response.data);
             }
             delete this.requests[response.requestId];
+            this.loader.hide();
         } 
     }
 
@@ -119,6 +121,7 @@ export class SocketService implements ISocketService {
                 let deferred = this.$q.defer();
                 this.requests[request.requestId] = deferred;
                 console.log('WS Service: wsRequest', request, this.requests, deferred);
+                this.loader.show();
                 return deferred.promise;
             });
     }

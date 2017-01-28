@@ -1,6 +1,7 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './profile-user.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
+import UserService from "../core/user.service";
 
 function configure(
     $stateProvider:StateProvider,
@@ -28,7 +29,8 @@ function configure(
             resolve: {
                 view: () => new DisplayView('user'),
                 //userId: ['$stateParams', $stateParams =>  $stateParams.uri],
-                user: ['UserService', '$stateParams', (UserService, $stateParams) => UserService.getProfile($stateParams.uri)]
+                user: ['UserService', '$stateParams', (UserService:UserService, $stateParams) =>
+                    UserService.getProfile($stateParams.uri)]
             },
             views: DefaultTemplate('user')
         });

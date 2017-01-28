@@ -1,6 +1,8 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './settings-user.translate';
 import { DisplayView } from "../core/display.constants";
+import UserService from "../core/user.service";
+import MessageService from "../core/message.service";
 
 function configure(
     $stateProvider:StateProvider,
@@ -76,10 +78,10 @@ function configure(
                 },*/
                 view: () => {return new DisplayView('settings');},
                 user: ['UserService', 'SystemMessageService', '$stateParams',
-                    function (UserService, SystemMessageService, $stateParams) {
+                    function (UserService:UserService, SystemServiceMessage, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
                             .catch((error)=> {
-                                SystemMessageService.show(error,'warning');
+                                SystemServiceMessage.show(error,'warning');
                                 // TODO перейти на страницу 404
                                 throw error;
                             });

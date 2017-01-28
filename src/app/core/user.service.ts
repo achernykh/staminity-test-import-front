@@ -5,6 +5,7 @@ import {ISocketService} from './socket.service';
 import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise } from 'angular';
+import {ISystemMessage} from "../../../api/core";
 
 
 export default class UserService {
@@ -30,10 +31,10 @@ export default class UserService {
 
     /**
      * Запрашиваем UserProfile на сервере
-     * @param request
+     * @param key - id | uri
      * @returns {Promise<T>}
      */
-    getProfile(key:string|number):Promise<IUserProfile> {
+    getProfile(key:string|number):Promise<IUserProfile> | Promise<ISystemMessage>{
         return this.SocketService.send(new GetRequest(key));
     }
 
