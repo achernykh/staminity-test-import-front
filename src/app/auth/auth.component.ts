@@ -10,7 +10,7 @@ class AuthCtrl implements IComponentController {
 	private showConfirm: boolean = false;
 	private credentials: Object = null;
 
-	static $inject = ['AuthService','SessionService','$state','SystemMessageService','$location','ActionMessageService', 'MessageService'];
+	static $inject = ['AuthService','SessionService','$state','SystemMessageService','$location','ActionMessageService', 'message'];
 
 	constructor(
 		private AuthService: any,
