@@ -106,25 +106,25 @@
                 <div class="title">О себе</div>
                 <div class="text">
                     <p>{{$ctrl.user.personal.about || "Информация не указана"}}</p>
-                    <p>Вес: {{}}     Рост: {{}}</p>
+                    <p ng-if="$ctrl.user.personal.weight || $ctrl.user.personal.height">Вес: {{$ctrl.user.personal.weight || '-'}}     Рост: {{$ctrl.user.personal.height || '-'}}</p>
                 </div>
 
                 <div class="title">Связи</div>
                 <div class="text">
-                    <md-button>Клуб: {{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</md-button>
-                    <md-button ng-click="$ctrl.coaches()">Тренеры: {{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</md-button>
-                    <md-button ng-click="$ctrl.athlets()">Спортсмены: {{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</md-button>
+                    <md-button class="md-no-style">Клуб: {{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.coaches()">Тренеры: {{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.athlets()">Спортсмены: {{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</md-button>
                     <br/>
-                    <md-button ng-click="$ctrl.subscribers()">Подписчики: {{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</md-button>
-                    <md-button ng-click="$ctrl.subscriptions()">Подписан: {{$ctrl.user.connections.Following.groupMembers.length || '-'}}</md-button>
-                    <md-button ng-click="$ctrl.friends()">Друзья: {{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</md-button>
-                    <md-button>Группы: -</md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.subscribers()">Подписчики: {{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.subscriptions()">Подписан: {{$ctrl.user.connections.Following.groupMembers.length || '-'}}</md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.friends()">Друзья: {{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</md-button>
+                    <md-button class="md-no-style">Группы: -</md-button>
                 </div>
 
-                <div class="title" ng-if="$ctrl.user.private.phone || $ctrl.user.private.email">Контакты</div>
+                <div class="title" ng-if="$ctrl.user.private.phone || $ctrl.user.personal.extEmail">Контакты</div>
                 <div class="text">
                     <span class="label">Телефон:</span> <span class="value">{{$ctrl.user.private.phone}}</span>
-                    <span class="label">Email:</span> <span class="value">{{$ctrl.user.private.email}}</span>
+                    <span class="label">Email:</span> <span class="value">{{$ctrl.user.personal.extEmail}}</span>
                 </div>
             </div>
         </div>

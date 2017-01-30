@@ -72,12 +72,11 @@
         padding: 25px;     
 
         th.md-column {
-            padding: 0 !important;
+            padding: 0 16px 0 0 !important;
         }
 
         td.md-cell {
-            padding: 0 !important;
-            border: none !important;
+            padding: 0 16px 0 0  !important;
         }
     }
 }       

@@ -79,9 +79,15 @@
                             {{member.userProfile | username}}
                         </td>
                         <td md-cell>{{member.roleMembership.join(' ')}}</td>
-                        <td md-cell><span ng-repeat="coach in member.coaches">{{$ctrl.member(coach).userProfile | username}} </span></td>
-                        <td md-cell><span ng-repeat="tariff in member.userProfile.billing">{{tariff.tariffCode}} </span></td>
-                        <td md-cell>{{member.athletes}}</td>
+                        <td md-cell>
+                            <span ng-repeat="coach in member.coaches">{{$ctrl.member(coach).userProfile | username}} </span>
+                            <span ng-if="!member.coaches || !member.coaches.length">-</span>
+                        </td>
+                        <td md-cell>
+                            <span ng-repeat="tariff in member.userProfile.billing">{{tariff.tariffCode}} </span>
+                            <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
+                        </td>
+                        <td md-cell>{{$ctrl.athletes(member).length || '-'}}</td>
                         <td md-cell>{{member.userProfile.city}}</td>
                         <td md-cell>{{member.userProfile | ageGroup}}</td>
                     </tr>
