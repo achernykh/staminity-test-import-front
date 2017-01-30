@@ -1,6 +1,7 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './settings-club.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
+import GroupService from "../core/group.service";
 
 function configure(
     $stateProvider:StateProvider,
@@ -13,7 +14,8 @@ function configure(
                 authRequired: ['func1'],
                 resolve: {
                     view: () => new DisplayView('settings'),
-                    club: (GroupService, $stateParams) => GroupService.getProfile($stateParams.uri, 'club')
+                    club: ['GroupService','$stateParams',(GroupService:GroupService, $stateParams) =>
+                        GroupService.getProfile($stateParams.uri, 'club')]
                 },
                 views: {
                     "background": {

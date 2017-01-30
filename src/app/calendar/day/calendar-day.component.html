@@ -161,9 +161,13 @@
     <!-- add item: start -->
     <div layout="row" layout-align="center center" flex="grow" hide show-gt-sm
          class="new" ng-class="{show: $ctrl.accent}">
-        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" style="margnin: 0px; padding: 0px"
-        ng-click="$ctrl.newItem($event,$ctrl.data)">
+        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More"
+                    ng-click="$ctrl.newActivity($event,$ctrl.data)">
             <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
+        </md-button>
+        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More"
+                    ng-click="$ctrl.newMeasurement($event,$ctrl.data)">
+            <md-icon class="material-icon" aria-label="New">straighten</md-icon>
         </md-button>
     </div>
     <!-- add item: end -->

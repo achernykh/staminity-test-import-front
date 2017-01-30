@@ -21,7 +21,7 @@
                         {{$ctrl.user | username}}
                     </div>
                     <div class="text">
-                        Россия, г. Москва, {{$ctrl.user.public | ageGroup}}
+                        {{$ctrl.user.personal.country}}, {{$ctrl.user.personal.city}}, {{$ctrl.user.personal | ageGroup}}
                     </div>
                     <div class="text">
                         {{$ctrl.user.personal.activity.join(', ')}}
@@ -96,7 +96,7 @@
                 </div>
 
                 <div class="profile-fab">
-                    <md-button class="md-fab" ui-sref="userSettings({uri: $ctrl.user.public.uri})">
+                    <md-button class="md-fab" ui-sref="settings/user({uri: $ctrl.user.public.uri})">
                         <md-icon class="material-icons">mode_edit</md-icon>
                     </md-button>
                 </div>
@@ -106,25 +106,25 @@
                 <div class="title">О себе</div>
                 <div class="text">
                     <p>{{$ctrl.user.personal.about || "Информация не указана"}}</p>
-                    <p>Вес: 84 кг     Рост: 184 кг</p>
+                    <p>Вес: {{}}     Рост: {{}}</p>
                 </div>
 
                 <div class="title">Связи</div>
                 <div class="text">
-                    <span class="label">Клуб:</span> <md-button class="value md-icon-button">{{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</md-button>
-                    <span class="label">Тренеры:</span> <md-button class="value md-icon-button" ng-click="$ctrl.coaches()">{{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</md-button>
-                    <span class="label">Спортсмены:</span> <md-button class="value md-icon-button" ng-click="$ctrl.athlets()">{{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</md-button>
+                    <md-button>Клуб: {{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</md-button>
+                    <md-button ng-click="$ctrl.coaches()">Тренеры: {{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</md-button>
+                    <md-button ng-click="$ctrl.athlets()">Спортсмены: {{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</md-button>
                     <br/>
-                    <span class="label">Подписчики:</span> <md-button class="value md-icon-button" ng-click="$ctrl.subscribers()">{{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</md-button>
-                    <span class="label">Подписан:</span> <md-button class="value md-icon-button" ng-click="$ctrl.subscriptions()">{{$ctrl.user.connections.Following.groupMembers.length || '-'}}</md-button>
-                    <span class="label">Друзья:</span> <md-button class="value md-icon-button" ng-click="$ctrl.friends()">{{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</md-button>
-                    <span class="label">Группы:</span> <md-button class="value md-icon-button">-</md-button>
+                    <md-button ng-click="$ctrl.subscribers()">Подписчики: {{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</md-button>
+                    <md-button ng-click="$ctrl.subscriptions()">Подписан: {{$ctrl.user.connections.Following.groupMembers.length || '-'}}</md-button>
+                    <md-button ng-click="$ctrl.friends()">Друзья: {{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</md-button>
+                    <md-button>Группы: -</md-button>
                 </div>
 
-                <div class="title">Контакты</div>
+                <div class="title" ng-if="$ctrl.user.private.phone || $ctrl.user.private.email">Контакты</div>
                 <div class="text">
-                    <span class="label">Телефон:</span> <span class="value">+79267891541</span>
-                    <span class="label">Email:</span> <span class="value">ivan.zhukov@gmail.com</span>
+                    <span class="label">Телефон:</span> <span class="value">{{$ctrl.user.private.phone}}</span>
+                    <span class="label">Email:</span> <span class="value">{{$ctrl.user.private.email}}</span>
                 </div>
             </div>
         </div>

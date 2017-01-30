@@ -1,4 +1,4 @@
-import { flatMap, unique, keys } from '../share/util.js';
+import { flatMap, unique, keys, entries } from '../share/util.js';
 import './management.component.scss';
 
 function equals (x0, x1) {
@@ -22,16 +22,6 @@ function tariffs (member) {
     }
 }
 
-const orderings = {
-    username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
-    tariff: (member) => member.tariffs && member.tariffs.map(t => t.tariffCode).join(', '),
-    city: (member) => member.userProfile.public.city,
-    ageGroup: (member) => member.userProfile.public.sex,
-    roles: (member) => member.roleMembership.join(' '),
-    coaches: (member) => member.coaches.map(c => c.userId).join(' '),
-    athletes: (member) => member.athletes.map(a => a.public.userId).join(' '),
-}
-
 class ManagementCtrl {
 
     constructor ($scope, $mdDialog, GroupService, dialogs, $mdMedia, $mdBottomSheet, SystemMessageService) {
@@ -44,19 +34,39 @@ class ManagementCtrl {
         this.SystemMessageService = SystemMessageService;
         this.isScreenSmall = $mdMedia('max-width: 959px');
         this.filter = null;
-        this.order = {
-            by: 'username',
-            reverse: false
-        }
+
+        this.orderings = {
+            username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
+            tariff: (member) => member.billing && member.billing.map(t => t.tariffCode).join(', '),
+            city: (member) => member.userProfile.public.city,
+            ageGroup: (member) => member.userProfile.public.sex,
+            roles: (member) => member.roleMembership.join(' '),
+            coaches: (member) => member.coaches.map(c => c.userId).join(' '),
+            athletes: (member) => this.athletes(member).map(a => a.userProfile.userId).join(' '),
+        };
+        this.orderBy = 'sort.username';
+
+        this.sortingHotfix();
     }
     
     member (id) {
         return this.management.members.find(m => m.userProfile.userId === id)
     }
+
+    athletes (member) {
+        return this.management.members.filter((m) => m.coaches.includes(member.userProfile.userId));
+    }
+
+    sortingHotfix () {
+        this.management.members.forEach((member) => {
+            member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
+        });
+    }
     
     update () {
-        return this.GroupService.getManagementProfile(this.club.groupId)
+        return this.GroupService.getManagementProfile(this.club.groupId,'club')
             .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
+            .then(() => { this.sortingHotfix() })
             .then(() => { this.$scope.$apply() })
     }
     
@@ -87,26 +97,19 @@ class ManagementCtrl {
         this.dialogs.subscriptions(oldTariffs)
         .then((newTariffs) => {
             if (newTariffs) {
-                let requests = flatMap(member => {
-                    let requests = []
-
-                    if (newTariffs.byUs.Coach && !oldTariffs.byUs.Coach) {
-                        requests.push(this.GroupService.join(this.management.availableGroups.CoachByGroup, member.userProfile.userId))
-                    } else if (!newTariffs.byUs.Coach && oldTariffs.byUs.Coach) {
-                        requests.push(this.GroupService.leave(this.management.availableGroups.CoachByGroup, member.userProfile.userId))
-                    }
-
-                    if (newTariffs.byUs.Premium && !oldTariffs.byUs.Premium) {
-                        requests.push(this.GroupService.join(this.management.availableGroups.PremiumByGroup, member.userProfile.userId))
-                    } else if (!newTariffs.byUs.Premium && oldTariffs.byUs.Premium) {
-                        requests.push(this.GroupService.leave(this.management.availableGroups.PremiumByGroup, member.userProfile.userId))
-                    }
-
-                    return requests
-                }) (checked)
-                return Promise.all(requests)
-            } else {
-                throw new Error()
+                let members = checked.map(member => member.userProfile.userId);
+                let memberships = [{
+                    groupId: this.management.availableGroups.CoachByGroup,
+                    direction: newTariffs.byUs.Coach? 'I' : 'O'
+                }, {
+                    groupId: this.management.availableGroups.PremiumByGroup,
+                    direction: newTariffs.byUs.Premium? 'I' : 'O'
+                }];
+                coaches.map(coach => ({
+                    groupId: coach.ClubAthletesGroupId,
+                    direction: coach.checked? 'I' : 'O'
+                }));
+                return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
             }
         })
         .then(() => this.update(), (error) => { this.SystemMessageService.show(error); this.update(); })
@@ -124,33 +127,34 @@ class ManagementCtrl {
         let checked = this.checked
         let checkedCoaches = checked[0].coaches || []
         let coaches = this.coaches
-        
-        this.dialogs.coaches(checked, coaches) 
+            .map((coach) => ({
+                userProfile: coach.userProfile,
+                ClubAthletesGroupId: coach.ClubAthletesGroupId,
+                checked: checkedCoaches.includes(coach.userProfile.userId)
+            }))
+
+        this.dialogs.coaches(coaches) 
         .then((coaches) => {
             if (coaches) {
-                let requests = flatMap(member => coaches.map(coach => {
-                    if (coach.checked && !checkedCoaches.find(c => c.userId == coach.userProfile.userId)) {
-                        return this.GroupService.join(coach.ClubAthletesGroupId, member.userProfile.userId)
-                    } else if (!coach.checked && checkedCoaches.find(c => c.userId == coach.userProfile.userId)) {
-                        return this.GroupService.leave(coach.ClubAthletesGroupId, member.userProfile.userId)
-                    }
-                })) (checked)
-                return Promise.all(requests)
-            } else {
-                throw new Error()
-            }
+                let members = checked.map(member => member.userProfile.userId);
+                let memberships = coaches.map(coach => ({
+                    groupId: coach.ClubAthletesGroupId,
+                    direction: coach.checked? 'I' : 'O'
+                }));
+                return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+            } 
         })
-        .then(() => this.update(), () => this.update())
+        .then(() => this.update(), (error) => { this.SystemMessageService.show(error); this.update(); })
     }
     
     get rolesAvailable() {
-        return allEqual(this.checked.map((user) => user.roles), angular.equals)
+        return allEqual(this.checked.map((user) => user.roleMembership), angular.equals)
     }
     
     roles () {
         let checked = this.checked
         let checkedRoles = checked[0].roleMembership || []
-        let roles = keys(this.management.availableGroups)
+        let roles = ['ClubAthletes', 'ClubCoaches', 'ClubManagement']
             .map((role) => ({
                 role: role,
                 checked: checkedRoles.includes(role)
@@ -159,17 +163,13 @@ class ManagementCtrl {
         this.dialogs.roles(roles)
         .then((roles) => {
             if (roles) {
-                let requests = flatMap(member => roles.map(role => {
-                    if (role.checked && !checkedRoles.includes(role.role)) {
-                        return this.GroupService.join(this.management.availableGroups[role.role], member.userProfile.userId)
-                    } else if (!role.checked && checkedRoles.includes(role.role)) {
-                        return this.GroupService.leave(this.management.availableGroups[role.role], member.userProfile.userId)
-                    }
-                })) (checked)
-                return Promise.all(requests)
-            } else {
-                throw new Error()
-            }
+                let members = checked.map(member => member.userProfile.userId);
+                let memberships = roles.map(role => ({
+                    groupId: this.management.availableGroups[role.role],
+                    direction: role.checked? 'I' : 'O'
+                }));
+                return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+            } 
         })
         .then(() => this.update(), (error) => { this.SystemMessageService.show(error); this.update(); })
     }
@@ -222,19 +222,6 @@ class ManagementCtrl {
     
     isVisible () {
         return (member) => !this.filter || this.filter.pred(member)
-    }
-    
-    orderBy () {
-        return orderings[this.order.by]
-    }
-    
-    setOrder (by) {
-        if (this.order.by == by) {
-            this.order.reverse = !this.order.reverse
-        } else {
-            this.order.by = by
-            this.order.reverse = false
-        }
     }
 };
 

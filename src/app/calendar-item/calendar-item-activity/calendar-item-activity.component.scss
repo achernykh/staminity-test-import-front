@@ -1,16 +1,30 @@
 @import "../../../sass/color";
+$details_width: 470px;
+$dialog_width: 95vw;
+$dialog_height: 95vh;
 
 md-dialog#activity{
   background: black;
 
   @media (min-width: 960px) {
-      max-height: 95vh;
-      max-width: 95vw;
+      max-height: $dialog_height;
+      max-width: $dialog_width;
+  }
+
+}
+md-dialog#post-activity{
+
+  @media (min-width: 960px) {
+    max-height: 65vh;
+    min-height: 600px;
+    max-width: $dialog_width;
   }
 
 }
 
 calendar-item-activity {
+
+
 
   height: 100vh;
   overflow: hidden;
@@ -33,7 +47,7 @@ calendar-item-activity {
 
   section.overview {
     background: white;
-    min-width: 500px;
+    min-width: calc(95vw - 470px);
   }
 
   section.details {
@@ -42,8 +56,8 @@ calendar-item-activity {
     min-height: 100%;
 
     @media (min-width: 960px) {
-      max-width: 470px;
-      min-width: 470px;
+      max-width: $details_width;
+      min-width: $details_width;
       min-height: 640px;
 
       md-toolbar {
@@ -57,6 +71,7 @@ calendar-item-activity {
   }
 
   section.overview-content  {
+
     header {
       //background-color: $grey-200;
       padding: 0px 16px;
@@ -73,23 +88,24 @@ calendar-item-activity {
 
   }
 
-  div.map {
+  activity-route.map {
     background-color: grey;
+  }
+
+  .angular-leaflet-map {
+    height: 100%;
   }
 
   div.chart {
-    background-color: grey;
+    //background-color: grey;
   }
 
   measure-split-table {
-    background-color: grey;
+    //background-color: grey;
   }
 
-  div.map, div.chart {
-    //min-height: 300px;
-  }
 
-  div.map, div.chart, div.table {
+  activity-route, div.chart, measure-split-table {
 
     transition: all 0.3s ease-in-out;
 

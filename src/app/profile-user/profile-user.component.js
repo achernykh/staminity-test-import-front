@@ -178,7 +178,7 @@ class ProfileCtrl {
     cancelAthletes () {
         return this.dialogs.confirm('Отменить заявку?')
             .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.processGroupMembership(this.user.connections.Athletes.groupId, 'C'))
+            .then(() => this.GroupService.processMembership( 'C', this.user.connections.Athletes.groupId))
             .then(() => this.update(), error => this.message.show(error))
     }
 

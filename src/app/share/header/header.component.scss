@@ -1,4 +1,13 @@
 @import '../../../sass/color';
+@import '../../../sass/animation';
+
+#header-left-toolbar, #header-right-toolbar {
+	@include animate(0.5s, 1s, 1);
+}
+
+#header-caption {
+	@include animate(1s, 0s, 1);
+}
 
 .application-header {
 	position: absolute;

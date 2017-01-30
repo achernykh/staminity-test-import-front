@@ -4,7 +4,6 @@ import './calendar-item-measurement.component.scss';
 class CalendarItemMeasurementData {
 
     constructor(mode, data, UserService) {
-        debugger;
         if (mode == 'post')
             Object.assign(this,
                 {

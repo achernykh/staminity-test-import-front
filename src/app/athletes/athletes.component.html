@@ -21,49 +21,37 @@
                 <md-button class="md-primary" ng-click="$ctrl.remove()"> <i class="material-icons">delete</i> </md-button>
             </div>
         </div>
-        
-        <table>
-            <tr>
-                <th> 
-                    <md-checkbox ng-model="$ctrl.allChecked" aria-label="all checked"></md-checkbox> 
-                </th>
-                <th ng-click="$ctrl.setOrder('username')">
-                    Cпортсмен
-                    <span ng-if="$ctrl.order.by=='username'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
-                </th>
-                <th ng-click="$ctrl.setOrder('club')">
-                    Клуб
-                    <span ng-if="$ctrl.order.by=='club'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
-                </th>
-                <th ng-click="$ctrl.setOrder('tariff')">
-                    Тариф
-                    <span ng-if="$ctrl.order.by=='tariff'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
-                </th>
-                <th ng-click="$ctrl.setOrder('city')">
-                    Город
-                    <span ng-if="$ctrl.order.by=='city'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
-                </th>
-                <th ng-click="$ctrl.setOrder('ageGroup')">
-                    Возрастная группа
-                    <span ng-if="$ctrl.order.by=='ageGroup'">{{$ctrl.order.reverse?'⌃':'⌄'}}</span>
-                </th>
-            </tr>
-            <tr ng-repeat="athlete in $ctrl.rows = ($ctrl.athletes | filter:$ctrl.search | orderBy:$ctrl.order.by:$ctrl.order.reverse)">
-                <td> <md-checkbox ng-model="athlete.checked" aria-label="user checked"></md-checkbox> </td>
-                <td ui-sref="user({uri: member.userProfile.public.uri})">
-                    <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{athlete | avatar}}; background-size: cover;"></div>
-                    <span>{{athlete | username}}</span>
-                </td>
-                <td>-</td>
-                <td>
-                    <span ng-repeat="tariff in athlete.tariffs">{{tariff.tariffCode}} </span>
-                </td>
-                <td>{{athlete.city}}</td>
-                <td>{{athlete | ageGroup}}</td>
-            </tr>
-        </table>
+
+        <md-table-container flex>
+            <table md-table md-row-select="$ctrl.options.rowSelection" multiple ng-model="$ctrl.selected">
+                <thead md-head md-order="$ctrl.orderBy">
+                    <tr md-row>
+                        <th md-column> <md-checkbox ng-model="$ctrl.allChecked"></md-checkbox> </th>
+                        <th md-column md-order-by="sort.username"><span>Cпортсмен</span></th>
+                        <th md-column md-order-by="sort.club"><span>Клуб</span></th>
+                        <th md-column md-order-by="sort.tariff"><span>Тариф</span></th>
+                        <th md-column md-order-by="sort.city"><span>Город</span></th>
+                        <th md-column md-order-by="sort.ageGroup"><span>Возрастная группа</span></th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row
+                        md-select="split"
+                        ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.orderBy)">
+                        <td md-cell> <md-checkbox ng-model="member.checked"></md-checkbox> </td>
+                        <td md-cell ui-sref="user({uri: member.userProfile.public.uri})">
+                            <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{member.userProfile | avatar}}; background-size: cover;"></div>
+                            <span>{{member.userProfile | username}}</span>
+                        </td>
+                        <td md-cell>-</td>
+                        <td md-cell><span ng-repeat="tariff in member.userProfile.billing">{{tariff.tariffCode}} </span></td>
+                        <td md-cell>{{member.userProfile.city}}</td>
+                        <td md-cell>{{member.userProfile | ageGroup}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
     </div>
-    
     
     <div ng-if="$ctrl.isScreenSmall" class="users" style="height:100%">
         <md-list>
@@ -77,9 +65,9 @@
                 <md-icon class="material-icons" style="margin-left:0">tune</md-icon>
                 Все ({{$ctrl.rows.length}})
             </md-list-item>
-            <md-list-item ng-repeat="athlete in $ctrl.rows = ($ctrl.athletes | filter:$ctrl.search)">
-                <div class="md-avatar" style="height: 24px; width: 24px; background: {{athlete | avatar}}; background-size: cover;" ui-sref="user({uri: member.userProfile.public.uri})"></div>
-                <span ui-sref="user({uri: member.userProfile.public.uri})">{{athlete | username}}</span>
+            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search)">
+                <div class="md-avatar" style="height: 24px; width: 24px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="user({uri: member.userProfile.public.uri})"></div>
+                <span ui-sref="user({uri: member.userProfile.public.uri})">{{member.userProfile | username}}</span>
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
             </md-list-item>
         </md-list>

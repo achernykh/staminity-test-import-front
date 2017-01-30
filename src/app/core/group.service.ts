@@ -4,27 +4,27 @@ import {
     IBulkGroupMembership } from '../../../api/group/group.interface';
 
 import {
-    GetRequest,
-    PutRequest,
+    GetProfileRequest,
+    PutProfileRequest,
     JoinRequest,
     LeaveRequest,
     GetMembershipRequest,
-    ProcessGroupMembershipRequest,
-    GetGroupManagementProfile,
-    PutGroupMembershipBulk } from '../../../api/group/group.request';
+    ProcessMembershipRequest,
+    GetMembersListRequest,
+    GetGroupManagementProfileRequest,
+    PutGroupMembershipBulkRequest } from '../../../api/group/group.request';
 
 import {ISocketService} from './socket.service';
 import {PostFile, IRESTService} from './rest.service';
 import { IHttpPromise } from 'angular';
 
-
 export default class GroupService {
-    static $inject = ['SocketService', 'RESTService'];
+
+    static $inject = ['SocketService','RESTService'];
 
     constructor(
         private SocketService:ISocketService,
-        private RESTService:IRESTService
-    ) { 
+        private RESTService:IRESTService) {
     }
 
     /**
@@ -34,7 +34,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     getProfile(id:string|number, type?:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new GetRequest(id,type));
+        return this.SocketService.send(new GetProfileRequest(id,type));
     }
 
     /**
@@ -43,17 +43,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     putProfile(profile:IGroupProfile):Promise<any>{
-        return this.SocketService.send(new PutRequest(profile));
-    }
-
-    /**
-     * Реестр запросов
-     * @param offset
-     * @param limit
-     * @returns {Promise<IGroupProfile>}
-     */
-    getMembershipRequest(offset:number, limit: number):Promise<IGroupProfile> {
-        return this.SocketService.send(new GetMembershipRequest(offset, limit));
+        return this.SocketService.send(new PutProfileRequest(profile));
     }
 
     /**
@@ -75,30 +65,42 @@ export default class GroupService {
     }
 
     /**
-     * Запрос информации о членах клуба для управления тарифами и ролями
-     * @param groupId
-     * @returns {Promise<any>}
+     * Получение реестра запросов
+     * @param offset
+     * @param limit
+     * @returns {Promise<IGroupProfile>}
      */
-    getManagementProfile(groupId: number):Promise<IGroupManagementProfile>{
-        return this.SocketService.send(new GetGroupManagementProfile(groupId));
+    getMembershipRequests(offset:number, limit: number):Promise<IGroupProfile> {
+        return this.SocketService.send(new GetMembershipRequest(offset, limit));
     }
 
     /**
      * Принять/отклонить/отменить запрос
-     * @param id
+     * @param groupId - номер группы
+     * @param requestId - номер запроса
      * @returns {Promise<IGroupProfile>}
      */
-    processMembershipRequest(requestId:number, action:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new ProcessGroupMembershipRequest(requestId, action));
+    processMembership(action:string, groupId?:number, requestId?:number, ):Promise<IGroupProfile> {
+        return this.SocketService.send(new ProcessMembershipRequest(action, groupId,requestId));
     }
-    
+
     /**
-     * Принять/отклонить/отменить запрос
+     * Получение списка пользователей, входящих в группу
      * @param groupId
      * @returns {Promise<IGroupProfile>}
      */
-    processGroupMembership(groupId:number, action:string):Promise<IGroupProfile> {
-        return this.SocketService.send(new ProcessGroupMembershipRequest(groupId, action));
+    getMembershipList(groupId:number):Promise<IGroupProfile> {
+        return this.SocketService.send(new GetMembersListRequest(groupId));
+    }
+
+    /**
+     * Запрос информации о членах клуба для управления тарифами и ролями
+     * @param groupId
+     * @param type - group | club | coach
+     * @returns {Promise<any>}
+     */
+    getManagementProfile(groupId: number, type: string):Promise<IGroupManagementProfile>{
+        return this.SocketService.send(new GetGroupManagementProfileRequest(groupId, type));
     }
 
     /**
@@ -108,7 +110,7 @@ export default class GroupService {
      * @returns {Promise<any>}
      */
     putGroupMembershipBulk(groupId: number, membership: Array<IBulkGroupMembership>, users: Array<number>):Promise<any> {
-        return this.SocketService.send(new PutGroupMembershipBulk(groupId, membership, users));
+        return this.SocketService.send(new PutGroupMembershipBulkRequest(groupId, membership, users));
     }
 
     /**

@@ -12,8 +12,10 @@ function configure(
             authRequired: ['func1'],
             resolve: {
                 view: () => new DisplayView('athletes'),
-                user: ['UserService','SessionService',
-                    (UserService, SessionService) => UserService.getProfile(SessionService.getUser().userId)]
+                user: ['UserService','SessionService', 
+                    (UserService, SessionService) => UserService.getProfile(SessionService.getUser().userId)],
+                management: ['GroupService','user',
+                    (GroupService, user) => GroupService.getManagementProfile(user.connections.Athletes.groupId, 'coach')]
             },
             views: DefaultTemplate('athletes')
         });

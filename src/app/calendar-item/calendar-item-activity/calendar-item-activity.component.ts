@@ -1,11 +1,11 @@
-import { IComponentOptions, IComponentController, IChangesObject,IPromise} from 'angular';
+import { IComponentOptions, IComponentController, IChangesObject,IPromise, copy} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
 import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {IActivityHeader, IActivityDetails} from "../../../../api/activity/activity.interface";
-import ActivityData from '../../activity/activity.viewmodel';
+import ActivityDatamodel from '../../activity/activity.datamodel';
 import './calendar-item-activity.component.scss';
 
 
@@ -20,15 +20,17 @@ class CalendarItemActivityCtrl implements IComponentController{
     public item: any;
     public onAnswer: (response: Object) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
+    private showMap: boolean = true;
 
 
-    static $inject = ['CalendarService','UserService','ActivityService','MessageService'];
+    static $inject = ['CalendarService','UserService','ActivityService','MessageService','$mdMedia'];
 
     constructor(
         private CalendarService: CalendarService,
         private UserService: UserService,
         private ActivityService: ActivityService,
-        private message: IMessageService) {
+        private message: IMessageService,
+        private $mdMedia: any) {
 
     }
 
@@ -38,7 +40,11 @@ class CalendarItemActivityCtrl implements IComponentController{
         //this.itemDetails = this.ActivityService.getDetails(this.data.activityHeader.activityId)
         //    .then(response => this.itemDetails = response, error => console.error(error));
 
-        this.item = angular.copy(new ActivityData( this.mode, this.header, this.details));
+        this.item = copy(new ActivityDatamodel( this.mode, this.header, this.details));
+    }
+
+    toggleMap(){
+       return this.showMap = !this.showMap;
     }
 
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.

@@ -43,10 +43,10 @@ export default class DialogsService {
         });
     }
     
-    coaches (users, coaches) {
+    coaches (coaches) {
         return this.$mdDialog.show({
             controller: CoachesController,
-            locals: { users, coaches },
+            locals: { coaches },
             template: require('./coaches.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
@@ -66,7 +66,6 @@ export default class DialogsService {
 DialogsService.$inject = ['$mdDialog'];
 
 function ConfirmDialogController($scope, $mdDialog, message) {
-    
     $scope.message = message
     
     $scope.cancel = () => {
@@ -81,7 +80,6 @@ ConfirmDialogController.$inject = ['$scope','$mdDialog'];
 
 
 function UploadPictureDialogController($scope, $mdDialog) {
-    
     var file, src;
     
     $scope.files = (files) => {
@@ -109,7 +107,6 @@ function UploadPictureDialogController($scope, $mdDialog) {
 UploadPictureDialogController.$inject = ['$scope','$mdDialog'];
 
 function FriendsController($scope, $mdDialog, users, title) {
-
     $scope.users = users;
     $scope.title = title;
 
@@ -117,7 +114,7 @@ function FriendsController($scope, $mdDialog, users, title) {
         $mdDialog.cancel();
     };
 }
-FriendsController.$inject = ['$scope','$mdDialog'];
+FriendsController.$inject = ['$scope', '$mdDialog', 'users', 'title'];
 
 function RolesController ($scope, $mdDialog, roles) {
     
@@ -131,7 +128,7 @@ function RolesController ($scope, $mdDialog, roles) {
         $mdDialog.hide();
     };
 }
-RolesController.$inject = ['$scope','$mdDialog'];
+RolesController.$inject = ['$scope', '$mdDialog', 'roles'];
 
 function SubscriptionsController ($scope, $mdDialog, tariffs) {
     $scope.tariffs = tariffs;
@@ -146,12 +143,8 @@ function SubscriptionsController ($scope, $mdDialog, tariffs) {
 }
 SubscriptionsController.$inject = ['$scope', '$mdDialog', 'tariffs'];
 
-function CoachesController ($scope, $mdDialog, users, coaches) {
-    
-    /*$scope.coaches = coaches.map((coach) => ({
-        ...coach,
-        checked: users[0].roleMembership.includes(coach) 
-    }));*/
+function CoachesController ($scope, $mdDialog, coaches) {
+    $scope.coaches = coaches;
     
     $scope.commit = () => {
         $mdDialog.hide($scope.coaches);
@@ -161,4 +154,4 @@ function CoachesController ($scope, $mdDialog, users, coaches) {
         $mdDialog.hide();
     };
 }
-CoachesController.$inject = ['$scope','$mdDialog'];
+CoachesController.$inject = ['$scope','$mdDialog', 'coaches'];

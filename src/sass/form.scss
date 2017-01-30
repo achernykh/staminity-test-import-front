@@ -86,3 +86,15 @@ form md-list.md-dense, md-list.md-dense form {
         font-size: 13px;
     }
 }
+
+md-list-item md-input-container.md-icon-left {
+  md-select, input, label, div.md-resize-wrapper {
+    margin-left: 24px;
+  }
+}
+
+md-list.slim-input{
+  md-list-item md-input-container {
+    margin-top: 8px;
+  }
+}

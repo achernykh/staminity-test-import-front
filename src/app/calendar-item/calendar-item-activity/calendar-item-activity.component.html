@@ -1,7 +1,6 @@
 
-    <section class="overview" ng-if="true"
-             flex="auto" layout="column" hide show-gt-sm
-             style="background-color: greenyellow">
+    <section class="overview" ng-if="$ctrl.mode !== 'post'"
+             flex="auto" layout="column" hide show-gt-sm>
         <md-toolbar flex="none" class="md-hue-3">
             <div class="md-toolbar-tools">
                 <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
@@ -36,19 +35,24 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <section flex="auto" class="overview-content" layout="column"
-                 ng-init="showMap = true;showChart = true;showTable = true">
+        <section flex="none" class="overview-content" layout="column"
+                 ng-init="showChart = true; showTable = true">
 
-            <header flex="none" class="map" layout="row" layout-align="start center">
+            <header flex="none" class="map" layout="row" layout-align="start center"
+                    ng-if="$ctrl.item.isRouteExist">
                 <md-icon class="material-icon">directions</md-icon>
                 <p class="md-body-2" translate>Карта</p>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="showMap = !showMap">
+                <md-button class="md-icon-button"
+                           ng-click="$ctrl.toggleMap()">
                     <md-icon class="md-secondary material-icon md-dark"
-                             ng-bind="showMap ? 'expand_more': 'expand_less'"></md-icon>
+                             ng-bind="$ctrl.showMap ? 'expand_more': 'expand_less'"></md-icon>
                 </md-button>
             </header>
-            <div flex="auto" class="map" ng-if="showMap">Карта</div>
+            <activity-route flex ng-if="$ctrl.showMap && $ctrl.item.isRouteExist"
+                            class="map activity-route"
+                            data="$ctrl.item.route" select="$ctrl.select" zoom-enabled="true" layer-enabled="true">
+            </activity-route >
             <md-divider ng-if="showChart"></md-divider>
             <header flex="none" layout="row" layout-align="start center">
                 <md-icon class="material-icon">multiline_chart</md-icon>
@@ -81,21 +85,124 @@
 
     <section class="details" flex="none" layout-fill layout="column" style="background-color: indianred">
         <md-toolbar flex="none" class="md-hue-2">
-            <div class="md-toolbar-tools" hide-gt-sm>
+            <div class="md-toolbar-tools" ng-if="!$ctrl.$mdMedia('gt-sm') || $ctrl.mode === 'post'">
+                <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+                    <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
+                               aria-label="User">
+                        <md-icon class="material-icons">menu</md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.mode === 'post'">
+                                <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                                <span translate="measurement.toolbar.delete"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="" ng-disabled="true">
+                                <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
+                                <span translate="measurement.toolbar.settings"></span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
                 <h2 translate="Тренировка"></h2>
+                <!--<p class="md-caption" style="position: absolute; top: 38px; left: 62px;">13.10.1984</p>-->
                 <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                    <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+                    <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+                </md-button>
             </div>
         </md-toolbar>
         <md-content flex="auto" class="md-hue-2" layout="column">
             <md-tabs flex layout="column" layout-fill
-                     class="md-primary md-hue-2" md-selected="'1'">
+                     class="md-primary md-hue-2" md-selected="'0'">
                 <md-tab id="tab1" flex layout="column" label="Обзор">
                     <md-tab-content>
-                        View for Item #1 <br/>
-                        data.selectedIndex = 0;
+                        <form>
+                            <md-list class="md-dense slim-input">
+                                <md-list-item>
+                                    <md-input-container class="md-block no-message" md-no-float layout="row">
+                                        <md-icon flex="none" class="material-icons">directions_run</md-icon>
+                                        <md-select flex ng-model="user.state1" class="icon">
+                                            <md-option value="Бег">Бег</md-option>
+                                            <md-option value="Плавание">Плавание</md-option>
+                                            <md-option value="Велосипед">Велосипед</md-option>
+                                        </md-select>
+                                        <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                                            <div ng-message-exp="['required']"
+                                                 translate="form.required">
+                                            </div>
+                                            <div ng-message-exp="['minlength', 'maxlength']"
+                                                 translate="form.rangeStr" translate-values="{min:2, max:100}">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </md-list-item>
+                                <md-list-item>
+                                    <md-input-container class="md-block no-message" md-no-float>
+                                        <md-icon class="material-icons">tune</md-icon>
+                                        <md-select ng-model="user.state2" class="icon">
+                                            <md-option value="Длинные интервалы">Длинные интервалы</md-option>
+                                            <md-option value="Короткие интервалы">Короткие интервалы</md-option>
+                                            <md-option value="Восстановление">Восстановление</md-option>
+                                        </md-select>
+                                        <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                                            <div ng-message-exp="['required']"
+                                                 translate="form.required">
+                                            </div>
+                                            <div ng-message-exp="['minlength', 'maxlength']"
+                                                 translate="form.rangeStr" translate-values="{min:2, max:100}">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </md-list-item>
+                                <md-list-item layout="row" layout-wrap layout-align="start center">
+                                    <md-input-container flex="45" flex-xs="100" class="no-message" md-no-float>
+                                        <md-datepicker ng-model="$ctrl.user.personal.birthday"
+                                                       name="birthday"></md-datepicker>
+                                        <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                                            <div ng-message="valid">The entered value is not a date!</div>
+                                        </div>
+                                    </md-input-container>
+                                    <div flex="10"></div>
+                                    <md-input-container flex="45" flex-xs="100" class="no-message" md-no-float>
+                                        <md-icon class="material-icons">access_time</md-icon>
+                                        <input type="time" name="uri" class=""
+                                               ng-model="$ctrl.user.public.uri"
+                                               ng-disabled="false">
+                                        <div ng-messages="$ctrl.publicForm.uri.$error" role="alert">
+                                            <div ng-message-exp="['required']"
+                                                 translate="form.required">
+                                            </div>
+                                            <div ng-message-exp="['minlength', 'maxlength']"
+                                                 translate="form.rangeStr" translate-values="{min:2, max:100}">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </md-list-item>
+                                <md-list-item>
+                                    <md-icon class="material-icons">format_list_numbered</md-icon>
+                                    <p>Cтруктурированная тренировка</p>
+                                    <md-switch class="md-secondary" ng-model="false"></md-switch>
+                                </md-list-item>
+                            </md-list>
+                            <md-divider></md-divider>
+                            <md-list>
+                                <md-list-item></md-list-item>
+                                <md-list-item>
+                                    <md-input-container flex class="md-block no-message">
+                                        <md-icon class="material-icons">face</md-icon>
+                                        <label translate="Установка тренера" class="icon"></label>
+                                        <textarea ng-model="$ctrl.user.personal.about" class="icon" name="about" rows="1" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                </md-list-item>
+                            </md-list>
+                        </form>
                     </md-tab-content>
                 </md-tab>
-                <md-tab id="tab2" label="Детали" layout-fill layout-wrap>
+                <md-tab id="tab4" label="Детали" layout-fill layout-wrap>
                     <md-tab-content layout-fill>
                         <measures-avg-table class="measures-avg-table"
                                             measures="$ctrl.item.calcMeasures"
@@ -106,18 +213,19 @@
                                              sport="$ctrl.item.activityType"></measure-main-button>
                     </md-tab-content>
                 </md-tab>
+                <md-tab id="tab2" flex layout="column" label="Зоны">
+                    <md-tab-content>
+                        View for Item #2 <br/>
+                        data.selectedIndex = 1;
+                    </md-tab-content>
+                </md-tab>
                 <md-tab id="tab3" label="Чат">
                     <md-tab-content>
                         View for Item #3 <br/>
                         data.selectedIndex = 2;
                     </md-tab-content>
                 </md-tab>
-                <md-tab id="tab4" label="Зоны">
-                    <md-tab-content>
-                        View for Item #3 <br/>
-                        data.selectedIndex = 2;
-                    </md-tab-content>
-                </md-tab>
+
             </md-tabs>
         </md-content>
     </section>

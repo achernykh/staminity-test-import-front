@@ -7,6 +7,8 @@ import 'angular-material/angular-material.scss';
 import 'angular-material-data-table/dist/md-data-table.css';
 import 'smdatetimerangepicker/src/picker';
 import 'smdatetimerangepicker/src/picker.css';
+import 'leaflet/dist/leaflet.css';
+import 'ui-leaflet/dist/ui-leaflet.js';
 
 import run from './app.run';
 import configure from './app.config';
@@ -31,7 +33,9 @@ const root = module('staminity.application', [
 	ngMaterial,
 	uiRouter,
 	ngMaterialTable,
-	"smDateTimeRangePicker",
+	'smDateTimeRangePicker',
+	'nemLogging',
+	'ui-leaflet',
 
 	Core,
 	Share,
