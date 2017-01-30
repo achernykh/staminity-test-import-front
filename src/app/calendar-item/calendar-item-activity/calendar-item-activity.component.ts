@@ -8,22 +8,19 @@ import {IActivityHeader, IActivityDetails} from "../../../../api/activity/activi
 import ActivityDatamodel from '../../activity/activity.datamodel';
 import './calendar-item-activity.component.scss';
 
-
-//CalendarItemMeasurementData.$inject = ['UserService'];
-
 class CalendarItemActivityCtrl implements IComponentController{
 
     private header: IActivityHeader;
     private details: IActivityDetails;
     public data: any;
-    public mode: any;
+    public mode: string;
     public item: any;
     public onAnswer: (response: Object) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
     private showMap: boolean = true;
 
 
-    static $inject = ['CalendarService','UserService','ActivityService','MessageService','$mdMedia'];
+    static $inject = ['CalendarService','UserService','ActivityService','message','$mdMedia'];
 
     constructor(
         private CalendarService: CalendarService,
