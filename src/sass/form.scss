@@ -87,6 +87,8 @@ form md-list.md-dense, md-list.md-dense form {
     }
 }
 
+// Кстомизация страндартных элементов ввода input,select,textarea для отображения внутри элементов md-list, md-list-item
+// В стандарте отсуп после иконок для таких элементов 36px, а типовой отстпуп в md-list - 56px
 md-list-item md-input-container.md-icon-left:first-child {
   padding-left: 56px; // вместо 36 px, чтобы быть с одинм отсупом с элементами md-list
 
@@ -97,6 +99,10 @@ md-list-item md-input-container.md-icon-left:first-child {
     margin-left: 20px; // для поддержки отступа в 56px
   }
 }
+//----------------------------------------------------------------------------------------------------------------------
+// slim form
+// набор стилей для создания форм внутри md-list, md-list-item, где высота элемента не превышает 40px,
+// в стандарте это 52px, что отличается от раза макетов и не позволяет выделить столько свободного места
 
 md-list.md-dense.slim-input md-list-item{
 
@@ -123,11 +129,12 @@ md-list.md-dense.slim-input md-list-item{
     margin-bottom: 1px;
   }
 }
-
+//----------------------------------------------------------------------------------------------------------------------
+// Кастомизация элемента md-data-table
+// В стандарте, если не установлено никаких проверок на элемент ввода, то поле ввода не имеет отступа от нижний графницы
 md-edit-dialog div.md-content {
   padding: 16px 24px; // вместо 16px 24px 0px
 }
-
 // fix https://github.com/daniel-nagy/md-data-table/issues/235
 md-backdrop.md-edit-dialog-backdrop {
   z-index: 81; /* or greater */
