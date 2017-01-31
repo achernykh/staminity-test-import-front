@@ -2,37 +2,41 @@ import moment from 'moment/src/moment';
 import * as angular from 'angular';
 
 class CalendarDayCtrl {
-    constructor($mdDialog,ActionMessageService, ActivityService){
+    constructor($mdDialog, ActionMessageService, ActivityService) {
         this.$mdDialog = $mdDialog;
         this.ActionMessageService = ActionMessageService;
         this.ActivityService = ActivityService;
     }
-    $onInit(){
-	    let diff = moment().diff(moment(this.data.date),'days',true);
+
+    $onInit() {
+        let diff = moment().diff(moment(this.data.date), 'days', true);
         this.today = diff >= 0 && diff < 1;
     }
-    onDelete(){
+
+    onDelete() {
         "use strict";
         let items = this.data.calendarItems;
         console.log('CalendarDay: onDelete items=', items, this.data);
         //for (let item of items) {
 
-            this.calendar.onDeleteItem(this.data.calendarItems);
+        this.calendar.onDeleteItem(this.data.calendarItems);
         //}
 
     }
-    onPaste(){
+
+    onPaste() {
         "use strict";
         this.calendar.onPasteDay(this.data.date)
     }
-    onCopy(){
+
+    onCopy() {
         "use strict";
         this.calendar.onCopyItem(this.data.calendarItems)
     }
 
     onOpen($event, type, data) {
 
-        if(type === 'activity') {
+        if (type === 'activity') {
             //this.ActivityService.getDetails(data.activityHeader.activityId)
             //    .then(response => console.log(JSON.stringify(response)), error =>
             // console.error(JSON.stringify(error)));
@@ -40,8 +44,7 @@ class CalendarDayCtrl {
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
-                template:
-                    `<md-dialog id="activity" aria-label="Activity">
+                template: `<md-dialog id="activity" aria-label="Activity">
                         <calendar-item-activity
                                 layout="row" class="calendar-item-activity"
                                 header="$ctrl.header.activityHeader" details="$ctrl.details" mode="put"
@@ -55,7 +58,7 @@ class CalendarDayCtrl {
                 },
                 resolve: {
                     details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
-                                            .then(response => response, error => console.error(error))
+                        .then(response => response, error => console.error(error))
                 },
                 bindToController: true,
                 clickOutsideToClose: true,
@@ -68,29 +71,29 @@ class CalendarDayCtrl {
 
                     // При изменение записи сначала удаляем старую, потом создаем новую
                     /*if(response.type == 'put'){
-                        this.calendar.onDeleteItem(data)
-                        this.calendar.onPostItem(response.item)
-                        this.ActionMessageService.simple('Изменения сохранены')
-                    }*/
+                     this.calendar.onDeleteItem(data)
+                     this.calendar.onPostItem(response.item)
+                     this.ActionMessageService.simple('Изменения сохранены')
+                     }*/
 
                     /*if(response.type == 'delete') {
-                        this.calendar.onDeleteItem(response.item)
-                        this.ActionMessageService.simple('Запись удалена')
-                    }*/
+                     this.calendar.onDeleteItem(response.item)
+                     this.ActionMessageService.simple('Запись удалена')
+                     }*/
 
 
-                }, ()=> {
-                    console.log('user cancel dialog, data=',data)
+                }, () => {
+                    console.log('user cancel dialog, data=', data)
                 })
 
         }
 
-        if(type === 'measurement')
+
+        if (type === 'measurement')
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
-                template:
-                    `<md-dialog id="measurement" aria-label="Measurement">
+                template: `<md-dialog id="measurement" aria-label="Measurement">
                         <calendar-item-measurement
                                 flex layout="column" class="calendar-item-measurement"
                                 data="$ctrl.data" mode="put"
@@ -112,29 +115,28 @@ class CalendarDayCtrl {
                     console.log('user close dialog with =', response)
 
                     // При изменение записи сначала удаляем старую, потом создаем новую
-                    if(response.type == 'put'){
+                    if (response.type == 'put') {
                         this.calendar.onDeleteItem(data)
                         this.calendar.onPostItem(response.item)
                         this.ActionMessageService.simple('Изменения сохранены')
                     }
 
-                    if(response.type == 'delete') {
+                    if (response.type == 'delete') {
                         this.calendar.onDeleteItem(response.item)
                         this.ActionMessageService.simple('Запись удалена')
                     }
 
 
-                }, ()=> {
-                    console.log('user cancel dialog, data=',data)
+                }, () => {
+                    console.log('user cancel dialog, data=', data)
                 })
     }
 
-    newActivity($event, data){
+    newActivity($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
-            template:
-                `<md-dialog id="post-activity" aria-label="Activity">
+            template: `<md-dialog id="post-activity" aria-label="Activity">
                         <calendar-item-activity
                                 layout="row" class="calendar-item-activity"
                                 header="$ctrl.header.activityHeader" mode="post"
@@ -155,17 +157,17 @@ class CalendarDayCtrl {
             escapeToClose: false,
             fullscreen: true
         })
-            .then(response => console.log('user close dialog with =', response),() => console.log('user cancel dialog, data=',data))
+            .then(response => console.log('user close dialog with =', response), () => console.log('user cancel dialog, data=', data))
     }
 
-    newMeasurement($event, data){
+    newMeasurement($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
             template: `<calendar-item-measurement class="calendar-item-measurement"` +
-                                                 `data="$ctrl.data" mode="post"` +
-                                                 `on-cancel="cancel()" on-answer="answer(response)">` +
-                      `</calendar-item-measurement>`,
+            `data="$ctrl.data" mode="post"` +
+            `on-cancel="cancel()" on-answer="answer(response)">` +
+            `</calendar-item-measurement>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
@@ -179,17 +181,49 @@ class CalendarDayCtrl {
         })
             .then(response => {
                 console.log('user close dialog with =', response)
-                if(response.type == 'post') {
+                if (response.type == 'post') {
                     this.calendar.onPostItem(response.item)
                     this.ActionMessageService.simple('Создана новая запись')
                 }
 
-            }, ()=> {
+            }, () => {
                 console.log('user cancel dialog')
             })
     }
+
+    newWeekend($event, data) {
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template: `<md-dialog id="events" aria-label="Events">
+                        <calendar-item-events
+                                flex layout="column" class="calendar-item-events"
+                                data="$ctrl.data" mode="put"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-events>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                data: data
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: true
+
+        })
+            .then(response => {
+                console.log('user close dialog with =', response)
+
+            }, () => {
+                console.log('user cancel dialog, data=', data)
+            })
+    }
+
+
 }
-CalendarDayCtrl.$inject = ['$mdDialog','ActionMessageService', 'ActivityService'];
+CalendarDayCtrl.$inject = ['$mdDialog', 'ActionMessageService', 'ActivityService'];
 
 export let CalendarDay = {
     bindings: {
@@ -208,17 +242,17 @@ export let CalendarDay = {
 export default CalendarDay;
 
 function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log('cancel');
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ['$scope','$mdDialog'];
+DialogController.$inject = ['$scope', '$mdDialog'];

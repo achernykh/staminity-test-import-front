@@ -1,10 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<md-toolbar class="md-hue-3">
+    <div class="md-toolbar-tools">
+        <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
+                       aria-label="User">
+                <md-icon class="material-icons">menu</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.mode == 'post'">
+                        <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                        <span translate="events.toolbar.delete"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="" ng-disabled="true">
+                        <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
+                        <span translate="events.toolbar.settings"></span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <h2 translate="events.toolbar.title"></h2>
+        <span flex></span>
+        <div flex="none"
+             class="avatar mini"
+             style="background-image: url({{'/user/avatar/' + $ctrl.data.userProfileOwner.public.avatar | image}})"></div>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{'events.toolbar.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
 
-</body>
-</html>
+<md-dialog-content>
+    <form name="$ctrl.eventsForm">
+        <md-list class="md-dense slim-input bg-grey-200">
+            <md-list-item>
+                <md-input-container class="md-block no-message" md-no-float layout="row">
+                    <md-icon flex="none" class="material-icons">weekend</md-icon>
+                    <md-select flex ng-model="user.state1" class="icon">
+                        <md-option value="Отдых">Отдых</md-option>
+                        <md-option value="Плавание">Плавание</md-option>
+                        <md-option value="Велосипед">Велосипед</md-option>
+                    </md-select>
+                    <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item layout="row">
+                <md-input-container flex md-no-float class="md-block no-message">
+                    <md-datepicker ng-model="$ctrl.item._dateStart"
+                                   name="date" md-min-date="minDate"
+                                   md-max-date="maxDate"></md-datepicker>
+                    <div ng-messages="$ctrl.eventsForm.date.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                        <div ng-message="required">This date is required!</div>
+                        <div ng-message="mindate">Date is too early!</div>
+                        <div ng-message="maxdate">Date is too late!</div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-icon flex="none" class="material-icons">weekend</md-icon>
+                <p> Целый день </p>
+                <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
+            </md-list-item>
+            <md-list-item layout="row">
+                <md-input-container flex md-no-float class="md-block no-message">
+                    <md-datepicker ng-model="$ctrl.item._dateStart"
+                                   name="date" md-min-date="minDate"
+                                   md-max-date="maxDate"></md-datepicker>
+                    <div ng-messages="$ctrl.eventsForm.date.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                        <div ng-message="required">This date is required!</div>
+                        <div ng-message="mindate">Date is too early!</div>
+                        <div ng-message="maxdate">Date is too late!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex md-no-float class="md-block no-message">
+                    <md-datepicker ng-model="$ctrl.item._dateStart"
+                                   name="date" md-min-date="minDate"
+                                   md-max-date="maxDate"></md-datepicker>
+                    <div ng-messages="$ctrl.eventsForm.date.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                        <div ng-message="required">This date is required!</div>
+                        <div ng-message="mindate">Date is too early!</div>
+                        <div ng-message="maxdate">Date is too late!</div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item flex layout="row">
+                <md-input-container flex class="md-block no-message">
+                    <label translate="events.personalInfo.about"></label>
+                    <textarea ng-model="$ctrl.user.personal.about" name="about" rows="1" md-select-on-focus></textarea>
+                </md-input-container>
+            </md-list-item>
+
+            <md-fab-speed-dial ng-cloak class="animated bounceIn" md-theme="default">
+                <md-fab-trigger>
+                    <md-button type="submit"
+                               aria-label="submit" class="md-fab md-accent"
+                               ng-disabled="!$ctrl.measurementForm.$dirty"
+                               ng-class="{'md-warn': !$ctrl.measurementForm.$valid}"
+                               ng-click="$ctrl.measurementForm.$valid ? $ctrl.onSave() : null">
+                        <md-icon class="material-icons">save</md-icon>
+                        <md-tooltip md-direction="left">{{'measurement.toolbar.save' | translate}}</md-tooltip>
+                    </md-button>
+                </md-fab-trigger>
+            </md-fab-speed-dial>
+        </md-list>
+    </form>
+</md-dialog-content>
