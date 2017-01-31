@@ -9,18 +9,6 @@ function allEqual (xs, p = equals) {
     return !xs.length || xs.every((x) => p(x, xs[0]));
 }
 
-function tariffs (member) {
-    return {
-        byUs: {
-            Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile),
-            Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile)
-        },
-        bySelf: {
-            Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !t.clubProfile),
-            Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !t.clubProfile)
-        }
-    }
-}
 
 class ManagementCtrl {
 
@@ -57,6 +45,19 @@ class ManagementCtrl {
         return this.management.members.filter((m) => m.coaches.includes(member.userProfile.userId));
     }
 
+    tariffs (member) {
+        return {
+            byUs: {
+                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile),
+                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.clubProfile)
+            },
+            bySelf: {
+                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && !t.clubProfile),
+                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !t.clubProfile)
+            }
+        }
+    }
+
     sortingHotfix () {
         this.management.members.forEach((member) => {
             member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
@@ -87,28 +88,24 @@ class ManagementCtrl {
     }
     
     get subscriptionsAvailable () {
-        return allEqual(this.checked.map(tariffs), angular.equals)
+        return allEqual(this.checked.map(m => this.tariffs(m)), angular.equals)
     }
     
     subscriptions () {
         let checked = this.checked
-        let oldTariffs = tariffs(checked[0])
+        let oldTariffs = this.tariffs(checked[0])
 
         this.dialogs.subscriptions(oldTariffs, 'byClub')
         .then((newTariffs) => {
             if (newTariffs) {
                 let members = checked.map(member => member.userProfile.userId);
                 let memberships = [{
-                    groupId: this.management.availableGroups.CoachByGroup,
+                    groupId: this.management.tariffGroups.CoachByClub,
                     direction: newTariffs.byUs.Coach? 'I' : 'O'
                 }, {
-                    groupId: this.management.availableGroups.PremiumByGroup,
+                    groupId: this.management.tariffGroups.PremiumByClub,
                     direction: newTariffs.byUs.Premium? 'I' : 'O'
                 }];
-                coaches.map(coach => ({
-                    groupId: coach.ClubAthletesGroupId,
-                    direction: coach.checked? 'I' : 'O'
-                }));
                 return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
             }
         })

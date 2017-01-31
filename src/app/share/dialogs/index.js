@@ -135,7 +135,7 @@ function SubscriptionsController ($scope, $mdDialog, tariffs, byWho) {
     $scope.byWho = byWho;
 
     $scope.commit = () => {
-        $mdDialog.hide($scope.subscriptions);
+        $mdDialog.hide($scope.tariffs);
     };
     
     $scope.cancel = () => {
