@@ -36,16 +36,20 @@ class AthletesCtrl {
         this.isScreenSmall = $mdMedia('max-width: 959px');
         
         this.orderings = {
-            username: (user) => `${user.public.firstName} ${user.public.lastName}`,
-            club: (user) => (user.connections.Clubs[0] && user.connections.Clubs[0].public.name) || '-',
-            tariff: (user) => user.billing && user.billing.map(t => t.tariffCode).join(', '),
-            city: (user) => user.public.city,
-            ageGroup: (user) => user.public.sex
+            username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
+            club: (member) => '-',
+            tariff: (member) => member.billing && member.billing.map(t => t.tariffCode).join(', '),
+            city: (member) => member.userProfile.public.city,
+            ageGroup: (member) => member.userProfile.public.sex
         };
         this.orderBy = 'username';
+
+        this.sortingHotfix();
     }
 
     sortingHotfix () {
+        this.management.members = this.management.members || [];
+
         this.management.members.forEach((member) => {
             member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
         });
@@ -82,7 +86,7 @@ class AthletesCtrl {
         let checked = this.checked
         let oldTariffs = tariffs(checked[0])
 
-        this.dialogs.subscriptions(oldTariffs)
+        this.dialogs.subscriptions(oldTariffs, 'byCoach')
         .then((newTariffs) => {
             if (newTariffs) {
                 let members = checked.map(member => member.userProfile.userId);

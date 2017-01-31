@@ -94,7 +94,7 @@ class ManagementCtrl {
         let checked = this.checked
         let oldTariffs = tariffs(checked[0])
 
-        this.dialogs.subscriptions(oldTariffs)
+        this.dialogs.subscriptions(oldTariffs, 'byClub')
         .then((newTariffs) => {
             if (newTariffs) {
                 let members = checked.map(member => member.userProfile.userId);

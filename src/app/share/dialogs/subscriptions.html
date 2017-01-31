@@ -6,7 +6,7 @@
         </div>
         
         <div class="label">
-            За счет клуба
+            {{byWho}}
         </div>
         
         <div class="row">
@@ -23,13 +23,13 @@
             За свой счет
         </div>
         
-        <div class="row">
-            <md-switch  ng-model="tariffs.bySelf.Coach"></md-switch>
+        <div class="row" ng-if="tariffs.bySelf.Coach">
+            <md-switch checked disabled></md-switch>
             Тренер
         </div>
         
-        <div class="row">
-            <md-switch  ng-model="tariffs.bySelf.Premium"></md-switch>
+        <div class="row" ng-if="tariffs.bySelf.Premium">
+            <md-switch checked disabled></md-switch>
             Премиум
         </div>
         
