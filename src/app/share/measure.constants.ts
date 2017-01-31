@@ -1,3 +1,5 @@
+import moment from 'moment/src/moment.js';
+
 // Справочник видов спорта
 export const _activity_type = {
     icon: '/assets/icon/',
@@ -88,6 +90,10 @@ export const _measurement = {
         unit: "meter",
         fixed: 0
     },
+    movingDuration: {
+        unit: "min",
+        fixed: 0
+    },
     speed: {
         unit: "mps",
         fixed: 0
@@ -106,8 +112,36 @@ export const _measurement = {
     }
 };
 
+export const measurementUnit = (measure) => _measurement[measure].unit;
+export const measurementUnitView = (sport, measure) => _activity_measurement_view[sport][measure].unit;
+export const measurementUnitDisplay = (sport, measure) =>
+    ((_activity_measurement_view[sport].hasOwnProperty(measure)) && measurementUnitView(sport,measure)) ||
+        measurementUnit(measure);
+
+export const measurementFixed = (measure) => _measurement[measure].fixed;
+
 // Перечень показателей релевантных для пересчета скорости в темп (10км/ч = 6:00 мин/км)
 export const _measurement_pace_unit = ['minpkm','minp100m'];
+
+export const isDuration = (unit) => ['min'].indexOf(unit) !== -1;
+export const isPace = (unit) => ['mps','minpkm','minp100m'].indexOf(unit) !== -1;
+
+export const validators = (sport,measure) => {
+    let unit = measurementUnitDisplay(sport,measure);
+    if(isDuration(unit) || isPace(unit)) {
+        return {
+            step: 1
+        };
+    } else {
+        return {
+            step: 0.1
+        };
+    }
+};
+
+//export const saveMeasure = (measure, value) = {
+
+//};
 
 // Справочник пересчета показателей
 export const _measurement_calculate = {
@@ -124,6 +158,9 @@ export const _measurement_calculate = {
         kmph: (x) => x * 3.6,
         minpkm: (x) => (60 * 60) / (x * 3.6),
         minp100m: (x) => (60 * 60) / (x * 3.6 * 10)
+    },
+    minpkm: {
+        mps: (x) => (60 * 60) / (x * 3.6)
     }
 };
 

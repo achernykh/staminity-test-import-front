@@ -21,7 +21,12 @@ import {
     _activity_measurement_view,
     _measurement_calculate,
     _measurement_system_calculate,
-    _measurement_pace_unit
+    _measurement_pace_unit,
+    isDuration,
+    isPace,
+    measurementUnit,
+    measurementUnitView,
+    measurementUnitDisplay
 } from './measure.constants';
 
 import './components.scss';
@@ -127,8 +132,9 @@ const Share = module('staminity.share', [])
                 }
 
                 // Показатель релевантен для пересчета скорости в темп
-                if (_measurement_pace_unit.indexOf(unit) !== -1){
-                    return moment().startOf('day').seconds(data).format('mm:ss');
+                if (isDuration(unit) || isPace(unit)){
+                    let format = data >= 60*60 ? 'hh:mm:ss' : 'mm:ss';
+                    return moment().startOf('day').seconds(data).format(format);
                 }
                 else {
                     return Number(data).toFixed(fixed);
@@ -147,6 +153,49 @@ const Share = module('staminity.share', [])
             return moment().startOf('day').seconds(second).format('H:mm:ss');
         };
     })
+    .filter('percentByTotal', ['$filter',($filter)=> {
+        return (value, total, decimal = 0) => {
+            if (value && total) {
+                return $filter('number')(value/total*100,decimal)+'%';
+            }
+        };
+    }])
+    .filter('measureEdit',['$filter',($filter)=>{
+        return (measure, value, sport) => {
+            let unit = measurementUnitDisplay(sport, measure);
+            if(isDuration(unit)) {
+                return new Date(moment().startOf('day').seconds(value));
+            } else if(isPace(unit)){
+                return new Date(moment($filter('measureCalc')(value,sport,measure),'mm:ss'));
+            } else {
+                return Number($filter('measureCalc')(value,sport,measure));
+            }
+        };
+    }])
+    .filter('measureSave',['UserService',(UserService)=> {
+        return (measure, value,sport) => {
+
+            let unit = measurementUnitDisplay(sport, measure);
+
+            if(isDuration(unit)) {
+                return moment(value).diff(moment(value).startOf('day'),'seconds');
+            } else {
+                if (isPace(unit)) {
+                    value = moment(value).diff(moment(value).startOf('day'),'seconds');
+                }
+                // обратный пересчет по системе мер
+                if (UserService.profile.display.units !== 'metric'){
+                    value = value / _measurement_system_calculate[unit].multiplier;
+                }
+                // пересчет от единиц представления в еденицы обмена данными
+                if (unit !== measurementUnit(measure)) {
+                    value = _measurement_calculate[unit][measurementUnit(measure)](value);
+                }
+
+                return value;
+            }
+        };
+    }])
     .component('staminityBackground',BackgroundComponent)
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)

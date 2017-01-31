@@ -121,7 +121,7 @@
                 <md-tab id="tab1" flex layout="column" label="Обзор">
                     <md-tab-content>
                         <form>
-                            <md-list class="md-dense slim-input">
+                            <md-list class="md-dense slim-input bg-grey-200">
                                 <md-list-item>
                                     <md-input-container class="md-block no-message" md-no-float layout="row">
                                         <md-icon flex="none" class="material-icons">directions_run</md-icon>
@@ -158,42 +158,53 @@
                                         </div>
                                     </md-input-container>
                                 </md-list-item>
-                                <md-list-item layout="row" layout-wrap layout-align="start center">
-                                    <md-input-container flex="45" flex-xs="100" class="no-message" md-no-float>
-                                        <md-datepicker ng-model="$ctrl.user.personal.birthday"
-                                                       name="birthday"></md-datepicker>
+                                <md-list-item layout="row" layout-align="start center">
+                                    <md-input-container flex="50" class="no-message" md-no-float>
+                                        <md-icon flex="none" class="material-icons" style="left: 0px">tune</md-icon>
+                                        <md-datepicker flex="auto" ng-model="$ctrl.user.personal.birthday"
+                                                       name="birthday" md-hide-icons="calendar" style="margin-left: 56px"></md-datepicker>
                                         <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
                                             <div ng-message="valid">The entered value is not a date!</div>
                                         </div>
                                     </md-input-container>
-                                    <div flex="10"></div>
-                                    <md-input-container flex="45" flex-xs="100" class="no-message" md-no-float>
-                                        <md-icon class="material-icons">access_time</md-icon>
+                                    <div flex="5" ></div>
+                                    <md-input-container flex="45" class="no-message" md-no-float>
                                         <input type="time" name="uri" class=""
                                                ng-model="$ctrl.user.public.uri"
                                                ng-disabled="false">
-                                        <div ng-messages="$ctrl.publicForm.uri.$error" role="alert">
-                                            <div ng-message-exp="['required']"
-                                                 translate="form.required">
-                                            </div>
-                                            <div ng-message-exp="['minlength', 'maxlength']"
-                                                 translate="form.rangeStr" translate-values="{min:2, max:100}">
-                                            </div>
-                                        </div>
                                     </md-input-container>
                                 </md-list-item>
                                 <md-list-item>
                                     <md-icon class="material-icons">format_list_numbered</md-icon>
-                                    <p>Cтруктурированная тренировка</p>
+                                    <p>Сегменты</p>
                                     <md-switch class="md-secondary" ng-model="false"></md-switch>
                                 </md-list-item>
+                                <md-list-item>
+                                    <md-icon class="material-icons">content_copy</md-icon>
+                                    <p>Шаблон</p>
+                                </md-list-item>
+                                <md-fab-speed-dial ng-cloak class="animated bounceIn" md-theme="default">
+                                    <md-fab-trigger>
+                                        <md-button type="submit"
+                                                   aria-label="submit" class="md-fab md-accent"
+                                                   ng-disabled="!$ctrl.measurementForm.$dirty"
+                                                   ng-class="{'md-warn': !$ctrl.measurementForm.$valid}"
+                                                   ng-click="$ctrl.measurementForm.$valid ? $ctrl.onSave() : null">
+                                            <md-icon class="material-icons">save</md-icon>
+                                            <md-tooltip md-direction="left">{{'measurement.toolbar.save' | translate}}</md-tooltip>
+                                        </md-button>
+                                    </md-fab-trigger>
+                                </md-fab-speed-dial>
                             </md-list>
                             <md-divider></md-divider>
-                            <md-list>
-                                <md-list-item></md-list-item>
+                            <md-list class="md-dense">
+                                    <activity-assignment class="activity-assignment"
+                                                        measures="$ctrl.item.calcMeasures"
+                                                        sport="$ctrl.item.activityType"></activity-assignment>
+
                                 <md-list-item>
                                     <md-input-container flex class="md-block no-message">
-                                        <md-icon class="material-icons">face</md-icon>
+                                        <md-icon class="material-icons">event_note</md-icon>
                                         <label translate="Установка тренера" class="icon"></label>
                                         <textarea ng-model="$ctrl.user.personal.about" class="icon" name="about" rows="1" md-select-on-focus></textarea>
                                     </md-input-container>

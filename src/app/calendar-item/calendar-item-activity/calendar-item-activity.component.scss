@@ -42,7 +42,8 @@ calendar-item-activity {
   md-fab-speed-dial {
     position: absolute;
     right: 16px;
-    bottom: 16px;
+    bottom: initial;
+    top: 190px;
   }
 
   section.overview {

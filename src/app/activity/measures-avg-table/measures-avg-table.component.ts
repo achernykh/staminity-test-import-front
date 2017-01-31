@@ -32,6 +32,7 @@ class MeasuresAvgTableCtrl implements IComponentController {
 
     $onInit() {
         this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
+        console.log('MeasuresAvgTable=',this.measures);
     }
 }
 

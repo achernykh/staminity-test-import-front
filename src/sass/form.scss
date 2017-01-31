@@ -87,14 +87,48 @@ form md-list.md-dense, md-list.md-dense form {
     }
 }
 
-md-list-item md-input-container.md-icon-left {
-  md-select, input, label, div.md-resize-wrapper {
-    margin-left: 24px;
+md-list-item md-input-container.md-icon-left:first-child {
+  padding-left: 56px; // вместо 36 px, чтобы быть с одинм отсупом с элементами md-list
+
+  > md-icon {
+    left: 0px;
+  }
+  label {
+    margin-left: 20px; // для поддержки отступа в 56px
   }
 }
 
-md-list.slim-input{
-  md-list-item md-input-container {
-    margin-top: 8px;
+md-list.md-dense.slim-input md-list-item{
+
+    min-height: 40px;
+    &:before {
+      min-height: 40px;
+    }
+
+  md-icon:first-child {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
   }
+
+  div.md-list-item-inner {
+    min-height: 40px;
+    > md-icon:first-child {
+      margin-top: 8px !important;
+      margin-bottom: 8px !important;
+    }
+  }
+
+  md-input-container {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+}
+
+md-edit-dialog div.md-content {
+  padding: 16px 24px; // вместо 16px 24px 0px
+}
+
+// fix https://github.com/daniel-nagy/md-data-table/issues/235
+md-backdrop.md-edit-dialog-backdrop {
+  z-index: 81; /* or greater */
 }

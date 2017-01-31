@@ -151,7 +151,7 @@ class CalendarDayCtrl {
             //        .then(response => response, error => console.error(error))
             //},
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: false,
             fullscreen: true
         })

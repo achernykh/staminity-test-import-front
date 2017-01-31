@@ -1,0 +1,42 @@
+<md-table-container>
+    <md-subheader>Задание</md-subheader>
+    <md-list-item>
+        <table md-table
+               md-row-select="$ctrl.options.rowSelection"
+               multiple="{{$ctrl.options.multiSelect}}"
+               ng-model="$ctrl.selected">
+            <thead ng-if="!$ctrl.options.decapitate" md-head>
+            <tr md-row>
+                <th md-column><span></span></th>
+                <th md-column hide><span>Показатель(ед.изм)</span></th>
+                <th md-column show><span>Ед.изм</span></th>
+                <th md-column md-numeric><span>План</span></th>
+                <th md-column md-numeric><span>Факт</span></th>
+                <th md-column md-numeric><span>Вып</span></th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row ng-repeat="measure in $ctrl.assignement.intervalPW">
+                <td md-cell><md-icon md-svg-src="assets/icon/{{measure.code}}.svg" class="dark-active"></md-icon></td>
+                <td md-cell hide>
+                    {{measure.code | translate}}&nbsp({{measure.code | measureUnit:$ctrl.sport | translate}})</td>
+                <td md-cell show>
+                    {{measure.code | measureUnit:$ctrl.sport | translate}}</td>
+
+                <td md-cell ng-click="$ctrl.editComment($event, measure)" ng-class="{'md-placeholder': !measure.value}">
+                    {{measure.value | measureCalc:$ctrl.sport:measure.code || 'Add a comment'}}
+                </td>
+
+                <td md-cell ng-click="$ctrl.editComment($event, $ctrl.assignement.intervalW[$index])"
+                    ng-class="{'md-placeholder': !$ctrl.assignement.intervalW[$index].value}">
+                    {{$ctrl.assignement.intervalW[$index].value | measureCalc:$ctrl.sport:measure.code || 'Add a comment'}}
+                </td>
+
+                <!--<td md-cell><input name="plan{{$index}}" type="number" value="{{measure.minValue | measureCalc:$ctrl.sport:measure.code}}"/></td>-->
+                <!--<td md-cell>{{measure.avgValue | measureCalc:$ctrl.sport:measure.code}}</td>-->
+                <td md-cell>{{$ctrl.assignement.intervalW[$index].value | percentByTotal:measure.value}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-list-item>
+</md-table-container>
