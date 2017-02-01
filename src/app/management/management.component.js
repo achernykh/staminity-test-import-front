@@ -48,12 +48,12 @@ class ManagementCtrl {
     tariffs (member) {
         return {
             byUs: {
-                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile),
-                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.clubProfile)
+                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile.groupId == this.club.groupId),
+                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.clubProfile == this.club.groupId)
             },
             bySelf: {
-                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && !t.clubProfile),
-                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !t.clubProfile)
+                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && !t.clubProfile == this.club.groupId),
+                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !t.clubProfile == this.club.groupId)
             }
         }
     }
