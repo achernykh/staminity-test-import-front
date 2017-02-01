@@ -16,6 +16,7 @@ module.exports = {
             'angular-aria',
             'angular-animate',
             'angular-messages',
+            'angular-sanitize',
             'angular-material',
             'angular-translate',
             'moment',
@@ -27,6 +28,7 @@ module.exports = {
             'angular-simple-logger', // какая-то хрень для ui-leaflet
             'leaflet',
             'ui-leaflet'
+            //'angular-read-more'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'

@@ -1,17 +1,20 @@
-import {IComponentOptions, IComponentController, IQService, IFilterService} from 'angular';
+import {IComponentOptions, IComponentController, IQService, IFilterService, IPromise} from 'angular';
 import './assignment.component.scss';
-import {IActivityMeasure} from "../../../../api/activity/activity.interface";
+import {IActivityMeasure, ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../share/measure.constants";
 import moment from 'moment/src/moment.js';
 
 class ActivityAssignmentCtrl implements IComponentController {
 
-    private assignement: {
-        intervalPW: Array<IActivityMeasure>;
-        intervalW: Array<IActivityMeasure>;
+    public assignment: {
+        intervalPW: ICalcMeasures;
+        intervalW: ICalcMeasures;
     };
-    private sport: string;
+    public sport: string;
+    public onChange: () => IPromise<void>;
+
     private selected:Array<number> = [];
+    private valueType: {};
     private options: {
         rowSelection: boolean;
         multiSelect: boolean;
@@ -36,66 +39,35 @@ class ActivityAssignmentCtrl implements IComponentController {
         limit: 5,
         page: 1
     };
-    private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain'];
+    private filter: Array<string> = ['movingDuration','distance','heartRate', 'speed'];
 
-    static $inject = ['$mdEditDialog','$q','$filter'];
+    static $inject = ['$scope','$mdEditDialog','$q','$filter'];
 
-    constructor(private $mdEditDialog: any, private $q: IQService, private $filter: any) {
-
+    constructor(private $scope: any, private $mdEditDialog: any, private $q: IQService, private $filter: any) {
+        // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
+        // this, а значит и нет доступа к массиву для фильтрации
+        this.$scope.measure = ['movingDuration','distance','heartRate', 'speed'];
+        this.valueType = {
+            movingDuration: 'maxValue',
+            distance: 'maxValue',
+            heartRate: 'avgValue',
+            speed: 'avgValue'
+        };
+        this.$scope.search = (measure) => $scope.measure.indexOf(measure.code) !== -1;
     }
 
     $onInit() {
-        this.assignement = {
-            intervalPW : [
-                {
-                    code: 'movingDuration',
-                    value: 60*60
-                },
-                {
-                    code: 'distance',
-                    value: 10*1000
-                },
-                {
-                    code: 'heartRate',
-                    value: null
-                },
-                {
-                    code: 'speed',
-                    value: null
-                }
-            ],
-            intervalW: [
-                {
-                    code: 'movingDuration',
-                    value: 62*60
-                },
-                {
-                    code: 'distance',
-                    value: 11*1000
-                },
-                {
-                    code: 'heartRate',
-                    value: 175
-                },
-                {
-                    code: 'speed',
-                    value: 3
-                }
-            ],
-        };
-
+        console.log('assignment=', this);
         this.sport = 'run';
-    }
-
-    percentComplete(value1,value2) {
-        return ((!!value1 && !!value2) && (value2 / value1) * 100) || null;
     }
 
     editComment (event, assignment) {
         event.stopPropagation(); // in case autoselect is enabled
 
+        console.log('change item = ', event, assignment);
+
         let editDialog = {
-            modelValue: this.$filter('measureEdit')(assignment.code, assignment.value, this.sport),
+            modelValue: this.$filter('measureEdit')(assignment.code, assignment[this.valueType[assignment.code]], this.sport),
             clickOutsideToClose: true,
             placeholder: assignment.code,
             save: (input) => {
@@ -106,7 +78,11 @@ class ActivityAssignmentCtrl implements IComponentController {
                 if(input.$modelValue === 'Bernie Sanders') {
                     return assignment.comment = 'FEEL THE BERN!';
                 }*/
-                assignment.value = this.$filter('measureSave')(assignment.code,input.$modelValue, this.sport);
+                assignment[this.valueType[assignment.code]] = this.$filter('measureSave')(assignment.code,input.$modelValue, this.sport);
+                //if (event.target.className.search('intervalW') !== -1) {
+                    this.calculateCompletePercent();
+                //}
+                this.onChange();
             },
 
             targetEvent: event,
@@ -133,12 +109,32 @@ class ActivityAssignmentCtrl implements IComponentController {
         });
     }
 
+    /**
+     * Расчет процента выполнения тренировки
+     * Процент берется как среднеарифметическое от план/факт выполнения. Для расчета берутся только значения
+     * 1) которые есть в фильтре задания
+     * 2) по которым есть план
+     */
+    calculateCompletePercent() {
+
+        this.assignment.intervalW.completePercent.value = this.$scope.measure
+                .filter(m => !!this.assignment.intervalPW[m][this.valueType[m]])
+                .map(m => (!!this.assignment.intervalW[m][this.valueType[m]] &&
+                    this.assignment.intervalW[m][this.valueType[m]] / this.assignment.intervalPW[m][this.valueType[m]]) || 0)
+                .reduce((percent, value, i, arr) => (percent + value) / arr.length) * 100;
+
+        this.assignment.intervalW.completePercent.value.toFixed(0);
+
+        console.log('set complete percent=', this.assignment.intervalW.completePercent.value);
+    }
+
 }
 
 const ActivityAssignmentComponent:IComponentOptions = {
     bindings: {
-        assignement: '<',
-        sport: '<'
+        assignment: '<',
+        sport: '<',
+        onChange: '&'
     },
     controller: ActivityAssignmentCtrl,
     template: require('./assignment.component.html') as string

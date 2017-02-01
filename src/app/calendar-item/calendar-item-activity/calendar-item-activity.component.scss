@@ -64,7 +64,18 @@ calendar-item-activity {
       md-toolbar {
         min-height: 16px;
       }
+    }
 
+    &.single {
+      @media (min-width: 960px) {
+        max-width: $details_width;
+        min-width: 360px;
+        min-height: 640px;
+
+        md-toolbar {
+          min-height: 16px;
+        }
+      }
     }
 
     background: $grey-100;

@@ -3,10 +3,15 @@ import {
 	IActivityDetails,
 	IActivityIntervalW,
 	IActivityIntervalL,
+	IActivityIntervalP,
 	IActivityMeasure,
 	ICalcMeasures, IActivityIntervalPW, IActivityInterval
 } from "../../../api/activity/activity.interface";
 import moment from 'moment/src/moment.js';
+import {copy} from 'angular';
+import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
+import {ICalendarItem} from "../../../api/calendar/calendar.interface";
+import {getActivityType, getCategory} from "./activity.constants";
 
 export interface IRoute {
 	lat:number;
@@ -14,7 +19,6 @@ export interface IRoute {
 }
 
 class Interval implements IActivityInterval{
-	//public type: string;
 	public trainersPrescription: string;
 	public durationMeasure: string;
 	public durationValue: number;
@@ -26,7 +30,34 @@ class Interval implements IActivityInterval{
 		this.durationMeasure = null; //movingDuration/distance, каким показателем задается длительность планового сегмента
 		this.durationValue = null; // длительность интервала в ед.изм. показателя длительности
 		this.calcMeasures = {
-
+			heartRate: { code: 'heartRate', value: null, minValue: null, avgValue: null, maxValue: null}, // пульсовая статистика по интервалу
+			heartRateDistancePeaks: { code: 'heartRateDistancePeaks', value: null, minValue: null, avgValue: null, maxValue: null}, // данные по пульсовым пикам на разных дистанциях
+			speed: { code: 'speed', value: null, minValue: null, avgValue: null, maxValue: null}, // статистика по скорости
+			speedDistancePeaks: { code: 'speedDistancePeaks', value: null, minValue: null, avgValue: null, maxValue: null}, // пики по скорости на разных дистанциях
+			duration: { code: 'duration', value: null, minValue: null, avgValue: null, maxValue: null}, // общее прошедшее время с начала тренировки
+			movingDuration: { code: 'movingDuration', value: null, minValue: null, avgValue: null, maxValue: null}, // время в движении
+			distance: { code: 'distance', value: null, minValue: null, avgValue: null, maxValue: null}, // пройденная дистанция
+			cadence: { code: 'cadence', value: null, minValue: null, avgValue: null, maxValue: null}, // кол-во шагов
+			strideLength: { code: 'strideLength', value: null, minValue: null, avgValue: null, maxValue: null}, // длина шага
+			swolf: { code: 'swolf', value: null, minValue: null, avgValue: null, maxValue: null}, // кол-во гребков + время в секунда на преодоление одной длины бассейна
+			calories: { code: 'calories', value: null, minValue: null, avgValue: null, maxValue: null}, // потраченные калории
+			power: { code: 'power', value: null, minValue: null, avgValue: null, maxValue: null}, // статистика по мощности
+			powerDistancePeaks: { code: 'powerDistancePeaks', value: null, minValue: null, avgValue: null, maxValue: null}, // пики по мощности на разных дистанциях
+			adjustedPower: { code: 'adjustedPower', value: null, minValue: null, avgValue: null, maxValue: null}, // скорость с поправкой на градиент
+			altitude: { code: 'altitude', value: null, minValue: null, avgValue: null, maxValue: null}, // высота над уровнем моря
+			elevationGain: { code: 'elevationGain', value: null, minValue: null, avgValue: null, maxValue: null}, // набранная высота
+			elevationLoss: { code: 'elevationLoss', value: null, minValue: null, avgValue: null, maxValue: null}, // кол-во метров спуска за интервал
+			grade: { code: 'grade', value: null, minValue: null, avgValue: null, maxValue: null}, // градиент в наборе/потере высоты
+			vam: { code: 'vam', value: null, minValue: null, avgValue: null, maxValue: null}, // вертикальная скорость
+			vamPowerKg: { code: 'vamPowerKg', value: null, minValue: null, avgValue: null, maxValue: null}, // относительная мощность подъема
+			temperature: { code: 'temperature', value: null, minValue: null, avgValue: null, maxValue: null}, // температура воздуха
+			intensityLevel: { code: 'intensityLevel', value: null, minValue: null, avgValue: null, maxValue: null}, // уровень интенсивности
+			variabilityIndex: { code: 'variabilityIndex', value: null, minValue: null, avgValue: null, maxValue: null}, // индекс изменений
+			efficiencyFactor: { code: 'efficiencyFactor', value: null, minValue: null, avgValue: null, maxValue: null}, // фактор эффективности
+			decouplingPower: { code: 'decouplingPower', value: null, minValue: null, avgValue: null, maxValue: null}, // кардиокомпенсация по мощности
+			decouplingPace: { code: 'decouplingPace', value: null, minValue: null, avgValue: null, maxValue: null}, // кардиокомпенсация по скорости
+			trainingLoad: { code: 'trainingLoad', value: null, minValue: null, avgValue: null, maxValue: null}, // тренировочная нагрузка
+			completePercent: { code: 'completePercent', value: null, minValue: null, avgValue: null, maxValue: null}, // процент выполнения сегмента по отношению к плановым значениям
 		};
 	}
 }
@@ -56,8 +87,209 @@ class ActivityHeader implements IActivityHeader {
 				code: null,
 				typeBasic: null
 		};
-		this.intervals = [new Interval('pW')];
+		this.intervals = [new Interval('pW'), new Interval('W')];
 	}
+}
+/**
+ *
+ */
+export class Activity extends CalendarItem {
+
+	public activityHeader: IActivityHeader;
+	private header: IActivityHeader;
+	private intervalPW: IActivityIntervalPW;
+	private intervalW: IActivityIntervalW;
+	private intervalL: Array<IActivityIntervalL>;
+	private intervalP: Array<IActivityIntervalP>;
+	private route: Array<IRoute>;
+	private isRouteExist: boolean;
+	private hasDetails: boolean;
+
+	constructor(item: ICalendarItem, details: IActivityDetails = null){
+		super(item);
+		if (!item.hasOwnProperty('activityHeader')) {
+			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
+		} else {
+			this.header = copy(item.activityHeader); // angular deep copy
+		}
+
+		this.hasDetails = !!details;
+		// Если итервала pW нет, то создаем его для
+		// Интервал pW необходим для вывода Задания и сравнения план/факт выполнения по неструктуриорванному заданию
+		this.intervalPW = (this.header.intervals.some(i => i.type === 'pW') &&
+			<IActivityIntervalPW>this.header.intervals.filter(i => i.type === "pW")[0]) ||
+			<IActivityIntervalPW>new Interval('pW');
+		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
+		this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
+		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
+		this.route = details ? this.getRouteData(details) : null;
+		this.isRouteExist = !!this.route;
+
+	}
+
+	// Подготовка данных для модели отображения
+	prepare() {
+		super.prepare();
+	}
+
+	// Подготовка данных для передачи в API
+	build() {
+		super.package();
+		this.header.activityType = getActivityType(Number(this.header.activityType.id));
+		// заглушка для тестирования собственных категорий
+		if (this.header.activityCategory){
+			this.header.activityCategory = getCategory(Number(this.header.activityCategory.id));
+		}
+		// заглушка для тестирования собственных категорий
+		if (this.header.activityCategory){
+			this.header.activityCategory.id = null;
+		}
+
+		return {
+			calendarItemId: this.calendarItemId,
+			calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
+			revision: this.revision,
+			dateStart: this.dateStart, // timestamp даты и времени начала
+			dateEnd: this.dateEnd, // timestamp даты и времени окончания
+			userProfileOwner: this.userProfileOwner,
+			//userProfileCreator: IUserProfileShort,
+			activityHeader: this.header
+		};
+	}
+
+	/**
+	 * Получаем данные для построения маршрута тренировки
+	 * @param details
+	 * @returns {any}
+	 */
+	getRouteData(details: IActivityDetails):Array<IRoute> {
+
+		if (!details.measures.hasOwnProperty('longitude') || !details.measures.hasOwnProperty('latitude')) {
+			return null;
+		}
+
+		let lng = details.measures['longitude'].idx; // lng index in array
+		let lat = details.measures['latitude'].idx; // lat index in array
+		return details.metrics
+			.filter(m => m[lng] !== 0 || m[lat] !== 0)
+			.map(m => ({lng: m[lng],lat: m[lat]}));
+	}
+
+	/**
+	 * Вид спорта
+	 * @returns {String}
+     */
+	get sport() {
+		return this.header.activityType.code;
+	}
+
+	/**
+	 * Базовый вид спорта
+	 * @returns {String}
+     */
+	get sportBasic(){
+		return this.header.activityType.typeBasic;
+	}
+
+	/**
+	 * Выполнена ли тренировка?
+	 * Проверяем наличие интервала с типов W, а также наличие значений в показателях
+	 * @returns {boolean}
+     */
+	get completed() {
+		return (!!this.intervalW &&
+			Object.keys(this.intervalW.calcMeasures).filter(m =>
+				this.intervalW.calcMeasures[m]['value'] || this.intervalW.calcMeasures[m]['minValue'] ||
+				this.intervalW.calcMeasures[m]['maxValue'] || this.intervalW.calcMeasures[m]['avgValue']).length > 0);
+	}
+
+	get structured() {
+		return !!this.intervalP;
+	}
+
+	get coming() {
+		return moment().diff(moment(this.dateStart, 'YYYY-MM-DD'), 'd') < 1;
+	}
+
+	/**
+	 * Тренировка имеет план?
+	 * Проверяем наличие интервала с типом pW, а также наличие значения в показателях
+	 * @returns {boolean}
+     */
+	get specified() {
+		return (!!this.intervalPW &&
+			Object.keys(this.intervalPW.calcMeasures).filter(m =>
+				this.intervalPW.calcMeasures[m]['value'] || this.intervalPW.calcMeasures[m]['minValue'] ||
+				this.intervalPW.calcMeasures[m]['maxValue'] || this.intervalPW.calcMeasures[m]['avgValue']).length > 0);
+	}
+
+	get bottomPanel() {
+		return ((this.coming && this.intervalPW.trainersPrescription) && 'prescription') ||
+			(this.completed && 'data') || null;
+	}
+
+	get percent() {
+		return (this.intervalW.calcMeasures.hasOwnProperty('completePercent')
+			&& this.intervalW.calcMeasures.completePercent.value) || null;
+	}
+
+	/**
+	 * Перечень статусов тренировки
+	 * 1) Запланирована, в будущем
+	 * 2) Запланирована, пропущена
+	 * 3) Запланирована, выполнена
+	 * 4) Запланирована, выполнена с допущением
+	 * 5) Запланирована, выполнена с нарушением
+	 * 6) Не запланирована, выполнена
+	 * @returns {string}
+	 */
+	get status() {
+
+		return (this.coming && 'coming') || (!this.specified && 'not-specified') || (!this.completed && 'dismiss')
+			|| (this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn') || 'complete-error';
+
+		/*if (this.coming)
+			return 'coming'
+		else if (!this.specified)
+			return 'not-specified'
+		else if (!this.completed)
+			return 'dismiss'
+		else if (this.percent > 75)
+			return "complete"
+		else if (this.percent > 50)
+			return "complete-warn"
+		else
+			return "complete-error"*/
+	}
+
+	get sportUrl() {
+		return `assets/icon/${this.sport}.svg`;
+	}
+
+	get movingDuration() {
+		return (this.coming && this.intervalPW.calcMeasures.movingDuration.value) ||
+			this.intervalW.calcMeasures.movingDuration.maxValue;
+	}
+
+	get distance() {
+		return (this.coming && this.intervalPW.calcMeasures.distance.value) ||
+			this.intervalW.calcMeasures.distance.maxValue;
+	}
+
+	// Формируем перечень показателей для панели data (bottomPanel)
+	get summaryAvg() {
+		let measures = ['speed','heartRate','power'];
+		let calc = this.intervalW.calcMeasures;
+
+		return measures
+			.map((measure)=>{
+				if(calc.hasOwnProperty(measure)){
+					return ((calc[measure].hasOwnProperty('avgValue')) &&
+						{ measure : measure, value: Number(calc[measure].avgValue)}) || {[measure]: null, value: null};
+				}})
+			.filter(measure => !!measure && !!measure.value);
+	}
+
 }
 
 class ActivityDatamodel {
@@ -75,7 +307,7 @@ class ActivityDatamodel {
 
 		// Режим создания новой записи
 		if (mode === 'post') {
-			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW
+			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
 		}
 		// Режим просмотра (view) / редактирования записи (put)
 		else {

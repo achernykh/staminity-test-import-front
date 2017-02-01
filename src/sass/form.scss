@@ -83,7 +83,8 @@ form md-list.md-dense, md-list.md-dense form {
     md-input-container label:not(.md-no-float):not(.md-container-ignore),
     md-input-container input::-webkit-input-placeholder,
     md-input-container textarea::-webkit-input-placeholder {
-        font-size: 13px;
+      font-size: 13px;
+      line-height: normal;
     }
 }
 

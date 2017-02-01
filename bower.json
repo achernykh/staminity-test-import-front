@@ -23,8 +23,8 @@
   "dependencies": {
     "angular": "^1.5.8",
     "ng-notify": "^0.8.0",
-    "angular-read-more": "^1.0.5"
+    "angular-read-more": "^1.0.5",
+    "angular-toArrayFilter": "^1.0.1"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

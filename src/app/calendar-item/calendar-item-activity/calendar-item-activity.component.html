@@ -1,5 +1,5 @@
 
-    <section class="overview" ng-if="$ctrl.mode !== 'post'"
+    <section class="overview" ng-if="$ctrl.mode !== 'post' && $ctrl.activity.hasDetails"
              flex="auto" layout="column" hide show-gt-sm>
         <md-toolbar flex="none" class="md-hue-3">
             <div class="md-toolbar-tools">
@@ -23,7 +23,7 @@
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
-                <h2 translate="{{$ctrl.item.sport}}"></h2>
+                <h2 translate="{{$ctrl.activity.sport}}"></h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
                     <md-tooltip md-direction="left">{{'measurement.toolbar.attach' | translate}}</md-tooltip>
@@ -39,7 +39,7 @@
                  ng-init="showChart = true; showTable = true">
 
             <header flex="none" class="map" layout="row" layout-align="start center"
-                    ng-if="$ctrl.item.isRouteExist">
+                    ng-if="$ctrl.activity.isRouteExist">
                 <md-icon class="material-icon">directions</md-icon>
                 <p class="md-body-2" translate>Карта</p>
                 <span flex></span>
@@ -49,9 +49,9 @@
                              ng-bind="$ctrl.showMap ? 'expand_more': 'expand_less'"></md-icon>
                 </md-button>
             </header>
-            <activity-route flex ng-if="$ctrl.showMap && $ctrl.item.isRouteExist"
+            <activity-route flex ng-if="$ctrl.showMap && $ctrl.activity.isRouteExist"
                             class="map activity-route"
-                            data="$ctrl.item.route" select="$ctrl.select" zoom-enabled="true" layer-enabled="true">
+                            data="$ctrl.activity.route" select="$ctrl.select" zoom-enabled="true" layer-enabled="true">
             </activity-route >
             <md-divider ng-if="showChart"></md-divider>
             <header flex="none" layout="row" layout-align="start center">
@@ -77,15 +77,16 @@
             </header>
             <measure-split-table flex="auto" layout-fill ng-if="showTable"
                                  class="chart measure-split-table"
-                                 splits="$ctrl.item.intervalL"
-                                 sport="$ctrl.item.activityType"></measure-split-table>
+                                 splits="$ctrl.activity.intervalL"
+                                 sport="$ctrl.activity.sportBasic"></measure-split-table>
 
         </section>
     </section>
 
-    <section class="details" flex="none" layout-fill layout="column" style="background-color: indianred">
+    <section class="details" flex="none" layout-fill layout="column" style="background-color: indianred"
+             ng-class="{'single': $ctrl.mode === 'post' || !$ctrl.activity.hasDetails}">
         <md-toolbar flex="none" class="md-hue-2">
-            <div class="md-toolbar-tools" ng-if="!$ctrl.$mdMedia('gt-sm') || $ctrl.mode === 'post'">
+            <div class="md-toolbar-tools" ng-if="!$ctrl.$mdMedia('gt-sm') || $ctrl.mode === 'post' || !$ctrl.activity.hasDetails">
                 <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
                     <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
                                aria-label="User">
@@ -120,17 +121,16 @@
                      class="md-primary md-hue-2" md-selected="'0'">
                 <md-tab id="tab1" flex layout="column" label="Обзор">
                     <md-tab-content>
-                        <form>
+                        <form name="$ctrl.activityForm">
                             <md-list class="md-dense slim-input bg-grey-200">
                                 <md-list-item>
                                     <md-input-container class="md-block no-message" md-no-float layout="row">
                                         <md-icon flex="none" class="material-icons">directions_run</md-icon>
-                                        <md-select flex ng-model="user.state1" class="icon">
-                                            <md-option value="Бег">Бег</md-option>
-                                            <md-option value="Плавание">Плавание</md-option>
-                                            <md-option value="Велосипед">Велосипед</md-option>
+                                        <md-select flex ng-model="$ctrl.activity.header.activityType.id" name="type" class="icon">
+                                            <md-option ng-repeat="type in $ctrl.types track by type.id"
+                                                       value="{{::type.id}}">{{::type.code}}</md-option>
                                         </md-select>
-                                        <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                                        <div ng-messages="$ctrl.activityForm.type.$error" role="alert">
                                             <div ng-message-exp="['required']"
                                                  translate="form.required">
                                             </div>
@@ -143,10 +143,9 @@
                                 <md-list-item>
                                     <md-input-container class="md-block no-message" md-no-float>
                                         <md-icon class="material-icons">tune</md-icon>
-                                        <md-select ng-model="user.state2" class="icon">
-                                            <md-option value="Длинные интервалы">Длинные интервалы</md-option>
-                                            <md-option value="Короткие интервалы">Короткие интервалы</md-option>
-                                            <md-option value="Восстановление">Восстановление</md-option>
+                                        <md-select ng-model="$ctrl.activity.header.activityCategory.id" name="category" class="icon">
+                                            <md-option ng-repeat="category in $ctrl.categories | filter:{activityTypeId: $ctrl.activity.header.activityType.id} track by category.id"
+                                                       value="{{::category.id}}">{{::category.code}}</md-option>
                                         </md-select>
                                         <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
                                             <div ng-message-exp="['required']"
@@ -161,9 +160,9 @@
                                 <md-list-item layout="row" layout-align="start center">
                                     <md-input-container flex="50" class="no-message" md-no-float>
                                         <md-icon flex="none" class="material-icons" style="left: 0px">tune</md-icon>
-                                        <md-datepicker flex="auto" ng-model="$ctrl.user.personal.birthday"
-                                                       name="birthday" md-hide-icons="calendar" style="margin-left: 56px"></md-datepicker>
-                                        <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                                        <md-datepicker flex="auto" ng-model="$ctrl.activity._dateStart"
+                                                       name="dateStart" md-hide-icons="calendar" style="margin-left: 56px"></md-datepicker>
+                                        <div ng-messages="$ctrl.publicForm.dateStart.$error">
                                             <div ng-message="valid">The entered value is not a date!</div>
                                         </div>
                                     </md-input-container>
@@ -174,7 +173,7 @@
                                                ng-disabled="false">
                                     </md-input-container>
                                 </md-list-item>
-                                <md-list-item>
+                                <!--<md-list-item>
                                     <md-icon class="material-icons">format_list_numbered</md-icon>
                                     <p>Сегменты</p>
                                     <md-switch class="md-secondary" ng-model="false"></md-switch>
@@ -182,14 +181,14 @@
                                 <md-list-item>
                                     <md-icon class="material-icons">content_copy</md-icon>
                                     <p>Шаблон</p>
-                                </md-list-item>
+                                </md-list-item>-->
                                 <md-fab-speed-dial ng-cloak class="animated bounceIn" md-theme="default">
                                     <md-fab-trigger>
                                         <md-button type="submit"
                                                    aria-label="submit" class="md-fab md-accent"
-                                                   ng-disabled="!$ctrl.measurementForm.$dirty"
-                                                   ng-class="{'md-warn': !$ctrl.measurementForm.$valid}"
-                                                   ng-click="$ctrl.measurementForm.$valid ? $ctrl.onSave() : null">
+                                                   ng-disabled="!$ctrl.activityForm.$dirty"
+                                                   ng-class="{'md-warn': !$ctrl.activityForm.$valid}"
+                                                   ng-click="$ctrl.activityForm.$valid ? $ctrl.onSave() : null">
                                             <md-icon class="material-icons">save</md-icon>
                                             <md-tooltip md-direction="left">{{'measurement.toolbar.save' | translate}}</md-tooltip>
                                         </md-button>
@@ -199,29 +198,33 @@
                             <md-divider></md-divider>
                             <md-list class="md-dense">
                                     <activity-assignment class="activity-assignment"
-                                                        measures="$ctrl.item.calcMeasures"
-                                                        sport="$ctrl.item.activityType"></activity-assignment>
-
+                                                         assignment="{ intervalPW: $ctrl.activity.intervalPW.calcMeasures,
+                                                                    intervalW: $ctrl.activity.intervalW.calcMeasures }"
+                                                         sport="$ctrl.activity.sportBasic"
+                                                         on-change="$ctrl.activityForm.$dirty = true">
+                                    </activity-assignment>
                                 <md-list-item>
                                     <md-input-container flex class="md-block no-message">
                                         <md-icon class="material-icons">event_note</md-icon>
                                         <label translate="Установка тренера" class="icon"></label>
-                                        <textarea ng-model="$ctrl.user.personal.about" class="icon" name="about" rows="1" md-select-on-focus></textarea>
+                                        <textarea ng-model="$ctrl.activity.intervalPW.trainersPrescription"
+                                                  class="icon" name="trainersPrescription"
+                                                  rows="1" md-select-on-focus></textarea>
                                     </md-input-container>
                                 </md-list-item>
                             </md-list>
                         </form>
                     </md-tab-content>
                 </md-tab>
-                <md-tab id="tab4" label="Детали" layout-fill layout-wrap>
+                <md-tab id="tab4" label="Детали" layout-fill layout-wrap ng-if="$ctrl.mode !== 'post">
                     <md-tab-content layout-fill>
                         <measures-avg-table class="measures-avg-table"
-                                            measures="$ctrl.item.calcMeasures"
-                                            sport="$ctrl.item.activityType"></measures-avg-table>
+                                            measures="$ctrl.activity.intervalW.calcMeasures"
+                                            sport="$ctrl.activity.sportBasic"></measures-avg-table>
 
                         <measure-main-button class="measure-main-button"
-                                             measures="$ctrl.item.calcMeasures"
-                                             sport="$ctrl.item.activityType"></measure-main-button>
+                                             measures="$ctrl.activity.intervalW.calcMeasures"
+                                             sport="$ctrl.activity.sportBasic"></measure-main-button>
                     </md-tab-content>
                 </md-tab>
                 <md-tab id="tab2" flex layout="column" label="Зоны">

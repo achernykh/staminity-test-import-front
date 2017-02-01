@@ -7,7 +7,7 @@
         <div layout="row" layout-align="space-between center" layout-align-xs="space-between start">
             <div flex="25" hide show-gt-sm
                  class="md-caption tight-07">
-                {{::$ctrl.data.percent}}{{!!$ctrl.data.percent ? '%' : ''}}</div>
+                {{$ctrl.data.percent}}{{!!$ctrl.data.percent ? '%' : ''}}</div>
 
             <div flex="none" flex-xs="30" flex-sm="30"
                  layout="row">
@@ -73,11 +73,11 @@
              ng-class="{'dark' : ($ctrl.status == 'planned')}"
              style=""
              ng-if="!!$ctrl.data.movingDuration || $ctrl.data.distance">
-            <div flex="none">{{::$ctrl.data.movingDuration}}</div>
+            <div flex="none">{{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
             <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
             <div flex="none">
-                {{::$ctrl.data.distance | measureCalc:$ctrl.data.activityType:'distance'}}&nbsp
-                {{'distance' | measureUnit:$ctrl.data.activityType | translate}}</div>
+                {{::$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp
+                {{'distance' | measureUnit:$ctrl.data.sportBasic | translate}}</div>
         </section>
         <calendar-activity-chart
                 ng-if="$ctrl.segmentChart.length > 2"
@@ -94,9 +94,9 @@
         <!-- Панель: Установка тренера -->
         <div ng-switch-when="prescription"
              flex class="md-caption"
-             ng-if="!!$ctrl.trainersPrescription"
+             ng-if="!!$ctrl.data.intervalPW.trainersPrescription"
              hm-read-more
-             hm-text="{{::$ctrl.trainersPrescription}}"
+             hm-text="{{$ctrl.data.intervalPW.trainersPrescription}}"
              hm-limit="50"
              hm-more-text="more"
              hm-less-text="less"
@@ -115,13 +115,9 @@
             <div flex layout="column"
                  class="md-caption secondary dark"
                  style="margin-top: 2px">
-                <!--<div flex>{{::$ctrl.data.speedAvg}}<span class="disable dark"> мин/км</span></div>
-                <div flex>{{::$ctrl.data.heartRateAvg}}<span class="disable dark"> чсс</span></div>
-                <div flex>{{::$ctrl.data.powerAvg}}<span class="disable dark"> ватт</span></div>-->
-                <!--<div flex>{{::$ctrl.data.summaryAvg }}</div>-->
                 <div flex ng-repeat="(ind,obj) in $ctrl.bottomPanelData track by ind">
-                    {{::obj.value | measureCalc:$ctrl.data.activityType:obj.measure}}
-                    <span class="disable dark">&nbsp{{obj.measure | measureUnit:$ctrl.data.activityType | translate}}</span>
+                    {{::obj.value | measureCalc:$ctrl.data.sportBasic:obj.measure}}
+                    <span class="disable dark">&nbsp{{obj.measure | measureUnit:$ctrl.data.sportBasic | translate}}</span>
                 </div>
             </div>
         </div>

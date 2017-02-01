@@ -16,25 +16,26 @@
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-repeat="measure in $ctrl.assignement.intervalPW">
+            <tr md-row ng-repeat="measure in $ctrl.assignment.intervalPW | toArray | filter:search track by measure.code">
+
                 <td md-cell><md-icon md-svg-src="assets/icon/{{measure.code}}.svg" class="dark-active"></md-icon></td>
                 <td md-cell hide>
-                    {{measure.code | translate}}&nbsp({{measure.code | measureUnit:$ctrl.sport | translate}})</td>
+                    {{measure.code | translate}}&nbsp({{measure.code | measureUnit:$ctrl.sport | translate}})
+                </td>
                 <td md-cell show>
-                    {{measure.code | measureUnit:$ctrl.sport | translate}}</td>
-
-                <td md-cell ng-click="$ctrl.editComment($event, measure)" ng-class="{'md-placeholder': !measure.value}">
-                    {{measure.value | measureCalc:$ctrl.sport:measure.code || 'Add a comment'}}
+                    {{measure.code | measureUnit:$ctrl.sport | translate}}
                 </td>
-
-                <td md-cell ng-click="$ctrl.editComment($event, $ctrl.assignement.intervalW[$index])"
-                    ng-class="{'md-placeholder': !$ctrl.assignement.intervalW[$index].value}">
-                    {{$ctrl.assignement.intervalW[$index].value | measureCalc:$ctrl.sport:measure.code || 'Add a comment'}}
+                <td class="intervalPW" md-cell ng-click="$ctrl.editComment($event, measure)"
+                    ng-class="{'md-placeholder': !measure[$ctrl.valueType[measure.code]]}">
+                    {{measure[$ctrl.valueType[measure.code]] | measureCalc:$ctrl.sport:measure.code || 'Add a comment'}}
                 </td>
-
-                <!--<td md-cell><input name="plan{{$index}}" type="number" value="{{measure.minValue | measureCalc:$ctrl.sport:measure.code}}"/></td>-->
-                <!--<td md-cell>{{measure.avgValue | measureCalc:$ctrl.sport:measure.code}}</td>-->
-                <td md-cell>{{$ctrl.assignement.intervalW[$index].value | percentByTotal:measure.value}}</td>
+                <td class="intervalW" md-cell ng-click="$ctrl.editComment($event, $ctrl.assignment.intervalW[measure.code])"
+                    ng-class="{'md-placeholder': !$ctrl.assignment.intervalW[measure.code][$ctrl.valueType[measure.code]]}">
+                    {{$ctrl.assignment.intervalW[measure.code][$ctrl.valueType[measure.code]] | measureCalc:$ctrl.sport:measure.code || 'Add a comment'}}
+                </td>
+                <td md-cell>
+                    {{$ctrl.assignment.intervalW[measure.code][$ctrl.valueType[measure.code]] | percentByTotal:measure[$ctrl.valueType[measure.code]]}}
+                </td>
             </tr>
             </tbody>
         </table>

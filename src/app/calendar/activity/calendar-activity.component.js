@@ -1,4 +1,5 @@
 import moment from 'moment/src/moment';
+import {Activity} from '../../activity/activity.datamodel';
 
 class CalendarActivityData {
 
@@ -151,7 +152,8 @@ class CalendarActivityCtrl {
     }
 
     $onInit() {
-        this.data = new CalendarActivityData(this.item);
+        this.data = new Activity(this.item);
+        console.log('calendar-activity=',this.data);
         if (this.data.bottomPanel === 'data')
             this.bottomPanelData = this.data.summaryAvg
         //console.log('CalendarActivityCtrl $onInit, summaryAvg=', this.data.summaryAvg)
@@ -328,7 +330,7 @@ class CalendarActivityCtrl {
     }
 
     $onChange(changes) {
-        "use strict";
+        console.log('calendar-activity change', changes);
         if (changes.selected) {
             console.log('CalendarActivityCtrl: onChange, selected=', changes.selected);
         }

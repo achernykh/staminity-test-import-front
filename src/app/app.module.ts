@@ -9,6 +9,7 @@ import 'smdatetimerangepicker/src/picker';
 import 'smdatetimerangepicker/src/picker.css';
 import 'leaflet/dist/leaflet.css';
 import 'ui-leaflet/dist/ui-leaflet.js';
+import * as hmReedmore from "../../bower_components/angular-read-more";
 
 import run from './app.run';
 import configure from './app.config';
@@ -36,6 +37,7 @@ const root = module('staminity.application', [
 	'smDateTimeRangePicker',
 	'nemLogging',
 	'ui-leaflet',
+	hmReedmore,
 
 	Core,
 	Share,

@@ -218,7 +218,7 @@ class CalendarCtrl {
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'))
         let d = moment(item.dateStart).weekday()
 
-        console.log('onPostItem to',w,d)
+        console.log('onPostItem to',w,d,item,this.items)
         this.items[w].subItem[d].data.calendarItems.push(item)
 
     }

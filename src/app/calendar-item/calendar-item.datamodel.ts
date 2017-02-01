@@ -2,6 +2,7 @@ import {merge} from 'angular';
 import moment from 'moment/src/moment.js';
 import {IMeasurementHeader, ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {IUserProfileShort} from "../../../api/user/user.interface";
+import {IActivityHeader} from "../../../api/activity/activity.interface";
 
 export class CalendarItem implements ICalendarItem {
 
@@ -11,6 +12,7 @@ export class CalendarItem implements ICalendarItem {
 	public dateEnd: Date;
 	public calendarItemType: string;
 	public measurementHeader:IMeasurementHeader;
+	public activityHeader: IActivityHeader;
 	public userProfileOwner: IUserProfileShort;
 
 	private _dateStart: Date;

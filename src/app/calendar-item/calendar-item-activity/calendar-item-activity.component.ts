@@ -7,24 +7,35 @@ import {IMessageService} from "../../core/message.service";
 import {IActivityHeader, IActivityDetails} from "../../../../api/activity/activity.interface";
 import ActivityDatamodel from '../../activity/activity.datamodel';
 import './calendar-item-activity.component.scss';
+import {CalendarItem} from "../calendar-item.datamodel";
+import SessionService from "../../core/session.service";
+import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
+import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
+import {Activity} from "../../activity/activity.datamodel";
+import {ACTIVITY_TYPE, ACTIVITY_CATEGORY} from "../../activity/activity.constants";
+
+const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
 class CalendarItemActivityCtrl implements IComponentController{
 
-    private header: IActivityHeader;
-    private details: IActivityDetails;
-    public data: any;
-    public mode: string;
-    public item: any;
-    public onAnswer: (response: Object) => IPromise<void>;
-    public onCancel: (response: Object) => IPromise<void>;
+    date: Date;
+    data: any;
+    details: IActivityDetails;
+    mode: string;
+    activity: Activity;
+    onAnswer: (response: Object) => IPromise<void>;
+    onCancel: (response: Object) => IPromise<void>;
     private showMap: boolean = true;
+    private types: Array<Object> = ACTIVITY_TYPE;
+    private categories: Array<Object> = ACTIVITY_CATEGORY;
 
 
-    static $inject = ['CalendarService','UserService','ActivityService','message','$mdMedia'];
+    static $inject = ['CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
 
     constructor(
         private CalendarService: CalendarService,
         private UserService: UserService,
+        private SessionService: SessionService,
         private ActivityService: ActivityService,
         private message: IMessageService,
         private $mdMedia: any) {
@@ -32,12 +43,28 @@ class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-        console.log('activity data=',this, moment().format());
 
+        console.log('activity data=',this);
+
+        // Получаем детали по тренировке
         //this.itemDetails = this.ActivityService.getDetails(this.data.activityHeader.activityId)
         //    .then(response => this.itemDetails = response, error => console.error(error));
 
-        this.item = copy(new ActivityDatamodel( this.mode, this.header, this.details));
+        if (this.mode === 'post') {
+            this.data = {
+                calendarItemType: 'activity',
+                dateStart: this.date,
+                dateEnd: this.date,
+                userProfileOwner: profileShort(this.SessionService.getUser())
+            };
+        }
+
+        this.activity = new Activity(this.data);
+        this.activity.prepare();
+
+        console.log('activity data=',this);
+
+        //this.item = copy(new ActivityDatamodel( this.mode, this.data, this.details));
     }
 
     toggleMap(){
@@ -47,37 +74,39 @@ class CalendarItemActivityCtrl implements IComponentController{
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.
     // могут вызваны из любого другого представления
     onSave() {
-        console.log('save',this.item);
+        console.log('save',this.activity.build());
+
         if (this.mode === 'post') {
-            this.CalendarService.postItem(this.item.prepare())
+            this.CalendarService.postItem(this.activity.build())
                 .then((response)=> {
-                    this.item.compile(response);// сохраняем id, revision в обьекте
-                    console.log('result=',this.item);
-                    this.onAnswer({response: {type:'post',item:this.item}});
+                    this.activity.compile(response);// сохраняем id, revision в обьекте
+                    console.log('result=',this.activity);
+                    this.onAnswer({response: {type:'post', item:this.activity}});
                 });
         }
         if (this.mode === 'put') {
-            this.CalendarService.putItem(this.item.prepare())
+            this.CalendarService.putItem(this.activity.build())
                 .then((response)=> {
-                    this.item.compile(response); // сохраняем id, revision в обьекте
-                    console.log('result=',this.item);
-                    this.onAnswer({response: {type:'put',item:this.item}});
+                    this.activity.compile(response); // сохраняем id, revision в обьекте
+                    console.log('result=',this.activity);
+                    this.onAnswer({response: {type:'put',item:this.activity}});
                 });
         }
     }
 
     onDelete() {
-        this.CalendarService.deleteItem('F', [this.item.calendarItemId])
+        this.CalendarService.deleteItem('F', [this.activity.calendarItemId])
             .then((response)=> {
                 console.log('delete result=',response);
-                this.onAnswer({response: {type:'delete',item:this.item}});
+                this.onAnswer({response: {type:'delete',item:this.activity}});
             });
     }
 }
 
 const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
-        header: '=',
+        date: '=',
+        data: '=',
         details: '=',
         mode: '@',
         onCancel: '&',
