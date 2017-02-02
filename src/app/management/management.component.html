@@ -75,7 +75,7 @@
                         ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.orderBy)">
                         <td md-cell> <md-checkbox ng-model="member.checked"></md-checkbox> </td>
                         <td md-cell>
-                            <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
+                            <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
                             {{member.userProfile | username}}
                         </td>
                         <td md-cell>{{$ctrl.roleMembership(member.roleMembership)}}</td>
@@ -145,7 +145,7 @@
                 </md-menu>
             </md-list-item>
             <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible())" ng-click="$ctrl.showActions(member)">
-                <div class="md-avatar" style="height: 24px; width: 24px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
+                <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
                 {{member.userProfile | username}}
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
             </md-list-item>

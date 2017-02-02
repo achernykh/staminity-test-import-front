@@ -7,7 +7,7 @@
         
         <md-list>
             <md-list-item ng-repeat="user in users.groupMembers" ui-sref="user({uri: user.public.uri})">
-                <div class="md-avatar" style="height: 24px; width: 24px; background: {{user | avatar}}; background-size: cover;"></div>
+                <userpic profile="user" is-premium="user.isPremium"></userpic>
                 {{user | username}}  
             </md-list-item>
         </md-list>

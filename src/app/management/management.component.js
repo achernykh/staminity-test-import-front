@@ -231,6 +231,10 @@ class ManagementCtrl {
             return `${roleMemberships[0]}, +${roleMemberships.length - 1}`;
         } 
     }
+
+    isPremium (member) {
+        return member.userProfile.billing.find(tariff => tariff.tariffCode == 'Premium');
+    }
 };
 
 ManagementCtrl.$inject = ['$scope','$mdDialog','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];

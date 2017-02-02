@@ -111,14 +111,35 @@
 
                 <div class="title">Связи</div>
                 <div class="text">
-                    <md-button class="md-no-style">Клуб: {{$ctrl.user.connections.Clubs.groupMembers.length || '-'}}</md-button>
-                    <md-button class="md-no-style" ng-click="$ctrl.coaches()">Тренеры: {{$ctrl.user.connections.Coaches.groupMembers.length || '-'}}</md-button>
-                    <md-button class="md-no-style" ng-click="$ctrl.athlets()">Спортсмены: {{$ctrl.user.connections.Athlets.groupMembers.length || '-'}}</md-button>
+                    <md-button class="md-no-style">
+                        <span class="label">Клуб: </span>
+                        <span class="value">{{$ctrl.user.connections.Clubs.groupMembers.length || '-'}} </span>
+                    </md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.coaches()">
+                        <span class="label">Тренеры: </span>
+                        <span class="value">{{$ctrl.user.connections.Coaches.groupMembers.length || '-'}} </span>
+                    </md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.athlets()">
+                        <span class="label">Спортсмены: </span>
+                        <span class="value">{{$ctrl.user.connections.Athlets.groupMembers.length || '-'}} </span>
+                    </md-button>
                     <br/>
-                    <md-button class="md-no-style" ng-click="$ctrl.subscribers()">Подписчики: {{$ctrl.user.connections.Followers.groupMembers.length || '-'}}</md-button>
-                    <md-button class="md-no-style" ng-click="$ctrl.subscriptions()">Подписан: {{$ctrl.user.connections.Following.groupMembers.length || '-'}}</md-button>
-                    <md-button class="md-no-style" ng-click="$ctrl.friends()">Друзья: {{$ctrl.user.connections.Friends.groupMembers.length || '-'}}</md-button>
-                    <md-button class="md-no-style">Группы: -</md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.subscribers()">
+                        <span class="label">Подписчики: </span>
+                        <span class="value">{{$ctrl.user.connections.Followers.groupMembers.length || '-'}} </span>
+                    </md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.subscriptions()">
+                        <span class="label">Подписан: </span>
+                        <span class="value">{{$ctrl.user.connections.Following.groupMembers.length || '-'}} </span>
+                    </md-button>
+                    <md-button class="md-no-style" ng-click="$ctrl.friends()">
+                        <span class="label">Друзья: </span>
+                        <span class="value">{{$ctrl.user.connections.Friends.groupMembers.length || '-'}} </span>
+                    </md-button>
+                    <md-button class="md-no-style">
+                        <span class="label">Группы: </span>
+                        <span class="value">- </span>
+                    </md-button>
                 </div>
 
                 <div class="title" ng-if="$ctrl.user.private.phone || $ctrl.user.personal.extEmail">Контакты</div>

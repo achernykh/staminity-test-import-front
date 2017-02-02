@@ -20,7 +20,7 @@
                     </div>
                     <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
                         <a layout="row" ui-sref="/user/{{request.initiator.public.uri}}">
-                            <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{request.initiator | avatar}}; background-size: cover;" ui-sref="/user/{{request.initiator.public.uri}}"></div>
+                            <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
                             <div flex>
                                 <div class="username">{{request.initiator | username}}</div>
                                 <div class="type">{{request | requestType}}</div>        
@@ -42,7 +42,7 @@
                     </div>
                     <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">                        
                         <a layout="row" ui-sref="/user/{{request.initiator.public.uri}}">
-                            <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{request.initiator | avatar}}; background-size: cover;"></div>
+                            <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
                             <div flex>
                                 <div class="username">{{request.initiator | username}}</div>
                                 <div class="type">{{request.updated | date:'HH:mm'}}</div>        
@@ -65,7 +65,7 @@
                     </div>
                     <div class="request-new" ng-repeat="request in $ctrl.requests.outbox.new">
                         <div layout="row">
-                            <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{request.receiver | avatar}}; background-size: cover;" ui-sref="/user/{{request.receiver.public.uri}}"></div>
+                            <userpic profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
                             <div flex>
                                 <div class="username">{{request.receiver | username}}</div>
                                 <div class="type">{{request | requestType}}</div>        
@@ -86,7 +86,7 @@
                     </div>
                     <div class="request-old" ng-repeat="request in $ctrl.requests.outbox.old">
                         <div layout="row">
-                            <div style="height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{request.receiver | avatar}}; background-size: cover;" ui-sref="/user/{{request.receiver.public.uri}}"></div>
+                            <userpic profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
                             <div flex>
                                 <div class="username">{{request.receiver | username}}</div>
                                 <div class="type">{{request.updated | date:'HH:mm'}}</div>        

@@ -117,6 +117,10 @@ class AthletesCtrl {
             scope: this.$scope
         })
     }
+
+    isPremium (member) {
+        return member.userProfile.billing.find(tariff => tariff.tariffCode == 'Premium');
+    }
 };
 AthletesCtrl.$inject = ['$scope','$mdDialog','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService']
 

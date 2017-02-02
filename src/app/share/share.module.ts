@@ -32,53 +32,24 @@ const image = () => (relativeUrl) => _connection.content + '/content' + relative
 const avatar = () => (user) => `url(${user && user.public && user.public.avatar? image() ('/user/avatar/' + user.public.avatar) : '/assets/avatar/default.png'})`;
 const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
 
+const userpic = {
+    bindings: {
+        profile: '<',
+        isPremium: '<'
+    },
+    controller: ['$scope', class UserpicController {
+        constructor ($scope) {
+            console.log('UserpicController', this, $scope);
+        }
+    }],
+    template: require('./userpic.component.html') as string
+};
+
 const userInfo = {
     bindings: {
         user: "<"
     },
     template: require('./user-info.component.html') as string
-};
-
-class GroupActionsController {
-
-    static $inject = ['$scope','dialogs','GroupService','UserService'];
-
-    constructor (
-        private $scope: any,
-        private dialogs: any,
-        private GroupService: GroupService,
-        private UserService: UserService) {
-
-    }
-
-    joinGroup (group) {
-        return this.dialogs.confirm()
-            .then((confirmed) => { if (!confirmed) {throw new Error();}})
-            .then(() => this.GroupService.join(group.groupId, this.UserService.profile.userId));//
-            //.then(() => this.onUpdate());
-    }
-
-    leaveGroup (group) {
-        return this.dialogs.confirm()
-            .then((confirmed) => { if (!confirmed) {throw new Error();}})
-            .then(() => this.GroupService.leave(group.groupId, this.UserService.profile.userId));//
-            //.then(() => this.onUpdate());
-    }
-
-    openMenu ($mdOpenMenu, event) {
-        $mdOpenMenu(event);
-    }
-}
-
-
-
-const groupActions = {
-    bindings: {
-        group: '<',
-        onUpdate: '&'
-    },
-    controller: GroupActionsController,
-    template: require('./group-actions.component.html') as string
 };
 
 function onFiles() {
@@ -155,8 +126,8 @@ const Share = module('staminity.share', [])
     .service("dialogs", DialogsService)
     .component('loader', LoaderComponent)
     .component('userInfo', userInfo)
-    .component('groupActions', groupActions)
     .component('requests', RequestsComponent)
+    .component('userpic', userpic)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .config(['$translateProvider',($translateProvider)=>{
