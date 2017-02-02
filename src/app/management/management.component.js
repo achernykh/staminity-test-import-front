@@ -164,7 +164,7 @@ class ManagementCtrl {
             if (roles) {
                 let members = checked.map(member => member.userProfile.userId);
                 let memberships = roles
-                .filter(role => !!role.checked != !!checkedRoles.includes(role))
+                .filter(role => !!role.checked != !!checkedRoles.includes(role.role))
                 .map(role => ({
                     groupId: this.management.availableGroups[role.role],
                     direction: role.checked? 'I' : 'O'
