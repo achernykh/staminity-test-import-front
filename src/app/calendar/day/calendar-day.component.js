@@ -193,6 +193,38 @@ class CalendarDayCtrl {
                 console.log('user cancel dialog')
             })
     }
+
+    newWeekend($event, data) {
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template: `<md-dialog id="events" aria-label="Events">
+                        <calendar-item-events
+                                flex layout="column" class="calendar-item-events"
+                                data="$ctrl.data" mode="put"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-events>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                data: data
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: true
+
+        })
+            .then(response => {
+                console.log('user close dialog with =', response)
+
+            }, () => {
+                console.log('user cancel dialog, data=', data)
+            })
+    }
+
+
 }
 CalendarDayCtrl.$inject = ['$mdDialog','ActionMessageService', 'ActivityService', '$scope'];
 
