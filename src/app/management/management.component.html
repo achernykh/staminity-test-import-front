@@ -78,7 +78,7 @@
                             <div style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; margin-right: 10px; background: {{member.userProfile | avatar}}; background-size: cover;" ui-sref="/user/{{member.userProfile.public.uri}}"></div>
                             {{member.userProfile | username}}
                         </td>
-                        <td md-cell>{{member.roleMembership.join(' ')}}</td>
+                        <td md-cell>{{$ctrl.roleMembership(member.roleMembership)}}</td>
                         <td md-cell>
                             <span ng-repeat="coach in member.coaches">{{$ctrl.member(coach).userProfile | username}} </span>
                             <span ng-if="!member.coaches || !member.coaches.length">-</span>

@@ -45,12 +45,12 @@ class AthletesCtrl {
     tariffs (member) {
         return {
             byUs: {
-                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.userProfilePayer.userId == this.user.userId),
-                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.userProfilePayer.userId == this.user.userId)
+                Coach: !!member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.userProfilePayer && t.userProfilePayer.userId == this.user.userId),
+                Premium: !!member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.userProfilePayer && t.userProfilePayer.userId == this.user.userId)
             },
             bySelf: {
-                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.userProfilePayer.userId != this.user.userId),
-                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.userProfilePayer.userId != this.user.userId)
+                Coach: !!member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && !(t.userProfilePayer && t.userProfilePayer.userId == this.user.userId)),
+                Premium: !!member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !(t.userProfilePayer && t.userProfilePayer.userId == this.user.userId))
             }
         }
     }
@@ -99,14 +99,13 @@ class AthletesCtrl {
                 }];
                 return this.GroupService.putGroupMembershipBulk(this.user.connections.Athletes.groupId, memberships, members);
             }
-        })
-        .then(() => this.update(), (error) => { this.SystemMessageService.show(error); this.update(); })
+        }, () => {})
+        .then(() => { this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }
     
     remove () {
         this.dialogs.confirm('Удалить пользователей?')
-        .then((confirmed) => { if (!confirmed) throw new Error() })
-        .then(() => Promise.all(this.checked.map((m) => this.GroupService.leave(this.user.connections.Athletes.groupId, m.userProfile.userId))))
+        .then((confirmed) => confirmed && Promise.all(this.checked.map((m) => this.GroupService.leave(this.user.connections.Athletes.groupId, m.userProfile.userId))), () => {})
         .then(() => { this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
     

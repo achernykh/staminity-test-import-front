@@ -48,12 +48,12 @@ class ManagementCtrl {
     tariffs (member) {
         return {
             byUs: {
-                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile.groupId == this.club.groupId),
-                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.clubProfile == this.club.groupId)
+                Coach: !!member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile && t.clubProfile.groupId == this.club.groupId),
+                Premium: !!member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.clubProfile && t.clubProfile == this.club.groupId)
             },
             bySelf: {
-                Coach: member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && !t.clubProfile == this.club.groupId),
-                Premium: member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !t.clubProfile == this.club.groupId)
+                Coach: !!member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && !(t.clubProfile && t.clubProfile == this.club.groupId)),
+                Premium: !!member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !(t.clubProfile && t.clubProfile == this.club.groupId))
             }
         }
     }
@@ -108,8 +108,8 @@ class ManagementCtrl {
                 }];
                 return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
             }
-        })
-        .then(() => this.update(), (error) => { this.SystemMessageService.show(error); this.update(); })
+        }, () => {})
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }
     
     get coaches () {
@@ -140,8 +140,8 @@ class ManagementCtrl {
                 }));
                 return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
             } 
-        })
-        .then(() => this.update(), (error) => { this.SystemMessageService.show(error); this.update(); })
+        }, () => {})
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }
     
     get rolesAvailable() {
@@ -167,15 +167,14 @@ class ManagementCtrl {
                 }));
                 return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
             } 
-        })
-        .then(() => this.update(), (error) => { this.SystemMessageService.show(error); this.update(); })
+        }, () => {})
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }
     
     remove () {
         this.dialogs.confirm('Удалить пользователей?')
-        .then((confirmed) => { if (!confirmed) throw new Error() })
-        .then(() => Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))))
-        .then(() => { this.update() }, (error) => { this.SystemMessageService.show(error) })
+        .then((confirmed) => confirmed && Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))), () => {})
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
     
     showActions (member) {
@@ -219,6 +218,18 @@ class ManagementCtrl {
     
     isVisible () {
         return (member) => !this.filter || this.filter.pred(member)
+    }
+
+    roleMembership (roleMemberships) {
+        roleMemberships = ['ClubManagement', 'ClubCoaches', 'ClubAthletes'].filter(m => roleMemberships.includes(m));
+
+        if (!roleMemberships || !roleMemberships.length) {
+            return;
+        } else if (roleMemberships.length == 1) {
+            return roleMemberships[0];
+        } else if (roleMemberships.length > 1) {
+            return `${roleMemberships[0]}, +${roleMemberships.length - 1}`;
+        } 
     }
 };
 
