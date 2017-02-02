@@ -76,7 +76,7 @@
                         <span class="group-actions">
                             <md-menu>
                               <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)" style="border:1px solid white;">
-                                <i class="material-icons" style="vertical-align: middle;" md-ink-ripple="#FFFFFF">person_add</i> ▾
+                                <md-icon class="material-icons" style="vertical-align: middle;" md-ink-ripple="#FFFFFF">person_add</md-icon> ▾
                               </md-button>
                               <md-menu-content>
                                 <md-menu-item>
@@ -229,13 +229,13 @@
                         <th style="max-width: 90px;" width="90">кол-во трен.</th>
                     </tr>
                     <tr ng-repeat="row in $ctrl.chart.tableRows">
-                        <td><i class="material-icons">{{row.icon}}</i></td>
+                        <td><md-icon class="material-icons">{{row.icon}}</md-icon></td>
                         <td>{{row.dist}}</td>
                         <td>{{row.hrs}}</td>
                         <td>{{row.count}}</td>
                     </tr>
                     <tr class="row-total">
-                        <td><i class="material-icons">{{$ctrl.chart.tableTotal.icon}}</i></td>
+                        <td><md-icon class="material-icons">{{$ctrl.chart.tableTotal.icon}}</md-icon></td>
                         <td>{{$ctrl.chart.tableTotal.dist}}</td>
                         <td>{{$ctrl.chart.tableTotal.hrs}}</td>
                         <td>{{$ctrl.chart.tableTotal.count}}</td>

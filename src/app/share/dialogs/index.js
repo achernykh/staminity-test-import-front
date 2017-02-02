@@ -1,3 +1,5 @@
+import './dialogs.scss';
+
 export default class DialogsService {
     
     constructor ($mdDialog) {
@@ -145,14 +147,10 @@ function SubscriptionsController ($scope, $mdDialog, tariffs, byWho) {
 SubscriptionsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byWho'];
 
 function CoachesController ($scope, $mdDialog, coaches) {
-    $scope.coaches = coaches;
-    
-    $scope.commit = () => {
-        $mdDialog.hide($scope.coaches);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
+    $scope.coaches = coaches
+    $scope.checked = () => coaches.filter(coach => coach.checked);
+    $scope.unchecked = () => coaches.filter(coach => !coach.checked);
+    $scope.commit = () => { $mdDialog.hide($scope.coaches) };
+    $scope.cancel = () => { $mdDialog.hide() };
 }
 CoachesController.$inject = ['$scope','$mdDialog', 'coaches'];

@@ -2,7 +2,7 @@
     <div class="requests">
         
         <div class="titlebar">
-            <i class="material-icons icon">group</i>
+            <md-icon class="material-icons icon">group</md-icon>
             Запросы
             <md-button ng-click="$ctrl.close()" class="close md-icon-button">
                 <md-icon class="material-icons" style="color: white;">close</md-icon>
@@ -48,7 +48,7 @@
                                 <div class="type">{{request.updated | date:'HH:mm'}}</div>        
                             </div>
                             <div class="time">
-                                <i class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</i>
+                                <md-icon class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</md-icon>
                             </div>
                         </a>
                     </div>
@@ -92,7 +92,7 @@
                                 <div class="type">{{request.updated | date:'HH:mm'}}</div>        
                             </div>
                             <div class="time">
-                                <i class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</i>
+                                <md-icon class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</md-icon>
                             </div>
                         </div>
                     </div>

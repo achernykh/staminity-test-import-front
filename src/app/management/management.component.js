@@ -134,7 +134,9 @@ class ManagementCtrl {
         .then((coaches) => {
             if (coaches) {
                 let members = checked.map(member => member.userProfile.userId);
-                let memberships = coaches.map(coach => ({
+                let memberships = coaches
+                .filter(coach => !!coach.checked != !!checkedCoaches.includes(coach.userProfile.userId))
+                .map(coach => ({
                     groupId: coach.ClubAthletesGroupId,
                     direction: coach.checked? 'I' : 'O'
                 }));
@@ -161,7 +163,9 @@ class ManagementCtrl {
         .then((roles) => {
             if (roles) {
                 let members = checked.map(member => member.userProfile.userId);
-                let memberships = roles.map(role => ({
+                let memberships = roles
+                .filter(role => !!role.checked != !!checkedRoles.includes(role))
+                .map(role => ({
                     groupId: this.management.availableGroups[role.role],
                     direction: role.checked? 'I' : 'O'
                 }));

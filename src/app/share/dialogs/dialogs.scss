@@ -1,0 +1,55 @@
+.subscriptions,
+.roles, 
+.coaches {
+    padding: 20px;
+    height: 500px;
+    min-width: 270px;
+    
+    .title {
+        padding-bottom: 10px;
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.4;
+        text-align: left;
+        color: rgba(0, 0, 0, 0.87);
+    }
+    
+    .row {
+        font-size: 16px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 2.5;
+        color: rgba(0, 0, 0, 0.87);
+        
+        md-switch {
+            float: right;
+            margin: 0;
+        }
+    }
+    
+    .label {
+        padding: 15px 0;
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        text-align: left;
+        color: #455a64;
+    }
+    
+    .actions {  
+        button {
+            font-size: 14px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            letter-spacing: 0.5px;
+            text-align: center;
+            color: #607d8b;
+        }
+    }
+}

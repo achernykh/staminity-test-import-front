@@ -5,15 +5,28 @@
             Тренер
         </div>
         
-        <div ng-repeat="coach in coaches" class="row">
+        <div ng-repeat="coach in checked()" class="row">
+            <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
             {{ coach.userProfile | username }}
             <md-switch  ng-model="coach.checked" aria-label="coach checked"></md-switch>
         </div>
 
         <div>
-            <md-select ng-model="setCoach" ng-model-options="{trackBy: '$value.id'}" placeholder="Добавить">
-                <md-option ng-value="coach" ng-repeat="coach in coaches">{{ coach.userProfile | username }}</md-option>
-            </md-select>
+            <md-menu>
+                <md-button ng-click="$mdOpenMenu($event)" style="vertical-align: top;">
+                    <md-icon class="material-icons">supervisor_account</md-icon>
+                    Добавить 
+                    ▾
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item ng-repeat="coach in unchecked()">
+                        <md-button ng-click="coach.checked = true">
+                            <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
+                            {{ coach.userProfile | username }}
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </div>
 
         <div class="actions">
