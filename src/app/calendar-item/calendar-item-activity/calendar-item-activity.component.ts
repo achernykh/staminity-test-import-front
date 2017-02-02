@@ -59,6 +59,8 @@ class CalendarItemActivityCtrl implements IComponentController{
         this.activity = new Activity(this.data);
         this.activity.prepare();
 
+        //TODO intervalW.ActualDataIsImported
+
         //Получаем детали по тренировке
         this.ActivityService.getDetails(this.data.activityHeader.activityId)
             .then(response => {

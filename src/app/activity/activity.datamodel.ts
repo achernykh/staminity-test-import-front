@@ -274,19 +274,6 @@ export class Activity extends CalendarItem {
 
 		return (this.coming && 'coming') || (!this.specified && 'not-specified') || (!this.completed && 'dismiss')
 			|| (this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn') || 'complete-error';
-
-		/*if (this.coming)
-			return 'coming'
-		else if (!this.specified)
-			return 'not-specified'
-		else if (!this.completed)
-			return 'dismiss'
-		else if (this.percent > 75)
-			return "complete"
-		else if (this.percent > 50)
-			return "complete-warn"
-		else
-			return "complete-error"*/
 	}
 
 	get sportUrl() {
@@ -315,6 +302,32 @@ export class Activity extends CalendarItem {
 						{ measure : measure, value: Number(calc[measure].avgValue)}) || {[measure]: null, value: null};
 				}})
 			.filter(measure => !!measure && !!measure.value);
+	}
+
+	formSegmentList(){
+
+	}
+
+	/**
+	 * @description Сборка массива координат для мини-граифка
+	 * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
+	 * @returns {any[]}
+     */
+	formChart(){
+		let start: number = 0; //начало отсечки на графике
+		let finish: number = 0; // конец отсечки на графике
+		let maxFtp: number;
+		let data: Array<any> = [];
+
+		this.intervalP.map( interval => {
+			start = finish;
+			finish = start + interval.movingDurationLength;
+			maxFtp = ((interval.intensityByFtpTo > maxFtp) && interval.intensityByFtpTo) || maxFtp;
+			data.push([start, interval.intensityByFtpFrom],[finish, interval.intensityByFtpTo]);
+		});
+
+		// Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
+		return (data.length > 0 && data.map(d => {d[0] = d[0] / finish;	d[1] = d[1] / 100; return d;})) || null;
 	}
 
 }

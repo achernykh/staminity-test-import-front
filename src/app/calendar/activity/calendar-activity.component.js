@@ -2,7 +2,6 @@ import moment from 'moment/src/moment';
 import {Activity} from '../../activity/activity.datamodel';
 
 class CalendarActivityData {
-
     constructor(data) {
         this.src = data;
         this._intervalW = [];
@@ -157,6 +156,8 @@ class CalendarActivityCtrl {
         console.log('calendar-activity=',this.data);
         if (this.data.bottomPanel === 'data')
             this.bottomPanelData = this.data.summaryAvg
+
+        this.segmentChart = this.data.formChart();
         //console.log('CalendarActivityCtrl $onInit, summaryAvg=', this.data.summaryAvg)
         /**
          * Формат отображения тренировке в календаре зависит от нескольких параметров: 1) дата тренировки 2) факт

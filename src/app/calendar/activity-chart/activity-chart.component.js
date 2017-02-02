@@ -2,10 +2,10 @@ class CalendarActivityChartCtrl {
     constructor ($location) {
         this.colors = {
                 'complete': ['#009688', '#00695C'],
-                'complete warn': ['#FF9800', '#EF6C00'],
-                'complete error': ['#F44336', '#C62828'],
+                'complete-warn': ['#FF9800', '#EF6C00'],
+                'complete-error': ['#F44336', '#C62828'],
                 'dismiss': ['#F44336', '#C62828'],
-                'planned': ['#E0E0E0', '#9E9E9E']
+                'coming': ['#BDBDBD', '#757575']
         };
 
         this.$location = $location;

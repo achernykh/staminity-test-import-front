@@ -14,13 +14,13 @@
                     <md-icon md-svg-src="{{::$ctrl.data.sportUrl}}"
                              style="margin-left: 4px"
                              class="s24 light-active"></md-icon>
-                    <md-icon ng-if="$ctrl.structured"
-                             md-svg-src="assets/icon/{{::$ctrl.intensityMeasure}}.svg"
+                    <md-icon ng-if="$ctrl.data.structured"
+                             md-svg-src="assets/icon/{{::$ctrl.data.intervalPW.intensityMeasure}}.svg"
                              style="margin-left: 2px; margin-right: 2px"
                              class="s18 light-active"></md-icon>
-                    <div ng-if="$ctrl.structured"
+                    <div ng-if="$ctrl.data.structured"
                          style="margin-right: 8px; margin-left: -3px; margin-bottom: -14px; font-size: 12px;">
-                        {{::$ctrl.intensityFtpMax}}
+                        {{::$ctrl.data.intervalPW.intensityFtpMax}}
                     </div>
                 </div>
             </div>
@@ -79,8 +79,8 @@
                 {{'distance' | measureUnit:$ctrl.data.sportBasic | translate}}</div>
         </section>
         <calendar-activity-chart
-                ng-if="$ctrl.segmentChart.length > 2"
-                hide show-gt-sm data="$ctrl.segmentChart" status="$ctrl.status">
+                ng-if="$ctrl.segmentChart"
+                hide show-gt-sm data="$ctrl.segmentChart" status="$ctrl.data.status">
         </calendar-activity-chart>
 
     </header>
