@@ -107,7 +107,6 @@ export class Activity extends CalendarItem {
 
 	constructor(item: ICalendarItem, details: IActivityDetails = null){
 		super(item);
-		debugger;
 		if (!item.hasOwnProperty('activityHeader')) {
 			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
 		} else {
@@ -221,6 +220,10 @@ export class Activity extends CalendarItem {
 		return moment().diff(moment(this.dateStart, 'YYYY-MM-DD'), 'd') < 1;
 	}
 
+	get dismiss() {
+		return this.status === 'dismiss';
+	}
+
 	/**
 	 * Тренировка имеет план?
 	 * Проверяем наличие интервала с типом pW, а также наличие значения в показателях
@@ -254,7 +257,7 @@ export class Activity extends CalendarItem {
 	}
 
 	printPercent() {
-		return (this.percent && `${this.percent.toFixed(0)}%`);
+		return ((this.percent && this.completed) && `${this.percent.toFixed(0)}%`);
 	}
 
 	/**
@@ -291,12 +294,12 @@ export class Activity extends CalendarItem {
 	}
 
 	get movingDuration() {
-		return (this.coming && this.intervalPW.calcMeasures.movingDuration.maxValue) ||
+		return ((this.coming || this.dismiss) && this.intervalPW.calcMeasures.movingDuration.maxValue) ||
 			this.intervalW.calcMeasures.movingDuration.maxValue;
 	}
 
 	get distance() {
-		return (this.coming && this.intervalPW.calcMeasures.distance.maxValue) ||
+		return ((this.coming || this.dismiss) && this.intervalPW.calcMeasures.distance.maxValue) ||
 			this.intervalW.calcMeasures.distance.maxValue;
 	}
 

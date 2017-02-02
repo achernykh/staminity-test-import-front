@@ -6,7 +6,7 @@ export const _MEASURE_TRANSLATE = {
 		mile: 'мл',
 		yard: 'ярд',
 		minpkm: 'мин/км',
-		minp100m: 'мин/100м',
+		minp100m: 'м/100м',
 		bpm: 'чсс',
 
 		// Измерения

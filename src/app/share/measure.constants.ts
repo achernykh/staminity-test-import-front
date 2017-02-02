@@ -75,6 +75,9 @@ export const _activity_measurement_view = {
             fixed: 2
         }
     },
+    strength: {
+
+    },
     other: {
 
     }
@@ -100,6 +103,10 @@ export const _measurement = {
     },
     heartRate: {
         unit: "bpm",
+        fixed: 0
+    },
+    power: {
+        unit: "watt",
         fixed: 0
     },
     elevationGain: {
