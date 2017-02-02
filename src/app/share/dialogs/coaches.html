@@ -6,10 +6,16 @@
         </div>
         
         <div ng-repeat="coach in coaches" class="row">
-            {{coach.userProfile | username}}
+            {{ coach.userProfile | username }}
             <md-switch  ng-model="coach.checked" aria-label="coach checked"></md-switch>
         </div>
-        
+
+        <div>
+            <md-select ng-model="setCoach" ng-model-options="{trackBy: '$value.id'}" placeholder="Добавить">
+                <md-option ng-value="coach" ng-repeat="coach in coaches">{{ coach.userProfile | username }}</md-option>
+            </md-select>
+        </div>
+
         <div class="actions">
             <md-button ng-click="commit()"> Принять </md-button>
             <md-button ng-click="cancel()"> Отклонить </md-button>

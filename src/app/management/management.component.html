@@ -48,10 +48,22 @@
         <div class="selected-items" ng-if="$ctrl.checked.length">
             {{$ctrl.checked.length}} items selected
             <div class="controls">
-                <md-button class="md-primary" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.showCoaches()"> <i class="material-icons">supervisor_account</i> </md-button>
-                <md-button class="md-primary" ng-if="$ctrl.subscriptionsAvailable" ng-click="$ctrl.subscriptions()"> <i class="material-icons">share</i> </md-button>
-                <md-button class="md-primary" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.roles()"> <i class="material-icons">select_all</i> </md-button>
-                <md-button class="md-primary" ng-click="$ctrl.remove()"> <i class="material-icons">delete</i> </md-button>
+                <md-button class="md-primary md-icon-button" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.showCoaches()"> 
+                    <md-tooltip md-direction="bottom">Coaches</md-tooltip>
+                    <md-icon class="material-icons">supervisor_account</md-icon> 
+                </md-button>
+                <md-button class="md-primary md-icon-button" ng-if="$ctrl.subscriptionsAvailable" ng-click="$ctrl.subscriptions()"> 
+                    <md-tooltip md-direction="bottom">Tariffs</md-tooltip>
+                    <md-icon class="material-icons">share</md-icon> 
+                </md-button>
+                <md-button class="md-primary md-icon-button" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.roles()"> 
+                    <md-tooltip md-direction="bottom">Roles</md-tooltip>
+                    <md-icon class="material-icons">select_all</md-icon> 
+                </md-button>
+                <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
+                    <md-tooltip md-direction="bottom">Remove</md-tooltip>
+                    <md-icon class="material-icons">delete</md-icon> 
+                </md-button>
             </div>
         </div>
 

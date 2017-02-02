@@ -76,7 +76,7 @@ function ConfirmDialogController($scope, $mdDialog, message) {
         $mdDialog.hide(true);
     };
 }
-ConfirmDialogController.$inject = ['$scope','$mdDialog'];
+ConfirmDialogController.$inject = ['$scope','$mdDialog','message'];
 
 
 function UploadPictureDialogController($scope, $mdDialog) {

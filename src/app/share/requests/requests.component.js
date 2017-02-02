@@ -34,10 +34,11 @@ class RequestsCtrl {
         this.requests.inbox.old = requests.filter((request) => request.receiver.userId == this.user.userId && request.updated)
         this.requests.outbox.new = requests.filter((request) => request.initiator.userId == this.user.userId && !request.updated)
         this.requests.outbox.old = requests.filter((request) => request.initiator.userId == this.user.userId && request.updated)
+        this.$scope.$apply()
     }
     
     processRequest (request, action) {
-      this.dialogs.confirm()
+      this.dialogs.confirm('performAction' + action)
       .then((confirmed) => { if (!confirmed) throw new Error() })
       .then(() => this.GroupService.processMembership(action, null, request.userGroupRequestId))
       .then(() => {}, (error) => { this.SystemMessageService.show(error) })
