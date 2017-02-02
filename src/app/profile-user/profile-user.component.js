@@ -53,6 +53,7 @@ class ProfileCtrl {
         this.UserService = UserService;
         this.GroupService = GroupService;
         this.message = SystemMessageService;
+        this.isMe = this.user.userId === UserService.profile.userId;
 
         this.ranges = [{
             name: 'Обзор года',

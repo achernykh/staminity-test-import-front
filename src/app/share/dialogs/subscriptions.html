@@ -1,43 +1,53 @@
 <md-dialog>
     <md-dialog-content class="subscriptions">
         
-        <div class="md-title">
-            Тарифы
-        </div>
-        
-        <div class="md-caption font-medium">
-            {{byWho}}
-        </div>
-        
-        <div layout="row" layout-align="center center">
-            <span flex>Тренер</span>
-            <md-switch ng-model="tariffs.byUs.Coach"></md-switch>
-        </div>
-        
-        <div layout="row" layout-align="center center">
-            <span flex>Премиум</span>
-            <md-switch ng-model="tariffs.byUs.Premium"></md-switch>
-        </div>
-        
-        <div class="md-caption font-medium">
-            За свой счет
-        </div>
-        
-        <div layout="row" ng-if="tariffs.bySelf.Coach" layout-align="center center">
-            <span flex>Тренер</span>
-            <md-switch ng-checked="true" disabled></md-switch>
-        </div>
-        
-        <div layout="row" ng-if="tariffs.bySelf.Premium" layout-align="center center">
-            <span flex>Премиум</span>
-            <md-switch ng-checked="true" disabled></md-switch>
-        </div>
-        
-        <div layout="row">
-            <md-button ng-click="commit()"> Принять </md-button>
-            <span flex></span>
-            <md-button ng-click="cancel()"> Отклонить </md-button>
-        </div>
+        <md-list>
+
+            <md-list-item layout="row" layout-align="center center">
+                <div class="md-title">
+                    Тарифы
+                </div>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <div class="md-caption font-medium">
+                    {{byWho}}
+                </div>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <span flex>Тренер</span>
+                <md-switch ng-model="tariffs.byUs.Coach"></md-switch>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <span flex>Премиум</span>
+                <md-switch ng-model="tariffs.byUs.Premium"></md-switch>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <div class="md-caption font-medium">
+                    За свой счет
+                </div>
+            </md-list-item>
+
+            <md-list-item ng-if="tariffs.bySelf.Coach" layout="row" layout-align="center center">
+                <span flex>Тренер</span>
+                <md-switch ng-checked="true" disabled></md-switch>
+            </md-list-item>
+
+            <md-list-item ng-if="tariffs.bySelf.Premium" layout="row" layout-align="center center">
+                <span flex>Премиум</span>
+                <md-switch ng-checked="true" disabled></md-switch>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <md-button ng-click="commit()"> Принять </md-button>
+                <span flex></span>
+                <md-button ng-click="cancel()"> Отклонить </md-button>
+            </md-list-item>
+            
+        </md-list>
         
     </md-dialog-content>
 </md-dialog>

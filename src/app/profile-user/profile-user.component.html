@@ -76,7 +76,7 @@
                         <span class="group-actions">
                             <md-menu>
                               <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)" style="border:1px solid white;">
-                                <md-icon class="material-icons" style="vertical-align: middle;" md-ink-ripple="#FFFFFF">person_add</md-icon> ▾
+                                <md-icon class="material-icons" style="vertical-align: middle; color: rgba(255, 255, 255, 0.7)" md-ink-ripple="#FFFFFF">person_add</md-icon> ▾
                               </md-button>
                               <md-menu-content>
                                 <md-menu-item>
@@ -95,9 +95,9 @@
                     </div>
                 </div>
 
-                <div class="profile-fab">
+                <div class="profile-fab" ng-if="$ctrl.isMe">
                     <md-button class="md-fab" ui-sref="settings/user({uri: $ctrl.user.public.uri})">
-                        <md-icon class="material-icons">mode_edit</md-icon>
+                        <md-icon class="material-icons" style="color: white">mode_edit</md-icon>
                     </md-button>
                 </div>
             </div>
@@ -111,41 +111,43 @@
 
                 <div class="title">Связи</div>
                 <div class="text">
-                    <md-button class="md-no-style">
+                    <md-button ng-disabled="!$ctrl.user.connections.Clubs.groupMembers.length">
                         <span class="label">Клуб: </span>
                         <span class="value">{{$ctrl.user.connections.Clubs.groupMembers.length || '-'}} </span>
                     </md-button>
-                    <md-button class="md-no-style" ng-click="$ctrl.coaches()">
+                    <md-button ng-disabled="!$ctrl.user.connections.Coaches.groupMembers.length" ng-click="$ctrl.coaches()">
                         <span class="label">Тренеры: </span>
                         <span class="value">{{$ctrl.user.connections.Coaches.groupMembers.length || '-'}} </span>
                     </md-button>
-                    <md-button class="md-no-style" ng-click="$ctrl.athlets()">
+                    <md-button ng-disabled="!$ctrl.user.connections.Athlets.groupMembers.length" ng-click="$ctrl.athlets()">
                         <span class="label">Спортсмены: </span>
                         <span class="value">{{$ctrl.user.connections.Athlets.groupMembers.length || '-'}} </span>
                     </md-button>
                     <br/>
-                    <md-button class="md-no-style" ng-click="$ctrl.subscribers()">
+                    <md-button ng-disabled="!$ctrl.user.connections.Followers.groupMembers.length" ng-click="$ctrl.subscribers()">
                         <span class="label">Подписчики: </span>
                         <span class="value">{{$ctrl.user.connections.Followers.groupMembers.length || '-'}} </span>
                     </md-button>
-                    <md-button class="md-no-style" ng-click="$ctrl.subscriptions()">
+                    <md-button ng-disabled="!$ctrl.user.connections.Following.groupMembers.length" ng-click="$ctrl.subscriptions()">
                         <span class="label">Подписан: </span>
                         <span class="value">{{$ctrl.user.connections.Following.groupMembers.length || '-'}} </span>
                     </md-button>
-                    <md-button class="md-no-style" ng-click="$ctrl.friends()">
+                    <md-button ng-disabled="!$ctrl.user.connections.Friends.groupMembers.length" ng-click="$ctrl.friends()">
                         <span class="label">Друзья: </span>
                         <span class="value">{{$ctrl.user.connections.Friends.groupMembers.length || '-'}} </span>
                     </md-button>
-                    <md-button class="md-no-style">
+                    <md-button ng-disabled="true">
                         <span class="label">Группы: </span>
                         <span class="value">- </span>
                     </md-button>
                 </div>
 
-                <div class="title" ng-if="$ctrl.user.private.phone || $ctrl.user.personal.extEmail">Контакты</div>
-                <div class="text">
-                    <span class="label">Телефон:</span> <span class="value">{{$ctrl.user.private.phone}}</span>
-                    <span class="label">Email:</span> <span class="value">{{$ctrl.user.personal.extEmail}}</span>
+                <div ng-if="$ctrl.user.private.phone || $ctrl.user.personal.extEmail">
+                    <div class="title">Контакты</div>
+                    <div class="text">
+                        <span class="label">Телефон:</span> <span class="value">{{$ctrl.user.private.phone}}</span>
+                        <span class="label">Email:</span> <span class="value">{{$ctrl.user.personal.extEmail}}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -229,13 +231,13 @@
                         <th style="max-width: 90px;" width="90">кол-во трен.</th>
                     </tr>
                     <tr ng-repeat="row in $ctrl.chart.tableRows">
-                        <td><md-icon class="material-icons">{{row.icon}}</md-icon></td>
+                        <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7)">{{row.icon}}</md-icon></td>
                         <td>{{row.dist}}</td>
                         <td>{{row.hrs}}</td>
                         <td>{{row.count}}</td>
                     </tr>
                     <tr class="row-total">
-                        <td><md-icon class="material-icons">{{$ctrl.chart.tableTotal.icon}}</md-icon></td>
+                        <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 1)">{{$ctrl.chart.tableTotal.icon}}</md-icon></td>
                         <td>{{$ctrl.chart.tableTotal.dist}}</td>
                         <td>{{$ctrl.chart.tableTotal.hrs}}</td>
                         <td>{{$ctrl.chart.tableTotal.count}}</td>

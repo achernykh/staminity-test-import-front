@@ -1,39 +1,45 @@
 <md-dialog>
     <md-dialog-content class="coaches">
         
-        <div class="md-title">
-            Тренер
-        </div>
-        
-        <div ng-repeat="coach in checked()" layout="row" layout-align="center center">
-            <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
-            <span flex>{{ coach.userProfile | username }}</span>
-            <md-switch  ng-model="coach.checked" style="margin-left: 10px;"></md-switch>
-        </div>
+        <md-list>
 
-        <div>
-            <md-menu>
-                <md-button ng-disabled="!unchecked().length" ng-click="$mdOpenMenu($event)" layout="row" layout-fill>
-                    <md-icon class="material-icons">supervisor_account</md-icon>
-                    <span flex style="min-width: 150px;">Добавить </span>
-                    ▾
-                </md-button>
-                <md-menu-content>
-                    <md-menu-item ng-repeat="coach in unchecked()">
-                        <md-button ng-click="coach.checked = true">
-                            <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
-                            {{ coach.userProfile | username }}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-        </div>
+            <md-list-item layout="row" layout-align="center center">
+                <div class="md-title">
+                    Тренер
+                </div>
+            </md-list-item>
 
-        <div layout="row">
-            <md-button ng-click="commit()"> Принять </md-button>
-            <span flex></span>
-            <md-button ng-click="cancel()"> Отклонить </md-button>
-        </div>
-        
+            <md-list-item ng-repeat="coach in checked()" layout="row" layout-align="center center">
+                <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
+                <span flex>{{ coach.userProfile | username }}</span>
+                <md-switch  ng-model="coach.checked" style="margin-left: 10px;"></md-switch>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <md-menu flex>
+                    <md-button ng-disabled="!unchecked().length" ng-click="$mdOpenMenu($event)" layout="row" layout-fill>
+                        <md-icon class="material-icons">supervisor_account</md-icon>
+                        <span flex style="min-width: 150px;">Добавить </span>
+                        ▾
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="coach in unchecked()">
+                            <md-button ng-click="coach.checked = true">
+                                <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
+                                {{ coach.userProfile | username }}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <md-button ng-click="commit()"> Принять </md-button>
+                <span flex></span>
+                <md-button ng-click="cancel()"> Отклонить </md-button>
+            </md-list-item>
+            
+        </md-list>
+
     </md-dialog-content>
 </md-dialog>
