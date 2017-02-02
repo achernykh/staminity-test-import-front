@@ -33,10 +33,7 @@ class CalendarDayCtrl {
 
     onOpen($event, type, data) {
 
-        if(type === 'activity') {
-            //this.ActivityService.getDetails(data.activityHeader.activityId)
-            //    .then(response => console.log(JSON.stringify(response)), error =>
-            // console.error(JSON.stringify(error)));
+        /**if(type === 'activity') {
 
             this.$mdDialog.show({
                 controller: DialogController,
@@ -84,7 +81,7 @@ class CalendarDayCtrl {
                     console.log('user cancel dialog, data=',data)
                 })
 
-        }
+        }**/
 
         if(type === 'measurement')
             this.$mdDialog.show({

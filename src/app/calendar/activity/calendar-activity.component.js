@@ -130,8 +130,9 @@ class CalendarActivityData {
 }
 
 class CalendarActivityCtrl {
-    constructor($mdDialog) {
-        this._$dialog = $mdDialog;
+    constructor($mdDialog, ActivityService) {
+        this.$mdDialog = $mdDialog;
+        this.ActivityService = ActivityService;
         //this.status = 'new';
         /**
          * Нижняя панель тренировки
@@ -376,7 +377,6 @@ class CalendarActivityCtrl {
     }
 
     prepareSegmentChart(interval, duration) {
-        "use strict";
         /**
          * Для каждого интервала создается две точки на графике: начало и окончание.
          * Начало рассчитывается как время окончания предидущих интервалов и значение intensityByFtpFrom
@@ -424,22 +424,52 @@ class CalendarActivityCtrl {
         return icon;
     }
 
-    /**
-     *
-     * @param $event
-     */
-    show($event) {
-/*
-        this._$dialog.show(
-            this._$dialog.alert()
-                .parent(angular.element(document.querySelector('#popupContainer')))
-                .clickOutsideToClose(true)
-                .title(`structured: ${this.structured}, planned: ${this.planned}, status: ${this.status}, listSize: ${this.calculateSegmentListSize(this.segmentList)}`)
-                .textContent(this.item)
-                .ariaLabel('Alert Dialog Demo')
-                .ok('Got it!')
-                .targetEvent($event)
-        );*/
+    onOpen($event) {
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="activity" aria-label="Activity">
+                        <calendar-item-activity
+                                layout="row" class="calendar-item-activity"
+                                data="$ctrl.data" details="$ctrl.details" mode="put"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-activity>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                data: this.data
+            },
+            resolve: {
+                details: () => this.ActivityService.getDetails(this.data.activityHeader.activityId)
+                    .then(response => response, error => console.error(error))
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: true
+
+        })
+            .then(response => {
+                console.log('user close dialog with =', response)
+
+                // При изменение записи сначала удаляем старую, потом создаем новую
+                if(response.type === 'put'){
+                    this.calendar.onDeleteItem(data)
+                    this.calendar.onPostItem(response.item)
+                    this.ActionMessageService.simple('Изменения сохранены')
+                }
+
+                if(response.type === 'delete') {
+                    this.calendar.onDeleteItem(response.item)
+                    this.ActionMessageService.simple('Запись удалена')
+                }
+
+
+            }, ()=> {
+                console.log('user cancel dialog, data=')
+            })
     }
 
     /**
@@ -468,7 +498,23 @@ class CalendarActivityCtrl {
         !!value ? this.collapse = '' : this.collapse = false;
     }
 }
-CalendarActivityCtrl.$inject = ['$mdDialog'];
+CalendarActivityCtrl.$inject = ['$mdDialog','ActivityService'];
+
+function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+        console.log('cancel');
+        $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+    };
+}
+DialogController.$inject = ['$scope','$mdDialog'];
 
 export let CalendarActivity = {
     bindings: {

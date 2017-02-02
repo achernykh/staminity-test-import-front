@@ -61,8 +61,7 @@
                                dnd-type="'itemType'"
                                dnd-effect-allowed="move"
                                dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                               dnd-moved="$ctrl.calendar.onDeleteItem(item)"
-                               ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
+                               dnd-moved="$ctrl.calendar.onDeleteItem(item)">
             </calendar-activity>
 
             <calendar-measurement ng-switch-when="measurement"

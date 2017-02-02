@@ -102,8 +102,8 @@ export class Activity extends CalendarItem {
 	private intervalL: Array<IActivityIntervalL>;
 	private intervalP: Array<IActivityIntervalP>;
 	private route: Array<IRoute>;
-	private isRouteExist: boolean;
-	private hasDetails: boolean;
+	private isRouteExist: boolean = false;
+	private hasDetails: boolean = false;
 
 	constructor(item: ICalendarItem, details: IActivityDetails = null){
 		super(item);
@@ -111,20 +111,25 @@ export class Activity extends CalendarItem {
 			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
 		} else {
 			this.header = copy(item.activityHeader); // angular deep copy
+			// Если итервала pW нет, то создаем его
+			// Интервал pW необходим для вывода Задания и сравнения план/факт выполнения по неструктуриорванному заданию
+			if (!this.header.intervals.some(i => i.type === 'pW')) {
+				this.header.intervals.push(new Interval('pW'));
+			}
 		}
 
-		this.hasDetails = !!details;
-		// Если итервала pW нет, то создаем его для
-		// Интервал pW необходим для вывода Задания и сравнения план/факт выполнения по неструктуриорванному заданию
-		this.intervalPW = (this.header.intervals.some(i => i.type === 'pW') &&
-			<IActivityIntervalPW>this.header.intervals.filter(i => i.type === "pW")[0]) ||
-			<IActivityIntervalPW>new Interval('pW');
+		// Ссылки на интервалы для быстрого доступа
+		this.intervalPW = <IActivityIntervalPW>this.header.intervals.filter(i => i.type === "pW")[0];
 		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
 		this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
-		this.route = details ? this.getRouteData(details) : null;
-		this.isRouteExist = !!this.route;
 
+		// Обработка детальных данных по тренировке
+		this.hasDetails = !!details && details.metrics.length > 0;
+		if(this.hasDetails) {
+			this.route = this.getRouteData(details);
+			this.isRouteExist = !!this.route;
+		}
 	}
 
 	// Подготовка данных для модели отображения
@@ -228,9 +233,23 @@ export class Activity extends CalendarItem {
 			(this.completed && 'data') || null;
 	}
 
+	/**
+	 * Опредлеям нужно ли выводить дополнительную панель с информацией
+	 * @returns {boolean}
+	 */
+	hasBottomData() {
+		return !!this.bottomPanel &&
+			((this.bottomPanel === 'data' && this.summaryAvg.length > 0) ||
+			(this.bottomPanel === 'prescription' && this.intervalPW.trainersPrescription.length > 0));
+	}
+
 	get percent() {
 		return (this.intervalW.calcMeasures.hasOwnProperty('completePercent')
 			&& this.intervalW.calcMeasures.completePercent.value) || null;
+	}
+
+	printPercent() {
+		return (this.percent && `${this.percent.toFixed(0)}%`);
 	}
 
 	/**
@@ -267,12 +286,12 @@ export class Activity extends CalendarItem {
 	}
 
 	get movingDuration() {
-		return (this.coming && this.intervalPW.calcMeasures.movingDuration.value) ||
+		return (this.coming && this.intervalPW.calcMeasures.movingDuration.maxValue) ||
 			this.intervalW.calcMeasures.movingDuration.maxValue;
 	}
 
 	get distance() {
-		return (this.coming && this.intervalPW.calcMeasures.distance.value) ||
+		return (this.coming && this.intervalPW.calcMeasures.distance.maxValue) ||
 			this.intervalW.calcMeasures.distance.maxValue;
 	}
 

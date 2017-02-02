@@ -120,7 +120,7 @@ export class SocketService implements ISocketService {
                 this.socket.send(JSON.stringify(request));
                 let deferred = this.$q.defer();
                 this.requests[request.requestId] = deferred;
-                console.log('WS Service: wsRequest', request, this.requests, deferred);
+                console.log('SocketService.send=', JSON.stringify(request), this.requests, deferred);
                 this.loader.show();
                 return deferred.promise;
             });

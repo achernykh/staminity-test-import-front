@@ -10,7 +10,7 @@
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.mode == 'post'">
+                            <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.mode === 'post'">
                                 <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                                 <span translate="measurement.toolbar.delete"></span>
                             </md-button>
@@ -216,7 +216,8 @@
                         </form>
                     </md-tab-content>
                 </md-tab>
-                <md-tab id="tab4" label="Детали" layout-fill layout-wrap ng-if="$ctrl.mode !== 'post">
+                <md-tab id="tab4" label="Детали" layout-fill layout-wrap
+                        ng-if="$ctrl.activity.hasDetails">
                     <md-tab-content layout-fill>
                         <measures-avg-table class="measures-avg-table"
                                             measures="$ctrl.activity.intervalW.calcMeasures"

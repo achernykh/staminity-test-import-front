@@ -271,14 +271,14 @@ calendar-activity {
 		#more {
 			@extend .light-active;
 		}
+		@extend .bg-teal-gradient-800-500;
 
-		@extend .bg-teal-500;
 		.bg-circle-32 {
 			@extend .bg-teal-800;
 		}
 
       	&:hover, &.selected {
-        	@extend .bg-teal-800;
+        	@extend .bg-teal-gradient-900-800;
 
         	.bg-circle-32 {
           		@extend .bg-teal-900;
@@ -287,13 +287,14 @@ calendar-activity {
 
 		// Задание выполнено с отклонениями
 		&-warn {
-			@extend .bg-orange-500;
+			color: white;
+			@extend .bg-orange-gradient-800-500;
 			.bg-circle-32 {
 				@extend .bg-orange-800;
 			}
 
 			&:hover, &.selected {
-				@extend .bg-orange-800;
+				@extend .bg-orange-gradient-900-800;
 
 				.bg-circle-32 {
 					@extend .bg-orange-900;
@@ -303,13 +304,14 @@ calendar-activity {
 
 		// Задание выполнено с существенными отклонениями
 		&-error {
-			@extend .bg-red-500;
+			color: white;
+			@extend .bg-red-gradient-800-500;
 			.bg-circle-32 {
 				@extend .bg-red-800;
 			}
 
 			&:hover, &.selected {
-				@extend .bg-red-800;
+				@extend .bg-red-gradient-900-800;
 
 				.bg-circle-32 {
 					@extend .bg-red-900;
@@ -319,7 +321,7 @@ calendar-activity {
     }
 
     &.dismiss {
-      @extend .bg-red-500;
+      @extend .bg-red-gradient-800-500;
       color: white;
 
       .bg-circle-32 {
@@ -331,7 +333,7 @@ calendar-activity {
       }
 
       &:hover, &.selected{
-        @extend .bg-red-800;
+        @extend .bg-red-gradient-900-800;
         .bg-circle-32 {
           @extend .bg-red-900;
         }
@@ -339,11 +341,11 @@ calendar-activity {
     }
 
     &.not-specified {
-      @extend .bg-blue-grey-500;
+      @extend .bg-blue-grey-gradient-600-400;
       color: white;
 
       .bg-circle-32 {
-        @extend .bg-blue-grey-800;
+        @extend .bg-blue-grey-600;
       }
 
       #more {
@@ -351,7 +353,7 @@ calendar-activity {
       }
 
       &:hover, &.selected{
-        @extend .bg-blue-grey-800;
+        @extend .bg-blue-grey-gradient-900-800;
         .bg-circle-32 {
           @extend .bg-blue-grey-900;
         }

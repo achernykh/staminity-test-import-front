@@ -16,15 +16,15 @@
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-repeat="measure in $ctrl.measures">
-                <td md-cell><md-icon md-svg-src="assets/icon/{{measure.code}}.svg" class="dark-active"></md-icon></td>
+            <tr md-row ng-repeat="measure in $ctrl.measures | toArray | filter:search track by measure.$key">
+                <td md-cell><md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon></td>
                 <td md-cell hide-xs>
-                    {{measure.code | translate}}&nbsp({{measure.code | measureUnit:$ctrl.sport | translate}})</td>
+                    {{measure.$key | translate}}&nbsp({{measure.$key | measureUnit:$ctrl.sport | translate}})</td>
                 <td md-cell hide-gt-xs>
-                    {{measure.code | measureUnit:$ctrl.sport | translate}}</td>
-                <td md-cell>{{measure.minValue | measureCalc:$ctrl.sport:measure.code}}</td>
-                <td md-cell>{{measure.avgValue | measureCalc:$ctrl.sport:measure.code}}</td>
-                <td md-cell>{{measure.maxValue | measureCalc:$ctrl.sport:measure.code}}</td>
+                    {{measure.$key | measureUnit:$ctrl.sport | translate}}</td>
+                <td md-cell>{{measure.minValue | measureCalc:$ctrl.sport:measure.$key}}</td>
+                <td md-cell>{{measure.avgValue | measureCalc:$ctrl.sport:measure.$key}}</td>
+                <td md-cell>{{measure.maxValue | measureCalc:$ctrl.sport:measure.$key}}</td>
             </tr>
             </tbody>
         </table>

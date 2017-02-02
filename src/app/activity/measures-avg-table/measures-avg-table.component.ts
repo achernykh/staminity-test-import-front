@@ -23,16 +23,19 @@ class MeasuresAvgTableCtrl implements IComponentController {
         page: 1
     };
 
-    private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain'];
 
-    //static $inject = [''];
 
-    constructor() {
+    static $inject = ['$scope'];
+
+    constructor(private $scope: any) {
+
     }
 
     $onInit() {
-        this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
-        console.log('MeasuresAvgTable=',this.measures);
+        // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
+        // this, а значит и нет доступа к массиву для фильтрации
+        this.$scope.measure = ['heartRate', 'speed', 'cadence', 'elevationGain'];
+        this.$scope.search = (m) => this.$scope.measure.indexOf(m.$key) !== -1;
     }
 }
 

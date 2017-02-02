@@ -3,12 +3,10 @@
     <header flex layout="column"
          class="activity-header {{::$ctrl.data.status}}"
          ng-class="{selected: $ctrl.selected}"
-         ng-click="$ctrl.show($env)">
+         ng-click="$ctrl.onOpen($env)">
         <div layout="row" layout-align="space-between center" layout-align-xs="space-between start">
             <div flex="25" hide show-gt-sm
-                 class="md-caption tight-07">
-                {{$ctrl.data.percent}}{{!!$ctrl.data.percent ? '%' : ''}}</div>
-
+                 class="md-caption tight-07">{{::$ctrl.data.printPercent()}}</div>
             <div flex="none" flex-xs="30" flex-sm="30"
                  layout="row">
                 <div flex="none" layout="row" layout-align="center center"
@@ -37,7 +35,7 @@
 
                 <div flex layout="row" layout-align="start start"
                      class="md-title small secondary tight-10"
-                     ng-class="{'dark' : ($ctrl.status == 'planned')}"
+                     ng-class="{'dark' : ($ctrl.status === 'planned')}"
                      style=""
                      ng-if="!!$ctrl.data.movingDuration || !!$ctrl.data.distance">
                     <div flex="none">{{::$ctrl.data.movingDuration}}</div>
@@ -73,9 +71,10 @@
              ng-class="{'dark' : ($ctrl.status == 'planned')}"
              style=""
              ng-if="!!$ctrl.data.movingDuration || $ctrl.data.distance">
-            <div flex="none">{{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
-            <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
-            <div flex="none">
+            <div flex="none" ng-if="::$ctrl.data.movingDuration">
+                {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
+            <div flex="none" ng-if="::$ctrl.data.distance">
+                <span>&nbsp&nbsp</span>
                 {{::$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp
                 {{'distance' | measureUnit:$ctrl.data.sportBasic | translate}}</div>
         </section>
@@ -90,13 +89,13 @@
          hide show-gt-md
          class="activity-footer line-12"
          ng-switch on="::$ctrl.data.bottomPanel"
-         ng-if="!$ctrl.calendar.view.compact && !!$ctrl.data.bottomPanel">
+         ng-if="!$ctrl.calendar.view.compact && $ctrl.data.hasBottomData()">
         <!-- Панель: Установка тренера -->
         <div ng-switch-when="prescription"
-             flex class="md-caption"
+             flex class="md-caption secondary dark"
              ng-if="!!$ctrl.data.intervalPW.trainersPrescription"
              hm-read-more
-             hm-text="{{$ctrl.data.intervalPW.trainersPrescription}}"
+             hm-text="{{::$ctrl.data.intervalPW.trainersPrescription}}"
              hm-limit="50"
              hm-more-text="more"
              hm-less-text="less"

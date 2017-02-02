@@ -59,7 +59,7 @@ class CalendarItemActivityCtrl implements IComponentController{
             };
         }
 
-        this.activity = new Activity(this.data);
+        this.activity = new Activity(this.data, this.details);
         this.activity.prepare();
 
         console.log('activity data=',this);

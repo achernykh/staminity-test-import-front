@@ -86,14 +86,17 @@ $success-color-hover:	$teal-900;
 
 // Серо-голубой, основной цвет
 .bg-blue-grey {
-  &-100 {
-	background-color: $blue-grey-100;
-  }
-  &-300 {
-	background-color: $blue-grey-300;
-  }
+  	&-100 {
+		background-color: $blue-grey-100;
+  	}
+  	&-300 {
+		background-color: $blue-grey-300;
+  	}
 	&-500 {
 		background-color: $blue-grey-500;
+	}
+	&-600 {
+		background-color: $blue-grey-600;
 	}
 	&-800 {
 		background-color: $blue-grey-800;
@@ -101,10 +104,19 @@ $success-color-hover:	$teal-900;
 	&-900 {
 		background-color: $blue-grey-900;
 	}
-  &-A700 {
-	  background-color: $blue-grey-800;
-	  color: white;
-  }
+  	&-A700 {
+	  	background-color: $blue-grey-800;
+	  	color: white;
+  	}
+	&-gradient-600-400 {
+		background-image: linear-gradient(to bottom, $blue-grey-600, rgba($blue-grey-400, 1));
+	}
+	&-gradient-800-500 {
+		background-image: linear-gradient(to bottom, $blue-grey-800, rgba($blue-grey-500, 1));
+	}
+	&-gradient-900-800 {
+		background-image: linear-gradient(to bottom, $blue-grey-900, rgba($blue-grey-800, 1));
+	}
 }
 
 // Серый, цвето фона
@@ -149,10 +161,10 @@ $success-color-hover:	$teal-900;
 		background-color: $teal-900;
 	}
 	&-gradient-800-500 {
-		background-image: linear-gradient(to bottom, $teal-800, rgba($teal-500, 0.5));
+		background-image: linear-gradient(to bottom, $teal-800, rgba($teal-500, 1));
 	}
 	&-gradient-900-800 {
-		background-image: linear-gradient(to bottom, $teal-900, rgba($teal-800, 0.5));
+		background-image: linear-gradient(to bottom, $teal-900, rgba($teal-800, 1));
 	}
 }
 
@@ -168,10 +180,10 @@ $success-color-hover:	$teal-900;
 		background-color: $orange-900;
 	}
 	&-gradient-800-500 {
-		background-image: linear-gradient(to bottom, $orange-800, rgba($orange-500, 0.5));
+		background-image: linear-gradient(to bottom, $orange-800, rgba($orange-500, 1));
 	}
 	&-gradient-900-800 {
-		background-image: linear-gradient(to bottom, $orange-900, rgba($orange-800, 0.5));
+		background-image: linear-gradient(to bottom, $orange-900, rgba($orange-800, 1));
 	}
 }
 
@@ -188,9 +200,9 @@ $success-color-hover:	$teal-900;
 		background-color: $red-900;
 	}
 	&-gradient-800-500 {
-		background-image: linear-gradient(to bottom, $red-800, rgba($red-500, 0.5));
+		background-image: linear-gradient(to bottom, $red-800, rgba($red-500, 1));
 	}
 	&-gradient-900-800 {
-		background-image: linear-gradient(to bottom, $red-900, rgba($red-800, 0.5));
+		background-image: linear-gradient(to bottom, $red-900, rgba($red-800, 1));
 	}
 }
