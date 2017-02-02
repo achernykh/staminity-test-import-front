@@ -10,6 +10,8 @@ export const _events = {
         generalMeasures: 'Общее измерение',
         sleepData: 'Сон',
         feeling: 'Состояние',
+        eventHeader:{
+            target:'Установка тренера'},
         sentiment: {
             sentiment_very_satisfied: 'Отличное',
             sentiment_satisfied: 'Хорошее',

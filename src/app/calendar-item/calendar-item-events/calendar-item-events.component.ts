@@ -35,7 +35,8 @@ class CalendarItemEventsCtrl {
                 calendarItemType: 'events',
                 dateStart: new Date(this.data.date),
                 dateEnd: new Date(this.data.date),
-                userProfileOwner: profileShort(this.SessionService.getUser())
+                userProfileOwner: profileShort(this.SessionService.getUser()),
+                userProfileCreator: profileShort(this.SessionService.getUser())
             };
         //}
 
