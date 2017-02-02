@@ -48,15 +48,15 @@
         <div class="selected-items" ng-if="$ctrl.checked.length">
             {{$ctrl.checked.length}} items selected
             <div class="controls">
-                <md-button class="md-primary md-icon-button" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.showCoaches()"> 
+                <md-button class="md-primary md-icon-button" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.editCoaches()"> 
                     <md-tooltip md-direction="bottom">Coaches</md-tooltip>
                     <md-icon class="material-icons">supervisor_account</md-icon> 
                 </md-button>
-                <md-button class="md-primary md-icon-button" ng-if="$ctrl.subscriptionsAvailable" ng-click="$ctrl.subscriptions()"> 
+                <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
                     <md-tooltip md-direction="bottom">Tariffs</md-tooltip>
                     <md-icon class="material-icons">share</md-icon> 
                 </md-button>
-                <md-button class="md-primary md-icon-button" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.roles()"> 
+                <md-button class="md-primary md-icon-button" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.editRoles()"> 
                     <md-tooltip md-direction="bottom">Roles</md-tooltip>
                     <md-icon class="material-icons">select_all</md-icon> 
                 </md-button>
@@ -114,16 +114,16 @@
     
     <div ng-if="$ctrl.isScreenSmall" class="users" style="height:100%">
         <md-list>
-            <md-list-item>
+            <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons">search</md-icon>
-                <md-input-container style="margin:0"> 
+                <md-input-container flex> 
                     <input ng-model="$ctrl.search"/> 
                 </md-input-container>
             </md-list-item>
-            <md-list-item>
+            <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons" style="margin-left:0">tune</md-icon>
-                <md-menu>
-                    <md-button aria-label="Open phone interactions menu" ng-click="$mdOpenMenu($event)">
+                <md-menu flex>
+                    <md-button ng-click="$mdOpenMenu($event)">
                         {{$ctrl.filter && $ctrl.filter.label || 'Все'}} ({{$ctrl.rows.length}})
                     </md-button>
                     <md-menu-content>
@@ -156,9 +156,9 @@
                     </md-menu-content>
                 </md-menu>
             </md-list-item>
-            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible())" ng-click="$ctrl.showActions(member)">
+            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible())" ng-click="$ctrl.showActions(member)" layout="row" layout-align="center center">
                 <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
-                {{member.userProfile | username}}
+                <span flex ui-sref="user({uri: member.userProfile.public.uri})">{{ member.userProfile | username }}</span>
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
             </md-list-item>
         </md-list>

@@ -42,25 +42,14 @@ class AthletesCtrl {
         });
     }
     
-    tariffs (member) {
-        return {
-            byUs: {
-                Coach: !!member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.userProfilePayer && t.userProfilePayer.userId == this.user.userId),
-                Premium: !!member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.userProfilePayer && t.userProfilePayer.userId == this.user.userId)
-            },
-            bySelf: {
-                Coach: !!member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && !(t.userProfilePayer && t.userProfilePayer.userId == this.user.userId)),
-                Premium: !!member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !(t.userProfilePayer && t.userProfilePayer.userId == this.user.userId))
-            }
-        }
-    }
-    
     update () {
         return this.GroupService.getManagementProfile(this.user.connections.Athletes.groupId, 'coach')
             .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
             .then(() => { this.sortingHotfix() })
             .then(() => { this.$scope.$apply() })
     }
+
+    // rows selection
     
     get checked () {
         return this.management.members.filter((member) => member.checked);
@@ -78,30 +67,53 @@ class AthletesCtrl {
         return this.management.members.every((member) => member.checked);
     }
 
-    get subscriptionsAvailable () {
+    // tariffs & billing 
+    
+    isOurBill (bill) {
+        return bill.userProfilePayer && bill.userProfilePayer.userId == this.user.userId;
+    }
+    
+    isBilledByUs (member, tariffCode) {
+        return !!member.userProfile.billing.find(b => b.tariffCode == tariffCode && this.isOurBill(b));
+    }
+    
+    isBilledBySelf (member, tariffCode) {
+        return !!member.userProfile.billing.find(b => b.tariffCode == tariffCode && !this.isOurBill(b));
+    }
+
+    tariffs (member) {
+        return ['Coach', 'Premium'].map(tariffCode => ({
+            tariffCode,
+            byUs: this.isBilledByUs(member, tariffCode),
+            bySelf: this.isBilledBySelf(member, tariffCode)
+        }));
+    }
+    
+    get tariffsAvailable () {
         return allEqual(this.checked.map(m => this.tariffs(m)), angular.equals)
     }
     
-    subscriptions () {
+    editTariffs () {
         let checked = this.checked
-        let oldTariffs = this.tariffs(checked[0])
+        let tariffs = this.tariffs(checked[0])
 
-        this.dialogs.subscriptions(oldTariffs, 'byCoach')
-        .then((newTariffs) => {
-            if (newTariffs) {
+        this.dialogs.tariffs(tariffs, 'byClub')
+        .then(tariffs => {
+            if (tariffs) {
                 let members = checked.map(member => member.userProfile.userId);
-                let memberships = [{
-                    groupId: this.management.tariffGroups.CoachByClub,
-                    direction: newTariffs.byUs.Coach? 'I' : 'O'
-                }, {
-                    groupId: this.management.tariffGroups.PremiumByClub,
-                    direction: newTariffs.byUs.Premium? 'I' : 'O'
-                }];
-                return this.GroupService.putGroupMembershipBulk(this.user.connections.Athletes.groupId, memberships, members);
+                let memberships = tariffs
+                    .filter(t => t.byUs != this.isBilledByUs(checked[0], t.tariffCode))
+                    .map(t => ({
+                        groupId: this.management.tariffGroups[t.tariffCode + 'ByClub'],
+                        direction: t.byUs? 'I' : 'O'
+                    }));
+                return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
             }
         }, () => {})
-        .then(() => { this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }
+
+    // removing & other actions
     
     remove () {
         this.dialogs.confirm('Удалить пользователей?')
@@ -117,6 +129,8 @@ class AthletesCtrl {
             scope: this.$scope
         })
     }
+
+    // helpers
 
     isPremium (member) {
         return member.userProfile.billing.find(tariff => tariff.tariffCode == 'Premium');

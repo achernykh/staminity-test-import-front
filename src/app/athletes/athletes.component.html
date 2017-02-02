@@ -15,9 +15,9 @@
         </div>
         
         <div class="selected-items" ng-if="$ctrl.checked.length">
-            {{$ctrl.checked.length}} items selected
+            {{$ctrl.checked.length}} itemsSelected
             <div class="controls">
-                <md-button class="md-primary md-icon-button" ng-if="$ctrl.subscriptionsAvailable" ng-click="$ctrl.subscriptions()"> 
+                <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
                     <md-tooltip md-direction="bottom">Tariffs</md-tooltip>
                     <md-icon class="material-icons">share</md-icon> 
                 </md-button>
@@ -67,19 +67,19 @@
     
     <div ng-if="$ctrl.isScreenSmall" class="users" style="height:100%">
         <md-list>
-            <md-list-item>
+            <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons">search</md-icon>
-                <md-input-container style="margin:0"> 
+                <md-input-container flex> 
                     <input ng-model="$ctrl.search"/> 
                 </md-input-container>
             </md-list-item>
-            <md-list-item>
+            <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons" style="margin-left:0">tune</md-icon>
-                Все ({{$ctrl.rows.length}})
+                <span flex>Все ({{$ctrl.rows.length}})</span>
             </md-list-item>
-            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search)">
+            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search)" layout="row" layout-align="center center">
                 <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
-                <span ui-sref="user({uri: member.userProfile.public.uri})">{{member.userProfile | username}}</span>
+                <span ui-sref="user({uri: member.userProfile.public.uri})" flex>{{ member.userProfile | username }}</span>
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
             </md-list-item>
         </md-list>

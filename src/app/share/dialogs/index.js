@@ -35,11 +35,11 @@ export default class DialogsService {
         });
     }
     
-    subscriptions (tariffs, byWho) {
+    tariffs (tariffs, byWho) {
         return this.$mdDialog.show({
-            controller: SubscriptionsController,
+            controller: TariffsController,
             locals: { tariffs, byWho },
-            template: require('./subscriptions.html'),
+            template: require('./tariffs.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
@@ -111,40 +111,25 @@ UploadPictureDialogController.$inject = ['$scope','$mdDialog'];
 function FriendsController($scope, $mdDialog, users, title) {
     $scope.users = users;
     $scope.title = title;
-
-    $scope.close = () => {
-        $mdDialog.cancel();
-    };
+    $scope.close = () => { $mdDialog.cancel() };
 }
 FriendsController.$inject = ['$scope', '$mdDialog', 'users', 'title'];
 
 function RolesController ($scope, $mdDialog, roles) {
-    
     $scope.roles = roles;
-    
-    $scope.commit = () => {
-        $mdDialog.hide($scope.roles);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
+    $scope.commit = () => { $mdDialog.hide($scope.roles) };
+    $scope.cancel = () => { $mdDialog.hide() };
 }
 RolesController.$inject = ['$scope', '$mdDialog', 'roles'];
 
-function SubscriptionsController ($scope, $mdDialog, tariffs, byWho) {
+function TariffsController ($scope, $mdDialog, tariffs, byWho) {
     $scope.tariffs = tariffs;
+    $scope.tariffsBySelf = tariffs.filter(t => t.bySelf);
     $scope.byWho = byWho;
-
-    $scope.commit = () => {
-        $mdDialog.hide($scope.tariffs);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
+    $scope.commit = () => { $mdDialog.hide($scope.tariffs) };
+    $scope.cancel = () => { $mdDialog.hide() };
 }
-SubscriptionsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byWho'];
+TariffsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byWho'];
 
 function CoachesController ($scope, $mdDialog, coaches) {
     $scope.coaches = coaches

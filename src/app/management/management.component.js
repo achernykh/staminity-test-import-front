@@ -1,4 +1,4 @@
-import { flatMap, unique, keys, entries } from '../share/util.js';
+import { flatMap, unique, keys, entries, pipe, object } from '../share/util.js';
 import './management.component.scss';
 
 function equals (x0, x1) {
@@ -37,39 +37,14 @@ class ManagementCtrl {
         this.sortingHotfix();
     }
     
-    member (id) {
-        return this.management.members.find(m => m.userProfile.userId === id)
-    }
-
-    athletes (member) {
-        return this.management.members.filter((m) => m.coaches.includes(member.userProfile.userId));
-    }
-
-    tariffs (member) {
-        return {
-            byUs: {
-                Coach: !!member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && t.clubProfile && t.clubProfile.groupId == this.club.groupId),
-                Premium: !!member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && t.clubProfile && t.clubProfile == this.club.groupId)
-            },
-            bySelf: {
-                Coach: !!member.userProfile.billing.find((t) => t.tariffCode == 'Coach' && !(t.clubProfile && t.clubProfile == this.club.groupId)),
-                Premium: !!member.userProfile.billing.find((t) => t.tariffCode == 'Premium' && !(t.clubProfile && t.clubProfile == this.club.groupId))
-            }
-        }
-    }
-
-    sortingHotfix () {
-        this.management.members.forEach((member) => {
-            member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
-        });
-    }
-    
     update () {
         return this.GroupService.getManagementProfile(this.club.groupId,'club')
             .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
             .then(() => { this.sortingHotfix() })
             .then(() => { this.$scope.$apply() })
     }
+
+    // rows selection
     
     get checked () {
         return this.management.members.filter((user) => user.checked);
@@ -86,31 +61,54 @@ class ManagementCtrl {
     get allChecked () {
         return this.management.members.every((user) => user.checked);
     }
+
+    // tariffs & billing 
     
-    get subscriptionsAvailable () {
+    isOurBill (bill) {
+        return bill.clubProfile && bill.clubProfile.groupId == this.club.groupId;
+    }
+    
+    isBilledByUs (member, tariffCode) {
+        return !!member.userProfile.billing.find(b => b.tariffCode == tariffCode && this.isOurBill(b));
+    }
+    
+    isBilledBySelf (member, tariffCode) {
+        return !!member.userProfile.billing.find(b => b.tariffCode == tariffCode && !this.isOurBill(b));
+    }
+
+    tariffs (member) {
+        return ['Coach', 'Premium'].map(tariffCode => ({
+            tariffCode,
+            byUs: this.isBilledByUs(member, tariffCode),
+            bySelf: this.isBilledBySelf(member, tariffCode)
+        }));
+    }
+    
+    get tariffsAvailable () {
         return allEqual(this.checked.map(m => this.tariffs(m)), angular.equals)
     }
     
-    subscriptions () {
+    editTariffs () {
         let checked = this.checked
-        let oldTariffs = this.tariffs(checked[0])
+        let tariffs = this.tariffs(checked[0])
 
-        this.dialogs.subscriptions(oldTariffs, 'byClub')
-        .then((newTariffs) => {
-            if (newTariffs) {
+        this.dialogs.tariffs(tariffs, 'byClub')
+        .then(tariffs => {
+            if (tariffs) {
                 let members = checked.map(member => member.userProfile.userId);
-                let memberships = [{
-                    groupId: this.management.tariffGroups.CoachByClub,
-                    direction: newTariffs.byUs.Coach? 'I' : 'O'
-                }, {
-                    groupId: this.management.tariffGroups.PremiumByClub,
-                    direction: newTariffs.byUs.Premium? 'I' : 'O'
-                }];
+                let memberships = tariffs
+                    .filter(t => t.byUs != this.isBilledByUs(checked[0], t.tariffCode))
+                    .map(t => ({
+                        groupId: this.management.tariffGroups[t.tariffCode + 'ByClub'],
+                        direction: t.byUs? 'I' : 'O'
+                    }));
                 return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
             }
         }, () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }
+
+    // coaches
     
     get coaches () {
         return this.management.members.filter(m => (m.roleMembership || []).includes('ClubCoaches'))
@@ -120,7 +118,7 @@ class ManagementCtrl {
         return allEqual(this.checked.map((user) => user.coaches), angular.equals)
     }
     
-    showCoaches () {
+    editCoaches () {
         let checked = this.checked
         let checkedCoaches = checked[0].coaches || []
         let coaches = this.coaches
@@ -145,12 +143,14 @@ class ManagementCtrl {
         }, () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }
+
+    // roles
     
     get rolesAvailable() {
         return allEqual(this.checked.map((user) => user.roleMembership), angular.equals)
     }
     
-    roles () {
+    editRoles () {
         let checked = this.checked
         let checkedRoles = checked[0].roleMembership || []
         let roles = ['ClubAthletes', 'ClubCoaches', 'ClubManagement']
@@ -174,6 +174,8 @@ class ManagementCtrl {
         }, () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }
+
+    // removing & other actions
     
     remove () {
         this.dialogs.confirm('Удалить пользователей?')
@@ -185,10 +187,12 @@ class ManagementCtrl {
         this.management.members.forEach((m) => { m.checked = m === member })
         
         this.$mdBottomSheet.show({
-            templateUrl: 'users/member-actions.html',
+            template: require('./member-actions.html'),
             scope: this.$scope
         })
     }
+
+    // orderingand filtering
     
     clearFilter () {
         this.filter = null
@@ -222,6 +226,22 @@ class ManagementCtrl {
     
     isVisible () {
         return (member) => !this.filter || this.filter.pred(member)
+    }
+
+    // helpers
+    
+    member (id) {
+        return this.management.members.find(m => m.userProfile.userId === id)
+    }
+
+    athletes (member) {
+        return this.management.members.filter((m) => m.coaches.includes(member.userProfile.userId));
+    }
+
+    sortingHotfix () {
+        this.management.members.forEach((member) => {
+            member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
+        });
     }
 
     roleMembership (roleMemberships) {
