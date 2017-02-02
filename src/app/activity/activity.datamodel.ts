@@ -107,6 +107,7 @@ export class Activity extends CalendarItem {
 
 	constructor(item: ICalendarItem, details: IActivityDetails = null){
 		super(item);
+		debugger;
 		if (!item.hasOwnProperty('activityHeader')) {
 			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
 		} else {
@@ -115,6 +116,10 @@ export class Activity extends CalendarItem {
 			// Интервал pW необходим для вывода Задания и сравнения план/факт выполнения по неструктуриорванному заданию
 			if (!this.header.intervals.some(i => i.type === 'pW')) {
 				this.header.intervals.push(new Interval('pW'));
+			}
+			// Если интервала W нет, то создаем его
+			if (!this.header.intervals.some(i => i.type === 'W')) {
+				this.header.intervals.push(new Interval('W'));
 			}
 		}
 

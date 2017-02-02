@@ -1,5 +1,5 @@
 
-    <section class="overview" ng-if="$ctrl.mode !== 'post' && $ctrl.activity.hasDetails"
+    <section class="overview" ng-if="$ctrl.mode !== 'post' && ($ctrl.activity.hasDetails || $ctrl.isLoadingDetails)"
              flex="auto" layout="column" hide show-gt-sm>
         <md-toolbar flex="none" class="md-hue-3">
             <div class="md-toolbar-tools">
@@ -35,8 +35,14 @@
                 </md-button>
             </div>
         </md-toolbar>
+        <section class="overview-content" ng-if="$ctrl.isLoadingDetails"
+                 flex="none" layout="column" layout-align="center center" layout-fill
+                 style="background-color: whitesmoke">
+            <img flex src="/assets/icon/ripple.svg" width="60" height="60"/>
+            <p>Загрузка данных....</p>
+        </section>
         <section flex="none" class="overview-content" layout="column"
-                 ng-init="showChart = true; showTable = true">
+                 ng-init="showChart = true; showTable = true" ng-if="!$ctrl.isLoadingDetails">
 
             <header flex="none" class="map" layout="row" layout-align="start center"
                     ng-if="$ctrl.activity.isRouteExist">

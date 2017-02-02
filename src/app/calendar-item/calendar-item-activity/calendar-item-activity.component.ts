@@ -25,6 +25,7 @@ class CalendarItemActivityCtrl implements IComponentController{
     activity: Activity;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: (response: Object) => IPromise<void>;
+    private isLoadingDetails: boolean = true;
     private showMap: boolean = true;
     private types: Array<Object> = ACTIVITY_TYPE;
     private categories: Array<Object> = ACTIVITY_CATEGORY;
@@ -46,10 +47,6 @@ class CalendarItemActivityCtrl implements IComponentController{
 
         console.log('activity data=',this);
 
-        // Получаем детали по тренировке
-        //this.itemDetails = this.ActivityService.getDetails(this.data.activityHeader.activityId)
-        //    .then(response => this.itemDetails = response, error => console.error(error));
-
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'activity',
@@ -59,8 +56,16 @@ class CalendarItemActivityCtrl implements IComponentController{
             };
         }
 
-        this.activity = new Activity(this.data, this.details);
+        this.activity = new Activity(this.data);
         this.activity.prepare();
+
+        //Получаем детали по тренировке
+        this.ActivityService.getDetails(this.data.activityHeader.activityId)
+            .then(response => {
+                this.details = response;
+                this.activity = new Activity(this.data, this.details);
+                this.isLoadingDetails = false;
+            }, error => console.error(error));
 
         console.log('activity data=',this);
 
@@ -107,7 +112,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
         date: '=',
         data: '=',
-        details: '=',
+        //details: '=',
         mode: '@',
         onCancel: '&',
         onAnswer: '&'
