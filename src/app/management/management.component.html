@@ -98,7 +98,7 @@
                         <td md-cell>
                             <span ng-repeat="tariff in member.userProfile.billing">
                                 {{tariff.tariffCode}} 
-                                <span ng-if="tariff.clubProfile.groupId==$ctrl.club.groupId" class="" style="background-color: #dd2c00; color: white; padding: 2px 4px; border-radius: 4px;">byClub </span>
+                                <span ng-if="tariff.clubProfile.groupId==$ctrl.club.groupId" class="badge">byClub </span>
                             </span>
                             <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
                         </td>

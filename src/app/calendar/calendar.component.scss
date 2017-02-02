@@ -559,16 +559,19 @@ calendar-event, calendar-competition {
     background: $primary-hue-3;
   }
 }
-.badge {
-  font-size: 12px;
-  padding-top: 10px;
-}
-.badge-icon{
- height: 12px;
- width: 12px;
- min-height: 12px;
- min-width: 12px
-}
-.classic{
-  padding: 10px 12px 10px 12px;
+
+#calendar {
+  .badge {
+    font-size: 12px;
+    padding-top: 10px;
+  }
+  .badge-icon{
+  height: 12px;
+  width: 12px;
+  min-height: 12px;
+  min-width: 12px
+  }
+  .classic{
+    padding: 10px 12px 10px 12px;
+  }
 }

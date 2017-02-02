@@ -1,17 +1,18 @@
 <md-dialog>
     <md-dialog-content class="roles">
 
-        <div class="title">
+        <div class="md-title">
             Роль в клубе
         </div>
         
-        <div ng-repeat="role in roles" class="row">
-            {{role.role}}
+        <div ng-repeat="role in roles" layout="row" layout-align="center center">
+            <span flex>{{role.role}}</span>
             <md-switch  ng-model="role.checked" aria-label="role checked"></md-switch >
         </div>
         
-        <div class="actions">
+        <div layout="row">
             <md-button ng-click="commit()"> Принять </md-button>
+            <span flex></span>
             <md-button ng-click="cancel()"> Отклонить </md-button>
         </div>
         

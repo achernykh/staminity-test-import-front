@@ -50,7 +50,13 @@
                             <span>{{member.userProfile | username}}</span>
                         </td>
                         <td md-cell>-</td>
-                        <td md-cell><span ng-repeat="tariff in member.userProfile.billing">{{tariff.tariffCode}} </span></td>
+                        <td md-cell>
+                            <span ng-repeat="tariff in member.userProfile.billing">
+                                {{tariff.tariffCode}} 
+                                <span ng-if="tariff.clubProfile.groupId==$ctrl.club.groupId" class="badge">byCoach </span>
+                            </span>
+                            <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
+                        </td>
                         <td md-cell>{{member.userProfile.city}}</td>
                         <td md-cell>{{member.userProfile | ageGroup}}</td>
                     </tr>

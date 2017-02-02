@@ -5,14 +5,25 @@
     }
 }
 
-.md-badge {
-    background-color: rgb(221,44,0);
+.badge {
+    background-color: #ff5722;
     color: white;
     padding: 2px 4px;
     border-radius: 4px;
+}
+
+.superscript {
     position: absolute;
     right: 0;
     top: 0;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.subscript {
+    position: absolute;
+    right: 0;
+    bottom: 0;
     font-size: 12px;
     line-height: 12px;
 }

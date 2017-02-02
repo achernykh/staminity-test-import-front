@@ -1,21 +1,21 @@
 <md-dialog>
     <md-dialog-content class="coaches">
         
-        <div class="title">
+        <div class="md-title">
             Тренер
         </div>
         
-        <div ng-repeat="coach in checked()" class="row">
+        <div ng-repeat="coach in checked()" layout="row" layout-align="center center">
             <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
-            {{ coach.userProfile | username }}
-            <md-switch  ng-model="coach.checked" aria-label="coach checked"></md-switch>
+            <span flex>{{ coach.userProfile | username }}</span>
+            <md-switch  ng-model="coach.checked" style="margin-left: 10px;"></md-switch>
         </div>
 
         <div>
             <md-menu>
-                <md-button ng-click="$mdOpenMenu($event)" style="vertical-align: top;">
+                <md-button ng-disabled="!unchecked().length" ng-click="$mdOpenMenu($event)" layout="row" layout-fill>
                     <md-icon class="material-icons">supervisor_account</md-icon>
-                    Добавить 
+                    <span flex style="min-width: 150px;">Добавить </span>
                     ▾
                 </md-button>
                 <md-menu-content>
@@ -29,8 +29,9 @@
             </md-menu>
         </div>
 
-        <div class="actions">
+        <div layout="row">
             <md-button ng-click="commit()"> Принять </md-button>
+            <span flex></span>
             <md-button ng-click="cancel()"> Отклонить </md-button>
         </div>
         
