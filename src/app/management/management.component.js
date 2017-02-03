@@ -34,6 +34,8 @@ class ManagementCtrl {
         this.orderBy = 'sort.username';
         this.clearFilter();
         this.sortingHotfix();
+
+        this.checked = [];
     }
     
     update () {
@@ -41,24 +43,6 @@ class ManagementCtrl {
             .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
             .then(() => { this.sortingHotfix() })
             .then(() => { this.$scope.$apply() })
-    }
-
-    // rows selection
-    
-    get checked () {
-        return this.management.members.filter((user) => user.checked);
-    }
-    
-    set allChecked (value) {
-        if (this.allChecked) {
-            this.management.members.forEach((user) => { user.checked = false; });
-        } else {
-            this.management.members.forEach((user) => { user.checked = true; });
-        }
-    }
-    
-    get allChecked () {
-        return this.management.members.every((user) => user.checked);
     }
 
     // tariffs & billing 
