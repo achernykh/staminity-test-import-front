@@ -63,7 +63,7 @@
 
             <span>
                 <md-menu>
-                    <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)" style="border:1px solid white;">
+                    <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)" style="border:1px solid rgba(255, 255, 255, 0.7);">
                         <md-icon class="material-icons" style="vertical-align: middle; color: rgba(255, 255, 255, 0.7)" md-ink-ripple="#FFFFFF">person_add</md-icon> ▾
                     </md-button>
                     <md-menu-content>
@@ -135,7 +135,7 @@
             <div class="md-caption">Контакты</div>
             <div>
                 <span class="label">Телефон:</span> <span class="value">{{ $ctrl.user.private.phone || '-' }}</span>
-                <span class="label">Email:</span> <span class="value">{{ $ctrl.user.personal.extEmail || '' }}</span>
+                <span class="label">Email:</span> <span class="value">{{ $ctrl.user.personal.extEmail || '-' }}</span>
             </div>
         </div>
     </md-card>
@@ -143,45 +143,45 @@
     <md-card class="profile-chart" layout="column" layout-align="center begin">
         <div class="md-caption">Личная статистика</div>
 
-        <div class="controls" layout="row">
-            <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period + 1)" style="margin-top: 12px;">
+        <div layout="row">
+            <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period + 1)" style="margin: 0;">
                 <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_left</md-icon>
             </md-button>
-            <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period - 1)" style="margin-top: 12px;">
+            <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period - 1)" style="margin: 0;">
                 <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_right</md-icon>
             </md-button>
             <md-menu>
                 <md-button ng-click="$mdOpenMenu($event)">
-                    {{$ctrl.range.periodName($ctrl.period)}} ▾
+                    {{ $ctrl.range.periodName($ctrl.period) }} ▾
                 </md-button>
                 <md-menu-content>
                     <md-menu-item ng-repeat="period in [$ctrl.period, $ctrl.period-1, $ctrl.period-2, $ctrl.period-3]">
                         <md-button style="font-size: 13px;" ng-click="$ctrl.selectPeriod(period)">
-                            {{$ctrl.range.periodName(period)}}
+                            {{ $ctrl.range.periodName(period) }}
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
             <md-menu flex layout-align="center" style="text-align:center;">
                 <md-button style="font-size: 15px;" ng-click="$mdOpenMenu($event)">
-                    {{$ctrl.range.name}} ▾
+                    {{ $ctrl.range.name }} ▾
                 </md-button>
                 <md-menu-content>
                     <md-menu-item ng-repeat="range in $ctrl.ranges">
                         <md-button ng-click="$ctrl.selectRange(range)">
-                            {{range.name}}
+                            {{ range.name }}
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
             <md-menu>
                 <md-button style="font-size: 13px;" ng-click="$mdOpenMenu($event)">
-                    {{$ctrl.valueType.name}} ▾
+                    {{ $ctrl.valueType.name }} ▾
                 </md-button>
                 <md-menu-content>
                     <md-menu-item ng-repeat="valueType in $ctrl.valueTypes">
                         <md-button  ng-click="$ctrl.selectValueType(valueType)">
-                            {{valueType.name}}
+                            {{ valueType.name }}
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -208,28 +208,26 @@
             </svg>
         </div>
 
-        <div class="table">
-            <table>
-                <tr>
-                    <th></th>
-                    <th>км</th>
-                    <th>время</th>
-                    <th style="max-width: 90px;" width="90">кол-во трен.</th>
-                </tr>
-                <tr ng-repeat="row in $ctrl.chart.tableRows">
-                    <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7)">{{row.icon}}</md-icon></td>
-                    <td>{{row.dist}}</td>
-                    <td>{{row.hrs}}</td>
-                    <td>{{row.count}}</td>
-                </tr>
-                <tr class="row-total">
-                    <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 1)">{{$ctrl.chart.tableTotal.icon}}</md-icon></td>
-                    <td>{{$ctrl.chart.tableTotal.dist}}</td>
-                    <td>{{$ctrl.chart.tableTotal.hrs}}</td>
-                    <td>{{$ctrl.chart.tableTotal.count}}</td>
-                </tr>
-            </table>
-        </div>
+        <table>
+            <tr>
+                <th></th>
+                <th>км</th>
+                <th>время</th>
+                <th style="max-width: 90px;" width="90">кол-во трен.</th>
+            </tr>
+            <tr ng-repeat="row in $ctrl.chart.tableRows">
+                <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7)">{{ row.icon }}</md-icon></td>
+                <td>{{ row.dist }}</td>
+                <td>{{ row.hrs }}</td>
+                <td>{{ row.count }}</td>
+            </tr>
+            <tr class="row-total">
+                <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.9)">{{ $ctrl.chart.tableTotal.icon }}</md-icon></td>
+                <td>{{ $ctrl.chart.tableTotal.dist }}</td>
+                <td>{{ $ctrl.chart.tableTotal.hrs }}</td>
+                <td>{{ $ctrl.chart.tableTotal.count }}</td>
+            </tr>
+        </table>
     </md-card>
 
 </application-frame>

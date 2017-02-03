@@ -18,23 +18,20 @@ class ClubCtrl {
     
     join () {
         return this.dialogs.confirm('Отправить заявку на вступление в клуб?')
-            .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.join(this.club.groupId, this.UserService.profile.userId))
-            .then(() => this.update(), (error) => { this.SystemMessageService.show(error) })
+            .then((confirmed) => confirmed && this.GroupService.join(this.club.groupId, this.UserService.profile.userId))
+            .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
     
     leave () {
         return this.dialogs.confirm('Покинуть клуб?')
-            .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.leave(this.club.groupId, this.UserService.profile.userId))
-            .then(() => this.update(), (error) => { this.SystemMessageService.show(error) })
+            .then((confirmed) => confirmed && this.GroupService.leave(this.club.groupId, this.UserService.profile.userId))
+            .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
     
     cancel () {
         return this.dialogs.confirm('Отменить заявку?')
-            .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.processMembership('C',this.club.groupId))
-            .then(() => this.update(), (error) => { this.SystemMessageService.show(error) })
+            .then((confirmed) => confirmed && this.GroupService.processMembership('C',this.club.groupId))
+            .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
     
     openMenu ($mdOpenMenu, event) {

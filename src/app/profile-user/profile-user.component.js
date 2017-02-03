@@ -164,23 +164,20 @@ class ProfileCtrl {
 
     joinAthletes (group) {
         return this.dialogs.confirm('Отправить запрос тренеру?')
-            .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.join(this.user.connections.Athletes.groupId, this.UserService.profile.userId))
-            .then(() => this.update(), error => this.message.show(error))
+            .then((confirmed) => confirmed && this.GroupService.join(this.user.connections.Athletes.groupId, this.UserService.profile.userId))
+            .then((result) => { result && this.update() }, error => this.message.show(error))
     }
 
     leaveAthletes (group) {
         return this.dialogs.confirm('Покинуть тренера?')
-            .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.leave(this.user.connections.Athletes.groupId, this.UserService.profile.userId))
-            .then(() => this.update(), error => this.message.show(error))
+            .then((confirmed) => confirmed && this.GroupService.leave(this.user.connections.Athletes.groupId, this.UserService.profile.userId))
+            .then((result) => { result && this.update() }, error => this.message.show(error))
     }
 
     cancelAthletes () {
         return this.dialogs.confirm('Отменить заявку?')
-            .then((confirmed) => { if (!confirmed) throw new Error() })
-            .then(() => this.GroupService.processMembership( 'C', this.user.connections.Athletes.groupId))
-            .then(() => this.update(), error => this.message.show(error))
+            .then((confirmed) => confirmed && this.GroupService.processMembership( 'C', this.user.connections.Athletes.groupId))
+            .then((result) => { result && this.update() }, error => this.message.show(error))
     }
 
     openMenu ($mdOpenMenu, event) {
