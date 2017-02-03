@@ -74,7 +74,7 @@ class ActivityHeader implements IActivityHeader {
 		code: string;
 		typeBasic: string;
 	};
-	public intervals: Array<IActivityIntervalW | IActivityIntervalPW | IActivityIntervalL>;
+	public intervals: Array<IActivityIntervalW | IActivityIntervalPW | IActivityIntervalL> = [];
 
 	constructor(date: Date = new Date()){
 		this.startTimestamp = date;
@@ -87,7 +87,7 @@ class ActivityHeader implements IActivityHeader {
 				code: null,
 				typeBasic: null
 		};
-		this.intervals = [new Interval('pW'), new Interval('W')];
+		this.intervals.push(new Interval('pW'), new Interval('W'));
 	}
 }
 /**
@@ -153,6 +153,8 @@ export class Activity extends CalendarItem {
 		if (this.header.activityCategory){
 			this.header.activityCategory.id = null;
 		}
+
+		debugger;
 
 		return {
 			calendarItemId: this.calendarItemId,

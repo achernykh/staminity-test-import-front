@@ -78,6 +78,7 @@ class ActivityAssignmentCtrl implements IComponentController {
                 if(input.$modelValue === 'Bernie Sanders') {
                     return assignment.comment = 'FEEL THE BERN!';
                 }*/
+                debugger;
                 assignment[this.valueType[assignment.code]] = this.$filter('measureSave')(assignment.code,input.$modelValue, this.sport);
                 //if (event.target.className.search('intervalW') !== -1) {
                     this.calculateCompletePercent();
