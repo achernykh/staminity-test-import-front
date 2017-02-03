@@ -8,27 +8,25 @@ import {
 import './settings-user.component.scss';
 
 class SettingsUserModel {
-
     // deep copy test and initial data
+    constructor (user) {
+        Object.assign(this, {
+            public: {},
+            personal: {},
+            display: {
+                units: null,
+                firstDayOfWeek: null
+            }
+        }, user);
 
-    constructor(user) {
-        Object.assign(this, angular.merge({
-                public: {},
-                personal: {},
-                display: {
-                    units: null,
-                    firstDayOfWeek: null
-                }
-            }, user)
-        );
-
+        this.personal.activity = this.personal.activity || [];
         this.personal.birthday = (this.personal.hasOwnProperty('birthday') && new Date(this.personal.birthday)) || null;
     }
 }
 
 class SettingsUserCtrl {
 
-    constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, MessageService) {
+    constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs) {
         console.log('SettingsCtrl constructor=', this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -294,9 +292,21 @@ class SettingsUserCtrl {
                 this.user = user
             })
     }
-}
-;
-SettingsUserCtrl.$inject = ['UserService', 'AuthService', 'SystemMessageService', 'ActionMessageService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','MessageService'];
+
+	toggleActivity (activity) {
+		if (this.isActivityChecked(activity)) {
+			let index = this.user.personal.activity.indexOf(activity);
+			this.user.personal.activity.splice(index, 1);
+		} else {
+			this.user.personal.activity.push(activity);
+		}
+	}
+
+	isActivityChecked (activity) {
+		return this.user.personal.activity.includes(activity)
+	}
+};
+SettingsUserCtrl.$inject = ['UserService', 'AuthService', 'SystemMessageService', 'ActionMessageService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs'];
 
 function DialogController($scope, $mdDialog) {
 

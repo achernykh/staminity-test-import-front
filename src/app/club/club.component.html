@@ -1,105 +1,85 @@
-<application-frame>
-    <div class="profile">
-        
-        <div class="profile-card">
-            <div class="profile-card-background">
-                <div class="profile-background" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/group/background/' + $ctrl.club.public.background | image}})"></div>
-                
-                <div class="profile-header">
-                    <div layout="row">
-                        <div class="userpic" style="background-image: url({{'/group/avatar/' + $ctrl.club.public.avatar | image}})" layout-align="center"></div>
-                    </div>
-                    <div class="name">
-                       {{$ctrl.club.public.name}}
-                    </div>
-                    <div class="text">
-                        Россия, г. Москва
-                    </div>
-                    <div class="text">
-                        Триатлон, Бег, Плавание, Велоспорт
-                    </div>
-                    <div ng-if="$ctrl.club.availableInteractions">
-                        
-                        <span class="group-actions">
-                            <md-button ng-click="$ctrl.join()" ng-if="$ctrl.club.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
-                                Начать тренироваться
-                            </md-button>
-                            
-                             <md-menu ng-if="$ctrl.club.availableInteractions.btnCancelJoinGroup">
-                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                                Заявка отправлена ▾
-                              </md-button>
-                              <md-menu-content>
-                                <md-menu-item>
-                                  <md-button ng-click="$ctrl.cancel()">
-                                    Отменить заявку
-                                  </md-button>
-                                </md-menu-item>
-                              </md-menu-content>
-                            </md-menu>
-                            
-                             <md-menu ng-if="$ctrl.club.availableInteractions.btnLeaveGroup">
-                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                                Ваш клуб ▾
-                              </md-button>
-                              <md-menu-content>
-                                <md-menu-item>
-                                  <md-button ng-click="$ctrl.leave()">
-                                    Покинуть клуб
-                                  </md-button>
-                                </md-menu-item>
-                              </md-menu-content>
-                            </md-menu>
-                            
-                             <md-menu ng-if="$ctrl.club.availableInteractions.btnCancelLeaveGroup">
-                              <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                                Вы отправили заявку на выход ▾
-                              </md-button>
-                              <md-menu-content>
-                                <md-menu-item>
-                                  <md-button ng-click="$ctrl.cancel()">
-                                    Отменить заявку
-                                  </md-button>
-                                </md-menu-item>
-                              </md-menu-content>
-                            </md-menu>
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="profile-fab">
-                    <md-button class="md-fab">
-                        <md-icon class="material-icons">send</md-icon>
-                    </md-button>
-                </div>
-            </div>
-                
-            <div class="profile-card-text">
-                <div class="title">О клубе</div>
-                <div class="text">
-                    {{$ctrl.club.public.about ||"Информация не указана"}}
-                </div>
-                
-                <div class="title">Состав</div>
-                <div class="text" ng-if="$ctrl.club.innerGroups">
-                    <md-button class="md-no-style" ui-sref="management({uri: $ctrl.club.public.uri})">
-                        <span class="label">Тренеры:</span> 
-                        <span class="value">{{$ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-'}}</span> 
-                    </md-button>                    
-                    <md-button class="md-no-style" ui-sref="management({uri: $ctrl.club.public.uri})">
-                        <span class="label">Спортсмены:</span> 
-                        <span class="value">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</span>
-                    </md-button>
-                </div>
-                <div class="text" ng-if="!$ctrl.club.innerGroups">
-                    <md-button class="md-no-style" ui-sref="management({uri: $ctrl.club.public.uri})">
-                        <span class="label">Участники:</span> 
-                        <span class="value">{{$ctrl.club.groupMembersCount}}</span>
-                    </md-button>
-                </div>
-            </div>
+<application-frame class="club-profile" layout="column" layout-align="center center">
+
+    <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/group/background/' + $ctrl.club.public.background | image}})">
+        <div layout="row">
+            <div class="userpic" style="background-image: url({{'/group/avatar/' + $ctrl.club.public.avatar | image}})" layout-align="center"></div>
         </div>
+        <div class="md-title">{{ $ctrl.club.public.name }}</div>
+        <div class="md-caption line-18">{{ $ctrl.club.public.country }}, {{ $ctrl.club.public.city }}</div>
+        <div class="md-caption line-18">{{ $ctrl.club.public.activityTypes.join(', ') }}</div>
+        <div ng-if="$ctrl.club.availableInteractions">
+
+            <md-button ng-if="$ctrl.club.availableInteractions.btnJoinGroup" ng-click="$ctrl.join()" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                Начать тренироваться
+            </md-button>
             
-    </div>
+            <md-menu ng-if="$ctrl.club.availableInteractions.btnCancelJoinGroup">
+                <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                Заявка отправлена ▾
+                </md-button>
+                <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.cancel()">
+                        Отменить заявку
+                    </md-button>
+                </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            
+            <md-menu ng-if="$ctrl.club.availableInteractions.btnLeaveGroup">
+                <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                Ваш клуб ▾
+                </md-button>
+                <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.leave()">
+                        Покинуть клуб
+                    </md-button>
+                </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            
+            <md-menu ng-if="$ctrl.club.availableInteractions.btnCancelLeaveGroup">
+                <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                Вы отправили заявку на выход ▾
+                </md-button>
+                <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.cancel()">
+                        Отменить заявку
+                    </md-button>
+                </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            
+        </div>
+        <md-button class="md-fab profile-fab">
+            <md-icon class="material-icons">send</md-icon>
+        </md-button>
+    </md-card>
+        
+    <md-card class="profile-content md-body-1" layout="column" layout-align="center begin">
+        <div class="md-caption">О клубе</div>
+        <div style="white-space: pre-wrap;">{{ $ctrl.club.public.about ||"Информация не указана" }}</div>
+        
+        <div class="md-caption">Состав</div>
+        <div ng-if="$ctrl.club.innerGroups">
+            <md-button ui-sref="management({uri: $ctrl.club.groupUri})">
+                <span class="label">Тренеры:</span> 
+                <span class="value">{{$ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-'}}</span> 
+            </md-button>                    
+            <md-button ui-sref="management({uri: $ctrl.club.groupUri})">
+                <span class="label">Спортсмены:</span> 
+                <span class="value">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</span>
+            </md-button>
+        </div>
+        <div ng-if="!$ctrl.club.innerGroups">
+            <md-button ui-sref="management({uri: $ctrl.club.groupUri})">
+                <span class="label">Участники:</span> 
+                <span class="value">{{$ctrl.club.groupMembersCount}}</span>
+            </md-button>
+        </div>
+    </md-card>
+          
 </application-frame>
 
