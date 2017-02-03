@@ -141,7 +141,7 @@ class SettingsUserCtrl {
             if (form[name]) {
                 profile[name] = this.user[name];
                 console.log('settings ctrl => update profile form: ', name);
-                if (name == "personal") {
+                if (name === "personal") {
                     this[name + 'FirstForm'].$setPristine();
                     this[name + 'SecondForm'].$setPristine();
                 } else

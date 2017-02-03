@@ -222,7 +222,7 @@
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="settings.personalInfo.contacts.extEmail"></label>
-                    <input type="email" name="extEmail" ng-model="$ctrl.user.private.extEmail" autocomplete="off" autofocus ng-disabled="false" minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/">
+                    <input type="email" name="extEmail" ng-model="$ctrl.user.personal.extEmail" autocomplete="off" autofocus ng-disabled="false" minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/">
                     <div ng-messages="personalSecondForm.email.$error" role="alert">
                         <div ng-message-exp="['minlength', 'maxlength']"
                              translate="form.rangeStr" translate-values="{min:1, max:100}">
@@ -232,8 +232,8 @@
                 <div flex="10"></div>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="settings.personalInfo.contacts.phone"></label>
-                    <input type="text" name="phone" ng-model="$ctrl.user.private.phone" autocomplete="off" ng-disabled="false" minlength="5" maxlength="100">
-                    <div ng-messages="personalSecondForm.email.$error" role="alert">
+                    <input type="text" name="phone" ng-model="$ctrl.user.personal.phone" autocomplete="off" ng-disabled="false" minlength="5" maxlength="100">
+                    <div ng-messages="personalSecondForm.phone.$error" role="alert">
                         <div ng-message-exp="['minlength', 'maxlength']"
                              translate="form.rangeStr" translate-values="{min:1, max:100}">
                         </div>
