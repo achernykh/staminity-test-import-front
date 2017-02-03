@@ -41,6 +41,7 @@ class ManagementCtrl {
     update () {
         return this.GroupService.getManagementProfile(this.club.groupId,'club')
             .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
+            .then(() => { this.checked = [] })
             .then(() => { this.sortingHotfix() })
             .then(() => { this.$scope.$apply() })
     }
