@@ -1,6 +1,6 @@
 import {ISocketService} from '../services/api/socket.service';
-import {ICalendarItem} from '../../../api/calendar/calendar.interface'
-import {GetRequest, PostRequest, PutRequest, DeleteRequest} from '../../../api/calendar/calendar.request'
+import {ICalendarItem} from '../../../api/calendar/calendar.interface';
+import {GetRequest, PostRequest, PutRequest, DeleteRequest} from '../../../api/calendar/calendar.request';
 
 export class CalendarService {
     SocketService:ISocketService;
@@ -18,7 +18,7 @@ export class CalendarService {
      * @returns {Promise<TResult>}
      */
     getCalendarItem(start:Date, end:Date, userId:number, itemId:number):Promise<Array<ICalendarItem>> {
-        return this.SocketService.send(new GetRequest(start, end, userId, itemId))
+        return this.SocketService.send(new GetRequest(start, end, userId, itemId));
             /*.then((result) => {
                 console.log('getCalendarItem=', result)
                 return result.map((item) => {

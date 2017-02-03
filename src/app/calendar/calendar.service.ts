@@ -17,7 +17,7 @@ export class CalendarService {
      * @param end
      * @returns {Promise<TResult>}
      */
-    getCalendarItem(start:Date, end:Date, userId:number, groupId?:number, itemId?:number):Promise<Array<ICalendarItem>> {
+    getCalendarItem(start:Date, end:Date, userId?:number, groupId?:number, itemId?:number):Promise<Array<ICalendarItem>> {
         return this.SocketService.send(new GetRequest(start, end, userId, groupId, itemId));
             /*.then((result) => {
                 console.log('getCalendarItem=', result)

@@ -53,15 +53,12 @@
                             <md-toolbar flex="none" layout="raw" layout-align="space-between center" hide show-gt-sm
                                         class="md-primary"
                                         style="min-height: 32px;">
-
-                                    <div ng-repeat="day in $ctrl.weekdays"
+                                    <div ng-repeat="day in $ctrl.weekdayNames track by $index"
                                          flex="auto"
                                          class="md-caption weekday">{{::day}}</div>
                                     <div hide show-gt-md
                                          flex="auto"
                                          class="md-caption weekday">Итоги</div>
-
-
                             </md-toolbar>
                             
                             <!--<md-progress-linear ng-show="$ctrl.isLoadingUp || $ctrl.isLoadingDown" class="md-accent"
@@ -71,16 +68,17 @@
                             <!-- grid: start -->
                             <md-content flex class="calendar-grid" id="viewport-serviceDatasource" keep-scroll-position scroll-current-item>
 
-                                <div id="week{{$ctrl.first().sid - 1}}" scroll-fire="$ctrl.up(3)" layout="row" layout-sm="column" layout-align="space-around">
+                                <div id="week{{$ctrl.first().sid - 1}}" scroll-fire="$ctrl.up(3)"
+                                     layout="row" layout-sm="column" layout-align="space-around">
                                     <md-button ng-if="!$ctrl.isLoadingUp" ng-click="$ctrl.up(3)" aria-label="menu"> More </md-button>
                                     <md-progress-circular ng-if="$ctrl.isLoadingUp" md-mode="indeterminate"></md-progress-circular>
                                 </div>
                                 
                                 <!-- grid-week: start -->
-                                <div id="week{{::week.sid}}"
+                                <div ng-repeat="week in $ctrl.calendar track by week.sid"
+                                     id="week{{::week.sid}}"
                                      layout="raw" layout-xs="column" layout-sm="column"
                                      layout-align-gt-sm="start stretch" flex="none"
-                                     ng-repeat="week in $ctrl.items track by week.sid"
                                      on-scroll-current-item="$ctrl.currentWeek = week"
                                      buffer-size="5"
                                      start-index="0"
