@@ -213,7 +213,7 @@ export class Activity extends CalendarItem {
 	}
 
 	get structured() {
-		return !!this.intervalP;
+		return !!this.intervalP && this.intervalP.length > 0;
 	}
 
 	get coming() {
