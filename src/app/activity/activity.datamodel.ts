@@ -97,10 +97,10 @@ export class Activity extends CalendarItem {
 
 	public activityHeader: IActivityHeader;
 	private header: IActivityHeader;
-	private intervalPW: IActivityIntervalPW;
-	private intervalW: IActivityIntervalW;
-	private intervalL: Array<IActivityIntervalL>;
-	private intervalP: Array<IActivityIntervalP>;
+	public intervalPW: IActivityIntervalPW;
+	public intervalW: IActivityIntervalW;
+	public intervalL: Array<IActivityIntervalL>;
+	public intervalP: Array<IActivityIntervalP>;
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
@@ -153,6 +153,9 @@ export class Activity extends CalendarItem {
 		if (this.header.activityCategory){
 			this.header.activityCategory.id = null;
 		}
+
+		this.header.intervals = [];
+		this.header.intervals.push(...this.intervalP, this.intervalPW, ...this.intervalL, this.intervalW);
 
 		debugger;
 

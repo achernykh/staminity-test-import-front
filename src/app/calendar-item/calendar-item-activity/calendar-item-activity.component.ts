@@ -1,4 +1,4 @@
-import { IComponentOptions, IComponentController, IChangesObject,IPromise, copy} from 'angular';
+import { IComponentOptions, IComponentController, IFormController,IPromise, copy} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
@@ -29,6 +29,7 @@ class CalendarItemActivityCtrl implements IComponentController{
     private showMap: boolean = true;
     private types: Array<Object> = ACTIVITY_TYPE;
     private categories: Array<Object> = ACTIVITY_CATEGORY;
+    private activityForm: IFormController;
 
 
     static $inject = ['CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
@@ -107,6 +108,18 @@ class CalendarItemActivityCtrl implements IComponentController{
                 console.log('delete result=',response);
                 this.onAnswer({response: {type:'delete',item:this.activity}});
             });
+    }
+
+	/**
+     * Обновление данных из формы ввода/редактирования activity-assignment
+     * @param intervalPW
+     * @param intervalW
+     */
+    updateAssignment({intervalPW, intervalW}) {
+        debugger;
+        this.activity.intervalPW.calcMeasures = intervalPW;
+        this.activity.intervalW.calcMeasures = intervalW;
+        this.activityForm.$dirty = true;
     }
 }
 

@@ -11,7 +11,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         intervalW: ICalcMeasures;
     };
     public sport: string;
-    public onChange: () => IPromise<void>;
+    public onChange: (result: {upd: {intervalPW: ICalcMeasures, intervalW: ICalcMeasures}}) => IPromise<void>;
 
     private selected:Array<number> = [];
     private valueType: {};
@@ -83,7 +83,7 @@ class ActivityAssignmentCtrl implements IComponentController {
                 //if (event.target.className.search('intervalW') !== -1) {
                     this.calculateCompletePercent();
                 //}
-                this.onChange();
+                this.onChange({upd: this.assignment});
             },
 
             targetEvent: event,

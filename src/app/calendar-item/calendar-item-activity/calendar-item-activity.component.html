@@ -207,7 +207,7 @@
                                                          assignment="{ intervalPW: $ctrl.activity.intervalPW.calcMeasures,
                                                                     intervalW: $ctrl.activity.intervalW.calcMeasures }"
                                                          sport="$ctrl.activity.sportBasic"
-                                                         on-change="$ctrl.activityForm.$dirty = true">
+                                                         on-change="$ctrl.updateAssignment(upd)">
                                     </activity-assignment>
                                 <md-list-item>
                                     <md-input-container flex class="md-block no-message">
