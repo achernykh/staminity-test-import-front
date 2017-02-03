@@ -104,9 +104,14 @@
 
             <div class="profile-card-text">
                 <div class="title">О себе</div>
-                <div class="text">
-                    <p>{{$ctrl.user.personal.about || "Информация не указана"}}</p>
-                    <p ng-if="$ctrl.user.personal.weight || $ctrl.user.personal.height">Вес: {{$ctrl.user.personal.weight || '-'}}     Рост: {{$ctrl.user.personal.height || '-'}}</p>
+                <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.about || "Информация не указана" }}</div>
+
+                <div ng-if="$ctrl.user.personal.weight || $ctrl.user.personal.height" layout="row">
+                    <span class="label">Вес: </span>
+                    <span class="value">{{ $ctrl.user.personal.weight || '-' }}</span>
+                    <span flex></span>
+                    <span class="label">Рост: </span>
+                    <span class="value">{{ $ctrl.user.personal.height || '-' }}</span>
                 </div>
 
                 <div class="title">Связи</div>

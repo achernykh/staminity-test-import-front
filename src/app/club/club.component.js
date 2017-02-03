@@ -2,28 +2,19 @@ import './club.component.scss';
 
 class ClubCtrl {
 
-  constructor ($scope, dialogs, GroupService, UserService, SystemMessageService) {
-    this.$scope = $scope;
-    this.dialogs = dialogs;
-    this.GroupService = GroupService;
-    this.UserService = UserService;
-    this.SystemMessageService = SystemMessageService;
-    console.log($scope);
-  }
-
-  getUserpic () {
-    return `url('${this.app.user && this.app.user.public.avatar? this.API.apiUrl('/content/avatar/' + this.app.user.public.avatar) : '/assets/avatar/default.png'}')`
-  }
-
-  getHeader () {
-    return `url('${this.app.user &&  this.app.user.public.background? this.API.apiUrl('/content/background/' + this.app.user.public.background) : '/assets/picture/pattern0.jpg'}')`
-  }
-  
-  update () {
-    return this.GroupService.getProfile(this.club.groupUri,'club')
-      .then((club) => { this.club = club }, (error) => { this.SystemMessageService.show(error) })
-      .then(() => { this.$scope.$apply() })
-  }
+    constructor ($scope, dialogs, GroupService, UserService, SystemMessageService) {
+        this.$scope = $scope;
+        this.dialogs = dialogs;
+        this.GroupService = GroupService;
+        this.UserService = UserService;
+        this.SystemMessageService = SystemMessageService;
+    }
+    
+    update () {
+        return this.GroupService.getProfile(this.club.groupUri, 'club')
+            .then((club) => { this.club = club }, (error) => { this.SystemMessageService.show(error) })
+            .then(() => { this.$scope.$apply() })
+    }
     
     join () {
         return this.dialogs.confirm('Отправить заявку на вступление в клуб?')

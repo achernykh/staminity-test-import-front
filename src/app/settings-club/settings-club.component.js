@@ -6,7 +6,8 @@ import {
 import './settings-club.component.scss';
 
 class SettingsClubCtrl {
-	constructor($scope, GroupService,ActionMessageService, $locale, $http, dialogs) {
+
+	constructor ($scope, GroupService,ActionMessageService, $locale, $http, dialogs) {
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
 		this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -21,21 +22,27 @@ class SettingsClubCtrl {
 		this.dialogs = dialogs
 		this._ActionMessageService = ActionMessageService
 		this._$http = $http
+
+		this.clubHotfix();
 	}
 
-	$onInit(){
+	clubHotfix () {
 		this.club.public = this.club.public || {}
 		this.club.public.activityTypes = this.club.public.activityTypes || []
-		console.log('clubsettings', this)
+	}
+	
+	setClub (club) {
+		this.club = club;
+		this.clubHotfix();
+		this.$scope.$apply();
 	}
 
-	countrySearch(query) {
-		return query ?
-			Object.keys(this._country_list['ru']).filter((key) => this._country_list['ru'][key].toLowerCase().indexOf(query.toLowerCase()) === 0) : this._country_list
+	countrySearch (query) {
+		let search = (key) => this._country_list['ru'][key].toLowerCase().includes(query.toLowerCase())
+		return query? Object.keys(this._country_list['ru']).filter(search) : this._country_list
 	}
 
-	citySearch(query) {
-
+	citySearch (query) {
 		let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json'
 		let language = 'ru'
 		let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM'
@@ -59,18 +66,18 @@ class SettingsClubCtrl {
 			})
 	}
 
-	isDirty() {
+	isDirty () {
 		return this.publicForm && this.publicForm.$dirty 
 	}
 
-	isValid() {
+	isValid () {
 		return this.publicForm && this.publicForm.$valid
 	}
 
 	update () {
 		this.GroupService.putProfile(this.club)
 			.then((result) => {
-				this.club = result
+				this.setClub(result)
 			}, (error) => {
 				this._ActionMessageService.simple(error)
 			});
@@ -83,13 +90,26 @@ class SettingsClubCtrl {
 	uploadAvatar () {
 		this.dialogs.uploadPicture()
 		.then((picture) => this.GroupService.postProfileAvatar(this.club.groupId, picture))
-		.then((club) => { this.club = club })
+		.then((club) => { this.setClub(club) })
 	}
 	
 	uploadBackground () {
 		this.dialogs.uploadPicture()
 		.then((picture) => this.GroupService.postProfileBackground(this.club.groupId, picture))
-		.then((club) => { this.club = club })
+		.then((club) => { this.setClub(club) })
+	}
+
+	toggleActivity (activity) {
+		if (this.isActivityChecked(activity)) {
+			let index = this.club.public.activityTypes.indexOf(activity);
+			this.club.public.activityTypes.splice(index, 1);
+		} else {
+			this.club.public.activityTypes.push(activity);
+		}
+	}
+
+	isActivityChecked (activity) {
+		return this.club.public.activityTypes.includes(activity)
 	}
 }
 SettingsClubCtrl.$inject = ['$scope','GroupService','ActionMessageService','$locale','$http','dialogs'];

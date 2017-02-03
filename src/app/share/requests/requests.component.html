@@ -1,105 +1,103 @@
-<application-frame>
-    <div class="requests">
-        
-        <div class="titlebar">
-            <md-icon class="material-icons icon" style="color: white;">group</md-icon>
-            Запросы
-            <md-button ng-click="$ctrl.close()" class="close md-icon-button">
-                <md-icon class="material-icons" style="color: white;">close</md-icon>
-            </md-button>
-        </div>
-        
-        <md-tabs md-stretch-tabs='always' md-dynamic-height="true">
-            <md-tab label="Входящие">
-                <md-tab-body>
-                    <div class="title">
-                        Ожидают подтверждения
-                    </div>
-                    <div class="request-new" ng-if="!$ctrl.requests.inbox.new.length">
-                        Нет запросов
-                    </div>
-                    <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
-                        <a layout="row" ui-sref="/user/{{request.initiator.public.uri}}">
-                            <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
-                            <div flex>
-                                <div class="username">{{request.initiator | username}}</div>
-                                <div class="type">{{request | requestType}}</div>        
-                            </div>
-                            <div class="time">
-                                {{request.created | date:'HH:mm'}}
-                            </div>
-                        </a>
-                        <div>
-                            <md-button ng-click="$ctrl.processRequest(request, 'A')"> Принять </md-button>
-                            <md-button ng-click="$ctrl.processRequest(request, 'D')"> Отклонить </md-button>
-                        </div>
-                    </div>
-                    <div class="title">
-                        История
-                    </div>
-                    <div class="request-new" ng-if="!$ctrl.requests.inbox.old.length">
-                        Нет запросов
-                    </div>
-                    <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">                        
-                        <a layout="row" ui-sref="/user/{{request.initiator.public.uri}}">
-                            <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
-                            <div flex>
-                                <div class="username">{{request.initiator | username}}</div>
-                                <div class="type">{{request.updated | date:'HH:mm'}}</div>        
-                            </div>
-                            <div class="time">
-                                <md-icon class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</md-icon>
-                            </div>
-                        </a>
-                    </div>
-                </md-tab-body>
-            </md-tab>
-            
-            <md-tab label="Исходящие">
-                <md-tab-body>
-                    <div class="title">
-                        Ожидают подтверждения
-                    </div>
-                    <div class="request-new" ng-if="!$ctrl.requests.outbox.new.length">
-                        Нет запросов
-                    </div>
-                    <div class="request-new" ng-repeat="request in $ctrl.requests.outbox.new">
-                        <div layout="row">
-                            <userpic profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
-                            <div flex>
-                                <div class="username">{{request.receiver | username}}</div>
-                                <div class="type">{{request | requestType}}</div>        
-                            </div>
-                            <div class="time">
-                                {{request.created | date:'HH:mm'}}
-                            </div>
-                        </div>
-                        <div>
-                            <md-button ng-click="$ctrl.processRequest(request, 'C')"> Отменить </md-button>
-                        </div>
-                    </div>
-                    <div class="title">
-                        История
-                    </div>
-                    <div class="request-new" ng-if="!$ctrl.requests.outbox.old.length">
-                        Нет запросов
-                    </div>
-                    <div class="request-old" ng-repeat="request in $ctrl.requests.outbox.old">
-                        <div layout="row">
-                            <userpic profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
-                            <div flex>
-                                <div class="username">{{request.receiver | username}}</div>
-                                <div class="type">{{request.updated | date:'HH:mm'}}</div>        
-                            </div>
-                            <div class="time">
-                                <md-icon class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</md-icon>
-                            </div>
-                        </div>
-                    </div>
-                </md-tab-body>    
-            </md-tab>
-        </md-tabs>
-            
+<application-frame class="requests">
+    
+    <div layout="row" layout-align="center center" class="titlebar">
+        <md-icon class="material-icons" style="color: white; margin: 0 10px;">group</md-icon>
+        <span flex>Запросы</span>
+        <md-button ng-click="$ctrl.close()" class="md-icon-button">
+            <md-icon class="material-icons" style="color: white;">close</md-icon>
+        </md-button>
     </div>
+    
+    <md-tabs md-stretch-tabs='always' md-dynamic-height="true">
+        <md-tab label="Входящие">
+            <md-tab-body>
+                <div class="title">
+                    Ожидают подтверждения
+                </div>
+                <div class="request-new" ng-if="!$ctrl.requests.inbox.new.length">
+                    Нет запросов
+                </div>
+                <div class="request-new" ng-repeat="request in $ctrl.requests.inbox.new">
+                    <a layout="row" ui-sref="/user/{{request.initiator.public.uri}}">
+                        <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
+                        <div flex>
+                            <div class="username">{{request.initiator | username}}</div>
+                            <div class="type">{{request | requestType}}</div>        
+                        </div>
+                        <div class="time">
+                            {{request.created | date:'HH:mm'}}
+                        </div>
+                    </a>
+                    <div>
+                        <md-button ng-click="$ctrl.processRequest(request, 'A')"> Принять </md-button>
+                        <md-button ng-click="$ctrl.processRequest(request, 'D')"> Отклонить </md-button>
+                    </div>
+                </div>
+                <div class="title">
+                    История
+                </div>
+                <div class="request-new" ng-if="!$ctrl.requests.inbox.old.length">
+                    Нет запросов
+                </div>
+                <div class="request-old" ng-repeat="request in $ctrl.requests.inbox.old">                        
+                    <a layout="row" ui-sref="/user/{{request.initiator.public.uri}}">
+                        <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
+                        <div flex>
+                            <div class="username">{{request.initiator | username}}</div>
+                            <div class="type">{{request.updated | date:'HH:mm'}}</div>        
+                        </div>
+                        <div class="time">
+                            <md-icon class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</md-icon>
+                        </div>
+                    </a>
+                </div>
+            </md-tab-body>
+        </md-tab>
+        
+        <md-tab label="Исходящие">
+            <md-tab-body>
+                <div class="title">
+                    Ожидают подтверждения
+                </div>
+                <div class="request-new" ng-if="!$ctrl.requests.outbox.new.length">
+                    Нет запросов
+                </div>
+                <div class="request-new" ng-repeat="request in $ctrl.requests.outbox.new">
+                    <div layout="row">
+                        <userpic profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
+                        <div flex>
+                            <div class="username">{{request.receiver | username}}</div>
+                            <div class="type">{{request | requestType}}</div>        
+                        </div>
+                        <div class="time">
+                            {{request.created | date:'HH:mm'}}
+                        </div>
+                    </div>
+                    <div>
+                        <md-button ng-click="$ctrl.processRequest(request, 'C')"> Отменить </md-button>
+                    </div>
+                </div>
+                <div class="title">
+                    История
+                </div>
+                <div class="request-new" ng-if="!$ctrl.requests.outbox.old.length">
+                    Нет запросов
+                </div>
+                <div class="request-old" ng-repeat="request in $ctrl.requests.outbox.old">
+                    <div layout="row">
+                        <userpic profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
+                        <div flex>
+                            <div class="username">{{request.receiver | username}}</div>
+                            <div class="type">{{request.updated | date:'HH:mm'}}</div>        
+                        </div>
+                        <div class="time">
+                            <md-icon class="material-icons">{{request.state == 'A'? 'check' : 'close'}}</md-icon>
+                        </div>
+                    </div>
+                </div>
+            </md-tab-body>    
+        </md-tab>
+    </md-tabs>
+            
 </application-frame>
 
