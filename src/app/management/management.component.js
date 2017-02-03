@@ -128,7 +128,7 @@ class ManagementCtrl {
                 checked: checkedCoaches.includes(coach.userProfile.userId)
             }))
 
-        this.dialogs.coaches(coaches) 
+        this.dialogs.selectUsers(coaches) 
         .then((coaches) => {
             if (coaches) {
                 let members = checked.map(member => member.userProfile.userId);
@@ -139,6 +139,49 @@ class ManagementCtrl {
                     direction: coach.checked? 'I' : 'O'
                 }));
                 return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+            } 
+        }, () => {})
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+    }
+
+    // athletes
+    
+    get athletesAvailable () {
+        return allEqual(this.checked.map((member) => this.athletes(member)), angular.equals)
+    }
+    
+    editAthletes () {
+        let checked = this.checked
+        let checkedAthletes = this.athletes(checked[0])
+        let athletes = this.management.members
+            .filter(m => (m.roleMembership || []).includes('ClubAthletes'))
+            .map(athlete => ({
+                userProfile: athlete.userProfile,
+                checked: checkedAthletes.includes(athlete)
+            }))
+
+        this.dialogs.selectUsers(athletes) 
+        .then((athletes) => {
+            if (athletes) {
+                // нельзя выполнить все действия одним батч-запросом, но можно двумя
+                let athletesToAdd = athletes    
+                    .filter(athlete => athlete.checked && !checkedAthletes.find(a => a.userProfile === athlete.userProfile))
+                    .map(athlete => athlete.userProfile.userId)
+                let athletesToRemove = athletes
+                    .filter(athlete => !athlete.checked && checkedAthletes.find(a => a.userProfile === athlete.userProfile))
+                    .map(athlete => athlete.userProfile.userId)
+                let addMemberships = checked.map(coach => ({
+                    groupId: coach.ClubAthletesGroupId,
+                    direction: 'I'
+                }))
+                let removeMemberships = checked.map(coach => ({
+                    groupId: coach.ClubAthletesGroupId,
+                    direction: 'O'
+                }))
+                return Promise.all([
+                    this.GroupService.putGroupMembershipBulk(this.club.groupId, addMemberships, athletesToAdd),
+                    this.GroupService.putGroupMembershipBulk(this.club.groupId, removeMemberships, athletesToRemove)
+                ])
             } 
         }, () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })

@@ -64,19 +64,19 @@
         
         <div class="md-caption">Состав</div>
         <div ng-if="$ctrl.club.innerGroups">
-            <md-button ui-sref="management({uri: $ctrl.club.groupUri})">
+            <md-button ng-disabled="!$ctrl.club.innerGroups.ClubCoaches.groupMembers.length" ng-click="$ctrl.showCoaches()">
                 <span class="label">Тренеры:</span> 
-                <span class="value">{{$ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-'}}</span> 
+                <span class="value">{{ $ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-' }}</span> 
             </md-button>                    
-            <md-button ui-sref="management({uri: $ctrl.club.groupUri})">
+            <md-button ng-disabled="!$ctrl.club.innerGroups.ClubAthletes.groupMembers.length" ng-click="$ctrl.showAthletes()">
                 <span class="label">Спортсмены:</span> 
-                <span class="value">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</span>
+                <span class="value">{{ $ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-' }}</span>
             </md-button>
         </div>
         <div ng-if="!$ctrl.club.innerGroups">
-            <md-button ui-sref="management({uri: $ctrl.club.groupUri})">
+            <md-button ng-disabled="!$ctrl.club.groupMembers.length" ng-click="$ctrl.showMembers()">
                 <span class="label">Участники:</span> 
-                <span class="value">{{$ctrl.club.groupMembersCount}}</span>
+                <span class="value">{{ $ctrl.club.groupMembersCount }}</span>
             </md-button>
         </div>
     </md-card>

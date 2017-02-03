@@ -1,18 +1,18 @@
 <md-dialog>
-    <md-dialog-content class="coaches">
+    <md-dialog-content class="select-users">
         
         <md-list>
 
             <md-list-item layout="row" layout-align="center center">
                 <div class="md-title">
-                    Тренер
+                    {{ message }}
                 </div>
             </md-list-item>
 
-            <md-list-item ng-repeat="coach in checked()" layout="row" layout-align="center center">
-                <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
-                <span flex>{{ coach.userProfile | username }}</span>
-                <md-switch  ng-model="coach.checked" style="margin-left: 10px;"></md-switch>
+            <md-list-item ng-repeat="user in checked()" layout="row" layout-align="center center">
+                <userpic profile="user.userProfile" is-premium="user.userProfile.isPremium"></userpic>
+                <span flex>{{ user.userProfile | username }}</span>
+                <md-switch  ng-model="user.checked" style="margin-left: 10px;"></md-switch>
             </md-list-item>
 
             <md-list-item layout="row" layout-align="center center">
@@ -23,10 +23,10 @@
                         ▾
                     </md-button>
                     <md-menu-content>
-                        <md-menu-item ng-repeat="coach in unchecked()">
-                            <md-button ng-click="coach.checked = true">
-                                <userpic profile="coach.userProfile" is-premium="coach.userProfile.isPremium"></userpic>
-                                {{ coach.userProfile | username }}
+                        <md-menu-item ng-repeat="user in unchecked()">
+                            <md-button ng-click="user.checked = true">
+                                <userpic profile="user.userProfile" is-premium="user.userProfile.isPremium"></userpic>
+                                {{ user.userProfile | username }}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>

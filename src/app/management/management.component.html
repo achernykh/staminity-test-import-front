@@ -2,7 +2,7 @@
     <div ng-if="!$ctrl.isScreenSmall" class="management">
         <div class="filters">
             <div class="title">
-                {{$ctrl.filter && $ctrl.filter.label || 'Все'}} ({{$ctrl.rows.length}})
+                {{ $ctrl.filter && $ctrl.filter.label || 'Все' }} ({{ $ctrl.rows.length }})
                 <div class="controls">
                     <md-menu class="filters">
                         <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" style="vertical-align: top;">
@@ -31,7 +31,7 @@
                                 <md-button ng-click="$ctrl.filterNoCoach()"> Без тренера </md-button>
                             </md-menu-item>
                             <md-menu-item ng-repeat="coach in $ctrl.coaches"  ng-class="{'filter-item-active': $ctrl.filter.coach == coach}">
-                                <md-button ng-click="$ctrl.filterCoach(coach)">{{coach.userProfile | username}}</md-button>
+                                <md-button ng-click="$ctrl.filterCoach(coach)">{{ coach.userProfile | username }}</md-button>
                             </md-menu-item>
                         </md-menu-content>
                     </md-menu>
@@ -46,11 +46,15 @@
         </div>
         
         <div class="selected-items" ng-if="$ctrl.checked.length">
-            {{$ctrl.checked.length}} items selected
+            {{ $ctrl.checked.length }} items selected
             <div class="controls">
                 <md-button class="md-primary md-icon-button" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.editCoaches()"> 
                     <md-tooltip md-direction="bottom">Coaches</md-tooltip>
                     <md-icon class="material-icons">supervisor_account</md-icon> 
+                </md-button>
+                <md-button class="md-primary md-icon-button" ng-if="$ctrl.athletesAvailable" ng-click="$ctrl.editAthletes()"> 
+                    <md-tooltip md-direction="bottom">Athletes</md-tooltip>
+                    <md-icon class="material-icons">person_add</md-icon> 
                 </md-button>
                 <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
                     <md-tooltip md-direction="bottom">Tariffs</md-tooltip>
@@ -71,7 +75,7 @@
             <table md-table md-row-select="$ctrl.options.rowSelection" multiple ng-model="$ctrl.selected">
                 <thead md-head md-order="$ctrl.orderBy">
                     <tr md-row>
-                        <th md-column> <md-checkbox ng-model="$ctrl.allChecked"></md-checkbox> </th>
+                        <th md-column> <md-checkbox ng-model="$ctrl.allChecked" class="md-primary"></md-checkbox> </th>
                         <th md-column md-order-by="sort.username"><span>Член клуба</span></th>
                         <th md-column md-order-by="sort.roles"><span>Роль</span></th>
                         <th md-column md-order-by="sort.coaches"><span>Тренер</span></th>
@@ -85,26 +89,26 @@
                     <tr md-row
                         md-select="split"
                         ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.orderBy)">
-                        <td md-cell> <md-checkbox ng-model="member.checked"></md-checkbox> </td>
+                        <td md-cell> <md-checkbox ng-model="member.checked" class="md-primary"></md-checkbox> </td>
                         <td md-cell>
                             <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
-                            {{member.userProfile | username}}
+                            {{ member.userProfile | username }}
                         </td>
-                        <td md-cell>{{$ctrl.roleMembership(member.roleMembership)}}</td>
+                        <td md-cell>{{ $ctrl.roleMembership(member.roleMembership) }}</td>
                         <td md-cell>
-                            <span ng-repeat="coach in member.coaches">{{$ctrl.member(coach).userProfile | username}} </span>
+                            <span ng-repeat="coach in member.coaches">{{ $ctrl.member(coach).userProfile | username }} </span>
                             <span ng-if="!member.coaches || !member.coaches.length">-</span>
                         </td>
                         <td md-cell>
                             <span ng-repeat="tariff in member.userProfile.billing">
-                                {{tariff.tariffCode}} 
+                                {{ tariff.tariffCode }} 
                                 <span ng-if="tariff.clubProfile.groupId==$ctrl.club.groupId" class="badge">byClub </span>
                             </span>
                             <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
                         </td>
-                        <td md-cell>{{$ctrl.athletes(member).length || '-'}}</td>
-                        <td md-cell>{{member.userProfile.city}}</td>
-                        <td md-cell>{{member.userProfile | ageGroup}}</td>
+                        <td md-cell>{{ $ctrl.athletes(member).length || '-' }}</td>
+                        <td md-cell>{{ member.userProfile.city }}</td>
+                        <td md-cell>{{ member.userProfile | ageGroup }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -124,7 +128,7 @@
                 <md-icon class="material-icons" style="margin-left:0">tune</md-icon>
                 <md-menu flex>
                     <md-button ng-click="$mdOpenMenu($event)">
-                        {{$ctrl.filter && $ctrl.filter.label || 'Все'}} ({{$ctrl.rows.length}})
+                        {{ $ctrl.filter && $ctrl.filter.label || 'Все' }} ({{ $ctrl.rows.length }})
                     </md-button>
                     <md-menu-content>
                         <md-menu-content>
@@ -150,7 +154,7 @@
                                 <md-button ng-click="$ctrl.filterNoCoach()"> Без тренера </md-button>
                             </md-menu-item>
                             <md-menu-item ng-repeat="coach in $ctrl.coaches"  ng-class="{'filter-item-active': $ctrl.filter.coach == coach}">
-                                <md-button ng-click="$ctrl.filterCoach(coach)">{{coach.userProfile | username}}</md-button>
+                                <md-button ng-click="$ctrl.filterCoach(coach)">{{ coach.userProfile | username }}</md-button>
                             </md-menu-item>
                         </md-menu-content>
                     </md-menu-content>

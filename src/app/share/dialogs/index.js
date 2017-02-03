@@ -25,11 +25,11 @@ export default class DialogsService {
         })
     }
 
-    group (group, title) {
+    usersList (users, title) {
         return this.$mdDialog.show({
-            controller: FriendsController,
-            locals: { users: group, title: title },
-            template: require('./usersList.html'),
+            controller: UsersListController,
+            locals: { users: users, title: title },
+            template: require('./users-list.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
@@ -45,11 +45,11 @@ export default class DialogsService {
         });
     }
     
-    coaches (coaches) {
+    selectUsers (users, message) {
         return this.$mdDialog.show({
-            controller: CoachesController,
-            locals: { coaches },
-            template: require('./coaches.html'),
+            controller: SelectUsersController,
+            locals: { users, message },
+            template: require('./select-users.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         })
@@ -108,12 +108,12 @@ function UploadPictureDialogController($scope, $mdDialog) {
 }
 UploadPictureDialogController.$inject = ['$scope','$mdDialog'];
 
-function FriendsController($scope, $mdDialog, users, title) {
+function UsersListController($scope, $mdDialog, users, title) {
     $scope.users = users;
     $scope.title = title;
     $scope.close = () => { $mdDialog.cancel() };
 }
-FriendsController.$inject = ['$scope', '$mdDialog', 'users', 'title'];
+UsersListController.$inject = ['$scope', '$mdDialog', 'users', 'title'];
 
 function RolesController ($scope, $mdDialog, roles) {
     $scope.roles = roles;
@@ -131,11 +131,12 @@ function TariffsController ($scope, $mdDialog, tariffs, byWho) {
 }
 TariffsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byWho'];
 
-function CoachesController ($scope, $mdDialog, coaches) {
-    $scope.coaches = coaches
-    $scope.checked = () => coaches.filter(coach => coach.checked);
-    $scope.unchecked = () => coaches.filter(coach => !coach.checked);
-    $scope.commit = () => { $mdDialog.hide($scope.coaches) };
+function SelectUsersController ($scope, $mdDialog, users, message) {
+    $scope.message = message
+    $scope.users = users
+    $scope.checked = () => users.filter(user => user.checked);
+    $scope.unchecked = () => users.filter(user => !user.checked);
+    $scope.commit = () => { $mdDialog.hide($scope.users) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
-CoachesController.$inject = ['$scope','$mdDialog', 'coaches'];
+SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'message'];

@@ -143,23 +143,23 @@ class ProfileCtrl {
     }
 
     coaches () {
-        this.dialogs.group(this.user.connections.Coaches, 'Тренеры')
+        this.dialogs.usersList(this.user.connections.Coaches, 'Тренеры')
     }
 
     athletes () {
-        this.dialogs.group(this.user.connections.Athletes, 'Спортсмены')
+        this.dialogs.usersList(this.user.connections.Athletes, 'Спортсмены')
     }
 
     friends () {
-        this.dialogs.group(this.user.connections.Friends, 'Друзья')
+        this.dialogs.usersList(this.user.connections.Friends, 'Друзья')
     }
 
     subscriptions () {
-        this.dialogs.group(this.user.connections.Following, 'Подписки')
+        this.dialogs.usersList(this.user.connections.Following, 'Подписки')
     }
 
     subscribers () {
-        this.dialogs.group(this.user.connections.Followers, 'Подписчики')
+        this.dialogs.usersList(this.user.connections.Followers, 'Подписчики')
     }
 
     joinAthletes (group) {

@@ -33,6 +33,18 @@ class ClubCtrl {
             .then((confirmed) => confirmed && this.GroupService.processMembership('C',this.club.groupId))
             .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
+
+    showMembers () {
+        this.dialogs.usersList(this.club, 'Участники')
+    }
+
+    showCoaches () {
+        this.dialogs.usersList(this.club.innerGroups.ClubCoaches, 'Тренеры')
+    }
+
+    showAthletes () {
+        this.dialogs.usersList(this.club.innerGroups.ClubAthletes, 'Спортсмены')
+    }
     
     openMenu ($mdOpenMenu, event) {
         $mdOpenMenu(event)
