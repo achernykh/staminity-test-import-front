@@ -1,5 +1,5 @@
-<application-frame>
-    <div ng-if="!$ctrl.isScreenSmall" class="users">
+<application-frame class="athletes">
+    <div ng-if="!$ctrl.isScreenSmall">
         <div class="filters">
             <div class="title">
                 Все ({{$ctrl.rows.length}})
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <md-table-container flex>
+        <md-table-container>
             <table md-table md-row-select="$ctrl.options.rowSelection" multiple ng-model="$ctrl.selected">
                 <thead md-head md-order="$ctrl.orderBy">
                     <tr md-row>
@@ -65,7 +65,7 @@
         </md-table-container>
     </div>
     
-    <div ng-if="$ctrl.isScreenSmall" class="users" style="height:100%">
+    <div ng-if="$ctrl.isScreenSmall" style="height:100%">
         <md-list>
             <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons">search</md-icon>

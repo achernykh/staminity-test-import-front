@@ -21,7 +21,6 @@ class ManagementCtrl {
         this.dialogs = dialogs;
         this.SystemMessageService = SystemMessageService;
         this.isScreenSmall = $mdMedia('max-width: 959px');
-        this.filter = null;
 
         this.orderings = {
             username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
@@ -33,7 +32,7 @@ class ManagementCtrl {
             athletes: (member) => this.athletes(member).map(a => a.userProfile.userId).join(' '),
         };
         this.orderBy = 'sort.username';
-
+        this.clearFilter();
         this.sortingHotfix();
     }
     
@@ -238,37 +237,35 @@ class ManagementCtrl {
     // orderingand filtering
     
     clearFilter () {
-        this.filter = null
+        this.filter = {
+            pred: () => true,
+            label: 'Все',
+            none: true,
+        }
     }
     
     filterNoCoach () {
         this.filter = {
-            type: 'no coach',
+            pred: (member) => !member.coaches || !member.coaches.length,
             label: 'Без тренера',
-            pred: (member) => !member.coaches || !member.coaches.length
+            noCoach: true,
         }
     }
     
     filterCoach (coach) {
         this.filter = {
-            type: 'coach',
+            pred: (member) => member.coaches && member.coaches.find(userId => userId === coach.userProfile.userId),
             label: coach.userProfile.public.firstName + ' ' +  coach.userProfile.public.lastName,
-            coach: coach,
-            pred: (member) => member.coaches && member.coaches.find((c) => c.userId === coach.userProfile.userId)
+            coach: coach
         }
     }
     
     filterRole (role) {
         this.filter = {
-            type: 'role',
+            pred: (member) => member.roleMembership && member.roleMembership.find((r) => r === role),
             label: role,
-            role: role,
-            pred: (member) => member.roleMembership && member.roleMembership.find((r) => r === role)
+            role: role
         }
-    }
-    
-    isVisible () {
-        return (member) => !this.filter || this.filter.pred(member)
     }
 
     // helpers
