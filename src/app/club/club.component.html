@@ -69,7 +69,7 @@
                 
                 <div class="profile-fab">
                     <md-button class="md-fab">
-                        <i class="material-icons">send</i>
+                        <md-icon class="material-icons">send</md-icon>
                     </md-button>
                 </div>
             </div>
@@ -82,16 +82,20 @@
                 
                 <div class="title">Состав</div>
                 <div class="text" ng-if="$ctrl.club.innerGroups">
-                    <span class="label">Тренеры:</span> 
-                    <md-button class="value md-icon-button" ui-sref="management({uri: $ctrl.club.public.uri})">{{$ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-'}}</md-button>
-                    
-                    <span class="label">Спортсмены:</span> 
-                    <md-button class="value md-icon-button"ui-sref="management({uri: $ctrl.club.public.uri})">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</md-button>
-                    <span class="value">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</span>
+                    <md-button class="md-no-style" ui-sref="management({uri: $ctrl.club.public.uri})">
+                        <span class="label">Тренеры:</span> 
+                        <span class="value">{{$ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-'}}</span> 
+                    </md-button>                    
+                    <md-button class="md-no-style" ui-sref="management({uri: $ctrl.club.public.uri})">
+                        <span class="label">Спортсмены:</span> 
+                        <span class="value">{{$ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-'}}</span>
+                    </md-button>
                 </div>
                 <div class="text" ng-if="!$ctrl.club.innerGroups">
-                    <span class="label">Участники:</span> 
-                    <span class="value">{{$ctrl.club.groupMembersCount}}</span>
+                    <md-button class="md-no-style" ui-sref="management({uri: $ctrl.club.public.uri})">
+                        <span class="label">Участники:</span> 
+                        <span class="value">{{$ctrl.club.groupMembersCount}}</span>
+                    </md-button>
                 </div>
             </div>
         </div>

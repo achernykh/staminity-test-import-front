@@ -28,10 +28,11 @@ export const isObjectTyped = typed('object')
 export const keys = (obj) => Object.keys(obj)
 export const values = (obj) => keys(obj).map(key => obj[key])
 export const entries = (obj) => keys(obj).map(key => [key, obj[key]])
+export const object = (props) => props.reduce((o, [key, value]) => (o[key] = value, o), {})
 
 export const log = (msg) => (x) => {
     console.log(msg, x)
     return x
 }
 
-export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, pipe, isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, log }
+export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, pipe, isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, object, log }

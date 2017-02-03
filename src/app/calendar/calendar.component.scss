@@ -7,6 +7,10 @@
 
 #calendar {
   @include animate(0.5s, 0.2s, 1);
+  
+  svg, svg * {
+    transition: any linear .4s;
+  }
 }
 
 .md-whiteframe-1dp, .md-whiteframe-z1 {
@@ -17,10 +21,6 @@
 
 .md-whiteframe-3dp {
   box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.12); }
-
-svg, svg * {
-  transition: any linear .4s;
-}
 
 .calendar-total-chart * {
   transition: any linear .4s;
@@ -561,16 +561,19 @@ calendar-event, calendar-competition {
     background: $primary-hue-3;
   }
 }
-.badge {
-  font-size: 12px;
-  padding-top: 10px;
-}
-.badge-icon{
- height: 12px;
- width: 12px;
- min-height: 12px;
- min-width: 12px
-}
-.classic{
-  padding: 10px 12px 10px 12px;
+
+#calendar {
+  .badge {
+    font-size: 12px;
+    padding-top: 10px;
+  }
+  .badge-icon{
+  height: 12px;
+  width: 12px;
+  min-height: 12px;
+  min-width: 12px
+  }
+  .classic{
+    padding: 10px 12px 10px 12px;
+  }
 }

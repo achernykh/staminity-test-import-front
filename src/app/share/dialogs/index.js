@@ -1,3 +1,5 @@
+import './dialogs.scss';
+
 export default class DialogsService {
     
     constructor ($mdDialog) {
@@ -33,20 +35,20 @@ export default class DialogsService {
         });
     }
     
-    subscriptions (tariffs) {
+    tariffs (tariffs, byWho) {
         return this.$mdDialog.show({
-            controller: SubscriptionsController,
-            locals: { tariffs },
-            template: require('./subscriptions.html'),
+            controller: TariffsController,
+            locals: { tariffs, byWho },
+            template: require('./tariffs.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
     }
     
-    coaches (users, coaches) {
+    coaches (coaches) {
         return this.$mdDialog.show({
             controller: CoachesController,
-            locals: { users, coaches },
+            locals: { coaches },
             template: require('./coaches.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
@@ -66,7 +68,6 @@ export default class DialogsService {
 DialogsService.$inject = ['$mdDialog'];
 
 function ConfirmDialogController($scope, $mdDialog, message) {
-    
     $scope.message = message
     
     $scope.cancel = () => {
@@ -77,11 +78,10 @@ function ConfirmDialogController($scope, $mdDialog, message) {
         $mdDialog.hide(true);
     };
 }
-ConfirmDialogController.$inject = ['$scope','$mdDialog'];
+ConfirmDialogController.$inject = ['$scope','$mdDialog','message'];
 
 
 function UploadPictureDialogController($scope, $mdDialog) {
-    
     var file, src;
     
     $scope.files = (files) => {
@@ -109,56 +109,33 @@ function UploadPictureDialogController($scope, $mdDialog) {
 UploadPictureDialogController.$inject = ['$scope','$mdDialog'];
 
 function FriendsController($scope, $mdDialog, users, title) {
-
     $scope.users = users;
     $scope.title = title;
-
-    $scope.close = () => {
-        $mdDialog.cancel();
-    };
+    $scope.close = () => { $mdDialog.cancel() };
 }
-FriendsController.$inject = ['$scope','$mdDialog'];
+FriendsController.$inject = ['$scope', '$mdDialog', 'users', 'title'];
 
 function RolesController ($scope, $mdDialog, roles) {
-    
     $scope.roles = roles;
-    
-    $scope.commit = () => {
-        $mdDialog.hide($scope.roles);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
+    $scope.commit = () => { $mdDialog.hide($scope.roles) };
+    $scope.cancel = () => { $mdDialog.hide() };
 }
-RolesController.$inject = ['$scope','$mdDialog'];
+RolesController.$inject = ['$scope', '$mdDialog', 'roles'];
 
-function SubscriptionsController ($scope, $mdDialog, tariffs) {
+function TariffsController ($scope, $mdDialog, tariffs, byWho) {
     $scope.tariffs = tariffs;
-
-    $scope.commit = () => {
-        $mdDialog.hide($scope.subscriptions);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
+    $scope.tariffsBySelf = tariffs.filter(t => t.bySelf);
+    $scope.byWho = byWho;
+    $scope.commit = () => { $mdDialog.hide($scope.tariffs) };
+    $scope.cancel = () => { $mdDialog.hide() };
 }
-SubscriptionsController.$inject = ['$scope', '$mdDialog', 'tariffs'];
+TariffsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byWho'];
 
-function CoachesController ($scope, $mdDialog, users, coaches) {
-    
-    /*$scope.coaches = coaches.map((coach) => ({
-        ...coach,
-        checked: users[0].roleMembership.includes(coach) 
-    }));*/
-    
-    $scope.commit = () => {
-        $mdDialog.hide($scope.coaches);
-    };
-    
-    $scope.cancel = () => {
-        $mdDialog.hide();
-    };
+function CoachesController ($scope, $mdDialog, coaches) {
+    $scope.coaches = coaches
+    $scope.checked = () => coaches.filter(coach => coach.checked);
+    $scope.unchecked = () => coaches.filter(coach => !coach.checked);
+    $scope.commit = () => { $mdDialog.hide($scope.coaches) };
+    $scope.cancel = () => { $mdDialog.hide() };
 }
-CoachesController.$inject = ['$scope','$mdDialog'];
+CoachesController.$inject = ['$scope','$mdDialog', 'coaches'];

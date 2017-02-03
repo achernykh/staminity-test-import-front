@@ -1,15 +1,17 @@
 <md-dialog>
-    <md-dialog-content class="friends">
-        
-        <div class="title">
-            {{title}} ({{users.groupMembers.length}})
-        </div>
+    <md-dialog-content>
         
         <md-list>
-            <md-list-item ng-repeat="user in users.groupMembers" ui-sref="user({uri: user.public.uri})">
-                <div class="md-avatar" style="height: 24px; width: 24px; background: {{user | avatar}}; background-size: cover;"></div>
+
+            <md-list-item layout="row" layout-align="center center">
+                <span class="md-title">{{title}} ({{users.groupMembers.length}})</span>
+            </md-list-item>
+
+            <md-list-item ng-repeat="user in users.groupMembers" ui-sref="user({uri: user.public.uri})" layout="row" layout-align="center center">
+                <userpic profile="user" is-premium="user.isPremium"></userpic>
                 {{user | username}}  
             </md-list-item>
+            
         </md-list>
         
     </md-dialog-content>

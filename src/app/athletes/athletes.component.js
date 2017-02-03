@@ -9,14 +9,6 @@ function allEqual (xs, p = equals) {
     return !xs.length || xs.every((x) => p(x, xs[0]));
 }
 
-const orderings = {
-    username: (user) => `${user.public.firstName} ${user.public.lastName}`,
-    club: (user) => (user.connections.Clubs[0] && user.connections.Clubs[0].public.name) || '-',
-    tariff: (user) => user.tariffs && user.tariffs.map(t => t.tariffCode).join(', '),
-    city: (user) => user.public.city,
-    ageGroup: (user) => user.public.sex
-}
-
 
 class AthletesCtrl {
 
@@ -29,73 +21,119 @@ class AthletesCtrl {
         this.dialogs = dialogs;
         this.SystemMessageService = SystemMessageService;
         this.isScreenSmall = $mdMedia('max-width: 959px');
-        this.order = {
-            by: 'username',
-            reverse: false
-        }
+        
+        this.orderings = {
+            username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
+            club: (member) => '-',
+            tariff: (member) => member.billing && member.billing.map(t => t.tariffCode).join(', '),
+            city: (member) => member.userProfile.public.city,
+            ageGroup: (member) => member.userProfile.public.sex
+        };
+        this.orderBy = 'username';
+
+        this.sortingHotfix();
     }
-    
-    get athletes () {
-        return this.user.connections.Athletes.groupMembers
+
+    sortingHotfix () {
+        this.management.members = this.management.members || [];
+
+        this.management.members.forEach((member) => {
+            member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
+        });
     }
     
     update () {
-        return this.UserService.getProfile(this.user.userId)
-            .then((user) => { this.user = user })
-            .then(() => { this.$scope.$apply() }, (error) => { this.SystemMessageService.show(error) })
+        return this.GroupService.getManagementProfile(this.user.connections.Athletes.groupId, 'coach')
+            .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
+            .then(() => { this.sortingHotfix() })
+            .then(() => { this.$scope.$apply() })
     }
+
+    // rows selection
     
     get checked () {
-        return this.athletes.filter((user) => user.checked);
+        return this.management.members.filter((member) => member.checked);
     }
     
     set allChecked (value) {
         if (this.allChecked) {
-            this.athletes.forEach((user) => { user.checked = false; });
+            this.management.members.forEach((member) => { member.checked = false; });
         } else {
-            this.athletes.forEach((user) => { user.checked = true; });
+            this.management.members.forEach((member) => { member.checked = true; });
         }
     }
     
     get allChecked () {
-        return this.athletes.every((user) => user.checked);
+        return this.management.members.every((member) => member.checked);
+    }
+
+    // tariffs & billing 
+    
+    isOurBill (bill) {
+        return bill.userProfilePayer && bill.userProfilePayer.userId == this.user.userId;
     }
     
-    get subscriptionsAvailable () {
-        return allEqual(this.checked.map((user) => user.tariffs), angular.equals)
+    isBilledByUs (member, tariffCode) {
+        return !!member.userProfile.billing.find(b => b.tariffCode == tariffCode && this.isOurBill(b));
     }
     
-    subscriptions () {
-        this.dialogs.subscriptions(this.checked)
+    isBilledBySelf (member, tariffCode) {
+        return !!member.userProfile.billing.find(b => b.tariffCode == tariffCode && !this.isOurBill(b));
     }
+
+    tariffs (member) {
+        return ['Coach', 'Premium'].map(tariffCode => ({
+            tariffCode,
+            byUs: this.isBilledByUs(member, tariffCode),
+            bySelf: this.isBilledBySelf(member, tariffCode)
+        }));
+    }
+    
+    get tariffsAvailable () {
+        return allEqual(this.checked.map(m => this.tariffs(m)), angular.equals)
+    }
+    
+    editTariffs () {
+        let checked = this.checked
+        let tariffs = this.tariffs(checked[0])
+
+        this.dialogs.tariffs(tariffs, 'byClub')
+        .then(tariffs => {
+            if (tariffs) {
+                let members = checked.map(member => member.userProfile.userId);
+                let memberships = tariffs
+                    .filter(t => t.byUs != this.isBilledByUs(checked[0], t.tariffCode))
+                    .map(t => ({
+                        groupId: this.management.tariffGroups[t.tariffCode + 'ByClub'],
+                        direction: t.byUs? 'I' : 'O'
+                    }));
+                return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+            }
+        }, () => {})
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+    }
+
+    // removing & other actions
     
     remove () {
         this.dialogs.confirm('Удалить пользователей?')
-        .then((confirmed) => { if (!confirmed) throw new Error() })
-        .then(() => Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))))
+        .then((confirmed) => confirmed && Promise.all(this.checked.map((m) => this.GroupService.leave(this.user.connections.Athletes.groupId, m.userProfile.userId))), () => {})
         .then(() => { this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
     
-    showActions (user) {
-        this.athletes.forEach((a) => { a.checked = a === user })
+    showActions (member) {
+        this.management.members.forEach((m) => { m.checked = m === member })
         
         this.$mdBottomSheet.show({
             template: require('./member-actions.html'),
             scope: this.$scope
         })
     }
-    
-    orderBy () {
-        return orderings[this.order.by]
-    }
-    
-    setOrder (by) {
-        if (this.order.by == by) {
-            this.order.reverse = !this.order.reverse
-        } else {
-            this.order.by = by
-            this.order.reverse = false
-        }
+
+    // helpers
+
+    isPremium (member) {
+        return member.userProfile.billing.find(tariff => tariff.tariffCode == 'Premium');
     }
 };
 AthletesCtrl.$inject = ['$scope','$mdDialog','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService']
@@ -104,7 +142,8 @@ const AthletesComponent = {
 
     bindings: {
         view: '<',
-        user: '<'
+        user: '<',
+        management: '<'
     },
 
     require: {
