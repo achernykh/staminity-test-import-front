@@ -1,89 +1,21 @@
-.users {
+.athletes {
     top: 65px;
-    width: 1000px;
-    left: calc(50% - 500px);
-    border-radius: 2px;
-    background: white;
+    width: 1200px;
+    left: calc(50% - 600px);
     position: absolute;
     z-index: 10;
-    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.13), 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     
     @media (max-width: 959px) {
         left: 0 !important;
         width: 100% !important;
+        background: white;
     }
-    
-    .filters {
-        .title {
-            padding: 25px;
-            font-size: 20px;
-            font-weight: 500;
-            font-style: normal;
-            font-stretch: normal;
-            line-height: 1.4;
-            text-align: left;
-            color: rgba(0, 0, 0, 0.87);
-        }
-        
-        .controls {
-            float: right;
-            color: #797979;
-            
-            md-input-container, md-menu {
-                margin: 0;
-                
-                button {
-                    padding: 0;
-                }
-                
-                input {
-                    color: #607d8b;
-                }
-            }
-        }
+
+    .md-errors-spacer {
+        display: none;
     }
-    
-    .selected-items {
-        padding: 15px 25px;
-        background-color: #cfd8dc;
-        font-size: 15px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        text-align: left;
-        color: #607d8b;
-        line-height: 30px;
-        
-        .controls {
-            float: right;
-            color: #5e6364;
-        }
-    }
-    
-    table {
-        width: 100%;
-        padding: 25px;
-        
-        th {
-            font-size: 12px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            color: rgba(0, 0, 0, 0.54);
-            text-align: left;
-            line-height: 30px;
-            outline: none;
-            cursor: pointer;
-        }
-        
-        td {
-            font-size: 13px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            color: rgba(0, 0, 0, 0.87);
-            text-align: left;
-            line-height: 30px;
-        }
+
+    table.md-table.md-row-select td.md-cell:nth-child(n+3):nth-last-child(n+2), table.md-table.md-row-select th.md-column:nth-child(n+3):nth-last-child(n+2) {
+        padding: 0 28px 0 0 !important;
     }
 }

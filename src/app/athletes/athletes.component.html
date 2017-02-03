@@ -1,38 +1,30 @@
-<application-frame>
-    <div ng-if="!$ctrl.isScreenSmall" class="users">
-        <div class="filters">
-            <div class="title">
-                Все ({{$ctrl.rows.length}})
-                <div class="controls">
-                    <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}};" class="animated"> 
-                        <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
-                    </md-input-container>
-                    <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch" style="vertical-align: top;"> 
-                        <md-icon class="material-icons">search</md-icon> 
-                    </md-button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="selected-items" ng-if="$ctrl.checked.length">
-            {{$ctrl.checked.length}} itemsSelected
-            <div class="controls">
-                <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
-                    <md-tooltip md-direction="bottom">Tariffs</md-tooltip>
-                    <md-icon class="material-icons">share</md-icon> 
-                </md-button>
-                <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
-                    <md-tooltip md-direction="bottom">Remove</md-tooltip>
-                    <md-icon class="material-icons">delete</md-icon> 
-                </md-button>
-            </div>
-        </div>
+<application-frame class="athletes">
 
-        <md-table-container flex>
-            <table md-table md-row-select="$ctrl.options.rowSelection" multiple ng-model="$ctrl.selected">
+    <md-card ng-if="!$ctrl.isScreenSmall">
+        <div layout="row" layout-align="center center" style="padding: 16px 26px;">
+            <span flex class="md-title">Все ({{$ctrl.rows.length}})</span>
+            <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}}; padding:0; margin: 0;" class="animated"> 
+                <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
+            </md-input-container>
+            <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch" style="vertical-align: top;"> 
+                <md-icon class="material-icons">search</md-icon> 
+            </md-button>
+        </div>
+        <md-toolbar class="md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center" style="background-color: #cfd8dc; color: #607d8b; padding: 16px 26px;">
+            <span flex>{{ $ctrl.checked.length }} items selected</span>
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
+                <md-tooltip md-direction="bottom">Tariffs</md-tooltip>
+                <md-icon class="material-icons">share</md-icon> 
+            </md-button>
+            <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
+                <md-tooltip md-direction="bottom">Remove</md-tooltip>
+                <md-icon class="material-icons">delete</md-icon> 
+            </md-button>
+        </md-toolbar>
+        <md-table-container>
+            <table md-table md-row-select multiple ng-model="$ctrl.checked">
                 <thead md-head md-order="$ctrl.orderBy">
                     <tr md-row>
-                        <th md-column> <md-checkbox ng-model="$ctrl.allChecked"></md-checkbox> </th>
                         <th md-column md-order-by="sort.username"><span>Cпортсмен</span></th>
                         <th md-column md-order-by="sort.club"><span>Клуб</span></th>
                         <th md-column md-order-by="sort.tariff"><span>Тариф</span></th>
@@ -41,17 +33,16 @@
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row
-                        md-select="split"
-                        ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.orderBy)">
-                        <td md-cell> <md-checkbox ng-model="member.checked"></md-checkbox> </td>
-                        <td md-cell ui-sref="user({uri: member.userProfile.public.uri})">
-                            <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
-                            <span>{{member.userProfile | username}}</span>
+                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.orderBy)">
+                        <td md-cell>
+                            <md-button style="text-transform: none; font-size: 13px; margin: 0;" ui-sref="user({uri: member.userProfile.public.uri})">
+                                <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
+                                {{ member.userProfile | username }}
+                            </md-button>
                         </td>
                         <td md-cell>-</td>
                         <td md-cell>
-                            <span ng-repeat="tariff in member.userProfile.billing">
+                            <span ng-repeat="tariff in member.userProfile.billing" style="white-space: nowrap;">
                                 {{tariff.tariffCode}} 
                                 <span ng-if="tariff.clubProfile.groupId==$ctrl.club.groupId" class="badge">byCoach </span>
                             </span>
@@ -63,9 +54,10 @@
                 </tbody>
             </table>
         </md-table-container>
-    </div>
+    </md-card>
     
-    <div ng-if="$ctrl.isScreenSmall" class="users" style="height:100%">
+
+    <div ng-if="$ctrl.isScreenSmall">
         <md-list>
             <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons">search</md-icon>
@@ -84,5 +76,6 @@
             </md-list-item>
         </md-list>
     </div>
+
 </application-frame>
 

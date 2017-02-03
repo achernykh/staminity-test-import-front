@@ -21,7 +21,6 @@ class ManagementCtrl {
         this.dialogs = dialogs;
         this.SystemMessageService = SystemMessageService;
         this.isScreenSmall = $mdMedia('max-width: 959px');
-        this.filter = null;
 
         this.orderings = {
             username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
@@ -33,33 +32,18 @@ class ManagementCtrl {
             athletes: (member) => this.athletes(member).map(a => a.userProfile.userId).join(' '),
         };
         this.orderBy = 'sort.username';
-
+        this.clearFilter();
         this.sortingHotfix();
+
+        this.checked = [];
     }
     
     update () {
         return this.GroupService.getManagementProfile(this.club.groupId,'club')
             .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
+            .then(() => { this.checked = [] })
             .then(() => { this.sortingHotfix() })
             .then(() => { this.$scope.$apply() })
-    }
-
-    // rows selection
-    
-    get checked () {
-        return this.management.members.filter((user) => user.checked);
-    }
-    
-    set allChecked (value) {
-        if (this.allChecked) {
-            this.management.members.forEach((user) => { user.checked = false; });
-        } else {
-            this.management.members.forEach((user) => { user.checked = true; });
-        }
-    }
-    
-    get allChecked () {
-        return this.management.members.every((user) => user.checked);
     }
 
     // tariffs & billing 
@@ -128,7 +112,7 @@ class ManagementCtrl {
                 checked: checkedCoaches.includes(coach.userProfile.userId)
             }))
 
-        this.dialogs.coaches(coaches) 
+        this.dialogs.selectUsers(coaches) 
         .then((coaches) => {
             if (coaches) {
                 let members = checked.map(member => member.userProfile.userId);
@@ -139,6 +123,49 @@ class ManagementCtrl {
                     direction: coach.checked? 'I' : 'O'
                 }));
                 return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+            } 
+        }, () => {})
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+    }
+
+    // athletes
+    
+    get athletesAvailable () {
+        return allEqual(this.checked.map((member) => this.athletes(member)), angular.equals)
+    }
+    
+    editAthletes () {
+        let checked = this.checked
+        let checkedAthletes = this.athletes(checked[0])
+        let athletes = this.management.members
+            .filter(m => (m.roleMembership || []).includes('ClubAthletes'))
+            .map(athlete => ({
+                userProfile: athlete.userProfile,
+                checked: checkedAthletes.includes(athlete)
+            }))
+
+        this.dialogs.selectUsers(athletes) 
+        .then((athletes) => {
+            if (athletes) {
+                // нельзя выполнить все действия одним батч-запросом, но можно двумя
+                let athletesToAdd = athletes    
+                    .filter(athlete => athlete.checked && !checkedAthletes.find(a => a.userProfile === athlete.userProfile))
+                    .map(athlete => athlete.userProfile.userId)
+                let athletesToRemove = athletes
+                    .filter(athlete => !athlete.checked && checkedAthletes.find(a => a.userProfile === athlete.userProfile))
+                    .map(athlete => athlete.userProfile.userId)
+                let addMemberships = checked.map(coach => ({
+                    groupId: coach.ClubAthletesGroupId,
+                    direction: 'I'
+                }))
+                let removeMemberships = checked.map(coach => ({
+                    groupId: coach.ClubAthletesGroupId,
+                    direction: 'O'
+                }))
+                return Promise.all([
+                    this.GroupService.putGroupMembershipBulk(this.club.groupId, addMemberships, athletesToAdd),
+                    this.GroupService.putGroupMembershipBulk(this.club.groupId, removeMemberships, athletesToRemove)
+                ])
             } 
         }, () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
@@ -195,37 +222,35 @@ class ManagementCtrl {
     // orderingand filtering
     
     clearFilter () {
-        this.filter = null
+        this.filter = {
+            pred: () => true,
+            label: 'Все',
+            none: true,
+        }
     }
     
     filterNoCoach () {
         this.filter = {
-            type: 'no coach',
+            pred: (member) => !member.coaches || !member.coaches.length,
             label: 'Без тренера',
-            pred: (member) => !member.coaches || !member.coaches.length
+            noCoach: true,
         }
     }
     
     filterCoach (coach) {
         this.filter = {
-            type: 'coach',
+            pred: (member) => member.coaches && member.coaches.find(userId => userId === coach.userProfile.userId),
             label: coach.userProfile.public.firstName + ' ' +  coach.userProfile.public.lastName,
-            coach: coach,
-            pred: (member) => member.coaches && member.coaches.find((c) => c.userId === coach.userProfile.userId)
+            coach: coach
         }
     }
     
     filterRole (role) {
         this.filter = {
-            type: 'role',
+            pred: (member) => member.roleMembership && member.roleMembership.find((r) => r === role),
             label: role,
-            role: role,
-            pred: (member) => member.roleMembership && member.roleMembership.find((r) => r === role)
+            role: role
         }
-    }
-    
-    isVisible () {
-        return (member) => !this.filter || this.filter.pred(member)
     }
 
     // helpers

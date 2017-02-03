@@ -30,8 +30,9 @@ class AthletesCtrl {
             ageGroup: (member) => member.userProfile.public.sex
         };
         this.orderBy = 'username';
-
         this.sortingHotfix();
+
+        this.checked = [];
     }
 
     sortingHotfix () {
@@ -45,26 +46,9 @@ class AthletesCtrl {
     update () {
         return this.GroupService.getManagementProfile(this.user.connections.Athletes.groupId, 'coach')
             .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
+            .then(() => { this.checked = [] })
             .then(() => { this.sortingHotfix() })
             .then(() => { this.$scope.$apply() })
-    }
-
-    // rows selection
-    
-    get checked () {
-        return this.management.members.filter((member) => member.checked);
-    }
-    
-    set allChecked (value) {
-        if (this.allChecked) {
-            this.management.members.forEach((member) => { member.checked = false; });
-        } else {
-            this.management.members.forEach((member) => { member.checked = true; });
-        }
-    }
-    
-    get allChecked () {
-        return this.management.members.every((member) => member.checked);
     }
 
     // tariffs & billing 
@@ -82,7 +66,7 @@ class AthletesCtrl {
     }
 
     tariffs (member) {
-        return ['Coach', 'Premium'].map(tariffCode => ({
+        return ['Premium'].map(tariffCode => ({
             tariffCode,
             byUs: this.isBilledByUs(member, tariffCode),
             bySelf: this.isBilledBySelf(member, tariffCode)
@@ -97,17 +81,17 @@ class AthletesCtrl {
         let checked = this.checked
         let tariffs = this.tariffs(checked[0])
 
-        this.dialogs.tariffs(tariffs, 'byClub')
+        this.dialogs.tariffs(tariffs, 'byCoach')
         .then(tariffs => {
             if (tariffs) {
                 let members = checked.map(member => member.userProfile.userId);
                 let memberships = tariffs
                     .filter(t => t.byUs != this.isBilledByUs(checked[0], t.tariffCode))
                     .map(t => ({
-                        groupId: this.management.tariffGroups[t.tariffCode + 'ByClub'],
+                        groupId: this.management.tariffGroups[t.tariffCode + 'ByCoach'],
                         direction: t.byUs? 'I' : 'O'
                     }));
-                return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+                return this.GroupService.putGroupMembershipBulk(this.user.connections.Athletes.groupId, memberships, members);
             }
         }, () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
