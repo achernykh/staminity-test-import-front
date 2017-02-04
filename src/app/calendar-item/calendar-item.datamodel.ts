@@ -14,9 +14,8 @@ export class CalendarItem implements ICalendarItem {
 	public measurementHeader:IMeasurementHeader;
 	public activityHeader: IActivityHeader;
 	public userProfileOwner: IUserProfileShort;
-
-	private _dateStart: Date;
-	private _dateEnd: Date;
+	public _dateStart: Date;
+	public _dateEnd: Date;
 
 	constructor(item: ICalendarItem) {
 		merge(this,item); // deep copy

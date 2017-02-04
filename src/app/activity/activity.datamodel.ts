@@ -104,9 +104,12 @@ export class Activity extends CalendarItem {
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
+	//public _dateStart: Date;
+	//public _dateEnd: Date;
 
 	constructor(item: ICalendarItem, details: IActivityDetails = null){
 		super(item);
+		debugger;
 		if (!item.hasOwnProperty('activityHeader')) {
 			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
 		} else {
@@ -139,11 +142,15 @@ export class Activity extends CalendarItem {
 	// Подготовка данных для модели отображения
 	prepare() {
 		super.prepare();
+		debugger;
+		console.log('activity prepare', this);
 	}
 
 	// Подготовка данных для передачи в API
 	build() {
 		super.package();
+		//this.dateStart = super.dateStart;
+		//this.dateEnd = super.dateEnd;
 		this.header.activityType = getActivityType(Number(this.header.activityType.id));
 		// заглушка для тестирования собственных категорий
 		if (this.header.activityCategory){

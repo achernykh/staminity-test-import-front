@@ -1,4 +1,4 @@
-import { IComponentOptions, IComponentController, IFormController,IPromise, copy} from 'angular';
+import { IComponentOptions, IComponentController, IFormController,IPromise, IScope} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
@@ -32,9 +32,10 @@ class CalendarItemActivityCtrl implements IComponentController{
     private activityForm: IFormController;
 
 
-    static $inject = ['CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
+    static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
 
     constructor(
+        private $scope: IScope,
         private CalendarService: CalendarService,
         private UserService: UserService,
         private SessionService: SessionService,
@@ -45,8 +46,6 @@ class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-
-        console.log('activity data=',this);
 
         if (this.mode === 'post') {
             this.data = {
@@ -60,6 +59,8 @@ class CalendarItemActivityCtrl implements IComponentController{
         this.activity = new Activity(this.data);
         this.activity.prepare();
 
+        console.log('activity data after header =',this);
+
         //TODO intervalW.ActualDataIsImported
 
         //Получаем детали по тренировке
@@ -67,7 +68,10 @@ class CalendarItemActivityCtrl implements IComponentController{
             .then(response => {
                 this.details = response;
                 this.activity = new Activity(this.data, this.details);
+                this.activity.prepare();
                 this.isLoadingDetails = false;
+                //this.$scope.$apply();
+                console.log('activity data after details =',this);
             }, error => console.error(error));
 
         console.log('activity data=',this);
