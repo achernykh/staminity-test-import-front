@@ -90,9 +90,9 @@
     <md-card class="profile-content md-body-1" layout-padding="8">
         <div class="md-caption">О себе</div>
         <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.about || "Информация не указана" }}</div>
-        <div ng-if="$ctrl.user.personal.weight || $ctrl.user.personal.height">
-            <span style="margin-right:25px">Вес: {{ $ctrl.user.personal.weight || '-' }}</span>
-            <span>Рост: {{ $ctrl.user.personal.height || '-' }}</span>
+        <div ng-if="$ctrl.user.private.weight || $ctrl.user.private.height">
+            <span style="margin-right:25px">Вес: {{ $ctrl.user.private.weight || '-' }}</span>
+            <span>Рост: {{ $ctrl.user.private.height || '-' }}</span>
         </div>
         <div class="md-caption">Связи</div>
         <div>
@@ -125,10 +125,10 @@
                 <span style="color:rgba(0, 0, 0, 0.38)">- </span>
             </md-button>
         </div>
-        <div class="md-caption" ng-if="$ctrl.user.private.phone || $ctrl.user.personal.extEmail">Контакты</div>
-        <div ng-if="$ctrl.user.private.phone || $ctrl.user.personal.extEmail">
-            <span style="margin-right:25px">Телефон: {{ $ctrl.user.personal.phone || '-' }}</span>
-            <span>Email: {{ $ctrl.user.personal.extEmail || '-' }}</span>
+        <div class="md-caption" ng-if="$ctrl.user.private.phone || $ctrl.user.private.extEmail">Контакты</div>
+        <div ng-if="$ctrl.user.private.phone || $ctrl.user.private.extEmail">
+            <span style="margin-right:25px">Телефон: {{ $ctrl.user.private.phone || '-' }}</span>
+            <span>Email: {{ $ctrl.user.private.extEmail || '-' }}</span>
         </div>
     </md-card>
 
