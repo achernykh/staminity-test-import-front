@@ -18,18 +18,12 @@ class CalendarTotalCtrl {
         this.primarySport = ['run', 'bike', 'swim'];
     }
     $onInit(){
-        "use strict";
-        // Расчет итогов недели
-
-        //console.log('CalendarTotal: onInit week=', this.week.sid, this.week.change, this.week.subItem.length, this.week.subItem[0].data.calendarItems.length);
-
-
 
     }
     $onChanges(changes){
-        "use strict";
+
         if(changes.update){
-            //console.log('CalendarTotal: $onChanges => status new value', this.week.sid, this.week.change, this.week.subItem.length, this.week.subItem[0].data.calendarItems.length);
+            console.log('CalendarTotal: $onChanges => status new value', this.week.sid, this.week);
             this.total = {};
             let sport = null;
             for (let day of this.week.subItem){
@@ -58,11 +52,7 @@ class CalendarTotalCtrl {
 
                 }
             }
-            console.log('week total=', this.total)
-            /*for (let sport in this.totalData) {
-                this.totalData[sport].distance = distance;
-                this.totalData[sport].duration = moment().startOf('day').seconds(duration).format('H:mm:ss');
-            }*/
+            console.log('week total=', this.total);
         }
     }
 

@@ -23,6 +23,7 @@ var open          = require('gulp-open');
 
 // Get/set variables
 var config = require('./gulp.config');
+var pass = require('./pass');
 var ENV = process.env.npm_lifecycle_event;
 
 // Where our files are located
@@ -184,54 +185,6 @@ gulp.task('serve', function () {
     //    cors: true
     //});
 });
-
-gulp.task('sftp', function () {
-    return gulp.src('build/**')
-        .pipe(sftp_new({
-            host: 'ftp.staminity.com:21',
-            user: 'dev1ftpuser@dev1.staminity.com',
-            pass: 'DpziUbiqPJ84w9xIf3ll',
-            remotePath: '/'
-        }));
-});
-
-gulp.task('ftp-dev', ['build'], function () {
-    return gulp.src('dist/**')
-        .pipe(ftp({
-            host: 'ftp.staminity.com',
-            user: 'dev1ftpuser@dev1.staminity.com',
-            pass: 'DpziUbiqPJ84w9xIf3ll'
-        }))
-        .pipe(gutil.noop());
-});
-gulp.task('ftp-dev-core', ['build'], function () {
-    return gulp.src(['dist/index.html','dist/css/**','dist/js/**'])
-        .pipe(ftp({
-            host: 'ftp.staminity.com',
-            user: 'dev1ftpuser@dev1.staminity.com',
-            pass: 'DpziUbiqPJ84w9xIf3ll'
-        }))
-        .pipe(gutil.noop());
-});
-gulp.task('ftp-prd', ['build'], function () {
-    return gulp.src('dist/**')
-        .pipe(ftp({
-            host: 'ftp.staminity.com',
-            user: 'ih207328ac@staminity.com',
-            pass: 'kgQ6uPqTP4271FQe'
-        }))
-        .pipe(gutil.noop());
-});
-gulp.task('ftp-prd-core', ['build'], function () {
-    return gulp.src(['dist/index.html','dist/css/**','dist/js/**'])
-        .pipe(ftp({
-            host: 'ftp.staminity.com',
-            user: 'ih207328ac@staminity.com',
-            pass: 'kgQ6uPqTP4271FQe'
-        }))
-        .pipe(gutil.noop());
-});
-
 // Creates a watch task to watch files and build async
 gulp.task('watch', ['default', 'serve'], function () {
 
@@ -267,11 +220,7 @@ gulp.task('url', function(){
 gulp.task('ftp-copy', function () {
     var src = './'+ENV;
     return gulp.src('dev1/**/*')
-        .pipe(ftp({
-            host: 'ftp.staminity.com',
-            user: 'dev1ftpuser@dev1.staminity.com',
-            pass: 'DpziUbiqPJ84w9xIf3ll'
-        }))
+        .pipe(ftp(pass.dev))
         .pipe(gutil.noop());
 });
 
