@@ -1,13 +1,5 @@
-import { flatMap, unique, keys, entries, pipe, object } from '../share/util.js';
+import { flatMap, unique, keys, entries, pipe, object, allEqual } from '../share/util.js';
 import './management.component.scss';
-
-function equals (x0, x1) {
-    return x0 === x1;
-}
-
-function allEqual (xs, p = equals) {
-    return !xs.length || xs.every((x) => p(x, xs[0]));
-}
 
 
 class ManagementCtrl {
@@ -40,10 +32,19 @@ class ManagementCtrl {
     
     update () {
         return this.GroupService.getManagementProfile(this.club.groupId,'club')
-            .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
-            .then(() => { this.checked = [] })
-            .then(() => { this.sortingHotfix() })
-            .then(() => { this.$scope.$apply() })
+            .then((management) => { 
+                this.management = management;
+                this.checked = [];
+                this.sortingHotfix();
+                this.$scope.$apply();
+            }, (error) => { this.SystemMessageService.show(error) })
+    }
+
+    sortingHotfix () {
+        this.management.members.forEach(member => {
+            member.coaches = (member.coaches || []).filter(userId => this.management.members.find(m => m.userProfile.userId === userId))
+            member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
+        });
     }
 
     // tariffs & billing 
@@ -261,12 +262,6 @@ class ManagementCtrl {
 
     athletes (member) {
         return this.management.members.filter((m) => m.coaches.includes(member.userProfile.userId));
-    }
-
-    sortingHotfix () {
-        this.management.members.forEach((member) => {
-            member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
-        });
     }
 
     roleMembership (roleMemberships) {

@@ -19,25 +19,24 @@
             <section class="settings-container" flex="auto" layout="column">
                 <header flex="none" layout="column" md-theme="dark">
                     <md-card class="user-background" flex="none" layout-align="end center"  style="background-image: url({{'/group/background/' + $ctrl.club.public.background | image}})">
-                      <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
-                        <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url({{'/group/avatar/' + $ctrl.club.public.avatar | image}})">
-                            <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
-                        </div>
-                        <div flex=none hide show-gt-xs>
-                              <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
-                        </div>
-                          <md-fab-speed-dial class="animated bounceIn" md-theme="default">
-                              <md-fab-trigger>
-                                  <md-button aria-label="menu" class="md-fab md-accent"
-                                             ng-disabled="!$ctrl.isDirty()"
-                                             ng-class="{'md-warn': !$ctrl.isValid()}"
-                                             ng-click="$ctrl.update({public: $ctrl.publicForm.$dirty})">
-                                      <md-icon class="light-active" md-svg-src="/assets/icon/save.svg"></md-icon>
-                                  </md-button>
-                              </md-fab-trigger>
-                          </md-fab-speed-dial>
-                      </md-card-content>
-
+                        <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
+                            <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url({{'/group/avatar/' + $ctrl.club.public.avatar | image}})">
+                                <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
+                            </div>
+                            <div flex=none hide show-gt-xs>
+                                <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+                            </div>
+                            <md-fab-speed-dial class="animated bounceIn" md-theme="default">
+                                <md-fab-trigger>
+                                    <md-button aria-label="menu" class="md-fab md-accent"
+                                    ng-disabled="!$ctrl.isDirty()"
+                                    ng-class="{'md-warn': !$ctrl.isValid()}"
+                                    ng-click="$ctrl.update({public: $ctrl.publicForm.$dirty})">
+                                    <md-icon class="material-icons">save</md-icon>
+                                    </md-button>
+                                </md-fab-trigger>
+                            </md-fab-speed-dial>
+                        </md-card-content>
                     </md-card>
                 </header>
                 

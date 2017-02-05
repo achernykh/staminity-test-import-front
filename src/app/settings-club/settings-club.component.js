@@ -106,6 +106,7 @@ class SettingsClubCtrl {
 		} else {
 			this.club.public.activityTypes.push(activity);
 		}
+		this.publicForm.$setDirty();
 	}
 
 	isActivityChecked (activity) {

@@ -1,10 +1,32 @@
+import { orderBy } from '../share/util';
 import { IGroupMembershipRequest } from '../../../api/group/group.interface';
 import { GetMembershipRequest, ProcessMembershipRequest } from '../../../api/group/group.request';
 import { ISocketService } from './socket.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
+import moment from 'moment/src/moment.js';
+
+
+const requestId = request => request.userGroupRequestId;
+const requestDate = request => request.updated || request.created;
+const isSameRequest = (r0) => (r1) => r0.userGroupRequestId === r1.userGroupRequestId;
+
+
+const processRequests = (requests, newRequests) => newRequests
+    .reduce((requests, request) => {
+        let prev = requests.find(isSameRequest(request));
+        if (prev) {
+            requests[requests.indexOf(prev)] = request;
+        } else {
+            requests.push(request);
+        }
+        return requests;
+    }, requests)
+    .sort((a, b) => moment(requestDate(a)) >= moment(requestDate(b))? 1 : -1)
+    .reverse();
 
 
 export default class RequestsService {
+    processRequests: Subject<any>;
     requests: Observable<any>;
 
     static $inject = ['SocketService'];
@@ -12,14 +34,17 @@ export default class RequestsService {
     constructor(
         private SocketService:ISocketService
     ) { 
-        this.requests = this.SocketService.messages
-            .filter((m) => m.type === 'groupMembershipRequest')
-            .map((m) => m.value)
-            .scan((requests, request) => {
-                let sameRequest = (r) => r.userGroupRequestId === request.userGroupRequestId;
-                return requests.find(sameRequest)? 
-                    requests.map(r => sameRequest(r)? request : r) : requests.concat(request);
-            }, []); 
+        this.processRequests = new Subject();
+
+        this.requests = this.processRequests.scan(processRequests, []);
+
+        this.SocketService.messages
+        .filter((m) => m.type === 'groupMembershipRequest')
+        .map((m) => [m.value])
+        .subscribe(this.processRequests);
+
+        this.getMembershipRequest(0, 20)
+        .then((requests) => { this.processRequests.next(requests); });
 
         this.requests.subscribe((rs) => console.log('requests', rs));
     }
