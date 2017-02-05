@@ -47,7 +47,7 @@ class ProfileCtrl {
 
     constructor ($scope, $mdDialog, dialogs, UserService, GroupService, SystemMessageService) {
         'ngInject';
-        this.$scope = $scope;
+        this.$scope = Object.assign($scope, { Boolean });
         this.$mdDialog = $mdDialog;
         this.dialogs = dialogs;
         this.UserService = UserService;

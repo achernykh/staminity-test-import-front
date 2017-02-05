@@ -1,12 +1,10 @@
 <application-frame class="club-profile" layout="column" layout-align="center center">
 
     <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/group/background/' + $ctrl.club.public.background | image}})">
-        <div layout="row">
-            <div class="userpic" style="background-image: url({{'/group/avatar/' + $ctrl.club.public.avatar | image}})" layout-align="center"></div>
-        </div>
-        <div class="md-title">{{ $ctrl.club.public.name }}</div>
-        <div class="md-caption line-18">{{ $ctrl.club.public.country }}, {{ $ctrl.club.public.city }}</div>
-        <div class="md-caption line-18">{{ $ctrl.club.public.activityTypes.join(', ') }}</div>
+        <div class="userpic" style="background-image: url({{'/group/avatar/' + $ctrl.club.public.avatar | image}})" layout-align="center"></div>
+        <div class="md-title" style="color:white; margin-bottom: 10px">{{ $ctrl.club.public.name }}</div>
+        <div class="md-caption">{{ [$ctrl.club.public.country, $ctrl.club.public.city].filter(Boolean).join(', ') }}</div>
+        <div class="md-caption" style="margin-bottom: 15px; margin-top:2px;">{{ $ctrl.club.public.activityTypes.join(', ') }}</div>
         <div ng-if="$ctrl.club.availableInteractions">
 
             <md-button ng-if="$ctrl.club.availableInteractions.btnJoinGroup" ng-click="$ctrl.join()" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
@@ -58,25 +56,24 @@
         </md-button>
     </md-card>
         
-    <md-card class="profile-content md-body-1" layout="column" layout-align="center begin">
-        <div class="md-caption">О клубе</div>
-        <div style="white-space: pre-wrap;">{{ $ctrl.club.public.about ||"Информация не указана" }}</div>
-        
-        <div class="md-caption">Состав</div>
-        <div ng-if="$ctrl.club.innerGroups">
+    <md-card class="profile-content md-body-1">
+        <div class="md-caption" style="margin-bottom: 10px">О клубе</div>
+        <div style="white-space: pre-wrap; margin-bottom: 20px">{{ $ctrl.club.public.about ||"Информация не указана" }}</div>
+        <div class="md-caption" style="margin-bottom:10px">Состав</div>
+        <div ng-if="$ctrl.club.innerGroups" style="margin-bottom:10px">
             <md-button ng-disabled="!$ctrl.club.innerGroups.ClubCoaches.groupMembers.length" ng-click="$ctrl.showCoaches()">
-                <span class="label">Тренеры:</span> 
-                <span class="value">{{ $ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-' }}</span> 
+                <span>Тренеры:</span> 
+                <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-' }}</span> 
             </md-button>                    
             <md-button ng-disabled="!$ctrl.club.innerGroups.ClubAthletes.groupMembers.length" ng-click="$ctrl.showAthletes()">
-                <span class="label">Спортсмены:</span> 
-                <span class="value">{{ $ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-' }}</span>
+                <span>Спортсмены:</span> 
+                <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-' }}</span>
             </md-button>
         </div>
-        <div ng-if="!$ctrl.club.innerGroups">
+        <div ng-if="!$ctrl.club.innerGroups" style="margin-bottom:10px">
             <md-button ng-disabled="!$ctrl.club.groupMembers.length" ng-click="$ctrl.showMembers()">
-                <span class="label">Участники:</span> 
-                <span class="value">{{ $ctrl.club.groupMembersCount }}</span>
+                <span>Участники:</span> 
+                <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.groupMembersCount }}</span>
             </md-button>
         </div>
     </md-card>

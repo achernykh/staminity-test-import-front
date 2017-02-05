@@ -1,9 +1,15 @@
 import './requests.component.scss';
 
+const stateIcons = {
+    'A': 'check',
+    'D': 'block',
+    'C': 'close'
+};
+
 class RequestsCtrl {
 
     constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, RequestsService, dialogs, SystemMessageService) {
-        this.$scope = $scope;
+        this.$scope = Object.assign($scope, { stateIcons });
         this.$mdDialog = $mdDialog;
         this._$mdSidenav = $mdSidenav;
         this.UserService = UserService;
@@ -18,14 +24,14 @@ class RequestsCtrl {
         .subscribe((requests) => { this.setRequests(requests) });
         
         this.requests = {
-          inbox: {
-            new: [],
-            old: []
-          },
-          outbox: {
-            new: [],
-            old: []
-          }
+            inbox: {
+                new: [],
+                old: []
+            },
+            outbox: {
+                new: [],
+                old: []
+            }
         };
     }
     
@@ -38,14 +44,13 @@ class RequestsCtrl {
     }
     
     processRequest (request, action) {
-      this.dialogs.confirm('performAction' + action)
-      .then((confirmed) => { if (!confirmed) throw new Error() })
-      .then(() => this.GroupService.processMembership(action, null, request.userGroupRequestId))
-      .then(() => {}, (error) => { this.SystemMessageService.show(error) })
+        this.dialogs.confirm('performAction' + action)
+        .then((confirmed) => confirmed && this.GroupService.processMembership(action, null, request.userGroupRequestId))
+        .then(() => {}, (error) => { this.SystemMessageService.show(error) })
     }
     
     close () {
-      this._$mdSidenav('requests').toggle();
+        this._$mdSidenav('requests').toggle();
     }
 
 };

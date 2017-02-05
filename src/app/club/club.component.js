@@ -3,7 +3,7 @@ import './club.component.scss';
 class ClubCtrl {
 
     constructor ($scope, dialogs, GroupService, UserService, SystemMessageService) {
-        this.$scope = $scope;
+        this.$scope = Object.assign($scope, { Boolean });
         this.dialogs = dialogs;
         this.GroupService = GroupService;
         this.UserService = UserService;

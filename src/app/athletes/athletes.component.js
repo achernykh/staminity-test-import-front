@@ -1,13 +1,5 @@
-import { flatMap, unique, keys } from '../share/util.js';
+import { flatMap, unique, keys, entries, pipe, object, allEqual } from '../share/util.js';
 import './athletes.component.scss';
-
-function equals (x0, x1) {
-    return x0 === x1;
-}
-
-function allEqual (xs, p = equals) {
-    return !xs.length || xs.every((x) => p(x, xs[0]));
-}
 
 
 class AthletesCtrl {
@@ -45,10 +37,12 @@ class AthletesCtrl {
     
     update () {
         return this.GroupService.getManagementProfile(this.user.connections.Athletes.groupId, 'coach')
-            .then((management) => { this.management = management }, (error) => { this.SystemMessageService.show(error) })
-            .then(() => { this.checked = [] })
-            .then(() => { this.sortingHotfix() })
-            .then(() => { this.$scope.$apply() })
+            .then((management) => { 
+                this.management = management;
+                this.checked = [];
+                this.sortingHotfix(); 
+                this.$scope.$apply();
+            }, (error) => { this.SystemMessageService.show(error) })
     }
 
     // tariffs & billing 
@@ -102,7 +96,7 @@ class AthletesCtrl {
     remove () {
         this.dialogs.confirm('Удалить пользователей?')
         .then((confirmed) => confirmed && Promise.all(this.checked.map((m) => this.GroupService.leave(this.user.connections.Athletes.groupId, m.userProfile.userId))), () => {})
-        .then(() => { this.update() }, (error) => { this.SystemMessageService.show(error) })
+        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
     }
     
     showActions (member) {

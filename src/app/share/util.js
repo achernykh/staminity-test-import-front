@@ -16,6 +16,11 @@ export const groupBy = (f = id) => (xs) => xs.reduce((a, x) => {
     return a
 }, {})
 
+export const orderBy = (f) => (xs) => xs.sort((x0, x1) => f(x0) >= f(x1)? 1 : -1)
+
+export const equals = (x0, x1) => x0 === x1
+export const allEqual = (xs, p = equals) => !xs.length || xs.every((x) => p(x, xs[0]))
+
 export const inherits = (proto) => (val) => val instanceof proto
 export const typed = (type) => (val) => typeof val === type
 export const isArray = inherits(Array)
@@ -35,4 +40,4 @@ export const log = (msg) => (x) => {
     return x
 }
 
-export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, pipe, isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, object, log }
+export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, orderBy, pipe, equals, allEqual, isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, object, log }
