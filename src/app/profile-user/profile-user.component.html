@@ -17,7 +17,7 @@
         <div class="md-caption" style="margin-bottom: 15px">{{ $ctrl.user.personal.activity.join(', ') }}</div>
         <div>
             <span>
-                <md-button ng-click="$ctrl.joinAthletes()" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'Отправить запрос тренеру?')" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup" class="md-raised md-primary md-dark-theme" style="text-transform: none;">
                     Начать тренироваться
                 </md-button>
 
@@ -27,7 +27,7 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.cancelAthletes()">
+                            <md-button ng-click="$ctrl.cancel($ctrl.user.connections.Athletes, 'Отменить заявку?')">
                                 Отменить заявку
                             </md-button>
                         </md-menu-item>
@@ -40,7 +40,7 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.leaveAthletes()">
+                            <md-button ng-click="$ctrl.leave($ctrl.user.connections.Athletes, 'Покинуть тренера?')">
                                 Перестать тренироваться
                             </md-button>
                         </md-menu-item>
@@ -53,7 +53,7 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.cancelAthletes()">
+                            <md-button ng-click="$ctrl.cancel($ctrl.user.connections.Athletes, 'Отменить заявку?')">
                                 Отменить заявку
                             </md-button>
                         </md-menu-item>
@@ -68,12 +68,12 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.joinFollowers()">
+                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Followers, 'Отправить заявку на добавление в друзья?')">
                                 Подписаться
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.joinFriends()">
+                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Friends, 'Подписаться?')">
                                 Добавить в друзья
                             </md-button>
                         </md-menu-item>
@@ -87,15 +87,15 @@
         </md-button>
     </md-card>
 
-    <md-card class="profile-content md-body-1">
-        <div class="md-caption" style="margin-bottom: 10px">О себе</div>
-        <div style="white-space: pre-wrap; margin-bottom: 10px">{{ $ctrl.user.personal.about || "Информация не указана" }}</div>
-        <div ng-if="$ctrl.user.personal.weight || $ctrl.user.personal.height" style="margin-bottom:20px">
+    <md-card class="profile-content md-body-1" layout-padding="8">
+        <div class="md-caption">О себе</div>
+        <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.about || "Информация не указана" }}</div>
+        <div ng-if="$ctrl.user.personal.weight || $ctrl.user.personal.height">
             <span style="margin-right:25px">Вес: {{ $ctrl.user.personal.weight || '-' }}</span>
             <span>Рост: {{ $ctrl.user.personal.height || '-' }}</span>
         </div>
-        <div class="md-caption" style="margin-bottom:10px">Связи</div>
-        <div style="margin-bottom:10px">
+        <div class="md-caption">Связи</div>
+        <div>
             <md-button ng-disabled="!$ctrl.user.connections.Clubs.groupMembers.length">
                 <span>Клуб: </span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.Clubs.groupMembers.length || '-'}} </span>
@@ -125,104 +125,14 @@
                 <span style="color:rgba(0, 0, 0, 0.38)">- </span>
             </md-button>
         </div>
+        <div class="md-caption" ng-if="$ctrl.user.private.phone || $ctrl.user.personal.extEmail">Контакты</div>
         <div ng-if="$ctrl.user.private.phone || $ctrl.user.personal.extEmail">
-            <div class="md-caption" style="margin-bottom: 10px">Контакты</div>
-            <div>
-                <span style="margin-right:25px">Телефон: {{ $ctrl.user.personal.phone || '-' }}</span>
-                <span>Email: {{ $ctrl.user.personal.extEmail || '-' }}</span>
-            </div>
+            <span style="margin-right:25px">Телефон: {{ $ctrl.user.personal.phone || '-' }}</span>
+            <span>Email: {{ $ctrl.user.personal.extEmail || '-' }}</span>
         </div>
     </md-card>
 
-    <md-card class="profile-chart" layout="column" layout-align="center begin">
-        <div class="md-caption">Личная статистика</div>
-
-        <div layout="row">
-            <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period + 1)" style="margin: auto -8px;">
-                <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_left</md-icon>
-            </md-button>
-            <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period - 1)" style="margin: auto -8px;">
-                <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_right</md-icon>
-            </md-button>
-            <md-menu>
-                <md-button ng-click="$mdOpenMenu($event)" style="font-size: 13px;">
-                    {{ $ctrl.range.periodName($ctrl.period) }} ▾
-                </md-button>
-                <md-menu-content>
-                    <md-menu-item ng-repeat="period in [$ctrl.period+2, $ctrl.period+1, $ctrl.period, $ctrl.period-1, $ctrl.period-2]">
-                        <md-button ng-click="$ctrl.selectPeriod(period)">
-                            {{ $ctrl.range.periodName(period) }}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu flex layout-align="center" style="text-align:center;">
-                <md-button style="font-size: 15px; color: white" ng-click="$mdOpenMenu($event)">
-                    {{ $ctrl.range.name }} ▾
-                </md-button>
-                <md-menu-content>
-                    <md-menu-item ng-repeat="range in $ctrl.ranges">
-                        <md-button ng-click="$ctrl.selectRange(range)">
-                            {{ range.name }}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu>
-                <md-button style="font-size: 13px;" ng-click="$mdOpenMenu($event)">
-                    {{ $ctrl.valueType.name }} ▾
-                </md-button>
-                <md-menu-content>
-                    <md-menu-item ng-repeat="valueType in $ctrl.valueTypes">
-                        <md-button  ng-click="$ctrl.selectValueType(valueType)">
-                            {{ valueType.name }}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-        </div>
-
-        <div class="chart">
-            <svg ng-attr-width="{{$ctrl.chart.width + 20}}" ng-attr-height="{{$ctrl.chart.height + 25}}">
-                <g ng-repeat="bar in $ctrl.chart.bars" ng-attr-transform="translate({{$ctrl.chart.x($index)}} 0)">
-                    <rect ng-attr-x="{{-$ctrl.chart.barWidth/2}}" ng-attr-width="{{$ctrl.chart.barWidth}}" ng-attr-y="{{$ctrl.chart.height - bar.height}}" ng-attr-height="{{bar.height}}"/>
-                    <line x1="0" x2="0" y1="150" y2="155"/>
-                    <text x="0" ng-attr-y="{{$ctrl.chart.height + 20}}">{{bar.label}}</text>
-                </g>
-                <g ng-repeat="line in $ctrl.chart.lines" ng-attr-transform="translate(0 {{line.y}})">
-                    <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" y1="0" y2="0"/>
-                    <text ng-attr-x="{{$ctrl.chart.width + 15}}">{{line.label}}</text>
-                </g>
-                <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" ng-attr-y1="{{$ctrl.chart.height}}" ng-attr-y2="{{$ctrl.chart.height}}"/>
-
-                <linearGradient id="chart-bars" x1="0" x2="0" y1="0" ng-attr-y2="{{$ctrl.chart.height}}" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#37474f"/>
-                    <stop offset="100%" stop-color="#607d8b"/>
-                </linearGradient>
-            </svg>
-        </div>
-
-        <table>
-            <tr>
-                <th></th>
-                <th>км</th>
-                <th>время</th>
-                <th style="max-width: 90px;" width="90">кол-во трен.</th>
-            </tr>
-            <tr ng-repeat="row in $ctrl.chart.tableRows">
-                <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7)">{{ row.icon }}</md-icon></td>
-                <td>{{ row.dist }}</td>
-                <td>{{ row.hrs }}</td>
-                <td>{{ row.count }}</td>
-            </tr>
-            <tr class="row-total">
-                <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.9)">{{ $ctrl.chart.tableTotal.icon }}</md-icon></td>
-                <td>{{ $ctrl.chart.tableTotal.dist }}</td>
-                <td>{{ $ctrl.chart.tableTotal.hrs }}</td>
-                <td>{{ $ctrl.chart.tableTotal.count }}</td>
-            </tr>
-        </table>
-    </md-card>
+    <summary-statistics user="$ctrl.user"/>
 
 </application-frame>
 

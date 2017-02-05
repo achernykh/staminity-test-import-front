@@ -64,7 +64,6 @@
     } 
 
     .profile-content {
-        padding: 20px; 
         margin: 0;
         width: 100%;
         color: rgba(0, 0, 0, 0.54);
@@ -81,8 +80,8 @@
         }
     }
 
-    .profile-chart {
-        margin-top: 20px;
+    summary-statistics {
+        margin: 20px 0;
         padding: 17px;
         width: 100%;
         border-radius: 2px;

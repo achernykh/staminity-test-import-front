@@ -56,11 +56,11 @@
         </md-button>
     </md-card>
         
-    <md-card class="profile-content md-body-1">
-        <div class="md-caption" style="margin-bottom: 10px">О клубе</div>
-        <div style="white-space: pre-wrap; margin-bottom: 20px">{{ $ctrl.club.public.about ||"Информация не указана" }}</div>
-        <div class="md-caption" style="margin-bottom:10px">Состав</div>
-        <div ng-if="$ctrl.club.innerGroups" style="margin-bottom:10px">
+    <md-card class="profile-content md-body-1" layout-padding="8">
+        <div class="md-caption">О клубе</div>
+        <div style="white-space: pre-wrap;">{{ $ctrl.club.public.about ||"Информация не указана" }}</div>
+        <div class="md-caption">Состав</div>
+        <div ng-if="$ctrl.club.innerGroups">
             <md-button ng-disabled="!$ctrl.club.innerGroups.ClubCoaches.groupMembers.length" ng-click="$ctrl.showCoaches()">
                 <span>Тренеры:</span> 
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-' }}</span> 
@@ -70,7 +70,7 @@
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-' }}</span>
             </md-button>
         </div>
-        <div ng-if="!$ctrl.club.innerGroups" style="margin-bottom:10px">
+        <div ng-if="!$ctrl.club.innerGroups">
             <md-button ng-disabled="!$ctrl.club.groupMembers.length" ng-click="$ctrl.showMembers()">
                 <span>Участники:</span> 
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.groupMembersCount }}</span>
