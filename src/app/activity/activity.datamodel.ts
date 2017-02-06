@@ -262,6 +262,11 @@ export class Activity extends CalendarItem {
 			&& this.intervalW.calcMeasures.completePercent.value) || null;
 	}
 
+	get peaks() {
+		let measure = ['heartRatePeaks', 'speedTimePeaks', 'speedDistancePeaks', 'powerPeaks'];
+		return {};
+	}
+
 	printPercent() {
 		return ((this.percent && this.completed) && `${this.percent.toFixed(0)}%`);
 	}
