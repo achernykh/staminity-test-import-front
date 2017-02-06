@@ -1,4 +1,4 @@
-<application-frame class="user-profile" layout="column" layout-align="center center">
+<application-frame class="user-profile">
 
     <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/user/background/' + $ctrl.user.public.background | image}})">
         <div layout="row" layout-align="center center" style="width:100%">
@@ -17,13 +17,17 @@
         <div class="md-caption" style="margin-bottom: 15px">{{ $ctrl.user.personal.activity.join(', ') }}</div>
         <div>
             <span>
-                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'Отправить запрос тренеру?')" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup" class="md-raised md-primary md-dark-theme" style="text-transform: none;">
+                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'Отправить запрос тренеру?')" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach" class="md-raised md-primary md-dark-theme" style="text-transform: none;">
                     Начать тренироваться
+                </md-button>
+
+                <md-button ng-if="$ctrl.user.isYourCoach && !$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup" ng-disabled="true" class="md-dark-theme">
+                    Ваш тренер
                 </md-button>
 
                 <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnCancelJoinGroup">
                     <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                    Заявка отправлена ▾
+                        Заявка отправлена ▾
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
@@ -36,7 +40,7 @@
 
                 <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup">
                     <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                    Ваш тренер ▾
+                        Ваш тренер ▾
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
@@ -49,7 +53,7 @@
 
                 <md-menu ng-if="$ctrl.user.connections.Athletes.btnCancelLeaveGroup">
                     <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                    Вы отправили заявку на отказ от тренера ▾
+                        Вы отправили заявку на отказ от тренера ▾
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>

@@ -6,7 +6,7 @@ import './profile-user.component.scss';
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, SystemMessageService) {
+    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, SystemMessageService, RequestsService) {
         'ngInject';
         this.$scope = Object.assign($scope, { Boolean });
         this.$mdDialog = $mdDialog;
@@ -14,7 +14,17 @@ class ProfileCtrl {
         this.UserService = UserService;
         this.GroupService = GroupService;
         this.message = SystemMessageService;
-        this.isMe = this.user.userId === UserService.profile.userId;
+        this.RequestsService = RequestsService;
+
+        this.me = UserService.profile;
+        this.isMe = this.user.userId === this.me.userId;
+
+        this.subscription = this.RequestsService.requestWithUser(this.user.userId)
+        .subscribe(() => { this.update() });
+    }
+
+    $onDestroy () {
+        this.subscription && this.subscription.unsubscribe();
     }
 
     update () {
@@ -45,19 +55,19 @@ class ProfileCtrl {
 
     join (group, message) {
         return this.dialogs.confirm(message)
-            .then((confirmed) => confirmed && this.GroupService.join(group.groupId, this.user.userId))
+            .then((confirmed) => confirmed && this.GroupService.join(group.groupId, this.me.userId), () => {})
             .then((result) => { result && this.update() }, error => this.message.show(error))
     }
 
     leave (group, message) {
         return this.dialogs.confirm(message)
-            .then((confirmed) => confirmed && this.GroupService.leave(group.groupId, this.user.userId))
+            .then((confirmed) => confirmed && this.GroupService.leave(group.groupId, this.me.userId), () => {})
             .then((result) => { result && this.update() }, error => this.message.show(error))
     }
 
     cancel (group, message) {
         return this.dialogs.confirm(message)
-            .then((confirmed) => confirmed && this.GroupService.processMembership('C', group.groupId))
+            .then((confirmed) => confirmed && this.GroupService.processMembership('C', group.groupId), () => {})
             .then((result) => { result && this.update() }, error => this.message.show(error))
     }
 
@@ -66,7 +76,7 @@ class ProfileCtrl {
     }
 };
 
-ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','SystemMessageService'];
+ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','SystemMessageService','RequestsService'];
 
 const ProfileComponent = {
     bindings: {

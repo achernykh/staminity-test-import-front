@@ -8,6 +8,9 @@ class ClubCtrl {
         this.GroupService = GroupService;
         this.UserService = UserService;
         this.SystemMessageService = SystemMessageService;
+
+        let user = UserService.profile;
+        this.isManager = this.club.innerGroups.ClubManagement.groupMembers.find(m => m.userId === user.userId);
     }
     
     update () {

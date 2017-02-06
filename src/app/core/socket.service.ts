@@ -22,6 +22,7 @@ export interface ISocketService {
     close();
     send(request:IWSRequest): Promise<any>;
     messages: Observable<any>;
+    connections: Observable<any>;
 }
 
 /**
@@ -33,6 +34,7 @@ export class SocketService implements ISocketService {
     private requests: Array<any> = [];
     private requestId: number = 1;
 
+    public connections: Subject<any>;
     public messages: Subject<any>;
 
     //_$q:any;
@@ -44,6 +46,7 @@ export class SocketService implements ISocketService {
     static $inject = ['$q','SessionService', 'LoaderService'];
 
     constructor (private $q: any, private SessionService:ISessionService, private loader:LoaderService) {
+        this.connections = new Subject();
         this.messages = new Subject();
     }
 
@@ -58,6 +61,7 @@ export class SocketService implements ISocketService {
                 console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
                 this.socket.addEventListener('message', this.response.bind(this));
+                this.connections.next(this.socket);
                 Observable.fromEvent(this.socket, 'message')
                     .map((message: any) => JSON.parse(message.data))
                     .subscribe(this.messages);

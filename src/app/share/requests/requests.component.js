@@ -20,7 +20,7 @@ class RequestsCtrl {
         
         this.user = this.UserService.profile
 
-        this.RequestsService.requests
+        this.RequestsService.requestsList
         .subscribe((requests) => { this.setRequests(requests) });
         
         this.requests = {

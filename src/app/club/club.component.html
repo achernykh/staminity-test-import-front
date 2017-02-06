@@ -51,8 +51,12 @@
             </md-menu>
             
         </div>
-        <md-button class="md-fab profile-fab">
+
+        <md-button ng-if="!$ctrl.isManager" class="md-fab profile-fab">
             <md-icon class="material-icons">send</md-icon>
+        </md-button>
+        <md-button ng-if="$ctrl.isManager" class="md-fab profile-fab" ui-sref="settings/club({uri: $ctrl.club.groupUri})">
+            <md-icon class="material-icons">mode_edit</md-icon>
         </md-button>
     </md-card>
         

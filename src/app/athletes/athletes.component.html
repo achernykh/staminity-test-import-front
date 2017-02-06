@@ -40,7 +40,9 @@
                                 {{ member.userProfile | username }}
                             </md-button>
                         </td>
-                        <td md-cell>-</td>
+                        <td md-cell>
+                            {{ member.clubs? member.clubs.join(', ') : '-' }}
+                        </td>
                         <td md-cell>
                             <span ng-repeat="tariff in member.userProfile.billing" style="white-space: nowrap;">
                                 {{tariff.tariffCode}} 

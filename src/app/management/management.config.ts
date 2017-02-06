@@ -22,8 +22,8 @@ function configure(
         });
 
     // Текст представлений
-    $translateProvider.translations('en', {"users": _translate['en']});
-    $translateProvider.translations('ru', {"users": _translate['ru']});
+    $translateProvider.translations('en', {"management": _translate['en']});
+    $translateProvider.translations('ru', {"management": _translate['ru']});
 
 }
 
