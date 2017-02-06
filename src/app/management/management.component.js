@@ -115,7 +115,7 @@ class ManagementCtrl {
                 checked: checkedCoaches.includes(coach.userProfile.userId)
             }))
 
-        this.dialogs.selectUsers(coaches) 
+        this.dialogs.selectUsers(coaches, 'Coaches') 
         .then((coaches) => {
             if (!coaches) return;
 
@@ -149,7 +149,7 @@ class ManagementCtrl {
                 checked: checkedAthletes.includes(athlete)
             }))
 
-        this.dialogs.selectUsers(athletes) 
+        this.dialogs.selectUsers(athletes, 'Athletes') 
         .then((athletes) => {
             if (!athletes) return;
             // нельзя выполнить все действия одним батч-запросом, но можно двумя

@@ -41,8 +41,8 @@ function configure(
             });
 
     // Текст представлений
-    $translateProvider.translations('en', {"user": _translate['en']});
-    $translateProvider.translations('ru', {"user": _translate['ru']});
+    $translateProvider.translations('en', {"settingsClub": _translate['en']});
+    $translateProvider.translations('ru', {"settingsClub": _translate['ru']});
 
 }
 
