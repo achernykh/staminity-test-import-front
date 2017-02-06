@@ -60,15 +60,15 @@ class SummaryStatisticsCtrl {
             groupBy: 'month',
             periodName: (x) => moment().add(-x, 'years').format('YYYY'),
             dateLabel: (s) => moment(s).format('MMM'),
-            start: (x) => moment().startOf('year').add(-(x + 1), 'years').format('YYYY-MM-DD'),
-            end: (x) => moment().startOf('year').add(-x, 'years').format('YYYY-MM-DD')
+            start: (x) => moment().startOf('year').add(-x, 'years').format('YYYY-MM-DD'),
+            end: (x) => moment().startOf('year').add(-x + 1, 'years').format('YYYY-MM-DD')
         }, {
             name: 'Обзор месяца',
             groupBy: 'day',
             periodName: (x) => moment().add(-x, 'months').format('YYYY-MM'),
             dateLabel: (s) => moment(s).format('DD'),
-            start: (x) => moment().startOf('month').add(-(x + 1), 'months').format('YYYY-MM-DD'),
-            end: (x) => moment().startOf('month').add(-x, 'months').format('YYYY-MM-DD')
+            start: (x) => moment().startOf('month').add(-x, 'months').format('YYYY-MM-DD'),
+            end: (x) => moment().startOf('month').add(-x + 1, 'months').format('YYYY-MM-DD')
         }];
         this.range = this.ranges[0];
 

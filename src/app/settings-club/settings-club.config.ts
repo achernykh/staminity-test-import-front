@@ -8,7 +8,7 @@ function configure(
     $translateProvider: any) {
     
         $stateProvider
-            .state('clubSettings', <StateDeclaration> {
+            .state('settings/club', <StateDeclaration> {
                 url: "/settings/club/:uri",
                 loginRequired: true,
                 authRequired: ['func1'],
