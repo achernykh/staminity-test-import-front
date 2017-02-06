@@ -26,27 +26,28 @@ const processRequests = (requests, newRequests) => newRequests
 
 
 export default class RequestsService {
+    asyncRequest: Observable<any>;
     processRequests: Subject<any>;
-    requests: Observable<any>;
+    requestsList: Observable<any>;
 
     static $inject = ['SocketService'];
 
     constructor(
         private SocketService:ISocketService
     ) { 
+        this.asyncRequest = this.SocketService.messages
+        .filter((m) => m.type === 'groupMembershipRequest')
+        .map((m) => m.value);
+
         this.processRequests = new Subject();
 
-        this.requests = this.processRequests.scan(processRequests, []);
+        this.requestsList = Observable.merge(
+            this.asyncRequest.map(r => [r]),
+            this.processRequests
+        ).scan(processRequests, []);
 
-        this.SocketService.messages
-        .filter((m) => m.type === 'groupMembershipRequest')
-        .map((m) => [m.value])
-        .subscribe(this.processRequests);
-
-        this.getMembershipRequest(0, 20)
-        .then((requests) => { this.processRequests.next(requests); });
-
-        this.requests.subscribe((rs) => console.log('requests', rs));
+        // this.getMembershipRequest(0, 1000)
+        // .then((requests) => { this.processRequests.next(requests); });
     }
 
     /**
@@ -55,7 +56,7 @@ export default class RequestsService {
      * @param limit
      * @returns {Promise<any>}
      */
-    getMembershipRequest(offset:number, limit: number):Promise<any> {
+    getMembershipRequest (offset:number, limit: number) : Promise<any> {
         return this.SocketService.send(new GetMembershipRequest(offset, limit));
     }
 
@@ -64,8 +65,17 @@ export default class RequestsService {
      * @param id
      * @returns {Promise<any>}
      */
-    processMembershipRequest(action:string, groupId?: number, requestId?:number, ):Promise<any> {
+    processMembershipRequest (action:string, groupId?: number, requestId?:number) : Promise<any> {
         return this.SocketService.send(new ProcessMembershipRequest(action, groupId, requestId));
+    }
+
+    /**
+     * Реквесты, имеющие отношение к пользователю
+     * @param userId
+     * @returns Observable<any>
+     */
+    requestWithUser (userId:number) : Observable<any> {
+        return this.asyncRequest.filter(r => r.initiator.userId === userId || r.receiver.userId === userId);
     }
 }
 

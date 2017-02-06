@@ -6,7 +6,7 @@ import './profile-user.component.scss';
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, SystemMessageService) {
+    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, SystemMessageService, RequestsService) {
         'ngInject';
         this.$scope = Object.assign($scope, { Boolean });
         this.$mdDialog = $mdDialog;
@@ -14,9 +14,17 @@ class ProfileCtrl {
         this.UserService = UserService;
         this.GroupService = GroupService;
         this.message = SystemMessageService;
+        this.RequestsService = RequestsService;
 
         this.me = UserService.profile;
         this.isMe = this.user.userId === this.me.userId;
+
+        this.subscription = this.RequestsService.requestWithUser(this.user.userId)
+        .subscribe(() => { this.update() });
+    }
+
+    $onDestroy () {
+        this.subscription && this.subscription.unsubscribe();
     }
 
     update () {
@@ -68,7 +76,7 @@ class ProfileCtrl {
     }
 };
 
-ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','SystemMessageService'];
+ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','SystemMessageService','RequestsService'];
 
 const ProfileComponent = {
     bindings: {

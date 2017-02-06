@@ -24,7 +24,7 @@ class HeaderCtrl implements IComponentController {
 	) {
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 
-		this.RequestsService.requests
+		this.RequestsService.requestsList
 		.map((requests) => requests.filter((request) => request.receiver.userId === this.user.userId && !request.updated))
 		.subscribe((requestsInboxNew) => {
 			console.log('requestsInboxNew', requestsInboxNew);

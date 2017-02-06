@@ -45,7 +45,6 @@ const userpic = {
     },
     controller: ['$scope', class UserpicController {
         constructor ($scope) {
-            console.log('UserpicController', this, $scope);
         }
     }],
     template: require('./userpic.component.html') as string
