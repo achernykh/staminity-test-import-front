@@ -46,8 +46,9 @@ export default class RequestsService {
             this.processRequests
         ).scan(processRequests, []);
 
-        // this.getMembershipRequest(0, 1000)
-        // .then((requests) => { this.processRequests.next(requests); });
+        this.SocketService.connections
+        .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 1000)))
+        .subscribe(this.processRequests);
     }
 
     /**
