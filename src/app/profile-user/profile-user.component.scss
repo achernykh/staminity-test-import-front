@@ -1,10 +1,16 @@
-.user-profile {
+user {
     position: absolute;
-    left: calc(50% - 250px);
-    right: auto;
     top: 60px;
-    width: 500px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+    padding: 0 calc(50% - 250px);
     z-index: 10;
+}
+
+.user-profile {
+    width: 500px;
 
     @media (max-width: 959px) {
         left: 0 !important;
@@ -81,9 +87,9 @@
     }
 
     summary-statistics {
+        display: block;
         margin: 20px 0;
         padding: 17px;
-        width: 100%;
         border-radius: 2px;
         background-color: #607d8b;
         color: rgba(255, 255, 255, 0.7);

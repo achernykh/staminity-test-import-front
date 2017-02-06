@@ -1,4 +1,4 @@
-<application-frame class="user-profile" layout="column" layout-align="center center">
+<application-frame class="user-profile">
 
     <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/user/background/' + $ctrl.user.public.background | image}})">
         <div layout="row" layout-align="center center" style="width:100%">
@@ -21,7 +21,7 @@
                     Начать тренироваться
                 </md-button>
 
-                <md-button ng-if="$ctrl.user.isYourCoach" ng-disabled="true" class="md-dark-theme">
+                <md-button ng-if="$ctrl.user.isYourCoach && !$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup" ng-disabled="true" class="md-dark-theme">
                     Ваш тренер
                 </md-button>
 
