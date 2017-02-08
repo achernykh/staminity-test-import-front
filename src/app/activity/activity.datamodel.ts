@@ -104,6 +104,7 @@ export class Activity extends CalendarItem {
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
+	private peaks: Array<any>;
 
 	constructor(item: ICalendarItem, details: IActivityDetails = null){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
@@ -123,7 +124,6 @@ export class Activity extends CalendarItem {
 				this.header.intervals.push(new Interval('W'));
 			}
 		}
-
 		// Ссылки на интервалы для быстрого доступа
 		this.intervalPW = <IActivityIntervalPW>this.header.intervals.filter(i => i.type === "pW")[0];
 		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
@@ -141,7 +141,6 @@ export class Activity extends CalendarItem {
 	// Подготовка данных для модели отображения
 	prepare() {
 		super.prepare();
-		debugger;
 		console.log('activity prepare', this);
 	}
 
@@ -262,9 +261,27 @@ export class Activity extends CalendarItem {
 			&& this.intervalW.calcMeasures.completePercent.value) || null;
 	}
 
-	get peaks() {
-		let measure = ['heartRatePeaks', 'speedTimePeaks', 'speedDistancePeaks', 'powerPeaks'];
-		return {};
+	/**
+	 * Получение пиков по тренировке
+	 * @returns {any[]}
+     */
+	getPeaks() {
+		let search = ['heartRateTimePeaks', 'speedTimePeaks', 'speedDistancePeaks', 'powerTimePeaks', 'powerDistancePeaks'];
+		let measure = {
+			'heartRateTimePeaks': 'heartRate',
+			'speedTimePeaks': 'speed',
+			'speedDistancePeaks': 'speed',
+			'powerTimePeaks': 'power',
+			'powerDistancePeaks': 'power'
+		};
+		return search.filter(m => this.intervalW.calcMeasures.hasOwnProperty(m) &&
+			this.intervalW.calcMeasures[m].hasOwnProperty('peaks') &&
+			this.intervalW.calcMeasures[m].peaks[0].value !== 0)
+			.map(m => ({
+				measure: measure[m],
+				type: (m.includes('Time') && 'movingDuration') || 'distance',
+				value: this.intervalW.calcMeasures[m].peaks
+			}));
 	}
 
 	printPercent() {

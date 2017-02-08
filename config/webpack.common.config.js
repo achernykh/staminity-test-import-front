@@ -20,6 +20,7 @@ module.exports = {
             'angular-material',
             'angular-translate',
             'moment',
+            'moment-timezone/builds/moment-timezone-with-data',
             'angular-scroll',
             'satellizer',
             'rxjs',

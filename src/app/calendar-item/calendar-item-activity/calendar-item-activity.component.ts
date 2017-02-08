@@ -30,6 +30,7 @@ class CalendarItemActivityCtrl implements IComponentController{
     private types: Array<Object> = ACTIVITY_TYPE;
     private categories: Array<Object> = ACTIVITY_CATEGORY;
     private activityForm: IFormController;
+    private peaks: Array<any>;
 
 
     static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
@@ -70,13 +71,11 @@ class CalendarItemActivityCtrl implements IComponentController{
                 this.activity = new Activity(this.data, this.details);
                 this.activity.prepare();
                 this.isLoadingDetails = false;
-                //this.$scope.$apply();
                 console.log('activity data after details =',this);
             }, error => console.error(error));
 
         console.log('activity data=',this);
-
-        //this.item = copy(new ActivityDatamodel( this.mode, this.data, this.details));
+        this.peaks = this.activity.getPeaks();
     }
 
     toggleMap(){

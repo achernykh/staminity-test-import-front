@@ -1,12 +1,13 @@
+import './activity-peaks.component.scss';
 import { IComponentOptions, IComponentController} from 'angular';
-import './measure-main-button.component.scss';
 import {IActivityMeasure} from "../../../../api/activity/activity.interface";
 
 class ActivityPeaksCtrl implements IComponentController{
 
-	private measures: Array<IActivityMeasure>;
+	private peaks: Array<any>;
+	private measures: Array<string>;
 	private sport: string;
-	private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain','elevationLoss'];
+	//private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain','elevationLoss'];
 	static $inject = ['$scope'];
 
 	constructor(private $scope: any) {
@@ -16,27 +17,37 @@ class ActivityPeaksCtrl implements IComponentController{
 	$onInit(){
 		// Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
 		// this, а значит и нет доступа к массиву для фильтрации
-		this.$scope.measure = ['heartRate', 'speed', 'cadence', 'elevationGain','elevationLoss'];
-		this.$scope.search = (m) => this.$scope.measure.indexOf(m.$key) !== -1;
+		this.measures = this.peaks.map(m => m.measure);
+		this.$scope.filter = (this.measures.length > 0 && { measure: this.measures[0] }) || '';
+	}
+
+	setFilter(code) {
+		this.$scope.filter = { measure: code };
 	}
 }
 
 const ActivityPeaksComponent: IComponentOptions = {
 	bindings: {
-		measures: '<',
+		peaks: '<',
 		sport: '<'
 	},
 	controller: ActivityPeaksCtrl,
 	template: `
 		<md-list class="md-dense">
-			<md-subheader>Основные показатели</md-subheader>
-			<md-list-item layout="row" layout-wrap>				
-				<md-button class="md-exclude"
-							ng-repeat="measure in $ctrl.measures | toArray | filter:search track by measure.$key">
-					{{measure.$key | translate}}:&nbsp{{measure.avgValue | measureCalc:$ctrl.sport:measure.$key}}&nbsp
-					<span>{{measure.$key | measureUnit:$ctrl.sport | translate}}</span> 
+			<md-list-item>
+				<p>Пики</p>
+				<md-button ng-repeat="measure in $ctrl.measures track by $index" class="md-icon-button md-secondary" ng-click="$ctrl.setFilter(measure)">
+					<md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active" ></md-icon>
+				</md-button>
+				
+			</md-list-item>
+			<md-list-item class="peaks" layout="row" layout-wrap ng-repeat-start="category in $ctrl.peaks | filter:filter">				
+				<md-button class="md-exclude" ng-repeat="peak in category.value track by $index">
+					{{category.measure | translate}}:&nbsp{{peak.value | measureCalc:$ctrl.sport:category.measure}}&nbsp
+					<span>{{category.measure | measureUnit:$ctrl.sport | translate}}</span> 
 				</md-button>			
 			</md-list-item>
+			<md-divider ng-repeat-end></md-divider>
 		</md-list>`
 
 };

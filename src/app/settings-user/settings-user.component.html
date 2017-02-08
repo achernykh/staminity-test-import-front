@@ -41,7 +41,7 @@
                                            ng-click="$ctrl.update({
                                                                        public:          $ctrl.publicForm.$dirty,
                                                                        personal:        $ctrl.personalFirstForm.$dirty || $ctrl.personalSecondForm.$dirty,
-                                                                       private:         $ctrl.privateForm.$dirty,
+                                                                       private:         $ctrl.privateFirstForm.$dirty || $ctrl.privateSecondForm.$dirty,
                                                                        privacy:         $ctrl.privacyForm.$dirty,
                                                                        display:         $ctrl.displayForm.$dirty,
                                                                        notifications:   $ctrl.notificationForm.$dirty})">
