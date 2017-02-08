@@ -53,7 +53,17 @@ class CalendarTotalCtrl {
 
                 }
             }
-            console.log('week total=', this.total);
+            console.log('week total 1', this.total);
+            // Итоги по всем активностям недели
+            this.summary = {completed: {distance: 0,movingDuration: 0},planned: {distance: 0,movingDuration: 0}};
+            Object.keys(this.total).forEach((sport) => {
+                this.summary.completed.distance += this.total[sport].completed.distance;
+                this.summary.completed.movingDuration += this.total[sport].completed.movingDuration;
+                this.summary.planned.distance += this.total[sport].planned.distance;
+                this.summary.planned.movingDuration += this.total[sport].planned.movingDuration;
+
+            });
+            console.log('week total 2', this.total);
         }
     }
 
