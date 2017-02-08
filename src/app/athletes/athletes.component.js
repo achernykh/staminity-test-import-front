@@ -51,42 +51,43 @@ class AthletesCtrl {
         return bill.userProfilePayer && bill.userProfilePayer.userId == this.user.userId;
     }
     
-    isBilledByUs (member, tariffCode) {
-        return !!member.userProfile.billing.find(b => b.tariffCode == tariffCode && this.isOurBill(b));
+    tariffsByUs (member) {
+        return member.userProfile.billing
+            .filter(bill => this.isOurBill(bill))
+            .map(bill => bill.tariffCode);
     }
     
-    isBilledBySelf (member, tariffCode) {
-        return !!member.userProfile.billing.find(b => b.tariffCode == tariffCode && !this.isOurBill(b));
-    }
-
-    tariffs (member) {
-        return ['Premium'].map(tariffCode => ({
-            tariffCode,
-            byUs: this.isBilledByUs(member, tariffCode),
-            bySelf: this.isBilledBySelf(member, tariffCode)
-        }));
+    tariffsBySelf (member) {
+        return member.userProfile.billing
+            .filter(bill => !this.isOurBill(bill))
+            .map(bill => bill.tariffCode);
     }
     
     get tariffsAvailable () {
-        return allEqual(this.checked.map(m => this.tariffs(m)), angular.equals)
+        return allEqual(this.checked.map(m => this.tariffsByUs(m)), angular.equals)
+            && allEqual(this.checked.map(m => this.tariffsBySelf(m)), angular.equals);
     }
     
     editTariffs () {
-        let checked = this.checked
-        let tariffs = this.tariffs(checked[0])
+        let tariffs = ['Premium'];
+        let checked = this.checked;
+        let byUs = this.tariffsByUs(checked[0]);
+        let bySelf = this.tariffsBySelf(checked[0]);
 
-        this.dialogs.tariffs(tariffs, 'byCoach')
-        .then(tariffs => {
-            if (tariffs) {
-                let members = checked.map(member => member.userProfile.userId);
-                let memberships = tariffs
-                    .filter(t => t.byUs != this.isBilledByUs(checked[0], t.tariffCode))
-                    .map(t => ({
-                        groupId: this.management.tariffGroups[t.tariffCode + 'ByCoach'],
-                        direction: t.byUs? 'I' : 'O'
-                    }));
-                return this.GroupService.putGroupMembershipBulk(this.user.connections.Athletes.groupId, memberships, members);
-            }
+        this.dialogs.tariffs(tariffs, byUs, bySelf, 'byCoach')
+        .then(selectedTariffs => {
+            if (!selectedTariffs) return;
+            
+            let members = checked.map(member => member.userProfile.userId);
+            
+            let memberships = tariffs
+                .filter(tariffCode => selectedTariffs.includes(tariffCode) != byUs.includes(tariffCode))
+                .map(tariffCode => ({
+                    groupId: this.management.tariffGroups[tariffCode + 'ByCoach'],
+                    direction: selectedTariffs.includes(tariffCode)? 'I' : 'O'
+                }));
+                
+            return this.GroupService.putGroupMembershipBulk(this.user.connections.Athletes.groupId, memberships, members);
         }, () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
     }

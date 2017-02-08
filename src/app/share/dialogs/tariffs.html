@@ -16,8 +16,8 @@
             </md-list-item>
 
             <md-list-item ng-repeat="tariff in tariffs" layout="row" layout-align="center center">
-                <span flex>{{ tariff.tariffCode }}</span>
-                <md-switch ng-model="tariff.byUs" ng-disabled="tariff.bySelf"></md-switch>
+                <span flex>{{ tariff }}</span>
+                <md-switch ng-checked="selectedTariffs.includes(tariff)" ng-click="toggle(tariff)" ng-disabled="tariffsBySelf.includes(tariff)"></md-switch>
             </md-list-item>
 
             <md-list-item ng-if="tariffsBySelf.length" layout="row" layout-align="center center">
@@ -27,7 +27,7 @@
             </md-list-item>
 
             <md-list-item ng-repeat="tariff in tariffsBySelf" layout="row" layout-align="center center">
-                <span flex>{{ tariff.tariffCode }}</span>
+                <span flex>{{ tariff }}</span>
                 <md-switch ng-checked="true" disabled></md-switch>
             </md-list-item>
 
