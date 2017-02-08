@@ -224,14 +224,19 @@
                 </md-tab>
                 <md-tab id="tab4" label="Детали" layout-fill layout-wrap
                         ng-if="$ctrl.activity.hasDetails">
-                    <md-tab-content layout-fill>
-                        <measures-avg-table class="measures-avg-table"
+                    <md-tab-content layout-fill layout-column>
+                        <measures-avg-table flex="none" class="measures-avg-table"
                                             measures="$ctrl.activity.intervalW.calcMeasures"
                                             sport="$ctrl.activity.sportBasic"></measures-avg-table>
 
-                        <measure-main-button class="measure-main-button"
+                        <measure-main-button flex="none" class="measure-main-button"
                                              measures="$ctrl.activity.intervalW.calcMeasures"
                                              sport="$ctrl.activity.sportBasic"></measure-main-button>
+
+                        <activity-peaks flex="auto" class="activity-peaks"
+                                        peaks="$ctrl.peaks" sport="$ctrl.activity.sportBasic">
+                        </activity-peaks>
+
                     </md-tab-content>
                 </md-tab>
                 <md-tab id="tab2" flex layout="column" label="Зоны">

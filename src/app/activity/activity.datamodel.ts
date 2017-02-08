@@ -104,12 +104,12 @@ export class Activity extends CalendarItem {
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
-	//public _dateStart: Date;
-	//public _dateEnd: Date;
+	private peaks: Array<any>;
 
 	constructor(item: ICalendarItem, details: IActivityDetails = null){
-		super(item);
-		debugger;
+		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
+        // Если activityHeader не установлен, значит вызван режим создаения записи
+        // необходимо создать пустые интервалы и обьявить обьекты
 		if (!item.hasOwnProperty('activityHeader')) {
 			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
 		} else {
@@ -124,7 +124,6 @@ export class Activity extends CalendarItem {
 				this.header.intervals.push(new Interval('W'));
 			}
 		}
-
 		// Ссылки на интервалы для быстрого доступа
 		this.intervalPW = <IActivityIntervalPW>this.header.intervals.filter(i => i.type === "pW")[0];
 		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
@@ -142,15 +141,12 @@ export class Activity extends CalendarItem {
 	// Подготовка данных для модели отображения
 	prepare() {
 		super.prepare();
-		debugger;
 		console.log('activity prepare', this);
 	}
 
 	// Подготовка данных для передачи в API
 	build() {
 		super.package();
-		//this.dateStart = super.dateStart;
-		//this.dateEnd = super.dateEnd;
 		this.header.activityType = getActivityType(Number(this.header.activityType.id));
 		// заглушка для тестирования собственных категорий
 		if (this.header.activityCategory){
@@ -160,11 +156,8 @@ export class Activity extends CalendarItem {
 		if (this.header.activityCategory){
 			this.header.activityCategory.id = null;
 		}
-
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...this.intervalL, this.intervalW);
-
-		debugger;
 
 		return {
 			calendarItemId: this.calendarItemId,
@@ -268,6 +261,29 @@ export class Activity extends CalendarItem {
 			&& this.intervalW.calcMeasures.completePercent.value) || null;
 	}
 
+	/**
+	 * Получение пиков по тренировке
+	 * @returns {any[]}
+     */
+	getPeaks() {
+		let search = ['heartRateTimePeaks', 'speedTimePeaks', 'speedDistancePeaks', 'powerTimePeaks', 'powerDistancePeaks'];
+		let measure = {
+			'heartRateTimePeaks': 'heartRate',
+			'speedTimePeaks': 'speed',
+			'speedDistancePeaks': 'speed',
+			'powerTimePeaks': 'power',
+			'powerDistancePeaks': 'power'
+		};
+		return search.filter(m => this.intervalW.calcMeasures.hasOwnProperty(m) &&
+			this.intervalW.calcMeasures[m].hasOwnProperty('peaks') &&
+			this.intervalW.calcMeasures[m].peaks[0].value !== 0)
+			.map(m => ({
+				measure: measure[m],
+				type: (m.includes('Time') && 'movingDuration') || 'distance',
+				value: this.intervalW.calcMeasures[m].peaks
+			}));
+	}
+
 	printPercent() {
 		return ((this.percent && this.completed) && `${this.percent.toFixed(0)}%`);
 	}
@@ -344,171 +360,4 @@ export class Activity extends CalendarItem {
 
 }
 
-class ActivityDatamodel {
-
-	private intervalW: IActivityIntervalW;
-	private intervalL: Array<IActivityIntervalL>;
-	private calcMeasures: Array<IActivityMeasure> = [];
-	private route: Array<IRoute>;
-	private isRouteExist: boolean;
-
-	constructor(
-		private mode,
-		private header:IActivityHeader,
-		private details:IActivityDetails) {
-
-		// Режим создания новой записи
-		if (mode === 'post') {
-			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
-		}
-		// Режим просмотра (view) / редактирования записи (put)
-		else {
-			this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
-			this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
-
-			Object.keys(this.intervalW.calcMeasures)
-				.map((key, index) => this.calcMeasures.push(Object.assign(this.intervalW.calcMeasures[key],{code: key})));
-
-			this.route = typeof this.details !== 'undefined' ? this.getRouteData(this.details) : null;
-			this.isRouteExist = !!this.route;
-		}
-
-	}
-
-	/**
-	 * Получаем данные для построения маршрута тренировки
-	 * @param details
-	 * @returns {any}
-     */
-	getRouteData(details: IActivityDetails):Array<IRoute> {
-
-		if (!details.measures.hasOwnProperty('longitude') || !details.measures.hasOwnProperty('latitude')) {
-			return null;
-		}
-
-		let lng = details.measures['longitude'].idx; // lng index in array
-		let lat = details.measures['latitude'].idx; // lat index in array
-		return details.metrics
-			.filter(m => m[lng] !== 0 || m[lat] !== 0)
-			.map(m => ({lng: m[lng],lat: m[lat]}));
-	}
-
-	get completed() {
-		return this.header.intervals.some(interval => interval.type === "W");
-	}
-
-	get structured() {
-		return this.header.intervals.some(interval => interval.type === "P");
-	}
-
-	get coming() {
-		return moment().diff(moment(this.header.startTimestamp, 'YYYY-MM-DD'), 'd') < 1;
-	}
-
-	get specified() {
-		return this.header.intervals.some(interval => interval.type === "pW");
-	}
-
-	get bottomPanel() {
-		return (this.completed && 'data');
-	}
-
-	/*get intervalW() {
-		if(!!this._intervalW){
-			this._intervalW = <IActivityIntervalW>this.header.intervals
-				.filter(interval => interval.type === "W")[0];
-		}
-		this.intervalW = this._intervalW;
-		return this._intervalW;
-	}
-	set intervalW(data){
-		this._intervalW = data;
-	}*/
-
-	get percent() {
-		return this.intervalW.hasOwnProperty('completePercent') ?
-			this.intervalW.calcMeasures.completePercent.value : null;
-	}
-
-	get activityType(){
-		return this.header.activityType.typeBasic;
-	}
-
-	/**
-	 * Перечень статусов тренировки
-	 * 1) Запланирована, в будущем
-	 * 2) Запланирована, пропущена
-	 * 3) Запланирована, выполнена
-	 * 4) Запланирована, выполнена с допущением
-	 * 5) Запланирована, выполнена с нарушением
-	 * 6) Не запланирована, выполнена
-	 * @returns {string}
-	 */
-	get status() {
-
-		return (this.coming && 'coming') || (!this.specified && 'not-specified');
-
-		/*if (this.coming)
-			return 'coming';
-		else if (!this.specified)
-			return 'not-specified';
-		else if (!this.completed)
-			return 'dismiss';
-		else if (this.percent > 75)
-			return "complete";
-		else if (this.percent > 50)
-			return "complete-warn";
-		else
-			return "complete-error";*/
-	}
-
-	get sport() {
-		return this.header.activityType.code;
-	}
-
-	get sportUrl() {
-		return `assets/icon/${this.header.activityType.code}.svg`;
-	}
-
-	get movingDuration(){
-		/*try {
-		 return moment().startOf('day').second(this.intervalW[0].calcMeasures.movingDuration.maxValue).format('H:mm:ss')
-		 } catch(e) {
-		 return null
-		 }*/
-		//return this.intervalW[0].calcMeasures.hasOwnProperty('movingDuration') ?
-		//    moment().startOf('day').second(this.intervalW[0].calcMeasures.movingDuration.maxValue).format('H:mm:ss') : null
-		//this.intervalW[0].calcMeasures.movingDuration.maxValue : null
-
-		let movingDuration = this.intervalW.calcMeasures.movingDuration;
-		return ((movingDuration.hasOwnProperty('maxValue')) && moment().startOf('day').second(movingDuration.maxValue).format('H:mm:ss')) || null;
-
-	}
-
-	get distance() {
-		/*try {
-		 return this.intervalW[0].calcMeasures.distance.maxValue.toFixed(0)
-		 } catch(e) {
-		 return null
-		 }*/
-		//return this.intervalW[0].calcMeasures.hasOwnProperty('distance') ?
-		//    this.intervalW[0].calcMeasures.distance.maxValue.toFixed(0) : null
-		let distance = this.intervalW.calcMeasures.distance;
-		return ((distance.hasOwnProperty('maxValue')) && distance.maxValue.toFixed(0)) || null;
-	}
-
-	// Формируем перечень показателей для панели data (bottomPanel)
-	get summaryAvg() {
-		let measures = ['speed','heartRate','power'];
-		let calc = this.intervalW.calcMeasures;
-
-		return measures.map(measure => {
-				if(calc.hasOwnProperty(measure)){
-					return ((calc[measure].hasOwnProperty('avgValue')) &&
-						{ measure : measure, value: <number>calc[measure].avgValue}) || {[measure]: null, value: null};
-				}}).filter(measure => !!measure && !!measure.value);
-	}
-
-}
-
-export default ActivityDatamodel;
+export default Activity;

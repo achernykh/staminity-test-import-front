@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import * as momentTimezone from 'moment-timezone';
 import * as angular from 'angular';
 import {
     _NAVBAR, _DELIVERY_METHOD, _LANGUAGE, _UNITS,
@@ -15,7 +16,8 @@ class SettingsUserModel {
             personal: {},
             display: {
                 units: null,
-                firstDayOfWeek: null
+                firstDayOfWeek: null,
+                timezone: null
             }
         }, user);
 
@@ -68,6 +70,21 @@ class SettingsUserCtrl {
             adaptor['startDate'] = (adaptor.hasOwnProperty('startDate') && new Date(adaptor.startDate)) || new Date();
             return adaptor;
         });
+
+        this.timeZones = momentTimezone.tz.names().map(z => ({
+            title: `(GMT${momentTimezone.tz(z).format('Z')}) ${z}`,
+            name: z
+        }));
+    }
+
+    getTimezoneTitle(){
+        let timezone = this.user.display.timezone;
+        return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
+    }
+
+    changeTimezone(name){
+        this.user.display.timezone = name;
+        this.displayForm.$dirty = true;
     }
 
     changeUnit(units) {
@@ -116,7 +133,8 @@ class SettingsUserCtrl {
         return this.publicForm && this.publicForm.$dirty ||
             this.personalFirstForm && this.personalFirstForm.$dirty ||
             this.personalSecondForm && this.personalSecondForm.$dirty ||
-            this.privateForm && this.privateForm.$dirty ||
+            this.privateFirstForm && this.privateFirstForm.$dirty ||
+            this.privateSecondForm && this.privateSecondForm.$dirty ||
             this.displayForm && this.displayForm.$dirty ||
             this.notificationsForm && this.notificationsForm.$dirty ||
             this.privacyForm && this.privacyForm.$dirty
@@ -126,7 +144,8 @@ class SettingsUserCtrl {
         return this.publicForm && this.publicForm.$valid ||
             this.personalFirstForm && this.personalFirstForm.$valid ||
             this.personalSecondForm && this.personalSecondForm.$valid ||
-            this.privateForm && this.privateForm.$valid ||
+            this.privateFirstForm && this.privateSecondForm.$valid ||
+            this.privateFirstForm && this.privateSecondForm.$valid ||
             this.displayForm && this.displayForm.$valid ||
             this.notificationsForm && this.notificationsForm.$valid ||
             this.privacyForm && this.privacyForm.$valid
@@ -141,7 +160,7 @@ class SettingsUserCtrl {
             if (form[name]) {
                 profile[name] = this.user[name];
                 console.log('settings ctrl => update profile form: ', name);
-                if (name === "personal") {
+                if (name === "personal" || name === "private") {
                     this[name + 'FirstForm'].$setPristine();
                     this[name + 'SecondForm'].$setPristine();
                 } else

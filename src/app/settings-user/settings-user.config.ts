@@ -111,8 +111,8 @@ function configure(
         });
 
     // Текст представлений
-    $translateProvider.translations('en', {"settingsUser": _translate['en']});
-    $translateProvider.translations('ru', {"settingsUser": _translate['ru']});
+    $translateProvider.translations('en', {"settings": _translate['en']});
+    $translateProvider.translations('ru', {"settings": _translate['ru']});
 
 }
 

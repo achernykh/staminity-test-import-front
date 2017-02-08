@@ -12,3 +12,4 @@ dev1/*
 bower_components/*
 node_modules/*
 src/js/config/app.templates.js
+pass.js

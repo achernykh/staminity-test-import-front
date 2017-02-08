@@ -5,6 +5,7 @@ import MeasuresAvgTableComponent from './measures-avg-table/measures-avg-table.c
 import MeasureSplitTableComponent from "./measure-split-table/measure-split-table.component";
 import ActivityRouteComponent from './activity-route/activity-route.component';
 import ActivityAssignmentComponent from './assignment/assignment.component';
+import ActivityPeaksComponent from "./peaks/activity-peaks.component";
 //import configure from './activity.config';
 
 const Activity = module('staminity.activity', [])
@@ -14,6 +15,7 @@ const Activity = module('staminity.activity', [])
 	.component('measureSplitTable', MeasureSplitTableComponent)
 	.component('activityRoute',ActivityRouteComponent)
 	.component('activityAssignment', ActivityAssignmentComponent)
+	.component('activityPeaks', ActivityPeaksComponent)
 	.run(['$timeout','leafletData',($timeout, leafletData)=> {
 		$timeout(()=> {
 			leafletData.getMap().then((map) => {
