@@ -1,6 +1,7 @@
 import { orderBy } from '../share/util';
 import { IGroupMembershipRequest } from '../../../api/group/group.interface';
 import { GetMembershipRequest, ProcessMembershipRequest } from '../../../api/group/group.request';
+import { ISessionService } from './session.service';
 import { ISocketService } from './socket.service';
 import { Observable, Subject } from 'rxjs/Rx';
 import moment from 'moment/src/moment.js';
@@ -11,44 +12,38 @@ const requestDate = request => request.updated || request.created;
 const isSameRequest = (r0) => (r1) => r0.userGroupRequestId === r1.userGroupRequestId;
 
 
-const processRequests = (requests, newRequests) => newRequests
-    .reduce((requests, request) => {
-        let prev = requests.find(isSameRequest(request));
-        if (prev) {
-            requests[requests.indexOf(prev)] = request;
-        } else {
-            requests.push(request);
-        }
-        return requests;
-    }, requests)
-    .sort((a, b) => moment(requestDate(a)) >= moment(requestDate(b))? 1 : -1)
-    .reverse();
+const processRequest = (requests, request) => {
+    let prev = requests.find(isSameRequest(request));
+    
+    if (prev) {
+        requests[requests.indexOf(prev)] = request;
+    } else {
+        requests.push(request);
+    }
+    
+    return requests
+        .sort((a, b) => moment(requestDate(a)) >= moment(requestDate(b))? 1 : -1)
+        .reverse();
+};
 
 
 export default class RequestsService {
     asyncRequest: Observable<any>;
-    processRequests: Subject<any>;
     requestsList: Observable<any>;
 
-    static $inject = ['SocketService'];
+    static $inject = ['SocketService', 'SessionService'];
 
     constructor(
-        private SocketService:ISocketService
+        private SocketService:ISocketService,
+        private SessionService:ISessionService
     ) { 
         this.asyncRequest = this.SocketService.messages
-        .filter((m) => m.type === 'groupMembershipRequest')
-        .map((m) => m.value);
+        .filter(message => message.type === 'groupMembershipRequest')
+        .map(message => message.value);
 
-        this.processRequests = new Subject();
-
-        this.requestsList = Observable.merge(
-            this.asyncRequest.map(r => [r]),
-            this.processRequests
-        ).scan(processRequests, []);
-
-        this.SocketService.connections
-        .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 1000)))
-        .subscribe(this.processRequests);
+        this.requestsList = this.SessionService.profile
+        .flatMap(profile => Observable.fromPromise(this.getMembershipRequest(0, 1000)))
+        .switchMap(requests => this.asyncRequest.scan(processRequest, requests).startWith(requests));
     }
 
     /**
