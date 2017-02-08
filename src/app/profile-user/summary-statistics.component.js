@@ -1,5 +1,5 @@
 import moment from 'moment/src/moment.js';
-import { id, pipe, groupBy, log, map, entries, fold, filter } from '../share/util.js';
+import { times, id, pipe, groupBy, log, map, entries, fold, filter } from '../share/util.js';
 
 const date = (x) => x[0]
 const type = (x) => x[1]
@@ -59,16 +59,33 @@ class SummaryStatisticsCtrl {
             name: 'Обзор года',
             groupBy: 'month',
             periodName: (x) => moment().add(-x, 'years').format('YYYY'),
-            dateLabel: (s) => moment(s).format('MMM'),
             start: (x) => moment().startOf('year').add(-x, 'years').format('YYYY-MM-DD'),
-            end: (x) => moment().startOf('year').add(-x + 1, 'years').format('YYYY-MM-DD')
+            end: (x) => moment().startOf('year').add(-x + 1, 'years').format('YYYY-MM-DD'),
+            data: (series) => Array.from({ length: 12 })
+                .map((_, month) => {
+                    let monthSeries = series.filter(item => moment(date(item)).month() === month)
+                    
+                    return {
+                        label: !(month % 2)? moment(new Date(0, month)).format('MMM') : '',
+                        value: sum(monthSeries, this.valueType.f)
+                    };
+                })
         }, {
             name: 'Обзор месяца',
             groupBy: 'day',
             periodName: (x) => moment().add(-x, 'months').format('YYYY-MM'),
             dateLabel: (s) => moment(s).format('DD'),
             start: (x) => moment().startOf('month').add(-x, 'months').format('YYYY-MM-DD'),
-            end: (x) => moment().startOf('month').add(-x + 1, 'months').format('YYYY-MM-DD')
+            end: (x) => moment().startOf('month').add(-x + 1, 'months').format('YYYY-MM-DD'),
+            data: (series) => Array.from({ length: moment().add(-this.period, 'months').daysInMonth() })
+                .map((_, day) => {
+                    let daySeries = series.filter(item => moment(date(item)).date() === day + 1)
+                    
+                    return {
+                        label: !(day % 2)? moment(new Date(0, 0, day + 1)).format('DD') : '',
+                        value: sum(daySeries, this.valueType.f)
+                    };
+                })
         }];
         this.range = this.ranges[0];
 
@@ -105,13 +122,7 @@ class SummaryStatisticsCtrl {
             .then((summaryStatistics) => this.summaryStatistics = summaryStatistics)
             .then(() => {
                 pipe(
-                    filter(type),
-                    groupBy(date),
-                    entries,
-                    map(([date, series], i) => ({
-                        label: !(i % 2)? this.range.dateLabel(date) : '',
-                        value: sum(series, this.valueType.f)
-                    })),
+                    this.range.data,
                     (data) => { this.chart.setData(data); }
                 ) (this.summaryStatistics.series)
 

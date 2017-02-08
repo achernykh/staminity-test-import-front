@@ -108,12 +108,16 @@ function UploadPictureDialogController($scope, $mdDialog) {
 }
 UploadPictureDialogController.$inject = ['$scope','$mdDialog'];
 
-function UsersListController($scope, $mdDialog, users, title) {
+function UsersListController($scope, $mdDialog, $state, users, title) {
     $scope.users = users;
     $scope.title = title;
     $scope.close = () => { $mdDialog.cancel() };
+    $scope.go = (user) => {
+        $mdDialog.cancel();
+        $state.go("user", { uri: user.public.uri });
+    };
 }
-UsersListController.$inject = ['$scope', '$mdDialog', 'users', 'title'];
+UsersListController.$inject = ['$scope', '$mdDialog', '$state', 'users', 'title'];
 
 function RolesController ($scope, $mdDialog, roles) {
     $scope.roles = roles;
