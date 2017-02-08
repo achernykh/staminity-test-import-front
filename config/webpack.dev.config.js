@@ -5,7 +5,7 @@ var ENV = process.env.npm_lifecycle_event;
 
 module.exports = {
     output: {
-        publicPath: 'http://staminity-frontend-asdfghjkley.c9users.io/',
+        publicPath: 'http://localhost:8080/',
         filename: 'assets/js/[name].js',
         chunkFilename: 'assets/js/[name].js'
     },
@@ -31,8 +31,6 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'assets/js/[name].js' })
     ],
     devServer: {
-        host: '0.0.0.0',
-        port: 8080,
         contentBase: './src',
         stats: 'minimal',
         /*stats: {

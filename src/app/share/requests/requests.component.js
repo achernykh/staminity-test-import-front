@@ -17,8 +17,6 @@ class RequestsCtrl {
         this.dialogs = dialogs;
         this.SystemMessageService = SystemMessageService;
         this.RequestsService = RequestsService;
-        
-        this.user = this.UserService.profile
 
         this.RequestsService.requestsList
         .subscribe((requests) => { this.setRequests(requests) });
@@ -36,10 +34,11 @@ class RequestsCtrl {
     }
     
     setRequests (requests) {
-        this.requests.inbox.new = requests.filter((request) => request.receiver.userId == this.user.userId && !request.updated)
-        this.requests.inbox.old = requests.filter((request) => request.receiver.userId == this.user.userId && request.updated)
-        this.requests.outbox.new = requests.filter((request) => request.initiator.userId == this.user.userId && !request.updated)
-        this.requests.outbox.old = requests.filter((request) => request.initiator.userId == this.user.userId && request.updated)
+        let userId = this.UserService.profile.userId;
+        this.requests.inbox.new = requests.filter((request) => request.receiver.userId == userId && !request.updated)
+        this.requests.inbox.old = requests.filter((request) => request.receiver.userId == userId && request.updated)
+        this.requests.outbox.new = requests.filter((request) => request.initiator.userId == userId && !request.updated)
+        this.requests.outbox.old = requests.filter((request) => request.initiator.userId == userId && request.updated)
         this.$scope.$apply()
     }
     
