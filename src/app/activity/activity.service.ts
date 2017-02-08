@@ -1,9 +1,8 @@
+import {IPromise} from 'angular';
 import {IActivityDetails} from '../../../api/activity/activity.interface';
 import {GetDetailsRequest} from '../../../api/activity/activity.request';
 import {ISocketService} from '../core/socket.service';
-//import {ISessionService} from '../core/session.service';
-//import {PostData, PostFile, IRESTService} from '../core/rest.service';
-//import { IHttpPromise } from 'angular';
+import {RESTService, PostData} from "../core/rest.service";
 
 export default class ActivityService {
 
@@ -11,11 +10,12 @@ export default class ActivityService {
     //private _permissions:Array<Object>;
     //private _displaySettings:Object;
 
-    static $inject = ['SocketService'];
+    static $inject = ['SocketService','RESTService'];
 
     constructor(//private StorageService:any,
                 //private SessionService:ISessionService,
-                private SocketService:ISocketService) {
+                private SocketService:ISocketService,
+                private RESTService: RESTService) {
         //this.StorageService = StorageService;
         //this.SessionService = SessionService;
         //this.SocketService = SocketService;
@@ -29,6 +29,15 @@ export default class ActivityService {
      */
     getDetails(id:number):Promise<IActivityDetails> {
         return this.SocketService.send(new GetDetailsRequest(id));
+    }
+
+    /**
+     *
+     * @param id
+     * @returns {IHttpPromise<{}>}
+     */
+    getDetails2(id:number): IPromise<any>{
+        return this.RESTService.postData(new PostData(`/activity/${id}/full`, null));
     }
 
 }

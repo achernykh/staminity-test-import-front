@@ -5,8 +5,10 @@ import { IHttpService, IHttpPromise } from 'angular';
 interface IPostDataRequest {
 	method:string;
 	url:string;
+	headers:{
+		'Authorization':string
+	};
 	data:{
-		//requestType:string;
 		requestData:any;
 		token?:string;
 	};
@@ -28,6 +30,9 @@ export class PostData implements IPostDataRequest {
 
 	method:string;
 	url:string;
+	headers:{
+		'Authorization':string
+	};
 	data:{
 		//requestType:string;
 		requestData:any;
@@ -37,6 +42,9 @@ export class PostData implements IPostDataRequest {
 	constructor(type:string, data:any) {
 		this.method = 'POST';
 		this.url = 'http://' + _connection.server + type;
+		this.headers = {
+			'Authorization': 'Bearer '
+		};
 		this.data = {
 			//requestType: type,
 			requestData: data,
@@ -87,6 +95,7 @@ export class RESTService implements IRESTService {
 	}
 
 	postData(request:IPostDataRequest):IHttpPromise<{}> {
+		request.headers['Authorization'] += this.SessionService.getToken();
 		request.data.token = this.SessionService.getToken();
 		console.log('REST Service => postData=', request);
 		return this.$http(request)

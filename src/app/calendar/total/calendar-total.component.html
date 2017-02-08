@@ -1,35 +1,28 @@
 <!-- weektotal header: start -->
 
-<div flex-gt-sm="none" flex="none" style="height: 30px" layout="row" layout-align="space-between center"
-     ng-class="{today: $ctrl.today}">
-    <div flex="none">
-        <div hide-gt-sm flex="none" class="md-body-1" style="min-width: 24px">
-            {{::$ctrl.data.month | uppercase}}
-        </div>
-        <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px">
-            {{::$ctrl.data.title}}
-            <span hide-gt-sm style="margin-left: 0.6em;">{{::$ctrl.data.day}}</span>
-            <span hide-xs hide-sm ng-if="$ctrl.data.title == '01'" style="margin-left: 0.4em;">{{::$ctrl.data.month}}</span>
-        </div>
+<div flex-gt-sm="none" flex="none" style="height: 30px" layout="row" layout-align="space-between center">
+    <div flex="none" class="md-body-1" style="min-width: 24px">
+        Неделя {{::$ctrl.weekTitle}}
     </div>
 
+    <!--
     <div hide show-gt-sm flex="none" ng-show="$ctrl.selected || $ctrl.accent">
         <md-checkbox ng-model="$ctrl.checked"
                      ng-change="$ctrl.onToggle({sid: $ctrl.week.sid, value: $ctrl.checked})"
                      aria-label="Checkbox 1" class="md-primary"
                      style="margin-bottom: 0px; margin-left: 12px">
         </md-checkbox>
-    </div>
+    </div>-->
 
-    <div  hide show-gt-sm flex="none"  ng-show="$ctrl.selected || $ctrl.accent">
-
+    <div flex="none"  ng-show="$ctrl.selected || $ctrl.accent">
         <md-menu md-position-mode="target-right target">
-            <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
+            <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More"
+                       style="margin: 0px; padding: 0px; width: 24px">
                 <md-icon class="material-icons md-18">more_vert</md-icon>
             </md-button>
             <md-menu-content>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.onSelect(); $ctrl.checked = !$ctrl.checked">
+                    <md-button ng-click="$ctrl.onToggle(); $ctrl.checked = !$ctrl.checked">
                         {{!$ctrl.selected ? 'Выделить' : 'Снять выделение'}}
                     </md-button>
                 </md-menu-item>

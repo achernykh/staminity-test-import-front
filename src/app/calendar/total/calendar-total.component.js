@@ -1,4 +1,5 @@
 import moment from 'moment/src/moment';
+import './calendar-total.component.scss';
 
 class CalendarTotalCtrl {
     constructor(){
@@ -18,7 +19,7 @@ class CalendarTotalCtrl {
         this.primarySport = ['run', 'bike', 'swim'];
     }
     $onInit(){
-
+        this.weekTitle = moment(this.week.week,'YYYY-WW').week();
     }
     $onChanges(changes){
 
