@@ -1,4 +1,4 @@
-import { PutUserExternalAccount, DeleteUserExternalAccount } from '../../../api/sync/sync.request';
+import { PostUserExternalAccount, PutUserExternalAccount, DeleteUserExternalAccount } from '../../../api/sync/sync.request';
 import {ISocketService} from '../core/socket.service';
 
 export default class SyncAdaptorService {
@@ -30,6 +30,19 @@ export default class SyncAdaptorService {
      */
     put(provider:string, username: string, password: string, startDate: Date, enabled: boolean):Promise<any> {
         return this.SocketService.send(new PutUserExternalAccount(provider,username,password,startDate,enabled));
+    }
+
+    /**
+     * Создание настроек синхронизации
+     * @param provider
+     * @param username
+     * @param password
+     * @param startDate
+     * @param enabled
+     * @returns {Promise<any>}
+     */
+    post(provider:string, username: string, password: string, startDate: Date):Promise<any> {
+        return this.SocketService.send(new PostUserExternalAccount(provider,username,password,startDate));
     }
 
 
