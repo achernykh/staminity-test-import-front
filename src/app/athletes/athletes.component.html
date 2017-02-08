@@ -41,7 +41,12 @@
                             </md-button>
                         </td>
                         <td md-cell>
-                            {{ member.clubs? member.clubs.join(', ') : '-' }}
+                            <span ng-if="member.clubs">
+                                <span ng-repeat="club in member.clubs">
+                                    {{club.public.name}}
+                                </span>
+                            </span>
+                            <span ng-if="!member.clubs"> - <span>
                         </td>
                         <td md-cell>
                             <span ng-repeat="tariff in member.userProfile.billing" style="white-space: nowrap;">
