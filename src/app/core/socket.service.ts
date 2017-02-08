@@ -19,6 +19,7 @@ export interface IWSRequest {
 export interface ISocketService {
     open(token:string): Promise<number>;
     response(event:any);
+    reopen(event:any);
     close();
     send(request:IWSRequest): Promise<any>;
     messages: Observable<any>;
@@ -61,6 +62,9 @@ export class SocketService implements ISocketService {
                 console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
                 this.socket.addEventListener('message', this.response.bind(this));
+                this.socket.addEventListener('close', this.reopen.bind(this));
+                this.socket.addEventListener('error', this.reopen.bind(this));
+
                 this.connections.next(this.socket);
                 Observable.fromEvent(this.socket, 'message')
                     .map((message: any) => JSON.parse(message.data))
@@ -103,11 +107,24 @@ export class SocketService implements ISocketService {
     }
 
     /**
+     * Переоткрываем сессию после события закрытия
+     * @param event
+     */
+    reopen(event:any){
+        console.log('SocketService: reopen ', event);
+
+        if(event.type === 'error'){
+            setTimeout(()=> this.open(), 5000);
+        } else if (event.type === 'close' && event.reason !== 'signout') {
+            this.open();
+        }
+    }
+
+    /**
      * Закрываем websocket сессию
      */
-    close () {
-        this.socket.close();
-        //this.ws.close(true);
+    close (reason = 'signout') {
+        this.socket.close(3000,reason);
     }
 
     /**

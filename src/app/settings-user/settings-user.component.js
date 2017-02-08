@@ -237,8 +237,8 @@ class SettingsUserCtrl {
                 fullscreen: false // Only for -xs, -sm breakpoints.
             })
                 .then((form) => {
-                    this.SyncAdaptorService.put(adaptor.provider, form.username, form.password,
-                        form.startDate, adaptor.status.switch ? "Enabled" : "Disabled")
+                    this.SyncAdaptorService.post(adaptor.provider, form.username, form.password,
+                        form.startDate)
                         .then(response=>console.info(response), error=> adaptor.status.switch = false)
                 }, () => {
                     // Если диалог открывается по вызову ng-change
