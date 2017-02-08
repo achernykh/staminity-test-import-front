@@ -33,7 +33,7 @@ import './components.scss';
 import GroupService from "../core/group.service";
 import UserService from "../core/user.service";
 
-const fromNow = () => (date) => moment(date).fromNow(true);
+const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
 const avatar = () => (user) => `url(${user && user.public && user.public.avatar? image() ('/user/avatar/' + user.public.avatar) : '/assets/avatar/default.png'})`;
 const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
