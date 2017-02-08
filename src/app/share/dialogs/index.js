@@ -35,10 +35,10 @@ export default class DialogsService {
         });
     }
     
-    tariffs (tariffs, byWho) {
+    tariffs (tariffs, byUs, bySelf, byWho) {
         return this.$mdDialog.show({
             controller: TariffsController,
-            locals: { tariffs, byWho },
+            locals: { tariffs, byUs, bySelf, byWho },
             template: require('./tariffs.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
@@ -126,14 +126,25 @@ function RolesController ($scope, $mdDialog, roles) {
 }
 RolesController.$inject = ['$scope', '$mdDialog', 'roles'];
 
-function TariffsController ($scope, $mdDialog, tariffs, byWho) {
+function TariffsController ($scope, $mdDialog, tariffs, byUs, bySelf, byWho) {
     $scope.tariffs = tariffs;
-    $scope.tariffsBySelf = tariffs.filter(t => t.bySelf);
+    $scope.selectedTariffs = byUs.slice();
+    $scope.tariffsBySelf = bySelf;
     $scope.byWho = byWho;
-    $scope.commit = () => { $mdDialog.hide($scope.tariffs) };
+    $scope.toggle = (tariff) => {
+        if ($scope.tariffsBySelf.includes(tariff)) return;
+        
+        if ($scope.selectedTariffs.includes(tariff)) {
+            let index = $scope.selectedTariffs.indexOf(tariff);
+            $scope.selectedTariffs.splice(index, 1);
+        } else {
+            $scope.selectedTariffs.push(tariff);
+        }
+    };
+    $scope.commit = () => { $mdDialog.hide($scope.selectedTariffs) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
-TariffsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byWho'];
+TariffsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byUs', 'bySelf', 'byWho'];
 
 function SelectUsersController ($scope, $mdDialog, users, message) {
     $scope.message = message
