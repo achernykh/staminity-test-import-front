@@ -2,15 +2,23 @@ import './club.component.scss';
 
 class ClubCtrl {
 
-    constructor ($scope, dialogs, GroupService, UserService, SystemMessageService) {
+    constructor ($scope, dialogs, GroupService, UserService, RequestsService, SystemMessageService) {
         this.$scope = Object.assign($scope, { Boolean });
         this.dialogs = dialogs;
         this.GroupService = GroupService;
         this.UserService = UserService;
+        this.RequestsService = RequestsService;
         this.SystemMessageService = SystemMessageService;
 
         let user = UserService.profile;
         this.isManager = this.club.innerGroups.ClubManagement.groupMembers.find(m => m.userId === user.userId);
+
+        this.subscription = this.RequestsService.requestWithClub(this.club.groupId)
+        .subscribe(() => { this.update() });
+    }
+
+    $onDestroy () {
+        this.subscription && this.subscription.unsubscribe();
     }
     
     update () {
@@ -54,7 +62,7 @@ class ClubCtrl {
     }
 
 };
-ClubCtrl.$inject = ['$scope','dialogs','GroupService','UserService','SystemMessageService'];
+ClubCtrl.$inject = ['$scope','dialogs','GroupService','UserService','RequestsService','SystemMessageService'];
 
 const ClubComponent = {
 

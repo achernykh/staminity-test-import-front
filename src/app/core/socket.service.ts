@@ -64,8 +64,10 @@ export class SocketService implements ISocketService {
                 this.socket.addEventListener('message', this.response.bind(this));
                 this.socket.addEventListener('close', this.reopen.bind(this));
                 this.socket.addEventListener('error', this.reopen.bind(this));
-
-                this.connections.next(this.socket);
+                
+                Observable.fromEvent(this.socket, 'open')
+                    .subscribe(this.connections);
+                
                 Observable.fromEvent(this.socket, 'message')
                     .map((message: any) => JSON.parse(message.data))
                     .subscribe(this.messages);

@@ -1,4 +1,6 @@
 import './requests.component.scss';
+import moment from 'moment/src/moment.js';
+
 
 const stateIcons = {
     'A': 'check',
@@ -31,6 +33,8 @@ class RequestsCtrl {
                 old: []
             }
         };
+        
+        this.startRefreshing();
     }
     
     setRequests (requests) {
@@ -39,7 +43,25 @@ class RequestsCtrl {
         this.requests.inbox.old = requests.filter((request) => request.receiver.userId == userId && request.updated)
         this.requests.outbox.new = requests.filter((request) => request.initiator.userId == userId && !request.updated)
         this.requests.outbox.old = requests.filter((request) => request.initiator.userId == userId && request.updated)
+        console.log('requests list', this.requests)
         this.$scope.$apply()
+    }
+    
+    fromNow (date) {
+        return moment.utc(date).fromNow(true);
+    }
+    
+    startRefreshing () {
+        if (this.refreshing) return;
+        
+        this.refreshing = setInterval(() => { this.$scope.$digest() }, 2000);
+    }
+    
+    stopRefreshing () {
+        if (!this.refreshing) return;
+        
+        clearInterval(this.refreshing);
+        this.refreshing = null;
     }
     
     processRequest (request, action) {
@@ -51,8 +73,8 @@ class RequestsCtrl {
     close () {
         this._$mdSidenav('requests').toggle();
     }
-
 };
+
 RequestsCtrl.$inject = ['$scope','$mdDialog','$mdSidenav','UserService','GroupService','RequestsService','dialogs','SystemMessageService'];
 
 const RequestsComponent = {
