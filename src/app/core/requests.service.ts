@@ -28,7 +28,7 @@ const processRequest = (requests, request) => {
 
 
 export default class RequestsService {
-    asyncRequest: Observable<any>;
+    notifications: Observable<any>;
     requestsList: Observable<any>;
 
     static $inject = ['SocketService', 'SessionService'];
@@ -37,13 +37,13 @@ export default class RequestsService {
         private SocketService:ISocketService,
         private SessionService:ISessionService
     ) { 
-        this.asyncRequest = this.SocketService.messages
+        this.notifications = this.SocketService.messages
         .filter(message => message.type === 'groupMembershipRequest')
         .map(message => message.value);
 
-        this.requestsList = this.SessionService.profile
+        this.requestsList = this.SocketService.connections
         .flatMap(profile => Observable.fromPromise(this.getMembershipRequest(0, 1000)))
-        .switchMap(requests => this.asyncRequest.scan(processRequest, requests).startWith(requests));
+        .switchMap(requests => this.notifications.scan(processRequest, requests).startWith(requests));
     }
 
     /**
@@ -71,7 +71,16 @@ export default class RequestsService {
      * @returns Observable<any>
      */
     requestWithUser (userId:number) : Observable<any> {
-        return this.asyncRequest.filter(r => r.initiator.userId === userId || r.receiver.userId === userId);
+        return this.notifications.filter(r => r.initiator.userId === userId || r.receiver.userId === userId);
+    }
+
+    /**
+     * Реквесты, имеющие отношение к клубу
+     * @param clubId
+     * @returns Observable<any>
+     */
+    requestWithClub (clubId:number) : Observable<any> {
+        return this.notifications.filter(r => r.groupProfile.groupId === clubId);
     }
 }
 
