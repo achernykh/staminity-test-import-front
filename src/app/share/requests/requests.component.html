@@ -46,7 +46,7 @@
                     <div ng-if="!$ctrl.requests.inbox.old.length">
                         Нет запросов
                     </div>
-                    <div ng-repeat="request in $ctrl.requests.inbox.old" class="md-no-proxy">                        
+                    <div ng-repeat="request in $ctrl.requests.inbox.old | limitTo:$ctrl.limit.inbox" class="md-no-proxy">                        
                         <div layout="row" ui-sref="/user/{{request.initiator.public.uri}}" style="width:100%">
                             <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
                             <div flex>
@@ -55,6 +55,11 @@
                             </div>
                             <md-icon class="material-icons">{{stateIcons[request.state || 'C']}}</md-icon>
                         </div>
+                    </div>
+                    <div ng-if="$ctrl.requests.inbox.old.length > $ctrl.limit.inbox" layout="row" layout-align="center">
+                        <md-button ng-click="$ctrl.limit.inbox = $ctrl.limit.inbox + 20"> 
+                            MORE 
+                        </md-button>
                     </div>
                 </div>
             </md-tab-body>
@@ -94,7 +99,7 @@
                     <div ng-if="!$ctrl.requests.outbox.old.length">
                         Нет запросов
                     </div>
-                    <div ng-repeat="request in $ctrl.requests.outbox.old" class="md-no-proxy">
+                    <div ng-repeat="request in $ctrl.requests.outbox.old | limitTo:$ctrl.limit.outbox" class="md-no-proxy">
                         <div layout="row" style="width:100%">
                             <div ng-if="request.groupProfile.public" style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; vertical-align: middle; margin-right: 10px; background: url({{'/group/avatar/' + request.groupProfile.public.avatar | image}}); background-size: cover; position:relative;"></div>
                             <userpic ng-if="!request.groupProfile.public" profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
@@ -104,6 +109,11 @@
                             </div>
                             <md-icon class="material-icons">{{stateIcons[request.state || 'C']}}</md-icon>
                         </div>
+                    </div>
+                    <div ng-if="$ctrl.requests.outbox.old.length > $ctrl.limit.outbox" layout="row" layout-align="center">
+                        <md-button ng-click="$ctrl.limit.outbox = $ctrl.limit.outbox + 20"> 
+                            MORE 
+                        </md-button>
                     </div>
                 </div>
             </md-tab-body>  

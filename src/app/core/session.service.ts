@@ -63,9 +63,9 @@ export default class SessionService implements ISessionService {
 	setUser(value:IUserProfile):void{
 		try {
 			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
-			this._profile.next(value);
 			Object.assign(data, {'userProfile': value});
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
+			this._profile.next(value);
 		} catch (e) {
 			throw new Error(e);
 		}
