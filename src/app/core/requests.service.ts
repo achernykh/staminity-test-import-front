@@ -1,4 +1,4 @@
-import { orderBy } from '../share/util';
+import { orderBy } from '../share/util.js';
 import { IGroupMembershipRequest } from '../../../api/group/group.interface';
 import { GetMembershipRequest, ProcessMembershipRequest } from '../../../api/group/group.request';
 import { ISessionService } from './session.service';
