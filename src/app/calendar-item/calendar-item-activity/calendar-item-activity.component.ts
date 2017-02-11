@@ -4,7 +4,10 @@ import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
 import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
-import {IActivityHeader, IActivityDetails} from "../../../../api/activity/activity.interface";
+import {
+    IActivityHeader, IActivityDetails, IActivityIntervalPW,
+    IActivityMeasure, ICalcMeasures
+} from "../../../../api/activity/activity.interface";
 import ActivityDatamodel from '../../activity/activity.datamodel';
 import './calendar-item-activity.component.scss';
 import {CalendarItem} from "../calendar-item.datamodel";
@@ -65,15 +68,16 @@ class CalendarItemActivityCtrl implements IComponentController{
         //TODO intervalW.ActualDataIsImported
 
         //Получаем детали по тренировке
-        this.ActivityService.getDetails2(this.data.activityHeader.activityId)
-            .then(response => {
-                this.details = response;
-                this.activity = new Activity(this.data, this.details);
-                this.activity.prepare();
-                this.isLoadingDetails = false;
-                console.log('activity data after details =',this);
-            }, error => console.error(error));
-
+        if (this.mode !== 'post') {
+            this.ActivityService.getDetails2(this.data.activityHeader.activityId)
+                .then(response => {
+                    this.details = response;
+                    this.activity = new Activity(this.data, this.details);
+                    this.activity.prepare();
+                    this.isLoadingDetails = false;
+                    console.log('activity data after details =',this);
+                }, error => console.error(error));
+        }
         console.log('activity data=',this);
         this.peaks = this.activity.getPeaks();
     }
@@ -128,9 +132,8 @@ class CalendarItemActivityCtrl implements IComponentController{
 
 const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
-        date: '=',
-        data: '=',
-        //details: '=',
+        date: '<',
+        data: '<',
         mode: '@',
         onCancel: '&',
         onAnswer: '&'

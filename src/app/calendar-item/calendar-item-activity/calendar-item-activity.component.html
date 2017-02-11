@@ -204,11 +204,11 @@
                             <md-divider></md-divider>
                             <md-list class="md-dense">
                                     <activity-assignment class="activity-assignment"
-                                                         assignment="{ intervalPW: $ctrl.activity.intervalPW.calcMeasures,
-                                                                    intervalW: $ctrl.activity.intervalW.calcMeasures }"
+                                                         plan="$ctrl.activity.intervalPW"
+                                                         actual="$ctrl.activity.intervalW.calcMeasures"
                                                          sport="$ctrl.activity.sportBasic"
                                                          on-change="$ctrl.updateAssignment(upd)">
-                                    </activity-assignment>
+                                    </activity-assignment>-
                                 <md-list-item>
                                     <md-input-container flex class="md-block no-message">
                                         <md-icon class="material-icons">event_note</md-icon>

@@ -8,7 +8,7 @@ import {
 	ICalcMeasures, IActivityIntervalPW, IActivityInterval
 } from "../../../api/activity/activity.interface";
 import moment from 'moment/src/moment.js';
-import {copy} from 'angular';
+import {copy, merge} from 'angular';
 import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {getActivityType, getCategory} from "./activity.constants";
@@ -19,9 +19,28 @@ export interface IRoute {
 }
 
 class Interval implements IActivityInterval{
-	public trainersPrescription: string;
-	public durationMeasure: string;
-	public durationValue: number;
+	trainersPrescription: string;
+	durationMeasure: string; //movingDuration/distance, каким показателем задается длительность планового сегмента
+	durationValue: number; // длительность интервала в ед.изм. показателя длительности
+	keyInterval: boolean; // признак того, что плановый сегмент является ключевым
+	intensityMeasure: string; //heartRate/speed/power, показатель, по которому задается интенсивность на данном интервале
+	intensityLevelFrom: number; // начальное абсолютное значение интенсивности
+	intensityByFtpFrom: number; // начальное относительное значение интенсивности
+	intensityLevelTo: number; // конечное абсолютное значение интенсивности
+	intensityByFtpTo: number; // конечное относительное значение интенсивности
+	intensityDistribution: string; // [A] = любое значение по показателю интенсивности в заданном интервале. [I] = рост значенией показателя. [D] = снижение
+	intensityFtpMax: number; // максимальная средняя интенсивность среди фактических данных , относящихся к разметке плановых сегментов. Пригодно к использованию только в рамках интервала с type = [P].
+	movingDurationLength: number; // времени
+	distanceLength: number; // по дистанции
+	actualDurationValue: number; // Указанная вручную пользователем длительность сегмента
+
+	// Дополнительные поля для модели данных отображения сегмента pW
+	movingDuration: number;
+	distance: number;
+	heartRate: number | string;
+	power: number | string;
+	speed: number | string;
+
 	public calcMeasures: ICalcMeasures;
 
 	constructor(public type: string){
@@ -141,6 +160,14 @@ export class Activity extends CalendarItem {
 	// Подготовка данных для модели отображения
 	prepare() {
 		super.prepare();
+		// Дополниельные данные для отображения плана на панелях
+		Object.assign(this.intervalPW, {
+			movingDuration: {sourceMeasure: 'movingDuration', value: (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null},
+			distance: {sourceMeasure: 'distance', value: (this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null},
+			heartRate: {sourceMeasure: 'heartRate', value: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelFrom) || null},
+			speed: {sourceMeasure: 'speed', value: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelFrom) || null},
+			power: {sourceMeasure: 'power', value: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelFrom) || null}
+		});
 		console.log('activity prepare', this);
 	}
 
@@ -309,7 +336,7 @@ export class Activity extends CalendarItem {
 	}
 
 	get movingDuration() {
-		return ((this.coming || this.dismiss) && this.intervalPW.calcMeasures.movingDuration.maxValue) ||
+		return ((this.coming || this.dismiss) && this.intervalPW.movingDuration) ||
 			this.intervalW.calcMeasures.movingDuration.maxValue;
 	}
 

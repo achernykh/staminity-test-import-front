@@ -1,6 +1,6 @@
-import {IComponentOptions, IComponentController, IQService, IFilterService, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IQService, IFilterService, IPromise, copy} from 'angular';
 import './assignment.component.scss';
-import {IActivityMeasure, ICalcMeasures} from "../../../../api/activity/activity.interface";
+import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../api/activity/activity.interface";
 import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../share/measure.constants";
 import moment from 'moment/src/moment.js';
 
@@ -10,6 +10,8 @@ class ActivityAssignmentCtrl implements IComponentController {
         intervalPW: ICalcMeasures;
         intervalW: ICalcMeasures;
     };
+    public plan: IActivityIntervalPW;
+    public actual: ICalcMeasures;
     public sport: string;
     public onChange: (result: {upd: {intervalPW: ICalcMeasures, intervalW: ICalcMeasures}}) => IPromise<void>;
 
@@ -29,7 +31,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         multiSelect: false,
         autoSelect: false,
         decapitate: false,
-        largeEditDialog: true,
+        largeEditDialog: false,
         boundaryLinks: false,
         limitSelect: false,
         pageSelect: false
@@ -53,7 +55,7 @@ class ActivityAssignmentCtrl implements IComponentController {
             heartRate: 'avgValue',
             speed: 'avgValue'
         };
-        this.$scope.search = (measure) => $scope.measure.indexOf(measure.code) !== -1;
+        this.$scope.search = (measure) => this.$scope.measure.indexOf(measure.$key) !== -1;
     }
 
     $onInit() {
@@ -67,7 +69,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         console.log('change item = ', event, assignment);
 
         let editDialog = {
-            modelValue: this.$filter('measureEdit')(assignment.code, assignment[this.valueType[assignment.code]], this.sport),
+            modelValue: this.$filter('measureEdit')(assignment.sourceMeasure, assignment[this.valueType[assignment.sourceMeasure]], this.sport),
             clickOutsideToClose: true,
             placeholder: assignment.code,
             save: (input) => {
@@ -88,9 +90,9 @@ class ActivityAssignmentCtrl implements IComponentController {
 
             targetEvent: event,
             //title: 'Add a comment',
-            type: isDuration(measurementUnitDisplay(this.sport, assignment.code)) ||
-                isPace(measurementUnitDisplay(this.sport, assignment.code)) ? 'time' : 'number',
-            validators: validators(this.sport, assignment.code)
+            type: isDuration(measurementUnitDisplay(this.sport, assignment.sourceMeasure)) ||
+                isPace(measurementUnitDisplay(this.sport, assignment.sourceMeasure)) ? 'time' : 'number',
+            validators: validators(this.sport, assignment.sourceMeasure)
         };
 
         let promise;
@@ -133,7 +135,8 @@ class ActivityAssignmentCtrl implements IComponentController {
 
 const ActivityAssignmentComponent:IComponentOptions = {
     bindings: {
-        assignment: '<',
+        plan: '<',
+        actual: '<',
         sport: '<',
         onChange: '&'
     },
