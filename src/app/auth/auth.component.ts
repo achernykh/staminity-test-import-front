@@ -1,5 +1,5 @@
 import { IComponentOptions, IComponentController} from 'angular';
-import SessionService from "../../js/services/session/session.service";
+import SessionService from "../core/session.service";
 import {StateService, LocationServices} from 'angular-ui-router';
 import {IMessageService} from "../core/message.service";
 require('./auth.component.scss');

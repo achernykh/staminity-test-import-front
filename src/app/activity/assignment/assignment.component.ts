@@ -1,7 +1,7 @@
 import {IComponentOptions, IComponentController, IQService, IFilterService, IPromise, copy} from 'angular';
 import './assignment.component.scss';
 import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../api/activity/activity.interface";
-import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../share/measure.constants";
+import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../share/measure/measure.constants";
 import moment from 'moment/src/moment.js';
 
 class ActivityAssignmentCtrl implements IComponentController {

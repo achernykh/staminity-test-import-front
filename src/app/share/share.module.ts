@@ -1,8 +1,8 @@
+import './components.scss';
 import { module, isObject } from 'angular';
 import moment from 'moment/src/moment.js';
 import  { ageGroup } from '../../../api/user/user.interface';
 import  { requestType } from '../../../api/group/group.interface';
-
 import { _connection } from '../core/api.constants';
 import BackgroundComponent from './background/background.component';
 import HeaderComponent from './header/header.component';
@@ -10,12 +10,11 @@ import ApplicationMenu from './application-menu/application-menu.component';
 import UserMenuComponent from './user-menu/user-menu.component';
 import {_application_menu} from './application-menu/application-menu.translate';
 import {_user_menu} from "./user-menu/user-menu.tranlsate";
-import {_MEASURE_TRANSLATE} from './measure.translate';
+import {_MEASURE_TRANSLATE} from './measure/measure.translate';
 import LoaderComponent from './loader/loader.component';
 import LoaderService from './loader/loader.service';
 import DialogsService from './dialogs/';
 import RequestsComponent from './requests/requests.component.js';
-
 import {
     _measurement,
     _activity_measurement_view,
@@ -27,11 +26,8 @@ import {
     measurementUnit,
     measurementUnitView,
     measurementUnitDisplay
-} from './measure.constants';
-
-import './components.scss';
-import GroupService from "../core/group.service";
-import UserService from "../core/user.service";
+} from './measure/measure.constants';
+import {measureView} from './measure/measure.filter';
 
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
@@ -87,6 +83,7 @@ const Share = module('staminity.share', [])
     .filter('username', username)
     .filter('ageGroup', () => ageGroup)
     .filter('requestType', () => requestType)
+    .filter('measureView', measureView)
     .filter('measureCalc', ['UserService',(UserService)=> {
         return (data, sport, measure) => {
             if (!!data) {

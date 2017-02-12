@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 import { IComponentOptions, IComponentController} from 'angular';
-import UserService from "../../../js/services/user/user.service";
+import UserService from "../../core/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import SessionService from "../../core/session.service";
 import RequestsService from "../../core/requests.service";

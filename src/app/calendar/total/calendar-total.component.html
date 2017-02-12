@@ -43,9 +43,9 @@
         <md-icon flex="none" class="material-icons md-18">event_total</md-icon>
         <div flex layout="column" class="md-body-2 secondary dark">
             <div flex="none" layout="row" layout-align="space-between center">
-                <div flex="none">{{$ctrl.summary.completed.movingDuration | measureCalc:'run':'movingDuration'}}</div>
+                <div flex="none">{{$ctrl.summary.completed.movingDuration | measureView:'run':'movingDuration'}}</div>
                 <div flex="none">
-                    <span>{{$ctrl.summary.completed.distance | measureCalc:'run':'distance'}}</span>
+                    <span>{{$ctrl.summary.completed.distance | measureView:'run':'distance'}}</span>
                     <span>{{'distance' | measureUnit:'run' | translate}}</span>
                 </div>
             </div>
@@ -59,9 +59,9 @@
             <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
             <div flex layout="column" class="md-body-1 secondary dark">
                 <div flex="none" layout="row" layout-align="space-between center">
-                    <div flex="none">{{$ctrl.total[sport].completed.movingDuration | measureCalc:sport:'movingDuration'}}</div>
+                    <div flex="none">{{$ctrl.total[sport].completed.movingDuration | measureView:sport:'movingDuration'}}</div>
                     <div flex="none">
-                        <span>{{$ctrl.total[sport].completed.distance | measureCalc:sport:'distance'}}</span>
+                        <span>{{$ctrl.total[sport].completed.distance | measureView:sport:'distance'}}</span>
                         <span>{{'distance' | measureUnit:sport | translate}}</span>
                     </div>
                 </div>
