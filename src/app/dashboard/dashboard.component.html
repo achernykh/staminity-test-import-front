@@ -1,0 +1,161 @@
+<!-- common section -->
+<application-frame class='{{$ctrl.view.style}}'>
+    <div layout="row" layout-align="center start" class="app-layer">
+        <!-- common left margin -->
+        <div flex-gt-md="{{$ctrl.view.margin}}" hide-md></div>
+        <div flex="{{$ctrl.view.size}}" layout="column" class="body">
+            <div flex="100" layout="column" layout-align="center center" layout-fill>
+
+                <!-- application section: start -->
+                <div layout="column" layout-align="start center" flex="100" style="height: 100%; width: 100%">
+                    <!--    toolbar: start  -->
+                    <div hide-xs hide-sm layout="row" layout-align="start center" flex="none" class="app-toolbar">
+                        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                                   ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid - 1)">
+                            <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                                   ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid + 1)">
+                            <md-icon class="material-icons md-18" aria-label="Back">navigate_next</md-icon>
+                        </md-button>
+
+                        <div class="md-title">{{$ctrl.currentWeek.toolbarDate}}</div>
+
+                        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                                   ng-init="today = 0"
+                                   ng-click="$ctrl.gotoAnchor(today)">
+                            <md-icon class="material-icons" aria-label="Back">today</md-icon>
+                        </md-button>
+
+                        <div class="md-body-1" class="md-caption">{{$ctrl.weekItem.toolbarDate}}</div>
+                        <md-button class="md-icon-button md-primary" aria-label="Settings"
+                                   ng-click="$ctrl.view.compact = !$ctrl.view.compact">
+                            <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
+                        </md-button>
+                        <div class="md-body-1">{{!viewCompact ? 'View compact' : 'View details'}}</div>
+                    </div>
+                    <!-- toolbar: end  -->
+
+                    <!-- calendar: start -->
+                    <div layout="row" flex="100" style="width: 100%; max-width: 1800px">
+                        <section layout="column" layout-align="start stretch" id="dashboard"
+                                 class="app-body animated zoomIn" style="width: 100%;">
+
+                            <!-- weekdays panel: start -->
+                            <md-toolbar flex="none" layout="raw" layout-align="space-between center" hide show-gt-sm
+                                        class="md-primary"
+                                        style="min-height: 32px;">
+                                <div hide show-gt-md
+                                     flex="auto"
+                                     class="md-caption weekday">Атлет
+                                </div>
+                                <div ng-repeat="day in $ctrl.weekdayNames track by $index"
+                                     flex="auto"
+                                     class="md-caption weekday">{{::day}}
+                                </div>
+                                <div hide show-gt-md
+                                     flex="auto"
+                                     class="md-caption weekday">Итоги
+                                </div>
+                            </md-toolbar>
+
+                            <!-- grid: start -->
+                            <md-content flex class="dashboard-grid" id="viewport-serviceDatasource" keep-scroll-position
+                                        scroll-current-item>
+
+                                <div id="week{{$ctrl.first().sid - 1}}" scroll-fire="$ctrl.up(3)"
+                                     layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.isLoadingUp" ng-click="$ctrl.up(3)" aria-label="menu">
+                                        More
+                                    </md-button>
+                                    <md-progress-circular ng-if="$ctrl.isLoadingUp"
+                                                          md-mode="indeterminate"></md-progress-circular>
+                                </div>
+
+                                <!-- grid-week: start -->
+                                <div ng-repeat="week in $ctrl.calendar track by week.sid"
+                                     id="week{{::week.sid}}"
+                                     layout="raw" layout-xs="column" layout-sm="column"
+                                     layout-align-gt-sm="start stretch" flex="none"
+                                     on-scroll-current-item="$ctrl.currentWeek = week"
+                                     buffer-size="5"
+                                     start-index="0"
+                                     padding="1.0"
+                                     class="week"
+                                     ng-class="{'keep-scroll-position-pivot': week.sid == $ctrl.currentWeek.sid}">
+                                    <dashboard-athlete
+                                            flex="100" flex-gt-md="12" flex-sm="14"
+                                            layout="row" layout-gt-sm="column">
+
+                                    </dashboard-athlete>
+                                    <dashboard-day
+                                            flex="100" flex-gt-md="12" flex-sm="14"
+                                            layout="row" layout-gt-sm="column"
+                                            ng-repeat="day in week.subItem track by day.key"
+                                            ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
+                                            ng-init="accent=false"
+                                            ng-class="{select: day.selected}"
+                                            selected="day.selected"
+                                            accent="accentDay"
+                                            data="day.data"
+                                            on-select="day.selected = !day.selected">
+                                    </dashboard-day>
+                                    <dashboard-total
+                                            flex="100" flex-gt-md="12" flex-sm="14"
+                                            layout="row" layout-gt-sm="column">
+                                    </dashboard-total>
+                                    <!--
+
+
+                                                                        <calendar-total flex-gt-md="12" layout="column" hide show-gt-md
+                                                                                        class="md-caption summary"
+                                                                                        ng-mouseover="accentTotal=true" ng-mouseleave="accentTotal=false"
+                                                                                        ng-init="accent=false"
+                                                                                        ng-class="{select: day.selected}"
+                                                                                        selected="week.selected"
+                                                                                        accent="accentTotal"
+                                                                                        update="week.changes"
+                                                                                        week="week"
+                                                                                        on-toggle="$ctrl.onToggleWeek(sid, value)">
+                                                                            <div flex class="md-body-1">Неделя {{$index}}</div>
+                                                                        </calendar-total>
+                                    -->
+                                </div>
+                                <!-- grid-week: end -->
+
+                                <div class="keep-scroll-position-pivot"></div>
+
+                                <div id="week{{$ctrl.last().sid + 1}}" ng-if="$ctrl.calendar.length"
+                                     scroll-fire="$ctrl.down(3)" layout="row" layout-sm="column"
+                                     layout-align="space-around">
+                                    <md-button ng-if="!$ctrl.isLoadingDown" ng-click="$ctrl.down(3)" aria-label="menu">
+                                        More
+                                    </md-button>
+                                    <md-progress-circular ng-if="$ctrl.isLoadingDown"
+                                                          md-mode="indeterminate"></md-progress-circular>
+                                </div>
+
+                            </md-content>
+                            <!-- grid-weekdays: end -->
+
+                            <!-- Fab button -->
+                            <md-button hide hide-gt-sm class="md-position-fab md-fab md-primary md-icon-button"
+                                       aria-label="Add task">
+                                <md-icon class="material-icons" aria-label="Add task">add_circle_outline</md-icon>
+                            </md-button>
+
+                        </section>
+                    </div>
+                    <!-- calendar: end -->
+
+                    <div layout="row" flex="none" hide show-gt-md class="footer"></div>
+                </div>
+                <!-- application section: end -->
+            </div>
+        </div>
+        <!-- common right margin -->
+        <div flex-gt-md="{{$ctrl.view.margin}}" hide-md></div>
+    </div>
+</application-frame>
+<!-- end of common section -->
+
