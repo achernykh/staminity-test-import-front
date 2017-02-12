@@ -1,1 +1,76 @@
-<div>tttt</div>
+<!-- weektotal header: start -->
+
+<div flex-gt-sm="none" flex="none" style="height: 30px" layout="row" layout-align="space-between center">
+    <div flex="none" class="md-body-1" style="min-width: 24px">
+        Неделя {{::$ctrl.weekTitle}}
+    </div>
+
+    <!--
+    <div hide show-gt-sm flex="none" ng-show="$ctrl.selected || $ctrl.accent">
+        <md-checkbox ng-model="$ctrl.checked"
+                     ng-change="$ctrl.onToggle({sid: $ctrl.week.sid, value: $ctrl.checked})"
+                     aria-label="Checkbox 1" class="md-primary"
+                     style="margin-bottom: 0px; margin-left: 12px">
+        </md-checkbox>
+    </div>-->
+    <!--
+    <div flex="none"  ng-show="$ctrl.selected || $ctrl.accent">
+        <md-menu md-position-mode="target-right target">
+            <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More"
+                       style="margin: 0px; padding: 0px; width: 24px">
+                <md-icon class="material-icons md-18">more_vert</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.onToggle(); $ctrl.checked = !$ctrl.checked">
+                        {{!$ctrl.selected ? 'Выделить' : 'Снять выделение'}}
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.onDelete()">Удалить</md-button></md-menu-item>
+                <md-menu-item><md-button>Скопировать</md-button></md-menu-item>
+                <md-menu-item><md-button disabled="disabled">Вставить</md-button></md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>-->
+
+</div>
+<!--
+<calendar-total-chart value="30" max="50" status="'ok'"></calendar-total-chart>
+-->
+<!-- weektotal header: end -->
+<div ng-if="$ctrl.summary.completed.movingDuration > 0">
+    <section layout="row" class="sum">
+        <md-icon flex="none" class="material-icons md-18">event_total</md-icon>
+        <div flex layout="column" class="md-body-2 secondary dark">
+            <div flex="none" layout="row" layout-align="space-between center">
+                <div flex="none">{{$ctrl.summary.completed.movingDuration | measureCalc:'run':'movingDuration'}}</div>
+                <div flex="none">
+                    <span>{{$ctrl.summary.completed.distance | measureCalc:'run':'distance'}}</span>
+                    <span>{{'distance' | measureUnit:'run' | translate}}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <md-divider></md-divider>
+</div>
+<div ng-repeat="sport in $ctrl.primarySport">
+    <div ng-if="$ctrl.total.hasOwnProperty(sport) && $ctrl.total[sport].completed.movingDuration > 0">
+        <section layout="row" class="sport-sum">
+            <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
+            <div flex layout="column" class="md-body-1 secondary dark">
+                <div flex="none" layout="row" layout-align="space-between center">
+                    <div flex="none">{{$ctrl.total[sport].completed.movingDuration | measureCalc:sport:'movingDuration'}}</div>
+                    <div flex="none">
+                        <span>{{$ctrl.total[sport].completed.distance | measureCalc:sport:'distance'}}</span>
+                        <span>{{'distance' | measureUnit:sport | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <md-divider ng-if="!$last"></md-divider>
+    </div>
+</div>
+<!--
+        <div flex="none" layout="row" style="background-color: #0000AA; height: 2px">
+            <div flex="none" style="background-color: red; height: 2px; width: 25%"></div>
+        </div>-->

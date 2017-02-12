@@ -149,7 +149,17 @@ dashboard {
     .weekday{
       text-transform: capitalize;
       @media (min-width: 1279px){
-        width: 12%;
+        width: 10%;
+        max-width: 250px;
+      }
+      @media (min-width: 959px) and (max-width: 1280px){
+        width: 14%;
+      }
+    }
+    .athlete{
+      text-transform: capitalize;
+      @media (min-width: 1279px){
+        width: 15%;
         max-width: 250px;
       }
       @media (min-width: 959px) and (max-width: 1280px){

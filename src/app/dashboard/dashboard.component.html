@@ -46,15 +46,15 @@
                                         class="md-primary"
                                         style="min-height: 32px;">
                                 <div hide show-gt-md
-                                     flex="auto"
-                                     class="md-caption weekday">Атлет
+                                     flex="15"
+                                     class="md-caption athlete">Атлет
                                 </div>
                                 <div ng-repeat="day in $ctrl.weekdayNames track by $index"
                                      flex="auto"
                                      class="md-caption weekday">{{::day}}
                                 </div>
                                 <div hide show-gt-md
-                                     flex="auto"
+                                     flex="15"
                                      class="md-caption weekday">Итоги
                                 </div>
                             </md-toolbar>
@@ -84,12 +84,12 @@
                                      class="week"
                                      ng-class="{'keep-scroll-position-pivot': week.sid == $ctrl.currentWeek.sid}">
                                     <dashboard-athlete
-                                            flex="100" flex-gt-md="12" flex-sm="14"
-                                            layout="row" layout-gt-sm="column">
+                                            flex="100" flex-gt-md="15" flex-sm="15"
+                                            layout="row" layout-gt-sm="column" >
 
                                     </dashboard-athlete>
                                     <dashboard-day
-                                            flex="100" flex-gt-md="12" flex-sm="14"
+                                            flex="100" flex-gt-md="10" flex-sm="10"
                                             layout="row" layout-gt-sm="column"
                                             ng-repeat="day in week.subItem track by day.key"
                                             ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
@@ -101,9 +101,24 @@
                                             on-select="day.selected = !day.selected">
                                     </dashboard-day>
                                     <dashboard-total
-                                            flex="100" flex-gt-md="12" flex-sm="14"
+                                            flex-gt-md="15" layout="column" hide show-gt-md
+                                                    class="md-caption summary"
+                                                    ng-mouseover="accentTotal=true" ng-mouseleave="accentTotal=false"
+                                                    ng-init="accent=false"
+                                                    ng-class="{select: day.selected}"
+                                                    selected="week.selected"
+                                                    accent="accentTotal"
+                                                    update="week.changes"
+                                                    week="week"
+                                                    on-toggle="$ctrl.onToggleWeek(sid, value)">
+                                        <div flex class="md-body-1">Неделя {{$index}}</div>
+                                    </dashboard-total>
+                                    <!--
+                                    <dashboard-total
+                                            flex="100" flex-gt-md="15" flex-sm="15"
                                             layout="row" layout-gt-sm="column">
                                     </dashboard-total>
+                                    -->
                                     <!--
 
 

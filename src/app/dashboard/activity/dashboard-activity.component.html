@@ -10,10 +10,11 @@
                  class="md-caption tight-07">{{::$ctrl.data.printPercent()}}</div>
             <div flex="none" flex-xs="30" flex-sm="30"  layout="row">
                 <md-icon md-svg-src="{{::$ctrl.data.sportUrl}}"
-                         class="s24 light-active"></md-icon>
+                         style="margin-top: 2px;"
+                         class="s20 light-active"></md-icon>
                 <div style="position: relative;" ng-if="!!$ctrl.data.movingDuration || $ctrl.data.distance">
-                    <md-icon class="material-icons"  style="color:white" md-menu-align-target>favorite</md-icon>
-                    <div style="position: absolute; bottom: -7px; right: -4px;">3</div>
+                    <md-icon class="material-icons s20"  style="color:white" md-menu-align-target>favorite</md-icon>
+                    <div style="position: absolute; bottom: -10px; right: -10px;">3</div>
                 </div>
 
             </div>
@@ -21,6 +22,7 @@
         <div flex="5"></div>
 
         <section flex layout="column" layout-align="center center" hide show-gt-sm
+                 style="font-size:.7rem"
              class="md-title-small secondary center tight-10"
              ng-class="{'dark' : ($ctrl.status == 'planned')}"
              style=""
