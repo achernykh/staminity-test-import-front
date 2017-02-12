@@ -29,7 +29,6 @@ class CalendarItemEventsCtrl {
 
     $onInit() {
         console.log('data======================', profileShort(this.SessionService.getUser()));
-
         //if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'events',
@@ -39,6 +38,7 @@ class CalendarItemEventsCtrl {
                 userProfileCreator: profileShort(this.SessionService.getUser())
             };
         //}
+        console.log('WWWWWww',this.data.userProfileOwner.public.avatar);
 
         this.item = new CalendarItem(this.data);
         this.item.prepare();

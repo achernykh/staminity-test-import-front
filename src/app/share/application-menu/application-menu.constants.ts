@@ -68,7 +68,7 @@ export const AppMenuSettings = [
     {
         icon: "security",
         name: "appMenu.admin",
-        link: "api",
+        link: "dashboard",
         //role: [_UserRoles.admin]
     }
 ];
