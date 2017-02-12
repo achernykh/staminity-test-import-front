@@ -39,11 +39,13 @@ export default class RequestsService {
     ) { 
         this.notifications = this.SocketService.messages
         .filter(message => message.type === 'groupMembershipRequest')
-        .map(message => message.value);
+        .map(message => message.value)
+        .share();
 
         this.requestsList = this.SocketService.connections
-        .flatMap(profile => Observable.fromPromise(this.getMembershipRequest(0, 1000)))
-        .switchMap(requests => this.notifications.scan(processRequest, requests).startWith(requests));
+        .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 1000)))
+        .switchMap(requests => this.notifications.scan(processRequest, requests).startWith(requests))
+        .share();
     }
 
     /**

@@ -10,12 +10,13 @@ const stateIcons = {
 
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, RequestsService, dialogs, SystemMessageService) {
+    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, RequestsService, SessionService, dialogs, SystemMessageService) {
         this.$scope = Object.assign($scope, { stateIcons });
         this.$mdDialog = $mdDialog;
         this._$mdSidenav = $mdSidenav;
         this.UserService = UserService;
         this.GroupService = GroupService;
+        this.SessionService = SessionService;
         this.dialogs = dialogs;
         this.SystemMessageService = SystemMessageService;
         this.RequestsService = RequestsService;
@@ -34,17 +35,23 @@ class RequestsCtrl {
             }
         };
         
+        this.limit = {
+            inbox: 20,
+            outbox: 20
+        };
+        
         this.startRefreshing();
     }
     
     setRequests (requests) {
-        let userId = this.UserService.profile.userId;
-        this.requests.inbox.new = requests.filter((request) => request.receiver.userId == userId && !request.updated)
-        this.requests.inbox.old = requests.filter((request) => request.receiver.userId == userId && request.updated)
-        this.requests.outbox.new = requests.filter((request) => request.initiator.userId == userId && !request.updated)
-        this.requests.outbox.old = requests.filter((request) => request.initiator.userId == userId && request.updated)
-        console.log('requests list', this.requests)
-        this.$scope.$apply()
+        let userId = this.SessionService.getUser().userId;
+        
+        this.requests.inbox.new = requests.filter((request) => request.receiver.userId == userId && !request.updated);
+        this.requests.inbox.old = requests.filter((request) => request.receiver.userId == userId && request.updated);
+        this.requests.outbox.new = requests.filter((request) => request.initiator.userId == userId && !request.updated);
+        this.requests.outbox.old = requests.filter((request) => request.initiator.userId == userId && request.updated);
+        
+        this.$scope.$apply();
     }
     
     fromNow (date) {
@@ -75,7 +82,7 @@ class RequestsCtrl {
     }
 };
 
-RequestsCtrl.$inject = ['$scope','$mdDialog','$mdSidenav','UserService','GroupService','RequestsService','dialogs','SystemMessageService'];
+RequestsCtrl.$inject = ['$scope','$mdDialog','$mdSidenav','UserService','GroupService','RequestsService','SessionService','dialogs','SystemMessageService'];
 
 const RequestsComponent = {
 
