@@ -38,3 +38,13 @@ export const measureView = ['SessionService', (SessionService:ISessionService) =
 		}
 	}
 }];
+
+export const measureUnit = ['SessionService', (SessionService:ISessionService) => (measure, sport) => {
+	let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
+	return (SessionService.getUser().display.units === 'metric') ? unit : _measurement_system_calculate[unit].unit;
+}];
+
+export const duration = () => (second = 0) => {
+	return moment().startOf('day').seconds(second).format('H:mm:ss');
+};
+

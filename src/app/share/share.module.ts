@@ -27,7 +27,8 @@ import {
     measurementUnitView,
     measurementUnitDisplay
 } from './measure/measure.constants';
-import {measureView} from './measure/measure.filter';
+import {measureView, measureUnit, duration} from './measure/measure.filter';
+import {MeasurementInput} from "./measure/measure.directive";
 
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
@@ -83,45 +84,9 @@ const Share = module('staminity.share', [])
     .filter('username', username)
     .filter('ageGroup', () => ageGroup)
     .filter('requestType', () => requestType)
-    .filter('measureView', measureView)
-    .filter('measureCalc', ['UserService',(UserService)=> {
-        return (data, sport, measure) => {
-            if (!!data) {
-                let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
-                let fixed = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].fixed) || _measurement[measure].fixed;
-
-                // Необходимо пересчет единиц измерения
-                if (unit !== _measurement[measure].unit){
-                    data = _measurement_calculate[_measurement[measure].unit][unit](data);
-                }
-
-                // Необходим пересчет системы мер
-                if (UserService.profile.display.units !== 'metric'){
-                    data = data * _measurement_system_calculate[unit].multiplier;
-                }
-
-                // Показатель релевантен для пересчета скорости в темп
-                if (isDuration(unit) || isPace(unit)){
-                    let format = data >= 60*60 ? 'hh:mm:ss' : 'mm:ss';
-                    return moment().startOf('day').seconds(data).format(format);
-                }
-                else {
-                    return Number(data).toFixed(fixed);
-                }
-            }
-        };
-    }])
-    .filter('measureUnit', ['UserService',(UserService)=> {
-        return (measure, sport) => {
-            let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
-            return (UserService.profile.display.units === 'metric') ? unit : _measurement_system_calculate[unit].unit;
-        };
-    }])
-    .filter('duration', ()=> {
-        return (second = 0) => {
-            return moment().startOf('day').seconds(second).format('H:mm:ss');
-        };
-    })
+    .filter('measureCalc', measureView)
+    .filter('measureUnit', measureUnit)
+    .filter('duration', duration)
     .filter('percentByTotal', ['$filter',($filter)=> {
         return (value, total, decimal = 0) => {
             if (value && total) {
@@ -197,6 +162,7 @@ const Share = module('staminity.share', [])
     .component('userpic', userpic)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
+    .directive('measureInput', ['$filter',MeasurementInput])
     .config(['$translateProvider',($translateProvider)=>{
 
         $translateProvider.translations('ru', {appMenu: _application_menu['ru']});

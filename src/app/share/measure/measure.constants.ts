@@ -132,6 +132,7 @@ export const _measurement_pace_unit = ['minpkm','minp100m'];
 
 export const isDuration = (unit) => ['min'].indexOf(unit) !== -1;
 export const isPace = (unit) => ['mps','minpkm','minp100m'].indexOf(unit) !== -1;
+export const typeOf = (unit) => (isDuration(unit) && 'duration') || (isPace(unit) && 'pace') || 'number';
 
 export const validators = (sport,measure) => {
     let unit = measurementUnitDisplay(sport,measure);
@@ -146,9 +147,37 @@ export const validators = (sport,measure) => {
     }
 };
 
-//export const saveMeasure = (measure, value) = {
+/**
+ * Класс для работы с показателями тренировки
+ */
+export class Measure {
 
-//};
+    unit: string; // единица изменения
+    fixed: number; // число знаков после запятой для view показателя, релевантно для типа number
+    value: number; // значение показателя
+
+    constructor(public name: string, sport?: string, value?: number){
+        this.unit = _measurement[name].unit;
+        this.fixed = _measurement[name].fixed;
+    }
+
+    isDuration = isDuration;
+    isPace = isPace;
+    // Определение типа показателя 1) duration 2) pace 3) number
+    get type(): string {
+        return (this.isDuration(this.unit) && 'duration') || (this.isPace(this.unit) && 'pace') || 'number';
+    }
+
+	/**
+     * Пересчет единиц измерения
+     * @param unit - целевая единица измерения
+     * @param value - значение показателя
+     * @returns {any|null}
+     */
+    recalculation(unit: string, value: number):number {
+        return _recalculation[this.unit][unit](value) || null;
+    }
+}
 
 // Справочник пересчета показателей
 export const _measurement_calculate = {
@@ -192,5 +221,7 @@ export const _measurement_system_calculate = {
         multiplier: (x) => x * 0.621371
     }
 };
+
+const _recalculation = _measurement_calculate;
 
 

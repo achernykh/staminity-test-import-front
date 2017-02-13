@@ -28,7 +28,9 @@
 
                 <td md-cell>
                     <md-input-container>
-                        <input ng-model="measure.value">
+                        <input ng-model="measure.value"
+                               ng-attr-measure-input={{measure.$key}}
+                               ng-attr-sport={{$ctrl.sport}}>
                     </md-input-container>
                 </td>
                 <td md-cell>
