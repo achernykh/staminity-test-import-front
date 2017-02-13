@@ -1,4 +1,4 @@
-import {IComponentOptions, IComponentController, IQService, IFilterService, IPromise, copy} from 'angular';
+import {IComponentOptions, IComponentController, IQService, IFilterService, IPromise, INgModelController, copy} from 'angular';
 import './assignment.component.scss';
 import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../api/activity/activity.interface";
 import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../share/measure/measure.constants";
@@ -16,6 +16,8 @@ class ActivityAssignmentCtrl implements IComponentController {
     public onChange: (result: {upd: {intervalPW: ICalcMeasures, intervalW: ICalcMeasures}}) => IPromise<void>;
 
     private selected:Array<number> = [];
+    private assignmentForm: INgModelController;
+    private percentComplete: Object = {};
     private valueType: {};
     private options: {
         rowSelection: boolean;
@@ -61,6 +63,36 @@ class ActivityAssignmentCtrl implements IComponentController {
     $onInit() {
         console.log('assignment=', this);
         this.sport = 'run';
+    }
+
+    isInterval(key) {
+        return ['speed','heartRate','power'].indexOf(key) !== -1;
+    }
+
+    changeValue(key) {
+        if(typeof key === 'undefined') {
+            return;
+        }
+
+        let p = (this.plan[key].hasOwnProperty('value') && this.plan[key].value) ||
+            (this.plan[key].hasOwnProperty('from') && this.plan[key]) || null;
+        let a = this.actual[key][this.valueType[key]] || null;
+
+
+        if(!!p && !!a ){
+            let isInterval = p.hasOwnProperty('from');
+            //TODO сделать метод для определния велечин с обратным счетом
+            if(isInterval && key === 'speed') {
+                this.percentComplete[key] = ((a <= p.to) && a/p.to) || ((a >= p.from) && a/p.from);
+            } else {
+                this.percentComplete[key] = (!isInterval && a/p) ||
+                    ((isInterval && a <= p.from) && a/p.from) || ((isInterval && a >= p.to) && a/p.to);
+            }
+        }
+    }
+
+    measurePercentComplete() {
+
     }
 
     editComment (event, assignment) {

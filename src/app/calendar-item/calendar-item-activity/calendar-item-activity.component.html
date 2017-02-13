@@ -179,15 +179,6 @@
                                                ng-disabled="false">
                                     </md-input-container>
                                 </md-list-item>
-                                <!--<md-list-item>
-                                    <md-icon class="material-icons">format_list_numbered</md-icon>
-                                    <p>Сегменты</p>
-                                    <md-switch class="md-secondary" ng-model="false"></md-switch>
-                                </md-list-item>
-                                <md-list-item>
-                                    <md-icon class="material-icons">content_copy</md-icon>
-                                    <p>Шаблон</p>
-                                </md-list-item>-->
                                 <md-fab-speed-dial ng-cloak class="animated bounceIn" md-theme="default">
                                     <md-fab-trigger>
                                         <md-button type="submit"
@@ -201,6 +192,7 @@
                                     </md-fab-trigger>
                                 </md-fab-speed-dial>
                             </md-list>
+                        </form>
                             <md-divider></md-divider>
                             <md-list class="md-dense">
                                     <activity-assignment class="activity-assignment"
@@ -208,7 +200,7 @@
                                                          actual="$ctrl.activity.intervalW.calcMeasures"
                                                          sport="$ctrl.activity.sportBasic"
                                                          on-change="$ctrl.updateAssignment(upd)">
-                                    </activity-assignment>-
+                                    </activity-assignment>
                                 <md-list-item>
                                     <md-input-container flex class="md-block no-message">
                                         <md-icon class="material-icons">event_note</md-icon>
@@ -219,7 +211,6 @@
                                     </md-input-container>
                                 </md-list-item>
                             </md-list>
-                        </form>
                     </md-tab-content>
                 </md-tab>
                 <md-tab id="tab4" label="Детали" layout-fill layout-wrap

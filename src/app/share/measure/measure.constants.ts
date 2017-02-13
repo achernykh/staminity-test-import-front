@@ -156,7 +156,7 @@ export class Measure {
     fixed: number; // число знаков после запятой для view показателя, релевантно для типа number
     value: number; // значение показателя
 
-    constructor(public name: string, sport?: string, value?: number){
+    constructor(public name: string, public sport?: string, value?: number){
         this.unit = _measurement[name].unit;
         this.fixed = _measurement[name].fixed;
     }

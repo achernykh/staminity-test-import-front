@@ -164,9 +164,21 @@ export class Activity extends CalendarItem {
 		Object.assign(this.intervalPW, {
 			movingDuration: {sourceMeasure: 'movingDuration', value: (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null},
 			distance: {sourceMeasure: 'distance', value: (this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null},
-			heartRate: {sourceMeasure: 'heartRate', value: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelFrom) || null},
-			speed: {sourceMeasure: 'speed', value: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelFrom) || null},
-			power: {sourceMeasure: 'power', value: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelFrom) || null}
+			heartRate: {
+				sourceMeasure: 'heartRate',
+				from: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelFrom) || null,
+				to: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelTo) || null
+			},
+			speed: {
+				sourceMeasure: 'speed',
+				from: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelFrom) || null,
+				to: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelTo) || null
+			},
+			power: {
+				sourceMeasure: 'power',
+				from: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelFrom) || null,
+				to: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelTo) || null
+			}
 		});
 		console.log('activity prepare', this);
 	}

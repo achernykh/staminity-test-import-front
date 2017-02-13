@@ -94,6 +94,13 @@ const Share = module('staminity.share', [])
             }
         };
     }])
+    .filter('percent', ['$filter',($filter)=> {
+        return (value, decimal = 0) => {
+            if (value) {
+                return $filter('number')(value*100,decimal)+'%';
+            }
+        };
+    }])
     .filter('measureEdit',['$filter',($filter)=>{
         return (measure, value, sport) => {
             let unit = measurementUnitDisplay(sport, measure);
@@ -115,7 +122,7 @@ const Share = module('staminity.share', [])
                 return moment(value).diff(moment(value).startOf('day'),'seconds');
             } else {
                 if (isPace(unit)) {
-                    value = moment(value).diff(moment(value).startOf('day'),'seconds');
+                    value = moment(value,'mm:ss').diff(moment().startOf('day'),'seconds');
                 }
                 // обратный пересчет по системе мер
                 if (UserService.profile.display.units !== 'metric'){
