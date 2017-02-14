@@ -163,23 +163,28 @@ export class Activity extends CalendarItem {
 		// Дополниельные данные для отображения плана на панелях
 		Object.assign(this.intervalPW, {
 			movingDuration: {
+				order: 110,
 				sourceMeasure: 'movingDuration',
 				value: (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null
 			},
 			distance: {
+				order: 120,
 				sourceMeasure: 'distance',
 				value: (this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null},
 			heartRate: {
+				order: 210,
 				sourceMeasure: 'heartRate',
 				from: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelFrom) || null,
 				to: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelTo) || null
 			},
 			speed: {
+				order: 220,
 				sourceMeasure: 'speed',
 				from: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelFrom) || null,
 				to: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelTo) || null
 			},
 			power: {
+				order: 230,
 				sourceMeasure: 'power',
 				from: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelFrom) || null,
 				to: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelTo) || null
@@ -191,6 +196,7 @@ export class Activity extends CalendarItem {
 	// Подготовка данных для передачи в API
 	build() {
 		super.package();
+		this.dateEnd = this.dateStart;
 		this.header.activityType = getActivityType(Number(this.header.activityType.id));
 		// заглушка для тестирования собственных категорий
 		if (this.header.activityCategory){
@@ -265,8 +271,13 @@ export class Activity extends CalendarItem {
 		return !!this.intervalP && this.intervalP.length > 0;
 	}
 
+	get isToday() {
+		return moment(this.dateStart, 'YYYY-MM-DD').diff(moment(), 'd') === 0;
+	}
+
 	get coming() {
-		return moment().diff(moment(this.dateStart, 'YYYY-MM-DD'), 'd') < 1;
+		//return moment().diff(moment(this.dateStart, 'YYYY-MM-DD'), 'd') < 1;
+		return moment(this.dateStart, 'YYYY-MM-DD').diff(moment(), 'd') >= 0;
 	}
 
 	get dismiss() {
@@ -279,7 +290,7 @@ export class Activity extends CalendarItem {
 	 * @returns {boolean}
      */
 	get specified() {
-		return (!!this.intervalPW && (!!this.intervalPW.durationValue || !!this.intervalPW.intensityLevelFrom));
+		return (!!this.intervalPW && (this.intervalPW.durationValue > 0 || this.intervalPW.intensityLevelFrom > 0));
 	}
 
 	get bottomPanel() {
@@ -340,8 +351,15 @@ export class Activity extends CalendarItem {
 	 * @returns {string}
 	 */
 	get status() {
-		return (this.coming && 'coming') || (!this.specified && 'not-specified') || (!this.completed && 'dismiss')
-			|| (this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn') || 'complete-error';
+		return !this.isToday ?
+			// приоритет статусов, если запись не сегодня
+			(this.coming && 'coming') || (!this.specified && 'not-specified') || (!this.completed && 'dismiss')
+				|| (this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn')
+				|| ((this.percent <= 50 && this.percent > 0) && 'complete-error') :
+			//приоритет статусов, если запись сегодня
+			(this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn')
+				|| ((this.percent <= 50 && this.percent > 0) && 'complete-error')
+				|| (this.coming && 'coming') || (!this.specified && 'not-specified');
 	}
 
 	get sportUrl() {
@@ -349,13 +367,13 @@ export class Activity extends CalendarItem {
 	}
 
 	get movingDuration() {
-		return ((this.coming || this.dismiss) && this.intervalPW.movingDuration) ||
-			this.intervalW.calcMeasures.movingDuration.maxValue;
+		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
+			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.maxValue;
 	}
 
 	get distance() {
-		return ((this.coming || this.dismiss) && this.intervalPW.calcMeasures.distance.maxValue) ||
-			this.intervalW.calcMeasures.distance.maxValue;
+		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'distance')
+			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.distance.maxValue;
 	}
 
 	// Формируем перечень показателей для панели data (bottomPanel)

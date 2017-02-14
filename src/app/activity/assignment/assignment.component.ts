@@ -160,7 +160,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     calculateCompletePercent() {
 
         this.actual.completePercent.value = Object.keys(this.percentComplete)
-            .filter(m => !!this.percentComplete[m])
+            .filter(m => this.percentComplete[m] >= 0)
                 .map(m => this.percentComplete[m])
                 .reduce((percent, value, i, arr) => (percent + value) / arr.length) * 100;
 

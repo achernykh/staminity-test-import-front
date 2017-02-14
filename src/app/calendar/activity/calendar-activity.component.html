@@ -1,26 +1,26 @@
 <div flex layout="column">
     <!-- Заголовок тренировки (верхняя часть): начало -->
     <header flex layout="column"
-         class="activity-header {{::$ctrl.data.status}}"
+         class="activity-header {{$ctrl.data.status}}"
          ng-class="{selected: $ctrl.selected}"
          ng-click="$ctrl.onOpen($env)">
         <div layout="row" layout-align="space-between center" layout-align-xs="space-between start">
             <div flex="25" hide show-gt-sm
-                 class="md-caption tight-07">{{::$ctrl.data.printPercent()}}</div>
+                 class="md-caption tight-07">{{$ctrl.data.printPercent()}}</div>
             <div flex="none" flex-xs="30" flex-sm="30"
                  layout="row">
                 <div flex="none" layout="row" layout-align="center center"
                      class="bg-circle-32 bg-blue-grey-A700">
-                    <md-icon md-svg-src="{{::$ctrl.data.sportUrl}}"
+                    <md-icon md-svg-src="{{$ctrl.data.sportUrl}}"
                              style="margin-left: 4px"
                              class="s24 light-active"></md-icon>
                     <md-icon ng-if="$ctrl.data.structured"
-                             md-svg-src="assets/icon/{{::$ctrl.data.intervalPW.intensityMeasure}}.svg"
+                             md-svg-src="assets/icon/{{$ctrl.data.intervalPW.intensityMeasure}}.svg"
                              style="margin-left: 2px; margin-right: 2px"
                              class="s18 light-active"></md-icon>
                     <div ng-if="$ctrl.data.structured"
                          style="margin-right: 8px; margin-left: -3px; margin-bottom: -14px; font-size: 12px;">
-                        {{::$ctrl.data.intervalPW.intensityFtpMax}}
+                        {{$ctrl.data.intervalPW.intensityFtpMax}}
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div flex layout="row" layout-align="start start"
                      class="md-caption secondary data-category"
                      ng-class="{'dark' : ($ctrl.status == 'planned')}">
-                    <div flex="none" class="line-14">{{::$ctrl.item.activityHeader.activityCategory.code}}</div>
+                    <div flex="none" class="line-14">{{$ctrl.item.activityHeader.activityCategory.code}}</div>
                 </div>
 
                 <div flex layout="row" layout-align="start start"
@@ -38,9 +38,9 @@
                      ng-class="{'dark' : ($ctrl.status === 'planned')}"
                      style=""
                      ng-if="!!$ctrl.data.movingDuration || !!$ctrl.data.distance">
-                    <div flex="none">{{::$ctrl.data.movingDuration}}</div>
+                    <div flex="none">{{$ctrl.data.movingDuration}}</div>
                     <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
-                    <div flex="none">{{::$ctrl.data.distance}}</div>
+                    <div flex="none">{{$ctrl.data.distance}}</div>
                 </div>
 
             </div>
@@ -64,18 +64,18 @@
         <div flex layout="row" layout-align="center center" hide show-gt-sm
              class="md-caption secondary center data-category"
              ng-class="{'dark' : ($ctrl.status == 'planned')}">
-            <div flex="none" class="line-14">{{::$ctrl.item.activityHeader.activityCategory.code}}</div>
+            <div flex="none" class="line-14">{{$ctrl.item.activityHeader.activityCategory.code}}</div>
         </div>
         <section flex layout="row" layout-align="center center" hide show-gt-sm
              class="md-title-small secondary center tight-10"
              ng-class="{'dark' : ($ctrl.status == 'planned')}"
              style=""
              ng-if="!!$ctrl.data.movingDuration || $ctrl.data.distance">
-            <div flex="none" ng-if="::$ctrl.data.movingDuration">
-                {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
-            <div flex="none" ng-if="::$ctrl.data.distance">
+            <div flex="none" ng-if="$ctrl.data.movingDuration">
+                {{$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
+            <div flex="none" ng-if="$ctrl.data.distance">
                 <span>&nbsp&nbsp</span>
-                {{::$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp
+                {{$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp
                 {{'distance' | measureUnit:$ctrl.data.sportBasic | translate}}</div>
         </section>
         <calendar-activity-chart
@@ -88,14 +88,14 @@
     <footer flex layout="column"
          hide show-gt-md
          class="activity-footer line-12"
-         ng-switch on="::$ctrl.data.bottomPanel"
+         ng-switch on="$ctrl.data.bottomPanel"
          ng-if="!$ctrl.calendar.view.compact && $ctrl.data.hasBottomData()">
         <!-- Панель: Установка тренера -->
         <div ng-switch-when="prescription"
              flex class="md-caption secondary dark"
              ng-if="!!$ctrl.data.intervalPW.trainersPrescription"
              hm-read-more
-             hm-text="{{::$ctrl.data.intervalPW.trainersPrescription}}"
+             hm-text="{{$ctrl.data.intervalPW.trainersPrescription}}"
              hm-limit="50"
              hm-more-text="more"
              hm-less-text="less"
@@ -115,7 +115,7 @@
                  class="md-caption secondary dark"
                  style="margin-top: 2px">
                 <div flex ng-repeat="(ind,obj) in $ctrl.bottomPanelData track by ind">
-                    {{::obj.value | measureCalc:$ctrl.data.sportBasic:obj.measure}}
+                    {{obj.value | measureCalc:$ctrl.data.sportBasic:obj.measure}}
                     <span class="disable dark">&nbsp{{obj.measure | measureUnit:$ctrl.data.sportBasic | translate}}</span>
                 </div>
             </div>
@@ -133,18 +133,18 @@
                 <div ng-switch-when="true"
                      class="segment-list"
                      flex layout="row" layout-align="start center">
-                    <div flex="none" style="width: 20px" class="md-body-2">{{::interval.repeatCount}}x</div>
+                    <div flex="none" style="width: 20px" class="md-body-2">{{interval.repeatCount}}x</div>
                     <div flex="auto" layout="column">
                         <div ng-repeat="item in interval.subItem | filter:$ctrl.collapse track by $index"
                              flex layout="row"
                              ng-class="{'newlinesvg': interval.keyInterval}">
                             <div flex="none" style="height: 15px; margin-right: 4px">
-                                <img src="{{::$ctrl.getBullet($first, $middle, $last)}}"
+                                <img src="{{$ctrl.getBullet($first, $middle, $last)}}"
                                          style="width: 15px; height: 15px; min-width: 15px; min-height: 15px"
                                          class="dark-active"/>
                             </div>
-                            <div flex="none" style="width: 40px">{{::item.calcMeasures.distance.value}} км</div>
-                            <div flex="auto">{{::item.calcMeasures.heartRate.value}}чсс</div>
+                            <div flex="none" style="width: 40px">{{item.calcMeasures.distance.value}} км</div>
+                            <div flex="auto">{{item.calcMeasures.heartRate.value}}чсс</div>
                         </div>
                     </div>
                 </div>
@@ -159,8 +159,8 @@
                             <img ng-src="assets/icon/bullet.svg"
                                      style="width: 15px; height: 15px; min-width: 15px; min-height: 15px"
                                      class="dark-active"/></div>
-                        <div flex="none" style="width: 40px">{{::interval.calcMeasures.distance.value}} км</div>
-                        <div flex="auto">{{::interval.calcMeasures.heartRate.value}}чсс</div>
+                        <div flex="none" style="width: 40px">{{interval.calcMeasures.distance.value}} км</div>
+                        <div flex="auto">{{interval.calcMeasures.heartRate.value}}чсс</div>
                     </div>
                 </div>
             </div>

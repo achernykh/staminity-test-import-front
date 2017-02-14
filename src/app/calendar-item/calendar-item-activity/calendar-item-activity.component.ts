@@ -28,7 +28,7 @@ class CalendarItemActivityCtrl implements IComponentController{
     activity: Activity;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: (response: Object) => IPromise<void>;
-    private isLoadingDetails: boolean = true;
+    private isLoadingDetails: boolean = false;
     private showMap: boolean = true;
     private types: Array<Object> = ACTIVITY_TYPE;
     private categories: Array<Object> = ACTIVITY_CATEGORY;
@@ -68,6 +68,7 @@ class CalendarItemActivityCtrl implements IComponentController{
         //TODO intervalW.ActualDataIsImported
 
         //Получаем детали по тренировке
+        /**
         if (this.mode !== 'post') {
             this.ActivityService.getDetails2(this.data.activityHeader.activityId)
                 .then(response => {
@@ -78,7 +79,7 @@ class CalendarItemActivityCtrl implements IComponentController{
                     console.log('activity data after details =',this);
                 }, error => console.error(error));
         }
-        console.log('activity data=',this);
+        console.log('activity data=',this);*/
         this.peaks = this.activity.getPeaks();
     }
 
@@ -96,7 +97,7 @@ class CalendarItemActivityCtrl implements IComponentController{
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     console.log('result=',this.activity);
-                    this.onAnswer({response: {type:'post', item:this.activity}});
+                    this.onAnswer({response: {type:'post', item:this.activity.build()}});
                 });
         }
         if (this.mode === 'put') {
@@ -104,7 +105,7 @@ class CalendarItemActivityCtrl implements IComponentController{
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
                     console.log('result=',this.activity);
-                    this.onAnswer({response: {type:'put',item:this.activity}});
+                    this.onAnswer({response: {type:'put',item:this.activity.build()}});
                 });
         }
     }
@@ -113,7 +114,7 @@ class CalendarItemActivityCtrl implements IComponentController{
         this.CalendarService.deleteItem('F', [this.activity.calendarItemId])
             .then((response)=> {
                 console.log('delete result=',response);
-                this.onAnswer({response: {type:'delete',item:this.activity}});
+                this.onAnswer({response: {type:'delete',item:this.activity.build()}});
             });
     }
 
@@ -121,12 +122,12 @@ class CalendarItemActivityCtrl implements IComponentController{
      * Обновление данных из формы ввода/редактирования activity-assignment
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures, valid:boolean) {
-        debugger;
         this.activity.intervalPW = plan;
 
         this.activity.intervalPW.durationMeasure = (!!plan.distance.value && 'distance') ||
             (!!plan.movingDuration.value && 'movingDuration') || null;
-        this.activity.intervalPW.durationValue = plan[this.activity.intervalPW.durationMeasure].value || null;
+        this.activity.intervalPW.durationValue =
+            (plan[this.activity.intervalPW.durationMeasure] && plan[this.activity.intervalPW.durationMeasure].value) || null;
 
         this.activity.intervalPW.intensityMeasure = (!!plan.heartRate['from'] && 'heartRate') ||
             (!!plan.speed['from'] && 'speed') || (!!plan.power['from'] && 'power') || null;

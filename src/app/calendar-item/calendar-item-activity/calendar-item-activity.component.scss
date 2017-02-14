@@ -24,14 +24,80 @@ md-dialog#post-activity{
 
 calendar-item-activity {
 
-
-
   height: 100vh;
   overflow: hidden;
   background-color: $grey-50;
 
   .md-toolbar-tools md-menu:first-child {
     margin-left: -8px;
+  }
+
+  md-toolbar {
+    &.complete {
+      // Задание выполнено без отклонений
+      color: white;
+      @extend .bg-teal-800;
+      .bg-circle-32 {
+        @extend .bg-teal-900;
+      }
+      // Задание выполнено с отклонениями
+      &-warn {
+        color: white;
+        @extend .bg-orange-800;
+        .bg-circle-32 {
+          @extend .bg-orange-900;
+        }
+      }
+      // Задание выполнено с существенными отклонениями
+      &-error {
+        color: white;
+        @extend .bg-red-800;
+        .bg-circle-32 {
+          @extend .bg-red-800;
+        }
+      }
+    }
+    // задание пропущено
+    &.dismiss {
+      @extend .bg-red-800;
+      color: white;
+      .bg-circle-32 {
+        @extend .bg-red-900;
+      }
+    }
+    // без плана
+    &.not-specified {
+      @extend .bg-blue-grey-800;
+      color: white;
+      .bg-circle-32 {
+        @extend .bg-blue-grey-900;
+      }
+    }
+    // плановое задание
+    &.coming {
+      @extend .bg-grey-600;
+      color: white;
+      .bg-circle-32 {
+        @extend .bg-grey-700;
+      }
+    }
+
+  }
+
+  md-tabs.md-primary.coming > md-tabs-wrapper {
+    @extend .bg-grey-600;
+  }
+  md-tabs.md-primary.not-specified > md-tabs-wrapper {
+    @extend .bg-blue-grey-800;
+  }
+  md-tabs.md-primary.complete > md-tabs-wrapper {
+    @extend .bg-teal-800;
+  }
+  md-tabs.md-primary.complete-warn > md-tabs-wrapper {
+    @extend .bg-orange-800;
+  }
+  md-tabs.md-primary.complete-error > md-tabs-wrapper, md-tabs.md-primary.dismiss > md-tabs-wrapper {
+    @extend .bg-red-800;
   }
 
   form md-list:first-child {

@@ -1,137 +1,12 @@
 import moment from 'moment/src/moment';
 import {Activity} from '../../activity/activity.datamodel';
 
-class CalendarActivityData {
-    constructor(data) {
-        this.src = data;
-        this._intervalW = [];
-    }
-
-    get completed() {
-        return this.src.activityHeader.intervals.some((interval) => {
-            return interval.type == "W"
-        })
-    }
-
-    get structured() {
-        return this.src.activityHeader.intervals.some((interval) => {
-            return interval.type == "P"
-        })
-    }
-
-    get coming() {
-        return moment().diff(moment(this.src.dateStart, 'YYYY-MM-DD'), 'd') < 1
-    }
-
-    get specified() {
-        return this.src.activityHeader.intervals.some((interval) => {
-            return interval.type == "pW"
-        })
-    }
-
-    get bottomPanel() {
-        if (this.completed) return 'data'
-    }
-
-    get intervalW() {
-        if(!!this._intervalW)
-            this._intervalW = this.src.activityHeader.intervals.filter((interval) => {
-                return interval.type == "W"
-            })
-        this.intervalW = this._intervalW;
-        return this._intervalW
-    }
-    set intervalW(data){
-        this._intervalW = data
-    }
-
-    get percent() {
-        return this.intervalW[0].hasOwnProperty('completePercent') ?
-            this.intervalW.calcMeasures.completePercent.value : null
-    }
-
-    get activityType(){
-        return this.src.activityHeader.activityType.typeBasic
-    }
-
-    /**
-     * Перечень статусов тренировки
-     * 1) Запланирована, в будущем
-     * 2) Запланирована, пропущена
-     * 3) Запланирована, выполнена
-     * 4) Запланирована, выполнена с допущением
-     * 5) Запланирована, выполнена с нарушением
-     * 6) Не запланирована, выполнена
-     * @returns {string}
-     */
-    get status() {
-        if (this.coming)
-            return 'coming'
-        else if (!this.specified)
-            return 'not-specified'
-        else if (!this.completed)
-            return 'dismiss'
-        else if (this.percent > 75)
-            return "complete"
-        else if (this.percent > 50)
-            return "complete-warn"
-        else
-            return "complete-error"
-    }
-
-    get sportUrl() {
-        return `assets/icon/${this.src.activityHeader.activityType.code}.svg`
-    }
-
-    get movingDuration(){
-        /*try {
-            return moment().startOf('day').second(this.intervalW[0].calcMeasures.movingDuration.maxValue).format('H:mm:ss')
-        } catch(e) {
-            return null
-        }*/
-        //return this.intervalW[0].calcMeasures.hasOwnProperty('movingDuration') ?
-        //    moment().startOf('day').second(this.intervalW[0].calcMeasures.movingDuration.maxValue).format('H:mm:ss') : null
-            //this.intervalW[0].calcMeasures.movingDuration.maxValue : null
-
-        let movingDuration = this.intervalW[0].calcMeasures.movingDuration
-        return ((movingDuration.hasOwnProperty('maxValue')) && moment().startOf('day').second(movingDuration.maxValue).format('H:mm:ss')) || null
-
-    }
-
-    get distance() {
-        /*try {
-            return this.intervalW[0].calcMeasures.distance.maxValue.toFixed(0)
-        } catch(e) {
-            return null
-        }*/
-        //return this.intervalW[0].calcMeasures.hasOwnProperty('distance') ?
-        //    this.intervalW[0].calcMeasures.distance.maxValue.toFixed(0) : null
-        let distance = this.intervalW[0].calcMeasures.distance
-        return ((distance.hasOwnProperty('maxValue')) && distance.maxValue.toFixed(0)) || null
-    }
-
-    // Формируем перечень показателей для панели data (bottomPanel)
-    get summaryAvg() {
-        let measures = ['speed','heartRate','power']
-        let calc = this.intervalW[0].calcMeasures
-
-        return measures
-            .map((measure)=>{
-                if(calc.hasOwnProperty(measure)){
-                    return ((calc[measure].hasOwnProperty('avgValue')) &&
-                        { measure : measure, value: Number(calc[measure].avgValue)}) || {[measure]: null}
-            }})
-            .filter((measure)=>{
-                return !!measure && !!measure.value
-            })
-    }
-
-}
-
 class CalendarActivityCtrl {
-    constructor($mdDialog, ActivityService) {
+    constructor($scope, $mdDialog, ActivityService,ActionMessageService) {
+        this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this.ActivityService = ActivityService;
+        this.ActionMessageService = ActionMessageService;
         //this.status = 'new';
         /**
          * Нижняя панель тренировки
@@ -153,7 +28,8 @@ class CalendarActivityCtrl {
 
     $onInit() {
         this.data = new Activity(this.item);
-        console.log('calendar-activity=',this.data);
+        this.data.prepare();
+        //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
         if (this.data.bottomPanel === 'data')
             this.bottomPanelData = this.data.summaryAvg
 
@@ -175,6 +51,7 @@ class CalendarActivityCtrl {
         //});
         // Задание в прошлом или будущем
         //this.planned = moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'), 'd') < 1;
+
 
         if (this.structured) {
             let comulativeDuration = 0;
@@ -331,12 +208,13 @@ class CalendarActivityCtrl {
          console.log('calendar activity =', this.item, this.data, this.bottomPanel, this.status, this.structured)*/
     }
 
-    $onChange(changes) {
-        console.log('calendar-activity change', changes);
-        if (changes.selected) {
+    $onChanges(changes) {
+        if (!changes.selected) {
             console.log('CalendarActivityCtrl: onChange, selected=', changes.selected);
         }
-
+        if(!changes.item.isFirstChange()) {
+            this.$onInit();
+        }
     }
 
     /**
@@ -345,7 +223,6 @@ class CalendarActivityCtrl {
      * @param interval - описание интервала
      */
     prepareSegmentList(group, interval) {
-        "use strict";
         // В верстке будет использоваться данный признак для разного отображения
         interval.group = group;
         interval.show = true;
@@ -457,7 +334,7 @@ class CalendarActivityCtrl {
 
                 // При изменение записи сначала удаляем старую, потом создаем новую
                 if(response.type === 'put'){
-                    this.calendar.onDeleteItem(data)
+                    this.calendar.onDeleteItem(this.data)
                     this.calendar.onPostItem(response.item)
                     this.ActionMessageService.simple('Изменения сохранены')
                 }
@@ -499,7 +376,7 @@ class CalendarActivityCtrl {
         !!value ? this.collapse = '' : this.collapse = false;
     }
 }
-CalendarActivityCtrl.$inject = ['$mdDialog','ActivityService'];
+CalendarActivityCtrl.$inject = ['$scope','$mdDialog','ActivityService','ActionMessageService'];
 
 function DialogController($scope, $mdDialog) {
     $scope.hide = function() {

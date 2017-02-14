@@ -38,6 +38,23 @@ function configure(
 		.warnPalette('red', {
 			'default': 'A700'
 		});
+	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
+	$mdThemingProvider.theme('coming')
+		.primaryPalette('grey', {
+			'default': '500',
+			'hue-1': '50',
+			'hue-2': '600',
+			'hue-3': '800'
+		})
+		.accentPalette('deep-orange', {
+			'default': 'A700',
+			'hue-1': '50',
+			'hue-2': '600',
+			'hue-3': '800'
+		})
+		.warnPalette('red', {
+			'default': 'A700'
+		});
 	// Дополнительная цветовая схема для контрастных форм и фрагментов,
 	// с темным задним фоном
 	$mdThemingProvider.theme('dark')

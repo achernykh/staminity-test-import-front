@@ -6,6 +6,7 @@ import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";
 import {ISessionService} from "../core/session.service";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
+import IRootScopeService = angular.IRootScopeService;
 
 interface ICalendarWeek {
     sid: number; // номер недели, текущая неделя календаря = 0
@@ -31,7 +32,7 @@ interface ICalendarDay {
 
 class CalendarCtrl implements IComponentController{
 
-    static $inject = ['$scope','$anchorScroll','$location','message','CalendarService','SessionService'];
+    static $inject = ['$scope', '$rootScope', '$anchorScroll','$location','message','CalendarService','SessionService'];
     private weekdayNames: Array<string> = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
     private buffer: Array<any> = [];
     private dateFormat: string = 'YYYY-MM-DD';
@@ -43,6 +44,7 @@ class CalendarCtrl implements IComponentController{
 
     constructor(
         private $scope: IScope,
+        private $rootScope: any,
         private $anchorScroll: IAnchorScrollService,
         private $location: ILocationService,
         private message: IMessageService,
@@ -111,7 +113,7 @@ class CalendarCtrl implements IComponentController{
      */
     getWeek (date, index) {
         let start = moment(date).startOf('week');
-        let end = moment(start).add(1, 'w');
+        let end = moment(start).add(6, 'd');
         
         return this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat))
             .then((items) => {
@@ -214,7 +216,7 @@ class CalendarCtrl implements IComponentController{
 
         console.log('onPostItem to',w,d,item,this.calendar);
         this.calendar[w].subItem[d].data.calendarItems.push(item);
-
+        //this.$scope.$apply(()=>this.calendar[w].subItem[d].data.calendarItems.push(item));
     }
 
     /**
@@ -228,6 +230,7 @@ class CalendarCtrl implements IComponentController{
 
         console.log('onDeleteItem', w,d,p,item,this.calendar);
         this.calendar[w].subItem[d].data.calendarItems.splice(p,1);
+        //this.$scope.$apply(()=>this.calendar[w].subItem[d].data.calendarItems.splice(p,1));
     }
 
     /**

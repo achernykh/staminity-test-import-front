@@ -91,7 +91,7 @@
 
     <section class="details" flex="none" layout-fill layout="column" style="background-color: indianred"
              ng-class="{'single': $ctrl.mode === 'post' || !$ctrl.activity.hasDetails}">
-        <md-toolbar flex="none" class="md-hue-2">
+        <md-toolbar flex="none" class="{{$ctrl.activity.status}}">
             <div class="md-toolbar-tools" ng-if="!$ctrl.$mdMedia('gt-sm') || $ctrl.mode === 'post' || !$ctrl.activity.hasDetails">
                 <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
                     <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -123,8 +123,12 @@
             </div>
         </md-toolbar>
         <md-content flex="auto" class="md-hue-2" layout="column">
-            <md-tabs flex layout="column" layout-fill
-                     class="md-primary md-hue-2" md-selected="'0'">
+            <md-tabs flex layout="column" layout-fill class="md-primary" ng-cloak
+                     ng-class="{'coming': $ctrl.activity.status === 'coming',
+                                'not-specified': $ctrl.activity.status === 'not-specified',
+                                'complete': $ctrl.activity.status === 'complete',
+                                'complete-warn': $ctrl.activity.status === 'complete-warn',
+                                'complete-error': $ctrl.activity.status === 'complete-error' || $ctrl.activity.status === 'dismiss'}">
                 <md-tab id="tab1" flex layout="column" label="Обзор">
                     <md-tab-content>
                         <form name="$ctrl.activityForm">
