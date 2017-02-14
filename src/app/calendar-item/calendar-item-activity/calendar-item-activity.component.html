@@ -131,7 +131,56 @@
                                 'complete-error': $ctrl.activity.status === 'complete-error' || $ctrl.activity.status === 'dismiss'}">
                 <md-tab id="tab1" flex layout="column" label="Обзор">
                     <md-tab-content>
-                        <form name="$ctrl.activityForm">
+                        <section class="activity-summary" ng-if="$ctrl.mode === 'view'"
+                                 ng-class="{'coming': $ctrl.activity.status === 'coming',
+                                            'not-specified': $ctrl.activity.status === 'not-specified',
+                                            'complete': $ctrl.activity.status === 'complete',
+                                            'complete-warn': $ctrl.activity.status === 'complete-warn',
+                                            'complete-error': $ctrl.activity.status === 'complete-error' || $ctrl.activity.status === 'dismiss'}">
+
+                            <div layout="row">
+                                <div flex="none" layout="row" layout-align="center center"
+                                     class="bg-circle-56 bg-blue-grey-A700">
+                                    <md-icon flex="none" md-svg-src="{{$ctrl.activity.sportUrl}}"
+                                             class="s36 light-active"></md-icon>
+                                </div>
+                                <div class="summary-value md-headline font-black" flex="auto" layout="column">
+                                    <div flex="none">
+                                        <span>
+                                            {{$ctrl.activity.durationValue |
+                                            measureCalc:$ctrl.activity.sportBasic:$ctrl.activity.durationMeasure}}</span>
+                                        <span ng-if="$ctrl.activity.durationMeasure !== 'movingDuration'">
+                                            &nbsp{{$ctrl.activity.durationMeasure | measureUnit:$ctrl.activity.sportBasic |
+                                            translate}}}}</span>
+                                        </div>
+                                    <div flex="none">
+                                        <span>
+                                            {{$ctrl.activity.intensityValue.from |
+                                            measureCalc:$ctrl.activity.sportBasic:$ctrl.activity.intensityMeasure}}</span>
+                                        <span>
+                                            &nbsp{{$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.sportBasic |
+                                            translate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div layout="row" class="md-subhead" style="margin-top: 8px">
+                                <div class="summary-percent" flex="none">{{$ctrl.activity.printPercent()}}</div>
+                                <div class="summary-info" flex="auto">Категория тренировки</div>
+                            </div>
+
+                            <md-fab-speed-dial ng-cloak class="animated bounceIn view" md-theme="default">
+                                <md-fab-trigger>
+                                    <md-button type="submit"
+                                               aria-label="submit" class="md-fab md-accent"
+                                               ng-click="$ctrl.mode = 'put'">
+                                        <md-icon class="material-icons">edit</md-icon>
+                                        <md-tooltip md-direction="left">{{'measurement.toolbar.edit' |
+                                            translate}}</md-tooltip>
+                                    </md-button>
+                                </md-fab-trigger>
+                            </md-fab-speed-dial>
+                        </section>
+                        <form name="$ctrl.activityForm" ng-if="$ctrl.mode !== 'view'">
                             <md-list class="md-dense slim-input bg-grey-200">
                                 <md-list-item>
                                     <md-input-container class="md-block no-message" md-no-float layout="row">
@@ -183,19 +232,20 @@
                                                ng-disabled="false">
                                     </md-input-container>
                                 </md-list-item>
-                                <md-fab-speed-dial ng-cloak class="animated bounceIn" md-theme="default">
-                                    <md-fab-trigger>
-                                        <md-button type="submit"
-                                                   aria-label="submit" class="md-fab md-accent"
-                                                   ng-disabled="!$ctrl.activityForm.$dirty"
-                                                   ng-class="{'md-warn': !$ctrl.activityForm.$valid}"
-                                                   ng-click="$ctrl.activityForm.$valid ? $ctrl.onSave() : null">
-                                            <md-icon class="material-icons">save</md-icon>
-                                            <md-tooltip md-direction="left">{{'measurement.toolbar.save' | translate}}</md-tooltip>
-                                        </md-button>
-                                    </md-fab-trigger>
-                                </md-fab-speed-dial>
                             </md-list>
+                            <md-fab-speed-dial ng-if="$ctrl.mode === 'post' || $ctrl.mode === 'put'"
+                                               ng-cloak class="animated bounceIn" md-theme="default">
+                                <md-fab-trigger>
+                                    <md-button type="submit"
+                                               aria-label="submit" class="md-fab md-accent"
+                                               ng-disabled="!$ctrl.activityForm.$dirty"
+                                               ng-class="{'md-warn': !$ctrl.activityForm.$valid}"
+                                               ng-click="$ctrl.activityForm.$valid ? $ctrl.onSave() : null">
+                                        <md-icon class="material-icons">save</md-icon>
+                                        <md-tooltip md-direction="left">{{'measurement.toolbar.save' | translate}}</md-tooltip>
+                                    </md-button>
+                                </md-fab-trigger>
+                            </md-fab-speed-dial>
                         </form>
                             <md-divider></md-divider>
                             <md-list class="md-dense">
@@ -203,6 +253,7 @@
                                                          plan="$ctrl.activity.intervalPW"
                                                          actual="$ctrl.activity.intervalW.calcMeasures"
                                                          sport="$ctrl.activity.sportBasic"
+                                                         editable="$ctrl.mode !== 'view'"
                                                          on-change="$ctrl.updateAssignment(plan,actual,valid)">
                                     </activity-assignment>
                                 <md-list-item style="margin-bottom: 20px">

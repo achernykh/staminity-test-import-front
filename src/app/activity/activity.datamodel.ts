@@ -366,6 +366,24 @@ export class Activity extends CalendarItem {
 		return `assets/icon/${this.sport}.svg`;
 	}
 
+	get durationValue(){
+		return (!!this.durationMeasure && this[this.durationMeasure]) || null;
+	}
+
+	get durationMeasure() {
+		return this.intervalPW.durationMeasure || null;
+	}
+
+	get intensityValue(){
+		return ((this.coming || this.dismiss) && {
+			from: this.intervalPW.intensityLevelFrom,
+			to: this.intervalPW.intensityLevelTo}) || this.intervalW.calcMeasures[this.intensityMeasure].avgValue;
+	}
+
+	get intensityMeasure() {
+		return this.intervalPW.intensityMeasure || null;
+	}
+
 	get movingDuration() {
 		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.maxValue;

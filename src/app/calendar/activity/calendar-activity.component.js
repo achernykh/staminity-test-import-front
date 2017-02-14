@@ -302,7 +302,7 @@ class CalendarActivityCtrl {
         return icon;
     }
 
-    onOpen($event) {
+    onOpen($event, mode) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -310,14 +310,15 @@ class CalendarActivityCtrl {
                 `<md-dialog id="activity" aria-label="Activity">
                         <calendar-item-activity
                                 layout="row" class="calendar-item-activity"
-                                data="$ctrl.data" mode="put"
+                                data="$ctrl.data" mode="$ctrl.mode"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-activity>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: this.data
+                data: this.data,
+                mode: mode
             },
             /*resolve: {
                 details: () => this.ActivityService.getDetails(this.data.activityHeader.activityId)

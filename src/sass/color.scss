@@ -32,6 +32,7 @@ $grey-700: #616161;
 
 // Палитра Teal Google Material
 $teal-500: #009688;
+$teal-600: #00796B;
 $teal-700: #00796B;
 $teal-800: #00695C;
 $teal-900: #004D40;
@@ -39,6 +40,7 @@ $teal-900: #004D40;
 // Палитра Orange Google Material
 $orange-300: #FFB74D;
 $orange-500: #FF9800;
+$orange-600: #F57C00;
 $orange-700: #F57C00;
 $orange-800: #EF6C00;
 $orange-900: #E65100;
@@ -46,12 +48,14 @@ $orange-900: #E65100;
 // Палитра Deep-Orange Google Material
 $deep-orange-300: #FF8A65;
 $deep-orange-500: #FF5722;
+$deep-orange-600: #E64A19;
 $deep-orange-700: #E64A19;
 $deep-orange-800: #D84315;
 $deep-orange-900: #BF360C;
 
 // Палитра Red Google Material
 $red-500: #F44336;
+$red-600: #F44336;
 $red-700: #D32F2F;
 $red-800: #C62828;
 $red-900: #B71C1C;
@@ -97,6 +101,9 @@ $success-color-hover:	$teal-900;
 	}
 	&-600 {
 		background-color: $blue-grey-600;
+	}
+	&-700 {
+		background-color: $blue-grey-700;
 	}
 	&-800 {
 		background-color: $blue-grey-800;
@@ -154,6 +161,12 @@ $success-color-hover:	$teal-900;
 	&-500 {
 		background-color: $teal-500;
 	}
+	&-600 {
+		background-color: $teal-600;
+	}
+	&-700 {
+		background-color: $teal-700;
+	}
 	&-800 {
 		background-color: $teal-800;
 	}
@@ -172,6 +185,12 @@ $success-color-hover:	$teal-900;
 .bg-orange{
 	&-500 {
 		background-color: $orange-500;
+	}
+	&-600 {
+		background-color: $orange-600;
+	}
+	&-700 {
+		background-color: $orange-700;
 	}
 	&-800 {
 		background-color: $orange-800;
@@ -192,6 +211,12 @@ $success-color-hover:	$teal-900;
 .bg-red {
 	&-500 {
 		background-color: $red-500;
+	}
+	&-600 {
+		background-color: $red-600;
+	}
+	&-700 {
+		background-color: $red-700;
 	}
 	&-800 {
 		background-color: $red-800;

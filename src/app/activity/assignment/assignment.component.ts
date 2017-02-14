@@ -176,6 +176,7 @@ const ActivityAssignmentComponent:IComponentOptions = {
         plan: '<',
         actual: '<',
         sport: '<',
+        editable: '<',
         onChange: '&'
     },
     controller: ActivityAssignmentCtrl,

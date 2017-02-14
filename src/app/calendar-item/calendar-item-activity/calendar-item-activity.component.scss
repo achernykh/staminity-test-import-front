@@ -100,9 +100,53 @@ calendar-item-activity {
     @extend .bg-red-800;
   }
 
+  section.activity-summary {
+    padding: 16px;
+    color: white;
+
+    div.summary-percent {
+      text-align: center;
+      //line-height: 26px;
+      width: 56px;
+      //height: 26px;
+      border-radius: 12px;
+    }
+    div.summary-info, div.summary-value {
+      margin-left: 16px;
+    }
+
+  }
+
+  section.activity-summary.coming {
+    color: black;
+    @extend .bg-grey-500;
+  }
+  section.activity-summary.not-specified {
+    @extend .bg-blue-grey-500;
+  }
+  section.activity-summary.complete {
+    @extend .bg-teal-500;
+  }
+  section.activity-summary.complete-warn{
+    @extend .bg-orange-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-orange-700;
+    }
+  }
+  section.activity-summary.complete-error, section.activity-summary.dismiss {
+    @extend .bg-red-500;
+  }
+
   form md-list:first-child {
     //background-color: $grey-200;
     //padding-bottom: 30px;
+  }
+
+  md-fab-speed-dial.view {
+    position: absolute;
+    right: 16px;
+    bottom: initial;
+    top: 88px;
   }
 
   md-fab-speed-dial {

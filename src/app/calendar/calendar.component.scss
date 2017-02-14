@@ -37,6 +37,11 @@
     height: 32px;
     @include border-radius(16px);
   }
+	&-56{
+		min-width: 56px;
+		height: 56px;
+		@include border-radius(28px);
+	}
 
 }
 

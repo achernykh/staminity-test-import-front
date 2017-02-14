@@ -3,7 +3,7 @@
     <header flex layout="column"
          class="activity-header {{$ctrl.data.status}}"
          ng-class="{selected: $ctrl.selected}"
-         ng-click="$ctrl.onOpen($env)">
+         ng-click="$ctrl.onOpen($env,'view')">
         <div layout="row" layout-align="space-between center" layout-align-xs="space-between start">
             <div flex="25" hide show-gt-sm
                  class="md-caption tight-07">{{$ctrl.data.printPercent()}}</div>
@@ -53,7 +53,7 @@
                         <md-icon class="material-icons md-18">more_vert</md-icon>
                     </md-button>
                     <md-menu-content>
-                        <md-menu-item><md-button>Открыть</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="$ctrl.onOpen($env,'put')">Изменить</md-button></md-menu-item>
                         <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
                         <md-menu-item><md-button ng-click="$ctrl.onDelete()">Удалить</md-button></md-menu-item>
                     </md-menu-content>

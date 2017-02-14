@@ -147,7 +147,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
         date: '<',
         data: '<',
-        mode: '@',
+        mode: '<',
         onCancel: '&',
         onAnswer: '&'
     },
