@@ -119,7 +119,8 @@ const Share = module('staminity.share', [])
             let unit = measurementUnitDisplay(sport, measure);
 
             if(isDuration(unit)) {
-                return moment(value).diff(moment(value).startOf('day'),'seconds');
+                //console.log('duration', value, moment(value, 'hh:mm:ss').diff(moment().startOf('day'),'seconds'));
+                return moment(value, 'hh:mm:ss').diff(moment().startOf('day'),'seconds');
             } else {
                 if (isPace(unit)) {
                     value = moment(value,'mm:ss').diff(moment().startOf('day'),'seconds');

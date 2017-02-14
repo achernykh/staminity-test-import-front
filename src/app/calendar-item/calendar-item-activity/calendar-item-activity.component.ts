@@ -1,4 +1,4 @@
-import { IComponentOptions, IComponentController, IFormController,IPromise, IScope} from 'angular';
+import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
@@ -119,14 +119,26 @@ class CalendarItemActivityCtrl implements IComponentController{
 
 	/**
      * Обновление данных из формы ввода/редактирования activity-assignment
-     * @param intervalPW
-     * @param intervalW
      */
-    updateAssignment({intervalPW, intervalW}) {
+    updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures, valid:boolean) {
         debugger;
-        this.activity.intervalPW.calcMeasures = intervalPW;
-        this.activity.intervalW.calcMeasures = intervalW;
+        this.activity.intervalPW = plan;
+
+        this.activity.intervalPW.durationMeasure = (!!plan.distance.value && 'distance') ||
+            (!!plan.movingDuration.value && 'movingDuration') || null;
+        this.activity.intervalPW.durationValue = plan[this.activity.intervalPW.durationMeasure].value || null;
+
+        this.activity.intervalPW.intensityMeasure = (!!plan.heartRate['from'] && 'heartRate') ||
+            (!!plan.speed['from'] && 'speed') || (!!plan.power['from'] && 'power') || null;
+
+        this.activity.intervalPW.intensityLevelFrom =
+            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['from']) || null;
+        this.activity.intervalPW.intensityLevelTo =
+            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['to']) || null;
+
+        this.activity.intervalW.calcMeasures = actual;
         this.activityForm.$dirty = true;
+        this.activityForm.$valid = valid && this.activityForm.$valid;
     }
 }
 

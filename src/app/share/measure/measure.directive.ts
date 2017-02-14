@@ -32,6 +32,29 @@ const toPace = (input) => {
 	};
 };
 
+const toDuration = (input) => {
+	let time = input.replace(/[^0-9]/g, '');
+	if (time.length < 3) {
+		return time;
+	} else if (time.length >= 3 && time.length < 5) {
+		return time.substr(0,2) + ':' + time.substr(2);
+	} else if (time.length >= 5 && time.length < 7) {
+		return time.substr(0,2) + ':' + time.substr(2,2) + ':' + time.substr(4);
+	} else {
+		return time.substr(0,2) + ':' + time.substr(2,2) + ':' + time.substr(4,2);
+	};
+};
+
+const toNumber = (input) => {
+	return input.replace(/[^\d.,]/g,'');
+};
+
+const toNumberInterval = (input) => {
+	console.log(`toNumberInterval input=${input} reg=${input.replace(/[^\d\-]/g,'')}`);
+	return input.replace(/[^\d\-]/g,'');
+};
+
+
 /**
  * Директива для ввода значения по показателям тренировки
  * Использует следующие параметры в input:
@@ -73,7 +96,28 @@ export function MeasurementInput($filter): IDirective {
 
 		};
 
+		const numberIntervalParsers = (value) => {
+			let sep = value.search('-');
+			let from, to;
+			if(sep !== -1){
+				from = value.substr(0,sep);
+				to = value.substr(sep+1);
+			} else {
+				from = to = value;
+			}
+			console.log('change parsers ', value, value.length, sep, from,to);
+			$ctrl.$modelValue = null;
+			return Object.assign(initial, {
+				from: $filter('measureSave')(measure.name, Number(from), measure.sport),
+				to: $filter('measureSave')(measure.name, Number(to), measure.sport)
+			});
+		};
+
 		const paceParsers = (value) => {
+			return $filter('measureSave')(measure.name, value, measure.sport);
+		};
+
+		const durationParsers = (value) => {
 			return $filter('measureSave')(measure.name, value, measure.sport);
 		};
 
@@ -89,7 +133,23 @@ export function MeasurementInput($filter): IDirective {
 			}
 		};
 
+		const numberIntervalFormatters = (value) => {
+			if(value && value.hasOwnProperty('from') && value.hasOwnProperty('to')) {
+				initial = value;
+				return (value.from !== value.to) ?
+				$filter('measureCalc')(value.from, measure.sport, measure.name)+'-'+$filter('measureCalc')(value.to, measure.sport, measure.name):
+					$filter('measureCalc')(value.from, measure.sport, measure.name);
+			} else {
+				initial = {from: null, to: null};
+				return initial;
+			}
+		};
+
 		const paceFormatters = (value) => {
+			return (!!value && $filter('measureCalc')(value, measure.sport, measure.name)) || null;
+		};
+
+		const durationFormatters = (value) => {
 			return (!!value && $filter('measureCalc')(value, measure.sport, measure.name)) || null;
 		};
 
@@ -99,13 +159,23 @@ export function MeasurementInput($filter): IDirective {
 				(model.from >= model.to);
 		};
 
+		const numberIntervalValidators = (model,view) => {
+			console.log('check validators', model.from, model.to);
+			return (model && model.hasOwnProperty('from') && model.hasOwnProperty('to')) &&
+				(model.from < model.to);
+		};
+
 		const paceValidators = (model,view) => {
+			return true;
+		};
+
+		const durationValidators = (model,view) => {
 			return true;
 		};
 
 		// Для обновляние viewValue добавляем $render
 		$element.on('blur keyup change', () => {
-			if (!!$ctrl.$viewValue) {
+			if (!!$ctrl.$viewValue && !!mask) {
 				$ctrl.$setViewValue(mask($ctrl.$viewValue));
 			};
 			$ctrl.$render();
@@ -128,6 +198,31 @@ export function MeasurementInput($filter): IDirective {
 						$ctrl.$formatters.push(paceFormatters);
 						$ctrl.$parsers.push(paceParsers);
 						mask = toPace;
+					}
+					break;
+				}
+				case 'duration': {
+					if(JSON.parse($attrs['interval'])){
+
+					} else {
+						$ctrl.$validators['time'] = durationValidators;
+						$ctrl.$formatters.push(durationFormatters);
+						$ctrl.$parsers.push(durationParsers);
+						mask = toDuration;
+					}
+					break;
+				}
+				case 'number': {
+					if(JSON.parse($attrs['interval'])){
+						$ctrl.$validators['number'] = numberIntervalValidators;
+						$ctrl.$formatters.push(numberIntervalFormatters);
+						$ctrl.$parsers.push(numberIntervalParsers);
+						mask = toNumberInterval;
+					} else {
+						$ctrl.$validators['number'] = durationValidators;
+						$ctrl.$formatters.push(durationFormatters);
+						$ctrl.$parsers.push(durationParsers);
+						mask = toNumber;
 					}
 					break;
 				}

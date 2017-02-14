@@ -12,7 +12,7 @@
                     <th md-column hide><span>Показатель(ед.изм)</span></th>
                     <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
                     <th md-column md-numeric style="min-width: 80px"><span>План</span></th>
-                    <th md-column md-numeric style="min-width: 50px"><span>Факт</span></th>
+                    <th md-column md-numeric style="min-width: 55px"><span>Факт</span></th>
                     <th md-column md-numeric style="min-width: 50px"><span>Вып</span></th>
                 </tr>
                 </thead>
@@ -34,13 +34,13 @@
                                    name="plan_{{::measure.$key}}"
                                    ng-attr-measure-input={{measure.$key}}
                                    ng-attr-sport={{$ctrl.sport}} ng-attr-interval="true"
-                                   ng-change="$ctrl.changeValue(measure.sourceMeasure)">
+                                   ng-change="$ctrl.changeValue(measure.$key)">
                             <input ng-if="!$ctrl.isInterval(measure.$key)"
                                    name="plan_{{::measure.$key}}"
                                    ng-model="measure.value"
                                    ng-attr-measure-input={{measure.$key}}
                                    ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
-                                   ng-change="$ctrl.changeValue(measure.sourceMeasure)">
+                                   ng-change="$ctrl.changeValue(measure.$key)">
                         </md-input-container>
                     </td>
                     <td md-cell>
@@ -49,7 +49,7 @@
                                    name="actual_{{::measure.$key}}"
                                    ng-attr-measure-input={{measure.$key}}
                                    ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
-                                   ng-change="$ctrl.changeValue(measure.sourceMeasure)">
+                                   ng-change="$ctrl.changeValue(measure.$key)">
                         </md-input-container>
                     </td>
 
@@ -71,4 +71,6 @@
             </table>
     </md-list-item>
 </md-table-container>
+    <pre>%={{$ctrl.percentComplete | json}}</pre>
+    <pre>total%={{$ctrl.actual.completePercent.value | number:2}}</pre>
 </form>

@@ -13,7 +13,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     public plan: IActivityIntervalPW;
     public actual: ICalcMeasures;
     public sport: string;
-    public onChange: (result: {upd: {intervalPW: ICalcMeasures, intervalW: ICalcMeasures}}) => IPromise<void>;
+    public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, valid: boolean}) => IPromise<void>;
 
     private selected:Array<number> = [];
     private assignmentForm: INgModelController;
@@ -43,7 +43,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         limit: 5,
         page: 1
     };
-    private filter: Array<string> = ['movingDuration','distance','heartRate', 'speed'];
+    private filter: Array<string> = ['movingDuration','distance','heartRate', 'speed', 'power'];
 
     static $inject = ['$scope','$mdEditDialog','$q','$filter'];
 
@@ -70,25 +70,32 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     changeValue(key) {
-        if(typeof key === 'undefined') {
+        if(!!!key) {
             return;
         }
 
+        let percent: number = null;
         let p = (this.plan[key].hasOwnProperty('value') && this.plan[key].value) ||
             (this.plan[key].hasOwnProperty('from') && this.plan[key]) || null;
         let a = this.actual[key][this.valueType[key]] || null;
-
 
         if(!!p && !!a ){
             let isInterval = p.hasOwnProperty('from');
             //TODO сделать метод для определния велечин с обратным счетом
             if(isInterval && key === 'speed') {
-                this.percentComplete[key] = ((a <= p.to) && a/p.to) || ((a >= p.from) && a/p.from);
+                percent = ((a <= p.to) && a/p.to) || ((a >= p.from) && a/p.from);
             } else {
-                this.percentComplete[key] = (!isInterval && a/p) ||
+                percent = (!isInterval && a/p) ||
                     ((isInterval && a <= p.from) && a/p.from) || ((isInterval && a >= p.to) && a/p.to);
             }
-        }
+        } else { // если план или факт не введены, то очищаем расчет процента
+            percent = null;
+        };
+
+        this.percentComplete[key] = percent;
+        this.calculateCompletePercent();
+        this.onChange({plan: this.plan, actual: this.actual, valid: this.assignmentForm.$valid});
+
     }
 
     measurePercentComplete() {
@@ -117,7 +124,7 @@ class ActivityAssignmentCtrl implements IComponentController {
                 //if (event.target.className.search('intervalW') !== -1) {
                     this.calculateCompletePercent();
                 //}
-                this.onChange({upd: this.assignment});
+                //this.onChange({upd: this.assignment});
             },
 
             targetEvent: event,
@@ -152,15 +159,14 @@ class ActivityAssignmentCtrl implements IComponentController {
      */
     calculateCompletePercent() {
 
-        this.assignment.intervalW.completePercent.value = this.$scope.measure
-                .filter(m => !!this.assignment.intervalPW[m][this.valueType[m]])
-                .map(m => (!!this.assignment.intervalW[m][this.valueType[m]] &&
-                    this.assignment.intervalW[m][this.valueType[m]] / this.assignment.intervalPW[m][this.valueType[m]]) || 0)
+        this.actual.completePercent.value = Object.keys(this.percentComplete)
+            .filter(m => !!this.percentComplete[m])
+                .map(m => this.percentComplete[m])
                 .reduce((percent, value, i, arr) => (percent + value) / arr.length) * 100;
 
-        this.assignment.intervalW.completePercent.value.toFixed(0);
+        //this.assignment.intervalW.completePercent.value.toFixed(0);
 
-        console.log('set complete percent=', this.assignment.intervalW.completePercent.value);
+        console.log('set complete percent=', this.actual.completePercent.value);
     }
 
 }

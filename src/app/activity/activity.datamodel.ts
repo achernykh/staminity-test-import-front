@@ -162,8 +162,13 @@ export class Activity extends CalendarItem {
 		super.prepare();
 		// Дополниельные данные для отображения плана на панелях
 		Object.assign(this.intervalPW, {
-			movingDuration: {sourceMeasure: 'movingDuration', value: (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null},
-			distance: {sourceMeasure: 'distance', value: (this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null},
+			movingDuration: {
+				sourceMeasure: 'movingDuration',
+				value: (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null
+			},
+			distance: {
+				sourceMeasure: 'distance',
+				value: (this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null},
 			heartRate: {
 				sourceMeasure: 'heartRate',
 				from: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelFrom) || null,
@@ -274,10 +279,7 @@ export class Activity extends CalendarItem {
 	 * @returns {boolean}
      */
 	get specified() {
-		return (!!this.intervalPW &&
-			Object.keys(this.intervalPW.calcMeasures).filter(m =>
-				this.intervalPW.calcMeasures[m]['value'] || this.intervalPW.calcMeasures[m]['minValue'] ||
-				this.intervalPW.calcMeasures[m]['maxValue'] || this.intervalPW.calcMeasures[m]['avgValue']).length > 0);
+		return (!!this.intervalPW && (!!this.intervalPW.durationValue || !!this.intervalPW.intensityLevelFrom));
 	}
 
 	get bottomPanel() {
@@ -338,7 +340,6 @@ export class Activity extends CalendarItem {
 	 * @returns {string}
 	 */
 	get status() {
-
 		return (this.coming && 'coming') || (!this.specified && 'not-specified') || (!this.completed && 'dismiss')
 			|| (this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn') || 'complete-error';
 	}

@@ -163,7 +163,7 @@
                                         </div>
                                     </md-input-container>
                                 </md-list-item>
-                                <md-list-item layout="row" layout-align="start center">
+                                <md-list-item layout="row" layout-align="start center" style="margin-bottom: 20px">
                                     <md-input-container flex="50" class="no-message" md-no-float>
                                         <md-icon flex="none" class="material-icons" style="left: 0px">tune</md-icon>
                                         <md-datepicker flex="auto" ng-model="$ctrl.activity._dateStart"
@@ -199,9 +199,9 @@
                                                          plan="$ctrl.activity.intervalPW"
                                                          actual="$ctrl.activity.intervalW.calcMeasures"
                                                          sport="$ctrl.activity.sportBasic"
-                                                         on-change="$ctrl.updateAssignment(upd)">
+                                                         on-change="$ctrl.updateAssignment(plan,actual,valid)">
                                     </activity-assignment>
-                                <md-list-item>
+                                <md-list-item style="margin-bottom: 20px">
                                     <md-input-container flex class="md-block no-message">
                                         <md-icon class="material-icons">event_note</md-icon>
                                         <label translate="Установка тренера" class="icon"></label>
