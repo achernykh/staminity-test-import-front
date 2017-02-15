@@ -2,7 +2,6 @@ import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './dashboard.translate';
 import { DisplayView } from "../core/display.constants";
 import UserService from "../core/user.service";
-import MessageService from "../core/message.service";
 
 function configure(
     $stateProvider:StateProvider,
@@ -105,7 +104,8 @@ function configure(
                     component: "dashboard",
                     bindings: {
                         view: 'view.application',
-                        user: 'user'
+                        user: 'user',
+                        idGroup: 'idGroup'
                     }
                 }
             }
