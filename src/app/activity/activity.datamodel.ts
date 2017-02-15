@@ -359,7 +359,7 @@ export class Activity extends CalendarItem {
 			//приоритет статусов, если запись сегодня
 			(this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn')
 				|| ((this.percent <= 50 && this.percent > 0) && 'complete-error')
-				|| (this.coming && 'coming') || (!this.specified && 'not-specified');
+				|| (!this.specified && 'not-specified') || (this.coming && 'coming');
 	}
 
 	get sportUrl() {
@@ -371,17 +371,25 @@ export class Activity extends CalendarItem {
 	}
 
 	get durationMeasure() {
-		return this.intervalPW.durationMeasure || null;
+		return this.intervalPW.durationMeasure
+			|| (!!this.intervalW.calcMeasures.movingDuration.maxValue && 'movingDuration')
+			|| (!!this.intervalW.calcMeasures.distance.maxValue && 'distance') || null;
 	}
 
-	get intensityValue(){
-		return ((this.coming || this.dismiss) && {
+	get intensityValue() {
+		return ((this.status === 'coming' || this.status === 'dismiss') && {
 			from: this.intervalPW.intensityLevelFrom,
 			to: this.intervalPW.intensityLevelTo}) || this.intervalW.calcMeasures[this.intensityMeasure].avgValue;
 	}
 
 	get intensityMeasure() {
-		return this.intervalPW.intensityMeasure || null;
+		return this.intervalPW.intensityMeasure || this.defaultIntensityMeasure;
+	}
+
+	get defaultIntensityMeasure() {
+		return (!!this.intervalW.calcMeasures.speed.avgValue && 'speed')
+			|| (!!this.intervalW.calcMeasures.heartRate.avgValue && 'heartRate')
+			|| (!!this.intervalW.calcMeasures.power.avgValue && 'power') || null;
 	}
 
 	get movingDuration() {

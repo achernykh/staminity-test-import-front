@@ -151,11 +151,14 @@
                                             measureCalc:$ctrl.activity.sportBasic:$ctrl.activity.durationMeasure}}</span>
                                         <span ng-if="$ctrl.activity.durationMeasure !== 'movingDuration'">
                                             &nbsp{{$ctrl.activity.durationMeasure | measureUnit:$ctrl.activity.sportBasic |
-                                            translate}}}}</span>
+                                            translate}}</span>
                                         </div>
-                                    <div flex="none">
-                                        <span>
+                                    <div flex="none" ng-switch="$ctrl.activity.intensityValue.hasOwnProperty('from')">
+                                        <span ng-switch-when="true">
                                             {{$ctrl.activity.intensityValue.from |
+                                            measureCalc:$ctrl.activity.sportBasic:$ctrl.activity.intensityMeasure}}</span>
+                                        <span ng-switch-when="false">
+                                            {{$ctrl.activity.intensityValue |
                                             measureCalc:$ctrl.activity.sportBasic:$ctrl.activity.intensityMeasure}}</span>
                                         <span>
                                             &nbsp{{$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.sportBasic |
@@ -164,7 +167,9 @@
                                 </div>
                             </div>
                             <div layout="row" class="md-subhead" style="margin-top: 8px">
-                                <div class="summary-percent" flex="none">{{$ctrl.activity.printPercent()}}</div>
+                                <div flex="none" style="width: 56px" ng-if="!!!$ctrl.activity.percent"></div>
+                                <div class="summary-percent" ng-if="!!$ctrl.activity.percent"
+                                     flex="none">{{$ctrl.activity.printPercent()}}</div>
                                 <div class="summary-info" flex="auto">Категория тренировки</div>
                             </div>
 

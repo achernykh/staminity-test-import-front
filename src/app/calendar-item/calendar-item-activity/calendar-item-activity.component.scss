@@ -120,12 +120,21 @@ calendar-item-activity {
   section.activity-summary.coming {
     color: black;
     @extend .bg-grey-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-grey-700;
+    }
   }
   section.activity-summary.not-specified {
     @extend .bg-blue-grey-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-blue-grey-700;
+    }
   }
   section.activity-summary.complete {
     @extend .bg-teal-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-teal-700;
+    }
   }
   section.activity-summary.complete-warn{
     @extend .bg-orange-500;
@@ -135,6 +144,9 @@ calendar-item-activity {
   }
   section.activity-summary.complete-error, section.activity-summary.dismiss {
     @extend .bg-red-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-red-700;
+    }
   }
 
   form md-list:first-child {
@@ -146,7 +158,7 @@ calendar-item-activity {
     position: absolute;
     right: 16px;
     bottom: initial;
-    top: 88px;
+    top: 90px;
   }
 
   md-fab-speed-dial {
