@@ -221,7 +221,7 @@ class ActivityChartController implements IComponentController {
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
             .y1(function (d) { return rangeScale(d[metric]); })
-            .curve(d3.curveMonotoneX);
+            .curve(d3.curveBasis);
         let fillColor = this.getFillColor(style.area);
         let metrics = this.chartData.getData();
         this.$interactiveArea
