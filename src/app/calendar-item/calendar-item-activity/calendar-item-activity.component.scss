@@ -230,8 +230,10 @@ calendar-item-activity {
     height: 100%;
   }
 
-  div.chart {
+  activity-metrics-char {
     //background-color: grey;
+    //margin: 0px 8px;
+    //max-height: 400px;
   }
 
   measure-split-table {
@@ -239,7 +241,7 @@ calendar-item-activity {
   }
 
 
-  activity-route, div.chart, measure-split-table {
+  activity-route, activity-metrics-char, measure-split-table {
 
     transition: all 0.3s ease-in-out;
 

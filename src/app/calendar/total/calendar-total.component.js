@@ -24,7 +24,6 @@ class CalendarTotalCtrl {
     $onChanges(changes){
 
         if(changes.update){
-            console.log('CalendarTotal: $onChanges => status new value', this.week.sid, this.week);
             this.total = {};
             let sport = null;
             for (let day of this.week.subItem){
@@ -53,7 +52,6 @@ class CalendarTotalCtrl {
 
                 }
             }
-            console.log('week total 1', this.total);
             // Итоги по всем активностям недели
             this.summary = {completed: {distance: 0,movingDuration: 0},planned: {distance: 0,movingDuration: 0}};
             Object.keys(this.total).forEach((sport) => {
@@ -63,7 +61,6 @@ class CalendarTotalCtrl {
                 this.summary.planned.movingDuration += this.total[sport].planned.movingDuration;
 
             });
-            console.log('week total 2', this.total);
         }
     }
 

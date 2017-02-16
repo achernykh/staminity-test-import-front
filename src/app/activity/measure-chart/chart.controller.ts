@@ -22,7 +22,6 @@ class ActivityChartController implements IComponentController {
     private scales: IActivityScales;
     private height: number;
     private width: number;
-    private top: number;
 
     private $placeholder: any;
     private $interactiveArea: any;
@@ -51,9 +50,30 @@ class ActivityChartController implements IComponentController {
             self.drawChart();
         });
         if (this.activityChartSettings.autoResizable) {
-            this.onResize = function () { self.resize(); };
+            this.onResize = function () { self.redraw(); };
             angular.element(this.$window).on('resize', self.onResize);
         }
+    }
+
+    $onChanges(changes: any): void {
+        let isFirst = true;
+        for (let item in changes) {
+            isFirst = isFirst && changes[item].isFirstChange();
+        }
+        if (isFirst) {
+            return;
+        }
+        if (changes.data && changes.data.currentValue) {
+            this.data = changes.data.currentValue;
+        }
+        if (changes.measures && changes.measures.currentValue) {
+            this.measures = changes.measures.currentValue;
+        }
+        if (changes.select && changes.select.currentValue) {
+            this.select = changes.select.currentValue;
+        }
+        this.prepareData();
+        this.redraw();
     }
 
     $onDestroy(): void {
@@ -74,8 +94,10 @@ class ActivityChartController implements IComponentController {
         this.drawChart();
     }
 
-    resize() {
-        this.$placeholder.remove();
+    redraw() {
+        if (!!this.$placeholder) {
+            this.$placeholder.remove();
+        }
         this.preparePlaceholder();
         this.prepareScales();
         this.drawChart();
@@ -92,7 +114,6 @@ class ActivityChartController implements IComponentController {
         var bounds = this.$element[0].getBoundingClientRect();
         this.width = Math.max(bounds.width, this.activityChartSettings.minWidth);
         this.height = bounds.height;
-        this.top = bounds.top;
         var aspectRatio = this.height / this.width;
         if (aspectRatio < this.activityChartSettings.minAspectRation) {
             this.height = this.width * this.activityChartSettings.minAspectRation;
@@ -306,10 +327,11 @@ class ActivityChartController implements IComponentController {
                 // calc new tooltip position and move it
                 // if there is not enough space on the right side of the tooltip line
                 // flip the info panel to the left side
-                var xPos = (d3.event.pageX + ttpSize.width + xOffset < self.width) ?
-                    (d3.event.pageX + xOffset) :
-                    (d3.event.pageX - xOffset - ttpSize.width);
-                var yPos = self.top + (self.height - ttpSize.height) / 2;
+                var xPos = (mouse[0] + ttpSize.width + (xOffset + self.activityChartSettings.labelOffset) < self.width) ?
+                    (mouse[0] + (xOffset + self.activityChartSettings.labelOffset)) :
+                    (mouse[0] - (xOffset - self.activityChartSettings.labelOffset) - ttpSize.width);
+                let topPos = self.$window.scrollY + self.$element[0].getBoundingClientRect().top;
+                var yPos = topPos + (self.height - ttpSize.height) / 2;
                 self.$tooltip.style("left", xPos + "px")
                     .style("top", yPos + "px");
             });

@@ -69,11 +69,12 @@
                              ng-bind="showChart ? 'expand_more': 'expand_less'"></md-icon>
                 </md-button>
             </header>
-            <activity-metrics-char flex="auto" class="chart" ng-if="showChart"
-                measures="$ctrl.activity.details.measures"
-                data="$ctrl.activity.details.metrics"
-                select="$ctrl.selected">График...
+            <activity-metrics-char flex="auto" ng-if="showChart"
+                                   measures="$ctrl.activity.details.measures"
+                                   data="$ctrl.activity.details.metrics"
+                                   select="$ctrl.selected">График...
             </activity-metrics-char>
+
 
             <md-divider></md-divider>
             <header flex="none" layout="row" layout-align="start center">
