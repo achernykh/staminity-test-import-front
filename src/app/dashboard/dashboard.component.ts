@@ -5,6 +5,8 @@ import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, 
 import {IMessageService} from "../core/message.service";
 import {CalendarService} from "../calendar/calendar.service";
 import {ISessionService} from "../core/session.service";
+import SessionService from '../core/session.service';
+import GroupService from '../core/group.service';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 
 interface ICalendarWeek {
@@ -47,10 +49,13 @@ class DashboardCtrl implements IComponentController{
         private $location: ILocationService,
         private message: IMessageService,
         private CalendarService: CalendarService,
+        private SessionService: SessionService,
+        private GroupService: GroupService,
         private session: ISessionService) {
     }
 
     $onInit() {
+        this.myInit();
         // TODO убрать в ApplicationComponent или run()
         let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek || null;
         if(!!firstDayOfWeek){
@@ -61,7 +66,11 @@ class DashboardCtrl implements IComponentController{
             });
         }
     }
-
+    myInit(){
+        let groupId = this.SessionService.getUser().connections.Athletes.groupId;
+        //let a = this.GroupService.getManagementProfile(123, 'coach');
+        console.log('------------>>', this.GroupService);
+    }
     onLoad() {
         this.$scope.$apply();
     }
@@ -103,6 +112,12 @@ class DashboardCtrl implements IComponentController{
         };
     }
 
+
+    //idGroup: ['SessionService','$stateParams',
+    //    (SessionService: SessionService,CalendarService:CalendarService) => {
+    //        let a = CalendarService.getCalendarItem(SessionService.getUser().connections.Athletes.groupId);
+    //        console.log(a);
+    //    }]
     /**
      * Предоставляет объекты WeekItem
      * @param date - любой Datetime недели
