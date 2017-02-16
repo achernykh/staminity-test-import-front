@@ -2,7 +2,7 @@
 
 const DefaultChartSettings: IActivityChartSettings = {
     minWidth: 350,
-    minAspectRation: 0.4,
+    minAspectRation: 0.3,
     labelOffset: 30,
     autoResizable: true,
     defaultMode: ActivityChartMode.duration,
@@ -69,7 +69,7 @@ const DefaultChartSettings: IActivityChartSettings = {
             tickMinStep: 5,
             tickMinDistance: 30,
             ticksPerLabel: 1,
-            hideOnWidth: 500
+            hideOnWidth: 3000
         }
     },
     duration: {

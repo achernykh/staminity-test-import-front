@@ -190,7 +190,6 @@ export class Activity extends CalendarItem {
 				to: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelTo) || null
 			}
 		});
-		console.log('activity prepare', this);
 	}
 
 	// Подготовка данных для передачи в API
