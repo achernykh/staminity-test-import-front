@@ -125,7 +125,7 @@ export class Activity extends CalendarItem {
 	private hasDetails: boolean = false;
 	private peaks: Array<any>;
 
-	constructor(item: ICalendarItem, details: IActivityDetails = null){
+	constructor(item: ICalendarItem, public details: IActivityDetails = null){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
         // Если activityHeader не установлен, значит вызван режим создаения записи
         // необходимо создать пустые интервалы и обьявить обьекты
@@ -441,7 +441,6 @@ export class Activity extends CalendarItem {
 		// Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
 		return (data.length > 0 && data.map(d => {d[0] = d[0] / finish;	d[1] = d[1] / 100; return d;})) || null;
 	}
-
 }
 
 export default Activity;

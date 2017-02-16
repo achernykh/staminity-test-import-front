@@ -28,6 +28,8 @@ class CalendarItemActivityCtrl implements IComponentController{
     activity: Activity;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: (response: Object) => IPromise<void>;
+
+    private selected: Array<any> = [];
     private isLoadingDetails: boolean = false;
     private showMap: boolean = true;
     private types: Array<Object> = ACTIVITY_TYPE;
@@ -68,7 +70,7 @@ class CalendarItemActivityCtrl implements IComponentController{
         //TODO intervalW.ActualDataIsImported
 
         //Получаем детали по тренировке
-        /**
+
         if (this.mode !== 'post') {
             this.ActivityService.getDetails2(this.data.activityHeader.activityId)
                 .then(response => {
@@ -79,12 +81,18 @@ class CalendarItemActivityCtrl implements IComponentController{
                     console.log('activity data after details =',this);
                 }, error => console.error(error));
         }
-        console.log('activity data=',this);*/
+        console.log('activity data=',this);
+
         this.peaks = this.activity.getPeaks();
     }
 
     toggleMap(){
        return this.showMap = !this.showMap;
+    }
+
+    changeSelectedInterval(interval){
+        console.log('selected interval = ', interval);
+        this.selected = interval;
     }
 
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.

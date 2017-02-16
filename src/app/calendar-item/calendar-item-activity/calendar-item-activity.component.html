@@ -69,7 +69,11 @@
                              ng-bind="showChart ? 'expand_more': 'expand_less'"></md-icon>
                 </md-button>
             </header>
-            <div flex="auto" class="chart" ng-if="showChart">График</div>
+            <activity-metrics-char flex="auto" class="chart" ng-if="showChart"
+                measures="$ctrl.activity.details.measures"
+                data="$ctrl.activity.details.metrics"
+                select="$ctrl.selected">График...
+            </activity-metrics-char>
 
             <md-divider></md-divider>
             <header flex="none" layout="row" layout-align="start center">
@@ -84,7 +88,9 @@
             <measure-split-table flex="auto" layout-fill ng-if="showTable"
                                  class="chart measure-split-table"
                                  splits="$ctrl.activity.intervalL"
-                                 sport="$ctrl.activity.sportBasic"></measure-split-table>
+                                 sport="$ctrl.activity.sportBasic"
+                                 on-selected="$ctrl.changeSelectedInterval(selected)">Data table...
+            </measure-split-table>
 
         </section>
     </section>

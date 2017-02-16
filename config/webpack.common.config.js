@@ -28,7 +28,8 @@ module.exports = {
             'smdatetimerangepicker',
             'angular-simple-logger', // какая-то хрень для ui-leaflet
             'leaflet',
-            'ui-leaflet'
+            'ui-leaflet',
+            'd3'
             //'angular-read-more'
         ],
         // вход для приложения

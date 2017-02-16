@@ -17,7 +17,8 @@
         <tbody md-body>
         <tr md-row
             md-select="split"
-            ng-repeat="split in $ctrl.splits">
+            md-on-select="change" md-on-deselect="change" md-auto-select="$ctrl.options.autoSelect"
+            ng-repeat="split in splits track by $index">
             <td md-cell>{{$index+1}}</td>
             <td md-cell>{{split.calcMeasures.movingDuration.maxValue | duration}}</td>
             <td md-cell>{{split.calcMeasures.distance.maxValue | measureCalc:$ctrl.sport:'distance'}}</td>

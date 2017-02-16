@@ -1,16 +1,18 @@
-import {IComponentOptions, IComponentController} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import './measure-split-table.component.scss';
 import {IActivityMeasure, IActivityIntervalL} from "../../../../api/activity/activity.interface";
 
 class MeasureSplitTableCtrl implements IComponentController {
 
-    private splits:Array<IActivityIntervalL>;
-    private sport: string;
-    private selected:Array<number> = [];
-    private options:Object = {
+    public splits:Array<IActivityIntervalL>;
+    public sport: string;
+    public onSelected: (result: {selected: Array<{startTimeStamp: number, endTimeStamp:number}>}) => IPromise<void>;
+    public selected:Array<any> = [];
+
+    public options:Object = {
         rowSelection: true,
         multiSelect: true,
-        autoSelect: false,
+        autoSelect: true,
         decapitate: false,
         largeEditDialog: false,
         boundaryLinks: false,
@@ -25,20 +27,26 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     //private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain'];
 
-    //static $inject = [''];
+    static $inject = ['$scope'];
 
-    constructor() {
+    constructor(private $scope: any) {
     }
 
     $onInit() {
         //this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
+        this.$scope.selected = [];
+        this.$scope.splits = this.splits;
+        this.$scope.change = () => this.onSelected({
+                selected: this.selected.map(i => ({startTimeStamp: i.startTimestamp,endTimeStamp: i.endTimestamp}))
+            });
     }
 }
 
 const MeasureSplitTableComponent:IComponentOptions = {
     bindings: {
         splits: '<',
-        sport: '<'
+        sport: '<',
+        onSelected: '&'
     },
     controller: MeasureSplitTableCtrl,
     template: require('./measure-split-table.component.html') as string
