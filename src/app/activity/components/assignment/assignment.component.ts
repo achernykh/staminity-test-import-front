@@ -1,11 +1,18 @@
 import {IComponentOptions, IComponentController, IQService, IFilterService, IPromise, INgModelController, copy} from 'angular';
 import './assignment.component.scss';
-import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../api/activity/activity.interface";
-import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../share/measure/measure.constants";
+import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../../api/activity/activity.interface";
+import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../../share/measure/measure.constants";
 import moment from 'moment/src/moment.js';
+import {ACTIVITY_TYPE, ACTIVITY_CATEGORY} from "../../../activity/activity.constants";
+import {Activity} from "../../activity.datamodel";
+import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
+import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 
 class ActivityAssignmentCtrl implements IComponentController {
 
+    private header: ActivityHeaderCtrl;
+    private calendarActivity: CalendarItemActivityCtrl;
+    public activity: Activity;
     public assignment: {
         intervalPW: ICalcMeasures;
         intervalW: ICalcMeasures;
@@ -19,6 +26,9 @@ class ActivityAssignmentCtrl implements IComponentController {
     private assignmentForm: INgModelController;
     private percentComplete: Object = {};
     private valueType: {};
+    private types: Array<Object> = ACTIVITY_TYPE;
+    private categories: Array<Object> = ACTIVITY_CATEGORY;
+
     private options: {
         rowSelection: boolean;
         multiSelect: boolean;
@@ -63,6 +73,8 @@ class ActivityAssignmentCtrl implements IComponentController {
     $onInit() {
         console.log('assignment=', this);
         this.sport = 'run';
+        this.activity = this.header.activity;
+        this.calendarActivity = this.header.calendarActivity;
     }
 
     isInterval(key) {
@@ -172,6 +184,9 @@ class ActivityAssignmentCtrl implements IComponentController {
 }
 
 const ActivityAssignmentComponent:IComponentOptions = {
+    require: {
+        header: '^activityHeader'
+    },
     bindings: {
         plan: '<',
         actual: '<',

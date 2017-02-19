@@ -1,6 +1,6 @@
 import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import './measure-split-table.component.scss';
-import {IActivityMeasure, IActivityIntervalL} from "../../../../api/activity/activity.interface";
+import {IActivityMeasure, IActivityIntervalL} from "../../../../../api/activity/activity.interface";
 
 class MeasureSplitTableCtrl implements IComponentController {
 

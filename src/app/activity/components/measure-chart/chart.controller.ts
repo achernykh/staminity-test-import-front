@@ -1,5 +1,5 @@
 ﻿import * as d3 from 'd3';
-import { IComponentController } from 'angular';
+import { IComponentController, element } from 'angular';
 import { FillType, IActivityChartSettings, IAreaSettings, IGradientPoint, ActivityChartMode } from "./settings/settings.models";
 import { ActivityChartDatamodel } from "./chart.datamodel";
 import { ScaleType, IScaleInfo, IActivityScales } from "./utils/chart.scale";
@@ -29,13 +29,18 @@ class ActivityChartController implements IComponentController {
 
     private absUrl: string;
 
-    static $inject = ['$element', '$location', '$window', 'activityChartSettings'];
+    static $inject = ['$element', '$location', '$window', 'activityChartSettings','$mdMedia'];
 
     constructor(
         private $element,
         private $location,
         private $window,
-        private activityChartSettings: IActivityChartSettings) {
+        private activityChartSettings: IActivityChartSettings,
+        private $mdMedia: any) {
+
+        this.activityChartSettings.minAspectRation = (this.$mdMedia('gt-md') && 0.20)
+            || (this.$mdMedia('gt-lg') && 0.10)
+            || this.activityChartSettings.minAspectRation;
     }
 
     $onInit() {
@@ -289,7 +294,7 @@ class ActivityChartController implements IComponentController {
 
     private setupInfoPanel(): void {
         let self = this;
-        let xOffset = 10;
+        let xOffset = 10;//element(document.getElementsByName('activity-metrics-details')).prop('offsetLeft');
         let domainMetric = ActivityChartMode[this.currentMode];
         let rangeMetric = ActivityChartMode[((this.currentMode === ActivityChartMode.duration)
             ? ActivityChartMode.distance

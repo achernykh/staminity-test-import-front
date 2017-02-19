@@ -1,0 +1,58 @@
+@import "../../../sass/color";
+
+activity-summary-info {
+
+  color: white;
+  padding: 16px;
+
+  div.summary-percent {
+    text-align: center;
+    //line-height: 26px;
+    width: 56px;
+    //height: 26px;
+    border-radius: 12px;
+  }
+  div.summary-info, div.summary-value {
+    margin-left: 16px;
+  }
+
+  &.not-specified {
+    @extend .bg-blue-grey-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-blue-grey-700;
+    }
+  }
+
+  &.coming {
+    color: black;
+    @extend .bg-grey-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-grey-700;
+    }
+  }
+  &.not-specified {
+    @extend .bg-blue-grey-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-blue-grey-700;
+    }
+  }
+  &.complete {
+    @extend .bg-teal-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-teal-700;
+    }
+  }
+  &.complete-warn{
+    @extend .bg-orange-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-orange-700;
+    }
+  }
+  &.complete-error, &.dismiss {
+    @extend .bg-red-500;
+    .bg-circle-56, div.summary-percent {
+      @extend .bg-red-700;
+    }
+  }
+
+}

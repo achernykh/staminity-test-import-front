@@ -19,7 +19,7 @@ import {ACTIVITY_TYPE, ACTIVITY_CATEGORY} from "../../activity/activity.constant
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
-class CalendarItemActivityCtrl implements IComponentController{
+export class CalendarItemActivityCtrl implements IComponentController{
 
     date: Date;
     data: any;
@@ -31,7 +31,6 @@ class CalendarItemActivityCtrl implements IComponentController{
 
     private selected: Array<any> = [];
     private isLoadingDetails: boolean = false;
-    private showMap: boolean = true;
     private types: Array<Object> = ACTIVITY_TYPE;
     private categories: Array<Object> = ACTIVITY_CATEGORY;
     private activityForm: IFormController;
@@ -86,10 +85,6 @@ class CalendarItemActivityCtrl implements IComponentController{
         this.peaks = this.activity.getPeaks();
     }
 
-    toggleMap(){
-       return this.showMap = !this.showMap;
-    }
-
     changeSelectedInterval(interval){
         console.log('selected interval = ', interval);
         this.selected = interval;
@@ -98,6 +93,7 @@ class CalendarItemActivityCtrl implements IComponentController{
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.
     // могут вызваны из любого другого представления
     onSave() {
+        debugger;
         console.log('save',this.activity.build());
 
         if (this.mode === 'post') {

@@ -1,0 +1,37 @@
+<div class="{{$ctrl.activity.status}}">
+    <div layout="row">
+        <div flex="none" layout="row" layout-align="center center"
+             class="bg-circle-56 bg-blue-grey-A700">
+            <md-icon flex="none" md-svg-src="{{$ctrl.activity.sportUrl}}"
+                     class="s36 light-active"></md-icon>
+        </div>
+        <div class="summary-value md-headline font-black" flex="auto" layout="column">
+            <div flex="none">
+                                        <span>
+                                            {{$ctrl.activity.durationValue |
+                                            measureCalc:$ctrl.activity.sportBasic:$ctrl.activity.durationMeasure}}</span>
+                <span ng-if="$ctrl.activity.durationMeasure !== 'movingDuration'">
+                                            &nbsp{{$ctrl.activity.durationMeasure | measureUnit:$ctrl.activity.sportBasic |
+                                            translate}}</span>
+            </div>
+            <div flex="none" ng-switch="$ctrl.activity.intensityValue.hasOwnProperty('from')">
+                                        <span ng-switch-when="true">
+                                            {{$ctrl.activity.intensityValue.from |
+                                            measureCalc:$ctrl.activity.sportBasic:$ctrl.activity.intensityMeasure}}</span>
+                <span ng-switch-when="false">
+                                            {{$ctrl.activity.intensityValue |
+                                            measureCalc:$ctrl.activity.sportBasic:$ctrl.activity.intensityMeasure}}</span>
+                <span>
+                                            &nbsp{{$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.sportBasic |
+                                            translate}}</span>
+            </div>
+        </div>
+    </div>
+    <div layout="row" class="md-subhead" style="margin-top: 8px">
+        <div flex="none" style="width: 56px" ng-if="!!!$ctrl.activity.percent"></div>
+        <div class="summary-percent" ng-if="!!$ctrl.activity.percent"
+             flex="none">{{$ctrl.activity.printPercent()}}
+        </div>
+        <div class="summary-info" flex="auto">Категория тренировки</div>
+    </div>
+</div>

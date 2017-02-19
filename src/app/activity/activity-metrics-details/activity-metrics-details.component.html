@@ -1,0 +1,64 @@
+<!--<section class="overview-content" ng-if="$ctrl.isLoadingDetails"
+         flex="none" layout="column" layout-align="center center" layout-fill
+         style="background-color: whitesmoke">
+    <img flex src="/assets/icon/ripple.svg" width="60" height="60"/>
+    <p>Загрузка данных....</p>
+</section>-->
+
+<!--<section flex="none" class="overview-content" layout="column"
+         ng-if="!$ctrl.isLoadingDetails">-->
+
+    <header flex="none" class="map" layout="row" layout-align="start center"
+            ng-if="$ctrl.activity.isRouteExist">
+        <md-icon class="material-icon">directions</md-icon>
+        <p class="md-body-2" translate>Карта</p>
+        <span flex></span>
+        <md-button class="md-icon-button"
+                   ng-click="$ctrl.toggleMap()">
+            <md-icon class="md-secondary material-icon md-dark"
+                     ng-bind="$ctrl.showMap ? 'expand_more': 'expand_less'"></md-icon>
+        </md-button>
+    </header>
+
+    <activity-route flex="none" ng-if="$ctrl.showMap && $ctrl.activity.isRouteExist"
+                    class="map activity-route"
+                    data="$ctrl.activity.route" select="$ctrl.select" zoom-enabled="true" layer-enabled="true">
+    </activity-route>
+
+    <md-divider flex="none" ng-if="$ctrl.showMap"></md-divider>
+
+    <header flex="none" layout="row" layout-align="start center">
+        <md-icon class="material-icon">multiline_chart</md-icon>
+        <p class="md-body-2" translate>График</p>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
+            <md-icon class="md-secondary material-icon md-dark"
+                     ng-bind="$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
+        </md-button>
+    </header>
+
+    <activity-metrics-char flex="none" ng-if="$ctrl.showChart"
+                           measures="$ctrl.activity.details.measures"
+                           data="$ctrl.activity.details.metrics"
+                           select="$ctrl.parent.selected">График...
+    </activity-metrics-char>
+
+    <md-divider flex="none" ng-if="$ctrl.showChart"></md-divider>
+
+    <header flex="none" layout="row" layout-align="start center">
+        <md-icon class="material-icon">format_list_numbered</md-icon>
+        <p class="md-body-2" translate>Отрезки</p>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.toggleTable()">
+            <md-icon class="md-secondary material-icon md-dark"
+                     ng-bind="$ctrl.showTable ? 'expand_more': 'expand_less'"></md-icon>
+        </md-button>
+    </header>
+
+    <measure-split-table flex ng-if="$ctrl.showTable"
+                         class="chart measure-split-table"
+                         splits="$ctrl.activity.intervalL"
+                         sport="$ctrl.activity.sportBasic"
+                         on-selected="$ctrl.parent.changeSelectedInterval(selected)">Data table...
+    </measure-split-table>
+<!--</section>-->

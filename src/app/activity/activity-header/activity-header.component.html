@@ -1,0 +1,73 @@
+<md-toolbar flex="none" class="{{$ctrl.activity.status}}">
+    <div class="md-toolbar-tools"
+         ng-if="!$ctrl.$mdMedia('gt-sm') || $ctrl.mode === 'post' || !$ctrl.activity.hasDetails">
+        <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
+                       aria-label="User">
+                <md-icon class="material-icons">menu</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.parent.onDelete()" ng-disabled="$ctrl.mode === 'post'">
+                        <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                        <span translate="measurement.toolbar.delete"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="" ng-disabled="true">
+                        <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
+                        <span translate="measurement.toolbar.settings"></span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <h2 translate="Тренировка"></h2>
+        <span flex></span>
+        <md-button hide-gt-sm class="md-icon-button" ng-click="$ctrl.parent.onCancel()">
+            <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-content flex="auto" class="md-hue-2" layout="column">
+    <md-tabs flex="auto" layout-fill class="md-primary md-hue-2"
+             ng-class="{'coming': $ctrl.activity.status === 'coming',
+                                'not-specified': $ctrl.activity.status === 'not-specified',
+                                'complete': $ctrl.activity.status === 'complete',
+                                'complete-warn': $ctrl.activity.status === 'complete-warn',
+                                'complete-error': $ctrl.activity.status === 'complete-error' || $ctrl.activity.status === 'dismiss'}">
+        <md-tab id="tab1" flex="auto" layout="column" label="Обзор">
+            <md-tab-content flex="auto" layout="column" layout-fill>
+                <activity-header-overview flex="auto" layout="column" layout-fill>
+                </activity-header-overview>
+            </md-tab-content>
+        </md-tab>
+        <md-tab id="tab4" label="Детали" layout-fill layout-wrap
+                ng-if="$ctrl.activity.hasImportedData">
+            <md-tab-content layout-fill layout-column>
+                <measures-avg-table flex="none" class="measures-avg-table" ng-cloak
+                                    measures="$ctrl.activity.intervalW.calcMeasures"
+                                    sport="$ctrl.activity.sportBasic"></measures-avg-table>
+
+                <measure-main-button flex="none" class="measure-main-button" ng-cloak
+                                     measures="$ctrl.activity.intervalW.calcMeasures"
+                                     sport="$ctrl.activity.sportBasic"></measure-main-button>
+
+                <activity-peaks flex="auto" class="activity-peaks" ng-cloak
+                                peaks="$ctrl.peaks" sport="$ctrl.activity.sportBasic">
+                </activity-peaks>
+
+            </md-tab-content>
+        </md-tab>
+        <md-tab id="tab2" flex layout="column" label="Зоны">
+            <md-tab-content>
+            </md-tab-content>
+        </md-tab>
+        <md-tab id="tab3" label="Чат">
+            <md-tab-content>
+            </md-tab-content>
+        </md-tab>
+
+    </md-tabs>
+</md-content>

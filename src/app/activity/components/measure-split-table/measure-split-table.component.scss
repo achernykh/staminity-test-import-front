@@ -1,22 +1,27 @@
-@import '../../../sass/color.scss';
+@import '../../../../sass/color.scss';
 
-.activity-assignment {
+measure-split-table {
 
-  width: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
 
   table.md-table:not(.md-row-select) td.md-cell:first-child,
   table.md-table:not(.md-row-select) th.md-column:first-child {
     padding-left: 0px !important;
-    padding-right: 20px !important;
+  }
+
+  table.md-table.md-row-select td.md-cell:first-child,
+  table.md-table.md-row-select th.md-column:first-child {
+    padding-left: 0px !important;
   }
 
   table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2),
   table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
-    padding-right: 12px;
+    padding-right: 32px;
   }
 
   table.md-table tbody.md-body > tr.md-row, table.md-table tfoot.md-foot > tr.md-row {
-    height: 40px;
+    height: 32px;
   }
 
   table.md-table thead.md-head > tr.md-row {
@@ -25,20 +30,6 @@
 
   table.md-table th.md-column {
     font-weight: normal;
-  }
-
-  table.md-table td.md-cell md-input-container{
-    margin: 0px;
-    padding: 2px 0px 0px 0px;
-
-    input {
-      text-align: right;
-      //border-color: rgba(0,0,0,0.0);
-    }
-
-    div.md-errors-spacer {
-      min-height: 0px;
-    }
   }
 
   .md-subheader {

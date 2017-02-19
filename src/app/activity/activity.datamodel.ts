@@ -123,6 +123,7 @@ export class Activity extends CalendarItem {
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
+	private hasImportedData: boolean = false;
 	private peaks: Array<any>;
 
 	constructor(item: ICalendarItem, public details: IActivityDetails = null){
@@ -149,6 +150,7 @@ export class Activity extends CalendarItem {
 		this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
 
+		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 		// Обработка детальных данных по тренировке
 		this.hasDetails = !!details && details.metrics.length > 0;
 		if(this.hasDetails) {

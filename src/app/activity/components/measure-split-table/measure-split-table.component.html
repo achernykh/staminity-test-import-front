@@ -1,4 +1,4 @@
-<md-table-container flex>
+<md-table-container>
     <table md-table
            md-row-select="$ctrl.options.rowSelection"
            multiple="{{$ctrl.options.multiSelect}}"
@@ -22,8 +22,22 @@
             <td md-cell>{{$index+1}}</td>
             <td md-cell>{{split.calcMeasures.movingDuration.maxValue | duration}}</td>
             <td md-cell>{{split.calcMeasures.distance.maxValue | measureCalc:$ctrl.sport:'distance'}}</td>
-            <td md-cell>{{split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</td>
-            <td md-cell>{{split.calcMeasures.speed.avgValue | measureCalc:$ctrl.sport:'speed'}}</td>
+            <td md-cell>
+                <div layout="row" layout-align="end center">
+                    <div flex="auto" style="background-color: lightgrey; height: 10px; border-radius: 5px; margin-right: 4px" layout="low">
+                        <div flex="none" style="height: 10px; border-radius: 5px; background: deeppink; width: 50%"></div>
+                    </div>
+                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</div>
+                </div>
+            </td>
+            <td md-cell>
+                <div layout="row" layout-align="end center" style="margin-right: 4px">
+                    <div flex="auto" style="background-color: lightgrey; height: 6px; border-radius: 3px" layout="low">
+                        <div flex="none" style="height: 6px; border-radius: 3px; background: dodgerblue; width: 20%"></div>
+                    </div>
+                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.speed.avgValue | measureCalc:$ctrl.sport:'speed'}}</div>
+                </div>
+            </td>
             <td md-cell>{{split.calcMeasures.elevationGain.avgValue | measureCalc:$ctrl.sport:'elevationGain'}}</td>
             <td md-cell>{{split.calcMeasures.cadence.avgValue | measureCalc:$ctrl.sport:'cadence'}}</td>
         </tr>
