@@ -31,10 +31,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     private selected: Array<any> = [];
     private isLoadingDetails: boolean = false;
-    private types: Array<Object> = ACTIVITY_TYPE;
-    private categories: Array<Object> = ACTIVITY_CATEGORY;
     private activityForm: IFormController;
-    private peaks: Array<any>;
 
 
     static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
@@ -81,8 +78,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => console.error(error));
         }
         console.log('activity data=',this);
-
-        this.peaks = this.activity.getPeaks();
     }
 
     changeSelectedInterval(interval){
@@ -142,8 +137,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
             (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['to']) || null;
 
         this.activity.intervalW.calcMeasures = actual;
-        this.activityForm.$dirty = true;
-        this.activityForm.$valid = valid && this.activityForm.$valid;
+        //this.activityForm.$dirty = true;
+        //this.activityForm.$valid = valid && this.activityForm.$valid;
     }
 }
 

@@ -10,8 +10,7 @@ import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-act
 
 class ActivityAssignmentCtrl implements IComponentController {
 
-    private header: ActivityHeaderCtrl;
-    private calendarActivity: CalendarItemActivityCtrl;
+    private item: CalendarItemActivityCtrl;
     public activity: Activity;
     public assignment: {
         intervalPW: ICalcMeasures;
@@ -72,9 +71,6 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     $onInit() {
         console.log('assignment=', this);
-        this.sport = 'run';
-        this.activity = this.header.activity;
-        this.calendarActivity = this.header.calendarActivity;
     }
 
     isInterval(key) {
@@ -185,7 +181,7 @@ class ActivityAssignmentCtrl implements IComponentController {
 
 const ActivityAssignmentComponent:IComponentOptions = {
     require: {
-        header: '^activityHeader'
+        item: '^calendarItemActivity'
     },
     bindings: {
         plan: '<',

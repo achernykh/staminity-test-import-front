@@ -1,9 +1,9 @@
 <activity-assignment flex layout="column" class="activity-assignment"
-                     plan="$ctrl.activity.intervalPW"
-                     actual="$ctrl.activity.intervalW.calcMeasures"
-                     sport="$ctrl.activity.sportBasic"
-                     editable="$ctrl.mode !== 'view'"
-                     on-change="$ctrl.updateAssignment(plan,actual,valid)">
+                     plan="$ctrl.item.activity.intervalPW"
+                     actual="$ctrl.item.activity.intervalW.calcMeasures"
+                     sport="$ctrl.item.activity.sportBasic"
+                     editable="$ctrl.item.mode !== 'view'"
+                     on-change="$ctrl.item.updateAssignment(plan,actual,valid)">
 </activity-assignment>
 
 

@@ -5,7 +5,7 @@ import MeasuresAvgTableComponent from './measures-avg-table/measures-avg-table.c
 import MeasureSplitTableComponent from "./components/measure-split-table/measure-split-table.component";
 import ActivityRouteComponent from './components/route/activity-route.component';
 import ActivityAssignmentComponent from './components/assignment/assignment.component';
-import ActivityPeaksComponent from "./peaks/activity-peaks.component";
+import ActivityPeaksComponent from "./components/peaks/activity-peaks.component";
 import chartSettings from './components/measure-chart/settings/settings.default';
 import chartComponent from './components/measure-chart/chart.component';
 import ActivityHeaderComponent from "./activity-header/activity-header.component";

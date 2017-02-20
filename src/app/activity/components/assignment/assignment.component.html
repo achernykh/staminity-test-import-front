@@ -1,12 +1,12 @@
-<activity-summary-info flex="none" ng-if="!$ctrl.editable" class="{{$ctrl.activity.status}}">
+<activity-summary-info flex="none" ng-if="$ctrl.item.mode === 'view'" class="{{$ctrl.item.activity.status}}">
 </activity-summary-info>
 
-<md-list flex="none" class="md-dense slim-input bg-grey-200" ng-if="$ctrl.editable">
+<md-list flex="none" class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view'">
     <form name="$ctrl.activityForm">
         <md-list-item>
             <md-input-container class="md-block no-message" md-no-float layout="row">
                 <md-icon flex="none" class="material-icons">directions_run</md-icon>
-                <md-select flex ng-model="$ctrl.activity.header.activityType.id" name="type"
+                <md-select flex ng-model="$ctrl.item.activity.header.activityType.id" name="type"
                            class="icon">
                     <md-option ng-repeat="type in $ctrl.types track by type.id"
                                value="{{::type.id}}">{{::type.code}}
@@ -25,7 +25,7 @@
         <md-list-item>
             <md-input-container class="md-block no-message" md-no-float>
                 <md-icon class="material-icons">tune</md-icon>
-                <md-select ng-model="$ctrl.activity.header.activityCategory.id" name="category"
+                <md-select ng-model="$ctrl.item.activity.header.activityCategory.id" name="category"
                            class="icon">
                     <md-option
                             ng-repeat="category in $ctrl.categories | filter:{activityTypeId: $ctrl.activity.header.activityType.id} track by category.id"
@@ -45,7 +45,7 @@
         <md-list-item layout="row" layout-align="start center">
             <md-input-container flex="50" class="no-message" md-no-float>
                 <md-icon flex="none" class="material-icons" style="left: 0px">tune</md-icon>
-                <md-datepicker flex="auto" ng-model="$ctrl.activity._dateStart"
+                <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                                name="dateStart" md-hide-icons="calendar"
                                style="margin-left: 56px"></md-datepicker>
                 <div ng-messages="$ctrl.publicForm.dateStart.$error">
@@ -63,7 +63,7 @@
 </md-list>
 
 <form name="$ctrl.assignmentForm" ng-cloak flex>
-    <fieldset ng-disabled="!$ctrl.editable">
+    <fieldset ng-disabled="$ctrl.item.mode === 'view'">
         <md-table-container>
             <md-subheader>Задание</md-subheader>
             <table md-table
@@ -137,8 +137,9 @@
         <md-input-container flex class="md-block no-message">
             <md-icon class="material-icons">event_note</md-icon>
             <label translate="Установка тренера" class="icon"></label>
-            <textarea ng-model="$ctrl.activity.intervalPW.trainersPrescription"
+            <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
                       class="icon" name="trainersPrescription"
+                      ng-disabled="$ctrl.header.calendarActivity.mode === 'view'"
                       rows="1" md-select-on-focus></textarea>
         </md-input-container>
     </md-list-item>
@@ -146,14 +147,14 @@
 
 <md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>
-    <md-button ng-if="!$ctrl.editable" type="submit" ng-disabled="true"
+    <md-button ng-if="$ctrl.item.mode === 'view'" type="submit" ng-disabled="true"
                ng-click="">В шаблон</md-button>
-    <md-button ng-if="!$ctrl.editable" type="submit"
-               ng-click="$ctrl.header.calendarActivity.mode = 'put'">Изменить</md-button>
-    <md-button ng-if="$ctrl.editable"
-               ng-click="$ctrl.header.calendarActivity.mode = 'view'">Отменить</md-button>
-    <md-button ng-if="$ctrl.editable" type="sumbit"
+    <md-button ng-if="$ctrl.item.mode === 'view'" type="submit"
+               ng-click="$ctrl.item.mode = 'put'">Изменить</md-button>
+    <md-button ng-if="$ctrl.item.mode !== 'view'"
+               ng-click="$ctrl.item.mode = 'view'">Отменить</md-button>
+    <md-button ng-if="$ctrl.item.mode !== 'view'" type="sumbit"
                ng-disabled="!$ctrl.activityForm.$dirty && !$ctrl.assignmentForm.$dirty"
-               ng-class="{'md-warn': !$ctrl.activityForm.$valid && !$ctrl.assignmentForm.$valid}"
-               ng-click="$ctrl.header.calendarActivity.onSave()">Сохранить</md-button>
+               ng-class="{'md-warn': !$ctrl.activityForm.$valid || !$ctrl.assignmentForm.$valid}"
+               ng-click="($ctrl.activityForm.$valid && $ctrl.assignmentForm.$valid) ? $ctrl.item.onSave() : null">Сохранить</md-button>
 </md-dialog-actions>

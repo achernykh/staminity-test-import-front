@@ -5,10 +5,11 @@ import {Activity} from "../activity.datamodel";
 
 export class ActivityHeaderCtrl implements IComponentController {
 
-    public parent: CalendarItemActivityCtrl;
+    public item: CalendarItemActivityCtrl;
     public calendarActivity: CalendarItemActivityCtrl;
     public mode: string;
     public activity: Activity;
+    private peaks: Array<any>;
 
     constructor(private $mdMedia: any) {
     }
@@ -16,16 +17,13 @@ export class ActivityHeaderCtrl implements IComponentController {
     static $inject = ['$mdMedia'];
 
     $onInit() {
-        // для удобства верстки создаем быстрый путь к данным
-        this.parent = this.calendarActivity; // предполагаем, что в дальнейшем может быть зависимость с другими компонентами
-        this.mode = this.parent.mode;
-        this.activity = this.parent.activity;
+        this.peaks = this.item.activity.getPeaks();
     }
 }
 
 const ActivityHeaderComponent:IComponentOptions = {
     require: {
-        calendarActivity: '^calendarItemActivity'
+        item: '^calendarItemActivity'
     },
     controller: ActivityHeaderCtrl,
     template: require('./activity-header.component.html') as string

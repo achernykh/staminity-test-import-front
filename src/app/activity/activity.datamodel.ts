@@ -354,13 +354,18 @@ export class Activity extends CalendarItem {
 	get status() {
 		return !this.isToday ?
 			// приоритет статусов, если запись не сегодня
-			(this.coming && 'coming') || (!this.specified && 'not-specified') || (!this.completed && 'dismiss')
-				|| (this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn')
-				|| ((this.percent <= 50 && this.percent > 0) && 'complete-error') :
+			(this.coming && 'coming')
+				|| (!this.specified && 'not-specified')
+				|| (!this.completed && 'dismiss')
+				|| ((Math.abs(100-this.percent) <= 25 && this.percent > 0) && 'complete')
+				|| (Math.abs(100-this.percent) <= 50 && 'complete-warn')
+				|| (Math.abs(100-this.percent) > 50 && 'complete-error') :
 			//приоритет статусов, если запись сегодня
-			(this.percent > 75 && 'complete') || (this.percent > 50 && 'complete-warn')
-				|| ((this.percent <= 50 && this.percent > 0) && 'complete-error')
-				|| (!this.specified && 'not-specified') || (this.coming && 'coming');
+			((Math.abs(100-this.percent) <= 25 && this.percent > 0) && 'complete')
+				|| (Math.abs(100-this.percent) <= 50 && 'complete-warn')
+				|| (Math.abs(100-this.percent) > 50  && 'complete-error')
+				|| (!this.specified && 'not-specified')
+				|| (this.coming && 'coming');
 	}
 
 	get sportUrl() {
