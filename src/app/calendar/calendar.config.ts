@@ -10,7 +10,7 @@ function configure($stateProvider:StateProvider,
         .state('calendar', <StateDeclaration>{
             url: "/calendar",
             loginRequired: true,
-            authRequired: ['func1'],
+            authRequired: ['user'],
             resolve: {
                 view: () => {return new DisplayView('calendar');},
             },

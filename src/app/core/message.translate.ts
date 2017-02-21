@@ -31,7 +31,7 @@ export const _MESSAGE = {
 		},
 		signinBadUsernameOrPassword: {
 			title: 'Ошибка!',
-			text: 'Пользователь {{username}} с таким e-mail и пароль не найден'
+			text: 'Пользователь с таким e-mail и пароль не найден'
 		},
 		signinNotValidatedAccount: {
 			title: 'Внимание!',

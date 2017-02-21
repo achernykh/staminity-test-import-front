@@ -33,7 +33,7 @@ interface ICalendarDay {
 class CalendarCtrl implements IComponentController{
 
     static $inject = ['$scope', '$rootScope', '$anchorScroll','$location','message','CalendarService','SessionService'];
-    private weekdayNames: Array<string> = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
+    private weekdayNames: Array<string> = [];
     private buffer: Array<any> = [];
     private dateFormat: string = 'YYYY-MM-DD';
     private date: Date = new Date();
@@ -55,6 +55,8 @@ class CalendarCtrl implements IComponentController{
 
     $onInit() {
         // TODO убрать в ApplicationComponent или run()
+        moment.locale('ru');
+        this.weekdayNames = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
         let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek || null;
         if(!!firstDayOfWeek){
             moment.locale(moment.locale(), {

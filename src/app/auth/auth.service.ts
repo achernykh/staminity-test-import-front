@@ -42,9 +42,12 @@ export default class AuthService implements IAuthService {
      * @param authorizedRoles
      * @returns {boolean}
      */
-    isAuthorized(authorizedRoles):boolean {
-        // TODO модель полномочий изменилась на функциональную с ролевой, код ниже надо переписать
-        return true;
+    isAuthorized(authorizedRoles: Array<any> = []):boolean {
+        let userRoles = this.SessionService.getAuth();
+        if (!userRoles) {
+            return false;
+        }
+        return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && new Date(userRoles[role]) >= new Date());
     }
 
     /**

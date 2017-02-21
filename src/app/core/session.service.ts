@@ -9,6 +9,7 @@ export interface IAuthToken {
 
 export interface ISessionService {
 	profile: any;
+	getAuth():any;
 	getToken():string;
 	getUser():IUserProfile;
 	setUser(value:IUserProfile):void;
@@ -41,7 +42,7 @@ export default class SessionService implements ISessionService {
 	}
 
 	getAuth():Object {
-		return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
+		return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.permissionsKey];
 	}
 
 	getToken():string {

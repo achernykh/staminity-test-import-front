@@ -1,16 +1,34 @@
-import { TransitionService } from 'angular-ui-router';
+import { TransitionService, StateDeclaration, State } from 'angular-ui-router';
 import SessionService from "./core/session.service";
 import LoaderService from "./share/loader/loader.service";
+import {IAuthService} from "./auth/auth.service";
+import MessageService from "./core/message.service";
 
+interface IStaminityState extends State {
+    loginRequired: boolean;
+    authRequired: Array<any>;
+}
 
-function run($transitions: TransitionService, LoaderService: LoaderService) {
-	console.log('run application');
+function run($transitions: TransitionService, LoaderService: LoaderService, AuthService: IAuthService, message: MessageService) {
 
-	$transitions.onBefore({to: '*', from: '*'}, state => LoaderService.show());
+	$transitions.onBefore({to: '*', from: '*'}, (state) => {
+
+        let routeTo:IStaminityState = <IStaminityState>state.$to();
+        if(routeTo.loginRequired && !AuthService.isAuthenticated()) {
+            message.systemWarning('forbiddenAction');
+            return false;
+        }
+
+        if(!!routeTo.authRequired && !AuthService.isAuthorized(routeTo.authRequired)) {
+            message.systemWarning('forbiddenAction');
+            return false;
+        }
+        LoaderService.show();
+	});
 	$transitions.onSuccess({to:'*',from:'*'}, state => LoaderService.hide());
 
 }
 
-run.$inject = ['$transitions','LoaderService'];
+run.$inject = ['$transitions','LoaderService','AuthService','message'];
 
 export default run;
