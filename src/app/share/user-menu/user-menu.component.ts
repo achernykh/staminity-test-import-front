@@ -30,12 +30,18 @@ class UserMenuCtrl implements IComponentController{
     }
 
     transitionToState(url) {
-        console.log('transition=', url, this.$state.current, this.$state.current.name);
         if (this.$state.current.name === url) {
             return;
         }
-        console.log('goto', url, this.user.public.uri);
-        (url !== 'user' && url !== 'settings/user') ? this.$state.go(url) : this.$state.go(url,{uri: this.user.public.uri});
+        if(url.includes('http')) {
+            window.open(url);
+        } else {
+            if (url !== 'user' && url !== 'settings/user') {
+                this.$state.go(url);
+            } else {
+                this.$state.go(url,{uri: this.user.public.uri});
+            }
+        }
     }
 
 

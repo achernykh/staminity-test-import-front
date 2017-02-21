@@ -14,7 +14,7 @@ export const UserMenuSettings = [
     {
         icon: "help",
         name: "userMenu.help",
-        link: "http://help.trainingpeaks.com/hc/en-us"
+        link: "https://help.staminity.com/ru/"
     },
     {
         icon: "exit_to_app",
@@ -64,12 +64,6 @@ export const AppMenuSettings = [
         link: "groups",
         state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
-    },
-    {
-        icon: "security",
-        name: "appMenu.admin",
-        link: "dashboard",
-        //role: [_UserRoles.admin]
     }
 ];
 

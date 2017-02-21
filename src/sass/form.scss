@@ -140,3 +140,10 @@ md-edit-dialog div.md-content {
 md-backdrop.md-edit-dialog-backdrop {
   z-index: 81; /* or greater */
 }
+
+/**
+/
+**/
+md-list-item[disabled] div.md-button, md-list-item[disabled] md-icon {
+  color: rgba(0,0,0,0.25);
+}

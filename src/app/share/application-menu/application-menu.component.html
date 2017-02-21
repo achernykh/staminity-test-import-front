@@ -13,15 +13,16 @@
         </div>
         <div flex="none" style="padding: 0px">
             <md-button class="md-icon-button md-primary" aria-label="User menu"
-                       ng-init="showUserMenu = false" ng-click="showUserMenu = !showUserMenu">
+                       ng-click="$ctrl.showUserMenu = !$ctrl.showUserMenu">
                 <md-icon class="material-icon md-light"
-                         ng-bind="showUserMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
+                         ng-bind="$ctrl.showUserMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
             </md-button>
         </div>
     </div>
 </md-toolbar>
-<md-list class="menu-user" ng-if="showUserMenu">
-    <md-list-item ng-repeat="menu in $ctrl.usermenu" ng-click="$ctrl.$state.go(menu.link);$ctrl.toggleSlide()">
+<md-list class="menu-user" ng-if="$ctrl.showUserMenu">
+    <md-list-item ng-repeat="menu in $ctrl.usermenu"
+                  ng-click="$ctrl.transitionToState(menu.link)">
         <md-icon class="material-icon" ng-bind="menu.icon"></md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
     </md-list-item>
@@ -35,13 +36,13 @@
                  ng-bind="showClubMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
     </md-list-item>
     <md-list-item class="menu-coach"
-                  ng-click="$ctrl.$state.go('club',{uri: club.groupUri});$ctrl.toggleSlide()"
+                  ng-click="$ctrl.transitionToState('club', club.groupUri)"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">account_circle</md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>Профиль</p>
     </md-list-item>
     <md-list-item class="menu-coach"
-                  ng-click="$ctrl.$state.go('management',{uri: club.groupUri});$ctrl.toggleSlide()"
+                  ng-click="$ctrl.transitionToState('management', club.groupUri)"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">people</md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>Члены клуба</p>
@@ -55,11 +56,11 @@
         <md-icon class="md-secondary material-icon" class="" ng-click="showCoachMenu = !showCoachMenu"
                  ng-bind="showCoachMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
     </md-list-item>
-    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go('athletes');$ctrl.toggleSlide()" ng-if="showCoachMenu">
+    <md-list-item class="menu-coach" ng-click="$ctrl.transitionToState('athletes')" ng-if="showCoachMenu">
         <md-icon class="material-icon">people</md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>Управление спортсменами</p>
     </md-list-item>
-    <md-list-item class="menu-coach" ng-click="$ctrl.$state.go('dashboard');$ctrl.toggleSlide()" ng-if="showCoachMenu">
+    <md-list-item class="menu-coach" ng-click="$ctrl.transitionToState('dashboard')" ng-if="showCoachMenu">
         <md-icon class="material-icon">developer_board</md-icon>
         <p class="md-body-2" style="opacity: 0.87" translate>Дэшборд</p>
     </md-list-item>
@@ -68,15 +69,16 @@
 
 
 <md-list>
-    <md-list-item ng-repeat="menu in $ctrl.appmenu" ng-disabled="menu.state === 'soon'"
-                  ng-click="$ctrl.$state.go(menu.link);$ctrl.toggleSlide()"
+    <md-list-item ng-repeat="menu in $ctrl.appmenu"
+                  ng-disabled="menu.state === 'soon'"
+                  ng-click="$ctrl.transitionToState(menu.link)"
                   ng-show="true">
         <md-icon class="material-icon">{{::menu.icon}}</md-icon>
-        <p class="md-body-2" translate>{{menu.name}}</p>
+        <p class="md-body-2" translate>{{::menu.name}}</p>
         <md-icon class="md-secondary material-icon md-dark md-inactive"
                  ng-if="menu.state === 'soon'"
                  ng-click=""
-                 ng-bind="'rss_feed'"></md-icon>
+                 ng-bind="'shedule'"></md-icon>
     </md-list-item>
 </md-list>
 
