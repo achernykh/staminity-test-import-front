@@ -40,7 +40,7 @@ export const DefaultTemplate = (component) => {
 
 export const _display_view = {
 	// Настройка страницы: Стартовая страница ../welcome
-	welcome: {
+	landingPage: {
 		background: {
 			style: 'application-light', //'landing-background',
 			toolbar: false,
@@ -55,7 +55,7 @@ export const _display_view = {
 				size: 20
 			},
 			rightPanel: {
-				//url: 'layout/application/header/welcome.links.html',
+				url: 'header/welcome.links.html',
 				size: 80
 			}
 		},

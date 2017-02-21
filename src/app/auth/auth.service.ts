@@ -47,6 +47,7 @@ export default class AuthService implements IAuthService {
         if (!userRoles) {
             return false;
         }
+        console.log('auth', userRoles, authorizedRoles);
         return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && new Date(userRoles[role]) >= new Date());
     }
 

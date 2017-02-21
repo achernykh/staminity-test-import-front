@@ -1,14 +1,15 @@
 import { IComponentOptions, IComponentController} from 'angular';
+import {IAuthService} from "../auth/auth.service";
 require('./landingpage.component.scss');
 
 class LandingPageCtrl implements IComponentController {
 
-	static $inject = [];
+	static $inject = ['AuthService'];
 
-	constructor() { }
+	constructor(private AuthService: IAuthService) { }
 
 	$onInit() {
-		console.log(`LandingPageCtrl: $onInit()`);
+
 	}
 
 }

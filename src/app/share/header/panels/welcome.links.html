@@ -1,16 +1,16 @@
 <div flex="auto" layout="row" layout-align="end center">
     <div flex="none" layout="row" hide-xs>
-        <a href="#" translate>app.landing.nav.link1</a>
-        <a href="#" translate>app.landing.nav.link2</a>
-        <a href="#" translate>app.landing.nav.link3</a>
-        <a href="#" translate>app.landing.nav.link4</a>
+        <!--<a href="#" translate>landing.nav.link1</a>-->
+        <a href="http://blog.staminity.com" translate>landing.nav.link2</a>
+        <!--<a href="#" translate disabled>landing.nav.link3</a>-->
+        <a href="https://help.staminity.com/ru" translate>landing.nav.link4</a>
     </div>
-    <div flex="none" ng-show="!$ctrl._Auth.isAuthenticated()">
-        <a ng-link="['SignIn']" class="button" translate>app.landing.nav.signIn</a>
+    <div flex="none" ng-show="!$ctrl.AuthService.isAuthenticated()">
+        <a ui-sref="signin" class="button" translate>landing.nav.signIn</a>
     </div>
-    <div flex="none" ng-show="$ctrl._Auth.isAuthenticated()">
-        <a ng-link="['SignOut']" class="button" translate>app.landing.nav.signOut</a>
-    </div>
+    <div flex="none" ng-show="$ctrl.AuthService.isAuthenticated()">
+        <a ui-sref="signout" class="button" translate>landing.nav.signOut</a>
+    </div><!--
     <div flex="none">
         <md-menu md-position-mode="target-right target" md-offset="0 40">
             <md-button class="md-icon-button md-primary"
@@ -33,5 +33,5 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-    </div>
+    </div>-->
 </div>

@@ -75,7 +75,7 @@ class AuthCtrl implements IComponentController {
 	 */
 	signin(credentials) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
-		this.AuthService.signIn(credentials)
+		this.AuthService.signIn({email: credentials.email, password: credentials.password})
 			.finally(()=>this.enabled = true)
 			.then((result) => {
 				//this.SessionService.setToken(result);
