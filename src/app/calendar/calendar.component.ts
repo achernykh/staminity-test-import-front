@@ -120,7 +120,13 @@ class CalendarCtrl implements IComponentController{
                 let days = times(7).map((i) => {
                     let date = moment(start).add(i, 'd');
                     let calendarItems = items
-                        .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i);
+                        .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
+                        .map(item => {
+                            if(item.calendarItemType === 'activity') {
+                                item['index'] = Number(`${item.calendarItemId}${item.revision}`);
+                            }
+                            return item;
+                        });
                         /*.filter(item => (item.calendarItemType !== 'activity') ||
                                         (item.calendarItemType === 'activity' && item.activityHeader.hasOwnProperty('intervals')))*/
                     

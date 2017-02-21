@@ -211,6 +211,7 @@ export class Activity extends CalendarItem {
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...this.intervalL, this.intervalW);
 
 		return {
+			index: this.index,
 			calendarItemId: this.calendarItemId,
 			calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
 			revision: this.revision,

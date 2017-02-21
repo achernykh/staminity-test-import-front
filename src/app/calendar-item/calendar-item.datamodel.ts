@@ -16,6 +16,7 @@ export class CalendarItem implements ICalendarItem {
 	public userProfileOwner: IUserProfileShort;
 	public _dateStart: Date;
 	public _dateEnd: Date;
+	public index: number; // index for ng-repeat in calendar-day component
 
 	constructor(item: ICalendarItem) {
 		merge(this,item); // deep copy
@@ -39,5 +40,6 @@ export class CalendarItem implements ICalendarItem {
 		console.log('response',response);
 		this.revision = response.value.revision;
 		this.calendarItemId = response.value.id;
+		this.index = Number(`${this.calendarItemId}${this.revision}`);
 	}
 }
