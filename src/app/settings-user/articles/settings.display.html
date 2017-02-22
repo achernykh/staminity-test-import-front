@@ -15,7 +15,7 @@
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat='(id,language) in $ctrl._LANGUAGE'>
                             <md-button ng-bind="language.text"
-                                       ng-click="$ctrl.user.display.language = id">
+                                       ng-click="$ctrl.changeLanguage(id)">
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -56,7 +56,7 @@
 
             <md-list-item class="mobile-select">
                 <span translate="settings.display.firstDayOfWeek"></span>
-                <span class="md-secondary" ng-if="$ctrl.user.display.firstDayOfWeek"
+                <span class="md-secondary"
                      ng-bind="$ctrl.weekdays($ctrl.user.display.firstDayOfWeek)"
                      style="text-transform: capitalize"></span>
                 <md-menu class="md-secondary">
@@ -65,7 +65,7 @@
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat="number in [0,1]">
-                            <md-button ng-click="$ctrl.firstDayOfWeek = number"
+                            <md-button ng-click="$ctrl.changeFirstDayOfWeek(number)"
                                        ng-bind="$ctrl.weekdays(number)"
                                        style="text-transform: capitalize"></md-button>
                         </md-menu-item>
@@ -221,11 +221,17 @@
                     </md-select>
                 </md-input-container>
             </md-list-item>-->
+
+
+            <!--
             <md-list-item class="secondary-button-padding">
                 <span>Формат времени: 24ч</span>{{ data.cb1 }}
                 <md-switch class="md-secondary" ng-model="data.cb1" aria-label="Switch 1">
                 </md-switch>
-            </md-list-item>
+            </md-list-item>-->
+
+
+            <!--
             <md-list-item class="secondary-button-padding">
                 <span>Начало недели</span>
                 <md-radio-group class="md-secondary" ng-model="data.group1" layout="row">
@@ -233,7 +239,7 @@
                     <md-radio-button flex value="Banana">Вт</md-radio-button>
                     <md-radio-button flex value="Mango">Ср</md-radio-button>
                 </md-radio-group>
-            </md-list-item>
+            </md-list-item>-->
         </md-list>
         <!--
         <div layout="row" layout-align="start center" md-theme="auth" class="padding-00-24 back-primary-hue-3">

@@ -58,9 +58,6 @@ const root = module('staminity.application', [
 	.component('staminityApplication', AppComponent)
 	.config(configure)
 	.run(run)
-	//.run(['$state', function ($state) {
-	//	$state.go('welcome');
-	//}])
 	.name;
 
 bootstrap(document, ['staminity.application'], {

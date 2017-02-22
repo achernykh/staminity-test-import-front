@@ -18,7 +18,7 @@ export interface IRoute {
 	lng: number;
 }
 
-class Interval implements IActivityInterval{
+class Interval implements IActivityInterval {
 	trainersPrescription: string;
 	durationMeasure: string; //movingDuration/distance, каким показателем задается длительность планового сегмента
 	durationValue: number; // длительность интервала в ед.изм. показателя длительности

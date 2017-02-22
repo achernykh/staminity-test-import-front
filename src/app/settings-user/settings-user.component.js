@@ -92,8 +92,13 @@ class SettingsUserCtrl {
         this.displayForm.$dirty = true;
     }
 
-    changefirstDayOfWeek(number) {
+    changeFirstDayOfWeek(number) {
         this.user.display.firstDayOfWeek = number;
+        this.displayForm.$dirty = true;
+    }
+
+    changeLanguage(lng) {
+        this.user.display.language = lng;
         this.displayForm.$dirty = true;
     }
 
@@ -185,19 +190,6 @@ class SettingsUserCtrl {
 
     set language(id) {
 
-    }
-
-    get firstDayOfWeek() {
-        return ((this.user.display.hasOwnProperty('firstDayOfWeek')) && moment.weekdays(this.user.display.firstDayOfWeek)) || null
-    }
-
-    set firstDayOfWeek(number) {
-        this.user.display.firstDayOfWeek = number;
-        this.displayForm.$dirty = true;
-    }
-
-    log() {
-        console.log('settings=', this)
     }
 
     weekdays(day) {

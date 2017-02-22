@@ -1,5 +1,5 @@
 import './calendar.component.scss';
-import moment from 'moment/src/moment.js';
+import moment from 'moment/min/moment-with-locales.js';
 import { times } from '../share/util.js';
 import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService} from 'angular';
 import {IMessageService} from "../core/message.service";
@@ -15,7 +15,7 @@ interface ICalendarWeek {
     selected: boolean; // индикатор выделения недели
     subItem: ICalendarDay; //дни недели
     week: string; //индикатор недели для поиска
-};
+}
 
 interface ICalendarDay {
     key: string; // формат дня в формате YYYY.MM.DD
@@ -56,15 +56,17 @@ class CalendarCtrl implements IComponentController{
     $onInit() {
         // TODO убрать в ApplicationComponent или run()
         moment.locale('ru');
-        this.weekdayNames = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
-        let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek || null;
-        if(!!firstDayOfWeek){
-            moment.locale(moment.locale(), {
+        let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek;
+        console.log('first day=', firstDayOfWeek, moment.localeData().firstDayOfWeek(),moment.locale());
+        if(moment.localeData().firstDayOfWeek() !== firstDayOfWeek){
+            moment.updateLocale(moment.locale(), {
                 week : {
                     dow : firstDayOfWeek
                 }
             });
         }
+        console.log('new first day=', moment.localeData().firstDayOfWeek());
+        this.weekdayNames = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
     }
 
     onLoad() {
