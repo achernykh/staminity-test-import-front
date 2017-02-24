@@ -13,10 +13,14 @@
         </div>
     </div>
     <div layout="row" class="md-subhead" style="margin-top: 8px">
-        <div flex="none" style="width: 56px" ng-if="!!!$ctrl.item.activity.percent"></div>
-        <div class="summary-percent" ng-if="!!$ctrl.item.activity.percent"
-             flex="none">{{$ctrl.item.activity.printPercent()}}
+        <div flex="none" layout="column">
+            <div flex="none" style="width: 56px" ng-if="!$ctrl.item.activity.percent"></div>
+            <div class="summary-percent" ng-if="$ctrl.item.activity.percent" flex="none">{{$ctrl.item.activity.printPercent()}}
+            </div>
         </div>
-        <div class="summary-info" flex="auto">Категория тренировки</div>
+        <div flex="auto" layout="column" class="summary-info">
+            <div flex="none">Категория тренировки</div>
+            <div flex="none">{{$ctrl.item.activity.dateStart}}&nbsp#{{$ctrl.item.activity.activityHeader.activityId}}</div>
+        </div>
     </div>
 </div>

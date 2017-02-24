@@ -20,14 +20,14 @@
             md-on-select="change" md-on-deselect="change" md-auto-select="$ctrl.options.autoSelect"
             ng-repeat="split in splits track by $index">
             <td md-cell>{{$index+1}}</td>
-            <td md-cell>{{split.calcMeasures.movingDuration.maxValue | duration}}</td>
-            <td md-cell>{{split.calcMeasures.distance.maxValue | measureCalc:$ctrl.sport:'distance'}}</td>
+            <td md-cell>{{split.calcMeasures.movingDuration.value | duration}}</td>
+            <td md-cell>{{split.calcMeasures.distance.value | measureCalc:$ctrl.sport:'distance'}}</td>
             <td md-cell>
                 <div layout="row" layout-align="end center">
                     <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px" layout="low">
                         <div flex="none" style="height: 10px; border-radius: 5px; background: deeppink; width: 50%"></div>
                     </div>
-                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</div>
+                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.heartRate.value | measureCalc:$ctrl.sport:'heartRate'}}</div>
                 </div>
             </td>
             <td md-cell>
@@ -35,11 +35,11 @@
                     <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px" layout="low">
                         <div flex="none" style="height: 10px; border-radius: 5px; background: dodgerblue; width: 20%"></div>
                     </div>
-                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.speed.avgValue | measureCalc:$ctrl.sport:'speed'}}</div>
+                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.speed.value | measureCalc:$ctrl.sport:'speed'}}</div>
                 </div>
             </td>
-            <td md-cell>{{split.calcMeasures.elevationGain.avgValue | measureCalc:$ctrl.sport:'elevationGain'}}</td>
-            <td md-cell>{{split.calcMeasures.cadence.avgValue | measureCalc:$ctrl.sport:'cadence'}}</td>
+            <td md-cell>{{split.calcMeasures.elevationGain.value | measureCalc:$ctrl.sport:'elevationGain'}}</td>
+            <td md-cell>{{split.calcMeasures.cadence.value | measureCalc:$ctrl.sport:'cadence'}}</td>
         </tr>
         </tbody>
     </table>
