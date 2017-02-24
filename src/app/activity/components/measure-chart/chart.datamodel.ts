@@ -33,7 +33,7 @@ export class ActivityChartDatamodel implements IComponentController {
     constructor(measures, data, select = []) {
         this.currentMode = ChartMode.Distance;
         this.measures = {
-            duration: { index: measures['sumDuration'].idx, show: true || measures['sumDuration'].show },
+            duration: { index: measures['duration'].idx, show: true || measures['duration'].show },
             distance: { index: measures['distance'].idx, show: true || measures['distance'].show },
             speed: { index: measures['speed'].idx, show: true ||measures['speed'].show },
             heartRate: { index: measures['heartRate'].idx, show: true ||measures['heartRate'].show },
