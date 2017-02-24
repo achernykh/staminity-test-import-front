@@ -16,8 +16,8 @@ md-dialog#activity{
 md-dialog#post-activity{
 
   @media (min-width: 960px) {
-    max-height: 65vh;
-    min-height: 600px;
+    max-height: $dialog_height;
+    //min-height: 600px;
     max-width: $dialog_width;
   }
 

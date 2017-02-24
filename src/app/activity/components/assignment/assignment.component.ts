@@ -19,7 +19,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     public plan: IActivityIntervalPW;
     public actual: ICalcMeasures;
     public sport: string;
-    public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, valid: boolean}) => IPromise<void>;
+    public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
 
     private selected:Array<number> = [];
     private assignmentForm: INgModelController;
@@ -98,11 +98,11 @@ class ActivityAssignmentCtrl implements IComponentController {
             }
         } else { // если план или факт не введены, то очищаем расчет процента
             percent = null;
-        };
+        }
 
         this.percentComplete[key] = percent;
         this.calculateCompletePercent();
-        this.onChange({plan: this.plan, actual: this.actual, valid: this.assignmentForm.$valid});
+        this.onChange({plan: this.plan, actual: this.actual, form: this.assignmentForm});
 
     }
 
@@ -167,14 +167,12 @@ class ActivityAssignmentCtrl implements IComponentController {
      */
     calculateCompletePercent() {
 
-        this.actual.completePercent.value = Object.keys(this.percentComplete)
+        this.plan.calcMeasures.completePercent.value = Object.keys(this.percentComplete)
             .filter(m => this.percentComplete[m] >= 0)
                 .map(m => this.percentComplete[m])
-                .reduce((percent, value, i, arr) => (percent + value) / arr.length) * 100;
+                .reduce((percent, value, i, arr) => (percent + value) / arr.length);
 
-        //this.assignment.intervalW.completePercent.value.toFixed(0);
-
-        console.log('set complete percent=', this.actual.completePercent.value);
+        console.log('set complete percent=', this.plan.calcMeasures.completePercent.value);
     }
 
 }

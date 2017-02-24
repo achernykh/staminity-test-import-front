@@ -1,160 +1,151 @@
 <activity-summary-info flex="none" ng-if="$ctrl.item.mode === 'view'" class="{{$ctrl.item.activity.status}}">
 </activity-summary-info>
 
-<md-list flex="none" class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view'">
-    <form name="$ctrl.activityForm">
-        <md-list-item>
-            <md-input-container class="md-block no-message" md-no-float layout="row">
-                <md-icon flex="none" class="material-icons">directions_run</md-icon>
-                <md-select flex ng-model="$ctrl.item.activity.header.activityType.id" name="type"
-                           class="icon">
-                    <md-option ng-repeat="type in $ctrl.types track by type.id"
-                               value="{{::type.id}}">{{::type.code}}
-                    </md-option>
-                </md-select>
-                <div ng-messages="$ctrl.activityForm.type.$error" role="alert">
-                    <div ng-message-exp="['required']"
-                         translate="form.required">
-                    </div>
-                    <div ng-message-exp="['minlength', 'maxlength']"
-                         translate="form.rangeStr" translate-values="{min:2, max:100}">
-                    </div>
-                </div>
-            </md-input-container>
-        </md-list-item>
-        <md-list-item>
-            <md-input-container class="md-block no-message" md-no-float>
-                <md-icon class="material-icons">tune</md-icon>
-                <md-select ng-model="$ctrl.item.activity.header.activityCategory.id" name="category"
-                           class="icon">
-                    <md-option
-                            ng-repeat="category in $ctrl.categories | filter:{activityTypeId: $ctrl.activity.header.activityType.id} track by category.id"
-                            value="{{::category.id}}">{{::category.code}}
-                    </md-option>
-                </md-select>
-                <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
-                    <div ng-message-exp="['required']"
-                         translate="form.required">
-                    </div>
-                    <div ng-message-exp="['minlength', 'maxlength']"
-                         translate="form.rangeStr" translate-values="{min:2, max:100}">
-                    </div>
-                </div>
-            </md-input-container>
-        </md-list-item>
-        <md-list-item layout="row" layout-align="start center">
-            <md-input-container flex="50" class="no-message" md-no-float>
-                <md-icon flex="none" class="material-icons" style="left: 0px">tune</md-icon>
-                <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
-                               name="dateStart" md-hide-icons="calendar"
-                               style="margin-left: 56px"></md-datepicker>
-                <div ng-messages="$ctrl.publicForm.dateStart.$error">
-                    <div ng-message="valid">The entered value is not a date!</div>
-                </div>
-            </md-input-container>
-            <div flex="5"></div>
-            <md-input-container flex="45" class="no-message" md-no-float>
-                <input type="time" name="uri" class=""
-                       ng-model="$ctrl.user.public.uri"
-                       ng-disabled="false">
-            </md-input-container>
-        </md-list-item>
-    </form>
-</md-list>
-
-<form name="$ctrl.assignmentForm" ng-cloak flex>
+<form name="$ctrl.assignmentForm" flex="none">
     <fieldset ng-disabled="$ctrl.item.mode === 'view'">
-        <md-table-container>
-            <md-subheader>Задание</md-subheader>
-            <table md-table
-                   md-row-select="$ctrl.options.rowSelection"
-                   multiple="{{$ctrl.options.multiSelect}}"
-                   ng-model="$ctrl.selected">
-                <thead ng-if="!$ctrl.options.decapitate" md-head>
-                <tr md-row>
-                    <th md-column><span></span></th>
-                    <th md-column hide><span>Показатель(ед.изм)</span></th>
-                    <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
-                    <th md-column md-numeric style="min-width: 80px"><span>План</span></th>
-                    <th md-column md-numeric style="min-width: 55px"><span>Факт</span></th>
-                    <th md-column md-numeric style="min-width: 50px"><span>Вып</span></th>
-                </tr>
-                </thead>
-                <tbody md-body>
-                <tr md-row
-                    ng-repeat="measure in $ctrl.plan | toArray | orderBy:'order' | filter:search track by measure.$key">
+        <md-list flex="none" class="md-dense slim-input bg-grey-200"
+                 ng-if="$ctrl.item.mode !== 'view'">
+            <md-list-item>
+                <md-input-container class="md-block no-message" md-no-float layout="row">
+                    <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
+                    <md-select flex name="type" class="icon"
+                               ng-model="$ctrl.item.activity.sport"
+                               ng-model-options="{ getterSetter: true }">
+                        <md-option ng-repeat="type in $ctrl.types track by type.id"
+                                   value="{{type.id}}">{{type.code}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="$ctrl.activityForm.type.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container class="md-block no-message" md-no-float>
+                    <md-icon class="material-icons">tune</md-icon>
+                    <md-select ng-model="$ctrl.item.activity.header.activityCategory.id" name="category"
+                               class="icon">
+                        <md-option
+                                ng-repeat="category in $ctrl.categories | filter:{activityTypeId: $ctrl.activity.header.activityType.id} track by category.id"
+                                value="{{category.id}}">{{category.code}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item layout="row" layout-align="start center">
+                <md-input-container flex="50" class="no-message" md-no-float>
+                    <md-icon flex="none" class="material-icons" style="left: 0px">tune</md-icon>
+                    <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
+                                   name="dateStart" md-hide-icons="calendar"
+                                   style="margin-left: 56px"></md-datepicker>
+                    <div ng-messages="$ctrl.publicForm.dateStart.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                    </div>
+                </md-input-container>
+                <div flex="5"></div>
+                <md-input-container flex="45" class="no-message" md-no-float>
+                    <input type="time" name="uri" class=""
+                           ng-model="$ctrl.user.public.uri"
+                           ng-disabled="false">
+                </md-input-container>
+            </md-list-item>
+        </md-list>
+        <md-list flex="none" class="md-dense slim-input bg-grey-100">
+            <md-subheader class="bg-grey-100">Задание</md-subheader>
+            <md-list-item ng-if="!$ctrl.item.activity.sport">
+                <p class="md-body-1">Для ввода задания укажите вид спорта и тип тренировки</p>
+            </md-list-item>
+            <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.sport">
+                <md-table-container>
 
-                    <td md-cell>
-                        <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon>
-                    </td>
-                    <td md-cell hide>
-                        {measure.$key | translate}}&nbsp({{measure.$key | measureUnit:$ctrl.sport | translate}})
-                    </td>
-                    <td md-cell show>
-                        {{measure.$key | measureUnit:$ctrl.sport | translate}}
-                    </td>
+                    <table md-table
+                           md-row-select="$ctrl.options.rowSelection"
+                           multiple="{{$ctrl.options.multiSelect}}"
+                           ng-model="$ctrl.selected">
+                        <thead ng-if="!$ctrl.options.decapitate" md-head>
+                        <tr md-row>
+                            <th md-column><span></span></th>
+                            <th md-column hide><span>Показатель(ед.изм)</span></th>
+                            <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
+                            <th md-column md-numeric style="min-width: 80px"><span>План</span></th>
+                            <th md-column md-numeric style="min-width: 55px"><span>Факт</span></th>
+                            <th md-column md-numeric style="min-width: 50px"><span>Вып</span></th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row
+                            ng-repeat="measure in $ctrl.plan | toArray | orderBy:'order' | filter:search track by measure.$key">
 
-                    <td md-cell>
-                        <md-input-container>
-                            <input ng-if="$ctrl.isInterval(measure.$key)"
+                            <td md-cell>
+                                <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon>
+                            </td>
+                            <td md-cell hide>
+                                {measure.$key | translate}}&nbsp({{measure.$key | measureUnit:$ctrl.sport | translate}})
+                            </td>
+                            <td md-cell show>
+                                {{measure.$key | measureUnit:$ctrl.sport | translate}}
+                            </td>
 
-                                   ng-model="measure"
-                                   name="plan_{{::measure.$key}}"
-                                   ng-attr-measure-input={{measure.$key}}
-                                   ng-attr-sport={{$ctrl.sport}} ng-attr-interval="true"
-                                   ng-change="$ctrl.changeValue(measure.$key)">
-                            <input ng-if="!$ctrl.isInterval(measure.$key)"
+                            <td md-cell>
+                                <md-input-container>
+                                    <input ng-if="$ctrl.isInterval(measure.$key)"
+                                           ng-model="measure"
+                                           name="plan_{{::measure.$key}}"
+                                           ng-attr-measure-input={{measure.$key}}
+                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="true"
+                                           ng-change="$ctrl.changeValue(measure.$key)">
+                                    <input ng-if="!$ctrl.isInterval(measure.$key)"
+                                           name="plan_{{::measure.$key}}"
+                                           ng-model="measure.value"
+                                           ng-attr-measure-input={{measure.$key}}
+                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
+                                           ng-change="$ctrl.changeValue(measure.$key)">
+                                </md-input-container>
+                            </td>
+                            <td md-cell>
+                                <md-input-container>
+                                    <input ng-model="$ctrl.actual[measure.$key][$ctrl.valueType[measure.$key]]"
+                                           name="actual_{{::measure.$key}}"
+                                           ng-attr-measure-input={{measure.$key}}
+                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
+                                           ng-change="$ctrl.changeValue(measure.$key)">
+                                </md-input-container>
+                            </td>
+                            <td md-cell>
+                                {{$ctrl.percentComplete[measure.$key] | percent}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+            </md-list-item>
+            <md-list-item>
+                <pre>total%={{$ctrl.actual.completePercent.value | number:2}}</pre>
+            </md-list-item>
 
-                                   name="plan_{{::measure.$key}}"
-                                   ng-model="measure.value"
-                                   ng-attr-measure-input={{measure.$key}}
-                                   ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
-                                   ng-change="$ctrl.changeValue(measure.$key)">
-                        </md-input-container>
-                    </td>
-                    <td md-cell>
-                        <md-input-container>
-                            <input ng-model="$ctrl.actual[measure.$key][$ctrl.valueType[measure.$key]]"
-                                   name="actual_{{::measure.$key}}"
-                                   ng-attr-measure-input={{measure.$key}}
-                                   ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
-                                   ng-change="$ctrl.changeValue(measure.$key)">
-                        </md-input-container>
-                    </td>
-                    <td md-cell>
-                        {{$ctrl.percentComplete[measure.$key] | percent}}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </md-table-container>
-        <pre>%={{$ctrl.percentComplete | json}}</pre>
-        <pre>total%={{$ctrl.actual.completePercent.value | number:2}}</pre>
+            <md-list-item style="margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
+                <md-input-container flex class="md-block no-message">
+                    <md-icon class="material-icons">event_note</md-icon>
+                    <label translate="Установка тренера" class="icon"></label>
+                    <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
+                              class="icon" name="trainersPrescription"
+                              rows="1" md-select-on-focus></textarea>
+                </md-input-container>
+            </md-list-item>
+        </md-list>
     </fieldset>
 </form>
-<md-list class="md-dense lim-input">
-    <md-list-item style="margin-bottom: 40px">
-        <md-input-container flex class="md-block no-message">
-            <md-icon class="material-icons">event_note</md-icon>
-            <label translate="Установка тренера" class="icon"></label>
-            <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
-                      class="icon" name="trainersPrescription"
-                      ng-disabled="$ctrl.header.calendarActivity.mode === 'view'"
-                      rows="1" md-select-on-focus></textarea>
-        </md-input-container>
-    </md-list-item>
-</md-list>
-
-<md-dialog-actions flex="none" layout="row" style="background: white">
-    <span flex></span>
-    <md-button ng-if="$ctrl.item.mode === 'view'" type="submit" ng-disabled="true"
-               ng-click="">В шаблон</md-button>
-    <md-button ng-if="$ctrl.item.mode === 'view'" type="submit"
-               ng-click="$ctrl.item.mode = 'put'">Изменить</md-button>
-    <md-button ng-if="$ctrl.item.mode !== 'view'"
-               ng-click="$ctrl.item.mode = 'view'">Отменить</md-button>
-    <md-button ng-if="$ctrl.item.mode !== 'view'" type="sumbit"
-               ng-disabled="!$ctrl.activityForm.$dirty && !$ctrl.assignmentForm.$dirty"
-               ng-class="{'md-warn': !$ctrl.activityForm.$valid || !$ctrl.assignmentForm.$valid}"
-               ng-click="($ctrl.activityForm.$valid && $ctrl.assignmentForm.$valid) ? $ctrl.item.onSave() : null">Сохранить</md-button>
-</md-dialog-actions>
+<div flex="auto" class="bg-grey-100"></div>

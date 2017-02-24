@@ -1,5 +1,5 @@
 import {module} from 'angular';
-import {CalendarService} from './calendar.service.ts';
+import {CalendarService} from './calendar.service';
 import CalendarComponent from './calendar.component';
 import CalendarDay from './day/calendar-day.component.js';
 import CalendarTotal from './total/calendar-total.component.js';

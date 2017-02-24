@@ -16,6 +16,7 @@ import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interfa
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {Activity} from "../../activity/activity.datamodel";
 import {ACTIVITY_TYPE, ACTIVITY_CATEGORY} from "../../activity/activity.constants";
+import {CalendarCtrl} from "../../calendar/calendar.component";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -32,6 +33,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private selected: Array<any> = [];
     private isLoadingDetails: boolean = false;
     private activityForm: IFormController;
+    private calendar: CalendarCtrl;
 
 
     static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
@@ -85,6 +87,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.selected = interval;
     }
 
+    onReset(mode: string) {
+        this.mode = mode;
+        this.activity = new Activity(this.data, this.details || null);
+        this.activity.prepare();
+    }
+
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.
     // могут вызваны из любого другого представления
     onSave() {
@@ -95,6 +103,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     console.log('result=',this.activity);
+                    //this.calendar.onPostItem(this.activity.build());
+                    //this.message.toastInfo('Создана новая запись');
                     this.onAnswer({response: {type:'post', item:this.activity.build()}});
                 });
         }
@@ -148,6 +158,9 @@ const CalendarItemActivityComponent: IComponentOptions = {
         mode: '<',
         onCancel: '&',
         onAnswer: '&'
+    },
+    require: {
+        //calendar: '^calendar'
     },
     transclude: true,
     controller: CalendarItemActivityCtrl,

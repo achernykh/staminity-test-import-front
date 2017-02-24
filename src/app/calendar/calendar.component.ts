@@ -30,7 +30,7 @@ interface ICalendarDay {
     };
 }
 
-class CalendarCtrl implements IComponentController{
+export class CalendarCtrl implements IComponentController{
 
     static $inject = ['$scope', '$rootScope', '$anchorScroll','$location','message','CalendarService','SessionService'];
     private weekdayNames: Array<string> = [];
@@ -116,6 +116,7 @@ class CalendarCtrl implements IComponentController{
      * @param index - позиция в списке
      */
     getWeek (date, index) {
+        console.log('getWeek=', date, index);
         let start = moment(date).startOf('week');
         let end = moment(start).add(6, 'd');
         
@@ -159,7 +160,7 @@ class CalendarCtrl implements IComponentController{
     up (n = 10) {
         if (this.isLoadingUp){
             return;
-        };
+        }
         console.log('up');
         this.isLoadingUp = true;
         
@@ -184,7 +185,7 @@ class CalendarCtrl implements IComponentController{
     down (n = 10) {
         if (this.isLoadingDown){
             return;
-        };
+        }
         console.log('down');
         this.isLoadingDown = true;
         

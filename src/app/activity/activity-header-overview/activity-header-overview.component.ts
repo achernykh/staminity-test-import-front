@@ -1,5 +1,5 @@
 import './activity-header-overview.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
 import {Activity} from "../activity.datamodel";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 
@@ -8,6 +8,7 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     public mode: string;
     public activity: Activity;
+    public form: INgModelController;
     static $inject = [];
 
     constructor() {
@@ -18,6 +19,12 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         // для удобства верстки создаем быстрый путь к данным
         this.mode = this.item.mode;
         this.activity = this.item.activity;
+    }
+
+    onChangeForm(plan,actual,form) {
+        console.log('onChangeForm',plan,actual,form);
+        this.form = form;
+        this.item.updateAssignment(plan,actual, this.form.$valid);
     }
 }
 

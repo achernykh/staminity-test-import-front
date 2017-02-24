@@ -135,7 +135,7 @@ class CalendarDayCtrl {
                 `<md-dialog id="post-activity" aria-label="Activity">
                         <calendar-item-activity
                                 layout="row" class="calendar-item-activity"
-                                date="$ctrl.date" mode="post"
+                                date="$ctrl.date" mode="'post'"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-activity>
                    </md-dialog>`,
@@ -156,8 +156,8 @@ class CalendarDayCtrl {
             .then(response => {
                 if(response.type === 'post') {
                     console.log('save activity', response);
-                    this.calendar.onPostItem(response.item)
-                    this.ActionMessageService.simple('Создана новая запись')
+                    this.calendar.onPostItem(response.item);
+                    this.ActionMessageService.simple('Создана новая запись');
                 }
             }, ()=> {
                 console.log('user cancel dialog')

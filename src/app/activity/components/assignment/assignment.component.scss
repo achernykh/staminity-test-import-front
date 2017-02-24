@@ -1,11 +1,12 @@
 @import '../../../../sass/color.scss';
 
-.activity-assignment {
+activity-assignment {
 
   width: 100%;
+  overflow-y: auto;
 
   table {
-    padding: 0px 16px;
+    padding: 0px 0px;
   }
 
   table.md-table:not(.md-row-select) td.md-cell:first-child,
@@ -16,6 +17,10 @@
 
   table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2),
   table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+    padding-right: 12px;
+  }
+
+  table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
     padding-right: 12px;
   }
 

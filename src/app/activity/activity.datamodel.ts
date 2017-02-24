@@ -246,7 +246,11 @@ export class Activity extends CalendarItem {
 	 * @returns {String}
      */
 	get sport() {
-		return this.header.activityType.code;
+		return this.header.activityType.id;
+	}
+
+	set sport(id) {
+		this.header.activityType = getActivityType(Number(id));
 	}
 
 	/**
@@ -255,6 +259,14 @@ export class Activity extends CalendarItem {
      */
 	get sportBasic(){
 		return this.header.activityType.typeBasic;
+	}
+
+	/**
+	 * Путь к иконке вида спорта (не базовый вид спорта)
+	 * @returns {string}
+	 */
+	get sportUrl() {
+		return `assets/icon/${this.header.activityType.code || 'default_sport'}.svg`;
 	}
 
 	/**
@@ -311,8 +323,9 @@ export class Activity extends CalendarItem {
 	}
 
 	get percent() {
-		return (this.intervalW.calcMeasures.hasOwnProperty('completePercent')
-			&& this.intervalW.calcMeasures.completePercent.value) || null;
+		return ((this.intervalPW.hasOwnProperty('calcMeasures')
+			&& this.intervalPW.calcMeasures.hasOwnProperty('completePercent'))
+			&& this.intervalPW.calcMeasures.completePercent.value * 100) || null;
 	}
 
 	/**
@@ -359,18 +372,14 @@ export class Activity extends CalendarItem {
 				|| (!this.specified && 'not-specified')
 				|| (!this.completed && 'dismiss')
 				|| ((Math.abs(100-this.percent) <= 25 && this.percent > 0) && 'complete')
-				|| (Math.abs(100-this.percent) <= 50 && 'complete-warn')
-				|| (Math.abs(100-this.percent) > 50 && 'complete-error') :
+				|| ((Math.abs(100-this.percent) <= 50 && this.percent > 0) && 'complete-warn')
+				|| ((Math.abs(100-this.percent) > 50 && this.percent > 0)  && 'complete-error') :
 			//приоритет статусов, если запись сегодня
 			((Math.abs(100-this.percent) <= 25 && this.percent > 0) && 'complete')
-				|| (Math.abs(100-this.percent) <= 50 && 'complete-warn')
-				|| (Math.abs(100-this.percent) > 50  && 'complete-error')
+				|| ((Math.abs(100-this.percent) <= 50 && this.percent > 0)  && 'complete-warn')
+				|| ((Math.abs(100-this.percent) > 50 && this.percent > 0)  && 'complete-error')
 				|| (!this.specified && 'not-specified')
 				|| (this.coming && 'coming');
-	}
-
-	get sportUrl() {
-		return `assets/icon/${this.sport}.svg`;
 	}
 
 	get durationValue(){

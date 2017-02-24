@@ -3,8 +3,27 @@
                      actual="$ctrl.item.activity.intervalW.calcMeasures"
                      sport="$ctrl.item.activity.sportBasic"
                      editable="$ctrl.item.mode !== 'view'"
-                     on-change="$ctrl.item.updateAssignment(plan,actual,valid)">
+                     on-change="$ctrl.onChangeForm(plan,actual,form)">
 </activity-assignment>
+
+<md-dialog-actions flex="none" layout="row" style="background: white">
+    <span flex></span>
+    <md-button ng-if="$ctrl.item.mode === 'view'" type="submit" ng-disabled="true"
+               ng-click="">В шаблон
+    </md-button>
+    <md-button ng-if="$ctrl.item.mode === 'view'" type="submit"
+               ng-click="$ctrl.item.mode = 'put'">Изменить
+    </md-button>
+    <md-button ng-if="$ctrl.item.mode !== 'view'"
+               ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )">Отменить
+    </md-button>
+    <md-button ng-if="$ctrl.item.mode !== 'view'" type="sumbit"
+               ng-disabled="!$ctrl.form.$dirty"
+               ng-class="{'md-warn': !$ctrl.form.$valid}"
+               ng-click="($ctrl.form.$valid) ? $ctrl.item.onSave() : null">
+        Сохранить
+    </md-button>
+</md-dialog-actions>
 
 
 

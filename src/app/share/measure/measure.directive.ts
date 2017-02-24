@@ -4,7 +4,7 @@ import {Measure} from "./measure.constants";
 const toPaceInterval = (input) => {
 	if (typeof input === 'undefined') {
 		return null;
-	};
+	}
 
 	let pace = input.replace(/[^0-9]/g, '');
 	console.log('mask=',pace);
@@ -19,7 +19,7 @@ const toPaceInterval = (input) => {
 		return pace.substr(0,2) + ':' + pace.substr(2,2) + '-' + pace.substr(4,2) + ':' + pace.substr(6);
 	} else {
 		return pace.substr(0,2) + ':' + pace.substr(2,2) + '-' + pace.substr(4,2) + ':' + pace.substr(6,2);
-	};
+	}
 };
 
 const toPace = (input) => {
@@ -29,7 +29,7 @@ const toPace = (input) => {
 		return pace;
 	} else {
 		return pace.substr(0,2) + ':' + pace.substr(2,2);
-	};
+	}
 };
 
 const toDuration = (input) => {
@@ -42,7 +42,7 @@ const toDuration = (input) => {
 		return time.substr(0,2) + ':' + time.substr(2,2) + ':' + time.substr(4);
 	} else {
 		return time.substr(0,2) + ':' + time.substr(2,2) + ':' + time.substr(4,2);
-	};
+	}
 };
 
 const toNumber = (input) => {
@@ -121,7 +121,7 @@ export function MeasurementInput($filter): IDirective {
 			return $filter('measureSave')(measure.name, value, measure.sport);
 		};
 
-		const paceIntervalFormatters = (value) => {
+		const paceIntervalFormatters = (value: {from: number, to: number}) => {
 			if(value && value.hasOwnProperty('from') && value.hasOwnProperty('to')) {
 				initial = value;
 				return (value.from !== value.to) ?
@@ -133,7 +133,7 @@ export function MeasurementInput($filter): IDirective {
 			}
 		};
 
-		const numberIntervalFormatters = (value) => {
+		const numberIntervalFormatters = (value: {from: number, to: number}) => {
 			if(value && value.hasOwnProperty('from') && value.hasOwnProperty('to')) {
 				initial = value;
 				return (value.from !== value.to) ?
@@ -153,16 +153,15 @@ export function MeasurementInput($filter): IDirective {
 			return (!!value && $filter('measureCalc')(value, measure.sport, measure.name)) || null;
 		};
 
-		const paceIntervalValidators = (model,view) => {
-			console.log('check validators', model.from, model.to);
+		const paceIntervalValidators = (model: {from: number, to: number},view) => {
+			console.log('check pace interval validators', model.from, model.to);
 			return (model && model.hasOwnProperty('from') && model.hasOwnProperty('to')) &&
 				(model.from >= model.to);
 		};
 
-		const numberIntervalValidators = (model,view) => {
-			console.log('check validators', model.from, model.to);
-			return (model && model.hasOwnProperty('from') && model.hasOwnProperty('to')) &&
-				(model.from < model.to);
+		const numberIntervalValidators = (model: {from: number, to: number},view) => {
+			console.log('check number interval validators', model.from, model.to, model.from <= model.to);
+			return model && model.hasOwnProperty('from') && model.hasOwnProperty('to') && model.from <= model.to;
 		};
 
 		const paceValidators = (model,view) => {
@@ -177,7 +176,7 @@ export function MeasurementInput($filter): IDirective {
 		$element.on('blur keyup change', () => {
 			if (!!$ctrl.$viewValue && !!mask) {
 				$ctrl.$setViewValue(mask($ctrl.$viewValue));
-			};
+			}
 			$ctrl.$render();
 		});
 
