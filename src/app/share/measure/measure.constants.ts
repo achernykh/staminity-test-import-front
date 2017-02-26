@@ -120,6 +120,10 @@ export const _measurement = {
     elevationLoss: {
         unit: "meter",
         fixed: 0
+    },
+    cadence: {
+        unit: 'rpm',
+        fixed: 0
     }
 };
 

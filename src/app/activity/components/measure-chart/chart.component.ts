@@ -8,7 +8,9 @@ const ActivityChartComponent: IComponentOptions = {
     bindings: {
         measures: '<',
         data: '<',
+        x: '<',
         select: '<',
+        change: '<'
     }
 };
 

@@ -31,6 +31,14 @@
         <md-icon class="material-icon">multiline_chart</md-icon>
         <p class="md-body-2" translate>График</p>
         <span flex></span>
+        <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-icon-button md-secondary"
+                   ng-click="$ctrl.changeChartX(measure)">
+            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active" ></md-icon>
+        </md-button>
+        <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-icon-button md-secondary"
+                   ng-click="$ctrl.changeChartMetrics(measure)">
+            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active" ></md-icon>
+        </md-button>
         <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
             <md-icon class="md-secondary material-icon md-dark"
                      ng-bind="$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
@@ -38,9 +46,11 @@
     </header>
 
     <activity-metrics-char flex="none" ng-if="$ctrl.showChart"
-                           measures="$ctrl.activity.details.measures"
-                           data="$ctrl.activity.details.metrics"
-                           select="$ctrl.parent.selected">График...
+                           measures="$ctrl.measures"
+                           data="$ctrl.data"
+                           x="$ctrl.chartX"
+                           change="$ctrl.change"
+                           select="$ctrl.item.selected">График...
     </activity-metrics-char>
 
     <md-divider flex="none" ng-if="$ctrl.showChart"></md-divider>
@@ -57,8 +67,8 @@
 
     <measure-split-table flex ng-if="$ctrl.showTable"
                          class="chart measure-split-table"
-                         splits="$ctrl.activity.intervalL"
-                         sport="$ctrl.activity.sportBasic"
-                         on-selected="$ctrl.parent.changeSelectedInterval(selected)">Data table...
+                         splits="$ctrl.item.activity.intervalL"
+                         sport="$ctrl.item.activity.sportBasic"
+                         on-selected="$ctrl.item.changeSelectedInterval(selected)">Data table...
     </measure-split-table>
 <!--</section>-->

@@ -6,7 +6,7 @@ enum ChartMode {
 }
 
 interface IMeasureInfo {
-    index: number;
+    idx: number;
     show: number;
 }
 
@@ -19,8 +19,8 @@ interface IActivityMetrics<T> {
 }
 
 export interface ITimeInterval {
-    startTime: number;
-    duration: number;
+    start: number;
+    size: number;
 }
 
 export class ActivityChartDatamodel implements IComponentController {
@@ -30,9 +30,10 @@ export class ActivityChartDatamodel implements IComponentController {
     private data: Array<IActivityMetrics<number>>;
     private selectIntervals: Array<ITimeInterval>;
 
-    constructor(measures, data, select = []) {
-        this.currentMode = ChartMode.Distance;
-        this.measures = {
+    constructor(measures, data, x, select = []) {
+        this.measures = measures;
+        this.data = data;
+        /*this.measures = {
             duration: { index: measures['duration'].idx, show: true || measures['duration'].show },
             distance: { index: measures['distance'].idx, show: true || measures['distance'].show },
             speed: { index: measures['speed'].idx, show: true ||measures['speed'].show },
@@ -50,15 +51,15 @@ export class ActivityChartDatamodel implements IComponentController {
                 altitude: info[this.measures.altitude.index],
             };
             this.data.push(cleaned);
-        }
+        }*/
         this.selectIntervals = [];
-        let initTimestamp = data[0][measures['timestamp'].idx];
+        let initTimestamp = data[0]['timestamp'];
         // convert timestamp intervals to the time intervals (in seconds) from the beginig of the workout
         for (let i = 0; i < select.length; i++) {
             let interval = select[i];
             this.selectIntervals.push({
-                startTime: (interval.startTimeStamp - initTimestamp) / 1000,
-                duration: (interval.endTimeStamp - interval.startTimeStamp) / 1000
+                start: x === 'duration' ? (interval.startTimeStamp - initTimestamp) / 1000 : data.filter(m => m['timestamp'] === interval.startTimeStamp)[0]['distance'],
+                size: x === 'duration' ? (interval.endTimeStamp - interval.startTimeStamp) / 1000 : data.filter(m => m['timestamp'] === interval.endTimeStamp)[0]['distance'] - data.filter(m => m['timestamp'] === interval.startTimeStamp)[0]['distance']
             });
         }
     };
@@ -73,6 +74,11 @@ export class ActivityChartDatamodel implements IComponentController {
 
     public getMeasures(): IActivityMetrics<IMeasureInfo> {
         return this.measures;
+    }
+
+    public supportedMetrics(): Array<string> {
+        let except = ['timestamp','distance','duration'];
+        return Object.keys(this.measures).filter(m => except.indexOf(m) === -1);
     }
 
     private getPace(speed: number) {

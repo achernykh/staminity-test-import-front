@@ -5,13 +5,22 @@ import {Activity} from "../activity.datamodel";
 
 class ActivityMetricsDetailsCtrl implements IComponentController {
 
-    private parent: CalendarItemActivityCtrl;
-    private calendarActivity: CalendarItemActivityCtrl;
+    //private parent: CalendarItemActivityCtrl;
+    private item: CalendarItemActivityCtrl;
     public mode: string;
     public activity: Activity;
     private showMap: boolean = true;
     private showChart: boolean = true;
     private showTable: boolean = true;
+
+    private measures: {} = {};
+    private measuresItem: {} = {};
+    private measuresX: Array<string> = ['distance','duration'];
+    private measuresY: Array<string> = ['heartRate','speed','power'];
+    private measuresSecondary: Array<string> = ['timestamp','altitude'];
+    private data: Array<{}>;
+    private chartX: string = 'duration';
+    private change: number = 1;
 
     constructor(private $mdMedia: any) {
     }
@@ -19,10 +28,39 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     static $inject = ['$mdMedia'];
 
     $onInit() {
-        // для удобства верстки создаем быстрый путь к данным
-        this.parent = this.calendarActivity; // предполагаем, что в дальнейшем может быть зависимость с другими компонентами
-        this.mode = this.parent.mode;
-        this.activity = this.parent.activity;
+
+        this.measuresItem = this.item.details.measures;
+        this.measuresY.forEach(key => {
+            if (!this.item.activity.intervalW.calcMeasures.hasOwnProperty(key)) {
+                this.measuresY.splice(this.measuresY.indexOf(key),1);
+            } else {
+                this.measures[key] = this.measuresItem[key];
+                this.measures[key]['show'] = true;
+            }
+        });
+
+        this.measuresX.forEach(key => {
+            if(this.item.activity[key] > 0) {
+                this.measures[key] = this.measuresItem[key];
+                this.measures[key]['show'] = true;
+            } else {
+                this.measuresX.splice(this.measuresX.indexOf(key),1);
+            }
+        });
+
+        this.measuresSecondary.forEach(key => {
+            this.measures[key] = this.measuresItem[key];
+            this.measures[key]['show'] = false;
+        });
+
+        this.data = [];
+        this.item.details.metrics.forEach(info => {
+            var cleaned = {};
+            for (let key in this.measures) {
+                cleaned[key] = key === 'speed' ? 1000.0 / Math.max(info[this.measures[key]['idx']], 2) : info[this.measures[key]['idx']];
+            }
+            this.data.push(cleaned);
+        });
     }
 
     toggleMap(){
@@ -36,11 +74,21 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     toggleTable(){
         return this.showTable = !this.showTable;
     }
+
+    changeChartX(measure){
+        this.chartX = measure;
+        this.change++;
+    }
+
+    changeChartMetrics(measure){
+        this.measures[measure]['show'] = !this.measures[measure]['show'];
+        this.change++;
+    }
 }
 
 const ActivityMetricsDetailsComponent:IComponentOptions = {
     require: {
-        calendarActivity: '^calendarItemActivity'
+        item: '^calendarItemActivity'
     },
     controller: ActivityMetricsDetailsCtrl,
     template: require('./activity-metrics-details.component.html') as string

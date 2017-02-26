@@ -8,11 +8,12 @@ import './chart.component.scss';
 
 class ActivityChartController implements IComponentController {
 
-    private readonly supportedMetrics: Array<string> = ['speed', 'altitude', 'heartRate'];
+    private supportedMetrics: Array<string> = ['speed', 'altitude', 'heartRate'];
 
     private measures;
     private data;
     private select;
+    private x: string;
 
     private gradientId: number = 0;
     private onResize: Function;
@@ -110,8 +111,10 @@ class ActivityChartController implements IComponentController {
 
     private prepareData(): void {
         this.absUrl = this.$location.absUrl().split('#')[0];
-        this.chartData = new ActivityChartDatamodel(this.measures, this.data, this.select);
-        this.currentMode = this.activityChartSettings.defaultMode;
+        this.chartData = new ActivityChartDatamodel(this.measures, this.data, this.x, this.select);
+        this.currentMode = this.x === 'duration' ? ActivityChartMode.duration : ActivityChartMode.distance;
+        //this.currentMode = this.activityChartSettings.defaultMode;
+        this.supportedMetrics = this.chartData.supportedMetrics();
     }
 
     private preparePlaceholder(): void {
@@ -205,7 +208,7 @@ class ActivityChartController implements IComponentController {
         // in order specified in chart settings
         let settings = this.activityChartSettings;
         let areas = this.supportedMetrics
-            .filter((a) => { return this.chartData.getMeasures()[a].show; })
+            .filter((a) => this.chartData.getMeasures()[a].show)
             .sort(function (a, b) {
                 let orderA = settings[a].order;
                 let orderB = settings[b].order;
@@ -239,7 +242,7 @@ class ActivityChartController implements IComponentController {
     private drawSelections(): void {
         // show intervals only in duration chart mode
         if (this.currentMode !== ActivityChartMode.duration) {
-            return;
+            //return;
         }
         let fillStyle = this.getFillColor(this.activityChartSettings.selectedArea.area);
         let strokeStyle = this.getFillColor(this.activityChartSettings.selectedArea.borderArea);
@@ -247,8 +250,8 @@ class ActivityChartController implements IComponentController {
         let selectIntervals = this.chartData.getSelect();
         for (let i = 0; i < selectIntervals.length; i++) {
             let area = selectIntervals[i];
-            let start = xScale(area.startTime);
-            let width = xScale(area.duration);
+            let start = xScale(area.start);
+            let width = xScale(area.size);
             this.$interactiveArea.append("rect")
                 .attr("x", start)
                 .attr("y", 0)

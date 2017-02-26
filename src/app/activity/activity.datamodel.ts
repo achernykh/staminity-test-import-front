@@ -413,6 +413,10 @@ export class Activity extends CalendarItem {
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.maxValue;
 	}
 
+	get duration() {
+		return this.movingDuration;
+	}
+
 	get distance() {
 		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'distance')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.distance.maxValue;
