@@ -13,7 +13,7 @@ import {
 } from './measure.constants';
 import {ISessionService} from "../../core/session.service";
 
-export const measureView = ['SessionService', (SessionService:ISessionService) => (data, sport, measure) => {
+export const measureView = ['SessionService', (SessionService:ISessionService) => (data, sport, measure, units) => {
 	if (!!data) {
 		let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
 		let fixed = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].fixed) || _measurement[measure].fixed;
@@ -24,7 +24,7 @@ export const measureView = ['SessionService', (SessionService:ISessionService) =
 		}
 
 		// Необходим пересчет системы мер
-		if (SessionService.getUser().display.units !== 'metric'){
+		if (units && units !== 'metric'){
 			data = data * _measurement_system_calculate[unit].multiplier;
 		}
 
@@ -39,9 +39,9 @@ export const measureView = ['SessionService', (SessionService:ISessionService) =
 	}
 }];
 
-export const measureUnit = ['SessionService', (SessionService:ISessionService) => (measure, sport) => {
+export const measureUnit = ['SessionService', (SessionService:ISessionService) => (measure, sport, units) => {
 	let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
-	return (SessionService.getUser().display.units === 'metric') ? unit : _measurement_system_calculate[unit].unit;
+	return (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
 }];
 
 export const duration = () => (second = 0) => {

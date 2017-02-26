@@ -28,7 +28,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         let durationMeasure:string =  this.item.activity.durationMeasure;
         let intensityValue: number | {} = this.item.activity.intensityValue;
         let intensityMeasure: string = this.item.activity.intensityMeasure;
-        let movingDuration: number = this.item.activity.movingDuration;
+        let duration: number = this.item.activity.duration;
         let distance: number = this.item.activity.distance;
 
         let heartRate: number = ((this.item.activity.intervalW.calcMeasures.hasOwnProperty('heartRate')
@@ -60,8 +60,8 @@ class ActivitySummaryInfoCtrl implements IComponentController {
             }
             default: {
 
-                this.durationInfo += (movingDuration
-                    && this.$filter('measureCalc')(movingDuration, sportBasic, 'movingDuration') + ' ') || '';
+                this.durationInfo += (duration
+                    && this.$filter('measureCalc')(duration, sportBasic, 'movingDuration') + ' ') || '';
 
                 this.durationInfo += (distance
                     && this.$filter('measureCalc')(distance, sportBasic, 'distance')+' '+

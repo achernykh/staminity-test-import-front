@@ -9,7 +9,7 @@
          ng-if="!$ctrl.isLoadingDetails">-->
 
     <header flex="none" class="map" layout="row" layout-align="start center"
-            ng-if="$ctrl.activity.isRouteExist">
+            ng-if="$ctrl.item.activity.isRouteExist">
         <md-icon class="material-icon">directions</md-icon>
         <p class="md-body-2" translate>Карта</p>
         <span flex></span>
@@ -20,9 +20,9 @@
         </md-button>
     </header>
 
-    <activity-route flex="none" ng-if="$ctrl.showMap && $ctrl.activity.isRouteExist"
+    <activity-route flex="none" ng-if="$ctrl.showMap && $ctrl.item.activity.isRouteExist"
                     class="map activity-route"
-                    data="$ctrl.activity.route" select="$ctrl.select" zoom-enabled="true" layer-enabled="true">
+                    data="$ctrl.item.activity.route" select="$ctrl.item.selected" zoom-enabled="true" layer-enabled="true">
     </activity-route>
 
     <md-divider flex="none" ng-if="$ctrl.showMap"></md-divider>

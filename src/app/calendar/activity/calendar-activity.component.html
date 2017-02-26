@@ -37,8 +37,8 @@
                      class="md-title small secondary tight-10"
                      ng-class="::{'dark' : ($ctrl.status === 'planned')}"
                      style=""
-                     ng-if="::(!!$ctrl.data.movingDuration || !!$ctrl.data.distance)">
-                    <div flex="none">{{$ctrl.data.movingDuration}}</div>
+                     ng-if="::(!!$ctrl.data.duration || !!$ctrl.data.distance)">
+                    <div flex="none">{{$ctrl.data.duration}}</div>
                     <div flex="none"><span>&nbsp;&nbsp;&nbsp</span></div>
                     <div flex="none">{{$ctrl.data.distance}}</div>
                 </div>
@@ -70,9 +70,9 @@
              class="md-title-small secondary center tight-10"
              ng-class="::{'dark' : ($ctrl.status == 'planned')}"
              style=""
-             ng-if="::(!!$ctrl.data.movingDuration || $ctrl.data.distance)">
-            <div flex="none" ng-if="::$ctrl.data.movingDuration">
-                {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
+             ng-if="::(!!$ctrl.data.duration || $ctrl.data.distance)">
+            <div flex="none" ng-if="::$ctrl.data.duration">
+                {{::$ctrl.data.duration | measureCalc:$ctrl.data.sportBasic:'duration'}}</div>
             <div flex="none" ng-if="::$ctrl.data.distance">
                 <span>&nbsp&nbsp</span>
                 {{::$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp

@@ -3,7 +3,7 @@
 const DefaultChartSettings: IActivityChartSettings = {
     minWidth: 350,
     minAspectRation: 0.25,
-    labelOffset: 30,
+    labelOffset: 40,
     autoResizable: true,
     defaultMode: ActivityChartMode.duration,
     //xMeasures: [''],

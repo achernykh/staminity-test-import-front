@@ -237,7 +237,7 @@ export class Activity extends CalendarItem {
 		let lng = details.measures['longitude'].idx; // lng index in array
 		let lat = details.measures['latitude'].idx; // lat index in array
 		return details.metrics
-			.filter(m => m[lng] !== 0 || m[lat] !== 0)
+			.filter(m => m[lng] > 0 || m[lat] > 0)
 			.map(m => ({lng: m[lng],lat: m[lat]}));
 	}
 
@@ -388,7 +388,7 @@ export class Activity extends CalendarItem {
 
 	get durationMeasure() {
 		return this.intervalPW.durationMeasure
-			|| (!!this.intervalW.calcMeasures.movingDuration.maxValue && 'movingDuration')
+			|| (!!this.intervalW.calcMeasures.duration.maxValue && 'duration')
 			|| (!!this.intervalW.calcMeasures.distance.maxValue && 'distance') || null;
 	}
 
@@ -414,7 +414,8 @@ export class Activity extends CalendarItem {
 	}
 
 	get duration() {
-		return this.movingDuration;
+		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
+			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.maxValue;
 	}
 
 	get distance() {
