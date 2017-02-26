@@ -15,7 +15,7 @@
                                    value="{{type.id}}">{{type.code}}
                         </md-option>
                     </md-select>
-                    <div ng-messages="$ctrl.activityForm.type.$error" role="alert">
+                    <div ng-messages="$ctrl.assignmentForm.type.$error" role="alert">
                         <div ng-message-exp="['required']"
                              translate="form.required">
                         </div>
@@ -35,7 +35,7 @@
                                 value="{{category.id}}">{{category.code}}
                         </md-option>
                     </md-select>
-                    <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                    <div ng-messages="$ctrl.assignmentForm.firstName.$error" role="alert">
                         <div ng-message-exp="['required']"
                              translate="form.required">
                         </div>
@@ -51,7 +51,7 @@
                     <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                                    name="dateStart" md-hide-icons="calendar"
                                    style="margin-left: 56px"></md-datepicker>
-                    <div ng-messages="$ctrl.publicForm.dateStart.$error">
+                    <div ng-messages="$ctrl.assignmentForm.dateStart.$error">
                         <div ng-message="valid">The entered value is not a date!</div>
                     </div>
                 </md-input-container>

@@ -93,6 +93,10 @@ export const _measurement = {
         unit: "meter",
         fixed: 0
     },
+    duration: {
+        unit: "min",
+        fixed: 0
+    },
     movingDuration: {
         unit: "min",
         fixed: 0

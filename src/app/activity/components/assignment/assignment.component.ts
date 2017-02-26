@@ -52,19 +52,21 @@ class ActivityAssignmentCtrl implements IComponentController {
         limit: 5,
         page: 1
     };
-    private filter: Array<string> = ['movingDuration','distance','heartRate', 'speed', 'power'];
+    private filter: Array<string> = ['duration','distance','heartRate', 'speed', 'power'];
 
     static $inject = ['$scope','$mdEditDialog','$q','$filter'];
 
     constructor(private $scope: any, private $mdEditDialog: any, private $q: IQService, private $filter: any) {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
-        this.$scope.measure = ['movingDuration','distance','heartRate', 'speed'];
+        this.$scope.measure = ['duration','distance','heartRate', 'speed'];
+        //
         this.valueType = {
-            movingDuration: 'maxValue',
-            distance: 'maxValue',
+            duration: 'value',
+            distance: 'value',
             heartRate: 'avgValue',
-            speed: 'avgValue'
+            speed: 'avgValue',
+            power: 'avgValue'
         };
         this.$scope.search = (measure) => this.$scope.measure.indexOf(measure.$key) !== -1;
     }

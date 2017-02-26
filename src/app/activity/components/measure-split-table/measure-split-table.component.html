@@ -27,7 +27,7 @@
                     <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px" layout="low">
                         <div flex="none" style="height: 10px; border-radius: 5px; background: deeppink; width: 50%"></div>
                     </div>
-                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.heartRate.value | measureCalc:$ctrl.sport:'heartRate'}}</div>
+                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</div>
                 </div>
             </td>
             <td md-cell>
