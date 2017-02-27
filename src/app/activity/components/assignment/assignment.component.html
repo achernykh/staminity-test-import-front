@@ -8,8 +8,9 @@
             <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float layout="row">
                     <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
-                    <md-select flex name="type" class="icon"
+                    <md-select flex name="sport" class="icon"
                                ng-model="$ctrl.item.activity.sport"
+                               ng-change="$ctrl.changeParam()"
                                ng-model-options="{ getterSetter: true }">
                         <md-option ng-repeat="type in $ctrl.types track by type.id"
                                    value="{{type.id}}">{{type.code}}

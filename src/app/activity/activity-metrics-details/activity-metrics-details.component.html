@@ -68,6 +68,7 @@
     <measure-split-table flex ng-if="$ctrl.showTable"
                          class="chart measure-split-table"
                          splits="$ctrl.item.activity.intervalL"
+                         max="$ctrl.maxValue"
                          sport="$ctrl.item.activity.sportBasic"
                          on-selected="$ctrl.item.changeSelectedInterval(selected)">Data table...
     </measure-split-table>

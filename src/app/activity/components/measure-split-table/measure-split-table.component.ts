@@ -8,6 +8,7 @@ class MeasureSplitTableCtrl implements IComponentController {
     public sport: string;
     public onSelected: (result: {selected: Array<{startTimeStamp: number, endTimeStamp:number}>}) => IPromise<void>;
     public selected:Array<any> = [];
+    public max: {};
 
     public options:Object = {
         rowSelection: true,
@@ -46,6 +47,7 @@ const MeasureSplitTableComponent:IComponentOptions = {
     bindings: {
         splits: '<',
         sport: '<',
+        max: '<',
         onSelected: '&'
     },
     controller: MeasureSplitTableCtrl,

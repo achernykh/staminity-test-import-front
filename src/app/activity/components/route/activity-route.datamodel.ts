@@ -7,13 +7,23 @@ class ActivityRouteDatamodel implements IComponentController {
     private coordinates;
     private geoCoordinates;
     private markers;
+    private route;
     private selectCoordinates;
-    private startTimeSt;
-    private stopTimeSt;
+    private startTimeStamp;
+    private endTimeStamp;
     private paths;
     private layers;
 
-    constructor(data, selection = []) {
+    constructor(data, selection) {
+
+        this.route = data.map(d=>({lng: d['lng'],lat: d['lat']}));
+        this.startTimeStamp = (selection.length > 0 && selection[0].startTimeStamp) || null;
+        this.endTimeStamp = (selection.length > 0 && selection[0].endTimeStamp) || null;
+
+        if (selection.length > 0) {
+            this.selectCoordinates =
+                data.filter(d => d.timestamp >= this.startTimeStamp && d.timestamp <= this.endTimeStamp);
+        }
 
         Object.assign(this, {
             layers : {
@@ -55,14 +65,14 @@ class ActivityRouteDatamodel implements IComponentController {
                 mainPath: {
                     "color": "#f81a2b",
                     "weight": 4,
-                    "latlngs": data,
+                    "latlngs": this.route,
                     "message": "<h3>Основной маршрут</h3>"
                 },
                 // формирую выбранный отрезок на карте
                 selectedPath: {
                     "color": "#bb39db",
                     "weight": 4,
-                    "latlngs": this.startTimeSt ? this.selectCoordinates : [],
+                    "latlngs": selection.length > 0 ? this.selectCoordinates: [],
                     "message": "<h3>Выбранный маршрут</h3>"
                 }
             }

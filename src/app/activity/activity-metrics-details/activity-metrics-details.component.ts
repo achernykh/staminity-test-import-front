@@ -5,7 +5,6 @@ import {Activity} from "../activity.datamodel";
 
 class ActivityMetricsDetailsCtrl implements IComponentController {
 
-    //private parent: CalendarItemActivityCtrl;
     private item: CalendarItemActivityCtrl;
     public mode: string;
     public activity: Activity;
@@ -18,6 +17,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private measuresX: Array<string> = ['distance', 'duration'];
     private measuresY: Array<string> = ['heartRate', 'speed', 'power'];
     private measuresSecondary: Array<string> = ['timestamp', 'altitude'];
+    private maxValue: {};
     private data: Array<{}>;
     private chartX: string = 'duration';
     private change: number = 1;
@@ -30,6 +30,8 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     $onInit() {
         let array: Array<string>;
         this.measuresItem = this.item.details.measures;
+        this.maxValue = {};
+
         array = copy(this.measuresY);
         array.forEach(key => {
             if (!this.item.activity.intervalW.calcMeasures.hasOwnProperty(key)) {
@@ -37,6 +39,10 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
             } else {
                 this.measures[key] = this.measuresItem[key];
                 this.measures[key]['show'] = true;
+                this.maxValue[key] = {
+                    max: this.item.activity.intervalW.calcMeasures[key].maxValue,
+                    min: this.item.activity.intervalW.calcMeasures[key].minValue
+                };
             }
         });
 

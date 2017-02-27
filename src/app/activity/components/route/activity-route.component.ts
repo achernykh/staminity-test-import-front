@@ -8,21 +8,29 @@ class ActivityRouteCtrl implements IComponentController {
     private select: Array<{start: number, end: number}>;
     private options: MapOptions ={};
     private zoomEnabled: boolean;
-    private route;
+    private map;
 
     static $inject = ['leafletData'];
     constructor(private leafletData: any) {
 
     }
 
+    $onChanges(change: any): void {
+        if(!change.select.isFirstChange()) {
+            this.$onInit();
+        }
+    }
+
     $onInit() {
-        this.route = new ActivityRouteDatamodel(this.data, this.select);
+        this.map = new ActivityRouteDatamodel(this.data, this.select);
         // показывать или нет панель зума
         this.options.zoomControl = this.zoomEnabled;
         // центрирую карту по основному маршруту
         this.leafletData.getMap()
             .then(map => {
-                map.fitBounds(this.data.map(e => L.GeoJSON.coordsToLatLng([e.lng,e.lat])));
+                map.fitBounds(this.select.length === 0 ?
+                    this.map.route.map(e => L.GeoJSON.coordsToLatLng([e.lng,e.lat])) :
+                    this.map.selectCoordinates.map(e => L.GeoJSON.coordsToLatLng([e.lng,e.lat])));
                 map.invalidateSize();
             });
     }
@@ -33,9 +41,9 @@ const ActivityRouteComponent:IComponentOptions = {
 
     controller: ActivityRouteCtrl,
     template: `<leaflet width="100%" height="25vh"
-                        paths="$ctrl.route.paths"
-                        layers="$ctrl.route.layers"
-                        markers="$ctrl.route.markers"
+                        paths="$ctrl.map.paths"
+                        layers="$ctrl.map.layers"
+                        markers="$ctrl.map.markers"
                         defaults="$ctrl.options"></leaflet>`,
     bindings: {
         data: '<',

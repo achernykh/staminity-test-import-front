@@ -75,6 +75,7 @@ export interface IActivityChartSettings
     // Min value of  the chart height to  its width 
     minAspectRation: number;
     labelOffset: number;
+    tooltipOffset: number;
     // if true will resize on window resize according to 
     // the new container size
     autoResizable: boolean;

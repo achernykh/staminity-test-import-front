@@ -4,6 +4,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     minWidth: 350,
     minAspectRation: 0.25,
     labelOffset: 40,
+    tooltipOffset: 30,
     autoResizable: true,
     defaultMode: ActivityChartMode.duration,
     //xMeasures: [''],
@@ -85,7 +86,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     distance: {
         axis: {
             color: '#8d8d8d',
-            tickMinStep: 500,
+            tickMinStep: 1000,
             tickMinDistance: 50,
             ticksPerLabel: 2,
             hideOnWidth: 0

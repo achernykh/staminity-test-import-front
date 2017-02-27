@@ -236,9 +236,11 @@ export class Activity extends CalendarItem {
 
 		let lng = details.measures['longitude'].idx; // lng index in array
 		let lat = details.measures['latitude'].idx; // lat index in array
+		let timestamp = details.measures['timestamp'].idx; // timestamp index in array
+
 		return details.metrics
 			.filter(m => m[lng] > 0 || m[lat] > 0)
-			.map(m => ({lng: m[lng],lat: m[lat]}));
+			.map(m => ({lng: m[lng],lat: m[lat], timestamp: m[timestamp]}));
 	}
 
 	/**

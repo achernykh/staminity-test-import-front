@@ -72,7 +72,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     $onInit() {
-        console.log('assignment=', this);
+
     }
 
     isInterval(key) {
@@ -105,7 +105,47 @@ class ActivityAssignmentCtrl implements IComponentController {
         this.percentComplete[key] = percent;
         this.calculateCompletePercent();
         this.onChange({plan: this.plan, actual: this.actual, form: this.assignmentForm});
+    }
 
+    changeParam() {
+        setTimeout(()=>{
+            this.validateForm();
+            this.updateForm();
+        }, 100);
+    }
+
+    validateForm() {
+        // Обязательно заполнение одного из параметров длительности, если введены основные парамтеры
+        // (вид спорта, тип тренировки, дата...)
+        if (this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_duration'].$modelValue > 0) {
+            debugger;
+            this.assignmentForm['plan_distance'].$setValidity('needDuration',
+                this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_duration'].$modelValue > 0);
+            this.assignmentForm['plan_duration'].$setValidity('needDuration',
+                this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_duration'].$modelValue > 0);
+        }
+        // Пользователь может указать или расстояние, или время
+        if(this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_duration'].$modelValue > 0) {
+            this.assignmentForm['plan_distance'].$setValidity('singleDuration',
+                this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_duration'].$modelValue > 0);
+            this.assignmentForm['plan_duration'].$setValidity('singleDuration',
+                this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_duration'].$modelValue > 0);
+        }
+
+        // Пользователь может указать только один парметр интенсивности
+        if(this.assignmentForm['plan_heartRate'].$modelValue > 0 || this.assignmentForm['plan_speed'].$modelValue > 0) {
+
+            this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
+                this.assignmentForm['plan_heartRate'].$modelValue > 0 && this.assignmentForm['plan_speed'].$modelValue > 0);
+
+            this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
+                this.assignmentForm['plan_heartRate'].$modelValue > 0 && this.assignmentForm['plan_speed'].$modelValue > 0);
+
+        }
+    }
+
+    updateForm() {
+        this.onChange({plan: this.plan, actual: this.actual, form: this.assignmentForm});
     }
 
     measurePercentComplete() {
