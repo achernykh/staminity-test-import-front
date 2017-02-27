@@ -19,14 +19,17 @@
         <tbody md-body>
         <tr md-row
             md-select="split"
-            md-on-select="change" md-on-deselect="change" md-auto-select="$ctrl.options.autoSelect"
+            md-on-select="change" md-on-deselect="change"
+            md-select-id="ind"
+            md-auto-select="$ctrl.options.autoSelect"
             ng-repeat="split in splits track by $index">
+
             <td md-cell>{{$index+1}}</td>
             <td md-cell>{{split.calcMeasures.duration.value | duration}}</td>
             <td md-cell>{{split.calcMeasures.distance.value | measureCalc:$ctrl.sport:'distance'}}</td>
             <td md-cell ng-if="$ctrl.max.hasOwnProperty('heartRate')">
                 <div layout="row" layout-align="end center">
-                    <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px" layout="low">
+                    <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px; max-width: 60px" layout="low">
                         <div flex="none" style="height: 10px; border-radius: 5px; background: deeppink;
                         width: {{::((split.calcMeasures.heartRate.avgValue - $ctrl.max['heartRate'].min) / ($ctrl.max['heartRate'].max - $ctrl.max['heartRate'].min))*100}}%"></div>
                     </div>
@@ -35,7 +38,7 @@
             </td>
             <td md-cell ng-if="$ctrl.max.hasOwnProperty('speed')">
                 <div layout="row" layout-align="end center">
-                    <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px" layout="low">
+                    <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px; max-width: 60px" layout="low">
                         <div flex="none" style="height: 10px; border-radius: 5px; background: dodgerblue;
                         width: {{::((split.calcMeasures.speed.avgValue - $ctrl.max['speed'].min) / ($ctrl.max['speed'].max - $ctrl.max['speed'].min))*100}}%">
                         </div>
@@ -44,7 +47,7 @@
                 </div>
             </td>
             <td md-cell>{{split.calcMeasures.elevationGain.value | measureCalc:$ctrl.sport:'elevationGain'}}</td>
-            <td md-cell>{{split.calcMeasures.cadence.value | measureCalc:$ctrl.sport:'cadence'}}</td>
+            <td md-cell>{{split.calcMeasures.cadence.avgValue | measureCalc:$ctrl.sport:'cadence'}}</td>
         </tr>
         </tbody>
     </table>

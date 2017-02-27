@@ -8,22 +8,25 @@ class ActivityRouteDatamodel implements IComponentController {
     private geoCoordinates;
     private markers;
     private route;
-    private selectCoordinates;
-    private startTimeStamp;
-    private endTimeStamp;
+    private selectCoordinates: Array<any> = [];
+    private startTimestamp;
+    private endTimestamp;
     private paths;
     private layers;
 
-    constructor(data, selection) {
+    constructor(data: Array<any>, selection: Array<any> = []) {
 
-        this.route = data.map(d=>({lng: d['lng'],lat: d['lat']}));
-        this.startTimeStamp = (selection.length > 0 && selection[0].startTimeStamp) || null;
-        this.endTimeStamp = (selection.length > 0 && selection[0].endTimeStamp) || null;
+        this.route = data.map(d => ({lng: d['lng'],lat: d['lat']}));
+        this.startTimestamp = (selection.length > 0 && selection[0].startTimestamp) || null;
+        this.endTimestamp = (selection.length > 0 && selection[0].endTimestamp) || null;
 
-        if (selection.length > 0) {
-            this.selectCoordinates =
-                data.filter(d => d.timestamp >= this.startTimeStamp && d.timestamp <= this.endTimeStamp);
-        }
+        selection.forEach(s => this.selectCoordinates.push(
+            ...data.filter(d => d.timestamp >= s.startTimestamp && d.timestamp <= s.endTimestamp)));
+                //.map(d => ({lng: d['lng'], lat: d['lat']}))));
+
+        /*if(selection.length > 0) {
+            this.selectCoordinates = data.filter(d => d.timestamp >= selection[0].startTimestamp && d.timestamp <= selection[0].endTimestamp);
+        }*/
 
         Object.assign(this, {
             layers : {

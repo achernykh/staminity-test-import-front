@@ -19,6 +19,10 @@ export class ActivityHeaderCtrl implements IComponentController {
     $onInit() {
         this.peaks = this.item.activity.getPeaks();
     }
+
+    changeSelection(type: string, select: Array<number>){
+        this.item.changeSelectedIndex(type,select);
+    }
 }
 
 const ActivityHeaderComponent:IComponentOptions = {

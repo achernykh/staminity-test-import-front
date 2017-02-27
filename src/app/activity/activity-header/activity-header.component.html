@@ -36,34 +36,25 @@
                                 'complete': $ctrl.item.activity.status === 'complete',
                                 'complete-warn': $ctrl.item.activity.status === 'complete-warn',
                                 'complete-error': $ctrl.item.activity.status === 'complete-error' || $ctrl.item.activity.status === 'dismiss'}">
-        <md-tab id="tab1" flex="auto" layout="column" label="Обзор">
+        <md-tab id="overview" flex="auto" layout="column" label="Обзор">
             <md-tab-content flex="auto" layout="column" layout-fill>
-                <activity-header-overview flex="auto" layout="column" layout-fill>
-                </activity-header-overview>
+                <activity-header-overview flex="auto" layout="column" layout-fill></activity-header-overview>
             </md-tab-content>
         </md-tab>
-        <md-tab id="tab4" label="Детали" layout-fill layout-wrap
+        <md-tab id="details" label="Детали" layout-fill layout-wrap
                 ng-if="$ctrl.item.activity.hasImportedData">
             <md-tab-content layout-fill layout-column>
-                <measures-avg-table flex="none" class="measures-avg-table" ng-cloak
-                                    measures="$ctrl.item.activity.intervalW.calcMeasures"
-                                    sport="$ctrl.item.activity.sportBasic"></measures-avg-table>
-
-                <measure-main-button flex="none" class="measure-main-button" ng-cloak
-                                     measures="$ctrl.item.activity.intervalW.calcMeasures"
-                                     sport="$ctrl.item.activity.sportBasic"></measure-main-button>
-
-                <activity-peaks flex="auto" class="activity-peaks" ng-cloak
-                                peaks="$ctrl.peaks" sport="$ctrl.item.activity.sportBasic">
-                </activity-peaks>
-
+                <activity-header-details flex="auto" layout="column" layout-fill
+                                         select="$ctrl.item.selectedIntervalIndex"
+                                         change="$ctrl.item.changeSelectInterval"
+                                         on-selected="$ctrl.changeSelection(type,selected)"></activity-header-details>
             </md-tab-content>
         </md-tab>
-        <md-tab id="tab2" flex layout="column" label="Зоны">
+        <md-tab id="zones" flex layout="column" label="Зоны">
             <md-tab-content>
             </md-tab-content>
         </md-tab>
-        <md-tab id="tab3" label="Чат">
+        <md-tab id="chat" label="Чат">
             <md-tab-content>
             </md-tab-content>
         </md-tab>

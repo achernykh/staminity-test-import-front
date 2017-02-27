@@ -30,7 +30,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: (response: Object) => IPromise<void>;
 
-    private selected: Array<any> = [];
+    private selectedTimestamp: Array<any> = [];
+    private selectedIntervalIndex: {} = { L: null, P: null};
+    private selectedIntervalType: string;
+    private changeSelectInterval: number = 0;
+
     private isLoadingDetails: boolean = false;
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
@@ -82,9 +86,20 @@ export class CalendarItemActivityCtrl implements IComponentController{
         console.log('activity data=',this);
     }
 
-    changeSelectedInterval(interval){
-        console.log('selected interval = ', interval);
-        this.selected = interval;
+    changeSelectedIndex(type: string, index: Array<number>){
+        console.log('changeSelectedInterval',type, index);
+        this.selectedIntervalType = type;
+        this.selectedIntervalIndex[type] = index;
+        this.calculateTimestampInterval(type,index);
+        this.changeSelectInterval++;
+    }
+
+    calculateTimestampInterval(type: string, index: Array<number>) {
+        this.selectedTimestamp = [];
+        index.forEach(i => this.selectedTimestamp.push({
+            startTimestamp: this.activity['interval'+type][i].startTimestamp,
+            endTimestamp: this.activity['interval'+type][i].endTimestamp
+        }));
     }
 
     onReset(mode: string) {

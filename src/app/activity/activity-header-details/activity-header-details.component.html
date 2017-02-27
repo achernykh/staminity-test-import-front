@@ -1,0 +1,40 @@
+<md-list class="md-dense slim-input">
+    <form>
+        <md-list-item>
+            <md-input-container class="md-block no-message" md-no-float layout="row">
+                <md-icon class="material-icons">format_list_numbered</md-icon>
+                <md-select flex name="sport" class="icon" multiple="true"
+                           ng-model="$ctrl.selectedIntervals" ng-change="$ctrl.changeSelect()">
+                    <md-optgroup label="Круги">
+                        <md-option ng-repeat="interval in $ctrl.intervals | toArray track by interval.$key"
+                                   value="{{interval.$key}}">{{interval.$key}} ({{interval.duration}} {{interval.distance}})
+                        </md-option>
+                    </md-optgroup>
+                </md-select>
+                <div ng-messages="$ctrl.assignmentForm.type.$error" role="alert">
+                    <div ng-message-exp="['required']"
+                         translate="form.required">
+                    </div>
+                    <div ng-message-exp="['minlength', 'maxlength']"
+                         translate="form.rangeStr" translate-values="{min:2, max:100}">
+                    </div>
+                </div>
+            </md-input-container>
+        </md-list-item>
+    </form>
+</md-list>
+
+<measures-avg-table flex="none" class="measures-avg-table" ng-cloak
+                    measures="$ctrl.selectedIntervals.length > 0 ?
+                        $ctrl.item.activity.intervalL[$ctrl.lapIndex($ctrl.selectedIntervals)].calcMeasures :
+                        $ctrl.item.activity.intervalW.calcMeasures"
+                    changes="$ctrl.changes"
+                    sport="$ctrl.item.activity.sportBasic"></measures-avg-table>
+
+<measure-main-button flex="none" class="measure-main-button" ng-cloak
+                     measures="$ctrl.item.activity.intervalW.calcMeasures"
+                     sport="$ctrl.item.activity.sportBasic"></measure-main-button>
+
+<activity-peaks flex="auto" class="activity-peaks" ng-cloak
+                peaks="$ctrl.peaks" sport="$ctrl.item.activity.sportBasic">
+</activity-peaks>

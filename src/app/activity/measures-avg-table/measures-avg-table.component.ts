@@ -31,6 +31,12 @@ class MeasuresAvgTableCtrl implements IComponentController {
 
     }
 
+    $onChanges(change: any): void {
+        if(change.hasOwnProperty('changes') && !change.changes.isFirstChange()) {
+            this.$onInit();
+        }
+    }
+
     $onInit() {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
@@ -42,6 +48,7 @@ class MeasuresAvgTableCtrl implements IComponentController {
 const MeasuresAvgTableComponent:IComponentOptions = {
     bindings: {
         measures: '<',
+        changes: '<',
         sport: '<'
     },
     controller: MeasuresAvgTableCtrl,

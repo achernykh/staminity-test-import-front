@@ -22,7 +22,9 @@
 
     <activity-route flex="none" ng-if="$ctrl.showMap && $ctrl.item.activity.isRouteExist"
                     class="map activity-route"
-                    data="$ctrl.item.activity.route" select="$ctrl.item.selected" zoom-enabled="true" layer-enabled="true">
+                    data="$ctrl.item.activity.route"
+                    select="$ctrl.item.selectedTimestamp"
+                    zoom-enabled="true" layer-enabled="true">
     </activity-route>
 
     <md-divider flex="none" ng-if="$ctrl.showMap"></md-divider>
@@ -49,8 +51,7 @@
                            measures="$ctrl.measures"
                            data="$ctrl.data"
                            x="$ctrl.chartX"
-                           change="$ctrl.change"
-                           select="$ctrl.item.selected">График...
+                           select="$ctrl.item.selectedTimestamp">График...
     </activity-metrics-char>
 
     <md-divider flex="none" ng-if="$ctrl.showChart"></md-divider>
@@ -69,7 +70,8 @@
                          class="chart measure-split-table"
                          splits="$ctrl.item.activity.intervalL"
                          max="$ctrl.maxValue"
+                         selected="$ctrl.item.selectedTimestamp"
                          sport="$ctrl.item.activity.sportBasic"
-                         on-selected="$ctrl.item.changeSelectedInterval(selected)">Data table...
+                         on-selected="$ctrl.changeSelection(type,selected)">Data table...
     </measure-split-table>
 <!--</section>-->

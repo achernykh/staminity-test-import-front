@@ -6,7 +6,7 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     public splits:Array<IActivityIntervalL>;
     public sport: string;
-    public onSelected: (result: {selected: Array<{startTimeStamp: number, endTimeStamp:number}>}) => IPromise<void>;
+    public onSelected: (result: {type: string, selected: Array<number>}) => IPromise<void>;
     public selected:Array<any> = [];
     public max: {};
 
@@ -35,11 +35,19 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     $onInit() {
         //this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
-        this.$scope.selected = [];
-        this.$scope.splits = this.splits;
-        this.$scope.change = () => this.onSelected({
-                selected: this.selected.map(i => ({startTimeStamp: i.startTimestamp,endTimeStamp: i.endTimestamp}))
-            });
+        //this.$scope.selected = [];
+        this.$scope.splits = this.splits.map( (d,i) => {
+            d['ind'] = i;
+            return d;
+        });
+        this.$scope.change = () => this.onSelected({type: 'L', selected: this.selected.map(i => i.ind)});
+        //this.$scope.change = () => console.log('change $scope', this.selected);
+
+    }
+
+    change(){
+        //console.log('change', this.selected);
+        //this.onSelected({type: 'L', selected: this.selected.map(i => i.ind)});
     }
 }
 

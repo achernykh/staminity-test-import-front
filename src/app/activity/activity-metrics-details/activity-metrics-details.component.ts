@@ -92,6 +92,10 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
         this.measures[measure]['show'] = !this.measures[measure]['show'];
         this.change++;
     }
+
+    changeSelection(type: string, select: Array<number>){
+        this.item.changeSelectedIndex(type,select);
+    }
 }
 
 const ActivityMetricsDetailsComponent: IComponentOptions = {

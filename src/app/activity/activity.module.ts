@@ -12,12 +12,14 @@ import ActivityHeaderComponent from "./activity-header/activity-header.component
 import ActivityMetricsDetailsComponent from "./activity-metrics-details/activity-metrics-details.component";
 import ActivityHeaderOverviewComponent from "./activity-header-overview/activity-header-overview.component";
 import ActivitySummaryInfoComponent from "./components/summary-info/summary-info.component";
+import ActivityHeaderDetailsComponent from "./activity-header-details/activity-header-details.component";
 //import configure from './activity.config';
 
 const Activity = module('staminity.activity', [])
     .service('ActivityService', ActivityService)
 	.component('activityHeader', ActivityHeaderComponent)
 	.component('activityHeaderOverview', ActivityHeaderOverviewComponent)
+	.component('activityHeaderDetails', ActivityHeaderDetailsComponent)
 	.component('activityMetricsDetails', ActivityMetricsDetailsComponent)
 	.component('activitySummaryInfo', ActivitySummaryInfoComponent)
 	.component('measureMainButton',MeasureMainButtonComponent)
