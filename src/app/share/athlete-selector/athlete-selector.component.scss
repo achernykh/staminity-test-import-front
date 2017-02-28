@@ -1,0 +1,22 @@
+@import "../../../sass/color";
+
+md-dialog#athlete-selector{
+  background: none !important;
+  box-shadow: none !important;
+
+  @media (min-width: 960px) {
+    //max-height: $dialog_height;
+    //max-width: $dialog_width;
+  }
+}
+
+athlete-selector {
+  width: 100vw;
+  height: 100vh;
+
+  @media (min-width: 960px) {
+    width: 80vw;
+    height: 80vh;
+  }
+  background-color: $blue-grey-800;
+}

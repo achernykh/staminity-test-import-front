@@ -29,6 +29,7 @@ import {
 } from './measure/measure.constants';
 import {measureView, measureUnit, duration} from './measure/measure.filter';
 import {MeasurementInput} from "./measure/measure.directive";
+import AthleteSelectorComponent from "./athlete-selector/athlete-selector.component";
 
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
@@ -167,6 +168,7 @@ const Share = module('staminity.share', [])
     .component('userInfo', userInfo)
     .component('requests', RequestsComponent)
     .component('userpic', userpic)
+    .component('athleteSelector', AthleteSelectorComponent)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])

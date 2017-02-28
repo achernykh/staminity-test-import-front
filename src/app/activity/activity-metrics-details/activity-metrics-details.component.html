@@ -33,13 +33,15 @@
         <md-icon class="material-icon">multiline_chart</md-icon>
         <p class="md-body-2" translate>График</p>
         <span flex></span>
-        <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-icon-button md-secondary"
+        <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary"
                    ng-click="$ctrl.changeChartX(measure)">
-            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active" ></md-icon>
+            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+            <span>{{measure}}</span>
         </md-button>
-        <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-icon-button md-secondary"
+        <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary"
                    ng-click="$ctrl.changeChartMetrics(measure)">
-            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active" ></md-icon>
+            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+            <span>{{measure}}</span>
         </md-button>
         <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
             <md-icon class="md-secondary material-icon md-dark"
@@ -51,6 +53,7 @@
                            measures="$ctrl.measures"
                            data="$ctrl.data"
                            x="$ctrl.chartX"
+                           change="$ctrl.change"
                            select="$ctrl.item.selectedTimestamp">График...
     </activity-metrics-char>
 

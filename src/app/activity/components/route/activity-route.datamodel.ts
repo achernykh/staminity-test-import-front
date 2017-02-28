@@ -22,11 +22,6 @@ class ActivityRouteDatamodel implements IComponentController {
 
         selection.forEach(s => this.selectCoordinates.push(
             ...data.filter(d => d.timestamp >= s.startTimestamp && d.timestamp <= s.endTimestamp)));
-                //.map(d => ({lng: d['lng'], lat: d['lat']}))));
-
-        /*if(selection.length > 0) {
-            this.selectCoordinates = data.filter(d => d.timestamp >= selection[0].startTimestamp && d.timestamp <= selection[0].endTimestamp);
-        }*/
 
         Object.assign(this, {
             layers : {

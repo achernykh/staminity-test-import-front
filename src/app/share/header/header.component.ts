@@ -1,5 +1,5 @@
 import * as angular from 'angular';
-import { IComponentOptions, IComponentController} from 'angular';
+import { IComponentOptions, IComponentController, IPromise} from 'angular';
 import UserService from "../../core/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import SessionService from "../../core/session.service";
@@ -9,18 +9,18 @@ import './header.component.scss';
 
 class HeaderCtrl implements IComponentController {
 	public requests: number;
-
 	private user: IUserProfile;
 	private profile$: Observable<IUserProfile>;
 
-	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService'];
+	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', '$mdDialog'];
 
 	constructor(
 		private $scope,
 		private $mdSidenav: any,
 		private AuthService: any,
 		private SessionService: SessionService,
-		private RequestsService: RequestsService
+		private RequestsService: RequestsService,
+		private $mdDialog: any
 	) {
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 
@@ -38,7 +38,28 @@ class HeaderCtrl implements IComponentController {
 	}
 
 	showAthleteSelector($event){
-		//this.AthleteSelectorService.show($event);
+		this.$mdDialog.show({
+			controller: DialogController,
+			controllerAs: '$ctrl',
+			template:
+				`<md-dialog id="athlete-selector" aria-label="AthleteSelector">
+                        <athlete-selector layout="column"
+                     						on-cancel="cancel()" on-answer="answer(response)"></athlete-selector>
+                   </md-dialog>`,
+			parent: angular.element(document.body),
+			targetEvent: $event,
+			locals: {
+				//date: new Date(data.date) // дата дня в формате ГГГГ-ММ-ДД
+			},
+			//resolve: {
+			//    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
+			//        .then(response => response, error => console.error(error))
+			//},
+			bindToController: true,
+			clickOutsideToClose: true,
+			escapeToClose: true,
+			fullscreen: true
+		});
 	}
 }
 
@@ -53,3 +74,19 @@ const HeaderComponent: IComponentOptions = {
 	template: require('./header.component.html') as string
 };
 export default HeaderComponent;
+
+function DialogController($scope, $mdDialog) {
+	$scope.hide = function() {
+		$mdDialog.hide();
+	};
+
+	$scope.cancel = function() {
+		console.log('cancel');
+		$mdDialog.cancel();
+	};
+
+	$scope.answer = function(answer) {
+		$mdDialog.hide(answer);
+	};
+}
+DialogController.$inject = ['$scope','$mdDialog'];
