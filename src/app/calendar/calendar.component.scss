@@ -60,7 +60,7 @@
 }
 
 .week {
-  min-height: 100px;
+  min-height: 170px;
   -height: 100%;
   border-bottom: 1px solid $grey-400;
 
@@ -101,9 +101,10 @@
 }
 
 calendar-day {
-
-  min-height: 100px;
-
+  display: inline-block; 
+  width: 11.5%; 
+  vertical-align: top;
+  min-height: 170px;
   padding: 0px 6px 8px 6px;
   height: 100%;
 
@@ -125,12 +126,13 @@ calendar-day {
   }
 
   @media (min-width: 1279px){
-    -width: 12%;
+    -width: 13.9%;
     -max-width: 250px;
   }
 
   // md size
   @media (min-width: 960px) and (max-width: 1279px){
+    width: 13.9%; 
     padding: 0px 2px 8px 2px;
   }
 
@@ -154,22 +156,44 @@ calendar {
 		.weekday{
 			text-transform: capitalize;
 			@media (min-width: 1279px){
-				width: 12%;
+				width: 11.5%;
 				max-width: 250px;
 			}
 			@media (min-width: 959px) and (max-width: 1280px){
-				width: 14%;
+				width: 13.9%;
 			}
 		}
 	}
 }
 
+.calendar__week--loading {
+  opacity: 0.5;
+}
+
+.calendar__week--current {
+  // background: rgba(96, 125, 139, 0.0470588);
+}
+
+.calendar__week.ng-enter, .calendar__week.ng-move {
+  transition: all 0.5s linear;
+  opacity: 0;
+}
+
+.calendar__week.ng-enter.ng-enter-active,
+.calendar__week.ng-move.ng-move-active {
+  opacity: 1;
+}
+
 .summary {
+  display: inline-block; 
+  width: 11.5%; 
+  vertical-align: top;
+  
   &:hover {
     @extend .bg-blue-grey-100;
   }
 
-  -min-height: 100px;
+  -min-height: 170px;
   border-left: 1px solid $grey-400;
 }
 

@@ -1,5 +1,6 @@
 import './calendar.component.scss';
 import moment from 'moment/src/moment.js';
+import { Subject } from 'rxjs/Subject';
 import { times } from '../share/util.js';
 import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService} from 'angular';
 import {IMessageService} from "../core/message.service";
@@ -10,11 +11,13 @@ import IRootScopeService = angular.IRootScopeService;
 
 interface ICalendarWeek {
     sid: number; // номер недели, текущая неделя календаря = 0
+    anchor: string; // anchor просматриваемой недели добавляется в url
     changes: number; // счетчик изменений внутри недели
     toolbarDate: string; //дата недели в формате тулабара Год + Месяц date.format('YYYY MMMM'),
     selected: boolean; // индикатор выделения недели
-    subItem: ICalendarDay; //дни недели
+    subItem: ICalendarDay[]; //дни недели
     week: string; //индикатор недели для поиска
+    loading: Promise<any>;
 };
 
 interface ICalendarDay {
@@ -39,8 +42,7 @@ class CalendarCtrl implements IComponentController{
     private date: Date = new Date();
     private range: Array<number> = [0, 1];
     private calendar: Array<ICalendarWeek> = [];
-    private isLoadingUp: boolean = false;
-    private isLoadingDown: boolean = false;
+    private currentWeek: ICalendarWeek;
 
     constructor(
         private $scope: IScope,
@@ -49,8 +51,11 @@ class CalendarCtrl implements IComponentController{
         private $location: ILocationService,
         private message: IMessageService,
         private CalendarService: CalendarService,
-        private session: ISessionService) {
-
+        private session: ISessionService) 
+    {
+        this.up(1);
+        this.down(10);
+        this.setCurrentWeek();
     }
 
     $onInit() {
@@ -64,9 +69,14 @@ class CalendarCtrl implements IComponentController{
             });
         }
     }
-
-    onLoad() {
-        this.$scope.$apply();
+    
+    setCurrentWeek (week?: ICalendarWeek) {
+        week = week || this.calendar.find(w => w.sid === 0);
+        
+        if (week !== this.currentWeek) {
+            this.currentWeek = week;
+            this.$location.hash(week.anchor);
+        }
     }
 
     /**
@@ -95,14 +105,16 @@ class CalendarCtrl implements IComponentController{
      * @param date - дата начала недели
      * @param days : DayItem[]
      */
-    weekItem (index, date, days):ICalendarWeek {
+    weekItem (index, date, days, loading):ICalendarWeek {
         return {
             sid: index,
+            anchor: date.format('YYYY-MMMM-DD'),
             changes: 0,
             toolbarDate: date.format('YYYY MMMM'),
             selected: false,
             subItem: days,
-            week: date.format('GGGG-WW')
+            week: date.format('GGGG-WW'),
+            loading: loading
         };
     }
     
@@ -115,25 +127,29 @@ class CalendarCtrl implements IComponentController{
         let start = moment(date).startOf('week');
         let end = moment(start).add(6, 'd');
         
-        return this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat))
-            .then((items) => {
-                let days = times(7).map((i) => {
-                    let date = moment(start).add(i, 'd');
-                    let calendarItems = items
-                        .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
-                        .map(item => {
-                            if(item.calendarItemType === 'activity') {
-                                item['index'] = Number(`${item.calendarItemId}${item.revision}`);
-                            }
-                            return item;
-                        });
-                        /*.filter(item => (item.calendarItemType !== 'activity') ||
-                                        (item.calendarItemType === 'activity' && item.activityHeader.hasOwnProperty('intervals')))*/
-                    
-                    return this.dayItem(date, calendarItems);
+        let days = (items) => times(7).map((i) => {
+            let date = moment(start).add(i, 'd');
+            let calendarItems = items
+                .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
+                .map(item => {
+                    if(item.calendarItemType === 'activity') {
+                        item['index'] = Number(`${item.calendarItemId}${item.revision}`);
+                    }
+                    return item;
                 });
-                return this.weekItem(index, start, days);
-            });
+            
+            return this.dayItem(date, calendarItems);
+        });
+        
+        let loading = this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat))
+        .then(items => { 
+            week.subItem = days(items); 
+            week.changes++;
+        });
+        
+        let week = this.weekItem(index, start, days([]), loading);
+        
+        return week;
     }
     
     /**
@@ -144,58 +160,50 @@ class CalendarCtrl implements IComponentController{
         this.date = date;
         this.range = [0, 1];
         this.calendar = [];
-        this.isLoadingUp = false;
-        this.isLoadingDown = false;
     }
     
     /**
      * Подгрузка n записей вверх
      * @param n
      */
-    up (n = 10) {
-        if (this.isLoadingUp){
-            return;
-        };
-        console.log('up');
-        this.isLoadingUp = true;
-        
+    up (n = 1) {
         let i0 = this.range[0];
         this.range[0] -= n;
         
         let items = times(n)
             .map((i) => i0 - i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
-        
-        return Promise.all(items)
-            .then((items) => { this.calendar = [...items.reverse(), ...this.calendar]; })
-            .catch((exc) => { console.log('Calendar loading fail', exc); })
-            .then(() => { this.isLoadingUp = false; })
-            .then(() => this.onLoad());
+            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i))
+            .forEach(week => {
+                this.calendar.unshift(week);
+                week.loading
+                .then(() => { 
+                    week.loading = null;
+                    this.$scope.$apply();
+                })
+                .catch((exc) => { console.log('Calendar loading fail', exc); });
+            });
     }
     
     /**
      * Подгрузка n записей вниз
      * @param n
      */
-    down (n = 10) {
-        if (this.isLoadingDown){
-            return;
-        };
-        console.log('down');
-        this.isLoadingDown = true;
-        
+    down (n = 1) {
         let i0 = this.range[1];
         this.range[1] += n;
         
         let items = times(n)
             .map((i) => i0 + i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
-        
-        return Promise.all(items)
-            .then((items) => { this.calendar = [...this.calendar, ...items]; })
-            .catch((exc) => { console.log('Calendar loading fail', exc); })
-            .then(() => { this.isLoadingDown = false; })
-            .then(() => this.onLoad());
+            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i))
+            .forEach(week => {
+                this.calendar.push(week);
+                week.loading
+                .then(() => { 
+                    week.loading = null;
+                    this.$scope.$apply();
+                })
+                .catch((exc) => { console.log('Calendar loading fail', exc); });
+            });
     }
     
     /**

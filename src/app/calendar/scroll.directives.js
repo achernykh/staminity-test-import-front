@@ -1,86 +1,206 @@
 import * as angular from 'angular';
+import * as Rx from "rxjs/Rx";
 
-export const scrollCurrentItem = () => ({
-  link (scope, element, attrs) {
-    var currentItem
-    
-    check()
-    
-    function check() {
-      let item = Array.from(element[0].children).find(isCurrent)
-      if (item != currentItem) {
-        let itemElement = angular.element(item)
-        let itemScope = itemElement.scope()
-        let itemHandler = itemElement.attr('on-scroll-current-item')
-        itemScope && itemHandler && itemScope.$apply(itemHandler)
-        currentItem = item
-      }
-      requestAnimationFrame(check)
-    }
-    
-    function isCurrent(child) {
-      return child.getBoundingClientRect && child.getBoundingClientRect().bottom > element[0].getBoundingClientRect().top && angular.element(child).attr('on-scroll-current-item')
-    }
-  }
-})
+import { timer, log } from './../share/util'
 
 
-export const scrollFire = () => ({
-  scope: {
-    scrollFire: '&'
+const findChildInViewport = (element) => {
+  let { scrollTop, offsetHeight } = element
+  return Array.from(element.children).find(({ offsetTop }) => scrollTop <= offsetTop && offsetTop <= scrollTop + offsetHeight)
+}
+
+
+/* 
+* Создаёт контроллер скроллинга, применяется к контейнеру.
+* Опции:
+*   onScrollHitTop, onScrollHitBottom - выражение, выполняется при приближении к краю
+*   scrollHitPadding - расстояние от крёв, на котором срабатывает hit
+*   onScrollContainerNotOverflown - выражение, выполняется, когда контент не заполняет контейнер и скроллинга нет
+* Контроллер:
+*   scrollState - имеет вид { scrollTop, scrollHeight, offsetHeight } - это положение скролла, размер контента и размер контейнера
+*   scrollings, domChanges, scrollStateChanges - потоки событий (Observable)
+*/
+export const scrollContainer = () => ({
+  require: 'scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    scrollContainer.scrollStateChanges
+    .subscribe(() => { 
+      let { scrollTop, scrollHeight, offsetHeight } = element[0]
+      scrollContainer.scrollState = { scrollTop, scrollHeight, offsetHeight }
+    })
+    
+    scrollContainer.domChanges
+    .subscribe(() => { scrollContainer.clientRect = element[0].getBoundingClientRect() })
+    
+    Rx.Observable.fromEvent(element[0], 'scroll').subscribe(scrollContainer.scrollings)
+    scrollContainer.scrollStateChanges.next()
+    scrollContainer.domChanges.next()
   },
-
-  link (scope, element, attrs) {
-    let parent = element.parent()
-    
-    setInterval(check, 50)
-    
-    function check() {
-      if (isBelowTop() && isAboveBottom()) scope.$apply(scope.scrollFire)
-    }
-    
-    function isAboveBottom() {
-      return element[0].getBoundingClientRect().top < parent[0].getBoundingClientRect().bottom
-    }
-    
-    function isBelowTop() {
-      return element[0].getBoundingClientRect().bottom > parent[0].getBoundingClientRect().top
-    }
+  controller () {
+    this.scrollState = null
+    this.scrollings = new Rx.Subject()
+    this.domChanges = new Rx.Subject()
+    this.scrollStateChanges = new Rx.Subject()
+    this.scrollings.subscribe(this.scrollStateChanges)
+    this.domChanges.subscribe(this.scrollStateChanges)
   }
 })
 
 
-export const keepScrollPosition = () => ({
-  link (scope, element, attrs) {
-    var pivot = getPivot(), prevPivot = pivot
-    var height = getHeight(), prevHeight = height
-    var scrollPosition = getScrollPosition(pivot), prevScrollPosition = scrollPosition
-    
-    check()
-    
-    function check() {
-      [pivot, prevPivot] = [getPivot(), pivot];
-      [height, prevHeight] = [getHeight(), height];
-      [scrollPosition, prevScrollPosition] = [getScrollPosition(pivot), scrollPosition];
-      if (pivot && prevPivot && height != prevHeight) {
-        let shift = getScrollPosition(prevPivot) - prevScrollPosition
-        element[0].scrollTop += shift
-      }
-      requestAnimationFrame(check)
-    }
-    
-    function getPivot() {
-      return element[0].querySelector('.keep-scroll-position-pivot')
-    }
+export const scrollHitPadding = () => ({
+  require: 'scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    scrollContainer.scrollHitPadding = +scope.$eval(attrs.scrollHitPadding)
+  }
+})
 
-    function getHeight() {
-      let first = element[0].firstElementChild
-      let last = element[0].lastElementChild
-      return last.getBoundingClientRect().bottom - first.getBoundingClientRect().top
+
+export const onScrollContainerNotOverflown = () => ({
+  require: '^scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    scrollContainer.domChanges
+    .merge(Rx.Observable.of(null, Rx.Scheduler.animationFrame))
+    .map(() => scrollContainer.scrollState)
+    .filter(({ scrollTop, scrollHeight, offsetHeight }) => scrollHeight <= offsetHeight)
+    .subscribe(() => { 
+      scope.$applyAsync(attrs.onScrollContainerNotOverflown) 
+      requestAnimationFrame(() => { scrollContainer.domChanges.next() })
+    })
+  }
+})
+
+
+export const onScrollHitTop = () => ({
+  require: '^scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    scrollContainer.scrollStateChanges
+    .merge(Rx.Observable.of(null, Rx.Scheduler.animationFrame))
+    .throttleTime(20)
+    .map(() => scrollContainer.scrollState)
+    .filter(({ scrollTop }) => scrollTop <= (scrollContainer.scrollHitPadding || 0))
+    .subscribe(() => { 
+      scope.$applyAsync(attrs.onScrollHitTop) 
+      requestAnimationFrame(() => { scrollContainer.domChanges.next() })
+    })
+  }
+})
+
+
+export const onScrollHitBottom = () => ({
+  require: '^scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    scrollContainer.scrollStateChanges
+    .merge(Rx.Observable.of(null, Rx.Scheduler.animationFrame))
+    .throttleTime(20)
+    .map(() => scrollContainer.scrollState)
+    .filter(({ scrollTop, scrollHeight, offsetHeight }) => scrollHeight - offsetHeight - scrollTop <= (scrollContainer.scrollHitPadding || 0))
+    .subscribe(() => { 
+      scope.$applyAsync(attrs.onScrollHitBottom) 
+      requestAnimationFrame(() => { scrollContainer.domChanges.next() })
+    })
+  }
+})
+
+
+/*
+* Потомок скроллконтейнера, который уведомляет о своем рендеринге
+*/
+export const scrollItem = () => ({
+  require: '^scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    scrollContainer.domChanges.next()
+  }
+})
+
+
+/*
+* Ставится потомкам скроллконтейнера, выражение-аргумент выполняется, 
+* когда элемент оказывается на средней линии контейнера
+*/
+export const onScrollCurrentItem = () => ({
+  require: '^scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    scrollContainer.scrollings
+    .map(() => {
+      let { top, height } = element[0].getBoundingClientRect()
+      let containerMiddle = scrollContainer.clientRect.top + scrollContainer.clientRect.height / 2
+      return { top, height, containerMiddle }
+    })
+    .filter(({ top, height, containerMiddle }) => top < containerMiddle && containerMiddle < top + height)
+    .subscribe(() => { attrs.onScrollCurrentItem && scope.$apply(attrs.onScrollCurrentItem) })
+  }
+})
+
+
+/*
+* Пытается устранять прыжки видимого положения скроллинга из-за изменения контента
+*/
+export const scrollKeepPosition = () => ({
+  require: 'scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    let keepChildPosition = (result) => (child) => {
+      let offsetTop = child.offsetTop
+      var position = offsetTop - element[0].scrollTop
+      let frame = () => {
+        if (child.offsetTop !== offsetTop) {
+          let shift = (child.offsetTop - element[0].scrollTop) - position
+          element[0].scrollTop += shift
+          result()
+        } else {
+          position = child.offsetTop - element[0].scrollTop
+          requestAnimationFrame(frame)
+        }
+      }
+      frame()
     }
     
-    function getScrollPosition(pivot) {
-      return pivot && pivot.getBoundingClientRect().top
+    let findVisibleChild = (result) => {
+      let frame = () => {
+        let child = findChildInViewport(element[0])
+        if (child) {
+          result(child)
+        } else {
+          requestAnimationFrame(frame)
+        }
+      }
+      frame()
     }
+    
+    let loop = () => {
+      findVisibleChild(keepChildPosition(loop))
+    }
+    loop()
+  }
+})
+
+
+/* 
+*  На случай проблем с производительностью внутри $digest,
+*  применяется к прямому потомку скроллконтейнера, 
+*  отключает $watch, когда элемент скрывается из вида
+*/
+export const scrollSuspendWhenOut =  () => ({
+  require: '^scrollContainer',
+  link (scope, element, attrs, scrollContainer) {
+    var watchers = null
+    
+    scrollContainer.scrollStateChanges
+    .map(() => {
+      let { top, height } = element[0].getBoundingClientRect()
+      let containerRect = scrollContainer.clientRect
+      let isVisible = top + height > containerRect.top && top < containerRect.top + containerRect.height
+      return isVisible
+    })
+    .subscribe((isVisible) => {
+      if (!isVisible && !watchers) { 
+        watchers = scope.$$watchers
+        scope.$$watchers = []
+      } 
+      
+      if (isVisible && watchers) { 
+        scope.$$watchers = watchers
+        watchers = null
+      }
+    }) 
   }
 })

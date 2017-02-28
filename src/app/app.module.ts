@@ -30,8 +30,12 @@ import Athletes from "./athletes/athletes.module";
 import Club from "./club/club.module";
 import Dashboard from './dashboard/dashboard.module';
 
+
+
+
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
+	'ngAnimate',
 	ngMaterial,
 	uiRouter,
 	ngMaterialTable,

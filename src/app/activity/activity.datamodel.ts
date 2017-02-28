@@ -109,6 +109,13 @@ class ActivityHeader implements IActivityHeader {
 		this.intervals.push(new Interval('pW'), new Interval('W'));
 	}
 }
+
+let toDay = date => {
+	let result = new Date(date);
+	result.setHours(0, 0, 0, 0);
+	return result;
+};
+
 /**
  *
  */
@@ -125,6 +132,7 @@ export class Activity extends CalendarItem {
 	private hasDetails: boolean = false;
 	private hasImportedData: boolean = false;
 	private peaks: Array<any>;
+	private _startDate: Date;
 
 	constructor(item: ICalendarItem, public details: IActivityDetails = null){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
@@ -157,6 +165,9 @@ export class Activity extends CalendarItem {
 			this.route = this.getRouteData(details);
 			this.isRouteExist = !!this.route;
 		}
+		
+		// Запоминаем, чтобы парсить только один раз
+		this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
 	}
 
 	// Подготовка данных для модели отображения
@@ -274,12 +285,11 @@ export class Activity extends CalendarItem {
 	}
 
 	get isToday() {
-		return moment(this.dateStart, 'YYYY-MM-DD').diff(moment(), 'd') === 0;
+		return this._startDate === toDay(new Date());
 	}
 
 	get coming() {
-		//return moment().diff(moment(this.dateStart, 'YYYY-MM-DD'), 'd') < 1;
-		return moment(this.dateStart, 'YYYY-MM-DD').diff(moment(), 'd') >= 0;
+		return this._startDate.getTime() > toDay(new Date()).getTime();
 	}
 
 	get dismiss() {
