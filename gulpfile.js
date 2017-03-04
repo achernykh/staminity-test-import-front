@@ -217,11 +217,17 @@ gulp.task('url', function(){
         .pipe(open({uri: 'http://www.google.com'}));
 });
 
-gulp.task('ftp-copy', function () {
+gulp.task('dev1-copy', function () {
     var src = './'+ENV;
     return gulp.src('dev1/**/*')
-        .pipe(ftp(pass.dev))
+        .pipe(ftp(pass.dev1))
         .pipe(gutil.noop());
 });
 
+gulp.task('dev2-copy', function () {
+    var src = './'+ENV;
+    return gulp.src('dev2/**/*')
+        .pipe(ftp(pass.dev2))
+        .pipe(gutil.noop());
+});
 
