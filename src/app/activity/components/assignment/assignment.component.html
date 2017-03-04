@@ -10,9 +10,9 @@
                     <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
                     <md-select flex name="sport" class="icon"
                                ng-model="$ctrl.item.activity.sport"
-                               ng-change="$ctrl.changeParam()"
-                               ng-model-options="{ getterSetter: true }">
-                        <md-option ng-repeat="type in $ctrl.types track by type.id"
+                               ng-model-options="{ getterSetter: true }"
+                               ng-change="$ctrl.changeParam()">
+                        <md-option ng-repeat="type in $ctrl.item.types track by type.id"
                                    value="{{type.id}}">{{type.code}}
                         </md-option>
                     </md-select>
@@ -29,11 +29,13 @@
             <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float>
                     <md-icon class="material-icons">tune</md-icon>
-                    <md-select ng-model="$ctrl.item.activity.header.activityCategory.id" name="category"
+                    <md-select ng-model="$ctrl.item.activity.header.activityCategory"
+                               ng-change="$ctrl.changeParam()"
+                               name="category"
                                class="icon">
                         <md-option
-                                ng-repeat="category in $ctrl.categories | filter:{activityTypeId: $ctrl.activity.header.activityType.id} track by category.id"
-                                value="{{category.id}}">{{category.code}}
+                                ng-repeat="category in $ctrl.item.categories | filter:{activityTypeId: $ctrl.item.activity.header.activityType.id} track by category.id"
+                                value="{{category}}">{{category.code}}
                         </md-option>
                     </md-select>
                     <div ng-messages="$ctrl.assignmentForm.firstName.$error" role="alert">
@@ -122,7 +124,8 @@
                                            name="actual_{{::measure.$key}}"
                                            ng-attr-measure-input={{measure.$key}}
                                            ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
-                                           ng-change="$ctrl.changeValue(measure.$key)">
+                                           ng-change="$ctrl.changeValue(measure.$key)"
+                                           ng-disabled="$ctrl.item.activity.actualDataIsImported">
                                 </md-input-container>
                             </td>
                             <td md-cell>
@@ -142,6 +145,7 @@
                     <md-icon class="material-icons">event_note</md-icon>
                     <label translate="Установка тренера" class="icon"></label>
                     <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
+                              ng-change="$ctrl.changeParam()"
                               class="icon" name="trainersPrescription"
                               rows="1" md-select-on-focus></textarea>
                 </md-input-container>

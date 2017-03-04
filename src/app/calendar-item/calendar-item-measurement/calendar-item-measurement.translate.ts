@@ -5,7 +5,7 @@ export const _measurement = {
             delete: 'Удалить',
             close: 'Закрыть',
             settings: 'Настроить отображение',
-            save: 'Сохарнить'
+            save: 'Сохранить'
         },
         generalMeasures: 'Общее измерение',
         sleepData: 'Сон',

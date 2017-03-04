@@ -3,7 +3,6 @@ import './assignment.component.scss';
 import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../../api/activity/activity.interface";
 import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../../share/measure/measure.constants";
 import moment from 'moment/src/moment.js';
-import {ACTIVITY_TYPE, ACTIVITY_CATEGORY} from "../../../activity/activity.constants";
 import {Activity} from "../../activity.datamodel";
 import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
@@ -25,8 +24,6 @@ class ActivityAssignmentCtrl implements IComponentController {
     private assignmentForm: INgModelController;
     private percentComplete: Object = {};
     private valueType: {};
-    private types: Array<Object> = ACTIVITY_TYPE;
-    private categories: Array<Object> = ACTIVITY_CATEGORY;
 
     private options: {
         rowSelection: boolean;

@@ -2,11 +2,12 @@ import moment from 'moment/src/moment';
 import {Activity} from '../../activity/activity.datamodel';
 
 class CalendarActivityCtrl {
-    constructor($scope, $mdDialog, ActivityService,ActionMessageService) {
+    constructor($scope, $mdDialog, ActivityService,MessageService, CalendarService) {
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this.ActivityService = ActivityService;
-        this.ActionMessageService = ActionMessageService;
+        this.message = MessageService;
+        this.CalendarService = CalendarService;
         //this.status = 'new';
         /**
          * Нижняя панель тренировки
@@ -337,12 +338,12 @@ class CalendarActivityCtrl {
                 if(response.type === 'put'){
                     this.calendar.onDeleteItem(this.data)
                     this.calendar.onPostItem(response.item)
-                    this.ActionMessageService.simple('Изменения сохранены')
+                    this.message.toastInfo('Изменения сохранены')
                 }
 
                 if(response.type === 'delete') {
                     this.calendar.onDeleteItem(response.item)
-                    this.ActionMessageService.simple('Запись удалена')
+                    this.message.toastInfo('Запись удалена')
                 }
 
 
@@ -355,7 +356,6 @@ class CalendarActivityCtrl {
      * Копировать запись календаря
      */
     onCopy() {
-        "use strict";
         this.calendar.onCopyItem([this.item]);
     }
 
@@ -363,9 +363,11 @@ class CalendarActivityCtrl {
      * Удалить запись
      */
     onDelete() {
-        "use strict";
-        console.log('CalendarActivity: onDelete ', this.item);
-        this.calendar.onDeleteItem(this.item);
+        console.log('CalendarActivity: onDelete ', this);
+        this.CalendarService.deleteItem('F', this.item.calendarItemId)
+            .then(this.calendar.onDeleteItem(this.item))
+            .then(this.message.toastInfo('Запись удалена'));
+
     }
 
     /**
@@ -377,7 +379,7 @@ class CalendarActivityCtrl {
         !!value ? this.collapse = '' : this.collapse = false;
     }
 }
-CalendarActivityCtrl.$inject = ['$scope','$mdDialog','ActivityService','ActionMessageService'];
+CalendarActivityCtrl.$inject = ['$scope','$mdDialog','ActivityService','message','CalendarService'];
 
 function DialogController($scope, $mdDialog) {
     $scope.hide = function() {

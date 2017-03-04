@@ -5,13 +5,13 @@ import {
 	IActivityIntervalL,
 	IActivityIntervalP,
 	IActivityMeasure,
-	ICalcMeasures, IActivityIntervalPW, IActivityInterval
+	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityCategory, IActivityType
 } from "../../../api/activity/activity.interface";
 import moment from 'moment/src/moment.js';
 import {copy, merge} from 'angular';
 import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
-import {getActivityType, getCategory} from "./activity.constants";
+import {activityTypes, getType} from "./activity.constants";
 
 export interface IRoute {
 	lat:number;
@@ -84,22 +84,16 @@ class Interval implements IActivityInterval {
 class ActivityHeader implements IActivityHeader {
 
 	public startTimestamp: Date;
-	public activityCategory: {
-		id: number;
-		code: string;
-	};
-	public activityType: {
-		id: number;
-		code: string;
-		typeBasic: string;
-	};
+	public activityCategory: IActivityCategory;
+	public activityType: IActivityType;
 	public intervals: Array<IActivityIntervalW | IActivityIntervalPW | IActivityIntervalL> = [];
 
 	constructor(date: Date = new Date()){
 		this.startTimestamp = date;
 		this.activityCategory = { // категория тренировки
 			id: null,
-			code: null
+			code: null,
+			activityTypeId: null
 		};
 		this.activityType = { //вид спорта
 			id: null,
@@ -125,6 +119,8 @@ export class Activity extends CalendarItem {
 	private hasDetails: boolean = false;
 	private hasImportedData: boolean = false;
 	private peaks: Array<any>;
+	private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
+	private actualDataIsImported: boolean = false;
 
 	constructor(item: ICalendarItem, public details: IActivityDetails = null){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
@@ -151,6 +147,7 @@ export class Activity extends CalendarItem {
 		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
 
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
+		this.actualDataIsImported = this.intervalW.actualDataIsImported;
 		// Обработка детальных данных по тренировке
 		this.hasDetails = !!details && details.metrics.length > 0;
 		if(this.hasDetails) {
@@ -198,10 +195,10 @@ export class Activity extends CalendarItem {
 	build() {
 		super.package();
 		this.dateEnd = this.dateStart;
-		this.header.activityType = getActivityType(Number(this.header.activityType.id));
+		this.header.activityType = getType(Number(this.header.activityType.id));
 		// заглушка для тестирования собственных категорий
 		if (this.header.activityCategory){
-			this.header.activityCategory = getCategory(Number(this.header.activityCategory.id));
+			//this.header.activityCategory = getCategory(Number(this.header.activityCategory.id));
 		}
 		// заглушка для тестирования собственных категорий
 		if (this.header.activityCategory){
@@ -252,7 +249,7 @@ export class Activity extends CalendarItem {
 	}
 
 	set sport(id) {
-		this.header.activityType = getActivityType(Number(id));
+		this.header.activityType = getType(Number(id));
 	}
 
 	/**
@@ -373,13 +370,13 @@ export class Activity extends CalendarItem {
 			(this.coming && 'coming')
 				|| (!this.specified && 'not-specified')
 				|| (!this.completed && 'dismiss')
-				|| ((Math.abs(100-this.percent) <= 25 && this.percent > 0) && 'complete')
-				|| ((Math.abs(100-this.percent) <= 50 && this.percent > 0) && 'complete-warn')
-				|| ((Math.abs(100-this.percent) > 50 && this.percent > 0)  && 'complete-error') :
+				|| ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
+				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && 'complete-warn')
+				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') :
 			//приоритет статусов, если запись сегодня
-			((Math.abs(100-this.percent) <= 25 && this.percent > 0) && 'complete')
-				|| ((Math.abs(100-this.percent) <= 50 && this.percent > 0)  && 'complete-warn')
-				|| ((Math.abs(100-this.percent) > 50 && this.percent > 0)  && 'complete-error')
+			((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
+				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
+				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
 				|| (!this.specified && 'not-specified')
 				|| (this.coming && 'coming');
 	}

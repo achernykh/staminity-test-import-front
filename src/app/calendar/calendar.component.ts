@@ -1,12 +1,11 @@
 import './calendar.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import { times } from '../share/util.js';
-import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService} from 'angular';
+import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService, IRootScopeService} from 'angular';
 import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";
 import {ISessionService} from "../core/session.service";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
-import IRootScopeService = angular.IRootScopeService;
 
 interface ICalendarWeek {
     sid: number; // номер недели, текущая неделя календаря = 0
@@ -44,7 +43,7 @@ export class CalendarCtrl implements IComponentController{
 
     constructor(
         private $scope: IScope,
-        private $rootScope: any,
+        private $rootScope: IRootScopeService,
         private $anchorScroll: IAnchorScrollService,
         private $location: ILocationService,
         private message: IMessageService,

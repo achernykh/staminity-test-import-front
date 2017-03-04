@@ -1,6 +1,6 @@
 import {IPromise} from 'angular';
 import {IActivityDetails} from '../../../api/activity/activity.interface';
-import {GetDetailsRequest} from '../../../api/activity/activity.request';
+import {GetDetailsRequest, GetActivityGategory} from '../../../api/activity/activity.request';
 import {ISocketService} from '../core/socket.service';
 import {RESTService, PostData} from "../core/rest.service";
 
@@ -38,6 +38,16 @@ export default class ActivityService {
      */
     getDetails2(id:number): IPromise<any>{
         return this.RESTService.postData(new PostData(`/activity/${id}/full`, null));
+    }
+
+    /**
+     * Получение списка категорий тренировки
+     * @param id
+     * @param onlyMine
+     * @returns {Promise<any>}
+     */
+    getCategory(id: number = null, onlyMine: boolean = false): Promise<any> {
+        return this.SocketService.send(new GetActivityGategory(id , onlyMine));
     }
 
 }

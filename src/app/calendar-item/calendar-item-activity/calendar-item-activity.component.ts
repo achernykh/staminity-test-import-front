@@ -1,3 +1,4 @@
+import './calendar-item-activity.component.scss';
 import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
@@ -6,17 +7,13 @@ import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {
     IActivityHeader, IActivityDetails, IActivityIntervalPW,
-    IActivityMeasure, ICalcMeasures
+    IActivityMeasure, ICalcMeasures, IActivityCategory, IActivityType
 } from "../../../../api/activity/activity.interface";
-import ActivityDatamodel from '../../activity/activity.datamodel';
-import './calendar-item-activity.component.scss';
-import {CalendarItem} from "../calendar-item.datamodel";
 import SessionService from "../../core/session.service";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
-import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {Activity} from "../../activity/activity.datamodel";
-import {ACTIVITY_TYPE, ACTIVITY_CATEGORY} from "../../activity/activity.constants";
 import {CalendarCtrl} from "../../calendar/calendar.component";
+import {activityTypes, getType} from "../../activity/activity.constants";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -38,7 +35,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private isLoadingDetails: boolean = false;
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
-
+    private categories: Array<IActivityCategory> = [];
+    private types: Array<IActivityType> = [];
 
     static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
 
@@ -51,6 +49,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private message: IMessageService,
         private $mdMedia: any) {
 
+    }
+
+    $onChanges(changes) {
+        if(changes.mode && !changes.mode.isFirstChange()) {
+            this.getCategory();
+        }
     }
 
     $onInit() {
@@ -66,14 +70,15 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         this.activity = new Activity(this.data);
         this.activity.prepare();
+        // Список видов спорта
+        this.types = activityTypes;
+        // Список категорий тренировки
+        if (this.mode === 'put') {
+            this.getCategory();
+        }
 
-        console.log('activity data after header =',this);
-
-        //TODO intervalW.ActualDataIsImported
-
-        //Получаем детали по тренировке
-
-        if (this.mode !== 'post') {
+        //Получаем детали по тренировке загруженной из внешнего источника
+        if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
             this.ActivityService.getDetails2(this.data.activityHeader.activityId)
                 .then(response => {
                     this.details = response;
@@ -83,7 +88,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     console.log('activity data after details =',this);
                 }, error => console.error(error));
         }
-        console.log('activity data=',this);
+    }
+
+    getCategory(){
+        return this.ActivityService.getCategory()
+            .then(result => this.categories.push({id:1, code: 'recovery', activityTypeId: 2}));
     }
 
     changeSelectedIndex(type: string, index: Array<number>){
@@ -144,7 +153,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 	/**
      * Обновление данных из формы ввода/редактирования activity-assignment
      */
-    updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures, valid:boolean) {
+    updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
         this.activity.intervalPW = plan;
 
         this.activity.intervalPW.durationMeasure = (!!plan.distance.value && 'distance') ||

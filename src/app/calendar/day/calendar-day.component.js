@@ -2,9 +2,9 @@ import moment from 'moment/src/moment';
 import * as angular from 'angular';
 
 class CalendarDayCtrl {
-    constructor($mdDialog,ActionMessageService, ActivityService, $scope){
+    constructor($mdDialog,message, ActivityService, $scope){
         this.$mdDialog = $mdDialog;
-        this.ActionMessageService = ActionMessageService;
+        this.message = message;
         this.ActivityService = ActivityService;
         this.$scope = $scope;
     }
@@ -113,12 +113,12 @@ class CalendarDayCtrl {
                     if(response.type == 'put'){
                         this.calendar.onDeleteItem(data)
                         this.calendar.onPostItem(response.item)
-                        this.ActionMessageService.simple('Изменения сохранены')
+                        this.messagemessage.toastInfo('Изменения сохранены')
                     }
 
                     if(response.type == 'delete') {
                         this.calendar.onDeleteItem(response.item)
-                        this.ActionMessageService.simple('Запись удалена')
+                        this.message.toastInfo('Запись удалена')
                     }
 
 
@@ -157,7 +157,7 @@ class CalendarDayCtrl {
                 if(response.type === 'post') {
                     console.log('save activity', response);
                     this.calendar.onPostItem(response.item);
-                    this.ActionMessageService.simple('Создана новая запись');
+                    this.message.toastInfo('Создана новая запись');
                 }
             }, ()=> {
                 console.log('user cancel dialog')
@@ -186,7 +186,7 @@ class CalendarDayCtrl {
             .then(response => {
                 if(response.type == 'post') {
                     this.calendar.onPostItem(response.item)
-                    this.ActionMessageService.simple('Создана новая запись')
+                    this.message.toastInfo('Создана новая запись')
                 }
 
             }, ()=> {
@@ -226,7 +226,7 @@ class CalendarDayCtrl {
 
 
 }
-CalendarDayCtrl.$inject = ['$mdDialog','ActionMessageService', 'ActivityService', '$scope'];
+CalendarDayCtrl.$inject = ['$mdDialog','message', 'ActivityService', '$scope'];
 
 export let CalendarDay = {
     bindings: {
