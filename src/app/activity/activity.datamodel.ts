@@ -161,10 +161,10 @@ export class Activity extends CalendarItem {
 		super.prepare();
 		// Дополниельные данные для отображения плана на панелях
 		Object.assign(this.intervalPW, {
-			duration: {
+			movingDuration: {
 				order: 110,
-				sourceMeasure: 'duration',
-				value: (this.intervalPW.durationMeasure === 'duration' && this.intervalPW.durationValue) || null
+				sourceMeasure: 'movingDuration',
+				value: (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null
 			},
 			distance: {
 				order: 120,
@@ -303,7 +303,8 @@ export class Activity extends CalendarItem {
 	 * @returns {boolean}
      */
 	get specified() {
-		return (!!this.intervalPW && (this.intervalPW.durationValue > 0 || this.intervalPW.intensityLevelFrom > 0));
+		return (!!this.intervalP && this.intervalP.length > 0) ||
+			(!!this.intervalPW && (this.intervalPW.durationValue > 0 || this.intervalPW.intensityLevelFrom > 0));
 	}
 
 	get bottomPanel() {
