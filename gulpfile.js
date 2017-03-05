@@ -220,7 +220,7 @@ gulp.task('url', function(){
 gulp.task('ftp-copy', function () {
     var src = './'+ENV;
     return gulp.src('dev1/**/*')
-        .pipe(ftp(pass.dev))
+        .pipe(ftp(pass.dev1))
         .pipe(gutil.noop());
 });
 

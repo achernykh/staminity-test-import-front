@@ -49,17 +49,17 @@ class ActivityAssignmentCtrl implements IComponentController {
         limit: 5,
         page: 1
     };
-    private filter: Array<string> = ['duration','distance','heartRate', 'speed', 'power'];
+    private filter: Array<string> = ['movingDuration','distance','heartRate', 'speed', 'power'];
 
     static $inject = ['$scope','$mdEditDialog','$q','$filter'];
 
     constructor(private $scope: any, private $mdEditDialog: any, private $q: IQService, private $filter: any) {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
-        this.$scope.measure = ['duration','distance','heartRate', 'speed'];
+        this.$scope.measure = ['movingDuration','distance','heartRate', 'speed'];
         //
         this.valueType = {
-            duration: 'value',
+            movingDuration: 'value',
             distance: 'value',
             heartRate: 'avgValue',
             speed: 'avgValue',
@@ -69,7 +69,10 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        // расчет процента по позициям планогово задания в тренировке
+        this.$scope.measure.forEach(key => {
+            this.percentComplete[key] = this.calcPercent(key) || null;
+        });
     }
 
     isInterval(key) {
@@ -80,28 +83,36 @@ class ActivityAssignmentCtrl implements IComponentController {
         if(!!!key) {
             return;
         }
-
-        let percent: number = null;
-        let p = (this.plan[key].hasOwnProperty('value') && this.plan[key].value) ||
-            (this.plan[key].hasOwnProperty('from') && this.plan[key]) || null;
-        let a = this.actual[key][this.valueType[key]] || null;
-
-        if(!!p && !!a ){
-            let isInterval = p.hasOwnProperty('from');
-            //TODO сделать метод для определния велечин с обратным счетом
-            if(isInterval && key === 'speed') {
-                percent = ((a <= p.to) && a/p.to) || ((a >= p.from) && a/p.from);
-            } else {
-                percent = (!isInterval && a/p) ||
-                    ((isInterval && a <= p.from) && a/p.from) || ((isInterval && a >= p.to) && a/p.to);
-            }
-        } else { // если план или факт не введены, то очищаем расчет процента
-            percent = null;
-        }
-
-        this.percentComplete[key] = percent;
-        this.calculateCompletePercent();
+        let percent: number = this.calcPercent(key); // расчет процента выполнения по позиции плана
+        this.percentComplete[key] = percent; // обновляем view model
+        this.calculateCompletePercent(); // расчет итогового процента по тренировке
         this.onChange({plan: this.plan, actual: this.actual, form: this.assignmentForm});
+    }
+
+    calcPercent(key: string): number {
+
+        let plan = (this.plan[key].hasOwnProperty('value') && this.plan[key].value) ||
+            (this.plan[key]['from'] === this.plan[key]['to'] && this.plan[key]['from']) ||
+            (this.plan[key]['from'] !== this.plan[key]['to'] && this.plan[key]) || null;
+
+        let actual = this.actual[key][this.valueType[key]] || null;
+
+        // для расчета процента необходимо наличие плана и факта по позиции
+        if(!!plan && !!actual){
+            if (typeof plan !== 'object') {
+                return actual / plan;
+            } else if (key === 'speed') { //TODO сделать метод для определния велечин с обратным счетом
+                return  ((actual <= plan.from && actual >= plan.to) && 1) ||
+                        ((actual <= plan.to) && actual/plan.to) ||
+                        ((actual >= plan.from) && actual/plan.from);
+            } else {
+                return  ((actual >= plan.from && actual <= plan.to) && 1) ||
+                        ((actual >= plan.to) && actual/plan.to) ||
+                        ((actual <= plan.from) && actual/plan.from);
+            }
+        } else {
+            return null;
+        }
     }
 
     changeParam() {
@@ -114,29 +125,39 @@ class ActivityAssignmentCtrl implements IComponentController {
     validateForm() {
         // Обязательно заполнение одного из параметров длительности, если введены основные парамтеры
         // (вид спорта, тип тренировки, дата...)
-        if (this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_duration'].$modelValue > 0) {
-            debugger;
+        //if (this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_movingDuration'].$modelValue > 0) {
             this.assignmentForm['plan_distance'].$setValidity('needDuration',
-                this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_duration'].$modelValue > 0);
-            this.assignmentForm['plan_duration'].$setValidity('needDuration',
-                this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_duration'].$modelValue > 0);
-        }
+                this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_movingDuration'].$modelValue > 0);
+            this.assignmentForm['plan_movingDuration'].$setValidity('needDuration',
+                this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_movingDuration'].$modelValue > 0);
+        //}
+
+        // Необходим ввод, хотя бы одного параметра интенсивности
+        //if (this.assignmentForm['plan_heartRate'].$modelValue > 0 || this.assignmentForm['plan_speed'].$modelValue > 0) {
+        console.log('validateForm', this.assignmentForm['plan_heartRate'].$modelValue, this.assignmentForm['plan_speed'].$modelValue);
+
+        this.assignmentForm['plan_heartRate'].$setValidity('needIntensity',
+            this.assignmentForm['plan_heartRate'].$modelValue > 0 || this.assignmentForm['plan_speed'].$modelValue > 0);
+        this.assignmentForm['plan_speed'].$setValidity('needIntensity',
+            this.assignmentForm['plan_heartRate'].$modelValue > 0 || this.assignmentForm['plan_speed'].$modelValue > 0);
+        //}
+
         // Пользователь может указать или расстояние, или время
-        if(this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_duration'].$modelValue > 0) {
+        if(this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_movingDuration'].$modelValue > 0) {
             this.assignmentForm['plan_distance'].$setValidity('singleDuration',
-                this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_duration'].$modelValue > 0);
-            this.assignmentForm['plan_duration'].$setValidity('singleDuration',
-                this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_duration'].$modelValue > 0);
+                !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
+            this.assignmentForm['plan_movingDuration'].$setValidity('singleDuration',
+                !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
         }
 
         // Пользователь может указать только один парметр интенсивности
         if(this.assignmentForm['plan_heartRate'].$modelValue > 0 || this.assignmentForm['plan_speed'].$modelValue > 0) {
 
             this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
-                this.assignmentForm['plan_heartRate'].$modelValue > 0 && this.assignmentForm['plan_speed'].$modelValue > 0);
+                !(this.assignmentForm['plan_heartRate'].$modelValue > 0 && this.assignmentForm['plan_speed'].$modelValue > 0));
 
             this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
-                this.assignmentForm['plan_heartRate'].$modelValue > 0 && this.assignmentForm['plan_speed'].$modelValue > 0);
+                !(this.assignmentForm['plan_heartRate'].$modelValue > 0 && this.assignmentForm['plan_speed'].$modelValue > 0));
 
         }
     }
@@ -207,9 +228,13 @@ class ActivityAssignmentCtrl implements IComponentController {
     calculateCompletePercent() {
 
         this.plan.calcMeasures.completePercent.value = Object.keys(this.percentComplete)
-            .filter(m => this.percentComplete[m] >= 0)
-                .map(m => this.percentComplete[m])
-                .reduce((percent, value, i, arr) => (percent + value) / arr.length);
+            .filter(m => !!this.percentComplete[m])
+            .map(m => this.percentComplete[m])
+            //.filter(v => !!v)
+            .reduce((percent, value, i, arr) => {
+                console.log('calculateCompletePercent', percent,value,arr);
+                return (percent + value) / arr.length;
+            });
 
         console.log('set complete percent=', this.plan.calcMeasures.completePercent.value);
     }
