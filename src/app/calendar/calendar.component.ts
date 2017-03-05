@@ -11,6 +11,7 @@ import IRootScopeService = angular.IRootScopeService;
 
 interface ICalendarWeek {
     sid: number; // номер недели, текущая неделя календаря = 0
+    date: any; // дата начала недели
     anchor: string; // anchor просматриваемой недели добавляется в url
     changes: number; // счетчик изменений внутри недели
     toolbarDate: string; //дата недели в формате тулабара Год + Месяц date.format('YYYY MMMM'),
@@ -39,10 +40,11 @@ class CalendarCtrl implements IComponentController{
     private weekdayNames: Array<string> = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
     private buffer: Array<any> = [];
     private dateFormat: string = 'YYYY-MM-DD';
-    private date: Date = new Date();
+    private date: Date;
     private range: Array<number> = [0, 1];
     private calendar: Array<ICalendarWeek> = [];
     private currentWeek: ICalendarWeek;
+    private updates: Subject<any> = new Subject();
 
     constructor(
         private $scope: IScope,
@@ -53,9 +55,8 @@ class CalendarCtrl implements IComponentController{
         private CalendarService: CalendarService,
         private session: ISessionService) 
     {
-        this.up(1);
-        this.down(10);
-        this.setCurrentWeek();
+        let date = moment($location.hash());
+        this.setDate(date.isValid()? date.toDate() : new Date());
     }
 
     $onInit() {
@@ -70,13 +71,49 @@ class CalendarCtrl implements IComponentController{
         }
     }
     
-    setCurrentWeek (week?: ICalendarWeek) {
-        week = week || this.calendar.find(w => w.sid === 0);
+    /**
+     * Переход на дату, на пустой календарь
+     * @patam date
+     */
+    reset (date: Date) {
+        this.date = date;
+        this.range = [0, 1];
+        this.calendar = [];
+        this.up(1);
+        this.down(10);
+        this.setCurrentWeek(this.calendar[0]);
+        console.log(this.calendar[0], date);
+    }
+    
+    setDate (date) {
+        date = moment(date).startOf('week');
+        let week = this.calendar.find(w => w.date.isSame(date, 'week'));
         
-        if (week !== this.currentWeek) {
-            this.currentWeek = week;
-            this.$location.hash(week.anchor);
+        if (week) {
+            this.setCurrentWeek(week, true);
+        } else {
+            this.reset(this.date);
         }
+    }
+    
+    setCurrentWeek (week, scrollTo = false) {
+        this.currentWeek = week;
+        this.$location.hash(week.anchor).replace();
+        if (scrollTo) {
+            this.$anchorScroll('hotfix' + week.anchor);
+        }
+    }
+    
+    prevWeek () {
+        this.setDate(moment(this.currentWeek.date).add(-1, 'week'));
+    }
+    
+    nextWeek () {
+        this.setDate(moment(this.currentWeek.date).add(1, 'week'));
+    }
+    
+    todayWeek () {
+        this.setDate(moment().startOf('week'));
     }
 
     /**
@@ -108,6 +145,7 @@ class CalendarCtrl implements IComponentController{
     weekItem (index, date, days, loading):ICalendarWeek {
         return {
             sid: index,
+            date: date,
             anchor: date.format('YYYY-MMMM-DD'),
             changes: 0,
             toolbarDate: date.format('YYYY MMMM'),
@@ -153,16 +191,6 @@ class CalendarCtrl implements IComponentController{
     }
     
     /**
-     * Переход на дату, на пустой календарь
-     * @patam date
-     */
-    reset (date: Date) {
-        this.date = date;
-        this.range = [0, 1];
-        this.calendar = [];
-    }
-    
-    /**
      * Подгрузка n записей вверх
      * @param n
      */
@@ -179,9 +207,12 @@ class CalendarCtrl implements IComponentController{
                 .then(() => { 
                     week.loading = null;
                     this.$scope.$apply();
+                    this.updates.next();
                 })
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
+            
+        this.updates.next();
     }
     
     /**
@@ -255,41 +286,6 @@ class CalendarCtrl implements IComponentController{
     getDayIndex(w) {
         return this.calendar.findIndex(item => item.week === w);
     }
-
-    /**-----------------------------------------------------------------------------------------------------------------
-     *
-     * TOOLBAR ACTIONS
-     *
-     * 1) onScrollDate()
-     * 2) gotoAnchor() - переход по неделям, без обновления
-     *
-     *----------------------------------------------------------------------------------------------------------------*/
-    
-	onScrollDate(){
-
-	}
-
-    /**
-     * Переход на неделю по ее индексу
-     * Используется для кнопок: "вперед", "назад"
-     * @param index
-     */
-	gotoAnchor(index){
-		console.info(`scrollto index= ${index}`);
-		let newHash = 'week' + index;
-
-		if (this.$location.hash() !== newHash) {
-			// set the $location.hash to `newHash` and
-			// $anchorScroll will automatically scroll to it
-			this.$location.hash('week' + index);
-            //let week =  angular.element(document.getElementById(newHash));
-            //this._$document.scrollToElement(week, 0, 500);
-		} else {
-			// call $anchorScroll() explicitly,
-			// since $location.hash hasn't changed
-			this.$anchorScroll();
-		}
-	}
 
     /**-----------------------------------------------------------------------------------------------------------------
      *

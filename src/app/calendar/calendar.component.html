@@ -11,11 +11,11 @@
                     <!--    toolbar: start  -->
                     <div hide-xs hide-sm class="app-toolbar">
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                                   ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid - 1)">
+                                   ng-click="$ctrl.prevWeek()">
                             <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
                         </md-button>
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
-                                   ng-click="$ctrl.gotoAnchor($ctrl.currentWeek.sid + 1)">
+                                   ng-click="$ctrl.nextWeek()">
                             <md-icon class="material-icons md-18" aria-label="Back">navigate_next</md-icon>
                         </md-button>
                         
@@ -23,7 +23,7 @@
 
                         <md-button class="md-icon-button md-primary" aria-label="Settings"
                                    ng-init="today = 0"
-                                   ng-click="$ctrl.gotoAnchor(today)">
+                                   ng-click="$ctrl.todayWeek()">
                             <md-icon class="material-icons" aria-label="Back">today</md-icon>
                         </md-button>
 
@@ -59,12 +59,12 @@
                                 on-scroll-hit-top="$ctrl.up(1)"
                                 on-scroll-hit-bottom="$ctrl.down(1)"
                                 on-scroll-container-not-overflown="$ctrl.up(1); $ctrl.down(1)"
-                                scroll-keep-position>
+                                scroll-keep-position="$ctrl.updates">
 
                                 <!-- grid-week: start -->
                                 <div ng-repeat="week in $ctrl.calendar track by week.sid"
                                      style="display:block;"
-                                     id="week{{::week.sid}}"
+                                     id="hotfix{{week.anchor}}"
                                      on-scroll-current-item="$ctrl.setCurrentWeek(week)"
                                      class="week calendar__week"
                                      ng-class="{'calendar__week--current': week.sid == $ctrl.currentWeek.sid, 'calendar__week--loading': week.loading}">

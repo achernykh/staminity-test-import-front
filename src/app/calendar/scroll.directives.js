@@ -121,13 +121,14 @@ export const onScrollCurrentItem = () => ({
   require: '^scrollContainer',
   link (scope, element, attrs, scrollContainer) {
     scrollContainer.scrollings
+    .throttleTime(200)
     .map(() => {
       let { top, height } = element[0].getBoundingClientRect()
       let containerMiddle = scrollContainer.clientRect.top + scrollContainer.clientRect.height / 2
       return { top, height, containerMiddle }
     })
     .filter(({ top, height, containerMiddle }) => top < containerMiddle && containerMiddle < top + height)
-    .subscribe(() => { attrs.onScrollCurrentItem && scope.$apply(attrs.onScrollCurrentItem) })
+    // .subscribe(() => { attrs.onScrollCurrentItem && scope.$apply(attrs.onScrollCurrentItem) })
   }
 })
 
@@ -138,38 +139,22 @@ export const onScrollCurrentItem = () => ({
 export const scrollKeepPosition = () => ({
   require: 'scrollContainer',
   link (scope, element, attrs, scrollContainer) {
-    let keepChildPosition = (result) => (child) => {
+    
+    let updates = scope.$eval(attrs.scrollKeepPosition)
+    
+    updates
+    .map(() => findChildInViewport(element[0]))
+    .filter(child => child)
+    .subscribe((child) => {
       let offsetTop = child.offsetTop
-      var position = offsetTop - element[0].scrollTop
-      let frame = () => {
+      let position = offsetTop - element[0].scrollTop
+      requestAnimationFrame(() => {
         if (child.offsetTop !== offsetTop) {
           let shift = (child.offsetTop - element[0].scrollTop) - position
           element[0].scrollTop += shift
-          result()
-        } else {
-          position = child.offsetTop - element[0].scrollTop
-          requestAnimationFrame(frame)
-        }
-      }
-      frame()
-    }
-    
-    let findVisibleChild = (result) => {
-      let frame = () => {
-        let child = findChildInViewport(element[0])
-        if (child) {
-          result(child)
-        } else {
-          requestAnimationFrame(frame)
-        }
-      }
-      frame()
-    }
-    
-    let loop = () => {
-      findVisibleChild(keepChildPosition(loop))
-    }
-    loop()
+        } 
+      })
+    })
   }
 })
 

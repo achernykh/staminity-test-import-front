@@ -8,7 +8,11 @@ function configure(
 	$mdThemingProvider: ng.material.IThemingProvider,
 	$stateProvider:StateProvider,
 	$translateProvider: any,
-	pickerProvider: any) {
+	pickerProvider: any,
+	$anchorScrollProvider: any
+	) {
+		
+	$anchorScrollProvider.disableAutoScrolling();
 
 	let isProductionBuild: boolean = __ENV !== "build";
 
@@ -104,6 +108,6 @@ function configure(
 	console.log('config complete');
 }
 
-configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider','$stateProvider','$translateProvider', 'pickerProvider'];
+configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider','$stateProvider','$translateProvider', 'pickerProvider', '$anchorScrollProvider'];
 
 export default configure;
