@@ -410,17 +410,17 @@ export class Activity extends CalendarItem {
 
 	get movingDuration() {
 		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.maxValue;
+			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.value;
 	}
 
 	get duration() {
 		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.maxValue;
+			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;
 	}
 
 	get distance() {
 		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'distance')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.distance.maxValue;
+			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.distance.value;
 	}
 
 	// Формируем перечень показателей для панели data (bottomPanel)
