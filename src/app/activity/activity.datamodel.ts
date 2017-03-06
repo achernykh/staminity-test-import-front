@@ -333,20 +333,26 @@ export class Activity extends CalendarItem {
 	 * @returns {any[]}
      */
 	getPeaks() {
-		let search = ['heartRateTimePeaks', 'speedTimePeaks', 'speedDistancePeaks', 'powerTimePeaks', 'powerDistancePeaks'];
+		let search = ['heartRateTimePeaks', 'heartRateDistancePeaks',
+			'speedTimePeaks', 'speedDistancePeaks',
+			'powerTimePeaks', 'powerDistancePeaks',
+			'cadenceTimePeaks', 'cadenceDistancePeaks'];
 		let measure = {
 			'heartRateTimePeaks': 'heartRate',
+			'heartRateDistancePeaks': 'heartRate',
 			'speedTimePeaks': 'speed',
 			'speedDistancePeaks': 'speed',
 			'powerTimePeaks': 'power',
-			'powerDistancePeaks': 'power'
+			'powerDistancePeaks': 'power',
+			'cadenceDistancePeaks': 'cadence',
+			'cadenceTimePeaks': 'cadence'
 		};
 		return search.filter(m => this.intervalW.calcMeasures.hasOwnProperty(m) &&
 			this.intervalW.calcMeasures[m].hasOwnProperty('peaks') &&
 			this.intervalW.calcMeasures[m].peaks[0].value !== 0)
 			.map(m => ({
 				measure: measure[m],
-				type: (m.includes('Time') && 'movingDuration') || 'distance',
+				type: (m.includes('Time') && 'duration') || 'distance',
 				value: this.intervalW.calcMeasures[m].peaks
 			}));
 	}

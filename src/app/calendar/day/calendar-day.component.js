@@ -135,14 +135,17 @@ class CalendarDayCtrl {
                 `<md-dialog id="post-activity" aria-label="Activity">
                         <calendar-item-activity
                                 layout="row" class="calendar-item-activity"
-                                date="$ctrl.date" mode="'post'"
+                                date="$ctrl.date"
+                                mode="'post'"
+                                user="$ctrl.user"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-activity>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                date: new Date(data.date) // дата дня в формате ГГГГ-ММ-ДД
+                date: new Date(data.date), // дата дня в формате ГГГГ-ММ-ДД
+                user: this.calendar.user
             },
             //resolve: {
             //    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)

@@ -74,7 +74,7 @@ const DefaultChartSettings: IActivityChartSettings = {
             hideOnWidth: 3000
         }
     },
-    duration: {
+    elapsedDuration: {
         axis: {
             color: '#8d8d8d',
             tickMinStep: 300,

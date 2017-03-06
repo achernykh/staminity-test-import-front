@@ -58,8 +58,12 @@ export class ActivityChartDatamodel implements IComponentController {
         for (let i = 0; i < select.length; i++) {
             let interval = select[i];
             this.selectIntervals.push({
-                start: x === 'duration' ? (interval.startTimestamp - initTimestamp) / 1000 : data.filter(m => m['timestamp'] === interval.startTimestamp)[0]['distance'],
-                size: x === 'duration' ? (interval.endTimestamp - interval.startTimestamp) / 1000 : data.filter(m => m['timestamp'] === interval.endTimestamp)[0]['distance'] - data.filter(m => m['timestamp'] === interval.startTimestamp)[0]['distance']
+                start: x === 'elapsedDuration' ?
+                    (interval.startTimestamp - initTimestamp) / 1000 :
+                    data.filter(m => m['timestamp'] === interval.startTimestamp)[0]['distance'],
+                size: x === 'elapsedDuration' ?
+                    (interval.endTimestamp - interval.startTimestamp) / 1000 :
+                    data.filter(m => m['timestamp'] === interval.endTimestamp)[0]['distance'] - data.filter(m => m['timestamp'] === interval.startTimestamp)[0]['distance']
             });
         }
     };

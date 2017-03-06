@@ -135,32 +135,29 @@ class ActivityAssignmentCtrl implements IComponentController {
             this.assignmentForm['plan_distance'].$modelValue > 0 ||
             this.assignmentForm['plan_movingDuration'].$modelValue > 0);
 
-        this.assignmentForm['plan_heartRate'].$setValidity('needIntensity',
+        /*this.assignmentForm['plan_heartRate'].$setValidity('needIntensity',
             this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||
             this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
 
         this.assignmentForm['plan_speed'].$setValidity('needIntensity',
             this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||
-            this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
+            this.assignmentForm['plan_speed'].$modelValue['from'] > 0);*/
 
         // Пользователь может указать или расстояние, или время
-        if(this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_movingDuration'].$modelValue > 0) {
-            this.assignmentForm['plan_distance'].$setValidity('singleDuration',
-                !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
-            this.assignmentForm['plan_movingDuration'].$setValidity('singleDuration',
-                !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
-        }
+        this.assignmentForm['plan_distance'].$setValidity('singleDuration',
+            !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
+        this.assignmentForm['plan_movingDuration'].$setValidity('singleDuration',
+            !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
 
         // Пользователь может указать только один парметр интенсивности
-        if(this.assignmentForm['plan_heartRate'].$modelValue > 0 || this.assignmentForm['plan_speed'].$modelValue > 0) {
+        this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
+                !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
+                this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
 
-            this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
-                !(this.assignmentForm['plan_heartRate'].$modelValue > 0 && this.assignmentForm['plan_speed'].$modelValue > 0));
+        this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
+                !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
+                this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
 
-            this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
-                !(this.assignmentForm['plan_heartRate'].$modelValue > 0 && this.assignmentForm['plan_speed'].$modelValue > 0));
-
-        }
     }
 
     updateForm() {

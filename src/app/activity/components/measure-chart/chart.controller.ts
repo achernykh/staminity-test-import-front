@@ -112,7 +112,7 @@ class ActivityChartController implements IComponentController {
     private prepareData(): void {
         this.absUrl = this.$location.absUrl().split('#')[0];
         this.chartData = new ActivityChartDatamodel(this.measures, this.data, this.x, this.select);
-        this.currentMode = this.x === 'duration' ? ActivityChartMode.duration : ActivityChartMode.distance;
+        this.currentMode = this.x === 'elapsedDuration' ? ActivityChartMode.duration : ActivityChartMode.distance;
         //this.currentMode = this.activityChartSettings.defaultMode;
         this.supportedMetrics = this.chartData.supportedMetrics();
     }
@@ -164,7 +164,7 @@ class ActivityChartController implements IComponentController {
     private prepareScales(): void {
         // precalculate and cache chart scales for all metrics
         this.scales = {
-            duration: this.getScale("duration", ScaleType.X),
+            elapsedDuration: this.getScale("elapsedDuration", ScaleType.X),
             distance: this.getScale("distance", ScaleType.X),
             speed: this.getScale("speed", ScaleType.Y),
             heartRate: this.getScale("heartRate", ScaleType.Y),

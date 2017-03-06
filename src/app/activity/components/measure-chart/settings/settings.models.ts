@@ -84,7 +84,7 @@ export interface IActivityChartSettings
     heartRate: IMetricArea;
     speed: IMetricArea;
     altitude: IMetricArea;
-    duration: IDomainMeasure;
+    elapsedDuration: IDomainMeasure;
     distance: IDomainMeasure;
     selectedArea: ISelectIntervalArea;
     grid: IGridSettings;

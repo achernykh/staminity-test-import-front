@@ -24,6 +24,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     details: IActivityDetails;
     mode: string;
     activity: Activity;
+    user: IUserProfile;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: (response: Object) => IPromise<void>;
 
@@ -60,11 +61,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
     $onInit() {
 
         if (this.mode === 'post') {
+            debugger;
             this.data = {
                 calendarItemType: 'activity',
                 dateStart: this.date,
                 dateEnd: this.date,
-                userProfileOwner: profileShort(this.SessionService.getUser())
+                userProfileOwner: profileShort(this.user)
             };
         }
 
@@ -177,9 +179,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
 const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
-        date: '<',
-        data: '<',
-        mode: '<',
+        date: '<', // в режиме создания передает дату календаря
+        data: '<', // в режиме просмотр/изменение передает данные по тренировке из календаря
+        mode: '<', // режим: созадние, просмотр, изменение
+        user: '<', // пользователь - владелец календаря
         onCancel: '&',
         onAnswer: '&'
     },

@@ -14,12 +14,12 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
     private measures: {} = {};
     private measuresItem: {} = {};
-    private measuresX: Array<string> = ['distance', 'duration'];
+    private measuresX: Array<string> = ['distance', 'elapsedDuration'];
     private measuresY: Array<string> = ['heartRate', 'speed', 'power'];
     private measuresSecondary: Array<string> = ['timestamp', 'altitude'];
     private maxValue: {};
     private data: Array<{}>;
-    private chartX: string = 'duration';
+    private chartX: string = 'elapsedDuration';
     private change: number = 1;
 
     constructor(private $mdMedia: any) {
@@ -46,9 +46,11 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
             }
         });
 
+        debugger;
         array = copy(this.measuresX);
         array.forEach(key => {
-            if (this.item.activity[key] > 0) {
+            if (this.item.activity.intervalW.calcMeasures.hasOwnProperty(key) &&
+                this.item.activity.intervalW.calcMeasures[key].value > 0) {
                 this.measures[key] = this.measuresItem[key];
                 this.measures[key]['show'] = true;
             } else {

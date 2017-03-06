@@ -1,6 +1,6 @@
 export const _translate = {
     ru: {
-        fullTitle: 'Управление спорстменам',
+        fullTitle: 'Управление спортсменами',
         shortTitle: 'Спортсмены'
     },
     en: {

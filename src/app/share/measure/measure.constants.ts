@@ -101,6 +101,10 @@ export const _measurement = {
         unit: "min",
         fixed: 0
     },
+    sumElapsedDuration: {
+        unit: "min",
+        fixed: 0
+    },
     speed: {
         unit: "mps",
         fixed: 0

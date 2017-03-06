@@ -13,7 +13,7 @@ let intFormatter = function(d) { return d.toFixed(0); };
 
 //todo move to helper class
 const LabelFormatters = {
-    duration: {
+    elapsedDuration: {
         formatter: timeFormatter,
         label: '',
     },
