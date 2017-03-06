@@ -84,6 +84,22 @@
                          class="md-caption secondary dark">
                         {{key}}: {{value}}
                     </div>
+                    <div ng-repeat="(key,value) in item.measurementHeader.sleepData"
+                         class="md-caption secondary dark">
+                        {{key}}: {{value}}
+                    </div>
+                    <div ng-repeat="(key,value) in item.measurementHeader.feeling"
+                         class="md-caption secondary dark" ng-switch on="key">{{key}}:
+                        <span ng-switch-when="overallFeeling"
+                              hm-read-more
+                              hm-text="{{::value}}"
+                              hm-limit="20"
+                              hm-more-text="more"
+                              hm-less-text="less"
+                              hm-dots-class="read-more-dots"
+                              hm-link-class="read-more-links"></span>
+                        <span ng-switch-default>{{::value}}</span>
+                    </div>
                 </div>
             </calendar-measurement>
 

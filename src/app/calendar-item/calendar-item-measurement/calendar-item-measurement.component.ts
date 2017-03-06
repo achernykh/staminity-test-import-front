@@ -16,6 +16,7 @@ class CalendarItemMeasurementCtrl {
     private data: any;
     private mode: string;
     private item: any;
+    private user: IUserProfile;
     public onAnswer: (response: Object) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
 
@@ -35,7 +36,7 @@ class CalendarItemMeasurementCtrl {
                 calendarItemType: 'measurement',
                 dateStart: new Date(this.data.date),
                 dateEnd: new Date(this.data.date),
-                userProfileOwner: profileShort(this.SessionService.getUser())
+                userProfileOwner: profileShort(this.user)
             };
         }
 
@@ -69,6 +70,7 @@ export let CalendarItemMeasurementComponent = {
     bindings: {
         data: '=',
         mode: '@',
+        user: '<',
         onCancel: '&',
         onAnswer: '&'
     },

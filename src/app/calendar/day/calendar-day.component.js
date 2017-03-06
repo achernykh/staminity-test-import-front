@@ -171,14 +171,18 @@ class CalendarDayCtrl {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
-            template: `<calendar-item-measurement class="calendar-item-measurement"` +
-                                                 `data="$ctrl.data" mode="post"` +
-                                                 `on-cancel="cancel()" on-answer="answer(response)">` +
-                      `</calendar-item-measurement>`,
+            template: `<calendar-item-measurement
+                            class="calendar-item-measurement"
+                            data="$ctrl.data"
+                            mode="post"
+                            user="$ctrl.user"
+                            on-cancel="cancel()" on-answer="answer(response)">
+                      </calendar-item-measurement>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: data
+                data: data,
+                user: this.calendar.user
             },
             bindToController: true,
             clickOutsideToClose: true,

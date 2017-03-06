@@ -118,7 +118,7 @@
             <md-subheader>{{"measurement.sleepData" | translate}}</md-subheader>
             <md-list-item flex layout="row">
                 <md-input-container flex class="no-message">
-                    <label translate="settings.personalInfo.main.firstName"></label>
+                    <label translate="Ккачество сна"></label>
                     <md-select flex class=""
                                ng-model="$ctrl.item.measurementHeader.sleepData.sleepQuality"
                                arial-label="Privacy Level">
@@ -128,10 +128,10 @@
                 </md-input-container>
                 <div flex="5"></div>
                 <md-input-container flex class="no-message">
-                    <label translate="settings.personalInfo.main.lastName"></label>
-                    <input type="text" name="lastName"
-                           ng-model="$ctrl.user.public.lastName"
-                           autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
+                    <label translate="Количество сна(ч)"></label>
+                    <input type="number" name="lastName"
+                           ng-model="$ctrl.item.measurementHeader.sleepData.sleepHours"
+                           autocomplete="off" ng-disabled="false" min="1" max="24">
                 </md-input-container>
             </md-list-item>
         </md-list>
@@ -140,8 +140,9 @@
             <md-subheader>{{"measurement.feeling" | translate}}</md-subheader>
             <md-list-item flex layout="row">
                 <md-input-container flex class="md-block no-message">
-                    <label translate="settings.personalInfo.about"></label>
-                    <textarea ng-model="$ctrl.user.personal.about" name="about" rows="1" md-select-on-focus></textarea>
+                    <label translate="Общее состояние"></label>
+                    <textarea ng-model="$ctrl.item.measurementHeader.feeling.overallFeeling"
+                              name="about" rows="1" md-select-on-focus></textarea>
                 </md-input-container>
             </md-list-item>
         </md-list>
