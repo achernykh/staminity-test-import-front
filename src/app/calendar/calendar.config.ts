@@ -13,6 +13,35 @@ function configure($stateProvider:StateProvider,
 
     $stateProvider
         .state('calendar', <StateDeclaration>{
+            url: "/calendar",
+            loginRequired: true,
+            //authRequired: ['user'],
+            resolve: {
+                view: () => {return new DisplayView('calendar');},
+                user: ['SessionService', (SessionService:SessionService) => SessionService.getUser()]
+            },
+            views: {
+                "background": {
+                    component: "staminityBackground",
+                    bindings: {
+                        view: 'view.background'
+                    }
+                },
+                "header": {
+                    component: 'staminityHeader',
+                    bindings: {
+                        view: 'view.header'
+                    }
+                },
+                "application": {
+                    component: "calendar",
+                    bindings: {
+                        view: 'view.application'
+                    }
+                }
+            }
+        })
+        .state('calendar/uri', <StateDeclaration>{
             url: "/calendar/:uri",
             loginRequired: true,
             //authRequired: ['user'],

@@ -21,7 +21,8 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         this.activity = this.item.activity;
     }
 
-    onChangeForm(plan,actual,form) {
+    onChangeForm(plan,actual,form: INgModelController) {
+        console.log('onChangeForm', form.$dirty);
         this.form = form;
         this.item.updateAssignment(plan,actual);
     }
