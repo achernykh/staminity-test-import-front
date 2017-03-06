@@ -28,7 +28,7 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor(UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs) {
+    constructor($scope, UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs) {
         console.log('SettingsCtrl constructor=', this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -38,6 +38,7 @@ class SettingsUserCtrl {
         this._UNITS = _UNITS
         this._country_list = _country_list;
         this._SYNC_ADAPTORS = _SYNC_ADAPTORS;
+        this.$scope = $scope;
         this._UserService = UserService;
         this._AuthService = AuthService;
         this._SystemMessageService = SystemMessageService
@@ -75,6 +76,13 @@ class SettingsUserCtrl {
             title: `(GMT${momentTimezone.tz(z).format('Z')}) ${z}`,
             name: z
         }));
+    }
+
+    setUser (user) {
+        this.user = user;
+        this.user.public = this.user.public || {};
+        this.user.public.activityTypes = this.user.public.activityTypes || [];
+        //this.$scope.$apply();
     }
 
     getTimezoneTitle(){
@@ -290,17 +298,16 @@ class SettingsUserCtrl {
 
     uploadAvatar() {
         this.dialogs.uploadPicture()
-            .then((picture) => this._UserService.postProfileAvatar(picture))
-            .then((user) => {
-                this.user = user
-            })
+            .then(picture => this._UserService.postProfileAvatar(picture))
+            .then(user => this.setUser(user))
     }
 
     uploadBackground() {
         this.dialogs.uploadPicture()
             .then((picture) => this._UserService.postProfileBackground(picture))
             .then((user) => {
-                this.user = user
+                this.user = user;
+                this.$scope.$apply();
             })
     }
 
@@ -317,7 +324,7 @@ class SettingsUserCtrl {
 		return this.user.personal.activity.includes(activity)
 	}
 };
-SettingsUserCtrl.$inject = ['UserService', 'AuthService', 'SystemMessageService', 'ActionMessageService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs'];
+SettingsUserCtrl.$inject = ['$scope','UserService','AuthService', 'SystemMessageService', 'ActionMessageService','$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs'];
 
 function DialogController($scope, $mdDialog) {
 

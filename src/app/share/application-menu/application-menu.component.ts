@@ -43,13 +43,13 @@ class ApplicationMenuCtrl implements IComponentController{
     }
 
     transitionToState(url, param) {
-        if (this.$state.current.name === url) {
+        if (this.$state.current.name === url && param === this.$state.params['uri']) {
             return;
         }
         if(url.includes('http')) {
             window.open(url);
         } else if (!param){
-            if (url !== 'user' && url !== 'settings/user') {
+            if (url !== 'user' && url !== 'settings/user' && url !== 'calendar') {
                 this.$state.go(url);
             } else {
                 this.$state.go(url,{uri: this.user.public.uri});

@@ -6,6 +6,7 @@ import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";
 import {ISessionService} from "../core/session.service";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
+import {IUserProfile} from "../../../api/user/user.interface";
 
 interface ICalendarWeek {
     sid: number; // номер недели, текущая неделя календаря = 0
@@ -32,6 +33,7 @@ interface ICalendarDay {
 export class CalendarCtrl implements IComponentController{
 
     static $inject = ['$scope', '$rootScope', '$anchorScroll','$location','message','CalendarService','SessionService'];
+    private user: IUserProfile;
     private weekdayNames: Array<string> = [];
     private buffer: Array<any> = [];
     private dateFormat: string = 'YYYY-MM-DD';
@@ -119,7 +121,7 @@ export class CalendarCtrl implements IComponentController{
         let start = moment(date).startOf('week');
         let end = moment(start).add(6, 'd');
         
-        return this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat))
+        return this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.user.userId)
             .then((items) => {
                 let days = times(7).map((i) => {
                     let date = moment(start).add(i, 'd');
@@ -404,7 +406,8 @@ export class CalendarCtrl implements IComponentController{
 
 const Calendar: IComponentOptions = {
     bindings: {
-        view: '<'
+        view: '<',
+        user: '<'
     },
     transclude: false,
     controller: CalendarCtrl,

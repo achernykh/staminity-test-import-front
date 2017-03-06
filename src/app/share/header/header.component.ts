@@ -6,13 +6,15 @@ import SessionService from "../../core/session.service";
 import RequestsService from "../../core/requests.service";
 import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
+import {StateService, LocationServices} from 'angular-ui-router';
 
 class HeaderCtrl implements IComponentController {
 	public requests: number;
 	private user: IUserProfile;
+	private athlete: IUserProfile;
 	private profile$: Observable<IUserProfile>;
 
-	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', '$mdDialog'];
+	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', '$mdDialog', '$state'];
 
 	constructor(
 		private $scope,
@@ -20,7 +22,8 @@ class HeaderCtrl implements IComponentController {
 		private AuthService: any,
 		private SessionService: SessionService,
 		private RequestsService: RequestsService,
-		private $mdDialog: any
+		private $mdDialog: any,
+		private $state: StateService
 	) {
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 
@@ -59,15 +62,25 @@ class HeaderCtrl implements IComponentController {
 			clickOutsideToClose: true,
 			escapeToClose: true,
 			fullscreen: true
-		});
+		})
+			.then(response => this.setAthlete(response),
+				console.log('cancel athlete selector'));
 	}
+
+	setAthlete(response: {user: IUserProfile}) {
+		this.athlete = response.user;
+		this.$state.go(this.$state.current.name, {uri: this.athlete.public.uri});
+	}
+
+
 }
 
 const HeaderComponent: IComponentOptions = {
 	bindings: {
 		leftPanel: '<',
 		rightPanel: '<',
-		view: '<'
+		view: '<',
+		athlete: '<'
 	},
 	transclude: false,
 	controller: HeaderCtrl,
@@ -81,11 +94,11 @@ function DialogController($scope, $mdDialog) {
 	};
 
 	$scope.cancel = function() {
-		console.log('cancel');
 		$mdDialog.cancel();
 	};
 
 	$scope.answer = function(answer) {
+		console.log(answer);
 		$mdDialog.hide(answer);
 	};
 }

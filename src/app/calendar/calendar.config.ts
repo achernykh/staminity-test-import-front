@@ -1,6 +1,11 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './calendar.translate';
 import { DisplayView } from "../core/display.constants";
+import UserService from "../core/user.service";
+import MessageService from "../core/message.service";
+import SessionService from "../core/session.service";
+import {IUserProfile} from "../../../api/user/user.interface";
+
 
 
 function configure($stateProvider:StateProvider,
@@ -8,11 +13,22 @@ function configure($stateProvider:StateProvider,
 
     $stateProvider
         .state('calendar', <StateDeclaration>{
-            url: "/calendar",
+            url: "/calendar/:uri",
             loginRequired: true,
             //authRequired: ['user'],
             resolve: {
                 view: () => {return new DisplayView('calendar');},
+                user: ['UserService', 'SystemMessageService', '$stateParams',
+                    function (UserService:UserService, message:MessageService, $stateParams) {
+                        return UserService.getProfile($stateParams.uri)
+                            .catch((info)=> {
+                                message.systemWarning(info);
+                                // TODO перейти на страницу 404
+                                throw info;
+                            });
+                    }],
+                athlete: ['SessionService','user', (SessionService: SessionService, user:IUserProfile) =>
+                    SessionService.getUser().userId !== user.userId ? user : null]
             },
             views: {
                 "background": {
@@ -24,7 +40,8 @@ function configure($stateProvider:StateProvider,
                 "header": {
                     component: 'staminityHeader',
                     bindings: {
-                        view: 'view.header'
+                        view: 'view.header',
+                        athlete: 'athlete'
                     }
                 },
                 "application": {

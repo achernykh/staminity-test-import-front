@@ -8,22 +8,23 @@
              class="app-title md-title" translate>
             {{$ctrl.app.screen.xs ? $ctrl.view.shortTitle : $ctrl.view.fullTitle}}</div>
         <div layout="row" layout-align="center center"
-             ng-class="{'back-primary-900' : !!$ctrl.app.athlete}"
+             ng-class="{'back-primary-900' : !!$ctrl.athlete}"
              ng-if="$ctrl.view.athletes"
              style="border-radius: 12px; height: 24px; margin-left: 8px;">
-            <div ng-if="!!$ctrl.app.athlete" style="height: 24px;">
-                <img ng-src="/assets/avatar/{{$ctrl.app.athlete.userId}}.jpg" style="height: 24px; width: 24px; border-radius: 12px;"/>
+            <div ng-if="!!$ctrl.athlete" style="height: 24px;">
+                <div flex="none" class="avatar mini"
+                     style="background-image: url({{'/user/avatar/' + $ctrl.athlete.public.avatar | image}})"></div>
             </div>
-            <div hide show-gt-md ng-show="!!$ctrl.app.athlete" class="md-body" style="-opacity: 0.54;margin-left: 8px; margin-right: 8px">
-                {{$ctrl.app.athlete.public.firstName}}
-                {{$ctrl.app.athlete.public.lastName}}
+            <div hide show-gt-md ng-show="!!$ctrl.athlete" class="md-body" style="-opacity: 0.54;margin-left: 8px; margin-right: 8px">
+                {{$ctrl.athlete.public.firstName}}
+                {{$ctrl.athlete.public.lastName}}
             </div>
 
             <md-button class="md-icon-button md-primary" aria-label="User"
                        ng-init="$ctrl.enabledAthleteSelector = true"
                        ng-click="$ctrl.showAthleteSelector($event)"
                        style="padding: 0px; margin: 0px; height: 24px; width: 24px">
-                <md-icon class="material-icons md-light">{{$ctrl.showAthleteSelector ? 'arrow_drop_down.svg' :
+                <md-icon class="material-icons md-light">{{$ctrl.showAthleteSelector ? 'person_add' :
                     'arrow_drop_up.svg'}}
                 </md-icon>
             </md-button>
