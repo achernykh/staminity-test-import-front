@@ -2,6 +2,7 @@ import { IComponentOptions, IComponentController} from 'angular';
 import SessionService from "../core/session.service";
 import {StateService, LocationServices} from 'angular-ui-router';
 import {IMessageService} from "../core/message.service";
+import {IUserProfile} from "../../../api/user/user.interface";
 require('./auth.component.scss');
 
 class AuthCtrl implements IComponentController {
@@ -77,11 +78,8 @@ class AuthCtrl implements IComponentController {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.signIn({email: credentials.email, password: credentials.password})
 			.finally(()=>this.enabled = true)
-			.then((result) => {
-				//this.SessionService.setToken(result);
-				this.$state.go('calendar');
-				console.log('signin success=', result);
-			}, error => this.message.systemError(error));
+			.then((profile:IUserProfile) => this.$state.go('calendar',{uri: profile.public.uri}),
+				error => this.message.systemError(error));
 	}
 
 	/**

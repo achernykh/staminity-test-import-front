@@ -72,8 +72,8 @@ export default class AuthService implements IAuthService {
         return this.RESTService.postData(new PostData('/signin', request))
             .then((response: IHttpPromiseCallbackArg<any>) => {
                 this.SessionService.setToken(response.data);
-                this.SocketService.open(response.data['token'])
-                    .then(()=> {return response;});
+                this.SocketService.open(response.data['token']).then(()=> response);
+                return response.data['userProfile'];
             });
     }
 

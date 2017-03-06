@@ -13,6 +13,7 @@ class HeaderCtrl implements IComponentController {
 	private user: IUserProfile;
 	private athlete: IUserProfile;
 	private profile$: Observable<IUserProfile>;
+	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
 
 	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', '$mdDialog', '$state'];
 
@@ -69,7 +70,8 @@ class HeaderCtrl implements IComponentController {
 
 	setAthlete(response: {user: IUserProfile}) {
 		this.athlete = response.user;
-		this.$state.go(this.$state.current.name, {uri: this.athlete.public.uri});
+		console.log('setAthlete', this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
+		this.$state.go(this.$state.current.name , {uri: this.athlete.public.uri});
 	}
 
 
