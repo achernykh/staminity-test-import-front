@@ -226,6 +226,7 @@ class ActivityChartController implements IComponentController {
         let bottomRange = this.height;
         let style = this.activityChartSettings[metric];
         let areaFunction = d3.area()
+            .defined(this.isDataDefined)
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
             .y1(function (d) { return rangeScale(d[metric]); })
@@ -318,7 +319,10 @@ class ActivityChartController implements IComponentController {
                 var domainValue = domainScale.invert(mouse[0]);
                 // found the nearest data index from the dataset
                 var index = bisect(data, domainValue);
-                if (index < 1) { return; }
+                if (index < 1 || index >= data.length || !self.isDataDefined(data[index], index)) {
+                    self.$tooltip.style('display', 'none');
+                    return;
+                }
                 var startData = data[index - 1];
                 var endData = data[index];
                 var dataRange = endData[domainMetric] - startData[domainMetric];
@@ -326,7 +330,7 @@ class ActivityChartController implements IComponentController {
                 var interpolate = d3.interpolateNumber(startData[rangeMetric], endData[rangeMetric]);
                 var rangeValue = interpolate((domainValue % dataRange) / dataRange);
                 // update information about the time and distance
-                // information about other metrics updated with the related markers 
+                // information about other metrics updated with the related markers
                 self.$tooltip.select('.' + domainMetric).text(
                     LabelFormatters[domainMetric].formatter(domainValue) + LabelFormatters[domainMetric].label);
                 self.$tooltip.select('.' + rangeMetric).text(
@@ -341,8 +345,10 @@ class ActivityChartController implements IComponentController {
                     leftPos + (mouse[0] - (xOffset + self.activityChartSettings.tooltipOffset) - ttpSize.width);
                 let topPos = self.$window.scrollY + self.$element[0].getBoundingClientRect().top;
                 var yPos = topPos + (self.height - ttpSize.height) / 2;
-                self.$tooltip.style("left", xPos + "px")
-                    .style("top", yPos + "px");
+                self.$tooltip
+                    .style("left", xPos + "px")
+                    .style("top", yPos + "px")
+                    .style("display", "block");
             });
     }
 
@@ -366,7 +372,7 @@ class ActivityChartController implements IComponentController {
         var domainScale = this.scales[domainMetric].scale;
         var rangeScale = this.scales[metric].scale;
         var bisect = d3.bisector(function (d) { return d[domainMetric]; }).left;
-
+        let self = this;
         // Add event listeners/handlers
         this.$interactiveArea
             .on('mouseover.' + markerId, function () {
@@ -381,14 +387,19 @@ class ActivityChartController implements IComponentController {
                 var mouse = d3.mouse(this);
                 var domainValue = domainScale.invert(mouse[0]);
                 var index = bisect(data, domainValue);
-                if (index < 1) { return; }
+                if (index < 1 || index >= data.length || !self.isDataDefined(data[index], index)) {
+                    marker.style("display", "none");
+                    return;
+                }
                 var startData = data[index - 1];
                 var endData = data[index];
                 var dataRange = endData[domainMetric] - startData[domainMetric];
                 var interpolate = d3.interpolateNumber(startData[metric], endData[metric]);
                 var currentData = interpolate((domainValue % dataRange) / dataRange);
-                marker.attr('cx', mouse[0]);
-                marker.attr('cy', rangeScale(currentData));
+                marker
+                    .attr('cx', mouse[0])
+                    .attr('cy', rangeScale(currentData))
+                    .style('display', 'inherit');
                 let info = LabelFormatters[metric].formatter(currentData) + LabelFormatters[metric].label;
                 ttp.select('.' + metric).text(info);
             });
@@ -473,6 +484,13 @@ class ActivityChartController implements IComponentController {
             currentTick = currentTick + currStep;
         }
         return tickVals;
+    }
+
+    private isDataDefined = (d: any, i: number) => {
+        // функция для фильтрации пропущенных участков
+        // todo переопределить желаемым условием. Например:
+        //return (i % 200 < 150);
+        return !!d;
     }
 
     private getFillColor(areaSettings: IAreaSettings): string {

@@ -64,7 +64,7 @@ activity-metrics-char {
             content: "";
         }
 
-        .duration:before {
+        .elapsedDuration:before {
             @extend p;
             background-image: url("/assets/icon/speed.svg");
         }
