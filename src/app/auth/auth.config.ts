@@ -42,20 +42,7 @@ function configure(
 			loginRequired: false,
 			view: _display_view['signup'],
 			//authRequired: ['func1'],
-			/*resolve: {
-				view: function (ViewService) {
-					return ViewService.getParams('signup');
-				}
-			},*/
 			views: {
-				/*"background": {
-					component: "staminityBackground",
-					bindings: {view: _display_view['signup'].background}
-				},
-				"header": {
-					component: 'staminityHeader',
-					bindings: {view: _display_view['signup'].header}
-				},*/
 				"application": {
 					component: "auth",
 					bindings: "view.application"

@@ -112,7 +112,7 @@ class ActivityChartController implements IComponentController {
     private prepareData(): void {
         this.absUrl = this.$location.absUrl().split('#')[0];
         this.chartData = new ActivityChartDatamodel(this.measures, this.data, this.x, this.select);
-        this.currentMode = this.x === 'elapsedDuration' ? ActivityChartMode.duration : ActivityChartMode.distance;
+        this.currentMode = this.x === 'elapsedDuration' ? ActivityChartMode.elapsedDuration : ActivityChartMode.distance;
         //this.currentMode = this.activityChartSettings.defaultMode;
         this.supportedMetrics = this.chartData.supportedMetrics();
     }
@@ -241,7 +241,7 @@ class ActivityChartController implements IComponentController {
 
     private drawSelections(): void {
         // show intervals only in duration chart mode
-        if (this.currentMode !== ActivityChartMode.duration) {
+        if (this.currentMode !== ActivityChartMode.elapsedDuration) {
             //return;
         }
         let fillStyle = this.getFillColor(this.activityChartSettings.selectedArea.area);
@@ -299,9 +299,9 @@ class ActivityChartController implements IComponentController {
         let self = this;
         let xOffset = 10;//element(document.getElementsByName('activity-metrics-details')).prop('offsetLeft');
         let domainMetric = ActivityChartMode[this.currentMode];
-        let rangeMetric = ActivityChartMode[((this.currentMode === ActivityChartMode.duration)
+        let rangeMetric = ActivityChartMode[((this.currentMode === ActivityChartMode.elapsedDuration)
             ? ActivityChartMode.distance
-            : ActivityChartMode.duration)];
+            : ActivityChartMode.elapsedDuration)];
         let domainScale = this.scales[domainMetric].scale;
         let bisect = d3.bisector(function (d) { return d[domainMetric]; }).left; //todo share
         let data = this.chartData.getData();
@@ -412,6 +412,7 @@ class ActivityChartController implements IComponentController {
     }
 
     private drawDomainAxis(): void {
+        debugger;
         let metric = ActivityChartMode[this.currentMode];
         let settings = this.activityChartSettings[metric].axis;
         let rangeInfo = this.scales[metric];

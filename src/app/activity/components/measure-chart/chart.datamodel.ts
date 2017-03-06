@@ -81,7 +81,7 @@ export class ActivityChartDatamodel implements IComponentController {
     }
 
     public supportedMetrics(): Array<string> {
-        let except = ['timestamp','distance','duration'];
+        let except = ['timestamp','distance','elapsedDuration'];
         return Object.keys(this.measures).filter(m => except.indexOf(m) === -1);
     }
 

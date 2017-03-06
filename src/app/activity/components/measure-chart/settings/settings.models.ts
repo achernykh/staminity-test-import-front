@@ -1,5 +1,5 @@
 ﻿export enum ActivityChartMode {
-    duration,
+    elapsedDuration,
     distance
 }
 

@@ -6,7 +6,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     labelOffset: 40,
     tooltipOffset: 30,
     autoResizable: true,
-    defaultMode: ActivityChartMode.duration,
+    defaultMode: ActivityChartMode.elapsedDuration,
     //xMeasures: [''],
     heartRate: {
         order: 1,
