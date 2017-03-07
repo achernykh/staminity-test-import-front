@@ -93,15 +93,18 @@ export class PlanChartDatamodel {
         return this.intervals || [];
     }
 
-    private getIntervalPlanFTP(segement: IInputPlanSegment): number {
-        return (segement.intensityByFtpFrom + segement.intensityByFtpTo) * 50;
+    private getIntervalPlanFTP(segment: IInputPlanSegment): number {
+        return (segment.intensityByFtpFrom + segment.intensityByFtpTo) * 50;
     }
 
-    private getStatus(segement: IInputPlanSegment): IntervalStatus {
-        if (!segement.calcMeasures || !segement.calcMeasures.completePercent || !segement.intensityMeasure) {
+    private getStatus(segment: IInputPlanSegment): IntervalStatus {
+        if (!segment.calcMeasures ||
+            !segment.calcMeasures.completePercent ||
+            !segment.calcMeasures.completePercent ||
+            !segment.durationValue) {
             return IntervalStatus.unknown;
         }
-        let delta = Math.abs(100 - segement.calcMeasures.completePercent.value * 100);
+        let delta = Math.abs(100 - segment.calcMeasures.completePercent.value * 100);
         if (delta <= PlanChartDatamodel.SUCCESS) {
             return IntervalStatus.success;
         } 

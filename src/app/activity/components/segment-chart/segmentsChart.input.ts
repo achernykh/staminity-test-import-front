@@ -34,5 +34,6 @@ export interface IInputPlanSegment
     intensityMeasure?: string;
     intensityByFtpFrom: number;
     intensityByFtpTo: number;
-    calcMeasures?: IPlanMeasures
+    calcMeasures?: IPlanMeasures;
+    durationValue?: number;
 }

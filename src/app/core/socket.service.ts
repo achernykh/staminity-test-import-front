@@ -3,6 +3,15 @@ import { ISessionService } from './session.service';
 
 import { Observable, Subject } from 'rxjs/Rx';
 import LoaderService from "../share/loader/loader.service";
+import MessageService from "./message.service";
+import {IMessageService} from "./message.service";
+
+export enum SocketStatus {
+    Connecting,
+    Open,
+    Closing,
+    Close
+}
 
 export interface IWSResponse {
     requestId:number;
@@ -30,23 +39,23 @@ export interface ISocketService {
  * Класс для работы с websoсket сессией
  */
 export class SocketService implements ISocketService {
-    //static $inject = ["$websocket","StorageService","SessionService"];
+
     private socket: WebSocket;
     private requests: Array<any> = [];
     private requestId: number = 1;
+    private reopenTimeout: number = 0.5; // в секундах
 
     public connections: Subject<any>;
     public messages: Subject<any>;
 
-    //_$q:any;
-    //_$websocket:any;
+    static $inject = ['$q','SessionService', 'LoaderService','message'];
 
-    //_StorageService:any;
-    //_SessionService:ISessionService;
+    constructor (
+        private $q: any,
+        private SessionService:ISessionService,
+        private loader: LoaderService,
+        private message: IMessageService) {
 
-    static $inject = ['$q','SessionService', 'LoaderService'];
-
-    constructor (private $q: any, private SessionService:ISessionService, private loader:LoaderService) {
         this.connections = new Subject();
         this.messages = new Subject();
     }
@@ -58,7 +67,9 @@ export class SocketService implements ISocketService {
      */
     open(token:string = this.SessionService.getToken(), delay:number = 100):Promise<number> {
         return new Promise((resolve, reject) => {
-            if (!this.socket || (this.socket.readyState !== 1 && this.socket.readyState !== 0)) {
+            if (!this.socket || (this.socket.readyState !== SocketStatus.Open &&
+                this.socket.readyState !== SocketStatus.Connecting)) {
+
                 console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
                 this.socket.addEventListener('message', this.response.bind(this));
@@ -74,9 +85,9 @@ export class SocketService implements ISocketService {
             }
 
             let onOpen = () => {
-                if (this.socket.readyState === 2) {
+                if (this.socket.readyState === SocketStatus.Closing) {
                     reject(this.socket.readyState);
-                } else if (this.socket.readyState === 1) {
+                } else if (this.socket.readyState === SocketStatus.Open) {
                     resolve(this.socket.readyState);
                 }
             };
@@ -113,12 +124,12 @@ export class SocketService implements ISocketService {
      * @param event
      */
     reopen(event:any){
-        console.log('SocketService: reopen ', event);
+        console.log('SocketService: reopen ', event, event.type);
 
         if(event.type === 'error'){
-            setTimeout(()=> this.open(), 5000);
+            setTimeout(()=> this.open(), this.reopenTimeout++ * 1000);
         } else if (event.type === 'close' && event.reason !== 'signout') {
-            this.open();
+            setTimeout(()=> this.open(), this.reopenTimeout++ * 1000);
         }
     }
 
@@ -137,6 +148,12 @@ export class SocketService implements ISocketService {
      * @returns {Promise<T>}
      */
     send(request:IWSRequest):Promise<any> {
+
+        if(!window.navigator.onLine) {
+            this.message.systemWarning('internetConnectionLost');
+            return Promise.reject('internet connection lost');
+        }
+
         return this.open()
             .then(() => {
                 request.requestId = this.requestId++;
