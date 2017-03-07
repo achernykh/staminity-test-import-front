@@ -1,4 +1,5 @@
 ﻿import { FillType, IActivityChartSettings, ActivityChartMode } from './settings.models';
+import * as d3 from 'd3';
 
 const DefaultChartSettings: IActivityChartSettings = {
     minWidth: 350,
@@ -7,6 +8,10 @@ const DefaultChartSettings: IActivityChartSettings = {
     tooltipOffset: 30,
     autoResizable: true,
     defaultMode: ActivityChartMode.elapsedDuration,
+    animation: {
+        duration: 1000,
+        ease: d3.easeExp
+    },
     //xMeasures: [''],
     heartRate: {
         order: 1,

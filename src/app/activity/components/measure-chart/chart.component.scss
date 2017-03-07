@@ -88,5 +88,11 @@ activity-metrics-char {
             @extend p;
             background-image: url("/assets/icon/elevationGain.svg");
         }
+
+        .delta:before {
+            @extend  p;
+            padding-left: 16px;
+            content: "Δ";
+        }
     }
 }

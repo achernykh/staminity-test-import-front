@@ -68,6 +68,11 @@ export interface IDomainMeasure {
     axis: IAxisLabel;
 }
 
+export interface IAnimationSettigs {
+    duration: number;
+    ease: (input: number) => number;
+}
+
 export interface IActivityChartSettings
 {
     // Min chart width. 
@@ -81,6 +86,8 @@ export interface IActivityChartSettings
     // if true will resize on window resize according to 
     // the new container size
     autoResizable: boolean;
+    // chart anomation settings on load and data changes
+    animation: IAnimationSettigs;
     // default chart mode : distance or time
     defaultMode: ActivityChartMode;
     heartRate: IMetricArea;
