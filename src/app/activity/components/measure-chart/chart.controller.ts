@@ -217,6 +217,8 @@ class ActivityChartController implements IComponentController {
     private drawMetricAreas(): void {
         // draw chart areas for all visible metrics
         // in order specified in chart settings
+        let metrics = this.chartData.getData();
+        this.$interactiveArea.datum(metrics);
         let settings = this.activityChartSettings;
         let areas = this.supportedMetrics
             .filter((a) => this.chartData.getMeasures()[a].show)
@@ -243,10 +245,8 @@ class ActivityChartController implements IComponentController {
             .y1(function (d) { return rangeScale(d[metric]); })
             .curve(d3.curveBasis);
         let fillColor = this.getFillColor(style.area);
-        let metrics = this.chartData.getData();
         this.$interactiveArea
             .append("path")
-            .datum(metrics)
             .attr("d", areaFunction)
             .attr("fill", fillColor);
     }
@@ -322,8 +322,10 @@ class ActivityChartController implements IComponentController {
                 let endData = getInterpolatedData(endPos);
                 let endTimestamp = Math.round(endData["timestamp"]);
                 let startTimestamp = Math.round(initData["timestamp"]);
-                // swap endTimestamp and startTimestamp in case of user selected the interval from right to left
-                interval = endTimestamp > startTimestamp ? [startTimestamp, endTimestamp] : [endTimestamp, startTimestamp];
+                 // swap endTimestamp and startTimestamp in case of user selected the interval from right to left
+                interval = endTimestamp > startTimestamp ?
+                    { "startTimestamp": startTimestamp, "endTimestamp": endTimestamp } :
+                    { "startTimestamp": endTimestamp, "endTimestamp": startTimestamp };
             }
             // update local information about chosen intervals
             self.select = !interval ? null: [ interval ];
