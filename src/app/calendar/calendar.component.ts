@@ -128,9 +128,7 @@ export class CalendarCtrl implements IComponentController{
                     let calendarItems = items
                         .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
                         .map(item => {
-                            if(item.calendarItemType === 'activity') {
-                                item['index'] = Number(`${item.calendarItemId}${item.revision}`);
-                            }
+                            item['index'] = Number(`${item.calendarItemId}${item.revision}`);
                             return item;
                         });
                         /*.filter(item => (item.calendarItemType !== 'activity') ||

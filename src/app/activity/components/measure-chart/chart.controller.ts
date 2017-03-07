@@ -412,7 +412,6 @@ class ActivityChartController implements IComponentController {
     }
 
     private drawDomainAxis(): void {
-        debugger;
         let metric = ActivityChartMode[this.currentMode];
         let settings = this.activityChartSettings[metric].axis;
         let rangeInfo = this.scales[metric];

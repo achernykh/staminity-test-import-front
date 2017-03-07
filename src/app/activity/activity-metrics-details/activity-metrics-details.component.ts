@@ -46,7 +46,6 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
             }
         });
 
-        debugger;
         array = copy(this.measuresX);
         array.forEach(key => {
             if (this.item.activity.intervalW.calcMeasures.hasOwnProperty(key) &&

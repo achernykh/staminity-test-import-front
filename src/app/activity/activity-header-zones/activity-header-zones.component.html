@@ -1,0 +1,29 @@
+<div flex="auto" ng-if="!$ctrl.sport" ng-cloak>Для просмотра зон необходимо выбрать вид спорта на вкладке ОБЗОР</div>
+<div ng-if="$ctrl.sport" ng-cloak>
+    <div layout="row" ng-init="sport = 'default'">
+        <div flex="33" style="cursor: pointer; text-align: center"
+             ng-repeat="measure in ['heartRate','speed', 'power']"
+             ng-click="$ctrl.currentParam = measure">
+            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+            <span class="disable dark">&nbsp{{measure | measureUnit:$ctrl.sport | translate}}</span>
+        </div>
+    </div>
+    <md-list flex="none" class="md-dense slim-input">
+        <md-list-item ng-repeat-start="limit in ['FTP','maxValue','minValue']" class="md-caption">
+            <p>{{::limit}}</p>
+            <p class="md-secondary">
+                {{$ctrl.zones[$ctrl.currentParam][sport][limit] | measureCalc:$ctrl.sport:$ctrl.currentParam}}</p>
+        </md-list-item>
+        <md-divider ng-repeat-end></md-divider>
+        <md-list-item ng-repeat-start="zone in $ctrl.zones[$ctrl.currentParam][sport].zones" class="md-caption">
+            <p>{{::zone.code}}</p>
+            <div style="width: 16px; height: 16px; border-radius: 50%; background: grey" class="md-secondary"></div>
+            <p class="md-secondary" style="width: 100px; text-align: right">
+                {{::zone.valueFrom | measureCalc:$ctrl.sport:$ctrl.currentParam}}-
+                {{::zone.valueTo | measureCalc:$ctrl.sport:$ctrl.currentParam}}
+            </p>
+        </md-list-item>
+        <md-divider ng-repeat-end></md-divider>
+    </md-list>
+</div>
+

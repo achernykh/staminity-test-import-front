@@ -13,6 +13,8 @@ import ActivityMetricsDetailsComponent from "./activity-metrics-details/activity
 import ActivityHeaderOverviewComponent from "./activity-header-overview/activity-header-overview.component";
 import ActivitySummaryInfoComponent from "./components/summary-info/summary-info.component";
 import ActivityHeaderDetailsComponent from "./activity-header-details/activity-header-details.component";
+import ActivityHeaderZonesComponent from "./activity-header-zones/activity-header-zones.component";
+import ActivityHeaderChatComponent from "./activity-header-chat/activity-header-chat.component";
 //import configure from './activity.config';
 
 const Activity = module('staminity.activity', [])
@@ -20,6 +22,8 @@ const Activity = module('staminity.activity', [])
 	.component('activityHeader', ActivityHeaderComponent)
 	.component('activityHeaderOverview', ActivityHeaderOverviewComponent)
 	.component('activityHeaderDetails', ActivityHeaderDetailsComponent)
+	.component('activityHeaderZones',ActivityHeaderZonesComponent)
+	.component('activityHeaderChat', ActivityHeaderChatComponent)
 	.component('activityMetricsDetails', ActivityMetricsDetailsComponent)
 	.component('activitySummaryInfo', ActivitySummaryInfoComponent)
 	.component('measureMainButton',MeasureMainButtonComponent)

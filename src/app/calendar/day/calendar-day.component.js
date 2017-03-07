@@ -33,56 +33,6 @@ class CalendarDayCtrl {
 
     onOpen($event, type, data) {
 
-        /**if(type === 'activity') {
-
-            this.$mdDialog.show({
-                controller: DialogController,
-                controllerAs: '$ctrl',
-                template:
-                    `<md-dialog id="activity" aria-label="Activity">
-                        <calendar-item-activity
-                                layout="row" class="calendar-item-activity"
-                                data="$ctrl.data" details="$ctrl.details" mode="put"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-activity>
-                   </md-dialog>`,
-                parent: angular.element(document.body),
-                targetEvent: $event,
-                locals: {
-                    data: data
-                },
-                resolve: {
-                    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
-                                            .then(response => response, error => console.error(error))
-                },
-                bindToController: true,
-                clickOutsideToClose: true,
-                escapeToClose: true,
-                fullscreen: true
-
-            })
-                .then(response => {
-                    console.log('user close dialog with =', response)
-
-                    // При изменение записи сначала удаляем старую, потом создаем новую
-                    if(response.type === 'put'){
-                        this.calendar.onDeleteItem(data)
-                        this.calendar.onPostItem(response.item)
-                        this.ActionMessageService.simple('Изменения сохранены')
-                    }
-
-                    if(response.type === 'delete') {
-                        this.calendar.onDeleteItem(response.item)
-                        this.ActionMessageService.simple('Запись удалена')
-                    }
-
-
-                }, ()=> {
-                    console.log('user cancel dialog, data=',data)
-                })
-
-        }**/
-
         if(type === 'measurement')
             this.$mdDialog.show({
                 controller: DialogController,

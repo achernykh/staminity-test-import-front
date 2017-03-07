@@ -361,6 +361,10 @@ export class Activity extends CalendarItem {
 		return ((this.percent && this.completed) && `${this.percent.toFixed(0)}%`);
 	}
 
+	get id(){
+		return this.header.activityId;
+	}
+
 	/**
 	 * Перечень статусов тренировки
 	 * 1) Запланирована, в будущем

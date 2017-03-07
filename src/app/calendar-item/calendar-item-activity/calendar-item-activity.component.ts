@@ -61,7 +61,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     $onInit() {
 
         if (this.mode === 'post') {
-            debugger;
             this.data = {
                 calendarItemType: 'activity',
                 dateStart: this.date,

@@ -1,0 +1,12 @@
+<div flex>
+    <p ng-repeat="comment in comments">{{::comment.text}}</p>
+</div>
+<div flex="none" layout="row" style="background: white" ng-cloack>
+    <md-input-container flex class="md-block no-message">
+        <textarea ng-model="message"
+                  name="about" rows="1" md-select-on-focus></textarea>
+    </md-input-container>
+    <md-button ng-click="$ctrl.onPostComment(message)">
+        <md-icon class="material-icons">send</md-icon>
+    </md-button>
+</div>

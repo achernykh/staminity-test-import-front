@@ -311,7 +311,9 @@ class CalendarActivityCtrl {
                 `<md-dialog id="activity" aria-label="Activity">
                         <calendar-item-activity
                                 layout="row" class="calendar-item-activity"
-                                data="$ctrl.data" mode="$ctrl.mode"
+                                data="$ctrl.data"
+                                mode="$ctrl.mode"
+                                user="$ctrl.user"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-activity>
                    </md-dialog>`,
@@ -319,7 +321,8 @@ class CalendarActivityCtrl {
             targetEvent: $event,
             locals: {
                 data: this.data,
-                mode: mode
+                mode: mode,
+                user: this.calendar.user
             },
             /*resolve: {
                 details: () => this.ActivityService.getDetails(this.data.activityHeader.activityId)
