@@ -81,6 +81,11 @@ class ActivityChartController implements IComponentController {
             this.measures = changes.measures.currentValue;
         }
         if (changes.select && changes.select.currentValue) {
+            let isStandaloneChange = changes.length === 1;
+            // ignore new input selected intervals if it's only one change and user is selecting the interval by himself
+            if (isStandaloneChange && this.state.inSelection) {
+                return;
+            }
             this.select = changes.select.currentValue;
         }
         this.prepareData();
@@ -274,9 +279,11 @@ class ActivityChartController implements IComponentController {
         let initPos = null;
         let initData = {};
         let $selector = null;
+        let $ttpSection = this.$tooltip.select(".deltas");
 
         let bisect = d3.bisector(function (d) { return d[domain]; }).left;
         let baseMetrics = this.chartData.getBaseMetrics();
+        let tooltipMetrics = this.chartData.getBaseMetrics(["timestamp"]);
         let getInterpolatedData = function (pos: number): { [id: string]: number } {
             let domainValue = xScale.invert(pos);
             let index = bisect(data, domainValue);
@@ -305,7 +312,9 @@ class ActivityChartController implements IComponentController {
                 return;
             }
             self.state.inSelection = false;
-            //todo remove delta from tooltip
+            // remove delta section from the tooltip
+            $ttpSection.selectAll("*").remove();
+            $ttpSection.style("display", "none");
             // calculate final interval selected by user
             let interval = null;
             if (endPos !== initPos)
@@ -349,16 +358,29 @@ class ActivityChartController implements IComponentController {
                     .attr("x", initPos).attr("y", 0)
                     .attr("width", 0).attr("height", self.height)
                     .attr("fill", fillStyle).attr("stroke", strokeStyle);
+                // init tooltip section
+                $ttpSection.style("display", "block");
+                $ttpSection.selectAll('p')
+                    .data(tooltipMetrics)
+                    .enter()
+                    .append('p')
+                    .attr("class", function (d) { return ".delta ." + d; });
                 return false;
             })
             .on('mousemove.selection', function () {
                 if (!self.state.inSelection) {
                     return;
                 }
-                let current = d3.mouse(this)[0];
-                updateSelection(current);
+                let currentPos = d3.mouse(this)[0];
                 // calc base metrics' values for tooltip
+                let currentData = getInterpolatedData(currentPos);
                 // update tooltip
+                $ttpSection.selectAll('p')
+                    .text(function (d) {
+                        let delta = Math.abs(currentData[d] - initData[d]);
+                        return d + " " + delta;
+                    });
+                updateSelection(currentPos);
             })
             .on('mouseup.selection', function () {
                 let endPos = d3.mouse(this)[0];
