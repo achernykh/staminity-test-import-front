@@ -44,6 +44,7 @@ export class SocketService implements ISocketService {
     private requests: Array<any> = [];
     private requestId: number = 1;
     private reopenTimeout: number = 0.5; // в секундах
+    private responseTimeout: number = 5.0; // сек
 
     public connections: Subject<any>;
     public messages: Subject<any>;
@@ -149,11 +150,6 @@ export class SocketService implements ISocketService {
      */
     send(request:IWSRequest):Promise<any> {
 
-        if(!window.navigator.onLine) {
-            this.message.systemWarning('internetConnectionLost');
-            return Promise.reject('internet connection lost');
-        }
-
         return this.open()
             .then(() => {
                 request.requestId = this.requestId++;
@@ -162,6 +158,16 @@ export class SocketService implements ISocketService {
                 this.requests[request.requestId] = deferred;
                 console.log('SocketService.send=', JSON.stringify(request), this.requests, deferred);
                 this.loader.show();
+
+                setTimeout(() => {
+                    if(this.requests[request.requestId]) {
+                        this.message.systemWarning('internetConnectionLost');
+                        this.requests[request.requestId].reject('internetConnectionLost');
+                        delete this.requests[request.requestId];
+                        this.loader.hide();
+                    }
+                }, this.responseTimeout * 1000);
+
                 return deferred.promise;
             });
     }

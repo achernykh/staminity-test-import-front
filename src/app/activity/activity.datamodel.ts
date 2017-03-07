@@ -155,7 +155,7 @@ export class Activity extends CalendarItem {
 			this.isRouteExist = !!this.route;
 		}
 		// тестирование структурированного графика
-		this.hasDetails = true;
+		//this.hasDetails = true;
 	}
 
 	// Подготовка данных для модели отображения
