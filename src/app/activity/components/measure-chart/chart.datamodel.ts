@@ -18,66 +18,42 @@ interface IActivityMetrics<T> {
     altitude: T; 
 }
 
-export interface ITimeInterval {
-    start: number;
-    size: number;
+export interface ITimestampInterval {
+    startTimestamp: number;
+    endTimestamp: number;
 }
 
 export class ActivityChartDatamodel implements IComponentController {
 
-    private currentMode: ChartMode;
     private measures: IActivityMetrics<IMeasureInfo>;
     private data: Array<IActivityMetrics<number>>;
-    private selectIntervals: Array<ITimeInterval>;
+    private selectIntervals: Array<ITimestampInterval>;
 
     constructor(measures, data, x, select = []) {
         this.measures = measures;
         this.data = data;
-        /*this.measures = {
-            duration: { index: measures['duration'].idx, show: true || measures['duration'].show },
-            distance: { index: measures['distance'].idx, show: true || measures['distance'].show },
-            speed: { index: measures['speed'].idx, show: true ||measures['speed'].show },
-            heartRate: { index: measures['heartRate'].idx, show: true ||measures['heartRate'].show },
-            altitude: { index: measures['altitude'].idx, show: true || measures['altitude'].show },
-        };
-        this.data = [];
-        for (let i = 0; i < data.length; i++) {
-            let info = data[i];
-            let cleaned = {
-                duration: info[this.measures.duration.index],
-                distance: info[this.measures.distance.index],
-                speed: this.getPace(info[this.measures.speed.index]),
-                heartRate: info[this.measures.heartRate.index],
-                altitude: info[this.measures.altitude.index],
-            };
-            this.data.push(cleaned);
-        }*/
-        this.selectIntervals = [];
-        let initTimestamp = data[0]['timestamp'];
-        // convert timestamp intervals to the time intervals (in seconds) from the beginig of the workout
-        for (let i = 0; i < select.length; i++) {
-            let interval = select[i];
-            this.selectIntervals.push({
-                start: x === 'elapsedDuration' ?
-                    (interval.startTimestamp - initTimestamp) / 1000 :
-                    data.filter(m => m['timestamp'] === interval.startTimestamp)[0]['distance'],
-                size: x === 'elapsedDuration' ?
-                    (interval.endTimestamp - interval.startTimestamp) / 1000 :
-                    data.filter(m => m['timestamp'] === interval.endTimestamp)[0]['distance'] - data.filter(m => m['timestamp'] === interval.startTimestamp)[0]['distance']
-            });
-        }
+        this.selectIntervals = select || [];
     };
 
     public getData(): Array<IActivityMetrics<number>> {
         return this.data;
     };
 
-    public getSelect(): Array<ITimeInterval> {
+    public getSelect(): Array<ITimestampInterval> {
         return this.selectIntervals;
+    };
+
+    public setSelect(intervals): void {
+        this.selectIntervals = intervals;
     };
 
     public getMeasures(): IActivityMetrics<IMeasureInfo> {
         return this.measures;
+    }
+
+    public getBaseMetrics(except: Array<string> = []): Array<string> {
+        let baseMetrics = ['timestamp','distance','elapsedDuration'];
+        return Object.keys(this.measures).filter(m => baseMetrics.indexOf(m) > -1);
     }
 
     public supportedMetrics(): Array<string> {

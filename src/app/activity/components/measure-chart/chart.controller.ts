@@ -14,8 +14,8 @@ class ActivityChartController implements IComponentController {
     private data;
     private select;
     private x: string;
+    public onSelected: (result: Array<{startTimeStamp:number, endTimeStamp:number}>) => void;
 
-    private gradientId: number = 0;
     private onResize: Function;
 
     private currentMode: ActivityChartMode;
@@ -29,6 +29,11 @@ class ActivityChartController implements IComponentController {
     private $tooltip: any;
 
     private absUrl: string;
+    private gradientId: number = 0;
+    private state: {
+        inTransition: boolean,
+        inSelection: boolean
+    };
 
     static $inject = ['$element', '$location', '$window', 'activityChartSettings','$mdMedia'];
 
@@ -115,6 +120,7 @@ class ActivityChartController implements IComponentController {
         this.currentMode = this.x === 'elapsedDuration' ? ActivityChartMode.elapsedDuration : ActivityChartMode.distance;
         //this.currentMode = this.activityChartSettings.defaultMode;
         this.supportedMetrics = this.chartData.supportedMetrics();
+        this.state = { inTransition: false, inSelection: false };
     }
 
     private preparePlaceholder(): void {
@@ -241,26 +247,134 @@ class ActivityChartController implements IComponentController {
     }
 
     private drawSelections(): void {
-        // show intervals only in duration chart mode
-        if (this.currentMode !== ActivityChartMode.elapsedDuration) {
-            //return;
-        }
+        let domain = ActivityChartMode[this.currentMode];
         let fillStyle = this.getFillColor(this.activityChartSettings.selectedArea.area);
         let strokeStyle = this.getFillColor(this.activityChartSettings.selectedArea.borderArea);
-        let xScale = this.scales[ActivityChartMode[this.currentMode]].scale;
+        let tsBisector =  d3.bisector(function (d) { return d['timestamp']; }).left; //todo share
+        let xScale = this.scales[domain].scale;
         let selectIntervals = this.chartData.getSelect();
+        let data = this.chartData.getData();
         for (let i = 0; i < selectIntervals.length; i++) {
-            let area = selectIntervals[i];
-            let start = xScale(area.start);
-            let width = xScale(area.size);
+            let interval = selectIntervals[i];
+            let startIndex = Math.max(0, tsBisector(data, interval.startTimestamp));
+            let endIndex = Math.min(data.length - 1, tsBisector(data, interval.endTimestamp));
+            let start = xScale(data[startIndex][domain]);
+            let end = xScale(data[endIndex][domain]);
             this.$interactiveArea.append("rect")
                 .attr("x", start)
                 .attr("y", 0)
-                .attr("width", width)
+                .attr("width", end - start)
                 .attr("height", this.height)
                 .attr("fill", fillStyle)
                 .attr("stroke", strokeStyle);
         }
+
+        // Подготавливаем элемент для пользовательского селекта и добавляем отслеживание событий мыши
+        let self = this;
+        let initPos = null;
+        let initData = {};
+        let $selector = null;
+
+        let bisect = d3.bisector(function (d) { return d[domain]; }).left;
+        let baseMetrics = this.chartData.getBaseMetrics();
+        let getInterpolatedData = function (pos: number): { [id: string]: number } {
+            let domainValue = xScale.invert(pos);
+            let index = bisect(data, domainValue);
+            index = Math.min(data.length - 1, Math.max(1, index));
+            let startData = data[index - 1];
+            let endData = data[index];
+            let dataRange = endData[domain] - startData[domain];
+            let interpolatedData = {};
+            // interpolate value of all base metrics
+            for (let i = 0; i < baseMetrics.length; i++)
+            {
+                let metric = baseMetrics[i];
+                if (metric === domain) {
+                    interpolatedData[metric] = domainValue;
+                    continue;
+                }
+                let interpolate = d3.interpolateNumber(startData[metric], endData[metric]);
+                let metricValue = interpolate((domainValue % dataRange) / dataRange);
+                interpolatedData[metric] = metricValue;
+            }
+            return interpolatedData;
+        };
+
+        let onSelectEnded = function (endPos: number): void {
+            if (!self.state.inSelection) {
+                return;
+            }
+            self.state.inSelection = false;
+            //todo remove delta from tooltip
+            // calculate final interval selected by user
+            let interval = null;
+            if (endPos !== initPos)
+            {
+                let endData = getInterpolatedData(endPos);
+                let endTimestamp = Math.round(endData["timestamp"]);
+                let startTimestamp = Math.round(initData["timestamp"]);
+                // swap endTimestamp and startTimestamp in case of user selected the interval from right to left
+                interval = endTimestamp > startTimestamp ? [startTimestamp, endTimestamp] : [endTimestamp, startTimestamp];
+            }
+            // update local information about chousen intervals
+            self.select = !interval ? null: [ interval ];
+            self.chartData.setSelect(interval);
+            // rise onSelected event
+            self.onSelected(interval);
+        };
+
+        let updateSelection = function (current: number): void {
+            if (!self.state.inSelection) {
+                return;
+            }
+            let x = Math.min(current, initPos);
+            let width = Math.abs(current - initPos);
+            $selector.attr('x', x).attr('width', width);
+        };
+
+        //interpolate timestamp from selected value
+        this.$interactiveArea
+            .on('mousedown.selection', function () {
+                self.state.inSelection = true;
+                self.$interactiveArea
+                    .selectAll('.selected-interval')
+                    .remove();
+                // store initPos and all initData;
+                initPos = d3.mouse(this)[0];
+                initData = getInterpolatedData(initPos);
+                // init selection visualization
+                $selector = self.$interactiveArea
+                    .append("rect")
+                    .attr('class', 'selected-interval')
+                    .attr("x", initPos).attr("y", 0)
+                    .attr("width", 0).attr("height", self.height)
+                    .attr("fill", fillStyle).attr("stroke", strokeStyle);
+                return false;
+            })
+            .on('mousemove.selection', function () {
+                if (!self.state.inSelection) {
+                    return;
+                }
+                let current = d3.mouse(this)[0];
+                updateSelection(current);
+                // calc base metrics' values for tooltip
+                // update tooltip
+            })
+            .on('mouseup.selection', function () {
+                let endPos = d3.mouse(this)[0];
+                updateSelection(endPos);
+                onSelectEnded(endPos);
+            })
+            .on('mouseout.selection', function () {
+                if (!self.state.inSelection) { return; }
+                let pos = d3.mouse(this);
+                let endPos = pos[0];
+                if (endPos < 0) { endPos = 0; }
+                else if (endPos > self.width) { endPos = self.width; }
+                else if ((pos[1] > 0 && pos[1] < self.height)) { return; }
+                updateSelection(endPos);
+                onSelectEnded(endPos);
+            });
     }
 
     private createTooltip(): void {
@@ -285,10 +399,13 @@ class ActivityChartController implements IComponentController {
         this.$interactiveArea
             .on("mousemove.line", function () {
                 var pos = d3.mouse(this)[0];
-                d3.selectAll('.tooltip_line')
-                    .attr("x1", pos).attr("y1", 0)
-                    .attr("x2", pos).attr("y2", self.height)
-                    .style("display", "block");
+                if (pos > 0 && pos < self.width)
+                {
+                    d3.selectAll('.tooltip_line')
+                        .attr("x1", pos).attr("y1", 0)
+                        .attr("x2", pos).attr("y2", self.height)
+                        .style("display", "block");
+                }
             }).on("mouseover.line", function () {
                 d3.selectAll('.tooltip_line').style("display", "block");
             }).on("mouseout.line", function () {

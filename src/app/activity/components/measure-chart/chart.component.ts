@@ -10,7 +10,8 @@ const ActivityChartComponent: IComponentOptions = {
         data: '<',
         x: '<',
         select: '<',
-        change: '<'
+        change: '<',
+        onSelected: '&'
     }
 };
 
