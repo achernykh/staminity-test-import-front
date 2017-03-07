@@ -325,11 +325,11 @@ class ActivityChartController implements IComponentController {
                 // swap endTimestamp and startTimestamp in case of user selected the interval from right to left
                 interval = endTimestamp > startTimestamp ? [startTimestamp, endTimestamp] : [endTimestamp, startTimestamp];
             }
-            // update local information about chousen intervals
+            // update local information about chosen intervals
             self.select = !interval ? null: [ interval ];
-            self.chartData.setSelect(interval);
+            self.chartData.setSelect(self.select);
             // rise onSelected event
-            self.onSelected(interval);
+            self.onSelected(self.select);
         };
 
         let updateSelection = function (current: number): void {
@@ -349,7 +349,8 @@ class ActivityChartController implements IComponentController {
                     .selectAll('.selected-interval')
                     .remove();
                 // store initPos and all initData;
-                initPos = d3.mouse(this)[0];
+                let mouse = d3.mouse(this);
+                initPos = mouse[0];
                 initData = getInterpolatedData(initPos);
                 // init selection visualization
                 $selector = self.$interactiveArea
@@ -358,19 +359,19 @@ class ActivityChartController implements IComponentController {
                     .attr("x", initPos).attr("y", 0)
                     .attr("width", 0).attr("height", self.height)
                     .attr("fill", fillStyle).attr("stroke", strokeStyle);
-                // init tooltip section
+                // init tooltip delta-section
                 $ttpSection.style("display", "block");
-                $ttpSection.selectAll('p')
-                    .data(tooltipMetrics)
-                    .enter()
-                    .append('p')
-                    .attr("class", function (d) { return ".delta ." + d; });
+                $ttpSection.selectAll('div')
+                    .data(tooltipMetrics).enter()
+                    .append("p").attr("class", function (d) { return "delta " + d; });
+                // update tooltip vertical position
+                let ttpSize = self.$tooltip.node().getBoundingClientRect();
+                let yPos = d3.event.pageY - (mouse[1] - self.height / 2) - ttpSize.height / 2;
+                self.$tooltip.style("top", yPos + "px");
                 return false;
             })
             .on('mousemove.selection', function () {
-                if (!self.state.inSelection) {
-                    return;
-                }
+                if (!self.state.inSelection) { return; }
                 let currentPos = d3.mouse(this)[0];
                 // calc base metrics' values for tooltip
                 let currentData = getInterpolatedData(currentPos);
@@ -378,7 +379,8 @@ class ActivityChartController implements IComponentController {
                 $ttpSection.selectAll('p')
                     .text(function (d) {
                         let delta = Math.abs(currentData[d] - initData[d]);
-                        return d + " " + delta;
+                        let format = LabelFormatters[d];
+                        return !format ? delta.toFixed(0) : (format.formatter(delta) + format.label);
                     });
                 updateSelection(currentPos);
             })

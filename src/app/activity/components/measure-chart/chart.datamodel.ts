@@ -44,7 +44,7 @@ export class ActivityChartDatamodel implements IComponentController {
     };
 
     public setSelect(intervals): void {
-        this.selectIntervals = intervals;
+        this.selectIntervals = !intervals ? [] : intervals;
     };
 
     public getMeasures(): IActivityMetrics<IMeasureInfo> {
