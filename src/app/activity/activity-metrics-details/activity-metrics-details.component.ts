@@ -29,7 +29,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
     $onInit() {
         let array: Array<string>;
-        this.measuresItem = this.item.details.measures;
+        this.measuresItem = this.item.details.measures || {};
         this.maxValue = {};
 
         array = copy(this.measuresY);
@@ -59,7 +59,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
         this.measuresSecondary.forEach(key => {
             this.measures[key] = this.measuresItem[key];
-            this.measures[key]['show'] = false;
+            this.measures[key]['show'] = true;
         });
 
         this.data = [];
@@ -96,6 +96,10 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
     changeSelection(type: string, select: Array<number>){
         this.item.changeSelectedIndex(type,select);
+    }
+
+    onChartSelect(segmentId){
+        console.log('chart select interval=', segmentId);
     }
 }
 

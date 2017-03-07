@@ -1,5 +1,7 @@
 ﻿export enum ActivityChartMode {
     elapsedDuration,
+    duration,
+    movingDuration,
     distance
 }
 
@@ -85,6 +87,8 @@ export interface IActivityChartSettings
     speed: IMetricArea;
     altitude: IMetricArea;
     elapsedDuration: IDomainMeasure;
+    movingDuration: IDomainMeasure;
+    duration: IDomainMeasure;
     distance: IDomainMeasure;
     selectedArea: ISelectIntervalArea;
     grid: IGridSettings;

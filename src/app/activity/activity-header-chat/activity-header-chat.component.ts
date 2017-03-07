@@ -18,10 +18,10 @@ class ActivityHeaderChatCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.comment.get(this.commentType, this.activityId).then(result => {
+        /*this.comment.get(this.commentType, this.activityId).then(result => {
             this.comments = result;
             console.log('comment=',result);
-        });
+        });*/
     }
 
     onPostComment(text) {

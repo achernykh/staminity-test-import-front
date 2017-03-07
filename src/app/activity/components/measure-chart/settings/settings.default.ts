@@ -74,6 +74,24 @@ const DefaultChartSettings: IActivityChartSettings = {
             hideOnWidth: 3000
         }
     },
+    duration: {
+        axis: {
+            color: '#8d8d8d',
+            tickMinStep: 300,
+            tickMinDistance: 50,
+            ticksPerLabel: 3,
+            hideOnWidth: 0
+        }
+    },
+    movingDuration: {
+        axis: {
+            color: '#8d8d8d',
+            tickMinStep: 300,
+            tickMinDistance: 50,
+            ticksPerLabel: 3,
+            hideOnWidth: 0
+        }
+    },
     elapsedDuration: {
         axis: {
             color: '#8d8d8d',

@@ -10,6 +10,10 @@ export const _MEASURE_TRANSLATE = {
 		bpm: 'чсс',
 
 		// Измерения
+		distance: 'Расстояние',
+		elapsedDuration: 'Время',
+		duration: 'Время',
+		movingDuration: 'Время в движении',
 		heartRate: 'Пульс',
 		speed: 'Темп',
 		cadence: 'Каденс',

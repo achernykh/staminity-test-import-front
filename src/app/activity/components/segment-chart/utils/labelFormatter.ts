@@ -9,11 +9,9 @@
     return res;
 };
 
-let intFormatter = function(d) { return d.toFixed(0); };
-
 //todo move to helper class
 const LabelFormatters = {
-    elapsedDuration: {
+    movingDuration: {
         formatter: timeFormatter,
         label: '',
     },
@@ -25,17 +23,9 @@ const LabelFormatters = {
         },
         label: ' км' 
     },
-    speed: {
-        formatter: function (d) { return timeFormatter(d); },
-        label: ' мин/км'
-    },
-    heartRate: {
-        formatter: intFormatter,
-        label: ' чсс'
-    },
-    altitude: {
-        formatter: intFormatter,
-        label: ' м'
+    ftp: {
+        formatter: function (d) { return d.toFixed(0); },
+        label: ' %'
     }
 };
 

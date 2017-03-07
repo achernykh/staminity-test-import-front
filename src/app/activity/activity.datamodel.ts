@@ -154,6 +154,8 @@ export class Activity extends CalendarItem {
 			this.route = this.getRouteData(details);
 			this.isRouteExist = !!this.route;
 		}
+		// тестирование структурированного графика
+		//this.hasDetails = true;
 	}
 
 	// Подготовка данных для модели отображения
@@ -419,17 +421,17 @@ export class Activity extends CalendarItem {
 	}
 
 	get movingDuration() {
-		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
+		return ((((!this.isToday && this.coming) || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.value;
 	}
 
 	get duration() {
-		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
+		return ((((!this.isToday && this.coming) || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;
 	}
 
 	get distance() {
-		return (((this.coming || this.dismiss) && this.intervalPW.durationMeasure === 'distance')
+		return ((((!this.isToday && this.coming) || this.dismiss) && this.intervalPW.durationMeasure === 'distance')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.distance.value;
 	}
 

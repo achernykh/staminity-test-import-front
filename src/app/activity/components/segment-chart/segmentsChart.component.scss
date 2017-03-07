@@ -1,4 +1,4 @@
-activity-metrics-char {
+activity-segment-chart {
     text {
         font-family: Roboto;
         font-size: 12px;
@@ -12,12 +12,14 @@ activity-metrics-char {
     .axis-y {
         path, line {
             stroke: none;
+            pointer-events: none;
         }
     }
 
     .axis-y-stroke {
         line {
             stroke: rgba(0, 0, 0, 0.12);
+            pointer-events: none;
         }
 
         path {
@@ -28,6 +30,7 @@ activity-metrics-char {
     .axis-x {
         path, line {
             stroke: #607d8b;
+            pointer-events: none;
         }
         text {
             fill: rgba(0, 0, 0, 0.34);
@@ -36,7 +39,7 @@ activity-metrics-char {
 
     .tooltip {
         position: absolute;
-        width: auto;
+        padding: 10px;
         background: rgba(250, 250, 250, 0.9);
         border: 0px;
         border-radius: 3px;
@@ -54,17 +57,25 @@ activity-metrics-char {
             line-height: normal;
             letter-spacing: normal;
             color: rgba(0, 0, 0, 0.54);
-            padding-left: 12px;
-            padding-right: 8px;
+            padding: 0 20px 5px 0;
+            margin: 0;
         }
 
         p:before {
             background-repeat:no-repeat;
-            background-size: 12px;
+            background-size: 15px;
             content: "";
         }
 
-        .elapsedDuration:before {
+        .index {
+            font-style: normal;
+        }
+
+        .mb {
+            margin-bottom: 5px;
+        }
+
+        .movingDuration:before {
             @extend p;
             background-image: url("/assets/icon/speed.svg");
         }
@@ -84,9 +95,58 @@ activity-metrics-char {
             background-image: url("/assets/icon/heartRate.svg");
         }
 
-        .altitude:before {
-            @extend p;
-            background-image: url("/assets/icon/elevationGain.svg");
+        .title {
+            font-weight: bold;
         }
+    }
+
+    .segment-status {
+        stroke-width: 3px;
+        stroke-linecap: round;
+    }
+
+    .success {
+        @extend .segment-status;
+        stroke: #009688;
+    }
+
+    .warn {
+        @extend .segment-status;
+        stroke: #ff9800;
+    }
+
+    .failed {
+        @extend .segment-status;
+        stroke: rgba(255, 0, 0, 0.95);
+    }
+
+    .unknown {
+        @extend .segment-status;
+        stroke: rgba(255, 0, 0, 0.95);
+        stroke-dasharray: (4, 4);
+    }
+    
+    .missed-segment {
+        line {
+           stroke: #fb4949;
+           stroke-width: 1px;
+        }
+
+        circle {
+            stroke: none;
+            fill: #fb4949;
+        }
+
+        text {
+            text-anchor: middle;
+            font-size: 8px;
+            fill: #ffffff;
+        }
+    }
+
+    .plan-border {
+        stroke: #757575;
+        stroke-width: 1px;
+        fill: none;
     }
 }

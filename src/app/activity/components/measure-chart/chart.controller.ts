@@ -8,7 +8,7 @@ import './chart.component.scss';
 
 class ActivityChartController implements IComponentController {
 
-    private supportedMetrics: Array<string> = ['speed', 'altitude', 'heartRate'];
+    private supportedMetrics: Array<string>;
 
     private measures;
     private data;
@@ -113,7 +113,6 @@ class ActivityChartController implements IComponentController {
         this.absUrl = this.$location.absUrl().split('#')[0];
         this.chartData = new ActivityChartDatamodel(this.measures, this.data, this.x, this.select);
         this.currentMode = this.x === 'elapsedDuration' ? ActivityChartMode.elapsedDuration : ActivityChartMode.distance;
-        //this.currentMode = this.activityChartSettings.defaultMode;
         this.supportedMetrics = this.chartData.supportedMetrics();
     }
 
@@ -297,7 +296,7 @@ class ActivityChartController implements IComponentController {
 
     private setupInfoPanel(): void {
         let self = this;
-        let xOffset = 10;//element(document.getElementsByName('activity-metrics-details')).prop('offsetLeft');
+        let xOffset = 10;
         let domainMetric = ActivityChartMode[this.currentMode];
         let rangeMetric = ActivityChartMode[((this.currentMode === ActivityChartMode.elapsedDuration)
             ? ActivityChartMode.distance
@@ -326,7 +325,7 @@ class ActivityChartController implements IComponentController {
                 var interpolate = d3.interpolateNumber(startData[rangeMetric], endData[rangeMetric]);
                 var rangeValue = interpolate((domainValue % dataRange) / dataRange);
                 // update information about the time and distance
-                // information about other metrics updated with the related markers 
+                // information about other metrics updated with the related markers
                 self.$tooltip.select('.' + domainMetric).text(
                     LabelFormatters[domainMetric].formatter(domainValue) + LabelFormatters[domainMetric].label);
                 self.$tooltip.select('.' + rangeMetric).text(

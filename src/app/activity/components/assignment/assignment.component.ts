@@ -127,13 +127,19 @@ class ActivityAssignmentCtrl implements IComponentController {
         // Обязательно заполнение одного из параметров длительности, если введены основные парамтеры
         // (вид спорта, тип тренировки, дата...)
         //if (this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_movingDuration'].$modelValue > 0) {
+
+
         this.assignmentForm['plan_distance'].$setValidity('needDuration',
             this.assignmentForm['plan_distance'].$modelValue > 0 ||
-            this.assignmentForm['plan_movingDuration'].$modelValue > 0);
+            this.assignmentForm['plan_movingDuration'].$modelValue > 0 ||
+            this.assignmentForm['actual_distance'].$modelValue > 0 ||
+            this.assignmentForm['actual_movingDuration'].$modelValue > 0);
 
         this.assignmentForm['plan_movingDuration'].$setValidity('needDuration',
             this.assignmentForm['plan_distance'].$modelValue > 0 ||
-            this.assignmentForm['plan_movingDuration'].$modelValue > 0);
+            this.assignmentForm['plan_movingDuration'].$modelValue > 0 ||
+            this.assignmentForm['actual_distance'].$modelValue > 0 ||
+            this.assignmentForm['actual_movingDuration'].$modelValue > 0);
 
         /*this.assignmentForm['plan_heartRate'].$setValidity('needIntensity',
             this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||

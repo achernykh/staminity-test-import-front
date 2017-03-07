@@ -15,6 +15,9 @@ import ActivitySummaryInfoComponent from "./components/summary-info/summary-info
 import ActivityHeaderDetailsComponent from "./activity-header-details/activity-header-details.component";
 import ActivityHeaderZonesComponent from "./activity-header-zones/activity-header-zones.component";
 import ActivityHeaderChatComponent from "./activity-header-chat/activity-header-chat.component";
+import DefaultPlanChartSettings from "./components/segment-chart/settings/settings.default";
+import PlanChartComponent from "./components/segment-chart/segmentsChart.component";
+
 //import configure from './activity.config';
 
 const Activity = module('staminity.activity', [])
@@ -34,6 +37,9 @@ const Activity = module('staminity.activity', [])
 	.component('activityPeaks', ActivityPeaksComponent)
 	.constant('activityChartSettings', chartSettings)
 	.component('activityMetricsChar', chartComponent)
+	.constant('segmentChartSettings', DefaultPlanChartSettings)
+	.component('activitySegmentChart', PlanChartComponent)
+
 	.run(['$timeout','leafletData',($timeout, leafletData)=> {
 		$timeout(()=> {
 			leafletData.getMap().then((map) => {

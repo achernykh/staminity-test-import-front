@@ -33,29 +33,43 @@
         <md-icon class="material-icon">multiline_chart</md-icon>
         <p class="md-body-2" translate>График</p>
         <span flex></span>
-        <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary"
-                   ng-click="$ctrl.changeChartX(measure)">
-            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
-            <span>{{measure}}</span>
-        </md-button>
-        <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary"
-                   ng-click="$ctrl.changeChartMetrics(measure)">
-            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
-            <span>{{measure}}</span>
-        </md-button>
-        <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
-            <md-icon class="md-secondary material-icon md-dark"
-                     ng-bind="$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
-        </md-button>
+        <div ng-if="!$ctrl.item.activity.structured">
+            <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary"
+                       ng-click="$ctrl.changeChartX(measure)">
+                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+                <span>{{measure | translate}}</span>
+            </md-button>
+            <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary"
+                       ng-click="$ctrl.changeChartMetrics(measure)">
+                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+                <span>{{measure | translate}}</span>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
+                <md-icon class="md-secondary material-icon md-dark"
+                         ng-bind="$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
+            </md-button>
+        </div>
+        <div ng-if="$ctrl.item.activity.structured">
+            управление не структурированной тренировкой
+        </div>
     </header>
 
-    <activity-metrics-char flex="none" ng-if="$ctrl.showChart"
+    <activity-metrics-char flex="none" ng-if="$ctrl.showChart && !$ctrl.item.activity.structured"
                            measures="$ctrl.measures"
                            data="$ctrl.data"
                            x="$ctrl.chartX"
                            change="$ctrl.change"
                            select="$ctrl.item.selectedTimestamp">График...
     </activity-metrics-char>
+
+    <activity-segment-chart flex="none" ng-if="$ctrl.showChart && $ctrl.item.activity.structured"
+                            activity-header="$ctrl.item.activity.intervalP"
+                            selected=""
+                            actual-ftp="true"
+                            plan-ftp="true"
+                            duration-measure="movingDuration"
+                            on-select="$ctrl.onChartSelect(segmentId)">
+    </activity-segment-chart>
 
     <md-divider flex="none" ng-if="$ctrl.showChart"></md-divider>
 
