@@ -147,13 +147,15 @@ export const scrollKeepPosition = () => ({
     .map(() => findChildInViewport(element[0]))
     .filter(child => child)
     .subscribe((child) => {
+      let t0 = new Date()
       let offsetTop = child.offsetTop
       let position = offsetTop - element[0].scrollTop
-      requestAnimationFrame(() => {
+      scope.$$postDigest(() => {
+        let t1 = new Date()
         if (child.offsetTop !== offsetTop) {
           let shift = (child.offsetTop - element[0].scrollTop) - position
           element[0].scrollTop += shift
-          console.log('restored scroll', shift)
+          console.log('restored scroll', shift, 'after', t1 - t0)
         } 
       })
     })
