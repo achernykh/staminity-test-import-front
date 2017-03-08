@@ -128,7 +128,7 @@ export const onScrollCurrentItem = () => ({
       return { top, height, containerMiddle }
     })
     .filter(({ top, height, containerMiddle }) => top < containerMiddle && containerMiddle < top + height)
-    // .subscribe(() => { attrs.onScrollCurrentItem && scope.$apply(attrs.onScrollCurrentItem) })
+    .subscribe(() => { attrs.onScrollCurrentItem && scope.$apply(attrs.onScrollCurrentItem) })
   }
 })
 
@@ -152,6 +152,7 @@ export const scrollKeepPosition = () => ({
         if (child.offsetTop !== offsetTop) {
           let shift = (child.offsetTop - element[0].scrollTop) - position
           element[0].scrollTop += shift
+          console.log('restored scroll', shift)
         } 
       })
     })

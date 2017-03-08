@@ -82,7 +82,6 @@ class CalendarCtrl implements IComponentController{
         this.up(1);
         this.down(10);
         this.setCurrentWeek(this.calendar[0]);
-        console.log(this.calendar[0], date);
     }
     
     setDate (date) {
@@ -92,7 +91,7 @@ class CalendarCtrl implements IComponentController{
         if (week) {
             this.setCurrentWeek(week, true);
         } else {
-            this.reset(this.date);
+            this.reset(date);
         }
     }
     
