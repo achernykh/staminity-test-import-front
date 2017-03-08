@@ -32,6 +32,11 @@ export const scrollContainer = () => ({
     scrollContainer.domChanges
     .subscribe(() => { scrollContainer.clientRect = element[0].getBoundingClientRect() })
     
+    scrollContainer.scrollStateChanges
+    .map(() => findChildInViewport(element[0]))
+    .distinctUntilChanged()
+    .subscribe(scrollContainer.firstChildChanges)
+    
     Rx.Observable.fromEvent(element[0], 'scroll').subscribe(scrollContainer.scrollings)
     scrollContainer.scrollStateChanges.next()
     scrollContainer.domChanges.next()
@@ -41,6 +46,7 @@ export const scrollContainer = () => ({
     this.scrollings = new Rx.Subject()
     this.domChanges = new Rx.Subject()
     this.scrollStateChanges = new Rx.Subject()
+    this.firstChildChanges = new Rx.Subject()
     this.scrollings.subscribe(this.scrollStateChanges)
     this.domChanges.subscribe(this.scrollStateChanges)
   }
@@ -114,27 +120,22 @@ export const scrollItem = () => ({
 
 
 /*
-* Ставится потомкам скроллконтейнера, выражение-аргумент выполняется, 
-* когда элемент оказывается на средней линии контейнера
+* Ставится прямым потомкам скроллконтейнера, выражение-аргумент выполняется, 
+* когда элемент оказывается текущим
 */
 export const onScrollCurrentItem = () => ({
   require: '^scrollContainer',
   link (scope, element, attrs, scrollContainer) {
-    scrollContainer.scrollings
-    .throttleTime(200)
-    .map(() => {
-      let { top, height } = element[0].getBoundingClientRect()
-      let containerMiddle = scrollContainer.clientRect.top + scrollContainer.clientRect.height / 2
-      return { top, height, containerMiddle }
-    })
-    .filter(({ top, height, containerMiddle }) => top < containerMiddle && containerMiddle < top + height)
+    scrollContainer.firstChildChanges
+    .filter(child => child === element[0])
     .subscribe(() => { attrs.onScrollCurrentItem && scope.$apply(attrs.onScrollCurrentItem) })
   }
 })
 
 
 /*
-* Пытается устранять прыжки видимого положения скроллинга из-за изменения контента
+* Пытается устранять прыжки видимого положения скроллинга из-за изменения контента,
+* параметр - поток событий о добавлениях контента сверху
 */
 export const scrollKeepPosition = () => ({
   require: 'scrollContainer',

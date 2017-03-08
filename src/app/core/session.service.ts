@@ -106,8 +106,10 @@ export default class SessionService implements ISessionService {
 
 	setToken(value:Object):void {
 		try {
-			this._profile.next(value['userProfile']);
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(value));
+			let userProfile = value['userProfile'];
+			this._user = userProfile;
+			this._profile.next(userProfile);
 		} catch (e) {
 			throw new Error(e);
 		}
