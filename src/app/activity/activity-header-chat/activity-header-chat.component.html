@@ -1,5 +1,5 @@
 <div flex>
-    <p ng-repeat="comment in comments">{{::comment.text}}</p>
+    <p ng-repeat="comment in $ctrl.comments track by $index">{{comment.text}}</p>
 </div>
 <div flex="none" layout="row" style="background: white" ng-cloack>
     <md-input-container flex class="md-block no-message">

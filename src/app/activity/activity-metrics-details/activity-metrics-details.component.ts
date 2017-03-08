@@ -20,7 +20,8 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private maxValue: {};
     private data: Array<{}>;
     private chartX: string = 'elapsedDuration';
-    private change: number = 1;
+    private change: number = 0;
+    private changeMeasure: string = null;
 
     constructor(private $mdMedia: any) {
     }
@@ -91,6 +92,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
     changeChartMetrics(measure) {
         this.measures[measure]['show'] = !this.measures[measure]['show'];
+        this.changeMeasure = measure;
         this.change++;
     }
 

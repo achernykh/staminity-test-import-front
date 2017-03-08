@@ -3,6 +3,7 @@ import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import CommentService from "../../core/comment.service";
 import {CommentType} from "../../../../api/social/comment.request";
 import {IObjectComment} from "../../../../api/social/comment.interface";
+import MessageService from "../../core/message.service";
 
 class ActivityHeaderChatCtrl implements IComponentController {
 
@@ -11,21 +12,22 @@ class ActivityHeaderChatCtrl implements IComponentController {
     private comments: Array<IObjectComment>;
     private readonly commentType: string = 'activity';
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['CommentService'];
+    static $inject = ['CommentService', 'message'];
 
-    constructor(private comment: CommentService) {
+    constructor(private comment: CommentService, private message: MessageService) {
 
     }
 
     $onInit() {
-        /*this.comment.get(this.commentType, this.activityId).then(result => {
-            this.comments = result;
-            console.log('comment=',result);
-        });*/
+        this.comment.get(this.commentType, this.activityId, true)
+            .then(result => this.comments = result,
+                error => this.message.toastError(error));
     }
 
     onPostComment(text) {
-        this.comment.post(this.commentType, this.activityId, text).then(result=>console.log('comment post=',result));
+        this.comment.post(this.commentType, this.activityId, true, text)
+            .then(result=>console.log('comment post=',result),
+                error => this.message.toastError(error));
     }
 }
 

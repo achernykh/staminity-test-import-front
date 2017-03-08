@@ -671,7 +671,10 @@ class ActivityChartController implements IComponentController {
         // функция для фильтрации пропущенных участков
         // todo переопределить желаемым условием. Например:
         //return (i % 200 < 150);
-        return !!d;
+        //console.log('isDataDefined', d,i);
+        //return !!d;
+        //return d > 0;
+        return d['speed'] !== 1000;
     }
 
     private getFillColor(areaSettings: IAreaSettings): string {

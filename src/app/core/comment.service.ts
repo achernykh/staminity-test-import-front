@@ -21,8 +21,8 @@ export default class CommentService {
      * @param offset
      * @returns {Promise<any>}
      */
-    get(type: string, id: number, limit?: number, offset?: number):Promise<Array<IObjectComment>> {
-        return this.SocketService.send(new GetComment(type,id,limit,offset));
+    get(type: string, id: number, coach: boolean = false, limit?: number, offset?: number):Promise<Array<IObjectComment>> {
+        return this.SocketService.send(new GetComment(type,id,coach,limit,offset));
     }
 
     /**
@@ -32,8 +32,8 @@ export default class CommentService {
      * @param text
      * @returns {Promise<any>}
      */
-    post(type: string, id: number, text: string):Promise<any> {
-        return this.SocketService.send(new PostComment(type,id,text));
+    post(type: string, id: number, coach: boolean = false, text: string):Promise<any> {
+        return this.SocketService.send(new PostComment(type,id,coach,text));
     }
 
     /**
