@@ -43,8 +43,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     lapIndex(index: Array<string>):number {
-        //console.log('lapIndex', !!index, Number(index[0].substr(1))-1, this.item.activity.intervalL[Number(index[0].substr(1))-1]);
-        return (index && Number(index[0].substr(1))-1) || null;
+        return index ? Number(index[0].substr(1))-1 : null;
     }
 }
 

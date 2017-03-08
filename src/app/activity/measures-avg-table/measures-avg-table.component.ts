@@ -1,10 +1,10 @@
 import {IComponentOptions, IComponentController} from 'angular';
 import './measures-avg-table.component.scss';
-import {IActivityMeasure} from "../../../../api/activity/activity.interface";
+import {IActivityMeasure, ICalcMeasures} from "../../../../api/activity/activity.interface";
 
 class MeasuresAvgTableCtrl implements IComponentController {
 
-    private measures:Array<IActivityMeasure>;
+    private calcMeasures: ICalcMeasures;
     private sport: string;
     private selected:Array<number> = [];
     private options:Object = {
@@ -47,7 +47,7 @@ class MeasuresAvgTableCtrl implements IComponentController {
 
 const MeasuresAvgTableComponent:IComponentOptions = {
     bindings: {
-        measures: '<',
+        calcMeasures: '<',
         changes: '<',
         sport: '<'
     },

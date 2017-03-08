@@ -8,7 +8,9 @@ class ActivityRouteDatamodel implements IComponentController {
     private geoCoordinates;
     private markers;
     private route;
+    private intervalCoordinates: Array<any> = [];
     private selectCoordinates: Array<any> = [];
+    private selectedPath: {} = null;
     private startTimestamp;
     private endTimestamp;
     private paths;
@@ -19,9 +21,6 @@ class ActivityRouteDatamodel implements IComponentController {
         this.route = data.map(d => ({lng: d['lng'],lat: d['lat']}));
         this.startTimestamp = (selection.length > 0 && selection[0].startTimestamp) || null;
         this.endTimestamp = (selection.length > 0 && selection[0].endTimestamp) || null;
-
-        selection.forEach(s => this.selectCoordinates.push(
-            ...data.filter(d => d.timestamp >= s.startTimestamp && d.timestamp <= s.endTimestamp)));
 
         Object.assign(this, {
             layers : {
@@ -65,15 +64,28 @@ class ActivityRouteDatamodel implements IComponentController {
                     "weight": 4,
                     "latlngs": this.route,
                     "message": "<h3>Основной маршрут</h3>"
-                },
+                }/*,
                 // формирую выбранный отрезок на карте
                 selectedPath: {
                     "color": "#bb39db",
                     "weight": 4,
                     "latlngs": selection.length > 0 ? this.selectCoordinates: [],
                     "message": "<h3>Выбранный маршрут</h3>"
-                }
+                }*/
             }
+        });
+
+        selection.forEach((s,i) => {
+            this.intervalCoordinates.push(...data
+                .filter(d => d.timestamp >= s.startTimestamp && d.timestamp <= s.endTimestamp));
+            this.paths['selection #'+i] = {
+                "color": "#bb39db",
+                "weight": 4,
+                "latlngs": this.intervalCoordinates,
+                "message": "<h3>Выбранный маршрут</h3>"
+            };
+            this.selectCoordinates.push(...this.intervalCoordinates);
+            this.intervalCoordinates = [];
         });
 
     }

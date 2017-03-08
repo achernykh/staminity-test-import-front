@@ -155,6 +155,8 @@ class ActivityAssignmentCtrl implements IComponentController {
         this.assignmentForm['plan_movingDuration'].$setValidity('singleDuration',
             !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
 
+
+        console.log('check intensity', this.assignmentForm['plan_heartRate'].$modelValue['from'], this.assignmentForm['plan_speed'].$modelValue['from'], this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
         // Пользователь может указать только один парметр интенсивности
         this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
                 !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&

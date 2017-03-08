@@ -1,12 +1,19 @@
 import './activity-peaks.component.scss';
 import { IComponentOptions, IComponentController} from 'angular';
-import {IActivityMeasure} from "../../../../../api/activity/activity.interface";
+import {IActivityMeasure, ICalcMeasures} from "../../../../../api/activity/activity.interface";
 
 class ActivityPeaksCtrl implements IComponentController{
 
 	private peaks: Array<any>;
+	private calcMeasures: ICalcMeasures;
 	private measures: Array<string>;
 	private sport: string;
+	private readonly peaksMeasure = ['heartRateTimePeaks', 'heartRateDistancePeaks',
+		'speedTimePeaks', 'speedDistancePeaks',
+		'powerTimePeaks', 'powerDistancePeaks',
+		'cadenceTimePeaks', 'cadenceDistancePeaks'];
+
+
 	//private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain','elevationLoss'];
 	static $inject = ['$scope'];
 
@@ -14,22 +21,45 @@ class ActivityPeaksCtrl implements IComponentController{
 
 	}
 
+	$onChanges(change: any): void {
+		if(change.hasOwnProperty('calcMeasures') && !change.calcMeasures.isFirstChange()) {
+			this.$onInit();
+		}
+	}
+
 	$onInit(){
+		this.peaks = this.peaksMeasure
+			.filter(m => this.calcMeasures.hasOwnProperty(m) &&
+				this.calcMeasures[m].hasOwnProperty('peaks') &&
+				this.calcMeasures[m].peaks[0].value !== 0)
+			.map(m => ({
+				measure: this.calcMeasures[m].sourceMeasure, //this.getMeasure(m),
+				type: (m.includes('Time') && 'duration') || 'distance',
+				value: this.calcMeasures[m].peaks
+			}));
+
 		// Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
 		// this, а значит и нет доступа к массиву для фильтрации
-		this.measures = this.peaks.map(m => m.measure);
+		this.measures = Array.from(new Set(this.peaks.map(m => m.measure)));
 		this.$scope.filter = (this.measures.length > 0 && { measure: this.measures[0] }) || '';
 	}
 
 	setFilter(code) {
 		this.$scope.filter = { measure: code };
 	}
+
+	private getMeasure(name: string):string {
+		return name.substr(0,
+			(name.includes('Time') && name.indexOf('Time')) ||
+			(name.includes('Distance') && name.indexOf('Distance')) || null);
+	}
 }
 
 const ActivityPeaksComponent: IComponentOptions = {
 	bindings: {
-		peaks: '<',
-		sport: '<'
+		calcMeasures: '<',
+		sport: '<',
+		changes: '<'
 	},
 	controller: ActivityPeaksCtrl,
 	template: `

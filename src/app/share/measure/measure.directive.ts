@@ -87,7 +87,10 @@ export function MeasurementInput($filter): IDirective {
 				from = to = value.substr(0,5);
 			}
 
-			console.log('change parsers ', value, value.length, sep, from,to);
+			console.log('change pace parsers ', value, value.length, sep, from,to);
+			if (value.length === 0) {
+				from = to = 0;
+			}
 			$ctrl.$modelValue = null;
 			return Object.assign(initial, {
 				from: $filter('measureSave')(measure.name, from, measure.sport),
@@ -122,6 +125,7 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const paceIntervalFormatters = (value: {from: number, to: number}) => {
+			console.log('check pace interval formatters', value);
 			if(value && value.hasOwnProperty('from') && value.hasOwnProperty('to')) {
 				initial = value;
 				return (value.from !== value.to) ?
@@ -154,7 +158,7 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const paceIntervalValidators = (model: {from: number, to: number},view) => {
-			console.log('check pace interval validators', model.from, model.to);
+			console.log('check pace interval validators', model, typeof model, model.from, model.to);
 			return (model && model.hasOwnProperty('from') && model.hasOwnProperty('to')) &&
 				(model.from >= model.to);
 		};

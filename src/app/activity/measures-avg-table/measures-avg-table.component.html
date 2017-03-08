@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-repeat="measure in $ctrl.measures | toArray | filter:search track by measure.$key">
+            <tr md-row ng-repeat="measure in $ctrl.calcMeasures | toArray | filter:search track by measure.$key">
                 <td md-cell><md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon></td>
                 <td md-cell hide-xs>
                     {{measure.$key | translate}}&nbsp({{measure.$key | measureUnit:$ctrl.sport | translate}})</td>

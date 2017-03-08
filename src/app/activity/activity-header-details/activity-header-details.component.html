@@ -25,16 +25,20 @@
 </md-list>
 
 <measures-avg-table flex="none" class="measures-avg-table" ng-cloak
-                    measures="$ctrl.selectedIntervals.length > 0 ?
+                    calc-measures="$ctrl.selectedIntervals.length > 0 ?
                         $ctrl.item.activity.intervalL[$ctrl.lapIndex($ctrl.selectedIntervals)].calcMeasures :
                         $ctrl.item.activity.intervalW.calcMeasures"
-                    changes="$ctrl.changes"
                     sport="$ctrl.item.activity.sportBasic"></measures-avg-table>
 
 <measure-main-button flex="none" class="measure-main-button" ng-cloak
-                     measures="$ctrl.item.activity.intervalW.calcMeasures"
+                     calc-measures="$ctrl.selectedIntervals.length > 0 ?
+                        $ctrl.item.activity.intervalL[$ctrl.lapIndex($ctrl.selectedIntervals)].calcMeasures :
+                        $ctrl.item.activity.intervalW.calcMeasures"
                      sport="$ctrl.item.activity.sportBasic"></measure-main-button>
 
 <activity-peaks flex="auto" class="activity-peaks" ng-cloak
-                peaks="$ctrl.peaks" sport="$ctrl.item.activity.sportBasic">
+                calc-measures="$ctrl.selectedIntervals.length > 0 ?
+                        $ctrl.item.activity.intervalL[$ctrl.lapIndex($ctrl.selectedIntervals)].calcMeasures :
+                        $ctrl.item.activity.intervalW.calcMeasures"
+                sport="$ctrl.item.activity.sportBasic">
 </activity-peaks>

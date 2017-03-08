@@ -204,11 +204,11 @@ export const _measurement_calculate = {
     },
     mps: {
         kmph: (x) => x * 3.6,
-        minpkm: (x) => (60 * 60) / (x * 3.6),
-        minp100m: (x) => (60 * 60) / (x * 3.6 * 10)
+        minpkm: (x) => !!x ? (60 * 60) / (x * 3.6) : 0,
+        minp100m: (x) => !!x ? (60 * 60) / (x * 3.6 * 10) : 0
     },
     minpkm: {
-        mps: (x) => (60 * 60) / (x * 3.6)
+        mps: (x) => !!x ? (60 * 60) / (x * 3.6) : 0
     }
 };
 
