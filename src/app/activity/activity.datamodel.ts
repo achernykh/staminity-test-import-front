@@ -87,6 +87,7 @@ class ActivityHeader implements IActivityHeader {
 	public activityCategory: {
 		id: number;
 		code: string;
+		activityTypeId: number;
 	};
 	public activityType: {
 		id: number;
@@ -99,7 +100,8 @@ class ActivityHeader implements IActivityHeader {
 		this.startTimestamp = date;
 		this.activityCategory = { // категория тренировки
 			id: null,
-			code: null
+			code: null,
+			activityTypeId: null
 		};
 		this.activityType = { //вид спорта
 			id: null,
