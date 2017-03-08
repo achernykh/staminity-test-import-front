@@ -9,6 +9,7 @@ build/*
 dist/*
 distLocal/*
 dev1/*
+dev2/*
 bower_components/*
 node_modules/*
 src/js/config/app.templates.js

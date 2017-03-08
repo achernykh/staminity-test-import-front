@@ -60,10 +60,11 @@
                 </activity-header-zones>
             </md-tab-content>
         </md-tab>
-        <md-tab id="chat" flex layout="column" label="Чат" ng-disabled="$ctrl.item.mode === 'post'">
+        <md-tab id="chat" flex layout="column" label="Чат" ng-if="$ctrl.item.mode !== 'post'">
             <md-tab-content layout-fill layout-column>
                 <activity-header-chat flex="auto" layout="column" layout-fill
-                                      activity-id="$ctrl.item.activity.id">
+                                      activity-id="$ctrl.item.activity.id"
+                                      social="$ctrl.item.activity.header.social">
                 </activity-header-chat>
             </md-tab-content>
         </md-tab>

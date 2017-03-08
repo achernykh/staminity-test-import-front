@@ -49,20 +49,20 @@ class CalendarItemMeasurementCtrl {
             this.CalendarService.postItem(this.item.package())
                 .then(response => this.item.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.onAnswer({response: {type:'post',item:this.item}}),
-                    error => this.message.systemError(error));
+                    error => this.message.toastError(error));
         }
         if (this.mode === 'put') {
             this.CalendarService.putItem(this.item.package())
                 .then(response => this.item.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.onAnswer({response: {type:'put',item:this.item}}),
-                    error => this.message.systemError(error));
+                    error => this.message.toastError(error));
         }
     }
 
     onDelete() {
         this.CalendarService.deleteItem('F', [this.item.calendarItemId])
             .then(response => this.onAnswer({response: {type:'delete',item:this.item}}),
-                error => this.message.systemError(error));
+                error => this.message.toastError(error));
     }
 }
 

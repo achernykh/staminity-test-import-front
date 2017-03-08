@@ -74,7 +74,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         // Список видов спорта
         this.types = activityTypes;
         // Список категорий тренировки
-        if (this.mode === 'put') {
+        if (this.mode === 'put' || this.mode === 'post') {
             this.getCategory();
         }
 
@@ -93,7 +93,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     getCategory(){
         return this.ActivityService.getCategory()
-            .then(result => this.categories.push({id:1, code: 'recovery', activityTypeId: 2}));
+            .then(result => this.categories = result, error => this.message.toastError(error));
     }
 
     changeSelectedIndex(type: string, index: Array<number>){
@@ -127,28 +127,22 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.CalendarService.postItem(this.activity.build())
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
-                    console.log('result=',this.activity);
-                    //this.calendar.onPostItem(this.activity.build());
-                    //this.message.toastInfo('Создана новая запись');
                     this.onAnswer({response: {type:'post', item:this.activity.build()}});
-                });
+                }, error => this.message.toastError(error));
         }
         if (this.mode === 'put') {
             this.CalendarService.putItem(this.activity.build())
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
-                    console.log('result=',this.activity);
                     this.onAnswer({response: {type:'put',item:this.activity.build()}});
-                });
+                }, error => this.message.toastError(error));
         }
     }
 
     onDelete() {
         this.CalendarService.deleteItem('F', [this.activity.calendarItemId])
-            .then((response)=> {
-                console.log('delete result=',response);
-                this.onAnswer({response: {type:'delete',item:this.activity.build()}});
-            });
+            .then((response)=> this.onAnswer({response: {type:'delete',item:this.activity.build()}}),
+                error => this.message.toastError(error));
     }
 
 	/**

@@ -161,7 +161,6 @@ export class SocketService implements ISocketService {
 
                 setTimeout(() => {
                     if(this.requests[request.requestId]) {
-                        this.message.systemWarning('internetConnectionLost');
                         this.requests[request.requestId].reject('internetConnectionLost');
                         delete this.requests[request.requestId];
                         this.loader.hide();
