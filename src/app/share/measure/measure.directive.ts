@@ -1,5 +1,6 @@
 import {merge, IScope, IDirective, IAttributes, IAugmentedJQuery, INgModelController, IFilterService} from 'angular';
 import {Measure} from "./measure.constants";
+import moment from 'moment/src/moment.js';
 
 const toPaceInterval = (input) => {
 	if (typeof input === 'undefined') {
@@ -54,6 +55,12 @@ const toNumberInterval = (input) => {
 	return input.replace(/[^\d\-]/g,'');
 };
 
+const convertToDuration = (input: string):string => {
+	//console.log('convertToDuration=', input, Number(input), isFinite(Number(input)), moment().startOf('day').minutes(Number(input)).format('HH:mm:ss'));
+	//console.log('convertToDuration=', input, moment().startOf('day').minutes(input).format('HH:mm:ss'));
+	return isFinite(Number(input)) ?  moment().startOf('day').minutes(Number(input)).format('HH:mm:ss') : input;
+};
+
 
 /**
  * Директива для ввода значения по показателям тренировки
@@ -72,7 +79,8 @@ export function MeasurementInput($filter): IDirective {
 
 		let measure:Measure = null;
 		let initial: Object = {};
-		let mask: any;
+		let mask: any; //функция преобразование ввода по маске
+		let convert: any; //функция преобразования значения после потери фокуса
 
 		// Преобразование для ввода пульса
 		const paceIntervalParsers = (value) => {
@@ -173,13 +181,25 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const durationValidators = (model,view) => {
-			return true;
+			//console.log('durationValidators',moment(view, ["HH:mm:ss", "mm:ss"]).isValid(), isFinite(Number(view)));
+			return moment(view, ["HH:mm:ss", "mm:ss"]).isValid() || isFinite(Number(view));
 		};
 
 		// Для обновляние viewValue добавляем $render
-		$element.on('blur keyup change', () => {
+		$element.on('keyup change', () => {
 			if (!!$ctrl.$viewValue && !!mask) {
 				$ctrl.$setViewValue(mask($ctrl.$viewValue));
+			}
+			$ctrl.$render();
+		});
+
+		$element.on('blur', () => {
+			if (measure.type === 'duration' && isFinite(Number($ctrl.$viewValue))) {
+				console.log('duration blur', $ctrl.$viewValue, $ctrl.$modelValue);
+				$ctrl.$setViewValue(convert($ctrl.$viewValue));
+				//if(typeof Number($ctrl.$viewValue) === 'number') {
+					$ctrl.$modelValue = $ctrl.$modelValue * 60;
+				//}
 			}
 			$ctrl.$render();
 		});
@@ -188,7 +208,7 @@ export function MeasurementInput($filter): IDirective {
 		// ng-attr-measure-input={{expression = measure}} ng-attr-sport={{expression = sport}}
 		if ($attrs['measureInput'] && $attrs['sport']) {
 			measure = new Measure($attrs['measureInput'], $attrs['sport']);
-			console.log('measure = ', measure.name, measure.type, maskFunction(measure.type, JSON.parse($attrs['interval'])));
+			//console.log('measure = ', measure.name, measure.type, maskFunction(measure.type, JSON.parse($attrs['interval'])));
 			switch (measure.type){
 				case 'pace': {
 					if(JSON.parse($attrs['interval'])){
@@ -208,10 +228,11 @@ export function MeasurementInput($filter): IDirective {
 					if(JSON.parse($attrs['interval'])){
 
 					} else {
-						$ctrl.$validators['time'] = durationValidators;
+						$ctrl.$validators['duration'] = durationValidators;
 						$ctrl.$formatters.push(durationFormatters);
 						$ctrl.$parsers.push(durationParsers);
-						mask = toDuration;
+						convert = convertToDuration;
+						//mask = toDuration;
 					}
 					break;
 				}

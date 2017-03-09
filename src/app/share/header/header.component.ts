@@ -14,6 +14,7 @@ class HeaderCtrl implements IComponentController {
 	private athlete: IUserProfile;
 	private profile$: Observable<IUserProfile>;
 	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
+	private readonly athleteSelectorStates: Array<string> = ['calendar'];
 
 	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', '$mdDialog', '$state'];
 
@@ -74,7 +75,9 @@ class HeaderCtrl implements IComponentController {
 		this.$state.go(this.$state.current.name , {uri: this.athlete.public.uri});
 	}
 
-
+	isEnableAthleteSelector() {
+		return this.athleteSelectorStates.indexOf(this.$state.current.name) !== -1;
+	}
 }
 
 const HeaderComponent: IComponentOptions = {
