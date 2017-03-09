@@ -1,4 +1,4 @@
-import * as moment from "moment";
+import moment from 'moment/min/moment-with-locales.js';
 import * as momentTimezone from 'moment-timezone';
 import * as angular from 'angular';
 import {
@@ -74,8 +74,12 @@ class SettingsUserCtrl {
 
         this.timeZones = momentTimezone.tz.names().map(z => ({
             title: `(GMT${momentTimezone.tz(z).format('Z')}) ${z}`,
-            name: z
+            name: z,
+            offset: momentTimezone.tz(z).offset
         }));
+
+        moment.locale('ru');
+        moment.lang('ru');
     }
 
     setUser (user) {
@@ -201,7 +205,7 @@ class SettingsUserCtrl {
     }
 
     weekdays(day) {
-        return moment.weekdays(day)
+        return moment.weekdays(true, day);
     }
 
     syncEnabled(adaptor) {

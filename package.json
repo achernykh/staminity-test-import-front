@@ -101,6 +101,7 @@
     "angular-animate": "1.5.8",
     "angular-aria": "1.5.8",
     "angular-drag-and-drop-lists": "^2.0.0",
+    "angular-dynamic-locale": "^0.1.32",
     "angular-i18n": "1.5.8",
     "angular-material": "1.1.1",
     "angular-material-data-table": "^0.10.10",
@@ -111,6 +112,7 @@
     "angular-ui-router": "^1.0.0-beta.3",
     "angular-websocket": "^2.0.1",
     "animate.css": "^3.5.2",
+    "d3": "4.5.0",
     "jsoneditor": "^5.5.11",
     "localforage": "^1.4.3",
     "moment": "^2.17.1",
@@ -121,7 +123,6 @@
     "normalize.css": "^5.0.0",
     "rxjs": "^5.0.3",
     "smdatetimerangepicker": "^2.0.10",
-    "ui-leaflet": "^2.0.0",
-    "d3" : "4.5.0"
+    "ui-leaflet": "^2.0.0"
   }
 }

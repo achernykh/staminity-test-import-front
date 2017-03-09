@@ -10,6 +10,7 @@ import 'smdatetimerangepicker/src/picker.css';
 import 'leaflet/dist/leaflet.css';
 import 'ui-leaflet/dist/ui-leaflet.js';
 import * as hmReedmore from "../../bower_components/angular-read-more";
+import * as angularDynamicLocale from 'angular-dynamic-locale/src/tmhDynamicLocale.js';
 
 import run from './app.run';
 import configure from './app.config';
@@ -39,6 +40,7 @@ const root = module('staminity.application', [
 	'nemLogging',
 	'ui-leaflet',
 	hmReedmore,
+	angularDynamicLocale,
 
 	Core,
 	Share,

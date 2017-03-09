@@ -1,5 +1,6 @@
 import { ICompileProvider, ILocationProvider} from 'angular';
 import {StateProvider, StateDeclaration} from 'angular-ui-router';
+import moment from 'moment/min/moment-with-locales.js';
 
 function configure(
 	$compileProvider: ICompileProvider,
@@ -8,7 +9,9 @@ function configure(
 	$mdThemingProvider: ng.material.IThemingProvider,
 	$stateProvider:StateProvider,
 	$translateProvider: any,
-	pickerProvider: any) {
+	pickerProvider: any,
+	tmhDynamicLocaleProvider: any,
+	$mdDateLocaleProvider: any) {
 
 	let isProductionBuild: boolean = __ENV !== "build";
 
@@ -18,7 +21,6 @@ function configure(
 	});
 
 	$urlRouterProvider.otherwise('/');
-
 	$compileProvider.debugInfoEnabled(!isProductionBuild);
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
@@ -101,9 +103,16 @@ function configure(
 	//  Over ride day names by changing here
 	pickerProvider.setDayHeader('single');  //Options 'single','shortName', 'fullName'
 
+	moment.locale('ru');
+	moment.lang('ru');
+	$mdDateLocaleProvider.formatDate = (date) => moment(date).isValid() ? moment(date).format('L') : '';
+	tmhDynamicLocaleProvider.localeLocationPattern('/assets/locale/angular-locale_{{locale}}.js');
+	tmhDynamicLocaleProvider.defaultLocale('ru');
+
 	console.log('config complete');
 }
 
-configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider','$stateProvider','$translateProvider', 'pickerProvider'];
+configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider',
+	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider'];
 
 export default configure;

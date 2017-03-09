@@ -29,7 +29,8 @@ module.exports = {
             'angular-simple-logger', // какая-то хрень для ui-leaflet
             'leaflet',
             'ui-leaflet',
-            'd3'
+            'd3',
+            'angular-dynamic-locale'
             //'angular-read-more'
         ],
         // вход для приложения
