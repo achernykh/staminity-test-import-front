@@ -58,7 +58,7 @@ const toNumberInterval = (input) => {
 const convertToDuration = (input: string):string => {
 	//console.log('convertToDuration=', input, Number(input), isFinite(Number(input)), moment().startOf('day').minutes(Number(input)).format('HH:mm:ss'));
 	//console.log('convertToDuration=', input, moment().startOf('day').minutes(input).format('HH:mm:ss'));
-	return isFinite(Number(input)) ?  moment().startOf('day').minutes(Number(input)).format('HH:mm:ss') : input;
+	return isFinite(Number(input)) && input ?  moment().startOf('day').minutes(Number(input)).format('HH:mm:ss') : input;
 };
 
 
