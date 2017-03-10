@@ -89,6 +89,7 @@ export interface IActivityChartSettings
     autoResizable: boolean;
     // chart anomation settings on load and data changes
     animation: IAnimationSettigs;
+    selectAnimation: IAnimationSettigs;
     // default chart mode : distance or time
     defaultMode: ActivityChartMode;
     heartRate: IMetricArea;

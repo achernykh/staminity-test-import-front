@@ -30,7 +30,7 @@
 </md-toolbar>
 
 <md-content flex="auto" class="md-hue-2" layout="column">
-    <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="0"
+    <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
              ng-class="{'coming': $ctrl.item.activity.status === 'coming',
                                 'not-specified': $ctrl.item.activity.status === 'not-specified',
                                 'complete': $ctrl.item.activity.status === 'complete',

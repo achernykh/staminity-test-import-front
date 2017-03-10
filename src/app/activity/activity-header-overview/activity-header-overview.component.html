@@ -12,7 +12,7 @@
                ng-click="">В шаблон
     </md-button>
     <md-button ng-if="$ctrl.item.mode === 'view'" type="submit"
-               ng-click="$ctrl.item.mode = 'put'">Изменить
+               ng-click="$ctrl.item.changeMode('put')">Изменить
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'"
                ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )">Отменить

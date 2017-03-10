@@ -13,6 +13,11 @@ const DefaultChartSettings: IActivityChartSettings = {
         delayByOrder: 200,
         ease: d3.easeExp
     },
+    selectAnimation: {
+        duration: 1000,
+        delayByOrder: 200,
+        ease: d3.easeExp
+    },
     //xMeasures: [''],
     heartRate: {
         order: 1,

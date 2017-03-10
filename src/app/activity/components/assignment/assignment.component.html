@@ -16,7 +16,7 @@
                                    value="{{type.id}}">{{type.code}}
                         </md-option>
                     </md-select>
-                    <div ng-messages="$ctrl.assignmentForm.type.$error" role="alert">
+                    <div ng-messages="$ctrl.assignmentForm.sport.$error" role="alert">
                         <div ng-message-exp="['required']"
                              translate="form.required">
                         </div>
@@ -35,7 +35,7 @@
                                name="category"
                                class="icon">
                         <md-option
-                                ng-repeat="category in $ctrl.item.activity.categoriesList | filter:{activityTypeId: $ctrl.item.activity.sport} track by category.id"
+                                ng-repeat="category in $ctrl.item.activity.categoriesList | filter:{activityTypeId: 1} track by category.id"
                                 value="{{category.id}}">{{category.code | translate}}
                         </md-option>
                     </md-select>

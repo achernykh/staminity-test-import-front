@@ -17,6 +17,13 @@ import {activityTypes, getType} from "../../activity/activity.constants";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
+enum HeaderTab {
+    Overview,
+    Details,
+    Zones,
+    Chat
+};
+
 export class CalendarItemActivityCtrl implements IComponentController{
 
     date: Date;
@@ -26,12 +33,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
     activity: Activity;
     user: IUserProfile;
     onAnswer: (response: Object) => IPromise<void>;
-    onCancel: (response: Object) => IPromise<void>;
+    onCancel: () => IPromise<void>;
 
     private selectedTimestamp: Array<any> = [];
     private selectedIntervalIndex: {} = { L: null, P: null};
     private selectedIntervalType: string;
     private changeSelectInterval: number = 0;
+    private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
 
     private isLoadingDetails: boolean = false;
     private activityForm: IFormController;
@@ -53,10 +61,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     $onChanges(changes) {
         if(changes.mode && !changes.mode.isFirstChange()) {
-            if (changes.mode === 'put') {
-                this.getCategory()
-                    .then(list => this.activity.categoriesList = list, error => this.message.toastError(error));
-            }
+            this.changeMode(changes.mode);
         }
     }
 
@@ -73,29 +78,34 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         this.activity = new Activity(this.data);
         this.activity.prepare();
-        // Список видов спорта
-        this.types = activityTypes;
-        // Список категорий тренировки
-        if (this.mode === 'put' || this.mode === 'post') {
-            this.getCategory()
-                .then(list => this.activity.categoriesList = list, error => this.message.toastError(error));
-        }
 
         //Получаем детали по тренировке загруженной из внешнего источника
         if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
             this.ActivityService.getDetails2(this.data.activityHeader.activityId)
                 .then(response => {
-                    this.details = response;
-                    this.activity = new Activity(this.data, this.details);
-                    this.activity.prepare();
+                    this.activity.completeDetails(this.details = response);
                     this.isLoadingDetails = false;
-                    console.log('activity data after details =',this);
-                }, error => console.error(error));
+                }, error => this.message.toastError('errorCompleteDetails'));
         }
+
+        // Список видов спорта
+        this.types = activityTypes;
+        // Список категорий тренировки
+        if (this.mode === 'put' || this.mode === 'post') {
+            this.ActivityService.getCategory()
+                .then(list => this.activity.categoriesList = list,
+                    error => this.message.toastError(error));
+        }
+
     }
 
-    getCategory(){
-        return this.ActivityService.getCategory();
+    changeMode(mode:string) {
+        this.mode = mode;
+        if (mode === 'put' && !this.activity.categoriesList.length) {
+            this.ActivityService.getCategory()
+                .then(list => this.activity.categoriesList = list,
+                    error => this.message.toastError(error));
+        }
     }
 
     changeSelectedIndex(type: string, index: Array<number>){
@@ -104,6 +114,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.selectedIntervalIndex[type] = index;
         this.calculateTimestampInterval(type,index);
         this.changeSelectInterval++;
+        this.selectedTab = HeaderTab.Details; // по любому выделению инетрвала пользователя переходим на вкладку Детали
     }
 
     calculateTimestampInterval(type: string, index: Array<number>) {
@@ -116,8 +127,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     onReset(mode: string) {
         this.mode = mode;
-        this.activity = new Activity(this.data, this.details || null);
-        this.activity.prepare();
+        if(mode === 'post') {
+            this.onCancel();
+        } else {
+            this.activity.prepare();
+        }
     }
 
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.

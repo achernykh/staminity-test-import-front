@@ -121,16 +121,35 @@ export class Activity extends CalendarItem {
 	private hasImportedData: boolean = false;
 	private peaks: Array<any>;
 	private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
+	public details: IActivityDetails;
 	private actualDataIsImported: boolean = false;
 
-	constructor(item: ICalendarItem, public details: IActivityDetails = null){
+	constructor(private item: ICalendarItem){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
-        // Если activityHeader не установлен, значит вызван режим создаения записи
-        // необходимо создать пустые интервалы и обьявить обьекты
-		if (!item.hasOwnProperty('activityHeader')) {
+		this.prepare();
+	}
+
+	// Добавляем детальные данные по тренеровке
+	completeDetails(details: IActivityDetails = null) {
+		this.details = details;
+		// Обработка детальных данных по тренировке
+		this.hasDetails = !!details && details.metrics.length > 0;
+		if(this.hasDetails) {
+			this.route = this.getRouteData(details);
+			this.isRouteExist = !!this.route;
+		}
+
+	}
+
+	// Подготовка данных для модели отображения
+	prepare() {
+		super.prepare();
+		// Если activityHeader не установлен, значит вызван режим создаения записи
+		// необходимо создать пустые интервалы и обьявить обьекты
+		if (!this.item.hasOwnProperty('activityHeader')) {
 			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
 		} else {
-			this.header = copy(item.activityHeader); // angular deep copy
+			this.header = copy(this.item.activityHeader); // angular deep copy
 			// Если итервала pW нет, то создаем его
 			// Интервал pW необходим для вывода Задания и сравнения план/факт выполнения по неструктуриорванному заданию
 			if (!this.header.intervals.some(i => i.type === 'pW')) {
@@ -149,19 +168,7 @@ export class Activity extends CalendarItem {
 
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 		this.actualDataIsImported = this.intervalW.actualDataIsImported;
-		// Обработка детальных данных по тренировке
-		this.hasDetails = !!details && details.metrics.length > 0;
-		if(this.hasDetails) {
-			this.route = this.getRouteData(details);
-			this.isRouteExist = !!this.route;
-		}
-		// тестирование структурированного графика
-		//this.hasDetails = true;
-	}
 
-	// Подготовка данных для модели отображения
-	prepare() {
-		super.prepare();
 		// Дополниельные данные для отображения плана на панелях
 		Object.assign(this.intervalPW, {
 			movingDuration: {
