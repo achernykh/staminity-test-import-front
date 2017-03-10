@@ -35,8 +35,8 @@ export class ActivityChartDatamodel implements IComponentController {
         this.selectIntervals = select || [];
     };
 
-    public getData(): Array<IActivityMetrics<number>> {
-        return this.data;
+    public getData(ind: number = null): Array<IActivityMetrics<number>> | any {
+        return ind ? this.data[ind]: this.data;
     };
 
     public getSelect(): Array<ITimestampInterval> {

@@ -674,7 +674,8 @@ class ActivityChartController implements IComponentController {
         //console.log('isDataDefined', d,i);
         //return !!d;
         //return d > 0;
-        return d['speed'] !== 1000;
+        return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
+        //return d['speed'] !== 1000;
     }
 
     private getFillColor(areaSettings: IAreaSettings): string {
