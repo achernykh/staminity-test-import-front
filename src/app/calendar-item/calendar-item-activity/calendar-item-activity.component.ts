@@ -36,7 +36,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private isLoadingDetails: boolean = false;
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
-    private categories: Array<IActivityCategory> = [];
     private types: Array<IActivityType> = [];
 
     static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
@@ -54,7 +53,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     $onChanges(changes) {
         if(changes.mode && !changes.mode.isFirstChange()) {
-            this.getCategory();
+            if (changes.mode === 'put') {
+                this.getCategory()
+                    .then(list => this.activity.categoriesList = list, error => this.message.toastError(error));
+            }
         }
     }
 
@@ -75,7 +77,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.types = activityTypes;
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post') {
-            this.getCategory();
+            this.getCategory()
+                .then(list => this.activity.categoriesList = list, error => this.message.toastError(error));
         }
 
         //Получаем детали по тренировке загруженной из внешнего источника
@@ -92,8 +95,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     getCategory(){
-        return this.ActivityService.getCategory()
-            .then(result => this.categories = result, error => this.message.toastError(error));
+        return this.ActivityService.getCategory();
     }
 
     changeSelectedIndex(type: string, index: Array<number>){

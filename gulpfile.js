@@ -202,8 +202,8 @@ gulp.task('default', ['html', 'jsLibs', 'cssLibs', 'jsApp', 'sass', 'assets'], f
     return gulp.src(config.src.jsApp);
 });
 
-// Copy assets
-gulp.task('icons', function() {
+// Copy assets: icon, locale, picture
+gulp.task('copy-assets', function() {
     return gulp.src(config.src.assets)
         .pipe(gulp.dest('./'+ENV+'/assets'));
 });

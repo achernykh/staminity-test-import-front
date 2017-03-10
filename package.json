@@ -12,8 +12,8 @@
     "build": "webpack-dev-server --inline --hot",
     "display-error": "webpack --display-error-details",
     "dist": "webpack",
-    "distLocal": "webpack && gulp icons",
-    "dev1": "webpack && gulp icons",
+    "distLocal": "webpack && gulp copy-assets",
+    "dev1": "webpack && gulp copy-assets",
     "analyseBuild": "webpack --json > status.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cleanjs": "rimraf src/app/*.js, src/app/**/*.js, src/app/**/**/*.js"

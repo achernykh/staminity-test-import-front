@@ -109,7 +109,8 @@ class ActivityHeader implements IActivityHeader {
 export class Activity extends CalendarItem {
 
 	public activityHeader: IActivityHeader;
-	private header: IActivityHeader;
+	public header: IActivityHeader;
+	public categoriesList: Array<IActivityCategory> = [];
 	public intervalPW: IActivityIntervalPW;
 	public intervalW: IActivityIntervalW;
 	public intervalL: Array<IActivityIntervalL>;
@@ -198,14 +199,7 @@ export class Activity extends CalendarItem {
 		super.package();
 		this.dateEnd = this.dateStart;
 		this.header.activityType = getType(Number(this.header.activityType.id));
-		// заглушка для тестирования собственных категорий
-		if (this.header.activityCategory){
-			//this.header.activityCategory = getCategory(Number(this.header.activityCategory.id));
-		}
-		// заглушка для тестирования собственных категорий
-		if (this.header.activityCategory){
-			this.header.activityCategory.id = null;
-		}
+		this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...this.intervalL, this.intervalW);
 
@@ -268,6 +262,20 @@ export class Activity extends CalendarItem {
 	 */
 	get sportUrl() {
 		return `assets/icon/${this.header.activityType.code || 'default_sport'}.svg`;
+	}
+
+	get category():number {
+		return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('id'))
+			&& this.header.activityCategory.id;
+	}
+
+	set category(id: number) {
+		this.header.activityCategory = this.categoriesList.filter(c => c.id === Number(id))[0];
+	}
+
+	get categoryCode():string {
+		return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('code'))
+			&& this.header.activityCategory.code;
 	}
 
 	/**

@@ -29,13 +29,14 @@
             <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float>
                     <md-icon class="material-icons">tune</md-icon>
-                    <md-select ng-model="$ctrl.item.activity.header.activityCategory"
+                    <md-select ng-model="$ctrl.item.activity.category"
+                               ng-model-options="{ getterSetter: true }"
                                ng-change="$ctrl.changeParam()"
                                name="category"
                                class="icon">
                         <md-option
-                                ng-repeat="category in $ctrl.item.categories | filter:{activityTypeId: $ctrl.item.activity.header.activityType.id} track by category.id"
-                                value="{{category}}">{{category.code}}
+                                ng-repeat="category in $ctrl.item.activity.categoriesList | filter:{activityTypeId: $ctrl.item.activity.sport} track by category.id"
+                                value="{{category.id}}">{{category.code | translate}}
                         </md-option>
                     </md-select>
                     <div ng-messages="$ctrl.assignmentForm.firstName.$error" role="alert">
@@ -52,6 +53,7 @@
                 <md-input-container flex="50" class="no-message" md-no-float>
                     <md-icon flex="none" class="material-icons" style="left: 0px">tune</md-icon>
                     <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
+                                   ng-change="$ctrl.changeParam()"
                                    name="dateStart" md-hide-icons="calendar"
                                    style="margin-left: 56px"></md-datepicker>
                     <div ng-messages="$ctrl.assignmentForm.dateStart.$error">

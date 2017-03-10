@@ -19,7 +19,7 @@
             </div>
         </div>
         <div flex="auto" layout="column" class="summary-info">
-            <div flex="none">Категория тренировки</div>
+            <div flex="none">{{$ctrl.item.categoryCode | translate}}</div>
             <div flex="none">{{$ctrl.item.activity.dateStart}}&nbsp#{{$ctrl.item.activity.activityHeader.activityId}}</div>
         </div>
     </div>
