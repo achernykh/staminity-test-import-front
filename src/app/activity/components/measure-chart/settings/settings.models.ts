@@ -70,6 +70,7 @@ export interface IDomainMeasure {
 
 export interface IAnimationSettigs {
     duration: number;
+    delayByOrder: number;
     ease: (input: number) => number;
 }
 

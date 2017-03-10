@@ -15,6 +15,7 @@ class ActivityChartController implements IComponentController {
     private data;
     private select;
     private x: string;
+    private changeMeasure: string = null;
     public onSelected: (result: Array<{startTimeStamp:number, endTimeStamp:number}>) => void;
 
     private onResize: Function;
@@ -32,7 +33,8 @@ class ActivityChartController implements IComponentController {
     private absUrl: string;
     private gradientId: number = 0;
     private state: {
-        inTransition: boolean,
+        // number of items in transition
+        inTransition: number,
         inSelection: boolean
     };
 
@@ -91,7 +93,7 @@ class ActivityChartController implements IComponentController {
             if (isStandaloneChange) {
                 // redraw only selected intervals
                 this.prepareData();
-                this.drawSelections();
+                this.drawSelections(0);
                 return;
             }
         }
@@ -131,7 +133,7 @@ class ActivityChartController implements IComponentController {
         this.chartData = new ActivityChartDatamodel(this.measures, this.data, this.x, this.select);
         this.currentMode = this.x === 'elapsedDuration' ? ActivityChartMode.elapsedDuration : ActivityChartMode.distance;
         this.supportedMetrics = this.chartData.supportedMetrics();
-        this.state = { inTransition: false, inSelection: false };
+        this.state = { inTransition: 0, inSelection: false };
     }
 
     private preparePlaceholder(): void {
@@ -214,17 +216,6 @@ class ActivityChartController implements IComponentController {
     }
 
     private drawChart(): void {
-        this.drawGrid();
-        this.drawMetricAreas();
-        this.drawSelections();
-        this.createTooltip();
-    }
-
-    private drawMetricAreas(): void {
-        // draw chart areas for all visible metrics
-        // in order specified in chart settings
-        let metrics = this.chartData.getData();
-        this.$interactiveArea.datum(metrics);
         let settings = this.activityChartSettings;
         let areas = this.supportedMetrics
             .filter((a) => this.chartData.getMeasures()[a].show)
@@ -233,12 +224,24 @@ class ActivityChartController implements IComponentController {
                 let orderB = settings[b].order;
                 return orderB - orderA;
             });
+        this.drawGrid(areas);
+        this.drawMetricAreas(areas);
+        this.drawSelections(areas.length);
+        this.createTooltip();
+    }
+
+    private drawMetricAreas(areas): void {
+        // draw chart areas for all visible metrics
+        // in order specified in chart settings
+        let metrics = this.chartData.getData();
+        this.$interactiveArea.datum(metrics);
         for (let i = 0; i < areas.length; i++) {
-            this.drawMetricArea(areas[i]);
+            this.drawMetricArea(areas[i], i);
         }
     }
 
-    private drawMetricArea(metric: string): void {
+    private drawMetricArea(metric: string, order: number = 0): void {
+        let state = this.state;
         let domainMetric = ActivityChartMode[this.currentMode];
         let domainScale = this.scales[domainMetric].scale;
         let rangeScale = this.scales[metric].scale;
@@ -259,12 +262,16 @@ class ActivityChartController implements IComponentController {
                 .attr("d", initArea)
                 .attr("fill", fillColor)
             .transition()
+                .on("start", function () { state.inTransition++; })
+                .on("end", function () { state.inTransition--; })
+                .delay(order * this.activityChartSettings.animation.delayByOrder)
                 .duration(this.activityChartSettings.animation.duration)
                 .ease(this.activityChartSettings.animation.ease)
                 .attr("d", areaFunction);
     }
 
-    private drawSelections(): void {
+    private drawSelections(areasTotal: number): void {
+        let state = this.state;
         this.$interactiveArea.selectAll(".selected-interval").remove();
         let domain = ActivityChartMode[this.currentMode];
         let fillStyle = this.getFillColor(this.activityChartSettings.selectedArea.area);
@@ -288,6 +295,9 @@ class ActivityChartController implements IComponentController {
                     .attr("fill", fillStyle)
                     .attr("stroke", strokeStyle)
                 .transition()
+                    .on("start", function () { state.inTransition++; })
+                    .on("end", function () { state.inTransition--; })
+                    .delay(this.activityChartSettings.animation.duration * areasTotal)
                     .duration(this.activityChartSettings.animation.duration)
                     .ease(this.activityChartSettings.animation.ease)
                     .attr("y", 0)
@@ -568,17 +578,9 @@ class ActivityChartController implements IComponentController {
             });
     }
 
-    private drawGrid(): void {
+    private drawGrid(areas): void {
         let currentWidth = this.width;
         let measures = this.chartData.getMeasures();
-        let settings = this.activityChartSettings;
-        let areas = this.supportedMetrics
-            .filter((a) => { return measures[a].show && settings[a].axis.hideOnWidth < currentWidth; })
-            .sort(function (a, b) {
-                let orderA = settings[a].order;
-                let orderB = settings[b].order;
-                return orderA - orderB;
-            });
         for (let i = 0; i < areas.length; i++) {
             this.drawRangeAxis(areas[i], i);
         }
@@ -633,19 +635,20 @@ class ActivityChartController implements IComponentController {
         let texts = axis.selectAll('text');
         let initBase = isFlipped ? ticks.length : 0;
         // animate label text appearance
+        let baseDelay = order * this.activityChartSettings.animation.delayByOrder;
         texts
             .style("fill", settings.color)
             .style("fill-opacity", 0)
             .transition()
                 .duration(tickTransitionStep)
-                .delay(function (d, i) { return tickTransitionStep * Math.abs(initBase - i); })
+                .delay(function (d, i) { return baseDelay + tickTransitionStep * Math.abs(initBase - i); })
                 .style("fill-opacity", 1);
         // animate tick line appearance from bottom to top
         axis.selectAll('line')
                 .style("stroke", 'rgba(0, 0, 0, 0)')
                 .transition()
             .duration(tickTransitionStep)
-                .delay(function (d, i) { return tickTransitionStep * i; })
+                .delay(function (d, i) { return baseDelay + tickTransitionStep * i; })
                 .style("stroke", this.activityChartSettings.grid.color);
     }
 
