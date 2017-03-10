@@ -192,8 +192,8 @@ class ActivityChartController implements IComponentController {
     }
 
     private getScale(metric: string, type: ScaleType): IScaleInfo {
-        let min = d3.min(this.chartData.getData(), function (d) { return d[metric]; });
-        let max = d3.max(this.chartData.getData(), function (d) { return d[metric]; });
+        let min = +d3.min(this.chartData.getData(), function (d) { return d[metric]; });
+        let max = +d3.max(this.chartData.getData(), function (d) { return d[metric]; });
         let settings = this.activityChartSettings[metric];
         let range;
         if (type === ScaleType.X) {
@@ -579,10 +579,14 @@ class ActivityChartController implements IComponentController {
     }
 
     private drawGrid(areas): void {
-        let currentWidth = this.width;
-        let measures = this.chartData.getMeasures();
+        let axisOrder = 0;
         for (let i = 0; i < areas.length; i++) {
-            this.drawRangeAxis(areas[i], i);
+            let area = areas[i];
+            if (this.activityChartSettings[area].axis.hideOnWidth < this.width)
+            {
+                this.drawRangeAxis(area, axisOrder, i);
+                axisOrder++;
+            }
         }
         this.drawDomainAxis();
     }
@@ -607,10 +611,7 @@ class ActivityChartController implements IComponentController {
             .call(xAxis);
     }
 
-    private drawRangeAxis(metric: string, order: number): void {
-        if (!this.chartData.getMeasures()[metric].show) {
-            return;
-        }
+    private drawRangeAxis(metric: string, order: number, animationOrder: number): void {
         let rangeInfo = this.scales[metric];
         let isFlipped = this.activityChartSettings[metric].flippedChart;
         let settings = this.activityChartSettings[metric].axis;
@@ -635,7 +636,7 @@ class ActivityChartController implements IComponentController {
         let texts = axis.selectAll('text');
         let initBase = isFlipped ? ticks.length : 0;
         // animate label text appearance
-        let baseDelay = order * this.activityChartSettings.animation.delayByOrder;
+        let baseDelay = animationOrder * this.activityChartSettings.animation.delayByOrder;
         texts
             .style("fill", settings.color)
             .style("fill-opacity", 0)
