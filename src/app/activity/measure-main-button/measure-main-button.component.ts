@@ -6,7 +6,7 @@ class MeasureMainButtonCtrl implements IComponentController{
 
 	private calcMeasures: ICalcMeasures;
 	private sport: string;
-	private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain','elevationLoss'];
+	private filter: Array<string> = ['calories','adjustedPower'];
 	static $inject = ['$scope'];
 
 	constructor(private $scope: any) {
@@ -22,8 +22,15 @@ class MeasureMainButtonCtrl implements IComponentController{
 	$onInit(){
 		// Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
 		// this, а значит и нет доступа к массиву для фильтрации
-		this.$scope.measure = ['heartRate', 'speed', 'cadence', 'elevationGain','elevationLoss'];
-		this.$scope.search = (m) => this.$scope.measure.indexOf(m.$key) !== -1;
+		this.$scope.measure = {
+			run: ['calories','elevationGain','elevationLoss','grade','intensityLevel','efficiencyFactor'],
+			bike: ['calories','trainingLoad','adjustedPower','vamPowerKg','variabilityIndex','efficiencyFactor','elevationGain','elevationLoss','grade','intensityLevel'],
+			swim: ['calories','intensityLevel'],
+			strength: ['calories','intensityLevel'],
+			transition: ['calories','elevationGain','elevationLoss','grade','intensityLevel'],
+			ski: ['calories','elevationGain','elevationLoss','grade','intensityLevel','efficiencyFactor']
+		};
+		this.$scope.search = (m) => this.$scope.measure[this.sport].indexOf(m.$key) !== -1;
 	}
 }
 

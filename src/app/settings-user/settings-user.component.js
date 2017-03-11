@@ -205,7 +205,7 @@ class SettingsUserCtrl {
     }
 
     weekdays(day) {
-        return moment.weekdays(true, day);
+        return moment.weekdays(false, day);
     }
 
     syncEnabled(adaptor) {

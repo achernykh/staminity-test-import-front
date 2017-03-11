@@ -37,7 +37,8 @@
                                name="category"
                                class="icon">
                         <md-option
-                                ng-repeat="category in $ctrl.item.activity.categoriesList | filter:{activityTypeId: 1} track by category.id"
+                                ng-repeat="category in $ctrl.item.activity.categoriesList |
+                                filter:{activityTypeId: $ctrl.item.activity.sport}:true track by category.id"
                                 value="{{category.id}}">{{category.code | translate}}
                         </md-option>
                     </md-select>

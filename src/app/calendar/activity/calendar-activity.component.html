@@ -55,7 +55,7 @@
                     <md-menu-content>
                         <md-menu-item><md-button ng-click="$ctrl.onOpen($env,'put')">Изменить</md-button></md-menu-item>
                         <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
-                        <md-menu-item><md-button ng-click="$ctrl.onDelete()">Удалить</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.isCreator">Удалить</md-button></md-menu-item>
                     </md-menu-content>
                 </md-menu>
             </div>

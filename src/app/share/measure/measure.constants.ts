@@ -49,6 +49,8 @@ export const _activity_minmax_panel = {
 // Настройка отображения показателей под разные виды спорта. По-умолчанию отображаются в соотвествии с указанным
 // unit в обьекте _measurement, но для отдельных пар базовый вид спорта / показатель возможено отображение отличной
 // единицы изменения
+// Например, вида спорта swim c показателем distance в справочнике нет, это означает, что он будет выводиться в
+// той единице измерения, которая задана по-умолчанию - meter
 export const _activity_measurement_view = {
     "activity_code": {
         "measure_code": "unit_code",
@@ -88,8 +90,6 @@ export const _activity_measurement_view = {
     transition: {
 
     }
-    // например, вида спорта swim c показателем distance в справочнике нет, это означает, что он будет выводиться в
-    // той единице измерения, которая задана по-умолчанию - meter
 };
 
 // Справочник показателей
@@ -146,6 +146,38 @@ export const _measurement = {
     },
     cadence: {
         unit: 'rpm',
+        fixed: 0
+    },
+    calories: {
+        unit: 'kkal',
+        fixed: 0
+    },
+    adjustedPower: {
+        unit: 'watt',
+        fixed: 0
+    },
+    grade: {
+        unit: 'percent',
+        fixed: 0
+    },
+    vamPowerKg: {
+        unit: 'vampkg',
+        fixed: 0
+    },
+    intensityLevel: {
+        unit: 'percent',
+        fixed: 0
+    },
+    variabilityIndex: {
+        unit: 'none',
+        fixed: 0
+    },
+    efficiencyFactor: {
+        unit: 'percent',
+        fixed: 0
+    },
+    trainingLoad: {
+        unit: 'tl',
         fixed: 0
     }
 };

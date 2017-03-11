@@ -9,12 +9,12 @@
                 <span class="md-secondary"
                      ng-bind="$ctrl._LANGUAGE[$ctrl.user.display.language].text"></span>
                 <md-menu class="md-secondary">
-                    <md-button class="md-icon-button" ng-disabled="true">
+                    <md-button class="md-icon-button">
                         <md-icon class="material-icons">arrow_drop_down</md-icon>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat='(id,language) in $ctrl._LANGUAGE'>
-                            <md-button ng-bind="language.text" ng-disabled="true"
+                            <md-button ng-bind="language.text"
                                        ng-click="$ctrl.changeLanguage(id)">
                             </md-button>
                         </md-menu-item>
@@ -42,12 +42,12 @@
                 <span class="md-secondary" ng-if="$ctrl.user.display.units"
                      translate="settings.display.{{$ctrl.user.display.units}}.short"></span>
                 <md-menu class="md-secondary">
-                    <md-button class="md-icon-button" ng-disabled="true">
+                    <md-button class="md-icon-button">
                         <md-icon class="material-icons">arrow_drop_down</md-icon>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat="units in $ctrl._UNITS">
-                            <md-button ng-click="$ctrl.changeUnit(units)" ng-disabled="true"
+                            <md-button ng-click="$ctrl.changeUnit(units)"
                                        translate="settings.display.{{units}}.full"></md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -64,7 +64,7 @@
                         <md-icon class="material-icons">arrow_drop_down</md-icon>
                     </md-button>
                     <md-menu-content width="4">
-                        <md-menu-item ng-repeat="number in [0,6]">
+                        <md-menu-item ng-repeat="number in [1]">
                             <md-button ng-click="$ctrl.changeFirstDayOfWeek(number)"
                                        ng-bind="$ctrl.weekdays(number)"
                                        style="text-transform: capitalize"></md-button>
