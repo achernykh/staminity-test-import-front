@@ -235,7 +235,7 @@ export class Measure {
     value: number; // значение показателя
 
     constructor(public name: string, public sport?: string, value?: number){
-        this.unit = _measurement[name].unit;
+        this.unit = (_activity_measurement_view[sport].hasOwnProperty(name) && _activity_measurement_view[sport][name]['unit']) || _measurement[name].unit;
         this.fixed = _measurement[name].fixed;
     }
 
@@ -267,6 +267,9 @@ export const _measurement_calculate = {
     },
     km : {
         meter: (x) => x * 1000
+    },
+    kmph: {
+        mps: (x) => !!x ? x / 3.60 : 0
     },
     mps: {
         kmph: (x) => !!x ? x * 3.60 : 0,

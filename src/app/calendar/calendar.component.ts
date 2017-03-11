@@ -222,7 +222,6 @@ export class CalendarCtrl implements IComponentController{
      * @param item<ICalendarItem>
      */
     onPostItem(item) {
-        debugger;
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
         console.log('onPostItem to',w,d,item,moment(item.dateStart).format('GGGG-WW'));

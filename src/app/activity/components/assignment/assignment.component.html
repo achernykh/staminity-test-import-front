@@ -12,9 +12,9 @@
                                ng-model="$ctrl.item.activity.sport"
                                ng-model-options="{ getterSetter: true }"
                                ng-change="$ctrl.changeParam()"
-                               ng-disabled="!$ctrl.item.isCreator">
+                               ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach">
                         <md-option ng-repeat="type in $ctrl.item.types track by type.id"
-                                   value="{{type.id}}">{{type.code}}
+                                   value="{{type.id}}">{{'sport.'+type.code | translate}}
                         </md-option>
                     </md-select>
                     <div ng-messages="$ctrl.assignmentForm.sport.$error" role="alert">
@@ -33,13 +33,13 @@
                     <md-select ng-model="$ctrl.item.activity.category"
                                ng-model-options="{ getterSetter: true }"
                                ng-change="$ctrl.changeParam()"
-                               ng-disabled="!$ctrl.item.isCreator"
+                               ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
                                name="category"
                                class="icon">
                         <md-option
                                 ng-repeat="category in $ctrl.item.activity.categoriesList |
                                 filter:{activityTypeId: $ctrl.item.activity.sport}:true track by category.id"
-                                value="{{category.id}}">{{category.code | translate}}
+                                value="{{category.id}}">{{'category.'+category.code | translate}}
                         </md-option>
                     </md-select>
                     <div ng-messages="$ctrl.assignmentForm.firstName.$error" role="alert">
@@ -58,7 +58,7 @@
                     <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                                    ng-change="$ctrl.changeParam()"
                                    name="dateStart" md-hide-icons="calendar"
-                                   ng-disabled="!$ctrl.item.isCreator"
+                                   ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
                                    style="margin-left: 56px"></md-datepicker>
                 </md-input-container>
                 <div flex="5"></div>
@@ -113,14 +113,14 @@
                                            ng-attr-measure-input={{measure.$key}}
                                            ng-attr-sport={{$ctrl.sport}} ng-attr-interval="true"
                                            ng-change="$ctrl.changeValue(measure.$key)"
-                                           ng-disabled="!$ctrl.item.isCreator">
+                                           ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach">
                                     <input ng-if="!$ctrl.isInterval(measure.$key)"
                                            name="plan_{{::measure.$key}}"
                                            ng-model="measure.value"
                                            ng-attr-measure-input={{measure.$key}}
                                            ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
                                            ng-change="$ctrl.changeValue(measure.$key)"
-                                           ng-disabled="!$ctrl.item.isCreator">
+                                           ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach">
                                 </md-input-container>
                             </td>
                             <td md-cell>
@@ -151,7 +151,7 @@
                     <label translate="Установка тренера" class="icon"></label>
                     <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
                               ng-change="$ctrl.changeParam()"
-                              ng-disabled="!$ctrl.item.isCreator"
+                              ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
                               class="icon" name="trainersPrescription"
                               rows="1" md-select-on-focus></textarea>
                 </md-input-container>

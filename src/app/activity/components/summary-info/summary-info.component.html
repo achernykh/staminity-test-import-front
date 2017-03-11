@@ -19,7 +19,7 @@
             </div>
         </div>
         <div flex="auto" layout="column" class="summary-info">
-            <div flex="none">{{$ctrl.item.categoryCode | translate}}</div>
+            <div flex="none" ng-if="$ctrl.item.activity.categoryCode">{{'category.'+$ctrl.item.activity.categoryCode | translate}}</div>
             <div flex="none">{{$ctrl.item.activity.dateStart}}&nbsp#{{$ctrl.item.activity.activityHeader.activityId}}</div>
         </div>
     </div>

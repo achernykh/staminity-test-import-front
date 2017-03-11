@@ -44,6 +44,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
     private isCreator: boolean;
     private isPro: boolean;
+    private isMyCoach: boolean;
 
     private isLoadingDetails: boolean = false;
     private activityForm: IFormController;
@@ -99,6 +100,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isOwner = this.activity.userProfileOwner.userId === currentUser.userId;
         this.isCreator = this.activity.userProfileCreator.userId === currentUser.userId;
         this.isPro = this.AuthService.isActivityPro();
+        this.isMyCoach = this.activity.userProfileCreator.userId !== currentUser.userId;
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post') {
             this.ActivityService.getCategory()

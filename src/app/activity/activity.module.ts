@@ -1,3 +1,4 @@
+import configure from './activity.config';
 import { module } from 'angular';
 import ActivityService from './activity.service';
 import MeasureMainButtonComponent from './measure-main-button/measure-main-button.component';
@@ -18,8 +19,6 @@ import ActivityHeaderChatComponent from "./activity-header-chat/activity-header-
 import DefaultPlanChartSettings from "./components/segment-chart/settings/settings.default";
 import PlanChartComponent from "./components/segment-chart/segmentsChart.component";
 
-//import configure from './activity.config';
-
 const Activity = module('staminity.activity', [])
     .service('ActivityService', ActivityService)
 	.component('activityHeader', ActivityHeaderComponent)
@@ -39,7 +38,6 @@ const Activity = module('staminity.activity', [])
 	.component('activityMetricsChar', chartComponent)
 	.constant('segmentChartSettings', DefaultPlanChartSettings)
 	.component('activitySegmentChart', PlanChartComponent)
-
 	.run(['$timeout','leafletData',($timeout, leafletData)=> {
 		$timeout(()=> {
 			leafletData.getMap().then((map) => {
@@ -47,7 +45,7 @@ const Activity = module('staminity.activity', [])
 			});
 		});
 	}])
-    //.config(configure)
+    .config(configure)
     .name;
 
 export default Activity;

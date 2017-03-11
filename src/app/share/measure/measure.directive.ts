@@ -208,7 +208,7 @@ export function MeasurementInput($filter): IDirective {
 		// ng-attr-measure-input={{expression = measure}} ng-attr-sport={{expression = sport}}
 		if ($attrs['measureInput'] && $attrs['sport']) {
 			measure = new Measure($attrs['measureInput'], $attrs['sport']);
-			//console.log('measure = ', measure.name, measure.type, maskFunction(measure.type, JSON.parse($attrs['interval'])));
+			console.log('measure = ', measure.name, measure.unit, measure.type, maskFunction(measure.type, JSON.parse($attrs['interval'])));
 			switch (measure.type){
 				case 'pace': {
 					if(JSON.parse($attrs['interval'])){

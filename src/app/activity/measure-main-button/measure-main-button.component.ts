@@ -46,7 +46,7 @@ const MeasureMainButtonComponent: IComponentOptions = {
 			<md-list-item layout="row" layout-wrap>				
 				<md-button class="md-exclude"
 							ng-repeat="measure in $ctrl.calcMeasures | toArray | filter:search track by measure.$key">
-					{{measure.$key | translate}}:&nbsp{{measure.avgValue | measureCalc:$ctrl.sport:measure.$key}}&nbsp
+					{{measure.$key | translate}}:&nbsp{{measure.value | measureCalc:$ctrl.sport:measure.$key}}&nbsp
 					<span>{{measure.$key | measureUnit:$ctrl.sport | translate}}</span> 
 				</md-button>			
 			</md-list-item>
