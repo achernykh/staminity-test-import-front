@@ -33,6 +33,10 @@ const LabelFormatters = {
         formatter: intFormatter,
         label: ' чсс'
     },
+    power: {
+        formatter: intFormatter,
+        label: ' ватт'
+    },
     altitude: {
         formatter: intFormatter,
         label: ' м'

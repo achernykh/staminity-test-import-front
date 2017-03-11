@@ -2,7 +2,6 @@
     <div id="header-left-toolbar" flex="{{$ctrl.view.leftPanel.size}}"
          ng-include="$ctrl.view.leftPanel.url"
          layout="row" layout-align="start center" class=""></div>
-
     <div id="header-caption" class="animated bounceIn" layout="row" layout-align="center center" layout-fill>
         <div flex="nogrow" ng-show="$ctrl.view.title"
              class="app-title md-title" translate>
@@ -19,16 +18,13 @@
                 {{$ctrl.athlete.public.firstName}}
                 {{$ctrl.athlete.public.lastName}}
             </div>
-
             <md-button class="md-icon-button md-primary" aria-label="User"
-                       ng-init="$ctrl.enabledAthleteSelector = true"
                        ng-click="$ctrl.showAthleteSelector($event)"
                        style="padding: 0px; margin: 0px; height: 24px; width: 24px">
                 <md-icon class="material-icons md-light">{{$ctrl.showAthleteSelector ? 'person_add' :
                     'arrow_drop_up.svg'}}
                 </md-icon>
             </md-button>
-
             <md-button ng-if="!!$ctrl.app.athlete"
                        class="md-icon-button md-primary" aria-label="User"
                        style="padding: 0px; margin: 0px; height: 24px; width: 24px"
@@ -37,7 +33,6 @@
             </md-button>
         </div>
     </div>
-
     <div id="header-right-toolbar" flex="{{$ctrl.view.rightPanel.size}}"
          layout="row" layout-align="end center" class="">
         <ng-include src="$ctrl.view.rightPanel.url"></ng-include>

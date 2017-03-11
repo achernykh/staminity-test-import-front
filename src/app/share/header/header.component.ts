@@ -70,13 +70,13 @@ class HeaderCtrl implements IComponentController {
 	}
 
 	setAthlete(response: {user: IUserProfile}) {
-		this.athlete = response.user;
-		console.log('setAthlete', this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
-		this.$state.go(this.$state.current.name , {uri: this.athlete.public.uri});
+		//this.athlete = response.user;
+		//console.log('setAthlete', this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
+		this.$state.go(this.$state.current.name , {uri: response.user.public.uri});
 	}
 
 	isEnableAthleteSelector() {
-		return this.athleteSelectorStates.indexOf(this.$state.current.name) !== -1;
+		return (this.athleteSelectorStates.indexOf(this.$state.current.name) !== -1) && this.AuthService.isCoach();
 	}
 }
 

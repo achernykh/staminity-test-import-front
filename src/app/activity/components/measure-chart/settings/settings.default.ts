@@ -65,6 +65,29 @@ const DefaultChartSettings: IActivityChartSettings = {
             hideOnWidth: 0
         }
     },
+    power: {
+        order: 4,
+        flippedChart: false,
+        area: {
+            heightRatio: 1,
+            fillType: FillType.Gradient,
+            gradient: [
+                { offset: "0%", color: "#e91e63" },
+                { offset: "100%", color: "rgba(247, 153, 131, 0)" }
+            ]
+        },
+        marker: {
+            color: '#c2185b',
+            radius: 4
+        },
+        axis: {
+            color: '#e91e63',
+            tickMinStep: 5,
+            tickMinDistance: 10,
+            ticksPerLabel: 2,
+            hideOnWidth: 0
+        }
+    },
     altitude: {
         order: 2,
         flippedChart: false,

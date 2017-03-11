@@ -16,6 +16,7 @@ export interface IActivityScales {
     duration?: IScaleInfo;
     distance: IScaleInfo;
     speed: IScaleInfo;
+    power: IScaleInfo;
     heartRate: IScaleInfo;
     altitude: IScaleInfo;
 }

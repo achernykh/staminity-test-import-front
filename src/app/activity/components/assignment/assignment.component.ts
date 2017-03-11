@@ -2,10 +2,13 @@ import {IComponentOptions, IComponentController, IQService, IFilterService, IPro
 import './assignment.component.scss';
 import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../../api/activity/activity.interface";
 import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../../share/measure/measure.constants";
-import moment from 'moment/src/moment.js';
 import {Activity} from "../../activity.datamodel";
 import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import moment from 'moment/src/moment.js';
+import {IAuthService} from "../../../auth/auth.service";
+
+const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 
 class ActivityAssignmentCtrl implements IComponentController {
 
@@ -51,9 +54,14 @@ class ActivityAssignmentCtrl implements IComponentController {
     };
     private filter: Array<string> = ['movingDuration','distance','heartRate', 'speed', 'power'];
 
-    static $inject = ['$scope','$mdEditDialog','$q','$filter'];
+    static $inject = ['$scope','$mdEditDialog','$q','$filter','AuthService'];
 
-    constructor(private $scope: any, private $mdEditDialog: any, private $q: IQService, private $filter: any) {
+    constructor(
+        private $scope: any,
+        private $mdEditDialog: any,
+        private $q: IQService,
+        private $filter: any,
+        private AuthService: IAuthService) {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
         this.$scope.measure = ['movingDuration','distance','heartRate', 'speed'];
@@ -124,47 +132,51 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     validateForm() {
-        // Обязательно заполнение одного из параметров длительности, если введены основные парамтеры
-        // (вид спорта, тип тренировки, дата...)
-        //if (this.assignmentForm['plan_distance'].$modelValue > 0 || this.assignmentForm['plan_movingDuration'].$modelValue > 0) {
+
+        console.log('check date',isFutureDay(this.assignmentForm['dateStart'].$modelValue),this.AuthService.isActivityPlan());
+        console.log('check role date',isFutureDay(this.assignmentForm['dateStart'].$modelValue) && this.AuthService.isActivityPlan());
+
+        if (this.assignmentForm.hasOwnProperty('plan_distance')) {
+            this.assignmentForm['plan_distance'].$setValidity('needDuration',
+                this.assignmentForm['plan_distance'].$modelValue > 0 ||
+                this.assignmentForm['plan_movingDuration'].$modelValue > 0 ||
+                this.assignmentForm['actual_distance'].$modelValue > 0 ||
+                this.assignmentForm['actual_movingDuration'].$modelValue > 0);
+
+            this.assignmentForm['plan_movingDuration'].$setValidity('needDuration',
+                this.assignmentForm['plan_distance'].$modelValue > 0 ||
+                this.assignmentForm['plan_movingDuration'].$modelValue > 0 ||
+                this.assignmentForm['actual_distance'].$modelValue > 0 ||
+                this.assignmentForm['actual_movingDuration'].$modelValue > 0);
+
+            /*this.assignmentForm['plan_heartRate'].$setValidity('needIntensity',
+             this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||
+             this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
+
+             this.assignmentForm['plan_speed'].$setValidity('needIntensity',
+             this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||
+             this.assignmentForm['plan_speed'].$modelValue['from'] > 0);*/
+
+            // Пользователь может указать или расстояние, или время
+            this.assignmentForm['plan_distance'].$setValidity('singleDuration',
+                !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
+            this.assignmentForm['plan_movingDuration'].$setValidity('singleDuration',
+                !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
 
 
-        this.assignmentForm['plan_distance'].$setValidity('needDuration',
-            this.assignmentForm['plan_distance'].$modelValue > 0 ||
-            this.assignmentForm['plan_movingDuration'].$modelValue > 0 ||
-            this.assignmentForm['actual_distance'].$modelValue > 0 ||
-            this.assignmentForm['actual_movingDuration'].$modelValue > 0);
-
-        this.assignmentForm['plan_movingDuration'].$setValidity('needDuration',
-            this.assignmentForm['plan_distance'].$modelValue > 0 ||
-            this.assignmentForm['plan_movingDuration'].$modelValue > 0 ||
-            this.assignmentForm['actual_distance'].$modelValue > 0 ||
-            this.assignmentForm['actual_movingDuration'].$modelValue > 0);
-
-        /*this.assignmentForm['plan_heartRate'].$setValidity('needIntensity',
-            this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||
-            this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
-
-        this.assignmentForm['plan_speed'].$setValidity('needIntensity',
-            this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||
-            this.assignmentForm['plan_speed'].$modelValue['from'] > 0);*/
-
-        // Пользователь может указать или расстояние, или время
-        this.assignmentForm['plan_distance'].$setValidity('singleDuration',
-            !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
-        this.assignmentForm['plan_movingDuration'].$setValidity('singleDuration',
-            !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
-
-
-        console.log('check intensity', this.assignmentForm['plan_heartRate'].$modelValue['from'], this.assignmentForm['plan_speed'].$modelValue['from'], this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
-        // Пользователь может указать только один парметр интенсивности
-        this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
+            console.log('check intensity', this.assignmentForm['plan_heartRate'].$modelValue['from'], this.assignmentForm['plan_speed'].$modelValue['from'], this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
+            // Пользователь может указать только один парметр интенсивности
+            this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
                 !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
                 this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
 
-        this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
+            this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
                 !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
                 this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
+        }
+
+        this.assignmentForm['dateStart'].$setValidity('needPermissionForFeature',
+            isFutureDay(this.assignmentForm['dateStart'].$modelValue) && this.AuthService.isActivityPlan());
 
     }
 

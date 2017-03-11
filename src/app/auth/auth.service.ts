@@ -3,11 +3,15 @@ import {SetPasswordRequest} from '../../../api/auth/auth.request';
 import {ISessionService} from "../core/session.service";
 import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
 import {ISocketService} from "../core/socket.service";
+import {IUserProfile} from "../../../api/user/user.interface";
 
 
 export interface IAuthService {
     isAuthenticated():boolean;
     isAuthorized(roles:Array<string>):boolean;
+    isCoach(role?: string):boolean;
+    isMyAthlete(user: IUserProfile):boolean;
+    isActivityPlan(role?: Array<string>):boolean;
     signIn(request:Object):IPromise<void>;
     signUp(request:Object):IHttpPromise<{}>;
     signOut():void;
@@ -47,8 +51,28 @@ export default class AuthService implements IAuthService {
         if (!userRoles) {
             return false;
         }
-        console.log('auth', userRoles, authorizedRoles);
+        console.log('auth', userRoles, authorizedRoles, new Date(userRoles[authorizedRoles[0]]), new Date());
         return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && new Date(userRoles[role]) >= new Date());
+    }
+
+    isCoach(role: string = 'Calendar_Athletes'):boolean {
+        return this.isAuthorized([role]);
+    }
+
+    isMyAthlete(user: IUserProfile = null):boolean {
+        if (!user) {
+            return false;
+        }
+        console.log('current user', this.SessionService.getUser());
+        let athletes: Array<any> = this.SessionService.getUser()['connections']['allAthletes']['groupMembers'] || null;
+        if (!athletes || !athletes.some(profile => profile.userId === user.userId)) {
+            return false;
+        }
+        return true;
+    }
+
+    isActivityPlan(role: Array<string> = ['ActivitiesPlan_User','ActivitiesPlan_Athletes']):boolean {
+        return this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
     }
 
     /**

@@ -186,6 +186,7 @@ class ActivityChartController implements IComponentController {
             elapsedDuration: this.getScale("elapsedDuration", ScaleType.X),
             distance: this.getScale("distance", ScaleType.X),
             speed: this.getScale("speed", ScaleType.Y),
+            power: this.getScale("power", ScaleType.Y),
             heartRate: this.getScale("heartRate", ScaleType.Y),
             altitude: this.getScale("altitude", ScaleType.Y),
         };
