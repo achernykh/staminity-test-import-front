@@ -18,6 +18,10 @@ export interface IRoute {
 	lng: number;
 }
 
+export enum ActivityStatus {
+
+}
+
 class Interval implements IActivityInterval {
 	trainersPrescription: string;
 	durationMeasure: string; //movingDuration/distance, каким показателем задается длительность планового сегмента
@@ -218,6 +222,7 @@ export class Activity extends CalendarItem {
 			dateStart: this.dateStart, // timestamp даты и времени начала
 			dateEnd: this.dateEnd, // timestamp даты и времени окончания
 			userProfileOwner: this.userProfileOwner,
+			userProfileCreator: this.userProfileCreator,
 			//userProfileCreator: IUserProfileShort,
 			activityHeader: this.header
 		};
@@ -302,12 +307,12 @@ export class Activity extends CalendarItem {
 	}
 
 	get isToday() {
-		return moment(this.dateStart, 'YYYY-MM-DD').diff(moment(), 'd') === 0;
+		return moment(this.dateStart, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') === 0;
 	}
 
 	get coming() {
 		//return moment().diff(moment(this.dateStart, 'YYYY-MM-DD'), 'd') < 1;
-		return moment(this.dateStart, 'YYYY-MM-DD').diff(moment(), 'd') >= 0;
+		return moment(this.dateStart, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') >= 0;
 	}
 
 	get dismiss() {
@@ -384,12 +389,12 @@ export class Activity extends CalendarItem {
 
 	/**
 	 * Перечень статусов тренировки
-	 * 1) Запланирована, в будущем
-	 * 2) Запланирована, пропущена
-	 * 3) Запланирована, выполнена
-	 * 4) Запланирована, выполнена с допущением
-	 * 5) Запланирована, выполнена с нарушением
-	 * 6) Не запланирована, выполнена
+	 * 1) Запланирована, в будущем - coming
+	 * 2) Запланирована, пропущена - dismiss
+	 * 3) Запланирована, выполнена - complete
+	 * 4) Запланирована, выполнена с допущением - complete-warn
+	 * 5) Запланирована, выполнена с нарушением - complete-error
+	 * 6) Не запланирована, выполнена - not-specified
 	 * @returns {string}
 	 */
 	get status() {
@@ -436,17 +441,17 @@ export class Activity extends CalendarItem {
 	}
 
 	get movingDuration() {
-		return ((((!this.isToday && this.coming) || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
+		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.value;
 	}
 
 	get duration() {
-		return ((((!this.isToday && this.coming) || this.dismiss) && this.intervalPW.durationMeasure === 'movingDuration')
+		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;
 	}
 
 	get distance() {
-		return ((((!this.isToday && this.coming) || this.dismiss) && this.intervalPW.durationMeasure === 'distance')
+		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.distance.value;
 	}
 

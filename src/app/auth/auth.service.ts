@@ -4,6 +4,7 @@ import {ISessionService} from "../core/session.service";
 import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
 import {ISocketService} from "../core/socket.service";
 import {IUserProfile} from "../../../api/user/user.interface";
+import GroupService from "../core/group.service";
 
 
 export interface IAuthService {
@@ -12,6 +13,7 @@ export interface IAuthService {
     isCoach(role?: string):boolean;
     isMyAthlete(user: IUserProfile):boolean;
     isActivityPlan(role?: Array<string>):boolean;
+    isActivityPro(role?: Array<string>):boolean;
     signIn(request:Object):IPromise<void>;
     signUp(request:Object):IHttpPromise<{}>;
     signOut():void;
@@ -22,11 +24,12 @@ export interface IAuthService {
 
 export default class AuthService implements IAuthService {
 
-    static $inject = ['SessionService', 'RESTService', 'SocketService'];
+    static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService'];
 
     constructor(private SessionService:ISessionService,
                 private RESTService:IRESTService,
-                private SocketService:ISocketService) {
+                private SocketService:ISocketService,
+                private GroupService:GroupService) {
 
     }
 
@@ -64,6 +67,21 @@ export default class AuthService implements IAuthService {
             return false;
         }
         console.log('current user', this.SessionService.getUser());
+        let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
+        if (groupId) {
+            this.GroupService.getManagementProfile(groupId,'coach')
+                .then(result => {
+                    let athletes: Array<any> = result.members;
+                    if (!athletes || !athletes.some(profile => profile.userId === user.userId)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+        } else {
+            return false;
+        }
+
         let athletes: Array<any> = this.SessionService.getUser()['connections']['allAthletes']['groupMembers'] || null;
         if (!athletes || !athletes.some(profile => profile.userId === user.userId)) {
             return false;
@@ -72,6 +90,10 @@ export default class AuthService implements IAuthService {
     }
 
     isActivityPlan(role: Array<string> = ['ActivitiesPlan_User','ActivitiesPlan_Athletes']):boolean {
+        return this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
+    }
+
+    isActivityPro(role: Array<string> = ['ActivitiesProView_User','ActivitiesProView_Athletes']):boolean {
         return this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
     }
 

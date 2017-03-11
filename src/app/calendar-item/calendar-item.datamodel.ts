@@ -14,6 +14,7 @@ export class CalendarItem implements ICalendarItem {
 	public measurementHeader:IMeasurementHeader;
 	public activityHeader: IActivityHeader;
 	public userProfileOwner: IUserProfileShort;
+	public userProfileCreator: IUserProfileShort;
 	public _dateStart: Date;
 	public _dateEnd: Date;
 	public index: number; // index for ng-repeat in calendar-day component

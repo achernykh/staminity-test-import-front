@@ -73,6 +73,10 @@ export const _activity_measurement_view = {
         distance: {
             unit: 'km',
             fixed: 2
+        },
+        speed: {
+            unit: 'kmph',
+            fixed: 2
         }
     },
     strength: {
@@ -104,8 +108,16 @@ export const _measurement = {
         unit: "min",
         fixed: 0
     },
-    sumElapsedDuration: {
+    elapsedDuration: {
         unit: "min",
+        fixed: 0
+    },
+    timestamp: {
+        unit: "number",
+        fixed: 0
+    },
+    sumElapsedDuration: {
+        unit: "number",
         fixed: 0
     },
     speed: {
@@ -118,6 +130,10 @@ export const _measurement = {
     },
     power: {
         unit: "watt",
+        fixed: 0
+    },
+    altitude: {
+        unit: "meter",
         fixed: 0
     },
     elevationGain: {
@@ -133,6 +149,21 @@ export const _measurement = {
         fixed: 0
     }
 };
+
+const sportLimit = {
+    run: {
+        speed: {
+            min: 1 // 1 meter/sec
+        }
+    },
+    swim: {
+        speed: {
+            min: 0.33 // 5min/100m
+        }
+    }
+};
+
+export const getSportLimit = (sport, limit) => sportLimit[sport][limit];
 
 export const measurementUnit = (measure) => _measurement[measure].unit;
 export const measurementUnitView = (sport, measure) => _activity_measurement_view[sport][measure].unit;
@@ -206,7 +237,7 @@ export const _measurement_calculate = {
         meter: (x) => x * 1000
     },
     mps: {
-        kmph: (x) => x * 3.6,
+        kmph: (x) => !!x ? x * 3.60 : 0,
         minpkm: (x) => !!x ? (60 * 60) / (x * 3.6) : 0,
         minp100m: (x) => !!x ? (60 * 60) / (x * 3.6 * 10) : 0
     },
@@ -238,5 +269,36 @@ export const _measurement_system_calculate = {
 };
 
 const _recalculation = _measurement_calculate;
+
+export const measureValue = (input: number, sport: string, measure: string, chart:boolean = false, units:string = 'metric') => {
+    if (!!input) {
+        let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
+        let fixed = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].fixed) || _measurement[measure].fixed;
+
+        // Необходимо пересчет единиц измерения
+        if (unit !== _measurement[measure].unit){
+            input = _measurement_calculate[_measurement[measure].unit][unit](input);
+        }
+
+        // Необходим пересчет системы мер
+        if (units && units !== 'metric'){
+            input = input * _measurement_system_calculate[unit].multiplier;
+        }
+
+        // Показатель релевантен для пересчета скорости в темп
+        if (!chart && (isDuration(unit) || isPace(unit))){
+            let format = input >= 60*60 ? 'hh:mm:ss' : 'mm:ss';
+            return moment().startOf('day').seconds(input).format(format);
+        }
+        else {
+            return Number(input).toFixed(fixed);
+        }
+    }
+};
+
+export const measureUnit = (measure, sport, units = 'metric') => {
+    let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
+    return (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
+};
 
 

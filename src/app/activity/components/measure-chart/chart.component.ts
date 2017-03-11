@@ -12,6 +12,7 @@ const ActivityChartComponent: IComponentOptions = {
         select: '<',
         change: '<',
         changeMeasure: '<',
+        sport: '<',
         onSelected: '&'
     }
 };

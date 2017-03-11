@@ -94,6 +94,7 @@ export interface IActivityChartSettings
     defaultMode: ActivityChartMode;
     heartRate: IMetricArea;
     speed: IMetricArea;
+    pace: IMetricArea;
     power: IMetricArea;
     altitude: IMetricArea;
     elapsedDuration: IDomainMeasure;

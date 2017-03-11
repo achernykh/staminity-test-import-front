@@ -1,10 +1,14 @@
 <div class="tooltip" style="display: none">
         <div class="main">
-                <p class="elapsedDuration"></p>
-                <p class="distance"></p>
-                <p class="heartRate"></p>
-                <p class="speed"></p>
-                <p class="altitude"></p>
+                <!--
+                <p ng-repeat="measure in $ctrl.measures track by $index"
+                   class="{{measure}}"></p> -->
+                <p class="elapsedDuration" ng-if="$ctrl.measures.hasOwnProperty('elapsedDuration')"></p>
+                <p class="distance" ng-if="$ctrl.measures.hasOwnProperty('distance')"></p>
+                <p class="heartRate" ng-if="$ctrl.measures.hasOwnProperty('heartRate')"></p>
+                <p class="speed" ng-if="$ctrl.measures.hasOwnProperty('speed')"></p>
+                <p class="power" ng-if="$ctrl.measures.hasOwnProperty('power')"></p>
+                <p class="altitude" ng-if="$ctrl.measures.hasOwnProperty('altitude')"></p>
         </div>
         <div class="deltas">
 

@@ -6,6 +6,7 @@ import { ScaleType, IScaleInfo, IActivityScales } from "./utils/chart.scale";
 import LabelFormatters from "./utils/labelFormatter";
 import './chart.component.scss';
 import {select} from "d3-selection";
+import {isPace, measureUnit} from "../../../share/measure/measure.constants";
 
 class ActivityChartController implements IComponentController {
 
@@ -16,6 +17,7 @@ class ActivityChartController implements IComponentController {
     private select;
     private x: string;
     private changeMeasure: string = null;
+    private sport: string;
     public onSelected: (result: Array<{startTimeStamp:number, endTimeStamp:number}>) => void;
 
     private onResize: Function;
@@ -195,7 +197,8 @@ class ActivityChartController implements IComponentController {
     private getScale(metric: string, type: ScaleType): IScaleInfo {
         let min = +d3.min(this.chartData.getData(), function (d) { return d[metric]; });
         let max = +d3.max(this.chartData.getData(), function (d) { return d[metric]; });
-        let settings = this.activityChartSettings[metric];
+        let settingsMetric = isPace(measureUnit(metric,this.sport)) ? 'pace' : metric;
+        let settings = this.activityChartSettings[settingsMetric];
         let range;
         if (type === ScaleType.X) {
             range = [0, this.width];
@@ -413,7 +416,7 @@ class ActivityChartController implements IComponentController {
                     .text(function (d) {
                         let delta = Math.abs(currentData[d] - initData[d]);
                         let format = LabelFormatters[d];
-                        return !format ? delta.toFixed(0) : (format.formatter(delta) + format.label);
+                        return !format ? delta.toFixed(0) : (format.formatter(delta, self.sport) + format.label(self.sport));
                     });
                 updateSelection(currentPos);
             })
@@ -506,9 +509,9 @@ class ActivityChartController implements IComponentController {
                 // update information about the time and distance
                 // information about other metrics updated with the related markers
                 self.$tooltip.select('.' + domainMetric).text(
-                    LabelFormatters[domainMetric].formatter(domainValue) + LabelFormatters[domainMetric].label);
+                    LabelFormatters[domainMetric].formatter(domainValue, self.sport) + LabelFormatters[domainMetric].label(self.sport));
                 self.$tooltip.select('.' + rangeMetric).text(
-                    LabelFormatters[rangeMetric].formatter(rangeValue) + LabelFormatters[rangeMetric].label);
+                    LabelFormatters[rangeMetric].formatter(rangeValue, self.sport) + LabelFormatters[rangeMetric].label(self.sport));
                 let ttpSize = self.$tooltip.node().getBoundingClientRect();
                 // calc new tooltip position and move it
                 // if there is not enough space on the right side of the tooltip line
@@ -574,7 +577,7 @@ class ActivityChartController implements IComponentController {
                     .attr('cx', mouse[0])
                     .attr('cy', rangeScale(currentData))
                     .style('display', 'inherit');
-                let info = LabelFormatters[metric].formatter(currentData) + LabelFormatters[metric].label;
+                let info = LabelFormatters[metric].formatter(currentData,self.sport) + LabelFormatters[metric].label(self.sport);
                 ttp.select('.' + metric).text(info);
             });
     }
@@ -601,9 +604,9 @@ class ActivityChartController implements IComponentController {
         let xAxis = d3.axisBottom(rangeInfo.scale)
             .tickSizeOuter(0)
             .tickValues(ticks)
-            .tickFormat(function (d: number) {
+            .tickFormat((d: number) => {
                 var pos = ticks.indexOf(d);
-                return (pos % settings.ticksPerLabel === 0) ? labelFormatter(d) : '';
+                return (pos % settings.ticksPerLabel === 0) ? labelFormatter(d, this.sport) : '';
             });
         this.$placeholder.select('.activity-chart-grid')
             .append("g")
@@ -614,16 +617,18 @@ class ActivityChartController implements IComponentController {
 
     private drawRangeAxis(metric: string, order: number, animationOrder: number): void {
         let rangeInfo = this.scales[metric];
-        let isFlipped = this.activityChartSettings[metric].flippedChart;
-        let settings = this.activityChartSettings[metric].axis;
+        let settingsMetric = isPace(measureUnit(metric,this.sport)) ? 'pace' : metric;
+        let isFlipped = this.activityChartSettings[settingsMetric].flippedChart;
+        let settings = this.activityChartSettings[settingsMetric].axis;
+        //debugger;
         let ticks = this.calcTics(rangeInfo, settings);
         let labelFormatter = LabelFormatters[metric].formatter;
         let yAxis = d3.axisLeft(rangeInfo.scale)
             .tickSize(((!order) ? -this.width : 0))
             .tickValues(ticks)
-            .tickFormat(function (d: number) {
+            .tickFormat((d: number) => {
                 var pos = ticks.indexOf(d);
-                return (pos % settings.ticksPerLabel === 0) ? labelFormatter(d) : '';
+                return (pos % settings.ticksPerLabel === 0) ? labelFormatter(d, this.sport) : '';
             });
         let offset = this.activityChartSettings.labelOffset * (order + 1) + this.width * Math.min(order, 1);
         let axis = this.$placeholder.select('.activity-chart-grid')

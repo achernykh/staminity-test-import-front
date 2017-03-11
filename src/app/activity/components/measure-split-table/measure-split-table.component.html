@@ -9,9 +9,11 @@
             <th md-column md-numeric md-order-by="calcMeasures.duration.value"><span>Время</span></th>
             <th md-column md-numeric md-order-by="calcMeasures.distance.value"><span>Дистанция</span></th>
             <th md-column ng-if="$ctrl.max.hasOwnProperty('heartRate')" md-numeric md-order-by="calcMeasures.heartRate.avgValue">
-                <span>Пульс</span></th>
+                <span>{{'heartRate' | translate}}</span></th>
             <th md-column ng-if="$ctrl.max.hasOwnProperty('speed')" md-numeric md-order-by="calcMeasures.speed.avgValue">
-                <span>Темп</span></th>
+                <span>{{'speed' | translate}}</span></th>
+            <th md-column ng-if="$ctrl.max.hasOwnProperty('power')" md-numeric md-order-by="calcMeasures.power.avgValue">
+                <span>{{'power' | translate}}</span></th>
             <th md-column md-numeric md-order-by="calcMeasures.elevationGain.avgValue"><span>Набор</span></th>
             <th md-column md-numeric md-order-by="calcMeasures.cadence.avgValue"><span>Каденс</span></th>
         </tr>
@@ -30,7 +32,7 @@
             <td md-cell ng-if="$ctrl.max.hasOwnProperty('heartRate')">
                 <div layout="row" layout-align="end center">
                     <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px; max-width: 60px" layout="low">
-                        <div flex="none" style="height: 10px; border-radius: 5px; background: deeppink;
+                        <div flex="none" style="height: 10px; border-radius: 5px; background: #e91e63;
                         width: {{::((split.calcMeasures.heartRate.avgValue - $ctrl.max['heartRate'].min) / ($ctrl.max['heartRate'].max - $ctrl.max['heartRate'].min))*100}}%"></div>
                     </div>
                     <div flex="none" style="line-height: 32px">{{split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</div>
@@ -39,11 +41,21 @@
             <td md-cell ng-if="$ctrl.max.hasOwnProperty('speed')">
                 <div layout="row" layout-align="end center">
                     <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px; max-width: 60px" layout="low">
-                        <div flex="none" style="height: 10px; border-radius: 5px; background: dodgerblue;
+                        <div flex="none" style="height: 10px; border-radius: 5px; background: #5677fc;
                         width: {{::((split.calcMeasures.speed.avgValue - $ctrl.max['speed'].min) / ($ctrl.max['speed'].max - $ctrl.max['speed'].min))*100}}%">
                         </div>
                     </div>
                     <div flex="none" style="line-height: 32px">{{split.calcMeasures.speed.avgValue | measureCalc:$ctrl.sport:'speed'}}</div>
+                </div>
+            </td>
+            <td md-cell ng-if="$ctrl.max.hasOwnProperty('power')">
+                <div layout="row" layout-align="end center">
+                    <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px; max-width: 60px" layout="low">
+                        <div flex="none" style="height: 10px; border-radius: 5px; background: #9C27B0;
+                        width: {{::((split.calcMeasures.power.avgValue - $ctrl.max['power'].min) / ($ctrl.max['power'].max - $ctrl.max['power'].min))*100}}%">
+                        </div>
+                    </div>
+                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.power.avgValue | measureCalc:$ctrl.sport:'power'}}</div>
                 </div>
             </td>
             <td md-cell>{{split.calcMeasures.elevationGain.value | measureCalc:$ctrl.sport:'elevationGain'}}</td>

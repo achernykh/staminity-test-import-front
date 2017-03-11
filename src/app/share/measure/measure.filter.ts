@@ -12,8 +12,8 @@ import {
 	measurementUnitDisplay
 } from './measure.constants';
 import {ISessionService} from "../../core/session.service";
-
-export const measureView = ['SessionService', (SessionService:ISessionService) => (data, sport, measure, units) => {
+/*
+export const measureView = ['SessionService', (SessionService:ISessionService) => (data, sport, measure, chart = false, units = 'metric') => {
 	if (!!data) {
 		let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
 		let fixed = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].fixed) || _measurement[measure].fixed;
@@ -29,7 +29,7 @@ export const measureView = ['SessionService', (SessionService:ISessionService) =
 		}
 
 		// Показатель релевантен для пересчета скорости в темп
-		if (isDuration(unit) || isPace(unit)){
+		if (!chart && (isDuration(unit) || isPace(unit))){
 			let format = data >= 60*60 ? 'hh:mm:ss' : 'mm:ss';
 			return moment().startOf('day').seconds(data).format(format);
 		}
@@ -42,7 +42,7 @@ export const measureView = ['SessionService', (SessionService:ISessionService) =
 export const measureUnit = ['SessionService', (SessionService:ISessionService) => (measure, sport, units) => {
 	let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
 	return (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
-}];
+}];*/
 
 export const duration = () => (second = 0) => {
 	return moment().startOf('day').seconds(second).format('H:mm:ss');

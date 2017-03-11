@@ -14,6 +14,7 @@ import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interfa
 import {Activity} from "../../activity/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
+import {IAuthService} from "../../auth/auth.service";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -40,13 +41,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private selectedIntervalType: string;
     private changeSelectInterval: number = 0;
     private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
+    private isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
+    private isCreator: boolean;
+    private isPro: boolean;
 
     private isLoadingDetails: boolean = false;
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
 
-    static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','message','$mdMedia'];
+    static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','AuthService','message','$mdMedia'];
 
     constructor(
         private $scope: IScope,
@@ -54,6 +58,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private UserService: UserService,
         private SessionService: SessionService,
         private ActivityService: ActivityService,
+        private AuthService: IAuthService,
         private message: IMessageService,
         private $mdMedia: any) {
 
@@ -66,13 +71,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-
+        let currentUser: IUserProfile = this.SessionService.getUser();
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'activity',
                 dateStart: this.date,
                 dateEnd: this.date,
-                userProfileOwner: profileShort(this.user)
+                userProfileOwner: profileShort(this.user),
+                userProfileCreator: profileShort(currentUser)
             };
         }
 
@@ -88,8 +94,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => this.message.toastError('errorCompleteDetails'));
         }
 
-        // Список видов спорта
-        this.types = activityTypes;
+
+        this.types = activityTypes; // Список видов спорта
+        this.isOwner = this.activity.userProfileOwner.userId === currentUser.userId;
+        this.isCreator = this.activity.userProfileCreator.userId === currentUser.userId;
+        this.isPro = this.AuthService.isActivityPro();
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post') {
             this.ActivityService.getCategory()
@@ -114,7 +123,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.selectedIntervalIndex[type] = index;
         this.calculateTimestampInterval(type,index);
         this.changeSelectInterval++;
-        this.selectedTab = HeaderTab.Details; // по любому выделению инетрвала пользователя переходим на вкладку Детали
+        // по любому выделению инетрвала пользователя переходим на вкладку Детали
+        if (this.selectedTab !== HeaderTab.Details && this.isPro) {
+            this.selectedTab = HeaderTab.Details;
+        }
     }
 
     calculateTimestampInterval(type: string, index: Array<number>) {

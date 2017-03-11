@@ -25,9 +25,9 @@ import {
     isPace,
     measurementUnit,
     measurementUnitView,
-    measurementUnitDisplay
+    measurementUnitDisplay, measureValue, measureUnit
 } from './measure/measure.constants';
-import {measureView, measureUnit, duration} from './measure/measure.filter';
+import {duration} from './measure/measure.filter';
 import {MeasurementInput} from "./measure/measure.directive";
 import AthleteSelectorComponent from "./athlete-selector/athlete-selector.component";
 
@@ -85,8 +85,8 @@ const Share = module('staminity.share', [])
     .filter('username', username)
     .filter('ageGroup', () => ageGroup)
     .filter('requestType', () => requestType)
-    .filter('measureCalc', measureView)
-    .filter('measureUnit', measureUnit)
+    .filter('measureCalc', () => measureValue)
+    .filter('measureUnit', () => measureUnit)
     .filter('duration', duration)
     .filter('percentByTotal', ['$filter',($filter)=> {
         return (value, total, decimal = 0) => {

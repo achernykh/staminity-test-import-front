@@ -26,7 +26,7 @@ class AthleteSelectorCtrl implements IComponentController {
             this.GroupService.getManagementProfile(groupId,'coach')
                 .then(result => this.athletes = result.members);
         } else {
-            this.message.systemWarning('Группы атлетов не найдена, попробуйте повторить позже');
+            this.message.systemWarning('allAthletesGroupNotFound');
         }
     }
 }

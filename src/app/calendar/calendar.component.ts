@@ -57,15 +57,15 @@ export class CalendarCtrl implements IComponentController{
     $onInit() {
         // TODO убрать в ApplicationComponent или run()
         moment.locale('ru');
-        let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek;
-        console.log('first day=', firstDayOfWeek, moment.localeData().firstDayOfWeek(),moment.locale());
-        if(moment.localeData().firstDayOfWeek() !== firstDayOfWeek){
+        //let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek;
+        //console.log('first day=', firstDayOfWeek, moment.localeData().firstDayOfWeek(),moment.locale());
+        /*if(moment.localeData().firstDayOfWeek() !== firstDayOfWeek){
             moment.updateLocale(moment.locale(), {
                 week : {
                     dow : firstDayOfWeek
                 }
             });
-        }
+        }*/
         console.log('new first day=', moment.localeData().firstDayOfWeek());
         this.weekdayNames = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
     }

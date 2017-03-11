@@ -176,7 +176,8 @@ class ActivityAssignmentCtrl implements IComponentController {
         }
 
         this.assignmentForm['dateStart'].$setValidity('needPermissionForFeature',
-            isFutureDay(this.assignmentForm['dateStart'].$modelValue) && this.AuthService.isActivityPlan());
+            isFutureDay(!this.assignmentForm['dateStart'].$modelValue) ||
+            (this.assignmentForm['dateStart'].$modelValue && this.AuthService.isActivityPlan()));
 
     }
 

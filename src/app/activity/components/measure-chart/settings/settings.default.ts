@@ -20,7 +20,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     },
     //xMeasures: [''],
     heartRate: {
-        order: 1,
+        order: 3,
         flippedChart: false,
         area: {
             heightRatio: 1,
@@ -43,8 +43,8 @@ const DefaultChartSettings: IActivityChartSettings = {
         }
     },
     speed: {
-        order: 3,
-        flippedChart: true,
+        order: 2,
+        flippedChart: false,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
@@ -59,37 +59,60 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
         axis: {
             color: '#5677fc',
-            tickMinStep: 30,
+            tickMinStep: 5,//30,
+            tickMinDistance: 50,
+            ticksPerLabel: 1,
+            hideOnWidth: 0
+        }
+    },
+    pace: {
+        order: 2,
+        flippedChart: false,
+        area: {
+            heightRatio: 1,
+            fillType: FillType.Gradient,
+            gradient: [
+                { offset: "0%", color: "#5677fc" },
+                { offset: "100%", color: "rgba(175, 191, 255, 0)" }
+            ]
+        },
+        marker: {
+            color: '#4e6cef',
+            radius: 4
+        },
+        axis: {
+            color: '#5677fc',
+            tickMinStep: 0.03, // 00:30 min/km
             tickMinDistance: 50,
             ticksPerLabel: 1,
             hideOnWidth: 0
         }
     },
     power: {
-        order: 4,
+        order: 1,
         flippedChart: false,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#e91e63" },
+                { offset: "0%", color: "#9C27B0" },
                 { offset: "100%", color: "rgba(247, 153, 131, 0)" }
             ]
         },
         marker: {
-            color: '#c2185b',
+            color: '#9C27B0',
             radius: 4
         },
         axis: {
-            color: '#e91e63',
-            tickMinStep: 5,
+            color: '#9C27B0',
+            tickMinStep: 25,
             tickMinDistance: 10,
             ticksPerLabel: 2,
             hideOnWidth: 0
         }
     },
     altitude: {
-        order: 2,
+        order: 4,
         flippedChart: false,
         area: {
             heightRatio: 0.35,

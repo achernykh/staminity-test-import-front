@@ -11,7 +11,8 @@
                     <md-select flex name="sport" class="icon"
                                ng-model="$ctrl.item.activity.sport"
                                ng-model-options="{ getterSetter: true }"
-                               ng-change="$ctrl.changeParam()">
+                               ng-change="$ctrl.changeParam()"
+                               ng-disabled="!$ctrl.item.isCreator">
                         <md-option ng-repeat="type in $ctrl.item.types track by type.id"
                                    value="{{type.id}}">{{type.code}}
                         </md-option>
@@ -32,6 +33,7 @@
                     <md-select ng-model="$ctrl.item.activity.category"
                                ng-model-options="{ getterSetter: true }"
                                ng-change="$ctrl.changeParam()"
+                               ng-disabled="!$ctrl.item.isCreator"
                                name="category"
                                class="icon">
                         <md-option
@@ -55,6 +57,7 @@
                     <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                                    ng-change="$ctrl.changeParam()"
                                    name="dateStart" md-hide-icons="calendar"
+                                   ng-disabled="!$ctrl.item.isCreator"
                                    style="margin-left: 56px"></md-datepicker>
                 </md-input-container>
                 <div flex="5"></div>
@@ -108,13 +111,15 @@
                                            name="plan_{{::measure.$key}}"
                                            ng-attr-measure-input={{measure.$key}}
                                            ng-attr-sport={{$ctrl.sport}} ng-attr-interval="true"
-                                           ng-change="$ctrl.changeValue(measure.$key)">
+                                           ng-change="$ctrl.changeValue(measure.$key)"
+                                           ng-disabled="!$ctrl.item.isCreator">
                                     <input ng-if="!$ctrl.isInterval(measure.$key)"
                                            name="plan_{{::measure.$key}}"
                                            ng-model="measure.value"
                                            ng-attr-measure-input={{measure.$key}}
                                            ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
-                                           ng-change="$ctrl.changeValue(measure.$key)">
+                                           ng-change="$ctrl.changeValue(measure.$key)"
+                                           ng-disabled="!$ctrl.item.isCreator">
                                 </md-input-container>
                             </td>
                             <td md-cell>
@@ -145,6 +150,7 @@
                     <label translate="Установка тренера" class="icon"></label>
                     <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
                               ng-change="$ctrl.changeParam()"
+                              ng-disabled="!$ctrl.item.isCreator"
                               class="icon" name="trainersPrescription"
                               rows="1" md-select-on-focus></textarea>
                 </md-input-container>
