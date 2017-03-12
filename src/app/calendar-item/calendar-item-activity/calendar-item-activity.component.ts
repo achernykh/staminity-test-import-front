@@ -88,6 +88,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         //Получаем детали по тренировке загруженной из внешнего источника
         if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
+            this.ActivityService.getIntervals(this.activity.activityHeader.activityId)
+                .then(response => this.activity.completeIntervals(response),
+                    error => this.message.toastError('errorCompleteIntervals'));
+
             this.ActivityService.getDetails2(this.data.activityHeader.activityId)
                 .then(response => {
                     this.activity.completeDetails(this.details = response);

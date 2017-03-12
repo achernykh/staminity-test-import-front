@@ -85,7 +85,7 @@
         </md-button>
     </header>
 
-    <measure-split-table flex ng-if="$ctrl.showTable"
+    <measure-split-table flex ng-if="$ctrl.showTable && $ctrl.item.activity.hasImportedData"
                          class="chart measure-split-table"
                          splits="$ctrl.item.activity.intervalL"
                          max="$ctrl.maxValue"

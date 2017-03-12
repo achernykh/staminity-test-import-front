@@ -1,6 +1,6 @@
 import {IPromise} from 'angular';
-import {IActivityDetails} from '../../../api/activity/activity.interface';
-import {GetDetailsRequest, GetActivityGategory} from '../../../api/activity/activity.request';
+import {IActivityDetails, IActivityIntervalW, IActivityIntervalP, IActivityIntervalG, IActivityIntervalPW, IActivityIntervalL} from '../../../api/activity/activity.interface';
+import {GetDetailsRequest, GetActivityGategory, GetActivityIntervals} from '../../../api/activity/activity.request';
 import {ISocketService} from '../core/socket.service';
 import {RESTService, PostData} from "../core/rest.service";
 
@@ -29,6 +29,17 @@ export default class ActivityService {
      */
     getDetails(id:number):Promise<IActivityDetails> {
         return this.SocketService.send(new GetDetailsRequest(id));
+    }
+
+    /**
+     * Запрос данных по интевалам тренировки
+     * @param id
+     * @param types
+     * @returns {Promise<any>}
+     */
+    getIntervals(id:number, types: string = 'L'):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
+        return this.SocketService.send(new GetActivityIntervals(id, types))
+            .then((response: {intervals: Array<any>}) => response.intervals);
     }
 
     /**
