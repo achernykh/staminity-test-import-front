@@ -40,7 +40,21 @@ class RequestsCtrl {
             outbox: 20
         };
         
-        this.startRefreshing();
+        this.isOpen = false;
+    }
+    
+    get isOpen () {
+        return this._isOpen;
+    }
+    
+    set isOpen (isOpen) {
+        this._isOpen = isOpen;
+        if (isOpen) {
+            this.startRefreshing();
+        } else {
+            this.stopRefreshing();
+        }
+        console.log('requestsIsOpen', isOpen);
     }
     
     setRequests (requests) {
@@ -55,7 +69,8 @@ class RequestsCtrl {
     }
     
     fromNow (date) {
-        return moment.utc(date).fromNow(true);
+        // avoiding the heavy function
+        return this._isOpen? moment.utc(date).fromNow(true) : '';
     }
     
     startRefreshing () {
