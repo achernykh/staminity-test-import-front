@@ -19,9 +19,12 @@ class CalendarTotalCtrl {
         this.primarySport = ['run', 'bike', 'swim'];
     }
     $onInit(){
+        if (!this.week) return;
+        
         this.weekTitle = moment(this.week.week,'YYYY-WW').week();
     }
     $onChanges(changes){
+        if (!this.week) return;
 
         if(changes.update){
             this.total = {};
@@ -76,9 +79,6 @@ export let CalendarTotal = {
         selected: '<',
         accent: '<',
         onToggle: '&'
-    },
-    require: {
-        calendar: '^calendar'
     },
     controller: CalendarTotalCtrl,
     template: require('./calendar-total.component.html')

@@ -54,7 +54,6 @@ class RequestsCtrl {
         } else {
             this.stopRefreshing();
         }
-        console.log('requestsIsOpen', isOpen);
     }
     
     setRequests (requests) {

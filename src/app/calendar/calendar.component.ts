@@ -42,9 +42,11 @@ class CalendarCtrl implements IComponentController{
     private dateFormat: string = 'YYYY-MM-DD';
     private date: Date;
     private range: Array<number> = [0, 1];
-    private calendar: Array<ICalendarWeek> = [];
-    private currentWeek: ICalendarWeek;
+    private _currentWeek: ICalendarWeek;
     private updates: Subject<any> = new Subject();
+    private datasource: any;
+    private adapter: any;
+    private weeks: Array<ICalendarWeek> = [];
 
     constructor(
         private $scope: IScope,
@@ -55,8 +57,34 @@ class CalendarCtrl implements IComponentController{
         private CalendarService: CalendarService,
         private session: ISessionService) 
     {
+        this.datasource = {
+            get: (index, count, success) => {        
+                let weeks = times(count)
+                    .map((i) => index + i)
+                    .map(i => {
+                        if (!this.weeks[i]) {
+                            let week = this.getWeek(moment(this.date).add(i, 'w'), i);
+                            
+                            week.loading
+                            .then(() => { 
+                                week.loading = null;
+                                this.$scope.$apply();
+                            })
+                            .catch((exc) => { console.log('Calendar loading fail', exc); });
+                            
+                            this.weeks[i] = week;
+                        }
+                        return this.weeks[i];
+                    });
+                    
+                success(weeks);
+            }
+        };
+
+        this.adapter = null;
+        
         let date = moment($location.hash());
-        this.setDate(date.isValid()? date.toDate() : new Date());
+        this.date = date.isValid()? date.toDate() : new Date();
     }
 
     $onInit() {
@@ -71,48 +99,34 @@ class CalendarCtrl implements IComponentController{
         }
     }
     
-    /**
-     * Переход на дату, на пустой календарь
-     * @patam date
-     */
-    reset (date: Date) {
-        this.date = date;
-        this.range = [0, 1];
-        this.calendar = [];
-        this.up(1);
-        this.down(10);
-        this.setCurrentWeek(this.calendar[0]);
+    get currentWeek () {
+        return this._currentWeek;
     }
     
-    setDate (date) {
-        date = moment(date).startOf('week');
-        let week = this.calendar.find(w => w.date.isSame(date, 'week'));
+    set currentWeek (week) {
+        this._currentWeek = week;
         
         if (week) {
-            this.setCurrentWeek(week, true);
-        } else {
-            this.reset(date);
+            this.$location.hash(week.anchor).replace();
         }
     }
     
-    setCurrentWeek (week, scrollTo = false) {
-        this.currentWeek = week;
-        this.$location.hash(week.anchor).replace();
-        if (scrollTo) {
-            this.$anchorScroll('hotfix' + week.anchor);
-        }
+    toDate (date) {
+        date = moment(date).startOf('week');
+        let index = moment(date).diff(this.date, 'weeks');
+        this.adapter.reload(index);
     }
     
     prevWeek () {
-        this.setDate(moment(this.currentWeek.date).add(-1, 'week'));
+        this.toDate(moment(this.currentWeek.date).add(-1, 'week'));
     }
     
     nextWeek () {
-        this.setDate(moment(this.currentWeek.date).add(1, 'week'));
+        this.toDate(moment(this.currentWeek.date).add(1, 'week'));
     }
     
     todayWeek () {
-        this.setDate(moment().startOf('week'));
+        this.toDate(moment().startOf('week'));
     }
 
     /**
@@ -188,67 +202,6 @@ class CalendarCtrl implements IComponentController{
         
         return week;
     }
-    
-    /**
-     * Подгрузка n записей вверх
-     * @param n
-     */
-    up (n = 1) {
-        let i0 = this.range[0];
-        this.range[0] -= n;
-        
-        let items = times(n)
-            .map((i) => i0 - i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i))
-            .forEach(week => {
-                this.calendar.unshift(week);
-                week.loading
-                .then(() => { 
-                    week.loading = null;
-                    this.$scope.$apply();
-                    this.updates.next();
-                })
-                .catch((exc) => { console.log('Calendar loading fail', exc); });
-            });
-            
-        this.updates.next();
-    }
-    
-    /**
-     * Подгрузка n записей вниз
-     * @param n
-     */
-    down (n = 1) {
-        let i0 = this.range[1];
-        this.range[1] += n;
-        
-        let items = times(n)
-            .map((i) => i0 + i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i))
-            .forEach(week => {
-                this.calendar.push(week);
-                week.loading
-                .then(() => { 
-                    week.loading = null;
-                    this.$scope.$apply();
-                })
-                .catch((exc) => { console.log('Calendar loading fail', exc); });
-            });
-    }
-    
-    /**
-     * Верхний загруженный Week Item
-     */
-    first () {
-        return this.calendar[0];
-    }
-    
-    /**
-     * Нижний загруженный Week Item
-     */
-    last () {
-        return this.calendar[this.calendar.length - 1];
-    }
 
     /**
      * Создание записи календаря
@@ -258,8 +211,8 @@ class CalendarCtrl implements IComponentController{
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
-        console.log('onPostItem to',w,d,item,this.calendar);
-        this.calendar[w].subItem[d].data.calendarItems.push(item);
+        console.log('onPostItem to',w,d,item,this.weeks);
+        this.weeks[w].subItem[d].data.calendarItems.push(item);
         //this.$scope.$apply(()=>this.calendar[w].subItem[d].data.calendarItems.push(item));
     }
 
@@ -270,10 +223,10 @@ class CalendarCtrl implements IComponentController{
     onDeleteItem(item) {
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
-        let p = this.calendar[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+        let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
 
-        console.log('onDeleteItem', w,d,p,item,this.calendar);
-        this.calendar[w].subItem[d].data.calendarItems.splice(p,1);
+        console.log('onDeleteItem', w,d,p,item,this.weeks);
+        this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
         //this.$scope.$apply(()=>this.calendar[w].subItem[d].data.calendarItems.splice(p,1));
     }
 
@@ -283,7 +236,7 @@ class CalendarCtrl implements IComponentController{
      * @returns {number}
      */
     getDayIndex(w) {
-        return this.calendar.findIndex(item => item.week === w);
+        return this.weeks.findIndex(item => item.week === w);
     }
 
     /**-----------------------------------------------------------------------------------------------------------------

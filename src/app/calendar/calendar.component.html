@@ -53,21 +53,16 @@
                             </md-toolbar>
                             
                             <!-- grid: start -->
-                            <md-content style="position: fixed; bottom: 0; top: 132px; left: 0; right: 0; z-index: 100; overflow-y: scroll" class="calendar-grid" 
-                                scroll-container
-                                scroll-hit-padding="500"
-                                on-scroll-hit-top="$ctrl.up(1)"
-                                on-scroll-hit-bottom="$ctrl.down(1)"
-                                on-scroll-container-not-overflown="$ctrl.up(1); $ctrl.down(1)"
-                                scroll-keep-position="$ctrl.updates">
+                          
+                            <md-content style="position: fixed; bottom: 0; top: 132px; left: 0; right: 0; z-index: 100; overflow-y: scroll" 
+                                ui-scroll-viewport class="viewport viewport-height-fixed calendar-grid">  
 
-                                <!-- grid-week: start -->
-                                <div ng-repeat="week in $ctrl.calendar track by week.sid"
+                				<div class="week calendar__week" ui-scroll="week in $ctrl.datasource"
+                					 adapter="$ctrl.adapter"
+                					 top-visible="$ctrl.currentWeek"
+                					 buffer-size='3'
                                      style="display:block;"
-                                     id="hotfix{{week.anchor}}"
-                                     on-scroll-current-item="$ctrl.setCurrentWeek(week)"
-                                     class="week calendar__week"
-                                     ng-class="{'calendar__week--current': week.sid == $ctrl.currentWeek.sid, 'calendar__week--loading': week.loading}">
+                                     id="hotfix{{week.anchor}}">
                                     
                                     <calendar-day 
                                                   ng-repeat="day in week.subItem track by day.key"
