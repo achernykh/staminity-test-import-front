@@ -11,7 +11,7 @@ export interface IAuthService {
     isAuthenticated():boolean;
     isAuthorized(roles:Array<string>):boolean;
     isCoach(role?: string):boolean;
-    isMyAthlete(user: IUserProfile):boolean;
+    isMyAthlete(user: IUserProfile):Promise<any>;
     isActivityPlan(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
     signIn(request:Object):IPromise<void>;
@@ -62,31 +62,25 @@ export default class AuthService implements IAuthService {
         return this.isAuthorized([role]);
     }
 
-    isMyAthlete(user: IUserProfile = null):boolean {
+    isMyAthlete(user: IUserProfile = null):Promise<any> {
         if (!user) {
-            return false;
+            throw 'userNotFound';
         }
         console.log('current user', this.SessionService.getUser());
         let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
         if (groupId) {
-            this.GroupService.getManagementProfile(groupId,'coach')
+            return this.GroupService.getManagementProfile(groupId,'coach')
                 .then(result => {
                     let athletes: Array<any> = result.members;
-                    if (!athletes || !athletes.some(profile => profile.userId === user.userId)) {
-                        return false;
+                    if (!athletes || !athletes.some(member => member.userProfile.userId === user.userId)) {
+                        throw 'needPermissions';
                     } else {
                         return true;
                     }
                 });
         } else {
-            return false;
+            throw 'groupNotFound';
         }
-
-        let athletes: Array<any> = this.SessionService.getUser()['connections']['allAthletes']['groupMembers'] || null;
-        if (!athletes || !athletes.some(profile => profile.userId === user.userId)) {
-            return false;
-        }
-        return true;
     }
 
     isActivityPlan(role: Array<string> = ['ActivitiesPlan_User','ActivitiesPlan_Athletes']):boolean {

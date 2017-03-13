@@ -4,8 +4,9 @@
     </md-card-title>
     <form name="$ctrl.syncForm">
         <md-list class="md-dense section">
-            <md-subheader>Регистрационные данные</md-subheader>
-            <md-list-item>
+            <md-list-item ng-click="$ctrl.showPasswordChange($event)">
+                <p>Ваш учетная запись {{$ctrl.user.personal.extEmail}} #{{$ctrl.user.userId}}</p>
+                <md-button class="md-secondary" ng-click="$ctrl.showPasswordChange($event)">Новый пароль</md-button><!--
                 <md-input-container md-no-float class="md-block no-message">
                     <md-icon class="material-icons">person</md-icon>
                     <input ng-model="$ctrl.provider.login" type="text" autocomplete="off"
@@ -15,12 +16,11 @@
                     <md-icon class="material-icons">vpn_key</md-icon>
                     <input ng-model="$ctrl.provider.login" type="text" autocomplete="off"
                            placeholder="Пароль">
-                </md-input-container>
+                </md-input-container>-->
             </md-list-item>
-            <md-list-item>
-                <!--<p>Поясняющий текст</p>-->
+            <!--<md-list-item>
                 <md-button class="md-secondary" ng-click="$ctrl.showPasswordChange($event)">Новый пароль</md-button>
-            </md-list-item>
+            </md-list-item>-->
         </md-list>
         <md-divider></md-divider>
         <md-list class="md-dense section">

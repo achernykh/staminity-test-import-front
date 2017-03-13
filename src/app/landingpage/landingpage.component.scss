@@ -41,17 +41,17 @@ landing-page {
 
 	.cover-04 {
 		background-image: linear-gradient(to top, rgba(#37474F, 1), rgba(#37474F, 1) 10%, rgba(#000000, 0.5) 75%, rgba(#403A4E, 1)),
-		url('/assets/picture/lp-bg-11-1440.jpg') 45% 100% no-repeat;
-		//background-position: 45% 100%;
-		//background-repeat: no-repeat;
+		url('/assets/picture/lp-bg-11-1440.jpg');
+		background-position: 45% 100%;
+		background-repeat: no-repeat;
 		background-size: cover;
 	}
 
 	.cover-05 {
 		background-image: linear-gradient(to top, rgba(0, 0, 0, 0.40), rgba(black, 0.40) 73%, rgba(black, 0.40)),
-		url('/assets/picture/lp-bg-05.jpg') 35% 100% no-repeat;
-		//background-position: 35% 100%;
-		//background-repeat: no-repeat;
+		url('/assets/picture/lp-bg-05.jpg');
+		background-position: 35% 100%;
+		background-repeat: no-repeat;
 		background-size: cover;
 		color: black;
 	}

@@ -61,7 +61,8 @@
                            change="$ctrl.change"
                            change-measure="$ctrl.changeMeasure"
                            sport="$ctrl.item.activity.sportBasic"
-                           select="$ctrl.item.selectedTimestamp">График...
+                           select="$ctrl.item.selectedTimestamp"
+                           on-selected="$ctrl.onSelectionRange(select)">График...
     </activity-metrics-char>
     <activity-segment-chart flex="none" ng-if="$ctrl.showChart && $ctrl.item.activity.structured"
                             activity-header="$ctrl.item.activity.intervalP"

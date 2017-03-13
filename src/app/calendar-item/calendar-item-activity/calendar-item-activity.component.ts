@@ -143,6 +143,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }));
     }
 
+    addUserInterval(range: {startTimestamp: number, endTimestamp: number}){
+        this.ActivityService.calculateRange(this.activity.id, range.startTimestamp, range.endTimestamp, [this.activity.intervalW])
+            .then(response=>console.log(response));
+    }
+
     onReset(mode: string) {
         this.mode = mode;
         if(mode === 'post') {

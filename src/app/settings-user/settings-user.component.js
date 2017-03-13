@@ -304,6 +304,7 @@ class SettingsUserCtrl {
         this.dialogs.uploadPicture()
             .then(picture => this._UserService.postProfileAvatar(picture))
             .then(user => this.setUser(user))
+            //.then(user => this.)
     }
 
     uploadBackground() {

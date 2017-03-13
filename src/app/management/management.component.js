@@ -211,7 +211,7 @@ class ManagementCtrl {
     // removing & other actions
     
     remove () {
-        this.dialogs.confirm('Исключить из клуба?')
+        this.dialogs.confirm('excludeClub')
         .then((confirmed) => confirmed && Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))), () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
     }

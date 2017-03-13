@@ -61,7 +61,14 @@ export default class UserService {
      */
     postProfileAvatar(file:any):IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
-            .then((response) => response.data);
+            .then((response)=>{
+                let currentUser = this.SessionService.getUser();
+                if (response.data['userId'] === currentUser.userId){
+                    this.SessionService.setUser(<IUserProfile>response.data);
+                }
+                return response.data;
+            });
+            //.then((response) => response.data);
     }
     /**
      * Аплоад фонового изоражения пользователя
@@ -70,7 +77,13 @@ export default class UserService {
      */
     postProfileBackground(file:any):IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile('/user/background',file))
-            .then((response) => response.data);
+            .then((response)=>{
+                let currentUser = this.SessionService.getUser();
+                if (response.data['userId'] === currentUser.userId){
+                    this.SessionService.setUser(<IUserProfile>response.data);
+                }
+                return response.data;
+            });
     }
 
     /**

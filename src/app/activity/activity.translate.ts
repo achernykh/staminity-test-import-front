@@ -18,7 +18,7 @@ export const translateSport = {
         swimToBike: 'Транзитка: плавание-вел',
         bikeToRun: 'Транизитка: вел-бег',
         swimToRun: 'Транзитка: плавание-бег',
-        fuctionTest: 'Функциональный тест'
+        fuctionalTest: 'Функциональный тест'
     },
     en: {}
 };

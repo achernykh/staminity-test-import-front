@@ -22,7 +22,7 @@
                             <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
                             <div flex ui-sref="/user/{{request.initiator.public.uri}}">
                                 <div>{{request.initiator | username}}</div>
-                                <div class="md-caption">{{'request.' + request | requestType | translate}}</div>
+                                <div class="md-caption">{{request | requestType | translate}}</div>
                             </div>
                             <div class="md-caption">{{$ctrl.fromNow(request.created)}}</div>
                         </div>
@@ -61,7 +61,7 @@
                             <userpic ng-if="!request.groupProfile.public" profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
                             <div flex>
                                 <div>{{request.groupProfile.public? request.groupProfile.public.name : (request.receiver | username)}}</div>
-                                <div class="md-caption">{{'request.'+ request | requestType | translate}}</div>
+                                <div class="md-caption">{{request | requestType | translate}}</div>
                             </div>
                             <div class="md-caption">
                                 {{$ctrl.fromNow(request.created)}}

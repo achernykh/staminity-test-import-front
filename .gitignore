@@ -10,6 +10,7 @@ dist/*
 distLocal/*
 dev1/*
 dev2/*
+prd/*
 bower_components/*
 node_modules/*
 src/js/config/app.templates.js

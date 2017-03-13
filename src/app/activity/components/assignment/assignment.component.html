@@ -27,10 +27,12 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item>
+            <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0">
                 <md-input-container class="md-block no-message" md-no-float>
                     <md-icon class="material-icons">tune</md-icon>
                     <md-select ng-model="$ctrl.item.activity.category" required
+                               md-no-asterisk="false"
+                               placeholder="Укажите категорию"
                                ng-model-options="{ getterSetter: true }"
                                ng-change="$ctrl.changeParam()"
                                ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"

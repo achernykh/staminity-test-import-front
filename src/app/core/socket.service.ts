@@ -1,10 +1,10 @@
 import { _connection } from './api.constants';
 import { ISessionService } from './session.service';
-
+import {StateService} from 'angular-ui-router';
 import { Observable, Subject } from 'rxjs/Rx';
 import LoaderService from "../share/loader/loader.service";
-import MessageService from "./message.service";
 import {IMessageService} from "./message.service";
+
 
 export enum SocketStatus {
     Connecting,
@@ -48,19 +48,22 @@ export class SocketService implements ISocketService {
     private readonly responseLimit: {} = { // лимиты ожидания по отдельным запросам (сек)
         getActivityIntervals: 10.0,
         postUserExternalAccount: 60.0,
-        getCalendarItem: 30.0
+        getCalendarItem: 30.0,
+        calculateActivityRange: 10.0,
+        putCalendarItem: 10.0
     };
 
     public connections: Subject<any>;
     public messages: Subject<any>;
 
-    static $inject = ['$q','SessionService', 'LoaderService','message'];
+    static $inject = ['$q','SessionService', 'LoaderService','message','$state'];
 
     constructor (
         private $q: any,
         private SessionService:ISessionService,
         private loader: LoaderService,
-        private message: IMessageService) {
+        private message: IMessageService,
+        private $state: StateService ) {
 
         this.connections = new Subject();
         this.messages = new Subject();
@@ -79,7 +82,7 @@ export class SocketService implements ISocketService {
                 console.log('SocketService: opening...');
                 this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
                 this.socket.addEventListener('message', this.response.bind(this));
-                this.socket.addEventListener('close', this.reopen.bind(this));
+                this.socket.addEventListener('close', this.close.bind(this)); //reopen?
                 this.socket.addEventListener('error', this.reopen.bind(this));
                 
                 Observable.fromEvent(this.socket, 'open')
@@ -122,7 +125,12 @@ export class SocketService implements ISocketService {
             }
             delete this.requests[response.requestId];
             this.loader.hide();
-        } 
+        } else {
+            if (response.hasOwnProperty('errorMessage') && response.errorMessage === 'badToken') {
+                this.close('badToken');
+                this.$state.go('signin');
+            }
+        }
     }
 
     /**
@@ -134,7 +142,7 @@ export class SocketService implements ISocketService {
 
         if(event.type === 'error'){
             setTimeout(()=> this.open(), this.reopenTimeout++ * 1000);
-        } else if (event.type === 'close' && event.reason !== 'signout') {
+        } else if (event.type === 'close') { // or !signout
             setTimeout(()=> this.open(), this.reopenTimeout++ * 1000);
         }
     }
@@ -143,6 +151,9 @@ export class SocketService implements ISocketService {
      * Закрываем websocket сессию
      */
     close (reason = 'signout') {
+        if (reason === 'badToken') {
+            this.message.toastInfo(reason);
+        }
         this.socket.close(3000,reason);
     }
 

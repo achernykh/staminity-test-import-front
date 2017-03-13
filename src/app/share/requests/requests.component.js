@@ -1,5 +1,5 @@
 import './requests.component.scss';
-import moment from 'moment/src/moment.js';
+import moment from 'moment/min/moment-with-locales.js';
 
 
 const stateIcons = {
@@ -10,7 +10,7 @@ const stateIcons = {
 
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, RequestsService, SessionService, dialogs, SystemMessageService) {
+    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, RequestsService, SessionService, dialogs, message) {
         this.$scope = Object.assign($scope, { stateIcons });
         this.$mdDialog = $mdDialog;
         this._$mdSidenav = $mdSidenav;
@@ -18,7 +18,7 @@ class RequestsCtrl {
         this.GroupService = GroupService;
         this.SessionService = SessionService;
         this.dialogs = dialogs;
-        this.SystemMessageService = SystemMessageService;
+        this.message = message;
         this.RequestsService = RequestsService;
 
         this.RequestsService.requestsList
@@ -41,6 +41,10 @@ class RequestsCtrl {
         };
         
         this.startRefreshing();
+    }
+
+    $onInit() {
+        moment.lang('ru');
     }
     
     setRequests (requests) {
@@ -73,8 +77,8 @@ class RequestsCtrl {
     
     processRequest (request, action) {
         this.dialogs.confirm('performAction' + action)
-        .then((confirmed) => confirmed && this.GroupService.processMembership(action, null, request.userGroupRequestId))
-        .then(() => {}, (error) => { this.SystemMessageService.show(error) })
+        .then((confirmed) => confirmed && this.GroupService.processMembership(action, null, request.userGroupRequestId)
+            .then(this.message.toastInfo('requestComplete'), error => this.message.toastError(error)));
     }
     
     close () {
@@ -82,7 +86,7 @@ class RequestsCtrl {
     }
 };
 
-RequestsCtrl.$inject = ['$scope','$mdDialog','$mdSidenav','UserService','GroupService','RequestsService','SessionService','dialogs','SystemMessageService'];
+RequestsCtrl.$inject = ['$scope','$mdDialog','$mdSidenav','UserService','GroupService','RequestsService','SessionService','dialogs','message'];
 
 const RequestsComponent = {
 

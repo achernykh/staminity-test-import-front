@@ -2,7 +2,7 @@
 <md-toolbar class="md-hue-3" ng-if="!!$ctrl.user"
             style=" background-image:
                         linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)),
-                        url({{'/user/background/' + $ctrl.user.public.avatar | image}})">
+                        url({{'/user/background/' + $ctrl.user.public.background | image}})">
     <div layout-padding>
         <div class="avatar medium"
              style="background-image: url({{'/user/avatar/' + $ctrl.user.public.avatar | image}})"></div>
@@ -80,6 +80,12 @@
                  ng-click=""
                  ng-bind="'shedule'"></md-icon>
     </md-list-item>
+    <md-divider></md-divider>
+    <md-list-item>
+        <md-icon class="material-icon">memory</md-icon>
+        <p class="md-body-2" style="opacity: 0.87">2017 Стаминити, 0.0.1.beta#006</p>
+    </md-list-item>
 </md-list>
+
 
 <!--</md-sidenav>-->

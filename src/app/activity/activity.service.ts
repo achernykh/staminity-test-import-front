@@ -1,6 +1,12 @@
 import {IPromise} from 'angular';
-import {IActivityDetails, IActivityIntervalW, IActivityIntervalP, IActivityIntervalG, IActivityIntervalPW, IActivityIntervalL} from '../../../api/activity/activity.interface';
-import {GetDetailsRequest, GetActivityGategory, GetActivityIntervals} from '../../../api/activity/activity.request';
+import {
+    IActivityDetails, IActivityIntervalW, IActivityIntervalP, IActivityIntervalG, IActivityIntervalPW,
+    IActivityIntervalL, IActivityInterval
+} from '../../../api/activity/activity.interface';
+import {
+    GetDetailsRequest, GetActivityGategory, GetActivityIntervals,
+    CalculateActivityRange
+} from '../../../api/activity/activity.request';
 import {ISocketService} from '../core/socket.service';
 import {RESTService, PostData} from "../core/rest.service";
 
@@ -59,6 +65,10 @@ export default class ActivityService {
      */
     getCategory(id: number = null, onlyMine: boolean = false): Promise<any> {
         return this.SocketService.send(new GetActivityGategory(id , onlyMine));
+    }
+
+    calculateRange(activityId: number, start: number, end: number, type: Array<IActivityInterval>):Promise<any> {
+        return this.SocketService.send(new CalculateActivityRange(activityId, start,end, type));
     }
 
 }

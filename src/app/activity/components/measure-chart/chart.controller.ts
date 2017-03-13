@@ -18,7 +18,7 @@ class ActivityChartController implements IComponentController {
     private x: string;
     private changeMeasure: string = null;
     private sport: string;
-    public onSelected: (result: Array<{startTimeStamp:number, endTimeStamp:number}>) => void;
+    public onSelected: (result: {select:Array<{startTimeStamp:number, endTimeStamp:number}>}) => void;
 
     private onResize: Function;
 
@@ -365,7 +365,7 @@ class ActivityChartController implements IComponentController {
             self.select = !interval ? null: [ interval ];
             self.chartData.setSelect(self.select);
             // rise onSelected event
-            self.onSelected(self.select);
+            self.onSelected({select: self.select});
         };
 
         let updateSelection = function (current: number): void {
