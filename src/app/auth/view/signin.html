@@ -36,7 +36,7 @@
                 </md-input-container>
             </md-list-item>
             <md-list-item>
-                <p translate="signin.remember"></p>
+                <p translate="auth.signin.remember"></p>
                 <md-checkbox aria-label="Checkbox No Ink" class="md-primary md-secondary"
                              ng-model="$ctrl.storage"
                              ng-disabled="!$ctrl.enabled"
@@ -46,7 +46,7 @@
             <md-list-item>
                 <md-button ng-disabled="!$ctrl.signinForm.$valid" class="md-raised" type="submit"
                            ng-class="{'md-primary': $ctrl.signinForm.$valid && !ul.auth, 'md-disabled': $ctrl.signinForm.$error}"
-                           translate='signin.button'
+                           translate='auth.signin.button'
                            aria-label="SignIn Button"></md-button>
             </md-list-item>
         </md-list>

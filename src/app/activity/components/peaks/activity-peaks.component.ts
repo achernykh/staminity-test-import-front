@@ -33,7 +33,7 @@ class ActivityPeaksCtrl implements IComponentController{
 				this.calcMeasures[m].hasOwnProperty('peaks') &&
 				this.calcMeasures[m].peaks[0].value !== 0)
 			.map(m => ({
-				measure: this.calcMeasures[m].sourceMeasure, //this.getMeasure(m),
+				measure: /*this.calcMeasures[m].sourceMeasure,*/ this.getMeasure(m),
 				type: (m.includes('Time') && 'duration') || 'distance',
 				value: this.calcMeasures[m].peaks
 			}));

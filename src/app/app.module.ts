@@ -1,5 +1,6 @@
 import {module, bootstrap} from 'angular';
 import * as ngMaterial from 'angular-material';
+import * as ngMessage from 'angular-messages';
 import * as ngMaterialTable from 'angular-material-data-table';
 import 'angular-translate/dist/angular-translate.js';
 import uiRouter from 'angular-ui-router';
@@ -34,6 +35,7 @@ import Dashboard from './dashboard/dashboard.module';
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
 	ngMaterial,
+	ngMessage,
 	uiRouter,
 	ngMaterialTable,
 	'smDateTimeRangePicker',

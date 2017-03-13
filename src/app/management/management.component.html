@@ -44,23 +44,23 @@
         <md-toolbar class="md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center" style="background-color: #cfd8dc; color: #607d8b; padding: 16px 26px;">
             <span flex>{{ $ctrl.checked.length }} items selected</span>
             <md-button class="md-primary md-icon-button" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.editCoaches()"> 
-                <md-tooltip md-direction="bottom">Coaches</md-tooltip>
+                <md-tooltip md-direction="bottom">Тренеры</md-tooltip>
                 <md-icon class="material-icons">supervisor_account</md-icon> 
             </md-button>
             <md-button class="md-primary md-icon-button" ng-if="$ctrl.athletesAvailable" ng-click="$ctrl.editAthletes()"> 
-                <md-tooltip md-direction="bottom">Athletes</md-tooltip>
+                <md-tooltip md-direction="bottom">Атлеты</md-tooltip>
                 <md-icon class="material-icons">person_add</md-icon> 
             </md-button>
             <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
-                <md-tooltip md-direction="bottom">Tariffs</md-tooltip>
-                <md-icon class="material-icons">share</md-icon> 
+                <md-tooltip md-direction="bottom">Тарифы</md-tooltip>
+                <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
             <md-button class="md-primary md-icon-button" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.editRoles()"> 
-                <md-tooltip md-direction="bottom">Roles</md-tooltip>
+                <md-tooltip md-direction="bottom">Роли</md-tooltip>
                 <md-icon class="material-icons">select_all</md-icon> 
             </md-button>
             <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
-                <md-tooltip md-direction="bottom">Remove</md-tooltip>
+                <md-tooltip md-direction="bottom">Отключить</md-tooltip>
                 <md-icon class="material-icons">delete</md-icon> 
             </md-button>
         </md-toolbar>

@@ -117,8 +117,8 @@ export class Activity extends CalendarItem {
 	public categoriesList: Array<IActivityCategory> = [];
 	public intervalPW: IActivityIntervalPW;
 	public intervalW: IActivityIntervalW;
-	public intervalL: Array<IActivityIntervalL>;
-	public intervalP: Array<IActivityIntervalP>;
+	public intervalL: Array<IActivityIntervalL> = [];
+	public intervalP: Array<IActivityIntervalP> = [];
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
@@ -146,8 +146,8 @@ export class Activity extends CalendarItem {
 	}
 
 	completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
-		debugger;
-		this.header.intervals.push(...intervals);
+		this.header.intervals = [];
+		this.header.intervals.push(...this.intervalP, this.intervalPW, ...intervals, this.intervalW);
 		this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 	}
@@ -174,10 +174,7 @@ export class Activity extends CalendarItem {
 		// Ссылки на интервалы для быстрого доступа
 		this.intervalPW = <IActivityIntervalPW>this.header.intervals.filter(i => i.type === "pW")[0];
 		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
-		//this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
-
-		//this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 		this.actualDataIsImported = this.intervalW.actualDataIsImported;
 
 		// Дополниельные данные для отображения плана на панелях

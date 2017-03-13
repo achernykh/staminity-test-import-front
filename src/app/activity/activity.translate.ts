@@ -2,7 +2,7 @@ export const translateSport = {
     ru: {
         run: 'Бег',
         streetRun: 'Бег по улице',
-        indoorRun: 'Бег в помещение',
+        indoorRun: 'Бег в помещении',
         trailRun: 'Бег по пересеченной местности',
         treadmillRun: 'Беговая дорожка',
         swim: 'Плавание',
@@ -17,7 +17,8 @@ export const translateSport = {
         transition: 'Транзитка',
         swimToBike: 'Транзитка: плавание-вел',
         bikeToRun: 'Транизитка: вел-бег',
-        swimToRun: 'Транзитка: плвание-бег'
+        swimToRun: 'Транзитка: плавание-бег',
+        fuctionTest: 'Функциональный тест'
     },
     en: {}
 };

@@ -30,6 +30,8 @@ import {
 import {duration} from './measure/measure.filter';
 import {MeasurementInput} from "./measure/measure.directive";
 import AthleteSelectorComponent from "./athlete-selector/athlete-selector.component";
+import {translateRequestPanel} from "./requests/request.translate";
+import {translateDialogs} from "./dialogs/dialogs.translate";
 
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
@@ -180,6 +182,10 @@ const Share = module('staminity.share', [])
         $translateProvider.translations('en', {userMenu: _user_menu['en']});
         $translateProvider.translations('ru',_MEASURE_TRANSLATE.ru);
         $translateProvider.translations('en',_MEASURE_TRANSLATE.en);
+        $translateProvider.translations('ru', {request: translateRequestPanel['ru']});
+        $translateProvider.translations('en', {request: translateRequestPanel['en']});
+        $translateProvider.translations('ru', {dialogs: translateDialogs['ru']});
+        $translateProvider.translations('en', {dialogs: translateDialogs['en']});
     }])
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал

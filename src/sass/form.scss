@@ -91,13 +91,13 @@ form md-list.md-dense, md-list.md-dense form {
 // Кстомизация страндартных элементов ввода input,select,textarea для отображения внутри элементов md-list, md-list-item
 // В стандарте отсуп после иконок для таких элементов 36px, а типовой отстпуп в md-list - 56px
 md-list-item md-input-container.md-icon-left:first-child {
-  padding-left: 56px; // вместо 36 px, чтобы быть с одинм отсупом с элементами md-list
+  padding-left: 44px; // вместо 36 px, чтобы быть с одинм отсупом с элементами md-list
 
   > md-icon {
     left: 0px;
   }
   label {
-    margin-left: 20px; // для поддержки отступа в 56px
+    margin-left: 8px; // для поддержки отступа в 56px
   }
 }
 //----------------------------------------------------------------------------------------------------------------------

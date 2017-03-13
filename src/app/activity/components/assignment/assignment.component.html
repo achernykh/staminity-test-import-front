@@ -8,12 +8,12 @@
             <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float layout="row">
                     <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
-                    <md-select flex name="sport" class="icon"
+                    <md-select flex name="sport" class="icon" required
                                ng-model="$ctrl.item.activity.sport"
                                ng-model-options="{ getterSetter: true }"
                                ng-change="$ctrl.changeParam()"
                                ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach">
-                        <md-option ng-repeat="type in $ctrl.item.types track by type.id"
+                        <md-option ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
                                    value="{{type.id}}">{{'sport.'+type.code | translate}}
                         </md-option>
                     </md-select>
@@ -30,7 +30,7 @@
             <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float>
                     <md-icon class="material-icons">tune</md-icon>
-                    <md-select ng-model="$ctrl.item.activity.category"
+                    <md-select ng-model="$ctrl.item.activity.category" required
                                ng-model-options="{ getterSetter: true }"
                                ng-change="$ctrl.changeParam()"
                                ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
@@ -54,19 +54,19 @@
             </md-list-item>
             <md-list-item layout="row" layout-align="start center">
                 <md-input-container flex="50" class="no-message" md-no-float>
-                    <md-icon flex="none" class="material-icons" style="left: 0px">tune</md-icon>
+                    <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
                     <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                                    ng-change="$ctrl.changeParam()"
                                    name="dateStart" md-hide-icons="calendar"
                                    ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
-                                   style="margin-left: 56px"></md-datepicker>
+                                   style="margin-left: 42px"></md-datepicker>
                 </md-input-container>
-                <div flex="5"></div>
+                <div flex="5"></div><!--
                 <md-input-container flex="45" class="no-message" md-no-float>
                     <input type="time" name="uri" class=""
                            ng-model="$ctrl.item.activity.header.startTimeStamp"
                            ng-disabled="false">
-                </md-input-container>
+                </md-input-container>-->
             </md-list-item>
         </md-list>
         <md-list flex="none" class="md-dense slim-input bg-grey-100">
@@ -141,11 +141,7 @@
                     </table>
                 </md-table-container>
             </md-list-item>
-            <md-list-item>
-                <pre>total%={{$ctrl.actual.completePercent.value | number:2}}</pre>
-            </md-list-item>
-
-            <md-list-item style="margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
+            <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
                 <md-input-container flex class="md-block no-message">
                     <md-icon class="material-icons">event_note</md-icon>
                     <label translate="Установка тренера" class="icon"></label>

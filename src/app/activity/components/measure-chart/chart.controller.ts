@@ -577,8 +577,8 @@ class ActivityChartController implements IComponentController {
                     .attr('cx', mouse[0])
                     .attr('cy', rangeScale(currentData))
                     .style('display', 'inherit');
-                let info = LabelFormatters[metric].formatter(currentData,self.sport) + LabelFormatters[metric].label(self.sport);
-                ttp.select('.' + metric).text(info);
+                let info = LabelFormatters[metric].formatter(currentData,self.sport); //+ LabelFormatters[metric].label(self.sport);
+                ttp.select('.' + metric + ' span.value').text(info);
             });
     }
 

@@ -5,23 +5,22 @@ activity-metrics-details {
   min-width: calc(95vw - 450px);
   border-radius: 0px 3px 3px 0px;
 
-  section.overview-content  {
+
 
     header {
       //background-color: $grey-200;
       padding: 0px 0px;
-
-      md-icon:first-child {
-        margin-right: 20px;
+      > md-icon:first-child {
+        margin-right: 20px !important;
       }
 
       .md-button.md-icon-button:last-child {
-        margin-right: -8px;
+        margin-right: -8px !important;
       }
 
     }
 
-  }
+
 
   activity-route.map {
     background-color: grey;

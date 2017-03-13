@@ -1,6 +1,7 @@
 import { ICompileProvider, ILocationProvider} from 'angular';
 import {StateProvider, StateDeclaration} from 'angular-ui-router';
 import moment from 'moment/min/moment-with-locales.js';
+import {translateForm} from "./app.translate";
 
 function configure(
 	$compileProvider: ICompileProvider,
@@ -94,6 +95,10 @@ function configure(
 			'hue-3': '800'
 		})
 		.dark();
+
+	// Текст переводов, которые относятся ко всем представлениям
+	$translateProvider.translations('en', {form: translateForm['en']});
+	$translateProvider.translations('ru', {form: translateForm['ru']});
 
 	$translateProvider.preferredLanguage('ru');
 	$translateProvider.fallbackLanguage('ru');

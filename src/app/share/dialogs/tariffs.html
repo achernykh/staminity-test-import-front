@@ -4,37 +4,35 @@
         <md-list>
 
             <md-list-item layout="row" layout-align="center center">
-                <div class="md-title">
-                    Tariffs
+                <div class="md-title" translate>dialogs.tariffs
                 </div>
             </md-list-item>
 
             <md-list-item layout="row" layout-align="center center">
                 <div class="md-caption font-medium">
-                    {{byWho}}
+                    {{'dialogs.' + byWho | translate}}
                 </div>
             </md-list-item>
 
             <md-list-item ng-repeat="tariff in tariffs" layout="row" layout-align="center center">
-                <span flex>{{ tariff }}</span>
+                <span flex>{{ 'dialogs.' + tariff | translate }}</span>
                 <md-switch ng-checked="selectedTariffs.includes(tariff)" ng-click="toggle(tariff)" ng-disabled="tariffsBySelf.includes(tariff)"></md-switch>
             </md-list-item>
 
             <md-list-item ng-if="tariffsBySelf.length" layout="row" layout-align="center center">
-                <div class="md-caption font-medium">
-                    BySelf
+                <div class="md-caption font-medium" translate>dialogs.bySelf
                 </div>
             </md-list-item>
 
             <md-list-item ng-repeat="tariff in tariffsBySelf" layout="row" layout-align="center center">
-                <span flex>{{ tariff }}</span>
+                <span flex>{{'dialogs.' + tariff | translate}}</span>
                 <md-switch ng-checked="true" disabled></md-switch>
             </md-list-item>
 
             <md-list-item layout="row" layout-align="center center">
-                <md-button ng-click="commit()"> Ok </md-button>
+                <md-button ng-click="commit()" translate="dialogs.ok"></md-button>
                 <span flex></span>
-                <md-button ng-click="cancel()"> Cancel </md-button>
+                <md-button ng-click="cancel()" translate="dialogs.cancel"></md-button>
             </md-list-item>
             
         </md-list>

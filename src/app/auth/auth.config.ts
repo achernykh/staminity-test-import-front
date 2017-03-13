@@ -13,20 +13,7 @@ function configure(
 			loginRequired: false,
 			view: _display_view['signin'],
 			//authRequired: ['func1'],
-			/*resolve: {
-				view: function (ViewService) {
-					return ViewService.getParams('signin');
-				}
-			},*/
 			views: {
-				/*"background": {
-					component: "staminityBackground",
-					bindings: {view: _display_view['signin'].background}
-				},
-				"header": {
-					component: 'staminityHeader',
-					bindings: {view: _display_view['signin'].header}
-				},*/
 				"application": {
 					component: "auth",
 					bindings: "view.application"
@@ -94,6 +81,15 @@ function configure(
 					$state.go('signup')
 				}
 			}*/
+			views: {
+				"application": {
+					component: "auth",
+					bindings: "view.application"
+				},
+				"form@signin": {
+					template: require('./view/signin.html')
+				}
+			}
 
 		});
 

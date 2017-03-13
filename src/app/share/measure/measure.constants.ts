@@ -1,51 +1,5 @@
 import moment from 'moment/src/moment.js';
 
-// Справочник видов спорта
-export const _activity_type = {
-    icon: '/assets/icon/',
-    "activity_code": {
-        id: 12,
-        url: '/track_cycling.svg',
-        base: 'bike'
-    }
-};
-
-// Справочник видов спорта, которые доступны для создания новой тренировки
-export const _activity_create = ["activity_code"];
-
-// Справочник показателей доступных для планирования. Ведется по базовому виду спорта
-export const _activity_plan = {
-    "activity_code": {
-        duration: [
-            "measure_code",
-            "measure_code_2"
-        ],
-        intensity: [
-            "measure_code",
-            "measure_code_2"
-        ]
-    }
-};
-
-// Справочник показателей доступных для отображения на графике фактических значений
-export const _activity_actual_chart = {
-    "activity_code": {
-        duration: [
-            "measure_code",
-            "measure_code_2"
-        ],
-        intensity: [
-            "measure_code",
-            "measure_code_2"
-        ]
-    }
-};
-
-// Справочник показателей для отображения в таблице мин/сред/макс
-export const _activity_minmax_panel = {
-    "activity_code": ["measure_code"]
-};
-
 // Настройка отображения показателей под разные виды спорта. По-умолчанию отображаются в соотвествии с указанным
 // unit в обьекте _measurement, но для отдельных пар базовый вид спорта / показатель возможено отображение отличной
 // единицы изменения
@@ -157,24 +111,27 @@ export const _measurement = {
         fixed: 0
     },
     grade: {
-        unit: 'percent',
-        fixed: 0
+        unit: 'proportion',
+        view: 'percent',
+        fixed: 2
     },
     vamPowerKg: {
         unit: 'vampkg',
-        fixed: 0
+        fixed: 2
     },
     intensityLevel: {
-        unit: 'percent',
-        fixed: 0
+        unit: 'proportion',
+        view: 'percent',
+        fixed: 2
     },
     variabilityIndex: {
         unit: 'none',
-        fixed: 0
+        fixed: 2
     },
     efficiencyFactor: {
-        unit: 'percent',
-        fixed: 0
+        unit: 'proportion',
+        view: 'percent',
+        fixed: 2
     },
     trainingLoad: {
         unit: 'tl',
@@ -262,6 +219,9 @@ export const _measurement_calculate = {
     "measure_code": {
         "measure_code": "multiplier"
     },
+    proportion: {
+        percent: (x) => x * 100
+    },
     meter : {
         km: (x) => x * 0.001
     },
@@ -270,6 +230,9 @@ export const _measurement_calculate = {
     },
     kmph: {
         mps: (x) => !!x ? x / 3.60 : 0
+    },
+    minp100m: {
+        mps: (x) => !!x ? (60 * 60) / (x * 3.6 * 10) : 0
     },
     mps: {
         kmph: (x) => !!x ? x * 3.60 : 0,
@@ -307,7 +270,8 @@ const _recalculation = _measurement_calculate;
 
 export const measureValue = (input: number, sport: string, measure: string, chart:boolean = false, units:string = 'metric') => {
     if (!!input) {
-        let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
+        let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
+            (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) || _measurement[measure].unit;
         let fixed = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].fixed) || _measurement[measure].fixed;
 
         // Необходимо пересчет единиц измерения
@@ -332,7 +296,8 @@ export const measureValue = (input: number, sport: string, measure: string, char
 };
 
 export const measureUnit = (measure, sport, units = 'metric') => {
-    let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) || _measurement[measure].unit;
+    let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
+        (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) || _measurement[measure].unit;
     return (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
 };
 

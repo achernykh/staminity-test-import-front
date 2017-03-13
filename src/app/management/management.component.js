@@ -115,7 +115,7 @@ class ManagementCtrl {
                 checked: checkedCoaches.includes(coach.userProfile.userId)
             }))
 
-        this.dialogs.selectUsers(coaches, 'Coaches') 
+        this.dialogs.selectUsers(coaches, 'coaches')
         .then((coaches) => {
             if (!coaches) return;
 
@@ -149,7 +149,7 @@ class ManagementCtrl {
                 checked: checkedAthletes.includes(athlete)
             }))
 
-        this.dialogs.selectUsers(athletes, 'Athletes') 
+        this.dialogs.selectUsers(athletes, 'athletes')
         .then((athletes) => {
             if (!athletes) return;
             // нельзя выполнить все действия одним батч-запросом, но можно двумя
@@ -211,7 +211,7 @@ class ManagementCtrl {
     // removing & other actions
     
     remove () {
-        this.dialogs.confirm('Удалить пользователей?')
+        this.dialogs.confirm('Исключить из клуба?')
         .then((confirmed) => confirmed && Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))), () => {})
         .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
     }

@@ -47,14 +47,14 @@ class ActivitySummaryInfoCtrl implements IComponentController {
             case 'coming' || 'dismiss': {
 
                 this.durationInfo = this.$filter('measureCalc')(durationValue, sportBasic, durationMeasure)+' '+
-                    this.$filter('measureUnit')(durationMeasure, sportBasic);
+                    this.$filter('translate')(this.$filter('measureUnit')(durationMeasure, sportBasic));
 
                 this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from')
                     && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)+'-'+
                     this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure)+' '+
-                    this.$filter('measureUnit')(intensityMeasure, sportBasic)) ||
+                    this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic))) ||
                     this.$filter('measureCalc')(intensityValue, sportBasic, intensityMeasure)+' '+
-                    this.$filter('measureUnit')(intensityMeasure, sportBasic);
+                    this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic));
 
                 break;
             }
@@ -65,19 +65,19 @@ class ActivitySummaryInfoCtrl implements IComponentController {
 
                 this.durationInfo += (distance
                     && this.$filter('measureCalc')(distance, sportBasic, 'distance')+' '+
-                    this.$filter('measureUnit')('distance', sportBasic)) || '';
+                    this.$filter('translate')(this.$filter('measureUnit')('distance', sportBasic))) || '';
 
                 this.intensityInfo += (heartRate
                     && this.$filter('measureCalc')(heartRate, sportBasic, 'heartRate')+' '+
-                    this.$filter('measureUnit')('heartRate', sportBasic)+' ') || '';
+                    this.$filter('translate')(this.$filter('measureUnit')('heartRate', sportBasic))+' ') || '';
 
                 this.intensityInfo += (speed
                     && this.$filter('measureCalc')(speed, sportBasic, 'speed')+' '+
-                    this.$filter('measureUnit')('speed', sportBasic)+' ') || '';
+                    this.$filter('translate')(this.$filter('measureUnit')('speed', sportBasic))+' ') || '';
 
                 this.intensityInfo += (power
                     && this.$filter('measureCalc')(power, sportBasic, 'power')+' '+
-                    this.$filter('measureUnit')('power', sportBasic)+' ') || '';
+                    this.$filter('translate')(this.$filter('measureUnit')('power', sportBasic))+' ') || '';
 
             }
         }

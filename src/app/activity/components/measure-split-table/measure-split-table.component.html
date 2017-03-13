@@ -14,8 +14,8 @@
                 <span>{{'speed' | translate}}</span></th>
             <th md-column ng-if="$ctrl.max.hasOwnProperty('power')" md-numeric md-order-by="calcMeasures.power.avgValue">
                 <span>{{'power' | translate}}</span></th>
-            <th md-column md-numeric md-order-by="calcMeasures.elevationGain.avgValue"><span>Набор</span></th>
-            <th md-column md-numeric md-order-by="calcMeasures.cadence.avgValue"><span>Каденс</span></th>
+            <th md-column md-numeric md-order-by="calcMeasures.elevationGain.avgValue"><span>{{'elevation' | translate}}</span></th>
+            <th md-column md-numeric md-order-by="calcMeasures.cadence.avgValue"><span>{{'cadence' | translate}}</span></th>
         </tr>
         </thead>
         <tbody md-body>
@@ -58,7 +58,7 @@
                     <div flex="none" style="line-height: 32px">{{split.calcMeasures.power.avgValue | measureCalc:$ctrl.sport:'power'}}</div>
                 </div>
             </td>
-            <td md-cell>{{split.calcMeasures.elevationGain.value | measureCalc:$ctrl.sport:'elevationGain'}}</td>
+            <td md-cell>{{split.calcMeasures.elevationGain.value.toFixed(0) - split.calcMeasures.elevationLoss.value.toFixed(0) | measureCalc:$ctrl.sport:'elevationGain'}}</td>
             <td md-cell>{{split.calcMeasures.cadence.avgValue | measureCalc:$ctrl.sport:'cadence'}}</td>
         </tr>
         </tbody>

@@ -1,6 +1,6 @@
-import { IComponentOptions, IComponentController} from 'angular';
+import { IComponentOptions, IComponentController,ILocationService} from 'angular';
 import SessionService from "../core/session.service";
-import {StateService, LocationServices} from 'angular-ui-router';
+import {StateService} from 'angular-ui-router';
 import {IMessageService} from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 require('./auth.component.scss');
@@ -10,21 +10,19 @@ class AuthCtrl implements IComponentController {
 	private enabled: boolean = true;
 	private showConfirm: boolean = false;
 	private credentials: Object = null;
+	private passwordStrength: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-	static $inject = ['AuthService','SessionService','$state','SystemMessageService','$location','ActionMessageService', 'message'];
+	static $inject = ['AuthService','SessionService','$state','$location', 'message'];
 
 	constructor(
 		private AuthService: any,
 		private SessionService: SessionService,
 		private $state: StateService,
-		private SystemMessageService: any,
-		private $location: LocationServices,
-		private ActionMessageService: any,
+		private $location: ILocationService,
 		private message: IMessageService) {
 	}
 
 	$onInit() {
-
 		/**
 		 * Переход в компонент по ссылке /signout
 		 * Сбрасываем данные в localStorage и переходим на экран входа пользователя
@@ -39,13 +37,13 @@ class AuthCtrl implements IComponentController {
 		 * В AuthService отправляем POST - подтверждение, что пользователь активировал свою учетную запись
 		 */
 		if(this.$state.$current.name === 'confirm') {
-			if(this.$location.search.hasOwnProperty('request')) {
-				this.AuthService.confirm({request: this.$location.search['request']})
+			if(this.$location['$$search'].hasOwnProperty('request')) {
+				this.AuthService.confirm({request: this.$location['$$search']['request']})
 					.then((success) => {
-						this.SystemMessageService.show(success.title, success.status, success.delay);
+						this.message.systemSuccess(success.title);
 						this.$state.go('signin');
 					}, (error) => {
-						this.SystemMessageService.show(error);
+						this.message.systemWarning(error);
 						this.$state.go('signup');
 					});
 			} else {
@@ -61,6 +59,12 @@ class AuthCtrl implements IComponentController {
 				lastName: '',
 				avatar: 'default.jpg',
 				background: 'default.jpg'
+			},
+			display: {
+				units: 'metric',
+				firstDayOfWeek: 1,
+				timezone: 'Europe/Moscow',
+				language: 'ru'
 			},
 			email: '',
 			password: '',
@@ -92,8 +96,8 @@ class AuthCtrl implements IComponentController {
 			.finally(()=>this.enabled = true)
 			.then(success => {
 				this.showConfirm = true;
-				this.SystemMessageService.show(success.title, success.status, success.delay);
-			}, error => this.SystemMessageService.show(error));
+				this.message.systemSuccess(success.title);
+			}, error => this.message.systemWarning(error));
 	}
 
 }

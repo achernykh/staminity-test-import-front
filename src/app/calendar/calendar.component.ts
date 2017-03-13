@@ -138,6 +138,15 @@ export class CalendarCtrl implements IComponentController{
                     return this.dayItem(date, calendarItems);
                 });
                 return this.weekItem(index, start, days);
+            // если по запорсу получена ошибка или превышен тайм-аут ожидания, то неделя формируется с пустыми данными
+            }, error => {
+                this.message.toastError(error);
+                let days = times(7).map((i) => {
+                    let date = moment(start).add(i, 'd');
+                    let calendarItems = [];
+                    return this.dayItem(date, calendarItems);
+                });
+                return this.weekItem(index, start, days);
             });
     }
     

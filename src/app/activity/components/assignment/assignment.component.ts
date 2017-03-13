@@ -52,7 +52,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         limit: 5,
         page: 1
     };
-    private filter: Array<string> = ['movingDuration','distance','heartRate', 'speed', 'power'];
+    //private filter: Array<string> = ['movingDuration','distance','heartRate', 'speed', 'power'];
 
     static $inject = ['$scope','$mdEditDialog','$q','$filter','AuthService'];
 
@@ -64,7 +64,16 @@ class ActivityAssignmentCtrl implements IComponentController {
         private AuthService: IAuthService) {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
-        this.$scope.measure = ['movingDuration','distance','heartRate', 'speed'];
+        this.$scope.measure = {
+            swim: ['movingDuration','distance', 'speed'],
+            bike: ['movingDuration','distance','heartRate', 'speed','power'],
+            run: ['movingDuration','distance','heartRate', 'speed'],
+            strength: ['movingDuration','distance','heartRate'],
+            transition: ['movingDuration','distance','heartRate', 'speed'],
+            ski: ['movingDuration','distance','heartRate', 'speed'],
+            other: ['movingDuration','distance','heartRate', 'speed'],
+            default: ['movingDuration','distance','heartRate', 'speed'],
+        };
         //
         this.valueType = {
             movingDuration: 'value',
@@ -73,16 +82,16 @@ class ActivityAssignmentCtrl implements IComponentController {
             speed: 'avgValue',
             power: 'avgValue'
         };
-        this.$scope.search = (measure) => this.$scope.measure.indexOf(measure.$key) !== -1;
+        this.$scope.search = (measure) => this.$scope.measure[this.item.activity.sportBasic || 'default'].indexOf(measure.$key) !== -1;
     }
 
     $onInit() {
         // расчет процента по позициям планогово задания в тренировке
-        this.$scope.measure.forEach(key => {
+        this.$scope.measure[this.item.activity.sportBasic || 'default'].forEach(key => {
             this.percentComplete[key] = this.calcPercent(key) || null;
         });
-    }
 
+    }
     isInterval(key) {
         return ['speed','heartRate','power'].indexOf(key) !== -1;
     }
@@ -163,16 +172,18 @@ class ActivityAssignmentCtrl implements IComponentController {
             this.assignmentForm['plan_movingDuration'].$setValidity('singleDuration',
                 !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
 
-
-            console.log('check intensity', this.assignmentForm['plan_heartRate'].$modelValue['from'], this.assignmentForm['plan_speed'].$modelValue['from'], this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
             // Пользователь может указать только один парметр интенсивности
-            this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
-                !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
-                this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
+            if (this.assignmentForm['plan_heartRate'] && this.assignmentForm['plan_speed']) {
+                this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
+                    !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
+                    this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
+            }
 
-            this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
-                !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
-                this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
+            if (this.assignmentForm['plan_speed'] && this.assignmentForm['plan_heartRate']) {
+                this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
+                    !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
+                    this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
+            }
         }
 
         this.assignmentForm['dateStart'].$setValidity('needPermissionForFeature',

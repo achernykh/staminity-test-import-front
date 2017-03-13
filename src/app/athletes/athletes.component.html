@@ -13,11 +13,11 @@
         <md-toolbar class="md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center" style="background-color: #cfd8dc; color: #607d8b; padding: 16px 26px;">
             <span flex>{{ $ctrl.checked.length }} items selected</span>
             <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
-                <md-tooltip md-direction="bottom">Tariffs</md-tooltip>
-                <md-icon class="material-icons">share</md-icon> 
+                <md-tooltip md-direction="bottom" translate>Управление тарифами</md-tooltip>
+                <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
             <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
-                <md-tooltip md-direction="bottom">Remove</md-tooltip>
+                <md-tooltip md-direction="bottom">Удалить</md-tooltip>
                 <md-icon class="material-icons">delete</md-icon> 
             </md-button>
         </md-toolbar>

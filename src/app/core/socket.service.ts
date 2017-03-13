@@ -44,7 +44,12 @@ export class SocketService implements ISocketService {
     private requests: Array<any> = [];
     private requestId: number = 1;
     private reopenTimeout: number = 0.5; // в секундах
-    private responseTimeout: number = 5.0; // сек
+    private responseTimeout: number = 3.0; // сек
+    private readonly responseLimit: {} = { // лимиты ожидания по отдельным запросам (сек)
+        getActivityIntervals: 10.0,
+        postUserExternalAccount: 60.0,
+        getCalendarItem: 30.0
+    };
 
     public connections: Subject<any>;
     public messages: Subject<any>;
@@ -165,7 +170,7 @@ export class SocketService implements ISocketService {
                         delete this.requests[request.requestId];
                         this.loader.hide();
                     }
-                }, this.responseTimeout * 1000);
+                }, (this.responseLimit[request.requestType] || this.responseTimeout) * 1000);
 
                 return deferred.promise;
             });
