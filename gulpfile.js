@@ -224,4 +224,11 @@ gulp.task('ftp-copy', function () {
         .pipe(gutil.noop());
 });
 
+gulp.task('ftp-copy-prd', function () {
+    var src = './'+ENV;
+    return gulp.src('prd/**/*')
+        .pipe(ftp(pass.prd))
+        .pipe(gutil.noop());
+});
+
 

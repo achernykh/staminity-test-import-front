@@ -9,13 +9,17 @@ const fileName = "[name].[chunkhash]";
 const hostEndPoint = {
     dist: "https://george3447.github.io/angular-webpack-material-lazyload-typescript-starter-template/",
     distLocal: "http://localhost:75/",
-    dev1: "http://dev1.staminity.com"
+    dev1: "http://dev1.staminity.com",
+    dev2: "http://dev2.staminity.com",
+    prd: "http://staminity.com"
 };
 
 const contentBase = {
     dist: './dist',
     distLocal: './distLocal',
-    dev1: './dev1'
+    dev1: './dev1',
+    dev2: './dev2',
+    prd: './prd'
 };
 
 var cwd = process.cwd();
