@@ -113,7 +113,7 @@ class ActivityAssignmentCtrl implements IComponentController {
             (this.plan[key]['from'] === this.plan[key]['to'] && this.plan[key]['from']) ||
             (this.plan[key]['from'] !== this.plan[key]['to'] && this.plan[key]) || null;
 
-        let actual = this.actual[key][this.valueType[key]] || null;
+        let actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.valueType[key]]) || null;
 
         // для расчета процента необходимо наличие плана и факта по позиции
         if(!!plan && !!actual){

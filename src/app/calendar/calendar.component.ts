@@ -235,6 +235,7 @@ export class CalendarCtrl implements IComponentController{
         let d = moment(item.dateStart).weekday();
         console.log('onPostItem to',w,d,item,moment(item.dateStart).format('GGGG-WW'));
         this.calendar[w].subItem[d].data.calendarItems.push(item);
+        this.calendar[w].changes++;
     }
 
     /**
@@ -248,6 +249,7 @@ export class CalendarCtrl implements IComponentController{
 
         console.log('onDeleteItem', w,d,p,item,this.calendar);
         this.calendar[w].subItem[d].data.calendarItems.splice(p,1);
+        this.calendar[w].changes++;
     }
 
     /**

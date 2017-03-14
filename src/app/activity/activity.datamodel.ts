@@ -177,12 +177,13 @@ export class Activity extends CalendarItem {
 		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
 		this.actualDataIsImported = this.intervalW.actualDataIsImported;
 
+		debugger;
 		// Дополниельные данные для отображения плана на панелях
 		Object.assign(this.intervalPW, {
 			movingDuration: {
 				order: 110,
 				sourceMeasure: 'movingDuration',
-				value: (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null
+				value: ((this.intervalPW.durationMeasure === 'movingDuration' || (this.intervalPW.durationMeasure === 'duration')) && this.intervalPW.durationValue) || null
 			},
 			distance: {
 				order: 120,

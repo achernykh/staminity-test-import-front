@@ -217,16 +217,30 @@ gulp.task('url', function(){
         .pipe(open({uri: 'http://www.google.com'}));
 });
 
-gulp.task('ftp-copy', function () {
+gulp.task('ftp-dev1-full', function () {
     var src = './'+ENV;
     return gulp.src('dev1/**/*')
         .pipe(ftp(pass.dev1))
         .pipe(gutil.noop());
 });
 
-gulp.task('ftp-copy-prd', function () {
+gulp.task('ftp-dev1', function () {
+    var src = './'+ENV;
+    return gulp.src(['dev1/assets/css/**','dev1/assets/js/**','dev1/index.html'])
+        .pipe(ftp(pass.dev1))
+        .pipe(gutil.noop());
+});
+
+gulp.task('ftp-prd-full', function () {
     var src = './'+ENV;
     return gulp.src('prd/**/*')
+        .pipe(ftp(pass.prd))
+        .pipe(gutil.noop());
+});
+
+gulp.task('ftp-prd', function () {
+    var src = './'+ENV;
+    return gulp.src(['prd/assets/css/**','prd/assets/js/**','prd/index.html'])
         .pipe(ftp(pass.prd))
         .pipe(gutil.noop());
 });

@@ -91,16 +91,41 @@
          ng-switch on="$ctrl.data.bottomPanel"
          ng-if="::(!$ctrl.calendar.view.compact && $ctrl.data.hasBottomData())">
         <!-- Панель: Установка тренера -->
-        <div ng-switch-when="prescription"
-             flex class="md-caption secondary dark"
-             ng-if="::(!!$ctrl.data.intervalPW.trainersPrescription)"
-             hm-read-more
-             hm-text="{{::$ctrl.data.intervalPW.trainersPrescription}}"
-             hm-limit="50"
-             hm-more-text="more"
-             hm-less-text="less"
-             hm-dots-class="read-more-dots"
-             hm-link-class="read-more-links">
+        <!--<div ng-switch-when="prescription" ng-if="$ctrl.data.intensityValue">
+            <div flex="none">
+                <md-icon md-svg-src="assets/icon/{{::$ctrl.data.intensityMeasure}}.svg" class="light-active s18"
+                         style="margin-right: 8px">timer</md-icon>
+            </div>
+            <div flex layout="column"
+                 class="md-caption secondary dark"
+                 style="margin-top: 2px">
+                    {{::$ctrl.data.intensityValue | measureCalc:$ctrl.data.sportBasic:$ctrl.data.intensityMeasure}}
+                    <span class="disable dark">&nbsp{{::$ctrl.data.intensityMeasure | measureUnit:$ctrl.data.sportBasic | translate}}</span>
+            </div>
+        </div>-->
+        <div ng-switch-when="prescription"><!--
+            <div ng-if="$ctrl.data.intensityValue" layout="row">
+                <div flex="none">
+                    <md-icon md-svg-src="assets/icon/{{::$ctrl.data.intensityMeasure}}.svg" class="dark-active s18"
+                             style="margin-right: 8px">timer</md-icon>
+                </div>
+                <div flex class="md-caption secondary dark" style="margin-top: 2px">
+                    {{::$ctrl.data.intensityValue | measureCalc:$ctrl.data.sportBasic:$ctrl.data.intensityMeasure}}
+                    <span class="disable dark">&nbsp{{::$ctrl.data.intensityMeasure | measureUnit:$ctrl.data.sportBasic | translate}}</span>
+                </div>
+
+            </div>-->
+            <div class="md-caption secondary dark" style="font-size: 12px"
+                 ng-if="::(!!$ctrl.data.intervalPW.trainersPrescription)"
+                 hm-read-more
+                 hm-text="{{::$ctrl.data.intervalPW.trainersPrescription}}"
+                 hm-limit="50"
+                 hm-more-text="more"
+                 hm-less-text="less"
+                 hm-dots-class="read-more-dots"
+                 hm-link-class="read-more-links">
+
+            </div>
         </div>
         <!-- Панель: Фактические данные по неструктурированной тренировке -->
         <div ng-switch-when="data"
@@ -113,7 +138,7 @@
             </div>
             <div flex layout="column"
                  class="md-caption secondary dark"
-                 style="margin-top: 2px">
+                 style="margin-top: 2px; font-size: 12px">
                 <div flex ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind">
                     {{::obj.value | measureCalc:$ctrl.data.sportBasic:obj.measure}}
                     <span class="disable dark">&nbsp{{::obj.measure | measureUnit:$ctrl.data.sportBasic | translate}}</span>

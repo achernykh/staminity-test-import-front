@@ -38,14 +38,14 @@
 <calendar-total-chart value="30" max="50" status="'ok'"></calendar-total-chart>
 -->
 <!-- weektotal header: end -->
-<div ng-if="$ctrl.summary.completed.movingDuration > 0">
+<div ng-if="$ctrl.summary.fact.movingDuration > 0">
     <section layout="row" class="sum">
         <md-icon flex="none" class="material-icons md-18">event_total</md-icon>
         <div flex layout="column" class="md-body-2 secondary dark">
             <div flex="none" layout="row" layout-align="space-between center">
-                <div flex="none">{{$ctrl.summary.completed.movingDuration | measureCalc:'run':'movingDuration'}}</div>
+                <div flex="none">{{$ctrl.summary.fact.movingDuration | measureCalc:'run':'movingDuration'}}</div>
                 <div flex="none">
-                    <span>{{$ctrl.summary.completed.distance | measureCalc:'run':'distance'}}</span>
+                    <span>{{$ctrl.summary.fact.distance | measureCalc:'run':'distance'}}</span>
                     <span>{{'distance' | measureUnit:'run' | translate}}</span>
                 </div>
             </div>
@@ -54,14 +54,14 @@
     <md-divider></md-divider>
 </div>
 <div ng-repeat="sport in $ctrl.primarySport">
-    <div ng-if="$ctrl.total.hasOwnProperty(sport) && $ctrl.total[sport].completed.movingDuration > 0">
+    <div ng-if="$ctrl.total.hasOwnProperty(sport) && $ctrl.total[sport].fact.movingDuration > 0">
         <section layout="row" class="sport-sum">
             <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
             <div flex layout="column" class="md-body-1 secondary dark">
                 <div flex="none" layout="row" layout-align="space-between center">
-                    <div flex="none">{{$ctrl.total[sport].completed.movingDuration | measureCalc:sport:'movingDuration'}}</div>
+                    <div flex="none">{{$ctrl.total[sport].fact.movingDuration | measureCalc:sport:'movingDuration'}}</div>
                     <div flex="none">
-                        <span>{{$ctrl.total[sport].completed.distance | measureCalc:sport:'distance'}}</span>
+                        <span>{{$ctrl.total[sport].fact.distance | measureCalc:sport:'distance'}}</span>
                         <span>{{'distance' | measureUnit:sport | translate}}</span>
                     </div>
                 </div>
@@ -69,7 +69,24 @@
         </section>
         <md-divider ng-if="!$last"></md-divider>
     </div>
-</div>
+</div><!--
+<div ng-repeat="sport in $ctrl.primarySport">
+    <div ng-if="$ctrl.total.hasOwnProperty(sport) && $ctrl.total[sport].plan.movingDuration > 0">
+        <section layout="row" class="sport-sum">
+            <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
+            <div flex layout="column" class="md-body-1 secondary dark">
+                <div flex="none" layout="row" layout-align="space-between center">
+                    <div flex="none">{{$ctrl.total[sport].plan.movingDuration | measureCalc:sport:'movingDuration'}}</div>
+                    <div flex="none">
+                        <span>{{$ctrl.total[sport].plan.distance | measureCalc:sport:'distance'}}</span>
+                        <span>{{'distance' | measureUnit:sport | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <md-divider ng-if="!$last"></md-divider>
+    </div>
+</div>-->
 <!--
         <div flex="none" layout="row" style="background-color: #0000AA; height: 2px">
             <div flex="none" style="background-color: red; height: 2px; width: 25%"></div>
