@@ -142,15 +142,21 @@ export const scrollKeepPosition = () => ({
   link (scope, element, attrs, scrollContainer) {
     
     let updates = scope.$eval(attrs.scrollKeepPosition)
+    var isLocked = false;
     
     updates
     .map(() => findChildInViewport(element[0]))
     .filter(child => child)
     .subscribe((child) => {
+      if (isLocked) return;
+      isLocked = true;
       let t0 = new Date()
       let offsetTop = child.offsetTop
       let position = offsetTop - element[0].scrollTop
-      scope.$$postDigest(() => {
+      child.addClass('calendar__week--highlight')
+      console.log('watching scroll')
+      requestAnimationFrame(() => {
+        isLocked = false;
         let t1 = new Date()
         if (child.offsetTop !== offsetTop) {
           let shift = (child.offsetTop - element[0].scrollTop) - position
