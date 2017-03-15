@@ -204,8 +204,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
             (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['to']) || null;
 
         this.activity.intervalW.calcMeasures = actual;
-        //this.activityForm.$dirty = true;
-        //this.activityForm.$valid = valid && this.activityForm.$valid;
     }
 }
 

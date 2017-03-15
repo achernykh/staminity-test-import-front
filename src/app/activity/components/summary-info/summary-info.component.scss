@@ -24,8 +24,8 @@ activity-summary-info {
   }
 
   &.coming {
-    color: black;
-    @extend .bg-grey-500;
+    color: rgba(0,0,0,0.54);
+    @extend .bg-grey-300;
     .bg-circle-56, div.summary-percent {
       @extend .bg-grey-700;
     }

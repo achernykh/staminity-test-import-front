@@ -177,7 +177,6 @@ export class Activity extends CalendarItem {
 		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
 		this.actualDataIsImported = this.intervalW.actualDataIsImported;
 
-		debugger;
 		// Дополниельные данные для отображения плана на панелях
 		Object.assign(this.intervalPW, {
 			movingDuration: {
@@ -335,8 +334,8 @@ export class Activity extends CalendarItem {
 	}
 
 	get bottomPanel() {
-		return ((this.coming && this.intervalPW.trainersPrescription) && 'prescription') ||
-			(this.completed && 'data') || null;
+		return ((this.coming && ((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0) ||
+			this.intervalPW.intensityMeasure )) && 'plan') || ((this.completed && this.summaryAvg.length > 0) && 'data') || null;
 	}
 
 	/**
@@ -344,9 +343,7 @@ export class Activity extends CalendarItem {
 	 * @returns {boolean}
 	 */
 	hasBottomData() {
-		return !!this.bottomPanel &&
-			((this.bottomPanel === 'data' && this.summaryAvg.length > 0) ||
-			(this.bottomPanel === 'prescription' && this.intervalPW.trainersPrescription.length > 0));
+		return !!this.bottomPanel;
 	}
 
 	get percent() {

@@ -50,11 +50,12 @@ class ActivitySummaryInfoCtrl implements IComponentController {
                     this.$filter('translate')(this.$filter('measureUnit')(durationMeasure, sportBasic));
 
                 this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from')
-                    && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)+'-'+
-                    this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure)+' '+
-                    this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic))) ||
-                    this.$filter('measureCalc')(intensityValue, sportBasic, intensityMeasure)+' '+
-                    this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic));
+                    && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)) || '';
+
+                this.intensityInfo += (intensityValue['to'] !== intensityValue['from'] &&
+                    '-' + this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure)) || '';
+
+                this.intensityInfo += ' ' + this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic));
 
                 break;
             }

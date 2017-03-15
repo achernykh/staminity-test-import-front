@@ -103,6 +103,20 @@ class ActivityAssignmentCtrl implements IComponentController {
         this.validateForm();
         let percent: number = this.calcPercent(key); // расчет процента выполнения по позиции плана
         this.percentComplete[key] = percent; // обновляем view model
+
+        this.plan.durationMeasure = (!!this.plan.distance.value && 'distance') ||
+            (!!this.plan.movingDuration.value && 'movingDuration') || null;
+        this.plan.durationValue =
+            (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure].value) || null;
+
+        this.plan.intensityMeasure = (!!this.plan.heartRate['from'] && 'heartRate') ||
+            (!!this.plan.speed['from'] && 'speed') || (!!this.plan.power['from'] && 'power') || null;
+
+        this.plan.intensityLevelFrom =
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure]['from']) || null;
+        this.plan.intensityLevelTo =
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure]['to']) || null;
+        debugger;
         this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
         this.onChange({plan: this.plan, actual: this.actual, form: this.assignmentForm});
     }
@@ -142,8 +156,8 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     validateForm() {
 
-        console.log('check date',isFutureDay(this.assignmentForm['dateStart'].$modelValue),this.AuthService.isActivityPlan());
-        console.log('check role date',isFutureDay(this.assignmentForm['dateStart'].$modelValue) && this.AuthService.isActivityPlan());
+        //console.log('check date',isFutureDay(this.assignmentForm['dateStart'].$modelValue),this.AuthService.isActivityPlan());
+        //console.log('check role date',isFutureDay(this.assignmentForm['dateStart'].$modelValue) && this.AuthService.isActivityPlan());
 
         if (this.assignmentForm.hasOwnProperty('plan_distance')) {
             this.assignmentForm['plan_distance'].$setValidity('needDuration',
@@ -187,7 +201,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         }
 
         this.assignmentForm['dateStart'].$setValidity('needPermissionForFeature',
-            isFutureDay(!this.assignmentForm['dateStart'].$modelValue) ||
+            !isFutureDay(this.assignmentForm['dateStart'].$modelValue) ||
             (this.assignmentForm['dateStart'].$modelValue && this.AuthService.isActivityPlan()));
 
     }
@@ -257,7 +271,10 @@ class ActivityAssignmentCtrl implements IComponentController {
      */
     calculateCompletePercent():number {
 
-        let percent: Array<number> = Object.keys(this.percentComplete)
+        return ((this.plan.durationMeasure && this.plan.intensityMeasure) &&
+            this.percentComplete[this.plan.durationMeasure] * this.percentComplete[this.plan.intensityMeasure] ) || null;
+
+        /*let percent: Array<number> = Object.keys(this.percentComplete)
             .filter(m => !!this.percentComplete[m])
             .map(m => this.percentComplete[m]);
 
@@ -266,7 +283,7 @@ class ActivityAssignmentCtrl implements IComponentController {
                 console.log('calculateCompletePercent', percent, value, arr);
                 return (percent + value) / arr.length;
             });
-        }
+        }*/
     }
 
 }
