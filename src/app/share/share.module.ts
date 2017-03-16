@@ -34,6 +34,8 @@ import AthleteSelectorComponent from "./athlete-selector/athlete-selector.compon
 import {translateRequestPanel} from "./requests/request.translate";
 import {translateDialogs} from "./dialogs/dialogs.translate";
 import {translateNotification} from "./notification/notification.translate";
+import NotificationListComponent from "./notification/notification-list.component";
+import NotificationService from "./notification/notification.service";
 
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
@@ -167,12 +169,14 @@ const Share = module('staminity.share', [])
     .component('userMenu',UserMenuComponent)
     .component('applicationMenu',ApplicationMenu)
     .service('LoaderService',LoaderService)
+    .service('NotificationService', NotificationService)
     .service("dialogs", DialogsService)
     .component('loader', LoaderComponent)
     .component('userInfo', userInfo)
     .component('requests', RequestsComponent)
     .component('userpic', userpic)
     .component('athleteSelector', AthleteSelectorComponent)
+    .component('notificationList', NotificationListComponent)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])

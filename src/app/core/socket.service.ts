@@ -35,6 +35,12 @@ export interface ISocketService {
     connections: Observable<any>;
 }
 
+export interface ISocketAsyncMessage {
+    type: string;
+    action: string;
+    value: Object;
+}
+
 /**
  * Класс для работы с websoсket сессией
  */

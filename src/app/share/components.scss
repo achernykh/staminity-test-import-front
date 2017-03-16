@@ -27,3 +27,19 @@
     font-size: 12px;
     line-height: 12px;
 }
+
+userpic {
+    div.avatar {
+        display:inline-block;
+        height: 24px;
+        width: 24px;
+        border-radius: 12px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    &.size-36 > div.avatar {
+        height: 36px;
+        width: 36px;
+        border-radius: 18px;
+    }
+}

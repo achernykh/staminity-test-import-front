@@ -4,9 +4,9 @@
                ng-click="toggleRight()" data-badge="{{$ctrl.notification}}" style="min-width:40px">
         <md-icon calss="material-icons">notification_active</md-icon>
     </md-button>
-    <md-button ng-if="$ctrl.notification == 0 || $ctrl.notification == null"
+    <md-button ng-if="$ctrl.notification == 0 || $ctrl.notification == null" ng-click="$ctrl.toggleSlide('notifications')"
                class="md-icon-button md-primary" aria-label="Notification"
-               ng-click="$ctrl.showToast()" data-badge="{{2}}" style="min-width:40px">
+               data-badge="{{2}}" style="min-width:40px">
         <md-icon calss="material-icons">notifications</md-icon>
     </md-button>
     
