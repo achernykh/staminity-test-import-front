@@ -68,9 +68,8 @@ class AuthCtrl implements IComponentController {
 			},
 			email: '',
 			password: '',
-			personal: {
-				role: false
-			}
+			activateCoachTrial: false,
+			activatePremiumTrial: true
 		};
 	}
 

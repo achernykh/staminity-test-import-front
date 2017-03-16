@@ -126,23 +126,23 @@ class CalendarTotalCtrl {
                 }
             }*/
             // Итоги по всем активностям недели
-            this.summary = {completed: {distance: 0,movingDuration: 0},planned: {distance: 0,movingDuration: 0}};
+            this.summary = {fact: {distance: 0,movingDuration: 0},plan: {distance: 0,movingDuration: 0}};
             Object.keys(this.total).forEach((sport) => {
-                if (this.total[sport].hasOwnProperty('completed')){
-                    this.summary.completed.distance +=
-                        (this.total[sport].completed.hasOwnProperty('distance') &&
-                        this.total[sport].completed.distance) || 0;
-                    this.summary.completed.movingDuration +=
-                        (this.total[sport].completed.hasOwnProperty('movingDuration') &&
-                        this.total[sport].completed.movingDuration) || 0;
+                if (this.total[sport].hasOwnProperty('fact')){
+                    this.summary.fact.distance +=
+                        (this.total[sport].fact.hasOwnProperty('distance') &&
+                        this.total[sport].fact.distance) || 0;
+                    this.summary.fact.movingDuration +=
+                        (this.total[sport].fact.hasOwnProperty('movingDuration') &&
+                        this.total[sport].fact.movingDuration) || 0;
                 }
-                if (this.total[sport].hasOwnProperty('planned')){
-                    this.summary.planned.distance +=
-                        (this.total[sport].planned.hasOwnProperty('distance') &&
-                        this.total[sport].planned.distance) || 0;
-                    this.summary.planned.movingDuration +=
-                        (this.total[sport].planned.hasOwnProperty('movingDuration') &&
-                        this.total[sport].planned.movingDuration) || 0;
+                if (this.total[sport].hasOwnProperty('plan')){
+                    this.summary.plan.distance +=
+                        (this.total[sport].plan.hasOwnProperty('distance') &&
+                        this.total[sport].plan.distance) || 0;
+                    this.summary.plan.movingDuration +=
+                        (this.total[sport].plan.hasOwnProperty('movingDuration') &&
+                        this.total[sport].plan.movingDuration) || 0;
                 }
             });
         }

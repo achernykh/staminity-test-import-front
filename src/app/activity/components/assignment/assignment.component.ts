@@ -116,7 +116,7 @@ class ActivityAssignmentCtrl implements IComponentController {
             (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure]['from']) || null;
         this.plan.intensityLevelTo =
             (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure]['to']) || null;
-        debugger;
+
         this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
         this.onChange({plan: this.plan, actual: this.actual, form: this.assignmentForm});
     }
@@ -272,7 +272,8 @@ class ActivityAssignmentCtrl implements IComponentController {
     calculateCompletePercent():number {
 
         return ((this.plan.durationMeasure && this.plan.intensityMeasure) &&
-            this.percentComplete[this.plan.durationMeasure] * this.percentComplete[this.plan.intensityMeasure] ) || null;
+            this.percentComplete[this.plan.durationMeasure] * this.percentComplete[this.plan.intensityMeasure] ) ||
+            (!this.plan.intensityMeasure && this.percentComplete[this.plan.durationMeasure]) || null;
 
         /*let percent: Array<number> = Object.keys(this.percentComplete)
             .filter(m => !!this.percentComplete[m])
