@@ -48,7 +48,7 @@ class HeaderCtrl implements IComponentController {
 				time: new Date(),
 				message: 'notificationTestMessage',
 				context: {
-					data: [5,'Евгений','Хабаров','Сейчас смотрю твой бег! Лучше восприятие будет если график будет занимать меньше места а карта больше']
+					data: ['run', 12000, 2.6,'Евгений','Хабаров','Сейчас смотрю твой бег! Лучше восприятие будет если график будет занимать меньше места а карта больше']
 				}
 			}}),
 			bodyOutputType: 'templateWithData'
