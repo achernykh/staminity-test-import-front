@@ -40,8 +40,8 @@ export const translateNotification = {
         * data[5] - фактический % выполнения. На всякий случай написал, но надо подумать, стоит ли выводить. Ведь потом спортсмен может менять границы сегментов
         * и % выполнения, рассчитанный автоматически, может измениться.
         * */
-        activityCompletedByAthlete: "Выполнена тренировка {{data[1]}} по виду спорта '{{data[0]} | translate}'. Общее время: {{data[3]}}, + 
-        "расстояние {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}"
+        activityCompletedByAthlete: "Выполнена тренировка {{data[1]}} по виду спорта '{{data[0]} | translate}'. Общее время: {{data[3]}}," + 
+        " расстояние {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}"
 
         
     },
