@@ -41,7 +41,7 @@ export const translateNotification = {
         * и % выполнения, рассчитанный автоматически, может измениться.
         * */
         activityCompletedByAthlete: "Выполнена тренировка {{data[1]}} по виду спорта '{{data[0]} | translate}'. Общее время: {{data[3]}}, + 
-        " расстояние {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}"
+        "расстояние {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}"
 
         
     },
