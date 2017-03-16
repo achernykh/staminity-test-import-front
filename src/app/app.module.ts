@@ -1,6 +1,7 @@
 import {module, bootstrap} from 'angular';
 import * as ngMaterial from 'angular-material';
 import * as ngMessage from 'angular-messages';
+import * as ngAnimate from 'angular-animate';
 import * as ngMaterialTable from 'angular-material-data-table';
 import 'angular-translate/dist/angular-translate.js';
 import uiRouter from 'angular-ui-router';
@@ -12,6 +13,8 @@ import 'leaflet/dist/leaflet.css';
 import 'ui-leaflet/dist/ui-leaflet.js';
 import * as hmReedmore from "../../bower_components/angular-read-more";
 import * as angularDynamicLocale from 'angular-dynamic-locale/src/tmhDynamicLocale.js';
+import toaster from 'angularjs-toaster';
+import 'angularjs-toaster/toaster.css';
 
 import run from './app.run';
 import configure from './app.config';
@@ -36,6 +39,7 @@ const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
 	ngMaterial,
 	ngMessage,
+	ngAnimate,
 	uiRouter,
 	ngMaterialTable,
 	'smDateTimeRangePicker',
@@ -43,6 +47,7 @@ const root = module('staminity.application', [
 	'ui-leaflet',
 	hmReedmore,
 	angularDynamicLocale,
+	toaster,
 
 	Core,
 	Share,

@@ -1,4 +1,5 @@
 import './components.scss';
+import './notification/notification.scss';
 import { module, isObject } from 'angular';
 import moment from 'moment/src/moment.js';
 import  { ageGroup } from '../../../api/user/user.interface';
@@ -195,6 +196,7 @@ const Share = module('staminity.share', [])
         $templateCache.put('header/logo.html', require('./header/panels/logo.html') as string);
         $templateCache.put('header/usertoolbar.html', require('./header/panels/usertoolbar.html') as string);
         $templateCache.put('header/welcome.links.html', require('./header/panels/welcome.links.html') as string);
+        $templateCache.put('notification/notification.html', require('./notification/notification.html') as string);
     }])
     .name;
 

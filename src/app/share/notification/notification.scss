@@ -1,0 +1,15 @@
+#toast-container > .toast-info {
+  background-image: none !important;
+  padding: 0px;
+  background-color: white;
+  color: black;
+  opacity: 1;
+}
+
+.toast-message a, .toast-message label {
+  color: grey;
+}
+.toast-message a:hover {
+  color: black;
+  text-decoration: none;
+}

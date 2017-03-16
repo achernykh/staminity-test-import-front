@@ -16,7 +16,8 @@ class HeaderCtrl implements IComponentController {
 	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
 	private readonly athleteSelectorStates: Array<string> = ['calendar'];
 
-	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', '$mdDialog', '$state'];
+	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', '$mdDialog', '$state',
+	'toaster'];
 
 	constructor(
 		private $scope,
@@ -25,7 +26,8 @@ class HeaderCtrl implements IComponentController {
 		private SessionService: SessionService,
 		private RequestsService: RequestsService,
 		private $mdDialog: any,
-		private $state: StateService
+		private $state: StateService,
+		private toaster: any
 	) {
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 
@@ -35,6 +37,18 @@ class HeaderCtrl implements IComponentController {
 			console.log('requestsInboxNew', requestsInboxNew);
 			this.requests = requestsInboxNew.length;
 			this.$scope.$apply();
+		});
+	}
+
+	showToast(){
+		this.toaster.pop({
+			timeout: 300000,
+			body: JSON.stringify({template: 'notification/notification.html', data: {
+				fullName: 'Евгений Хабаров',
+				time: new Date(),
+				message: 'Сейчас смотрю твой бег! Лучше восприятие будет если график будет занимать меньше места а карта больше'
+			}}),
+			bodyOutputType: 'templateWithData'
 		});
 	}
 

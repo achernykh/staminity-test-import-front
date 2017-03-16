@@ -30,7 +30,8 @@ module.exports = {
             'leaflet',
             'ui-leaflet',
             'd3',
-            'angular-dynamic-locale'
+            'angular-dynamic-locale',
+            'angularjs-toaster'
             //'angular-read-more'
         ],
         // вход для приложения
