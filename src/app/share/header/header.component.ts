@@ -46,7 +46,10 @@ class HeaderCtrl implements IComponentController {
 			body: JSON.stringify({template: 'notification/notification.html', data: {
 				fullName: 'Евгений Хабаров',
 				time: new Date(),
-				message: 'Сейчас смотрю твой бег! Лучше восприятие будет если график будет занимать меньше места а карта больше'
+				message: 'notificationTestMessage',
+				context: {
+					data: [5,'Евгений','Хабаров','Сейчас смотрю твой бег! Лучше восприятие будет если график будет занимать меньше места а карта больше']
+				}
 			}}),
 			bodyOutputType: 'templateWithData'
 		});
