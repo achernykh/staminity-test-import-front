@@ -87,49 +87,99 @@ export const translateNotification = {
         activityCompletedByFollowing: "",  /** аналогично, под вопросом **/
 
         
-    /** ---------- Комментарии, лайки, сообщения  --------**/
-    newCoachCommentSingle: "",
-    newCoachComments: "",
-    newUserCommentSingle: "",
-    newLikeSingle: "",
-    newUserCommentsAndLikes: "",
-    newSingleMessage: "",
-    newMessages: "",
+/** ---------- Комментарии, лайки, сообщения  --------**/
+        newCoachCommentSingle: "",
+        newCoachComments: "",
+        newUserCommentSingle: "",
+        newLikeSingle: "",
+        newUserCommentsAndLikes: "",
+        newSingleMessage: "",
+        newMessages: "",
 
-    /** ---------- Принятие и отклонение запросов пользователей  --------**/
-    requestStartCoachingApproved: "",
-    requestStartCoachingDeclined: "",
-    requestJoinClubApproved: "",
-    requestJoinClubDeclined: "",
-    requestLeaveClubByCoachApproved: "",
-    requestLeaveClubByCoachDeclined: "",
+/** ---------- Принятие и отклонение запросов пользователей  --------**/
+        /** Тренер принял запрос от спортсмена. Получатель - спортсмен, отправитель - тренер*//
+        requestStartCoachingApproved: "Ваш запрос на подключение к тренеру одобрен",
+         
+        /** Тренер отклонил запрос от спортсмена. Получатель - спортсмен, отправитель - тренер*//
+        requestStartCoachingDeclined: "Тренер отклонил ваш запрос на подключение",
+        
+        /** Клуб одобрил запрос от пользователя. Получатель - инициатор запроса, отправитель - клуб*//
+        requestJoinClubApproved: "Ваш запрос на вступление в клуб одобрен",
+
+        /** Клуб отклонил запрос от пользователя. Получатель - инициатор запроса, отправитель - клуб*//
+        requestJoinClubDeclined: "Ваш запрос на вступление в клуб отклонен",
+
+        /** Клуб одобрил запрос на выход тренера из клуба*//
+        requestLeaveClubByCoachApproved: "Ваш запрос на выход из клуба одобрен. Вы исключены из клуба",
+
+        /** Клуб отклонил запрос на выход тренера из клуба*//
+        requestLeaveClubByCoachDeclined: "Ваш запрос на выход из клуба отклонен",
     
-    requestJoinClubApprovedByOthers: "",
-    requestJoinClubDeclinedByOthers: "",
-    requestLeaveClubByCoachApprovedByOthers: "",
-    requestLeaveClubByCoachDeclinedByOthers: "",
+        /** Запрос на вступление в клуб одобрен другими администраторами. 
+         * Отправитель - инициатор исходного запроса (спортсмен, который направил запрос клубу)
+         * Получатели - члены группы clubManagement, за исключением того, кто обработал запрос
+        data[0] - Фамилия и Имя менеджера, обработавшего запрос
+        data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
+        data[2] - Название клуба 
+        data[3] - clubUri  Для ссылки на профиль*//
+        requestJoinClubApprovedByOthers: "Одобрен запрос на вступление в клуб {{data[2]}}. Запрос принял {{data[0]}}",
+
+
+        /** Запрос на вступление в клуб отклонен другими администраторами. 
+         * Отправитель - инициатор исходного запроса (спортсмен, который направил запрос клубу)
+         * Получатели - члены группы clubManagement, за исключением того, кто обработал запрос
+        data[0] - Фамилия и Имя менеджера, обработавшего запрос
+        data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
+        data[2] - Название клуба 
+        data[3] - clubUri  Для ссылки на профиль*//
+        requestJoinClubDeclinedByOthers: "Отклонен запрос на вступление в клуб {{data[2]}}. Запрос отклонил {{data[0]}}",
+
+        /** Запрос на выход тренера из клуба одобрен другими администраторами. 
+         * Отправитель - инициатор исходного запроса (тренер, который направил запрос на выход из клуба)
+         * Получатели - члены группы clubManagement, за исключением того, кто обработал запрос
+        data[0] - Фамилия и Имя менеджера, обработавшего запрос
+        data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
+        data[2] - Название клуба 
+        data[3] - clubUri  Для ссылки на профиль*//
+        requestLeaveClubByCoachApprovedByOthers: "Одобрен запрос на выход тренера из клуба {{data[2]}}. Запрос одобрил {{data[0]}}",
+        
+        
+        /** Запрос на выход тренера из клуба отклонен другими администраторами. 
+         * Отправитель - инициатор исходного запроса (тренер, который направил запрос на выход из клуба)
+         * Получатели - члены группы clubManagement, за исключением того, кто обработал запрос
+        data[0] - Фамилия и Имя менеджера, обработавшего запрос
+        data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
+        data[2] - Название клуба 
+        data[3] - clubUri  Для ссылки на профиль*//
+        requestLeaveClubByCoachDeclinedByOthers: "Отклонен запрос на выход тренера из клуба {{data[2]}}. Запрос отклонил {{data[0]}},
     
-    requestJoinUserGroupApproved: "",
-    requestJoinUserGroupDeclined: "",
-    requestAddFriendApproved: "",
+        /** Запрос на вступление в группу одобрен. 
+         * Отправитель - группа. Получатель - инициатор запроса.*//
+        requestJoinUserGroupApproved: "Ваш запрос на вступление в группу одобрен",
+        
+        /** Запрос на вступление в группу отклонен. 
+         * Отправитель - группа. Получатель - инициатор запроса.*//
+        requestJoinUserGroupDeclined: "Ваш запрос на вступление в группу отклонен",
+
+        requestAddFriendApproved: "",
 
 /** ---------- Оповещения в клубе  --------**/
-    clubAthleteConnected: "",
-    clubAthleteDisconnected: "",
-    clubCoachAssigned: "",
-    clubCoachRemoved: "",
+        clubAthleteConnected: "",
+        clubAthleteDisconnected: "",
+        clubCoachAssigned: "",
+        clubCoachRemoved: "",
 
-    clubRoleAssigned: "",
-    clubRoleRemoved: "",
+        clubRoleAssigned: "",
+        clubRoleRemoved: "",
     
     
 /** ---------- Отключение от тренеров, выход из клубов, выход из групп  --------**/
-    leaveCoachByAthlete: "",
-    leaveCoachByCoach: "",
-    leaveClubByAthlete: "",
-    leaveClubByClub: "",
-    leaveUserGroupByUser: "",
-    leaveUserGroupByGroup: "",
+        leaveCoachByAthlete: "",
+        leaveCoachByCoach: "",
+        leaveClubByAthlete: "",
+        leaveClubByClub: "",
+        leaveUserGroupByUser: "",
+        leaveUserGroupByGroup: "",
     
 
     /** ----------Уведомления по тарифам для всех --------**/
@@ -156,10 +206,13 @@ export const translateNotification = {
         zonesChangedByAthelete: "",
         zonesChangeRequestByService: ""
         
-    /** ----------Зоны и пороги --------**/
 
-
-
+/** ---------- Уведомления от сервиса --------**/
+    /** Уведомление для пользователей сервиса. Отправитель - Стаминити.
+        * data[0] - текст сообщения RUS*
+        * data[1] - текст сообщения ENG **/ 
+        staminityNotification: "{{data[0]}}",
+        
     },
     en: {
 
