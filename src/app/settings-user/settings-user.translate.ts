@@ -20,7 +20,7 @@ export const _translate = {
             about: 'О себе...',
             contacts: {
                 header:'Контакты',
-                extEmail: 'Дополнтиельный email',
+                extEmail: 'Дополнительный email',
                 phone: 'Телефон'
             },
             sportShape: {
@@ -91,10 +91,29 @@ export const _translate = {
             polar: 'Polar Flow',
             status: {
                 offSyncNeverEnabled: {
-                    button: '',
-                    title: '',
-                    text: ''
-                }
+                    button: 'Подключить',
+                    title: 'Отключено',
+                    text: 'Включите синхронизацию для автоматической загрузки новых тренировок'},
+                offSyncEnabledEarly: {
+                    button: 'Подключить',
+                    title: 'Отключено',
+                    text: "Последняя синхронизация выполнена {{date | date:'short' }}"},
+                onSyncing: {
+                    button: 'Изменить',
+                    title: 'Синхронизация...',
+                    text: "Выполняется начальная синхронизация"},                   
+                onSyncComplete: {
+                    button: 'Изменить',
+                    title: 'Синхронизировано',
+                    text: "Последняя синхронизация выполнена {{date | date:'short' }}"}, 
+                onSyncCreate: {
+                    button: 'Изменить',
+                    title: 'Ожидание...',
+                    text: "Ожидается подтверждение"}, 
+                onSyncPendingRequest: {
+                    button: 'Изменить',
+                    title: 'Ожидание...',
+                    text: "Ожидается подтверждение"}
             }
         },
         zones: {
