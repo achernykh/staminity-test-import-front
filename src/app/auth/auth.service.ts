@@ -97,10 +97,7 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     signUp(request):IHttpPromise<{}> {
-        return this.RESTService.postData(new PostData('/signup', request))
-            .then(response => {
-                return response['value'];
-            });
+        return this.RESTService.postData(new PostData('/signup', request));
     }
 
     /**
@@ -128,10 +125,7 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     confirm(request):IHttpPromise<{}> {
-        return this.RESTService.postData(new PostData('/confirm', request))
-            .then((result) => {
-                return result['value'];
-            }); // Ожидаем system message
+        return this.RESTService.postData(new PostData('/confirm', request));
     }
 
     /**

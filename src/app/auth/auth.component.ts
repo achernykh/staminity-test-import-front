@@ -31,7 +31,6 @@ class AuthCtrl implements IComponentController {
 			this.AuthService.signOut();
 			this.$state.go('signin');
 		}
-
 		/**
 		 * Переход в компонент по ссылке /confirm?request={request}
 		 * В AuthService отправляем POST - подтверждение, что пользователь активировал свою учетную запись
@@ -39,8 +38,8 @@ class AuthCtrl implements IComponentController {
 		if(this.$state.$current.name === 'confirm') {
 			if(this.$location['$$search'].hasOwnProperty('request')) {
 				this.AuthService.confirm({request: this.$location['$$search']['request']})
-					.then((success) => {
-						this.message.systemSuccess(success.title);
+					.then((message) => {
+						this.message.systemSuccess(message.title);
 						this.$state.go('signin');
 					}, (error) => {
 						this.message.systemWarning(error);
@@ -93,9 +92,9 @@ class AuthCtrl implements IComponentController {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.signUp(credentials)
 			.finally(()=>this.enabled = true)
-			.then(success => {
+			.then(message => {
 				this.showConfirm = true;
-				this.message.systemSuccess(success.title);
+				this.message.systemSuccess(message.title);
 			}, error => this.message.systemWarning(error));
 	}
 

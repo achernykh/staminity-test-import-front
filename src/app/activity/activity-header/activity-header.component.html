@@ -47,9 +47,9 @@
                 ng-if="$ctrl.item.activity.hasImportedData">
             <md-tab-content layout-fill layout-column>
                 <activity-header-details flex="auto" layout="column" layout-fill
-                                         select="$ctrl.item.selectedIntervalIndex"
-                                         change="$ctrl.item.changeSelectInterval"
-                                         on-selected="$ctrl.changeSelection(type,selected)">
+                                         selection-index="$ctrl.item.selectionIndex"
+                                         change="$ctrl.item.detailsSelectChangeCount"
+                                         on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
                 </activity-header-details>
             </md-tab-content>
         </md-tab>

@@ -1,12 +1,16 @@
 import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import './measure-split-table.component.scss';
 import {IActivityMeasure, IActivityIntervalL} from "../../../../../api/activity/activity.interface";
+import {
+    SelectInitiator,
+    ISelectionIndex
+} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 
 class MeasureSplitTableCtrl implements IComponentController {
 
     public splits:Array<IActivityIntervalL>;
     public sport: string;
-    public onSelected: (result: {type: string, selected: Array<number>}) => IPromise<void>;
+    public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
     public selected:Array<any> = [];
     public max: {};
 
@@ -40,7 +44,13 @@ class MeasureSplitTableCtrl implements IComponentController {
             d['ind'] = i;
             return d;
         });
-        this.$scope.change = () => this.onSelected({type: 'L', selected: this.selected.map(i => i.ind)});
+        this.$scope.change = () => this.onSelected({
+            initiator: 'details',
+            selection: {
+                U: null,
+                P: null,
+                L: this.selected.map(i => i.ind)}
+        });
         //this.$scope.change = () => console.log('change $scope', this.selected);
 
     }

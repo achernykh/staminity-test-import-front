@@ -9,7 +9,6 @@ export class ActivityHeaderCtrl implements IComponentController {
     public calendarActivity: CalendarItemActivityCtrl;
     public mode: string;
     public activity: Activity;
-    private peaks: Array<any>;
 
     constructor(private $mdMedia: any) {
     }
@@ -17,11 +16,6 @@ export class ActivityHeaderCtrl implements IComponentController {
     static $inject = ['$mdMedia'];
 
     $onInit() {
-        this.peaks = this.item.activity.getPeaks();
-    }
-
-    changeSelection(type: string, select: Array<number>){
-        this.item.changeSelectedIndex(type,select);
     }
 }
 

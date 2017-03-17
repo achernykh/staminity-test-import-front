@@ -108,11 +108,11 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     changeSelection(type: string, select: Array<number>){
-        this.item.changeSelectedIndex(type,select);
+        //this.item.changeSelectedIndex(type,select);
     }
 
     onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>){
-        //this.item.addUserInterval(select[0]);
+        this.item.addUserInterval(select[0]);
     }
 
     onChartSelect(segmentId){

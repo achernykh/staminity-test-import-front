@@ -25,6 +25,19 @@ enum HeaderTab {
     Chat
 };
 
+export interface ISelectionIndex {
+    L: Array<number>;
+    P: Array<number>;
+    U: Array<number>;
+}
+
+export interface ISelectionTimestamp {
+    startTimestamp: number;
+    endTimestamp: number;
+}
+
+export type SelectInitiator = 'header' | 'details';
+
 export class CalendarItemActivityCtrl implements IComponentController{
 
     date: Date;
@@ -37,9 +50,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
     onCancel: () => IPromise<void>;
 
     private selectedTimestamp: Array<any> = [];
-    private selectedIntervalIndex: {} = { L: null, P: null};
+    private selectedIntervalIndex: ISelectionIndex = { L: null, P: null, U: null}; //todo delete
+    private selectionIndex: ISelectionIndex = { L: null, P: null, U: null};
+    private selectionTimestamp: Array<ISelectionTimestamp> = [];
+
     private selectedIntervalType: string;
     private changeSelectInterval: number = 0;
+
+    private headerSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Заголовок
+    private detailsSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Детали
+
     private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
     private isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
     private isCreator: boolean;
@@ -123,29 +143,54 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    changeSelectedIndex(type: string, index: Array<number>){
-        console.log('changeSelectedInterval',type, index);
-        this.selectedIntervalType = type;
-        this.selectedIntervalIndex[type] = index;
-        this.calculateTimestampInterval(type,index);
-        this.changeSelectInterval++;
+    completeSelect() {
+
+    }
+
+    /**
+     * Установка выделения переданных индексов интервалов
+     * @param initiator - 'header' | 'details'
+     * @param selection - перечень индексов интервалов для выделения
+     */
+    selectIntervalIndex(initiator: SelectInitiator, selection: ISelectionIndex){
+        debugger;
+        console.log('changeSelectedInterval',initiator, selection);
+        this.selectionIndex = selection; // устанавливаем выделение
+        this.selectionTimestamp = this.calculateTimestampSelection(this.selectionIndex); //создаем выделение по времени
+        this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
         // по любому выделению инетрвала пользователя переходим на вкладку Детали
         if (this.selectedTab !== HeaderTab.Details && this.isPro) {
             this.selectedTab = HeaderTab.Details;
+            this.$scope.$digest();
         }
     }
 
-    calculateTimestampInterval(type: string, index: Array<number>) {
-        this.selectedTimestamp = [];
-        index.forEach(i => this.selectedTimestamp.push({
-            startTimestamp: this.activity['interval'+type][i].startTimestamp,
-            endTimestamp: this.activity['interval'+type][i].endTimestamp
-        }));
+    calculateTimestampSelection(selection: ISelectionIndex){
+        let selectionTimestamp: Array<ISelectionTimestamp> = [];
+        let types = Object.keys(selection);
+        types.forEach(type => {
+            if(selection[type]){
+                let intervals = this.activity.header.intervals.filter(i => i.type === type);
+                selection[type].forEach(i => selectionTimestamp.push({
+                    startTimestamp: intervals[i].startTimestamp,
+                    endTimestamp: intervals[i].endTimestamp
+                }));
+            }
+        });
+        return selectionTimestamp;
     }
 
     addUserInterval(range: {startTimestamp: number, endTimestamp: number}){
-        this.ActivityService.calculateRange(this.activity.id, range.startTimestamp, range.endTimestamp, [this.activity.intervalW])
-            .then(response=>console.log(response));
+        debugger;
+        this.ActivityService.calculateRange(this.activity.id, range.startTimestamp, range.endTimestamp, [{
+            type: 'U',
+            startTimestamp: range.startTimestamp,
+            endTimestamp: range.endTimestamp
+        }])
+            .then(response => {
+                this.activity.completeInterval(response.intervals.filter(i => i.type === 'U')[0]);
+                this.selectIntervalIndex('details',{ L: null, P: null, U: [0]});
+            });
     }
 
     onReset(mode: string) {

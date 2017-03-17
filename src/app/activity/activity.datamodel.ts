@@ -152,6 +152,10 @@ export class Activity extends CalendarItem {
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 	}
 
+	completeInterval(interval: IActivityIntervalL) {
+		this.header.intervals.push(interval);
+	}
+
 	// Подготовка данных для модели отображения
 	prepare() {
 		super.prepare();
