@@ -13,7 +13,7 @@ export const _translate = {
                 birthday: 'День рождения',
                 country: 'Страна',
                 city: 'Город',
-                uri: 'Ссылка для доступа к профилю: staminity.com/user/'
+                uri: 'Ваш профиль: staminity.com/user/'
             },
             sex: 'Пол:',
             M: 'Мужской',
