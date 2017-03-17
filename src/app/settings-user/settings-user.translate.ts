@@ -12,7 +12,8 @@ export const _translate = {
                 sex: 'Пол',
                 birthday: 'День рождения',
                 country: 'Страна',
-                city: 'Город'
+                city: 'Город',
+                uri: 'Ссылка для доступа к профилю: staminity.com/user/'
             },
             sex: 'Пол:',
             M: 'Мужской',
@@ -97,7 +98,7 @@ export const _translate = {
                 offSyncEnabledEarly: {
                     button: 'Подключить',
                     title: 'Отключено',
-                    text: "Последняя синхронизация выполнена {{lastSync | date:'short' }}"},
+                    text: "Последняя тренировка загружена {{lastSync | date:'short' }}"},
                 onSyncing: {
                     button: 'Изменить',
                     title: 'Синхронизация...',
@@ -105,7 +106,7 @@ export const _translate = {
                 onSyncComplete: {
                     button: 'Изменить',
                     title: 'Синхронизировано',
-                    text: "Последняя синхронизация выполнена {{lastSync | date:'short' }}"},
+                    text: "Последняя тренировка загружена {{lastSync | date:'short' }}"}, 
                 onSyncCreate: {
                     button: 'Изменить',
                     title: 'Ожидание...',
