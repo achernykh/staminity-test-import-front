@@ -151,7 +151,7 @@ export const translateNotification = {
         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
         data[2] - Название клуба 
         data[3] - clubUri  Для ссылки на профиль **/
-        requestLeaveClubByCoachDeclinedByOthers: "Отклонен запрос на выход тренера из клуба {{data[2]}}. Запрос отклонил {{data[0]}},
+        requestLeaveClubByCoachDeclinedByOthers: "Отклонен запрос на выход тренера из клуба {{data[2]}}. Запрос отклонил {{data[0]}}",
     
         /** Запрос на вступление в группу одобрен. 
          * Отправитель - группа. Получатель - инициатор запроса.**/
