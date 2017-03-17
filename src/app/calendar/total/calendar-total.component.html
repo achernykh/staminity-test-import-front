@@ -5,7 +5,7 @@
         Неделя {{::$ctrl.weekTitle}}
     </div>
     <div></div>
-    <div ng-if="!!$ctrl.summary.fact.movingDuration || !!$ctrl.summary.plan.movingDuration"
+    <div ng-if="(!!$ctrl.summary.fact.movingDuration || !!$ctrl.summary.plan.movingDuration) && false"
          class="md-body-1" style="background: grey; color: white; border-radius: 10px; padding: 0px 5px">
         {{100*$ctrl.summary.fact.movingDuration/$ctrl.summary.plan.movingDuration |number:0}}%</div>
 

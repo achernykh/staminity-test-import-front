@@ -153,7 +153,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param selection - перечень индексов интервалов для выделения
      */
     selectIntervalIndex(initiator: SelectInitiator, selection: ISelectionIndex){
-        debugger;
+        //debugger;
         console.log('changeSelectedInterval',initiator, selection);
         this.selectionIndex = selection; // устанавливаем выделение
         this.selectionTimestamp = this.calculateTimestampSelection(this.selectionIndex); //создаем выделение по времени
@@ -181,7 +181,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     addUserInterval(range: {startTimestamp: number, endTimestamp: number}){
-        debugger;
         this.ActivityService.calculateRange(this.activity.id, range.startTimestamp, range.endTimestamp, [{
             type: 'U',
             startTimestamp: range.startTimestamp,

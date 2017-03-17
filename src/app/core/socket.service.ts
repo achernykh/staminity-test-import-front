@@ -160,7 +160,9 @@ export class SocketService implements ISocketService {
         if (reason === 'badToken') {
             this.message.toastInfo(reason);
         }
-        this.socket.close(3000,reason);
+        if(this.socket){
+            this.socket.close(3000,reason);
+        }
     }
 
     /**

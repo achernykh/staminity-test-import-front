@@ -28,7 +28,7 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor($scope, UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs) {
+    constructor($scope, UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message) {
         console.log('SettingsCtrl constructor=', this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -48,6 +48,7 @@ class SettingsUserCtrl {
         this.$auth = $auth
         this.SyncAdaptorService = SyncAdaptorService;
         this.dialogs = dialogs;
+        this.message = message;
         this.adaptors = [];
         //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
         //this.dialogs = dialogs
@@ -68,7 +69,7 @@ class SettingsUserCtrl {
             let settings = this.user.externalDataProviders.filter((a) => a.provider === adaptor.provider)[0];
             adaptor = (settings && settings) || adaptor;
             adaptor['status'] = syncStatus(adaptor.lastSync, adaptor.state);
-            adaptor['startDate'] = (adaptor.hasOwnProperty('startDate') && new Date(adaptor.startDate)) || new Date();
+            adaptor['startDate'] = (adaptor.hasOwnProperty('startDate') && new Date(adaptor.startDate)) || new Date('2017-01-01');
             return adaptor;
         });
 
@@ -243,7 +244,11 @@ class SettingsUserCtrl {
                 .then((form) => {
                     this.SyncAdaptorService.post(adaptor.provider, form.username, form.password,
                         form.startDate)
-                        .then(response=>console.info(response), error=> adaptor.status.switch = false)
+                        .then(response=>console.info(response),
+                            error => {
+                                this.message.toastError(error);
+                                adaptor.status.switch = false;
+                        })
                 }, () => {
                     // Если диалог открывается по вызову ng-change
                     if (typeof ev === 'undefined') adaptor.status.switch = false
@@ -329,7 +334,8 @@ class SettingsUserCtrl {
 		return this.user.personal.activity.includes(activity)
 	}
 };
-SettingsUserCtrl.$inject = ['$scope','UserService','AuthService', 'SystemMessageService', 'ActionMessageService','$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs'];
+SettingsUserCtrl.$inject = ['$scope','UserService','AuthService', 'SystemMessageService', 'ActionMessageService','$http',
+    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message'];
 
 function DialogController($scope, $mdDialog) {
 

@@ -73,7 +73,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     changeSelect() {
-        debugger;
+
         this.changes++;
         let selection: ISelectionIndex = { L: [], P: [], U: []};
 

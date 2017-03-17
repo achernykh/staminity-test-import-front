@@ -88,7 +88,14 @@ export const _translate = {
             header: 'Настройка интеграции',
             garmin: 'Garmin Connect',
             strava: 'Strava',
-            polar: 'Polar Flow'
+            polar: 'Polar Flow',
+            status: {
+                offSyncNeverEnabled: {
+                    button: '',
+                    title: '',
+                    text: ''
+                }
+            }
         },
         zones: {
             header: 'Тренировочные зоны',

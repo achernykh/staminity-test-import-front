@@ -28,6 +28,7 @@ class AuthCtrl implements IComponentController {
 		 * Сбрасываем данные в localStorage и переходим на экран входа пользователя
          */
 		if(this.$state.$current.name === 'signout') {
+			debugger;
 			this.AuthService.signOut();
 			this.$state.go('signin');
 		}
