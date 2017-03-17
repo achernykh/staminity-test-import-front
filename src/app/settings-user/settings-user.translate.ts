@@ -97,7 +97,7 @@ export const _translate = {
                 offSyncEnabledEarly: {
                     button: 'Подключить',
                     title: 'Отключено',
-                    text: "Последняя синхронизация выполнена {{date | date:'short' }}"},
+                    text: "Последняя синхронизация выполнена {{lastSync | date:'short' }}"},
                 onSyncing: {
                     button: 'Изменить',
                     title: 'Синхронизация...',
@@ -105,7 +105,7 @@ export const _translate = {
                 onSyncComplete: {
                     button: 'Изменить',
                     title: 'Синхронизировано',
-                    text: "Последняя синхронизация выполнена {{date | date:'short' }}"}, 
+                    text: "Последняя синхронизация выполнена {{lastSync | date:'short' }}"},
                 onSyncCreate: {
                     button: 'Изменить',
                     title: 'Ожидание...',

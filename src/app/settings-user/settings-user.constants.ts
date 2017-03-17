@@ -178,6 +178,14 @@ export const syncStatus = (last,state) => {
         offSyncUnauthorized: {
             code: 'offSyncUnauthorized',
             switch: false
+        },
+        onSyncCreate: {
+            code: 'onSyncCreate',
+            switch: true
+        },
+        onSyncPendingRequest: {
+            code: 'onSyncCreate',
+            switch: true
         }
     };
 
@@ -204,6 +212,16 @@ export const syncStatus = (last,state) => {
     // Статус 5: Интеграция выключена, ошибки авторизации
     if (state === "Unauthorized") {
         return status.offSyncUnauthorized;
+    }
+
+    //  Статус 6: Формирование запроса на соединение аккаунтов
+    if (state === "Created") {
+        return status.onSyncCreate;
+    }
+
+    //  Статус 7: Ожидается присоединение аккаунта пользователя к аккаунту сервсиа
+    if (state === "PendingRequest") {
+        return status.onSyncPendingRequest;
     }
 
 };

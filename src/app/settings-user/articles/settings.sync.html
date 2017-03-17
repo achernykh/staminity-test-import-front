@@ -7,12 +7,12 @@
 
             <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, adaptor)"
                           ng-repeat-start="adaptor in $ctrl.adaptors">
-                <img ng-src="/assets/icon/{{adaptor.provider}}_{{$ctrl.status.switch ? 'on':'off'}}.png"
+                <img ng-src="/assets/icon/{{adaptor.provider}}_{{adaptor.status.switch ? 'on':'off'}}.png"
                      class="md-avatar" style="border-radius: 50%"/>
                 <div class="md-list-item-text" ng-if="$ctrl.syncEnabled(adaptor)">
                     <h3> {{ 'settings.sync.'+adaptor.provider | translate}} </h3>
                     <h4>{{ 'settings.sync.status.'+adaptor.status.code+'.title' | translate}}</h4>
-                    <p>{{ 'settings.sync.status.'+adaptor.status.code+'.text' | translate}}</p>
+                    <p>{{ 'settings.sync.status.'+adaptor.status.code+'.text' | translate:adaptor}}</p>
                 </div>
                 <md-switch class="md-secondary md-primary"
                            ng-model="adaptor.status.switch"
