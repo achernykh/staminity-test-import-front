@@ -3,7 +3,7 @@
  * masureCalc, вывода единиц измерения - measureCalc translate для перевода
  * единиц измререния на установленный в сессии пользователя язык интерфейса
  * 
- * Фильтры - это функции форматирования вывода. Они берут занчение на вход,
+ * Фильтры - это функции форматирования вывода. Они берут значение на вход,
  * пересчитывают и возвращают измененное значение.
  * 
  * Конструкция "вход" | "название_фильтра":["параметр"...]. Фильтры могут
@@ -13,7 +13,7 @@
  * */
 export const translateNotification = {
     ru: {
-        /**
+        /** ----------ПРИМЕР --------
          * Тестовое сообщение
          * data[0] - базовый вид спорта
          * data[1] - фактическое расстояние (distance)
@@ -21,23 +21,24 @@ export const translateNotification = {
          * */
         notificationTestMessage: "Новое тестовое сообщение с параметром: расстояние {{data[1] | measureCalc:data[0]:'distance'}} " +
         "{{'distance' | measureUnit:data[0] | translate}} со скоростью {{data[2] | measureCalc:data[0]:'speed'}} {{'speed' | measureUnit:data[0] | translate}}",
-        
-        /**
-        * Сообщение спортсмену, что его тренировка загружена. Отправитель - провайдер
+  
+      /** ----------Синхронизация фактических тренировок --------**/
+        initialProviderSyncCompleted: "",
+        initialProviderSyncErrors: "",
+      
+        /**Сообщение спортсмену, что его тренировка загружена. Отправитель - провайдер
         * data[0] - базовый вид спорта
         * data[1] - дата тренировки в формате DD.MM.YY
         * data[2] - calendarItemId. Будет использоваться для перехода к тренировке, когда сделаем адресацию
         * data[3] - фактическая длительность тренировки = calcMeasures.duration.value
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
-        * data[5] - фактический % выполнения = calcMeasures.completePercent.value
-        * 
-        * */
+        * data[5] - фактический % выполнения = calcMeasures.completePercent.value **/
         uploadActivityByProvider: "Загружена тренировка {{data[1]}} \n " +
         "{{data[0]} | translate}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}", 
         
+      /** ---------- Тренировки --------**/
 
-        /**
-        * Сообщение тренеру, что тренировка его ученика загружена. Отправитель - спортсмен.
+        /**Сообщение тренеру, что тренировка его ученика загружена. Отправитель - спортсмен.
         * data[0] - базовый вид спорта
         * data[1] - дата тренировки в формате DD.MM.YY
         * data[2] - calendarItemId
@@ -47,6 +48,74 @@ export const translateNotification = {
         * */
         activityCompletedByAthlete: "Выполнена тренировка {{data[1]}} \n "+
         "{{data[0]} | translate}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}" 
+
+        activityCompletedByFriend: "",
+        activityCompletedByFollowing: "",
+
+        activityCreatedByCoach: "",
+        activityModifiedByCoach: "",
+        
+        activityModifiedByAthlete: "",
+        
+    /** ---------- Комментарии и лайки  --------**/
+    newCoachCommentSingle: "",
+    newCoachComments: "",
+    newUserCommentSingle: "",
+    newLikeSingle: "",
+    newUserCommentsAndLikes: "",
+
+    /** ---------- Принятие и отклонение запросов пользователей  --------**/
+    requestStartCoachingApproved: "",
+    requestStartCoachingDeclined: "",
+    requestJoinClubApproved: "",
+    requestJoinClubDeclined: "",
+    requestLeaveClubByCoachApproved: "",
+    requestLeaveClubByCoachDeclined: "",
+    
+    requestJoinClubApprovedByOthers: "",
+    requestJoinClubDeclinedByOthers: "",
+    requestLeaveClubByCoachApprovedByOthers: "",
+    requestLeaveClubByCoachDeclinedByOthers: "",
+    
+    requestJoinUserGroupApproved: "",
+    requestJoinUserGroupDeclined: "",
+    
+    /** ---------- Отключение от тренеров, выход из клубов, выход из групп  --------**/
+    leaveCoachByAthlete: "",
+    leaveCoachByCoach: "",
+    leaveClubByAthlete: "",
+    leaveClubByClub: "",
+    leaveUserGroupByUser: "",
+    leaveUserGroupByGroup: "",
+    
+
+    /** ----------Уведомления по тарифам для всех --------**/
+        enabledTariffBehalfRelatedUser: "",
+        disabledTariffBehalfRelatedUser: "",
+        expiringTrialTermInSomeDays: "",
+        expiredTrialTerm: "",
+        trialTariffExpiringToday: "",
+        trialTariffExpired: "",
+        autoRenewalInSomeDays: "",
+        autoRenewalCompleted: "",
+        autoPaymentWithError: "",
+
+    /** ----------Уведомления по тарифам для тренеров и клубов --------**/
+        pastPeriodBillExpiringInSomeDays: "",
+        pastPeriodBillExpired: "",
+        futurePeriodBillProduced: "",
+        futurePeriodBillNotPaidDays: "",
+        lockedUserAccess: "",
+        lockedUserAccount: "",
+
+    /** ----------Зоны и пороги --------**/
+        zonesChangedByCoach: "",
+        zonesChangedByAthelete: "",
+        zonesChangeRequestByService: "",
+        
+    /** ----------Зоны и пороги --------**/
+
+
 
     },
     en: {
