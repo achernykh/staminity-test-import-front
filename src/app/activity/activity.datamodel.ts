@@ -118,6 +118,7 @@ export class Activity extends CalendarItem {
 	public intervalPW: IActivityIntervalPW;
 	public intervalW: IActivityIntervalW;
 	public intervalL: Array<IActivityIntervalL> = [];
+	public intervalU: Array<IActivityIntervalL> = [];
 	public intervalP: Array<IActivityIntervalP> = [];
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
@@ -154,6 +155,7 @@ export class Activity extends CalendarItem {
 
 	completeInterval(interval: IActivityIntervalL) {
 		this.header.intervals.push(interval);
+		this.intervalU = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "U");
 	}
 
 	// Подготовка данных для модели отображения
@@ -338,7 +340,7 @@ export class Activity extends CalendarItem {
 	}
 
 	get bottomPanel() {
-		return ((this.coming && ((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0) ||
+		return ((this.status === 'coming' && ((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0) ||
 			this.intervalPW.intensityMeasure )) && 'plan') || ((this.completed && this.summaryAvg.length > 0) && 'data') || null;
 	}
 
@@ -354,35 +356,6 @@ export class Activity extends CalendarItem {
 		return ((this.intervalPW.hasOwnProperty('calcMeasures')
 			&& this.intervalPW.calcMeasures.hasOwnProperty('completePercent'))
 			&& this.intervalPW.calcMeasures.completePercent.value * 100) || null;
-	}
-
-	/**
-	 * Получение пиков по тренировке
-	 * @returns {any[]}
-     */
-	getPeaks() {
-		let search = ['heartRateTimePeaks', 'heartRateDistancePeaks',
-			'speedTimePeaks', 'speedDistancePeaks',
-			'powerTimePeaks', 'powerDistancePeaks',
-			'cadenceTimePeaks', 'cadenceDistancePeaks'];
-		let measure = {
-			'heartRateTimePeaks': 'heartRate',
-			'heartRateDistancePeaks': 'heartRate',
-			'speedTimePeaks': 'speed',
-			'speedDistancePeaks': 'speed',
-			'powerTimePeaks': 'power',
-			'powerDistancePeaks': 'power',
-			'cadenceDistancePeaks': 'cadence',
-			'cadenceTimePeaks': 'cadence'
-		};
-		return search.filter(m => this.intervalW.calcMeasures.hasOwnProperty(m) &&
-			this.intervalW.calcMeasures[m].hasOwnProperty('peaks') &&
-			this.intervalW.calcMeasures[m].peaks[0].value !== 0)
-			.map(m => ({
-				measure: measure[m],
-				type: (m.includes('Time') && 'duration') || 'distance',
-				value: this.intervalW.calcMeasures[m].peaks
-			}));
 	}
 
 	printPercent() {

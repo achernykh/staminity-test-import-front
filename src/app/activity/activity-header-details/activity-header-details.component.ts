@@ -4,6 +4,7 @@ import {
     CalendarItemActivityCtrl,
     ISelectionIndex, SelectInitiator
 } from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import {ICalcMeasures} from "../../../../api/activity/activity.interface";
 
 interface Select {
     type: string;
@@ -66,7 +67,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     $onChanges(change: any): void {
-        if(!change.change.isFirstChange()) {
+        if(change.hasOwnProperty('change') && !change.change.isFirstChange()) {
             this.prepareIntervals();
             this.selectedIntervals = this.calculateIndex(this.selectionIndex);
         }
@@ -88,7 +89,21 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         });
     }
 
+    getCalcMeasure(selection: Array<string>):ICalcMeasures {
+        if (selection.length === 0) {
+            return this.item.activity.intervalW.calcMeasures;
+        }
+
+        let type: string = 'interval' + selection[0].substr(0,1);
+        let index: number = Number(selection[0].substr(1))-1;
+
+        //console.log('getCalcMeasure', type, index, selection);
+
+        return this.item.activity[type][index].calcMeasures;
+    }
+
     lapIndex(index: Array<string>):number {
+        console.log('lapIndex', Number(index[0].substr(1))-1);
         return index ? Number(index[0].substr(1))-1 : null;
     }
 }

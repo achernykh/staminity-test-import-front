@@ -11,8 +11,9 @@ const searchMeasure = (point, interval) => {
         }
     } else {
         return [
-            (interval.calcMeasures.distance.hasOwnProperty('maxValue') && interval.calcMeasures.distance.maxValue) || 0,
-            (interval.calcMeasures.movingDuration.hasOwnProperty('maxValue') && interval.calcMeasures.movingDuration.maxValue) || 0]
+            (interval.calcMeasures.distance.hasOwnProperty('value') && interval.calcMeasures.distance.value) || 0,
+            (interval.calcMeasures.movingDuration.hasOwnProperty('value') && interval.calcMeasures.movingDuration.value) ||
+            (interval.calcMeasures.duration.hasOwnProperty('value') && interval.calcMeasures.duration.value) || 0]
     }
 };
 

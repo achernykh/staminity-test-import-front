@@ -1,3 +1,9 @@
+<div ng-if="$ctrl.item.isLoadingRange" class="screen-center-block" style="background-color: white; opacity: 0.5; position: absolute; z-index: 100">
+    <div>
+        <img src="/assets/icon/ripple.svg" width="60" height="60"/>
+    </div>
+</div>
+
 <md-list class="md-dense slim-input">
     <form>
         <md-list-item>
@@ -38,20 +44,16 @@
 </md-list>
 
 <measures-avg-table flex="none" class="measures-avg-table" ng-cloak
-                    calc-measures="$ctrl.selectedIntervals.length > 0 ?
-                        $ctrl.item.activity.intervalL[$ctrl.lapIndex($ctrl.selectedIntervals)].calcMeasures :
-                        $ctrl.item.activity.intervalW.calcMeasures"
-                    sport="$ctrl.item.activity.sportBasic"></measures-avg-table>
+                    calc-measures="$ctrl.getCalcMeasure($ctrl.selectedIntervals)"
+                    sport="$ctrl.item.activity.sportBasic"
+                    changes="$ctrl.changes"></measures-avg-table>
 
 <measure-main-button flex="none" class="measure-main-button" ng-cloak
-                     calc-measures="$ctrl.selectedIntervals.length > 0 ?
-                        $ctrl.item.activity.intervalL[$ctrl.lapIndex($ctrl.selectedIntervals)].calcMeasures :
-                        $ctrl.item.activity.intervalW.calcMeasures"
-                     sport="$ctrl.item.activity.sportBasic"></measure-main-button>
+                     calc-measures="$ctrl.getCalcMeasure($ctrl.selectedIntervals)"
+                     sport="$ctrl.item.activity.sportBasic"
+                     changes="$ctrl.changes"></measure-main-button>
 
 <activity-peaks flex="auto" class="activity-peaks" ng-cloak
-                calc-measures="$ctrl.selectedIntervals.length > 0 ?
-                        $ctrl.item.activity.intervalL[$ctrl.lapIndex($ctrl.selectedIntervals)].calcMeasures :
-                        $ctrl.item.activity.intervalW.calcMeasures"
-                sport="$ctrl.item.activity.sportBasic">
-</activity-peaks>
+                calc-measures="$ctrl.getCalcMeasure($ctrl.selectedIntervals)"
+                sport="$ctrl.item.activity.sportBasic"
+                changes="$ctrl.changes"></activity-peaks>

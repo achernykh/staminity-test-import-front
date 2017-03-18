@@ -108,12 +108,11 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>){
-        //this.item.addUserInterval(select[0]);
+        this.item.addUserInterval(select[0]);
     }
 
     onChartSelect(segmentId){
         debugger;
-
         console.log('chart select interval=', segmentId);
     }
 }

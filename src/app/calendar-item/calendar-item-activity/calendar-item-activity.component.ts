@@ -36,7 +36,7 @@ export interface ISelectionTimestamp {
     endTimestamp: number;
 }
 
-export type SelectInitiator = 'header' | 'details';
+export type SelectInitiator = 'header' | 'details' | 'splits';
 
 export class CalendarItemActivityCtrl implements IComponentController{
 
@@ -59,6 +59,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     private headerSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Заголовок
     private detailsSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Детали
+    private splitsSelectChangeCount: number = 0;
+    private isLoadingRange: boolean = false; // индиактор загрузки результатов calculateActivityRange
 
     private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
     private isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
@@ -143,10 +145,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    completeSelect() {
-
-    }
-
     /**
      * Установка выделения переданных индексов интервалов
      * @param initiator - 'header' | 'details'
@@ -157,12 +155,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         console.log('changeSelectedInterval',initiator, selection);
         this.selectionIndex = selection; // устанавливаем выделение
         this.selectionTimestamp = this.calculateTimestampSelection(this.selectionIndex); //создаем выделение по времени
-        this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
         // по любому выделению инетрвала пользователя переходим на вкладку Детали
-        if (this.selectedTab !== HeaderTab.Details && this.isPro) {
-            this.selectedTab = HeaderTab.Details;
-            this.$scope.$digest();
-        }
+        this.setDetailsTab(initiator, false);
     }
 
     calculateTimestampSelection(selection: ISelectionIndex){
@@ -181,15 +175,35 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     addUserInterval(range: {startTimestamp: number, endTimestamp: number}){
+        let initiator: SelectInitiator = 'details';
+        //this.isLoadingRange = true;
+        this.setDetailsTab(initiator, true);
+        //this.$scope.$digest();
         this.ActivityService.calculateRange(this.activity.id, range.startTimestamp, range.endTimestamp, [{
-            type: 'U',
-            startTimestamp: range.startTimestamp,
-            endTimestamp: range.endTimestamp
-        }])
+                type: 'U',
+                startTimestamp: range.startTimestamp,
+                endTimestamp: range.endTimestamp
+            }])
             .then(response => {
+                //this.isLoadingRange = false;
                 this.activity.completeInterval(response.intervals.filter(i => i.type === 'U')[0]);
-                this.selectIntervalIndex('details',{ L: null, P: null, U: [0]});
+                this.selectIntervalIndex(initiator,{ L: null, P: null, U: [(this.activity.intervalU && this.activity.intervalU.length-1) || 0]});
+            }, error => {
+                this.message.toastInfo(error);
+                this.setDetailsTab(initiator, false);
+                //this.isLoadingRange = false;
             });
+    }
+
+    setDetailsTab(initiator: SelectInitiator, loading: boolean):void {
+        this.isLoadingRange = loading;
+        this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
+        if (this.selectedTab !== HeaderTab.Details && this.isPro) {
+            this.selectedTab = HeaderTab.Details;
+        }
+        if(initiator === 'details') {
+            this.$scope.$digest();
+        }
     }
 
     onReset(mode: string) {

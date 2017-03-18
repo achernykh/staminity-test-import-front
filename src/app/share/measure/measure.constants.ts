@@ -136,6 +136,16 @@ export const _measurement = {
     trainingLoad: {
         unit: 'tl',
         fixed: 0
+    },
+    decouplingPower: {
+        unit: 'proportion',
+        view: 'percent',
+        fixed: 2
+    },
+    decouplingPace: {
+        unit: 'proportion',
+        view: 'percent',
+        fixed: 2
     }
 };
 

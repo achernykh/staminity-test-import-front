@@ -23,12 +23,12 @@ class MeasureMainButtonCtrl implements IComponentController{
 		// Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
 		// this, а значит и нет доступа к массиву для фильтрации
 		this.$scope.measure = {
-			run: ['calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor'],
-			bike: ['calories','trainingLoad','adjustedPower','vamPowerKg','variabilityIndex','efficiencyFactor','elevationGain','elevationLoss','grade','intensityLevel'],
+			run: ['calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','decouplingPace'],
+			bike: ['calories','trainingLoad','adjustedPower','vamPowerKg','variabilityIndex','efficiencyFactor','elevationGain','elevationLoss','grade','intensityLevel','decouplingPower'],
 			swim: ['calories','intensityLevel'],
 			strength: ['calories','intensityLevel'],
-			transition: ['calories','elevationGain','elevationLoss','grade','intensityLevel'],
-			ski: ['calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor']
+			transition: ['calories','elevationGain','elevationLoss','grade','intensityLevel','decouplingPace'],
+			ski: ['calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','decouplingPace']
 		};
 		this.$scope.search = (m) => this.$scope.measure[this.sport].indexOf(m.$key) !== -1;
 	}

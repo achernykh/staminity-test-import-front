@@ -45,7 +45,7 @@ class MeasureSplitTableCtrl implements IComponentController {
             return d;
         });
         this.$scope.change = () => this.onSelected({
-            initiator: 'details',
+            initiator: 'splits',
             selection: {
                 U: null,
                 P: null,

@@ -21,7 +21,7 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <h2 translate="Тренировка"></h2>
+        <h2 translate="Тренеровка"></h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="$ctrl.item.onCancel()" ng-if="!$ctrl.item.activity.hasImportedData">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
@@ -48,7 +48,7 @@
             <md-tab-content layout-fill layout-column>
                 <activity-header-details flex="auto" layout="column" layout-fill
                                          selection-index="$ctrl.item.selectionIndex"
-                                         change="$ctrl.item.detailsSelectChangeCount"
+                                         change="$ctrl.item.detailsSelectChangeCount + $ctrl.item.splitsSelectChangeCount"
                                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
                 </activity-header-details>
             </md-tab-content>
