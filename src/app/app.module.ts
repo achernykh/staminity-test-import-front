@@ -35,7 +35,6 @@ import Dashboard from './dashboard/dashboard.module';
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
-	'ngAnimate',
 	ngMaterial,
 	uiRouter,
 	ngMaterialTable,

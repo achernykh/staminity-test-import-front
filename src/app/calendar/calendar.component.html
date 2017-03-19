@@ -53,13 +53,13 @@
                             </md-toolbar>
                             
                             <!-- grid: start -->
-                            <md-content style="position: fixed; bottom: 0; top: 132px; left: 0; right: 0; z-index: 100; overflow-y: scroll" class="calendar-grid" 
+                            <md-content style="scroll-behavior: auto; position: fixed; bottom: 0; top: 132px; left: 0; right: 0; z-index: 100; overflow-y: scroll" class="calendar-grid" 
                                 scroll-container
-                                scroll-hit-padding="500"
                                 on-scroll-hit-top="$ctrl.up(1)"
                                 on-scroll-hit-bottom="$ctrl.down(1)"
-                                on-scroll-container-not-overflown="$ctrl.up(1); $ctrl.down(1)">
-
+                                on-scroll-container-not-overflown="$ctrl.down(1)"
+                                scroll-keep-position>
+                                
                                 <!-- grid-week: start -->
                                 <div ng-repeat="week in $ctrl.calendar track by week.sid"
                                      style="display:block;"
@@ -78,9 +78,6 @@
                                                   data="day.data"
                                                   on-select="day.selected = !day.selected">
                                     </calendar-day>
-
-                                    <!-- grid-weektotals: start -->
-
                                     <calendar-total 
                                                     hide show-gt-md
                                                     class="md-caption summary"
@@ -94,7 +91,6 @@
                                                     on-toggle="$ctrl.onToggleWeek(sid, value)">
                                         <div class="md-body-1">Неделя {{$index}}</div>
                                     </calendar-total>
-                                    <!-- grid-weektotals: end -->
                                     
                                 </div>
                                 <!-- grid-week: end -->

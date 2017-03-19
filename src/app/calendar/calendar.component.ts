@@ -19,6 +19,7 @@ interface ICalendarWeek {
     subItem: ICalendarDay[]; //дни недели
     week: string; //индикатор недели для поиска
     loading: Promise<any>;
+    height: number;
 };
 
 interface ICalendarDay {
@@ -44,7 +45,6 @@ class CalendarCtrl implements IComponentController{
     private range: Array<number> = [0, 1];
     private calendar: Array<ICalendarWeek> = [];
     private currentWeek: ICalendarWeek;
-    private updates: Subject<any> = new Subject();
 
     constructor(
         private $scope: IScope,
@@ -55,8 +55,20 @@ class CalendarCtrl implements IComponentController{
         private CalendarService: CalendarService,
         private session: ISessionService) 
     {
+        (<any>window).c = this;
         let date = moment($location.hash());
         this.setDate(date.isValid()? date.toDate() : new Date());
+    }
+    
+    
+    u () {
+        this.up(1);
+        this.$scope.$apply();
+    }
+    
+    s (h, i = 0) {
+        this.calendar[i].height = h;
+        this.$scope.$apply();
     }
 
     $onInit() {
@@ -79,8 +91,7 @@ class CalendarCtrl implements IComponentController{
         this.date = date;
         this.range = [0, 1];
         this.calendar = [];
-        this.up(1);
-        this.down(10);
+        this.down(2);
         this.setCurrentWeek(this.calendar[0]);
     }
     
@@ -151,7 +162,8 @@ class CalendarCtrl implements IComponentController{
             selected: false,
             subItem: days,
             week: date.format('GGGG-WW'),
-            loading: loading
+            loading: loading,
+            height: 180
         };
     }
     
@@ -206,12 +218,11 @@ class CalendarCtrl implements IComponentController{
                 .then(() => { 
                     week.loading = null;
                     this.$scope.$apply();
-                    this.updates.next();
                 })
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
             
-        this.updates.next();
+        console.log('add elem', items);
     }
     
     /**
@@ -234,6 +245,8 @@ class CalendarCtrl implements IComponentController{
                 })
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
+            
+        console.log('add elem', items);
     }
     
     /**
