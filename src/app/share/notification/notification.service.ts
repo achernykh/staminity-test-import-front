@@ -1,4 +1,4 @@
-import {INotification} from "../../../../api/notification/notification.interface";
+import {INotification, Notification} from "../../../../api/notification/notification.interface";
 import {ISocketService} from "../../core/socket.service";
 import {GetNotification, PutNotification} from "../../../../api/notification/notification.request";
 import {Observable} from "rxjs/Rx";
@@ -38,9 +38,9 @@ export default class NotificationService {
      * @param offset - отступ от начального элемента, попадающего под условия фильтрации
      * @returns {Promise<Array<INotification>>}
      */
-    get(limit:number = null, offset:number = null):Promise<Array<INotification>>{
+    get(limit:number = null, offset:number = null):Promise<Array<Notification>>{
         return this.socket.send(new GetNotification(limit,offset))
-            .then((result:{resultArray: Array<INotification>}) => result.resultArray);
+            .then((result:{resultArray: Array<any>}) => result.resultArray.map(n => new Notification(n)));
     }
 
     /**

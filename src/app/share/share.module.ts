@@ -36,11 +36,35 @@ import {translateDialogs} from "./dialogs/dialogs.translate";
 import {translateNotification} from "./notification/notification.translate";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
+import {InitiatorType} from "../../../api/notification/notification.interface";
 
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
 const avatar = () => (user) => `url(${user && user.public && user.public.avatar? image() ('/user/avatar/' + user.public.avatar) : '/assets/avatar/default.png'})`;
 const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
+
+const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):string => {
+    let url: string = '/assets/avatar/default.png';
+    switch (type) {
+        case InitiatorType.user: {
+            url = `url(${avatar ? image() ('/user/avatar/' + avatar) : '/assets/avatar/default.png'})`;
+            break;
+        }
+        case InitiatorType.group || InitiatorType.club: {
+            url = `url(${avatar ? image() ('/group/avatar/' + avatar) : '/group/avatar/default.png'})`;
+            break;
+        }
+        case InitiatorType.provider: {
+            url = `url(/assets/icon/${avatar}_on.png)`;
+            break;
+        }
+        case InitiatorType.staminity: {
+            url = `url(/assets/icon/apple-touch-icon-57x57.png)`;
+            break;
+        }
+    }
+    return url;
+};
 
 const userpic = {
     bindings: {
@@ -52,6 +76,20 @@ const userpic = {
         }
     }],
     template: require('./userpic.component.html') as string
+};
+
+const AvatarPicComponent = {
+    bindings: {
+        type: '<',
+        avatar: '<',
+        sref: '<',
+        isPremium: '<'
+    },
+    controller: ['$scope', class AvatarPicCtrl {
+        constructor ($scope) {
+        }
+    }],
+    template: require('./avatar-pic.component.html') as string
 };
 
 const userInfo = {
@@ -87,6 +125,7 @@ function autoFocus() {
 const Share = module('staminity.share', [])
     .filter('fromNow', fromNow)
     .filter('avatar', avatar)
+    .filter('avatarUrl', avatarUrl)
     .filter('image', image)
     .filter('username', username)
     .filter('ageGroup', () => ageGroup)
@@ -175,6 +214,7 @@ const Share = module('staminity.share', [])
     .component('userInfo', userInfo)
     .component('requests', RequestsComponent)
     .component('userpic', userpic)
+    .component('avatarPic', AvatarPicComponent)
     .component('athleteSelector', AthleteSelectorComponent)
     .component('notificationList', NotificationListComponent)
     .directive("onFiles", onFiles)
