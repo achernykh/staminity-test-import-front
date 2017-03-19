@@ -1,3 +1,9 @@
+export const translateGeneral = {
+    ru: {
+        staminity: 'Стаминити'
+    }
+};
+
 export const translateForm = {
     ru: {
         required: 'Поле обязательно к заполнению',
