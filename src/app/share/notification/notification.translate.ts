@@ -230,8 +230,10 @@ export const translateNotification = {
         Получатель - все остальные админы группы, кроме инициатора, имеющие право W на userGroup.membership
         шаблон перевода:
         <join/leave><GroupCode>ByAdmin
-        data[0] - название группы
-        data[1] - Фамилия и Имя члена группы
+            data[0] - Название клуба
+            data[1] - uri клуба
+            data[2] - Name члена клуба
+            data[3] - Uri члена клуба
         **/
         joinClubManagementByAdmin: "",
         joinClubCoachesByAdmin: "",
@@ -248,6 +250,20 @@ export const translateNotification = {
         leaveClubAthletesByAdmin: "",
         leavePremiumByClubByAdmin: "",
         leaveCoachByClubByAdmin: "",
+    
+    /** Оповещение админов группы Club_<>_<>_Athletes при изменении членства
+    Отправитель - админ группы, выполняющий добавление/удаление члена группы
+    Получатель - все остальные админы группы, кроме инициатора, имеющие право W на userGroup.membership
+        
+        data[0] - Название клуба
+        data[1] - uri клуба
+        data[2] - Name спортсмена
+        data[3] - Uri спортсмена
+        data[4] - Name тренера
+        data[5] - Uri тренера
+    **/
+    joinCoachAthleteByAdmin: "",
+    leaveCoachAthleteByAdmin: "",
     
     /** ----------Уведомления по тарифам для всех --------**/
         enabledTariffBehalfRelatedUser: "",
