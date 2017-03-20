@@ -1,16 +1,32 @@
+<!--
 <div layout="row" md-theme="default" layout-padding>
-    <div>
-        <img src="http://193.124.181.87/content/user/avatar/21890f6a-b2bc-49e4-bc7a-ce85a3fa6283.jpg" style="width: 40px; height: 40px; border-radius: 20px"></img>
-    </div>
-    <div layout="column" style="width: 100%">
-        <div layout="row" layout-align="space-between start">
-            <p class="md-caption text">{{toaster.data.fullName}}</p>
-            <p class="md-caption text" style="text-align: right; padding-left: 12px">{{toaster.data.time | date:
-                'short'}}</p>
+    <avatar-pic type="toaster.data.notification.type"
+                avatar="toaster.data.notification.avatar"
+                sref="toaster.data.notification.state"
+                is-premium="toaster.data.notification.isPremium"
+                class="md-avatar size-36"></avatar-pic>
+    <div class="md-list-item-text" layout="column">
+        <div layout="row">
+            <h3 flex>{{toaster.data.notification.name | translate}}</h3>
+            <p flex="none">{{$ctrl.fromNow(toaster.data.notification.ts)}}</p>
         </div>
-        <div>
-            <p class="md-caption text">
-                {{toaster.data.message | limitTo: 100 | translate:toaster.data.context }}{{toaster.data.message.length > 100 ? ' ...' : ''}}</p>
-        </div>
+        <p>{{toaster.data.notification.template | limitTo: 200 | translate:toaster.data.notification.params }}</p>
     </div>
-</div>
+</div>-->
+
+<md-list class="md-dense" flex>
+    <md-list-item class="md-3-line">
+        <avatar-pic type="toaster.data.notification.type"
+                    avatar="toaster.data.notification.avatar"
+                    sref="toaster.data.notification.state"
+                    is-premium="toaster.data.notification.isPremium"
+                    class="md-avatar size-36"></avatar-pic>
+        <div class="md-list-item-text" layout="column">
+            <div layout="row">
+                <h3 flex><a ui-sref="user({uri: 'achernykh'})">{{toaster.data.notification.name | translate}}</a></h3>
+                <p flex="none">{{$ctrl.fromNow(toaster.data.notification.ts)}}</p>
+            </div>
+            <p>{{toaster.data.notification.template | limitTo: 200 | translate:toaster.data.notification.params }}</p>
+        </div>
+    </md-list-item>
+</md-list>

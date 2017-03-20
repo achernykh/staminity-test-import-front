@@ -1,0 +1,10 @@
+@import "../../../sass/color";
+
+notification-list {
+  md-list {
+    background-color: $grey-200;
+  }
+  md-list-item.read {
+    background-color: $grey-200;
+  }
+}

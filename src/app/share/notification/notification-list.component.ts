@@ -2,14 +2,18 @@ import './notification-list.component.scss';
 import * as moment from 'moment/min/moment-with-locales.js';
 import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import NotificationService from "./notification.service";
-import {INotification} from "../../../../api/notification/notification.interface";
+import {INotification, Notification} from "../../../../api/notification/notification.interface";
 
 
 class NotificationListCtrl implements IComponentController {
 
-    public notifications: Array<INotification>;
+    public isOpen: boolean;
+    public notifications: Array<Notification>;
     public data: any;
     public onEvent: (response: Object) => IPromise<void>;
+    public readonly readTime: 5000;
+    public timer: number;
+
     static $inject = ['$scope','$mdDialog','$mdSidenav','NotificationService'];
 
     constructor(
@@ -18,7 +22,14 @@ class NotificationListCtrl implements IComponentController {
         private $mdSidenav: any,
         private NotificationService: NotificationService) {
 
-        this.NotificationService.notificationList.subscribe((notifications) => this.notifications =  notifications);
+        this.NotificationService.list$.subscribe((list) => {this.notifications =  list; this.$scope.$apply();});
+    }
+
+    $onChanges(changes: any):void {
+        if(changes.hasOwnProperty('isOpen') && !changes.isOpen.isFirstChange()){
+            this.timer = setTimeout(() => this.notifications.filter(n => !n.isRead)
+                .forEach(n => this.NotificationService.put(n.id, true)), this.readTime);
+        }
     }
 
     $onInit() {
@@ -34,6 +45,7 @@ class NotificationListCtrl implements IComponentController {
     }
 
     close () {
+        clearTimeout(this.timer);
         this.$mdSidenav('notifications').toggle();
     }
 }
@@ -41,6 +53,7 @@ class NotificationListCtrl implements IComponentController {
 const NotificationListComponent:IComponentOptions = {
     bindings: {
         data: '<',
+        isOpen: '<',
         onEvent: '&'
     },
     require: {

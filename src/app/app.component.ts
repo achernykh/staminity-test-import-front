@@ -3,7 +3,8 @@ import { IComponentController, IComponentOptions } from 'angular';
 import './app.component.scss';
 
 class AppController implements IComponentController {
-	constructor() { }
+	static $inject = ['$mdSidenav'];
+	constructor(private $mdSidenav: any) { }
 }
 
 const AppComponent: IComponentOptions = {

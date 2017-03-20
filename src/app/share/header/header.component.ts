@@ -7,17 +7,19 @@ import RequestsService from "../../core/requests.service";
 import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
 import {StateService, LocationServices} from 'angular-ui-router';
+import NotificationService from "../notification/notification.service";
 
 class HeaderCtrl implements IComponentController {
 	public requests: number;
+	public notifications: number;
 	private user: IUserProfile;
 	private athlete: IUserProfile;
 	private profile$: Observable<IUserProfile>;
 	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
 	private readonly athleteSelectorStates: Array<string> = ['calendar'];
 
-	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', '$mdDialog', '$state',
-	'toaster'];
+	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', 'NotificationService',
+		'$mdDialog', '$state','toaster'];
 
 	constructor(
 		private $scope,
@@ -25,10 +27,18 @@ class HeaderCtrl implements IComponentController {
 		private AuthService: any,
 		private SessionService: SessionService,
 		private RequestsService: RequestsService,
+		private	NotificationService: NotificationService,
 		private $mdDialog: any,
 		private $state: StateService,
-		private toaster: any
-	) {
+		private toaster: any) {
+
+		this.NotificationService.list$
+            .map(list => list.filter(notification => !notification.isRead))
+            .subscribe(list => {
+                this.notifications =  list.length;
+                this.$scope.$apply();
+            });
+
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 
 		this.RequestsService.requestsList
@@ -37,21 +47,6 @@ class HeaderCtrl implements IComponentController {
 			console.log('requestsInboxNew', requestsInboxNew);
 			this.requests = requestsInboxNew.length;
 			this.$scope.$apply();
-		});
-	}
-
-	showToast(){
-		this.toaster.pop({
-			timeout: 300000,
-			body: JSON.stringify({template: 'notification/notification.html', data: {
-				fullName: 'Евгений Хабаров',
-				time: new Date(),
-				message: 'notificationTestMessage',
-				context: {
-					data: ['run', 12000, 2.6,'Евгений','Хабаров','Сейчас смотрю твой бег! Лучше восприятие будет если график будет занимать меньше места а карта больше']
-				}
-			}}),
-			bodyOutputType: 'templateWithData'
 		});
 	}
 

@@ -3,32 +3,43 @@ import {ISocketService} from "../../core/socket.service";
 import {GetNotification, PutNotification} from "../../../../api/notification/notification.request";
 import {Observable} from "rxjs/Rx";
 
-const processNotifications = (list, request) => {
-    return list;
-};
-
 export interface INotificationSettings {
+    newestOnTop: boolean;
+    timeOut: number;
+    tapToDismiss: boolean;
+    showDuration: number;
+    hideDuration: number;
 
 }
 
 export default class NotificationService {
-    notifications: Observable<any>;
-    notificationList: Observable<any>;
-    defaultSettings: INotificationSettings = {};
+    timeouts: Array<number> = [];
+    notification$: Observable<any>;
+    list$: Observable<Array<Notification>>;
+    defaultSettings: INotificationSettings = {
+        newestOnTop: false,
+        timeOut: 7000,
+        tapToDismiss: true,
+        showDuration: 300,
+        hideDuration: 300
+    };
 
     static $inject = ['SocketService','toaster'];
 
     constructor(
         private socket:ISocketService, private toaster: any){
 
-        this.notifications = this.socket.messages
+        this.notification$ = this.socket.messages
             .filter(message => message.type === 'notification')
-            .map(message => message.value)
+            .map(message => {
+                let notification = new Notification(message.value);
+                return notification;
+            })
             .share();
 
-        this.notificationList = this.socket.connections
+        this.list$ = this.socket.connections
             .flatMap(() => Observable.fromPromise(this.get(10,0)))
-            .switchMap(list => this.notifications.scan( processNotifications, list).startWith(list))
+            .switchMap(list => this.notification$.scan( this.process.bind(this), list).startWith(list))
             .share();
     }
 
@@ -53,31 +64,46 @@ export default class NotificationService {
         return this.socket.send(new PutNotification(id,isRead));
     }
 
-    pop(notification: INotification, settings: INotificationSettings = this.defaultSettings) {
-        this.toaster.pop({
-            timeout: 3000,
-            body: JSON.stringify({template: 'notification/notification.html', data: {
-                fullName: 'Евгений Хабаров',
-                time: new Date(),
-                message: 'notificationTestMessage',
-                context: {
-                    data: ['run', 12000, 2.6,'Евгений','Хабаров','Сейчас смотрю твой бег! Лучше восприятие будет если график будет занимать меньше места а карта больше']
-                }
-            }}),
-            bodyOutputType: 'templateWithData'
-        });
-    }
+    /**
+     * Обработка входящих ассинхронных уведомлений
+     * @param list
+     * @param notification
+     * @returns {Array<Notification>}
+     */
+    process(list: Array<Notification>, notification: Notification):Array<Notification> {
+        let update: number = list.findIndex(n => n.id === notification.id);
+        let isUpdate: boolean = update >= 0;
 
-    showToast(){
+        if (!notification.isRead) {
+            this.show(notification);
+        }
+        if (isUpdate && notification.revision >= list[update].revision) {
+            list.splice(update,1,notification);
+        } else {
+            list.push(notification);
+        }
+
+        return list;
+    };
+
+    show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {
+        this.timeouts[notification.index] = Date.now();
+
         this.toaster.pop({
-            timeout: 300000,
-            body: JSON.stringify({template: 'notification/notification.html', data: {
-                fullName: 'Евгений Хабаров',
-                time: new Date(),
-                message: 'notificationTestMessage',
-                context: {
-                    data: ['run', 12000, 2.6,'Евгений','Хабаров','Сейчас смотрю твой бег! Лучше восприятие будет если график будет занимать меньше места а карта больше']
+            onHideCallback: () => {
+                console.log(Date.now() - this.timeouts[notification.index]);
+                let userClick = (Date.now() - this.timeouts[notification.index]) < settings.timeOut;
+                if(userClick) {
+                    console.log('user click', notification);
+                    this.put(notification.id, true)
+                        .then((success)=>console.log(success), error => console.error(error));
                 }
+            },
+            tapToDismiss: true,
+            timeout: settings.timeOut,
+            newestOnTop: settings.newestOnTop,
+            body: JSON.stringify({template: 'notification/notification.html', data: {
+                notification: notification
             }}),
             bodyOutputType: 'templateWithData'
         });

@@ -43,7 +43,7 @@ export default class RequestsService {
         .share();
 
         this.requestsList = this.SocketService.connections
-        .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 1000)))
+        .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 100)))
         .switchMap(requests => this.notifications.scan(processRequest, requests).startWith(requests))
         .share();
     }
