@@ -224,7 +224,30 @@ export const translateNotification = {
         data[2] - название роли: Спортсмен, Тренер, Администратор
         data[3] - ссылка на описание роли**/
         clubRoleRemoved: "В клубе вам отключена роль {{data[2]} | translate}",
-    
+        
+        /** Оповещение пользователей, которые имеют права на изменение состава членов редактируемой группы
+        Отправитель - админ группы, выполняющий добавление/удаление члена группы
+        Получатель - все остальные админы группы, кроме инициатора, имеющие право W на userGroup.membership
+        шаблон перевода:
+        <join/leave><GroupCode>ByAdmin
+        data[0] - название группы
+        data[1] - Фамилия и Имя члена группы
+        **/
+        joinClubManagementByAdmin: "",
+        joinClubCoachesByAdmin: "",
+        joinClubChiefCoachesByAdmin: "",
+        joinClubConsultingByAdmin: "",
+        joinClubAthletesByAdmin: "",
+        joinPremiumByClubByAdmin: "",
+        joinCoachByClubByAdmin: "",
+        // выход из групп
+        leaveClubManagementByAdmin: "",
+        leaveClubCoachesByAdmin: "",
+        leaveClubChiefCoachesByAdmin: "",
+        leaveClubConsultingByAdmin: "",
+        leaveClubAthletesByAdmin: "",
+        leavePremiumByClubByAdmin: "",
+        leaveCoachByClubByAdmin: "",
     
     /** ----------Уведомления по тарифам для всех --------**/
         enabledTariffBehalfRelatedUser: "",
