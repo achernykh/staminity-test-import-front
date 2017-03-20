@@ -3,7 +3,7 @@ import * as Rx from "rxjs/Rx";
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/observable/interval'
 
-import { timer, log } from './../share/util'
+import { maybe, entries, timer, log } from './../share/util'
 
 
 const findChildInViewport = (element) => {
@@ -11,10 +11,19 @@ const findChildInViewport = (element) => {
   return Array.from(element.children).find(({ offsetTop, offsetHeight }) => offsetTop >= scrollTop)
 }
 
-
 const loop = (f) => {
-  f()
-  requestAnimationFrame(() => { loop(f) })
+  var stop
+  
+  const frame = () => {
+    if (!stop) {
+      f()
+      requestAnimationFrame(frame)
+    }
+  }
+  
+  frame()
+  
+  return () => { stop = true }
 }
 
 
@@ -33,13 +42,27 @@ export const scrollContainer = () => ({
       return { scrollTop, scrollHeight, offsetHeight }
     }
     
-    Observable.interval(500)
-    .map(() => findChildInViewport(element[0]))
-    .subscribe(scrollContainer.firstChildChanges)
+    let firstChildChanges = Observable.interval(500)
+        .map(() => findChildInViewport(element[0]))
+        .subscribe(scrollContainer.firstChildChanges)
+        
+    let scroll = Rx.Observable.fromEvent(element[0], 'scroll')
+        .subscribe(scrollContainer.scrollings)
     
-    Rx.Observable.fromEvent(element[0], 'scroll').subscribe(scrollContainer.scrollings)
+    let unsubscribe = {
+      frames: loop(() => scrollContainer.frames.next()),
+      firstChildChanges: () => firstChildChanges.unsubscribe(),
+      scroll: () => scroll.unsubscribe()
+    }
+  
+    scope.$on('$destroy', () => {
+      for (let key in unsubscribe) {
+        unsubscribe[key] ()
+      }
+    })
   },
   controller () {
+    this.frames = new Rx.Subject()
     this.scrollings = new Rx.Subject()
     this.firstChildChanges = new Rx.Subject()
   }
@@ -49,7 +72,8 @@ export const scrollContainer = () => ({
 export const onScrollHitTop = () => ({
   require: '^scrollContainer',
   link (scope, element, attrs, scrollContainer) {
-    Observable.interval(200)
+    scrollContainer.frames
+    .throttleTime(200)
     .map(() => scrollContainer.getScrollState())
     .filter(({ scrollTop }) => scrollTop === 0)
     .subscribe(() => { 
@@ -62,7 +86,7 @@ export const onScrollHitTop = () => ({
 export const onScrollHitBottom = () => ({
   require: '^scrollContainer',
   link (scope, element, attrs, scrollContainer) {
-    Observable.interval(0)
+    scrollContainer.frames
     .map(() => scrollContainer.getScrollState())
     .filter(({ scrollTop, scrollHeight, offsetHeight }) => scrollHeight - scrollTop <= offsetHeight)
     .subscribe(() => { 
@@ -94,36 +118,23 @@ export const scrollKeepPosition = () => ({
   link (scope, element, attrs, scrollContainer) {
     var snapshot
     
-    let snap = () => {
-      let child = findChildInViewport(element[0])
-      if (child) {
-        let offset = child.offsetTop
-        let scroll = element[0].scrollTop
-        let position = offset 
-        snapshot = { child, offset, position, scroll }
-      } else {
-        snapshot = null
-      }
-    }
-    
     let frame = () => {
       if (snapshot) {
         let offset = snapshot.child.offsetTop
         if (offset !== snapshot.offset) {
-          let scroll = element[0].scrollTop
-          let position = offset
           let shift = offset - snapshot.offset
           element[0].scrollTop += shift
-          console.log('scroll back', shift)
         }
       }
-      snap()
+      
+      snapshot = maybe(findChildInViewport(element[0])) (child => ({
+        child,
+        offset: child.offsetTop
+      })) ()
     }
     
-    loop(frame)
-    
-    scrollContainer.scrollings.subscribe(() => { 
-      frame()
-    })
+    scrollContainer.scrollings
+    .merge(scrollContainer.frames)
+    .subscribe(frame)
   }
 })
