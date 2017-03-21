@@ -231,6 +231,9 @@ export const translateNotification = {
         /** Оповещение пользователей, которые имеют права на изменение состава членов редактируемой группы
         Отправитель - админ группы, выполняющий добавление/удаление члена группы
         Получатель - все остальные админы группы, кроме инициатора, имеющие право W на userGroup.membership
+        Суффиксы:
+            ByAdmin - админ назначает роль кому-то
+            ByMember - админ назначает роль себе
         шаблон перевода:
         <join/leave><GroupCode>ByAdmin
             data[0] - Название клуба
@@ -245,6 +248,8 @@ export const translateNotification = {
         joinClubAthletesByAdmin: "",
         joinPremiumByClubByAdmin: "",
         joinCoachByClubByAdmin: "",
+        
+        joinClubCoachesByMember: "Пользователь сам себе назначил роль в рамках клуба. ПЕРЕПИСАТЬ ТЕКСТ!",
         // выход из групп
         leaveClubManagementByAdmin: "",
         leaveClubCoachesByAdmin: "",
@@ -253,6 +258,8 @@ export const translateNotification = {
         leaveClubAthletesByAdmin: "",
         leavePremiumByClubByAdmin: "",
         leaveCoachByClubByAdmin: "",
+        
+        leaveClubCoachesByMember: "Пользователь сам себе убрал роль в рамках клуба. ПЕРЕПИСАТЬ ТЕКСТ!",
     
         /** Оповещение админов группы Club_<>_<>_Athletes при изменении членства
         Отправитель - админ группы, выполняющий добавление/удаление члена группы
