@@ -299,9 +299,10 @@ export const translateNotification = {
 
 
         Контекст data[]:
-            0 - Name пользователя, которому подключены
-            1 - ?
-            2 - ?
+            data[0] - Название клуба
+            data[1] - uri клуба
+            data[2] - Name члена клуба
+            data[3] - Uri члена клуба
     **/
 
         joinPremiumByClub: "Вам подключен тариф 'Премиум' за счет клуба",
@@ -322,6 +323,7 @@ export const translateNotification = {
 
         joinPremiumByCoach: "Вам подключен тариф 'Премиум' за счет тренера",
         leavePremiumByCoach: "Вам отключен тариф 'Премиум', ранее подключенный за счет тренера",
+        //другие типы для PremiumByCoach не релевантны
 
 
     /** ----------Уведомления по тарифам для всех --------**/
