@@ -275,6 +275,35 @@ export const translateNotification = {
         joinCoachAthleteByAdmin: "",
         leaveCoachAthleteByAdmin: "",
     
+    /** ----------Уведомления по членству в тарифных группах --------
+        Отправитель в зависимости от группы:
+            PremiumByClub - клуб
+            CoachByClub - клуб
+            PremiumByCoach - тренер
+            
+        Получатели:
+            <join/leave><groupCode> - пользователь, получающий тарифные функции
+            <join/leave><groupCode>ByMember - админы группы, кроме себя самого
+            <join/leave><groupCode>ByAdmin - админы группы, кроме себя самого
+        
+        
+        Контекст data[]:
+            0 - ?
+            1 - ?
+            2 - ?
+    **/
+        
+        joinPremiumByClub: "Клуб подключил пользователю премиум тариф",
+        joinPremiumByClubByAdmin: "админ сделал кому-то премум доступ. ПЕРЕПИСАТЬ ТЕКСТ",
+        joinPremiumByClubByMember: "админ сделал себе премум доступ. ПЕРЕПИСАТЬ ТЕКСТ",
+        
+        leavePremiumByClub: "Клуб ОТключил пользователю премиум тариф",
+        leavePremiumByClubByAdmin: "",
+        leavePremiumByClubByMember: "админ сделал себе премум доступ. ПЕРЕПИСАТЬ ТЕКСТ",
+        
+        // ДОПИСАТЬ ПО ОСТАЛЬНЫМ ГРУППАМ
+        
+        
     /** ----------Уведомления по тарифам для всех --------**/
         enabledTariffBehalfRelatedUser: "",
         disabledTariffBehalfRelatedUser: "",
