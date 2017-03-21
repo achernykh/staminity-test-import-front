@@ -131,14 +131,16 @@ export const translateNotification = {
         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль**/
         requestLeaveClubMembersDeclined: "Ваш запрос на выход из клуба отклонен",
         
-        /** Администрация исключила члена группы. Получатель - член группы, отправитель - клуб
+        /** Администрация исключила члена клуба. Получатель - член группы, отправитель - клуб
         data[0] - Фамилия и Имя админа, выполнившего запрос
         data[1] - uri админа
         **/
-        leaveClubMembersByAdmin: "",
+        leaveClubMembersByAdmin: "Вы исключены из клуба",
         
-        /** Член группы вышел из группы. Получатель - администраторы клуба, отправитель - член группы**/
-        leaveClubMembersByMember: "",
+        /** Член клуба вышел из клуба. Получатель - администраторы клуба, отправитель - член клуба
+         data[0] - Фамилия и Имя пользователя, который вышел из клуба,
+         data[1] - uri пользователя **/
+        leaveClubMembersByMember: "Вышел из клуба",
         
     /** Friends **/
         /** Запрос на дружбу принят. 
@@ -150,23 +152,23 @@ export const translateNotification = {
         requestJoinFriendsDeclined: "Ваш запрос на дружбу отклонен",
         
     /** Прочие пользовательские группы **/
-        /** Запрос на вступление в группу одобрен. 
+        /** Запрос на вступление в группу одобрен.
          * Отправитель - группа. Получатель - инициатор запроса.
         data[0] - Фамилия и Имя администратора группы, обработавшего запрос
         data[1] - userUri администратора группы, обработавшего запрос. Для ссылки на профиль**/
         requestJoinUserGroupApproved: "Ваш запрос на вступление в группу одобрен",
         
-        /** Запрос на вступление в группу отклонен. 
-         * Отправитель - группа. Получатель - инициатор запроса.
+        /* Запрос на вступление в группу отклонен.
+        Отправитель - группа. Получатель - инициатор запроса.
         data[0] - Фамилия и Имя администратора группы, обработавшего запрос
-        data[1] - userUri администратора группы, обработавшего запрос. Для ссылки на профиль**/
+        data[1] - userUri администратора группы, обработавшего запрос. Для ссылки на профиль */
         requestJoinUserGroupDeclined: "Ваш запрос на вступление в группу отклонен",
         
-        /** Администрация исключила члена группы. Получатель - член группы, отправитель - админ группы**/
-        leaveUserGroupByAdmin: "",
+        /** Администрация исключила члена группы. Получатель - член группы, отправитель - группа **/
+        leaveUserGroupByAdmin: "Вы исключены из группы",
         
         /** Член группы вышел из группы. Получатель - администраторы группы, отправитель - член группы**/
-        leaveUserGroupByMember: "",
+        leaveUserGroupByMember: "Вышел из группы",
         
 /** -- Увдомления администраторам, которые имеют копию обработанного запроса -- **/    
         /** Запрос на вступление в клуб одобрен другими администраторами. 
@@ -241,26 +243,37 @@ export const translateNotification = {
             data[2] - Name члена клуба
             data[3] - Uri члена клуба
         **/
-        joinClubManagementByAdmin: "",
-        joinClubCoachesByAdmin: "",
-        joinClubChiefCoachesByAdmin: "",
-        joinClubConsultingByAdmin: "",
-        joinClubAthletesByAdmin: "",
-        joinPremiumByClubByAdmin: "",
-        joinCoachByClubByAdmin: "",
+        joinClubManagementByAdmin: "{{data[2]}} назначен администратором клуба {{data[0]}}",
+        joinClubCoachesByAdmin: "{{data[2]}} назначен тренером клуба {{data[0]}}",
+        joinClubChiefCoachesByAdmin: "{{data[2]}} назначен главным тренером клуба {{data[0]}}",
+        joinClubConsultingByAdmin: "{{data[2]}} назначен консультантом клуба {{data[0]}}",
+        joinClubAthletesByAdmin: "{{data[2]}} включен в число спортсменов клуба {{data[0]}}",
+        joinPremiumByClubByAdmin: "{{data[2]}} подключен тариф 'Премиум' за счет клуба {{data[0]}}",
+        joinCoachByClubByAdmin: "{{data[2]}} подключен тариф 'Тренер' за счет клуба {{data[0]}}",
         
-        joinClubCoachesByMember: "Пользователь сам себе назначил роль в рамках клуба. ПЕРЕПИСАТЬ ТЕКСТ!",
+        joinClubCoachesByMember: "Назначил себя тренером клуба {{data[0]}}",
+        joinClubChiefCoachesByMember: "Назначил себя главным тренером клуба {{data[0]}}",
+        joinClubConsultingByMember: "Назначил себя консультантом клуба {{data[0]}}",
+        joinClubAthleteByMember: "Включил себя в число спортсменов клуба {{data[0]}}",
+        joinPremiumByClubByMember: "Подключил себе тариф 'Премиум' за счет клуба {{data[0]}}",
+        joinCoachByClubByMember: "Подключил себе тариф 'Тренер' за счет клуба {{data[0]}}",
+
         // выход из групп
-        leaveClubManagementByAdmin: "",
-        leaveClubCoachesByAdmin: "",
-        leaveClubChiefCoachesByAdmin: "",
-        leaveClubConsultingByAdmin: "",
-        leaveClubAthletesByAdmin: "",
-        leavePremiumByClubByAdmin: "",
-        leaveCoachByClubByAdmin: "",
+        leaveClubManagementByAdmin: "{{data[2]}} отключена роль 'Администратор' клуба {{data[0]}}",
+        leaveClubCoachesByAdmin: "{{data[2]}} отключена роль 'Тренер' клуба {{data[0]}}",
+        leaveClubChiefCoachesByAdmin: "{{data[2]}} отключена роль 'Главный тренер' клуба {{data[0]}}",
+        leaveClubConsultingByAdmin: "{{data[2]}} отключена роль 'Консультант' клуба {{data[0]}}",
+        leaveClubAthletesByAdmin: "{{data[2]}} отключена роль 'Спортсмен' клуба {{data[0]}}",
+        leavePremiumByClubByAdmin: "{{data[2]}} отключен тариф 'Премиум' за счет клуба {{data[0]}}",
+        leaveCoachByClubByAdmin: "{{data[2]}} отключен тариф 'Тренер' за счет клуба {{data[0]}}",
         
-        leaveClubCoachesByMember: "Пользователь сам себе убрал роль в рамках клуба. ПЕРЕПИСАТЬ ТЕКСТ!",
-    
+        leaveClubCoachesByMember: "Отключил себе роль 'Тренер' в клубе {{data[0]}}",
+        leaveClubChiefCoachesByMember: "Отключил себе роль 'Главный тренер' в клубе {{data[0]}}",
+        leaveClubConsultingByMember: "Отключил себе роль 'Консультант' в клубе {{data[0]}}",
+        leaveClubAthletesByMember: "Отключил себе роль 'Спортсмен' в клубе {{data[0]}}",
+        leavePremiumByClubByMember: "Отключил себе тариф 'Премиум' за счет клуба {{data[0]}}",
+        leaveCoachByClubByMember: "Отключил себе тариф 'Тренер' за счет клуба {{data[0]}}",
+
         /** Оповещение админов группы Club_<>_<>_Athletes при изменении членства
         Отправитель - админ группы, выполняющий добавление/удаление члена группы
         Получатель - все остальные админы группы, кроме инициатора, имеющие право W на userGroup.membership
