@@ -10,7 +10,7 @@
             <md-icon class="material-icons">close</md-icon>
         </md-button>
     </md-toolbar>
-    
+
     <md-tabs md-stretch-tabs="always" md-dynamic-height="true" class="md-primary md-hue-3 md-body-1">
         <md-tab label="{{'request.inbox' | translate}}">
             <md-tab-body>
@@ -33,12 +33,12 @@
                     </div>
                     <div class="md-caption" translate>request.history</div>
                     <div ng-if="!$ctrl.requests.inbox.old.length" translate>request.noRequest</div>
-                    <div ng-repeat="request in $ctrl.requests.inbox.old | limitTo:$ctrl.limit.inbox" class="md-no-proxy">                        
+                    <div ng-repeat="request in $ctrl.requests.inbox.old | limitTo:$ctrl.limit.inbox" class="md-no-proxy">
                         <div layout="row" ui-sref="/user/{{request.initiator.public.uri}}" style="width:100%">
                             <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
                             <div flex>
                                 <div>{{request.initiator | username}}</div>
-                                <div class="md-caption">{{$ctrl.fromNow(request.updated)}}</div>        
+                                <div class="md-caption">{{$ctrl.fromNow(request.updated)}}</div>
                             </div>
                             <md-icon class="material-icons">{{stateIcons[request.state || 'C']}}</md-icon>
                         </div>
@@ -49,7 +49,7 @@
                 </div>
             </md-tab-body>
         </md-tab>
-        
+
         <md-tab label="{{'request.outbox' | translate}}">
             <md-tab-body>
                 <div layout-padding="10">
@@ -79,7 +79,7 @@
                             <userpic ng-if="!request.groupProfile.public" profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
                             <div flex>
                                 <div>{{request.groupProfile.public? request.groupProfile.public.name : (request.receiver | username)}}</div>
-                                <div class="md-caption">{{$ctrl.fromNow(request.updated)}}</div>        
+                                <div class="md-caption">{{$ctrl.fromNow(request.updated)}}</div>
                             </div>
                             <md-icon class="material-icons">{{stateIcons[request.state || 'C']}}</md-icon>
                         </div>

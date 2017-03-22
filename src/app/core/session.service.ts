@@ -29,6 +29,7 @@ export default class SessionService implements ISessionService {
 	private permissionsKey:string = 'systemFunctions';
 	private displayKey:string = 'display';
 	private _profile: BehaviorSubject<IUserProfile>;
+	private _user: IUserProfile;
 	public profile: any;
 
 
@@ -37,6 +38,11 @@ export default class SessionService implements ISessionService {
 	constructor(private $window:IWindowService) {
 		this.memoryStore = {};
 		this.$window = $window;
+		try {
+			this._user = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
+		} catch (e) {
+			
+		}
 		this._profile = new BehaviorSubject(this.getUser());
 		this.profile = this._profile.asObservable();
 	}
@@ -55,7 +61,7 @@ export default class SessionService implements ISessionService {
 
 	getUser():IUserProfile {
 		try {
-			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
+			return this._user;
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
 		}
@@ -63,6 +69,7 @@ export default class SessionService implements ISessionService {
 
 	setUser(value:IUserProfile):void{
 		try {
+			this._user = value;
 			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
 			Object.assign(data, {'userProfile': value});
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
@@ -100,8 +107,10 @@ export default class SessionService implements ISessionService {
 
 	setToken(value:Object):void {
 		try {
-			this._profile.next(value['userProfile']);
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(value));
+			let userProfile = value['userProfile'];
+			this._user = userProfile;
+			this._profile.next(userProfile);
 		} catch (e) {
 			throw new Error(e);
 		}
