@@ -90,6 +90,8 @@ export const translateNotification = {
 /* ---------- Комментарии, лайки, сообщения  --------**/
         newCoachCommentSingle: "",
         newCoachComments: "",
+        newAthletesCommentSingle: "",
+        newAthletesComments: "",
         newUserCommentSingle: "",
         newLikeSingle: "",
         newUserCommentsAndLikes: "",
