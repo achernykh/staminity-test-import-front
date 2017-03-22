@@ -39,7 +39,7 @@ export const translateNotification = {
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value **/
         uploadActivityByProvider: "Загружена тренировка {{data[1]}} \n " +
-        "{{data[0]} | translate}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
+        "{{data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
 
 /*  ---------- Тренировки --------**/
 
@@ -51,7 +51,7 @@ export const translateNotification = {
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value */
         activityCompletedByAthlete: "Выполнена тренировка {{data[1]}} \n "+
-        "{{data[0]} | translate}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
+        "{{data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
 
         /*  Плановая тренировка создана тренером. Получатель - спортсмен, отправитель - тренер
         * data[0] - базовый вид спорта
@@ -60,7 +60,7 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityCreatedByCoach: "Создана плановая тренировка: "+
-        "{{data[1]} | translate}, {{data[2]}}, {{data[4]} | translate}",
+        "{{data[1] | translate}}, {{data[2]}}, {{data[4] | translate}}",
 
          /*  Плановая тренировка изменена тренером. Получатель - спортсмен, отправитель - тренер
         * data[0] - базовый вид спорта
@@ -69,7 +69,7 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityModifiedByCoach: "Изменена плановая тренировка: "+
-        "{{data[1]} | translate}, {{data[2]}}, {{data[4]} | translate}",
+        "{{data[1] | translate}}, {{data[2]}}, {{data[4] | translate}}",
 
          /*  Факт по тренировке изменен спортсменом. Условия получения такого уведомления:
             - спортсмен ввел или изменил факт вручную в тренировке,
@@ -81,7 +81,7 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityFactModifiedByAthlete: "Изменен факт в тренировке: " +
-        "{{data[1]} | translate}, {{data[2]}}, {{data[4]} | translate}",
+        "{{data[1] | translate}}, {{data[2]}}, {{data[4] | translate}}",
 
         activityCompletedByFriend: "", /* под вопросом. Тренировки друзей достаточно видеть в ленте */
         activityCompletedByFollowing: "",  /* аналогично, под вопросом */
@@ -227,14 +227,14 @@ export const translateNotification = {
         data[0] - Фамилия и Имя менеджера, обработавшего запрос
         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
         data[2] - название роли: Спортсмен, Тренер, Администратор**/
-        clubRoleAssigned: "Вам в клубе присвоена роль {{data[2]} | translate}",
+        clubRoleAssigned: "Вам в клубе присвоена роль {{data[2] | translate}}",
 
         /* Уведомление члену клуба об отключении роли.
          * Отправитель - клуб. Получатель - член клуба.
         data[0] - Фамилия и Имя менеджера, обработавшего запрос
         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
         data[2] - название роли: Спортсмен, Тренер, Администратор**/
-        clubRoleRemoved: "В клубе вам отключена роль {{data[2]} | translate}",
+        clubRoleRemoved: "В клубе вам отключена роль {{data[2] | translate}}",
 
     /*----- Уведомления администраторов клуба о действиях других администраторов------*/
         /* Оповещение пользователей, которые имеют права на изменение состава членов редактируемой группы
@@ -350,14 +350,38 @@ export const translateNotification = {
         lockedUserAccess: "",
         lockedUserAccount: "",
 
-    /* ----------Зоны и пороги --------**/
-        zonesChangedByCoach: "",
-        zonesChangedByAthelete: "",
-        zonesChangeRequestByService: "",
+/* ----------Зоны и пороги --------**/
+        /* Зоны изменены тренером. Отправитель - тренер, получатель - спортсмен. Или наоборот
+        data [0] - базовый вид спорта
+        data [1] - показатель интенсивности        */
+        zonesChangedByCoach: "Изменены настройки ваших тренировочных зон и пороговых значений",
+        zonesChangedByAthlete: "Ваш спортсмен изменил настройки тренировочных зон и пороговых значений",
+
+        /* Предлагается изменение порогов по итогам анализа тренировки. Отправитель - Стаминити, получатель - спортсмен.
+         data [0] - базовый вид спорта
+         data [1] - пороговое значение
+         data [2] - дата обновления */
+        newPaceFTPBySystem: "Предлагаем обновить значение ПАНО по темпу по виду спорта: {{data[0] | translate}}. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
+        newHeartRateFTPBySystem: "Предлагаем обновить значение ПАНО по пульсу по виду спорта: {{data[0] | translate}}. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
+        newPowerFTPBySystem: "Предлагаем обновить значение ПАНО по мощности по виду спорта: {{data[0] | translate}}. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
+
+        /* Предлагается изменение порогов по итогам анализа тренировки. Отправитель - спортсмен, получатель - тренер.
+         data [0] - базовый вид спорта
+         data [1] - пороговое значение
+         data [2] - дата обновления */
+        newAthletePaceFTPBySystem: "Предлагаем обновить ПАНО по темпу для вашего спортсмена по итогам его тренировки. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
+        newAthleteHeartRateFTPBySystem: "Предлагаем обновить ПАНО по пульсу для вашего спортсмена по итогам его тренировки. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
+        newAthletePowerFTPBySystem: "Предлагаем обновить ПАНО по мощности для вашего спортсмена по итогам его тренировки. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
 
 
 /* ---------- Уведомления от сервиса --------**/
-    /** Уведомление для пользователей сервиса. Отправитель - Стаминити.
+    /* Уведомление для пользователей сервиса. Отправитель - Стаминити.
         * data[0] - текст сообщения RUS*
         * data[1] - текст сообщения ENG **/
         staminityNotification: "{{data[0]}}",
