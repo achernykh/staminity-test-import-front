@@ -18,7 +18,6 @@ interface ICalendarWeek {
     selected: boolean; // индикатор выделения недели
     subItem: ICalendarDay[]; //дни недели
     week: string; //индикатор недели для поиска
-}
     loading: Promise<any>;
     height: number;
 };
@@ -198,7 +197,7 @@ export class CalendarCtrl implements IComponentController{
             return this.dayItem(date, calendarItems);
         });
         
-        let loading = this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat))
+        let loading = this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.user.userId)
         .then(items => { 
             week.subItem = days(items); 
             week.changes++;
