@@ -352,11 +352,7 @@ export const translateNotification = {
     /** Уведомление для пользователей сервиса. Отправитель - Стаминити.
         * data[0] - текст сообщения RUS*
         * data[1] - текст сообщения ENG **/
-        staminityNotification: "{{data[0]}}",
-
-        notificationTestMessage1: "Новое тестовое сообщение с параметром: расстояние {{data[1] | measureCalc:data[0]:'distance'}} " +
-        "{{'distance' | measureUnit:data[0] | translate}} со скоростью {{data[2] | measureCalc:data[0]:'speed'}} {{'speed' | measureUnit:data[0] | translate}}",
-        notificationTestMessage: "Новое тестовое сообщение с параметром: 1) {{data[0] | number:2}} 2) {{data[1] | number:2}} 3) {{data[2] | number:0}}"
+        staminityNotification: "{{data[0]}}"
     },
     en: {
 
