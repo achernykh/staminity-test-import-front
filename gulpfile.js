@@ -224,6 +224,13 @@ gulp.task('ftp-dev1-full', function () {
         .pipe(gutil.noop());
 });
 
+gulp.task('ftp-dev2-full', function () {
+    var src = './'+ENV;
+    return gulp.src('dev2/**/*')
+        .pipe(ftp(pass.dev2))
+        .pipe(gutil.noop());
+});
+
 gulp.task('ftp-dev1', function () {
     var src = './'+ENV;
     return gulp.src(['dev1/assets/css/**','dev1/assets/js/**','dev1/index.html'])

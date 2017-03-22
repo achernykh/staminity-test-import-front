@@ -108,7 +108,7 @@ class ActivityHeader implements IActivityHeader {
 	}
 }
 
-let toDay = date => {
+let toDay = (date):Date => {
 	let result = new Date(date);
 	result.setHours(0, 0, 0, 0);
 	return result;
@@ -328,11 +328,11 @@ export class Activity extends CalendarItem {
 	}
 
 	get isToday() {
-		return this._startDate === toDay(new Date());
+		return this._startDate.getTime() === toDay(new Date()).getTime();
 	}
 
 	get coming() {
-		return this._startDate.getTime() > toDay(new Date()).getTime();
+		return this._startDate.getTime() >= toDay(new Date()).getTime();
 	}
 
 	get dismiss() {
