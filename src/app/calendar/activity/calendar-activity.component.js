@@ -1,3 +1,4 @@
+import './calendar-activity.component.scss';
 import moment from 'moment/src/moment';
 import {Activity} from '../../activity/activity.datamodel';
 

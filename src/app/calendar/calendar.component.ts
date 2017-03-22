@@ -60,6 +60,7 @@ export class CalendarCtrl implements IComponentController{
         (<any>window).c = this;
         let date = moment($location.hash());
         this.setDate(date.isValid()? date.toDate() : new Date());
+        //this.$anchorScroll.yOffset = 120;
     }
     
     
@@ -162,7 +163,7 @@ export class CalendarCtrl implements IComponentController{
         return {
             sid: index,
             date: date,
-            anchor: date.format('YYYY-MMMM-DD'),
+            anchor: date.format('YYYY-MM-DD'),
             changes: 0,
             toolbarDate: date.format('YYYY MMMM'),
             selected: false,

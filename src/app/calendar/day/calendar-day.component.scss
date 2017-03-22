@@ -1,0 +1,50 @@
+@import "../../../sass/color";
+@import "../../../sass/font";
+
+calendar-day {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  min-height: 170px;
+  padding: 0px 6px 8px 6px;
+  height: 100%;
+  width: 12.4%;
+
+  vertical-align:top;
+  //text-transform: capitalize;
+
+
+  //xs	'(max-width: 599px)'
+  //gt-xs	'(min-width: 600px)'
+  //sm	'(min-width: 600px) and (max-width: 959px)'
+  //gt-sm	'(min-width: 960px)'
+  //md	'(min-width: 960px) and (max-width: 1279px)'
+  //gt-md	'(min-width: 1280px)'
+  //lg	'(min-width: 1280px) and (max-width: 1919px)'
+  //gt-lg	'(min-width: 1920px)'
+  //xl	'(min-width: 1920px)'
+
+  // xs & sm size
+  @media (min-width: 0px) and (max-width: 959px) {
+    padding: 12px 8px 12px 8px;
+    border-bottom: 1px solid $grey-400;
+  }
+
+  // md size
+  @media (min-width: 960px) and (max-width: 1279px){
+    width: 13.9%;
+    padding: 0px 2px 8px 2px;
+  }
+
+  &.select {
+    background: $primary-100;
+
+  }
+
+  &:hover{
+    @extend .bg-grey-300;
+  }
+  transition: all 0s ease-in-out 0s;
+}

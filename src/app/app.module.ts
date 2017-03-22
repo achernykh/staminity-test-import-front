@@ -15,6 +15,7 @@ import * as hmReedmore from "../../bower_components/angular-read-more";
 import * as angularDynamicLocale from 'angular-dynamic-locale/src/tmhDynamicLocale.js';
 import toaster from 'angularjs-toaster';
 import 'angularjs-toaster/toaster.css';
+import 'animate.css/animate.css';
 
 import run from './app.run';
 import configure from './app.config';
