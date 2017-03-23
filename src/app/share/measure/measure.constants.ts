@@ -39,10 +39,24 @@ export const _activity_measurement_view = {
 
     },
     other: {
-
+        speed: {
+            unit: 'kmph',
+            fixed: 2
+        },
+        distance: {
+            unit: 'km',
+            fixed: 2
+        }
     },
     transition: {
-
+        speed: {
+            unit: 'minpkm',
+            fixed: 0
+        },
+        distance: {
+            unit: 'km',
+            fixed: 2
+        }
     }
 };
 
@@ -137,12 +151,12 @@ export const _measurement = {
         unit: 'tl',
         fixed: 0
     },
-    decouplingPower: {
+    speedDecoupling: {
         unit: 'proportion',
         view: 'percent',
         fixed: 2
     },
-    decouplingPace: {
+    powerDecoupling: {
         unit: 'proportion',
         view: 'percent',
         fixed: 2
@@ -158,6 +172,11 @@ const sportLimit = {
     swim: {
         speed: {
             min: 0.33 // 5min/100m
+        }
+    },
+    other: {
+        speed: {
+            min: 1
         }
     }
 };

@@ -10,7 +10,7 @@ export let translateDialogs = {
         confirm: 'Вы уверены?',
 
         coaches: 'Тренеры',
-        athletes: 'Атлеты',
+        athletes: 'Спортсмены',
         friends: 'Друзья',
         following: 'Подписки',
         followers: 'Подписчики',
