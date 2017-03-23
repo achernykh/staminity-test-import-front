@@ -215,16 +215,7 @@ class SettingsUserCtrl {
 
     showProviderSettings(ev, adaptor) {
 
-        /* Подключение стравы
-         this.$auth.link('strava',{userId: this.user.userId})
-         .then(function(response) {
-         // You have successfully linked an account.
-         console.log('auth success', response)
-         })
-         .catch(function(response) {
-         // Handle errors here.
-         console.log('auth error', response)
-         });*/
+        debugger;
 
         if (adaptor.status.switch) {
             this._$mdDialog.show({
@@ -242,13 +233,34 @@ class SettingsUserCtrl {
                 fullscreen: false // Only for -xs, -sm breakpoints.
             })
                 .then((form) => {
-                    this.SyncAdaptorService.post(adaptor.provider, form.username, form.password,
-                        form.startDate)
-                        .then(response=>console.info(response),
-                            error => {
+                    debugger;
+
+                    if(adaptor.isAuth) {
+                        // Подключение стравы
+                        this.$auth.link('strava',{userId: this.user.userId})
+                            .then(function(response) {
+                                // You have successfully linked an account.
+                                this.message.toastInfo(response);
+                            }).catch(function(response) {
+                                // Handle errors here.
+                                this.message.toastInfo(response);
+                            });
+                    } else {
+                        // операция изменения данных подключения
+                        if (adaptor.status.switch) {
+                            this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
+                                form.startDate, adaptor.status.switch ? "Enabled" : "Disabled")
+                                .then(response => this.message.toastInfo(response), error => this.message.toastError(error));
+
+                        } else { // подключение
+                            this.SyncAdaptorService.post(adaptor.provider, form.username, form.password, form.startDate)
+                                .then(response => console.info(response), error => {
                                 this.message.toastError(error);
                                 adaptor.status.switch = false;
-                        })
+                            });
+                        }
+                    }
+
                 }, () => {
                     // Если диалог открывается по вызову ng-change
                     if (typeof ev === 'undefined') adaptor.status.switch = false
