@@ -5,66 +5,9 @@ import UserService from "../core/user.service";
 
 function configure(
     $stateProvider:StateProvider,
-    $translateProvider: any,
-    $authProvider: any) {
-
-    $authProvider.httpInterceptor = function() { return true; };
-    $authProvider.withCredentials = false;
-    $authProvider.tokenRoot = null;
-    $authProvider.baseUrl = '/oauth/callback/';
-    $authProvider.loginUrl = '/login';
-    $authProvider.signupUrl = '/signup';
-    $authProvider.unlinkUrl = '/unlink/';
-    $authProvider.tokenName = 'token';
-    $authProvider.tokenPrefix = 'staminty';
-    $authProvider.tokenHeader = 'Authorization';
-    $authProvider.tokenType = 'Bearer';
-    $authProvider.storageType = 'localStorage';
-
-    // Facebook
-    $authProvider.facebook({
-        clientId: '660665060767427'
-    });
+    $translateProvider: any) {
 
 
-     //Generic OAuth 2.0
-    $authProvider.oauth2({
-        name: 'strava',
-        url: 'auth/strava',
-        clientId: 15712,
-        redirectUri: 'http://localhost:8080/',
-        authorizationEndpoint: 'https://www.strava.com/oauth/authorize',
-        defaultUrlParams: ['client_id','response_type', 'redirect_uri'],
-        //requiredUrlParams: ['response_type','client_id'],
-        optionalUrlParams: ['approval_prompt','scope','state','token'],
-        approvalPrompt: 'force',
-        scope: 'write',
-        token: '',
-        //scopePrefix: null,
-        //scopeDelimiter: null,
-        state: 'mystate',
-        oauthType: '2.0',
-        /*popupOptions: null,*/
-        responseType: 'code',
-        responseParams: {
-            code: 'code',
-            clientId: 'clientId',
-            redirectUri: 'redirectUri'
-        }
-    });
-    /*$authProvider.facebook({
-     name: 'facebook',
-     url: '/auth/facebook',
-     authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
-     redirectUri: window.location.origin + '/',
-     requiredUrlParams: ['display', 'scope'],
-     appId: '660665060767427',
-     scope: ['email'],
-     scopeDelimiter: ',',
-     display: 'popup',
-     oauthType: '2.0',
-     popupOptions: { width: 580, height: 400 }
-     });*/
 
     $stateProvider
         .state('dashboard', <StateDeclaration>{
@@ -117,6 +60,6 @@ function configure(
 
 }
 
-configure.$inject = ['$stateProvider','$translateProvider','$authProvider'];
+configure.$inject = ['$stateProvider','$translateProvider'];
 
 export default configure;

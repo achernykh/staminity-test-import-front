@@ -12,7 +12,7 @@ function configure(
     $authProvider.httpInterceptor = function() { return true; };
     $authProvider.withCredentials = false;
     $authProvider.tokenRoot = null;
-    $authProvider.baseUrl = '/oauth/callback/';
+    $authProvider.baseUrl = '/oauth/';
     $authProvider.loginUrl = '/login';
     $authProvider.signupUrl = '/signup';
     $authProvider.unlinkUrl = '/unlink/';
@@ -27,20 +27,24 @@ function configure(
         clientId: '660665060767427'
     });
 
+    debugger;
+
     // Generic OAuth 2.0
     $authProvider.oauth2({
         name: 'strava',
-        url: 'auth/strava',
+        url: '',
         clientId: 15712,
-        redirectUri: 'http://0.0.0.0:8080/',
+        //redirectUri: 'http://0.0.0.0:8080',
+        redirectUri: window.location.origin,
         authorizationEndpoint: 'https://www.strava.com/oauth/authorize',
         defaultUrlParams: ['client_id','response_type', 'redirect_uri'],
         //requiredUrlParams: ['response_type','client_id'],
-        optionalUrlParams: ['approval_prompt','scope','state','token'],
+        optionalUrlParams: ['approval_prompt','scope','state'],
         approvalPrompt: 'force',
         scope: 'write',
-        staminityToken: '0adebb13-c151-617a-dfa0-507caac750fd',
-        startDate: '',
+        //token: '',
+        //staminityToken: '0adebb13-c151-617a-dfa0-507caac750fd',
+        //startDate: '',
         //scopePrefix: null,
         //scopeDelimiter: null,
         state: 'mystate',

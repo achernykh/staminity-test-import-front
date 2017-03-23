@@ -234,11 +234,18 @@ class SettingsUserCtrl {
             })
                 .then((form) => {
                     debugger;
+                    console.log('page',window.location.origin);
 
                     if(adaptor.isAuth) {
                         // Подключение стравы
-                        this.$auth.link('strava',{userId: this.user.userId})
-                            .then(function(response) {
+                        this.$auth.link(adaptor.provider,{
+                            internalData: {
+                                userId: this.user.userId,
+                                startDate: form.startDate,
+                                postAsExternalProvider: true,
+                                provider: adaptor.provider
+                            }
+                        }).then(function(response) {
                                 // You have successfully linked an account.
                                 this.message.toastInfo(response);
                             }).catch(function(response) {
