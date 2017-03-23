@@ -21,6 +21,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     public plan: IActivityIntervalPW;
     public actual: ICalcMeasures;
     public sport: string;
+    public form: INgModelController;
     public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
 
     private selected:Array<number> = [];
@@ -118,7 +119,7 @@ class ActivityAssignmentCtrl implements IComponentController {
             (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure]['to']) || null;
 
         this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
-        this.onChange({plan: this.plan, actual: this.actual, form: this.assignmentForm});
+        this.onChange({plan: this.plan, actual: this.actual, form: this.form});
     }
 
     calcPercent(key: string): number {
@@ -156,58 +157,58 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     validateForm() {
 
-        //console.log('check date',isFutureDay(this.assignmentForm['dateStart'].$modelValue),this.AuthService.isActivityPlan());
-        //console.log('check role date',isFutureDay(this.assignmentForm['dateStart'].$modelValue) && this.AuthService.isActivityPlan());
+        //console.log('check date',isFutureDay(this.form['dateStart'].$modelValue),this.AuthService.isActivityPlan());
+        //console.log('check role date',isFutureDay(this.form['dateStart'].$modelValue) && this.AuthService.isActivityPlan());
 
-        if (this.assignmentForm.hasOwnProperty('plan_distance')) {
-            this.assignmentForm['plan_distance'].$setValidity('needDuration',
-                this.assignmentForm['plan_distance'].$modelValue > 0 ||
-                this.assignmentForm['plan_movingDuration'].$modelValue > 0 ||
-                this.assignmentForm['actual_distance'].$modelValue > 0 ||
-                this.assignmentForm['actual_movingDuration'].$modelValue > 0);
+        if (this.form.hasOwnProperty('plan_distance')) {
+            this.form['plan_distance'].$setValidity('needDuration',
+                this.form['plan_distance'].$modelValue > 0 ||
+                this.form['plan_movingDuration'].$modelValue > 0 ||
+                this.form['actual_distance'].$modelValue > 0 ||
+                this.form['actual_movingDuration'].$modelValue > 0);
 
-            this.assignmentForm['plan_movingDuration'].$setValidity('needDuration',
-                this.assignmentForm['plan_distance'].$modelValue > 0 ||
-                this.assignmentForm['plan_movingDuration'].$modelValue > 0 ||
-                this.assignmentForm['actual_distance'].$modelValue > 0 ||
-                this.assignmentForm['actual_movingDuration'].$modelValue > 0);
+            this.form['plan_movingDuration'].$setValidity('needDuration',
+                this.form['plan_distance'].$modelValue > 0 ||
+                this.form['plan_movingDuration'].$modelValue > 0 ||
+                this.form['actual_distance'].$modelValue > 0 ||
+                this.form['actual_movingDuration'].$modelValue > 0);
 
-            /*this.assignmentForm['plan_heartRate'].$setValidity('needIntensity',
-             this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||
-             this.assignmentForm['plan_speed'].$modelValue['from'] > 0);
+            /*this.form['plan_heartRate'].$setValidity('needIntensity',
+             this.form['plan_heartRate'].$modelValue['from'] > 0 ||
+             this.form['plan_speed'].$modelValue['from'] > 0);
 
-             this.assignmentForm['plan_speed'].$setValidity('needIntensity',
-             this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 ||
-             this.assignmentForm['plan_speed'].$modelValue['from'] > 0);*/
+             this.form['plan_speed'].$setValidity('needIntensity',
+             this.form['plan_heartRate'].$modelValue['from'] > 0 ||
+             this.form['plan_speed'].$modelValue['from'] > 0);*/
 
             // Пользователь может указать или расстояние, или время
-            this.assignmentForm['plan_distance'].$setValidity('singleDuration',
-                !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
-            this.assignmentForm['plan_movingDuration'].$setValidity('singleDuration',
-                !(this.assignmentForm['plan_distance'].$modelValue > 0 && this.assignmentForm['plan_movingDuration'].$modelValue > 0));
+            this.form['plan_distance'].$setValidity('singleDuration',
+                !(this.form['plan_distance'].$modelValue > 0 && this.form['plan_movingDuration'].$modelValue > 0));
+            this.form['plan_movingDuration'].$setValidity('singleDuration',
+                !(this.form['plan_distance'].$modelValue > 0 && this.form['plan_movingDuration'].$modelValue > 0));
 
             // Пользователь может указать только один парметр интенсивности
-            if (this.assignmentForm['plan_heartRate'] && this.assignmentForm['plan_speed']) {
-                this.assignmentForm['plan_heartRate'].$setValidity('singleIntensity',
-                    !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
-                    this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
+            if (this.form['plan_heartRate'] && this.form['plan_speed']) {
+                this.form['plan_heartRate'].$setValidity('singleIntensity',
+                    !(this.form['plan_heartRate'].$modelValue['from'] > 0 &&
+                    this.form['plan_speed'].$modelValue['from'] > 0));
             }
 
-            if (this.assignmentForm['plan_speed'] && this.assignmentForm['plan_heartRate']) {
-                this.assignmentForm['plan_speed'].$setValidity('singleIntensity',
-                    !(this.assignmentForm['plan_heartRate'].$modelValue['from'] > 0 &&
-                    this.assignmentForm['plan_speed'].$modelValue['from'] > 0));
+            if (this.form['plan_speed'] && this.form['plan_heartRate']) {
+                this.form['plan_speed'].$setValidity('singleIntensity',
+                    !(this.form['plan_heartRate'].$modelValue['from'] > 0 &&
+                    this.form['plan_speed'].$modelValue['from'] > 0));
             }
         }
 
-        this.assignmentForm['dateStart'].$setValidity('needPermissionForFeature',
-            !isFutureDay(this.assignmentForm['dateStart'].$modelValue) ||
-            (this.assignmentForm['dateStart'].$modelValue && this.AuthService.isActivityPlan()));
+        this.form['dateStart'].$setValidity('needPermissionForFeature',
+            !isFutureDay(this.form['dateStart'].$modelValue) ||
+            (this.form['dateStart'].$modelValue && this.AuthService.isActivityPlan()));
 
     }
 
     updateForm() {
-        this.onChange({plan: this.plan, actual: this.actual, form: this.assignmentForm});
+        this.onChange({plan: this.plan, actual: this.actual, form: this.form});
     }
 
     measurePercentComplete() {
@@ -297,6 +298,7 @@ const ActivityAssignmentComponent:IComponentOptions = {
         plan: '<',
         actual: '<',
         sport: '<',
+        form: '<',
         editable: '<',
         onChange: '&'
     },

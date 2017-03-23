@@ -35,10 +35,9 @@ export const _MEASURE_TRANSLATE = {
 		adjustedPower: 'Мощность корр.',
 		efficiencyFactor: '',
 		variabilityIndex: 'Индекс изменений',
-		intensityLevel: 'Фактор эффективности'
-
-
-
+		intensityLevel: 'Фактор эффективности',
+		speedDecoupling: 'КК: скорость',
+		powerDecoupling: 'КК: мощность'
 	},
 	en: {
 		calendar: 'Calendar',
