@@ -27,7 +27,7 @@ class NotificationListCtrl implements IComponentController {
 
     $onChanges(changes: any):void {
         if(changes.hasOwnProperty('isOpen') && !changes.isOpen.isFirstChange()){
-            this.timer = setTimeout(() => this.notifications.filter(n => !n.isRead)
+            this.timer = setTimeout(() => !!this.notifications && this.notifications.filter(n => !n.isRead)
                 .forEach(n => this.NotificationService.put(n.id, true)), this.readTime);
         }
     }

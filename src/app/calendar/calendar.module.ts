@@ -6,7 +6,7 @@ import CalendarTotal from './total/calendar-total.component.js';
 import CalendarActivity from './activity/calendar-activity.component.js';
 import CalendarActivityChart from './activity-chart/activity-chart.component.js';
 import CalendarTotalChart from './total-chart/total-chart.component.js';
-import {scrollCurrentItem, scrollFire, keepScrollPosition} from './scroll.directives.js';
+import { scrollContainer, onScrollHitTop, onScrollHitBottom, onScrollCurrentItem, scrollKeepPosition } from './scroll.directives.js';
 import configure from './calendar.config';
 
 const Calendar = module('staminity.calendar', [])
@@ -17,9 +17,11 @@ const Calendar = module('staminity.calendar', [])
     .component('calendarTotal', CalendarTotal)
     .component('calendarActivity', CalendarActivity)
     .component('calendar', CalendarComponent)
-    .directive('scrollFire', scrollFire)
-    .directive('keepScrollPosition', keepScrollPosition)
-    .directive('scrollCurrentItem', scrollCurrentItem)
+    .directive('scrollContainer', scrollContainer)
+    .directive('onScrollHitTop', onScrollHitTop)
+    .directive('onScrollHitBottom', onScrollHitBottom)
+    .directive('onScrollCurrentItem', onScrollCurrentItem)
+    .directive('scrollKeepPosition', scrollKeepPosition)
     .config(configure)
     .name;
 

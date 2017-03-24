@@ -12,10 +12,11 @@ function configure(
 	$translateProvider: any,
 	pickerProvider: any,
 	tmhDynamicLocaleProvider: any,
-	$mdDateLocaleProvider: any) {
+	$mdDateLocaleProvider: any,
+    $anchorScrollProvider: any) {
 
-	let isProductionBuild: boolean = __ENV !== "build";
-
+    $anchorScrollProvider.disableAutoScrolling();
+    let isProductionBuild: boolean = __ENV !== "build";
 	$locationProvider.html5Mode({
 		enabled: true,
 		requireBase: false
@@ -120,6 +121,6 @@ function configure(
 }
 
 configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider',
-	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider'];
+	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider','$anchorScrollProvider'];
 
 export default configure;

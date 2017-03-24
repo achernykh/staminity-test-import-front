@@ -107,6 +107,13 @@ class ActivityHeader implements IActivityHeader {
 		this.intervals.push(new Interval('pW'), new Interval('W'));
 	}
 }
+
+let toDay = (date):Date => {
+	let result = new Date(date);
+	result.setHours(0, 0, 0, 0);
+	return result;
+};
+
 /**
  *
  */
@@ -128,6 +135,7 @@ export class Activity extends CalendarItem {
 	private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
 	public details: IActivityDetails;
 	private actualDataIsImported: boolean = false;
+    private _startDate: Date;
 
 	constructor(private item: ICalendarItem){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
@@ -183,6 +191,9 @@ export class Activity extends CalendarItem {
 		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
 		this.actualDataIsImported = this.intervalW.actualDataIsImported;
 
+        // Запоминаем, чтобы парсить только один раз
+        this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
+        
 		// Дополниельные данные для отображения плана на панелях
 		Object.assign(this.intervalPW, {
 			movingDuration: {
@@ -317,12 +328,11 @@ export class Activity extends CalendarItem {
 	}
 
 	get isToday() {
-		return moment(this.dateStart, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') === 0;
+		return this._startDate.getTime() === toDay(new Date()).getTime();
 	}
 
 	get coming() {
-		//return moment().diff(moment(this.dateStart, 'YYYY-MM-DD'), 'd') < 1;
-		return moment(this.dateStart, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') >= 0;
+		return this._startDate.getTime() >= toDay(new Date()).getTime();
 	}
 
 	get dismiss() {

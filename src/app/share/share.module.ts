@@ -37,7 +37,9 @@ import {translateNotification} from "./notification/notification.translate";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
 import {InitiatorType} from "../../../api/notification/notification.interface";
+import { memorize } from "./util";
 
+const parseUtc = memorize(date => moment.utc(date));
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
 const avatar = () => (user) => `url(${user && user.public && user.public.avatar? image() ('/user/avatar/' + user.public.avatar) : '/assets/avatar/default.png'})`;
@@ -47,11 +49,11 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     let url: string = '/assets/avatar/default.png';
     switch (type) {
         case InitiatorType.user: {
-            url = `url(${avatar ? image() ('/user/avatar/' + avatar) : '/assets/avatar/default.png'})`;
+            url = `url(${avatar ? image() ('/user/avatar/' + avatar) : image() ('/assets/avatar/default.png')})`;
             break;
         }
-        case InitiatorType.group || InitiatorType.club: {
-            url = `url(${avatar ? image() ('/group/avatar/' + avatar) : '/group/avatar/default.png'})`;
+        case InitiatorType.group: case InitiatorType.club: {
+            url = `url(${avatar ? image() ('/group/avatar/' + avatar) : image() ('/group/avatar/default.png')})`;
             break;
         }
         case InitiatorType.provider: {

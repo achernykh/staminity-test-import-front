@@ -31,8 +31,9 @@ module.exports = {
             'ui-leaflet',
             'd3',
             'angular-dynamic-locale',
-            'angularjs-toaster'
+            'angularjs-toaster',
             //'angular-read-more'
+            'animate.css'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'

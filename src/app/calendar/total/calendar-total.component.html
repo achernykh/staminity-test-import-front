@@ -65,11 +65,11 @@
             </div>
         </div>
     </section>
-    <md-divider></md-divider>
 </div>
 
-<div ng-repeat="sport in $ctrl.primarySport">
+<div ng-repeat="sport in $ctrl.primarySport track by $index">
     <div ng-if="$ctrl.total.hasOwnProperty(sport) && (!!$ctrl.total[sport].fact.movingDuration || !!$ctrl.total[sport].plan.movingDuration)">
+        <md-divider></md-divider>
         <section layout="row" class="sport-sum">
             <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
             <div flex layout="column" class="md-body-1 secondary dark">
@@ -93,46 +93,5 @@
                 </div>
             </div>
         </section>
-        <md-divider ng-if="!$last"></md-divider>
     </div>
 </div>
-
-<!--
-<div ng-repeat="sport in $ctrl.primarySport">
-    <div ng-if="$ctrl.total.hasOwnProperty(sport) && $ctrl.total[sport].fact.movingDuration > 0">
-        <section layout="row" class="sport-sum">
-            <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
-            <div flex layout="column" class="md-body-1 secondary dark">
-                <div flex="none" layout="row" layout-align="space-between center">
-                    <div flex="none">{{$ctrl.total[sport].fact.movingDuration | measureCalc:sport:'movingDuration'}}</div>
-                    <div flex="none">
-                        <span>{{$ctrl.total[sport].fact.distance | measureCalc:sport:'distance'}}</span>
-                        <span>{{'distance' | measureUnit:sport | translate}}</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <md-divider ng-if="!$last"></md-divider>
-    </div>
-</div> --> <!--
-<div ng-repeat="sport in $ctrl.primarySport">
-    <div ng-if="$ctrl.total.hasOwnProperty(sport) && $ctrl.total[sport].plan.movingDuration > 0">
-        <section layout="row" class="sport-sum">
-            <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
-            <div flex layout="column" class="md-body-1 secondary dark">
-                <div flex="none" layout="row" layout-align="space-between center">
-                    <div flex="none">{{$ctrl.total[sport].plan.movingDuration | measureCalc:sport:'movingDuration'}}</div>
-                    <div flex="none">
-                        <span>{{$ctrl.total[sport].plan.distance | measureCalc:sport:'distance'}}</span>
-                        <span>{{'distance' | measureUnit:sport | translate}}</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <md-divider ng-if="!$last"></md-divider>
-    </div>
-</div>-->
-<!--
-        <div flex="none" layout="row" style="background-color: #0000AA; height: 2px">
-            <div flex="none" style="background-color: red; height: 2px; width: 25%"></div>
-        </div>-->
