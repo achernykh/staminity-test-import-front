@@ -17,6 +17,7 @@ const SettingsUser = module('staminity.settings-user', [satellizer])
         $templateCache.put('settings.display.html', require('./articles/settings.display.html') as string);
         $templateCache.put('settings.account.html', require('./articles/settings.account.html') as string);
         $templateCache.put('settings.sync.html', require('./articles/settings.sync.html') as string);
+        $templateCache.put('settings.zones.html', require('./articles/settings.zones.html') as string);
     }])
     .name;
 

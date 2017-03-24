@@ -79,8 +79,32 @@ class SettingsUserCtrl {
             offset: momentTimezone.tz(z).offset
         }));
 
+        this.prepareZones();
+
         moment.locale('ru');
         moment.lang('ru');
+    }
+
+    prepareZones() {
+
+        Object.keys(this.user.trainingZones)
+            .forEach(measure => Object.keys(this.user.trainingZones[measure])
+            .forEach(sport => {
+                debugger;
+                let sportData = this.user.trainingZones[measure][sport];
+                let opacityMin = 0.1;
+                let opacityMax = 1.0;
+                let color = 0xE91E63;
+                let maxIndex = sportData.zones.length;
+                let min = sportData.zones[0].valueFrom;
+                let max = sportData.zones[sportData.zones.length -1].valueTo - min;
+                sportData.zones = sportData.zones.map((zone,i) => Object.assign(zone, {
+                    width: (zone.valueTo - zone.valueFrom) / max,
+                    color: color,
+                    opacity: opacityMin + ((opacityMax - opacityMin) * (i+1)) / maxIndex
+                }));
+            }));
+        debugger;
     }
 
     setUser (user) {
