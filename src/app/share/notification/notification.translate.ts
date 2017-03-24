@@ -28,7 +28,7 @@ export const translateNotification = {
         data[1] - общее количество тренировок
         data[2] - дата начальной синхронизации в формате DD.MM.YY**/
         initialProviderSyncCompleted: "Начальная синхронизация завершена.\n" +
-        "Загружено {{data[0]}} из {{data[1]}} тренировок c {{data[2]}}",
+        "Загружено {{data[0]}} из {{data[1]}} тренировок c {{data[2] | date:'short'}}",
 
 
         /* Сообщение спортсмену, что его тренировка загружена. Отправитель - провайдер
@@ -38,7 +38,7 @@ export const translateNotification = {
         * data[3] - фактическая длительность тренировки = calcMeasures.duration.value
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value **/
-        uploadActivityByProvider: "Загружена тренировка {{data[1]}} \n " +
+        uploadActivityByProvider: "Загружена тренировка {{data[1] | date:'short'}} \n " +
         "{{data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
 
 /*  ---------- Тренировки --------**/
@@ -50,7 +50,7 @@ export const translateNotification = {
         * data[3] - фактическая длительность тренировки = calcMeasures.duration.value
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value */
-        activityCompletedByAthlete: "Выполнена тренировка {{data[1]}} \n "+
+        activityCompletedByAthlete: "Выполнена тренировка {{data[1] | date:'short'}} \n "+
         "{{data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
 
         /*  Плановая тренировка создана тренером. Получатель - спортсмен, отправитель - тренер
@@ -60,7 +60,7 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityCreatedByCoach: "Создана плановая тренировка: "+
-        "{{data[1] | translate}}, {{data[2]}}, {{data[4] | translate}}",
+        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
 
          /*  Плановая тренировка изменена тренером. Получатель - спортсмен, отправитель - тренер
         * data[0] - базовый вид спорта
@@ -69,7 +69,35 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityModifiedByCoach: "Изменена плановая тренировка: "+
-        "{{data[1] | translate}}, {{data[2]}}, {{data[4] | translate}}",
+        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+
+        /*  Плановая тренировка удалена тренером. Получатель - спортсмен, отправитель - тренер
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - плановая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityDeletedByCoach: "Удалена плановая тренировка: "+
+        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+
+        /*  Плановая тренировка создана спортсменом. Получатель - тренер, отправитель - спортсмен
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - плановая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityCreatedByAthlete: "Спортсмен создал тренировку: "+
+        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+
+        /*  Плановая тренировка удалена спортсменом. Получатель - тренер, отправитель - спортсмен
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - плановая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityDeletedByAthlete: "Удалена тренировка спортсменом: "+
+        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+
 
          /*  Факт по тренировке изменен спортсменом. Условия получения такого уведомления:
             - спортсмен ввел или изменил факт вручную в тренировке,
@@ -81,7 +109,7 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityFactModifiedByAthlete: "Изменен факт в тренировке: " +
-        "{{data[1] | translate}}, {{data[2]}}, {{data[4] | translate}}",
+        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
 
         activityCompletedByFriend: "", /* под вопросом. Тренировки друзей достаточно видеть в ленте */
         activityCompletedByFollowing: "",  /* аналогично, под вопросом */
