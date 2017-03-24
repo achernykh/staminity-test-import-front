@@ -246,10 +246,13 @@ class SettingsUserCtrl {
                                 provider: adaptor.provider
                             }
                         }).then(function(response) {
+                            debugger;
                                 // You have successfully linked an account.
                                 this.message.toastInfo(response);
-                            }).catch(function(response) {
+                            }, error => {debugger;})
+                        .catch(function(response) {
                                 // Handle errors here.
+                            debugger;
                                 this.message.toastInfo(response);
                             });
                     } else {
