@@ -10,11 +10,13 @@ const DefaultChartSettings: IActivityChartSettings = {
     defaultMode: ActivityChartMode.elapsedDuration,
     animation: {
         duration: 1000,
+        zoomDuration: 700,
         delayByOrder: 200,
         ease: d3.easeExp
     },
     selectAnimation: {
         duration: 1000,
+        zoomDuration: 700,
         delayByOrder: 200,
         ease: d3.easeExp
     },
