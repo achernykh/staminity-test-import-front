@@ -39,7 +39,7 @@ export const translateNotification = {
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value **/
         uploadActivityByProvider: "Загружена тренировка {{data[1] | date:'short'}} \n " +
-        "{{data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
+        "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
 
 /*  ---------- Тренировки --------**/
 
@@ -51,7 +51,7 @@ export const translateNotification = {
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value */
         activityCompletedByAthlete: "Выполнена тренировка {{data[1] | date:'short'}} \n "+
-        "{{data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
+        "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
 
         /*  Плановая тренировка создана тренером. Получатель - спортсмен, отправитель - тренер
         * data[0] - базовый вид спорта
@@ -60,7 +60,7 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityCreatedByCoach: "Создана плановая тренировка: "+
-        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
 
          /*  Плановая тренировка изменена тренером. Получатель - спортсмен, отправитель - тренер
         * data[0] - базовый вид спорта
@@ -69,7 +69,7 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityModifiedByCoach: "Изменена плановая тренировка: "+
-        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
 
         /*  Плановая тренировка удалена тренером. Получатель - спортсмен, отправитель - тренер
          * data[0] - базовый вид спорта
@@ -78,7 +78,7 @@ export const translateNotification = {
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
         activityDeletedByCoach: "Удалена плановая тренировка: "+
-        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
 
         /*  Плановая тренировка создана спортсменом. Получатель - тренер, отправитель - спортсмен
          * data[0] - базовый вид спорта
@@ -87,7 +87,7 @@ export const translateNotification = {
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
         activityCreatedByAthlete: "Спортсмен создал тренировку: "+
-        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
 
         /*  Плановая тренировка удалена спортсменом. Получатель - тренер, отправитель - спортсмен
          * data[0] - базовый вид спорта
@@ -96,7 +96,7 @@ export const translateNotification = {
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
         activityDeletedByAthlete: "Удалена тренировка спортсменом: "+
-        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
 
 
          /*  Факт по тренировке изменен спортсменом. Условия получения такого уведомления:
@@ -109,7 +109,7 @@ export const translateNotification = {
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
         activityFactModifiedByAthlete: "Изменен факт в тренировке: " +
-        "{{data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{data[4] | translate}}",
 
         activityCompletedByFriend: "", /* под вопросом. Тренировки друзей достаточно видеть в ленте */
         activityCompletedByFollowing: "",  /* аналогично, под вопросом */
@@ -388,9 +388,7 @@ export const translateNotification = {
         lockedUserAccount: "",
 
 /* ----------Зоны и пороги --------**/
-        /* Зоны изменены тренером. Отправитель - тренер, получатель - спортсмен. Или наоборот
-        data [0] - базовый вид спорта
-        data [1] - показатель интенсивности        */
+        /* Зоны изменены тренером. Отправитель - тренер, получатель - спортсмен. Или наоборот  */
         zonesChangedByCoach: "Изменены настройки ваших тренировочных зон и пороговых значений",
         zonesChangedByAthlete: "Ваш спортсмен изменил настройки тренировочных зон и пороговых значений",
 
@@ -398,11 +396,11 @@ export const translateNotification = {
          data [0] - базовый вид спорта
          data [1] - пороговое значение
          data [2] - дата обновления */
-        newPaceFTPBySystem: "Предлагаем обновить значение ПАНО по темпу по виду спорта: {{data[0] | translate}}. "+
+        newPaceFTPBySystem: "Предлагаем обновить значение ПАНО по темпу по виду спорта: {{'sport.'+data[0] | translate}}. "+
         "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
-        newHeartRateFTPBySystem: "Предлагаем обновить значение ПАНО по пульсу по виду спорта: {{data[0] | translate}}. "+
+        newHeartRateFTPBySystem: "Предлагаем обновить значение ПАНО по пульсу по виду спорта: {{'sport.'+data[0] | translate}}. "+
         "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
-        newPowerFTPBySystem: "Предлагаем обновить значение ПАНО по мощности по виду спорта: {{data[0] | translate}}. "+
+        newPowerFTPBySystem: "Предлагаем обновить значение ПАНО по мощности по виду спорта: {{'sport.'+data[0] | translate}}. "+
         "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
 
         /* Предлагается изменение порогов по итогам анализа тренировки. Отправитель - спортсмен, получатель - тренер.
