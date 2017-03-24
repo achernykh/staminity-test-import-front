@@ -1,3 +1,4 @@
+import moment from 'moment/src/moment.js';
 import {INotification, Notification} from "../../../../api/notification/notification.interface";
 import {ISocketService} from "../../core/socket.service";
 import {GetNotification, PutNotification} from "../../../../api/notification/notification.request";
@@ -38,8 +39,8 @@ export default class NotificationService {
             .share();
 
         this.list$ = this.socket.connections
-            .flatMap(() => Observable.fromPromise(this.get(10,0)))
-            .switchMap(list => this.notification$.scan( this.process.bind(this), list).startWith(list))
+            .flatMap(() => Observable.fromPromise(this.get(100,0)))
+            .switchMap(list => {debugger; return this.notification$.scan( this.process.bind(this), list).startWith(list);})
             .share();
     }
 
@@ -51,7 +52,7 @@ export default class NotificationService {
      */
     get(limit:number = null, offset:number = null):Promise<Array<Notification>>{
         return this.socket.send(new GetNotification(limit,offset))
-            .then((result:{resultArray: Array<any>}) => result.resultArray.map(n => new Notification(n)));
+            .then((result:{resultArray: Array<any>}) => {debugger; return result.resultArray.map(n => new Notification(n));});
     }
 
     /**
@@ -83,7 +84,9 @@ export default class NotificationService {
             list.push(notification);
         }
 
-        return list;
+        return list
+            .sort((a, b) => moment(a.ts) >= moment(b.ts) ? 1 : -1)
+            .reverse();
     };
 
     show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {

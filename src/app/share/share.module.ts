@@ -49,11 +49,11 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     let url: string = '/assets/avatar/default.png';
     switch (type) {
         case InitiatorType.user: {
-            url = `url(${avatar ? image() ('/user/avatar/' + avatar) : '/assets/avatar/default.png'})`;
+            url = `url(${avatar ? image() ('/user/avatar/' + avatar) : image() ('/assets/avatar/default.png')})`;
             break;
         }
-        case InitiatorType.group || InitiatorType.club: {
-            url = `url(${avatar ? image() ('/group/avatar/' + avatar) : '/group/avatar/default.png'})`;
+        case InitiatorType.group: case InitiatorType.club: {
+            url = `url(${avatar ? image() ('/group/avatar/' + avatar) : image() ('/group/avatar/default.png')})`;
             break;
         }
         case InitiatorType.provider: {

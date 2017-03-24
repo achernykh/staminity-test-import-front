@@ -1,3 +1,6 @@
-<div class="avatar" style="background: {{$ctrl.avatar | avatarUrl:$ctrl.type}}; background-size: cover; position:relative;" ui-sref="$ctrl.state">
-    <div class="subscript" style="width: 8px; height: 8px; border-radius: 50%; background: #ff5722;" ng-if="$ctrl.isPremium"></div>
+<div class="avatar"
+     style="background: {{$ctrl.avatar | avatarUrl:$ctrl.type}}; background-size: cover;"
+     ui-sref="{{::$ctrl.sref}}">
+    <div class="subscript" style="width: 8px; height: 8px; border-radius: 50%; background: #ff5722;"
+         ng-if="$ctrl.isPremium"></div>
 </div>

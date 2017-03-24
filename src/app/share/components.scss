@@ -51,6 +51,9 @@ avatar-pic {
         border-radius: 12px;
         vertical-align: middle;
         margin-right: 10px;
+        cursor: pointer;
+        background-size: cover;
+        position:relative;
     }
     &.size-36 > div.avatar {
         height: 36px;
