@@ -737,6 +737,20 @@ class ActivityChartController implements IComponentController {
             .attr("class", "axis-x")
             .attr("transform", "translate(" + this.activityChartSettings.labelOffset + "," + this.height + ")")
             .call(xAxis);
+
+        // add on-zoom rescale callback
+        let self = this;
+        let zoomDuration = this.activityChartSettings.animation.zoomDuration;
+        this.zoomDispatch.on("zoom.domainAxis", function () {
+            // recalculate ticks for new metric's range
+            let scaledTicks = self.calcTics(rangeInfo, settings);
+            xAxis.tickValues(scaledTicks);
+            // rescale domain axis
+            self.$placeholder.select(".axis-x")
+                .transition()
+                .duration(zoomDuration)
+                .call(xAxis);
+        });
     }
 
     private drawRangeAxis(metric: string, order: number, animationOrder: number): void {
@@ -781,6 +795,22 @@ class ActivityChartController implements IComponentController {
             .duration(tickTransitionStep)
                 .delay(function (d, i) { return baseDelay + tickTransitionStep * i; })
                 .style("stroke", this.activityChartSettings.grid.color);
+
+        // add on-zoom rescale callback
+        let self = this;
+        let zoomDuration = this.activityChartSettings.animation.zoomDuration;
+        this.zoomDispatch.on("zoom.rangeAxis" + metric , function () {
+            // recalculate ticks for new metric's range
+            let scaledTicks = self.calcTics(rangeInfo, settings);
+            yAxis.tickValues(scaledTicks);
+            // rescale range axis of the metric
+            axis
+                .transition()
+                .duration(zoomDuration)
+                .call(yAxis);
+            // update color for new labels
+            axis.selectAll('text').style("fill", settings.color);
+        });
     }
 
     // calculate responsitive ticks for each axis based on current chart size 
