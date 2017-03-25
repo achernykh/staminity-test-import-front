@@ -88,13 +88,13 @@ class ActivityChartController implements IComponentController {
         }
         if (this.changeTracker.isSelectsOnlyChange(changes))
         {
-            this.zoomIn();
             if (this.changeTracker.areSelectsUpdated(changes))
             {
                 // redraw only selected intervals
                 this.prepareData();
                 this.drawSelections(0);
             }
+            this.zoomIn();
             return;
         }
         this.prepareData();
@@ -137,7 +137,6 @@ class ActivityChartController implements IComponentController {
         // update all scales
         let scaledData = data.slice(startIndex, endIndex);
         for (var metric in this.scales) {
-            console.log(metric + " update " + startIndex + " " + endIndex);
             this.updateScale(metric, scaledData);
         }
         // dispatch zoom event
@@ -223,7 +222,6 @@ class ActivityChartController implements IComponentController {
         let scale = d3.scaleLinear()
             .range(range)
             .domain(domain);
-        console.log(metric + " range: " + scale.range());
         let info: IScaleInfo = {
             type: type,
             min: min,
@@ -240,9 +238,7 @@ class ActivityChartController implements IComponentController {
         let settings = this.activityChartSettings[settingsMetric];
         let domain = (settings.flippedChart) ? [max, min] : [min, max];
         var scaleInfo = this.scales[metric];
-        console.log(metric + " range: " + scaleInfo.scale.range());
         scaleInfo.scale.domain(domain);
-        console.log(metric + "  range: " + scaleInfo.scale.range());
         scaleInfo.min = min;
         scaleInfo.max = max;
     }
@@ -335,32 +331,54 @@ class ActivityChartController implements IComponentController {
         let xScale = this.scales[domain].scale;
         let data = this.chartData.getData();
         let selectIntervals = this.chartData.getSelect();
-        for (let i = 0; i < selectIntervals.length; i++) {
-            let interval = selectIntervals[i];
-            let startIndex = Math.max(0, tsBisector(data, interval.startTimestamp));
-            let endIndex = Math.min(data.length - 1, tsBisector(data, interval.endTimestamp));
-            let start = xScale(data[startIndex][domain]);
-            let end = xScale(data[endIndex][domain]);
-            this.$interactiveArea
-                .append("rect")
-                    .attr("class", "selected-interval")
-                    .attr("x", start)
-                    .attr("y", this.height)
-                    .attr("width", end - start)
-                    .attr("fill", fillStyle)
-                    .attr("stroke", strokeStyle)
-                .transition()
-                    .on("start", function () { state.inTransition++; })
-                    .on("end", function () { state.inTransition--; })
-                    .delay(this.activityChartSettings.animation.duration * areasTotal)
-                    .duration(this.activityChartSettings.animation.duration)
-                    .ease(this.activityChartSettings.animation.ease)
-                    .attr("y", 0)
-                    .attr("height", this.height);
-        }
+        // create select interval bars
+        let clipPathUrl = "url(" + this.absUrl + "#clip)";
+        this.$interactiveArea
+                .selectAll('.selected-interval')
+                .data(selectIntervals).enter()
+            .append("rect")
+                .attr("class", "selected-interval")
+                .attr("clip-path", clipPathUrl)
+                .attr("x", function (d) {
+                    let startIndex = Math.max(0, tsBisector(data, d.startTimestamp));
+                    return xScale(data[startIndex][domain]);
+                })
+                .attr("y", this.height)
+                .attr("width", function (d) {
+                    let startIndex = Math.max(0, tsBisector(data, d.startTimestamp));
+                    let endIndex = Math.min(data.length - 1, tsBisector(data, d.endTimestamp));
+                    let start = xScale(data[startIndex][domain]);
+                    let end = xScale(data[endIndex][domain]);
+                    return (end - start);
+                })
+                .attr("fill", fillStyle)
+                .attr("stroke", strokeStyle)
+            .transition()
+                .on("start", function () { state.inTransition++; })
+                .on("end", function () { state.inTransition--; })
+                .delay(this.activityChartSettings.animation.duration * areasTotal)
+                .duration(this.activityChartSettings.animation.duration)
+                .ease(this.activityChartSettings.animation.ease)
+                .attr("y", 0).attr("height", this.height);
 
-        this.zoomDispatch.on("zoom.selection", function () {
-            // todo scale selections
+        // add on-zoom update callback
+        let self = this;
+        this.zoomDispatch.on("zoom.selections", function () {
+            // update every select area with new width $ x-position
+            self.$interactiveArea
+                .selectAll('.selected-interval')
+                .attr("x", function (d) {
+                    console.log(d);
+                    let startIndex = Math.max(0, tsBisector(data, d.startTimestamp));
+                    return xScale(data[startIndex][domain]);
+                })
+                .attr("width", function (d) {
+                    let startIndex = Math.max(0, tsBisector(data, d.startTimestamp));
+                    let endIndex = Math.min(data.length - 1, tsBisector(data, d.endTimestamp));
+                    let start = xScale(data[startIndex][domain]);
+                    let end = xScale(data[endIndex][domain]);
+                    return (end - start);
+                });
         });
     }
 
@@ -441,6 +459,7 @@ class ActivityChartController implements IComponentController {
                 self.addResizeHandler(endPos);
             }
             // update local information about chosen intervals
+            self.$interactiveArea.selectAll(".selected-interval").data(intervals || []);
             self.changeTracker.storeUserSelection(intervals);
             self.chartData.setSelect(intervals);
             // rise onSelected event
@@ -448,6 +467,7 @@ class ActivityChartController implements IComponentController {
         };
 
         //interpolate timestamp from selected value
+        let clipPathUrl = "url(" + this.absUrl + "#clip)";
         this.$interactiveArea
             .on('mousedown.selection', function () {
                 let mouse = d3.mouse(this);
@@ -463,6 +483,7 @@ class ActivityChartController implements IComponentController {
                     $selection = self.$interactiveArea
                         .append("rect")
                         .attr("class", "selected-interval")
+                        .attr("clip-path", clipPathUrl)
                         .attr("x", initPos).attr("y", 0)
                         .attr("width", 0).attr("height", self.height)
                         .attr("fill", fillStyle)
