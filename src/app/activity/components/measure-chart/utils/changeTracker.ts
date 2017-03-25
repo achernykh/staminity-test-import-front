@@ -11,6 +11,11 @@ export class ChangeTracker {
         return isFirstChange;
     };
 
+    public isZoomOnlyChange(changes): boolean {
+        let zoomChanges = ['autoZoom','zoomInClick','zoomOutClick'];
+        return Object.keys(changes).every(c => zoomChanges.indexOf(c) !== -1);
+    };
+
     public isSelectsOnlyChange(changes): boolean {
         return !!(changes.select) && (Object.keys(changes).length === 1);
     };

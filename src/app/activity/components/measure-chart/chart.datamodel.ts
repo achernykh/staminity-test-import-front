@@ -53,7 +53,7 @@ export class ActivityChartDatamodel implements IComponentController {
 
     public getBaseMetrics(except: Array<string> = []): Array<string> {
         let baseMetrics = ['timestamp','distance','elapsedDuration'];
-        return Object.keys(this.measures).filter(m => baseMetrics.indexOf(m) > -1 && except.indexOf(m) === -1);
+        return Object.keys(this.measures).filter(m => baseMetrics.indexOf(m) > -1);
     }
 
     public supportedMetrics(): Array<string> {

@@ -94,7 +94,14 @@ class ActivityChartController implements IComponentController {
                 this.prepareData();
                 this.drawSelections(0);
             }
-            this.zoomIn();
+            if (this.autoZoom) {
+                this.zoom(true);
+            }
+            return;
+        }
+        if (this.changeTracker.isZoomOnlyChange(changes)) {
+            let isZoomIn = this.zoomInClick || this.autoZoom;
+            this.zoom(isZoomIn);
             return;
         }
         this.prepareData();
@@ -116,28 +123,28 @@ class ActivityChartController implements IComponentController {
         this.drawChart();
     }
 
-    private zoomIn() {
-        if (!this.select || !this.select.length)
-        {
-            return;
-        }
+    private zoom(isZoomIn: boolean): void {
         let data = this.chartData.getData();
-        var unionInterval = {
-            startTimestamp: this.select[0].startTimestamp,
-            endTimestamp:  this.select[0].endTimestamp
-        };
-        for (let i = 1; i < this.select.length; i++) {
-            let current = this.select[i];
-            if (current.startTimestamp < unionInterval.startTimestamp ) { unionInterval.startTimestamp  = current.startTimestamp;}
-            if (current.endTimestamp > unionInterval.endTimestamp ) { unionInterval.endTimestamp  = current.endTimestamp;}
+        if (isZoomIn && this.select && this.select.length > 0)
+        {
+            // rescale data range to the new intervals
+            var unionInterval = {
+                startTimestamp: this.select[0].startTimestamp,
+                endTimestamp:  this.select[0].endTimestamp
+            };
+            for (let i = 1; i < this.select.length; i++) {
+                let current = this.select[i];
+                if (current.startTimestamp < unionInterval.startTimestamp ) { unionInterval.startTimestamp  = current.startTimestamp;}
+                if (current.endTimestamp > unionInterval.endTimestamp ) { unionInterval.endTimestamp  = current.endTimestamp;}
+            }
+            let tsBisector =  d3.bisector(function (d) { return d['timestamp']; }).left;
+            let startIndex = Math.max(0, tsBisector(data, unionInterval.startTimestamp));
+            let endIndex = Math.min(data.length - 1, tsBisector(data, unionInterval.endTimestamp));
+            data = data.slice(startIndex, endIndex);
         }
-        let tsBisector =  d3.bisector(function (d) { return d['timestamp']; }).left;
-        let startIndex = Math.max(0, tsBisector(data, unionInterval.startTimestamp));
-        let endIndex = Math.min(data.length - 1, tsBisector(data, unionInterval.endTimestamp));
         // update all scales
-        let scaledData = data.slice(startIndex, endIndex);
         for (var metric in this.scales) {
-            this.updateScale(metric, scaledData);
+            this.updateScale(metric, data);
         }
         // dispatch zoom event
         this.zoomDispatch.call("zoom");
@@ -444,7 +451,7 @@ class ActivityChartController implements IComponentController {
             $ttpSection.selectAll("*").remove();
             $ttpSection.style("display", "none");
             // calculate final interval selected by user
-            let intervals = null;
+            let intervals = [];
             if (endPos !== initPos)
             {
                 let endData = getInterpolatedData(endPos);
@@ -459,7 +466,7 @@ class ActivityChartController implements IComponentController {
                 self.addResizeHandler(endPos);
             }
             // update local information about chosen intervals
-            self.$interactiveArea.selectAll(".selected-interval").data(intervals || []);
+            self.$interactiveArea.selectAll(".selected-interval").data(intervals);
             self.changeTracker.storeUserSelection(intervals);
             self.chartData.setSelect(intervals);
             // rise onSelected event
