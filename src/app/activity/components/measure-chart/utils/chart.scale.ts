@@ -7,6 +7,8 @@ export interface IScaleInfo {
     type: ScaleType;
     min: number;
     max: number;
+    originMin: number;
+    originMax: number;
     scale: d3.ScaleLinear<number, number>;
 }
 

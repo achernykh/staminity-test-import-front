@@ -59,12 +59,14 @@ export interface IMetricArea {
     // the range axis (left-to-right) and the chart areas (top-to-bottom) as well
     order: number;
     flippedChart: boolean;
+    zoomOffset: number;
     area: IAreaSettings;
     marker: IMarkerSettings;
     axis: IAxisLabel;
 }
 
 export interface IDomainMeasure {
+    zoomOffset: number;
     axis: IAxisLabel;
 }
 

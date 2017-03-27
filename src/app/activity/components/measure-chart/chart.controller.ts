@@ -9,6 +9,7 @@ import './chart.component.scss';
 import {select} from "d3-selection";
 import {isPace, measureUnit} from "../../../share/measure/measure.constants";
 import {Dispatch} from "d3-dispatch";
+import scale = L.control.scale;
 
 class ActivityChartController implements IComponentController {
 
@@ -124,9 +125,10 @@ class ActivityChartController implements IComponentController {
     }
 
     private zoom(isZoomIn: boolean): void {
-        let data = this.chartData.getData();
+        let data = null;
         if (isZoomIn && this.select && this.select.length > 0)
         {
+            data = this.chartData.getData();
             // rescale data range to the new intervals
             var unionInterval = {
                 startTimestamp: this.select[0].startTimestamp,
@@ -233,18 +235,32 @@ class ActivityChartController implements IComponentController {
             type: type,
             min: min,
             max: max,
+            originMin: min,
+            originMax: max,
             scale: scale
         };
         return info;
     }
 
     private updateScale(metric: string, currentData): void {
-        let min = +d3.min(currentData, function (d) { return d[metric]; });
-        let max = +d3.max(currentData, function (d) { return d[metric]; });
         let settingsMetric = isPace(measureUnit(metric,this.sport)) ? 'pace' : metric;
         let settings = this.activityChartSettings[settingsMetric];
-        let domain = (settings.flippedChart) ? [max, min] : [min, max];
         var scaleInfo = this.scales[metric];
+        // by default reset to origin size
+        let min = scaleInfo.originMin;
+        let max = scaleInfo.originMax;
+        console.log(currentData);
+        // if scaled data subset not null recalculate domain
+        if (currentData && currentData.length)
+        {
+            min = -settings.zoomOffset +d3.min(currentData, function (d) { return d[metric]; });
+            max = settings.zoomOffset +d3.max(currentData, function (d) { return d[metric]; });
+            if (scaleInfo.type === ScaleType.X) {
+                min = Math.max(min, scaleInfo.originMin);
+                max = Math.min(max, scaleInfo.originMax);
+            }
+        }
+        let domain = (settings.flippedChart) ? [max, min] : [min, max];
         scaleInfo.scale.domain(domain);
         scaleInfo.min = min;
         scaleInfo.max = max;
@@ -375,7 +391,6 @@ class ActivityChartController implements IComponentController {
             self.$interactiveArea
                 .selectAll('.selected-interval')
                 .attr("x", function (d) {
-                    console.log(d);
                     let startIndex = Math.max(0, tsBisector(data, d.startTimestamp));
                     return xScale(data[startIndex][domain]);
                 })
@@ -385,6 +400,16 @@ class ActivityChartController implements IComponentController {
                     let start = xScale(data[startIndex][domain]);
                     let end = xScale(data[endIndex][domain]);
                     return (end - start);
+                });
+
+            // update select resize handles as well
+            self.$interactiveArea
+                .selectAll('.select-resize-handler')
+                .attr("x", function (d) {
+                    console.log(d);
+                    let startIndex = Math.max(0, tsBisector(data, d.timestamp));
+                    let pos = Math.max(0, xScale(data[startIndex][domain]) - 2);
+                    return pos;
                 });
         });
     }
@@ -462,8 +487,9 @@ class ActivityChartController implements IComponentController {
                     [{ "startTimestamp": startTimestamp, "endTimestamp": endTimestamp }] :
                     [{ "startTimestamp": endTimestamp, "endTimestamp": startTimestamp }];
                 // add handlers to the start and the end of the user selection area
-                self.addResizeHandler(initPos);
-                self.addResizeHandler(endPos);
+                self.addResizeHandlers([
+                    { timestamp: startTimestamp, initPos: initPos} ,
+                    { timestamp: endTimestamp, initPos: endPos}]);
             }
             // update local information about chosen intervals
             self.$interactiveArea.selectAll(".selected-interval").data(intervals);
@@ -550,12 +576,15 @@ class ActivityChartController implements IComponentController {
             });
     }
     
-    private addResizeHandler(pos: number): void {
+    private addResizeHandlers(data: Array<{initPos: number, timestamp: number}>): void {
         let self = this;
         this.$interactiveArea
+            .selectAll(".select-resize-handler")
+            .data(data).enter()
             .append("rect")
                 .attr("class", "select-resize-handler")
-                .attr("x", pos - 2).attr("width", 4)
+                .attr("x", function (d) { return d.initPos - 2; })
+                .attr("width", 4)
                 .attr("y", 0).attr("height", this.height)
                 .style("cursor", "col-resize").style("fill", 'rgba(1, 1, 1, 0)')
             .on("mousedown", function () {
@@ -565,7 +594,7 @@ class ActivityChartController implements IComponentController {
                 self.$interactiveArea
                     .selectAll(".select-resize-handler")
                     .remove();
-            });        
+            });
     }
 
     private createTooltip(): void {
