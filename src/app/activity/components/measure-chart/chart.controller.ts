@@ -22,8 +22,8 @@ class ActivityChartController implements IComponentController {
     private changeMeasure: string = null;
     private sport: string;
     private autoZoom: boolean;
-    private zoomInClick: boolean;
-    private zoomOutClick: boolean;
+    private zoomIn: boolean;
+    private zoomOut: boolean;
     public onSelected: (result: {select:Array<{startTimeStamp:number, endTimeStamp:number}>}) => void;
 
     private onResize: Function;
@@ -92,16 +92,15 @@ class ActivityChartController implements IComponentController {
             if (this.changeTracker.areSelectsUpdated(changes))
             {
                 // redraw only selected intervals
+                this.changeTracker.resetUserSelection();
                 this.prepareData();
                 this.drawSelections(0);
             }
-            if (this.autoZoom) {
-                this.zoom(true);
-            }
+            this.zoom(this.autoZoom);
             return;
         }
         if (this.changeTracker.isZoomOnlyChange(changes)) {
-            let isZoomIn = this.zoomInClick || this.autoZoom;
+            let isZoomIn = this.autoZoom || !!changes.zoomIn;
             this.zoom(isZoomIn);
             return;
         }
@@ -121,10 +120,14 @@ class ActivityChartController implements IComponentController {
         }
         this.preparePlaceholder();
         this.prepareScales();
+        // zoom to the selected intervals if in autoZoom mode or zoomInClicked
+        if (this.autoZoom || this.zoomIn) {
+            this.zoom(true, false);
+        }
         this.drawChart();
     }
 
-    private zoom(isZoomIn: boolean): void {
+    private zoom(isZoomIn: boolean, raiseEvent: boolean = true): void {
         let data = null;
         if (isZoomIn && this.select && this.select.length > 0)
         {
@@ -148,8 +151,11 @@ class ActivityChartController implements IComponentController {
         for (var metric in this.scales) {
             this.updateScale(metric, data);
         }
-        // dispatch zoom event
-        this.zoomDispatch.call("zoom");
+        if (raiseEvent)
+        {
+            // dispatch zoom event
+            this.zoomDispatch.call("zoom");
+        }
     }
 
     private prepareData(): void {
@@ -249,7 +255,6 @@ class ActivityChartController implements IComponentController {
         // by default reset to origin size
         let min = scaleInfo.originMin;
         let max = scaleInfo.originMax;
-        console.log(currentData);
         // if scaled data subset not null recalculate domain
         if (currentData && currentData.length)
         {
@@ -406,7 +411,6 @@ class ActivityChartController implements IComponentController {
             self.$interactiveArea
                 .selectAll('.select-resize-handler')
                 .attr("x", function (d) {
-                    console.log(d);
                     let startIndex = Math.max(0, tsBisector(data, d.timestamp));
                     let pos = Math.max(0, xScale(data[startIndex][domain]) - 2);
                     return pos;
@@ -415,7 +419,6 @@ class ActivityChartController implements IComponentController {
     }
 
     private setupUserSelections(): void {
-
         let data = this.chartData.getData();
         let domain = ActivityChartMode[this.currentMode];
         let fillStyle = this.getFillColor(this.activityChartSettings.selectedArea.area);
@@ -498,7 +501,15 @@ class ActivityChartController implements IComponentController {
             // rise onSelected event
             self.onSelected({ select: intervals });
         };
-
+        // add listeners to the user selection block
+        if (this.changeTracker.isUserSelection(this.select)) {
+            $selection = this.$interactiveArea.select(".selected-interval");
+            let from = +$selection.attr("x");
+            let till = from + parseInt($selection.attr("width"));
+            this.addResizeHandlers([
+                { timestamp: this.select[0].startTimestamp, initPos: from} ,
+                { timestamp: this.select[0].endTimestamp, initPos: till }]);
+        }
         //interpolate timestamp from selected value
         let clipPathUrl = "url(" + this.absUrl + "#clip)";
         this.$interactiveArea
@@ -515,12 +526,12 @@ class ActivityChartController implements IComponentController {
                     // init selection visualization
                     $selection = self.$interactiveArea
                         .append("rect")
-                        .attr("class", "selected-interval")
-                        .attr("clip-path", clipPathUrl)
-                        .attr("x", initPos).attr("y", 0)
-                        .attr("width", 0).attr("height", self.height)
-                        .attr("fill", fillStyle)
-                        .attr("stroke", strokeStyle);
+                            .attr("class", "selected-interval")
+                            .attr("clip-path", clipPathUrl)
+                            .attr("x", initPos).attr("y", 0)
+                            .attr("width", 0).attr("height", self.height)
+                            .attr("fill", fillStyle)
+                            .attr("stroke", strokeStyle);
                 } else {
                     // update init position for correct selection resize
                     let start = +$selection.attr("x");

@@ -27,7 +27,7 @@ export class ChangeTracker {
         let prev = changes.select.previousValue || [];
         let curr = changes.select.currentValue || [];
         // check if it's a user selection
-        if (curr.length === 1 && this.isEqualIntervals(curr[0], this.userSelection)) {
+        if (this.isUserSelection(curr)) {
             return false;
         }
         if (prev.length !== curr.length) {
@@ -43,9 +43,20 @@ export class ChangeTracker {
         return false;
     };
 
+    public isUserSelection(select) : boolean {
+        if (select && select.length === 1) {
+            return this.isEqualIntervals(select[0], this.userSelection);
+        }
+        return false;
+    }
+
     public storeUserSelection(intervals): void {
         this.userSelection = (!intervals || !intervals.length) ? null : intervals[0];
     };
+
+    public resetUserSelection():void {
+        this.userSelection = null;
+    }
 
     private isEqualIntervals(first, second): boolean {
         if (!first || !second) {
