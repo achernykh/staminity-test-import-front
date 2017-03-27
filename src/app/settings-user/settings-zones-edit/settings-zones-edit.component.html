@@ -1,0 +1,115 @@
+<md-toolbar style="background-color: white; color: black">
+    <div class="md-toolbar-tools">
+        <h2>{{$ctrl.intensityFactor | translate}}: {{'sport.'+$ctrl.sport | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-dialog-content>
+    <md-list class="md-dense section">
+        <form name="$ctrl.zones">
+            <md-subheader>Показатели</md-subheader>
+            <md-list-item layout="row">
+                <md-input-container flex class="no-message"
+                                    ng-repeat="measure in $ctrl.measures track by $index">
+                    <label translate="{{::measure}}"></label>
+                    <input type="number" name="{{::measure}}"
+                           ng-model="$ctrl.settings[measure]"
+                           ng-disabled="false">
+                    <div ng-messages="$ctrl.zones[measure].$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-subheader>Метод расчета</md-subheader>
+            <md-list-item layout="row">
+                <md-input-container flex class="no-message">
+                    <label translate="settings.sync.calculation.method"></label>
+                    <md-select flex class="" ng-model="group.setup" arial-label="Privacy Level">
+                        <md-option class="" ng-value="" translate="first">
+                        </md-option>
+                        <md-option class="" ng-value="" translate="second">
+                        </md-option>
+                        <md-option class="" ng-value="" translate="third">
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex class="no-message">
+                    <label translate="settings.sync.calculation.type"></label>
+                    <md-select flex class="" ng-model="group.setup" arial-label="Privacy Level">
+                        <md-option class="" ng-value="" translate="first">
+                        </md-option>
+                        <md-option class="" ng-value="" translate="second">
+                        </md-option>
+                        <md-option class="" ng-value="" translate="third">
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-button class="md-exclude md-secondary" translate="calculate">
+                </md-button>
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item>
+                <md-table-container>
+                    <table md-table
+                           md-row-select="$ctrl.options.rowSelection"
+                           multiple="{{$ctrl.options.multiSelect}}"
+                           ng-model="$ctrl.selected">
+                        <thead ng-if="!$ctrl.options.decapitate" md-head>
+                        <tr md-row>
+                            <th md-column><span>#</span></th>
+                            <th md-column><span translate="settings.zones.zoneCaption"></span></th>
+                            <th md-column md-numeric><span translate="settings.zones.zoneFrom"></span></th>
+                            <th md-column md-numeric><span translate="settings.zones.zoneTo"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row
+                            md-select="zone"
+                            md-on-select="change" md-on-deselect="change"
+                            md-select-id="ind"
+                            md-auto-select="$ctrl.options.autoSelect"
+                            ng-repeat="zone in $ctrl.settings.zones track by zone.id">
+                            <td md-cell>{{$index+1}}</td>
+                            <td md-cell>
+                                <md-input-container>
+                                    <input type="text" ng-model="zone.code" name="code">
+                                </md-input-container>
+                            </td>
+                            <td md-cell>
+                                <md-input-container>
+                                    <input type="number" ng-model="zone.valueFrom" name="valueFrom">
+                                </md-input-container>
+                            </td>
+                            <td md-cell>
+                                <md-input-container>
+                                    <input type="number" ng-model="zone.valueTo" name="valueTo">
+                                </md-input-container>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+            </md-list-item>
+        </form>
+    </md-list>
+</md-dialog-content>
+
+<md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button
+
+               ng-click="$ctrl.onCancel()">{{'form.cancel' | translate}}</md-button>
+    <md-button ng-disabled="!$ctrl.zones.$valid" type="submit"
+               ng-class="{'md-primary': $ctrl.zones.$valid, 'md-disabled': $ctrl.zones.$error}"
+               ng-click="$ctrl.onSave({ response: {intensityFactor: $ctrl.intensityFactor, sport: $ctrl.sport, settings: $ctrl.settings}})">{{'form.save' | translate}}</md-button>
+</md-dialog-actions>

@@ -50,11 +50,7 @@ class SettingsUserCtrl {
         this.dialogs = dialogs;
         this.message = message;
         this.adaptors = [];
-        this.colors = {
-            heartRate: 0xE91E63,
-            speed: 0x2196F3,
-            power: 0x9C27B0
-        }
+
         //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
         //this.dialogs = dialogs
 
@@ -92,35 +88,6 @@ class SettingsUserCtrl {
 
     prepareZones() {
 
-        Object.keys(this.user.trainingZones)
-            .forEach(measure => Object.keys(this.user.trainingZones[measure])
-            .forEach(sport => {
-
-                let sportData = this.user.trainingZones[measure][sport];
-                let opacityMin = 0.1;
-                let opacityMax = 1.0;
-                let color = this.colors[measure];
-                let maxIndex = sportData.zones.length - 1;
-                let min = (maxIndex > 0 &&
-                    ((sportData.zones[0].valueTo - sportData.zones[0].valueFrom) / (sportData.zones[1].valueTo - sportData.zones[1].valueFrom) <= 2) && sportData.zones[0].valueFrom) ||
-                    (maxIndex === 0 && sportData.zones[0].valueFrom) ||
-                    Math.round(sportData.zones[1].valueFrom / 2);
-                let max = (maxIndex > 0 &&
-                    ((sportData.zones[maxIndex].valueTo - sportData.zones[maxIndex].valueFrom) / (sportData.zones[maxIndex - 1].valueTo - sportData.zones[maxIndex - 1].valueFrom) <= 1) && sportData.zones[maxIndex].valueTo) ||
-                    (maxIndex === 0 && sportData.zones[maxIndex].valueTo) ||
-                    (sportData.zones[maxIndex - 1].valueTo - sportData.zones[maxIndex - 1].valueFrom) + sportData.zones[maxIndex].valueFrom;
-
-                let length = max - min;
-                sportData.zones = sportData.zones.map((zone,i) => Object.assign(zone, {
-                    width: (i === maxIndex && (max - zone.valueFrom) / length) || (i === 0 && (zone.valueTo - min) / length) || (zone.valueTo - this.user.trainingZones[measure][sport].zones[i-1].valueTo) / length,
-                    //width: i !== maxIndex ? (i !== 0 ? (zone.valueTo - this.user.trainingZones[measure][sport].zones[i-1].valueFrom) / length : (zone.valueTo - zone.valueFrom) / length) : (max - zone.valueFrom) / length,
-                        i: i,
-                        length: length,
-                        prev: (i !== 0 && this.user.trainingZones[measure][sport].zones[i-1].valueTo) || 0,
-                        color: color,
-                    opacity: opacityMin + ((opacityMax - opacityMin) * (i+1)) / (maxIndex + 1)
-                }));
-            }));
 
     }
 
@@ -223,9 +190,12 @@ class SettingsUserCtrl {
                     this[name + 'FirstForm'].$setPristine();
                     this[name + 'SecondForm'].$setPristine();
                 } else
-                    this[name + 'Form'].$setPristine();
+                    if (this.hasOwnProperty(name+'Form')) {
+                        this[name + 'Form'].$setPristine();
+                    }
             }
         }
+        debugger;
         console.log('settings ctrl => update profile form: ', profile);
         this._UserService.putProfile(profile)
             .then((success)=> {

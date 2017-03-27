@@ -6,10 +6,27 @@ import moment from 'moment/src/moment.js';
 // Например, вида спорта swim c показателем distance в справочнике нет, это означает, что он будет выводиться в
 // той единице измерения, которая задана по-умолчанию - meter
 export const _activity_measurement_view = {
-    "activity_code": {
-        "measure_code": "unit_code",
+    default: {
+        distance: {
+            unit: 'km',
+            fixed: 2
+        },
+        speed: {
+            unit: 'minpkm',
+            fixed: 0
+        }
     },
     run: {
+        distance: {
+            unit: 'km',
+            fixed: 2
+        },
+        speed: {
+            unit: 'minpkm',
+            fixed: 0
+        }
+    },
+    ski: {
         distance: {
             unit: 'km',
             fixed: 2

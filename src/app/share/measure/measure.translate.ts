@@ -35,9 +35,12 @@ export const _MEASURE_TRANSLATE = {
 		adjustedPower: 'Мощность корр.',
 		efficiencyFactor: '',
 		variabilityIndex: 'Индекс изменений',
-		intensityLevel: 'Фактор эффективности'
+		intensityLevel: 'Фактор эффективности',
 
-
+		//
+		FTP: 'ПАНО',
+		minValue: 'Минимум',
+		maxValue: 'Максимум'
 
 	},
 	en: {
