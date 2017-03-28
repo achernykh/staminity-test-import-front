@@ -54,6 +54,7 @@ export class SocketService implements ISocketService {
     private readonly responseLimit: {} = { // лимиты ожидания по отдельным запросам (сек)
         getActivityIntervals: 10.0,
         postUserExternalAccount: 60.0,
+        putUserExternalAccountSettingSuccess: 10.0,
         getCalendarItem: 30.0,
         calculateActivityRange: 15.0,
         putCalendarItem: 10.0
