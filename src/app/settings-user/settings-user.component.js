@@ -249,10 +249,12 @@ class SettingsUserCtrl {
                             debugger;
                                 // You have successfully linked an account.
                                 this.message.toastInfo(response);
+                                console.log('response', response);
                             }, error => {debugger;})
                         .catch(function(response) {
                                 // Handle errors here.
                             debugger;
+                            console.error('response', response);
                                 this.message.toastInfo(response);
                             });
                     } else {

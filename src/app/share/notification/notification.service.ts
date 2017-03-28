@@ -40,7 +40,7 @@ export default class NotificationService {
 
         this.list$ = this.socket.connections
             .flatMap(() => Observable.fromPromise(this.get(100,0)))
-            .switchMap(list => {debugger; return this.notification$.scan( this.process.bind(this), list).startWith(list);})
+            .switchMap(list => {return this.notification$.scan( this.process.bind(this), list).startWith(list);})
             .share();
     }
 
@@ -52,7 +52,7 @@ export default class NotificationService {
      */
     get(limit:number = null, offset:number = null):Promise<Array<Notification>>{
         return this.socket.send(new GetNotification(limit,offset))
-            .then((result:{resultArray: Array<any>}) => {debugger; return result.resultArray.map(n => new Notification(n));});
+            .then((result:{resultArray: Array<any>}) => {return result.resultArray.map(n => new Notification(n));});
     }
 
     /**
