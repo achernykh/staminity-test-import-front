@@ -1,6 +1,7 @@
 ﻿import { FillType, IActivityChartSettings, ActivityChartMode } from './settings.models';
 import * as d3 from 'd3';
 
+
 const DefaultChartSettings: IActivityChartSettings = {
     minWidth: 350,
     minAspectRation: 0.25,

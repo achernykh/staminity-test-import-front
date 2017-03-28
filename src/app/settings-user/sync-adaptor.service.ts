@@ -28,8 +28,8 @@ export default class SyncAdaptorService {
      * @param enabled
      * @returns {Promise<any>}
      */
-    put(provider:string, username: string, password: string, startDate: Date, enabled: boolean):Promise<any> {
-        return this.SocketService.send(new PutUserExternalAccount(provider,username,password,startDate,enabled));
+    put(provider:string, username: string, password: string, startDate: Date, state: string):Promise<any> {
+        return this.SocketService.send(new PutUserExternalAccount(provider,username,password,startDate,state));
     }
 
     /**
