@@ -20,8 +20,11 @@
                 <md-input-container flex class="no-message"
                                     ng-repeat="measure in $ctrl.measures track by $index">
                     <label translate="{{::measure}}"></label>
-                    <input type="number" name="{{::measure}}"
+                    <input name="{{::measure}}"
                            ng-model="$ctrl.settings[measure]"
+                           name="valueFrom"
+                           ng-attr-measure-input={{$ctrl.intensityFactor}}
+                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
                            ng-disabled="false">
                     <div ng-messages="$ctrl.zones[measure].$error" role="alert">
                         <div ng-message-exp="['required']"
@@ -79,12 +82,19 @@
                             </td>
                             <td md-cell>
                                 <md-input-container style="max-width: 60px">
-                                    <input type="number" ng-model="zone.valueFrom" name="valueFrom">
+                                    <input ng-model="zone.valueFrom"
+                                           name="valueFrom"
+                                           ng-attr-measure-input={{$ctrl.intensityFactor}}
+                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false">
                                 </md-input-container>
                             </td>
                             <td md-cell>
                                 <md-input-container style="max-width: 60px">
-                                    <input type="number" ng-model="zone.valueTo" name="valueTo">
+                                    <input ng-model="zone.valueTo"
+                                           name="valueTo"
+                                           name="valueFrom"
+                                           ng-attr-measure-input={{$ctrl.intensityFactor}}
+                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false">
                                 </md-input-container>
                             </td>
                         </tr>

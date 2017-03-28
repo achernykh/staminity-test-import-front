@@ -45,9 +45,10 @@ class SettingsZonesEditCtrl implements IComponentController {
     calculateMethod(method: string, measure: {FTP?: number, minValue?:number, maxValue?: number}):Array<any> {
 
         let zones: Array<any> = [];
+        let step: number = 1;
 
         switch (method) {
-            case 'Joe Frill(7)': {
+            case 'JoeFrielHeartRateRunning7': {
                 zones = [
                     {
                         id: "new",
@@ -58,20 +59,20 @@ class SettingsZonesEditCtrl implements IComponentController {
                     {
                         id: "new",
                         code: "Zone 2: Aerobic",
-                        valueFrom: Math.round(measure.FTP * 0.85) + 1,
+                        valueFrom: Math.round(measure.FTP * 0.85) + step,
                         valueTo: Math.round(measure.FTP * 0.89)
                     },
                     {
                         id: "new",
                         code: "Zone 3: Tempo",
-                        valueFrom: Math.round(measure.FTP * 0.89) + 1,
+                        valueFrom: Math.round(measure.FTP * 0.89) + step,
                         valueTo: Math.round(measure.FTP * 0.94)
                     },
                     {
                         id: "new",
                         code: "Zone 4: SubThreshold",
-                        valueFrom: Math.round(measure.FTP * 0.94) + 1,
-                        valueTo: Math.round(measure.FTP * 1) - 1
+                        valueFrom: Math.round(measure.FTP * 0.94) + step,
+                        valueTo: Math.round(measure.FTP * 1) - step
                     },
                     {
                         id: "new",
@@ -82,13 +83,71 @@ class SettingsZonesEditCtrl implements IComponentController {
                     {
                         id: "new",
                         code: "Zone 5b: Aerobic Capacity",
-                        valueFrom: Math.round(measure.FTP * 1.02) + 1,
+                        valueFrom: Math.round(measure.FTP * 1.02) + step,
                         valueTo: Math.round(measure.FTP * 1.06)
                     },
                     {
                         id: "new",
                         code: "Zone 5c: Anaerobic Capacity",
-                        valueFrom: Math.round(measure.FTP * 1.06) + 1,
+                        valueFrom: Math.round(measure.FTP * 1.06) + step,
+                        valueTo: Math.round(measure.FTP * 1.11)
+                    }
+                ];
+                break;
+            }
+            /**
+             * Зоны по пульсу. Велосипед
+             Bike Zones
+             Zone 1 Less than 81% of LTHR
+             Zone 2 81% to 89% of LTHR
+             Zone 3 90% to 93% of LTHR
+             Zone 4 94% to 99% of LTHR
+             Zone 5a 100% to 102% of LTHR
+             Zone 5b 103% to 106% of LTHR
+             Zone 5c More than 106% of LTHR
+             */
+            case 'JoeFrielHeartRateCycling7': {
+                zones = [
+                    {
+                        id: "new",
+                        code: "Zone 1: Recovery",
+                        valueFrom: measure.minValue,
+                        valueTo: Math.round(measure.FTP * 0.81)
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 2: Aerobic",
+                        valueFrom: Math.round(measure.FTP * 0.81) + step,
+                        valueTo: Math.round(measure.FTP * 0.89)
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 3: Tempo",
+                        valueFrom: Math.round(measure.FTP * 0.89) + step,
+                        valueTo: Math.round(measure.FTP * 0.93)
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 4: SubThreshold",
+                        valueFrom: Math.round(measure.FTP * 0.93) + step,
+                        valueTo: Math.round(measure.FTP * 1) - step
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5a: SuperThreshold",
+                        valueFrom: Math.round(measure.FTP * 1),
+                        valueTo: Math.round(measure.FTP * 1.03)
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5b: Aerobic Capacity",
+                        valueFrom: Math.round(measure.FTP * 1.03) + step,
+                        valueTo: Math.round(measure.FTP * 1.06)
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5c: Anaerobic Capacity",
+                        valueFrom: Math.round(measure.FTP * 1.06) + step,
                         valueTo: Math.round(measure.FTP * 1.11)
                     }
                 ];
@@ -105,25 +164,25 @@ class SettingsZonesEditCtrl implements IComponentController {
                     {
                         id: "new",
                         code: "Zone 2",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.70) + 1,
+                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.70) + step,
                         valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.75)
                     },
                     {
                         id: "new",
                         code: "Zone 3",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.75) + 1,
+                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.75) + step,
                         valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.80)
                     },
                     {
                         id: "new",
                         code: "Zone 4",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.80) + 1,
+                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.80) + step,
                         valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.90)
                     },
                     {
                         id: "new",
                         code: "Zone 5",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.90) + 1,
+                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.90) + step,
                         valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 1.00)
                     }
                 ];
@@ -140,73 +199,32 @@ class SettingsZonesEditCtrl implements IComponentController {
                     {
                         id: "new",
                         code: "A1: Аэробная (низкая интенсивность)",
-                        valueFrom: Math.round(measure.maxValue * 0.70)+1,
+                        valueFrom: Math.round(measure.maxValue * 0.70)+step,
                         valueTo: Math.round(measure.maxValue * 0.80)
                     },
                     {
                         id: "new",
                         code: "A2: Аэробная (средняя интенсивность)",
-                        valueFrom: Math.round(measure.maxValue * 0.80)+1,
+                        valueFrom: Math.round(measure.maxValue * 0.80)+step,
                         valueTo: Math.round(measure.maxValue * 0.85)
                     },
                     {
                         id: "new",
                         code: "E1: Развивающая (транзитная)",
-                        valueFrom: Math.round(measure.maxValue * 0.85)+1,
+                        valueFrom: Math.round(measure.maxValue * 0.85)+step,
                         valueTo: Math.round(measure.maxValue * 0.90)
                     },
                     {
                         id: "new",
                         code: "E2: Развивающая (высокая интенсивность)",
-                        valueFrom: Math.round(measure.maxValue * 0.90)+1,
+                        valueFrom: Math.round(measure.maxValue * 0.90)+step,
                         valueTo: Math.round(measure.maxValue * 0.95)
                     },
                     {
                         id: "new",
                         code: "An: Анаэробная",
-                        valueFrom: Math.round(measure.maxValue * 0.95)+1,
+                        valueFrom: Math.round(measure.maxValue * 0.95)+step,
                         valueTo: Math.round(measure.maxValue * 1)
-                    }
-                ];
-                break;
-            }
-            case 'Fitzenger-Scott(6)': { // МЕТОД: Фитзингера-Дугласа http://www.runnertony.com/2015/08/rus.html
-                zones = [
-                    {
-                        id: "new",
-                        code: "Восстановительная",
-                        valueFrom: Math.round(measure.maxValue * 0.76),
-                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.70)
-                    },
-                    {
-                        id: "new",
-                        code: "Аэробная",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.70) + 1,
-                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.75)
-                    },
-                    {
-                        id: "new",
-                        code: "Для длительных",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.75) + 1,
-                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.78)
-                    },
-                    {
-                        id: "new",
-                        code: "Темп марафона",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.78) + 1,
-                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.84)
-                    },
-                    {
-                        id: "new",
-                        code: "На повышение АнП",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.84) + 1,
-                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.88)
-                    },
-                    {
-                        id: "new",
-                        code: "На повышение МПК",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.88) + 1,
-                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.94)
                     }
                 ];
                 break;
@@ -222,38 +240,182 @@ class SettingsZonesEditCtrl implements IComponentController {
                     {
                         id: "new",
                         code: "Endurance",
-                        valueFrom: Math.round(measure.FTP * 0.55) + 1,
+                        valueFrom: Math.round(measure.FTP * 0.55) + step,
                         valueTo: Math.round(measure.FTP * 0.74)
                     },
                     {
                         id: "new",
                         code: "Tempo",
-                        valueFrom: Math.round(measure.FTP * 0.74) + 1,
+                        valueFrom: Math.round(measure.FTP * 0.74) + step,
                         valueTo: Math.round(measure.FTP * 0.89)
                     },
                     {
                         id: "new",
                         code: "Lactate Threshold",
-                        valueFrom: Math.round(measure.FTP * 0.89) + 1,
+                        valueFrom: Math.round(measure.FTP * 0.89) + step,
                         valueTo: Math.round(measure.FTP * 1.04)
                     },
                     {
                         id: "new",
                         code: "V02 Max",
-                        valueFrom: Math.round(measure.FTP * 1.04) + 1,
+                        valueFrom: Math.round(measure.FTP * 1.04) + step,
                         valueTo: Math.round(measure.FTP * 1.20)
                     },
                     {
                         id: "new",
                         code: "Anaerobic Capacity",
-                        valueFrom: Math.round(measure.FTP * 1.20) + 1,
+                        valueFrom: Math.round(measure.FTP * 1.20) + step,
                         valueTo: Math.round(measure.FTP * 1.40)
                     },
                     {
                         id: "new",
                         code: "Neuromuscular Power",
-                        valueFrom: Math.round(measure.FTP * 1.40) + 1,
+                        valueFrom: Math.round(measure.FTP * 1.40) + step,
                         valueTo: Math.round(measure.FTP * 1.40)*10
+                    }
+                ];
+                break;
+            }
+            case 'JoeFrielSpeedCycling7':{
+                //step = 0.00000000000001;
+                zones = [
+                    {
+                        id: "new",
+                        code: "Zone 1: Recovery",
+                        valueFrom: measure.minValue || 1.0,
+                        valueTo: measure.FTP / 1.29 //1.29
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 2: Aerobic",
+                        valueFrom: measure.FTP / 1.29 + step,
+                        valueTo: measure.FTP / 1.14 //1.14
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 3: Tempo",
+                        valueFrom: measure.FTP / 1.14 + step,
+                        valueTo: measure.FTP / 1.06 //1.06
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 4: SubThreshold",
+                        valueFrom: measure.FTP / 1.06 + step,
+                        valueTo: measure.FTP / 1.00 - step
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5a: SuperThreshold",
+                        valueFrom: measure.FTP / 1.0,
+                        valueTo: measure.FTP / 0.97 // 0.97
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5b: Aerobic Capacity",
+                        valueFrom: measure.FTP / 0.97 + step,
+                        valueTo: measure.FTP / 0.90 // 0.90
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5c: Anaerobic Capacity",
+                        valueFrom: measure.FTP / 0.90 + step,
+                        valueTo: measure.maxValue || measure.FTP * 0.10
+                    }
+                ];
+                break;
+            }
+            case 'JoeFrielRunning7':{
+                step = 0.00000000000001;
+                zones = [
+                    {
+                        id: "new",
+                        code: "Zone 1: Recovery",
+                        valueFrom: measure.minValue || 1.0,
+                        valueTo: measure.FTP / 1.29 //1.29
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 2: Aerobic",
+                        valueFrom: measure.FTP / 1.29 + step,
+                        valueTo: measure.FTP / 1.14 //1.14
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 3: Tempo",
+                        valueFrom: measure.FTP / 1.14 + step,
+                        valueTo: measure.FTP / 1.06 //1.06
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 4: SubThreshold",
+                        valueFrom: measure.FTP / 1.06 + step,
+                        valueTo: measure.FTP / 1.00 - step
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5a: SuperThreshold",
+                        valueFrom: measure.FTP / 1.0,
+                        valueTo: measure.FTP / 0.97 // 0.97
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5b: Aerobic Capacity",
+                        valueFrom: measure.FTP / 0.97 + step,
+                        valueTo: measure.FTP / 0.90 // 0.90
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5c: Anaerobic Capacity",
+                        valueFrom: measure.FTP / 0.90 + step,
+                        valueTo: measure.maxValue || measure.FTP / 0.10
+                    }
+                ];
+                break;
+            }
+            case 'JoeFrielSwimming7':{
+                step = 0.00000000000001;
+                zones = [
+                    {
+                        id: "new",
+                        code: "Zone 1: Recovery",
+                        valueFrom: measure.minValue || 0.1,
+                        valueTo: measure.FTP / 1.29 //1.29
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 2: Aerobic",
+                        valueFrom: measure.FTP / 1.29 + step,
+                        valueTo: measure.FTP / 1.14 //1.14
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 3: Tempo",
+                        valueFrom: measure.FTP / 1.14 + step,
+                        valueTo: measure.FTP / 1.06 //1.06
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 4: SubThreshold",
+                        valueFrom: measure.FTP / 1.06 + step,
+                        valueTo: measure.FTP / 1.00 - step
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5a: SuperThreshold",
+                        valueFrom: measure.FTP / 1.0,
+                        valueTo: measure.FTP / 0.97 // 0.97
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5b: Aerobic Capacity",
+                        valueFrom: measure.FTP / 0.97 + step,
+                        valueTo: measure.FTP / 0.90 // 0.90
+                    },
+                    {
+                        id: "new",
+                        code: "Zone 5c: Anaerobic Capacity",
+                        valueFrom: measure.FTP / 0.90 + step,
+                        valueTo: measure.maxValue || measure.FTP / 0.10
                     }
                 ];
                 break;

@@ -95,27 +95,24 @@ export const _PRIVACY_LEVEL = [{id: 50}, {id: 40}, {id: 10}];
 export const _CalculationMethod = {
     heartRate: [{
         type: 'lactateThreshold',
-        method: [
-            'Joe Frill(7)'
-        ]
+        method: ['JoeFrielHeartRateRunning7','JoeFrielHeartRateCycling7']
     }, {
         type: 'restingAndMax',
-        method: [
-            'Karvonen(5)',
-            'Fitzenger-Scott(6)'
-        ]
+        method: ['Karvonen(5)', 'Fitzenger-Scott(6)']
     }, {
         type: 'max',
-        method: [
-            'Yansen(6)'
-        ]
+        method: ['Yansen(6)']
     }],
     power: [{
         type: 'powerThreshold',
-        method: [
-            'Andy Coggan(6)'
-        ]
-    }]
+        method: ['Andy Coggan(6)']
+    }],
+    speed: [
+        {
+            type: 'paceThreshold',
+            method: ['JoeFrielRunning7','JoeFrielSwimming7','JoeFrielSpeedCycling7']
+        }
+    ]
 };
 
 export const _country_list = {
