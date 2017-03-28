@@ -39,7 +39,7 @@ export const translateNotification = {
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value **/
         uploadActivityByProvider: "Загружена тренировка {{data[1] | date:'short'}} \n " +
-        "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
+        "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3] | measureCalc:data[0]:'duration'}}",
 
 /*  ---------- Тренировки --------**/
 
@@ -51,7 +51,7 @@ export const translateNotification = {
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value */
         activityCompletedByAthlete: "Выполнена тренировка {{data[1] | date:'short'}} \n "+
-        "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3]}}",
+        "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3] | measureCalc:data[0]:'duration'}}",
 
         /*  Плановая тренировка создана тренером. Получатель - спортсмен, отправитель - тренер
         * data[0] - базовый вид спорта
