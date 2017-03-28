@@ -123,6 +123,14 @@ export const _translate = {
         zones: {
             header: 'Тренировочные зоны',
             hint: 'Подсказка, пояснение по блоку информации...',
+
+            addSport: 'Добавить спорт',
+            editZones: 'Изменить зоны',
+            deleteZones: 'Удалить зоны',
+            zoneCaption: 'Название',
+            zoneFrom: 'Начало',
+            zoneTo: 'Окончание'
+
         },
         notification: {
             header: 'Уведомления'

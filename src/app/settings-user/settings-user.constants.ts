@@ -92,7 +92,7 @@ export const _DELIVERY_METHOD = [{
 
 export const _PRIVACY_LEVEL = [{id: 50}, {id: 40}, {id: 10}];
 
-export const _ZONE_CALCULATION_METHOD = {
+export const _CalculationMethod = {
     heartRate: [{
         type: 'lactateThreshold',
         method: [

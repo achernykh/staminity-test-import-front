@@ -231,6 +231,21 @@ gulp.task('ftp-dev1', function () {
         .pipe(gutil.noop());
 });
 
+gulp.task('ftp-dev2-full', function () {
+    var src = './'+ENV;
+    return gulp.src('dev2/**/*')
+        .pipe(ftp(pass.dev2))
+        .pipe(gutil.noop());
+});
+
+gulp.task('ftp-dev2', function () {
+    var src = './'+ENV;
+    return gulp.src(['dev2/assets/css/**','dev2assets/js/**','dev2/index.html'])
+        .pipe(ftp(pass.dev2))
+        .pipe(gutil.noop());
+});
+
+
 gulp.task('ftp-prd-full', function () {
     var src = './'+ENV;
     return gulp.src('prd/**/*')

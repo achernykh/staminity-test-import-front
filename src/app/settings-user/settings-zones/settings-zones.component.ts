@@ -18,6 +18,10 @@ class SettingsZonesCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.prepareZones();
+    }
+
+    prepareZones(){
         Object.keys(this.zones)
             .forEach(measure => Object.keys(this.zones[measure])
                 .forEach(sport => {
@@ -78,7 +82,8 @@ class SettingsZonesCtrl implements IComponentController {
             debugger;
             this.zones[response.intensityFactor][response.sport] = response.settings;
             this.parent.update({trainingZones: true});
-        }, error => {debugger;});
+            this.prepareZones();
+        }, error => {});
 
 
     }

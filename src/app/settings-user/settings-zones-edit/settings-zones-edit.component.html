@@ -1,6 +1,9 @@
 <md-toolbar style="background-color: white; color: black">
     <div class="md-toolbar-tools">
-        <h2>{{$ctrl.intensityFactor | translate}}: {{'sport.'+$ctrl.sport | translate}}</h2>
+        <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+            <md-icon md-svg-icon="/assets/icon/{{::$ctrl.intensityFactor}}.svg"></md-icon>
+        </md-button>
+        <h2 md-truncate>{{$ctrl.intensityFactor | translate}}: {{'sport.'+$ctrl.sport | translate}}</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
@@ -34,28 +37,17 @@
             <md-list-item layout="row">
                 <md-input-container flex class="no-message">
                     <label translate="settings.sync.calculation.method"></label>
-                    <md-select flex class="" ng-model="group.setup" arial-label="Privacy Level">
-                        <md-option class="" ng-value="" translate="first">
-                        </md-option>
-                        <md-option class="" ng-value="" translate="second">
-                        </md-option>
-                        <md-option class="" ng-value="" translate="third">
-                        </md-option>
+                    <md-select flex class="no-border"
+                               ng-model="activity.method"
+                               placeholder="chooseMethod">
+                        <md-optgroup ng-repeat="calculation in $ctrl.calculationMethod[$ctrl.intensityFactor] track by $index"
+                                     label="{{::calculation.type}}" class="md-caption">
+                            <md-option class="md-caption" ng-repeat="method in calculation.method" ng-value="method"
+                                       ng-click="$ctrl.selectMethod(method, param.type, activity.name)">{{::method}}
+                            </md-option>
+                        </md-optgroup>
                     </md-select>
                 </md-input-container>
-                <md-input-container flex class="no-message">
-                    <label translate="settings.sync.calculation.type"></label>
-                    <md-select flex class="" ng-model="group.setup" arial-label="Privacy Level">
-                        <md-option class="" ng-value="" translate="first">
-                        </md-option>
-                        <md-option class="" ng-value="" translate="second">
-                        </md-option>
-                        <md-option class="" ng-value="" translate="third">
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-                <md-button class="md-exclude md-secondary" translate="calculate">
-                </md-button>
             </md-list-item>
             <md-divider></md-divider>
             <md-list-item>
@@ -66,7 +58,7 @@
                            ng-model="$ctrl.selected">
                         <thead ng-if="!$ctrl.options.decapitate" md-head>
                         <tr md-row>
-                            <th md-column><span>#</span></th>
+                            <th md-column style="width: 10px"><span>#</span></th>
                             <th md-column><span translate="settings.zones.zoneCaption"></span></th>
                             <th md-column md-numeric><span translate="settings.zones.zoneFrom"></span></th>
                             <th md-column md-numeric><span translate="settings.zones.zoneTo"></span></th>
@@ -78,20 +70,20 @@
                             md-on-select="change" md-on-deselect="change"
                             md-select-id="ind"
                             md-auto-select="$ctrl.options.autoSelect"
-                            ng-repeat="zone in $ctrl.settings.zones track by zone.id">
+                            ng-repeat="zone in $ctrl.settings.zones track by $index" ng-animate="'animate'">
                             <td md-cell>{{$index+1}}</td>
                             <td md-cell>
-                                <md-input-container>
-                                    <input type="text" ng-model="zone.code" name="code">
+                                <md-input-container class="no-border">
+                                    <input type="text" ng-model="zone.code" name="code" style="text-align: left; border-color: rgba(0,0,0,0);">
                                 </md-input-container>
                             </td>
                             <td md-cell>
-                                <md-input-container>
+                                <md-input-container style="max-width: 60px">
                                     <input type="number" ng-model="zone.valueFrom" name="valueFrom">
                                 </md-input-container>
                             </td>
                             <td md-cell>
-                                <md-input-container>
+                                <md-input-container style="max-width: 60px">
                                     <input type="number" ng-model="zone.valueTo" name="valueTo">
                                 </md-input-container>
                             </td>
