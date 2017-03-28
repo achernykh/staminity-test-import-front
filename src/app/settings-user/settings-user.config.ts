@@ -27,8 +27,6 @@ function configure(
         clientId: '660665060767427'
     });
 
-    debugger;
-
     // Generic OAuth 2.0
     $authProvider.oauth2({
         name: 'strava',

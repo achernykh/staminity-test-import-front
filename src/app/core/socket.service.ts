@@ -57,7 +57,8 @@ export class SocketService implements ISocketService {
         putUserExternalAccountSettingSuccess: 10.0,
         getCalendarItem: 30.0,
         calculateActivityRange: 15.0,
-        putCalendarItem: 10.0
+        putCalendarItem: 10.0,
+        getActivityCategory: 10.0
     };
 
     public connections: Subject<any>;
