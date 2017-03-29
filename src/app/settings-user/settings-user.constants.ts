@@ -126,18 +126,18 @@ export const _country_list = {
 export const _SYNC_ADAPTORS = [
     {
         provider: 'garmin',
-        isAuth: false,
+        isOAuth: false,
         state: ExternalProviderState.Disabled
     },
     {
         provider: 'strava',
         state: ExternalProviderState.Disabled,
-        isAuth: true
+        isOAuth: true
     },
     {
         provider: 'polar',
         state: ExternalProviderState.Disabled,
-        isAuth: false
+        isOAuth: false
     }
 ];
 

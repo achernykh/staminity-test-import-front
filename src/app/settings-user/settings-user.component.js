@@ -236,7 +236,7 @@ class SettingsUserCtrl {
                     debugger;
                     console.log('page',window.location.origin);
 
-                    if(adaptor.isAuth) {
+                    if(adaptor.isAuth && adaptor.status.code === 'offSyncNeverEnabled') {
                         // Подключение стравы
                         this.$auth.link(adaptor.provider,{
                             internalData: {
@@ -248,7 +248,12 @@ class SettingsUserCtrl {
                         }).then(function(response) {
                             debugger;
                                 // You have successfully linked an account.
-                                this.message.toastInfo(response);
+                            this.adaptor.filter(a => a.provider === adaptor.provider)[0] = {
+                                    state: response.state,
+                                    lastSync: response.lastSync,
+                                    status: syncStatus(response.lastSync, response.state)
+                            };
+                                this.message.toastInfo('внешний сервис подключен');
                                 console.log('response', response);
                             }, error => {debugger;})
                         .catch(function(response) {
@@ -262,7 +267,7 @@ class SettingsUserCtrl {
                         if (adaptor.status.switch) {
                             this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
                                 form.startDate, adaptor.status.switch ? "Enabled" : "Disabled")
-                                .then(response => this.message.toastInfo(response), error => this.message.toastError(error));
+                                .then(response => this.message.toastInfo(response.title), error => this.message.toastError(error));
 
                         } else { // подключение
                             this.SyncAdaptorService.post(adaptor.provider, form.username, form.password, form.startDate)

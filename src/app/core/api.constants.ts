@@ -1,5 +1,5 @@
 export let _connection = {
-    server: '193.124.181.87',
-    content: 'http://193.124.181.87'
+    server: 'app.staminity.com',
+    content: 'http://app.staminity.com'
     //content: ''
 };
