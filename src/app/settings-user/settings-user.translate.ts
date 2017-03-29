@@ -140,14 +140,14 @@ export const _translate = {
                 powerThreshold: 'ПАНО мощность',
                 paceThreshold: 'ПАНО скорость',
 
-                JoeFrielHeartRateRunning7: 'Джо Фрилл для бега(7)',
-                JoeFrielHeartRateCycling7: 'Джо Фрилл для вела (7)',
-                Karvonen5: 'Карвонен',
-                Yansen6: 'Янсен',
-                AndyCoggan6: 'Энди Коган',
-                JoeFrielRunning7: 'Джо Фрилл для бега',
-                JoeFrielSwimming7: 'Джо Фрилл для плавания',
-                JoeFrielSpeedCycling7: 'Джо Фрилл для вела'
+                JoeFrielHeartRateRunning7: 'Joe Friel, 7 зон по пульсу для бега',
+                JoeFrielHeartRateCycling7: 'Joe Friel, 7 зон по пульсу для велосипеда',
+                Karvonen5: 'Карвонен, 5 зон по пульсу',
+                Yansen6: 'Янсен, 6 зон по пульсу',
+                AndyCoggan6: 'A.Coggan, 6 зон по мощности',
+                JoeFrielRunning7: 'Joe Friel, 7 зон по темпу/скорости',
+                JoeFrielSwimming7: 'Joe Friel для плавания (7)', // не используется
+                JoeFrielSpeedCycling7: 'Joe Friel для вела (7)' // не используется
 
             }
 
@@ -159,7 +159,7 @@ export const _translate = {
             header: 'Шаблоны тренировок'
         },
         favorites: {
-            header: 'Избранные тренровки'
+            header: 'Избранные тренировки'
         }
 
     },
