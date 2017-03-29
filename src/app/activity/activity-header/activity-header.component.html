@@ -23,6 +23,7 @@
         </md-menu>
         <h2 translate="Тренировка"></h2>
         <span flex></span>
+        <userpic class="border-light" profile="$ctrl.item.user" is-premium="$ctrl.item.user.isPremium"></userpic>
         <md-button class="md-icon-button" ng-click="$ctrl.item.onCancel()" ng-if="!$ctrl.item.activity.hasImportedData">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>

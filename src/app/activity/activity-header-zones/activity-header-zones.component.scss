@@ -1,0 +1,25 @@
+@import "../../../../src/sass/color";
+
+activity-header-zones {
+
+  background-color: $grey-100;
+
+  .tab-button-row {
+    height: 40px;
+  }
+  .tab-button {
+    background-color: $grey-300;
+    cursor: pointer;
+    text-align: center;
+    padding: 8px;
+    transition: all 0.3s;
+
+    &:focus {
+      outline:0;
+    }
+
+    &.selected {
+      background-color: $grey-100;
+    }
+  }
+}

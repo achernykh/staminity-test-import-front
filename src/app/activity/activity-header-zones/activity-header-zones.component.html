@@ -1,26 +1,27 @@
 <div flex="auto" ng-if="!$ctrl.sport" ng-cloak>Для просмотра зон необходимо выбрать вид спорта на вкладке ОБЗОР</div>
 <div ng-if="$ctrl.sport" ng-cloak>
-    <div layout="row" ng-init="sport = 'default'">
-        <div flex="33" style="cursor: pointer; text-align: center"
+    <div class="bg-grey-300" style="height: 12px"></div>
+    <div layout="row" class="tab-button-row">
+        <div flex="33" class="tab-button" ng-class="{'selected': measure === $ctrl.factor}"
              ng-repeat="measure in ['heartRate','speed', 'power']"
-             ng-click="$ctrl.currentParam = measure">
+             ng-click="$ctrl.changeFactor(measure)">
             <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
             <span class="disable dark">&nbsp{{measure | measureUnit:$ctrl.sport | translate}}</span>
         </div>
     </div>
-    <md-list flex="none" class="md-dense slim-input">
+    <md-list class="md-dense slim-input bg-grey-100">
         <md-list-item ng-repeat-start="limit in ['FTP','maxValue','minValue']" class="md-caption">
-            <p>{{::limit}}</p>
+            <p>{{limit}}</p>
             <p class="md-secondary">
-                {{$ctrl.zones[$ctrl.currentParam][sport][limit] | measureCalc:$ctrl.sport:$ctrl.currentParam}}</p>
+                {{$ctrl.zones[$ctrl.factor][$ctrl.sport][limit] | measureCalc:$ctrl.sport:$ctrl.factor}}</p>
         </md-list-item>
         <md-divider ng-repeat-end></md-divider>
-        <md-list-item ng-repeat-start="zone in $ctrl.zones[$ctrl.currentParam][sport].zones" class="md-caption">
-            <p>{{::zone.code}}</p>
-            <div style="width: 16px; height: 16px; border-radius: 50%; background: grey" class="md-secondary"></div>
+        <md-list-item ng-repeat-start="zone in $ctrl.getZone() track by $index" class="md-caption">
+            <p>{{zone.code}}</p>
+            <div style="width: 16px; height: 16px; border-radius: 50%; background-color: #{{zone.color.toString(16)}}; opacity: {{zone.opacity}};" class="md-secondary"></div>
             <p class="md-secondary" style="width: 100px; text-align: right">
-                {{::zone.valueFrom | measureCalc:$ctrl.sport:$ctrl.currentParam}}-
-                {{::zone.valueTo | measureCalc:$ctrl.sport:$ctrl.currentParam}}
+                {{zone.valueFrom | measureCalc:$ctrl.sport:$ctrl.factor}}-
+                {{zone.valueTo | measureCalc:$ctrl.sport:$ctrl.factor}}
             </p>
         </md-list-item>
         <md-divider ng-repeat-end></md-divider>

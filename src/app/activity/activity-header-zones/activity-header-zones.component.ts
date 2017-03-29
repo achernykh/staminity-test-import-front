@@ -7,10 +7,10 @@ class ActivityHeaderZonesCtrl implements IComponentController {
     public zones: any;
     public sport: string;
     public onEvent: (response: Object) => IPromise<void>;
-    private currentParam: string = 'heartRate';
-    static $inject = [];
+    private factor: string = 'heartRate';
+    static $inject = ['$scope'];
 
-    constructor() {
+    constructor(private $scope: any) {
 
     }
 
@@ -18,6 +18,15 @@ class ActivityHeaderZonesCtrl implements IComponentController {
         if(changes['sport'] && !changes.sport.isFirstChange()){
             console.log('sport change',this.sport);
         }
+    }
+
+    changeFactor(factor: string){
+        this.factor = factor;
+        //this.$scope.$apply();
+    }
+
+    getZone(factor:string = this.factor, sport: string = this.sport):Array<any> {
+        return (this.zones[factor].hasOwnProperty(sport) && this.zones[factor][sport].zones) || this.zones[factor]['default'].zones;
     }
 
     $onInit() {
