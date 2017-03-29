@@ -1,62 +1,92 @@
 @import "../../sass/color";
-@import "../../sass/base";
-@import "../../sass/font";
-@import "../../sass/icon";
-//@import "../../sass/layout";
-@import "../../sass/animation";
 
-#dashboard {
-  @include animate(0.5s, 0.2s, 1);
-
-  svg, svg * {
-    transition: any linear .4s;
-  }
-}
 dashboard {
-  .md-whiteframe-1dp, .md-whiteframe-z1 {
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12); }
-
-  .md-whiteframe-2dp {
-    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12); }
-
-  .md-whiteframe-3dp {
-    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.12); }
-
-  .dashboard-total-chart * {
-    transition: any linear .4s;
+  .app-layer, .application {
+    position: absolute;
+    top: 60px;
+    height: calc(100% - 60px);
+    width: 100%;
+    //background: grey;
+    z-index: 60;
   }
 
-  .bg-circle {
-    &-18{
-      min-width: 18px;
-      height: 18px;
-      @include border-radius(9px);
-    }
-    &-32{
-      min-width: 32px;
-      height: 32px;
-      @include border-radius(16px);
-    }
-
+  section.application-toolbar {
+    color: white;
+    max-width: 1440px;
+    //position: absolute;
+    //width: 100%;
+    //top: 0px;
+    //height: 30px;
+    //background-color: blue;
+    margin: auto;
   }
 
-  .app-toolbar{
+  section.content {
+    max-width: 1440px;
+    //position: absolute;
+    //width: 100%;
+    //top: 40px;
+    overflow: hidden;
+    //background-color: lightgray;
+    height: calc(100% - 40px);
+    margin: auto;
+  }
 
-    color: rgba(white,0.54);
+  md-toolbar.dashboard-header {
+    min-height: 32px;
+    display: block;
+    line-height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
 
-    .md-button {
-      margin: 0px;
-      padding: 4px 4px;
+    div.athlete {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      display:inline-block;
+      width: 12.8%;
+      display:inline-block;
+      vertical-align:top
+    }
 
-      svg {
-        fill: rgba(white,0.54);
+    div.day {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      display:inline-block;
+      width: 10.5%;
+      vertical-align:top;
+      text-transform: capitalize;
+
+      @media (min-width: 959px) and (max-width: 1279px){
+        width: 12.2%;
       }
     }
+
+    div.total {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      display:inline-block;
+      width: 12.8%;
+      display:inline-block;
+      vertical-align:top
+    }
+
   }
 
-  .week {
-    min-height: 100px;
-    -height: 100%;
+  section.dashboard-grid {
+    position: relative;
+    height: calc(100% - 55px);
+    scroll-behavior: auto;
+    overflow-y: scroll;
+    padding: 12px;
+  }
+
+  div.dashboard-week {
+    position: relative; //todo проверит производительность
+    display:block;
+    min-height: 80px;
     border-bottom: 1px solid $grey-400;
 
     @media(max-width: 959px){
@@ -64,528 +94,93 @@ dashboard {
       border-bottom: none;
     }
 
-    transition: all 1s ease-in-out 0s;
+    transition: none !important;
+    // all 1s ease-in-out 0s;
 
   }
 
-  .day-toolbar {
-    position: static;
-    padding: 8px 0px;
-    -line-height: 24px;
-    min-height: 30px;
-    background: $primary-hue-3 !important;
-    -border-top-left-radius: 3px;
-    -border-top-right-radius: 3px;
-
-    div {
-      -height: 100%;
-      padding: 0px 4px;
-      color: rgba(white,0.54);
-    }
-  }
-
-  .dashboard-grid {
-    @extend .bg-grey-200;
-    padding: 12px;
-
-    // xs size
-    @media (max-width: 599px) {
-      padding: 0px;
-    }
-
-  }
-
-  dashboard-day {
-
-    min-height: 100px;
-
-    padding: 0px 6px 8px 6px;
-    height: 100%;
-
-
-    //xs	'(max-width: 599px)'
-    //gt-xs	'(min-width: 600px)'
-    //sm	'(min-width: 600px) and (max-width: 959px)'
-    //gt-sm	'(min-width: 960px)'
-    //md	'(min-width: 960px) and (max-width: 1279px)'
-    //gt-md	'(min-width: 1280px)'
-    //lg	'(min-width: 1280px) and (max-width: 1919px)'
-    //gt-lg	'(min-width: 1920px)'
-    //xl	'(min-width: 1920px)'
-
-    // xs & sm size
-    @media (min-width: 0px) and (max-width: 959px) {
-      padding: 12px 8px 12px 8px;
-      border-bottom: 1px solid $grey-400;
-    }
-
-    @media (min-width: 1279px){
-      -width: 12%;
-      -max-width: 250px;
-    }
-
-    // md size
-    @media (min-width: 960px) and (max-width: 1279px){
-      padding: 0px 2px 8px 2px;
-    }
-
-    &.select {
-      background: $primary-100;
-
-    }
-
-    &:hover{
-      @extend .bg-grey-300;
-    }
-    transition: all 0s ease-in-out 0s;
-  }
-
-  dashboard {
-    md-toolbar {
-      min-height: 32px;
-      padding-left: 12px;
-      padding-right: 12px;
-
-      .weekday{
-        text-transform: capitalize;
-        @media (min-width: 1279px){
-          width: 10%;
-          max-width: 250px;
-        }
-        @media (min-width: 959px) and (max-width: 1280px){
-          width: 14%;
-        }
-      }
-      .athlete{
-        text-transform: capitalize;
-        @media (min-width: 1279px){
-          width: 15%;
-          max-width: 250px;
-        }
-        @media (min-width: 959px) and (max-width: 1280px){
-          width: 14%;
-        }
-      }
-    }
-  }
-
-  .summary {
-    &:hover {
-      @extend .bg-blue-grey-100;
-    }
-
-    -min-height: 100px;
-    border-left: 1px solid $grey-400;
-  }
-
-  #dayzone[dnd-list] {
-    min-height: 50px;
-    -padding-left: 0px;
-  }
-
-  #dayzone[dnd-list] .dndDraggingSource {
+  div.margin-left {
+    position: absolute;
     display: none;
-  }
-
-  #dayzone[dnd-list] .dndPlaceholder {
-    display: block;
-    margin: 6px 6px 0px 6px;
-    border-radius: 3px;
-    -background-color: #ddd !important;
-    @extend .bg-blue-grey-100;
-    min-height: 100px;
-  }
-
-  #dayzone[dnd-list] {
-    -background-color: #fff;
-    -border: 1px solid #ddd;
-    -border-top-right-radius: 4px;
-    -border-top-left-radius: 4px;
-    display: block;
-    -padding: 10px 15px;
-    -margin-bottom: -1px;
-  }
-
-  /*.segment-list {
-    outline: 0;
-  }
-
-  .segment-list.ng-enter, .segment-list.ng-leave {
-    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  }
-
-  .segment-list.ng-enter,
-  .segment-list.ng-leave.ng-leave-active {
-    opacity:0;
-    height:0;
-  }
-
-  .segment-list.ng-leave,
-  .segment-list.ng-enter.ng-enter-active {
-    opacity: 1;
-    height: auto;
-  }*/
-
-  dashboard-measurement, dashboard-activity, dashboard-event, dashboard-competition {
-    position: relative;
-    min-height: 50px;
-    margin: 6px 0px 0px 0px;
-    cursor: pointer;
-    @include border-radius(3px);
-
-    // md size
-    @media (min-width: 960px) and (max-width: 1279px){
-      @include border-radius(0px);
-      box-shadow: none;
-
-      .data-category {
-        margin-top: 8px;
-      }
-    }
-
-    @media (max-width: 1919px) and (min-width: 1280px){
-      -min-width: 10%;
-      -max-width: 175px;
-    }
-
-    @media (max-width: 959px){
-      border-radius: 0px;
-      margin: 0px 4px;
-      min-width: 200px;
-      padding-bottom: 0px;
+    //background: #C7E3E4;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
     }
   }
 
-  dashboard-activity {
-
-    @extend .bg-grey-400;
-    @extend .md-whiteframe-1dp;
-
-    .activity-header {
-      @include border-radius-custom(3px, 3px, 0px, 0px);
-      padding: 10px 12px 12px 12px;
-
-      &:focus {
-        outline:0;
-      }
-
-      // xs - md size
-      @media (min-width: 0px) and (max-width: 1279px){
-        @include border-radius(0px);
-      }
-
-      &.complete {
-        // Задание выполнено без отклонений
-
-        color: white;
-        #more {
-          @extend .light-active;
-        }
-        @extend .bg-teal-gradient-800-500;
-
-        .bg-circle-32 {
-          @extend .bg-teal-800;
-        }
-
-        &:hover, &.selected {
-          @extend .bg-teal-gradient-900-800;
-
-          .bg-circle-32 {
-            @extend .bg-teal-900;
-          }
-        }
-
-        // Задание выполнено с отклонениями
-        &-warn {
-          color: white;
-          @extend .bg-orange-gradient-800-500;
-          .bg-circle-32 {
-            @extend .bg-orange-800;
-          }
-
-          &:hover, &.selected {
-            @extend .bg-orange-gradient-900-800;
-
-            .bg-circle-32 {
-              @extend .bg-orange-900;
-            }
-          }
-        }
-
-        // Задание выполнено с существенными отклонениями
-        &-error {
-          color: white;
-          @extend .bg-red-gradient-800-500;
-          .bg-circle-32 {
-            @extend .bg-red-800;
-          }
-
-          &:hover, &.selected {
-            @extend .bg-red-gradient-900-800;
-
-            .bg-circle-32 {
-              @extend .bg-red-900;
-            }
-          }
-        }
-      }
-
-      &.dismiss {
-        @extend .bg-red-gradient-800-500;
-        color: white;
-
-        .bg-circle-32 {
-          @extend .bg-red-800;
-        }
-
-        #more {
-          @extend .light-active;
-        }
-
-        &:hover, &.selected{
-          @extend .bg-red-gradient-900-800;
-          .bg-circle-32 {
-            @extend .bg-red-900;
-          }
-        }
-      }
-
-      &.not-specified {
-        @extend .bg-blue-grey-gradient-600-400;
-        color: white;
-
-        .bg-circle-32 {
-          @extend .bg-blue-grey-600;
-        }
-
-        #more {
-          @extend .light-active;
-        }
-
-        &:hover, &.selected{
-          @extend .bg-blue-grey-gradient-900-800;
-          .bg-circle-32 {
-            @extend .bg-blue-grey-900;
-          }
-        }
-      }
-
-    }
-
-    .activity-footer {
-      @include border-radius-custom(0px, 0px, 3px, 3px);
-      padding: 10px 12px 12px 12px;
-      border-top: solid 1px rgba($grey-500, 0.5);
-      @extend .bg-grey-300;
-
-      .bt-more {
-        color: grey;
-        margin-top: 8px;
-        &:focus {
-          outline:0;
-        }
-      }
-
-    }
-
-  }
-
-  dashboard-measurement {
-    padding: 12px;
-    @extend .bg-grey-200;
-
-
-    &:hover {
-      @extend .md-whiteframe-1dp;
-    }
-  }
-
-  dashboard-event, dashboard-competition {
-    padding: 10px 12px 12px 12px;
-    @extend .bg-grey-400;
-    @extend .md-whiteframe-1dp;
-
-    &:hover {
-      @extend .bg-grey-500;
-    }
-
-  }
-
-  /*
-  .activity{
-    margin: 4px 0px;
-    background: white;
-    border-radius: 3px;
-    -padding-bottom: 12px;
-    cursor: pointer;
-
-    @media (max-width: 1919px) and (min-width: 1280px){
-      -min-width: 10%;
-      -max-width: 175px;
-    }
-
-    @media (max-width: 960px){
-      border-radius: 0px;
-      margin: 0px 4px;
-      min-width: 200px;
-      padding-bottom: 0px;
-    }
-
-
-
-    .header {
-      -height: 50px;
-      padding: 12px;
-      margin: 0;
-      color: rgba(white,1);
-      border-top-left-radius: 3px;
-      border-top-right-radius: 3px;
-      font-weight: 500;
-
-      @media (max-width: 960px){
-        border-radius: 0px;
-        height: 100%;
-        margin-bottom: 0px;
-      }
-
-      &.success{
-        background: $success-color;
-        &:hover, &.select{
-          background: $success-color-hover;
-          & .activity-icon{
-            background: $teal-900;
-          }
-        }
-      }
-      &.warning{
-        background: $warning-color;
-        &:hover, &.select{
-          background: $warning-color-hover;
-          & .activity-icon{
-            background: $orange-900;
-          }
-        }
-      }
-      &.error{
-        background: $error-color;
-        &:hover, &.select {
-          background: $error-color-hover;
-          & .activity-icon{
-            background: $red-900;
-          }
-        }
-      }
-      &.noplan{
-        background: $grey-700;
-        &:hover {
-          background: $primary-hue-3;
-          & .activity-icon{
-            background: $blue-grey-900;
-          }
-        }
-      }
-    }
-    .content {
-      padding: 8px;
-      color: rgba(black,0.8);
-      background-color: #EEEEEE;
-
-      span{
-        color: rgba(black,0.54);
-      }
-    }
-    .type {
-      font-size: 12px;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-      -word-break: break-all;
-    }
-  } */
-
-  .new {
-    border-radius: 3px;
-    margin: 4px 0px;
-    -background: white;
-    visibility: hidden;
-    cursor: pointer;
-
-    &.show {
-      visibility: visible;
-    }
-
-    &:hover {
-      -background: white;
-    }
-
-  }
-
-  .cg-width {
+  section.application-body {
+    position: absolute;
+    //background: #E0D2C7;
+    height: 100%;
+    overflow: hidden;
+    left: 0%;
     width: 100%;
 
-    @media (max-width: 959px) {
-      width: auto;
-    }
-  }
-
-  .today {
-    border-top:solid 4px $orange-800 ;
-  }
-
-  .md-position-fab{
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-  }
-
-  .md-position-fab.md-fab.md-primary.md-icon-button {
-    background-color: $orange-900;
-
-    &:hover {
-      background-color: $orange-700;
-    }
-  }
-  .status {
-    width: 7px;
-    height: 7px;
-    border-radius: 7px;
-    content: " ";
-  }
-  .space{
-    margin-left: 3px;
-    margin-right: 3px;
-  }
-  .activity-icon {
-    border-radius: 20px;
-    padding: 3px 5px 3px 5px;
-    &.success {
-      background: $success-color-hover;
-
-    }
-    &.warning {
-      background: $warning-color-hover;
-    }
-    &.error {
-      background: $error-color-hover;
-    }
-    &.noplan {
-      background: $primary-hue-3;
-    }
-  }
-
-  #dashboard {
-    .badge {
-      font-size: 12px;
-      padding-top: 10px;
-    }
-    .badge-icon{
-      height: 12px;
-      width: 12px;
-      min-height: 12px;
-      min-width: 12px
-    }
-    .classic{
-      padding: 10px 12px 10px 12px;
+    @media (min-width: 1439px){
+      left: 2%;
+      width: 96%;
+      height: calc(100% - 10px);
     }
 
   }
+
+  div.margin-right {
+    position: absolute;
+    display: none;
+    right: 0;
+    //background: #ECD5DE;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+  dashboard-athlete.athlete {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display:inline-block;
+    width: 12.8%;
+    display:inline-block;
+    vertical-align:top
+  }
+
+  dashboard-day.day {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display:inline-block;
+    width: 10.5%;
+    vertical-align:top;
+    text-transform: capitalize;
+
+    @media (min-width: 959px) and (max-width: 1279px){
+      width: 12.2%;
+    }
+  }
+
+  dashboard-total.total {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display:inline-block;
+    width: 12.8%;
+    display:inline-block;
+    vertical-align:top;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 12.8%;
+      height: 100%;
+      z-index: 1;
+      border-left: 1px solid $grey-400;
+    }
+
+  }
+
 }

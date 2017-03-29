@@ -1,34 +1,25 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
-import {_translate} from './dashboard.translate';
-import { DisplayView } from "../core/display.constants";
-import UserService from "../core/user.service";
+import {translateDashboard} from "./dashboard.translate";
+import {DisplayView} from "../core/display.constants";
+import SessionService from "../core/session.service";
+import {ISessionService} from "../core/session.service";
+import GroupService from "../core/group.service";
+import {IUserProfile} from "../../../api/user/user.interface";
 
-function configure(
-    $stateProvider:StateProvider,
-    $translateProvider: any) {
-
-
+function configure($stateProvider:StateProvider,
+                   $translateProvider:any) {
 
     $stateProvider
         .state('dashboard', <StateDeclaration>{
             url: "/dashboard",
-            //loginRequired: true,
-            //authRequired: ['func1'],
-            //view: _display_view['settings'],
+            loginRequired: true,
+            authRequired: ['user'],
             resolve: {
-                /*view: function (ViewService) {
-                 return ViewService.getParams('settings')
-                 },*/
                 view: () => {return new DisplayView('dashboard');},
-                user: ['UserService', 'SystemMessageService', '$stateParams',
-                    function (UserService:UserService, SystemServiceMessage, $stateParams) {
-                        return UserService.getProfile($stateParams.uri)
-                            .catch((error)=> {
-                                SystemServiceMessage.show(error,'warning');
-                                // TODO перейти на страницу 404
-                                throw error;
-                            });
-                    }]
+                coach: ['SessionService', (session:ISessionService) => session.getUser()],
+                groupId: ['coach', (coach:IUserProfile) => coach.connections['allAthletes'].groupId],
+                athletes: ['GroupService', 'groupId', (group:GroupService, groupId:number) =>
+                    group.getManagementProfile(groupId ,'coach')]
             },
             views: {
                 "background": {
@@ -46,20 +37,17 @@ function configure(
                 "application": {
                     component: "dashboard",
                     bindings: {
-                        view: 'view.application',
-                        user: 'user',
-                        idGroup: 'idGroup'
+                        view: 'view.application'
                     }
                 }
             }
         });
 
-    // Текст представлений
-    $translateProvider.translations('en', {"dashboard": _translate['en']});
-    $translateProvider.translations('ru', {"dashboard": _translate['ru']});
 
+    // Текст представлений
+    $translateProvider.translations('en', {dashboard: translateDashboard['en']});
+    $translateProvider.translations('ru', {dashboard: translateDashboard['ru']});
 }
 
-configure.$inject = ['$stateProvider','$translateProvider'];
-
+configure.$inject = ['$stateProvider', '$translateProvider'];
 export default configure;
