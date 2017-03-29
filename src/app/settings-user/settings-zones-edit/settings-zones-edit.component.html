@@ -1,4 +1,4 @@
-<md-toolbar style="background-color: white; color: black">
+<md-toolbar style="background-color: white; color: black" flex="none">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
             <md-icon md-svg-icon="/assets/icon/{{::$ctrl.intensityFactor}}.svg"></md-icon>
@@ -12,7 +12,7 @@
     </div>
 </md-toolbar>
 
-<md-dialog-content>
+<md-dialog-content flex="auto">
     <md-list class="md-dense section">
         <form name="$ctrl.zones">
             <md-subheader>Показатели</md-subheader>
@@ -39,14 +39,14 @@
             <md-subheader>Метод расчета</md-subheader>
             <md-list-item layout="row">
                 <md-input-container flex class="no-message">
-                    <label translate="settings.sync.calculation.method"></label>
+                    <label>{{'settings.zones.calculation.method' | translate}}</label>
                     <md-select flex class="no-border"
-                               ng-model="activity.method"
-                               placeholder="chooseMethod">
+                               ng-model="$ctrl.settings.calculateMethod"
+                               placeholder="{{'settings.zones.calculation.choose' | translate}}">
                         <md-optgroup ng-repeat="calculation in $ctrl.calculationMethod[$ctrl.intensityFactor] track by $index"
-                                     label="{{::calculation.type}}" class="md-caption">
+                                     label="{{::'settings.zones.calculation.'+ calculation.type | translate}}" class="md-caption">
                             <md-option class="md-caption" ng-repeat="method in calculation.method" ng-value="method"
-                                       ng-click="$ctrl.selectMethod(method, param.type, activity.name)">{{::method}}
+                                       ng-click="$ctrl.selectMethod(method, param.type, activity.name)">{{::'settings.zones.calculation.' + method | translate}}
                             </md-option>
                         </md-optgroup>
                     </md-select>
@@ -77,7 +77,9 @@
                             <td md-cell>{{$index+1}}</td>
                             <td md-cell>
                                 <md-input-container class="no-border">
-                                    <input type="text" ng-model="zone.code" name="code" style="text-align: left; border-color: rgba(0,0,0,0);">
+                                    <input type="text" ng-model="zone.code" name="code"
+                                           style="text-align: left; border-color: rgba(0,0,0,0);"
+                                           ng-disabled="true">
                                 </md-input-container>
                             </td>
                             <td md-cell>
@@ -85,7 +87,8 @@
                                     <input ng-model="zone.valueFrom"
                                            name="valueFrom"
                                            ng-attr-measure-input={{$ctrl.intensityFactor}}
-                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false">
+                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
+                                           ng-disabled="true">
                                 </md-input-container>
                             </td>
                             <td md-cell>
@@ -94,7 +97,8 @@
                                            name="valueTo"
                                            name="valueFrom"
                                            ng-attr-measure-input={{$ctrl.intensityFactor}}
-                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false">
+                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
+                                           ng-disabled="true">
                                 </md-input-container>
                             </td>
                         </tr>
@@ -106,7 +110,7 @@
     </md-list>
 </md-dialog-content>
 
-<md-dialog-actions layout="row">
+<md-dialog-actions layout="row" flex="none">
     <span flex></span>
     <md-button
 

@@ -129,7 +129,27 @@ export const _translate = {
             deleteZones: 'Удалить зоны',
             zoneCaption: 'Название',
             zoneFrom: 'Начало',
-            zoneTo: 'Окончание'
+            zoneTo: 'Окончание',
+
+            calculation: {
+                method: 'Метод расчета',
+                choose: 'Выберите доступный метод расчета',
+                lactateThreshold: 'ПАНО пульс',
+                restingAndMax: 'Мин и макс значение',
+                max: 'Максимальное значение',
+                powerThreshold: 'ПАНО мощность',
+                paceThreshold: 'ПАНО скорость',
+
+                JoeFrielHeartRateRunning7: 'Джо Фрилл для бега(7)',
+                JoeFrielHeartRateCycling7: 'Джо Фрилл для вела (7)',
+                Karvonen5: 'Карвонен',
+                Yansen6: 'Янсен',
+                AndyCoggan6: 'Энди Коган',
+                JoeFrielRunning7: 'Джо Фрилл для бега',
+                JoeFrielSwimming7: 'Джо Фрилл для плавания',
+                JoeFrielSpeedCycling7: 'Джо Фрилл для вела'
+
+            }
 
         },
         notification: {

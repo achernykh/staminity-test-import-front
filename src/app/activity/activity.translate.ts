@@ -1,5 +1,6 @@
 export const translateSport = {
     ru: {
+        default: 'По-умолчнию',
         run: 'Бег',
         streetRun: 'Бег по улице',
         indoorRun: 'Бег в помещении',

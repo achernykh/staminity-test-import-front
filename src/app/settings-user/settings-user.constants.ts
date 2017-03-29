@@ -98,14 +98,14 @@ export const _CalculationMethod = {
         method: ['JoeFrielHeartRateRunning7','JoeFrielHeartRateCycling7']
     }, {
         type: 'restingAndMax',
-        method: ['Karvonen(5)', 'Fitzenger-Scott(6)']
+        method: ['Karvonen5']
     }, {
         type: 'max',
-        method: ['Yansen(6)']
+        method: ['Yansen6']
     }],
     power: [{
         type: 'powerThreshold',
-        method: ['Andy Coggan(6)']
+        method: ['AndyCoggan6']
     }],
     speed: [
         {

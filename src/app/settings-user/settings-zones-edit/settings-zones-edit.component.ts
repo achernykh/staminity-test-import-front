@@ -36,6 +36,7 @@ class SettingsZonesEditCtrl implements IComponentController {
     }
 
     selectMethod(method: string) {
+        this.settings.calculateMethod = method;
         this.settings.zones = this.calculateMethod(method, {
             FTP: this.settings['FTP'],
             minValue: this.settings['minValue'],
@@ -95,17 +96,6 @@ class SettingsZonesEditCtrl implements IComponentController {
                 ];
                 break;
             }
-            /**
-             * Зоны по пульсу. Велосипед
-             Bike Zones
-             Zone 1 Less than 81% of LTHR
-             Zone 2 81% to 89% of LTHR
-             Zone 3 90% to 93% of LTHR
-             Zone 4 94% to 99% of LTHR
-             Zone 5a 100% to 102% of LTHR
-             Zone 5b 103% to 106% of LTHR
-             Zone 5c More than 106% of LTHR
-             */
             case 'JoeFrielHeartRateCycling7': {
                 zones = [
                     {
@@ -153,7 +143,7 @@ class SettingsZonesEditCtrl implements IComponentController {
                 ];
                 break;
             }
-            case 'Karvonen(5)': { // МЕТОД: Карвонен http://www.runnertony.com/2015/08/rus.html
+            case 'Karvonen5': { // МЕТОД: Карвонен http://www.runnertony.com/2015/08/rus.html
                 zones = [
                     {
                         id: "new",
@@ -188,7 +178,7 @@ class SettingsZonesEditCtrl implements IComponentController {
                 ];
                 break;
             }
-            case 'Yansen(6)': { // МЕТОД: Янсен http://www.runnertony.com/2015/08/rus.html
+            case 'Yansen6': { // МЕТОД: Янсен http://www.runnertony.com/2015/08/rus.html
                 zones = [
                     {
                         id: "new",
@@ -229,7 +219,7 @@ class SettingsZonesEditCtrl implements IComponentController {
                 ];
                 break;
             }
-            case 'Andy Coggan(6)': { // http://datacranker.com/cycling-power-zones/
+            case 'AndyCoggan6': { // http://datacranker.com/cycling-power-zones/
                 zones = [
                     {
                         id: "new",
@@ -330,7 +320,7 @@ class SettingsZonesEditCtrl implements IComponentController {
                     {
                         id: "new",
                         code: "Zone 1: Recovery",
-                        valueFrom: measure.minValue || 1.0,
+                        valueFrom: measure.minValue || (1000+0.1)/3600, //59:59 мин/км
                         valueTo: measure.FTP / 1.29 //1.29
                     },
                     {
@@ -367,7 +357,7 @@ class SettingsZonesEditCtrl implements IComponentController {
                         id: "new",
                         code: "Zone 5c: Anaerobic Capacity",
                         valueFrom: measure.FTP / 0.90 + step,
-                        valueTo: measure.maxValue || measure.FTP / 0.10
+                        valueTo: measure.maxValue || 1000 // 0:01 мин/км
                     }
                 ];
                 break;
