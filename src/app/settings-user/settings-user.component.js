@@ -236,7 +236,7 @@ class SettingsUserCtrl {
                     debugger;
                     console.log('page',window.location.origin);
 
-                    if(adaptor.isAuth && adaptor.status.code === 'offSyncNeverEnabled') {
+                    if(adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') {
                         // Подключение стравы
                         this.$auth.link(adaptor.provider,{
                             internalData: {
