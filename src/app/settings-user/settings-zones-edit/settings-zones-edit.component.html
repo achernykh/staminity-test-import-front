@@ -46,7 +46,7 @@
                         <md-optgroup ng-repeat="calculation in $ctrl.calculationMethod[$ctrl.intensityFactor] track by $index"
                                      label="{{::'settings.zones.calculation.'+ calculation.type | translate}}" class="md-caption">
                             <md-option class="md-caption" ng-repeat="method in calculation.method" ng-value="method"
-                                       ng-click="$ctrl.selectMethod(method, param.type, activity.name)">{{::'settings.zones.calculation.' + method | translate}}
+                                       ng-click="$ctrl.selectMethod(method, $ctrl.intensityFactor)">{{::'settings.zones.calculation.' + method | translate}}
                             </md-option>
                         </md-optgroup>
                     </md-select>

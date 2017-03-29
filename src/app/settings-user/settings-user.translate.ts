@@ -142,12 +142,10 @@ export const _translate = {
 
                 JoeFrielHeartRateRunning7: 'Joe Friel, 7 зон по пульсу для бега',
                 JoeFrielHeartRateCycling7: 'Joe Friel, 7 зон по пульсу для велосипеда',
-                Karvonen5: 'Карвонен, 5 зон по пульсу',
-                Yansen6: 'Янсен, 6 зон по пульсу',
+                Karvonen5: 'Karvonen, 5 зон по пульсу',
+                Yansen6: 'Yansen, 6 зон по пульсу',
                 AndyCoggan6: 'A.Coggan, 6 зон по мощности',
-                JoeFrielRunning7: 'Joe Friel, 7 зон по темпу/скорости',
-                JoeFrielSwimming7: 'Joe Friel для плавания (7)', // не используется
-                JoeFrielSpeedCycling7: 'Joe Friel для вела (7)' // не используется
+                JoeFrielSpeed7: 'Joe Friel, 7 зон по темпу/скорости'
 
             }
 

@@ -35,18 +35,18 @@ class SettingsZonesEditCtrl implements IComponentController {
         this.settings = copy(this.sportSettings);
     }
 
-    selectMethod(method: string) {
+    selectMethod(method: string, factor: string) {
         this.settings.calculateMethod = method;
         this.settings.zones = this.calculateMethod(method, {
             FTP: this.settings['FTP'],
             minValue: this.settings['minValue'],
-            maxValue: this.settings['maxValue']});
+            maxValue: this.settings['maxValue']}, factor);
     }
 
-    calculateMethod(method: string, measure: {FTP?: number, minValue?:number, maxValue?: number}):Array<any> {
+    calculateMethod(method: string, measure: {FTP?: number, minValue?:number, maxValue?: number}, factor: string):Array<any> {
 
         let zones: Array<any> = [];
-        let step: number = 1;
+        let step: number = factor !== 'speed' ? 1 : 0.00000000000001;
 
         switch (method) {
             case 'JoeFrielHeartRateRunning7': {
@@ -266,61 +266,12 @@ class SettingsZonesEditCtrl implements IComponentController {
                 ];
                 break;
             }
-            case 'JoeFrielSpeedCycling7':{
-                //step = 0.00000000000001;
+            case 'JoeFrielSpeed7':{
                 zones = [
                     {
                         id: "new",
                         code: "Zone 1: Recovery",
-                        valueFrom: measure.minValue || 1.0,
-                        valueTo: measure.FTP / 1.29 //1.29
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 2: Aerobic",
-                        valueFrom: measure.FTP / 1.29 + step,
-                        valueTo: measure.FTP / 1.14 //1.14
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 3: Tempo",
-                        valueFrom: measure.FTP / 1.14 + step,
-                        valueTo: measure.FTP / 1.06 //1.06
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 4: SubThreshold",
-                        valueFrom: measure.FTP / 1.06 + step,
-                        valueTo: measure.FTP / 1.00 - step
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 5a: SuperThreshold",
-                        valueFrom: measure.FTP / 1.0,
-                        valueTo: measure.FTP / 0.97 // 0.97
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 5b: Aerobic Capacity",
-                        valueFrom: measure.FTP / 0.97 + step,
-                        valueTo: measure.FTP / 0.90 // 0.90
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 5c: Anaerobic Capacity",
-                        valueFrom: measure.FTP / 0.90 + step,
-                        valueTo: measure.maxValue || measure.FTP * 0.10
-                    }
-                ];
-                break;
-            }
-            case 'JoeFrielRunning7':{
-                step = 0.00000000000001;
-                zones = [
-                    {
-                        id: "new",
-                        code: "Zone 1: Recovery",
-                        valueFrom: measure.minValue || (1000+0.1)/3600, //59:59 мин/км
+                        valueFrom: measure.minValue || (1000+0.1)/3600, //59:59 мин/км,
                         valueTo: measure.FTP / 1.29 //1.29
                     },
                     {
@@ -358,54 +309,6 @@ class SettingsZonesEditCtrl implements IComponentController {
                         code: "Zone 5c: Anaerobic Capacity",
                         valueFrom: measure.FTP / 0.90 + step,
                         valueTo: measure.maxValue || 1000 // 0:01 мин/км
-                    }
-                ];
-                break;
-            }
-            case 'JoeFrielSwimming7':{
-                step = 0.00000000000001;
-                zones = [
-                    {
-                        id: "new",
-                        code: "Zone 1: Recovery",
-                        valueFrom: measure.minValue || 0.1,
-                        valueTo: measure.FTP / 1.29 //1.29
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 2: Aerobic",
-                        valueFrom: measure.FTP / 1.29 + step,
-                        valueTo: measure.FTP / 1.14 //1.14
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 3: Tempo",
-                        valueFrom: measure.FTP / 1.14 + step,
-                        valueTo: measure.FTP / 1.06 //1.06
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 4: SubThreshold",
-                        valueFrom: measure.FTP / 1.06 + step,
-                        valueTo: measure.FTP / 1.00 - step
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 5a: SuperThreshold",
-                        valueFrom: measure.FTP / 1.0,
-                        valueTo: measure.FTP / 0.97 // 0.97
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 5b: Aerobic Capacity",
-                        valueFrom: measure.FTP / 0.97 + step,
-                        valueTo: measure.FTP / 0.90 // 0.90
-                    },
-                    {
-                        id: "new",
-                        code: "Zone 5c: Anaerobic Capacity",
-                        valueFrom: measure.FTP / 0.90 + step,
-                        valueTo: measure.maxValue || measure.FTP / 0.10
                     }
                 ];
                 break;

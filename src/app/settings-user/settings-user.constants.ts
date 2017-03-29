@@ -110,7 +110,7 @@ export const _CalculationMethod = {
     speed: [
         {
             type: 'paceThreshold',
-            method: ['JoeFrielRunning7','JoeFrielSwimming7','JoeFrielSpeedCycling7']
+            method: ['JoeFrielSpeed7']
         }
     ]
 };
