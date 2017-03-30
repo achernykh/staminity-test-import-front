@@ -21,5 +21,11 @@ activity-header-zones {
     &.selected {
       background-color: $grey-100;
     }
+
+    &[ng-disable="true"] {
+      color: rgba(0,0,0,0.34);
+      pointer-events: none;
+    }
+
   }
 }

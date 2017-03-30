@@ -1,10 +1,10 @@
-<div flex="auto" ng-if="!$ctrl.sport" ng-cloak>Для просмотра зон необходимо выбрать вид спорта на вкладке ОБЗОР</div>
-<div ng-if="$ctrl.sport" ng-cloak>
+<div flex="auto" ng-if="!$ctrl.sport && !$ctrl.hasDetails" ng-cloak>Для просмотра зон необходимо выбрать вид спорта на вкладке ОБЗОР</div>
+<div ng-if="$ctrl.sport && !$ctrl.hasDetails" ng-cloak>
     <div class="bg-grey-300" style="height: 12px"></div>
     <div layout="row" class="tab-button-row">
-        <div flex="33" class="tab-button" ng-class="{'selected': measure === $ctrl.factor}"
-             ng-repeat="measure in ['heartRate','speed', 'power']"
-             ng-click="$ctrl.changeFactor(measure)">
+        <div flex="33" class="tab-button" ng-class="{'selected': key === $ctrl.factor}"
+             ng-repeat="(key,measure) in $ctrl.filter track by $index"
+             ng-click="$ctrl.changeFactor(key)">
             <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
             <span class="disable dark">&nbsp{{measure | measureUnit:$ctrl.sport | translate}}</span>
         </div>
@@ -13,18 +13,50 @@
         <md-list-item ng-repeat-start="limit in ['FTP','maxValue','minValue']" class="md-caption">
             <p>{{limit}}</p>
             <p class="md-secondary">
-                {{$ctrl.zones[$ctrl.factor][$ctrl.sport][limit] | measureCalc:$ctrl.sport:$ctrl.factor}}</p>
+                {{$ctrl.zones[$ctrl.filter[$ctrl.factor]][$ctrl.sport][limit] | measureCalc:$ctrl.sport:$ctrl.filter[$ctrl.factor]}}</p>
         </md-list-item>
         <md-divider ng-repeat-end></md-divider>
         <md-list-item ng-repeat-start="zone in $ctrl.getZone() track by $index" class="md-caption">
             <p>{{zone.code}}</p>
             <div style="width: 16px; height: 16px; border-radius: 50%; background-color: #{{zone.color.toString(16)}}; opacity: {{zone.opacity}};" class="md-secondary"></div>
             <p class="md-secondary" style="width: 100px; text-align: right">
-                {{zone.valueFrom | measureCalc:$ctrl.sport:$ctrl.factor}}-
-                {{zone.valueTo | measureCalc:$ctrl.sport:$ctrl.factor}}
+                {{zone.valueFrom | measureCalc:$ctrl.sport:$ctrl.filter[$ctrl.factor]}}-
+                {{zone.valueTo | measureCalc:$ctrl.sport:$ctrl.filter[$ctrl.factor]}}
             </p>
         </md-list-item>
         <md-divider ng-repeat-end></md-divider>
     </md-list>
 </div>
 
+<div ng-if="$ctrl.hasDetails">
+    <div class="bg-grey-300" style="height: 12px"></div>
+    <div layout="row" class="tab-button-row">
+        <div flex="33" class="tab-button" ng-class="{'selected': key === $ctrl.factor}"
+             ng-repeat="(key,measure) in $ctrl.filter track by $index"
+             ng-click="$ctrl.changeFactor(key)" ng-disable="{{!$ctrl.calcMeasures.hasOwnProperty(key)}}">
+            <md-icon md-svg-src="assets/icon/{{measure}}.svg"
+                     class="md-dark" ng-class="{'md-inactive': !$ctrl.calcMeasures.hasOwnProperty(key)}"></md-icon>
+            <span class="">&nbsp{{measure | measureUnit:$ctrl.sport | translate}}</span>
+        </div>
+    </div>
+    <md-list class="md-dense slim-input bg-grey-100">
+        <md-divider ng-repeat-end></md-divider>
+        <md-list-item ng-repeat-start="zone in $ctrl.getZone() track by $index" class="md-caption">
+            <div flex="none" class="" style="width: 60px">Zone {{$index+1}}
+            </div>
+            <div style="width: 100%; text-align: left" ng-if="zone.timeInZone > 0">
+                <div style="height: 12px; border-radius: 6px; background-color: #{{$ctrl.colors[$ctrl.filter[$ctrl.factor]].toString(16)}}; width: {{zone.timeInZone * 100 / $ctrl.movingDuration}}%">
+                    <md-tooltip md-direction="bottom">
+                        <span>{{zone.code}} </span>
+                        <span>({{zone.valueFrom | measureCalc:$ctrl.sport:$ctrl.filter[$ctrl.factor]]}}-{{zone.valueTo | measureCalc:$ctrl.sport:$ctrl.filter[$ctrl.factor]]}})</span>
+                    </md-tooltip>
+                </div>
+            </div>
+            <p class="md-secondary" style="width: 100px; text-align: right">
+                <span class="">{{zone.timeInZone | measureCalc:$ctrl.sport:'duration'}}</span>
+                <span class="disable dark" style="margin-left: 12px" ng-show="zone.timeInZone > 0">{{zone.timeInZone * 100 / $ctrl.movingDuration | number:0}}%</span>
+            </p>
+        </md-list-item>
+        <md-divider ng-repeat-end></md-divider>
+    </md-list>
+</div>
