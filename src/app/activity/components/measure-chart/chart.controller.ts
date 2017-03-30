@@ -22,8 +22,8 @@ class ActivityChartController implements IComponentController {
     private changeMeasure: string = null;
     private sport: string;
     private autoZoom: boolean;
-    private zoomIn: boolean;
-    private zoomOut: boolean;
+    private zoomInClick: number;
+    private zoomOutClick: number;
     public onSelected: (result: {select:Array<{startTimeStamp:number, endTimeStamp:number}>}) => void;
 
     private onResize: Function;
@@ -87,6 +87,7 @@ class ActivityChartController implements IComponentController {
         if (this.changeTracker.isFirstChange(changes)) {
             return;
         }
+        console.log(changes);
         if (this.changeTracker.isSelectsOnlyChange(changes))
         {
             if (this.changeTracker.areSelectsUpdated(changes))
@@ -95,12 +96,12 @@ class ActivityChartController implements IComponentController {
                 this.changeTracker.resetUserSelection();
                 this.prepareData();
                 this.drawSelections(0);
+                this.zoom(this.autoZoom);
             }
-            this.zoom(this.autoZoom);
             return;
         }
         if (this.changeTracker.isZoomOnlyChange(changes)) {
-            let isZoomIn = this.autoZoom || !!changes.zoomIn;
+            let isZoomIn = this.autoZoom || !!changes.zoomInClick;
             this.zoom(isZoomIn);
             return;
         }
@@ -121,24 +122,27 @@ class ActivityChartController implements IComponentController {
         this.preparePlaceholder();
         this.prepareScales();
         // zoom to the selected intervals if in autoZoom mode or zoomInClicked
-        if (this.autoZoom || this.zoomIn) {
+        if (this.autoZoom || this.zoomInClick) {
             this.zoom(true, false);
         }
         this.drawChart();
     }
 
     private zoom(isZoomIn: boolean, raiseEvent: boolean = true): void {
+        console.log("zoom. IsZoomIn " + isZoomIn + " " + ", raiseEvent: " + raiseEvent);
         let data = null;
-        if (isZoomIn && this.select && this.select.length > 0)
+        let selectIntervals = this.chartData.getSelect();
+        console.log("zoom selectIntervals : " + JSON.stringify(selectIntervals));
+        if (isZoomIn && selectIntervals && selectIntervals.length > 0)
         {
             data = this.chartData.getData();
             // rescale data range to the new intervals
             var unionInterval = {
-                startTimestamp: this.select[0].startTimestamp,
-                endTimestamp:  this.select[0].endTimestamp
+                startTimestamp: selectIntervals[0].startTimestamp,
+                endTimestamp:  selectIntervals[0].endTimestamp
             };
-            for (let i = 1; i < this.select.length; i++) {
-                let current = this.select[i];
+            for (let i = 1; i < selectIntervals.length; i++) {
+                let current = selectIntervals[i];
                 if (current.startTimestamp < unionInterval.startTimestamp ) { unionInterval.startTimestamp  = current.startTimestamp;}
                 if (current.endTimestamp > unionInterval.endTimestamp ) { unionInterval.endTimestamp  = current.endTimestamp;}
             }
@@ -498,6 +502,7 @@ class ActivityChartController implements IComponentController {
             self.$interactiveArea.selectAll(".selected-interval").data(intervals);
             self.changeTracker.storeUserSelection(intervals);
             self.chartData.setSelect(intervals);
+            self.zoom(self.autoZoom);
             // rise onSelected event
             self.onSelected({ select: intervals });
         };
