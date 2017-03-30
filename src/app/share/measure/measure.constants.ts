@@ -16,16 +16,6 @@ export const _activity_measurement_view = {
             fixed: 0
         }
     },
-    default: {
-        distance: {
-            unit: 'km',
-            fixed: 2
-        },
-        speed: {
-            unit: 'minpkm',
-            fixed: 0
-        }
-    },
     run: {
         distance: {
             unit: 'km',
