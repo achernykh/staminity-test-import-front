@@ -39,6 +39,8 @@ calendar {
   }
 
   md-toolbar.calendar-header {
+    background-color: $grey-300;
+    color: rgba(0,0,0,0.54);
     min-height: 32px;
     display: block;
     line-height: 32px;

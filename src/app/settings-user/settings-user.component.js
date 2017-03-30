@@ -255,12 +255,16 @@ class SettingsUserCtrl {
                             };
                                 this.message.toastInfo('внешний сервис подключен');
                                 console.log('response', response);
-                            }, error => {debugger;})
+                            }, error => {
+                            this.message.toastInfo(error.errorMessage);
+                            adaptor.status.switch = false;
+                        })
                         .catch(function(response) {
                                 // Handle errors here.
                             debugger;
                             console.error('response', response);
                                 this.message.toastInfo(response);
+                            adaptor.status.switch = false;
                             });
                     } else {
                         // операция изменения данных подключения

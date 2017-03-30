@@ -9,6 +9,16 @@ export const _activity_measurement_view = {
     "activity_code": {
         "measure_code": "unit_code",
     },
+    default: {
+        distance: {
+            unit: 'km',
+            fixed: 2
+        },
+        speed: {
+            unit: 'minpkm',
+            fixed: 0
+        }
+    },
     run: {
         distance: {
             unit: 'km',
@@ -315,7 +325,7 @@ export const measureValue = (input: number, sport: string, measure: string, char
 
         // Показатель релевантен для пересчета скорости в темп
         if (!chart && (isDuration(unit) || isPace(unit))){
-            let format = input >= 60*60 ? 'hh:mm:ss' : 'mm:ss';
+            let format = input >= 60*60 ? 'HH:mm:ss' : 'mm:ss';
             return moment().startOf('day').seconds(input).format(format);
         }
         else {

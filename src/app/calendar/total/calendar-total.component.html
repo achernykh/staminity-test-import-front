@@ -47,19 +47,19 @@
         <md-icon flex="none" class="material-icons md-18">functions</md-icon>
         <div flex layout="column" class="md-body-1 secondary dark">
             <div flex="none" layout="row" layout-align="space-between center">
-                <div flex="none">{{$ctrl.summary.fact.movingDuration | measureCalc:'run':'movingDuration'}}</div>
+                <div flex="none">{{$ctrl.summary.fact.movingDuration | measureCalc:'default':'movingDuration'}}</div>
                 <div flex="none" class="disable dark">
-                    <span>{{$ctrl.summary.plan.movingDuration | measureCalc:'run':'movingDuration'}}</span>
+                    <span>{{$ctrl.summary.plan.movingDuration | measureCalc:'default':'movingDuration'}}</span>
                 </div>
             </div>
             <div flex="none" style="height: 2px; border-radius: 1px; background: #E0E0E0">
                 <div style="max-width: 100%; height: 2px; border-radius: 1px; background: #9E9E9E; width: {{100*$ctrl.summary.fact.movingDuration/$ctrl.summary.plan.movingDuration}}%"></div>
             </div>
             <div flex="none" layout="row" layout-align="space-between center">
-                <div flex="none">{{$ctrl.summary.fact.distance | measureCalc:'run':'distance'}}</div>
+                <div flex="none">{{$ctrl.summary.fact.distance | measureCalc:'default':'distance'}}</div>
                 <div></div>
                 <div flex="none" class="disable dark">
-                    <span>{{$ctrl.summary.plan.distance | measureCalc:'run':'distance'}}</span>
+                    <span>{{$ctrl.summary.plan.distance | measureCalc:'default':'distance'}}</span>
                     <span>{{'distance' | measureUnit:'run' | translate}}</span>
                 </div>
             </div>
