@@ -1,16 +1,30 @@
 import './activity-header-zones.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {Activity} from "../activity.datamodel";
+import {ICalcMeasures} from "../../../../api/activity/activity.interface";
+import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 
 class ActivityHeaderZonesCtrl implements IComponentController {
 
     public zones: any;
     public sport: string;
+    public hasDetails: boolean;
+    public item: CalendarItemActivityCtrl;
+    public calcMeasures: ICalcMeasures;
+    public movingDuration: number;
     public onEvent: (response: Object) => IPromise<void>;
-    private currentParam: string = 'heartRate';
-    static $inject = [];
 
-    constructor() {
+    private factor: string = 'heartRateTimeInZone';
+
+    private readonly filter = {
+        heartRateTimeInZone: 'heartRate',
+        speedTimeInZone: 'speed',
+        powerTimeInZone: 'power'
+    };
+    private readonly colors: {} = {heartRate: 0xE91E63, speed: 0x2196F3, power: 0x9C27B0};
+    static $inject = ['$scope'];
+
+    constructor(private $scope: any) {
 
     }
 
@@ -20,8 +34,24 @@ class ActivityHeaderZonesCtrl implements IComponentController {
         }
     }
 
-    $onInit() {
+    changeFactor(factor: string){
+        this.factor = factor;
+        //this.$scope.$apply();
+    }
 
+    getZone(factor:string = this.factor, sport: string = this.sport):Array<any> {
+        if(this.hasDetails){
+            return this.calcMeasures[factor].zones;
+        } else {
+            return (this.zones[this.filter[factor]].hasOwnProperty(sport) && this.zones[this.filter[factor]][sport].zones) ||
+                this.zones[this.filter[factor]]['default'].zones;
+        }
+
+    }
+
+    $onInit() {
+        this.movingDuration = this.item.activity.movingDuration;
+        this.calcMeasures = this.item.activity.intervalW.calcMeasures;
     }
 }
 
@@ -29,6 +59,7 @@ const ActivityHeaderZonesComponent:IComponentOptions = {
     bindings: {
         zones: '<',
         sport: '<',
+        hasDetails: '<',
         onEvent: '&'
     },
     require: {

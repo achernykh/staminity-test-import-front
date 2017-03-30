@@ -6,18 +6,22 @@
         <thead ng-if="!$ctrl.options.decapitate" md-head>
         <tr md-row>
             <th md-column><span>#</span></th>
-            <th md-column md-numeric md-order-by="calcMeasures.duration.value"><span>Время</span></th>
-            <th md-column md-numeric md-order-by="calcMeasures.distance.value"><span>Дистанция</span></th>
-            <th md-column ng-if="$ctrl.max.hasOwnProperty('heartRate')" md-numeric md-order-by="calcMeasures.heartRate.avgValue">
+            <th md-column md-numeric><span>Время</span></th>
+            <th md-column md-numeric><span>Дистанция</span></th>
+            <th md-column ng-if="$ctrl.max.hasOwnProperty('heartRate')" md-numeric style="padding-left: 32px">
                 <span>{{'heartRate' | translate}}</span></th>
-            <th md-column ng-if="$ctrl.max.hasOwnProperty('speed')" md-numeric md-order-by="calcMeasures.speed.avgValue">
+            <th md-column ng-if="$ctrl.max.hasOwnProperty('heartRate')" md-numeric>
+                <span>{{'heartRate' | translate}} %ПАНО</span></th>
+            <th md-column ng-if="$ctrl.max.hasOwnProperty('speed')" md-numeric style="padding-left: 32px">
                 <span>{{'speed' | translate}}</span></th>
-            <th md-column ng-if="$ctrl.max.hasOwnProperty('power')" md-numeric md-order-by="calcMeasures.power.avgValue">
+            <th md-column ng-if="$ctrl.max.hasOwnProperty('speed')" md-numeric>
+                <span>{{'speed' | translate}} %ПАНО</span></th>
+            <th md-column ng-if="$ctrl.max.hasOwnProperty('power')" md-numeric style="padding-left: 32px">
                 <span>{{'power' | translate}}</span></th>
-            <th md-column ng-if="splits[0].calcMeasures.hasOwnProperty('elevationGain') || splits[0].calcMeasures.hasOwnProperty('elevationLoss')"
-                md-numeric md-order-by="calcMeasures.elevationGain.avgValue"><span>{{'elevation' | translate}}</span></th>
-            <th md-column ng-if="splits[0].calcMeasures.hasOwnProperty('cadence')"
-                md-numeric md-order-by="calcMeasures.cadence.avgValue"><span>{{'cadence' | translate}}</span></th>
+            <th md-column ng-if="$ctrl.max.hasOwnProperty('power')" md-numeric>
+                <span>{{'power' | translate}} %ПАНО</span></th>
+            <th md-column md-numeric><span>{{'elevation' | translate}}</span></th>
+            <th md-column md-numeric><span>{{'cadence' | translate}}</span></th>
         </tr>
         </thead>
         <tbody md-body>
@@ -37,18 +41,24 @@
                         <div flex="none" style="height: 10px; border-radius: 5px; background: #e91e63;
                         width: {{::((split.calcMeasures.heartRate.avgValue - $ctrl.max['heartRate'].min) / ($ctrl.max['heartRate'].max - $ctrl.max['heartRate'].min))*100}}%"></div>
                     </div>
-                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</div>
+                    <div flex="none" style="line-height: 32px">{{::split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</div>
                 </div>
             </td>
+            <td md-cell ng-if="$ctrl.max.hasOwnProperty('heartRate')">
+                {{::split.calcMeasures.heartRate.avgValue / $ctrl.getFTP('heartRate') * 100 | number:0}}%
+            </td>
             <td md-cell ng-if="$ctrl.max.hasOwnProperty('speed')">
-                <div layout="row" layout-align="end center" ng-if="split.calcMeasures.speed.avgValue > 0">
+                <div layout="row" layout-align="end center">
                     <div flex="auto" style="background-color: #F5F5F5; height: 10px; border-radius: 5px; margin-right: 4px; max-width: 60px" layout="low">
                         <div flex="none" style="height: 10px; border-radius: 5px; background: #5677fc;
                         width: {{::((split.calcMeasures.speed.avgValue - $ctrl.max['speed'].min) / ($ctrl.max['speed'].max - $ctrl.max['speed'].min))*100}}%">
                         </div>
                     </div>
-                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.speed.avgValue | measureCalc:$ctrl.sport:'speed'}}</div>
+                    <div flex="none" style="line-height: 32px">{{::split.calcMeasures.speed.avgValue | measureCalc:$ctrl.sport:'speed'}}</div>
                 </div>
+            </td>
+            <td md-cell ng-if="$ctrl.max.hasOwnProperty('speed')">
+                {{::split.calcMeasures.speed.avgValue / $ctrl.getFTP('speed') * 100 | number:0}}%
             </td>
             <td md-cell ng-if="$ctrl.max.hasOwnProperty('power')">
                 <div layout="row" layout-align="end center">
@@ -57,13 +67,14 @@
                         width: {{::((split.calcMeasures.power.avgValue - $ctrl.max['power'].min) / ($ctrl.max['power'].max - $ctrl.max['power'].min))*100}}%">
                         </div>
                     </div>
-                    <div flex="none" style="line-height: 32px">{{split.calcMeasures.power.avgValue | measureCalc:$ctrl.sport:'power'}}</div>
+                    <div flex="none" style="line-height: 32px">{{::split.calcMeasures.power.avgValue | measureCalc:$ctrl.sport:'power'}}</div>
                 </div>
             </td>
-            <td md-cell ng-if="split.calcMeasures.hasOwnProperty('elevationGain') || split.calcMeasures.hasOwnProperty('elevationLoss')">
-                {{split.calcMeasures.elevationGain.value.toFixed(0) - split.calcMeasures.elevationLoss.value.toFixed(0) | measureCalc:$ctrl.sport:'elevationGain'}}</td>
-            <td md-cell ng-if="split.calcMeasures.hasOwnProperty('cadence')">
-                {{split.calcMeasures.cadence.avgValue | measureCalc:$ctrl.sport:'cadence'}}</td>
+            <td md-cell ng-if="$ctrl.max.hasOwnProperty('power')">
+                {{::split.calcMeasures.power.avgValue / $ctrl.getFTP('power') * 100 | number:0}}%
+            </td>
+            <td md-cell>{{::split.calcMeasures.elevationGain.value.toFixed(0) - split.calcMeasures.elevationLoss.value.toFixed(0) | measureCalc:$ctrl.sport:'elevationGain'}}</td>
+            <td md-cell>{{::split.calcMeasures.cadence.avgValue | measureCalc:$ctrl.sport:'cadence'}}</td>
         </tr>
         </tbody>
     </table>

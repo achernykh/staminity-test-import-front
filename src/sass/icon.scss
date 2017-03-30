@@ -73,6 +73,44 @@ md-icon {
 	}
 }
 
+md-icon {
+	&.fill-measure.heartRate {
+		svg {
+			fill: #E91E63;
+		}
+	}
+	&.fill-measure.power {
+		svg {
+			fill: #9C27B0;
+		}
+	}
+	&.fill-measure.speed {
+		svg {
+			fill: #2196F3;
+		}
+	}
+	&.md-dark {
+		svg {
+			fill: rgba(0, 0, 0, 0.54) !important;
+		}
+	}
+	&.md-dark.md-inactive {
+		svg {
+			fill: rgba(0, 0, 0, 0.26) !important;
+		}
+	}
+	&.md-light {
+		svg {
+			fill: rgba(255, 255, 255, 1) !important;
+		}
+	}
+	&.md-light.md-inactive {
+		svg {
+			fill: rgba(255, 255, 255, 0.3) !important;
+		}
+	}
+}
+
 /* Rules for sizing the icon. */
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }

@@ -13,6 +13,7 @@ class MeasureSplitTableCtrl implements IComponentController {
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
     public selected:Array<any> = [];
     public max: {};
+    public zones: any;
 
     public options:Object = {
         rowSelection: true,
@@ -55,6 +56,11 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     }
 
+    getFTP(factor: string, sport: string = this.sport):number {
+        return (this.zones[factor].hasOwnProperty(sport) && this.zones[factor][sport]['FTP']) ||
+            this.zones[factor]['default']['FTP'];
+    }
+
     change(){
         //console.log('change', this.selected);
         //this.onSelected({type: 'L', selected: this.selected.map(i => i.ind)});
@@ -66,6 +72,7 @@ const MeasureSplitTableComponent:IComponentOptions = {
         splits: '<',
         sport: '<',
         max: '<',
+        zones: '<',
         onSelected: '&'
     },
     controller: MeasureSplitTableCtrl,

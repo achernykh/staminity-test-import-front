@@ -37,7 +37,13 @@ export const _MEASURE_TRANSLATE = {
 		variabilityIndex: 'Индекс изменений',
 		intensityLevel: 'Фактор эффективности',
 		speedDecoupling: 'КК: скорость',
-		powerDecoupling: 'КК: мощность'
+		powerDecoupling: 'КК: мощность',
+
+		//
+		FTP: 'ПАНО',
+		minValue: 'Минимум',
+		maxValue: 'Максимум'
+
 	},
 	en: {
 		calendar: 'Calendar',

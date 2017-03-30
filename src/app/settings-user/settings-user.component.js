@@ -50,6 +50,7 @@ class SettingsUserCtrl {
         this.dialogs = dialogs;
         this.message = message;
         this.adaptors = [];
+
         //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
         //this.dialogs = dialogs
 
@@ -79,8 +80,15 @@ class SettingsUserCtrl {
             offset: momentTimezone.tz(z).offset
         }));
 
+        this.prepareZones();
+
         moment.locale('ru');
         moment.lang('ru');
+    }
+
+    prepareZones() {
+
+
     }
 
     setUser (user) {
@@ -182,9 +190,12 @@ class SettingsUserCtrl {
                     this[name + 'FirstForm'].$setPristine();
                     this[name + 'SecondForm'].$setPristine();
                 } else
-                    this[name + 'Form'].$setPristine();
+                    if (this.hasOwnProperty(name+'Form')) {
+                        this[name + 'Form'].$setPristine();
+                    }
             }
         }
+        debugger;
         console.log('settings ctrl => update profile form: ', profile);
         this._UserService.putProfile(profile)
             .then((success)=> {

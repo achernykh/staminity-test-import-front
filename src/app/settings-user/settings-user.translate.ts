@@ -123,6 +123,32 @@ export const _translate = {
         zones: {
             header: 'Тренировочные зоны',
             hint: 'Подсказка, пояснение по блоку информации...',
+
+            addSport: 'Добавить спорт',
+            editZones: 'Изменить зоны',
+            deleteZones: 'Удалить зоны',
+            zoneCaption: 'Название',
+            zoneFrom: 'Начало',
+            zoneTo: 'Окончание',
+
+            calculation: {
+                method: 'Метод расчета',
+                choose: 'Выберите доступный метод расчета',
+                lactateThreshold: 'ПАНО пульс',
+                restingAndMax: 'Мин и макс значение',
+                max: 'Максимальное значение',
+                powerThreshold: 'ПАНО мощность',
+                paceThreshold: 'ПАНО скорость',
+
+                JoeFrielHeartRateRunning7: 'Joe Friel, 7 зон по пульсу для бега',
+                JoeFrielHeartRateCycling7: 'Joe Friel, 7 зон по пульсу для велосипеда',
+                Karvonen5: 'Karvonen, 5 зон по пульсу',
+                Yansen6: 'Yansen, 6 зон по пульсу',
+                AndyCoggan6: 'A.Coggan, 6 зон по мощности',
+                JoeFrielSpeed7: 'Joe Friel, 7 зон по темпу/скорости'
+
+            }
+
         },
         notification: {
             header: 'Уведомления'
@@ -131,7 +157,7 @@ export const _translate = {
             header: 'Шаблоны тренировок'
         },
         favorites: {
-            header: 'Избранные тренровки'
+            header: 'Избранные тренировки'
         }
 
     },
