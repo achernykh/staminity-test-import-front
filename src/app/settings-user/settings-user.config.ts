@@ -40,7 +40,7 @@ function configure(
         //requiredUrlParams: ['response_type','client_id'],
         optionalUrlParams: ['approval_prompt','scope','state'],
         approvalPrompt: 'force',
-        scope: 'write',
+        scope: 'view_private',
         //token: '',
         //staminityToken: '0adebb13-c151-617a-dfa0-507caac750fd',
         //startDate: '',

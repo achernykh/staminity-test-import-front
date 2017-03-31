@@ -14,8 +14,7 @@ class ActivityHeaderZonesCtrl implements IComponentController {
     public movingDuration: number;
     public onEvent: (response: Object) => IPromise<void>;
 
-    private factor: string = 'heartRateTimeInZone';
-
+    private factor: string = null;
     private readonly filter = {
         heartRateTimeInZone: 'heartRate',
         speedTimeInZone: 'speed',
@@ -31,6 +30,9 @@ class ActivityHeaderZonesCtrl implements IComponentController {
     $onChanges(changes) {
         if(changes['sport'] && !changes.sport.isFirstChange()){
             console.log('sport change',this.sport);
+        }
+        if(changes['hasDetails'] && !changes.hasDetails.isFirstChange()){
+            this.factor = this.prepareFactor();
         }
     }
 
@@ -52,6 +54,14 @@ class ActivityHeaderZonesCtrl implements IComponentController {
     $onInit() {
         this.movingDuration = this.item.activity.movingDuration;
         this.calcMeasures = this.item.activity.intervalW.calcMeasures;
+        this.factor = this.prepareFactor();
+    }
+
+    prepareFactor():string {
+        return (!this.hasDetails && 'heartRateTimeInZone') ||
+            (this.hasDetails && this.calcMeasures.hasOwnProperty('heartRateTimeInZone') && 'heartRateTimeInZone') ||
+            (this.hasDetails && this.calcMeasures.hasOwnProperty('speedTimeInZone') && 'speedTimeInZone') ||
+            (this.hasDetails && this.calcMeasures.hasOwnProperty('powerTimeInZone') && 'powerTimeInZone') || null;
     }
 }
 

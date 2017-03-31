@@ -44,7 +44,12 @@ export const measureUnit = ['SessionService', (SessionService:ISessionService) =
 	return (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
 }];*/
 
-export const duration = () => (second = 0) => {
-	return moment().startOf('day').seconds(second).format('H:mm:ss');
+export const duration = () => (second = 0, round: string = 'second') => {
+	let time = moment().startOf('day').millisecond(second*1000);
+	if (round === 'millisecond'){
+		return time.format('H:mm:ss.S');
+	} else {
+		return time.format('H:mm:ss');
+	}
 };
 
