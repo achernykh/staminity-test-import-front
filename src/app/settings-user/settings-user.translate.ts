@@ -144,7 +144,7 @@ export const _translate = {
                 JoeFrielHeartRateCycling7: 'Joe Friel, 7 зон по пульсу для велосипеда',
                 Karvonen5: 'Karvonen, 5 зон по пульсу',
                 Yansen6: 'Peter Janssen, 6 зон по пульсу',
-                AndyCoggan6: 'A.Coggan, 6 зон по мощности',
+                AndyCoggan6: 'A.Coggan, 7 зон по мощности',
                 JoeFrielSpeed7: 'Joe Friel, 7 зон по темпу/скорости'
 
             }
