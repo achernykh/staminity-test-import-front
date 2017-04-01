@@ -63,12 +63,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private isLoadingRange: boolean = false; // индиактор загрузки результатов calculateActivityRange
 
     private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
-    private isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
-    private isCreator: boolean;
-    private isPro: boolean;
-    private isMyCoach: boolean;
+    public currentUser: IUserProfile = null;
+    public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
+    public isCreator: boolean;
+    public isPro: boolean;
+    public isMyCoach: boolean;
 
-    private isLoadingDetails: boolean = false;
+    public isLoadingDetails: boolean = false;
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
@@ -94,14 +95,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-        let currentUser: IUserProfile = this.SessionService.getUser();
+        this.currentUser = this.SessionService.getUser();
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'activity',
                 dateStart: this.date,
                 dateEnd: this.date,
                 userProfileOwner: profileShort(this.user),
-                userProfileCreator: profileShort(currentUser)
+                userProfileCreator: profileShort(this.currentUser)
             };
         }
 
@@ -123,10 +124,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
 
         this.types = activityTypes; // Список видов спорта
-        this.isOwner = this.activity.userProfileOwner.userId === currentUser.userId;
-        this.isCreator = this.activity.userProfileCreator.userId === currentUser.userId;
+        this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
+        this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
         this.isPro = this.AuthService.isActivityPro();
-        this.isMyCoach = this.activity.userProfileCreator.userId !== currentUser.userId;
+        this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post') {
             this.ActivityService.getCategory()
