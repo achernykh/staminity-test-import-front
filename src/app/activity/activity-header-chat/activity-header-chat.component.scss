@@ -1,0 +1,27 @@
+@import "../../../../src/sass/color";
+
+activity-header-chat {
+
+  .message-list {
+    padding: 8px 16px;
+    overflow-y: auto;
+  }
+
+  .message {
+    margin: 0px 18px 16px 8px;
+    padding:8px;
+    border-radius: 6px;
+  }
+
+  .input-box {
+    padding: 8px 8px 8px 16px;
+    background-color: white;
+
+  }
+
+  md-input-container {
+    margin-bottom: 8px;
+    margin-top: 8px;
+  }
+
+}
