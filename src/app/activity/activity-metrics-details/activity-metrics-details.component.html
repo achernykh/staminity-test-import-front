@@ -36,13 +36,12 @@
         <md-switch ng-model="$ctrl.autoZoom" aria-label="Switch 1">
             AutoZoom: {{ $ctrl.autoZoom }}
         </md-switch>
-        <md-button class="md-icon-button" ng-click="$ctrl.zoomIn++">
+        <md-button class="md-icon-button" ng-click="$ctrl.zoomIn = $ctrl.zoomIn+1">
             <md-icon class="material-icons">zoom_in</md-icon>
         </md-button>
-        <md-button class="md-icon-button" ng-click="$ctrl.zoomOut++">
+        <md-button class="md-icon-button" ng-click="$ctrl.zoomOut = $ctrl.zoomOut+1">
             <md-icon class="material-icons">zoom_out</md-icon>
         </md-button>
-
         <div ng-if="!$ctrl.item.activity.structured">
             <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary"
                        ng-click="$ctrl.changeChartX(measure)">
