@@ -22,7 +22,7 @@ class ActivityHeaderChatCtrl implements IComponentController {
 
     $onInit() {
         if (this.social && this.social.hasOwnProperty('trainerCommentsCount') &&
-            this.social.trainerCommentsCount > 0) {
+            this.social.coachComments > 0) {
 
             this.comment.get(this.commentType, this.activityId, true)
                 .then(result => this.comments = result,
