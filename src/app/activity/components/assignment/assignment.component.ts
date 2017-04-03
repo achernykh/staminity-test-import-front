@@ -10,6 +10,11 @@ import {IAuthService} from "../../../auth/auth.service";
 
 const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 
+enum FtpState {
+    On,
+    Off
+}
+
 class ActivityAssignmentCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
@@ -22,6 +27,12 @@ class ActivityAssignmentCtrl implements IComponentController {
     public actual: ICalcMeasures;
     public sport: string;
     public form: INgModelController;
+    public ftpMode: number = FtpState.Off;
+    public FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
+    public from: string = 'intensityLevelFrom' || 'intensityByFtpFrom';
+    public to: string = 'intensityLevelTo' || 'intensityByFtpTo';
+    private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
+
     public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
 
     private selected:Array<number> = [];
@@ -92,41 +103,107 @@ class ActivityAssignmentCtrl implements IComponentController {
             this.percentComplete[key] = this.calcPercent(key) || null;
         });
 
+        this.prepareValues();
+
     }
+
+    prepareValues() {
+        if(this.ftpMode) {
+            this.from = 'intensityByFtpFrom';
+            this.to = 'intensityByFtpTo';
+            /*Object.keys(this.plan)
+                .filter(m => this.FTPMeasures.indexOf(m) !== -1)
+                .forEach(m => this.plan[m][this.from] ? this.plan[m] = this.convertToFTP(m,this.plan[m]) : ()=>{});*/
+
+            /*Object.keys(this.actual)
+                .filter(m => this.FTPMeasures.indexOf(m) !== -1)
+                .forEach(m => this.actual[m][this.from] ? this.actual[m] = this.convertToFTP(m,this.actual[m],false) : ()=>{});*/
+
+            //this.$scope.$apply();
+        } else {
+            this.from = 'intensityLevelFrom';
+            this.to = 'intensityLevelTo';
+        }
+    }
+
+    ftpModeChange(mode: FtpState) {
+        this.ftpMode = mode;
+        this.prepareValues();
+    }
+
+    isFTP() {
+        return this.ftpMode === FtpState.On;
+    }
+
     isInterval(key) {
         return ['speed','heartRate','power'].indexOf(key) !== -1;
+    }
+
+    convertToFTP(measure, data, interval: boolean = true){
+        debugger;
+        let FTP = this.getFTP(measure, this.sport);
+        return interval ? Object.assign(data, {
+            [this.from]: data[this.from] * 100 / FTP,
+            [this.to]: data[this.to] * 100 / FTP
+        }) : data * 100 / FTP;
+    }
+
+    convertFromFTP(){
+
+    }
+
+    getFTP(measure: string, sport: string = this.sport):number {
+        let zones = this.item.currentUser.trainingZones;
+        return (this.isInterval(measure) && 0) ||
+            (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport]['FTP']) ||
+            (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty('default') && zones[measure]['default']['FTP']) || null;
     }
 
     changeValue(key) {
         if(!!!key) {
             return;
         }
-        this.validateForm();
-        let percent: number = this.calcPercent(key); // расчет процента выполнения по позиции плана
-        this.percentComplete[key] = percent; // обновляем view model
 
+        //debugger;
+
+        this.validateForm();
+        this.ftpMode === FtpState.Off ? this.completeFtpMeasure(key) : this.completeAbsoluteMeasure(key);
+        this.prepareDataForUpdate();
+        this.percentComplete[key] = this.calcPercent(key); // обновляем view model
+        this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
+        this.onChange({plan: this.plan, actual: this.actual, form: this.form});
+    }
+
+    completeAbsoluteMeasure(key) {
+        this.plan[key][this.index[FtpState.Off]['from']] = this.plan[key][this.index[FtpState.On]['from']] * this.getFTP(key);
+        this.plan[key][this.index[FtpState.Off]['to']] = this.plan[key][this.index[FtpState.On]['to']] * this.getFTP(key);
+    }
+
+    completeFtpMeasure(key) {
+        this.plan[key][this.index[FtpState.On]['from']] = this.plan[key][this.index[FtpState.Off]['from']] / this.getFTP(key);
+        this.plan[key][this.index[FtpState.On]['to']] = this.plan[key][this.index[FtpState.Off]['to']] / this.getFTP(key);
+    }
+
+    prepareDataForUpdate() {
         this.plan.durationMeasure = (!!this.plan.distance.value && 'distance') ||
             (!!this.plan.movingDuration.value && 'movingDuration') || null;
         this.plan.durationValue =
             (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure].value) || null;
 
-        this.plan.intensityMeasure = (!!this.plan.heartRate['from'] && 'heartRate') ||
-            (!!this.plan.speed['from'] && 'speed') || (!!this.plan.power['from'] && 'power') || null;
+        this.plan.intensityMeasure = (!!this.plan.heartRate[this.from] && 'heartRate') ||
+            (!!this.plan.speed[this.from] && 'speed') || (!!this.plan.power[this.from] && 'power') || null;
 
         this.plan.intensityLevelFrom =
-            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure]['from']) || null;
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.from]) || null;
         this.plan.intensityLevelTo =
-            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure]['to']) || null;
-
-        this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
-        this.onChange({plan: this.plan, actual: this.actual, form: this.form});
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.to]) || null;
     }
 
     calcPercent(key: string): number {
 
-        let plan = (this.plan[key].hasOwnProperty('value') && this.plan[key].value) ||
-            (this.plan[key]['from'] === this.plan[key]['to'] && this.plan[key]['from']) ||
-            (this.plan[key]['from'] !== this.plan[key]['to'] && this.plan[key]) || null;
+        let plan = (this.plan[key].hasOwnProperty('durationValue') && this.plan[key].durationValue) ||
+            (this.plan[key][this.from] === this.plan[key][this.to] && this.plan[key][this.from]) ||
+            (this.plan[key][this.from] !== this.plan[key][this.to] && this.plan[key]) || null;
 
         let actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.valueType[key]]) || null;
 
@@ -135,13 +212,13 @@ class ActivityAssignmentCtrl implements IComponentController {
             if (typeof plan !== 'object') {
                 return actual / plan;
             } else if (key === 'speed') { //TODO сделать метод для определния велечин с обратным счетом
-                return  ((actual <= plan.from && actual >= plan.to) && 1) ||
-                        ((actual <= plan.to) && actual/plan.to) ||
-                        ((actual >= plan.from) && actual/plan.from);
+                return  ((actual <= plan[this.from] && actual >= plan[this.to]) && 1) ||
+                        ((actual <= plan[this.to]) && actual/plan[this.to]) ||
+                        ((actual >= plan[this.from]) && actual/plan[this.from]);
             } else {
-                return  ((actual >= plan.from && actual <= plan.to) && 1) ||
-                        ((actual >= plan.to) && actual/plan.to) ||
-                        ((actual <= plan.from) && actual/plan.from);
+                return  ((actual >= plan[this.from] && actual <= plan[this.to]) && 1) ||
+                        ((actual >= plan[this.to]) && actual/plan[this.to]) ||
+                        ((actual <= plan[this.from]) && actual/plan[this.from]);
             }
         } else {
             return null;
@@ -174,12 +251,12 @@ class ActivityAssignmentCtrl implements IComponentController {
                 this.form['actual_movingDuration'].$modelValue > 0);
 
             /*this.form['plan_heartRate'].$setValidity('needIntensity',
-             this.form['plan_heartRate'].$modelValue['from'] > 0 ||
-             this.form['plan_speed'].$modelValue['from'] > 0);
+             this.form['plan_heartRate'].$modelValue[this.from] > 0 ||
+             this.form['plan_speed'].$modelValue[this.from] > 0);
 
              this.form['plan_speed'].$setValidity('needIntensity',
-             this.form['plan_heartRate'].$modelValue['from'] > 0 ||
-             this.form['plan_speed'].$modelValue['from'] > 0);*/
+             this.form['plan_heartRate'].$modelValue[this.from] > 0 ||
+             this.form['plan_speed'].$modelValue[this.from] > 0);*/
 
             // Пользователь может указать или расстояние, или время
             this.form['plan_distance'].$setValidity('singleDuration',
@@ -190,14 +267,14 @@ class ActivityAssignmentCtrl implements IComponentController {
             // Пользователь может указать только один парметр интенсивности
             if (this.form['plan_heartRate'] && this.form['plan_speed']) {
                 this.form['plan_heartRate'].$setValidity('singleIntensity',
-                    !(this.form['plan_heartRate'].$modelValue['from'] > 0 &&
-                    this.form['plan_speed'].$modelValue['from'] > 0));
+                    !(this.form['plan_heartRate'].$modelValue[this.from] > 0 &&
+                    this.form['plan_speed'].$modelValue[this.from] > 0));
             }
 
             if (this.form['plan_speed'] && this.form['plan_heartRate']) {
                 this.form['plan_speed'].$setValidity('singleIntensity',
-                    !(this.form['plan_heartRate'].$modelValue['from'] > 0 &&
-                    this.form['plan_speed'].$modelValue['from'] > 0));
+                    !(this.form['plan_heartRate'].$modelValue[this.from] > 0 &&
+                    this.form['plan_speed'].$modelValue[this.from] > 0));
             }
         }
 

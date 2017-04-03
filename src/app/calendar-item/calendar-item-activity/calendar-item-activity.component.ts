@@ -247,20 +247,27 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * Обновление данных из формы ввода/редактирования activity-assignment
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
+
         this.activity.intervalPW = plan;
 
-        this.activity.intervalPW.durationMeasure = (!!plan.distance.value && 'distance') ||
-            (!!plan.movingDuration.value && 'movingDuration') || null;
-        this.activity.intervalPW.durationValue =
-            (plan[this.activity.intervalPW.durationMeasure] && plan[this.activity.intervalPW.durationMeasure].value) || null;
+        this.activity.intervalPW.durationMeasure = (!!plan.distance['durationValue'] && 'distance') ||
+            (!!plan.movingDuration['durationValue'] && 'movingDuration') || null;
 
-        this.activity.intervalPW.intensityMeasure = (!!plan.heartRate['from'] && 'heartRate') ||
-            (!!plan.speed['from'] && 'speed') || (!!plan.power['from'] && 'power') || null;
+        this.activity.intervalPW.durationValue =
+            (plan[this.activity.intervalPW.durationMeasure] && plan[this.activity.intervalPW.durationMeasure]['durationValue']) || null;
+
+        this.activity.intervalPW.intensityMeasure = (!!plan.heartRate['intensityLevelFrom'] && 'heartRate') ||
+            (!!plan.speed['intensityLevelFrom'] && 'speed') || (!!plan.power['intensityLevelFrom'] && 'power') || null;
 
         this.activity.intervalPW.intensityLevelFrom =
-            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['from']) || null;
+            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityLevelFrom']) || null;
         this.activity.intervalPW.intensityLevelTo =
-            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['to']) || null;
+            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityLevelTo']) || null;
+
+        this.activity.intervalPW.intensityByFtpFrom =
+            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpFrom']) || null;
+        this.activity.intervalPW.intensityByFtpTo =
+            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;
 
         this.activity.intervalW.calcMeasures = actual;
     }

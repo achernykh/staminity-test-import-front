@@ -199,29 +199,35 @@ export class Activity extends CalendarItem {
 			movingDuration: {
 				order: 110,
 				sourceMeasure: 'movingDuration',
-				value: ((this.intervalPW.durationMeasure === 'movingDuration' || (this.intervalPW.durationMeasure === 'duration')) && this.intervalPW.durationValue) || null
+				durationValue: ((this.intervalPW.durationMeasure === 'movingDuration' || (this.intervalPW.durationMeasure === 'duration')) && this.intervalPW.durationValue) || null
 			},
 			distance: {
 				order: 120,
 				sourceMeasure: 'distance',
-				value: (this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null},
+				durationValue: (this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null},
 			heartRate: {
 				order: 210,
 				sourceMeasure: 'heartRate',
-				from: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelFrom) || null,
-				to: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelTo) || null
+				intensityLevelFrom: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelFrom) || null,
+				intensityLevelTo: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityLevelTo) || null,
+				intensityByFtpFrom: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityByFtpFrom) || null,
+				intensityByFtpTo: (this.intervalPW.intensityMeasure === 'heartRate' && this.intervalPW.intensityByFtpTo) || null
 			},
 			speed: {
 				order: 220,
 				sourceMeasure: 'speed',
-				from: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelFrom) || null,
-				to: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelTo) || null
+				intensityLevelFrom: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelFrom) || null,
+				intensityLevelTo: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityLevelTo) || null,
+				intensityByFtpFrom: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityByFtpFrom) || null,
+				intensityByFtpTo: (this.intervalPW.intensityMeasure === 'speed' && this.intervalPW.intensityByFtpTo) || null
 			},
 			power: {
 				order: 230,
 				sourceMeasure: 'power',
-				from: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelFrom) || null,
-				to: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelTo) || null
+				intensityLevelFrom: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelFrom) || null,
+				intensityLevelTo: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityLevelTo) || null,
+				intensityByFtpFrom: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityByFtpFrom) || null,
+				intensityByFtpTo: (this.intervalPW.intensityMeasure === 'power' && this.intervalPW.intensityByFtpTo) || null
 			}
 		});
 	}

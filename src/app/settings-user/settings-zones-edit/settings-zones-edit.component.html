@@ -21,6 +21,7 @@
                                     ng-repeat="measure in $ctrl.measures track by $index">
                     <label translate="{{::measure}}"></label>
                     <input name="{{::measure}}"
+                           type="{{intensityFactor === 'speed' ? 'string' : 'number'}}"
                            ng-model="$ctrl.settings[measure]"
                            name="valueFrom"
                            ng-attr-measure-input={{$ctrl.intensityFactor}}
