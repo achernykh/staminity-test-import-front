@@ -502,7 +502,9 @@ class ActivityChartController implements IComponentController {
             self.$interactiveArea.selectAll(".selected-interval").data(intervals);
             self.changeTracker.storeUserSelection(intervals);
             self.chartData.setSelect(intervals);
-            self.zoom(self.autoZoom);
+            if (self.autoZoom) {
+                self.zoom(self.autoZoom);
+            }
             // rise onSelected event
             self.onSelected({ select: intervals });
         };
