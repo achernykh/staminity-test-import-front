@@ -20,12 +20,11 @@
                 <md-input-container flex class="no-message"
                                     ng-repeat="measure in $ctrl.measures track by $index">
                     <label translate="{{::measure}}"></label>
-                    <input name="{{::measure}}"
-                           type="{{intensityFactor === 'speed' ? 'string' : 'number'}}"
+                    <input name="{{::measure}}" measure-input
                            ng-model="$ctrl.settings[measure]"
                            name="valueFrom"
-                           ng-attr-measure-input={{$ctrl.intensityFactor}}
-                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
+                           measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
+                           ng-attr-sport={{$ctrl.sport}}
                            ng-disabled="false">
                     <div ng-messages="$ctrl.zones[measure].$error" role="alert">
                         <div ng-message-exp="['required']"
@@ -85,20 +84,20 @@
                             </td>
                             <td md-cell>
                                 <md-input-container style="max-width: 60px">
-                                    <input ng-model="zone.valueFrom"
+                                    <input ng-model="zone.valueFrom" measure-input
                                            name="valueFrom"
-                                           ng-attr-measure-input={{$ctrl.intensityFactor}}
-                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
+                                           measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
+                                           ng-attr-sport={{$ctrl.sport}}
                                            ng-disabled="true">
                                 </md-input-container>
                             </td>
                             <td md-cell>
                                 <md-input-container style="max-width: 60px">
-                                    <input ng-model="zone.valueTo"
+                                    <input ng-model="zone.valueTo" measure-input
                                            name="valueTo"
                                            name="valueFrom"
-                                           ng-attr-measure-input={{$ctrl.intensityFactor}}
-                                           ng-attr-sport={{$ctrl.sport}} ng-attr-interval="false"
+                                           measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
+                                           ng-attr-sport={{$ctrl.sport}}
                                            ng-disabled="true">
                                 </md-input-container>
                             </td>

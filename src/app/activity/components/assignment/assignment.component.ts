@@ -77,7 +77,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
         this.$scope.measure = {
-            swim: ['movingDuration','distance', 'speed'],
+            swim: ['movingDuration','distance', 'heartRate','speed'],
             bike: ['movingDuration','distance','heartRate', 'speed','power'],
             run: ['movingDuration','distance','heartRate', 'speed'],
             strength: ['movingDuration','distance','heartRate'],
@@ -139,19 +139,6 @@ class ActivityAssignmentCtrl implements IComponentController {
         return ['speed','heartRate','power'].indexOf(key) !== -1;
     }
 
-    convertToFTP(measure, data, interval: boolean = true){
-        debugger;
-        let FTP = this.getFTP(measure, this.sport);
-        return interval ? Object.assign(data, {
-            [this.from]: data[this.from] * 100 / FTP,
-            [this.to]: data[this.to] * 100 / FTP
-        }) : data * 100 / FTP;
-    }
-
-    convertFromFTP(){
-
-    }
-
     getFTP(measure: string, sport: string = this.sport):number {
         let zones = this.item.currentUser.trainingZones;
         return (this.isInterval(measure) && 0) ||
@@ -185,25 +172,32 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     prepareDataForUpdate() {
-        this.plan.durationMeasure = (!!this.plan.distance.value && 'distance') ||
-            (!!this.plan.movingDuration.value && 'movingDuration') || null;
-        this.plan.durationValue =
-            (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure].value) || null;
+        this.plan.durationMeasure = (!!this.plan.distance['durationValue'] && 'distance') ||
+            (!!this.plan.movingDuration['durationValue'] && 'movingDuration') || null;
 
-        this.plan.intensityMeasure = (!!this.plan.heartRate[this.from] && 'heartRate') ||
-            (!!this.plan.speed[this.from] && 'speed') || (!!this.plan.power[this.from] && 'power') || null;
+        this.plan.durationValue =
+            (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure]['durationValue']) || null;
+
+        this.plan.intensityMeasure = (!!this.plan.heartRate[this.index[FtpState.Off]['from']] && 'heartRate') ||
+            (!!this.plan.speed[this.index[FtpState.Off]['from']] && 'speed') ||
+            (!!this.plan.power[this.index[FtpState.Off]['from']] && 'power') || null;
 
         this.plan.intensityLevelFrom =
-            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.from]) || null;
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.Off]['from']]) || null;
         this.plan.intensityLevelTo =
-            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.to]) || null;
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.Off]['to']]) || null;
+
+        this.plan.intensityByFtpFrom =
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.On]['from']]) || null;
+        this.plan.intensityByFtpTo =
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.On]['to']]) || null;
     }
 
     calcPercent(key: string): number {
 
         let plan = (this.plan[key].hasOwnProperty('durationValue') && this.plan[key].durationValue) ||
-            (this.plan[key][this.from] === this.plan[key][this.to] && this.plan[key][this.from]) ||
-            (this.plan[key][this.from] !== this.plan[key][this.to] && this.plan[key]) || null;
+            (this.plan[key][this.index[FtpState.Off]['from']] === this.plan[key][this.index[FtpState.Off]['to']] && this.plan[key][this.index[FtpState.Off]['from']]) ||
+            (this.plan[key][this.index[FtpState.Off]['from']] !== this.plan[key][this.index[FtpState.Off]['to']] && this.plan[key]) || null;
 
         let actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.valueType[key]]) || null;
 
@@ -212,13 +206,13 @@ class ActivityAssignmentCtrl implements IComponentController {
             if (typeof plan !== 'object') {
                 return actual / plan;
             } else if (key === 'speed') { //TODO сделать метод для определния велечин с обратным счетом
-                return  ((actual <= plan[this.from] && actual >= plan[this.to]) && 1) ||
-                        ((actual <= plan[this.to]) && actual/plan[this.to]) ||
-                        ((actual >= plan[this.from]) && actual/plan[this.from]);
+                return  ((actual <= plan[this.index[FtpState.Off]['from']] && actual >= plan[this.index[FtpState.Off]['to']]) && 1) ||
+                        ((actual <= plan[this.index[FtpState.Off]['to']]) && actual/plan[this.index[FtpState.Off]['to']]) ||
+                        ((actual >= plan[this.index[FtpState.Off]['from']]) && actual/plan[this.index[FtpState.Off]['from']]);
             } else {
-                return  ((actual >= plan[this.from] && actual <= plan[this.to]) && 1) ||
-                        ((actual >= plan[this.to]) && actual/plan[this.to]) ||
-                        ((actual <= plan[this.from]) && actual/plan[this.from]);
+                return  ((actual >= plan[this.index[FtpState.Off]['from']] && actual <= plan[this.index[FtpState.Off]['to']]) && 1) ||
+                        ((actual >= plan[this.index[FtpState.Off]['to']]) && actual/plan[this.index[FtpState.Off]['to']]) ||
+                        ((actual <= plan[this.index[FtpState.Off]['from']]) && actual/plan[this.index[FtpState.Off]['from']]);
             }
         } else {
             return null;
@@ -267,14 +261,14 @@ class ActivityAssignmentCtrl implements IComponentController {
             // Пользователь может указать только один парметр интенсивности
             if (this.form['plan_heartRate'] && this.form['plan_speed']) {
                 this.form['plan_heartRate'].$setValidity('singleIntensity',
-                    !(this.form['plan_heartRate'].$modelValue[this.from] > 0 &&
-                    this.form['plan_speed'].$modelValue[this.from] > 0));
+                    !(this.form['plan_heartRate'].$modelValue[this.index[FtpState.Off]['from']] > 0 &&
+                    this.form['plan_speed'].$modelValue[this.index[FtpState.Off]['from']] > 0));
             }
 
             if (this.form['plan_speed'] && this.form['plan_heartRate']) {
                 this.form['plan_speed'].$setValidity('singleIntensity',
-                    !(this.form['plan_heartRate'].$modelValue[this.from] > 0 &&
-                    this.form['plan_speed'].$modelValue[this.from] > 0));
+                    !(this.form['plan_heartRate'].$modelValue[this.index[FtpState.Off]['from']] > 0 &&
+                    this.form['plan_speed'].$modelValue[this.index[FtpState.Off]['from']] > 0));
             }
         }
 
@@ -288,59 +282,6 @@ class ActivityAssignmentCtrl implements IComponentController {
         this.onChange({plan: this.plan, actual: this.actual, form: this.form});
     }
 
-    measurePercentComplete() {
-
-    }
-
-    editComment (event, assignment) {
-        event.stopPropagation(); // in case autoselect is enabled
-
-        console.log('change item = ', event, assignment);
-
-        let editDialog = {
-            modelValue: this.$filter('measureEdit')(assignment.sourceMeasure, assignment[this.valueType[assignment.sourceMeasure]], this.sport),
-            clickOutsideToClose: true,
-            placeholder: assignment.code,
-            save: (input) => {
-                /*if(input.$modelValue === 'Donald Trump') {
-                    input.$invalid = true;
-                    return this.$q.reject();
-                }
-                if(input.$modelValue === 'Bernie Sanders') {
-                    return assignment.comment = 'FEEL THE BERN!';
-                }*/
-                debugger;
-                assignment[this.valueType[assignment.code]] = this.$filter('measureSave')(assignment.code,input.$modelValue, this.sport);
-                //if (event.target.className.search('intervalW') !== -1) {
-                    this.calculateCompletePercent();
-                //}
-                //this.onChange({upd: this.assignment});
-            },
-
-            targetEvent: event,
-            //title: 'Add a comment',
-            type: isDuration(measurementUnitDisplay(this.sport, assignment.sourceMeasure)) ||
-                isPace(measurementUnitDisplay(this.sport, assignment.sourceMeasure)) ? 'time' : 'number',
-            validators: validators(this.sport, assignment.sourceMeasure)
-        };
-
-        let promise;
-
-        if(this.options.largeEditDialog) {
-            promise = this.$mdEditDialog.large(editDialog);
-        } else {
-            promise = this.$mdEditDialog.small(editDialog);
-        }
-
-        promise.then(function (ctrl) {
-            var input = ctrl.getInput();
-
-            input.$viewChangeListeners.push(function () {
-                input.$setValidity('test', input.$modelValue !== 'test');
-            });
-        });
-    }
-
     /**
      * Расчет процента выполнения тренировки
      * Процент берется как среднеарифметическое от план/факт выполнения. Для расчета берутся только значения
@@ -352,17 +293,6 @@ class ActivityAssignmentCtrl implements IComponentController {
         return ((this.plan.durationMeasure && this.plan.intensityMeasure) &&
             this.percentComplete[this.plan.durationMeasure] * this.percentComplete[this.plan.intensityMeasure] ) ||
             (!this.plan.intensityMeasure && this.percentComplete[this.plan.durationMeasure]) || null;
-
-        /*let percent: Array<number> = Object.keys(this.percentComplete)
-            .filter(m => !!this.percentComplete[m])
-            .map(m => this.percentComplete[m]);
-
-        if (percent && percent.length) {
-            return percent.reduce((percent, value, i, arr) => {
-                console.log('calculateCompletePercent', percent, value, arr);
-                return (percent + value) / arr.length;
-            });
-        }*/
     }
 
 }

@@ -106,15 +106,12 @@
                         <tbody md-body>
                         <tr md-row
                             ng-repeat="measure in $ctrl.plan | toArray | orderBy:'order' | filter:search track by measure.$key">
-
                             <td md-cell>
                                 <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon>
                             </td>
-                            <td md-cell hide>
-                                {measure.$key | translate}}&nbsp({{measure.$key | measureUnit:$ctrl.sport | translate}})
-                            </td>
                             <td md-cell show>
-                                {{measure.$key | measureUnit:$ctrl.sport | translate}}
+                                <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure.$key)">{{'%ПАНО' | translate}}</span>
+                                <span ng-if="!($ctrl.isFTP() && $ctrl.isInterval(measure.$key))">{{measure.$key | measureUnit:$ctrl.sport | translate}}</span>
                             </td>
 
                             <td md-cell>
