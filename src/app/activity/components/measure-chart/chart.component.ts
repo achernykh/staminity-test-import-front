@@ -13,6 +13,9 @@ const ActivityChartComponent: IComponentOptions = {
         change: '<',
         changeMeasure: '<',
         sport: '<',
+        autoZoom: '<',
+        zoomInClick: '<',
+        zoomOutClick: '<',
         onSelected: '&'
     }
 };

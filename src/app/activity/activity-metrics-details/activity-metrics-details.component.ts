@@ -13,6 +13,9 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private showChart: boolean = true;
     private showTable: boolean = true;
     private fullScreenTable: boolean = false;
+    private zoomIn: number = 0;
+    private zoomOut: number = 0;
+    private autoZoom: boolean = true;
 
     private measures: {} = {};
     private measuresItem: {} = {};

@@ -33,6 +33,15 @@
         <md-icon class="material-icon">multiline_chart</md-icon>
         <p class="md-body-2" translate>График</p>
         <span flex></span>
+        <md-switch ng-model="$ctrl.autoZoom" aria-label="Switch 1">
+            AutoZoom: {{ $ctrl.autoZoom }}
+        </md-switch>
+        <md-button class="md-icon-button" ng-click="$ctrl.zoomIn = $ctrl.zoomIn+1">
+            <md-icon class="material-icons">zoom_in</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="$ctrl.zoomOut = $ctrl.zoomOut+1">
+            <md-icon class="material-icons">zoom_out</md-icon>
+        </md-button>
         <div ng-if="!$ctrl.item.activity.structured">
             <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary"
                        ng-click="$ctrl.changeChartX(measure)">
@@ -62,6 +71,9 @@
                            change-measure="$ctrl.changeMeasure"
                            sport="$ctrl.item.activity.sportBasic"
                            select="$ctrl.item.selectionTimestamp"
+                           auto-zoom="$ctrl.autoZoom"
+                           zoom-in-click="$ctrl.zoomIn"
+                           zoom-out-click="$ctrl.zoomOut"
                            on-selected="$ctrl.onSelectionRange(select)">График...
     </activity-metrics-char>
     <activity-segment-chart flex="none" ng-if="$ctrl.showChart && $ctrl.item.activity.structured && !$ctrl.fullScreenTable"
