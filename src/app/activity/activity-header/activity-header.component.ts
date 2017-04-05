@@ -17,6 +17,10 @@ export class ActivityHeaderCtrl implements IComponentController {
 
     $onInit() {
     }
+
+    toggleStrucuredMode() {
+        this.item.structuredMode = !this.item.structuredMode;
+    }
 }
 
 const ActivityHeaderComponent:IComponentOptions = {

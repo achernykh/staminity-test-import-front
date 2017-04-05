@@ -1,0 +1,60 @@
+<div layout="row">
+    <md-menu flex="none">
+        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+            <md-icon class="material-icons">arrow_drop_down</md-icon>
+        </md-button>
+        <md-menu-content width="3">
+            <md-menu-item>
+                <md-button ng-click="">
+                    <md-icon  md-svg-src="/assets/icon/duration.svg"></md-icon>
+                    Время
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="">
+                    <md-icon  md-svg-src="/assets/icon/distance.svg"></md-icon>
+                    Расстояние
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
+    <md-input-container flex="none">
+        <input measure-input
+               name="plan_{{::measure.$key}}"
+               ng-model="measure.durationValue"
+               measure="measure.$key"
+               ng-attr-sport={{$ctrl.sport}} interval="false"
+               ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
+               ng-change="$ctrl.changeValue(measure.$key)"
+               ng-disabled="false">
+    </md-input-container>
+    <md-menu flex="none">
+        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+            <md-icon class="material-icons">arrow_drop_down</md-icon>
+        </md-button>
+        <md-menu-content width="3">
+            <md-menu-item>
+                <md-button ng-click="">
+                    <md-icon  md-svg-src="/assets/icon/heartRate.svg"></md-icon>
+                    Пульс
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="">
+                    <md-icon  md-svg-src="/assets/icon/speed.svg"></md-icon>
+                    Скорость
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
+    <md-input-container flex="none">
+        <input measure-input
+               ng-model="measure"
+               name="plan_{{::measure.$key}}"
+               measure="measure.$key"
+               ng-attr-sport={{$ctrl.sport}} interval="true"
+               ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
+               ng-change="$ctrl.changeValue(measure.$key)"
+               ng-disabled="false">
+    </md-input-container>
+</div>

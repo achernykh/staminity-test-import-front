@@ -18,6 +18,9 @@ import ActivityHeaderZonesComponent from "./activity-header-zones/activity-heade
 import ActivityHeaderChatComponent from "./activity-header-chat/activity-header-chat.component";
 import DefaultPlanChartSettings from "./components/segment-chart/settings/settings.default";
 import PlanChartComponent from "./components/segment-chart/segmentsChart.component";
+import ActivitySegmentsComponent from "./activity-segments/activity-segments.component";
+import StructuredAssignmentComponent from "./components/structured-assignment/structured-assignment.component";
+import StructuredIntervalComponent from "./components/structured-interval/structured-interval.component";
 
 const Activity = module('staminity.activity', [])
     .service('ActivityService', ActivityService)
@@ -28,6 +31,9 @@ const Activity = module('staminity.activity', [])
 	.component('activityHeaderChat', ActivityHeaderChatComponent)
 	.component('activityMetricsDetails', ActivityMetricsDetailsComponent)
 	.component('activitySummaryInfo', ActivitySummaryInfoComponent)
+	.component('activitySegments', ActivitySegmentsComponent)
+	.component('structuredInterval', StructuredIntervalComponent)
+	.component('structuredAssignment', StructuredAssignmentComponent)
 	.component('measureMainButton',MeasureMainButtonComponent)
 	.component('measuresAvgTable',MeasuresAvgTableComponent)
 	.component('measureSplitTable', MeasureSplitTableComponent)

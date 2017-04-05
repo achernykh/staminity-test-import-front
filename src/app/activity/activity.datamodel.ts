@@ -22,7 +22,7 @@ export enum ActivityStatus {
 
 }
 
-class Interval implements IActivityInterval {
+export class Interval implements IActivityInterval {
 	trainersPrescription: string;
 	durationMeasure: string; //movingDuration/distance, каким показателем задается длительность планового сегмента
 	durationValue: number; // длительность интервала в ед.изм. показателя длительности
@@ -161,9 +161,17 @@ export class Activity extends CalendarItem {
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 	}
 
-	completeInterval(interval: IActivityIntervalL) {
+	completeInterval(interval: IActivityIntervalL | IActivityIntervalP) {
 		this.header.intervals.push(interval);
-		this.intervalU = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "U");
+		switch (interval.type) {
+			case 'U': {
+				this.intervalU = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "U");
+				break;
+			}
+			case 'P': {
+				this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
+			}
+		}
 	}
 
 	// Подготовка данных для модели отображения
