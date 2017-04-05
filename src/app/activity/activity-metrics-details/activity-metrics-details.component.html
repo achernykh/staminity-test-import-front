@@ -31,27 +31,27 @@
 
     <header flex="none" layout="row" layout-align="start center" ng-if="!$ctrl.fullScreenTable">
         <md-icon class="material-icon">multiline_chart</md-icon>
-        <p class="md-body-2" translate>График</p>
-        <span flex></span>
-        <md-switch ng-model="$ctrl.autoZoom" aria-label="Switch 1">
-            AutoZoom: {{ $ctrl.autoZoom }}
+        <p class="md-body-2" style="margin-right: 16px" translate>График</p>
+        <md-switch ng-model="$ctrl.autoZoom" class="md-primary md-hue-1" aria-label="Switch 1">
+            <span class="md-caption">Autozoom: {{ $ctrl.autoZoom }}</span>
         </md-switch>
-        <md-button class="md-icon-button" ng-click="$ctrl.zoomIn = $ctrl.zoomIn+1">
+        <md-button class="md-icon-button" ng-click="$ctrl.zoomIn = $ctrl.zoomIn+1" ng-if="!$ctrl.autoZoom">
             <md-icon class="material-icons">zoom_in</md-icon>
         </md-button>
-        <md-button class="md-icon-button" ng-click="$ctrl.zoomOut = $ctrl.zoomOut+1">
+        <md-button class="md-icon-button" ng-click="$ctrl.zoomOut = $ctrl.zoomOut+1" ng-if="!$ctrl.autoZoom">
             <md-icon class="material-icons">zoom_out</md-icon>
         </md-button>
+        <span flex></span>
         <div ng-if="!$ctrl.item.activity.structured">
-            <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary"
+            <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartX(measure)">
                 <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
-                <span>{{measure | translate}}</span>
+                <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
-            <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary"
+            <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartMetrics(measure)">
                 <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
-                <span>{{measure | translate}}</span>
+                <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
             <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
                 <md-icon class="md-secondary material-icon md-dark"

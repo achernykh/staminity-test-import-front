@@ -320,11 +320,13 @@ class ActivityChartController implements IComponentController {
         let bottomRange = this.height;
         let areaFunction = d3.area()
             .defined(this.isDataDefined)
+            //.interpolate('monotone')
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
             .y1(function (d) { return rangeScale(d[metric]); });
         let initArea = d3.area()
             .defined(this.isDataDefined)
+            //.interpolate('monotone')
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
             .y1(function () { return bottomRange; });
