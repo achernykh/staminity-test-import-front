@@ -1,0 +1,56 @@
+structured-interval {
+
+  div.segment-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: lightslategray;
+    cursor: pointer
+  }
+
+  div.interval-data, div.interval-comment {
+    padding: 0px 16px;
+  }
+
+  md-input-container{
+    margin: 0px;
+    padding: 2px 0px 0px 0px;
+
+    input {
+      text-align: right;
+      //border-color: rgba(0,0,0,0.0);
+    }
+
+    div.md-errors-spacer {
+      min-height: 0px;
+    }
+  }
+
+  md-menu button {
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+
+  md-menu button md-icon {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  md-input-container.duration {
+    width: 55px;
+    margin-right: 8px;
+  }
+
+  md-input-container.intensity {
+    width: 80px
+  }
+
+  md-icon.duration, md-icon.intensity {
+    margin: 0px;
+  }
+
+  md-icon.duration {
+    margin-left: 8px;
+  }
+
+}

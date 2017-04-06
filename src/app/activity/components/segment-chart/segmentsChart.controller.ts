@@ -30,6 +30,7 @@ class SegmentChartController implements IComponentController {
     private select: Array<number>;
     private actualFtp;
     private planFtp;
+    private view: string;
     private durationMeasure: string;
     private onSelect: Function;
 
@@ -57,9 +58,11 @@ class SegmentChartController implements IComponentController {
         private chartSettings: IPlanChartSettings,
         private $mdMedia: any) {
 
-        this.chartSettings.minAspectRation = (this.$mdMedia('gt-md') && 0.20)
-            || (this.$mdMedia('gt-lg') && 0.10)
-            || this.chartSettings.minAspectRation;
+        if (this.view !== 'mobile') {
+            this.chartSettings.minAspectRation = (this.$mdMedia('gt-md') && 0.20)
+                || (this.$mdMedia('gt-lg') && 0.10)
+                || this.chartSettings.minAspectRation;
+        }
     }
 
     $onInit(): void {
@@ -87,6 +90,7 @@ class SegmentChartController implements IComponentController {
         for (let item in changes) {
             isFirst = isFirst && changes[item].isFirstChange();
         }
+        debugger;
         if (isFirst) {
             return;
         }
@@ -114,6 +118,7 @@ class SegmentChartController implements IComponentController {
     }
 
     private prepareData(): void {
+        debugger;
         let model = new PlanChartDatamodel(this.activityHeader);
         this.intervals = model.getIntervals();
         this.select = this.select || [];

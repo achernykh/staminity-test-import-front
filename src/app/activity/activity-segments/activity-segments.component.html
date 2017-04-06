@@ -1,3 +1,12 @@
-<div>График</div>
+<activity-segment-chart flex="none" style="margin: 8px 16px"
+                        activity-header="$ctrl.item.activity.intervalP"
+                        selected=""
+                        actual-ftp="false"
+                        plan-ftp="true"
+                        duration-measure="movingDuration"
+                        view="'mobile'"
+                        change="$ctrl.item.changeStructuredAssignment"
+                        on-select="$ctrl.onChartSelect(segmentId)">
+</activity-segment-chart>
 <structured-assignment plan="$ctrl.item.activity.intervalP"></structured-assignment>
 <md-button ng-click="$ctrl.addInterval()">Добавить</md-button>

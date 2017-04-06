@@ -59,6 +59,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     private selectedIntervalType: string;
     private changeSelectInterval: number = 0;
+    public changeStructuredAssignment: number = 0;
 
     private headerSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Заголовок
     private detailsSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Детали

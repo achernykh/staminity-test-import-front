@@ -1,2 +1,3 @@
 <structured-interval ng-repeat="interval in $ctrl.plan track by $index"
-                     interval="interval"></structured-interval>
+                     interval="interval" sport="$ctrl.item.activity.sportBasic"
+                     on-change="$ctrl.change($index,interval)"></structured-interval>

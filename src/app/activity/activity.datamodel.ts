@@ -82,6 +82,15 @@ export class Interval implements IActivityInterval {
 			trainingLoad: { code: 'trainingLoad', value: null, minValue: null, avgValue: null, maxValue: null}, // тренировочная нагрузка
 			completePercent: { code: 'completePercent', value: null, minValue: null, avgValue: null, maxValue: null}, // процент выполнения сегмента по отношению к плановым значениям
 		};
+
+		if (type === 'P') {
+			this.durationMeasure = null;
+			this.intensityMeasure = null;
+			this.intensityLevelFrom = null;
+			this.intensityByFtpTo = null;
+			this.intensityByFtpFrom = null;
+			this.intensityByFtpTo = null;
+		}
 	}
 }
 

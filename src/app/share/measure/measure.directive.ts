@@ -1,6 +1,8 @@
 import {merge, IScope, IDirective, IAttributes, IAugmentedJQuery, INgModelController, IFilterService} from 'angular';
 import {Measure} from "./measure.constants";
 import moment from 'moment/src/moment.js';
+import {IActivityIntervalP} from "../../../../api/activity/activity.interface";
+import {Interval} from "../../activity/activity.datamodel";
 
 
 interface IScopeMeasureInput extends IScope {
@@ -103,7 +105,7 @@ export function MeasurementInput($filter): IDirective {
 		let isFTPMeasure = false;
 
 		let measure:Measure = null;
-		let initial: Object = {};
+		let initial: Interval = new Interval('P');
 		let mask: any; //функция преобразование ввода по маске
 		let convert: any; //функция преобразования значения после потери фокуса
 
@@ -112,7 +114,7 @@ export function MeasurementInput($filter): IDirective {
 
 		// Преобразование для ввода пульса
 		const paceIntervalParsers = (value) => {
-			debugger;
+			//debugger;
 			console.log('$parsers=',value);
 
 			let sep = value.search('-');
@@ -181,6 +183,7 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const durationParsers = (value) => {
+			debugger;
 			return $filter('measureSave')(measure.name, value, measure.sport);
 		};
 
@@ -199,7 +202,7 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const paceIntervalFormatters = (value: any) => {
-			debugger;
+			//debugger;
 			console.log('check pace interval formatters', value);
 			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
 				initial = value;
@@ -207,7 +210,14 @@ export function MeasurementInput($filter): IDirective {
 					$filter('measureCalc')(value[$scope.to], measure.sport, measure.name)+'-'+$filter('measureCalc')(value[$scope.from], measure.sport, measure.name):
 					$filter('measureCalc')(value[$scope.from], measure.sport, measure.name);
 			} else {
-				initial = {[$scope.from]: null, [$scope.to]: null};
+				//debugger;
+				initial = Object.assign(initial, {
+					type: value.hasOwnProperty('type') && value.type || null,
+					trainersPrescription: value.hasOwnProperty('trainersPrescription') && value.trainersPrescription || null,
+					durationMeasure: value.hasOwnProperty('durationMeasure') && value.durationMeasure || null,
+					intensityMeasure: value.hasOwnProperty('intensityMeasure') && value.intensityMeasure || null,
+					[$scope.from]: null,
+					[$scope.to]: null});
 				return initial;
 			}
 		};
@@ -220,19 +230,19 @@ export function MeasurementInput($filter): IDirective {
 				$filter('measureCalc')(value[$scope.from], measure.sport, measure.name)+'-'+$filter('measureCalc')(value[$scope.to], measure.sport, measure.name):
 					$filter('measureCalc')(value[$scope.from], measure.sport, measure.name);
 			} else {
-				initial = {[$scope.from]: null, [$scope.to]: null};
+				initial = Object.assign(initial, {[$scope.from]: null, [$scope.to]: null});
 				return initial;
 			}
 		};
 
 		const numberFtpIntervalFormatters = (value: any) => {
-			debugger;
+			//debugger;
 			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
 				initial = value;
 				let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
 				return (newValue[$scope.from] !== newValue.to) ? `${newValue[$scope.from].toFixed(0)}`+'-'+`${newValue[$scope.to].toFixed(0)}` : `${newValue[$scope.from].toFixed(0)}`;
 			} else {
-				initial = {from: null, to: null};
+				initial = Object.assign(initial, {[$scope.from]: null, [$scope.to]: null});
 				return initial;
 			}
 		};
@@ -254,14 +264,14 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const paceIntervalValidators = (model: any) => {
-			debugger;
+			//debugger;
 			//console.log('check pace interval validators', model, typeof model, model.from, model.to);
 			return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
                 model[$scope.from] <= model[$scope.to];
 		};
 
 		const numberIntervalValidators = (model: any) => {
-			debugger;
+			//debugger;
 			//console.log('check number interval validators', model.from, model.to, model.from <= model.to);
 			return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
 				model[$scope.from] <= model[$scope.to];
@@ -306,7 +316,7 @@ export function MeasurementInput($filter): IDirective {
 
 			if($ctrl.$modelValue || $ctrl.$viewValue) {
 				let percent: number = $scope.ftpMode ? 100 : 1;
-				debugger;
+				//gger;
 				// Пустое значение в модели данных, в представление = '
 				if (!$ctrl.$modelValue[$scope.from]) {
 					$ctrl.$viewValue = '';
@@ -330,6 +340,13 @@ export function MeasurementInput($filter): IDirective {
 				}
 			}
 			$ctrl.$render();
+		});
+
+		$scope.$watch('measure',(value:boolean, last:boolean) => {
+			if (value === last && !!!value) {
+				return;
+			}
+			setParams();
 		});
 
 		setParams();
@@ -373,8 +390,8 @@ export function MeasurementInput($filter): IDirective {
 
 						} else {
 							$ctrl.$validators['duration'] = durationValidators;
-							$ctrl.$formatters.push(durationFormatters);
-							$ctrl.$parsers.push(durationParsers);
+							$ctrl.$formatters = [durationFormatters];
+							$ctrl.$parsers = [durationParsers];
 							convert = convertToDuration;
 							//mask = toDuration;
 						}

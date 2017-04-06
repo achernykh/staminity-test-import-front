@@ -1,7 +1,5 @@
 <activity-summary-info flex="none" ng-if="$ctrl.item.mode === 'view'" class="{{$ctrl.item.activity.status}}">
 </activity-summary-info>
-
-
     <fieldset ng-disabled="$ctrl.item.mode === 'view'">
         <md-list flex="none" class="md-dense slim-input bg-grey-200"
                  ng-if="$ctrl.item.mode !== 'view'">
@@ -50,6 +48,12 @@
                         </div>
                     </div>
                 </md-input-container>
+            </md-list-item>
+            <md-list-item ng-if="$ctrl.item.activity.sport">
+                <md-icon class="material-icons" style="margin-right: 20px">format_list_numbered</md-icon>
+                <p>Структурированное задание</p>
+                <md-switch class="md-secondary md-primary"
+                           ng-model="$ctrl.item.structuredMode" md-invert>
             </md-list-item>
             <md-list-item layout="row" layout-align="start center">
                 <md-input-container flex="50" class="no-message" md-no-float>

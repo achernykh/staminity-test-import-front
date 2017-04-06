@@ -1,60 +1,65 @@
-<div layout="row">
+<div layout="row" layout-align="start center" class="md-dense interval-data">
+    <div class="segment-point" flex="none" ng-init="showComment = false" ng-click="showComment = !showComment"></div>
+    <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="duration"></md-icon>
     <md-menu flex="none">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon class="material-icons">arrow_drop_down</md-icon>
         </md-button>
         <md-menu-content width="3">
-            <md-menu-item>
-                <md-button ng-click="">
-                    <md-icon  md-svg-src="/assets/icon/duration.svg"></md-icon>
-                    Время
-                </md-button>
-            </md-menu-item>
-            <md-menu-item>
-                <md-button ng-click="">
-                    <md-icon  md-svg-src="/assets/icon/distance.svg"></md-icon>
-                    Расстояние
+            <md-menu-item ng-repeat="measure in $ctrl.durationMeasure track by $index">
+                <md-button ng-click="$ctrl.interval.durationMeasure = measure">
+                    <md-icon  md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
+                    <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
             </md-menu-item>
         </md-menu-content>
     </md-menu>
-    <md-input-container flex="none">
+    <md-input-container flex="none" class="duration">
         <input measure-input
-               name="plan_{{::measure.$key}}"
-               ng-model="measure.durationValue"
-               measure="measure.$key"
+               name="plan_duration"
+               ng-model="$ctrl.interval.durationValue"
+               measure="$ctrl.interval.durationMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="false"
-               ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-               ng-change="$ctrl.changeValue(measure.$key)"
+               ftp-mode="false" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
+               ng-change="$ctrl.changeValue($ctrl.interval.durationMeasure)"
                ng-disabled="false">
     </md-input-container>
+    <span flex="auto"></span>
+    <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.intensityMeasure}}.svg" class="intensity"></md-icon>
     <md-menu flex="none">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon class="material-icons">arrow_drop_down</md-icon>
         </md-button>
         <md-menu-content width="3">
-            <md-menu-item>
-                <md-button ng-click="">
-                    <md-icon  md-svg-src="/assets/icon/heartRate.svg"></md-icon>
-                    Пульс
-                </md-button>
-            </md-menu-item>
-            <md-menu-item>
-                <md-button ng-click="">
-                    <md-icon  md-svg-src="/assets/icon/speed.svg"></md-icon>
-                    Скорость
+            <md-menu-item ng-repeat="measure in $ctrl.intensityMeasure[$ctrl.sport] track by $index">
+                <md-button ng-click="$ctrl.interval.intensityMeasure = measure">
+                    <md-icon  md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
+                    <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
             </md-menu-item>
         </md-menu-content>
     </md-menu>
-    <md-input-container flex="none">
+    <md-input-container flex="none" class="intensity">
         <input measure-input
-               ng-model="measure"
-               name="plan_{{::measure.$key}}"
-               measure="measure.$key"
+               ng-model="$ctrl.interval"
+               name="plan_intensity"
+               measure="$ctrl.interval.intensityMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="true"
-               ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-               ng-change="$ctrl.changeValue(measure.$key)"
+               ftp-mode="false" ftp="$ctrl.getFTP()"
+               ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
                ng-disabled="false">
+    </md-input-container>
+    <md-button class="md-icon-button">
+        <md-icon class="material-icons md-dark md-inactive">close</md-icon>
+    </md-button>
+</div>
+<div class="interval-comment md-dense" ng-if="showComment">
+    <md-input-container flex class="md-block no-message">
+        <textarea ng-model="$ctrl.interval.trainersPrescription"
+                  ng-change="$ctrl.changeParam()"
+                  ng-disabled="false"
+                  class="icon" name="trainersPrescription"
+                  rows="1"></textarea>
     </md-input-container>
 </div>
+<div class="interval-comment md-dense md-caption md-dark md-inactive" ng-if="!showComment">{{$ctrl.interval.trainersPrescription}}</div>

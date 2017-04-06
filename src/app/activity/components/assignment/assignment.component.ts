@@ -10,7 +10,7 @@ import {IAuthService} from "../../../auth/auth.service";
 
 const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 
-enum FtpState {
+export enum FtpState {
     On,
     Off
 }

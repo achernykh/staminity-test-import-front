@@ -1,10 +1,13 @@
 import './structured-assignment.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {IActivityIntervalP} from "../../../../../api/activity/activity.interface";
+import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 
 class StructuredAssignmentCtrl implements IComponentController {
 
     public plan: Array<IActivityIntervalP>;
+    public item: CalendarItemActivityCtrl;
+
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
@@ -15,6 +18,11 @@ class StructuredAssignmentCtrl implements IComponentController {
     $onInit() {
 
     }
+
+    change(index: number, interval: IActivityIntervalP) {
+        this.plan[index] = interval;
+        this.item.changeStructuredAssignment ++;
+    }
 }
 
 const StructuredAssignmentComponent:IComponentOptions = {
@@ -23,7 +31,7 @@ const StructuredAssignmentComponent:IComponentOptions = {
         onEvent: '&'
     },
     require: {
-        //component: '^component'
+        item: '^calendarItemActivity'
     },
     controller: StructuredAssignmentCtrl,
     template: require('./structured-assignment.component.html') as string
