@@ -9,7 +9,7 @@ $contrast-black-medium:  0.70;
 $contrast-black-high:    1.00;
 
 // Палитра Blue-Grey Google Material
-$blue-grey-50: #ECEFF1;
+$blue-grey-050: #ECEFF1;
 $blue-grey-100: #CFD8DC;
 $blue-grey-200: #B0BEC5;
 $blue-grey-300: #90A4AE;
@@ -21,7 +21,7 @@ $blue-grey-800: #37474F;
 $blue-grey-900: #263238;
 
 // Палитра Grey Google Material
-$grey-50: #FAFAFA;
+$grey-050: #FAFAFA;
 $grey-100: #F5F5F5;
 $grey-200: #EEEEEE;
 $grey-300: #E0E0E0;
@@ -64,7 +64,7 @@ $red-900: #B71C1C;
 //TODO В дальнейшем убрать данный блок и использовать только абсолютные названия палитры
 /* Цвета палитры material design */
 $primary-default: 		$blue-grey-500;
-$primary-hue-1: 		$blue-grey-50;
+$primary-hue-1: 		$blue-grey-050;
 $primary-hue-2: 		$blue-grey-600;
 $primary-hue-3: 		$blue-grey-800;
 
@@ -91,6 +91,9 @@ $success-color-hover:	$teal-900;
 
 // Серо-голубой, основной цвет
 .bg-blue-grey {
+	&-050 {
+		background-color: $grey-050;
+	}
   	&-100 {
 		background-color: $blue-grey-100;
   	}
@@ -132,6 +135,9 @@ $success-color-hover:	$teal-900;
 
 // Серый, цвето фона
 .bg-grey {
+	&-050 {
+		background-color: $grey-050;
+	}
 	&-100 {
 		background-color: $grey-100;
 	}

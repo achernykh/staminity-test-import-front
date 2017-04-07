@@ -1,11 +1,24 @@
 dashboard-day {
+
+  //margin-top: 4px;
+  //margin-bottom: 4px;
+
+  &:hover div.post-panel{
+    //visibility: visible;
+    //height: 24px;
+    //max-height: 900px;
+    opacity: 1;
+  }
+
   .post-panel {
     //visibility: hidden;
     //max-height: 0px;
-    //height: 20px;
+    height: 0px;
     margin: 4px 0px;
     cursor: pointer;
     opacity: 0;
+    display: none;
+    //height: 0px;
     transition: all 0.3s ease-in-out;
 
     button {
@@ -14,12 +27,6 @@ dashboard-day {
       height: 24px !important;
       min-width: 24px !important;
       min-height: 24px !important;
-    }
-
-    &:hover {
-      visibility: visible;
-      //max-height: 900px;
-      opacity: 1;
     }
   }
 }

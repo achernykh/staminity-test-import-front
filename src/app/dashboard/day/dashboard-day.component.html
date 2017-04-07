@@ -1,5 +1,5 @@
-<dashboard-activity ng-repeat="item in $ctrl.day.data.calendarItems | filter:{calendarItemType: 'activity'} track by $index" item="item"
-                    ng-click="$ctrl.onOpen($event,'view',item)" style="cursor: pointer">
+<dashboard-activity ng-repeat="item in $ctrl.day.data.calendarItems | filter:{calendarItemType: 'activity'} track by $index"
+                    item="item" athlete="$ctrl.athlete">
 </dashboard-activity>
 
 <div layout="row" layout-align="center center" flex="grow" hide show-gt-sm

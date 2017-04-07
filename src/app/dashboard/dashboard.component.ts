@@ -110,6 +110,10 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
+    onDeleteItem(data: Activity){
+
+    }
+
     onOpen($event, mode, data) {
         this.$mdDialog.show({
             controller: DialogController,

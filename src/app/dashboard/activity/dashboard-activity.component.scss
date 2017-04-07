@@ -2,8 +2,15 @@
 @import "../../../sass/base";
 
 dashboard-activity {
+
+  cursor: pointer;
+
   @extend .bg-grey-400;
   @extend .md-whiteframe-1dp;
+
+  md-icon.sport {
+    margin: 0px !important;
+  }
 
   .activity-header {
     //@include border-radius-custom(3px, 3px, 0px, 0px);
@@ -27,7 +34,7 @@ dashboard-activity {
       #more {
         //@extend .light-active;
       }
-      @extend .bg-teal-500;
+      @extend .bg-teal-600;
 
       .bg-circle-32 {
         @extend .bg-teal-800;
@@ -44,7 +51,7 @@ dashboard-activity {
       // Задание выполнено с отклонениями
       &-warn {
         color: white;
-        @extend .bg-orange-500;
+        @extend .bg-orange-600;
         .bg-circle-32 {
           @extend .bg-orange-800;
         }
@@ -61,7 +68,7 @@ dashboard-activity {
       // Задание выполнено с существенными отклонениями
       &-error {
         color: white;
-        @extend .bg-red-500;
+        @extend .bg-red-600;
         .bg-circle-32 {
           @extend .bg-red-800;
         }
@@ -77,7 +84,7 @@ dashboard-activity {
     }
 
     &.dismiss {
-      @extend .bg-red-500;
+      @extend .bg-red-600;
       color: white;
 
       .bg-circle-32 {
@@ -97,7 +104,7 @@ dashboard-activity {
     }
 
     &.not-specified {
-      @extend .bg-blue-grey-400;
+      @extend .bg-blue-grey-500;
       color: white;
 
       .bg-circle-32 {
@@ -155,12 +162,13 @@ dashboard-activity {
   div.duration {
     text-align: right;
     font-weight: 500;
+    text-transform: lowercase;
   }
 
   div.category {
     text-align: right;
     line-height: 14px;
-    white-space: pre-line;
+    //white-space: pre-line;
   }
 
 }
