@@ -24,16 +24,7 @@
                         <userpic profile="calendar.profile"></userpic>
                         <span class="md-body-2">{{calendar.profile | username}}</span>
                     </dashboard-athlete>
-                    <dashboard-day class="day" ng-repeat="day in calendar.subItem track by $index">
-                        <dashboard-activity ng-repeat="item in day.data.calendarItems track by $index"
-                                            ng-click="$ctrl.onOpen($event,'view',item)" style="cursor: pointer">
-                            <div style="background-color: grey">
-                                <md-icon md-svg-src="/assets/icon/{{::item.activityHeader.activityType.code}}.svg"
-                                         style="margin-left: 4px"
-                                         class="s24 light-active"></md-icon>
-                                <span class="md-caption">{{'category.'+item.activityHeader.activityCategory.code | translate}}</span>
-                            </div>
-                        </dashboard-activity>
+                    <dashboard-day class="day" ng-repeat="day in calendar.subItem track by $index" day="day" athlete="calendar.profile">
                     </dashboard-day>
                     <dashboard-total class="total">
 

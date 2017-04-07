@@ -1,0 +1,25 @@
+dashboard-day {
+  .post-panel {
+    //visibility: hidden;
+    //max-height: 0px;
+    //height: 20px;
+    margin: 4px 0px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+
+    button {
+      padding: 0px !important;
+      width: 24px !important;
+      height: 24px !important;
+      min-width: 24px !important;
+      min-height: 24px !important;
+    }
+
+    &:hover {
+      visibility: visible;
+      //max-height: 900px;
+      opacity: 1;
+    }
+  }
+}

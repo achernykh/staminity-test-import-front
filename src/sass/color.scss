@@ -29,6 +29,7 @@ $grey-400: #BDBDBD;
 $grey-500: #9e9e9e;
 $grey-600: #757575;
 $grey-700: #616161;
+$grey-800: #424242;
 
 // Палитра Teal Google Material
 $teal-500: #009688;
@@ -96,6 +97,9 @@ $success-color-hover:	$teal-900;
   	&-300 {
 		background-color: $blue-grey-300;
   	}
+	&-400 {
+		background-color: $blue-grey-400;
+	}
 	&-500 {
 		background-color: $blue-grey-500;
 	}
@@ -148,6 +152,9 @@ $success-color-hover:	$teal-900;
 	}
 	&-700 {
 		background-color: $grey-700;
+	}
+	&-800 {
+		background-color: $grey-800;
 	}
 	&-gradient-500-300 {
 		background-image: linear-gradient(to bottom, $grey-500, rgba($grey-300, 0.5));

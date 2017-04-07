@@ -1,0 +1,29 @@
+<div class="activity-header {{::$ctrl.activity.status}}" ng-click="$ctrl.onOpen($env,'view')">
+    <section class="first-line" layout="row" layout-align="space-between start">
+        <md-icon flex="none" md-svg-src="/assets/icon/{{::$ctrl.activity.sportBasic}}.svg" style="margin-left: 4px"
+                 class="s24 light-active"></md-icon>
+        <div flex="auto" class="md-caption duration" ng-if="::(!!$ctrl.activity.movingDuration || $ctrl.activity.distance)">
+            <div flex="none" ng-if="::$ctrl.activity.movingDuration">
+                {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.sportBasic:'movingDuration'}}</div>
+            <div flex="none" ng-if="::$ctrl.activity.distance">
+                <span>&nbsp&nbsp</span>
+                {{::$ctrl.data.distance | measureCalc:$ctrl.activity.sportBasic:'distance'}}&nbsp
+                {{'distance' | measureUnit:$ctrl.activity.sportBasic | translate}}</div>
+        </div>
+    </section>
+    <section class="second-line" layout="row" layout-align="space-between end">
+        <md-menu flex="none" class="menu">
+            <md-button class="md-icon-button" aria-label="More Event"
+                       ng-click="$mdOpenMenu($event)">
+                <md-icon class="material-icons md-18">more_vert</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item><md-button ng-click="$ctrl.onOpen($env,'put')">Изменить</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.isCreator">Удалить</md-button></md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <div flex="auto" class="md-caption category" ng-if="::$ctrl.activity.categoryCode">
+            {{'category.'+$ctrl.activity.categoryCode | translate}}</div>
+    </section>
+</div>

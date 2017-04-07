@@ -1,0 +1,166 @@
+@import "../../../sass/color";
+@import "../../../sass/base";
+
+dashboard-activity {
+  @extend .bg-grey-400;
+  @extend .md-whiteframe-1dp;
+
+  .activity-header {
+    //@include border-radius-custom(3px, 3px, 0px, 0px);
+    padding: 4px;
+
+    &:hover {
+      md-menu.menu button{
+        //background-color: #0000AA !important;
+        visibility: visible;
+      }
+    }
+
+    &:focus {
+      outline:0;
+    }
+
+    &.complete {
+      // Задание выполнено без отклонений
+
+      color: white;
+      #more {
+        //@extend .light-active;
+      }
+      @extend .bg-teal-500;
+
+      .bg-circle-32 {
+        @extend .bg-teal-800;
+      }
+
+      &:hover, &.selected {
+        @extend .bg-teal-800;
+
+        .bg-circle-32 {
+          @extend .bg-teal-900;
+        }
+      }
+
+      // Задание выполнено с отклонениями
+      &-warn {
+        color: white;
+        @extend .bg-orange-500;
+        .bg-circle-32 {
+          @extend .bg-orange-800;
+        }
+
+        &:hover, &.selected {
+          @extend .bg-orange-800;
+
+          .bg-circle-32 {
+            @extend .bg-orange-900;
+          }
+        }
+      }
+
+      // Задание выполнено с существенными отклонениями
+      &-error {
+        color: white;
+        @extend .bg-red-500;
+        .bg-circle-32 {
+          @extend .bg-red-800;
+        }
+
+        &:hover, &.selected {
+          @extend .bg-red-800;
+
+          .bg-circle-32 {
+            @extend .bg-red-900;
+          }
+        }
+      }
+    }
+
+    &.dismiss {
+      @extend .bg-red-500;
+      color: white;
+
+      .bg-circle-32 {
+        @extend .bg-red-800;
+      }
+
+      #more {
+        //@extend .light-active;
+      }
+
+      &:hover, &.selected{
+        @extend .bg-red-800;
+        .bg-circle-32 {
+          @extend .bg-red-900;
+        }
+      }
+    }
+
+    &.not-specified {
+      @extend .bg-blue-grey-400;
+      color: white;
+
+      .bg-circle-32 {
+        @extend .bg-blue-grey-600;
+      }
+
+      #more {
+        //@extend .light-active;
+      }
+
+      &:hover, &.selected{
+        @extend .bg-blue-grey-800;
+        .bg-circle-32 {
+          @extend .bg-blue-grey-900;
+        }
+      }
+    }
+    &.coming {
+      @extend .bg-grey-300;
+      color: rgba(0,0,0,0.54);
+
+      .bg-circle-32 {
+        @extend .bg-grey-600;
+      }
+
+      #more {
+        //@extend .light-active;
+      }
+
+      &:hover, &.selected{
+        @extend .bg-grey-500;
+        .bg-circle-32 {
+          @extend .bg-grey-800;
+        }
+      }
+    }
+
+  }
+
+  md-menu.menu button{
+    visibility: hidden;
+    padding: 0px !important;
+    margin: 0px !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+
+    &:hover {
+
+    }
+
+  }
+
+  div.duration {
+    text-align: right;
+    font-weight: 500;
+  }
+
+  div.category {
+    text-align: right;
+    line-height: 14px;
+    white-space: pre-line;
+  }
+
+}

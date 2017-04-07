@@ -8,6 +8,7 @@ import {IUserProfile} from "../../../api/user/user.interface";
 import {IGroupManagementProfile, IUserManagementProfile} from "../../../api/group/group.interface";
 import { times } from '../share/util.js';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
+import {Activity} from "../activity/activity.datamodel";
 
 export interface IDashboardWeek {
     sid: number;
@@ -21,9 +22,9 @@ export interface IDashboardDay {
     data: {
         calendarItems: Array<ICalendarItem>;
     };
+    date: Date;
 };
-
-class DashboardCtrl implements IComponentController {
+export class DashboardCtrl implements IComponentController {
 
     public currentUser: IUserProfile;
     public groupId: number;
@@ -89,7 +90,8 @@ class DashboardCtrl implements IComponentController {
                             subItem: times(7).map(i => ({
                                 data: {
                                     calendarItems: []
-                                }
+                                },
+                                date: moment(start).add(i,'day').format(this.dateFormat)
                             }))
                         }))
                     });
@@ -102,6 +104,10 @@ class DashboardCtrl implements IComponentController {
                     this.$scope.$apply();
                 }, error => console.error(error));
         }
+    }
+
+    onPostItem(data: Activity) {
+
     }
 
     onOpen($event, mode, data) {
