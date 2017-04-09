@@ -13,6 +13,9 @@ class DashboardActivityCtrl implements IComponentController {
     private athlete: IUserProfile;
     private dashboard: DashboardCtrl;
 
+    private isOwner: boolean = false;
+    private isCreator: boolean = false;
+
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = ['$mdDialog','message'];
 
@@ -23,6 +26,10 @@ class DashboardActivityCtrl implements IComponentController {
     $onInit() {
         this.activity = new Activity(this.item);
         this.activity.prepare();
+
+        this.isOwner = this.activity.userProfileOwner.userId === this.dashboard.coach.userId;
+        this.isCreator = this.activity.userProfileCreator.userId === this.dashboard.coach.userId;
+
     }
 
     onOpen($event, mode: string) {
@@ -73,12 +80,16 @@ class DashboardActivityCtrl implements IComponentController {
             });
     }
 
+    onDelete() {
+        this.dashboard.onDeleteItem(this.item);
+    }
+
 }
 
 const DashboardActivityComponent:IComponentOptions = {
     bindings: {
         item: '<',
-        profile: '<',
+        athlete: '<',
         onEvent: '&'
     },
     require: {

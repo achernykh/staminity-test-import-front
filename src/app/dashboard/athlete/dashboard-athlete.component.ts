@@ -1,9 +1,10 @@
 import './dashboard-athlete.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IUserProfile} from "../../../../api/user/user.interface";
 
 class DashboardAthleteCtrl implements IComponentController {
 
-    public data: any;
+    public profile: IUserProfile;
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
@@ -18,7 +19,7 @@ class DashboardAthleteCtrl implements IComponentController {
 
 const DashboardAthleteComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        profile: '<',
         onEvent: '&'
     },
     require: {

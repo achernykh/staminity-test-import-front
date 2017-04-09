@@ -1,0 +1,21 @@
+<div layout="row" layout-align="space-between start">
+    <section flex="none" class="first-column" layout="column" layout-align="space-between start">
+        <userpic flex="none" profile="$ctrl.profile"></userpic>
+        <md-menu flex="none" class="menu">
+            <md-button class="md-icon-button" aria-label="More Event"
+                       ng-click="$mdOpenMenu($event)">
+                <md-icon class="material-icons md-18 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}}">menu</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item><md-button ng-click="$ctrl.onOpen($env,'put')">Изменить</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.isCreator">Удалить</md-button></md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </section>
+    <section flex="auto" class="second-column" layout="column" layout-align="space-between end">
+        <div flex="none"></div>
+        <div flex="none" class="md-caption" style="text-align: right">{{$ctrl.profile | username}}</div>
+    </section>
+
+</div>

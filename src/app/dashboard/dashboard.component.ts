@@ -12,9 +12,11 @@ import {Activity} from "../activity/activity.datamodel";
 
 export interface IDashboardWeek {
     sid: number;
+    week: string; // номер недели в формате GGGG-WW
     calendar: Array<{
         profile: IUserManagementProfile,
         subItem: IDashboardDay[];
+        changes: number; // счетчик изменений внутри недели
     }>;
 };
 
@@ -26,7 +28,7 @@ export interface IDashboardDay {
 };
 export class DashboardCtrl implements IComponentController {
 
-    public currentUser: IUserProfile;
+    public coach: IUserProfile;
     public groupId: number;
     public athletes: IGroupManagementProfile;
 
@@ -47,6 +49,10 @@ export class DashboardCtrl implements IComponentController {
         private session: ISessionService,
         private message: IMessageService) {
 
+    }
+
+    toolbarDate() {
+        return new Date(moment(this.currentDate).format(this.dateFormat));
     }
 
     $onInit() {
@@ -85,6 +91,7 @@ export class DashboardCtrl implements IComponentController {
                 .then((response:Array<ICalendarItem>) => {
                     this.cache.push({
                         sid: this.currentWeek,
+                        week: moment(start).format('GGGG-WW'),
                         calendar: this.athletes.members.map(athlete => ({
                             profile: athlete.userProfile,
                             subItem: times(7).map(i => ({
@@ -92,13 +99,28 @@ export class DashboardCtrl implements IComponentController {
                                     calendarItems: []
                                 },
                                 date: moment(start).add(i,'day').format(this.dateFormat)
-                            }))
+                            })),
+                            changes: 0
                         }))
                     });
                     response.map(item => {
-                        this.cache.filter(d => d.sid === this.currentWeek)[0].calendar
-                            .filter(c => c.profile.userId === item.userProfileOwner.userId)[0]
+                        if(item.calendarItemType === 'activity') {
+                            item['index'] = Number(`${item.calendarItemId}${item.revision}`);
+                        }
+
+                        let sidId = this.cache.findIndex(d => d.sid === this.currentWeek);
+                        let calendarId = this.cache[sidId].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);
+
+                        // Добавляем записи календаря в соответсвующий день дэшборда
+                        this.cache[sidId].calendar[calendarId]
                             .subItem[moment(item.dateStart, this.dateFormat).weekday()].data.calendarItems.push(item);
+                        // Сигнализируем об изменение итогов
+                        this.cache[sidId].calendar[calendarId].changes ++;
+
+
+                        /*this.cache.filter(d => d.sid === this.currentWeek)[0].calendar
+                            .filter(c => c.profile.userId === item.userProfileOwner.userId)[0]
+                            .subItem[moment(item.dateStart, this.dateFormat).weekday()].data.calendarItems.push(item);*/
                     });
                     this.dashboard = this.cache.filter(d => d.sid === this.currentWeek)[0];
                     this.$scope.$apply();
@@ -106,12 +128,37 @@ export class DashboardCtrl implements IComponentController {
         }
     }
 
-    onPostItem(data: Activity) {
+    /**
+     * Создание записи календаря
+     * @param item
+     */
+    onPostItem(item: ICalendarItem) {
+        debugger;
 
+        let id:string = moment(item.dateStart).format('GGGG-WW');
+        let w:number = this.cache.findIndex(d => d.week === id);
+        let c:number = this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);
+        let d:number = moment(item.dateStart).weekday();
+
+        this.cache[w].calendar[c].subItem[d].data.calendarItems.push(item);
+        this.cache[w].calendar[c].changes++;
     }
 
-    onDeleteItem(data: Activity){
+    /**
+     * Удаление записи календаря
+     * @param item
+     */
+    onDeleteItem(item: ICalendarItem){
+        debugger;
 
+        let id:string = moment(item.dateStart).format('GGGG-WW');
+        let w:number = this.cache.findIndex(d => d.week === id);
+        let c:number = this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);
+        let d:number = moment(item.dateStart).weekday();
+        let p:number = this.cache[w].calendar[c].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+
+        this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);
+        this.cache[w].calendar[c].changes++;
     }
 
     onOpen($event, mode, data) {
@@ -133,7 +180,7 @@ export class DashboardCtrl implements IComponentController {
             locals: {
                 data: data,
                 mode: mode,
-                user: this.currentUser
+                user: this.coach
             },
             /*resolve: {
              details: () => this.ActivityService.getDetails(this.data.activityHeader.activityId)
@@ -170,7 +217,7 @@ export class DashboardCtrl implements IComponentController {
 
 const DashboardComponent:IComponentOptions = {
     bindings: {
-        currentUser: '<',
+        coach: '<',
         groupId: '<',
         athletes: '<'
     },

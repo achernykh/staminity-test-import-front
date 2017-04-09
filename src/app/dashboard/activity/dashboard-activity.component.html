@@ -2,11 +2,11 @@
      layout="row" layout-align="">
     <section flex="none" class="first-column" layout="column" layout-align="space-between start">
         <md-icon flex="none" md-svg-src="/assets/icon/{{::$ctrl.activity.sportBasic}}.svg" style="margin-left: 4px"
-                 class="s24 light-active sport"></md-icon>
+                 class="s24 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}} sport"></md-icon>
         <md-menu flex="none" class="menu">
             <md-button class="md-icon-button" aria-label="More Event"
                        ng-click="$mdOpenMenu($event)">
-                <md-icon class="material-icons md-18 md-light">menu</md-icon>
+                <md-icon class="material-icons md-18 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}}">menu</md-icon>
             </md-button>
             <md-menu-content>
                 <md-menu-item><md-button ng-click="$ctrl.onOpen($env,'put')">Изменить</md-button></md-menu-item>
@@ -21,7 +21,7 @@
                 {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.sportBasic:'movingDuration'}}</div>
             <div flex="none" ng-if="::$ctrl.activity.distance">
                 <span>&nbsp&nbsp</span>
-                {{::$ctrl.data.distance | measureCalc:$ctrl.activity.sportBasic:'distance'}}&nbsp
+                {{::$ctrl.activity.distance | measureCalc:$ctrl.activity.sportBasic:'distance'}}&nbsp
                 {{'distance' | measureUnit:$ctrl.activity.sportBasic | translate}}</div>
         </div>
         <div flex="none" class="md-caption category" ng-if="::$ctrl.activity.categoryCode">

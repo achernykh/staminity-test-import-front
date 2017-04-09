@@ -9,6 +9,7 @@ class DashboardDayCtrl implements IComponentController {
     public athlete: IUserProfile;
     public onEvent: (response: Object) => IPromise<void>;
     private dashboard: DashboardCtrl;
+
     static $inject = ['$mdDialog','message'];
 
     constructor(private $mdDialog: any, private message: any) {

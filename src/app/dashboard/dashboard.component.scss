@@ -36,17 +36,19 @@ dashboard {
     min-height: 32px;
     display: block;
     line-height: 32px;
-    padding-left: 12px;
-    padding-right: 12px;
+    //padding-left: 12px;
+    //padding-right: 12px;
 
     div.athlete {
       box-sizing: border-box;
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
       display:inline-block;
-      width: 12.8%;
+      width: 130px;
       display:inline-block;
-      vertical-align:top
+      vertical-align:top;
+      padding-left: 12px;
+      padding-right: 12px;
     }
 
     div.day {
@@ -54,9 +56,11 @@ dashboard {
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
       display:inline-block;
-      width: 10.5%;
+      width: 11%;
       vertical-align:top;
       text-transform: capitalize;
+      padding-left: 12px;
+      padding-right: 12px;
 
       @media (min-width: 959px) and (max-width: 1279px){
         width: 12.2%;
@@ -70,7 +74,9 @@ dashboard {
       display:inline-block;
       width: 12.8%;
       display:inline-block;
-      vertical-align:top
+      vertical-align:top;
+      padding-left: 12px;
+      padding-right: 12px;
     }
 
   }
@@ -80,7 +86,7 @@ dashboard {
     height: calc(100% - 55px);
     scroll-behavior: auto;
     overflow-y: scroll;
-    padding: 12px;
+    //padding: 12px;
   }
 
   div.dashboard-week {
@@ -146,53 +152,6 @@ dashboard {
       width: 2%;
       min-width: 2%;
     }
-  }
-
-  dashboard-athlete.athlete {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    display:inline-block;
-    width: 12.8%;
-    display:inline-block;
-    vertical-align:top
-  }
-
-  dashboard-day.day {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    display:inline-block;
-    width: 10.5%;
-    vertical-align:top;
-    text-transform: capitalize;
-
-    @media (min-width: 959px) and (max-width: 1279px){
-      width: 12.2%;
-    }
-  }
-
-  dashboard-total.total {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    display:inline-block;
-    width: 12.8%;
-    display:inline-block;
-    vertical-align:top;
-
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      width: 12.8%;
-      height: 100%;
-      z-index: 1;
-      border-left: 1px solid $grey-400;
-    }
-
   }
 
 }

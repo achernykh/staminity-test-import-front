@@ -446,8 +446,8 @@ export class Activity extends CalendarItem {
 	}
 
 	get distance() {
-		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.distance.value;
+		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance') && this.intervalPW.durationValue) ||
+			(this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;
 	}
 
 	// Формируем перечень показателей для панели data (bottomPanel)

@@ -1,4 +1,4 @@
-<dashboard-activity ng-repeat="item in $ctrl.day.data.calendarItems | filter:{calendarItemType: 'activity'} track by $index"
+<dashboard-activity ng-repeat="item in $ctrl.day.data.calendarItems | filter:{calendarItemType: 'activity'} track by item.index"
                     item="item" athlete="$ctrl.athlete">
 </dashboard-activity>
 

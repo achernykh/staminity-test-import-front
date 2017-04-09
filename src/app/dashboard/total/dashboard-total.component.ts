@@ -1,9 +1,15 @@
 import './dashboard-total.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {
+    calculateCalendarTotals, calculateCalendarSummary,
+    ICalendarTotals
+} from '../../calendar/total/calendar-total.function';
 
 class DashboardTotalCtrl implements IComponentController {
 
-    public data: any;
+    public week: any;
+    public total: any;
+    public summary: ICalendarTotals;
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
@@ -14,11 +20,19 @@ class DashboardTotalCtrl implements IComponentController {
     $onInit() {
 
     }
+
+    $onChanges(changes) {
+        if (changes.update) {
+            this.total = calculateCalendarTotals(this.week.subItem);
+            this.summary = calculateCalendarSummary(this.total);
+        }
+    }
 }
 
 const DashboardTotalComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        week: '<',
+        update: '<',
         onEvent: '&'
     },
     require: {

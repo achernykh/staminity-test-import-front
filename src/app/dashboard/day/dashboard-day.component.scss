@@ -1,7 +1,16 @@
 dashboard-day {
 
-  //margin-top: 4px;
-  //margin-bottom: 4px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display:inline-block;
+  width: 11%;
+  vertical-align:top;
+  text-transform: capitalize;
+
+  @media (min-width: 959px) and (max-width: 1279px){
+    width: 12.2%;
+  }
 
   &:hover div.post-panel{
     //visibility: visible;

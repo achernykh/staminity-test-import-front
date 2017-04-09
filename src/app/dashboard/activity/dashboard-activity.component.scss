@@ -6,13 +6,16 @@ dashboard-activity {
   cursor: pointer;
 
   @extend .bg-grey-400;
-  @extend .md-whiteframe-1dp;
+  
 
   md-icon.sport {
     margin: 0px !important;
   }
 
   .activity-header {
+    @extend .md-whiteframe-1dp;
+    margin: 4px;
+    border-radius: 3px;
     //@include border-radius-custom(3px, 3px, 0px, 0px);
     padding: 4px;
 
