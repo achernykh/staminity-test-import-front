@@ -1,12 +1,30 @@
-<div flex>
-    <p ng-repeat="comment in $ctrl.comments track by $index">{{comment.text}}</p>
+<div flex class="message-list">
+    <div ng-repeat="comment in $ctrl.comments | orderBy:'+ts' track by $index" layout="row">
+        <userpic flex="none" flex-order="{{::(!$ctrl.isMe(comment.userProfile.userId) ? 1:3)}}"
+                 profile="comment.userProfile" is-premium="comment.userProfile.isPremium"></userpic>
+        <div flex flex-order="2"
+             ng-class="{'bg-blue-grey-100': $ctrl.isMe(comment.userProfile.userId),
+                        'bg-grey-200': !$ctrl.isMe(comment.userProfile.userId)}"
+             class="message md-caption" layout="column">
+            <div flex>{{comment.text}}</div>
+            <div flex="none" class="md-dark md-inactive"
+                 style="font-size: 9px; text-align: right; margin-top: 4px">
+                {{comment.ts | date:'d MMM HH:mm'}}
+            </div>
+        </div>
+        <div flex="none" flex-order="{{::($ctrl.isMe(comment.userProfile.userId) ? 1:3)}}" style="width: 32px">
+            <!--<md-button flex="none" class="md-icon-button" ng-click="$ctrl.onDeleteComment(comment)">
+                <md-icon class="material-icons md-dark md-inactive">delete</md-icon>
+            </md-button>-->
+        </div>
+    </div>
 </div>
-<div flex="none" layout="row" style="background: white" ng-cloack>
+<div flex="none" layout="row" layout-align="space-between end" class="input-box" ng-cloack>
     <md-input-container flex class="md-block no-message">
-        <textarea ng-model="message"
+        <textarea ng-model="$ctrl.text" max-rows="5"
                   name="about" rows="1" md-select-on-focus></textarea>
     </md-input-container>
-    <md-button ng-click="$ctrl.onPostComment(message)">
+    <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onPostComment($ctrl.text)">
         <md-icon class="material-icons">send</md-icon>
     </md-button>
 </div>

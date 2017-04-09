@@ -6,10 +6,27 @@ import moment from 'moment/src/moment.js';
 // Например, вида спорта swim c показателем distance в справочнике нет, это означает, что он будет выводиться в
 // той единице измерения, которая задана по-умолчанию - meter
 export const _activity_measurement_view = {
-    "activity_code": {
-        "measure_code": "unit_code",
+    default: {
+        distance: {
+            unit: 'km',
+            fixed: 2
+        },
+        speed: {
+            unit: 'minpkm',
+            fixed: 0
+        }
     },
     run: {
+        distance: {
+            unit: 'km',
+            fixed: 2
+        },
+        speed: {
+            unit: 'minpkm',
+            fixed: 0
+        }
+    },
+    ski: {
         distance: {
             unit: 'km',
             fixed: 2
@@ -315,8 +332,17 @@ export const measureValue = (input: number, sport: string, measure: string, char
 
         // Показатель релевантен для пересчета скорости в темп
         if (!chart && (isDuration(unit) || isPace(unit))){
-            let format = input >= 60*60 ? 'hh:mm:ss' : 'mm:ss';
-            return moment().startOf('day').seconds(input).format(format);
+            let format = input >= 60*60 ? 'HH:mm:ss' : 'mm:ss';
+            let time = moment().startOf('day').millisecond(input*1000).startOf('millisecond');
+
+            if(time.milliseconds() >= 500) {
+                time.add(1, 'second');
+            }
+
+            //console.log('measureCalc pace', isPace(unit), input, moment().startOf('day').millisecond(input*1000).startOf('millisecond').milliseconds());
+            //return moment().startOf('day').millisecond(input*1000).startOf('millisecond').format(format);
+
+            return time.format(format);
         }
         else {
             return Number(input).toFixed(fixed);

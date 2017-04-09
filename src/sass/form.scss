@@ -35,17 +35,19 @@ form md-list, md-list form {
         @extend .secondary, .dark;
       }
     }
-
-    md-autocomplete,
-    md-input-container,
-    md-select {
-      &.no-message {
-        .md-errors-spacer {
-          min-height: 0 !important;
-        }
-      }
-    }
 }
+
+//
+md-autocomplete,
+md-input-container,
+md-select {
+  &.no-message {
+    .md-errors-spacer {
+      min-height: 0 !important;
+    }
+  }
+}
+
 // Подзаголовок md-subheader имеет 16px отсупа снизу, при наличии 16px отступа сверху у первых
 // элементов ввода или селекта расстояние становится очень большим
 form md-card-title + md-list md-list-item:first-child md-input-container:first-child{

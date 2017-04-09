@@ -92,30 +92,27 @@ export const _DELIVERY_METHOD = [{
 
 export const _PRIVACY_LEVEL = [{id: 50}, {id: 40}, {id: 10}];
 
-export const _ZONE_CALCULATION_METHOD = {
+export const _CalculationMethod = {
     heartRate: [{
         type: 'lactateThreshold',
-        method: [
-            'Joe Frill(7)'
-        ]
+        method: ['JoeFrielHeartRateRunning7','JoeFrielHeartRateCycling7']
     }, {
         type: 'restingAndMax',
-        method: [
-            'Karvonen(5)',
-            'Fitzenger-Scott(6)'
-        ]
+        method: ['Karvonen5']
     }, {
         type: 'max',
-        method: [
-            'Yansen(6)'
-        ]
+        method: ['Yansen6']
     }],
     power: [{
         type: 'powerThreshold',
-        method: [
-            'Andy Coggan(6)'
-        ]
-    }]
+        method: ['AndyCoggan6']
+    }],
+    speed: [
+        {
+            type: 'paceThreshold',
+            method: ['JoeFrielSpeed7']
+        }
+    ]
 };
 
 export const _country_list = {
@@ -126,18 +123,18 @@ export const _country_list = {
 export const _SYNC_ADAPTORS = [
     {
         provider: 'garmin',
-        isAuth: false,
+        isOAuth: false,
         state: ExternalProviderState.Disabled
     },
     {
         provider: 'strava',
         state: ExternalProviderState.Disabled,
-        isAuth: true
+        isOAuth: true
     },
     {
         provider: 'polar',
         state: ExternalProviderState.Disabled,
-        isAuth: false
+        isOAuth: false
     }
 ];
 

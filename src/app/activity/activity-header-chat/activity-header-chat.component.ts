@@ -5,13 +5,18 @@ import {CommentType} from "../../../../api/social/comment.request";
 import {IObjectComment} from "../../../../api/social/comment.interface";
 import MessageService from "../../core/message.service";
 import {IActivitySocial} from "../../../../api/activity/activity.interface";
+import {IUserProfile} from "../../../../api/user/user.interface";
 
 class ActivityHeaderChatCtrl implements IComponentController {
 
     public data: any;
     public activityId: number;
     public social: IActivitySocial;
+    public user: IUserProfile;
+    public coach: boolean;
+
     private comments: Array<IObjectComment>;
+    private text: string = null;
     private readonly commentType: string = 'activity';
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = ['CommentService', 'message'];
@@ -21,8 +26,8 @@ class ActivityHeaderChatCtrl implements IComponentController {
     }
 
     $onInit() {
-        if (this.social && this.social.hasOwnProperty('trainerCommentsCount') &&
-            this.social.trainerCommentsCount > 0) {
+        if (this.social && this.social.hasOwnProperty('coachComments') &&
+            this.social.coachComments > 0) {
 
             this.comment.get(this.commentType, this.activityId, true)
                 .then(result => this.comments = result,
@@ -32,8 +37,14 @@ class ActivityHeaderChatCtrl implements IComponentController {
 
     onPostComment(text) {
         this.comment.post(this.commentType, this.activityId, true, text)
-            .then(result=>console.log('comment post=',result),
+            .then(result=> {
+                    this.text = null;
+                },
                 error => this.message.toastError(error));
+    }
+
+    isMe(id: number): boolean {
+        return (this.user.hasOwnProperty('userId') && id === this.user.userId) || false;
     }
 }
 
@@ -42,6 +53,8 @@ const ActivityHeaderChatComponent:IComponentOptions = {
         data: '<',
         activityId: '<',
         social: '<',
+        user: '<',
+        coach: '<',
         onEvent: '&'
     },
     require: {

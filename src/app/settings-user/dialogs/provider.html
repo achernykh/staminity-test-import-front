@@ -12,7 +12,7 @@
 
         <md-dialog-content>
             <md-list class="md-dense">
-                <md-list-item ng-if="!$ctrl.adaptor.isAuth">
+                <md-list-item ng-if="!$ctrl.adaptor.isOAuth">
                     <md-input-container md-no-float class="md-block no-message">
                         <md-icon class="material icons">account_circle</md-icon>
                         <input ng-model="$ctrl.adaptor.username" type="text" autocomplete="off"
@@ -20,7 +20,7 @@
                                placeholder="Учетная запись">
                     </md-input-container>
                 </md-list-item>
-                <md-list-item ng-if="!$ctrl.adaptor.isAuth">
+                <md-list-item ng-if="!$ctrl.adaptor.isOAuth">
                     <md-input-container md-no-float class="md-block no-message">
                         <md-icon class="material-icons">security</md-icon>
                         <input ng-model="$ctrl.adaptor.password" type="password" autocomplete="off"

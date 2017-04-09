@@ -3,6 +3,7 @@ import {_translate} from './settings-user.translate';
 import { DisplayView } from "../core/display.constants";
 import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
+import {_connection} from "../core/api.constants";
 
 function configure(
     $stateProvider:StateProvider,
@@ -12,7 +13,7 @@ function configure(
     $authProvider.httpInterceptor = function() { return true; };
     $authProvider.withCredentials = false;
     $authProvider.tokenRoot = null;
-    $authProvider.baseUrl = '/oauth/';
+    $authProvider.baseUrl =  'http:/' + _connection.server;//null;//_connection.server + '/oauth/';
     $authProvider.loginUrl = '/login';
     $authProvider.signupUrl = '/signup';
     $authProvider.unlinkUrl = '/unlink/';
@@ -30,7 +31,7 @@ function configure(
     // Generic OAuth 2.0
     $authProvider.oauth2({
         name: 'strava',
-        url: '',
+        url: '/oauth',//'http:/' + _connection.server + '/oauth/',
         clientId: 15712,
         //redirectUri: 'http://0.0.0.0:8080',
         redirectUri: window.location.origin,
@@ -39,7 +40,7 @@ function configure(
         //requiredUrlParams: ['response_type','client_id'],
         optionalUrlParams: ['approval_prompt','scope','state'],
         approvalPrompt: 'force',
-        scope: 'write',
+        scope: 'view_private',
         //token: '',
         //staminityToken: '0adebb13-c151-617a-dfa0-507caac750fd',
         //startDate: '',

@@ -9,7 +9,7 @@
          ng-if="!$ctrl.isLoadingDetails">-->
 
     <header flex="none" class="map" layout="row" layout-align="start center"
-            ng-if="$ctrl.item.activity.isRouteExist">
+            ng-if="$ctrl.item.activity.isRouteExist && !$ctrl.fullScreenTable">
         <md-icon class="material-icon">directions</md-icon>
         <p class="md-body-2" translate>Карта</p>
         <span flex></span>
@@ -20,29 +20,38 @@
         </md-button>
     </header>
 
-    <activity-route flex="none" ng-if="$ctrl.showMap && $ctrl.item.activity.isRouteExist"
+    <activity-route flex="none" ng-if="$ctrl.showMap && $ctrl.item.activity.isRouteExist && !$ctrl.fullScreenTable"
                     class="map activity-route"
                     data="$ctrl.item.activity.route"
                     select="$ctrl.item.selectionTimestamp"
                     zoom-enabled="true" layer-enabled="true">
     </activity-route>
 
-    <md-divider flex="none" ng-if="$ctrl.showMap"></md-divider>
+    <md-divider flex="none" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable"></md-divider>
 
-    <header flex="none" layout="row" layout-align="start center">
+    <header flex="none" layout="row" layout-align="start center" ng-if="!$ctrl.fullScreenTable">
         <md-icon class="material-icon">multiline_chart</md-icon>
-        <p class="md-body-2" translate>График</p>
+        <p class="md-body-2" style="margin-right: 16px" translate>График</p>
+        <md-switch ng-model="$ctrl.autoZoom" class="md-primary md-hue-1" aria-label="Switch 1">
+            <span class="md-caption">Autozoom: {{ $ctrl.autoZoom }}</span>
+        </md-switch>
+        <md-button class="md-icon-button" ng-click="$ctrl.zoomIn = $ctrl.zoomIn+1" ng-if="!$ctrl.autoZoom">
+            <md-icon class="material-icons">zoom_in</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="$ctrl.zoomOut = $ctrl.zoomOut+1" ng-if="!$ctrl.autoZoom">
+            <md-icon class="material-icons">zoom_out</md-icon>
+        </md-button>
         <span flex></span>
         <div ng-if="!$ctrl.item.activity.structured">
-            <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary"
+            <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartX(measure)">
                 <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
-                <span>{{measure | translate}}</span>
+                <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
-            <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary"
+            <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartMetrics(measure)">
                 <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
-                <span>{{measure | translate}}</span>
+                <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
             <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
                 <md-icon class="md-secondary material-icon md-dark"
@@ -54,7 +63,7 @@
         </div>
     </header>
 
-    <activity-metrics-char flex="none" ng-if="$ctrl.showChart && !$ctrl.item.activity.structured"
+    <activity-metrics-char flex="none" ng-if="$ctrl.showChart && !$ctrl.item.activity.structured && !$ctrl.fullScreenTable"
                            measures="$ctrl.measures"
                            data="$ctrl.data"
                            x="$ctrl.chartX"
@@ -62,9 +71,12 @@
                            change-measure="$ctrl.changeMeasure"
                            sport="$ctrl.item.activity.sportBasic"
                            select="$ctrl.item.selectionTimestamp"
+                           auto-zoom="$ctrl.autoZoom"
+                           zoom-in-click="$ctrl.zoomIn"
+                           zoom-out-click="$ctrl.zoomOut"
                            on-selected="$ctrl.onSelectionRange(select)">График...
     </activity-metrics-char>
-    <activity-segment-chart flex="none" ng-if="$ctrl.showChart && $ctrl.item.activity.structured"
+    <activity-segment-chart flex="none" ng-if="$ctrl.showChart && $ctrl.item.activity.structured && !$ctrl.fullScreenTable"
                             activity-header="$ctrl.item.activity.intervalP"
                             selected=""
                             actual-ftp="true"
@@ -73,16 +85,20 @@
                             on-select="$ctrl.onChartSelect(segmentId)">
     </activity-segment-chart>
 
-    <md-divider flex="none" ng-if="$ctrl.showChart"></md-divider>
+    <md-divider flex="none" ng-if="$ctrl.showChart && !$ctrl.fullScreenTable"></md-divider>
 
     <header flex="none" layout="row" layout-align="start center">
         <md-icon class="material-icon">format_list_numbered</md-icon>
         <p class="md-body-2" translate>Отрезки</p>
         <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.fullScreenTable = !$ctrl.fullScreenTable">
+            <md-icon class="md-secondary material-icon md-dark"
+                     ng-bind="$ctrl.fullScreenTable ? 'fullscreen_exit': 'fullscreen'"></md-icon>
+        </md-button><!--
         <md-button class="md-icon-button" ng-click="$ctrl.toggleTable()">
             <md-icon class="md-secondary material-icon md-dark"
                      ng-bind="$ctrl.showTable ? 'expand_more': 'expand_less'"></md-icon>
-        </md-button>
+        </md-button>-->
     </header>
 
     <measure-split-table flex ng-if="$ctrl.showTable && $ctrl.item.activity.hasImportedData"
@@ -91,6 +107,7 @@
                          max="$ctrl.maxValue"
                          selected="$ctrl.item.selectedTimestamp"
                          sport="$ctrl.item.activity.sportBasic"
+                         zones="$ctrl.item.user.trainingZones"
                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">Data table...
     </measure-split-table>
 <!--</section>-->

@@ -23,13 +23,13 @@ class MeasureMainButtonCtrl implements IComponentController{
 		// Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
 		// this, а значит и нет доступа к массиву для фильтрации
 		this.$scope.measure = {
-			run: ['calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','speedDecoupling'],
-			bike: ['calories','trainingLoad','adjustedPower','vamPowerKg','variabilityIndex','efficiencyFactor','elevationGain','elevationLoss','grade','intensityLevel','powerDecoupling'],
-			swim: ['calories','intensityLevel'],
-			strength: ['calories','intensityLevel'],
-			transition: ['calories','elevationGain','elevationLoss','grade','intensityLevel','speedDecoupling'],
-			ski: ['calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','speedDecoupling'],
-			other: ['calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','speedDecoupling']
+			run: ['duration','movingDuration','distance','calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','speedDecoupling'],
+			bike: ['duration','movingDuration','distance','calories','trainingLoad','adjustedPower','vamPowerKg','variabilityIndex','efficiencyFactor','elevationGain','elevationLoss','grade','intensityLevel','powerDecoupling'],
+			swim: ['duration','movingDuration','distance','calories','intensityLevel'],
+			strength: ['duration','movingDuration','distance','calories','intensityLevel'],
+			transition: ['duration','movingDuration','distance','calories','elevationGain','elevationLoss','grade','intensityLevel','speedDecoupling'],
+			ski: ['duration','movingDuration','distance','calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','speedDecoupling'],
+			other: ['duration','movingDuration','distance','calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','speedDecoupling']
 		};
 		this.$scope.search = (m) => this.$scope.measure[this.sport].indexOf(m.$key) !== -1;
 	}

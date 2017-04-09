@@ -19,10 +19,17 @@
                         <span translate="measurement.toolbar.settings"></span>
                     </md-button>
                 </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="">
+                        <md-icon class="material-icons" md-menu-align-target>swap_vertical_circle</md-icon>
+                        <span translate="Ввод в %ПАНО"></span>
+                    </md-button>
+                </md-menu-item>
             </md-menu-content>
         </md-menu>
         <h2 translate="Тренировка"></h2>
         <span flex></span>
+        <userpic class="border-light" profile="$ctrl.item.user" is-premium="$ctrl.item.user.isPremium"></userpic>
         <md-button class="md-icon-button" ng-click="$ctrl.item.onCancel()" ng-if="!$ctrl.item.activity.hasImportedData">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
@@ -57,7 +64,8 @@
             <md-tab-content layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill
                                        zones="$ctrl.item.user.trainingZones"
-                                       sport="$ctrl.item.activity.sportBasic">
+                                       sport="$ctrl.item.activity.sportBasic"
+                                       has-details="$ctrl.item.activity.hasImportedData">
                 </activity-header-zones>
             </md-tab-content>
         </md-tab>
@@ -65,7 +73,9 @@
             <md-tab-content layout-fill layout-column>
                 <activity-header-chat flex="auto" layout="column" layout-fill
                                       activity-id="$ctrl.item.activity.id"
-                                      social="$ctrl.item.activity.header.social">
+                                      social="$ctrl.item.activity.header.social"
+                                      user="$ctrl.item.user"
+                                      coach="$ctrl.item.isMyCoach">
                 </activity-header-chat>
             </md-tab-content>
         </md-tab>
