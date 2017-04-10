@@ -30,6 +30,9 @@ export class ChangeTracker {
         if (this.isUserSelection(curr)) {
             return false;
         }
+        if (curr.length === 0 && !this.userSelection) {
+            return false;
+        }
         if (prev.length !== curr.length) {
             return true;
         }
@@ -59,6 +62,9 @@ export class ChangeTracker {
     }
 
     private isEqualIntervals(first, second): boolean {
+        if (!first && !second) {
+            return true;
+        }
         if (!first || !second) {
             return false;
         }
