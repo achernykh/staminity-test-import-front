@@ -1,23 +1,19 @@
-import { module } from 'angular';
-import satellizer from 'satellizer';
-import DashboardComponent from './dashboard.component';
-import DashboardDay from './day/dashboard-day.component.js';
-import DashboardAthlete from './athlete/dashboard-athlete.component.js';
-import DashboardTotal from './total/dashboard-total.component.js';
-import DashboardActivity from './activity/dashboard-activity.component.js';
+import {module} from 'angular';
 import configure from './dashboard.config';
+import DashboardComponent from "./dashboard.component";
+import DashboardActivityComponent from "./activity/dashboard-activity.component";
+import DashboardDayComponent from "./day/dashboard-day.component";
+import DashboardAthleteComponent from "./athlete/dashboard-athlete.component";
+import DashboardTotalComponent from "./total/dashboard-total.component";
 
-const SettingsUser = module('staminity.dashboard', [satellizer])
-    //.component('settingsUserPersonal',{template: require('./articles/settings.personal.html') as string})
+const Dashboard = module('staminity.dashboard', [])
     .component('dashboard', DashboardComponent)
-    .component('dashboardDay', DashboardDay)
-    .component('dashboardAthlete', DashboardAthlete)
-    .component('dashboardTotal', DashboardTotal)
-    .component('dashboardActivity', DashboardActivity)
+    .component('dashboardActivity', DashboardActivityComponent)
+    .component('dashboardDay', DashboardDayComponent)
+    .component('dashboardAthlete', DashboardAthleteComponent)
+    .component('dashboardTotal', DashboardTotalComponent)
     .config(configure)
-    // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
-    // ng-cache-loader@0.0.22 не сработал
-
     .name;
 
-export default SettingsUser;
+
+export default Dashboard;

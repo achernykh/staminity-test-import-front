@@ -9,7 +9,7 @@ import {ISessionService} from "../core/session.service";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {IUserProfile} from "../../../api/user/user.interface";
 
-interface ICalendarWeek {
+export interface ICalendarWeek {
     sid: number; // номер недели, текущая неделя календаря = 0
     date: any; // дата начала недели
     anchor: string; // anchor просматриваемой недели добавляется в url
@@ -22,7 +22,7 @@ interface ICalendarWeek {
     height: number;
 };
 
-interface ICalendarDay {
+export interface ICalendarDay {
     key: string; // формат дня в формате YYYY.MM.DD
     selected: boolean; // индикатор выбора дня
     date: string;// формат дня в формате YYYY.MM.DD

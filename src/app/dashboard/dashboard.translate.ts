@@ -1,8 +1,10 @@
-export const _translate = {
+export const translateDashboard = {
     ru: {
-        fullTitle: 'Атлеты',
+        fullTitle: 'Атлеты тренера',
         shortTitle: 'Атлеты',
-        xxx:'xxx'
+        today: 'Сегодня',
+        compact: 'Компактный режим',
+        details: 'Подробный режим'
     },
     en: {}
 };
