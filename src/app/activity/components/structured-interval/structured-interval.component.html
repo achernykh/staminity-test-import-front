@@ -14,10 +14,18 @@
             </md-menu-item>
         </md-menu-content>
     </md-menu>
-    <md-input-container flex="none" class="duration">
-        <input measure-input
-               name="plan_duration"
-               ng-model="$ctrl.interval.durationValue"
+    <md-input-container flex="noshrink" class="duration" ng-switch="$ctrl.interval.durationMeasure">
+        <input measure-input ng-switch-when="movingDuration"
+               name="plan_movingDuration"
+               ng-model="$ctrl.interval.movingDuration.durationValue"
+               measure="$ctrl.interval.durationMeasure"
+               ng-attr-sport={{$ctrl.sport}} interval="false"
+               ftp-mode="false" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
+               ng-change="$ctrl.changeValue($ctrl.interval.durationMeasure)"
+               ng-disabled="false">
+        <input measure-input ng-switch-when="distance"
+               name="plan_distance"
+               ng-model="$ctrl.interval.distance.durationValue"
                measure="$ctrl.interval.durationMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="false"
                ftp-mode="false" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
@@ -39,17 +47,33 @@
             </md-menu-item>
         </md-menu-content>
     </md-menu>
-    <md-input-container flex="none" class="intensity">
-        <input measure-input
-               ng-model="$ctrl.interval"
-               name="plan_intensity"
+    <md-input-container flex="noshrink" class="intensity" ng-switch="$ctrl.interval.intensityMeasure">
+        <input measure-input ng-switch-when="heartRate"
+               ng-model="$ctrl.interval.heartRate"
+               name="plan_heartRate"
+               measure="$ctrl.interval.intensityMeasure"
+               ng-attr-sport={{$ctrl.sport}} interval="true"
+               ftp-mode="false" ftp="$ctrl.getFTP()"
+               ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
+               ng-disabled="false">
+        <input measure-input ng-switch-when="speed"
+               ng-model="$ctrl.interval.speed"
+               name="plan_speed"
+               measure="$ctrl.interval.intensityMeasure"
+               ng-attr-sport={{$ctrl.sport}} interval="true"
+               ftp-mode="false" ftp="$ctrl.getFTP()"
+               ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
+               ng-disabled="false">
+        <input measure-input ng-switch-when="power"
+               ng-model="$ctrl.interval.power"
+               name="plan_power"
                measure="$ctrl.interval.intensityMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="true"
                ftp-mode="false" ftp="$ctrl.getFTP()"
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
                ng-disabled="false">
     </md-input-container>
-    <md-button class="md-icon-button">
+    <md-button class="md-icon-button" ng-click="$ctrl.splice()">
         <md-icon class="material-icons md-dark md-inactive">close</md-icon>
     </md-button>
 </div>

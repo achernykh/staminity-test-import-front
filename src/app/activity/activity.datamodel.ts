@@ -38,12 +38,12 @@ export class Interval implements IActivityInterval {
 	distanceLength: number; // по дистанции
 	actualDurationValue: number; // Указанная вручную пользователем длительность сегмента
 
-	// Дополнительные поля для модели данных отображения сегмента pW
-	movingDuration: number;
-	distance: number;
-	heartRate: number | string;
-	power: number | string;
-	speed: number | string;
+	// Дополнительные поля для модели данных отображения сегмента pW | P
+	movingDuration: Object = {durationValue: null};
+	distance: Object = {durationValue: null};
+	heartRate: Object = {};
+	power: Object = {};
+	speed: Object = {};
 
 	public calcMeasures: ICalcMeasures;
 
@@ -179,6 +179,15 @@ export class Activity extends CalendarItem {
 			}
 			case 'P': {
 				this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
+			}
+		}
+	}
+
+	spliceInterval(type: string, id: number) {
+		switch (type) {
+			case 'P': {
+				this.intervalP.splice(id,1);
+				break;
 			}
 		}
 	}

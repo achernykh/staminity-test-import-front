@@ -38,11 +38,13 @@ structured-interval {
 
   md-input-container.duration {
     width: 55px;
+    min-width: 55px;
     margin-right: 8px;
   }
 
   md-input-container.intensity {
-    width: 80px
+    width: 80px;
+    min-width: 80px
   }
 
   md-icon.duration, md-icon.intensity {

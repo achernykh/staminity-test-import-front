@@ -23,6 +23,11 @@ class StructuredAssignmentCtrl implements IComponentController {
         this.plan[index] = interval;
         this.item.changeStructuredAssignment ++;
     }
+
+    splice(id: number) {
+        debugger;
+        this.item.activity.spliceInterval('P',id);
+    }
 }
 
 const StructuredAssignmentComponent:IComponentOptions = {
