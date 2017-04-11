@@ -225,7 +225,6 @@ class SettingsUserCtrl {
     }
 
     showProviderSettings(ev, adaptor) {
-
         if (adaptor.status.switch) {
             // Если идет подключение по OAuth
             if(adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') {
@@ -238,6 +237,7 @@ class SettingsUserCtrl {
                         provider: adaptor.provider
                     }
                 }).then(response => {
+                    debugger;
                     // You have successfully linked an account.
                     this.adaptor.filter(a => a.provider === adaptor.provider)[0] = {
                         state: response.state,
@@ -247,6 +247,7 @@ class SettingsUserCtrl {
                     this.message.toastInfo('внешний сервис подключен');
                     console.log('response', response);
                 }, error => {
+                    debugger;
                     this.message.toastInfo(error.errorMessage);
                     adaptor.status.switch = false;
                 }).catch(response => {

@@ -112,6 +112,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>){
+        debugger;
         this.item.addUserInterval(select[0]);
     }
 
