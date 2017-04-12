@@ -420,9 +420,8 @@ export class Activity extends CalendarItem {
 	}
 
 	get intensityValue() {
-		return ((this.status === 'coming' || this.status === 'dismiss') && {
-			from: this.intervalPW.intensityLevelFrom,
-			to: this.intervalPW.intensityLevelTo}) || this.intervalW.calcMeasures[this.intensityMeasure].avgValue;
+		return ((this.status === 'coming' || this.status === 'dismiss') && {from: this.intervalPW.intensityLevelFrom, to: this.intervalPW.intensityLevelTo}) ||
+			(this.intensityMeasure &&  this.intervalW.calcMeasures.hasOwnProperty(this.intensityMeasure) && this.intervalW.calcMeasures[this.intensityMeasure].avgValue) || null;
 	}
 
 	get intensityMeasure() {

@@ -3,6 +3,7 @@ import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
 import {Activity} from "../../activity.datamodel";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import {Measure} from "../../../share/measure/measure.constants";
 
 class ActivitySummaryInfoCtrl implements IComponentController {
 
@@ -28,7 +29,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         let durationMeasure:string =  this.item.activity.durationMeasure;
         let intensityValue: number | {} = this.item.activity.intensityValue;
         let intensityMeasure: string = this.item.activity.intensityMeasure;
-        let duration: number = this.item.activity.duration;
+        let movingDuration: number = this.item.activity.movingDuration;
         let distance: number = this.item.activity.distance;
 
         let heartRate: number = ((this.item.activity.intervalW.calcMeasures.hasOwnProperty('heartRate')
@@ -43,26 +44,33 @@ class ActivitySummaryInfoCtrl implements IComponentController {
             && this.item.activity.intervalW.calcMeasures.power.hasOwnProperty('avgValue'))
             && this.item.activity.intervalW.calcMeasures.power.avgValue) || null;
 
+        let measure: Measure = new Measure(intensityMeasure, sportBasic, intensityValue);
+
         switch (this.item.activity.status) {
-            case 'coming' || 'dismiss': {
+            case 'coming': case 'dismiss': {
 
                 this.durationInfo = this.$filter('measureCalc')(durationValue, sportBasic, durationMeasure)+' '+
                     this.$filter('translate')(this.$filter('measureUnit')(durationMeasure, sportBasic));
 
-                this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from')
-                    && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)) || '';
-
-                this.intensityInfo += (intensityValue['to'] !== intensityValue['from'] &&
-                    '-' + this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure)) || '';
+                if (intensityValue['to'] === intensityValue['from']) {// если значение
+                    this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)) || '';
+                } else { // если интервал
+                    if (measure.isPace()) {
+                        this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('to') && this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '') +
+                            '-' + (this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '');
+                    } else {
+                        this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '') +
+                            '-' + (this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '');
+                    }
+                }
 
                 this.intensityInfo += ' ' + this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic));
 
                 break;
             }
             default: {
-
-                this.durationInfo += (duration
-                    && this.$filter('measureCalc')(duration, sportBasic, 'movingDuration') + ' ') || '';
+                this.durationInfo += (movingDuration
+                    && this.$filter('measureCalc')(movingDuration, sportBasic, 'movingDuration') + ' ') || '';
 
                 this.durationInfo += (distance
                     && this.$filter('measureCalc')(distance, sportBasic, 'distance')+' '+

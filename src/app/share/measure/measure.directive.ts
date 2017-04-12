@@ -112,7 +112,7 @@ export function MeasurementInput($filter): IDirective {
 
 		// Преобразование для ввода пульса
 		const paceIntervalParsers = (value) => {
-			debugger;
+			//debugger;
 			console.log('$parsers=',value);
 
 			let sep = value.search('-');
@@ -199,7 +199,7 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const paceIntervalFormatters = (value: any) => {
-			debugger;
+			//debugger;
 			console.log('check pace interval formatters', value);
 			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
 				initial = value;
@@ -226,7 +226,7 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const numberFtpIntervalFormatters = (value: any) => {
-			debugger;
+			//debugger;
 			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
 				initial = value;
 				let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
@@ -254,14 +254,14 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const paceIntervalValidators = (model: any) => {
-			debugger;
+			//debugger;
 			//console.log('check pace interval validators', model, typeof model, model.from, model.to);
 			return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
                 model[$scope.from] <= model[$scope.to];
 		};
 
 		const numberIntervalValidators = (model: any) => {
-			debugger;
+			//debugger;
 			//console.log('check number interval validators', model.from, model.to, model.from <= model.to);
 			return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
 				model[$scope.from] <= model[$scope.to];
@@ -306,7 +306,7 @@ export function MeasurementInput($filter): IDirective {
 
 			if($ctrl.$modelValue || $ctrl.$viewValue) {
 				let percent: number = $scope.ftpMode ? 100 : 1;
-				debugger;
+				//debugger;
 				// Пустое значение в модели данных, в представление = '
 				if (!$ctrl.$modelValue[$scope.from]) {
 					$ctrl.$viewValue = '';
@@ -314,15 +314,13 @@ export function MeasurementInput($filter): IDirective {
 					// Перевод в %FTP
 					if ($scope.ftpMode) {
 						if($scope.interval && $ctrl.$modelValue[$scope.from] !== $ctrl.$modelValue[$scope.to]) {
-							$ctrl.$viewValue = //measure.type === 'pace' ?
-							//`${($ctrl.$modelValue[$scope.to]*percent).toFixed(0)}`+'-'+`${($ctrl.$modelValue[$scope.from]*percent).toFixed(0)}` :
-							`${($ctrl.$modelValue[$scope.from]*percent).toFixed(0)}`+'-'+`${($ctrl.$modelValue[$scope.to]*percent).toFixed(0)}`;
+							$ctrl.$viewValue = `${($ctrl.$modelValue[$scope.from]*percent).toFixed(0)}`+'-'+`${($ctrl.$modelValue[$scope.to]*percent).toFixed(0)}`;
 						} else {
 							$ctrl.$viewValue = `${($ctrl.$modelValue[$scope.from]*percent).toFixed(0)}`;
 						}
 					} else { // Перевод а абсолютные значения
 						if($scope.interval && $ctrl.$modelValue[$scope.from] !== $ctrl.$modelValue[$scope.to]) { // интервал
-							$ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.to], measure.sport, measure.name)}`+'-'+`${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`;
+							$ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`+'-'+`${$filter('measureCalc')($ctrl.$modelValue[$scope.to], measure.sport, measure.name)}`;
 						} else {
 							$ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`;
 						}

@@ -231,3 +231,8 @@ body {
 md-input-container {
   width: 100%;
 }
+
+// https://github.com/angular/material/issues/5439#issuecomment-157263871
+md-pagination-wrapper {
+  width:auto !important;
+}

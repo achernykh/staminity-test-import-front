@@ -39,6 +39,7 @@ class ActivityHeaderChatCtrl implements IComponentController {
         this.comment.post(this.commentType, this.activityId, true, text)
             .then(result=> {
                     this.text = null;
+                    this.comments = result;
                 },
                 error => this.message.toastError(error));
     }

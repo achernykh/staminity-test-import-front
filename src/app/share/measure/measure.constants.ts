@@ -237,16 +237,20 @@ export class Measure {
     fixed: number; // число знаков после запятой для view показателя, релевантно для типа number
     value: number; // значение показателя
 
-    constructor(public name: string, public sport?: string, value?: number){
+    constructor(public name: string, public sport?: string, value?: number | {}){
         this.unit = (_activity_measurement_view[sport].hasOwnProperty(name) && _activity_measurement_view[sport][name]['unit']) || _measurement[name].unit;
         this.fixed = _measurement[name].fixed;
     }
 
-    isDuration = isDuration;
-    isPace = isPace;
+    //isDuration = isDuration;
+    //isPace = isPace;
     // Определение типа показателя 1) duration 2) pace 3) number
     get type(): string {
-        return (this.isDuration(this.unit) && 'duration') || (this.isPace(this.unit) && 'pace') || 'number';
+        return (isDuration(this.unit) && 'duration') || (isPace(this.unit) && 'pace') || 'number';
+    }
+
+    isPace():boolean {
+        return this.type === 'pace';
     }
 
 	/**
