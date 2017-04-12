@@ -28,6 +28,9 @@ class ActivitySegmentsCtrl implements IComponentController {
         interval1.intensityLevelTo = 150;
         interval1.intensityByFtpFrom = 0.70;
         interval1.intensityByFtpTo = 0.75;
+        interval1.movingDurationApprox = false;
+        interval1.distanceApprox = true;
+
         this.item.activity.completeInterval(interval1);
 
         let interval2: Interval = new Interval('P');
@@ -40,6 +43,8 @@ class ActivitySegmentsCtrl implements IComponentController {
         interval2.intensityLevelTo = 170;
         interval2.intensityByFtpFrom = 0.80;
         interval2.intensityByFtpTo = 0.85;
+        interval1.movingDurationApprox = false;
+        interval1.distanceApprox = true;
         this.item.activity.completeInterval(interval2);
 
         let interval3: Interval = new Interval('P');
@@ -52,9 +57,14 @@ class ActivitySegmentsCtrl implements IComponentController {
         interval3.intensityLevelTo = 185;
         interval3.intensityByFtpFrom = 0.87;
         interval3.intensityByFtpTo = 0.90;
+        interval1.movingDurationApprox = false;
+        interval1.distanceApprox = true;
         this.item.activity.completeInterval(interval3);
     }
 
+    /**
+     *
+     */
     addInterval() {
         let interval: Interval = new Interval('P');
         interval.durationMeasure = this.duration;

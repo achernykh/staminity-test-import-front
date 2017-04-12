@@ -183,7 +183,7 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const durationParsers = (value) => {
-			debugger;
+			//debugger;
 			return $filter('measureSave')(measure.name, value, measure.sport);
 		};
 

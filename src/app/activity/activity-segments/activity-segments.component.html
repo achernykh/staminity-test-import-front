@@ -1,3 +1,21 @@
+<md-list flex="none" class="md-dense slim-input bg-grey-100">
+    <md-list-item>
+        <div class="md-caption" style="color: #455A64">
+            <span>Итого: </span>
+            <span ng-if="$ctrl.item.activity.intervalPW.movingDurationApprox">~</span>
+            <span>{{$ctrl.item.activity.intervalPW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
+            <span ng-if="$ctrl.item.activity.intervalPW.distanceApprox">~</span>
+            <span>{{$ctrl.item.activity.intervalPW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
+            <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic}}</span>
+        </div>
+        <!--<p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
+           style="text-align: right; margin-right: 8px">%ПАНО: {{$ctrl.ftpMode ? 'ВКЛ ' : 'ВЫКЛ'}}</p>
+        <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1"
+                   ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
+        </md-switch>-->
+    </md-list-item>
+</md-list>
+
 <activity-segment-chart flex="none" style="margin: 8px 16px"
                         activity-header="$ctrl.item.activity.intervalP"
                         selected=""
@@ -10,4 +28,4 @@
 </activity-segment-chart>
 <structured-assignment plan="$ctrl.item.activity.intervalP"></structured-assignment>
 <md-button ng-click="$ctrl.addInterval()">Добавить</md-button>
-<pre>{{$ctrl.item.activity.intervalP | json}}</pre>
+<pre>{{$ctrl.item.activity.intervalPW | json}}</pre>

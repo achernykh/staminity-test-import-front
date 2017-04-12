@@ -92,7 +92,7 @@ class StructuredIntervalCtrl implements IComponentController {
         if (measure === 'distance') {
             this.interval.distanceLength = this.interval.durationValue;
         }**/
-        //this.onChange({interval: this.interval});
+        this.onChange({interval: this.interval});
     }
 
     completeInterval(measure) {
@@ -146,7 +146,7 @@ class StructuredIntervalCtrl implements IComponentController {
 
         } else if (this.interval.durationMeasure === 'distance' &&
             this.interval.intensityMeasure === 'speed') {
-            return [this.interval.durationValue / (this.interval.intensityLevelFrom + this.interval.intensityLevelTo)/2,
+            return [this.interval.durationValue / ((this.interval.intensityLevelFrom + this.interval.intensityLevelTo)/2),
                 this.interval.durationValue,
                 false, false];
 
@@ -172,8 +172,22 @@ class StructuredIntervalCtrl implements IComponentController {
     approxSpeed(measure):number {
         let FTP: number = (this.interval.intensityByFtpFrom + this.interval.intensityByFtpTo) / 2;
         let zoneId: number = approxZones[measure].findIndex(z => FTP >= z.from && FTP <= z.to);
-        let delta: number = (FTP - approxZones[measure][zoneId]['from'])/approxZones[measure][zoneId]['from'];
-        let approxFTP: number = approxZones['speed'][zoneId]['from'] + delta * (approxZones['speed'][zoneId]['to'] - approxZones['speed'][zoneId]['from']);
+        let delta: number, approxFTP: number;
+
+        // для первой зоны
+        if (zoneId === 0) {
+            delta = FTP/approxZones[measure][zoneId]['to'];
+        }
+        // для последней зоны
+        else if (zoneId === approxZones[measure].length - 1) {
+            delta = FTP/approxZones[measure][zoneId]['from'];
+        }
+        // для всех остальных зон
+        else {
+            delta = (FTP - approxZones[measure][zoneId]['from'])/ (approxZones[measure][zoneId]['to'] - approxZones[measure][zoneId]['from']);
+        }
+
+        approxFTP = approxZones['speed'][zoneId]['from'] + delta * (approxZones['speed'][zoneId]['to'] - approxZones['speed'][zoneId]['from']);
 
         console.log('approx', measure, FTP, zoneId, delta, approxFTP, this.getFTP('speed'));
         return approxFTP * this.getFTP('speed');

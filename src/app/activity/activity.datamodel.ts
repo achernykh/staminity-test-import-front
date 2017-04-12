@@ -34,9 +34,12 @@ export class Interval implements IActivityInterval {
 	intensityByFtpTo: number; // конечное относительное значение интенсивности
 	intensityDistribution: string; // [A] = любое значение по показателю интенсивности в заданном интервале. [I] = рост значенией показателя. [D] = снижение
 	intensityFtpMax: number; // максимальная средняя интенсивность среди фактических данных , относящихся к разметке плановых сегментов. Пригодно к использованию только в рамках интервала с type = [P].
+	intensityMaxZone: number; // максимальная зона интенсивности
 	movingDurationLength: number; // времени
 	distanceLength: number; // по дистанции
 	actualDurationValue: number; // Указанная вручную пользователем длительность сегмента
+	movingDurationApprox: boolean; // признак, что movingDuration определен приблизительно
+	distanceApprox: boolean; // признак, что distance рассчитан приблизительно
 
 	// Дополнительные поля для модели данных отображения сегмента pW | P
 	movingDuration: Object = {durationValue: null};
@@ -83,13 +86,19 @@ export class Interval implements IActivityInterval {
 			completePercent: { code: 'completePercent', value: null, minValue: null, avgValue: null, maxValue: null}, // процент выполнения сегмента по отношению к плановым значениям
 		};
 
-		if (type === 'P') {
+		if (type === 'P' || type === 'pW') {
 			this.durationMeasure = null;
 			this.intensityMeasure = null;
 			this.intensityLevelFrom = null;
 			this.intensityByFtpTo = null;
 			this.intensityByFtpFrom = null;
 			this.intensityByFtpTo = null;
+			this.intensityFtpMax = null;
+			this.intensityMaxZone = null;
+			this.movingDurationLength = null;
+			this.distanceLength = null;
+			this.movingDurationApprox = null;
+			this.distanceApprox = null;
 		}
 	}
 }
@@ -171,14 +180,40 @@ export class Activity extends CalendarItem {
 	}
 
 	completeInterval(interval: IActivityIntervalL | IActivityIntervalP) {
-		this.header.intervals.push(interval);
+		//this.header.intervals.push(interval);
 		switch (interval.type) {
 			case 'U': {
-				this.intervalU = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "U");
+				this.intervalU.push(interval); //= <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "U");
 				break;
 			}
 			case 'P': {
-				this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
+				this.intervalP.push(<IActivityIntervalP>interval);// = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
+				this.calculateInterval('pW');
+			}
+		}
+	}
+
+	calculateInterval(type: string) {
+		switch (type) {
+			case 'pW': {
+				let intervalPW:Interval = new Interval('pW');
+				this.intervalP.forEach(i => {
+
+					intervalPW.durationMeasure = i.durationMeasure;
+					intervalPW.intensityMeasure = i.intensityMeasure;
+					intervalPW.durationValue += i.durationValue;
+					intervalPW.movingDurationLength += i.movingDurationLength;
+					intervalPW.distanceLength += i.distanceLength;
+					intervalPW.intensityLevelFrom = (intervalPW.intensityLevelFrom >= i.intensityLevelFrom || intervalPW.intensityLevelFrom === null) ? i.intensityLevelFrom: intervalPW.intensityLevelFrom;
+					intervalPW.intensityLevelTo = (intervalPW.intensityLevelTo <= i.intensityLevelTo || intervalPW.intensityLevelTo === null) ? i.intensityLevelTo: intervalPW.intensityLevelTo;
+					intervalPW.intensityByFtpFrom = (intervalPW.intensityByFtpFrom >= i.intensityByFtpFrom || intervalPW.intensityByFtpFrom === null) ? i.intensityByFtpFrom: intervalPW.intensityByFtpFrom;
+					intervalPW.intensityByFtpTo = (intervalPW.intensityByFtpTo <= i.intensityByFtpTo || intervalPW.intensityByFtpTo === null) ? i.intensityByFtpTo: intervalPW.intensityByFtpTo;
+
+				});
+				this.intervalPW = <IActivityIntervalPW>intervalPW;
+				this.intervalPW.movingDurationApprox = this.intervalP.some(i => i.movingDurationApprox);
+				this.intervalPW.distanceApprox = this.intervalP.some(i => i.distanceApprox);
+				break;
 			}
 		}
 	}
@@ -187,6 +222,8 @@ export class Activity extends CalendarItem {
 		switch (type) {
 			case 'P': {
 				this.intervalP.splice(id,1);
+				//this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === type);
+				this.calculateInterval('pW');
 				break;
 			}
 		}
