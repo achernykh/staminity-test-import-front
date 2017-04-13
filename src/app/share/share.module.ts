@@ -26,7 +26,7 @@ import {
     isPace,
     measurementUnit,
     measurementUnitView,
-    measurementUnitDisplay, measureValue, measureUnit
+    measurementUnitDisplay, measureValue, measureUnit, Measure
 } from './measure/measure.constants';
 import {duration} from './measure/measure.filter';
 import {MeasurementInput} from "./measure/measure.directive";
@@ -133,6 +133,23 @@ const Share = module('staminity.share', [])
     .filter('ageGroup', () => ageGroup)
     .filter('requestType', () => requestType)
     .filter('measureCalc', () => measureValue)
+    .filter('measureCalcInterval', ['$filter',($filter) => {
+        return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart:boolean = false, units:string = 'metric') => {
+            if (!input.hasOwnProperty('intensityLevelFrom') || !input.hasOwnProperty('intensityLevelTo')) {
+                return null;
+            }
+
+            let measure: Measure = new Measure(name,sport,input.intensityLevelFrom);
+
+            if(input.intensityLevelFrom === input.intensityLevelTo){
+                return $filter('measureCalc')(input.intensityLevelFrom,sport,name,chart,units);
+            } else if (measure.isPace()) {
+                return $filter('measureCalc')(input.intensityLevelTo,sport,name,chart,units)+'-'+$filter('measureCalc')(input.intensityLevelFrom,sport,name,chart,units);
+            } else {
+                return $filter('measureCalc')(input.intensityLevelFrom,sport,name,chart,units)+'-'+$filter('measureCalc')(input.intensityLevelTo,sport,name,chart,units);
+            }
+        };
+    }])
     .filter('measureUnit', () => measureUnit)
     .filter('duration', duration)
     .filter('percentByTotal', ['$filter',($filter)=> {

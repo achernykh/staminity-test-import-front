@@ -320,7 +320,11 @@ export function MeasurementInput($filter): IDirective {
 						}
 					} else { // Перевод а абсолютные значения
 						if($scope.interval && $ctrl.$modelValue[$scope.from] !== $ctrl.$modelValue[$scope.to]) { // интервал
-							$ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`+'-'+`${$filter('measureCalc')($ctrl.$modelValue[$scope.to], measure.sport, measure.name)}`;
+                            if(measure.isPace()){
+                                $ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.to], measure.sport, measure.name)}`+'-'+`${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`;
+                            } else {
+                                $ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`+'-'+`${$filter('measureCalc')($ctrl.$modelValue[$scope.to], measure.sport, measure.name)}`;
+                            }
 						} else {
 							$ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`;
 						}

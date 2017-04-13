@@ -318,6 +318,15 @@ export const _measurement_system_calculate = {
 
 const _recalculation = _measurement_calculate;
 
+/**
+ * Пересчет значений показателей
+ * @param input - значение показателя
+ * @param sport - базовый вид спорта
+ * @param measure - название показателя
+ * @param chart - перевод для графика?
+ * @param units - система мер (метрическая/имперская
+ * @returns {string} - результат пересчета
+ */
 export const measureValue = (input: number, sport: string, measure: string, chart:boolean = false, units:string = 'metric') => {
     if (!!input) {
         let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||

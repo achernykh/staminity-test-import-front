@@ -140,7 +140,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     getFTP(measure: string, sport: string = this.sport):number {
-        let zones = this.item.currentUser.trainingZones;
+        let zones = this.item.user.trainingZones;
         return (this.isInterval(measure) && 0) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport]['FTP']) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty('default') && zones[measure]['default']['FTP']) || null;
@@ -292,7 +292,8 @@ class ActivityAssignmentCtrl implements IComponentController {
 
         return ((this.plan.durationMeasure && this.plan.intensityMeasure) &&
             this.percentComplete[this.plan.durationMeasure] * this.percentComplete[this.plan.intensityMeasure] ) ||
-            (!this.plan.intensityMeasure && this.percentComplete[this.plan.durationMeasure]) || null;
+            (this.plan.durationMeasure && this.percentComplete[this.plan.durationMeasure]) ||
+            (this.plan.intensityMeasure && this.percentComplete[this.plan.intensityMeasure]) || null;
     }
 
 }

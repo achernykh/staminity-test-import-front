@@ -67,7 +67,7 @@
                         width: {{::((split.calcMeasures.power.avgValue - $ctrl.max['power'].min) / ($ctrl.max['power'].max - $ctrl.max['power'].min))*100}}%">
                         </div>
                     </div>
-                    <div flex="none" style="line-height: 32px">{{::split.calcMeasures.power.avgValue | measureCalc:$ctrl.sport:'power'}}</div>
+                    <div flex="none" style="line-height: 32px; width: 22px">{{::split.calcMeasures.power.avgValue | measureCalc:$ctrl.sport:'power'}}</div>
                 </div>
             </td>
             <td md-cell ng-if="$ctrl.max.hasOwnProperty('power')">

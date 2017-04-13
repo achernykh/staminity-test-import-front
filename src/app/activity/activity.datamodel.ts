@@ -241,6 +241,8 @@ export class Activity extends CalendarItem {
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...this.intervalL, this.intervalW);
 
+        debugger;
+
 		return {
 			index: this.index,
 			calendarItemId: this.calendarItemId,
@@ -429,9 +431,9 @@ export class Activity extends CalendarItem {
 	}
 
 	get defaultIntensityMeasure() {
-		return (!!this.intervalW.calcMeasures.speed.avgValue && 'speed')
-			|| (!!this.intervalW.calcMeasures.heartRate.avgValue && 'heartRate')
-			|| (!!this.intervalW.calcMeasures.power.avgValue && 'power') || null;
+		return (this.intervalW.calcMeasures.hasOwnProperty('speed') &&  this.intervalW.calcMeasures.speed.hasOwnProperty('avgValue') && 'speed')
+			|| (this.intervalW.calcMeasures.hasOwnProperty('heartRate') &&  this.intervalW.calcMeasures.heartRate.hasOwnProperty('avgValue') && 'heartRate')
+			|| (this.intervalW.calcMeasures.hasOwnProperty('power') &&  this.intervalW.calcMeasures.power.hasOwnProperty('avgValue') && 'power') || null;
 	}
 
 	get movingDuration() {
