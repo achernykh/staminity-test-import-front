@@ -116,11 +116,21 @@ export const translateNotification = {
 
 
 /* ---------- Комментарии, лайки, сообщения  --------**/
-        newCoachCommentSingle: "",
-        newCoachComments: "",
-        newAthletesCommentSingle: "",
-        newAthletesComments: "",
-        newUserCommentSingle: "",
+        /*  Комментарий тренера спортсмену в тренировке.
+         Получатель - спортсмен, отправитель - тренер
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - фактическая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки **/
+        newCoachComment: "Ваш тренер оставил комментарий в тренировке: " +
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        // Получатель - тренер, отправитель - спортсмен.
+        newAthleteComment: "Ваш спортсмен оставил комментарий в тренировке: " +
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        newUserComment: "",
         newLikeSingle: "",
         newUserCommentsAndLikes: "",
         newSingleMessage: "",
