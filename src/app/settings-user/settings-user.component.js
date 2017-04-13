@@ -302,7 +302,7 @@ class SettingsUserCtrl {
                 fullscreen: false // Only for -xs, -sm breakpoints.
             }).then((form) => {
                 debugger;
-                if (adaptor.status.switch && adaptor.status.code === 'offSyncNeverEnabled') {// подключение
+                if (adaptor.status.code === 'offSyncNeverEnabled') {// подключение
                     this.SyncAdaptorService.post(adaptor.provider, form.username, form.password, form.startDate)
                         .then(response => {
                         debugger;
@@ -414,7 +414,7 @@ class SettingsUserCtrl {
         this.adaptors[idx].state = response.state;
         this.adaptors[idx].lastSync = response.lastSync;
         this.adaptors[idx].status = syncStatus(response.lastSync, response.state);
-        this.$scope.$apply();
+        //this.$scope.$apply();
         this.message.toastInfo('настройки изменены');
     }
 
