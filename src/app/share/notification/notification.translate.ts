@@ -125,10 +125,10 @@ export const translateNotification = {
          * data[4] - название типа тренировки **/
         newCoachCommentSingle: "Ваш тренер оставил комментарий в тренировке: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
-        newAthletesCommentSingle: "Ваш спортсмен оставил комментарий в тренировке: " +
+        newAthleteCommentSingle: "Ваш спортсмен оставил комментарий в тренировке: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
         newCoachComments: "",
-        newAthletesComments: "",
+        newAthleteComments: "",
         newUserCommentSingle: "",
         newLikeSingle: "",
         newUserCommentsAndLikes: "",
