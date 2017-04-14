@@ -44,7 +44,11 @@ class ActivitySummaryInfoCtrl implements IComponentController {
             && this.item.activity.intervalW.calcMeasures.power.hasOwnProperty('avgValue'))
             && this.item.activity.intervalW.calcMeasures.power.avgValue) || null;
 
-        let measure: Measure = new Measure(intensityMeasure, sportBasic, intensityValue);
+        let measure: Measure;
+
+        if (intensityMeasure) {
+            new Measure(intensityMeasure, sportBasic, intensityValue);
+        }
 
         switch (this.item.activity.status) {
             case 'coming': case 'dismiss': {
@@ -52,19 +56,20 @@ class ActivitySummaryInfoCtrl implements IComponentController {
                 this.durationInfo = this.$filter('measureCalc')(durationValue, sportBasic, durationMeasure)+' '+
                     this.$filter('translate')(this.$filter('measureUnit')(durationMeasure, sportBasic));
 
-                if (intensityValue['to'] === intensityValue['from']) {// если значение
-                    this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)) || '';
-                } else { // если интервал
-                    if (measure.isPace()) {
-                        this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('to') && this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '') +
-                            '-' + (this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '');
-                    } else {
-                        this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '') +
-                            '-' + (this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '');
+                if (intensityMeasure) {
+                    if (intensityValue['to'] === intensityValue['from']) {// если значение
+                        this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)) || '';
+                    } else { // если интервал
+                        if (measure.isPace()) {
+                            this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('to') && this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '') +
+                                '-' + (this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '');
+                        } else {
+                            this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '') +
+                                '-' + (this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '');
+                        }
                     }
+                    this.intensityInfo += ' ' + this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic));
                 }
-
-                this.intensityInfo += ' ' + this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic));
 
                 break;
             }
