@@ -4,6 +4,9 @@ import { DisplayView } from "../core/display.constants";
 import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
 import {_connection} from "../core/api.constants";
+import SessionService from "../core/session.service";
+import {IAuthService} from "../auth/auth.service";
+import {IUserProfile} from "../../../api/user/user.interface";
 
 function configure(
     $stateProvider:StateProvider,
@@ -74,22 +77,37 @@ function configure(
         .state('settings/user', <StateDeclaration>{
             url: "/settings/user/:uri",
             loginRequired: true,
-            authRequired: ['func1'],
-            //view: _display_view['settings'],
+            authRequired: ['user'],
             resolve: {
-                /*view: function (ViewService) {
-                    return ViewService.getParams('settings')
-                },*/
                 view: () => {return new DisplayView('settings');},
-                user: ['UserService', 'SystemMessageService', '$stateParams',
-                    function (UserService:UserService, SystemServiceMessage, $stateParams) {
+                user: ['UserService', 'message', '$stateParams',
+                    function (UserService:UserService, message:MessageService, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
-                            .catch((error)=> {
-                                SystemServiceMessage.show(error,'warning');
+                            .catch((info)=> {
+                                message.systemWarning(info);
                                 // TODO перейти на страницу 404
-                                throw error;
+                                throw info;
                             });
-                }]
+                    }],
+                athlete: ['SessionService','user', (SessionService: SessionService, user:IUserProfile) =>
+                    SessionService.getUser().userId !== user.userId ? user : null],
+                checkPermissions: ['AuthService', 'SessionService', 'message','athlete',
+                    (AuthService:IAuthService, SessionService: SessionService, message:MessageService, athlete:IUserProfile) => {
+                        if(athlete) {
+                            if (AuthService.isCoach()) {
+                                return AuthService.isMyAthlete(athlete)
+                                    .catch((error)=>{
+                                        athlete = null;
+                                        message.systemWarning(error);
+                                        throw error;
+                                    });
+                            } else {
+                                athlete = null;
+                                message.systemWarning('needPermissions');
+                                throw 'need permissions';
+                            }
+                        }
+                    }]
             },
             views: {
                 "background": {

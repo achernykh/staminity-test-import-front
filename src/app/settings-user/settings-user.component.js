@@ -503,7 +503,8 @@ DialogController.$inject = ['$scope', '$mdDialog'];
 
 let SettingsUser = {
     bindings: {
-        user: '<'
+        user: '<',
+        athlete: '<'
     },
     transclude: false,
     controller: SettingsUserCtrl,

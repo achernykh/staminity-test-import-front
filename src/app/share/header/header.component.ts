@@ -16,7 +16,7 @@ class HeaderCtrl implements IComponentController {
 	private athlete: IUserProfile;
 	private profile$: Observable<IUserProfile>;
 	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
-	private readonly athleteSelectorStates: Array<string> = ['calendar'];
+	private readonly athleteSelectorStates: Array<string> = ['calendar','settings/user'];
 
 	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', 'NotificationService',
 		'$mdDialog', '$state','toaster'];
