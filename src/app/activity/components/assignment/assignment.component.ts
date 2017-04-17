@@ -32,6 +32,16 @@ class ActivityAssignmentCtrl implements IComponentController {
     public from: string = 'intensityLevelFrom' || 'intensityByFtpFrom';
     public to: string = 'intensityLevelTo' || 'intensityByFtpTo';
     private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
+    private readonly structuredMeasure: any = {
+        movingDuration: {
+            length: 'movingDurationLength',
+            approx: 'movingDurationApprox'
+        },
+        distance: {
+            length: 'distanceLength',
+            approx: 'distanceApprox'
+        }
+    };
 
     public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
 

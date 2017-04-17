@@ -419,8 +419,9 @@ export class Activity extends CalendarItem {
 	}
 
 	get bottomPanel() {
-		return ((this.status === 'coming' && ((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0) ||
-			this.intervalPW.intensityMeasure )) && 'plan') || ((this.completed && this.summaryAvg.length > 0) && 'data') || null;
+		return ((this.status === 'coming' && ((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0) || this.intervalPW.intensityMeasure )) && 'plan') ||
+			(this.status === 'coming' && this.structured && 'segmentList') ||
+			((this.completed && this.summaryAvg.length > 0) && 'data') || null;
 	}
 
 	/**
@@ -527,8 +528,33 @@ export class Activity extends CalendarItem {
 			.filter(measure => !!measure && !!measure.value);
 	}
 
-	formSegmentList(){
+	prepareSegmentList(){
 
+		let segmentList: Array<any> = [];
+		let segment: any = {};
+
+		if(this.structured && this.intervalP.length > 0) {
+			this.intervalP.forEach(interval => {
+				segment = interval;
+				segment['show'] = true;
+				segment['group'] = interval.type === 'G';
+				if (segment['group']) { //если группа
+					segment.subItem = []; // для записи членов группы
+					segmentList.push(segment);
+				} else { // отдельный интервал
+					if (segment.hasOwnProperty('parentGroupCode') && segment['parentGroupCode']) { // входит в группу
+						let gId = segmentList.findIndex(s => s['code'] === segment['parentGroupCode']);
+						if (gId !== -1) {
+							segmentList[gId].subItem.push(segment);
+						}
+					} else { // одиночный интервал, без группы
+						segmentList.push(segment);
+					}
+				}
+			});
+		}
+
+		return segmentList;
 	}
 
 	/**
@@ -550,7 +576,7 @@ export class Activity extends CalendarItem {
 		});
 
 		// Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
-		return (data.length > 0 && data.map(d => {d[0] = d[0] / finish;	d[1] = d[1] / 100; return d;})) || null;
+		return (data.length > 0 && data.map(d => {d[0] = d[0] / finish;	d[1] = d[1]; return d;})) || null;
 	}
 }
 

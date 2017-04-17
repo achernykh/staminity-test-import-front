@@ -37,6 +37,7 @@ class CalendarActivityCtrl {
             this.bottomPanelData = this.data.summaryAvg
 
         this.segmentChart = this.data.formChart();
+        this.segmentList = this.data.prepareSegmentList();
         //console.log('CalendarActivityCtrl $onInit, summaryAvg=', this.data.summaryAvg)
         /**
          * Формат отображения тренировке в календаре зависит от нескольких параметров: 1) дата тренировки 2) факт
@@ -62,7 +63,7 @@ class CalendarActivityCtrl {
                 // Собираем лист сегментов
                 // Если интервал является плановым сегментов или группой, то формируем лист сегментов
                 if (interval.type == 'P' || interval.type == 'G') {
-                    this.prepareSegmentList((interval.type == 'G'), interval);
+                    //this.prepareSegmentList((interval.type == 'G'), interval);
 
                 }
                 // Собираем график сегментов
@@ -143,72 +144,11 @@ class CalendarActivityCtrl {
             }
         }
 
-
-        // Определеяем статус выполнения задания
-        /**if (moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'), 'd') >= 1) {
-            // Задание в прошлом
-            let complete = false;
-            for (let interval of this.item.activityHeader.intervals) {
-                if (interval.type == 'W') {
-                    complete = true;
-                    this.bottomPanel = 'data';
-                    if (interval.calcMeasures.hasOwnProperty('movingDuration'))
-                        this.data.duration = moment().startOf('day').second(interval.calcMeasures.movingDuration.maxValue).format('H:mm:ss');
-                    if (interval.calcMeasures.hasOwnProperty('distance'))
-                        this.data.distance = (interval.calcMeasures.distance.maxValue).toFixed(2);
-                    this.data.statusPercent = interval.calcMeasures.completePercent.value;
-
-                    // Набор данных по видам спорта
-                    if (interval.calcMeasures.hasOwnProperty('speed'))
-                        this.data.speedAvg = interval.calcMeasures.speed.avgValue.toFixed(0);
-                    if (interval.calcMeasures.hasOwnProperty('heartRate'))
-                        this.data.heartRateAvg = interval.calcMeasures.heartRate.avgValue.toFixed(0);
-                    if (interval.calcMeasures.hasOwnProperty('power'))
-                        this.data.powerAvg = interval.calcMeasures.power.avgValue.toFixed(0);
-
-                    if (!this.planned)
-                    // Заадние выполнено без плана
-                        this.status = 'noplan'
-                    else if (this.data.statusPercent > 75)
-                    // Задание выполнено
-                        this.status = 'complete';
-                    else if (this.data.statusPercent > 50)
-                    // Задание выполнено, но с отклонением
-                        this.status = 'complete warn';
-                    else
-                    // Задание выполнено c существенными отклонениями
-                        this.status = 'complete error';
-
-                }
-                if (interval.type == 'pW') {
-                    // TODO Добавить функцию вычисления номера зоны по значению показателя
-                    this.intensityMeasure = interval.intensityMeasure;
-                    this.intensityFtpMax = (interval.intensityFtpMax / 10).toFixed(0);
-                }
-            }
-            if (!complete) {
-                // задание не выполнено
-                this.status = 'dismiss';
-            }
-        } else {
-            // задание в будущем
-            this.bottomPanel = 'prescription';
-            this.status = 'planned';
-            for (let interval of this.item.activityHeader.intervals) {
-                if (interval.type == 'pW') {
-                    //complete = true;
-                    this.data.duration = moment().startOf('day').second(interval.calcMeasures.movingDuration.value).format('H:mm:ss');
-                    this.data.distance = (interval.calcMeasures.distance.value).toFixed(2);
-                    this.trainersPrescription = interval.trainersPrescription;
-                }
-            }
-        }
-
          if (this.structured) {
             this.bottomPanel = 'segmentList';
             //console.info('segmentChart', JSON.stringify(this.segmentChart));
         }
-         console.log('calendar activity =', this.item, this.data, this.bottomPanel, this.status, this.structured)*/
+         console.log('calendar activity =', this.item, this.data, this.bottomPanel, this.status, this.structured)
     }
 
     $onChanges(changes) {

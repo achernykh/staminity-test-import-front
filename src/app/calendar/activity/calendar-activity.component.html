@@ -187,8 +187,8 @@
                             <img ng-src="assets/icon/bullet.svg"
                                      style="width: 15px; height: 15px; min-width: 15px; min-height: 15px"
                                      class="dark-active"/></div>
-                        <div flex="none" style="width: 40px">{{::interval.calcMeasures.distance.value}} км</div>
-                        <div flex="auto">{{::interval.calcMeasures.heartRate.value}}чсс</div>
+                        <div flex="none" style="width: 40px">{{::interval[interval.durationMeasure + 'Length'] | measureCalc:'run':interval.durationMeasure}}</div>
+                        <div flex="auto">{{::interval | measureCalcInterval:'run':interval.intensityMeasure}}</div>
                     </div>
                 </div>
             </div>
