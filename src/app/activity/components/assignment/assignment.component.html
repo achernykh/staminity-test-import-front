@@ -76,6 +76,9 @@
                            ng-disabled="false">
                 </md-input-container>-->
             </md-list-item>
+            <md-button class="md-fab md-mini md-primary" aria-label="Use Android">
+                <md-icon class="material-icons">edit</md-icon>
+            </md-button>
         </md-list>
         <md-list flex="none" class="md-dense slim-input bg-grey-100">
             <!--<md-subheader class="bg-grey-100">Задание</md-subheader>-->
@@ -90,7 +93,7 @@
             <md-list-item ng-if="!$ctrl.item.activity.sport">
                 <p class="md-body-1">Для ввода задания укажите вид спорта и тип тренировки</p>
             </md-list-item>
-            <md-list-item class="bg-grey-100" ng-if="$ctrl.item.structuredMode && $ctrl.item.activity.sport">
+            <md-list-item class="bg-grey-100" ng-if="($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
                 <table md-table
                        md-row-select="$ctrl.options.rowSelection"
                        multiple="{{$ctrl.options.multiSelect}}"
@@ -120,13 +123,13 @@
                     </tbody>
                 </table>
             </md-list-item>
-            <md-list-item class="bg-grey-100" ng-if="$ctrl.item.structuredMode && $ctrl.item.activity.sport">
+            <md-list-item class="bg-grey-100" ng-if="($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
                 <md-icon class="material-icons" style="margin-right: 20px">format_list_numbered</md-icon>
                 <p>{{$ctrl.item.activity.intervalP.length}} сегм</p>
                 <md-icon ng-click="angular.noop()" class="md-secondary material-icons">keyboard_arrow_right</md-icon>
 
             </md-list-item>
-            <md-list-item class="bg-grey-100" ng-if="!$ctrl.item.structuredMode && $ctrl.item.activity.sport">
+            <md-list-item class="bg-grey-100" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
                 <md-table-container>
                     <table md-table
                            md-row-select="$ctrl.options.rowSelection"

@@ -18,7 +18,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     $onInit() {
-        let interval1: Interval = new Interval('P');
+        /*let interval1: Interval = new Interval('P');
         interval1.durationMeasure = this.duration;
         interval1.intensityMeasure = this.intensity;
         interval1.durationValue = 3600;
@@ -59,7 +59,7 @@ class ActivitySegmentsCtrl implements IComponentController {
         interval3.intensityByFtpTo = 0.90;
         interval1.movingDurationApprox = false;
         interval1.distanceApprox = true;
-        this.item.activity.completeInterval(interval3);
+        this.item.activity.completeInterval(interval3);*/
     }
 
     /**

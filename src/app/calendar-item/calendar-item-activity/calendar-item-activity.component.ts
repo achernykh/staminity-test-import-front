@@ -132,6 +132,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
         this.isPro = this.AuthService.isActivityPro();
         this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
+        this.structuredMode = this.activity.structured;
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post') {
             this.ActivityService.getCategory()
