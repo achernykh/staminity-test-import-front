@@ -181,6 +181,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     addUserInterval(range: {startTimestamp: number, endTimestamp: number}){
         let initiator: SelectInitiator = 'details';
+
+        if(!range) {
+            this.selectIntervalIndex(initiator,{ L: null, P: null, U: null});
+            return;
+        }
+
         //this.isLoadingRange = true;
         this.setDetailsTab(initiator, true);
         //this.$scope.$digest();

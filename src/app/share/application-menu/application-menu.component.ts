@@ -60,6 +60,10 @@ class ApplicationMenuCtrl implements IComponentController{
         this.toggleSlide();
     }
 
+    close () {
+        this.$mdSidenav('appmenu').toggle();
+    }
+
 }
 
 let ApplicationMenuComponent: IComponentOptions = {

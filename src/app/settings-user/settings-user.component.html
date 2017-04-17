@@ -55,12 +55,11 @@
             </header>
             <section class="settings-feed" flex="grow" layout="column" id="settings-scroll-container">
 
-                <article flex="none" ng-include="'settings.personal.html'"></article>
-
-                <ng-include src="'settings.privacy.html'"></ng-include>
-                <ng-include src="'settings.display.html'"></ng-include>
-                <ng-include src="'settings.account.html'"></ng-include>
-                <ng-include src="'settings.sync.html'"></ng-include>
+                <article flex="none" ng-include="'settings.personal.html'" ng-if="!$ctrl.athlete"></article>
+                <ng-include src="'settings.privacy.html'" ng-if="!$ctrl.athlete"></ng-include>
+                <ng-include src="'settings.display.html'" ng-if="!$ctrl.athlete"></ng-include>
+                <ng-include src="'settings.account.html'" ng-if="!$ctrl.athlete"></ng-include>
+                <ng-include src="'settings.sync.html'" ng-if="!$ctrl.athlete"></ng-include>
                 <settings-zones zones="$ctrl.user.trainingZones"></settings-zones>
                                   <!--<ng-include src="'settings.zones.html'"></ng-include><!--
                 <article flex="none" ng-include="'settings/articles/settings.notifications.html'"></article>

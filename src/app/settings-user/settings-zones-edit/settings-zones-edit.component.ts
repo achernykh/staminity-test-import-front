@@ -148,19 +148,19 @@ class SettingsZonesEditCtrl implements IComponentController {
                     {
                         id: "new",
                         code: "Zone 1",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.60),
-                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.70)
+                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.50),
+                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.60)
                     },
                     {
                         id: "new",
                         code: "Zone 2",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.70) + step,
-                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.75)
+                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.60) + step,
+                        valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.70)
                     },
                     {
                         id: "new",
                         code: "Zone 3",
-                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.75) + step,
+                        valueFrom: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.70) + step,
                         valueTo: measure.minValue + Math.round((measure.maxValue - measure.minValue) * 0.80)
                     },
                     {

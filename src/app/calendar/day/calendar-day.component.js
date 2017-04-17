@@ -24,11 +24,9 @@ class CalendarDayCtrl {
 
     }
     onPaste(){
-        "use strict";
         this.calendar.onPasteDay(this.data.date)
     }
     onCopy(){
-        "use strict";
         this.calendar.onCopyItem(this.data.calendarItems)
     }
 

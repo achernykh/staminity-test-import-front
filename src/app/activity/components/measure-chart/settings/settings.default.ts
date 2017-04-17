@@ -1,6 +1,7 @@
 ﻿import { FillType, IActivityChartSettings, ActivityChartMode } from './settings.models';
 import * as d3 from 'd3';
 
+
 const DefaultChartSettings: IActivityChartSettings = {
     minWidth: 350,
     minAspectRation: 0.25,
@@ -10,11 +11,13 @@ const DefaultChartSettings: IActivityChartSettings = {
     defaultMode: ActivityChartMode.elapsedDuration,
     animation: {
         duration: 1000,
+        zoomDuration: 700,
         delayByOrder: 200,
         ease: d3.easeExp
     },
     selectAnimation: {
         duration: 1000,
+        zoomDuration: 700,
         delayByOrder: 200,
         ease: d3.easeExp
     },
@@ -22,6 +25,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     heartRate: {
         order: 3,
         flippedChart: false,
+        zoomOffset: 5,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
@@ -45,6 +49,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     speed: {
         order: 2,
         flippedChart: false,
+        zoomOffset: 0.2,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
@@ -68,6 +73,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     pace: {
         order: 2,
         flippedChart: false,
+        zoomOffset: 0,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
@@ -91,6 +97,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     power: {
         order: 1,
         flippedChart: false,
+        zoomOffset: 0,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
@@ -114,6 +121,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     altitude: {
         order: 4,
         flippedChart: false,
+        zoomOffset: 0,
         area: {
             heightRatio: 0.35,
             fillType: FillType.Solid,
@@ -132,6 +140,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         }
     },
     duration: {
+        zoomOffset: 30,
         axis: {
             color: '#8d8d8d',
             tickMinStep: 300,
@@ -141,6 +150,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         }
     },
     movingDuration: {
+        zoomOffset: 30,
         axis: {
             color: '#8d8d8d',
             tickMinStep: 300,
@@ -150,6 +160,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         }
     },
     elapsedDuration: {
+        zoomOffset: 30,
         axis: {
             color: '#8d8d8d',
             tickMinStep: 300,
@@ -159,6 +170,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         }
     },
     distance: {
+        zoomOffset: 100,
         axis: {
             color: '#8d8d8d',
             tickMinStep: 1000,

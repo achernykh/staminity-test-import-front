@@ -77,12 +77,6 @@ calendar {
     position: relative;
     height: calc(100% - 55px);
     scroll-behavior: auto;
-    //position: fixed;
-    //bottom: 0;
-    //top: 132px;
-    //left: 0;
-    //right: 0;
-    //z-index: 100;
     overflow-y: scroll
 
   }
@@ -316,76 +310,78 @@ calendar-event, calendar-competition {
 }
 
 
-
-.new {
-  border-radius: 3px;
-  margin: 4px 0px;
-  -background: white;
-  visibility: hidden;
-  cursor: pointer;
-
-  &.show {
-    visibility: visible;
-  }
-
-  &:hover {
+calendar {
+  .new {
+    border-radius: 3px;
+    margin: 4px 0px;
     -background: white;
-  }
+    visibility: hidden;
+    cursor: pointer;
 
-}
+    &.show {
+      visibility: visible;
+    }
 
-.cg-width {
-  width: 100%;
-
-  @media (max-width: 959px) {
-    width: auto;
-  }
-}
-
-.today {
-  border-top:solid 4px $orange-800 ;
-}
-
-.md-position-fab{
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-.md-position-fab.md-fab.md-primary.md-icon-button {
-  background-color: $orange-900;
-
-  &:hover {
-    background-color: $orange-700;
-  }
-}
-.status {
-  width: 7px;
-  height: 7px;
-  border-radius: 7px;
-  content: " ";
-}
-.space{
-  margin-left: 3px;
-  margin-right: 3px;
-}
-.activity-icon {
-  border-radius: 20px;
-  padding: 3px 5px 3px 5px;
-  &.success {
-    background: $success-color-hover;
+    &:hover {
+      -background: white;
+    }
 
   }
-  &.warning {
-    background: $warning-color-hover;
+
+  .cg-width {
+    width: 100%;
+
+    @media (max-width: 959px) {
+      width: auto;
+    }
   }
-  &.error {
-    background: $error-color-hover;
+
+  .today {
+    border-top:solid 4px $orange-800 ;
   }
-  &.noplan {
-    background: $primary-hue-3;
+
+  .md-position-fab{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .md-position-fab.md-fab.md-primary.md-icon-button {
+    background-color: $orange-900;
+
+    &:hover {
+      background-color: $orange-700;
+    }
+  }
+  .status {
+    width: 7px;
+    height: 7px;
+    border-radius: 7px;
+    content: " ";
+  }
+  .space{
+    margin-left: 3px;
+    margin-right: 3px;
+  }
+  .activity-icon {
+    border-radius: 20px;
+    padding: 3px 5px 3px 5px;
+    &.success {
+      background: $success-color-hover;
+
+    }
+    &.warning {
+      background: $warning-color-hover;
+    }
+    &.error {
+      background: $error-color-hover;
+    }
+    &.noplan {
+      background: $primary-hue-3;
+    }
   }
 }
+
 
 #calendar {
   .badge {

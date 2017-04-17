@@ -237,16 +237,20 @@ export class Measure {
     fixed: number; // число знаков после запятой для view показателя, релевантно для типа number
     value: number; // значение показателя
 
-    constructor(public name: string, public sport?: string, value?: number){
+    constructor(public name: string, public sport?: string, value?: number | {}){
         this.unit = (_activity_measurement_view[sport].hasOwnProperty(name) && _activity_measurement_view[sport][name]['unit']) || _measurement[name].unit;
         this.fixed = _measurement[name].fixed;
     }
 
-    isDuration = isDuration;
-    isPace = isPace;
+    //isDuration = isDuration;
+    //isPace = isPace;
     // Определение типа показателя 1) duration 2) pace 3) number
     get type(): string {
-        return (this.isDuration(this.unit) && 'duration') || (this.isPace(this.unit) && 'pace') || 'number';
+        return (isDuration(this.unit) && 'duration') || (isPace(this.unit) && 'pace') || 'number';
+    }
+
+    isPace():boolean {
+        return this.type === 'pace';
     }
 
 	/**
@@ -314,6 +318,15 @@ export const _measurement_system_calculate = {
 
 const _recalculation = _measurement_calculate;
 
+/**
+ * Пересчет значений показателей
+ * @param input - значение показателя
+ * @param sport - базовый вид спорта
+ * @param measure - название показателя
+ * @param chart - перевод для графика?
+ * @param units - система мер (метрическая/имперская
+ * @returns {string} - результат пересчета
+ */
 export const measureValue = (input: number, sport: string, measure: string, chart:boolean = false, units:string = 'metric') => {
     if (!!input) {
         let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||

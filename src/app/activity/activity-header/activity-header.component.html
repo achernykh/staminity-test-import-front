@@ -65,16 +65,6 @@
                 </activity-header-details>
             </md-tab-content>
         </md-tab>
-        <md-tab id="chat" flex layout="column" label="Чат" ng-if="$ctrl.item.mode !== 'post'">
-            <md-tab-content layout-fill layout-column>
-                <activity-header-chat flex="auto" layout="column" layout-fill
-                                      activity-id="$ctrl.item.activity.id"
-                                      social="$ctrl.item.activity.header.social"
-                                      user="$ctrl.item.user"
-                                      coach="$ctrl.item.isMyCoach">
-                </activity-header-chat>
-            </md-tab-content>
-        </md-tab>
         <md-tab id="zones" flex layout="column" label="Зоны">
             <md-tab-content layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill
@@ -83,6 +73,17 @@
                                        has-details="$ctrl.item.activity.hasImportedData">
                 </activity-header-zones>
             </md-tab-content>
+        </md-tab>
+        <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post'">
+            <md-tab-label><span>Чат</span><span class="badge superscript inactive" ng-if="$ctrl.item.activity.activityHeader.social.coachComments > 0">{{$ctrl.item.activity.activityHeader.social.coachComments}}</span></md-tab-label>
+            <md-tab-body layout-fill layout-column>
+                <activity-header-chat flex="auto" layout="column" layout-fill
+                                      activity-id="$ctrl.item.activity.id"
+                                      social="$ctrl.item.activity.header.social"
+                                      user="$ctrl.item.user"
+                                      coach="$ctrl.item.isMyCoach">
+                </activity-header-chat>
+            </md-tab-body>
         </md-tab>
     </md-tabs>
 </md-content>

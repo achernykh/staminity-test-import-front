@@ -32,9 +32,6 @@ function configure($stateProvider:StateProvider,
                     SessionService.getUser().userId !== user.userId ? user : null],
                 checkPermissions: ['AuthService', 'SessionService', 'message','athlete',
                     (AuthService:IAuthService, SessionService: SessionService, message:MessageService, athlete:IUserProfile) => {
-                        //console.log('athlete', athlete);
-                        //console.log('auth',AuthService.isCoach());
-                        //console.log('coach', AuthService.isMyAthlete(athlete));
                         if(athlete) {
                             if (AuthService.isCoach()) {
                                 return AuthService.isMyAthlete(athlete)

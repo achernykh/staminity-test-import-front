@@ -91,30 +91,11 @@
          ng-switch on="$ctrl.data.bottomPanel"
          ng-if="::(!$ctrl.calendar.view.compact && $ctrl.data.hasBottomData())">
         <!-- Панель: Установка тренера -->
-        <!--<div ng-switch-when="prescription" ng-if="$ctrl.data.intensityValue">
-            <div flex="none">
-                <md-icon md-svg-src="assets/icon/{{::$ctrl.data.intensityMeasure}}.svg" class="light-active s18"
-                         style="margin-right: 8px">timer</md-icon>
-            </div>
-            <div flex layout="column"
-                 class="md-caption secondary dark"
-                 style="margin-top: 2px">
-                    {{::$ctrl.data.intensityValue | measureCalc:$ctrl.data.sportBasic:$ctrl.data.intensityMeasure}}
-                    <span class="disable dark">&nbsp{{::$ctrl.data.intensityMeasure | measureUnit:$ctrl.data.sportBasic | translate}}</span>
-            </div>
-        </div>-->
         <div ng-switch-when="plan">
             <div ng-if="::$ctrl.data.intensityMeasure" layout="row" class="md-caption secondary dark" style="margin-top: 2px">
                 <div flex="none">
-                    {{::$ctrl.data.intervalPW.intensityLevelFrom | measureCalc:$ctrl.data.sportBasic:$ctrl.data.intensityMeasure}}
+                    {{::$ctrl.data.intervalPW | measureCalcInterval:$ctrl.data.sportBasic:$ctrl.data.intensityMeasure}}
                 </div>
-                <div flex="none" ng-if="::($ctrl.data.intervalPW.intensityLevelFrom !== $ctrl.data.intervalPW.intensityLevelTo)">
-                    -{{::$ctrl.data.intervalPW.intensityLevelTo | measureCalc:$ctrl.data.sportBasic:$ctrl.data.intensityMeasure}}
-                </div>
-                <div flex="none" class="disable dark">
-                    &nbsp{{::$ctrl.data.intensityMeasure | measureUnit:$ctrl.data.sportBasic | translate}}
-                </div>
-
             </div>
             <div flex ng-if="::($ctrl.data.intensityMeasure && !!$ctrl.data.intervalPW.trainersPrescription.length)"
                  style="height: 4px"></div>
@@ -141,7 +122,7 @@
             </div>
             <div flex layout="column"
                  class="md-caption secondary dark"
-                 style="margin-top: 2px; font-size: 12px">
+                 style="margin-top: 2px; font-size: 12px; line-height: 16px">
                 <div flex ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind">
                     {{::obj.value | measureCalc:$ctrl.data.sportBasic:obj.measure}}
                     <span class="disable dark">&nbsp{{::obj.measure | measureUnit:$ctrl.data.sportBasic | translate}}</span>

@@ -130,12 +130,12 @@ export const _SYNC_ADAPTORS = [
         provider: 'strava',
         state: ExternalProviderState.Disabled,
         isOAuth: true
-    },
+    }/*,
     {
         provider: 'polar',
         state: ExternalProviderState.Disabled,
         isOAuth: false
-    }
+    }*/
 ];
 
 const _SYNC_ADAPTORS_STATUS = {

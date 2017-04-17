@@ -1,4 +1,5 @@
 import './activity-header-chat.component.scss';
+import moment from 'moment/min/moment-with-locales.js';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import CommentService from "../../core/comment.service";
 import {CommentType} from "../../../../api/social/comment.request";
@@ -39,12 +40,18 @@ class ActivityHeaderChatCtrl implements IComponentController {
         this.comment.post(this.commentType, this.activityId, true, text)
             .then(result=> {
                     this.text = null;
+                    this.comments = result;
                 },
                 error => this.message.toastError(error));
     }
 
     isMe(id: number): boolean {
         return (this.user.hasOwnProperty('userId') && id === this.user.userId) || false;
+    }
+
+    localDate(date){
+        console.log('date: ',date,moment.utc(date).format('d MMM HH:mm'),new Date().getTimezoneOffset());
+        return moment(date).add('minutes',-1*(new Date().getTimezoneOffset())).format('d MMM HH:mm');
     }
 }
 

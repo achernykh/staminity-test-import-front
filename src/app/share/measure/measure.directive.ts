@@ -317,6 +317,7 @@ export function MeasurementInput($filter): IDirective {
 			if($ctrl.$modelValue || $ctrl.$viewValue) {
 				let percent: number = $scope.ftpMode ? 100 : 1;
 				//gger;
+				//debugger;
 				// Пустое значение в модели данных, в представление = '
 				if (!$ctrl.$modelValue[$scope.from]) {
 					$ctrl.$viewValue = '';
@@ -324,15 +325,17 @@ export function MeasurementInput($filter): IDirective {
 					// Перевод в %FTP
 					if ($scope.ftpMode) {
 						if($scope.interval && $ctrl.$modelValue[$scope.from] !== $ctrl.$modelValue[$scope.to]) {
-							$ctrl.$viewValue = //measure.type === 'pace' ?
-							//`${($ctrl.$modelValue[$scope.to]*percent).toFixed(0)}`+'-'+`${($ctrl.$modelValue[$scope.from]*percent).toFixed(0)}` :
-							`${($ctrl.$modelValue[$scope.from]*percent).toFixed(0)}`+'-'+`${($ctrl.$modelValue[$scope.to]*percent).toFixed(0)}`;
+							$ctrl.$viewValue = `${($ctrl.$modelValue[$scope.from]*percent).toFixed(0)}`+'-'+`${($ctrl.$modelValue[$scope.to]*percent).toFixed(0)}`;
 						} else {
 							$ctrl.$viewValue = `${($ctrl.$modelValue[$scope.from]*percent).toFixed(0)}`;
 						}
 					} else { // Перевод а абсолютные значения
 						if($scope.interval && $ctrl.$modelValue[$scope.from] !== $ctrl.$modelValue[$scope.to]) { // интервал
-							$ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.to], measure.sport, measure.name)}`+'-'+`${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`;
+                            if(measure.isPace()){
+                                $ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.to], measure.sport, measure.name)}`+'-'+`${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`;
+                            } else {
+                                $ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`+'-'+`${$filter('measureCalc')($ctrl.$modelValue[$scope.to], measure.sport, measure.name)}`;
+                            }
 						} else {
 							$ctrl.$viewValue = `${$filter('measureCalc')($ctrl.$modelValue[$scope.from], measure.sport, measure.name)}`;
 						}

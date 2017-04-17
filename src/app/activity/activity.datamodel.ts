@@ -304,6 +304,8 @@ export class Activity extends CalendarItem {
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...this.intervalL, this.intervalW);
 
+        debugger;
+
 		return {
 			index: this.index,
 			calendarItemId: this.calendarItemId,
@@ -484,9 +486,8 @@ export class Activity extends CalendarItem {
 	}
 
 	get intensityValue() {
-		return ((this.status === 'coming' || this.status === 'dismiss') && {
-			from: this.intervalPW.intensityLevelFrom,
-			to: this.intervalPW.intensityLevelTo}) || this.intervalW.calcMeasures[this.intensityMeasure].avgValue;
+		return ((this.status === 'coming' || this.status === 'dismiss') && {from: this.intervalPW.intensityLevelFrom, to: this.intervalPW.intensityLevelTo}) ||
+			(this.intensityMeasure &&  this.intervalW.calcMeasures.hasOwnProperty(this.intensityMeasure) && this.intervalW.calcMeasures[this.intensityMeasure].avgValue) || null;
 	}
 
 	get intensityMeasure() {
@@ -494,9 +495,9 @@ export class Activity extends CalendarItem {
 	}
 
 	get defaultIntensityMeasure() {
-		return (!!this.intervalW.calcMeasures.speed.avgValue && 'speed')
-			|| (!!this.intervalW.calcMeasures.heartRate.avgValue && 'heartRate')
-			|| (!!this.intervalW.calcMeasures.power.avgValue && 'power') || null;
+		return (this.intervalW.calcMeasures.hasOwnProperty('speed') &&  this.intervalW.calcMeasures.speed.hasOwnProperty('avgValue') && 'speed')
+			|| (this.intervalW.calcMeasures.hasOwnProperty('heartRate') &&  this.intervalW.calcMeasures.heartRate.hasOwnProperty('avgValue') && 'heartRate')
+			|| (this.intervalW.calcMeasures.hasOwnProperty('power') &&  this.intervalW.calcMeasures.power.hasOwnProperty('avgValue') && 'power') || null;
 	}
 
 	get movingDuration() {
@@ -510,8 +511,8 @@ export class Activity extends CalendarItem {
 	}
 
 	get distance() {
-		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.distance.value;
+		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance') && this.intervalPW.durationValue) ||
+			(this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;
 	}
 
 	// Формируем перечень показателей для панели data (bottomPanel)

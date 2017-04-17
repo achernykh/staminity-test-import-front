@@ -13,6 +13,9 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private showChart: boolean = true;
     private showTable: boolean = true;
     private fullScreenTable: boolean = false;
+    private zoomIn: number = 0;
+    private zoomOut: number = 0;
+    private autoZoom: boolean = true;
 
     private measures: {} = {};
     private measuresItem: {} = {};
@@ -109,6 +112,10 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>){
+        if (!select[0].startTimestamp) {
+            let index = this.measures['timestamp']['idx'];
+            select[0].startTimestamp = this.item.details.metrics[0][index];
+        }
         this.item.addUserInterval(select[0]);
     }
 
