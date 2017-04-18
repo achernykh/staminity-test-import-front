@@ -4,8 +4,8 @@ export const _translate = {
         shortTitle: 'Календарь',
         today: 'Сегодня',
         selectDate: 'Перейти на дату',
-        compact: 'Компактный режим',
-        details: 'Подробный режим'
+        compact: 'Показать детали',
+        details: 'Скрыть детали'
     },
     en: {}
 };
