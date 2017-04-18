@@ -2,11 +2,11 @@
 
 notification-list {
   md-list {
-    background-color: $grey-300;
+    //background-color: $grey-300;
   }
 
   md-list-item.read {
-    background-color: $grey-300;
+    background-color: $grey-200;
     a {
       color: rgba(0,0,0,0.34);
       text-decoration: none;

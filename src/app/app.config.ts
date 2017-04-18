@@ -113,9 +113,11 @@ function configure(
 
 	moment.locale('ru');
 	moment.lang('ru');
-	$mdDateLocaleProvider.formatDate = (date) => moment(date).isValid() ? moment(date).format('L') : '';
+
 	tmhDynamicLocaleProvider.localeLocationPattern('/assets/locale/angular-locale_{{locale}}.js');
 	tmhDynamicLocaleProvider.defaultLocale('ru');
+	$mdDateLocaleProvider.formatDate = (date) => moment(date).isValid() ? moment(date).format('L') : '';
+	$mdDateLocaleProvider.firstDayOfWeek = 1; // monday
 
 	console.log('config complete');
 }
