@@ -33,6 +33,10 @@ class MeasureMainButtonCtrl implements IComponentController{
 		};
 		this.$scope.search = (m) => this.$scope.measure[this.sport].indexOf(m.$key) !== -1;
 	}
+
+	link(url) {
+		window.open(url);
+	}
 }
 
 const MeasureMainButtonComponent: IComponentOptions = {
@@ -43,7 +47,10 @@ const MeasureMainButtonComponent: IComponentOptions = {
 	controller: MeasureMainButtonCtrl,
 	template: `
 		<md-list class="md-dense">
-			<md-subheader>Основные показатели</md-subheader>
+			<md-list-item>
+				<p class="md-caption" style="color: #455A64">Основные показатели</p>
+				<md-icon ng-click="$ctrl.link('https://help.staminity.com/ru/basics/measures.html')" class="material-icon md-secondary">help_outline</md-icon>
+			</md-list-item>
 			<md-list-item layout="row" layout-wrap>				
 				<md-button class="md-exclude"
 							ng-repeat="measure in $ctrl.calcMeasures | toArray | filter:search track by measure.$key">

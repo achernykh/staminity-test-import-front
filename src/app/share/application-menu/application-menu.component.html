@@ -2,7 +2,7 @@
 <md-toolbar class="md-hue-3" ng-if="!!$ctrl.user"
             style=" background-image:
                         linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)),
-                        url({{'/user/background/' + $ctrl.user.public.background | image}})">
+                        url({{$ctrl.user.public.background | userBackground}})">
     <div layout="row" layout-padding>
         <div class="avatar medium"
              style="background-image: url({{'/user/avatar/' + $ctrl.user.public.avatar | image}})"></div>

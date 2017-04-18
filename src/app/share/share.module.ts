@@ -42,18 +42,19 @@ import { memorize } from "./util";
 const parseUtc = memorize(date => moment.utc(date));
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
-const avatar = () => (user) => `url(${user && user.public && user.public.avatar? image() ('/user/avatar/' + user.public.avatar) : '/assets/avatar/default.png'})`;
+const userBackground = () => (url:string) => url && url !== 'default.jpg' ? _connection.content + '/content/user/background/' + url : '/assets/picture/default_background.jpg';
+const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty('avatar') && user.public.avatar !== 'default.jpg' ? image() ('/user/avatar/' + user.public.avatar) : '/assets/picture/default_avatar.png'})`;
 const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
 
 const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):string => {
-    let url: string = '/assets/avatar/default.png';
+    let url: string = '/assets/picture/default_avatar.png';
     switch (type) {
         case InitiatorType.user: {
-            url = `url(${avatar ? image() ('/user/avatar/' + avatar) : image() ('/assets/avatar/default.png')})`;
+            url = `url(${avatar ? image() ('/user/avatar/' + avatar) : image() ('/assets/picture/default_avatar.png')})`;
             break;
         }
         case InitiatorType.group: case InitiatorType.club: {
-            url = `url(${avatar ? image() ('/group/avatar/' + avatar) : image() ('/group/avatar/default.png')})`;
+            url = `url(${avatar ? image() ('/group/avatar/' + avatar) : image() ('/assets/picture/default_avatar.png')})`;
             break;
         }
         case InitiatorType.provider: {
@@ -73,6 +74,7 @@ const userpic = {
         profile: '<',
         isPremium: '<'
     },
+    transclude: true,
     controller: ['$scope', class UserpicController {
         constructor ($scope) {
         }
@@ -129,6 +131,7 @@ const Share = module('staminity.share', [])
     .filter('avatar', avatar)
     .filter('avatarUrl', avatarUrl)
     .filter('image', image)
+    .filter('userBackground', userBackground)
     .filter('username', username)
     .filter('ageGroup', () => ageGroup)
     .filter('requestType', () => requestType)

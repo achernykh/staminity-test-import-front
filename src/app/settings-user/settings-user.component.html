@@ -24,12 +24,12 @@
         <!-- ЛЕНТА НАСТРОЕК -->
         <section class="settings-container" flex="auto" layout="column">
             <header flex="none" layout="column" md-theme="dark">
-                <md-card class="user-background" flex="none" layout-align="end center" style="background-image: url({{'/user/background/' + $ctrl.user.public.background | image}})">
+                <md-card class="user-background" flex="none" layout-align="end center" style="background-image: url({{$ctrl.user.public.background | userBackground}})">
                     <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
-                        <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar"
-                             style="background-image: url({{'/user/avatar/' + $ctrl.user.public.avatar | image}})">
+                        <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
+                                 profile="athlete.userProfile" is-premium="athlete.userProfile.isPremium">
                             <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
-                        </div>
+                        </userpic>
                         <div flex=none hide show-gt-xs>
                             <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
                         </div>

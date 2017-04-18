@@ -55,7 +55,7 @@
             </g>
             <g ng-repeat="line in $ctrl.chart.lines" ng-attr-transform="translate(0 {{line.y}})">
                 <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" y1="0" y2="0"/>
-                <text ng-attr-x="{{$ctrl.chart.width + 15}}">{{line.label}}</text>
+                <text ng-attr-x="{{$ctrl.chart.width + 15}}">{{$ctrl.getLabel(line.label)}}</text>
             </g>
             <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" ng-attr-y1="{{$ctrl.chart.height}}" ng-attr-y2="{{$ctrl.chart.height}}"/>
 
@@ -68,20 +68,22 @@
 
     <table>
         <tr>
-            <th></th>
-            <th>км</th>
-            <th>время</th>
-            <th style="max-width: 90px;" width="90">кол-во трен.</th>
+            <th style="width: 10%"></th>
+            <th style="width: 30%">Расстояние (км)</th>
+            <th style="width: 30%">Время (ч)</th>
+            <th style="width: 30%">Количество</th>
         </tr>
         <tr ng-repeat="row in $ctrl.chart.tableRows">
-            <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7)">{{ row.icon }}</md-icon></td>
-            <td>{{ row.dist }}</td>
-            <td>{{ row.hrs }}</td>
+            <td>
+                <md-icon md-svg-src="assets/icon/{{row.sport}}.svg" class="md-light md-unfocused"></md-icon>
+            </td>
+            <td>{{ row.dist | measureCalc:'default':'distance'}}</td>
+            <td>{{ row.hrs}}</td>
             <td>{{ row.count }}</td>
         </tr>
         <tr class="row-total">
-            <td><md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.9)">{{ $ctrl.chart.tableTotal.icon }}</md-icon></td>
-            <td>{{ $ctrl.chart.tableTotal.dist }}</td>
+            <td><md-icon class="material-icons md-light md-unfocused">{{ $ctrl.chart.tableTotal.icon }}</md-icon></td>
+            <td>{{ $ctrl.chart.tableTotal.dist | measureCalc:'default':'distance'}}</td>
             <td>{{ $ctrl.chart.tableTotal.hrs }}</td>
             <td>{{ $ctrl.chart.tableTotal.count }}</td>
         </tr>

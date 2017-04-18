@@ -38,7 +38,7 @@ class ProfileCtrl {
     }
 
     athletes () {
-        this.dialogs.usersList(this.user.connections.Athletes, 'athletes')
+        this.dialogs.usersList(this.user.connections.allAthletes, 'athletes')
     }
 
     friends () {
