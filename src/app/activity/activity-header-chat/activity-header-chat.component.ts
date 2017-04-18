@@ -50,8 +50,8 @@ class ActivityHeaderChatCtrl implements IComponentController {
     }
 
     localDate(date){
-        console.log('date: ',date,moment.utc(date).format('d MMM HH:mm'),new Date().getTimezoneOffset());
-        return moment(date).add('minutes',-1*(new Date().getTimezoneOffset())).format('d MMM HH:mm');
+        console.log('date: ',date,moment.utc(date).format('DD MMM HH:mm'),new Date().getTimezoneOffset());
+        return moment(date).add('minutes',-1*(new Date().getTimezoneOffset())).format('DD MMM HH:mm');
     }
 }
 

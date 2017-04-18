@@ -112,11 +112,15 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>){
-        if (!select[0].startTimestamp) {
-            let index = this.measures['timestamp']['idx'];
-            select[0].startTimestamp = this.item.details.metrics[0][index];
+        if(select.length === 0) {
+            this.item.clearUserInterval();
+        } else {
+            if (!select[0].startTimestamp) {
+                let index = this.measures['timestamp']['idx'];
+                select[0].startTimestamp = this.item.details.metrics[0][index];
+            }
+            this.item.addUserInterval(select[0]);
         }
-        this.item.addUserInterval(select[0]);
     }
 
     onChartSelect(segmentId){

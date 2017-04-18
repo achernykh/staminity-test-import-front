@@ -4,8 +4,8 @@
                 'error': $ctrl.status == 'error',
                 'warning': $ctrl.status == 'warning',
                 'success': $ctrl.status == 'success'}">
-    <div flex="none" class="md-title title" translate="{{'message.'+$ctrl.code+'.title'}}"></div>
-    <div flex="none" layout-padding class="md-body-1 text" translate="{{'message.'+$ctrl.code+'.text'}}"></div>
+    <div flex="none" class="md-title title" translate="{{$ctrl.code+'.title'}}"></div>
+    <div flex="none" layout-padding class="md-body-1 text" translate="{{$ctrl.code+'.text'}}"></div>
     <md-button class="md-icon-button md-primary" aria-label="close">
         <md-icon class="material-icons md-light" ng-click="$ctrl.close()">close</md-icon>
     </md-button>

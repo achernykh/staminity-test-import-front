@@ -12,8 +12,8 @@
         </div>
         <md-toolbar class="md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center" style="background-color: #cfd8dc; color: #607d8b; padding: 16px 26px;">
             <span flex>{{ $ctrl.checked.length }} items selected</span>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
-                <md-tooltip md-direction="bottom" translate>Управление тарифами</md-tooltip>
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()">
+                <md-tooltip md-direction="bottom">Тарифы</md-tooltip>
                 <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
             <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
@@ -51,7 +51,7 @@
                         <td md-cell>
                             <span ng-repeat="tariff in member.userProfile.billing" style="white-space: nowrap;">
                                 {{tariff.tariffCode}} 
-                                <span ng-if="tariff.clubProfile.groupId==$ctrl.club.groupId" class="badge">byCoach </span>
+                                <span ng-if="tariff.userProfilePayer.userId === $ctrl.user.userId" class="badge">byCoach </span>
                             </span>
                             <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
                         </td>

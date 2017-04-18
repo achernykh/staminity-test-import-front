@@ -85,11 +85,10 @@
 
     </header>
     <!-- Заголовок тренировки (нижняя часть): начало -->
-    <footer flex layout="column"
+    <footer flex layout="column" ng-if="(!$ctrl.calendar.view.compact && $ctrl.data.hasBottomData())"
          hide show-gt-md
          class="activity-footer line-12"
-         ng-switch on="$ctrl.data.bottomPanel"
-         ng-if="::(!$ctrl.calendar.view.compact && $ctrl.data.hasBottomData())">
+         ng-switch on="$ctrl.data.bottomPanel">
         <!-- Панель: Установка тренера -->
         <div ng-switch-when="plan">
             <div ng-if="::$ctrl.data.intensityMeasure" layout="row" class="md-caption secondary dark" style="margin-top: 2px">

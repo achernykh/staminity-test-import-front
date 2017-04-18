@@ -28,7 +28,7 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor($scope, UserService, AuthService, SystemMessageService, ActionMessageService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message) {
+    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message) {
         console.log('SettingsCtrl constructor=', this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -41,8 +41,6 @@ class SettingsUserCtrl {
         this.$scope = $scope;
         this._UserService = UserService;
         this._AuthService = AuthService;
-        this._SystemMessageService = SystemMessageService
-        this._ActionMessageService = ActionMessageService
         this._$http = $http
         this._$mdDialog = $mdDialog
         this.$auth = $auth
@@ -195,16 +193,14 @@ class SettingsUserCtrl {
                     }
             }
         }
-        debugger;
         console.log('settings ctrl => update profile form: ', profile);
         this._UserService.putProfile(profile)
             .then((success)=> {
                 console.log('success=', success)
-                this._ActionMessageService.simple(success)
+                this.message.toastInfo('settingsSaveComplete');
                 this.user.revision = success.value.revision
             }, (error)=> {
-                //this._SystemMessageService.show(error)
-                this._ActionMessageService.simple(error)
+                this.message.toastError(error)
             });
     }
 
@@ -415,7 +411,7 @@ class SettingsUserCtrl {
         this.adaptors[idx].lastSync = response.lastSync;
         this.adaptors[idx].status = syncStatus(response.lastSync, response.state);
         //this.$scope.$apply();
-        this.message.toastInfo('настройки изменены');
+        this.message.toastInfo('settingsSaveComplete');
     }
 
 
@@ -440,7 +436,7 @@ class SettingsUserCtrl {
                 this._AuthService.setPassword(password)
                     .then((response) => {
                         console.log(response);
-                        this._SystemMessageService.show(response.title, response.status);
+                        this.message.toastInfo(response.title, response.status);
                     }, (error) => {
                         console.log(error);
                     })
@@ -481,7 +477,7 @@ class SettingsUserCtrl {
 		return this.user.personal.activity.includes(activity)
 	}
 };
-SettingsUserCtrl.$inject = ['$scope','UserService','AuthService', 'SystemMessageService', 'ActionMessageService','$http',
+SettingsUserCtrl.$inject = ['$scope','UserService','AuthService','$http',
     '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message'];
 
 function DialogController($scope, $mdDialog) {

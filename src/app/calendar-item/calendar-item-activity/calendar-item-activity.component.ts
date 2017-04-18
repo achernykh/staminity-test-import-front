@@ -202,6 +202,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
             });
     }
 
+    clearUserInterval():void{
+        let initiator: SelectInitiator = 'details';
+        this.selectIntervalIndex(initiator,{ L: null, P: null, U: null});
+    }
+
     setDetailsTab(initiator: SelectInitiator, loading: boolean):void {
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты

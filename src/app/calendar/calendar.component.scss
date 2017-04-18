@@ -25,6 +25,11 @@ calendar {
     //height: 30px;
     //background-color: blue;
     margin: auto;
+
+    md-icon {
+      color: rgba(255,255,255,0.54);
+    }
+
   }
 
   section.content {
@@ -133,6 +138,26 @@ calendar {
       min-width: 2%;
     }
   }
+
+  md-datepicker.picker {
+
+    padding-right: 0px !important;
+    margin-right: 0px !important;
+    vertical-align: inherit !important;
+
+    md-icon {
+      fill: rgba(255,255,255,0.54);
+    }
+
+    div.md-datepicker-input-container {
+      margin-left: 0px !important;
+    }
+
+    div.md-datepicker-input-container input, div.md-datepicker-input-container button{
+      display: none;
+    }
+  }
+
 }
 
 

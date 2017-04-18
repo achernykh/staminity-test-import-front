@@ -112,9 +112,9 @@
                 <span>Тренеры: </span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.user.connections.Coaches.groupMembers.length || '-' }} </span>
             </md-button>
-            <md-button ng-disabled="!$ctrl.user.connections.Athletes.groupMembers.length" ng-click="$ctrl.athletes()">
+            <md-button ng-disabled="!$ctrl.user.connections.allAthletes.groupMembers.length" ng-click="$ctrl.athletes()">
                 <span>Спортсмены: </span>
-                <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.Athletes.groupMembers.length || '-'}} </span>
+                <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.allAthletes  .groupMembers.length || '-'}} </span>
             </md-button>
             <md-button ng-disabled="!$ctrl.user.connections.Followers.groupMembers.length" ng-click="$ctrl.subscribers()">
                 <span>Подписчики: </span>

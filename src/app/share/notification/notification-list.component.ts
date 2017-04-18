@@ -26,10 +26,10 @@ class NotificationListCtrl implements IComponentController {
     }
 
     $onChanges(changes: any):void {
-        if(changes.hasOwnProperty('isOpen') && !changes.isOpen.isFirstChange()){
+        /*if(changes.hasOwnProperty('isOpen') && !changes.isOpen.isFirstChange()){
             this.timer = setTimeout(() => !!this.notifications && this.notifications.filter(n => !n.isRead)
                 .forEach(n => this.NotificationService.put(n.id, true)), this.readTime);
-        }
+        }*/
     }
 
     $onInit() {
@@ -45,8 +45,11 @@ class NotificationListCtrl implements IComponentController {
     }
 
     close () {
-        clearTimeout(this.timer);
+        //clearTimeout(this.timer);
         this.$mdSidenav('notifications').toggle();
+        if(this.notifications) {
+            this.notifications.filter(n => !n.isRead).forEach(n => this.NotificationService.put(n.id, true));
+        }
     }
 }
 

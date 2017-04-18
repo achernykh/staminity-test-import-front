@@ -1,12 +1,4 @@
-<!--<section class="overview-content" ng-if="$ctrl.isLoadingDetails"
-         flex="none" layout="column" layout-align="center center" layout-fill
-         style="background-color: whitesmoke">
-    <img flex src="/assets/icon/ripple.svg" width="60" height="60"/>
-    <p>Загрузка данных....</p>
-</section>-->
 
-<!--<section flex="none" class="overview-content" layout="column"
-         ng-if="!$ctrl.isLoadingDetails">-->
 
     <header flex="none" class="map" layout="row" layout-align="start center"
             ng-if="$ctrl.item.activity.isRouteExist && !$ctrl.fullScreenTable">
@@ -94,11 +86,7 @@
         <md-button class="md-icon-button" ng-click="$ctrl.fullScreenTable = !$ctrl.fullScreenTable">
             <md-icon class="md-secondary material-icon md-dark"
                      ng-bind="$ctrl.fullScreenTable ? 'fullscreen_exit': 'fullscreen'"></md-icon>
-        </md-button><!--
-        <md-button class="md-icon-button" ng-click="$ctrl.toggleTable()">
-            <md-icon class="md-secondary material-icon md-dark"
-                     ng-bind="$ctrl.showTable ? 'expand_more': 'expand_less'"></md-icon>
-        </md-button>-->
+        </md-button>
     </header>
 
     <measure-split-table flex ng-if="$ctrl.showTable && $ctrl.item.activity.hasImportedData"

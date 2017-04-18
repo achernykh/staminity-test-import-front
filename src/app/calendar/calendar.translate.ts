@@ -3,6 +3,7 @@ export const _translate = {
         fullTitle: 'Календарь',
         shortTitle: 'Календарь',
         today: 'Сегодня',
+        selectDate: 'Перейти на дату',
         compact: 'Компактный режим',
         details: 'Подробный режим'
     },

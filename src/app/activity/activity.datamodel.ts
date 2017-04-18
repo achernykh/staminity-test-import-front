@@ -239,7 +239,7 @@ export class Activity extends CalendarItem {
 		this.header.activityType = getType(Number(this.header.activityType.id));
 		this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
 		this.header.intervals = [];
-		this.header.intervals.push(...this.intervalP, this.intervalPW, ...this.intervalL, this.intervalW);
+		this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
         debugger;
 
