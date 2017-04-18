@@ -78,18 +78,18 @@
                 <div flex="auto" style="margin-top: 2px">
                     <div ng-repeat="(key,value) in item.measurementHeader.sizes"
                          class="md-caption secondary dark">
-                        {{key}}: {{value}}
+                        {{key | translate}}: {{value}}
                     </div>
                     <div ng-repeat="(key,value) in item.measurementHeader.generalMeasures"
                          class="md-caption secondary dark">
-                        {{key}}: {{value}}
+                        {{key | translate}}: {{value}}
                     </div>
                     <div ng-repeat="(key,value) in item.measurementHeader.sleepData"
                          class="md-caption secondary dark">
-                        {{key}}: {{value}}
+                        {{key | translate}}: {{value}}
                     </div>
                     <div ng-repeat="(key,value) in item.measurementHeader.feeling"
-                         class="md-caption secondary dark" ng-switch on="key">{{key}}:
+                         class="md-caption secondary dark" ng-switch on="key">
                         <span ng-switch-when="overallFeeling"
                               hm-read-more
                               hm-text="{{::value}}"

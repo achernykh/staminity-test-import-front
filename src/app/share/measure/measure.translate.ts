@@ -15,6 +15,8 @@ export const _MEASURE_TRANSLATE = {
 		tl: 'TL',
 		kkal: 'ккал',
 		vampkg: '',
+		kg: 'кг',
+		sm: 'см',
 
 		// Измерения
 		distance: 'Расстояние',
@@ -42,7 +44,19 @@ export const _MEASURE_TRANSLATE = {
 		//
 		FTP: 'ПАНО',
 		minValue: 'Минимум',
-		maxValue: 'Максимум'
+		maxValue: 'Максимум',
+
+		// Запись календаря Измерение
+		weight: 'Вес',
+		height: 'Рост',
+		waterPercent: 'Вода(%)',
+		percentFat: 'Жир(%)',
+		musculeMass: 'Масса мышц(кг)',
+		pulse: 'Пульс покоя(чсс)',
+		sleepQuality: 'Качество сна',
+		sleepHours: 'Часов сна',
+		overallFeeling: 'Общее состояние'
+
 
 	},
 	en: {

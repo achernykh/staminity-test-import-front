@@ -63,7 +63,7 @@
             <md-subheader>{{"measurement.generalMeasures" | translate}}</md-subheader>
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex class="no-message">
-                    <label translate="Вес(кг)"></label>
+                    <label>{{'weight' | translate}}({{'weight' | measureUnit | translate}})</label>
                     <input type="number" name="weight" autofocus autocomplete="off"
                            ng-model="$ctrl.item.measurementHeader.sizes.weight"
                            ng-disabled="false" step="0.1"
@@ -71,7 +71,7 @@
                 </md-input-container>
                 <div flex="5"></div>
                 <md-input-container flex class="no-message">
-                    <label translate="Рост(см)"></label>
+                    <label>{{'height' | translate}}({{'height' | measureUnit | translate}})</label>
                     <input type="number" name="height" autofocus autocomplete="off"
                            ng-model="$ctrl.item.measurementHeader.sizes.height"
                            ng-disabled="false"
@@ -80,7 +80,7 @@
             </md-list-item>
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex class="no-message">
-                    <label translate="Вода(%)"></label>
+                    <label translate="waterPercent"></label>
                     <input type="number" name="waterPercent" autofocus autocomplete="off"
                            ng-model="$ctrl.item.measurementHeader.generalMeasures.waterPercent"
                            ng-disabled="false"
@@ -88,7 +88,7 @@
                 </md-input-container>
                 <div flex="5"></div>
                 <md-input-container flex class="no-message">
-                    <label translate="Жир(%)"></label>
+                    <label translate="percentFat"></label>
                     <input type="number" name="percentFat" autofocus autocomplete="off"
                            ng-model="$ctrl.item.measurementHeader.generalMeasures.percentFat"
                            ng-disabled="false"
@@ -97,7 +97,7 @@
             </md-list-item>
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex class="no-message">
-                    <label translate="Масса мышц(кг)"></label>
+                    <label translate="musculeMass"></label>
                     <input type="number" name="musculeMass" autofocus autocomplete="off"
                            ng-model="$ctrl.item.measurementHeader.generalMeasures.musculeMass"
                            ng-disabled="false"
@@ -105,7 +105,7 @@
                 </md-input-container>
                 <div flex="5"></div>
                 <md-input-container flex class="no-message">
-                    <label translate="Пульс покоя(чсс)"></label>
+                    <label translate="pulse"></label>
                     <input type="number" name="pulse" autofocus autocomplete="off"
                            ng-model="$ctrl.item.measurementHeader.generalMeasures.pulse"
                            ng-disabled="false"
@@ -118,7 +118,7 @@
             <md-subheader>{{"measurement.sleepData" | translate}}</md-subheader>
             <md-list-item flex layout="row">
                 <md-input-container flex class="no-message">
-                    <label translate="Качество сна"></label>
+                    <label translate="sleepQuality"></label>
                     <md-select flex class=""
                                ng-model="$ctrl.item.measurementHeader.sleepData.sleepQuality"
                                arial-label="Privacy Level">
@@ -128,7 +128,7 @@
                 </md-input-container>
                 <div flex="5"></div>
                 <md-input-container flex class="no-message">
-                    <label translate="Часов сна"></label>
+                    <label translate="sleepHours"></label>
                     <input type="number" name="lastName"
                            ng-model="$ctrl.item.measurementHeader.sleepData.sleepHours"
                            autocomplete="off" ng-disabled="false" min="1" max="24">
@@ -140,7 +140,7 @@
             <md-subheader>{{"measurement.feeling" | translate}}</md-subheader>
             <md-list-item flex layout="row">
                 <md-input-container flex class="md-block no-message">
-                    <label translate="Общее состояние"></label>
+                    <label translate="overallFeeling"></label>
                     <textarea ng-model="$ctrl.item.measurementHeader.feeling.overallFeeling"
                               name="about" rows="1" md-select-on-focus></textarea>
                 </md-input-container>

@@ -177,7 +177,18 @@ export const _measurement = {
         unit: 'proportion',
         view: 'percent',
         fixed: 2
+    },
+
+    // Измерения
+    weight: {
+        unit: 'kg',
+        fixed: 2
+    },
+    height: {
+        unit: 'sm',
+        fixed: 0
     }
+
 };
 
 const sportLimit = {
@@ -363,7 +374,7 @@ export const measureValue = (input: number, sport: string, measure: string, char
     }
 };
 
-export const measureUnit = (measure, sport, units = 'metric') => {
+export const measureUnit = (measure, sport = 'default', units = 'metric') => {
     let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
         (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) || _measurement[measure].unit;
     return (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;

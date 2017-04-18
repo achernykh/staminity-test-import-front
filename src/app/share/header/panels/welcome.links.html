@@ -5,8 +5,9 @@
         <!--<a href="#" translate disabled>landing.nav.link3</a>-->
         <a href="https://help.staminity.com/ru" translate>landing.nav.link4</a>
     </div>
-    <div flex="none" ng-show="!$ctrl.AuthService.isAuthenticated()">
-        <a ui-sref="signin" class="button" translate>landing.nav.signIn</a>
+    <div flex="none">
+        <a ng-if="!$ctrl.AuthService.isAuthenticated()" ui-sref="signin" class="button" translate>landing.nav.signIn</a>
+        <a ng-if="$ctrl.AuthService.isAuthenticated()" ui-sref="calendar({uri: '{{$ctrl.user.public.uri}}'})" class="button" translate>landing.nav.signIn</a>
     </div>
     <div flex="none" ng-show="$ctrl.AuthService.isAuthenticated()">
         <a ui-sref="signout" class="button" translate>landing.nav.signOut</a>
