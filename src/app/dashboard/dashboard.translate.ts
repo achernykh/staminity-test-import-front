@@ -8,3 +8,11 @@ export const translateDashboard = {
     },
     en: {}
 };
+
+export const translateDashboardClub = {
+    ru: {
+        fullTitle: 'Атлеты клуба',
+        shortTitle: 'Атлеты'
+    },
+    en: {}
+};

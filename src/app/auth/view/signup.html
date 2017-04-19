@@ -72,8 +72,8 @@
                 </md-checkbox>
             </md-list-item>
             <md-list-item>
-                <p translate="auth.signup.confirm"></p>
-                <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirm"
+                <p class="md-caption conf" translate>auth.confirmation</p>
+                <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
                              class="md-primary md-secondary"
                              ng-disabled="!$ctrl.enabled"
                              style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
@@ -81,13 +81,13 @@
             </md-list-item>
             <md-list-item>
                 <md-button type="submit" translate='auth.signup.button' class="md-raised"
-                           ng-disabled="!$ctrl.signupForm.$valid || !$ctrl.enabled || !$ctrl.confirm"
+                           ng-disabled="!$ctrl.signupForm.$valid || !$ctrl.enabled || !$ctrl.confirmation"
                            ng-class="{'md-primary': $ctrl.signupForm.$valid && !ul.auth, 'md-disabled': $ctrl.signupForm.$error}"></md-button>
             </md-list-item>
         </md-list>
     </form>
 
 </md-card>
-<p class="md-caption conf" translate>auth.confirmation</p>
+
 
 

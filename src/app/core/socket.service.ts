@@ -49,6 +49,8 @@ export class SocketService implements ISocketService {
     private socket: WebSocket;
     private requests: Array<any> = [];
     private requestId: number = 1;
+    private lastHeartBit: number = null; // timestamp последнего heart bit от сервера
+    private readonly heartBitTimeout: number = 20 * 1000; // 20 секунд
     private reopenTimeout: number = 0.5; // в секундах
     private responseTimeout: number = 5.0; // сек
     private readonly responseLimit: {} = { // лимиты ожидания по отдельным запросам (сек)
@@ -138,6 +140,14 @@ export class SocketService implements ISocketService {
                 this.close('badToken');
                 this.$state.go('signin');
             }
+            if (response.hasOwnProperty('type') && response['type'] === 'hb') {
+                let timeStamp = Date.now();
+                if (this.lastHeartBit && (timeStamp - this.lastHeartBit) >= this.heartBitTimeout) {
+                    this.close('lostHeartBit');
+                    console.log(this.socket.readyState);
+                }
+                this.lastHeartBit = Date.now();
+            }
         }
     }
 
@@ -194,6 +204,6 @@ export class SocketService implements ISocketService {
                 }, (this.responseLimit[request.requestType] || this.responseTimeout) * 1000);
 
                 return deferred.promise;
-            });
+            }, () => Promise.reject('sessionClosed'));
     }
 }

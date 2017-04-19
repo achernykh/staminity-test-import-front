@@ -3,7 +3,7 @@
 
 auth {
 
-	md-card, p.conf {
+	md-card {
 		min-width: 320px;
 		max-width: 320px;
 		width: 320px;
@@ -21,8 +21,8 @@ auth {
 	}
 
 	.conf {
-		padding: 0px 8px;
-		text-align: center;
+		//padding: 0px 8px;
+		text-align: left;
 		color: rgba(white, 0.54);
 
 		a {
