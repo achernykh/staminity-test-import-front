@@ -108,7 +108,7 @@ class CalendarDayCtrl {
             .then(response => {
                 if(response.type === 'post') {
                     console.log('save activity', response);
-                    this.calendar.onPostItem(response.item);
+                    //this.calendar.onPostItem(response.item);
                     this.message.toastInfo('Создана новая запись');
                 }
             }, ()=> {
@@ -141,7 +141,7 @@ class CalendarDayCtrl {
         })
             .then(response => {
                 if(response.type == 'post') {
-                    this.calendar.onPostItem(response.item)
+                    //this.calendar.onPostItem(response.item)
                     this.message.toastInfo('Создана новая запись')
                 }
 
