@@ -32,7 +32,7 @@ class NotificationListCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.NotificationService.list$.subscribe((list) => {debugger; this.notifications =  list; this.$scope.$apply();});
+        this.NotificationService.list$.subscribe((list) => {this.notifications =  list; this.$scope.$apply();});
     }
 
     $onDestroy(): void {

@@ -17,6 +17,14 @@ export class ActivityHeaderCtrl implements IComponentController {
 
     $onInit() {
     }
+
+    openChat() {
+
+    }
+
+    closeChat() {
+
+    }
 }
 
 const ActivityHeaderComponent:IComponentOptions = {

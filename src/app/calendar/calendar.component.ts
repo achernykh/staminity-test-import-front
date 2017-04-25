@@ -61,27 +61,31 @@ export class CalendarCtrl implements IComponentController{
         let date = moment($location.hash());
         this.setDate(date.isValid()? date.toDate() : new Date());
         //this.$anchorScroll.yOffset = 120;
-        this.CalendarService.item$.subscribe((message) => {
-            debugger;
-            switch (message.action) {
-                case 'I': {
-                    this.onPostItem(<ICalendarItem>message.value);
-                    this.$scope.$apply();
-                    break;
+        this.CalendarService.item$
+            .filter(message => message.value.hasOwnProperty('userProfileOwner') && message.value.userProfileOwner.userId === this.user.userId)
+            .map(message => {
+                message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
+                return message;})
+            .subscribe((message) => {
+                switch (message.action) {
+                    case 'I': {
+                        this.onPostItem(<ICalendarItem>message.value);
+                        this.$scope.$apply();
+                        break;
+                    }
+                    case 'D': {
+                        this.onDeleteItem(<ICalendarItem>message.value);
+                        this.$scope.$apply();
+                        break;
+                    }
+                    case 'U': {
+                        this.onDeleteItem(<ICalendarItem>message.value);
+                        this.onPostItem(<ICalendarItem>message.value);
+                        this.$scope.$apply();
+                        break;
+                    }
                 }
-                case 'D': {
-                    this.onDeleteItem(<ICalendarItem>message.value);
-                    this.$scope.$apply();
-                    break;
-                }
-                case 'U': {
-                    this.onDeleteItem(<ICalendarItem>message.value);
-                    this.onPostItem(<ICalendarItem>message.value);
-                    this.$scope.$apply();
-                    break;
-                }
-            }
-        });
+            });
     }
     
     

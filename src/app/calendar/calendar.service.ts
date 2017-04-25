@@ -4,16 +4,10 @@ import {GetRequest, PostRequest, PutRequest, DeleteRequest} from '../../../api/c
 import {Observable} from "rxjs/Rx";
 
 export class CalendarService {
-    SocketService:ISocketService;
     item$: Observable<any>;
 
-    constructor(SocketService:ISocketService) {
-        this.SocketService = SocketService;
+    constructor(private SocketService:ISocketService) {
         this.item$ = this.SocketService.messages.filter(message => message.type === 'calendarItem').share();
-        /*.map(message => {
-            let notification = new Notification(message.value);
-            return notification;
-        })*/
     }
 
     /**

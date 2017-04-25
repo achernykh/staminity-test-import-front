@@ -93,11 +93,12 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         if (selection.length === 0) {
             return this.item.activity.intervalW.calcMeasures;
         }
+        if (this.item.multiSelection) {
+            return this.item.multiSelectionInterval.calcMeasures;
+        }
 
         let type: string = 'interval' + selection[0].substr(0,1);
         let index: number = Number(selection[0].substr(1))-1;
-
-        //console.log('getCalcMeasure', type, index, selection);
 
         return this.item.activity[type][index].calcMeasures;
     }

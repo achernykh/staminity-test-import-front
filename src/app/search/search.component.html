@@ -1,0 +1,44 @@
+<div class="application">
+    <div hide-md class="margin-left"></div>
+    <section class="application-body" layout="row">
+        <div flex="none" class="search-filter bg-grey-200">
+            <form name="$ctrl.searchForm" layout="column" layout-fill>
+                <md-list class="md-dense slim-input" flex="auto">
+                    <md-list-item>
+                        <md-input-container class="md-block no-message" md-no-float layout="row">
+                            <md-icon class="material-icons">group</md-icon>
+                            <md-select name="sport" class="icon" required
+                                       ng-model="$ctrl.direction" ng-init="direction = 'users'">
+                                <md-option ng-repeat="direction in ['users','coaches','clubs'] track by $index"
+                                           value="{{direction}}">{{'search.' + direction | translate}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </md-list-item>
+                    <md-list-item>
+                        <md-input-container class="md-block no-message" md-no-float layout="row">
+                            <md-icon class="material-icons">search</md-icon>
+                            <input type="text" name="firstName"
+                                   ng-model="$ctrl.user.public.firstName" placeholder="Запрос..."
+                                   required autocomplete="off" autofocus ng-disabled="false" minlength="2"
+                                   maxlength="100">
+                            <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                                <div ng-message-exp="['required']"
+                                     translate="form.required">
+                                </div>
+                                <div ng-message-exp="['minlength', 'maxlength']"
+                                     translate="form.rangeStr" translate-values="{min:2, max:100}">
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </md-list-item>
+                </md-list>
+                <md-dialog-actions flex="none" layout="row">
+                    <md-button flex class="md-accent md-raised" ng-disabled="!$ctrl.searchForm.$valid" ng-click="" translate="search.go"></md-button>
+                </md-dialog-actions>
+            </form>
+        </div>
+        <div flex="auto" class="search-result bg-grey-100"></div>
+    </section>
+    <div hide-md class="margin-right"></div>
+</div>

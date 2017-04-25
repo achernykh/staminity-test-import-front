@@ -7,7 +7,7 @@ import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {
     IActivityHeader, IActivityDetails, IActivityIntervalPW,
-    IActivityMeasure, ICalcMeasures, IActivityCategory, IActivityType
+    IActivityMeasure, ICalcMeasures, IActivityCategory, IActivityType, IActivityIntervalW
 } from "../../../../api/activity/activity.interface";
 import SessionService from "../../core/session.service";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
@@ -53,6 +53,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private selectedIntervalIndex: ISelectionIndex = { L: null, P: null, U: null}; //todo delete
     private selectionIndex: ISelectionIndex = { L: null, P: null, U: null};
     private selectionTimestamp: Array<ISelectionTimestamp> = [];
+    public multiSelection: boolean = false;
+    public multiSelectionInterval: IActivityIntervalW;
 
     private selectedIntervalType: string;
     private changeSelectInterval: number = 0;
@@ -152,10 +154,40 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param selection - перечень индексов интервалов для выделения
      */
     selectIntervalIndex(initiator: SelectInitiator, selection: ISelectionIndex){
-        //debugger;
         console.log('changeSelectedInterval',initiator, selection);
         this.selectionIndex = selection; // устанавливаем выделение
         this.selectionTimestamp = this.calculateTimestampSelection(this.selectionIndex); //создаем выделение по времени
+
+        if(((this.selectionIndex['P'] && this.selectionIndex['P'].length) +
+            (this.selectionIndex['U'] && this.selectionIndex['U'].length) +
+            (this.selectionIndex['L'] && this.selectionIndex['L'].length)) > 1 ){
+
+            this.setDetailsTab(initiator, true);
+
+            let intervals: Array<{type:string, startTimestamp: number, endTimestamp: number}> = [];
+            Object.keys(this.selectionIndex).forEach(type => {
+                if (this.selectionIndex[type]) {
+                    let data = this.activity.header.intervals.filter(i => i.type === type);
+                    this.selectionIndex[type].forEach(i => intervals.push({
+                        type: type,
+                        startTimestamp: data[i].startTimestamp,
+                        endTimestamp: data[i].endTimestamp
+                    }));
+                }
+            });
+
+            this.ActivityService.calculateRange(this.activity.id, null, null, intervals)
+                .then(response => {
+                    this.multiSelection = true;
+                    this.multiSelectionInterval = response.intervals.filter(i => i.type === 'W')[0];
+                    //this.activity.completeInterval(response.intervals.filter(i => i.type === 'U')[0]);
+                    //this.selectIntervalIndex(initiator,{ L: null, P: null, U: [(this.activity.intervalU && this.activity.intervalU.length-1) || 0]});
+                }, error => {
+                    this.message.toastInfo(error);
+                });
+        } else {
+            this.multiSelection = false;
+        }
         // по любому выделению инетрвала пользователя переходим на вкладку Детали
         this.setDetailsTab(initiator, false);
     }
@@ -183,22 +215,18 @@ export class CalendarItemActivityCtrl implements IComponentController{
             return;
         }
 
-        //this.isLoadingRange = true;
         this.setDetailsTab(initiator, true);
-        //this.$scope.$digest();
         this.ActivityService.calculateRange(this.activity.id, range.startTimestamp, range.endTimestamp, [{
                 type: 'U',
                 startTimestamp: range.startTimestamp,
                 endTimestamp: range.endTimestamp
             }])
             .then(response => {
-                //this.isLoadingRange = false;
                 this.activity.completeInterval(response.intervals.filter(i => i.type === 'U')[0]);
                 this.selectIntervalIndex(initiator,{ L: null, P: null, U: [(this.activity.intervalU && this.activity.intervalU.length-1) || 0]});
             }, error => {
                 this.message.toastInfo(error);
                 this.setDetailsTab(initiator, false);
-                //this.isLoadingRange = false;
             });
     }
 

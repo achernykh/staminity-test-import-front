@@ -37,8 +37,8 @@
     </div>
 </md-toolbar>
 
-<md-content flex="auto" class="md-hue-2" layout="column">
-    <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
+<md-content flex="auto" layout="column">
+    <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab" ng-cloak
              ng-class="{'coming': $ctrl.item.activity.status === 'coming',
                                 'not-specified': $ctrl.item.activity.status === 'not-specified',
                                 'complete': $ctrl.item.activity.status === 'complete',
@@ -75,7 +75,7 @@
                 <activity-header-chat flex="auto" layout="column" layout-fill
                                       activity-id="$ctrl.item.activity.id"
                                       social="$ctrl.item.activity.header.social"
-                                      user="$ctrl.item.user"
+                                      user="$ctrl.item.user" current-user="$ctrl.item.currentUser"
                                       coach="$ctrl.item.isMyCoach">
                 </activity-header-chat>
             </md-tab-body>

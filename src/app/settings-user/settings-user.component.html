@@ -27,7 +27,7 @@
                 <md-card class="user-background" flex="none" layout-align="end center" style="background-image: url({{$ctrl.user.public.background | userBackground}})">
                     <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
                         <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
-                                 profile="athlete.userProfile" is-premium="athlete.userProfile.isPremium">
+                                 profile="$ctrl.user" is-premium="$ctrl.user.isPremium">
                             <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
                         </userpic>
                         <div flex=none hide show-gt-xs>
