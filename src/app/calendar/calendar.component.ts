@@ -61,6 +61,27 @@ export class CalendarCtrl implements IComponentController{
         let date = moment($location.hash());
         this.setDate(date.isValid()? date.toDate() : new Date());
         //this.$anchorScroll.yOffset = 120;
+        this.CalendarService.item$.subscribe((message) => {
+            debugger;
+            switch (message.action) {
+                case 'I': {
+                    this.onPostItem(<ICalendarItem>message.value);
+                    this.$scope.$apply();
+                    break;
+                }
+                case 'D': {
+                    this.onDeleteItem(<ICalendarItem>message.value);
+                    this.$scope.$apply();
+                    break;
+                }
+                case 'U': {
+                    this.onDeleteItem(<ICalendarItem>message.value);
+                    this.onPostItem(<ICalendarItem>message.value);
+                    this.$scope.$apply();
+                    break;
+                }
+            }
+        });
     }
     
     

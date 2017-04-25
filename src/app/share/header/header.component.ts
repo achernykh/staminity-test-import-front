@@ -32,12 +32,6 @@ class HeaderCtrl implements IComponentController {
 		private $state: StateService,
 		private toaster: any) {
 
-		this.NotificationService.list$
-            .map(list => list.filter(notification => !notification.isRead))
-            .subscribe(list => {
-                this.notifications =  list.length;
-                this.$scope.$apply();
-            });
 
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 
@@ -48,6 +42,18 @@ class HeaderCtrl implements IComponentController {
 			this.requests = requestsInboxNew.length;
 			this.$scope.$apply();
 		});
+	}
+
+	$onInit(){
+		this.NotificationService.list$
+            .map(list => {
+				debugger;
+				return list.filter(notification => !notification.isRead);
+			})
+            .subscribe(list => {
+				this.notifications =  list.length;
+				this.$scope.$apply();
+			});
 	}
 
 	toggleSlide(component) {

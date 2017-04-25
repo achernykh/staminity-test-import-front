@@ -2,7 +2,7 @@ import moment from 'moment/src/moment.js';
 import {INotification, Notification} from "../../../../api/notification/notification.interface";
 import {ISocketService} from "../../core/socket.service";
 import {GetNotification, PutNotification} from "../../../../api/notification/notification.request";
-import {Observable} from "rxjs/Rx";
+import {Observable,BehaviorSubject,Subject} from "rxjs/Rx";
 
 export interface INotificationSettings {
     newestOnTop: boolean;
@@ -32,15 +32,27 @@ export default class NotificationService {
 
         this.notification$ = this.socket.messages
             .filter(message => message.type === 'notification')
-            .map(message => {
-                let notification = new Notification(message.value);
-                return notification;
-            })
+            .map(message => new Notification(message.value))
             .share();
+
+        /*this.list$ = new Subject();
+            //.flatMap(()=>Observable.fromPromise(this.get(100,0)).share()); //Observable.fromPromise(this.get(100,0)).share();
+
+        this.socket.connections.subscribe(() => {
+            //this.list$.next()
+            //this.list$.switchMap(() => Observable.fromPromise(this.get(100,0)))
+            this.list$ = Observable.fromPromise(this.get(100,0))
+                .switchMap(list => {
+                    return this.notification$.scan( this.process.bind(this), list).startWith(list);
+                })
+                .share();
+        });*/
 
         this.list$ = this.socket.connections
             .flatMap(() => Observable.fromPromise(this.get(100,0)))
-            .switchMap(list => {return this.notification$.scan( this.process.bind(this), list).startWith(list);})
+            .switchMap(list => {
+                return this.notification$.scan( this.process.bind(this), list).startWith(list);
+            })
             .share();
     }
 

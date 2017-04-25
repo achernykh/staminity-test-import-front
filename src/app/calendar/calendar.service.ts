@@ -1,12 +1,19 @@
 import {ISocketService} from '../core/socket.service';
 import {ICalendarItem} from '../../../api/calendar/calendar.interface';
 import {GetRequest, PostRequest, PutRequest, DeleteRequest} from '../../../api/calendar/calendar.request';
+import {Observable} from "rxjs/Rx";
 
 export class CalendarService {
     SocketService:ISocketService;
+    item$: Observable<any>;
 
     constructor(SocketService:ISocketService) {
         this.SocketService = SocketService;
+        this.item$ = this.SocketService.messages.filter(message => message.type === 'calendarItem').share();
+        /*.map(message => {
+            let notification = new Notification(message.value);
+            return notification;
+        })*/
     }
 
     /**

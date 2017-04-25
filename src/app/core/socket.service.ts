@@ -1,7 +1,7 @@
 import { _connection } from './api.constants';
 import { ISessionService } from './session.service';
 import {StateService} from 'angular-ui-router';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import LoaderService from "../share/loader/loader.service";
 import {IMessageService} from "./message.service";
 
@@ -31,8 +31,8 @@ export interface ISocketService {
     reopen(event:any);
     close();
     send(request:IWSRequest): Promise<any>;
-    messages: Observable<any>;
-    connections: Observable<any>;
+    messages: Subject<any>;
+    connections: Subject<any>;
 }
 
 export interface ISocketAsyncMessage {
