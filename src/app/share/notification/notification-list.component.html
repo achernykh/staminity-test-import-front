@@ -7,7 +7,7 @@
     </div>
 </md-toolbar>
 <md-list class="md-dense" flex>
-    <md-list-item class="md-3-line" ng-class="{'read': notification.isRead}" ng-click="angular.noop()"
+    <md-list-item class="md-3-line" ng-class="{'read': notification.isRead}" ng-click="$ctrl.onClick($event, notification)"
                   ng-repeat="notification in $ctrl.notifications | filter track by notification.index">
         <avatar-pic type="notification.type"
                     avatar="notification.avatar"

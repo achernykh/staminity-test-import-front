@@ -38,7 +38,7 @@ export interface ICalendarDay {
 export class CalendarCtrl implements IComponentController{
 
     static $inject = ['$scope', '$rootScope', '$anchorScroll','$location','message','CalendarService','SessionService'];
-    private user: IUserProfile;
+    private user: IUserProfile; //
     private weekdayNames: Array<string> = [];
     private buffer: Array<any> = [];
     private dateFormat: string = 'YYYY-MM-DD';

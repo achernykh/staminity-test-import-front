@@ -3,6 +3,8 @@ import {INotification, Notification} from "../../../../api/notification/notifica
 import {ISocketService} from "../../core/socket.service";
 import {GetNotification, PutNotification} from "../../../../api/notification/notification.request";
 import {Observable,BehaviorSubject,Subject} from "rxjs/Rx";
+import CommentService from "../../core/comment.service";
+import {ChatSession} from "../../core/comment.service";
 
 export interface INotificationSettings {
     newestOnTop: boolean;
@@ -17,6 +19,9 @@ export default class NotificationService {
     timeouts: Array<number> = [];
     notification$: Observable<any>;
     list$: Observable<Array<Notification>>;
+    openChat: ChatSession;
+    private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
+
     defaultSettings: INotificationSettings = {
         newestOnTop: false,
         timeOut: 7000,
@@ -25,14 +30,26 @@ export default class NotificationService {
         hideDuration: 300
     };
 
-    static $inject = ['SocketService','toaster'];
+    static $inject = ['SocketService','toaster','CommentService'];
 
     constructor(
-        private socket:ISocketService, private toaster: any){
+        private socket:ISocketService, private toaster: any, private comment: CommentService){
+
+        this.comment.openChat$.subscribe(chat => this.openChat = chat); // следим за открытми чатами
 
         this.notification$ = this.socket.messages
             .filter(message => message.type === 'notification')
             .map(message => new Notification(message.value))
+            .map((n:Notification) => {
+                // Не показываем попап уведомление + делаем прочитанным уведомления по комментариям, если у пользователя
+                // открыт данны чат
+                if (this.commentTemplates.some(t => t === n.template) && !n.isRead &&
+                    (this.openChat && n.context[3] === this.openChat.id)) {
+                    this.put(n.id, true).then(()=>{});
+                    n.isRead = true;
+                }
+                return n;
+            })
             .share();
 
         /*this.list$ = new Subject();

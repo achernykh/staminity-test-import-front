@@ -69,7 +69,8 @@
                 </activity-header-zones>
             </md-tab-content>
         </md-tab>
-        <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post'">
+        <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post'"
+                md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
             <md-tab-label><span>Чат</span><span class="badge superscript inactive" ng-if="$ctrl.item.activity.activityHeader.social.coachComments > 0">{{$ctrl.item.activity.activityHeader.social.coachComments}}</span></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-chat flex="auto" layout="column" layout-fill

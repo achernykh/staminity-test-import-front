@@ -46,6 +46,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     mode: string;
     activity: Activity;
     user: IUserProfile;
+    tab: number;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
@@ -97,6 +98,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
+        this.selectedTab = this.tab || 0;
         this.currentUser = this.SessionService.getUser();
         if (this.mode === 'post') {
             this.data = {
@@ -318,6 +320,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
         data: '<', // в режиме просмотр/изменение передает данные по тренировке из календаря
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
+        tab: '<', // вкладка по-умолчанию
         onCancel: '&',
         onAnswer: '&'
     },

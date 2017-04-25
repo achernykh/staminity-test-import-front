@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
 import {StateService, LocationServices} from 'angular-ui-router';
 import NotificationService from "../notification/notification.service";
+import CommentService from "../../core/comment.service";
+import {ChatSession} from "../../core/comment.service";
 
 class HeaderCtrl implements IComponentController {
 	public requests: number;
@@ -17,9 +19,10 @@ class HeaderCtrl implements IComponentController {
 	private profile$: Observable<IUserProfile>;
 	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
 	private readonly athleteSelectorStates: Array<string> = ['calendar','settings/user'];
+	private openChat: ChatSession;
 
 	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', 'NotificationService',
-		'$mdDialog', '$state','toaster'];
+		'CommentService','$mdDialog', '$state','toaster'];
 
 	constructor(
 		private $scope,
@@ -28,12 +31,14 @@ class HeaderCtrl implements IComponentController {
 		private SessionService: SessionService,
 		private RequestsService: RequestsService,
 		private	NotificationService: NotificationService,
+		private comment: CommentService,
 		private $mdDialog: any,
 		private $state: StateService,
 		private toaster: any) {
 
 
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
+		this.comment.openChat$.subscribe(chat => this.openChat = chat);
 
 		this.RequestsService.requestsList
 		.map((requests) => requests.filter((request) => request.receiver.userId === this.user.userId && !request.updated))

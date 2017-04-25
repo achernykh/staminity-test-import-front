@@ -2,6 +2,8 @@ import './activity-header.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {Activity} from "../activity.datamodel";
+import CommentService from "../../core/comment.service";
+import {ChatSession} from "../../core/comment.service";
 
 export class ActivityHeaderCtrl implements IComponentController {
 
@@ -10,20 +12,21 @@ export class ActivityHeaderCtrl implements IComponentController {
     public mode: string;
     public activity: Activity;
 
-    constructor(private $mdMedia: any) {
-    }
+    static $inject = ['$mdMedia','CommentService'];
 
-    static $inject = ['$mdMedia'];
+    constructor(private $mdMedia: any, private comment: CommentService) {
+    }
 
     $onInit() {
     }
 
-    openChat() {
-
+    openChat():void {
+        let chat: ChatSession = {type: 'activity', id: this.item.activity.calendarItemId};
+        this.comment.openChat$.next(chat);
     }
 
-    closeChat() {
-
+    closeChat():void {
+        this.comment.openChat$.next(null);
     }
 }
 
