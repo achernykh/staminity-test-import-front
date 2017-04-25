@@ -47,7 +47,6 @@ class HeaderCtrl implements IComponentController {
 	$onInit(){
 		this.NotificationService.list$
             .map(list => {
-				debugger;
 				return list.filter(notification => !notification.isRead);
 			})
             .subscribe(list => {

@@ -1,14 +1,16 @@
 <application-frame class="user-profile">
 
-    <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/user/background/' + $ctrl.user.public.background | image}})">
+    <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{$ctrl.user.public.background | userBackground}})">
         <div layout="row" layout-align="center center" style="width:100%">
             <div flex="40" layout="column" layout-align="center end">
                 <div class="chip" ng-if="$ctrl.user.public.isCoach">Тренер</div> 
                 <div class="chip" ng-if="$ctrl.user.public.isPremium"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
             </div>
-            <div flex="20">
+            <userpic class="size-60 border-light"
+                     profile="$ctrl.user" is-premium="$ctrl.user.isPremium"></userpic>
+            <!--<div flex="20">
                 <div class="userpic" ng-style="{'background-image': 'url(' + ('/user/avatar/' + $ctrl.user.public.avatar | image) + ')'}" layout-align="center"></div>
-            </div>
+            </div>-->
             <div flex="40">
             </div>
         </div>

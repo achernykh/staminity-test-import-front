@@ -50,7 +50,7 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     let url: string = '/assets/picture/default_avatar.png';
     switch (type) {
         case InitiatorType.user: {
-            url = `url(${avatar ? image() ('/user/avatar/' + avatar) : image() ('/assets/picture/default_avatar.png')})`;
+            url = `url(${avatar !== 'default.jpg' ? image() ('/user/avatar/' + avatar) : '/assets/picture/default_avatar.png'})`;
             break;
         }
         case InitiatorType.group: case InitiatorType.club: {

@@ -14,26 +14,25 @@ class ActivityHeaderChatCtrl implements IComponentController {
     public activityId: number;
     public social: IActivitySocial;
     public user: IUserProfile;
+    public currentUser: IUserProfile;
     public coach: boolean;
 
-    private comments: Array<IObjectComment>;
+    private comments: Array<IObjectComment> = [];
     private text: string = null;
     private readonly commentType: string = 'activity';
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = ['CommentService', 'message'];
 
     constructor(private comment: CommentService, private message: MessageService) {
-
+        this.comment.comment$
+            .filter(item => item.value.objectType === this.commentType && item.value.objectId === this.activityId &&
+                    item.value.userProfile.userId !== this.currentUser.userId)
+            .subscribe((item) => this.comments.push(item.value));
     }
 
     $onInit() {
-        if (this.social && this.social.hasOwnProperty('coachComments') &&
-            this.social.coachComments > 0) {
-
-            this.comment.get(this.commentType, this.activityId, true)
-                .then(result => this.comments = result,
-                    error => this.message.toastError(error));
-        }
+        this.comment.get(this.commentType, this.activityId, true, 50)
+            .then(result => this.comments = result, error => this.message.toastError(error));
     }
 
     onPostComment(text) {
@@ -41,12 +40,11 @@ class ActivityHeaderChatCtrl implements IComponentController {
             .then(result=> {
                     this.text = null;
                     this.comments = result;
-                },
-                error => this.message.toastError(error));
+                }, error => this.message.toastError(error));
     }
 
     isMe(id: number): boolean {
-        return (this.user.hasOwnProperty('userId') && id === this.user.userId) || false;
+        return (this.currentUser.hasOwnProperty('userId') && id === this.currentUser.userId) || false;
     }
 
     localDate(date){
@@ -61,6 +59,7 @@ const ActivityHeaderChatComponent:IComponentOptions = {
         activityId: '<',
         social: '<',
         user: '<',
+        currentUser: '<',
         coach: '<',
         onEvent: '&'
     },

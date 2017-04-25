@@ -119,12 +119,11 @@
                 <md-icon class="material-icons md-18"
                          style="margin-right: 8px">timer</md-icon>
             </div>
-            <div flex layout="column"
-                 class="md-caption secondary dark"
+            <div flex layout="row" layout-wrap="true" class="md-caption secondary dark"
                  style="margin-top: 2px; font-size: 12px; line-height: 16px">
-                <div flex ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind">
+                <div flex="none" ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind">
                     {{::obj.value | measureCalc:$ctrl.data.sportBasic:obj.measure}}
-                    <span class="disable dark">&nbsp{{::obj.measure | measureUnit:$ctrl.data.sportBasic | translate}}</span>
+                    <span flex="none" class="disable dark">&nbsp{{::obj.measure | measureUnit:$ctrl.data.sportBasic | translate}}&nbsp</span>
                 </div>
             </div>
         </div>
