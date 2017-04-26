@@ -10,7 +10,9 @@ interface IStaminityState extends State {
 
 function run($transitions: TransitionService, LoaderService: LoaderService, AuthService: IAuthService, message: MessageService) {
 
-	$transitions.onBefore({to: '*', from: '*'}, (state) => {
+    //window.navigator['standalone'] = true;
+
+    $transitions.onBefore({to: '*', from: '*'}, (state) => {
 
         let routeTo:IStaminityState = <IStaminityState>state.$to();
 

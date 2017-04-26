@@ -34,13 +34,14 @@ calendar {
 
   section.content {
     max-width: 1440px;
-    //position: absolute;
-    //width: 100%;
-    //top: 40px;
     overflow: hidden;
-    //background-color: lightgray;
     height: calc(100% - 40px);
     margin: auto;
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      height: 100%;
+    }
+
   }
 
   md-toolbar.calendar-header {
@@ -82,8 +83,11 @@ calendar {
     position: relative;
     height: calc(100% - 55px);
     scroll-behavior: auto;
-    overflow-y: scroll
-
+    overflow-y: scroll;
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      height: 100%;
+    }
   }
 
   div.calendar-week {
@@ -156,6 +160,13 @@ calendar {
     div.md-datepicker-input-container input, div.md-datepicker-input-container button{
       display: none;
     }
+  }
+
+  md-fab-speed-dial {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    z-index: 65;
   }
 
 }
@@ -234,7 +245,7 @@ calendar {
 }
 
 #dayzone[dnd-list] {
-  min-height: 50px;
+  //min-height: 50px;
   -padding-left: 0px;
 }
 
@@ -337,19 +348,6 @@ calendar-event, calendar-competition {
 
 calendar {
   .new {
-    border-radius: 3px;
-    margin: 4px 0px;
-    -background: white;
-    visibility: hidden;
-    cursor: pointer;
-
-    &.show {
-      visibility: visible;
-    }
-
-    &:hover {
-      -background: white;
-    }
 
   }
 
@@ -359,10 +357,6 @@ calendar {
     @media (max-width: 959px) {
       width: auto;
     }
-  }
-
-  .today {
-    border-top:solid 4px $orange-800 ;
   }
 
   .md-position-fab{

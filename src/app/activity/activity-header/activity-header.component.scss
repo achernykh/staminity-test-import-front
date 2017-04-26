@@ -104,6 +104,12 @@ activity-header {
     @extend .bg-red-800;
   }
 
+  md-tabs > md-tabs-wrapper > md-next-button, md-prev-button {
+    md-icon {
+      color: rgba(255,255,255, 0.54);
+    }
+  }
+
   form md-list:first-child {
     //background-color: $grey-200;
     //padding-bottom: 30px;

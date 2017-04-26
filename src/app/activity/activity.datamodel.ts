@@ -241,8 +241,6 @@ export class Activity extends CalendarItem {
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
-        debugger;
-
 		return {
 			index: this.index,
 			calendarItemId: this.calendarItemId,

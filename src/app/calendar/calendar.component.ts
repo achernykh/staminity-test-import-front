@@ -37,7 +37,8 @@ export interface ICalendarDay {
 
 export class CalendarCtrl implements IComponentController{
 
-    static $inject = ['$scope', '$rootScope', '$anchorScroll','$location','message','CalendarService','SessionService'];
+    static $inject = ['$scope', '$mdDialog', '$rootScope', '$anchorScroll','$location','message',
+        'CalendarService','SessionService'];
     private user: IUserProfile; //
     private weekdayNames: Array<string> = [];
     private buffer: Array<any> = [];
@@ -50,6 +51,7 @@ export class CalendarCtrl implements IComponentController{
 
     constructor(
         private $scope: IScope,
+        private $mdDialog: any,
         private $rootScope: IRootScopeService,
         private $anchorScroll: IAnchorScrollService,
         private $location: ILocationService,
@@ -62,11 +64,13 @@ export class CalendarCtrl implements IComponentController{
         this.setDate(date.isValid()? date.toDate() : new Date());
         //this.$anchorScroll.yOffset = 120;
         this.CalendarService.item$
-            .filter(message => message.value.hasOwnProperty('userProfileOwner') && message.value.userProfileOwner.userId === this.user.userId)
+            .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
+                message.value.userProfileOwner.userId === this.user.userId)
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
             .subscribe((message) => {
+                debugger;
                 switch (message.action) {
                     case 'I': {
                         this.onPostItem(<ICalendarItem>message.value);
@@ -296,6 +300,112 @@ export class CalendarCtrl implements IComponentController{
         return this.calendar[this.calendar.length - 1];
     }
 
+    onAddActivity($event){
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="post-activity" aria-label="Activity">
+                        <calendar-item-activity
+                                layout="row" class="calendar-item-activity"
+                                date="$ctrl.date"
+                                mode="'post'"
+                                user="$ctrl.user"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-activity>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                date: new Date(), // дата дня в формате ГГГГ-ММ-ДД
+                user: this.user
+            },
+            //resolve: {
+            //    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
+            //        .then(response => response, error => console.error(error))
+            //},
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: false,
+            fullscreen: true
+        })
+            .then(response => {
+                if(response.type === 'post') {
+                    console.log('save activity', response);
+                    //this.calendar.onPostItem(response.item);
+                    this.message.toastInfo('Создана новая запись');
+                }
+            }, ()=> {
+                console.log('user cancel dialog');
+            });
+    }
+
+    onAddMeasurement($event){
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template: `<calendar-item-measurement
+                            class="calendar-item-measurement"
+                            data="$ctrl.data"
+                            mode="post"
+                            user="$ctrl.user"
+                            on-cancel="cancel()" on-answer="answer(response)">
+                      </calendar-item-measurement>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                data: new Date(),
+                user: this.user
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: true
+
+        })
+            .then(response => {
+                if(response.type === 'post') {
+                    //this.calendar.onPostItem(response.item)
+                    this.message.toastInfo('Создана новая запись');
+                }
+
+            }, ()=> {
+                console.log('user cancel dialog');
+            });
+    }
+
+    onAddWeekend($event, data) {
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template: `<md-dialog id="events" aria-label="Events">
+                        <calendar-item-events
+                                flex layout="column" class="calendar-item-events"
+                                data="$ctrl.data" mode="put"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-events>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                //data: data
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: true
+
+        })
+            .then(response => {
+                console.log('user close dialog with =', response);
+
+            }, () => {
+                console.log('user cancel dialog, data=', data);
+            });
+    }
+
+
+
     /**
      * Создание записи календаря
      * @param item<ICalendarItem>
@@ -456,3 +566,19 @@ const Calendar: IComponentOptions = {
     template: require('./calendar.component.html') as string
 };
 export default Calendar;
+
+function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+        console.log('cancel');
+        $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+    };
+}
+DialogController.$inject = ['$scope','$mdDialog'];

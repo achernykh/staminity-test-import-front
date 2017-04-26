@@ -11,25 +11,15 @@ calendar-day {
   padding: 0px 6px 8px 6px;
   height: 100%;
   width: 12.4%;
-
   vertical-align:top;
-  //text-transform: capitalize;
-
-
-  //xs	'(max-width: 599px)'
-  //gt-xs	'(min-width: 600px)'
-  //sm	'(min-width: 600px) and (max-width: 959px)'
-  //gt-sm	'(min-width: 960px)'
-  //md	'(min-width: 960px) and (max-width: 1279px)'
-  //gt-md	'(min-width: 1280px)'
-  //lg	'(min-width: 1280px) and (max-width: 1919px)'
-  //gt-lg	'(min-width: 1920px)'
-  //xl	'(min-width: 1920px)'
 
   // xs & sm size
   @media (min-width: 0px) and (max-width: 959px) {
+    width: 100%;
+    height:auto;
+    min-height: 70px;
     padding: 12px 8px 12px 8px;
-    border-bottom: 1px solid $grey-400;
+    //border-bottom: 1px solid $grey-400;
   }
 
   // md size
@@ -45,6 +35,45 @@ calendar-day {
 
   &:hover{
     @extend .bg-grey-300;
+    @media (min-width: 960px) {
+      section.actions {visibility: visible;}
+    }
   }
   transition: all 0s ease-in-out 0s;
+
+  section.toolbar {
+    .day, .weekday {
+      text-align: center;
+      min-width:24px;
+    }
+
+    @media (min-width: 0px) and (max-width: 959px) {
+      margin-right: 8px;
+    }
+    
+    &.today {
+      border-top:solid 4px $orange-800;
+      // xs & sm size
+      @media (min-width: 0px) and (max-width: 959px) {
+        .day, .weekday {
+          color: $orange-800;
+        }
+        border: none;
+      }
+    }
+  }
+
+  section.items {
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+
+    }
+  }
+
+  section.actions {
+    border-radius: 3px;
+    margin: 4px 0px;
+    visibility: hidden;
+    cursor: pointer;
+  }
 }

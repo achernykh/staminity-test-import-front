@@ -2,7 +2,7 @@
     <div id="header-left-toolbar" flex="{{$ctrl.view.leftPanel.size}}"
          ng-include="$ctrl.view.leftPanel.url"
          layout="row" layout-align="start center" class=""></div>
-    <div id="header-caption" class="animated bounceIn" layout="row" layout-align="center center" layout-fill>
+    <div id="header-caption" class="animated bounceIn" layout="row" layout-align="start center" layout-align-gt-sm="center center" layout-fill>
         <div flex="nogrow" ng-show="$ctrl.view.title"
              class="app-title md-title" translate>
             {{$ctrl.app.screen.xs ? $ctrl.view.shortTitle : $ctrl.view.fullTitle}}</div>

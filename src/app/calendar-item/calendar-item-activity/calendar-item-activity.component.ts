@@ -46,7 +46,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     mode: string;
     activity: Activity;
     user: IUserProfile;
-    tab: number;
+    tab: string;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
@@ -98,7 +98,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-        this.selectedTab = this.tab || 0;
         this.currentUser = this.SessionService.getUser();
         if (this.mode === 'post') {
             this.data = {
@@ -116,8 +115,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
         //Получаем детали по тренировке загруженной из внешнего источника
         if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
             this.ActivityService.getIntervals(this.activity.activityHeader.activityId)
-                .then(response => this.activity.completeIntervals(response),
-                    error => this.message.toastError('errorCompleteIntervals'));
+                .then(response => {
+                    this.activity.completeIntervals(response);
+                    this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
+                        (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
+                }, error => this.message.toastError('errorCompleteIntervals'));
 
             this.ActivityService.getDetails2(this.data.activityHeader.activityId)
                 .then(response => {
@@ -132,13 +134,15 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
         this.isPro = this.AuthService.isActivityPro();
         this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
+        this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
+            (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
+
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post') {
             this.ActivityService.getCategory()
                 .then(list => this.activity.categoriesList = list,
                     error => this.message.toastError(error));
         }
-
     }
 
     changeMode(mode:string) {
@@ -241,6 +245,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
         if (this.selectedTab !== HeaderTab.Details && this.isPro) {
+            debugger;
             this.selectedTab = HeaderTab.Details;
         }
         if(initiator === 'details') {

@@ -1,5 +1,5 @@
 <md-toolbar flex="none" class="{{$ctrl.item.activity.status}}">
-    <div class="md-toolbar-tools">
+    <div class="md-toolbar-tools" ng-cloak>
         <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
                        aria-label="User">
@@ -30,7 +30,13 @@
         <h2 translate="Тренировка"></h2>
         <span flex></span>
         <userpic class="border-light" profile="$ctrl.item.user" is-premium="$ctrl.item.user.isPremium"></userpic>
-        <md-button class="md-icon-button" ng-click="$ctrl.item.onCancel()" ng-if="!$ctrl.item.activity.hasImportedData">
+        <md-button class="md-icon-button" hide-gt-sm
+                   ng-click="$ctrl.item.onCancel()">
+            <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
+                   ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
         </md-button>
@@ -38,7 +44,8 @@
 </md-toolbar>
 
 <md-content flex="auto" layout="column">
-    <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab" ng-cloak
+    <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
+             md-stretch-tabs="always" ng-cloak
              ng-class="{'coming': $ctrl.item.activity.status === 'coming',
                                 'not-specified': $ctrl.item.activity.status === 'not-specified',
                                 'complete': $ctrl.item.activity.status === 'complete',
@@ -71,7 +78,10 @@
         </md-tab>
         <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post'"
                 md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
-            <md-tab-label><span>Чат</span><span class="badge superscript inactive" ng-if="$ctrl.item.activity.activityHeader.social.coachComments > 0">{{$ctrl.item.activity.activityHeader.social.coachComments}}</span></md-tab-label>
+            <!--
+            <span class="badge superscript inactive" ng-if="$ctrl.item.activity.activityHeader.social.coachComments > 0">{{$ctrl.item.activity.activityHeader.social.coachComments}}</span>
+            -->
+            <md-tab-label><span>Чат</span></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-chat flex="auto" layout="column" layout-fill
                                       activity-id="$ctrl.item.activity.id"

@@ -6,6 +6,9 @@ import {INotification, Notification, Initiator} from "../../../../api/notificati
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
 import CommentService from "../../core/comment.service";
+import {ISessionService} from "../../core/session.service";
+import {IUserProfile} from "../../../../api/user/user.interface";
+import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 
 
 class NotificationListCtrl implements IComponentController {
@@ -27,8 +30,10 @@ class NotificationListCtrl implements IComponentController {
         newAthleteComment: 3
     };
     private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
+    private currentUser: IUserProfile;
 
-    static $inject = ['$scope','$mdDialog','$mdSidenav','NotificationService','CalendarService', 'UserService'];
+    static $inject = ['$scope','$mdDialog','$mdSidenav','NotificationService','CalendarService', 'UserService',
+        'SessionService'];
 
     constructor(
         private $scope: IScope,
@@ -36,7 +41,8 @@ class NotificationListCtrl implements IComponentController {
         private $mdSidenav: any,
         private NotificationService: NotificationService,
         private CalendarService: CalendarService,
-        private UserService: UserService) {
+        private UserService: UserService,
+        private session: ISessionService) {
 
     }
 
@@ -49,6 +55,7 @@ class NotificationListCtrl implements IComponentController {
 
     $onInit() {
         this.NotificationService.list$.subscribe((list) => {this.notifications =  list; this.$scope.$apply();});
+        this.session.profile.subscribe(profile=> this.currentUser = angular.copy(profile));
     }
 
     $onDestroy(): void {
@@ -62,47 +69,56 @@ class NotificationListCtrl implements IComponentController {
     close () {
         //clearTimeout(this.timer);
         this.$mdSidenav('notifications').toggle();
-        if(this.notifications) {
-            this.notifications.filter(n => !n.isRead).forEach(n => this.NotificationService.put(n.id, true));
-        }
+
+        setTimeout(() => {
+            if(this.notifications) {
+                this.notifications.filter(n => !n.isRead).forEach(n => this.NotificationService.put(n.id, true));
+            }
+        },1);
     }
 
     onClick($event, notification: Notification):void {
         debugger;
         if(Object.keys(this.activityTemplates).some(k => k === notification.template)) {
-            this.$mdDialog.show({
-                controller: DialogController,
-                controllerAs: '$ctrl',
-                template:
-                    `<md-dialog id="activity" aria-label="Activity">
-                        <calendar-item-activity
-                                layout="row" class="calendar-item-activity"
-                                data="$ctrl.data"
-                                mode="$ctrl.mode"
-                                user="$ctrl.user"
-                                tab="$ctrl.tab"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-activity>
-                   </md-dialog>`,
-                parent: angular.element(document.body),
-                targetEvent: $event,
-                locals: {
-                    //data: this.data,
-                    mode: 'view',
-                    tab: (this.commentTemplates.some(t => t === notification.template) && 3) || 0
-                },
-                resolve: {
-                    user: () => this.UserService.getProfile(notification.initiator[Initiator.uri])
-                        .catch(error => console.error(error)),
-                    data: () => this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
-                        .then(response => response[0], error => {throw new Error(error);})
-                },
-                bindToController: true,
-                clickOutsideToClose: true,
-                escapeToClose: true,
-                fullscreen: true
 
-            }).then(response => console.log(response), error => console.log(error));
+            this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
+                .then(response => {
+                    let activity: ICalendarItem = response[0];
+                    this.$mdDialog.show({
+                        controller: DialogController,
+                        controllerAs: '$ctrl',
+                        template:
+                            `<md-dialog id="activity" aria-label="Activity">
+                                <calendar-item-activity
+                                        layout="row" class="calendar-item-activity"
+                                        data="$ctrl.data"
+                                        mode="$ctrl.mode"
+                                        user="$ctrl.user"
+                                        tab="$ctrl.tab"
+                                        on-cancel="cancel()" on-answer="answer(response)">
+                                </calendar-item-activity>
+                           </md-dialog>`,
+                        parent: angular.element(document.body),
+                        targetEvent: $event,
+                        locals: {
+                            data: activity,
+                            mode: 'view',
+                            tab: (this.commentTemplates.some(t => t === notification.template) && 'chat') || null
+                        },
+                        resolve: {
+                            user: () => { debugger;
+                                return this.currentUser.userId === activity.userProfileOwner.userId ? Promise.resolve(this.currentUser) :
+                                    this.UserService.getProfile(activity.userProfileOwner.userId).catch(error => console.error(error));
+                            }
+                        },
+                        bindToController: true,
+                        clickOutsideToClose: true,
+                        escapeToClose: true,
+                        fullscreen: true
+
+                    }).then(response => console.log(response), error => console.log(error));
+
+                }, error => {throw new Error(error);});
 
             this.NotificationService.put(notification.id, true).catch();
 
