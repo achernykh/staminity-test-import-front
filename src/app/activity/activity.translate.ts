@@ -29,9 +29,24 @@ export const translateCategories = {
         recovery: 'Восстановление',
         aerobicEndurance: 'Аэробная выносливость',
         muscularForce: 'Развитие силы',
+        muscularEndurance: 'Мышечная выносливость',
         speedSkills: 'Развитие скорости',
         anaerobicEndurance: 'Анаэробная выносливость',
         sprintPower: 'Мощность',
-        functionalTest: 'Функциональный тест'
+        functionalTest: 'Функциональный тест',
+        racePreparation: 'Подготовка к старту',
+        race: 'Старт',
+    },
+    en: {
+        recovery: 'Recovery',
+        aerobicEndurance: 'Aerobic endurance',
+        muscularForce: 'Muscular force',
+        muscularEndurance: 'Muscular endurance',
+        speedSkills: 'Speed skills',
+        anaerobicEndurance: 'Anaerobic endurance',
+        sprintPower: 'Sprint power',
+        functionalTest: 'Functional test',
+        racePreparation: 'Race preparation',
+        race: 'Race',
     }
 };
