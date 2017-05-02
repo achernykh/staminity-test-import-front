@@ -35,12 +35,12 @@
         </md-button>
         <span flex></span>
         <div ng-if="!$ctrl.item.activity.structured">
-            <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary md-icon-button"
+            <md-button ng-repeat="measure in $ctrl.chartData.measuresX track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartX(measure)">
                 <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
                 <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
-            <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary md-icon-button"
+            <md-button ng-repeat="measure in $ctrl.chartData.measuresY track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartMetrics(measure)">
                 <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
                 <md-tooltip>{{measure | translate}}</md-tooltip>
@@ -56,8 +56,8 @@
     </header>
 
     <activity-metrics-char flex="none" ng-if="$ctrl.showChart && !$ctrl.item.activity.structured && !$ctrl.fullScreenTable"
-                           measures="$ctrl.measures"
-                           data="$ctrl.data"
+                           measures="$ctrl.chartData.measures"
+                           data="$ctrl.chartData.data"
                            x="$ctrl.chartX"
                            change="$ctrl.change"
                            change-measure="$ctrl.changeMeasure"

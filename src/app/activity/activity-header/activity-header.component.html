@@ -58,7 +58,7 @@
             </md-tab-content>
         </md-tab>
         <md-tab id="details" label="Детали" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
-                ng-if="$ctrl.item.activity.hasImportedData">
+                ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
             <md-tab-content layout-fill layout-column>
                 <activity-header-details flex="auto" layout="column" layout-fill
                                          selection-index="$ctrl.item.selectionIndex"

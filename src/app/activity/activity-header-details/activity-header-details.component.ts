@@ -5,6 +5,8 @@ import {
     ISelectionIndex, SelectInitiator
 } from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {ICalcMeasures} from "../../../../api/activity/activity.interface";
+import {Measure} from "../../share/measure/measure.constants";
+import {MeasureChartData} from "../activity.function";
 
 interface Select {
     type: string;
@@ -22,6 +24,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     private selectionIndex: ISelectionIndex;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
+    private chartData: MeasureChartData; // класс для расчета данных для графика
 
     private readonly intervalTypes = ['L','U'];
     private intervals: SelectionOptions<Select> = {};
@@ -63,6 +66,8 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.chartData = new MeasureChartData(
+            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
         this.prepareIntervals();
     }
 

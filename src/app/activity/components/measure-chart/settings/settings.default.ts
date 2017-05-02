@@ -3,8 +3,8 @@ import * as d3 from 'd3';
 
 
 const DefaultChartSettings: IActivityChartSettings = {
-    minWidth: 350,
-    minAspectRation: 0.25,
+    minWidth: 320,
+    minAspectRation: 0.40,
     labelOffset: 40,
     tooltipOffset: 30,
     autoResizable: true,

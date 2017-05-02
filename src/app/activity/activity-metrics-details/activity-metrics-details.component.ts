@@ -3,6 +3,7 @@ import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {Activity} from "../activity.datamodel";
 import {isPace, getSportLimit} from "../../share/measure/measure.constants";
+import {MeasureChartData} from "../activity.function";
 
 class ActivityMetricsDetailsCtrl implements IComponentController {
 
@@ -16,6 +17,8 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private zoomIn: number = 0;
     private zoomOut: number = 0;
     private autoZoom: boolean = true;
+
+    private chartData: MeasureChartData; // класс для расчета данных для графика
 
     private measures: {} = {};
     private measuresItem: {} = {};
@@ -35,6 +38,12 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
+
+        this.chartData = new MeasureChartData(
+            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+
+        return; /*
+
         let array: Array<string>;
         let sportBasic:string = this.item.activity.sportBasic;
         let calcMeasure = this.item.activity.intervalW.calcMeasures;
@@ -85,7 +94,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
                     info[this.measures[key]['idx']];
             }
             this.data.push(cleaned);
-        });
+        });*/
     }
 
     toggleMap() {
@@ -106,7 +115,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     changeChartMetrics(measure) {
-        this.measures[measure]['show'] = !this.measures[measure]['show'];
+        this.chartData.measures[measure]['show'] = !this.chartData.measures[measure]['show'];
         this.changeMeasure = measure;
         this.change++;
     }
