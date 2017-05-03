@@ -33,7 +33,9 @@ module.exports = {
             'angular-dynamic-locale',
             'angularjs-toaster',
             //'angular-read-more'
-            'animate.css'
+            'animate.css',
+            'angular-carousel',
+            'angular-touch'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'

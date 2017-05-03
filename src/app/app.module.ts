@@ -17,6 +17,9 @@ import * as angularDynamicLocale from 'angular-dynamic-locale/src/tmhDynamicLoca
 import toaster from 'angularjs-toaster';
 import 'angularjs-toaster/toaster.css';
 import 'animate.css/animate.css';
+import 'angular-carousel/dist/angular-carousel.js';
+import 'angular-carousel/dist/angular-carousel.css';
+import * as ngTouch from 'angular-touch';
 
 import run from './app.run';
 import configure from './app.config';
@@ -52,6 +55,8 @@ const root = module('staminity.application', [
 	hmReedmore,
 	angularDynamicLocale,
 	toaster,
+	ngTouch,
+	'angular-carousel',
 
 	Core,
 	Share,

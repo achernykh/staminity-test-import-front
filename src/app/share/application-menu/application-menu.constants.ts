@@ -31,6 +31,11 @@ export const AppMenuSettings = [
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
+        icon: 'search',
+        name: 'appMenu.search',
+        link: 'search'
+    },
+    {
         icon: "forum",
         name: "appMenu.feeds",
         link: "feeds",

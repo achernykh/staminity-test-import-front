@@ -18,12 +18,14 @@ import ActivityHeaderZonesComponent from "./activity-header-zones/activity-heade
 import ActivityHeaderChatComponent from "./activity-header-chat/activity-header-chat.component";
 import DefaultPlanChartSettings from "./components/segment-chart/settings/settings.default";
 import PlanChartComponent from "./components/segment-chart/segmentsChart.component";
+import ActivityHeaderSplitsComponent from "./activity-header-splits/activity-header-splits.component";
 
 const Activity = module('staminity.activity', [])
     .service('ActivityService', ActivityService)
 	.component('activityHeader', ActivityHeaderComponent)
 	.component('activityHeaderOverview', ActivityHeaderOverviewComponent)
 	.component('activityHeaderDetails', ActivityHeaderDetailsComponent)
+	.component('activityHeaderSplits', ActivityHeaderSplitsComponent)
 	.component('activityHeaderZones',ActivityHeaderZonesComponent)
 	.component('activityHeaderChat', ActivityHeaderChatComponent)
 	.component('activityMetricsDetails', ActivityMetricsDetailsComponent)

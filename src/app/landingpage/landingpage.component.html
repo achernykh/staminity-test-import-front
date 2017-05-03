@@ -37,7 +37,15 @@
                         </div>
 
                         <div id="mc_embed_signup" flex="none" layout="column">
-                            <form flex="none" layout="column" class="subscribe"
+                            <form flex="none" layout="column" class="start" name="startForm">
+                                <md-button flex='none' class="md-raised md-primary"
+                                           ng-disabled = "!startForm.$valid"
+                                           type="submit" name="start"
+                                           translate="landing.start.action"></md-button>
+                                <div class="note md-body"
+                                     translate="landing.start.note"></div>
+                            </form>
+                            <!--<form flex="none" layout="column" class="subscribe"
                                   action="//staminity.us14.list-manage.com/subscribe/post?u=0f9d8fcdbbc8ab7bb9f344b02&amp;id=0caa4cfc49"
                                   method="post" id="mc-embedded-subscribe-form" name="subscribeForm"
                                   target="_blank" novalidate>
@@ -78,7 +86,7 @@
 
                                 <div class="note md-body"
                                      translate="landing.subscribe.note"></div>
-                            </form>
+                            </form>-->
                         </div>
                         <md-button disabled md-ink-ripple="false" flex="none" class="md-icon-button more" aria-label="more">
                             <md-icon class="light-active" md-svg-icon="assets/icon/expand_more.svg"></md-icon>
@@ -89,6 +97,56 @@
             </section>
             <!-- welcome block: end -->
 
+            <section flex="grow" layout="row" class="devices gradient-01 main-features-block">
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+                <div flex="100" layout="column" layout-align="start center">
+                    <h2 flex="none" class="md-display-2" translate="landing.devices.title"></h2>
+                    <h3 flex="none" class="md-headline" translate="landing.devices.subtitle"></h3>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-gt-sm="50" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex="none" style="height: 200px; width: 200px; margin: 36px">Картинка #1</div>
+                            <h4 flex="none" class="md-title" translate="landing.devices.desktop.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.devices.desktop.description"></div>
+                        </div>
+                        <div flex="none" flex-gt-sm="50" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex="none" style="height: 200px; width: 200px; margin: 36px">Картинка #2</div>
+                            <h4 flex="none" class="md-title" translate="landing.devices.mobile.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.devices.mobile.description"></div>
+                        </div>
+                    </div>
+                </div>
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+            </section>
+
+            <section flex="grow" layout="row" class="scheme gradient-02 main-features-block">
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+                <div flex="100" layout="column" layout-align="start center">
+                    <h2 flex="none" class="md-display-2" translate="landing.scheme.title"></h2>
+                    <h3 flex="none" class="md-headline" translate="landing.scheme.subtitle"></h3>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex="none" style="height: 150px; width: 150px; margin: 36px">Картинка #1</div>
+                            <div flex="none" class="step-number">1</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step1.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step1.description"></div>
+                        </div>
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex="none" style="height: 150px; width: 150px; margin: 36px">Картинка #2</div>
+                            <div flex="none" class="step-number">2</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step2.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step2.description"></div>
+                        </div>
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex="none" style="height: 150px; width: 150px; margin: 36px">Картинка #2</div>
+                            <div flex="none" class="step-number">3</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step3.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step3.description"></div>
+                        </div>
+                    </div>
+                </div>
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+            </section>
+
 
 
 
@@ -97,8 +155,7 @@
                     <div flex="100" layout="column" layout-align="start center">
                         <h2 flex="none" class="md-display-2" translate="landing.features.athletes.title"></h2>
                         <h3 flex="none" class="md-headline" translate="landing.features.athletes.subtitle"></h3>
-                        <div flex="auto" layout="column" layout-gt-sm="row"
-                             class="block-100">
+                        <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
                             <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
                                  class="center">
                                 <div flex="none">
@@ -127,6 +184,42 @@
                     </div>
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                 </section>
+
+            <ul rn-carousel rn-carousel-auto-slide class="carousel-block gradient-03">
+                <li>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center" style="height: 450px; background: mediumvioletred">
+                            Картинка №1
+                        </div>
+                        <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="center">
+                            <h2 flex="none" class="md-title" translate="landing.athletes.carousel1.title"></h2>
+                            <div flex="none" class="md-body info" translate="landing.athletes.carousel1.description"></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center" style="height: 350px; background: deepskyblue">
+                            Картинка №2
+                        </div>
+                        <div flex="none" flex-order="1" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="center">
+                            <h2 flex="none" class="md-title" translate="landing.athletes.carousel2.title"></h2>
+                            <div flex="none" class="md-body info" translate="landing.athletes.carousel2.description"></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center" style="height: 550px; background: greenyellow">
+                            Картинка №3
+                        </div>
+                        <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="center">
+                            <h2 flex="none" class="md-title" translate="landing.athletes.carousel3.title"></h2>
+                            <div flex="none" class="md-body info" translate="landing.athletes.carousel3.description"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
                 <section layout="row" class="main-features-block cover-03">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
@@ -205,7 +298,6 @@
                     <div id="mc_embed_signup" flex="auto" layout="column" layout-align="space-between center">
 
                         <div flex="none" class="md-title" translate="landing.subscribe.title"></div>
-
                         <form flex="none" layout="column" class="subscribe"
                               action="//staminity.us14.list-manage.com/subscribe/post?u=0f9d8fcdbbc8ab7bb9f344b02&amp;id=0caa4cfc49"
                               method="post" id="mc-embedded-subscribe-form" name="subscribeForm"

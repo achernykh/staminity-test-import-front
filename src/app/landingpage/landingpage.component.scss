@@ -15,24 +15,36 @@
 }
 
 landing-page {
-	.cover-01 {
-		background-image: linear-gradient(to top, rgba(#6E8B9B, 1), rgba(0, 0, 0, 0.40) 30%, rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)),
+	.cover-01 { // озеро в тумане
+		background-image: linear-gradient(to top, rgba(#618BB9, 1), rgba(0, 0, 0, 0.40) 30%, rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)),
 		url('/assets/picture/lp-bg-03-1440.jpg'); //25% center no-repeat;
 		background-position: 25% center;
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
 
-	.cover-02 {
-		background-image: linear-gradient(to top, rgba(#4B506D, 1), rgba(#000000, 0.5) 15%, rgba(#000000, 0.5) 75%, rgba(#6E8B9B, 1)),
+	.gradient-01 { // бледно-тускло синий -> голубой
+		background-image: linear-gradient(to bottom, rgba(#618BB9, 1), rgba(#6EACE4,1) 50%, rgba(#82D0F9,1));
+	}
+
+	.gradient-02 { // голубой -> светло голубой
+		background-image: linear-gradient(to bottom, rgba(#82D0F9, 1), rgba(#B7DBFC,1) 50%, rgba(#CAE2EF,1));
+	}
+
+	.cover-02 { // велогон в пустыне
+		background-image: linear-gradient(to top, rgba(#6472A3, 1), rgba(black, 0.5) 25%, rgba(#6199B7, 0.5) 85%, rgba(#CAE2EF, 1)),
 		url('/assets/picture/lp-bg-09-1440.jpg'); //70% 50% no-repeat;
 		background-position: 70% 50%;
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
 
-	.cover-03 {
-		background-image: linear-gradient(to top, rgba(#403A4E, 1), rgba(#000000, 0.6) 25%, rgba(#000000, 0.5) 40%, rgba(#000000, 0.4) 75%, rgba(#4B506D, 1)),
+	.gradient-03 { // фиолетовый -> розовый
+		background-image: linear-gradient(to bottom, rgba(#6472A3, 1), rgba(#B45C9E,1));
+	}
+
+	.cover-03 { // бег, пара в горах
+		background-image: linear-gradient(to top, rgba(#403A4E, 1), rgba(#000000, 0.6) 25%, rgba(#000000, 0.5) 40%, rgba(#000000, 0.4) 75%, rgba(#B45C9E, 1)),
 		url('/assets/picture/lp-bg-10-1440.jpg'); //60% 50% no-repeat;
 		background-position: 60% 50%;
 		background-repeat: no-repeat;
@@ -99,7 +111,6 @@ landing-page {
 		}
 
 		.logo-box {
-
 			min-height: 150px;
 
 			@media (max-width: 599px), (orientation: landscape) {
@@ -121,7 +132,7 @@ landing-page {
 			}
 
 			.soon, .promo {
-
+				visibility: hidden;
 				@extend .md-display-2, .font-black, .light, .disable;
 				background: rgba($deep-orange-500, 0.8);
 				color: currentColor;
@@ -192,7 +203,7 @@ landing-page {
 	}
 
 	// Форма подписки
-	form.subscribe {
+	form.subscribe, form.start {
 
 		width: 300px;
 		margin-top: 16px;
@@ -321,7 +332,42 @@ landing-page {
 
 	}
 
-	.main-features-block {
+
+	.devices {
+		color: rgba(white,0.7) !important;
+	}
+
+	.scheme {
+		color: rgba(black, 0.54) !important;
+	}
+
+	.carousel-block {
+		padding: 0 !important;
+		margin: 0 !important;
+
+		@media (max-width: 959px) {
+			//height: 100vh;
+			li {padding: 32px 0px !important;}
+		}
+
+		@media (min-width: 960px) {
+			//height: 70vh;
+		}
+		li {
+			position: relative;
+			margin-left: -100%;
+			padding: 128px 0px;
+			color: white;
+		}
+		li:first-child {
+			margin-left: 0;
+		}
+		li div.block-100 {
+			max-width: 100%;
+		}
+
+	}
+	.main-features-block, .carousel-block {
 		width: 100vw;
 		padding: 128px 8px;
 		color: white;
@@ -360,7 +406,7 @@ landing-page {
 		}
 
 		.md-body {
-			@extend .secondary, .light;
+			@extend .secondary;
 		}
 
 		.info {

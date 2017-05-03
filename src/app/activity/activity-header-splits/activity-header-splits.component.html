@@ -1,0 +1,13 @@
+<md-list class="md-dense slim-input bg-grey-100">
+    <md-list-item ng-repeat-start="split in $ctrl.splits track by $index" class="md-caption" layout="row" layout-align="space-between center">
+        <div flex="none" style="width: 15px; margin-right: 16px">{{::$index+1}}</div>
+        <!--<div flex>{{split.calcMeasures.duration.value | duration:'millisecond'}}</div>-->
+        <div flex>{{split.calcMeasures.duration.value | measureCalc:$ctrl.sport:'duration'}}</div>
+        <div flex>{{split.calcMeasures.distance.value | measureCalc:$ctrl.sport:'distance'}}</div>
+        <div flex>{{::split.calcMeasures.heartRate.avgValue | measureCalc:$ctrl.sport:'heartRate'}}</div>
+        <div flex>{{::split.calcMeasures.speed.avgValue | measureCalc:$ctrl.sport:'speed'}}</div>
+        <div flex>{{::split.calcMeasures.elevationGain.value.toFixed(0) - split.calcMeasures.elevationLoss.value.toFixed(0) | measureCalc:$ctrl.sport:'elevationGain'}}</div>
+        <md-icon flex="none" class="material-icons" ng-click="">keyboard_arrow_right</md-icon>
+    </md-list-item>
+    <md-divider ng-repeat-end ng-if="!$last"></md-divider>
+</md-list>
