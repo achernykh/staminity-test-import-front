@@ -12,7 +12,8 @@ export let translateRequestPanel = {
         JoinClubByUser: 'Вступить в клуб',
         StartCoaching: 'Подключиться к тренеру',
         LeaveClubByCoach: 'Выйти из клуба',
-        StartCoachingByAthlete: 'Подключиться к тренеру'
+        StartCoachingByAthlete: 'Подключиться к тренеру',
+        JoinFriends: 'Подружиться'
     },
     en: {
 
