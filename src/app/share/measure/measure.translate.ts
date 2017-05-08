@@ -9,7 +9,7 @@ export const _MEASURE_TRANSLATE = {
 		minpkm: '/км',
 		minp100m: '/100м',
 		bpm: 'чсс',
-		min: '',
+		min: 'мин',
 		watt: 'вт',
 		percent: '%',
 		tl: '',
