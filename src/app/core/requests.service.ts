@@ -30,6 +30,7 @@ const processRequest = (requests, request) => {
 export default class RequestsService {
     notifications: Observable<any>;
     requestsList: Observable<any>;
+    requests: any;
 
     static $inject = ['SocketService', 'SessionService'];
 
@@ -46,6 +47,10 @@ export default class RequestsService {
         .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 100)))
         .switchMap(requests => this.notifications.scan(processRequest, requests).startWith(requests))
         .share();
+
+        this.requestsList.subscribe(requests => { 
+            this.requests = requests;
+        });
     }
 
     /**
