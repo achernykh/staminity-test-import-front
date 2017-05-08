@@ -110,6 +110,10 @@ activity-header {
     }
   }
 
+  md-tabs > #tab-content-43 > div{ //https://github.com/angular/material/issues/7621
+    height: 100%;
+  }
+
   form md-list:first-child {
     //background-color: $grey-200;
     //padding-bottom: 30px;

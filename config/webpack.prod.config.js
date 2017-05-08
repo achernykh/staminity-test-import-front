@@ -10,8 +10,9 @@ const hostEndPoint = {
     dist: "https://george3447.github.io/angular-webpack-material-lazyload-typescript-starter-template/",
     distLocal: "http://localhost:75/",
     dev1: "http://dev1.staminity.com",
-    dev2: "http://dev2.staminity.com",
-    prd: "http://staminity.com"
+    dev2: "https://dev2.staminity.com",
+    prd: "http://staminity.com",
+    testapp: 'https://testapp.staminity.com'
 };
 
 const contentBase = {
@@ -19,7 +20,8 @@ const contentBase = {
     distLocal: './distLocal',
     dev1: './dev1',
     dev2: './dev2',
-    prd: './prd'
+    prd: './prd',
+    testapp: './testapp'
 };
 
 var cwd = process.cwd();

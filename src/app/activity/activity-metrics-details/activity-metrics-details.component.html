@@ -92,7 +92,7 @@
     <measure-split-table flex ng-if="$ctrl.showTable && $ctrl.item.activity.hasImportedData"
                          class="chart measure-split-table"
                          splits="$ctrl.item.activity.intervalL"
-                         max="$ctrl.maxValue"
+                         max="$ctrl.chartData.maxValue"
                          selected="$ctrl.item.selectedTimestamp"
                          sport="$ctrl.item.activity.sportBasic"
                          zones="$ctrl.item.user.trainingZones"

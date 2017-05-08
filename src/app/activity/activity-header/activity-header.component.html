@@ -43,7 +43,7 @@
     </div>
 </md-toolbar>
 
-<md-content flex="auto" layout="column">
+<md-tab-body flex="auto" layout="column">
     <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
              md-stretch-tabs="always" ng-cloak
              ng-class="{'coming': $ctrl.item.activity.status === 'coming',
@@ -51,25 +51,26 @@
                                 'complete': $ctrl.item.activity.status === 'complete',
                                 'complete-warn': $ctrl.item.activity.status === 'complete-warn',
                                 'complete-error': $ctrl.item.activity.status === 'complete-error' || $ctrl.item.activity.status === 'dismiss'}">
-        <md-tab id="overview" flex="auto" layout="column" label="Обзор">
-            <md-tab-content flex="auto" layout="column" layout-fill>
-                <activity-header-overview flex="auto" layout="column" layout-fill>
-                </activity-header-overview>
-            </md-tab-content>
+        <md-tab id="overview" flex="auto" layout="column">
+            <md-tab-label><md-icon class="material-icons">event_note</md-icon></md-tab-label>
+            <md-tab-body layout="column" layout-fill>
+                    <activity-header-overview></activity-header-overview>
+            </md-tab-body>
         </md-tab>
-        <md-tab id="details" label="Детали" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
+        <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
                 ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
-            <md-tab-content layout-fill layout-column>
+            <md-tab-label><md-icon class="material-icons">assessment</md-icon></md-tab-label>
+            <md-content layout-fill layout-column>
                 <activity-header-details flex="auto" layout="column" layout-fill
                                          selection-index="$ctrl.item.selectionIndex"
                                          change="$ctrl.item.detailsSelectChangeCount + $ctrl.item.splitsSelectChangeCount"
                                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
                 </activity-header-details>
-            </md-tab-content>
+            </md-content>
         </md-tab>
-        <md-tab id="splits" flex layout="column"
+        <md-tab id="splits" flex layout="column" hide show-gt-sm
                 ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
-            <md-tab-label><span>Отрезки</span></md-tab-label>
+            <md-tab-label><md-icon class="material-icons">repeat</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-splits flex="auto" layout="column" layout-fill
                                         splits="$ctrl.item.activity.intervalL"
@@ -79,7 +80,7 @@
         </md-tab>
         <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post'"
                 md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
-            <md-tab-label><span>Чат</span></md-tab-label>
+            <md-tab-label><md-icon class="material-icons">chat</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-chat flex="auto" layout="column" layout-fill
                                       activity-id="$ctrl.item.activity.id"
@@ -89,14 +90,15 @@
                 </activity-header-chat>
             </md-tab-body>
         </md-tab>
-        <md-tab id="zones" flex layout="column" label="Зоны">
-            <md-tab-content layout-fill layout-column>
+        <md-tab id="zones" flex layout="column">
+            <md-tab-label><md-icon class="material-icons">tune</md-icon></md-tab-label>
+            <md-tab-body layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill
                                        zones="$ctrl.item.user.trainingZones"
                                        sport="$ctrl.item.activity.sportBasic"
                                        has-details="$ctrl.item.activity.hasImportedData">
                 </activity-header-zones>
-            </md-tab-content>
+            </md-tab-body>
         </md-tab>
     </md-tabs>
 </md-content>
