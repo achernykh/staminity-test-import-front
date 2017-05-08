@@ -40,10 +40,13 @@ class HeaderCtrl implements IComponentController {
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
 		this.comment.openChat$.subscribe(chat => this.openChat = chat);
 
+		if (this.RequestsService.requests) {
+			this.requests = this.RequestsService.requests.filter((request) => request.receiver.userId === this.user.userId && !request.updated).length;
+		}
+
 		this.RequestsService.requestsList
 		.map((requests) => requests.filter((request) => request.receiver.userId === this.user.userId && !request.updated))
 		.subscribe((requestsInboxNew) => {
-			console.log('requestsInboxNew', requestsInboxNew);
 			this.requests = requestsInboxNew.length;
 			this.$scope.$apply();
 		});
@@ -51,10 +54,10 @@ class HeaderCtrl implements IComponentController {
 
 	$onInit(){
 		this.NotificationService.list$
-            .map(list => {
+			.map(list => {
 				return list.filter(notification => !notification.isRead);
 			})
-            .subscribe(list => {
+			.subscribe(list => {
 				this.notifications =  list.length;
 				this.$scope.$apply();
 			});
@@ -70,9 +73,9 @@ class HeaderCtrl implements IComponentController {
 			controllerAs: '$ctrl',
 			template:
 				`<md-dialog id="athlete-selector" aria-label="AthleteSelector">
-                        <athlete-selector layout="column"
-                     						on-cancel="cancel()" on-answer="answer(response)"></athlete-selector>
-                   </md-dialog>`,
+					<athlete-selector layout="column"
+					on-cancel="cancel()" on-answer="answer(response)"></athlete-selector>
+					</md-dialog>`,
 			parent: angular.element(document.body),
 			targetEvent: $event,
 			locals: {
