@@ -119,7 +119,7 @@ class SummaryStatisticsCtrl {
     }
 
     getLabel(value) {
-        return this.valueType.name === 'время' ? Math.ceil(value/(60*60)) : value;
+        return this.valueType.name === 'время' ? Number(value/(60*60)).toFixed(1) : value;
     }
 
     updateStatistics () {

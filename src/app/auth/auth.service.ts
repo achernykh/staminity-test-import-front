@@ -12,6 +12,7 @@ export interface IAuthService {
     isAuthorized(roles:Array<string>):boolean;
     isCoach(role?: string):boolean;
     isMyAthlete(user: IUserProfile):Promise<any>;
+    isMyClub(uri: string):Promise<any>;
     isActivityPlan(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
     signIn(request:Object):IPromise<void>;
@@ -80,6 +81,15 @@ export default class AuthService implements IAuthService {
                 });
         } else {
             throw 'groupNotFound';
+        }
+    }
+
+    isMyClub(uri: string):Promise<any> {
+        let userClubs = this.SessionService.getUser().connections['ControlledClubs'];
+        if (userClubs && userClubs.some(club => club.groupUri === uri)) {
+            return Promise.resolve();
+        } else {
+            return Promise.reject('need permissions');
         }
     }
 

@@ -2,6 +2,8 @@
 
 .measures-avg-table {
 
+  overflow-x: hidden;
+
   table.md-table:not(.md-row-select) td.md-cell:first-child,
   table.md-table:not(.md-row-select) th.md-column:first-child {
     padding-left: 0px !important;

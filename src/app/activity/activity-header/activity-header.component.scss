@@ -6,12 +6,11 @@ $dialog_height: 95vh;
 activity-header {
 
   min-width: 100%;
-  //min-height: 100%;
+  background: $grey-100;
 
   @media (min-width: 960px) {
     max-width: $details_width;
     min-width: $details_width;
-    //min-height: 640px;
 
     md-toolbar {
       min-height: 16px;
@@ -22,15 +21,12 @@ activity-header {
     @media (min-width: 960px) {
       max-width: $details_width;
       min-width: 360px;
-      //min-height: 640px;
 
       md-toolbar {
         min-height: 16px;
       }
     }
   }
-
-  background: $grey-100;
 
   .md-toolbar-tools md-menu:first-child {
     margin-left: -8px;
@@ -109,8 +105,7 @@ activity-header {
       color: rgba(255,255,255, 0.54);
     }
   }
-
-  md-tabs > #tab-content-43 > div{ //https://github.com/angular/material/issues/7621
+  md-tabs div[md-tabs-template] { //https://github.com/angular/material/issues/7621
     height: 100%;
   }
 

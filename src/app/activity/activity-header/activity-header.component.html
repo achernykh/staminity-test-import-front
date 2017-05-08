@@ -43,7 +43,7 @@
     </div>
 </md-toolbar>
 
-<md-tab-body flex="auto" layout="column">
+<md-content flex="auto" layout="column">
     <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
              md-stretch-tabs="always" ng-cloak
              ng-class="{'coming': $ctrl.item.activity.status === 'coming',
@@ -60,16 +60,16 @@
         <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
                 ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
             <md-tab-label><md-icon class="material-icons">assessment</md-icon></md-tab-label>
-            <md-content layout-fill layout-column>
+            <md-tab-body layout-fill layout-column>
                 <activity-header-details flex="auto" layout="column" layout-fill
                                          selection-index="$ctrl.item.selectionIndex"
                                          change="$ctrl.item.detailsSelectChangeCount + $ctrl.item.splitsSelectChangeCount"
                                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
                 </activity-header-details>
-            </md-content>
+            </md-tab-body>
         </md-tab>
-        <md-tab id="splits" flex layout="column" hide show-gt-sm
-                ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
+        <md-tab id="splits" flex layout="column"
+                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
             <md-tab-label><md-icon class="material-icons">repeat</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-splits flex="auto" layout="column" layout-fill
