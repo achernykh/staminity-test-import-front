@@ -17,6 +17,7 @@ export interface INotificationSettings {
 
 export default class NotificationService {
     timeouts: Array<number> = [];
+    list: Array<Notification> = [];
     notification$: Observable<any>;
     list$: Observable<Array<Notification>>;
     openChat: ChatSession;
@@ -71,6 +72,8 @@ export default class NotificationService {
                 return this.notification$.scan( this.process.bind(this), list).startWith(list);
             })
             .share();
+
+        this.list$.subscribe(list => { this.list = list; });
     }
 
     /**
