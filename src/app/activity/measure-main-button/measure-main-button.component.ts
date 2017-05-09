@@ -31,11 +31,47 @@ class MeasureMainButtonCtrl implements IComponentController{
 			ski: ['duration','movingDuration','distance','calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','speedDecoupling'],
 			other: ['duration','movingDuration','distance','calories','elevationGain','elevationLoss','grade','vamPowerKg','intensityLevel','efficiencyFactor','speedDecoupling']
 		};
+
+		this.$scope.data = [
+			{
+				needParam: false,
+				measure: ['distance', 'duration', 'movingDuration']
+			},
+			{
+				needParam: false,
+				measure: ['calories','intensityLevel','trainingLoad']
+			},
+			{
+				needParam: true,
+				param: ['elevation'],
+				measure: ['elevationGain','elevationLoss']
+			},
+			{
+				needParam: true,
+				param: ['elevation'],
+				measure: ['grade', 'vam', 'vamPowerKg']
+			},
+			{
+				needParam: true,
+				param: ['power'],
+				measure: ['adjustedPower','powerDecoupling','variabilityIndex']
+			},
+			{
+				needParam: true,
+				param: ['speed','heartRate'],
+				measure: ['adjustedSpeed','speedDecoupling','efficiencyFactor']
+			}
+		];
+
 		this.$scope.search = (m) => this.$scope.measure[this.sport].indexOf(m.$key) !== -1;
 	}
 
 	link(url) {
 		window.open(url);
+	}
+
+	check(data: any): boolean {
+		return !data.needParam || (data.needParam && data.param.every(p => this.calcMeasures.hasOwnProperty(p)));
 	}
 }
 
@@ -46,6 +82,15 @@ const MeasureMainButtonComponent: IComponentOptions = {
 	},
 	controller: MeasureMainButtonCtrl,
 	template: `
+		<div layout="row" layout-padding ng-repeat="data in $ctrl.$scope.data" ng-if="$ctrl.check(data)">
+			<div flex="33" ng-repeat="m in data.measure">
+				<div ng-if="$ctrl.calcMeasures.hasOwnProperty(m) && $ctrl.calcMeasures[m].hasOwnProperty('value')"
+					 class="md-body-2 md-dark center">{{$ctrl.calcMeasures[m].value | measureCalc:$ctrl.sport:m}}</div>
+				<div ng-if="!($ctrl.calcMeasures.hasOwnProperty(m) && $ctrl.calcMeasures[m].hasOwnProperty('value'))"
+					 class="md-body-2 md-dark md-inactive center">-</div>
+				<div class="md-caption md-dark md-inactive center">{{m | translate}}</div>
+			</div>
+		</div>
 		<md-list class="md-dense">
 			<md-list-item>
 				<p class="md-caption" style="color: #455A64">Основные показатели</p>
