@@ -9,6 +9,10 @@
     padding-left: 0px !important;
   }
 
+  table.md-table td.md-cell {
+    font-size: inherit;
+  }
+
   table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2),
   table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
     padding-right: 12px;

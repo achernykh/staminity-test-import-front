@@ -14,6 +14,14 @@ export const _activity_measurement_view = {
         speed: {
             unit: 'minpkm',
             fixed: 0
+        },
+        vam: {
+            unit: 'minpkm',
+            fixed: 0
+        },
+        adjustedSpeed: {
+            unit: 'minpkm',
+            fixed: 0
         }
     },
     run: {
@@ -22,6 +30,14 @@ export const _activity_measurement_view = {
             fixed: 2
         },
         speed: {
+            unit: 'minpkm',
+            fixed: 0
+        },
+        vam: {
+            unit: 'minpkm',
+            fixed: 0
+        },
+        adjustedSpeed: {
             unit: 'minpkm',
             fixed: 0
         }
@@ -34,10 +50,26 @@ export const _activity_measurement_view = {
         speed: {
             unit: 'minpkm',
             fixed: 0
+        },
+        vam: {
+            unit: 'minpkm',
+            fixed: 0
+        },
+        adjustedSpeed: {
+            unit: 'minpkm',
+            fixed: 0
         }
     },
     swim: {
         speed: {
+            unit: 'minp100m',
+            fixed: 0
+        },
+        vam: {
+            unit: 'minp100m',
+            fixed: 0
+        },
+        adjustedSpeed: {
             unit: 'minp100m',
             fixed: 0
         }
@@ -50,6 +82,14 @@ export const _activity_measurement_view = {
         speed: {
             unit: 'kmph',
             fixed: 2
+        },
+        vam: {
+            unit: 'kmph',
+            fixed: 0
+        },
+        adjustedSpeed: {
+            unit: 'kmph',
+            fixed: 0
         }
     },
     strength: {
@@ -60,9 +100,17 @@ export const _activity_measurement_view = {
             unit: 'kmph',
             fixed: 2
         },
+        vam: {
+            unit: 'kmph',
+            fixed: 2
+        },
         distance: {
             unit: 'km',
             fixed: 2
+        },
+        adjustedSpeed: {
+            unit: 'kmph',
+            fixed: 0
         }
     },
     transition: {
@@ -70,9 +118,17 @@ export const _activity_measurement_view = {
             unit: 'minpkm',
             fixed: 0
         },
+        vam: {
+            unit: 'minpkm',
+            fixed: 0
+        },
         distance: {
             unit: 'km',
             fixed: 2
+        },
+        adjustedSpeed: {
+            unit: 'minpkm',
+            fixed: 0
         }
     }
 };
@@ -121,6 +177,10 @@ export const _measurement = {
         unit: "meter",
         fixed: 0
     },
+    elevation: {
+        unit: "meter",
+        fixed: 0
+    },
     elevationGain: {
         unit: "meter",
         fixed: 0
@@ -137,6 +197,10 @@ export const _measurement = {
         unit: 'kkal',
         fixed: 0
     },
+    adjustedSpeed: {
+        unit: 'mps',
+        fixed: 0
+    },
     adjustedPower: {
         unit: 'watt',
         fixed: 0
@@ -145,6 +209,10 @@ export const _measurement = {
         unit: 'proportion',
         view: 'percent',
         fixed: 2
+    },
+    vam: {
+        unit: 'mps',
+        fixed: 0
     },
     vamPowerKg: {
         unit: 'vampkg',

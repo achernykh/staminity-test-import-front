@@ -20,6 +20,13 @@ class MeasureMainButtonCtrl implements IComponentController{
 	}
 
 	$onInit(){
+
+		if (this.calcMeasures.hasOwnProperty('elevationGain') || this.calcMeasures.hasOwnProperty('elevationLoss')) {
+			this.calcMeasures['elevation'] = {
+				value: Number(this.calcMeasures.elevationGain.value) - Number(this.calcMeasures.elevationLoss.value)
+			};
+		}
+
 		// Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
 		// this, а значит и нет доступа к массиву для фильтрации
 		this.$scope.measure = {
@@ -43,12 +50,12 @@ class MeasureMainButtonCtrl implements IComponentController{
 			},
 			{
 				needParam: true,
-				param: ['elevation'],
-				measure: ['elevationGain','elevationLoss']
+				param: ['elevationGain'],
+				measure: ['elevation','elevationGain','elevationLoss']
 			},
 			{
 				needParam: true,
-				param: ['elevation'],
+				param: ['elevationGain'],
 				measure: ['grade', 'vam', 'vamPowerKg']
 			},
 			{
@@ -82,27 +89,29 @@ const MeasureMainButtonComponent: IComponentOptions = {
 	},
 	controller: MeasureMainButtonCtrl,
 	template: `
-		<div layout="row" layout-padding ng-repeat="data in $ctrl.$scope.data" ng-if="$ctrl.check(data)">
-			<div flex="33" ng-repeat="m in data.measure">
-				<div ng-if="$ctrl.calcMeasures.hasOwnProperty(m) && $ctrl.calcMeasures[m].hasOwnProperty('value')"
-					 class="md-body-2 md-dark center">{{$ctrl.calcMeasures[m].value | measureCalc:$ctrl.sport:m}}</div>
-				<div ng-if="!($ctrl.calcMeasures.hasOwnProperty(m) && $ctrl.calcMeasures[m].hasOwnProperty('value'))"
-					 class="md-body-2 md-dark md-inactive center">-</div>
-				<div class="md-caption md-dark md-inactive center">{{m | translate}}</div>
-			</div>
-		</div>
 		<md-list class="md-dense">
 			<md-list-item>
 				<p class="md-caption" style="color: #455A64">Основные показатели</p>
 				<md-icon ng-click="$ctrl.link('https://help.staminity.com/ru/basics/measures.html')" class="material-icon md-secondary">help_outline</md-icon>
 			</md-list-item>
+			<div layout="row" ng-repeat-start="data in $ctrl.$scope.data" ng-if="$ctrl.check(data)" style="padding: 0px 16px 8px 16px">
+				<div flex="33" ng-repeat="m in data.measure">
+					<div ng-if="$ctrl.calcMeasures.hasOwnProperty(m) && $ctrl.calcMeasures[m].hasOwnProperty('value')"
+					 	 class="md-body-2 md-dark center" style="min-height: 24px">{{$ctrl.calcMeasures[m].value | measureCalc:$ctrl.sport:m}} {{m | measureUnit:$ctrl.sport | translate}}</div>
+					<div ng-if="!($ctrl.calcMeasures.hasOwnProperty(m) && $ctrl.calcMeasures[m].hasOwnProperty('value'))"
+					 	 class="md-body-2 md-dark md-inactive center">-</div>
+					<div class="md-caption md-dark md-inactive center">{{m | translate}}</div>
+				</div>
+			</div>
+			<md-divider ng-repeat-end ng-if="!$last" style="margin: 0px 16px"></md-divider>
+			<!--
 			<md-list-item layout="row" layout-wrap>				
 				<md-button class="md-exclude"
 							ng-repeat="measure in $ctrl.calcMeasures | toArray | filter:search track by measure.$key">
 					{{measure.$key | translate}}:&nbsp{{measure.value | measureCalc:$ctrl.sport:measure.$key}}&nbsp
 					<span>{{measure.$key | measureUnit:$ctrl.sport | translate}}</span> 
 				</md-button>			
-			</md-list-item>
+			</md-list-item>-->
 		</md-list>`
 
 };
