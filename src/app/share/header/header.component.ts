@@ -52,13 +52,17 @@ class HeaderCtrl implements IComponentController {
 		});
 	}
 
-	$onInit(){
+	$onInit() {
+		if (this.NotificationService.list) {
+			this.notifications = this.NotificationService.list.filter(notification => !notification.isRead).length;
+		}
+
 		this.NotificationService.list$
 			.map(list => {
 				return list.filter(notification => !notification.isRead);
 			})
 			.subscribe(list => {
-				this.notifications =  list.length;
+				this.notifications = list.length;
 				this.$scope.$apply();
 			});
 	}
