@@ -48,7 +48,7 @@
     <section class="items" flex="auto" layout="column">
         <div id="dayzone"
              flex="100" layout-wrap
-             ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index"
+             ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.calendarItemId"
              ng-switch on="item.calendarItemType"
              dnd-list="items"
              dnd-allowed-types="['itemType']"

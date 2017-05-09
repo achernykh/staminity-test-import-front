@@ -59,9 +59,8 @@ export class CalendarCtrl implements IComponentController{
         private CalendarService: CalendarService,
         private session: ISessionService) 
     {
-        (<any>window).c = this;
         let date = moment($location.hash());
-        this.setDate(date.isValid()? date.toDate() : new Date());
+        this.toDate(date.isValid()? date.toDate() : new Date());
         //this.$anchorScroll.yOffset = 120;
         this.CalendarService.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
@@ -91,17 +90,6 @@ export class CalendarCtrl implements IComponentController{
                 }
             });
     }
-    
-    
-    u () {
-        this.up(1);
-        this.$scope.$apply();
-    }
-    
-    s (h, i = 0) {
-        this.calendar[i].height = h;
-        this.$scope.$apply();
-    }
 
     $onInit() {
         this.currentUser = this.session.getUser();
@@ -118,48 +106,57 @@ export class CalendarCtrl implements IComponentController{
         console.log('new first day=', moment.localeData().firstDayOfWeek());
         this.weekdayNames = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
     }
-    
-    /**
-     * Переход на дату, на пустой календарь
-     * @patam date
-     */
+
+    takeWeek (date) {
+        date = moment(date).startOf('week');
+        let week = this.calendar.find(w => w.date.isSame(date, 'week'));
+        let calendarFirst = this.calendar[0] && moment(this.calendar[0].date);
+        let calendarLast = this.calendar[0] && moment(this.calendar[this.calendar.length - 1].date);
+
+        if (week) {
+            return Promise.resolve([week]);
+        } else if (calendarFirst && calendarFirst.add(- 1, 'w').isSame(date, 'date')) {
+            return this.up();
+        } else if (calendarLast && calendarLast.add(1, 'w').isSame(date, 'date')) {
+            return this.down();
+        } else {
+            return this.reset(date);
+        }
+    }
+
     reset (date: Date) {
         this.date = date;
         this.range = [0, 1];
         this.calendar = [];
-        this.down(2);
-        this.setCurrentWeek(this.calendar[0]);
+        return this.up();
     }
     
-    setDate (date) {
-        date = moment(date).startOf('week');
-        let week = this.calendar.find(w => w.date.isSame(date, 'week'));
-        
-        if (week) {
-            this.setCurrentWeek(week, true);
-        } else {
-            this.reset(date);
-        }
-    }
-    
-    setCurrentWeek (week, scrollTo = false) {
+    setCurrentWeek (week) {
         this.currentWeek = week;
         this.$location.hash(week.anchor).replace();
-        if (scrollTo) {
-            this.$anchorScroll('hotfix' + week.anchor);
-        }
     }
     
-    prevWeek () {
-        this.setDate(moment(this.currentWeek.date).add(-1, 'week'));
+    toPrevWeek () {
+        this.toDate(moment(this.currentWeek.date).add(-1, 'week'));
     }
     
-    nextWeek () {
-        this.setDate(moment(this.currentWeek.date).add(1, 'week'));
+    toNextWeek () {
+        this.toDate(moment(this.currentWeek.date).add(1, 'week'));
     }
     
-    todayWeek () {
-        this.setDate(moment().startOf('week'));
+    toCurrentWeek () {
+        this.toDate(moment().startOf('week'));
+    }
+    
+    toDate (date) {
+        this.takeWeek(date)
+        .then(weeks => weeks[0])
+        .then(week => setTimeout(() => this.scrollToWeek(week), 1));
+    }
+
+    scrollToWeek (week) {
+        this.setCurrentWeek(week);
+        this.$anchorScroll('hotfix' + week.anchor);
     }
 
     /**
@@ -209,7 +206,6 @@ export class CalendarCtrl implements IComponentController{
      * @param index - позиция в списке
      */
     getWeek (date, index) {
-        console.log('getWeek=', date, index);
         let start = moment(date).startOf('week');
         let end = moment(start).add(6, 'd');
         
@@ -218,7 +214,7 @@ export class CalendarCtrl implements IComponentController{
             let calendarItems = items
                 .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
                 .map(item => {
-                    if(item.calendarItemType === 'activity') {
+                    if (item.calendarItemType === 'activity') {
                         item['index'] = Number(`${item.calendarItemId}${item.revision}`);
                     }
                     return item;
@@ -231,6 +227,7 @@ export class CalendarCtrl implements IComponentController{
         .then(items => { 
             week.subItem = days(items); 
             week.changes++;
+            return week;
         });
         
         let week = this.weekItem(index, start, days([]), loading);
@@ -248,8 +245,10 @@ export class CalendarCtrl implements IComponentController{
         
         let items = times(n)
             .map((i) => i0 - i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i))
-            .forEach(week => {
+            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
+
+        items
+            .map(week => {
                 this.calendar.unshift(week);
                 week.loading
                 .then(() => { 
@@ -259,7 +258,7 @@ export class CalendarCtrl implements IComponentController{
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
             
-        console.log('add elem', items);
+        return Promise.all(items.map(week => week.loading));
     }
     
     /**
@@ -272,7 +271,9 @@ export class CalendarCtrl implements IComponentController{
         
         let items = times(n)
             .map((i) => i0 + i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i))
+            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
+
+        items
             .forEach(week => {
                 this.calendar.push(week);
                 week.loading
@@ -283,21 +284,7 @@ export class CalendarCtrl implements IComponentController{
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
             
-        console.log('add elem', items);
-    }
-    
-    /**
-     * Верхний загруженный Week Item
-     */
-    first () {
-        return this.calendar[0];
-    }
-    
-    /**
-     * Нижний загруженный Week Item
-     */
-    last () {
-        return this.calendar[this.calendar.length - 1];
+        return Promise.all(items.map(week => week.loading));
     }
 
     onAddActivity($event){
