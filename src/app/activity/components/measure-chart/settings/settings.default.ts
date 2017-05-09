@@ -30,8 +30,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#e91e63" },
-                { offset: "100%", color: "rgba(247, 153, 131, 0)" }
+                { offset: "0%", color: "rgba(233,30,99,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(247, 153, 131, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -54,8 +54,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#5677fc" },
-                { offset: "100%", color: "rgba(175, 191, 255, 0)" }
+                { offset: "0%", color: "#5677fc", opacity: 1 },
+                { offset: "100%", color: "rgba(175, 191, 255, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -78,8 +78,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#5677fc" },
-                { offset: "100%", color: "rgba(175, 191, 255, 0)" }
+                { offset: "0%", color: "#5677fc", opacity: 1 },
+                { offset: "100%", color: "rgba(175, 191, 255, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -102,8 +102,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#9C27B0" },
-                { offset: "100%", color: "rgba(247, 153, 131, 0)" }
+                { offset: "0%", color: "#9C27B0", opacity: 1 },
+                { offset: "100%", color: "rgba(247, 153, 131, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -184,16 +184,16 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(0, 0, 0, 0)" },
-                { offset: "100%", color: "rgba(0, 0, 0, 0.48)" }
+                { offset: "0%", color: "rgba(0, 0, 0, 0)", opacity: 0 },
+                { offset: "100%", color: "rgba(0, 0, 0, 0.48)", opacity: 0.48 }
             ]
         },
         borderArea: {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(0, 0, 0, 0)" },
-                { offset: "100%", color: "#455a64" }
+                { offset: "0%", color: "rgba(0, 0, 0, 0)", opacity: 0 },
+                { offset: "100%", color: "#455a64", opacity: 1 }
             ]
         }
     },

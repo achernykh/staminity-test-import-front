@@ -1,6 +1,15 @@
 @import "../../../sass/color";
 
 application-menu {
+
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  &:focus, &:hover {
+    overflow-y: auto;
+  }
+
+
   md-toolbar {
     background-position: center center;
     background-size: cover;

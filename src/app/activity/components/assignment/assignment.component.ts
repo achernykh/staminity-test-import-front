@@ -107,6 +107,10 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     }
 
+    link(url) {
+        window.open(url);
+    }
+
     prepareValues() {
         if(this.ftpMode) {
             this.from = 'intensityByFtpFrom';

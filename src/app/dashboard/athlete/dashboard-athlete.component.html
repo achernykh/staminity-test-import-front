@@ -7,9 +7,8 @@
                 <md-icon class="material-icons md-18 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}}">menu</md-icon>
             </md-button>
             <md-menu-content>
-                <md-menu-item><md-button ng-click="$ctrl.onOpen($env,'put')">Изменить</md-button></md-menu-item>
-                <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
-                <md-menu-item><md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.isCreator">Удалить</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.$state.go('calendar',{uri: $ctrl.profile.public.uri})" translate="dashboard.calendar"></md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.$state.go('settings/user',{uri: $ctrl.profile.public.uri})" translate="dashboard.settings"></md-button></md-menu-item>
             </md-menu-content>
         </md-menu>
     </section>

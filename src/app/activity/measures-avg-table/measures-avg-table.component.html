@@ -18,13 +18,13 @@
             <tbody md-body>
             <tr md-row ng-repeat="measure in $ctrl.calcMeasures | toArray | filter:search track by measure.$key">
                 <td md-cell><md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon></td>
-                <td md-cell hide-xs>
+                <td md-cell hide-xs class="md-caption md-dark md-inactive" style="font-size: 12px">
                     {{measure.$key | translate}}&nbsp({{measure.$key | measureUnit:$ctrl.sport | translate}})</td>
-                <td md-cell hide-gt-xs>
+                <td md-cell hide-gt-xs class="md-caption md-dark md-inactive">
                     {{measure.$key | measureUnit:$ctrl.sport | translate}}</td>
-                <td md-cell>{{measure.minValue | measureCalc:$ctrl.sport:measure.$key}}</td>
-                <td md-cell>{{measure.avgValue | measureCalc:$ctrl.sport:measure.$key}}</td>
-                <td md-cell>{{measure.maxValue | measureCalc:$ctrl.sport:measure.$key}}</td>
+                <td md-cell class="md-body-2 md-dark" style="font-size: 14px">{{measure.minValue | measureCalc:$ctrl.sport:measure.$key}}</td>
+                <td md-cell class="md-body-2 md-dark" style="font-size: 14px">{{measure.avgValue | measureCalc:$ctrl.sport:measure.$key}}</td>
+                <td md-cell class="md-body-2 md-dark" style="font-size: 14px">{{measure.maxValue | measureCalc:$ctrl.sport:measure.$key}}</td>
             </tr>
             </tbody>
         </table>

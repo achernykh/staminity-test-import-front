@@ -6,9 +6,9 @@ class DashboardAthleteCtrl implements IComponentController {
 
     public profile: IUserProfile;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    static $inject = ['$state'];
 
-    constructor() {
+    constructor(private $state: any, private $mdDialog: any) {
 
     }
 

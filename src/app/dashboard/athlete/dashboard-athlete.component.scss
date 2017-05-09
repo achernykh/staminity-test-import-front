@@ -11,7 +11,7 @@ dashboard-athlete {
   vertical-align: top;
 
   &:before {
-    content: "";
+    content: none;
     display: block;
     position: absolute;
     top: 0px;
