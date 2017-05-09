@@ -35,7 +35,12 @@ export let translateDialogs = {
         startFollow: 'Подписаться?',
         startClub: 'Отправить заявку на вступление в клуб?',
         leaveClub: 'Покинуть клуб?',
-        excludeClub: 'Исключить из клуба?'
+        excludeClub: 'Исключить из клуба?',
+
+        // окно загрузки профиля
+        upload: 'Загрузить фото',
+        choose: 'Выбрать...'
+
 
     },
     en: {
