@@ -15,10 +15,6 @@ export const _activity_measurement_view = {
             unit: 'minpkm',
             fixed: 0
         },
-        vam: {
-            unit: 'minpkm',
-            fixed: 0
-        },
         adjustedSpeed: {
             unit: 'minpkm',
             fixed: 0
@@ -30,10 +26,6 @@ export const _activity_measurement_view = {
             fixed: 2
         },
         speed: {
-            unit: 'minpkm',
-            fixed: 0
-        },
-        vam: {
             unit: 'minpkm',
             fixed: 0
         },
@@ -51,10 +43,6 @@ export const _activity_measurement_view = {
             unit: 'minpkm',
             fixed: 0
         },
-        vam: {
-            unit: 'minpkm',
-            fixed: 0
-        },
         adjustedSpeed: {
             unit: 'minpkm',
             fixed: 0
@@ -62,10 +50,6 @@ export const _activity_measurement_view = {
     },
     swim: {
         speed: {
-            unit: 'minp100m',
-            fixed: 0
-        },
-        vam: {
             unit: 'minp100m',
             fixed: 0
         },
@@ -83,10 +67,6 @@ export const _activity_measurement_view = {
             unit: 'kmph',
             fixed: 2
         },
-        vam: {
-            unit: 'kmph',
-            fixed: 0
-        },
         adjustedSpeed: {
             unit: 'kmph',
             fixed: 0
@@ -97,10 +77,6 @@ export const _activity_measurement_view = {
     },
     other: {
         speed: {
-            unit: 'kmph',
-            fixed: 2
-        },
-        vam: {
             unit: 'kmph',
             fixed: 2
         },
@@ -115,10 +91,6 @@ export const _activity_measurement_view = {
     },
     transition: {
         speed: {
-            unit: 'minpkm',
-            fixed: 0
-        },
-        vam: {
             unit: 'minpkm',
             fixed: 0
         },
@@ -211,7 +183,7 @@ export const _measurement = {
         fixed: 2
     },
     vam: {
-        unit: 'mps',
+        unit: 'mph',
         fixed: 0
     },
     vamPowerKg: {

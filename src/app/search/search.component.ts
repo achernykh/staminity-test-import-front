@@ -10,7 +10,7 @@ class SearchCtrl implements IComponentController {
     public readonly method:SearchMethod = 'byParams';
 
     public params: SearchParams = {objectType: 'user'};
-    public type: Array<string> = ['user','coach','club','group'];
+    public type: Array<string> = ['user','coach'];//,'club','group'];
     public result: Array<SearchResultByUser>;
 
     public options:Object = {
@@ -33,6 +33,15 @@ class SearchCtrl implements IComponentController {
 
     $onInit() {
 
+    }
+
+    onDetails(uri:string, url: string = 'http://dev1.staminity.com/') {
+        switch (this.params.objectType) {
+            case 'user': case 'coach': {
+                let win = window.open(`${url}user/${uri}`, '_blank');
+                win.focus();
+            }
+        }
     }
 
     onSearch(params: SearchParams) {

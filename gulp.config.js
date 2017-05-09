@@ -55,6 +55,44 @@ var cssLibs = [
     //bower+"angular-material-date-picker/dist/am-date-picker.min.css"
 ];
 
+var backend = {
+    build: {
+        protocol_ws: 'ws://',
+        protocol_rest: 'http://',
+        server: 'app.staminity.com',
+        content: 'http://app.staminity.com',
+        frontend: 'http://0.0.0.0:8080/'
+    },
+    dev1: {
+        protocol_ws: 'ws://',
+        protocol_rest: 'http://',
+        server: 'app.staminity.com',
+        content: 'http://app.staminity.com',
+        frontend: 'http://dev1.staminity.com/'
+    },
+    dev2: {
+        protocol_ws: 'ws://',
+        protocol_rest: 'http://',
+        server: 'testapp.staminity.com',
+        content: 'http://app.staminity.com',
+        frontend: 'http://dev2.staminity.com/'
+    },
+    dev3: {
+        protocol_ws: 'ws://',
+        protocol_rest: 'http://',
+        server: 'app.staminity.com',
+        content: 'http://testapp.staminity.com',
+        frontend: 'http://dev3.staminity.com/'
+    },
+    prd: {
+        protocol_ws: 'ws://',
+        protocol_rest: 'http://',
+        server: 'app.staminity.com',
+        content: 'http://app.staminity.com',
+        frontend: 'http://staminity.com/'
+    }
+}
+
 module.exports = {
     gulp: './gulp.config.js',
     src: {
@@ -92,5 +130,6 @@ module.exports = {
         directoryListing: false,
         defaultFile: 'index.html',
         fallback: 'index.html'
-    }
+    },
+    backend: backend
 };

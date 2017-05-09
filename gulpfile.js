@@ -20,6 +20,7 @@ var ftp           = require('gulp-ftp');
 var imagemin      = require('gulp-imagemin');
 var cssmin        = require('gulp-cssmin');
 var open          = require('gulp-open');
+var template      = require('gulp-template');
 
 // Get/set variables
 var config = require('./gulp.config');
@@ -231,6 +232,13 @@ gulp.task('ftp-dev2-full', function () {
         .pipe(gutil.noop());
 });
 
+gulp.task('ftp-dev3-full', function () {
+    var src = './'+ENV;
+    return gulp.src('dev3/**/*')
+        .pipe(ftp(pass.dev3))
+        .pipe(gutil.noop());
+});
+
 gulp.task('ftp-dev1', function () {
     var src = './'+ENV;
     return gulp.src(['dev1/assets/css/**','dev1/assets/js/**','dev1/index.html'])
@@ -264,6 +272,13 @@ gulp.task('ftp-prd', function () {
     return gulp.src(['prd/assets/css/**','prd/assets/js/**','prd/index.html'])
         .pipe(ftp(pass.prd))
         .pipe(gutil.noop());
+});
+
+gulp.task('set-env', function() {
+    return gulp.src('src/app/core/env.template.ts')
+        .pipe(template(config.backend[ENV]))
+        .pipe(rename({basename: 'api.constants'}))
+        .pipe(gulp.dest('src/app/core/'))
 });
 
 

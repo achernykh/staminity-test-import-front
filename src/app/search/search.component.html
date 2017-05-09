@@ -49,16 +49,19 @@
                     </tr>
                     </thead>
                     <tbody md-body style="overflow: auto">
-                    <tr md-row
+                    <tr md-row ng-click="$ctrl.onDetails(obj.profile.public.uri)"
                         md-select="split"
                         md-on-select="change" md-on-deselect="change"
                         md-select-id="ind"
                         md-auto-select="$ctrl.options.autoSelect"
                         ng-repeat="obj in $ctrl.result track by $index">
                         <td md-cell>
-                            <userpic class="border-light" profile="obj.profile"></userpic>
+                            <userpic class="border-light" profile="obj.profile" unlink="false"></userpic>
                             <span>{{obj.name}}</span></td>
-                        <td md-cell>{{obj.sport}}</td>
+                        <td md-cell>
+                            <span ng-repeat-start="sport in obj.sport" translate="sport.{{sport}}"></span>
+                            <span ng-repeat-end><span ng-if="!$last">, </span></span>
+                        </td>
                         <td md-cell>{{obj.about}}</td>
                     </tr>
                     </tbody>

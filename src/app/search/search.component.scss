@@ -68,4 +68,13 @@ search {
     overflow: auto;
   }
 
+  tr.md-row:hover {
+    background-color: $grey-200;
+    cursor: pointer;
+  }
+
+  tr.md-row:focus {
+    outline: none;
+  }
+
 }

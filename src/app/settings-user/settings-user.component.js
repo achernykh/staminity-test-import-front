@@ -465,6 +465,8 @@ class SettingsUserCtrl {
     }
 
 	toggleActivity (activity) {
+
+        this.personalSecondForm.$setDirty();
 		if (this.isActivityChecked(activity)) {
 			let index = this.user.personal.activity.indexOf(activity);
 			this.user.personal.activity.splice(index, 1);
