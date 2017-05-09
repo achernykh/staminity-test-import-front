@@ -48,9 +48,9 @@
                      scroll-container
                      on-scroll-hit-top="$ctrl.up(1)"
                      on-scroll-hit-bottom="$ctrl.down(1)"
-                     scroll-keep-position>
+                     scroll-keep-position="#hotfix{{$ctrl.currentWeek.anchor}}">
                 <!-- grid-week: start -->
-                <div ng-repeat="week in $ctrl.calendar track by week.sid"
+                <div ng-repeat="week in $ctrl.calendar track by week.anchor"
                      style=""
                      id="hotfix{{::week.anchor}}"
                      on-scroll-current-item="$ctrl.setCurrentWeek(week)"

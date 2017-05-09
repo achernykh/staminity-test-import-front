@@ -8,7 +8,7 @@ import { maybe, entries, timer, log } from './../share/util'
 
 const findChildInViewport = (element) => {
   let { scrollTop } = element
-  return Array.from(element.children).find(({ offsetTop, offsetHeight }) => offsetTop >= scrollTop)
+  return Array.from(element.children).find(({ offsetTop }) => offsetTop >= scrollTop)
 }
 
 const loop = (f) => {
@@ -42,12 +42,13 @@ export const scrollContainer = () => ({
       return { scrollTop, scrollHeight, offsetHeight }
     }
     
-    let firstChildChanges = Observable.interval(500)
-        .map(() => findChildInViewport(element[0]))
-        .subscribe(scrollContainer.firstChildChanges)
+    let firstChildChanges = scrollContainer.scrollings
+      .throttleTime(200)
+      .map(() => findChildInViewport(element[0]))
+      .subscribe(scrollContainer.firstChildChanges)
         
     let scroll = Rx.Observable.fromEvent(element[0], 'scroll')
-        .subscribe(scrollContainer.scrollings)
+      .subscribe(scrollContainer.scrollings)
     
     let unsubscribe = {
       frames: loop(() => scrollContainer.frames.next()),
@@ -127,7 +128,7 @@ export const scrollKeepPosition = () => ({
         }
       }
       
-      snapshot = maybe(findChildInViewport(element[0])) (child => ({
+      snapshot = maybe(element[0].querySelector(attrs.scrollKeepPosition)) (child => ({
         child,
         offset: child.offsetTop
       })) ()

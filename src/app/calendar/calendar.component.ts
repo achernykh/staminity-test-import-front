@@ -128,6 +128,7 @@ export class CalendarCtrl implements IComponentController{
         this.date = date;
         this.range = [0, 1];
         this.calendar = [];
+        this.currentWeek = <ICalendarWeek> {};
         return this.up();
     }
     
