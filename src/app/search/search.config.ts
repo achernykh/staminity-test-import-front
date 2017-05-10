@@ -38,8 +38,8 @@ function configure($stateProvider:StateProvider,
         });
 
     // Текст представлений
-    $translateProvider.translations('en', {landing: _translateSearch['en']});
-    $translateProvider.translations('ru', {landing: _translateSearch['ru']});
+    $translateProvider.translations('en', {search: _translateSearch['en']});
+    $translateProvider.translations('ru', {search: _translateSearch['ru']});
 
 
 }

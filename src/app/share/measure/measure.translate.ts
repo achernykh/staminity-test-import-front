@@ -18,7 +18,7 @@ export const _MEASURE_TRANSLATE = {
 		kg: 'кг',
 		sm: 'см',
 		none: '',
-			mh: 'м/ч', // добавил - "метров в час". Это для VAM.
+		mh: 'м/ч', // добавил - "метров в час". Это для VAM.
 
 		// Показатели
 		adjustedPower: 'МощнКорр',

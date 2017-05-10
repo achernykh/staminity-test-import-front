@@ -111,6 +111,19 @@ class ActivityAssignmentCtrl implements IComponentController {
         window.open(url);
     }
 
+    showRow(measure: string) {
+
+        if (this.item.mode !== 'view') {
+            return true;
+        }
+
+        if (this.item.activity.status === 'coming' || this.item.activity.status === 'dismiss') {
+            return measure === this.plan.durationMeasure || measure === this.plan.intensityMeasure;
+        } else {
+            return true;
+        }
+    }
+
     prepareValues() {
         if(this.ftpMode) {
             this.from = 'intensityByFtpFrom';

@@ -183,7 +183,7 @@ export const _measurement = {
         fixed: 2
     },
     vam: {
-        unit: 'mph',
+        unit: 'mh',
         fixed: 0
     },
     vamPowerKg: {

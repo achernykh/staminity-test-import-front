@@ -354,7 +354,9 @@ export class CalendarCtrl implements IComponentController{
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: new Date(),
+                data: {
+                    date: new Date() // дата дня в формате ГГГГ-ММ-ДД
+                },
                 user: this.user
             },
             bindToController: true,
@@ -428,8 +430,10 @@ export class CalendarCtrl implements IComponentController{
         let p = this.calendar[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
 
         console.log('onDeleteItem', w,d,p,item,this.calendar);
-        this.calendar[w].subItem[d].data.calendarItems.splice(p,1);
-        this.calendar[w].changes++;
+        if (w && d && p !== -1) {
+            this.calendar[w].subItem[d].data.calendarItems.splice(p,1);
+            this.calendar[w].changes++;
+        }
     }
 
     /**

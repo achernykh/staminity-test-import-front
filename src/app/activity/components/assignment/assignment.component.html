@@ -102,7 +102,7 @@
                     </tr>
                     </thead>
                     <tbody md-body>
-                    <tr md-row ng-if="$ctrl.item.mode !== 'view' || ($ctrl.item.mode === 'view' && $ctrl.percentComplete[measure.$key])"
+                    <tr md-row ng-if="$ctrl.showRow(measure.$key)"
                         ng-repeat="measure in $ctrl.plan | toArray | orderBy:'order' | filter:search track by measure.$key">
                         <td md-cell>
                             <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon>
@@ -171,6 +171,10 @@
                 </table>
             </md-table-container>
         </md-list-item>
+        <div ng-messages="$ctrl.form.$error" ng-if="!$ctrl.form.$valid">
+            <div ng-message="required">Name is required.</div>
+            <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+        </div>
         <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
             <md-input-container flex class="md-block no-message">
                 <md-icon class="material-icons">event_note</md-icon>
