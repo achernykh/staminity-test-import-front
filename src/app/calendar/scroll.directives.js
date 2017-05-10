@@ -7,8 +7,8 @@ import { maybe, entries, timer, log } from './../share/util'
 
 
 const findChildInViewport = (element) => {
-  let { scrollTop } = element
-  return Array.from(element.children).find(({ offsetTop }) => offsetTop >= scrollTop)
+  let { scrollTop, scrollHeight } = element
+  return Array.from(element.children).find(({ offsetTop, offsetHeight }) => offsetTop >= scrollTop)
 }
 
 const loop = (f) => {
@@ -55,6 +55,11 @@ export const scrollContainer = () => ({
       firstChildChanges: () => firstChildChanges.unsubscribe(),
       scroll: () => scroll.unsubscribe()
     }
+
+    scope.$on('scrollTo', (event, anchor) => {
+      let child = element[0].querySelector(anchor)
+      element[0].scrollTop = child.offsetTop
+    })
   
     scope.$on('$destroy', () => {
       for (let key in unsubscribe) {
@@ -87,9 +92,10 @@ export const onScrollHitTop = () => ({
 export const onScrollHitBottom = () => ({
   require: '^scrollContainer',
   link (scope, element, attrs, scrollContainer) {
+    let bottomPad = element[0].querySelector('.scroll__bottom-pad')
     scrollContainer.frames
     .map(() => scrollContainer.getScrollState())
-    .filter(({ scrollTop, scrollHeight, offsetHeight }) => scrollHeight - scrollTop <= offsetHeight)
+    .filter(({ scrollTop, scrollHeight, offsetHeight }) => bottomPad.offsetTop - scrollTop <= offsetHeight)
     .subscribe(() => { 
       scope.$applyAsync(attrs.onScrollHitBottom) 
     })

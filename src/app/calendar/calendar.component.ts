@@ -157,7 +157,8 @@ export class CalendarCtrl implements IComponentController{
 
     scrollToWeek (week) {
         this.setCurrentWeek(week);
-        this.$anchorScroll('hotfix' + week.anchor);
+        let anchor = 'hotfix' + week.anchor;
+        this.$scope.$broadcast('scrollTo', '#' + anchor);
     }
 
     /**
