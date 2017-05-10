@@ -69,4 +69,29 @@ activity-assignment {
     font-size: 12px;
   }
 
+  .error-block {
+
+    padding: 16px 16px 0px 16px;
+    color: $red-800;
+    background: $grey-100;
+    transition: all 0.3s ease-in-out;
+
+    &.ng-enter {
+      max-height: 0px;
+      opacity: 0;
+    }
+    &.ng-enter.ng-enter-active {
+      max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave {
+      max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave.ng-leave-active {
+      max-height: 0px;
+      opacity: 0;
+    }
+  }
+
 }

@@ -1,3 +1,15 @@
+export const translateActivity = {
+  ru: {
+      error: {
+          required: 'Заполните обязательные поля',
+          needDuration: 'Укажите время или расстояние',
+          singleDuration: 'Можно указать или время, или расстояние',
+          singleIntensity: 'Можно задать лишь один параметр интенсивности',
+          needPermissionForFeature: 'Не хватает полномочий для планирования в будущем'
+      }
+  }
+};
+
 export const translateSport = {
     ru: {
         default: 'По-умолчанию',

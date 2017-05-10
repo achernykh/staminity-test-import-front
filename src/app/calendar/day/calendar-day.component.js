@@ -60,14 +60,14 @@ class CalendarDayCtrl {
 
                     // При изменение записи сначала удаляем старую, потом создаем новую
                     if(response.type == 'put'){
-                        this.calendar.onDeleteItem(data)
-                        this.calendar.onPostItem(response.item)
-                        this.messagemessage.toastInfo('Изменения сохранены')
+                        //this.calendar.onDeleteItem(data)
+                        //this.calendar.onPostItem(response.item)
+                        //this.messagemessage.toastInfo('Изменения сохранены')
                     }
 
                     if(response.type == 'delete') {
-                        this.calendar.onDeleteItem(response.item)
-                        this.message.toastInfo('Запись удалена')
+                        //this.calendar.onDeleteItem(response.item)
+                        //this.message.toastInfo('Запись удалена')
                     }
 
 
@@ -109,7 +109,7 @@ class CalendarDayCtrl {
                 if(response.type === 'post') {
                     console.log('save activity', response);
                     //this.calendar.onPostItem(response.item);
-                    this.message.toastInfo('Создана новая запись');
+                    //this.message.toastInfo('Создана новая запись');
                 }
             }, ()=> {
                 console.log('user cancel dialog')
@@ -142,7 +142,7 @@ class CalendarDayCtrl {
             .then(response => {
                 if(response.type == 'post') {
                     //this.calendar.onPostItem(response.item)
-                    this.message.toastInfo('Создана новая запись')
+                    //this.message.toastInfo('Создана новая запись')
                 }
 
             }, ()=> {

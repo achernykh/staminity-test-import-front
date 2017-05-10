@@ -10,6 +10,7 @@ export class MeasureChartData {
 
     public measuresX: Array<string> = ['distance', 'elapsedDuration'];
     public measuresY: Array<string> = ['heartRate', 'speed', 'power','altitude'];
+    private measuresSecondary: Array<string> = ['timestamp'];
 
     /**
      *
@@ -47,6 +48,11 @@ export class MeasureChartData {
             } else {
                 this.measuresX.splice(this.measuresX.indexOf(key), 1);
             }
+        });
+
+        this.measuresSecondary.forEach(key => {
+            this.measures[key] = this.details.measures[key];
+            this.measures[key]['show'] = true;
         });
 
         this.details.metrics.forEach(info => {

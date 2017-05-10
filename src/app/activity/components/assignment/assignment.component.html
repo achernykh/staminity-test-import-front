@@ -171,9 +171,12 @@
                 </table>
             </md-table-container>
         </md-list-item>
-        <div ng-messages="$ctrl.form.$error" ng-if="!$ctrl.form.$valid">
-            <div ng-message="required">Name is required.</div>
-            <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+        <div class="md-caption error-block" ng-messages="$ctrl.form.$error" ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
+            <div ng-message="required">{{'activity.error.required' | translate}}</div>
+            <div ng-message="needDuration">{{'activity.error.needDuration' | translate}}</div>
+            <div ng-message="singleDuration">{{'activity.error.singleDuration' | translate}}</div>
+            <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
+            <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
         </div>
         <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
             <md-input-container flex class="md-block no-message">

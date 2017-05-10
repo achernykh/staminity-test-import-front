@@ -76,17 +76,17 @@ md-icon {
 md-icon {
 	&.fill-measure.heartRate {
 		svg {
-			fill: #E91E63;
+			fill: #E91E63 !important;
 		}
 	}
 	&.fill-measure.power {
 		svg {
-			fill: #9C27B0;
+			fill: #9C27B0 !important;
 		}
 	}
 	&.fill-measure.speed {
 		svg {
-			fill: #2196F3;
+			fill: #2196F3 !important;
 		}
 	}
 	&.md-dark {

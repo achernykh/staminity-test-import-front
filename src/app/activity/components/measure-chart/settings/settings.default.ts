@@ -54,8 +54,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#5677fc", opacity: 1 },
-                { offset: "100%", color: "rgba(175, 191, 255, 0)", opacity: 0 }
+                { offset: "0%", color: "rgba(33,150,243,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(33,150,243, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -78,8 +78,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#5677fc", opacity: 1 },
-                { offset: "100%", color: "rgba(175, 191, 255, 0)", opacity: 0 }
+                { offset: "0%", color: "rgba(33,150,243,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(33,150,243, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -102,8 +102,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#9C27B0", opacity: 1 },
-                { offset: "100%", color: "rgba(247, 153, 131, 0)", opacity: 0 }
+                { offset: "0%", color: "rgba(156,39,176,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(156,39,176,0)", opacity: 0 }
             ]
         },
         marker: {

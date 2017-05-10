@@ -371,7 +371,7 @@ class CalendarActivityCtrl {
         console.log('CalendarActivity: onDelete ', this);
         this.CalendarService.deleteItem('F', [this.item.calendarItemId])
             //.then(this.calendar.onDeleteItem(this.item))
-            .then(this.message.toastInfo('Запись удалена'));
+            .then(this.message.toastInfo('activityDeleted'));
 
     }
 
