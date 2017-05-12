@@ -3,10 +3,11 @@ import moment from 'moment/src/moment';
 import * as angular from 'angular';
 
 class CalendarDayCtrl {
-    constructor($mdDialog,message, ActivityService, $scope){
+    constructor($mdDialog,message, ActivityService, CalendarService, $scope){
         this.$mdDialog = $mdDialog;
         this.message = message;
         this.ActivityService = ActivityService;
+        this.CalendarService = CalendarService;
         this.$scope = $scope;
     }
     $onInit(){
@@ -181,8 +182,34 @@ class CalendarDayCtrl {
     }
 
 
+    onDrop(date,index,item, type) {
+        console.info('dnd drop event',date,index,item,type);
+        item.dateStart = new Date(date);
+        item.dateEnd = new Date(date);
+        this.CalendarService.postItem(item)
+            //.then(() => this.CalendarService.deleteItem('F',[item.calendarItemId]))
+            .then(() => {}, error => this.message.toastError(error));
+        return item;
+    }
+
+    onDrag(event) {
+        console.info('dnd drag event',event);
+    }
+
+    onCopied(item) {
+        this.message.toastInfo('activityCopied');
+        console.info('dnd copied event',item);
+    }
+
+    onMoved(item) {
+        console.info('dnd moved event', item);
+        this.message.toastInfo('activityMoved');
+        this.CalendarService.deleteItem('F',[item.calendarItemId])
+            .then(() => {}, error => this.message.toastError(error))
+    }
+
 }
-CalendarDayCtrl.$inject = ['$mdDialog','message', 'ActivityService', '$scope'];
+CalendarDayCtrl.$inject = ['$mdDialog','message', 'ActivityService', 'CalendarService', '$scope'];
 
 export let CalendarDay = {
     bindings: {

@@ -73,7 +73,7 @@ var backend = {
     dev2: {
         protocol_ws: 'ws://',
         protocol_rest: 'http://',
-        server: 'testapp.staminity.com',
+        server: 'testapp.staminity.com:8080',
         content: 'http://app.staminity.com',
         frontend: 'http://dev2.staminity.com/'
     },
@@ -81,7 +81,7 @@ var backend = {
         protocol_ws: 'ws://',
         protocol_rest: 'http://',
         server: 'app.staminity.com',
-        content: 'http://testapp.staminity.com',
+        content: 'http://app.staminity.com',
         frontend: 'http://dev3.staminity.com/'
     },
     prd: {

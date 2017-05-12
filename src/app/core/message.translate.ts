@@ -204,6 +204,14 @@ export const _translateMessage = {
 			title: "",
 			text: "Создана новая тренировка"
 		},
+		activityCopied: {
+			title: "",
+			text: "Создана скопирована"
+		},
+		activityMoved: {
+			title: "",
+			text: "Создана перемещена"
+		},
 		activityUpdated: {
 			title: "",
 			text: "Тренировка изменена"

@@ -10,6 +10,7 @@
     <md-card-title ng-if="!$ctrl.showConfirm">
         <h2 class="md-title" translate="auth.signup.shortTitle"></h2>
     </md-card-title>
+    <md-button ng-click="$ctrl.OAuth('facebook')">Facebook SignUp</md-button>
     <form flex="none" ng-if="!$ctrl.showConfirm" ng-submit='$ctrl.signup($ctrl.credentials)'
           name="$ctrl.signupForm" novalidate md-theme="dark">
         <md-list>

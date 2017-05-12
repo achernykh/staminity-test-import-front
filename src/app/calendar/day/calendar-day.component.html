@@ -45,24 +45,23 @@
     </section>
     <!-- day header: end -->
     <!-- calendar items: start -->
-    <section class="items" flex="auto" layout="column">
-        <div id="dayzone"
-             flex="100" layout-wrap
-             ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index"
-             ng-switch on="item.calendarItemType"
+    <section class="items" flex="auto" layout="column"
              dnd-list="items"
              dnd-allowed-types="['itemType']"
-             dnd-drop="$ctrl.calendar.onDropItem($ctrl.data.date, index, item)">
+             dnd-drop="$ctrl.onDrop($ctrl.data.date, index, item, type)">
+        <div flex="100" layout-wrap
+             ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index"
+             ng-switch on="item.calendarItemType">
 
             <calendar-activity ng-switch-when="activity"
                                layout="column" flex="auto"
-                               item="item"
-                               selected="$ctrl.selected"
+                               item="item" selected="$ctrl.selected"
                                dnd-draggable="item"
                                dnd-type="'itemType'"
-                               dnd-effect-allowed="move"
-                               dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                               dnd-moved="$ctrl.calendar.onDeleteItem(item)">
+                               dnd-effect-allowed="copyMove"
+                               dnd-dragstart="$ctrl.onDrag(event)"
+                               dnd-copied="$ctrl.onCopied(item)"
+                               dnd-moved="$ctrl.onMoved(item)"
             </calendar-activity>
 
             <calendar-measurement ng-switch-when="measurement"
@@ -71,7 +70,7 @@
                                   dnd-type="'itemType'"
                                   dnd-effect-allowed="copyMove"
                                   dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                                  dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)"
+                                  dnd-moved="$ctrl.calendar.onDeleteItem(item)"
                                   ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
                 <div flex="none">
                     <md-icon class="material-icons md-18" style="margin-right: 8px">straighten</md-icon>

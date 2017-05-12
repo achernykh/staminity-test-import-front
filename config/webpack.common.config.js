@@ -35,7 +35,8 @@ module.exports = {
             //'angular-read-more'
             'animate.css',
             'angular-carousel',
-            'angular-touch'
+            'angular-touch',
+            'angular-drag-and-drop-lists'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'
