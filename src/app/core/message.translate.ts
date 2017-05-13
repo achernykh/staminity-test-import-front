@@ -206,11 +206,11 @@ export const _translateMessage = {
 		},
 		activityCopied: {
 			title: "",
-			text: "Создана скопирована"
+			text: "Тренировка скопирована"
 		},
 		activityMoved: {
 			title: "",
-			text: "Создана перемещена"
+			text: "Тренировка перемещена"
 		},
 		activityUpdated: {
 			title: "",
