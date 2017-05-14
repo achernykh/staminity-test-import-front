@@ -43,7 +43,7 @@ export const scrollContainer = () => ({
     }
     
     let firstChildChanges = scrollContainer.scrollings
-      .throttleTime(200)
+      // .throttleTime(200)
       .map(() => findChildInViewport(element[0]))
       .subscribe(scrollContainer.firstChildChanges)
         
@@ -55,11 +55,6 @@ export const scrollContainer = () => ({
       firstChildChanges: () => firstChildChanges.unsubscribe(),
       scroll: () => scroll.unsubscribe()
     }
-
-    scope.$on('scrollTo', (event, anchor) => {
-      let child = element[0].querySelector(anchor)
-      element[0].scrollTop = child.offsetTop
-    })
   
     scope.$on('$destroy', () => {
       for (let key in unsubscribe) {
@@ -104,20 +99,6 @@ export const onScrollHitBottom = () => ({
 
 
 /*
-* Ставится прямым потомкам скроллконтейнера, выражение-аргумент выполняется, 
-* когда элемент оказывается текущим
-*/
-export const onScrollCurrentItem = () => ({
-  require: '^scrollContainer',
-  link (scope, element, attrs, scrollContainer) {
-    scrollContainer.firstChildChanges
-    .filter(child => child === element[0])
-    .subscribe(() => { attrs.onScrollCurrentItem && scope.$apply(attrs.onScrollCurrentItem) })
-  }
-})
-
-
-/*
 * Пытается устранять прыжки видимого положения скроллинга из-за изменения контента
 */
 export const scrollKeepPosition = () => ({
@@ -131,13 +112,18 @@ export const scrollKeepPosition = () => ({
         if (offset !== snapshot.offset) {
           let shift = offset - snapshot.offset
           element[0].scrollTop += shift
+          console.log('scrollKeepPosition', snapshot.selector, shift)
         }
       }
-      
-      snapshot = maybe(element[0].querySelector(attrs.scrollKeepPosition)) (child => ({
+
+      snapshot = maybe (attrs.scrollKeepPosition) 
+      (selector => element[0].querySelector(attrs.scrollKeepPosition)) 
+      (child => ({
         child,
-        offset: child.offsetTop
-      })) ()
+        offset: child.offsetTop,
+        selector: attrs.scrollKeepPosition
+      })) 
+      ()
     }
     
     scrollContainer.scrollings

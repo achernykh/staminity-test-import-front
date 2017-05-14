@@ -48,6 +48,7 @@ export class CalendarCtrl implements IComponentController{
     private calendar: Array<ICalendarWeek> = [];
     private currentWeek: ICalendarWeek;
     private currentUser: IUserProfile;
+    private lockScroll: boolean;
 
     constructor(
         private $scope: IScope,
@@ -133,8 +134,10 @@ export class CalendarCtrl implements IComponentController{
     }
     
     setCurrentWeek (week) {
-        this.currentWeek = week;
-        this.$location.hash(week.anchor).replace();
+        if (this.currentWeek !== week) {
+            this.currentWeek = week;
+            this.$location.hash(week.anchor).replace();
+        }
     }
     
     toPrevWeek () {
@@ -150,15 +153,21 @@ export class CalendarCtrl implements IComponentController{
     }
     
     toDate (date) {
+        this.lockScroll = true;
         this.takeWeek(date)
         .then(weeks => weeks[0])
-        .then(week => setTimeout(() => this.scrollToWeek(week), 1));
+        .then(week => setTimeout(() => {
+            this.scrollToWeek(week);
+         }, 1));
     }
 
     scrollToWeek (week) {
         this.setCurrentWeek(week);
         let anchor = 'hotfix' + week.anchor;
-        this.$scope.$broadcast('scrollTo', '#' + anchor);
+        this.$anchorScroll('hotfix' + week.anchor);
+        setTimeout(() => {
+            this.lockScroll = false;
+         }, 1);
     }
 
     /**
