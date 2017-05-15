@@ -9,6 +9,17 @@ import {ISessionService} from "../core/session.service";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {IUserProfile} from "../../../api/user/user.interface";
 
+
+const prepareItem = (item: ICalendarItem, shift: number) => {
+    item.dateStart = moment(item.dateStart, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
+    item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
+    if(item.calendarItemType === 'activity') {
+        item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
+        delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    }
+    return item;
+};
+
 export interface ICalendarWeek {
     sid: number; // номер недели, текущая неделя календаря = 0
     date: any; // дата начала недели
@@ -41,7 +52,8 @@ export class CalendarCtrl implements IComponentController{
         'CalendarService','SessionService'];
     private user: IUserProfile; //
     private weekdayNames: Array<string> = [];
-    private buffer: Array<any> = [];
+    private buffer: Array<ICalendarItem> = [];
+    private firstSrcDay: Date;
     private dateFormat: string = 'YYYY-MM-DD';
     private date: Date;
     private range: Array<number> = [0, 1];
@@ -218,9 +230,9 @@ export class CalendarCtrl implements IComponentController{
             let calendarItems = items
                 .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
                 .map(item => {
-                    if(item.calendarItemType === 'activity') {
+                    //if(item.calendarItemType === 'activity') {
                         item['index'] = Number(`${item.calendarItemId}${item.revision}`);
-                    }
+                    //}
                     return item;
                 });
             
@@ -496,9 +508,51 @@ export class CalendarCtrl implements IComponentController{
             this._ActionMessageService.simple('Запись перемещена');
         }
     }*/
-    
-    onCopyDay() {
 
+    onCopy(){
+        this.buffer = [];
+        this.firstSrcDay = null;
+        this.calendar.forEach(w => w.subItem.forEach(d => {
+            if(d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) {
+                if(!this.firstSrcDay) {
+                    this.firstSrcDay = d.data.calendarItems[0].dateStart;
+                }
+                this.buffer.push(...d.data.calendarItems);
+            }
+        }));
+        debugger;
+    }
+
+
+
+    onPaste(firstTrgDay: string){
+        let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
+        let task:Array<Promise<any>> = [];
+
+        debugger;
+        if (shift && this.buffer && this.buffer.length > 0) {
+            task = this.buffer
+                .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
+                .map(item => this.CalendarService.postItem(prepareItem(item, shift)));
+            Promise.all(task).then(()=>{debugger;}, (error)=> {debugger;});
+        }
+
+        debugger;
+
+    }
+
+    onDeleteSelected() {
+        let items:Array<number> = [];
+        let task:Array<Promise<any>> = [];
+
+        this.calendar.forEach(w => w.subItem.forEach(d => {
+            if(d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) {
+                if(!this.firstSrcDay) {
+                    this.firstSrcDay = d.data.calendarItems[0].dateStart;
+                }
+                this.buffer.push(...d.data.calendarItems);
+            }
+        }));
     }
 
     onPasteDay(date){
@@ -517,7 +571,7 @@ export class CalendarCtrl implements IComponentController{
         for (let calendarItem of this.buffer) {
             // Для второй и последующих записей буфера вычисляем смещение в днях для вставки
             if (!!previewItem) {
-                shift = moment(calendarItem.date, 'YYYY-MM-DD').diff(moment(previewItem.date,'YYYY-MM-DD'), 'days');
+                //shift = moment(calendarItem.date, 'YYYY-MM-DD').diff(moment(previewItem.date,'YYYY-MM-DD'), 'days');
                 targetDay = moment(date, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
             }
             // Сразу не выполняем, сохраняем задание для общего запуска и отслеживания статуса

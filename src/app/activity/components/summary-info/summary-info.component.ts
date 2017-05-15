@@ -47,7 +47,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         let measure: Measure;
 
         if (intensityMeasure) {
-            new Measure(intensityMeasure, sportBasic, intensityValue);
+            measure = new Measure(intensityMeasure, sportBasic, intensityValue);
         }
 
         switch (this.item.activity.status) {

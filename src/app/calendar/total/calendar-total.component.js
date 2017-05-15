@@ -133,6 +133,8 @@ class CalendarTotalCtrl {
     }
 }
 
+CalendarTotalCtrl.$inject = ['$mdDialog'];
+
 export let CalendarTotal = {
     bindings: {
         week: '<',

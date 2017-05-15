@@ -4,8 +4,7 @@
     <div flex="none" class="md-body-1" style="min-width: 24px">
         Неделя {{$ctrl.weekTitle}}
     </div>
-    <div></div>
-    <div ng-if="(!!$ctrl.summary.fact.movingDuration || !!$ctrl.summary.plan.movingDuration) && false"
+    <div flex="none" ng-if="(!!$ctrl.summary.fact.movingDuration || !!$ctrl.summary.plan.movingDuration) && false"
          class="md-body-1" style="background: grey; color: white; border-radius: 10px; padding: 0px 5px">
         {{100*$ctrl.summary.fact.movingDuration/$ctrl.summary.plan.movingDuration |number:0}}%</div>
 
@@ -17,11 +16,10 @@
                      style="margin-bottom: 0px; margin-left: 12px">
         </md-checkbox>
     </div>-->
-    <!--
-    <div flex="none"  ng-show="$ctrl.selected || $ctrl.accent">
+
+    <div flex="none">
         <md-menu md-position-mode="target-right target">
-            <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More"
-                       style="margin: 0px; padding: 0px; width: 24px">
+            <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
                 <md-icon class="material-icons md-18">more_vert</md-icon>
             </md-button>
             <md-menu-content>
@@ -35,7 +33,7 @@
                 <md-menu-item><md-button disabled="disabled">Вставить</md-button></md-menu-item>
             </md-menu-content>
         </md-menu>
-    </div>-->
+    </div>
 
 </div>
 <!--

@@ -100,12 +100,19 @@ class AuthCtrl implements IComponentController {
 	}
 
 	OAuth(provider:string) {
-		this.$auth.link(provider).then(response => {
+		this.$auth.link(provider, {
+            internalData: {
+                postAsExternalProvider: false,
+                provider: provider
+            }
+        }).then((data:{userProfile: IUserProfile, systemFunctions: any}) => {
+			this.$state.go('calendar',{uri: data.userProfile.public.uri});
 			debugger;
 		}, error => {
+			this.message.systemError(error);
 			debugger;
 		}).catch(response => {
-			// Handle errors here.
+			this.message.systemError(response);
 			debugger;
 		});
 	}

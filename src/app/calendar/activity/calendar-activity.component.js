@@ -341,14 +341,14 @@ class CalendarActivityCtrl {
 
                 // При изменение записи сначала удаляем старую, потом создаем новую
                 if(response.type === 'put'){
-                    this.calendar.onDeleteItem(this.data)
-                    this.calendar.onPostItem(response.item)
-                    this.message.toastInfo('Изменения сохранены')
+                    //this.calendar.onDeleteItem(this.data)
+                    //this.calendar.onPostItem(response.item)
+                    //this.message.toastInfo('Изменения сохранены')
                 }
 
                 if(response.type === 'delete') {
-                    this.calendar.onDeleteItem(response.item)
-                    this.message.toastInfo('Запись удалена')
+                    //this.calendar.onDeleteItem(response.item)
+                    //this.message.toastInfo('Запись удалена')
                 }
 
 

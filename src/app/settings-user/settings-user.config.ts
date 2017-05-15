@@ -28,7 +28,46 @@ function configure(
 
     // Facebook
     $authProvider.facebook({
-        clientId: '660665060767427'
+        clientId: '660665060767427',
+        url: '/oauth',
+        redirectUri: window.location.origin + '/',
+        requiredUrlParams: ['scope'],
+        scope: ['email'],
+        scopeDelimiter: ',',
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 580, height: 400 }
+    });
+
+    // Google
+    $authProvider.google({
+        clientId: '641818101376-hn150qbnmkecpd4k5kelme69q7ihcrnj.apps.googleusercontent.com',
+        url: '/oauth',
+        redirectUri: window.location.origin + '/',
+        requiredUrlParams: ['scope'],
+        optionalUrlParams: ['display'],
+        scope: ['profile', 'email'],
+        scopePrefix: 'openid',
+        scopeDelimiter: ' ',
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 452, height: 633 }
+    });
+
+
+    // VKontakte
+    $authProvider.oauth2({
+        name: 'vkontakte',
+        url: '/oauth',
+        redirectUri: window.location.origin + '/',
+        clientId: '6031874',
+        authorizationEndpoint: 'http://oauth.vk.com/authorize',
+        scope: 'friends, email',
+        display: 'popup',
+        responseType: 'code',
+        requiredUrlParams: ['response_type', 'client_id', 'redirect_uri', 'display', 'scope', 'v'],
+        scopeDelimiter: ',',
+        v: '5.37'
     });
 
     // Generic OAuth 2.0
