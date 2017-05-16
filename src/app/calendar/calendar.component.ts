@@ -503,6 +503,8 @@ export class CalendarCtrl implements IComponentController{
             }
         }));
 
+        debugger;
+
         this.CalendarService.deleteItem('F',
             (selected && selected.length > 0) ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
             .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))

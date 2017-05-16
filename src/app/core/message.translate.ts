@@ -172,7 +172,7 @@ export const _translateMessage = {
 			title: "Внимание!",
 			text: "Недостаточно прав для выполнения операции. Необходим тариф 'Тренер'"
 		},*/
-		forbiddenAction: {
+		forbidden_InsufficientAction: {
 			title: "Ошибка",
 			text: "Недостаточно прав для выполнения операции"
 		},

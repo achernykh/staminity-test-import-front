@@ -1,4 +1,4 @@
-<div flex class="message-list">
+<div flex class="message-list" scroll-glue>
     <div ng-repeat="comment in $ctrl.comments | orderBy:'+ts' track by $index" layout="row">
         <userpic flex="none" flex-order="{{::(!$ctrl.isMe(comment.userProfile.userId) ? 1:3)}}"
                  profile="comment.userProfile" is-premium="comment.userProfile.isPremium"></userpic>

@@ -74,7 +74,6 @@ class CalendarTotalCtrl {
     }
     $onInit(){
         this.weekTitle = moment(this.week.week,'YYYY-WW').week();
-        this.week.subItem.forEach(day => this.items.push(...day.calendarItems));
     }
 
     onToggle() {
@@ -91,6 +90,11 @@ class CalendarTotalCtrl {
     $onChanges(changes){
 
         if(changes.update){
+
+            if(this.week.hasOwnProperty('subItem') && this.week.subItem && this.week.subItem.length > 0) {
+                this.week.subItem.forEach(day => day.data.calendarItems && day.data.calendarItems.lenght > 0 || this.items.push(...day.data.calendarItems));
+            }
+
             this.total = calculateCalendarTotals(this.week.subItem);/*
             let sport = null;
             let distance = 0, movingDuration = 0;
