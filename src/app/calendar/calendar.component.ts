@@ -53,7 +53,7 @@ export class CalendarCtrl implements IComponentController{
     private user: IUserProfile; //
     private weekdayNames: Array<string> = [];
     private buffer: Array<ICalendarItem> = [];
-    private firstSrcDay: Date;
+    private firstSrcDay: string;
     private dateFormat: string = 'YYYY-MM-DD';
     private date: Date;
     private range: Array<number> = [0, 1];
@@ -457,161 +457,68 @@ export class CalendarCtrl implements IComponentController{
         return this.calendar.findIndex(item => item.week === w);
     }
 
-    /**-----------------------------------------------------------------------------------------------------------------
-     *
-     * WEEK & DAY ACTIONS
-     *
-     * 1) onToggleWeek()
-     * 2) onCopyWeek()
-     * 2) onPasteWeek()
-     * 3) onDeleteWeek()
-     * 4) onToggleDay()
-     * 5) onCopyDay()
-     * 6) onPasteDay()
-     * 7) onDeleteDay()
-     * 8) onAddItem()
-     *
-     *----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Копирование записи календаря
-	 * @param item - обьект формата calendarItem
-	 */
-	onCopyItem(item) {
-        if (!angular.isArray(item)){
-            item = [item];
-        };
-        this.buffer = item;
-        this.message.toastInfo(`Записи скопированы (${this.buffer.length})`);
-    }
-    
-    /**
-     * Drop записи календаря (операция drag&drop)
-     * @param targetDate
-     * @param index
-     * @param calendarItem
-     * @returns {*}
-     */
-    /*onDropItem(targetDate, index, calendarItem) {
-
-        let init = moment();
-        let dayPos = moment(targetDate, 'YYYY-MM-DD');
-        let weekPos = dayPos.format('WW') - init.format('WW');
-        let weekItem = this.datasource.items.find((item) => item.sid == weekPos)
-        let dayItem = weekItem && weekItem.subItem[dayPos.weekday()]
-        
-        if (weekItem && dayItem) {
-            console.log('Calendar: drag&drop', targetDate, index, weekItem, dayItem, calendarItem);
-            weekItem.changes = weekItem.changes + 1;
-            calendarItem.date = dayPos;
-            dayItem.data.calendarItems.splice(index, 0, calendarItem);
-            this._ActionMessageService.simple('Запись перемещена');
-        }
-    }*/
 
     onCopy(){
         this.buffer = [];
         this.firstSrcDay = null;
         this.calendar.forEach(w => w.subItem.forEach(d => {
-            if(d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) {
+            if(d.selected) {
                 if(!this.firstSrcDay) {
-                    this.firstSrcDay = d.data.calendarItems[0].dateStart;
+                    this.firstSrcDay = d.data.date;
                 }
-                this.buffer.push(...d.data.calendarItems);
+                if (d.data.calendarItems && d.data.calendarItems.length > 0) {
+                    this.buffer.push(...d.data.calendarItems);
+                }
             }
         }));
-        debugger;
+        if(this.buffer && this.buffer.length > 0) {
+            this.message.toastInfo('itemsCopied');
+        }
     }
-
-
 
     onPaste(firstTrgDay: string){
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
 
         debugger;
+
         if (shift && this.buffer && this.buffer.length > 0) {
             task = this.buffer
                 .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
                 .map(item => this.CalendarService.postItem(prepareItem(item, shift)));
-            Promise.all(task).then(()=>{debugger;}, (error)=> {debugger;});
+            Promise.all(task)
+                .then(()=> this.message.toastInfo('itemsPasted'), (error)=> this.message.toastError(error))
+                .then(()=> this.clearBuffer());;
         }
-
-        debugger;
 
     }
 
-    onDeleteSelected() {
-        let items:Array<number> = [];
-        let task:Array<Promise<any>> = [];
+    onDelete(items:Array<ICalendarItem>) {
+
+        let selected: Array<ICalendarItem> = [];
 
         this.calendar.forEach(w => w.subItem.forEach(d => {
             if(d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) {
-                if(!this.firstSrcDay) {
-                    this.firstSrcDay = d.data.calendarItems[0].dateStart;
-                }
-                this.buffer.push(...d.data.calendarItems);
+                selected.push(...d.data.calendarItems);
+            }
+        }));
+
+        this.CalendarService.deleteItem('F',
+            (selected && selected.length > 0) ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
+            .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))
+            .then(()=> this.clearBuffer());
+    }
+
+    clearBuffer() {
+        this.buffer = [];
+        this.firstSrcDay = null;
+        this.calendar.forEach(w => w.subItem.forEach(d => {
+            if(d.selected) {
+                d.selected = false;
             }
         }));
     }
 
-    onPasteDay(date){
-        /**
-         * Так как скопировать можно диапазон дней-недель, то целевые дни-недели могут иметь разные даты. Поэтому
-         * необходимо отдавать по одному элементу на вставку, так как функция grid.update универсальна и работает в
-         * рамках одного дня/недели
-         */
-        // Для массового копирования/вставки необходимо отсортировать буфер по дате от самой ранней к последней.
-        // Разница дат между записями в буфере должна остаться и в целевом дипазоне вставки, для этого отслеживается
-        // дата предидущего элемента, на эту разнцу сдвигается дата вставки
-
-        let task = [];
-        let previewItem, targetDay = date, shift;
-
-        for (let calendarItem of this.buffer) {
-            // Для второй и последующих записей буфера вычисляем смещение в днях для вставки
-            if (!!previewItem) {
-                //shift = moment(calendarItem.date, 'YYYY-MM-DD').diff(moment(previewItem.date,'YYYY-MM-DD'), 'days');
-                targetDay = moment(date, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
-            }
-            // Сразу не выполняем, сохраняем задание для общего запуска и отслеживания статуса
-            // task.push(this.grid.update('pasteCalendarItem', calendarItem, {date: targetDay}));
-            //                     item.changes = item.changes + 1;
-            //                     dayPos = moment(params.date, 'YYYY-MM-DD');
-            //                     weekPos = dayPos.format('WW') - init.format('WW');
-            //                     calendarItem.date = dayPos; // меняем дату в записи на целевую
-            //                     item.subItem[dayPos.weekday()].data.calendarItems.push(calendarItem);
-            previewItem = calendarItem;
-        }
-        // Запускаем выполнение
-        Promise.all(task).then(
-            () => {
-                this.message.toastInfo(`Записи вставлены (${this.buffer.length})`);
-                this.buffer = [];
-            },
-            (error) => {
-                console.log('CalendarCtrl: onPasteDay => error=', error);
-            }
-        );
-    }
-
-    /*
-    onToggleWeek(week, value) {
-        console.error('Calendar: onToggleWeek', week, value);
-        return this.scrollAdapter.applyUpdates((item, scope) => {
-            try {
-                if (item.sid == week) {
-                    item.selected = value;
-                    for (let i = 0; i < item.subItem.length; i++) {
-                        item.subItem[i].selected = value;
-                    }
-                }
-            } catch (error) {
-                console.error('Calendar: add activity error ', error);
-            }
-            return item;
-        });
-    }*/
 }
 
 const Calendar: IComponentOptions = {

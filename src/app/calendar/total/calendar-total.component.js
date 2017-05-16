@@ -56,6 +56,7 @@ const calculateTotals = (items) => {
 
 class CalendarTotalCtrl {
     constructor(){
+        this.items = [];
 
         this.checked = false;
         this.total = {};
@@ -73,6 +74,13 @@ class CalendarTotalCtrl {
     }
     $onInit(){
         this.weekTitle = moment(this.week.week,'YYYY-WW').week();
+        this.week.subItem.forEach(day => this.items.push(...day.calendarItems));
+    }
+
+    onToggle() {
+        debugger;
+        this.selected = !this.selected;
+        this.week.subItem.forEach(day => day.selected = !day.selected);
     }
 
     /*calculateTotals(item) {
@@ -140,8 +148,8 @@ export let CalendarTotal = {
         week: '<',
         update: '<',
         selected: '<',
-        accent: '<',
-        onToggle: '&'
+        accent: '<'//,
+        //onToggle: '&'
     },
     require: {
         calendar: '^calendar'

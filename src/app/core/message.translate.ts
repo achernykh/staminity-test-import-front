@@ -224,6 +224,18 @@ export const _translateMessage = {
 			title: "",
 			text: "Фактические данные в тренировке удалены"
 		},
+		itemsDeleted:{
+			title: "",
+			text: "Записи удалены"
+		},
+		itemsCopied:{
+			title: "",
+			text: "Записи скопированы"
+		},
+		itemsPasted:{
+			title: "",
+			text: "Скопированные записи вставлены"
+		},
 		nonexistentActivity: { // неверный идентификатор в удаляемой тренировке
 			title: "",
 			text: "Невозможно удалить тренировку, неизвестный идентификатор"
