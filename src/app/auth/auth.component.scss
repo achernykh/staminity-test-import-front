@@ -20,6 +20,12 @@ auth {
 		overflow: hidden;
 	}
 
+	md-list-item.social {
+		&:before {
+			min-height: 0px;
+		}
+	}
+
 	.conf {
 		//padding: 0px 8px;
 		text-align: left;

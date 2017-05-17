@@ -103,7 +103,7 @@ const MeasureMainButtonComponent: IComponentOptions = {
 					<div class="md-caption md-dark md-inactive center">{{m | translate}}</div>
 				</div>
 			</div>
-			<md-divider ng-repeat-end ng-if="!$last" style="margin: 0px 16px"></md-divider>
+			<md-divider ng-repeat-end ng-if="!$last && $ctrl.check(data)" style="margin: 0px 16px"></md-divider>
 			<!--
 			<md-list-item layout="row" layout-wrap>				
 				<md-button class="md-exclude"

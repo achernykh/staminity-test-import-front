@@ -1,8 +1,9 @@
 export let _connection = {
     protocol: {
-        ws: 'ws://',
-        rest: 'http://'
+        ws: 'wss://',
+        rest: 'https://'
     },
     server: 'app.staminity.com',//'app.staminity.com',
-    content: 'http://app.staminity.com'//'http://app.staminity.com',
+    content: 'https://app.staminity.com',//'http://app.staminity.com',
+    frontend: 'https://staminity.com/'//'http://staminity.com',
 };

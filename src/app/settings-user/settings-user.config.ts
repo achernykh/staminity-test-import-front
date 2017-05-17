@@ -142,8 +142,8 @@ function configure(
                                     });
                             } else {
                                 athlete = null;
-                                message.systemWarning('needPermissions');
-                                throw 'need permissions';
+                                message.systemWarning('forbidden_InsufficientRights');
+                                throw 'forbidden_InsufficientRights';
                             }
                         }
                     }]

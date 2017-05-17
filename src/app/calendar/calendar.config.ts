@@ -40,7 +40,7 @@ function configure($stateProvider:StateProvider,
                                     });
                             } else {
                                 athlete = null;
-                                message.systemWarning('needPermissions');
+                                message.systemWarning('forbidden_InsufficientRights');
                                 throw 'need permissions';
                             }
                         }

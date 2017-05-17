@@ -25,7 +25,7 @@ export class MeasureChartData {
         array = copy(this.measuresY);
         array.forEach(key => {
             if (this.details.measures.hasOwnProperty(key) &&
-                (!this.calcMeasure.hasOwnProperty(key) || (this.calcMeasure.hasOwnProperty(key) && this.calcMeasure[key].value > 0))) {
+                (this.calcMeasure.hasOwnProperty(key) && this.calcMeasure[key].value > 0)) {
                 this.measures[key] = this.details.measures[key];
                 this.measures[key]['show'] = true;
                 if(this.calcMeasure[key] && this.calcMeasure[key].hasOwnProperty('minValue')) {

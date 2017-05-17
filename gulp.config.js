@@ -71,11 +71,11 @@ var backend = {
         frontend: 'http://dev1.staminity.com/'
     },
     dev2: {
-        protocol_ws: 'ws://',
-        protocol_rest: 'http://',
+        protocol_ws: 'wss://',
+        protocol_rest: 'https://',
         server: 'testapp.staminity.com:8080',
-        content: 'http://app.staminity.com',
-        frontend: 'http://dev2.staminity.com/'
+        content: 'https://app.staminity.com',
+        frontend: 'https://dev2.staminity.com/'
     },
     dev3: {
         protocol_ws: 'ws://',
@@ -85,11 +85,11 @@ var backend = {
         frontend: 'http://dev3.staminity.com/'
     },
     prd: {
-        protocol_ws: 'ws://',
-        protocol_rest: 'http://',
+        protocol_ws: 'wss://',
+        protocol_rest: 'https://',
         server: 'app.staminity.com',
-        content: 'http://app.staminity.com',
-        frontend: 'http://staminity.com/'
+        content: 'https://app.staminity.com',
+        frontend: 'https://staminity.com/'
     }
 }
 

@@ -11,7 +11,7 @@ const hostEndPoint = {
     distLocal: "http://localhost:75/",
     dev1: "http://dev1.staminity.com",
     dev2: "https://dev2.staminity.com",
-    dev3: "https://dev3.staminity.com",
+    dev3: "http://dev3.staminity.com",
     prd: "http://staminity.com",
     testapp: 'https://testapp.staminity.com'
 };

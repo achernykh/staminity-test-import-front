@@ -40,7 +40,7 @@
                             <form flex="none" layout="column" class="start" name="startForm">
                                 <md-button flex='none' class="md-raised md-primary"
                                            ng-disabled = "!startForm.$valid"
-                                           type="submit" name="start"
+                                           type="submit" name="start" ng-click="$ctrl.go()"
                                            translate="landing.start.action"></md-button>
                                 <div class="note md-body"
                                      translate="landing.start.note"></div>

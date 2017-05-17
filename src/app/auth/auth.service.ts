@@ -74,7 +74,7 @@ export default class AuthService implements IAuthService {
                 .then(result => {
                     let athletes: Array<any> = result.members;
                     if (!athletes || !athletes.some(member => member.userProfile.userId === user.userId)) {
-                        throw 'needPermissions';
+                        throw 'forbidden_InsufficientRights';
                     } else {
                         return true;
                     }
@@ -89,7 +89,7 @@ export default class AuthService implements IAuthService {
         if (userClubs && userClubs.some(club => club.groupUri === uri)) {
             return Promise.resolve();
         } else {
-            return Promise.reject('need permissions');
+            return Promise.reject('forbidden_InsufficientRights');
         }
     }
 

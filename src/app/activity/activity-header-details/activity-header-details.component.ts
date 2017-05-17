@@ -45,8 +45,8 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
                     type: type,
                     startTimestamp: d.startTimestamp,
                     endTimestamp: d.endTimestamp,
-                    duration: d.calcMeasures.duration.value || '-',
-                    distance: d.calcMeasures.distance.value || '-'
+                    duration: d.calcMeasures.hasOwnProperty('duration') && d.calcMeasures.duration.value || '-',
+                    distance: d.calcMeasures.hasOwnProperty('distance') && d.calcMeasures.distance.value || '-'
                 });
         });
     }

@@ -242,6 +242,21 @@ const sportLimit = {
             min: 0.33 // 5min/100m
         }
     },
+    strength: {
+        speed: {
+            min: 1
+        }
+    },
+    transition: {
+        speed: {
+            min: 1
+        }
+    },
+    ski: {
+        speed: {
+            min: 1
+        }
+    },
     other: {
         speed: {
             min: 1

@@ -1,8 +1,8 @@
 import './search.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import {SearchService} from "./search.service";
 import {SearchParams, SearchResultByUser, SearchMethod} from "../../../api/search/search.interface";
-import IScope = angular.IScope;
+import {_connection} from "../core/api.constants";
 
 class SearchCtrl implements IComponentController {
 
@@ -35,7 +35,7 @@ class SearchCtrl implements IComponentController {
 
     }
 
-    onDetails(uri:string, url: string = 'http://dev1.staminity.com/') {
+    onDetails(uri:string, url: string = `${_connection.protocol.rest}${_connection}`) {
         switch (this.params.objectType) {
             case 'user': case 'coach': {
                 let win = window.open(`${url}user/${uri}`, '_blank');
