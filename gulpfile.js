@@ -1,38 +1,41 @@
-var gulp          = require('gulp');
-var concat        = require('gulp-concat');
-var del           = require('del');
-var notify        = require('gulp-notify');
-var source        = require('vinyl-source-stream');
-var browserify    = require('browserify');
-var babelify      = require('babelify');
-var ngAnnotate    = require('browserify-ngannotate');
-var sass          = require('gulp-sass');
-var autoprefixer  = require('gulp-autoprefixer');
-var browserSync   = require('browser-sync').create();
-var server        = require('gulp-server-livereload');
-var rename        = require('gulp-rename');
-var templateCache = require('gulp-angular-templatecache');
-var uglify        = require('gulp-uglify');
-var merge         = require('merge-stream');
-var sftp_new      = require('gulp-sftp-new');
-var gutil         = require('gulp-util');
-var ftp           = require('gulp-ftp');
-var imagemin      = require('gulp-imagemin');
-var cssmin        = require('gulp-cssmin');
-var open          = require('gulp-open');
-var template      = require('gulp-template');
+const gulp          = require('gulp');
+const concat        = require('gulp-concat');
+const del           = require('del');
+const notify        = require('gulp-notify');
+const source        = require('vinyl-source-stream');
+const browserify    = require('browserify');
+const babelify      = require('babelify');
+const ngAnnotate    = require('browserify-ngannotate');
+const sass          = require('gulp-sass');
+const autoprefixer  = require('gulp-autoprefixer');
+const browserSync   = require('browser-sync').create();
+const server        = require('gulp-server-livereload');
+const rename        = require('gulp-rename');
+const templateCache = require('gulp-angular-templatecache');
+const uglify        = require('gulp-uglify');
+const merge         = require('merge-stream');
+const sftp_new      = require('gulp-sftp-new');
+const gutil         = require('gulp-util');
+const ftp           = require('gulp-ftp');
+const imagemin      = require('gulp-imagemin');
+const cssmin        = require('gulp-cssmin');
+const open          = require('gulp-open');
+const template      = require('gulp-template');
+const gulpif        = require('gulp-if');
+const order         = require("gulp-order");
 
-// Get/set variables
-var config = require('./gulp.config');
-var pass = require('./pass');
-var ENV = process.env.npm_lifecycle_event;
+// Get/set letiables
+const config = require('./gulp.config');
+const pass = require('./pass');
+const ENV = process.env.npm_lifecycle_event;
 
 // Where our files are located
-var jsFiles   = "src/js/**/*.js";
-var viewFiles = "src/js/**/*.html";
+const jsFiles   = "src/js/**/*.js";
+const viewFiles = "src/js/**/*.html";
 
-var interceptErrors = function(error) {
-    var args = Array.prototype.slice.call(arguments);
+const interceptErrors = function(error) {
+    'use strict';
+    let args = Array.prototype.slice.call(arguments);
 
     // Send error to notification center with gulp-notify
     notify.onError({
@@ -58,13 +61,13 @@ gulp.task('jsLibs', function() {
         .pipe(gulp.dest('js/', { cwd: config.build }));
 });
 
-// var ts = require("gulp-typescript");
+// let ts = require("gulp-typescript");
 const tsify = require('tsify');
 const watchify = require('watchify');
  
 // Compile application
 gulp.task('jsApp', ['templates'], function() {
-    // var b = browserify(config.src.babel)
+    // let b = browserify(config.src.babel)
     //     .plugin(watchify)
     //     .plugin(tsify)
     //     .transform(babelify, {presets: ["es2015"]})
@@ -153,19 +156,20 @@ gulp.task('version', function () {
 
 // This task is used for building production ready
 gulp.task('build', function() {
-    var html = gulp.src(["build/index.html", "build/browserconfig.xml", "build/favicon.ico"])
+    'use strict';
+    let html = gulp.src(["build/index.html", "build/browserconfig.xml", "build/favicon.ico"])
         .pipe(gulp.dest('./dist/'));
 
-    var css = gulp.src('build/css/*.css')
+    let css = gulp.src('build/css/*.css')
         .pipe(cssmin())
         //.pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('./dist/css/'));
 
-    var js = gulp.src("build/js/**.js")
+    let js = gulp.src("build/js/**.js")
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js/'));
 
-    var assets = gulp.src("build/assets/**")
+    let assets = gulp.src("build/assets/**")
         //.pipe(imagemin())
         .pipe(gulp.dest('./dist/assets/'));
 
@@ -209,66 +213,65 @@ gulp.task('copy-assets', function() {
         .pipe(gulp.dest('./'+ENV+'/assets'));
 });
 
-gulp.task('url', function(){
-    var sites = {
-        dev1: 'http://dev1.staminity.com',
-        prd: 'http://staminity.com'
-    }
-    return gulp.src('./index.html')
-        .pipe(open({uri: 'http://www.google.com'}));
-});
-
 gulp.task('ftp-dev1-full', function () {
-    var src = './'+ENV;
+    'use strict';
+    let src = './'+ENV;
     return gulp.src('dev1/**/*')
         .pipe(ftp(pass.dev1))
         .pipe(gutil.noop());
 });
 
 gulp.task('ftp-dev2-full', function () {
-    var src = './'+ENV;
+    'use strict';
+    let src = './'+ENV;
     return gulp.src('dev2/**/*')
         .pipe(ftp(pass.dev2))
         .pipe(gutil.noop());
 });
 
 gulp.task('ftp-dev3-full', function () {
-    var src = './'+ENV;
+    'use strict';
+    let src = './'+ENV;
     return gulp.src('dev3/**/*')
         .pipe(ftp(pass.dev3))
         .pipe(gutil.noop());
 });
 
 gulp.task('ftp-dev1', function () {
-    var src = './'+ENV;
+    'use strict';
+    let src = './'+ENV;
     return gulp.src(['dev1/assets/css/**','dev1/assets/js/**','dev1/index.html'])
         .pipe(ftp(pass.dev1))
         .pipe(gutil.noop());
 });
 
 gulp.task('ftp-dev2-full', function () {
-    var src = './'+ENV;
+    'use strict';
+    let src = './'+ENV;
     return gulp.src('dev2/**/*')
         .pipe(ftp(pass.dev2))
         .pipe(gutil.noop());
 });
 
 gulp.task('ftp-dev2', function () {
-    var src = './'+ENV;
+    'use strict';
+    let src = './'+ENV;
     return gulp.src(['dev2/assets/css/**','dev2/assets/js/**','dev2/index.html'])
         .pipe(ftp(pass.dev2))
         .pipe(gutil.noop());
 });
 
 gulp.task('ftp-prd-full', function () {
-    var src = './'+ENV;
+    'use strict';
+    let src = './'+ENV;
     return gulp.src('prd/**/*')
         .pipe(ftp(pass.prd))
         .pipe(gutil.noop());
 });
 
 gulp.task('ftp-prd', function () {
-    var src = './'+ENV;
+    'use strict';
+    let src = './'+ENV;
     return gulp.src(['prd/assets/css/**','prd/assets/js/**','prd/index.html'])
         .pipe(ftp(pass.prd))
         .pipe(gutil.noop());
@@ -279,6 +282,23 @@ gulp.task('set-env', function() {
         .pipe(template(config.backend[ENV]))
         .pipe(rename({basename: 'api.constants'}))
         .pipe(gulp.dest('src/app/core/'))
+});
+
+gulp.task('ftp', () => {
+    'use strict';
+    let trg = gutil.env['trg'];
+    let scope = gutil.env['scope'];
+
+    gutil.log(gutil.env['trg'], gutil.env['scope']);
+
+    return gulp
+        .src([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'], {base: trg+'/'})
+        .pipe(order([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html']))
+        .pipe(ftp(pass[trg]));
+        /**.pipe(gulpif(scope === 'full',
+            gulp.src([trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**'])
+                .pipe(ftp(pass[trg]))));**/
+
 });
 
 

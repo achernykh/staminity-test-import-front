@@ -57,18 +57,18 @@ var cssLibs = [
 
 var backend = {
     build: {
-        protocol_ws: 'ws://',
-        protocol_rest: 'http://',
+        protocol_ws: 'wss://',
+        protocol_rest: 'https://',
         server: 'app.staminity.com',
-        content: 'http://app.staminity.com',
+        content: 'https://app.staminity.com',
         frontend: 'http://0.0.0.0:8080/'
     },
     dev1: {
-        protocol_ws: 'ws://',
-        protocol_rest: 'http://',
+        protocol_ws: 'wss://',
+        protocol_rest: 'https://',
         server: 'app.staminity.com',
-        content: 'http://app.staminity.com',
-        frontend: 'http://dev1.staminity.com/'
+        content: 'https://app.staminity.com',
+        frontend: 'https://dev1.staminity.com/'
     },
     dev2: {
         protocol_ws: 'wss://',
@@ -78,11 +78,11 @@ var backend = {
         frontend: 'https://dev2.staminity.com/'
     },
     dev3: {
-        protocol_ws: 'ws://',
-        protocol_rest: 'http://',
+        protocol_ws: 'wss://',
+        protocol_rest: 'https://',
         server: 'app.staminity.com',
-        content: 'http://app.staminity.com',
-        frontend: 'http://dev3.staminity.com/'
+        content: 'https://app.staminity.com',
+        frontend: 'https://dev3.staminity.com/'
     },
     prd: {
         protocol_ws: 'wss://',

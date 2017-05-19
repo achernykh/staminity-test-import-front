@@ -16,7 +16,7 @@ function configure(
     $authProvider.httpInterceptor = function() { return true; };
     $authProvider.withCredentials = false;
     $authProvider.tokenRoot = null;
-    $authProvider.baseUrl =  'http:/' + _connection.server;//null;//_connection.server + '/oauth/';
+    $authProvider.baseUrl =  _connection.protocol.rest + _connection.server;//null;//_connection.server + '/oauth/';
     $authProvider.loginUrl = '/login';
     $authProvider.signupUrl = '/signup';
     $authProvider.unlinkUrl = '/unlink/';
@@ -61,7 +61,7 @@ function configure(
         url: '/oauth',
         redirectUri: window.location.origin + '/',
         clientId: '6031874',
-        authorizationEndpoint: 'http://oauth.vk.com/authorize',
+        authorizationEndpoint: 'https://oauth.vk.com/authorize',
         scope: 'friends, email',
         display: 'popup',
         responseType: 'code',
@@ -75,7 +75,6 @@ function configure(
         name: 'strava',
         url: '/oauth',//'http:/' + _connection.server + '/oauth/',
         clientId: 15712,
-        //redirectUri: 'http://0.0.0.0:8080',
         redirectUri: window.location.origin,
         authorizationEndpoint: 'https://www.strava.com/oauth/authorize',
         defaultUrlParams: ['client_id','response_type', 'redirect_uri'],
@@ -83,11 +82,6 @@ function configure(
         optionalUrlParams: ['approval_prompt','scope','state'],
         approvalPrompt: 'force',
         scope: 'view_private',
-        //token: '',
-        //staminityToken: '0adebb13-c151-617a-dfa0-507caac750fd',
-        //startDate: '',
-        //scopePrefix: null,
-        //scopeDelimiter: null,
         state: 'mystate',
         oauthType: '2.0',
         /*popupOptions: null,*/
@@ -98,19 +92,6 @@ function configure(
             redirectUri: 'redirectUri'
         }
     });
-    /*$authProvider.facebook({
-        name: 'facebook',
-        url: '/auth/facebook',
-        authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
-        redirectUri: window.location.origin + '/',
-        requiredUrlParams: ['display', 'scope'],
-        appId: '660665060767427',
-        scope: ['email'],
-        scopeDelimiter: ',',
-        display: 'popup',
-        oauthType: '2.0',
-        popupOptions: { width: 580, height: 400 }
-    });*/
 
     $stateProvider
         .state('settings/user', <StateDeclaration>{
