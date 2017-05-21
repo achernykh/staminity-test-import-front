@@ -109,7 +109,7 @@ export const scrollKeepPosition = () => ({
     let frame = () => {
       if (snapshot) {
         let offset = snapshot.child.offsetTop
-        if (offset !== snapshot.offset) {
+        if (offset !== snapshot.offset && !scope.$eval(attrs.lockScroll)) {
           let shift = offset - snapshot.offset
           element[0].scrollTop += shift
           console.log('scrollKeepPosition', snapshot.selector, shift)

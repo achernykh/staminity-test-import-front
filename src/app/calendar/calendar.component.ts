@@ -127,13 +127,13 @@ export class CalendarCtrl implements IComponentController{
         let calendarLast = this.calendar[0] && moment(this.calendar[this.calendar.length - 1].date);
 
         if (week) {
-            return Promise.resolve([week]);
+            return Promise.resolve(week);
         } else if (calendarFirst && calendarFirst.add(- 1, 'w').isSame(date, 'date')) {
-            return this.up();
+            return this.up() [0];
         } else if (calendarLast && calendarLast.add(1, 'w').isSame(date, 'date')) {
-            return this.down();
+            return this.down() [0];
         } else {
-            return this.reset(date);
+            return this.reset(date) [0];
         }
     }
 
@@ -164,22 +164,23 @@ export class CalendarCtrl implements IComponentController{
         this.toDate(moment().startOf('week'));
     }
     
-    toDate (date) {
+    toDate (date) {        
         this.lockScroll = true;
-        this.takeWeek(date)
-        .then(weeks => weeks[0])
+            
+        let week = this.takeWeek(date);
+        this.scrollToWeek(week);
+        
+        (week.loading || Promise.resolve(week))
         .then(week => setTimeout(() => {
             this.scrollToWeek(week);
-         }, 1));
+            this.lockScroll = false;
+         }, 100));
     }
 
     scrollToWeek (week) {
         this.setCurrentWeek(week);
         let anchor = 'hotfix' + week.anchor;
         this.$anchorScroll('hotfix' + week.anchor);
-        setTimeout(() => {
-            this.lockScroll = false;
-         }, 1);
     }
 
     /**
@@ -281,7 +282,7 @@ export class CalendarCtrl implements IComponentController{
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
             
-        return Promise.all(items.map(week => week.loading));
+        return items;
     }
     
     /**
@@ -307,7 +308,7 @@ export class CalendarCtrl implements IComponentController{
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
             
-        return Promise.all(items.map(week => week.loading));
+        return items;
     }
 
     onAddActivity($event){

@@ -48,7 +48,8 @@
                      scroll-container
                      on-scroll-hit-top="$ctrl.up(1)"
                      on-scroll-hit-bottom="$ctrl.down(1)"
-                     scroll-keep-position="{{$ctrl.lockScroll? '' : '#hotfix' + $ctrl.currentWeek.anchor}}">
+                     scroll-keep-position="{{'#hotfix' + $ctrl.currentWeek.anchor}}"
+                     lock-scroll="$ctrl.lockScrol">
                 <!-- grid-week: start -->
                 <div ng-repeat="week in $ctrl.calendar track by week.anchor"
                      style=""
