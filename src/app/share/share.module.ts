@@ -72,7 +72,8 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
 const userpic = {
     bindings: {
         profile: '<',
-        isPremium: '<'
+        isPremium: '<',
+        unlink: '<'
     },
     transclude: true,
     controller: ['$scope', class UserpicController {

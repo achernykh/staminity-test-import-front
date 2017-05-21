@@ -172,7 +172,7 @@ export const _translateMessage = {
 			title: "Внимание!",
 			text: "Недостаточно прав для выполнения операции. Необходим тариф 'Тренер'"
 		},*/
-		forbiddenAction: {
+		forbidden_InsufficientAction: {
 			title: "Ошибка",
 			text: "Недостаточно прав для выполнения операции"
 		},
@@ -204,6 +204,14 @@ export const _translateMessage = {
 			title: "",
 			text: "Создана новая тренировка"
 		},
+		activityCopied: {
+			title: "",
+			text: "Тренировка скопирована"
+		},
+		activityMoved: {
+			title: "",
+			text: "Тренировка перемещена"
+		},
 		activityUpdated: {
 			title: "",
 			text: "Тренировка изменена"
@@ -215,6 +223,18 @@ export const _translateMessage = {
 		activityFactDeleted: { // когда прошло удаление детального факта в тренировке, параметр mode: 'D'
 			title: "",
 			text: "Фактические данные в тренировке удалены"
+		},
+		itemsDeleted:{
+			title: "",
+			text: "Записи удалены"
+		},
+		itemsCopied:{
+			title: "",
+			text: "Записи скопированы"
+		},
+		itemsPasted:{
+			title: "",
+			text: "Скопированные записи вставлены"
 		},
 		nonexistentActivity: { // неверный идентификатор в удаляемой тренировке
 			title: "",

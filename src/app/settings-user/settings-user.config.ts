@@ -16,7 +16,7 @@ function configure(
     $authProvider.httpInterceptor = function() { return true; };
     $authProvider.withCredentials = false;
     $authProvider.tokenRoot = null;
-    $authProvider.baseUrl =  'http:/' + _connection.server;//null;//_connection.server + '/oauth/';
+    $authProvider.baseUrl =  _connection.protocol.rest + _connection.server;//null;//_connection.server + '/oauth/';
     $authProvider.loginUrl = '/login';
     $authProvider.signupUrl = '/signup';
     $authProvider.unlinkUrl = '/unlink/';
@@ -28,7 +28,46 @@ function configure(
 
     // Facebook
     $authProvider.facebook({
-        clientId: '660665060767427'
+        clientId: '660665060767427',
+        url: '/oauth',
+        redirectUri: window.location.origin + '/',
+        requiredUrlParams: ['scope'],
+        scope: ['email'],
+        scopeDelimiter: ',',
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 580, height: 400 }
+    });
+
+    // Google
+    $authProvider.google({
+        clientId: '641818101376-hn150qbnmkecpd4k5kelme69q7ihcrnj.apps.googleusercontent.com',
+        url: '/oauth',
+        redirectUri: window.location.origin + '/',
+        requiredUrlParams: ['scope'],
+        optionalUrlParams: ['display'],
+        scope: ['profile', 'email'],
+        scopePrefix: 'openid',
+        scopeDelimiter: ' ',
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 452, height: 633 }
+    });
+
+
+    // VKontakte
+    $authProvider.oauth2({
+        name: 'vkontakte',
+        url: '/oauth',
+        redirectUri: window.location.origin + '/',
+        clientId: '6031874',
+        authorizationEndpoint: 'https://oauth.vk.com/authorize',
+        scope: 'friends, email',
+        display: 'popup',
+        responseType: 'code',
+        requiredUrlParams: ['response_type', 'client_id', 'redirect_uri', 'display', 'scope', 'v'],
+        scopeDelimiter: ',',
+        v: '5.37'
     });
 
     // Generic OAuth 2.0
@@ -36,7 +75,6 @@ function configure(
         name: 'strava',
         url: '/oauth',//'http:/' + _connection.server + '/oauth/',
         clientId: 15712,
-        //redirectUri: 'http://0.0.0.0:8080',
         redirectUri: window.location.origin,
         authorizationEndpoint: 'https://www.strava.com/oauth/authorize',
         defaultUrlParams: ['client_id','response_type', 'redirect_uri'],
@@ -44,11 +82,6 @@ function configure(
         optionalUrlParams: ['approval_prompt','scope','state'],
         approvalPrompt: 'force',
         scope: 'view_private',
-        //token: '',
-        //staminityToken: '0adebb13-c151-617a-dfa0-507caac750fd',
-        //startDate: '',
-        //scopePrefix: null,
-        //scopeDelimiter: null,
         state: 'mystate',
         oauthType: '2.0',
         /*popupOptions: null,*/
@@ -59,19 +92,6 @@ function configure(
             redirectUri: 'redirectUri'
         }
     });
-    /*$authProvider.facebook({
-        name: 'facebook',
-        url: '/auth/facebook',
-        authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
-        redirectUri: window.location.origin + '/',
-        requiredUrlParams: ['display', 'scope'],
-        appId: '660665060767427',
-        scope: ['email'],
-        scopeDelimiter: ',',
-        display: 'popup',
-        oauthType: '2.0',
-        popupOptions: { width: 580, height: 400 }
-    });*/
 
     $stateProvider
         .state('settings/user', <StateDeclaration>{
@@ -103,8 +123,8 @@ function configure(
                                     });
                             } else {
                                 athlete = null;
-                                message.systemWarning('needPermissions');
-                                throw 'need permissions';
+                                message.systemWarning('forbidden_InsufficientRights');
+                                throw 'forbidden_InsufficientRights';
                             }
                         }
                     }]

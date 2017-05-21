@@ -30,48 +30,48 @@
                              aria-label="More">more_vert</md-icon>
                 </md-button>
                 <md-menu-content>
-                    <md-menu-item><md-button>Добавить</md-button></md-menu-item>
+                    <md-menu-item>
+                        <md-button>
+                            <md-icon class="material-icons" md-menu-align-target>add_circle_outline</md-icon>
+                        Добавить</md-button></md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.onSelect(); $ctrl.checked = !$ctrl.checked">
+                            <md-icon class="material-icons" md-menu-align-target>{{!$ctrl.selected ? 'checkbox' : 'checkbox_outline_box'}}</md-icon>
                             {{!$ctrl.selected ? 'Выделить' : 'Снять выделение'}}
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.onDelete()">Удалить</md-button></md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.onPaste()">Вставить</md-button></md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.calendar.onDelete($ctrl.data.calendarItems)">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            Удалить</md-button></md-menu-item>
+                    <md-menu-item><md-button ng-click="$ctrl.calendar.onCopy()">
+                        <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                        Скопировать</md-button></md-menu-item>
+                    <md-menu-item ng-if="$ctrl.calendar.buffer.length > 0">
+                        <md-button ng-click="$ctrl.calendar.onPaste($ctrl.data.date)">
+                            <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
+                            Вставить ({{$ctrl.calendar.buffer.length}})</md-button>
+                    </md-menu-item>
                 </md-menu-content>
             </md-menu>
         </div>
     </section>
     <!-- day header: end -->
     <!-- calendar items: start -->
-    <section class="items" flex="auto" layout="column">
-        <div id="dayzone"
-             flex="100" layout-wrap
-             ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.calendarItemId"
-             ng-switch on="item.calendarItemType"
+    <section class="items" flex="auto" layout="column"
              dnd-list="items"
              dnd-allowed-types="['itemType']"
-             dnd-drop="$ctrl.calendar.onDropItem($ctrl.data.date, index, item)">
-
-            <calendar-activity ng-switch-when="activity"
-                               layout="column" flex="auto"
-                               item="item"
-                               selected="$ctrl.selected"
-                               dnd-draggable="item"
-                               dnd-type="'itemType'"
-                               dnd-effect-allowed="move"
-                               dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                               dnd-moved="$ctrl.calendar.onDeleteItem(item)">
-            </calendar-activity>
-
+             dnd-drop="$ctrl.onDrop($ctrl.data.date, index, item, type)">
+        <div flex="100" layout-wrap ng-switch on="item.calendarItemType" ng-switch on="item.calendarItemType"
+             ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index">
             <calendar-measurement ng-switch-when="measurement"
                                   layout="row" flex="auto"
                                   dnd-draggable="item"
                                   dnd-type="'itemType'"
                                   dnd-effect-allowed="copyMove"
-                                  dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                                  dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)"
+                                  dnd-dragstart="$ctrl.onDrag(event)"
+                                  dnd-copied="$ctrl.onCopied(item)"
+                                  dnd-moved="$ctrl.onMoved(item)"
                                   ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
                 <div flex="none">
                     <md-icon class="material-icons md-18" style="margin-right: 8px">straighten</md-icon>
@@ -103,8 +103,6 @@
                     </div>
                 </div>
             </calendar-measurement>
-
-
             <calendar-event ng-switch-when="event"
                             layout="column" flex="auto"
                             dnd-draggable="item"
@@ -132,7 +130,6 @@
                     <div flex="none">{{::item.eventHeader.eventType}}</div>
                 </div>
             </calendar-event>
-
             <calendar-competition ng-switch-when="competition"
                                   layout="column" flex="auto"
                                   dnd-draggable="item"
@@ -170,6 +167,16 @@
                 </div>
 
             </calendar-competition>
+            <calendar-activity ng-switch-when="activity"
+                               layout="column" flex="auto"
+                               item="item" selected="$ctrl.selected"
+                               dnd-draggable="item"
+                               dnd-type="'itemType'"
+                               dnd-effect-allowed="copyMove"
+                               dnd-dragstart="$ctrl.onDrag(event)"
+                               dnd-copied="$ctrl.onCopied(item)"
+                               dnd-moved="$ctrl.onMoved(item)"
+            </calendar-activity>
         </div>
     </section>
     <!-- calendar items: end -->

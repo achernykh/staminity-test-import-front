@@ -56,6 +56,7 @@ const calculateTotals = (items) => {
 
 class CalendarTotalCtrl {
     constructor(){
+        this.items = [];
 
         this.checked = false;
         this.total = {};
@@ -75,6 +76,12 @@ class CalendarTotalCtrl {
         this.weekTitle = moment(this.week.week,'YYYY-WW').week();
     }
 
+    onToggle() {
+        debugger;
+        this.selected = !this.selected;
+        this.week.subItem.forEach(day => day.selected = !day.selected);
+    }
+
     /*calculateTotals(item) {
         let sport = item.activityHeader.activityType.typeBasic;
         sport = (this.primarySport.indexOf(sport) !== -1 && sport) || 'other';
@@ -83,6 +90,11 @@ class CalendarTotalCtrl {
     $onChanges(changes){
 
         if(changes.update){
+
+            if(this.week.hasOwnProperty('subItem') && this.week.subItem && this.week.subItem.length > 0) {
+                this.week.subItem.forEach(day => day.data.calendarItems && day.data.calendarItems.lenght > 0 || this.items.push(...day.data.calendarItems));
+            }
+
             this.total = calculateCalendarTotals(this.week.subItem);/*
             let sport = null;
             let distance = 0, movingDuration = 0;
@@ -133,13 +145,15 @@ class CalendarTotalCtrl {
     }
 }
 
+CalendarTotalCtrl.$inject = ['$mdDialog'];
+
 export let CalendarTotal = {
     bindings: {
         week: '<',
         update: '<',
         selected: '<',
-        accent: '<',
-        onToggle: '&'
+        accent: '<'//,
+        //onToggle: '&'
     },
     require: {
         calendar: '^calendar'

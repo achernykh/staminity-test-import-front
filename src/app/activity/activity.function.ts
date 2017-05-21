@@ -10,6 +10,7 @@ export class MeasureChartData {
 
     public measuresX: Array<string> = ['distance', 'elapsedDuration'];
     public measuresY: Array<string> = ['heartRate', 'speed', 'power','altitude'];
+    private measuresSecondary: Array<string> = ['timestamp'];
 
     /**
      *
@@ -24,7 +25,7 @@ export class MeasureChartData {
         array = copy(this.measuresY);
         array.forEach(key => {
             if (this.details.measures.hasOwnProperty(key) &&
-                (!this.calcMeasure.hasOwnProperty(key) || (this.calcMeasure.hasOwnProperty(key) && this.calcMeasure[key].value > 0))) {
+                (this.calcMeasure.hasOwnProperty(key) && this.calcMeasure[key].value > 0)) {
                 this.measures[key] = this.details.measures[key];
                 this.measures[key]['show'] = true;
                 if(this.calcMeasure[key] && this.calcMeasure[key].hasOwnProperty('minValue')) {
@@ -47,6 +48,11 @@ export class MeasureChartData {
             } else {
                 this.measuresX.splice(this.measuresX.indexOf(key), 1);
             }
+        });
+
+        this.measuresSecondary.forEach(key => {
+            this.measures[key] = this.details.measures[key];
+            this.measures[key]['show'] = true;
         });
 
         this.details.metrics.forEach(info => {

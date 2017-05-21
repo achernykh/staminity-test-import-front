@@ -37,12 +37,15 @@
         <div ng-if="!$ctrl.item.activity.structured">
             <md-button ng-repeat="measure in $ctrl.chartData.measuresX track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartX(measure)">
-                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="md-dark"
+                         ng-class="{'md-inactive': $ctrl.chartX !== measure}"></md-icon>
                 <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
             <md-button ng-repeat="measure in $ctrl.chartData.measuresY track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartMetrics(measure)">
-                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+                <md-icon md-svg-src="assets/icon/{{measure}}.svg"
+                         ng-class="{'md-inactive': !$ctrl.chartData.measures[measure].show}"
+                         class="md-dark fill-measure {{measure}}"></md-icon>
                 <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
             <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
@@ -92,7 +95,7 @@
     <measure-split-table flex ng-if="$ctrl.showTable && $ctrl.item.activity.hasImportedData"
                          class="chart measure-split-table"
                          splits="$ctrl.item.activity.intervalL"
-                         max="$ctrl.maxValue"
+                         max="$ctrl.chartData.maxValue"
                          selected="$ctrl.item.selectedTimestamp"
                          sport="$ctrl.item.activity.sportBasic"
                          zones="$ctrl.item.user.trainingZones"

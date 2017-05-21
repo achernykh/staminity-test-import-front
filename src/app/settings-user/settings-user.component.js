@@ -436,7 +436,7 @@ class SettingsUserCtrl {
                 this._AuthService.setPassword(password)
                     .then((response) => {
                         console.log(response);
-                        this.message.toastInfo(response.title, response.status);
+                        this.message.toastInfo('setPasswordSuccess');
                     }, (error) => {
                         console.log(error);
                     })
@@ -452,19 +452,20 @@ class SettingsUserCtrl {
         this.dialogs.uploadPicture()
             .then(picture => this._UserService.postProfileAvatar(picture))
             .then(user => this.setUser(user))
+            .then(() => this.message.toastInfo('updateAvatar'))
             //.then(user => this.)
     }
 
     uploadBackground() {
         this.dialogs.uploadPicture()
             .then((picture) => this._UserService.postProfileBackground(picture))
-            .then((user) => {
-                this.user = user;
-                this.$scope.$apply();
-            })
+            .then(user => this.setUser(user))
+            .then(() => this.message.toastInfo('updateBackgroundImage'))
     }
 
 	toggleActivity (activity) {
+
+        this.personalSecondForm.$setDirty();
 		if (this.isActivityChecked(activity)) {
 			let index = this.user.personal.activity.indexOf(activity);
 			this.user.personal.activity.splice(index, 1);

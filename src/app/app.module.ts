@@ -20,6 +20,8 @@ import 'animate.css/animate.css';
 import 'angular-carousel/dist/angular-carousel.js';
 import 'angular-carousel/dist/angular-carousel.css';
 import * as ngTouch from 'angular-touch';
+import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
+import 'angularjs-scroll-glue/src/scrollglue.js';
 
 import run from './app.run';
 import configure from './app.config';
@@ -57,6 +59,8 @@ const root = module('staminity.application', [
 	toaster,
 	ngTouch,
 	'angular-carousel',
+	'dndLists',
+	'luegg.directives',
 
 	Core,
 	Share,

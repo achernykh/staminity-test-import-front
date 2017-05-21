@@ -27,7 +27,7 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0">
             <md-input-container class="md-block no-message" md-no-float>
-                <md-icon class="material-icons">tune</md-icon>
+                <md-icon class="material-icons" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
                 <md-select ng-model="$ctrl.item.activity.category" required=""
                            md-no-asterisk="false"
                            placeholder="Укажите категорию"
@@ -102,7 +102,7 @@
                     </tr>
                     </thead>
                     <tbody md-body>
-                    <tr md-row
+                    <tr md-row ng-if="$ctrl.showRow(measure.$key)"
                         ng-repeat="measure in $ctrl.plan | toArray | orderBy:'order' | filter:search track by measure.$key">
                         <td md-cell>
                             <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon>
@@ -171,6 +171,13 @@
                 </table>
             </md-table-container>
         </md-list-item>
+        <div class="md-caption error-block" ng-messages="$ctrl.form.$error" ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
+            <div ng-message="required">{{'activity.error.required' | translate}}</div>
+            <div ng-message="needDuration">{{'activity.error.needDuration' | translate}}</div>
+            <div ng-message="singleDuration">{{'activity.error.singleDuration' | translate}}</div>
+            <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
+            <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
+        </div>
         <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
             <md-input-container flex class="md-block no-message">
                 <md-icon class="material-icons">event_note</md-icon>

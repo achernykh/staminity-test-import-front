@@ -1,15 +1,34 @@
 import { IComponentOptions, IComponentController} from 'angular';
 import {IAuthService} from "../auth/auth.service";
+import {StateService} from 'angular-ui-router';
+import SessionService from "../core/session.service";
+import {IUserProfile} from "../../../api/user/user.interface";
+import { Observable } from 'rxjs/Observable';
 require('./landingpage.component.scss');
 
 class LandingPageCtrl implements IComponentController {
 
-	static $inject = ['AuthService'];
+	private profile$: Observable<IUserProfile>;
+	private user: IUserProfile;
 
-	constructor(private AuthService: IAuthService) { }
+	static $inject = ['AuthService','$state','SessionService'];
+
+	constructor(private AuthService: IAuthService,
+				private $state: StateService,
+				private SessionService: SessionService) {
+
+	}
 
 	$onInit() {
+		this.profile$ = this.SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
+	}
 
+	go() {
+		if(this.AuthService.isAuthenticated()) {
+			this.$state.go('calendar', {uri: this.user.public.uri});
+		} else {
+			this.$state.go('signup');
+		}
 	}
 
 }

@@ -90,7 +90,7 @@ export class SocketService implements ISocketService {
                 this.socket.readyState !== SocketStatus.Connecting)) {
 
                 console.log('SocketService: opening...');
-                this.socket = new WebSocket('ws://' + _connection.server + '/' + token);
+                this.socket = new WebSocket(_connection.protocol.ws + _connection.server + '/' + token);
                 this.socket.addEventListener('message', this.response.bind(this));
                 this.socket.addEventListener('close', this.close.bind(this)); //reopen?
                 this.socket.addEventListener('error', this.reopen.bind(this));

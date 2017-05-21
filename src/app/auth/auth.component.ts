@@ -12,14 +12,14 @@ class AuthCtrl implements IComponentController {
 	private credentials: Object = null;
 	private passwordStrength: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-	static $inject = ['AuthService','SessionService','$state','$location', 'message'];
+	static $inject = ['AuthService','SessionService','$state','$location', 'message', '$auth'];
 
 	constructor(
 		private AuthService: any,
 		private SessionService: SessionService,
 		private $state: StateService,
 		private $location: ILocationService,
-		private message: IMessageService) {
+		private message: IMessageService, private $auth: any) {
 	}
 
 	$onInit() {
@@ -97,6 +97,24 @@ class AuthCtrl implements IComponentController {
 				this.showConfirm = true;
 				this.message.systemSuccess(message.title);
 			}, error => this.message.systemWarning(error));
+	}
+
+	OAuth(provider:string) {
+		this.$auth.link(provider, {
+            internalData: {
+                postAsExternalProvider: false,
+                provider: provider
+            }
+        }).then((data:{userProfile: IUserProfile, systemFunctions: any}) => {
+			this.$state.go('calendar',{uri: data.userProfile.public.uri});
+			debugger;
+		}, error => {
+			this.message.systemError(error);
+			debugger;
+		}).catch(response => {
+			this.message.systemError(response);
+			debugger;
+		});
 	}
 
 }

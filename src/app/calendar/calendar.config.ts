@@ -7,8 +7,6 @@ import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service";
 import SessionService from "../core/session.service";
 
-
-
 function configure($stateProvider:StateProvider,
                    $translateProvider:any) {
 
@@ -42,7 +40,7 @@ function configure($stateProvider:StateProvider,
                                     });
                             } else {
                                 athlete = null;
-                                message.systemWarning('needPermissions');
+                                message.systemWarning('forbidden_InsufficientRights');
                                 throw 'need permissions';
                             }
                         }

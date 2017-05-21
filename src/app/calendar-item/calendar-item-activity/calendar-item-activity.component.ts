@@ -271,6 +271,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.CalendarService.postItem(this.activity.build())
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('activityCreated');
                     this.onAnswer({response: {type:'post', item:this.activity.build()}});
                 }, error => this.message.toastError(error));
         }
@@ -278,6 +279,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.CalendarService.putItem(this.activity.build())
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
+                    this.message.toastInfo('activityUpdated');
                     this.onAnswer({response: {type:'put',item:this.activity.build()}});
                 }, error => this.message.toastError(error));
         }
@@ -285,8 +287,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     onDelete() {
         this.CalendarService.deleteItem('F', [this.activity.calendarItemId])
-            .then((response)=> this.onAnswer({response: {type:'delete',item:this.activity.build()}}),
-                error => this.message.toastError(error));
+            .then((response)=> {
+                this.onAnswer({response: {type:'delete',item:this.activity.build()}});
+                this.message.toastInfo('activityDeleted');
+            },  error => this.message.toastError(error));
     }
 
 	/**

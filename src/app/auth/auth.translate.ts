@@ -13,6 +13,9 @@ export let _translate = {
 		errPass: 'Пароль должен быть не менее 8 символов и содержать хотя бы одну цифру и заглавную букву',
 		confirmation: "Я принимаю <a href='https://legal.staminity.com/ru/license.html'>Публичную оферту</a> и соглашаюсь с <a href='https://legal.staminity.com/ru/terms.html'>Условиями использования</a> сайта.<br>",
 
+		socialText: 'Через социальные сети:',
+		socialOr: 'или',
+
 		// Окно регистрации / создания нового пользователя
 		signup: {
 			fullTitle: 'Регистрация нового пользователя',

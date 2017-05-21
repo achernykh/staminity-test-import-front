@@ -476,6 +476,7 @@ class ActivityChartController implements IComponentController {
         };
 
         let endSelection = function (endPos: number): void {
+            debugger;
             self.$interactiveArea.attr("cursor", "default");
             if (!self.state.inSelection) {
                 return;
@@ -911,7 +912,7 @@ class ActivityChartController implements IComponentController {
         }
     }
 
-    // create new svg gradien based on provided gradient points and max area height
+    // create new svg gradient based on provided gradient points and max area height
     private getGradient(gradientPoints: Array<IGradientPoint>, heightRation: number): string {
         let index = "lnrGradient" + this.gradientId;
         this.gradientId = this.gradientId + 1;
@@ -924,7 +925,8 @@ class ActivityChartController implements IComponentController {
             .data(gradientPoints)
             .enter().append("stop")
             .attr("offset", function (d) { return d.offset; })
-            .attr("stop-color", function (d) { return d.color; });
+            .attr("stop-color", function (d) { return d.color; })
+            .attr("stop-opacity", function (d) { return d.opacity; }); // fix for Safari
         return index;
     };
 }

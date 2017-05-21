@@ -41,7 +41,7 @@ export class PostData implements IPostDataRequest {
 
 	constructor(type:string, data:any) {
 		this.method = 'POST';
-		this.url = 'http://' + _connection.server + type;
+		this.url = _connection.protocol.rest + _connection.server + type;
 		this.headers = {
 			'Authorization': 'Bearer '
 		};
@@ -66,7 +66,7 @@ export class PostFile implements IPostFileRequest {
 
 	constructor(type:string, file:any) {
 		this.method = 'POST';
-		this.url = 'http://' + _connection.server + type;
+		this.url = _connection.protocol.rest + _connection.server + type;
 		this.headers = {
 			'Authorization': 'Bearer ',
 			'Content-Type': undefined

@@ -4,7 +4,9 @@ export const translateDashboard = {
         shortTitle: 'Атлеты',
         today: 'Сегодня',
         compact: 'Компактный режим',
-        details: 'Подробный режим'
+        details: 'Подробный режим',
+        calendar: 'Календарь',
+        settings: 'Настройки'
     },
     en: {}
 };

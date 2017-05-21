@@ -40,7 +40,7 @@
                             <form flex="none" layout="column" class="start" name="startForm">
                                 <md-button flex='none' class="md-raised md-primary"
                                            ng-disabled = "!startForm.$valid"
-                                           type="submit" name="start"
+                                           type="submit" name="start" ng-click="$ctrl.go()"
                                            translate="landing.start.action"></md-button>
                                 <div class="note md-body"
                                      translate="landing.start.note"></div>
@@ -104,12 +104,12 @@
                     <h3 flex="none" class="md-headline" translate="landing.devices.subtitle"></h3>
                     <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
                         <div flex="none" flex-gt-sm="50" layout="column" layout-align="start center" layout-padding class="center">
-                            <div flex="none" style="height: 200px; width: 200px; margin: 36px">Картинка #1</div>
+                            <img flex="none" width="100%" src="/assets/picture/lp-devices-01.png">
                             <h4 flex="none" class="md-title" translate="landing.devices.desktop.title"></h4>
                             <div flex="none" class="md-body info" translate="landing.devices.desktop.description"></div>
                         </div>
                         <div flex="none" flex-gt-sm="50" layout="column" layout-align="start center" layout-padding class="center">
-                            <div flex="none" style="height: 200px; width: 200px; margin: 36px">Картинка #2</div>
+                            <img flex="none" width="100%" src="/assets/picture/lp-devices-02.png">
                             <h4 flex="none" class="md-title" translate="landing.devices.mobile.title"></h4>
                             <div flex="none" class="md-body info" translate="landing.devices.mobile.description"></div>
                         </div>
@@ -125,20 +125,20 @@
                     <h3 flex="none" class="md-headline" translate="landing.scheme.subtitle"></h3>
                     <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
                         <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
-                            <div flex="none" style="height: 150px; width: 150px; margin: 36px">Картинка #1</div>
-                            <div flex="none" class="step-number">1</div>
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-01.png">
+                            <div flex="none" class="step-number md-title md-dark">1</div>
                             <h4 flex="none" class="md-title" translate="landing.scheme.step1.title"></h4>
                             <div flex="none" class="md-body info" translate="landing.scheme.step1.description"></div>
                         </div>
                         <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
-                            <div flex="none" style="height: 150px; width: 150px; margin: 36px">Картинка #2</div>
-                            <div flex="none" class="step-number">2</div>
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-02.png">
+                            <div flex="none" class="step-number md-title md-dark">2</div>
                             <h4 flex="none" class="md-title" translate="landing.scheme.step2.title"></h4>
                             <div flex="none" class="md-body info" translate="landing.scheme.step2.description"></div>
                         </div>
                         <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
-                            <div flex="none" style="height: 150px; width: 150px; margin: 36px">Картинка #2</div>
-                            <div flex="none" class="step-number">3</div>
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-03.png">
+                            <div flex="none" class="step-number md-title md-dark">3</div>
                             <h4 flex="none" class="md-title" translate="landing.scheme.step3.title"></h4>
                             <div flex="none" class="md-body info" translate="landing.scheme.step3.description"></div>
                         </div>
@@ -188,8 +188,8 @@
             <ul rn-carousel rn-carousel-auto-slide class="carousel-block gradient-03">
                 <li>
                     <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                        <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center" style="height: 450px; background: mediumvioletred">
-                            Картинка №1
+                        <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-user-01.png">
                         </div>
                         <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="center">
                             <h2 flex="none" class="md-title" translate="landing.athletes.carousel1.title"></h2>
@@ -199,8 +199,8 @@
                 </li>
                 <li>
                     <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                        <div flex="none" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center" style="height: 350px; background: deepskyblue">
-                            Картинка №2
+                        <div flex="none" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-user-02.png">
                         </div>
                         <div flex="none" flex-order="1" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="center">
                             <h2 flex="none" class="md-title" translate="landing.athletes.carousel2.title"></h2>
@@ -210,8 +210,8 @@
                 </li>
                 <li>
                     <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                        <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center" style="height: 550px; background: greenyellow">
-                            Картинка №3
+                        <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-user-03.png">
                         </div>
                         <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="center">
                             <h2 flex="none" class="md-title" translate="landing.athletes.carousel3.title"></h2>

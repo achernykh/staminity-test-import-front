@@ -68,4 +68,30 @@ search {
     overflow: auto;
   }
 
+  tr.md-row:hover {
+    background-color: $grey-200;
+    cursor: pointer;
+  }
+
+  tr.md-row:focus {
+    outline: none;
+  }
+
+  tbody tr {
+    height: 56px;
+  }
+
+  th.user-name {
+    width: 200px;
+    min-width: 200px;
+  }
+
+  th.sport {
+    width: 150px;
+  }
+
+  span.user-name {
+    //word-wrap: no;
+  }
+
 }

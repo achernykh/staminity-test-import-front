@@ -169,6 +169,10 @@ calendar {
     z-index: 65;
   }
 
+  /*div.calendar-week calendar-day:nth-child(7) {
+    border-right: 1px solid #BDBDBD;
+  }*/
+
 }
 
 
@@ -242,34 +246,6 @@ calendar {
 .calendar__week.ng-enter.ng-enter-active,
 .calendar__week.ng-move.ng-move-active {
   opacity: 1;
-}
-
-#dayzone[dnd-list] {
-  //min-height: 50px;
-  -padding-left: 0px;
-}
-
-#dayzone[dnd-list] .dndDraggingSource {
-  display: none;
-}
-
-#dayzone[dnd-list] .dndPlaceholder {
-  display: block;
-  margin: 6px 6px 0px 6px;
-  border-radius: 3px;
-  -background-color: #ddd !important;
-  @extend .bg-blue-grey-100;
-  min-height: 100px;
-}
-
-#dayzone[dnd-list] {
-  -background-color: #fff;
-  -border: 1px solid #ddd;
-  -border-top-right-radius: 4px;
-  -border-top-left-radius: 4px;
-  display: block;
-  -padding: 10px 15px;
-  -margin-bottom: -1px;
 }
 
 /*.segment-list {

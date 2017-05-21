@@ -1,8 +1,8 @@
 import './search.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import {SearchService} from "./search.service";
 import {SearchParams, SearchResultByUser, SearchMethod} from "../../../api/search/search.interface";
-import IScope = angular.IScope;
+import {_connection} from "../core/api.constants";
 
 class SearchCtrl implements IComponentController {
 
@@ -10,7 +10,7 @@ class SearchCtrl implements IComponentController {
     public readonly method:SearchMethod = 'byParams';
 
     public params: SearchParams = {objectType: 'user'};
-    public type: Array<string> = ['user','coach','club','group'];
+    public type: Array<string> = ['user','coach'];//,'club','group'];
     public result: Array<SearchResultByUser>;
 
     public options:Object = {
@@ -33,6 +33,15 @@ class SearchCtrl implements IComponentController {
 
     $onInit() {
 
+    }
+
+    onDetails(uri:string, url: string = `${_connection.protocol.rest}${_connection}`) {
+        switch (this.params.objectType) {
+            case 'user': case 'coach': {
+                let win = window.open(`${url}user/${uri}`, '_blank');
+                win.focus();
+            }
+        }
     }
 
     onSearch(params: SearchParams) {
