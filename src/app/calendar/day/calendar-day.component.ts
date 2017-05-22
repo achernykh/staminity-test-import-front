@@ -1,39 +1,54 @@
 import './calendar-day.component.scss';
-import moment from 'moment/src/moment';
+import moment from 'moment/src/moment.js';
 import * as angular from 'angular';
+import {IMessageService} from "../../core/message.service";
+import ActivityService from "../../activity/activity.service";
+import {CalendarService} from "../calendar.service";
+import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
+import {CalendarCtrl, ICalendarDayData} from "../calendar.component";
 
 class CalendarDayCtrl {
-    constructor($mdDialog,message, ActivityService, CalendarService, $scope){
-        this.$mdDialog = $mdDialog;
-        this.message = message;
-        this.ActivityService = ActivityService;
-        this.CalendarService = CalendarService;
-        this.$scope = $scope;
+
+    today: any;
+    data: ICalendarDayData;
+    selected: boolean;
+    calendar: CalendarCtrl;
+
+    static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs'];
+
+    constructor(
+        private $mdDialog: any,
+        private message: IMessageService,
+        private ActivityService: ActivityService,
+        private CalendarService: CalendarService,
+        private $scope: IScope,
+        private dialogs: any){
+
     }
+
     $onInit(){
 	    let diff = moment().diff(moment(this.data.date),'days',true);
         this.today = diff >= 0 && diff < 1;
     }
+
+    onSelect() {
+        this.selected = !this.selected;
+    }
+
     onDelete(){
-        "use strict";
-        let items = this.data.calendarItems;
-        console.log('CalendarDay: onDelete items=', items, this.data);
-        //for (let item of items) {
-
-            this.calendar.onDeleteItem(this.data.calendarItems);
-        //}
-
+        this.dialogs.confirm('deletePlanActivity')
+            .then(()=>this.calendar.onDelete(this.data.calendarItems),()=>{});
     }
     onPaste(){
-        this.calendar.onPasteDay(this.data.date)
+        //this.calendar.onPasteDay(this.data.date)
     }
     onCopy(){
-        this.calendar.onCopyItem(this.data.calendarItems)
+        //this.calendar.onCopyItem(this.data.calendarItems)
     }
 
     onOpen($event, type, data) {
 
-        if(type === 'measurement')
+        if(type === 'measurement'){
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
@@ -55,26 +70,8 @@ class CalendarDayCtrl {
                 escapeToClose: true,
                 fullscreen: true
 
-            })
-                .then(response => {
-                    console.log('user close dialog with =', response)
-
-                    // При изменение записи сначала удаляем старую, потом создаем новую
-                    if(response.type == 'put'){
-                        //this.calendar.onDeleteItem(data)
-                        //this.calendar.onPostItem(response.item)
-                        //this.messagemessage.toastInfo('Изменения сохранены')
-                    }
-
-                    if(response.type == 'delete') {
-                        //this.calendar.onDeleteItem(response.item)
-                        //this.message.toastInfo('Запись удалена')
-                    }
-
-
-                }, ()=> {
-                    console.log('user cancel dialog, data=',data)
-                })
+            }).then(response => {}, ()=> {});
+        }
     }
 
     newActivity($event, data){
@@ -97,24 +94,11 @@ class CalendarDayCtrl {
                 date: new Date(data.date), // дата дня в формате ГГГГ-ММ-ДД
                 user: this.calendar.user
             },
-            //resolve: {
-            //    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
-            //        .then(response => response, error => console.error(error))
-            //},
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: false,
             fullscreen: true
-        })
-            .then(response => {
-                if(response.type === 'post') {
-                    console.log('save activity', response);
-                    //this.calendar.onPostItem(response.item);
-                    //this.message.toastInfo('Создана новая запись');
-                }
-            }, ()=> {
-                console.log('user cancel dialog')
-            })
+        }).then(response => {}, ()=>{});
     }
 
     newMeasurement($event, data){
@@ -138,17 +122,7 @@ class CalendarDayCtrl {
             clickOutsideToClose: true,
             escapeToClose: true,
             fullscreen: true
-
-        })
-            .then(response => {
-                if(response.type == 'post') {
-                    //this.calendar.onPostItem(response.item)
-                    //this.message.toastInfo('Создана новая запись')
-                }
-
-            }, ()=> {
-                console.log('user cancel dialog')
-            })
+        }).then(response => {}, ()=> {});
     }
 
     newWeekend($event, data) {
@@ -172,13 +146,7 @@ class CalendarDayCtrl {
             escapeToClose: true,
             fullscreen: true
 
-        })
-            .then(response => {
-                console.log('user close dialog with =', response)
-
-            }, () => {
-                console.log('user cancel dialog, data=', data)
-            })
+        }).then(response => {}, () => {});
     }
 
 
@@ -187,7 +155,6 @@ class CalendarDayCtrl {
         item.dateStart = new Date(date);
         item.dateEnd = new Date(date);
         this.CalendarService.postItem(item)
-            //.then(() => this.CalendarService.deleteItem('F',[item.calendarItemId]))
             .then(() => {}, error => this.message.toastError(error));
         return item;
     }
@@ -205,13 +172,12 @@ class CalendarDayCtrl {
         console.info('dnd moved event', item);
         this.message.toastInfo('activityMoved');
         this.CalendarService.deleteItem('F',[item.calendarItemId])
-            .then(() => {}, error => this.message.toastError(error))
+            .then(() => {}, error => this.message.toastError(error));
     }
 
 }
-CalendarDayCtrl.$inject = ['$mdDialog','message', 'ActivityService', 'CalendarService', '$scope'];
 
-export let CalendarDay = {
+const CalendarDayComponent: IComponentOptions = {
     bindings: {
         data: '<',
         selected: '<',
@@ -222,10 +188,10 @@ export let CalendarDay = {
         calendar: '^calendar'
     },
     controller: CalendarDayCtrl,
-    template: require('./calendar-day.component.html')
+    template: require('./calendar-day.component.html') as string
 };
 
-export default CalendarDay;
+export default CalendarDayComponent;
 
 function DialogController($scope, $mdDialog) {
     $scope.hide = function() {

@@ -37,20 +37,22 @@ export interface ICalendarDay {
     key: string; // формат дня в формате YYYY.MM.DD
     selected: boolean; // индикатор выбора дня
     date: string;// формат дня в формате YYYY.MM.DD
-    data: {
-        title: string; // день в формате DD
-        month: string; // месяц в формате MMM
-        day: string; // день в формате dd
-        date: string; // день в формате YYYY.MM.DD
-        calendarItems: Array<ICalendarItem>; // записи календаря
-    };
+    data: ICalendarDayData;
+}
+
+export interface ICalendarDayData {
+    title: string; // день в формате DD
+    month: string; // месяц в формате MMM
+    day: string; // день в формате dd
+    date: string; // день в формате YYYY.MM.DD
+    calendarItems: Array<ICalendarItem>; // записи календаря
 }
 
 export class CalendarCtrl implements IComponentController{
 
     static $inject = ['$scope', '$mdDialog', '$rootScope', '$anchorScroll','$location','message',
-        'CalendarService','SessionService'];
-    private user: IUserProfile; //
+        'CalendarService','SessionService','dialogs'];
+    public user: IUserProfile; //
     private weekdayNames: Array<string> = [];
     private buffer: Array<ICalendarItem> = [];
     private firstSrcDay: string;
@@ -59,7 +61,7 @@ export class CalendarCtrl implements IComponentController{
     private range: Array<number> = [0, 1];
     private calendar: Array<ICalendarWeek> = [];
     private currentWeek: ICalendarWeek;
-    private currentUser: IUserProfile;
+    public currentUser: IUserProfile;
 
     constructor(
         private $scope: IScope,
@@ -69,7 +71,8 @@ export class CalendarCtrl implements IComponentController{
         private $location: ILocationService,
         private message: IMessageService,
         private CalendarService: CalendarService,
-        private session: ISessionService) 
+        private session: ISessionService,
+        private dialogs: any)
     {
         (<any>window).c = this;
         let date = moment($location.hash());
@@ -442,7 +445,7 @@ export class CalendarCtrl implements IComponentController{
         let p = this.calendar[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
 
         console.log('onDeleteItem', w,d,p,item,this.calendar);
-        if (w && d && p !== -1) {
+        if (w && d >= 0 && p !== -1) {
             this.calendar[w].subItem[d].data.calendarItems.splice(p,1);
             this.calendar[w].changes++;
         }
@@ -505,10 +508,13 @@ export class CalendarCtrl implements IComponentController{
 
         debugger;
 
-        this.CalendarService.deleteItem('F',
-            (selected && selected.length > 0) ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
-            .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))
-            .then(()=> this.clearBuffer());
+        this.dialogs.confirm('deletePlanActivity')
+            .then(() => this.CalendarService.deleteItem('F',
+                (selected && selected.length > 0) ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
+                .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))
+                .then(()=> this.clearBuffer()));
+
+        ;
     }
 
     clearBuffer() {
@@ -523,7 +529,7 @@ export class CalendarCtrl implements IComponentController{
 
 }
 
-const Calendar: IComponentOptions = {
+const CalendarComponent: IComponentOptions = {
     bindings: {
         view: '<',
         user: '<'
@@ -532,7 +538,7 @@ const Calendar: IComponentOptions = {
     controller: CalendarCtrl,
     template: require('./calendar.component.html') as string
 };
-export default Calendar;
+export default CalendarComponent;
 
 function DialogController($scope, $mdDialog) {
     $scope.hide = function() {

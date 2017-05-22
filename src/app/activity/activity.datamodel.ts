@@ -130,11 +130,11 @@ export class Activity extends CalendarItem {
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
-	private hasImportedData: boolean = false;
+	public hasImportedData: boolean = false;
 	private peaks: Array<any>;
 	private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
 	public details: IActivityDetails;
-	private actualDataIsImported: boolean = false;
+	public actualDataIsImported: boolean = false;
     private _startDate: Date;
 
 	constructor(private item: ICalendarItem){

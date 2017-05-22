@@ -8,21 +8,22 @@ const babelify      = require('babelify');
 const ngAnnotate    = require('browserify-ngannotate');
 const sass          = require('gulp-sass');
 const autoprefixer  = require('gulp-autoprefixer');
-const browserSync   = require('browser-sync').create();
+//const browserSync   = require('browser-sync').create();
 const server        = require('gulp-server-livereload');
 const rename        = require('gulp-rename');
 const templateCache = require('gulp-angular-templatecache');
 const uglify        = require('gulp-uglify');
 const merge         = require('merge-stream');
-const sftp_new      = require('gulp-sftp-new');
+//const sftp_new      = require('gulp-sftp-new');
 const gutil         = require('gulp-util');
-const ftp           = require('gulp-ftp');
+//const ftp           = require('gulp-ftp');
 const imagemin      = require('gulp-imagemin');
 const cssmin        = require('gulp-cssmin');
 const open          = require('gulp-open');
 const template      = require('gulp-template');
 const gulpif        = require('gulp-if');
 const order         = require("gulp-order");
+const ftp           = require('vinyl-ftp' );
 
 // Get/set letiables
 const config = require('./gulp.config');
@@ -288,13 +289,20 @@ gulp.task('ftp', () => {
     'use strict';
     let trg = gutil.env['trg'];
     let scope = gutil.env['scope'];
+    let conn = ftp.create(pass[trg]);
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);
 
     return gulp
-        .src([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'], {base: trg+'/'})
+        .src([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'], {base: trg+'/', buffer: false})
         .pipe(order([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html']))
-        .pipe(ftp(pass[trg]));
+        //.pipe( conn.newer( '/public_html' )) // only upload newer files
+        .pipe( conn.dest('/'));
+
+    /*return gulp
+        .src([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'], {base: trg+'/', buffer: false})
+        .pipe(order([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html']))
+        .pipe(ftp(pass[trg]));*/
         /**.pipe(gulpif(scope === 'full',
             gulp.src([trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**'])
                 .pipe(ftp(pass[trg]))));**/
