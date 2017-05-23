@@ -77,7 +77,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
 
-    static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','AuthService','message','$mdMedia'];
+    static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','AuthService',
+        'message','$mdMedia','dialogs'];
 
     constructor(
         private $scope: IScope,
@@ -87,7 +88,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private ActivityService: ActivityService,
         private AuthService: IAuthService,
         private message: IMessageService,
-        private $mdMedia: any) {
+        private $mdMedia: any,
+        private dialogs: any) {
 
     }
 
@@ -286,11 +288,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onDelete() {
-        this.CalendarService.deleteItem('F', [this.activity.calendarItemId])
-            .then((response)=> {
-                this.onAnswer({response: {type:'delete',item:this.activity.build()}});
-                this.message.toastInfo('activityDeleted');
-            },  error => this.message.toastError(error));
+        this.dialogs.confirm(this.activity.hasImportedData ? 'deleteActualActivity' :'deletePlanActivity')
+            .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId])
+                .then((response)=> {
+                    this.onAnswer({response: {type:'delete',item:this.activity.build()}});
+                    this.message.toastInfo('activityDeleted');
+                }, error => this.message.toastError(error)));
     }
 
 	/**

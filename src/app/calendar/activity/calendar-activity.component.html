@@ -50,9 +50,24 @@
                     <md-icon class="material-icons md-18">more_vert</md-icon>
                 </md-button>
                 <md-menu-content>
-                    <md-menu-item><md-button ng-click="$ctrl.onOpen($env,'put')">Изменить</md-button></md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.isCreator">Удалить</md-button></md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.onOpen($env,'put')">
+                            <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+                            Изменить
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.onCopy()">
+                            <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                            Скопировать
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.isCreator">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            Удалить
+                        </md-button>
+                    </md-menu-item>
                 </md-menu-content>
             </md-menu>
         </div>

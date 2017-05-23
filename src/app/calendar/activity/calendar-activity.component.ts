@@ -1,31 +1,38 @@
 import './calendar-activity.component.scss';
-import moment from 'moment/src/moment';
+import moment from 'moment/src/moment.js';
 import {Activity} from '../../activity/activity.datamodel';
+import {IMessageService} from "../../core/message.service";
+import ActivityService from "../../activity/activity.service";
+import {CalendarService} from "../calendar.service";
+import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
+import {CalendarCtrl, ICalendarDayData} from "../calendar.component";
 
 class CalendarActivityCtrl {
-    constructor($scope, $mdDialog, ActivityService,MessageService, CalendarService) {
-        this.$scope = $scope;
-        this.$mdDialog = $mdDialog;
-        this.ActivityService = ActivityService;
-        this.message = MessageService;
-        this.CalendarService = CalendarService;
-        //this.status = 'new';
-        /**
-         * Нижняя панель тренировки
-         * @type {string} - 'prescription' - установка тренера, 'data' - перечень фактических показателей для
-         * неструктурированной тренировки, 'segmentList' - перечень сегементов структурированной тренировки
-         */
-        //this.bottomPanel = null;
-        // Для сводный данных по трениовке
-        //this.data = {};
-        //this.structured = null;
-        //this.planned = null;
-        //this.completed = null;
-        this.segmentList = [];
-        this.segmentListSize = null;
-        this.segmentChart = [];
-        this.collapse = {show: true};
-        this.bottomPanelData = null;
+
+    calendar: CalendarCtrl;
+    item: any;
+    selected: boolean;
+    accent: boolean;
+
+    data: Activity;
+    isCreator: boolean = false;
+    structured: boolean;
+    segmentList: Array<any> = [];
+    segmentListSize: number = null;
+    segmentChart: Array<any> = [];
+    collapse: {show:boolean} = {show: true};
+    bottomPanelData: any = null;
+
+    static $inject = ['$scope','$mdDialog','ActivityService', 'message', 'CalendarService','dialogs'];
+
+    constructor(
+        private $scope: IScope,
+        private $mdDialog: any,
+        private ActivityService: ActivityService,
+        private message: IMessageService,
+        private CalendarService: CalendarService,
+        private dialogs: any){
+
     }
 
     $onInit() {
@@ -33,11 +40,11 @@ class CalendarActivityCtrl {
         this.data.prepare();
         this.isCreator = this.data.userProfileCreator.userId === this.calendar.currentUser.userId;
         //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
-        if (this.data.bottomPanel === 'data')
-            this.bottomPanelData = this.data.summaryAvg
+        if (this.data.bottomPanel === 'data') {
+            this.bottomPanelData = this.data.summaryAvg;
+        }
 
         this.segmentChart = this.data.formChart();
-        //console.log('CalendarActivityCtrl $onInit, summaryAvg=', this.data.summaryAvg)
         /**
          * Формат отображения тренировке в календаре зависит от нескольких параметров: 1) дата тренировки 2) факт
          * выполнения тренировки 3) наличие тренировочных сегментов (структурированная тренировка).
@@ -56,23 +63,23 @@ class CalendarActivityCtrl {
         //this.planned = moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'), 'd') < 1;
 
 
-        if (this.structured) {
+        if (this.data.structured) {
             let comulativeDuration = 0;
-            for (let interval of this.item.activityHeader.intervals) {
+            for (let interval of this.data.activityHeader.intervals) {
                 // Собираем лист сегментов
                 // Если интервал является плановым сегментов или группой, то формируем лист сегментов
-                if (interval.type == 'P' || interval.type == 'G') {
-                    this.prepareSegmentList((interval.type == 'G'), interval);
+                if (interval.type === 'P' || interval.type === 'G') {
+                    this.prepareSegmentList((interval.type === 'G'), interval);
 
                 }
                 // Собираем график сегментов
-                if (interval.type == 'P') {
+                if (interval.type === 'P') {
                     comulativeDuration = this.prepareSegmentChart(interval, comulativeDuration);
                 }
-                if (interval.type == 'pW') {
+                if (interval.type === 'pW') {
                     // TODO Добавить функцию вычисления номера зоны по значению показателя
-                    this.intensityMeasure = interval.intensityMeasure;
-                    this.intensityFtpMax = (interval.intensityFtpMax / 10).toFixed(0);
+                    //this.intensityMeasure = interval.intensityMeasure;
+                    //this.intensityFtpMax = (interval.intensityFtpMax / 10).toFixed(0);
                 }
 
             }
@@ -83,7 +90,7 @@ class CalendarActivityCtrl {
                     item[0] = item[0] / comulativeDuration;
                     item[1] = item[1] / 100;
                     return item;
-                })
+                });
             }
 
             /**
@@ -142,73 +149,6 @@ class CalendarActivityCtrl {
                 //console.log('CalendarItem: $onInit',this.segmentList, this.calculateSegmentListSize(this.segmentList));
             }
         }
-
-
-        // Определеяем статус выполнения задания
-        /**if (moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'), 'd') >= 1) {
-            // Задание в прошлом
-            let complete = false;
-            for (let interval of this.item.activityHeader.intervals) {
-                if (interval.type == 'W') {
-                    complete = true;
-                    this.bottomPanel = 'data';
-                    if (interval.calcMeasures.hasOwnProperty('movingDuration'))
-                        this.data.duration = moment().startOf('day').second(interval.calcMeasures.movingDuration.maxValue).format('H:mm:ss');
-                    if (interval.calcMeasures.hasOwnProperty('distance'))
-                        this.data.distance = (interval.calcMeasures.distance.maxValue).toFixed(2);
-                    this.data.statusPercent = interval.calcMeasures.completePercent.value;
-
-                    // Набор данных по видам спорта
-                    if (interval.calcMeasures.hasOwnProperty('speed'))
-                        this.data.speedAvg = interval.calcMeasures.speed.avgValue.toFixed(0);
-                    if (interval.calcMeasures.hasOwnProperty('heartRate'))
-                        this.data.heartRateAvg = interval.calcMeasures.heartRate.avgValue.toFixed(0);
-                    if (interval.calcMeasures.hasOwnProperty('power'))
-                        this.data.powerAvg = interval.calcMeasures.power.avgValue.toFixed(0);
-
-                    if (!this.planned)
-                    // Заадние выполнено без плана
-                        this.status = 'noplan'
-                    else if (this.data.statusPercent > 75)
-                    // Задание выполнено
-                        this.status = 'complete';
-                    else if (this.data.statusPercent > 50)
-                    // Задание выполнено, но с отклонением
-                        this.status = 'complete warn';
-                    else
-                    // Задание выполнено c существенными отклонениями
-                        this.status = 'complete error';
-
-                }
-                if (interval.type == 'pW') {
-                    // TODO Добавить функцию вычисления номера зоны по значению показателя
-                    this.intensityMeasure = interval.intensityMeasure;
-                    this.intensityFtpMax = (interval.intensityFtpMax / 10).toFixed(0);
-                }
-            }
-            if (!complete) {
-                // задание не выполнено
-                this.status = 'dismiss';
-            }
-        } else {
-            // задание в будущем
-            this.bottomPanel = 'prescription';
-            this.status = 'planned';
-            for (let interval of this.item.activityHeader.intervals) {
-                if (interval.type == 'pW') {
-                    //complete = true;
-                    this.data.duration = moment().startOf('day').second(interval.calcMeasures.movingDuration.value).format('H:mm:ss');
-                    this.data.distance = (interval.calcMeasures.distance.value).toFixed(2);
-                    this.trainersPrescription = interval.trainersPrescription;
-                }
-            }
-        }
-
-         if (this.structured) {
-            this.bottomPanel = 'segmentList';
-            //console.info('segmentChart', JSON.stringify(this.segmentChart));
-        }
-         console.log('calendar activity =', this.item, this.data, this.bottomPanel, this.status, this.structured)*/
     }
 
     $onChanges(changes) {
@@ -235,19 +175,24 @@ class CalendarActivityCtrl {
             if (interval.hasOwnProperty('parentGroupCode')) {
                 // Если значение не null
                 if (!!interval.parentGroupCode) {
-                    if (interval.repeatOrderIdx != 0)
+                    if (interval.repeatOrderIdx !== 0) {
                         return;
+                    }
                     // Ищем запись группы
                     let code = this.segmentList.map((int) => int.code || null).indexOf(interval.parentGroupCode);
                     // Если группа найдена
-                    if (code != -1)
+                    if (code !== -1) {
                         this.segmentList[code].subItem.push(interval);
-                } else
-                // Если значение null, то одиночный интервал без группы
+                    }
+                } else {
+                    // Если значение null, то одиночный интервал без группы
                     this.segmentList.push(interval);
-            } else
-            // если одиночный интервал, без группы
-                this.segmentList.push(interval)
+                }
+            } else{
+                // если одиночный интервал, без группы
+                this.segmentList.push(interval);
+            }
+
         }
         // Если интервал является группой
         else {
@@ -298,10 +243,15 @@ class CalendarActivityCtrl {
 
     getBullet(first, middle, last) {
         let icon;
-        if (first) icon = `assets/icon/bullet_first.svg`;
-        if (middle) icon = `assets/icon/bullet_middle.svg`;
-        if (last) icon = `assets/icon/bullet_last.svg`;
-
+        if (first) {
+            icon = `assets/icon/bullet_first.svg`;
+        }
+        if (middle) {
+            icon = `assets/icon/bullet_middle.svg`;
+        }
+        if (last) {
+            icon = `assets/icon/bullet_last.svg`;
+        }
         return icon;
     }
 
@@ -326,53 +276,29 @@ class CalendarActivityCtrl {
                 mode: mode,
                 user: this.calendar.user
             },
-            /*resolve: {
-                details: () => this.ActivityService.getDetails(this.data.activityHeader.activityId)
-                    .then(response => response, error => console.error(error))
-            },*/
             bindToController: true,
             clickOutsideToClose: true,
             escapeToClose: true,
             fullscreen: true
 
-        })
-            .then(response => {
-                console.log('user close dialog with =', response)
-
-                // При изменение записи сначала удаляем старую, потом создаем новую
-                if(response.type === 'put'){
-                    //this.calendar.onDeleteItem(this.data)
-                    //this.calendar.onPostItem(response.item)
-                    //this.message.toastInfo('Изменения сохранены')
-                }
-
-                if(response.type === 'delete') {
-                    //this.calendar.onDeleteItem(response.item)
-                    //this.message.toastInfo('Запись удалена')
-                }
-
-
-            }, ()=> {
-                console.log('user cancel dialog, data=')
-            })
+        }).then(() => {}, ()=> {});
     }
 
     /**
      * Копировать запись календаря
      */
     onCopy() {
-        this.calendar.onCopyItem([this.item]);
+        //this.calendar.onCopyItem([this.item]);
     }
 
     /**
      * Удалить запись
      */
     onDelete() {
-        console.log('CalendarActivity: onDelete ', this);
-        this.CalendarService.deleteItem('F', [this.item.calendarItemId])
-            //.then(this.calendar.onDeleteItem(this.item))
-            .then(this.message.toastInfo('activityDeleted'));
-
+        this.dialogs.confirm('deletePlanActivity')
+            .then(()=>this.CalendarService.deleteItem('F', [this.item.calendarItemId])
+                .then(()=>this.message.toastInfo('activityDeleted'),
+                    (error)=> this.message.toastError(error)));
     }
 
     /**
@@ -380,11 +306,10 @@ class CalendarActivityCtrl {
      * @param value
      */
     onToggleCollapse(value) {
-        "use strict";
-        !!value ? this.collapse = '' : this.collapse = false;
+        !!value ? this.collapse = null : this.collapse = {show: false};
     }
 }
-CalendarActivityCtrl.$inject = ['$scope','$mdDialog','ActivityService','message','CalendarService'];
+
 
 function DialogController($scope, $mdDialog) {
     $scope.hide = function() {
@@ -402,7 +327,7 @@ function DialogController($scope, $mdDialog) {
 }
 DialogController.$inject = ['$scope','$mdDialog'];
 
-export let CalendarActivity = {
+const CalendarActivityComponent: IComponentOptions = {
     bindings: {
         item: '<',
         selected: '<',
@@ -413,7 +338,7 @@ export let CalendarActivity = {
         calendar: '^calendar'
     },
     controller: CalendarActivityCtrl,
-    template: require('./calendar-activity.component.html')
+    template: require('./calendar-activity.component.html') as string
 };
 
-export default CalendarActivity;
+export default CalendarActivityComponent;
