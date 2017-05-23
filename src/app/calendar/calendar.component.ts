@@ -165,16 +165,13 @@ export class CalendarCtrl implements IComponentController{
     }
     
     toDate (date) {        
-        this.lockScroll = true;
-            
         let week = this.takeWeek(date);
         this.scrollToWeek(week);
         
         (week.loading || Promise.resolve(week))
         .then(week => setTimeout(() => {
             this.scrollToWeek(week);
-            this.lockScroll = false;
-         }, 100));
+         }, 1));
     }
 
     scrollToWeek (week) {
