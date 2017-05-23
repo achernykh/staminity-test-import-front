@@ -95,6 +95,10 @@
         <md-icon class="material-icon">memory</md-icon>
         <p class="md-body-2" style="opacity: 0.87">2017 Стаминити, 0.0.1.beta#023</p>
     </md-list-item>
+    <md-list-item>
+        <md-icon class="material-icon">memory</md-icon>
+        <p class="md-body-2" style="opacity: 0.87">{{$ctrl.date | calcTimezoneTime:'Europe/Moscow'}}{{$ctrl.date | calcTimezoneTime:'Asia/Vladivostok'}}</p>
+    </md-list-item>
 </md-list>
 
 

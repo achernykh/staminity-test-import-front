@@ -37,7 +37,8 @@ import {translateNotification} from "./notification/notification.translate";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
 import {InitiatorType} from "../../../api/notification/notification.interface";
-import { memorize } from "./util";
+import { memorize } from "./util.js";
+import {calcTimezoneTime} from "./date/date.filter";
 
 const parseUtc = memorize(date => moment.utc(date));
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
@@ -128,6 +129,7 @@ function autoFocus() {
 }
 
 const Share = module('staminity.share', [])
+    .filter('calcTimezoneTime', calcTimezoneTime)
     .filter('fromNow', fromNow)
     .filter('avatar', avatar)
     .filter('avatarUrl', avatarUrl)

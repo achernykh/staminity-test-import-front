@@ -14,6 +14,7 @@ class ApplicationMenuCtrl implements IComponentController{
     private user: IUserProfile;
     private profile$: Observable<IUserProfile>;
     public showUserMenu: boolean = false;
+    private date: Date = new Date();
 
     static $inject = ['$mdSidenav','AuthService','SessionService','$state'];
 

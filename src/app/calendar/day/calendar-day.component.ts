@@ -36,8 +36,8 @@ class CalendarDayCtrl {
     }
 
     onDelete(){
-        this.dialogs.confirm('deletePlanActivity')
-            .then(()=>this.calendar.onDelete(this.data.calendarItems),()=>{});
+        //this.dialogs.confirm('deletePlanActivity')
+         //   .then(()=>this.calendar.onDelete(this.data.calendarItems),()=>{});
     }
     onPaste(){
         //this.calendar.onPasteDay(this.data.date)

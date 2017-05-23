@@ -271,7 +271,7 @@ class SettingsUserCtrl {
                 this.toggle[adaptor.provider] = toggle;
             }, error => {
                     debugger;
-                    this.message.toastInfo(error.errorMessage);
+                    this.message.toastInfo(error.errorMessage || error.data.errorMessage);
                     this.toggle[adaptor.provider] = !toggle;
                 }).catch(response => {
                     // Handle errors here.

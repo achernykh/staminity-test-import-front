@@ -45,7 +45,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: { presets: ['es2015'] }
                 }],
-                exclude: /node_modules/
+                exclude: /(node_modules|bower_components)/
             },
             {
                 test: /\.scss$/,
