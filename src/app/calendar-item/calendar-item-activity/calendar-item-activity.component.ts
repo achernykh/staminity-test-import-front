@@ -247,7 +247,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
         if (this.selectedTab !== HeaderTab.Details && this.isPro) {
-            debugger;
             this.selectedTab = HeaderTab.Details;
         }
         if(initiator === 'details') {

@@ -290,14 +290,22 @@ gulp.task('ftp', () => {
     let trg = gutil.env['trg'];
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
+    let files = {
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'],
+        full: [trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**',trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html']
+    };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);
 
     return gulp
-        .src([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'], {base: trg+'/', buffer: false})
-        .pipe(order([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html']))
-        //.pipe( conn.newer( '/public_html' )) // only upload newer files
-        .pipe( conn.dest('/'));
+        .src(files[scope], {base: trg+'/', buffer: false})
+        .pipe(order(files[scope]))
+        .pipe(conn.newer('/')) // only upload newer files
+        .pipe(conn.dest('/'));
+        /*.pipe(gulpif(scope === 'full',
+            gulp.src([trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**'],{base: trg+'/', buffer: false})
+                .pipe( conn.newer( '/' ))
+                .pipe( conn.dest('/'))));*/
 
     /*return gulp
         .src([trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'], {base: trg+'/', buffer: false})

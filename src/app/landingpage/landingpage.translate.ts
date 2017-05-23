@@ -135,6 +135,28 @@ export let _translate = {
 					title: 'Управление клубом',
 					description: 'В управлении членами клуба руководители клубов могут управлять составом клуба, назначать тренеров для спортсменов, управлять ролями членов клуба'
 				}
+			},
+		},
+		footer: {
+			block1 : {
+				title: 'Наш продукт',
+				link1: '<a flex href="#" class="md-body md-light disable">Продукт</a>',
+				link2: '<a flex href="#" class="md-body md-light disable">Цена</a>',
+				link3: '<a flex href="#" class="md-body md-light disable">Разработчикам</a>',
+			},
+			block2 : {
+				title: 'Наша команда',
+				link1: '<a flex href="#" class="md-body md-light">О нас</a>',
+				link2: '<a flex href="#" class="md-body md-light">Контакты</a>',
+				link3: '<a flex href="#" class="md-body md-light">Сотрудничество</a>',
+				link4: '<a flex href="#" class="md-body md-light disable">Блог</a>',
+			},
+			block3 : {
+				title: 'Помощь',
+				link1: '<a flex href="#" class="md-body md-light disable">Вебинары</a>',
+				link2: '<a flex href="#" class="md-body md-light">Справка</a>',
+				link3: '<a flex href="#" class="md-body md-light">Конфиденциальность</a>',
+				link4: '<a flex href="#" class="md-body md-light">Пользовательское соглашение</a>',
 			}
 		}
 

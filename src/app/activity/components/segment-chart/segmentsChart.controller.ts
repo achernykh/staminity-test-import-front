@@ -123,7 +123,6 @@ class SegmentChartController implements IComponentController {
     }
 
     private prepareScales(): void {
-        debugger;
         let mode: ChartMode = this.actualFtp ? "fact" : "plan";
         let totalDuration = d3.sum(this.intervals, function (d: IPlanInterval) { return d[mode].movingDuration.duration; });
         let totalDistance = d3.sum(this.intervals, function (d: IPlanInterval) { return d[mode].distance.duration; });
@@ -151,7 +150,6 @@ class SegmentChartController implements IComponentController {
     }
 
     private preparePlaceholder(): void {
-        debugger;
         // calc current chart size based on the conteiner size and chart's settings
         var bounds = this.$element[0].getBoundingClientRect();
         this.width = Math.max(bounds.width, this.chartSettings.minWidth);

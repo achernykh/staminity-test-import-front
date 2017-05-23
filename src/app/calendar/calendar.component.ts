@@ -20,6 +20,27 @@ const prepareItem = (item: ICalendarItem, shift: number) => {
     return item;
 };
 
+const getItemById = (calendar: Array<ICalendarWeek>, id: number):ICalendarItem => {
+
+    let findData: boolean = false;
+    let w,d,i: number;
+
+    for (w = 0; w < calendar.length; w++) {
+        for(d = 0; d < calendar[w].subItem.length; d++) {
+            i = calendar[w].subItem[d].data.calendarItems.findIndex(item => item.calendarItemId === id);
+            if (i !== -1) {
+                findData = true;
+                break;
+            }
+        }
+        if (findData) {
+            break;
+        }
+    }
+    //let data: any = calendar.find(week => !!week.subItem.find(day => !!day.data.calendarItems.find(item => item.calendarItemId === id)));
+    return findData && calendar[w].subItem[d].data.calendarItems[i] || null;
+};
+
 export interface ICalendarWeek {
     sid: number; // номер недели, текущая неделя календаря = 0
     date: any; // дата начала недели
@@ -85,7 +106,6 @@ export class CalendarCtrl implements IComponentController{
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
             .subscribe((message) => {
-                debugger;
                 switch (message.action) {
                     case 'I': {
                         this.onPostItem(<ICalendarItem>message.value);
@@ -98,7 +118,7 @@ export class CalendarCtrl implements IComponentController{
                         break;
                     }
                     case 'U': {
-                        this.onDeleteItem(<ICalendarItem>message.value);
+                        this.onDeleteItem(getItemById(this.calendar, message.value.calendarItemId));
                         this.onPostItem(<ICalendarItem>message.value);
                         this.$scope.$apply();
                         break;
@@ -461,19 +481,26 @@ export class CalendarCtrl implements IComponentController{
     }
 
 
-    onCopy(){
+    onCopy(items: Array<ICalendarItem>){
         this.buffer = [];
         this.firstSrcDay = null;
-        this.calendar.forEach(w => w.subItem.forEach(d => {
-            if(d.selected) {
-                if(!this.firstSrcDay) {
-                    this.firstSrcDay = d.data.date;
+
+        if(items){
+            this.buffer.push(...items);
+            this.firstSrcDay = moment(items[0].dateStart).format('YYYY-MM-DD');
+            debugger;
+        } else {
+            this.calendar.forEach(w => w.subItem.forEach(d => {
+                if(d.selected) {
+                    if(!this.firstSrcDay) {
+                        this.firstSrcDay = d.data.date;
+                    }
+                    if (d.data.calendarItems && d.data.calendarItems.length > 0) {
+                        this.buffer.push(...d.data.calendarItems);
+                    }
                 }
-                if (d.data.calendarItems && d.data.calendarItems.length > 0) {
-                    this.buffer.push(...d.data.calendarItems);
-                }
-            }
-        }));
+            }));
+        }
         if(this.buffer && this.buffer.length > 0) {
             this.message.toastInfo('itemsCopied');
         }
@@ -482,8 +509,6 @@ export class CalendarCtrl implements IComponentController{
     onPaste(firstTrgDay: string){
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
-
-        debugger;
 
         if (shift && this.buffer && this.buffer.length > 0) {
             task = this.buffer
@@ -505,8 +530,6 @@ export class CalendarCtrl implements IComponentController{
                 selected.push(...d.data.calendarItems);
             }
         }));
-
-        debugger;
 
         this.dialogs.confirm('deletePlanActivity')
             .then(() => this.CalendarService.deleteItem('F',

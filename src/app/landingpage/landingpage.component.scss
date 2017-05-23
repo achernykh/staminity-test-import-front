@@ -35,7 +35,7 @@ landing-page {
 	}
 
 	.cover-02 { // велогон в пустыне
-		background-image: linear-gradient(to top, rgba(#6472A3, 1), rgba(black, 0.5) 25%, rgba(#6199B7, 0.5) 85%, rgba(#CAE2EF, 1)),
+		background-image: linear-gradient(to top, rgba(#65565B, 1), rgba(black, 0.5) 25%, rgba(#6199B7, 0.5) 85%, rgba(#CAE2EF, 1)),
 		url('/assets/picture/lp-bg-09-1440.jpg'); //70% 50% no-repeat;
 		background-position: 70% 50%;
 		background-repeat: no-repeat;
@@ -43,23 +43,31 @@ landing-page {
 	}
 
 	.gradient-03 { // фиолетовый -> розовый
-		background-image: linear-gradient(to bottom, rgba(#6472A3, 1), rgba(#B45C9E,1));
+		background-image: linear-gradient(to bottom, rgba(#65565B, 1), rgba(#454676,1));
 	}
 
 	.cover-03 { // бег, пара в горах
-		background-image: linear-gradient(to top, rgba(#403A4E, 1), rgba(#000000, 0.6) 25%, rgba(#000000, 0.5) 40%, rgba(#000000, 0.4) 75%, rgba(#B45C9E, 1)),
+		background-image: linear-gradient(to top, rgba(#584A50, 1), rgba(#000000, 0.6) 25%, rgba(#000000, 0.5) 40%, rgba(#000000, 0.4) 75%, rgba(#454676, 1)),
 		url('/assets/picture/lp-bg-10-1440.jpg'); //60% 50% no-repeat;
 		background-position: 60% 50%;
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
 
+	.gradient-04 { // фиолетовый -> розовый
+		background-image: linear-gradient(to bottom, rgba(#584A50, 1), rgba(#403A4E,1));
+	}
+
 	.cover-04 {
-		background-image: linear-gradient(to top, rgba(#37474F, 1), rgba(#37474F, 1) 10%, rgba(#000000, 0.5) 75%, rgba(#403A4E, 1)),
+		background-image: linear-gradient(to top, rgba(#584A50, 1), rgba(#584A50, 1) 15%, rgba(#584A50, 0.5) 30%, rgba(#403A4E, 1)),
 		url('/assets/picture/lp-bg-11-1440.jpg');
 		background-position: 45% 100%;
 		background-repeat: no-repeat;
 		background-size: cover;
+	}
+
+	.gradient-05 { // фиолетовый -> розовый
+		background-image: linear-gradient(to bottom, rgba(#584A50, 1), rgba(#37474F,1));
 	}
 
 	.cover-05 {
@@ -364,6 +372,31 @@ landing-page {
 		color: rgba(black, 0.54) !important;
 	}
 
+	section.footer-block {
+		.footer-column {
+			min-width: 260px;
+			@media (min-width: 960px) {
+				padding-left: 5%;
+			}
+			div {
+				padding: 8px 0px;
+			}
+		}
+		a {
+			text-decoration: none;
+			color: white;
+
+			&.disable {
+				pointer-events: none;
+				cursor: default;
+				color: rgba(255,255,255,0.38) !important;
+			}
+		}
+		md-divider {
+			margin-top: 16px;
+		}
+	}
+
 	.carousel-block {
 		padding: 0 !important;
 		margin: 0 !important;
@@ -492,8 +525,12 @@ landing-page {
 		background: $primary-hue-3;
 
 	}
-	.social-buttons {
-		margin: 16px 0px;
+	.social-buttons, .copyright {
+		margin-top: 64px;
+	}
+
+	.copyright {
+		text-align: center;
 	}
 
 	.block-100 {

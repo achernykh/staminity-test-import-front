@@ -476,7 +476,6 @@ class ActivityChartController implements IComponentController {
         };
 
         let endSelection = function (endPos: number): void {
-            debugger;
             self.$interactiveArea.attr("cursor", "default");
             if (!self.state.inSelection) {
                 return;
