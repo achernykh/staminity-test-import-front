@@ -117,7 +117,12 @@ export const _translate = {
                 onSyncPendingRequest: {
                     button: 'Изменить',
                     title: 'Ожидание...',
-                    text: "Ожидается подтверждение"}
+                    text: "Ожидается подтверждение"},
+                оnSyncCheckRequisites: {
+                    button: 'Изменить',
+                    title: 'Проверка...',
+                    text: "Проверка правильности введенных данных"
+                }
             }
         },
         zones: {
