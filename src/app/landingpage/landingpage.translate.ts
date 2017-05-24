@@ -41,13 +41,13 @@ export let _translate = {
 			subtitle: '',
 			desktop: {
 				title: 'С компьютера',
-				description: 'Все возможности Стаминити доступны через браузер вашего компьютера. Работает в Google Chrome, Opera, Firefox или Safari.<br>' +
-				'Пока не поддерживает Internet explorer и Edge'
+				description: 'Все возможности Стаминити доступны через браузер вашего компьютера. Подключайтесь через Google Chrome, Opera, Firefox или Safari.<br>' +
+				'Пока не поддерживаем Internet explorer и Edge'
 			},
 			mobile: {
 				title: 'Со смартфона',
-				description: 'Компьютер далеко? Заходите к нам со смартфона и планшета, для них создана специальная версия сайта.<br>' +
-				'Работаем над мобильными приложениями для IOS и Android'
+				description: 'Если компьютер далеко, заходите к нам через браузер смартфона и планшета, работайте в специальной версии сайта для мобильных устройств. <br>' +
+				'Мобильные приложения для IOS и Android в разработке, об их выпуске мы сообщим отдельно'
 			}
 		},
 		scheme: {
@@ -55,15 +55,18 @@ export let _translate = {
 			subtitle: '',
 			step1 : {
 				title: 'Запланировать',
-				description: 'Получайте задание от тренера на каждую тренировку или планируйте самостоятельно'
+				description: 'Получайте задание от тренера на каждую тренировку или планируйте самостоятельно. <br/>' +
+				'Ваш календарь тренировок покажет не только выполненные задания, но и созданный план'
 			},
 			step2 : {
 				title: 'Выполнить',
-				description: 'Тренируйтесь в своих спортивных часах, а мы загрузим ваши тренировки и сопоставим их с планом'
+				description: 'Тренируйтесь в спортивных часах или со смартфоном, а мы загрузим ваши тренировки и сопоставим их с планом. <br/>' +
+				'Уже работает автоматическая загрузка из Garmin Connect и Strava, скоро появится прямая загрузка из Polar и Suunto'
 			},
 			step3 : {
 				title: 'Проанализировать',
-				description: 'Анализируйте вместе с тренером как прошла тренировка в целом или отдельные рабочие отрезки'
+				description: 'Анализируйте вместе с тренером как прошла тренировка в целом или отдельные рабочие отрезки. <br/>' +
+				'Уже доступен детальный анализ одной тренировки, скоро появится анализ показателей в динамике по выбранным занятиям'
 			}
 		},
 		features: {
@@ -73,7 +76,7 @@ export let _translate = {
 				title1: 'Планируйте',
 				text1: 'Получайте плановые задания от тренера или создавайте их сами. Вы узнаете о новом задании, а тренер – о выполненной тренировке',
 				title2: 'Тренируйтесь',
-				text2: 'Выполняйте задания и анализируйте их. Записанные треки со спортивных часов и смартфонов попадут в ваш тренировочный дневник и будут сопоставлены с планом',
+				text2: 'Выполняйте задания и анализируйте их. Записанные треки тренировок попадут в ваш тренировочный дневник и будут сопоставлены с планом',
 				title3: 'Общайтесь',
 				text3: 'Общайтесь с тренером, обсуждайте детали задания, отчитывайтесь о выполнении. А скоро появятся комментарии друзей и подписчиков',
 				carousel1: {
@@ -136,7 +139,7 @@ export let _translate = {
 				carousel1: {
 					title: 'Управление клубом',
 					description: 'Руководитель клуба может управлять составом клуба, назначать тренеров и распределять спортсменов между ними. <br/>' +
-					'В больших клубах можно назначить администраторов и делегировать им полномочия по принятию новых членов, управлению ролями и доступом членов клуба'
+					'В больших клубах можно назначить администраторов и делегировать им принятие новых членов в клуб и управление их ролями'
 				}
 				/*
 				carousel1: {
@@ -157,25 +160,33 @@ export let _translate = {
 		},
 		footer: {
 			block1 : {
-				title: 'Наш продукт',
-				link1: '<a flex href="#" class="md-body md-light disable">Продукт</a>',
-				link2: '<a flex href="#" class="md-body md-light disable">Цена</a>',
-				link3: '<a flex href="#" class="md-body md-light disable">Разработчикам</a>',
+				title: 'Приложение',
+				link1: '<a flex href="https://staminity.com#howitworks" class="md-body md-light">Как это работает</a>',
+				link2: '<a flex href="https://staminity.com#athletes" class="md-body md-light">Для спортсменов</a>',
+				link2: '<a flex href="https://staminity.com#coaches" class="md-body md-light">Для тренеров</a>',
+				link2: '<a flex href="https://staminity.com#clubs" class="md-body md-light">Для клубов</a>',
+				link3: '<a flex href="#" class="md-body md-light disable">Тарифы</a>',
 			},
 			block2 : {
-				title: 'Наша команда',
-				link1: '<a flex href="#" class="md-body md-light">О нас</a>',
-				link2: '<a flex href="#" class="md-body md-light">Контакты</a>',
-				link3: '<a flex href="#" class="md-body md-light">Сотрудничество</a>',
-				link4: '<a flex href="#" class="md-body md-light disable">Блог</a>',
+				title: 'Помощь и поддержка',
+				link1: '<a flex href="https://help.staminity.com/ru/" class="md-body md-light">Справочная система</a>',
+				link2: '<a flex href="http://support.staminity.com/" class="md-body md-light">Поддержка</a>',
+				link4: '<a flex href="https://legal.staminity.com/ru/terms.html" class="md-body md-light">Правила использования</a>',
+				link5: '<a flex href="https://legal.staminity.com/ru/license.html" class="md-body md-light">Оферта</a>',
+				link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" class="md-body md-light">Конфиденциальность</a>',
 			},
 			block3 : {
-				title: 'Помощь',
-				link1: '<a flex href="#" class="md-body md-light disable">Вебинары</a>',
-				link2: '<a flex href="#" class="md-body md-light">Справка</a>',
-				link3: '<a flex href="#" class="md-body md-light">Конфиденциальность</a>',
-				link4: '<a flex href="#" class="md-body md-light">Пользовательское соглашение</a>',
-			}
+				title: 'Новости',
+				link1: '<a flex href="http://eepurl.com/cmOSiH" class="md-body md-light">Подписаться на рассылку</a>',
+				link2: '<a flex href="https://www.facebook.com/staminity/" class="md-body md-light">Мы в Facebook</a>',
+				link3: '<a flex href="https://vk.com/staminity" class="md-body md-light">Мы Вконтакте</a>',
+				link4: '<a flex href="http://blog.staminity.com/" class="md-body md-light">Блог</a>',
+			},
+			 block4 : {
+			 title: 'О нас',
+			 link1: '<a flex href="#" class="md-body md-light disable">Наша команда</a>',
+			 link2: '<a flex href="mailto:mail@staminity.com" class="md-body md-light">Написать письмо</a>',
+			 }
 		}
 
 	},
