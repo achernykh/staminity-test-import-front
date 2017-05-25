@@ -2,7 +2,7 @@ import {module} from 'angular';
 import {CalendarService} from './calendar.service';
 import CalendarComponent from './calendar.component';
 import CalendarDayComponent from './day/calendar-day.component';
-import CalendarTotal from './total/calendar-total.component.js';
+import CalendarTotalComponent from './total/calendar-total.component';
 import CalendarActivityComponent from './activity/calendar-activity.component';
 import CalendarActivityChart from './activity-chart/activity-chart.component.js';
 import CalendarTotalChart from './total-chart/total-chart.component.js';
@@ -14,7 +14,7 @@ const Calendar = module('staminity.calendar', [])
     .component('calendarActivityChart', CalendarActivityChart)
     .component('calendarTotalChart', CalendarTotalChart)
     .component('calendarDay', CalendarDayComponent)
-    .component('calendarTotal', CalendarTotal)
+    .component('calendarTotal', CalendarTotalComponent)
     .component('calendarActivity', CalendarActivityComponent)
     .component('calendar', CalendarComponent)
     .directive('scrollContainer', scrollContainer)
