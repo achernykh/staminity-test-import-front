@@ -9,11 +9,11 @@
 
     <form flex="none" ng-submit='$ctrl.signin($ctrl.credentials)'
           novalidate name="$ctrl.signinForm">
-        <md-list><!--
+        <md-list>
             <md-list-item layout="column" class="social">
                 <p class="social-text" translate="auth.socialText"></p>
                 <div class="social-buttons">
-                    <md-button class="md-icon-button" ng-repeat="provider in ['facebook','google','vk']"
+                    <md-button class="md-icon-button" ng-repeat="provider in ['facebook','google','vkontakte']"
                                ng-click="$ctrl.OAuth(provider)">
                         <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
                     </md-button>
@@ -25,7 +25,7 @@
                     <span>&nbsp;&nbsp</span>
                     <hr align="center" size="2" width="50"/>
                 </div>
-            </md-list-item>-->
+            </md-list-item>
             <md-list-item>
                 <md-input-container md-no-float class="no-message">
                     <input required type="email" name="email" ng-model="$ctrl.credentials.email"

@@ -10,6 +10,11 @@ class LandingPageCtrl implements IComponentController {
 
 	private profile$: Observable<IUserProfile>;
 	private user: IUserProfile;
+	private readonly slides: any = {
+		athlete: ['lp-user-01.png','lp-user-02.png','lp-user-03.png'],
+		coach: ['lp-coach-01.png'],
+		club: ['lp-club-01.png']
+	};
 
 	static $inject = ['AuthService','$state','SessionService'];
 

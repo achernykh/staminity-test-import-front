@@ -97,7 +97,36 @@
             </section>
             <!-- welcome block: end -->
 
-            <section flex="grow" layout="row" class="devices gradient-01 main-features-block">
+            <section id="howitworks" flex="grow" layout="row" class="scheme gradient-01 main-features-block">
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+                <div flex="100" layout="column" layout-align="start center">
+                    <h2 flex="none" class="md-display-2" translate="landing.scheme.title"></h2>
+                    <h3 flex="none" class="md-headline" translate="landing.scheme.subtitle"></h3>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-01.png">
+                            <div flex="none" class="step-number md-title md-light">1</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step1.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step1.description"></div>
+                        </div>
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-02.png">
+                            <div flex="none" class="step-number md-title md-light">2</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step2.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step2.description"></div>
+                        </div>
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-03.png">
+                            <div flex="none" class="step-number md-title md-light">3</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step3.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step3.description"></div>
+                        </div>
+                    </div>
+                </div>
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+            </section>
+
+            <section flex="grow" layout="row" class="devices gradient-02 main-features-block">
                 <div flex-gt-sm="10" hide show-gt-sm></div>
                 <div flex="100" layout="column" layout-align="start center">
                     <h2 flex="none" class="md-display-2" translate="landing.devices.title"></h2>
@@ -118,39 +147,11 @@
                 <div flex-gt-sm="10" hide show-gt-sm></div>
             </section>
 
-            <section flex="grow" layout="row" class="scheme gradient-02 main-features-block">
-                <div flex-gt-sm="10" hide show-gt-sm></div>
-                <div flex="100" layout="column" layout-align="start center">
-                    <h2 flex="none" class="md-display-2" translate="landing.scheme.title"></h2>
-                    <h3 flex="none" class="md-headline" translate="landing.scheme.subtitle"></h3>
-                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
-                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-01.png">
-                            <div flex="none" class="step-number md-title md-dark">1</div>
-                            <h4 flex="none" class="md-title" translate="landing.scheme.step1.title"></h4>
-                            <div flex="none" class="md-body info" translate="landing.scheme.step1.description"></div>
-                        </div>
-                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
-                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-02.png">
-                            <div flex="none" class="step-number md-title md-dark">2</div>
-                            <h4 flex="none" class="md-title" translate="landing.scheme.step2.title"></h4>
-                            <div flex="none" class="md-body info" translate="landing.scheme.step2.description"></div>
-                        </div>
-                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
-                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-03.png">
-                            <div flex="none" class="step-number md-title md-dark">3</div>
-                            <h4 flex="none" class="md-title" translate="landing.scheme.step3.title"></h4>
-                            <div flex="none" class="md-body info" translate="landing.scheme.step3.description"></div>
-                        </div>
-                    </div>
-                </div>
-                <div flex-gt-sm="10" hide show-gt-sm></div>
-            </section>
 
 
 
 
-                <section flex="grow" layout="row" class="main-features-block cover-02">
+            <section id="athletes" flex="grow" layout="row" class="main-features-block cover-02">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="100" layout="column" layout-align="start center">
                         <h2 flex="none" class="md-display-2" translate="landing.features.athletes.title"></h2>
@@ -185,24 +186,27 @@
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                 </section>
 
-                <ul rn-carousel rn-carousel-auto-slide class="carousel-block gradient-03">
-                    <li>
+                <ul rn-carousel rn-carousel-auto-slide="15" class="carousel-block gradient-03" rn-carousel-index="athlete">
+                    <li ng-repeat="slide in $ctrl.slides['athlete'] track by $index">
                         <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                            <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
-                                <img flex="none" width="100%" src="/assets/picture/lp-user-01.png">
+                            <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                                <img flex="none" width="100%" src="/assets/picture/{{slide}}">
                             </div>
-                            <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
-                                <h2 flex="none" class="md-title" translate="landing.features.athletes.carousel1.title"></h2>
-                                <div flex="none" class="md-body info" translate="landing.features.athletes.carousel1.description"></div>
+                            <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
+                                <h2 flex="none" class="md-title" translate="landing.features.athletes.carousel{{$index+1}}.title"></h2>
+                                <div flex="none" class="md-body info" translate="landing.features.athletes.carousel{{$index+1}}.description"></div>
                             </div>
                         </div>
-                    </li>
+                    </li><!--
                     <li>
                         <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                            <div flex="none" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="center start" layout-padding class="center">
                                 <img flex="none" width="100%" src="/assets/picture/lp-user-02.png">
                             </div>
-                            <div flex="none" flex-order="1" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
+                            <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
                                 <h2 flex="none" class="md-title" translate="landing.features.athletes.carousel2.title"></h2>
                                 <div flex="none" class="md-body info" translate="landing.features.athletes.carousel2.description"></div>
                             </div>
@@ -210,18 +214,20 @@
                     </li>
                     <li>
                         <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                            <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
                                 <img flex="none" width="100%" src="/assets/picture/lp-user-03.png">
                             </div>
-                            <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
+                            <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
                                 <h2 flex="none" class="md-title" translate="landing.features.athletes.carousel3.title"></h2>
                                 <div flex="none" class="md-body info" translate="landing.features.athletes.carousel3.description"></div>
                             </div>
                         </div>
-                    </li>
+                    </li>-->
                 </ul>
+                <div rn-carousel-indicators ng-if="$ctrl.slides['athlete'].length > 1" slides="$ctrl.slides['athlete']" rn-carousel-index="athlete" style="background-color: #454676; text-align: center"></div>
 
-                <section layout="row" class="main-features-block cover-03">
+                <section id="coaches" layout="row" class="main-features-block cover-03">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="auto" layout="column" layout-align="start center">
                         <h2 flex="none" class="md-display-2" translate="landing.features.coaches.title"></h2>
@@ -256,18 +262,19 @@
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                 </section>
 
-                <ul rn-carousel rn-carousel-auto-slide rn-carousel-duration="300" class="carousel-block gradient-04">
+                <ul rn-carousel rn-carousel-duration="300" class="carousel-block gradient-04">
                     <li>
                         <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                            <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
-                                <img flex="none" width="100%" src="/assets/picture/lp-user-01.png">
+                            <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                                <img flex="none" width="100%" src="/assets/picture/lp-coach-01.png">
                             </div>
-                            <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
+                            <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
                                 <h2 flex="none" class="md-title" translate="landing.features.coaches.carousel1.title"></h2>
                                 <div flex="none" class="md-body info" translate="landing.features.coaches.carousel1.description"></div>
                             </div>
                         </div>
-                    </li>
+                    </li><!--
                     <li>
                         <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
                             <div flex="none" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
@@ -289,10 +296,10 @@
                                 <div flex="none" class="md-body info" translate="landing.features.coaches.carousel3.description"></div>
                             </div>
                         </div>
-                    </li>
+                    </li>-->
                 </ul>
 
-                <section layout="row" class="main-features-block cover-04">
+                <section id="clubs" layout="row" class="main-features-block cover-04">
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                     <div flex="auto" layout="column" layout-align="start center">
                         <h2 flex="none" class="md-display-2" translate="landing.features.clubs.title"></h2>
@@ -327,19 +334,20 @@
                     <div flex-gt-sm="10" hide show-gt-sm></div>
                 </section>
 
-            <ul rn-carousel rn-carousel-auto-slide rn-carousel-duration="300" class="carousel-block gradient-05">
+            <ul rn-carousel rn-carousel-duration="300" class="carousel-block gradient-05">
                 <li>
                     <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
-                        <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
-                            <img flex="none" width="100%" src="/assets/picture/lp-user-01.png">
+                        <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-club-01.png">
                         </div>
-                        <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
+                        <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30" layout="column"
+                             layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
                             <h2 flex="none" class="md-title" translate="landing.features.clubs.carousel1.title"></h2>
                             <div flex="none" class="md-body info" translate="landing.features.clubs.carousel1.description"></div>
                         </div>
                     </div>
                 </li>
-                <li>
+                <li><!--
                     <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
                         <div flex="none" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
                             <img flex="none" width="100%" src="/assets/picture/lp-user-02.png">
@@ -360,7 +368,7 @@
                             <div flex="none" class="md-body info" translate="landing.features.clubs.carousel3.description"></div>
                         </div>
                     </div>
-                </li>
+                </li>-->
             </ul>
 
                 <section layout="row" class="footer-block" md-theme="dark">
@@ -373,6 +381,8 @@
                                 <div flex translate="landing.footer.block1.link1"></div>
                                 <div flex translate="landing.footer.block1.link2"></div>
                                 <div flex translate="landing.footer.block1.link3"></div>
+                                <div flex translate="landing.footer.block1.link4"></div>
+                                <div flex translate="landing.footer.block1.link5"></div>
                                 <md-divider flex hide-gt-sm></md-divider>
                             </div>
                             <div flex layout="column" class="footer-column">
@@ -381,6 +391,7 @@
                                 <div flex translate="landing.footer.block2.link2"></div>
                                 <div flex translate="landing.footer.block2.link3"></div>
                                 <div flex translate="landing.footer.block2.link4"></div>
+                                <div flex translate="landing.footer.block2.link5"></div>
                                 <md-divider flex hide-gt-sm></md-divider>
                             </div>
                             <div flex layout="column" class="footer-column">
@@ -389,6 +400,12 @@
                                 <div flex translate="landing.footer.block3.link2"></div>
                                 <div flex translate="landing.footer.block3.link3"></div>
                                 <div flex translate="landing.footer.block3.link4"></div>
+                                <md-divider flex hide-gt-sm></md-divider>
+                            </div>
+                            <div flex layout="column" class="footer-column">
+                                <h4 flex class="md-title md-light" translate="landing.footer.block4.title"></h4>
+                                <div flex translate="landing.footer.block4.link1"></div>
+                                <div flex translate="landing.footer.block4.link2"></div>
                                 <md-divider flex hide-gt-sm></md-divider>
                             </div>
                         </div>
@@ -400,7 +417,7 @@
                             </md-button>
                             <md-button flex="none" class="md-icon-button more" aria-label="more"
                                        onclick="location.href='https://vk.com/staminity'">
-                                <md-icon class="light-active" md-svg-icon="assets/icon/vk_clr.svg"></md-icon>
+                                <md-icon class="light-active" md-svg-icon="assets/icon/vkontakte_clr.svg"></md-icon>
                             </md-button>
                         </div>
                         <div flex="none" class="copyright">

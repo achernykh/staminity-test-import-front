@@ -64,17 +64,18 @@ export class PostFile implements IPostFileRequest {
 	mode:string;
 	data:any;
 
-	constructor(type:string, file:any) {
+	constructor(type:string, file:any, attr?: Object) {
 		this.method = 'POST';
 		this.url = _connection.protocol.rest + _connection.server + type;
 		this.headers = {
 			'Authorization': 'Bearer ',
-			'Content-Type': undefined
+			'Content-Type': undefined//'multipart/form-data'//
 		};
 		this.mode = 'cors';
 		this.withCredentials = true;
 		this.data = new FormData();
 		this.data.append('file', file);
+		//Object.assign(this.data, attr);
 	}
 }
 

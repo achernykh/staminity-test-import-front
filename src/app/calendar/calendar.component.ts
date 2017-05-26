@@ -57,7 +57,7 @@ export interface ICalendarWeek {
 export interface ICalendarDay {
     key: string; // формат дня в формате YYYY.MM.DD
     selected: boolean; // индикатор выбора дня
-    date: string;// формат дня в формате YYYY.MM.DD
+    date: string;// формат дня в формате GMT
     data: ICalendarDayData;
 }
 
@@ -106,6 +106,7 @@ export class CalendarCtrl implements IComponentController{
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
             .subscribe((message) => {
+                debugger;
                 switch (message.action) {
                     case 'I': {
                         this.onPostItem(<ICalendarItem>message.value);
@@ -209,6 +210,8 @@ export class CalendarCtrl implements IComponentController{
      * @param calendarItems
      */
     dayItem (date, calendarItems):ICalendarDay {
+        //debugger;
+        //console.log('dayItem',date.utc(),date.utc().add(moment().utcOffset(),'minutes').format());
         return {
             key: date.format(this.dateFormat),
             selected: false,
@@ -217,7 +220,7 @@ export class CalendarCtrl implements IComponentController{
                 title: date.format('DD'),
                 month: date.format('MMM'),
                 day: date.format('dd'),
-                date: date.format(this.dateFormat),
+                date: date.format(),//date.utc().add(moment().utcOffset(),'minutes').format(),
                 calendarItems: calendarItems
             }
         };
@@ -465,6 +468,12 @@ export class CalendarCtrl implements IComponentController{
             this.calendar[w].subItem[d].data.calendarItems.splice(p,1);
             this.calendar[w].changes++;
         }
+    }
+
+    onFileUpload(){
+        this.dialogs.uploadFile()
+            .then(file => this.CalendarService.postFile(file,null))
+            .then(response => this.message.toastInfo(response), error => this.message.toastInfo(error));
     }
 
     /**

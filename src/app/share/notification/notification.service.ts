@@ -46,7 +46,7 @@ export default class NotificationService {
                 // открыт данны чат
                 if (this.commentTemplates.some(t => t === n.template) && !n.isRead &&
                     (this.openChat && n.context[3] === this.openChat.id)) {
-                    this.put(n.id, true).then(()=>{});
+                    this.put(n.id, null, true).then(()=>{});
                     n.isRead = true;
                 }
                 return n;
@@ -93,8 +93,8 @@ export default class NotificationService {
      * @param isRead
      * @returns {Promise<any>}
      */
-    put(id: number, isRead: boolean):Promise<any>{
-        return this.socket.send(new PutNotification(id,isRead));
+    put(id: number, readUntil: string, isRead: boolean):Promise<any>{
+        return this.socket.send(new PutNotification(id,readUntil,isRead));
     }
 
     /**
@@ -130,7 +130,7 @@ export default class NotificationService {
                 let userClick = (Date.now() - this.timeouts[notification.index]) < settings.timeOut;
                 if(userClick) {
                     console.log('user click', notification);
-                    this.put(notification.id, true)
+                    this.put(notification.id, null, true)
                         .then((success)=>console.log(success), error => console.error(error));
                 }
             },

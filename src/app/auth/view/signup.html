@@ -12,7 +12,7 @@
     </md-card-title>
     <form flex="none" ng-if="!$ctrl.showConfirm" ng-submit='$ctrl.signup($ctrl.credentials)'
           name="$ctrl.signupForm" novalidate md-theme="dark">
-        <md-list><!--
+        <md-list>
             <md-list-item layout="column" class="social">
                 <p class="social-text" translate="auth.socialText"></p>
                 <div class="social-buttons">
@@ -28,7 +28,7 @@
                     <span>&nbsp;&nbsp</span>
                     <hr align="center" size="2" width="50"/>
                 </div>
-            </md-list-item>-->
+            </md-list-item>
             <md-list-item layout="row">
                 <md-input-container flex="45" md-no-float class="no-message">
                     <input maxlength="30" ng-model="$ctrl.credentials.public.firstName" name="name"

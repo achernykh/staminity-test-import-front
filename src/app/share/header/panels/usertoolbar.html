@@ -19,7 +19,7 @@
     <div hide show-gt-sm layout="row" class="user-frame">
         <div flex="none"
              class="avatar mini"
-             style="background-image: url({{'/user/avatar/' + $ctrl.user.public.avatar | image}})"></div>
+             style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}})"></div>
         <div flex
              class="md-body"
              style="line-height: 24px; -color: white; padding: 0 8px">{{$ctrl.user | username: 'short'}}</div>

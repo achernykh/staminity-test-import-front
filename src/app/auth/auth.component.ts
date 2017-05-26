@@ -1,4 +1,4 @@
-import { IComponentOptions, IComponentController,ILocationService} from 'angular';
+import { IComponentOptions, IComponentController,ILocationService,IHttpPromiseCallbackArg} from 'angular';
 import SessionService from "../core/session.service";
 import {StateService} from 'angular-ui-router';
 import {IMessageService} from "../core/message.service";
@@ -105,12 +105,15 @@ class AuthCtrl implements IComponentController {
                 postAsExternalProvider: false,
                 provider: provider
             }
-        }).then((data:{userProfile: IUserProfile, systemFunctions: any}) => {
-			this.$state.go('calendar',{uri: data.userProfile.public.uri});
+        }).then((response: IHttpPromiseCallbackArg<{data:{userProfile: IUserProfile, systemFunctions: any}}>) => {
+        	this.AuthService.storeUser(response.data);
+			this.$state.go('calendar',{uri: response.data.data.userProfile.public.uri});
 			debugger;
 		}, error => {
-			this.message.systemError(error);
 			debugger;
+			if (!(error.hasOwnProperty('message') && error.message.indexOf('The popup window was closed') !== -1)) {
+				this.message.systemError(error);
+			}
 		}).catch(response => {
 			this.message.systemError(response);
 			debugger;

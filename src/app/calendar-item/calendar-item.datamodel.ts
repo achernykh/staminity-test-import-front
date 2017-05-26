@@ -26,14 +26,17 @@ export class CalendarItem implements ICalendarItem {
 	// Подготовка данных для модели отображения
 	prepare() {
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
-		this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
-		this._dateEnd = new Date(moment(this.dateEnd).format('YYYY-MM-DD'));
+		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
+		this._dateStart = new Date(this.dateStart);
+		this._dateEnd = new Date(this.dateEnd);
+		//this._dateEnd = new Date(moment(this.dateEnd).format('YYYY-MM-DD'));
 	}
 
 	// Подготовка данных для передачи в API
 	package() {
-		this.dateStart = moment(this._dateStart).format();
-		this.dateEnd = moment(this._dateEnd).format();
+		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
+		this.dateEnd = moment(this._dateEnd).utc().add(moment().utcOffset(),'minutes').format();
+		debugger;
 		return this;
 	}
 

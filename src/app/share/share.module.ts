@@ -42,20 +42,25 @@ import {calcTimezoneTime} from "./date/date.filter";
 
 const parseUtc = memorize(date => moment.utc(date));
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
-const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
+//const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
+const image = () => (sub:string,url:string):string => {
+    //debugger;
+    return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
+};
+
 const userBackground = () => (url:string) => url && url !== 'default.jpg' ? _connection.content + '/content/user/background/' + url : '/assets/picture/default_background.jpg';
-const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty('avatar') && user.public.avatar !== 'default.jpg' ? image() ('/user/avatar/' + user.public.avatar) : '/assets/picture/default_avatar.png'})`;
+const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty('avatar') && user.public.avatar !== 'default.jpg' ? image() ('/user/avatar/',user.public.avatar) : '/assets/picture/default_avatar.png'})`;
 const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
 
 const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):string => {
     let url: string = '/assets/picture/default_avatar.png';
     switch (type) {
         case InitiatorType.user: {
-            url = `url(${avatar !== 'default.jpg' ? image() ('/user/avatar/' + avatar) : '/assets/picture/default_avatar.png'})`;
+            url = `url(${avatar !== 'default.jpg' ? image() ('/user/avatar/',avatar) : '/assets/picture/default_avatar.png'})`;
             break;
         }
         case InitiatorType.group: case InitiatorType.club: {
-            url = `url(${avatar ? image() ('/group/avatar/' + avatar) : image() ('/assets/picture/default_avatar.png')})`;
+            url = `url(${avatar ? image() ('/group/avatar/',avatar) : image() (null,'/assets/picture/default_avatar.png')})`;
             break;
         }
         case InitiatorType.provider: {
@@ -112,8 +117,8 @@ function onFiles() {
         },
 
         link (scope, element, attributes) {
-            let onFiles = (event) => (scope) => { scope.onFiles(event.target.files) ;};
-            element.bind("change", (event) => { scope.$apply(onFiles(event)); });
+            let onFiles = (event) => (scope) => scope.onFiles(event.target.files);
+            element.bind("change", (event) => scope.$apply(onFiles(event)));
         }
     };
 }

@@ -292,7 +292,7 @@ gulp.task('ftp', () => {
     let conn = ftp.create(pass[trg]);
     let files = {
         core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'],
-        full: [trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**',trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html']
+        assets: [trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**']
     };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);

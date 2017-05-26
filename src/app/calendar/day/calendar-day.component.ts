@@ -91,7 +91,7 @@ class CalendarDayCtrl {
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                date: new Date(data.date), // дата дня в формате ГГГГ-ММ-ДД
+                date: data.date,//new Date(data.date), // дата дня в формате ГГГГ-ММ-ДД Date.UTC(data.date) + Date().getTimezoneOffset() * 60 * 1000, //
                 user: this.calendar.user
             },
             bindToController: true,

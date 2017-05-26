@@ -3,6 +3,7 @@ export const _user_menu = {
         profile: 'Профиль',
         settings: 'Настройки',
         help: 'Справка',
+        issue: 'Сообщить о проблеме',
         exit: 'Выход'
     },
     en: {

@@ -35,8 +35,8 @@ function configure(
         scope: ['email'],
         scopeDelimiter: ',',
         display: 'popup',
-        oauthType: '2.0',
-        popupOptions: { width: 580, height: 400 }
+        oauthType: '2.0'//,
+        //popupOptions: { width: 580, height: 400 }
     });
 
     // Google
@@ -50,8 +50,8 @@ function configure(
         scopePrefix: 'openid',
         scopeDelimiter: ' ',
         display: 'popup',
-        oauthType: '2.0',
-        popupOptions: { width: 452, height: 633 }
+        oauthType: '2.0'//,
+        //popupOptions: { width: 452, height: 633 }
     });
 
 
@@ -67,6 +67,7 @@ function configure(
         responseType: 'code',
         requiredUrlParams: ['response_type', 'client_id', 'redirect_uri', 'display', 'scope', 'v'],
         scopeDelimiter: ',',
+        oauthType: '2.0',
         v: '5.37'
     });
 

@@ -5,6 +5,7 @@ import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'ang
 import {ISocketService} from "../core/socket.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import GroupService from "../core/group.service";
+import HttpHeaderType = angular.HttpHeaderType;
 
 
 export interface IAuthService {
@@ -20,7 +21,7 @@ export interface IAuthService {
     signOut():void;
     confirm(request:Object):IHttpPromise<{}>;
     setPassword(request:Object):IHttpPromise<{}>;
-
+    storeUser(response: IHttpPromiseCallbackArg<any>):IHttpPromiseCallbackArg<any>;
 }
 
 export default class AuthService implements IAuthService {
@@ -148,6 +149,12 @@ export default class AuthService implements IAuthService {
             .then((result) => {
                 return result['data'];
             }); // Ожидаем system message
+    }
+
+    storeUser(response: IHttpPromiseCallbackArg<any>):IHttpPromiseCallbackArg<any>{
+        this.SessionService.setToken(response.data);
+        this.SocketService.open(response.data['token']).then(()=> response);
+        return response;
     }
 }
 

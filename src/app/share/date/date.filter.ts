@@ -6,6 +6,6 @@ export const calcTimezoneTime = () => (date: Date | string, trgTimezone: string 
     return moment(typeof date === 'string' ? date+'Z': date.toISOString()).tz(trgTimezone).format();
 };
 
-export const changeTimezoneToGMT = (date: Date, srcTimezone: string, trgTimezone: string = _GMT):Date => {
-    return new Date();//changeTimezone(date, srcTimezone, trgTimezone);
+export const getLocalTimeUTC = (date: Date | string):Date => {
+    return new Date();
 };

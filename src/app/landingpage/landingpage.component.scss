@@ -95,7 +95,7 @@ landing-page {
 		height: 36px;
 		line-height: 32px;
 		border-radius: 18px;
-		border: 3px solid $grey-600;
+		border: 3px solid white;
 		padding: 0px;
 	}
 
@@ -163,19 +163,19 @@ landing-page {
 			}
 
 			.soon, .promo {
-				visibility: hidden;
+				//visibility: hidden;
 				@extend .md-display-2, .font-black, .light, .disable;
 				background: rgba($deep-orange-500, 0.8);
 				color: currentColor;
-				text-transform: uppercase;
-				text-align: right;
+				//text-transform: uppercase;
+				text-align: center;//right;
 
 				@media (max-width: 599px), (orientation: landscape) {
 					width: 120px;
 					height: 40px;
 					font-size: 12px;
 					line-height: 40px;
-					padding-right: 20px;
+					//padding-right: 20px;
 				}
 
 				@media (min-width: 600px) and (min-height: 700px) {
@@ -183,7 +183,7 @@ landing-page {
 					height: 75px;
 					font-size: 24px;
 					line-height: 75px;
-					padding-right: 40px;
+					//padding-right: 40px;
 				}
 			}
 
@@ -364,11 +364,11 @@ landing-page {
 	}
 
 
-	.devices {
+	.scheme {
 		color: rgba(white,0.7) !important;
 	}
 
-	.scheme {
+	.devices {
 		color: rgba(black, 0.54) !important;
 	}
 
@@ -404,6 +404,9 @@ landing-page {
 		@media (max-width: 959px) {
 			//height: 100vh;
 			li {padding: 32px 0px !important;}
+			div.block-100 div.text div{
+				text-align: center;
+			}
 		}
 
 		@media (min-width: 960px) {
@@ -412,7 +415,7 @@ landing-page {
 		li {
 			position: relative;
 			margin-left: -100%;
-			padding: 128px 0px;
+			padding: 32px 0px 32px 0px;
 			color: white;
 		}
 		li:first-child {
@@ -425,7 +428,7 @@ landing-page {
 	}
 	.main-features-block, .carousel-block {
 		width: 100vw;
-		padding: 128px 8px;
+		padding: 64px 8px;
 		color: white;
 
 		@media (max-width: 959px) {

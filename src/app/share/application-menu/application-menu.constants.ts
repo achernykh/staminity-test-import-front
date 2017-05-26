@@ -17,6 +17,11 @@ export const UserMenuSettings = [
         link: "https://help.staminity.com/ru/"
     },
     {
+        icon: "error",
+        name: "userMenu.issue",
+        link: "http://support.staminity.com/"
+    },
+    {
         icon: "exit_to_app",
         name: "userMenu.exit",
         link: "signout"

@@ -2,11 +2,13 @@ import {ISocketService} from '../core/socket.service';
 import {ICalendarItem} from '../../../api/calendar/calendar.interface';
 import {GetRequest, PostRequest, PutRequest, DeleteRequest} from '../../../api/calendar/calendar.request';
 import {Observable} from "rxjs/Rx";
+import IHttpPromise = angular.IHttpPromise;
+import {IRESTService, PostFile} from "../core/rest.service";
 
 export class CalendarService {
     item$: Observable<any>;
 
-    constructor(private SocketService:ISocketService) {
+    constructor(private SocketService:ISocketService, private RESTService: IRESTService) {
         this.item$ = this.SocketService.messages.filter(message => message.type === 'calendarItem').share();
     }
 
@@ -28,22 +30,6 @@ export class CalendarService {
                 });
             })*/
     }
-
-    /**
-     *
-     * @param {Object} request
-     * @returns {Promise|Promise<T>}
-     */
-    /*getItem(request) {
-        return this._api.wsRequest('getCalendarItem', request).then((response) => {
-            return new Promise((resolve) => {
-                resolve(response.map((item) => {
-                    if (item.type == 'calendarItem')
-                        return item.value;
-                }))
-            });
-        });
-    }*/
 
     /**
      * Создать запись календаря
@@ -73,12 +59,9 @@ export class CalendarService {
         return this.SocketService.send(new DeleteRequest(mode,items));
     }
 
-    /*deleteItem(request){
-     return this._api.wsRequest('deleteCalendarItem', request);
-     }
-
-     getCompetitionDetails(){
-
-     }*/
-
+    postFile(file: any, activityId?:number):IHttpPromise<any> {
+        debugger;
+        return this.RESTService.postFile(new PostFile(`/api/private/upload`,file, { activityId: activityId}))
+            .then((response) => response.data);
+    }
 }

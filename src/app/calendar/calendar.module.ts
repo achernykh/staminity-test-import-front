@@ -10,7 +10,7 @@ import { scrollContainer, onScrollHitTop, onScrollHitBottom, scrollKeepPosition 
 import configure from './calendar.config';
 
 const Calendar = module('staminity.calendar', [])
-    .service('CalendarService', ['SocketService', CalendarService])
+    .service('CalendarService', ['SocketService', 'RESTService', CalendarService])
     .component('calendarActivityChart', CalendarActivityChart)
     .component('calendarTotalChart', CalendarTotalChart)
     .component('calendarDay', CalendarDayComponent)

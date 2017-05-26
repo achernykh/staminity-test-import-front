@@ -106,6 +106,7 @@ export default class SessionService implements ISessionService {
 	}
 
 	setToken(value:Object):void {
+		debugger;
 		try {
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(value));
 			let userProfile = value['userProfile'];

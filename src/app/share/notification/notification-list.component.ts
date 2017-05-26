@@ -69,12 +69,12 @@ class NotificationListCtrl implements IComponentController {
     close () {
         //clearTimeout(this.timer);
         this.$mdSidenav('notifications').toggle();
-
-        setTimeout(() => {
+        this.NotificationService.put(null, moment().utc() ,true);
+        /*setTimeout(() => {
             if(this.notifications) {
                 this.notifications.filter(n => !n.isRead).forEach(n => this.NotificationService.put(n.id, true));
             }
-        },1);
+        },1);*/
     }
 
     onClick($event, notification: Notification):void {
@@ -120,7 +120,7 @@ class NotificationListCtrl implements IComponentController {
 
                 }, error => {throw new Error(error);});
 
-            this.NotificationService.put(notification.id, true).catch();
+            this.NotificationService.put(notification.id, null, true).catch();
 
         }
     }
