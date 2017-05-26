@@ -170,11 +170,11 @@ export let _translate = {
 			},
 			block2 : {
 				title: 'Помощь и поддержка',
-				link1: '<a flex href="https://help.staminity.com/ru/" class="md-body md-light">Справочная система</a>',
+				link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Справочная система</a>',
 				link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Поддержка</a>',
-				link3: '<a flex href="https://legal.staminity.com/ru/terms.html" class="md-body md-light">Правила использования</a>',
-				link4: '<a flex href="https://legal.staminity.com/ru/license.html" class="md-body md-light">Оферта</a>',
-				link5: '<a flex href="https://legal.staminity.com/ru/privacy.html" class="md-body md-light">Конфиденциальность</a>',
+				link3: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
+				link4: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
+				link5: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
 			},
 			block3 : {
 				title: 'Новости',
@@ -186,7 +186,7 @@ export let _translate = {
 			 block4 : {
 			 title: 'О нас',
 			 link1: '<a flex href="#" class="md-body md-light disable">Наша команда</a>',
-			 link2: '<a flex href="mailto:mail@staminity.com" class="md-body md-light">Написать письмо</a>',
+			 link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">Написать письмо</a>',
 			 }
 		}
 
