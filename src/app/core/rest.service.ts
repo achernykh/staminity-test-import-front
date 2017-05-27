@@ -1,6 +1,7 @@
 import {_connection} from './api.constants';
 import {ISessionService} from './session.service';
 import { IHttpService, IHttpPromise } from 'angular';
+import LoaderService from "../share/loader/loader.service";
 
 interface IPostDataRequest {
 	method:string;
@@ -88,18 +89,20 @@ export class RESTService implements IRESTService {
 	//$http:any;
 	//SessionService:ISessionService;
 
-	static $inject = ['$http', 'SessionService'];
+	static $inject = ['$http', 'SessionService','LoaderService'];
 
-	constructor(private $http:IHttpService, private SessionService:ISessionService) {
+	constructor(private $http:IHttpService, private SessionService:ISessionService, private loader: LoaderService) {
 		//this.$http = $http;
 		//this.SessionService = SessionService;
 	}
 
 	postData(request:IPostDataRequest):IHttpPromise<{}> {
+		this.loader.show();
 		request.headers['Authorization'] += this.SessionService.getToken();
 		request.data.token = this.SessionService.getToken();
 		console.log('REST Service => postData=', request);
 		return this.$http(request)
+			.finally(()=>this.loader.hide())
 			.then((response:any)=> {
 				console.log('REST Service => postData success=', response);
 				return response.data;
@@ -110,8 +113,10 @@ export class RESTService implements IRESTService {
 	}
 
 	postFile(request:IPostFileRequest):IHttpPromise<{}> {
+		this.loader.show();
 		request.headers['Authorization'] += this.SessionService.getToken();
 		return this.$http(request)
+			.finally(()=>this.loader.hide())
 			.then((result:any)=> {
 				return result;
 			}, (response) => {

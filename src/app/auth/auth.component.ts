@@ -100,19 +100,22 @@ class AuthCtrl implements IComponentController {
 	}
 
 	OAuth(provider:string) {
+		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.$auth.link(provider, {
             internalData: {
                 postAsExternalProvider: false,
                 provider: provider
             }
-        }).then((response: IHttpPromiseCallbackArg<{data:{userProfile: IUserProfile, systemFunctions: any}}>) => {
+		})
+			.finally(()=>this.enabled = true)
+			.then((response: IHttpPromiseCallbackArg<{data:{userProfile: IUserProfile, systemFunctions: any}}>) => {
         	this.AuthService.storeUser(response.data);
 			this.$state.go('calendar',{uri: response.data.data.userProfile.public.uri});
 			debugger;
 		}, error => {
 			debugger;
 			if (!(error.hasOwnProperty('message') && error.message.indexOf('The popup window was closed') !== -1)) {
-				this.message.systemError(error);
+				this.message.systemWarning(error.data.errorMessage || error);
 			}
 		}).catch(response => {
 			this.message.systemError(response);

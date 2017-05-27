@@ -300,7 +300,7 @@ gulp.task('ftp', () => {
     return gulp
         .src(files[scope], {base: trg+'/', buffer: false})
         .pipe(order(files[scope]))
-        .pipe(conn.newer('/')) // only upload newer files
+        //.pipe(conn.newer('/')) // only upload newer files
         .pipe(conn.dest('/'));
         /*.pipe(gulpif(scope === 'full',
             gulp.src([trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**'],{base: trg+'/', buffer: false})

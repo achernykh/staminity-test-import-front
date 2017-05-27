@@ -17,7 +17,7 @@
                 <p class="social-text" translate="auth.socialText"></p>
                 <div class="social-buttons">
                     <md-button class="md-icon-button" ng-repeat="provider in ['facebook','google','vk']"
-                               ng-click="$ctrl.OAuth(provider)">
+                               ng-click="$ctrl.OAuth(provider)" ng-disabled="!$ctrl.enabled">
                         <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
                     </md-button>
                 </div>

@@ -37,7 +37,8 @@ module.exports = {
             'angular-carousel',
             'angular-touch',
             'angular-drag-and-drop-lists',
-            'angularjs-scroll-glue'
+            'angularjs-scroll-glue',
+            'drag-drop-webkit-mobile'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'

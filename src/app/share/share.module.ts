@@ -43,7 +43,7 @@ import {calcTimezoneTime} from "./date/date.filter";
 const parseUtc = memorize(date => moment.utc(date));
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
 //const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
-const image = () => (sub:string,url:string):string => {
+const image = () => (sub:string,url:string = ''):string => {
     //debugger;
     return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
 };

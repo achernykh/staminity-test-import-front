@@ -14,7 +14,7 @@
                 <p class="social-text" translate="auth.socialText"></p>
                 <div class="social-buttons">
                     <md-button class="md-icon-button" ng-repeat="provider in ['facebook','google','vkontakte']"
-                               ng-click="$ctrl.OAuth(provider)">
+                               ng-click="$ctrl.OAuth(provider)" ng-disabled="!$ctrl.enabled">
                         <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
                     </md-button>
                 </div>
@@ -59,7 +59,7 @@
                 </md-checkbox>
             </md-list-item>
             <md-list-item>
-                <md-button ng-disabled="!$ctrl.signinForm.$valid" class="md-raised submit" type="submit"
+                <md-button ng-disabled="!$ctrl.signinForm.$valid || !$ctrl.enabled" class="md-raised submit" type="submit"
                            ng-class="{'md-primary': $ctrl.signinForm.$valid && !ul.auth, 'md-disabled': $ctrl.signinForm.$error}"
                            translate='auth.signin.button'
                            aria-label="SignIn Button"></md-button>

@@ -43,6 +43,11 @@ system-message {
     .title, .text {
       text-align: center;
     }
+
+    .text {
+      max-width: 450px;
+    }
+
     button {
       position: absolute;
       right: 0;

@@ -22,6 +22,7 @@ import 'angular-carousel/dist/angular-carousel.css';
 import * as ngTouch from 'angular-touch';
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
 import 'angularjs-scroll-glue/src/scrollglue.js';
+import 'drag-drop-webkit-mobile/ios-drag-drop.js';
 
 import run from './app.run';
 import configure from './app.config';
