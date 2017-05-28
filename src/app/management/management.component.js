@@ -24,10 +24,12 @@ class ManagementCtrl {
             athletes: (member) => this.athletes(member).map(a => a.userProfile.userId).join(' '),
         };
         this.orderBy = 'sort.username';
+        this.checked = [];
+    }
+
+    $onInit(){
         this.clearFilter();
         this.sortingHotfix();
-
-        this.checked = [];
     }
     
     update () {

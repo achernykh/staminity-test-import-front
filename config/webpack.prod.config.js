@@ -42,7 +42,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 use: [{
-                    loader: 'babel-loader',
+                    loader: 'babel-loader?cacheDirectory=true',
                     options: { presets: ['es2015'] }
                 }],
                 exclude: /(node_modules|bower_components)/

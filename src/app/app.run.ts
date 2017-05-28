@@ -1,9 +1,9 @@
-import { TransitionService, State } from 'angular-ui-router';
+import { TransitionService, StateDeclaration } from 'angular-ui-router';
 import LoaderService from "./share/loader/loader.service";
 import {IAuthService} from "./auth/auth.service";
 import MessageService from "./core/message.service";
 
-interface IStaminityState extends State {
+interface IStaminityState extends StateDeclaration {
     loginRequired: boolean;
     authRequired: Array<any>;
 }
@@ -14,7 +14,7 @@ function run($transitions: TransitionService, LoaderService: LoaderService, Auth
 
     $transitions.onBefore({to: '*', from: '*'}, (state) => {
 
-        let routeTo:IStaminityState = <IStaminityState>state.$to();
+        let routeTo:IStaminityState = Object.assign(state.$to());
 
         if(routeTo.loginRequired && !AuthService.isAuthenticated()) {
             message.systemWarning('forbiddenAction');

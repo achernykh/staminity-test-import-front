@@ -96,12 +96,20 @@ export class CalendarCtrl implements IComponentController{
         private session: ISessionService,
         private dialogs: any)
     {
-        let date = moment($location.hash());
+
+    }
+
+    $onInit() {
+        moment.locale('ru');
+
+        let date = moment(this.$location.hash());
+        let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek;
+        this.currentUser = this.session.getUser();
         this.toDate(date.isValid()? date.toDate() : new Date());
-        //this.$anchorScroll.yOffset = 120;
+
         this.CalendarService.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
-                message.value.userProfileOwner.userId === this.user.userId)
+            message.value.userProfileOwner.userId === this.user.userId)
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
@@ -126,12 +134,7 @@ export class CalendarCtrl implements IComponentController{
                     }
                 }
             });
-    }
 
-    $onInit() {
-        this.currentUser = this.session.getUser();
-        moment.locale('ru');
-        let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek;
         //console.log('first day=', firstDayOfWeek, moment.localeData().firstDayOfWeek(),moment.locale());
         if(moment.localeData().firstDayOfWeek() !== firstDayOfWeek){
             moment.updateLocale(moment.locale(), {

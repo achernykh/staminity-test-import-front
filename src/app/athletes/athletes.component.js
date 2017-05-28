@@ -22,9 +22,11 @@ class AthletesCtrl {
             ageGroup: (member) => member.userProfile.public.sex
         };
         this.orderBy = 'username';
-        this.sortingHotfix();
-
         this.checked = [];
+    }
+
+    $onInit() {
+        this.sortingHotfix();
     }
 
     sortingHotfix () {

@@ -1,4 +1,4 @@
-import {StateProvider, StateDeclaration, StateService, State} from 'angular-ui-router';
+import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './auth.translate';
 import { _display_view } from "../core/display.constants";
 import SessionService from "../core/session.service";

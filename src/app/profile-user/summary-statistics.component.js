@@ -54,7 +54,7 @@ class SummaryStatisticsCtrl {
         this.UserService = UserService;
         this.GroupService = GroupService;
         this.message = SystemMessageService;
-        this.isMe = this.user.userId === UserService.profile.userId;
+
 
         this.ranges = [{
             name: 'Обзор года',
@@ -99,6 +99,10 @@ class SummaryStatisticsCtrl {
         this.period = 0;
 
         this.chart = chart;
+    }
+
+    $onInit(){
+        this.isMe = this.user.userId === this.UserService.profile.userId;
         this.updateStatistics();
     }
 

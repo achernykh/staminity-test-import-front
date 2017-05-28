@@ -13,10 +13,21 @@ calendar-total {
   section.total-toolbar {
     padding: 0px 6px 0px 6px;
     height: 30px;
-    border-left: 1px solid $grey-400;
+    //border-left: 1px solid $grey-400;
 
     .md-menu {
       margin-right: -24px;
+    }
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 12.8%;
+      height: 30px;
+      z-index: 1;
+      border-left: 1px solid $grey-400;
     }
   }
 

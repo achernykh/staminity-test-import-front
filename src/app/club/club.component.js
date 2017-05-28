@@ -9,12 +9,14 @@ class ClubCtrl {
         this.UserService = UserService;
         this.RequestsService = RequestsService;
         this.message = message;
+    }
 
-        let user = UserService.profile;
+    $onInit(){
+        let user = this.UserService.profile;
         this.isManager = this.club.innerGroups.ClubManagement.groupMembers.find(m => m.userId === user.userId);
 
         this.subscription = this.RequestsService.requestWithClub(this.club.groupId)
-        .subscribe(() => { this.update() });
+                .subscribe(() => { this.update() });
     }
 
     $onDestroy () {

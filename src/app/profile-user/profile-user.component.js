@@ -15,12 +15,16 @@ class ProfileCtrl {
         this.GroupService = GroupService;
         this.message = SystemMessageService;
         this.RequestsService = RequestsService;
+    }
 
-        this.me = UserService.profile;
+    $onInit(){
+
+        this.me = this.UserService.profile;
         this.isMe = this.user.userId === this.me.userId;
 
         this.subscription = this.RequestsService.requestWithUser(this.user.userId)
-        .subscribe(() => { this.update() });
+                .subscribe(() => { this.update() });
+
     }
 
     $onDestroy () {
