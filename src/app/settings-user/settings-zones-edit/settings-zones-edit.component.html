@@ -3,7 +3,7 @@
         <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
             <md-icon md-svg-icon="/assets/icon/{{::$ctrl.intensityFactor}}.svg"></md-icon>
         </md-button>
-        <h2 md-truncate>{{$ctrl.intensityFactor | translate}}: {{'sport.'+$ctrl.sport | translate}}</h2>
+        <h2>{{$ctrl.intensityFactor | translate}}: {{'sport.'+$ctrl.sport | translate}}</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>

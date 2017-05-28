@@ -26,6 +26,7 @@ module.exports = {
             'satellizer',
             'rxjs',
             'angular-material-data-table',
+            'angular-material-data-table/dist/md-data-table.css',
             'smdatetimerangepicker',
             'smdatetimerangepicker/src/picker.css',
             'angular-simple-logger', // какая-то хрень для ui-leaflet
