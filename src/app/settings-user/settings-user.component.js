@@ -81,7 +81,6 @@ class SettingsUserCtrl {
         this.prepareZones();
 
         moment.locale('ru');
-        moment.lang('ru');
     }
 
     prepareZones() {

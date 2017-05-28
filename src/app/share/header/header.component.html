@@ -6,6 +6,8 @@
         <div flex="nogrow" ng-show="$ctrl.view.title"
              class="app-title md-title" translate>
             {{$ctrl.app.screen.xs ? $ctrl.view.shortTitle : $ctrl.view.fullTitle}}</div>
+        <userpic ng-if="$ctrl.$state.current.name === 'activity'" style="margin-left: 12px"
+                 class="border-light" profile="$ctrl.athlete" is-premium="$ctrl.item.user.isPremium"></userpic>
         <div layout="row" layout-align="center center"
              ng-class="{'back-primary-900' : !!$ctrl.athlete}"
              ng-if="::$ctrl.isEnableAthleteSelector()"

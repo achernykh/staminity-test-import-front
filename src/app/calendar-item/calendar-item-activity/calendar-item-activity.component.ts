@@ -47,6 +47,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     activity: Activity;
     user: IUserProfile;
     tab: string;
+    popup: boolean;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
@@ -332,6 +333,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
+        popup: '=',
         onCancel: '&',
         onAnswer: '&'
     },

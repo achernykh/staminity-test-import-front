@@ -84,7 +84,7 @@ class CalendarDayCtrl {
                                 layout="row" class="calendar-item-activity"
                                 date="$ctrl.date"
                                 mode="'post'"
-                                user="$ctrl.user"
+                                user="$ctrl.user" popup="true"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-activity>
                    </md-dialog>`,

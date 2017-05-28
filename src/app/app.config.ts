@@ -105,6 +105,8 @@ function configure(
 
 	$translateProvider.preferredLanguage('ru');
 	$translateProvider.fallbackLanguage('ru');
+	//TODO необходимо перенести все фильры translate в директивы translate
+	//$translateProvider.useSanitizeValueStrategy('sanitize');
 
 	pickerProvider.setOkLabel('Save');
 	pickerProvider.setCancelLabel('Close');
@@ -112,7 +114,6 @@ function configure(
 	pickerProvider.setDayHeader('single');  //Options 'single','shortName', 'fullName'
 
 	moment.locale('ru');
-	moment.lang('ru');
 
 	tmhDynamicLocaleProvider.localeLocationPattern('/assets/locale/angular-locale_{{locale}}.js');
 	tmhDynamicLocaleProvider.defaultLocale('ru');

@@ -94,7 +94,7 @@ class NotificationListCtrl implements IComponentController {
                                         data="$ctrl.data"
                                         mode="$ctrl.mode"
                                         user="$ctrl.user"
-                                        tab="$ctrl.tab"
+                                        tab="$ctrl.tab" popup="true"
                                         on-cancel="cancel()" on-answer="answer(response)">
                                 </calendar-item-activity>
                            </md-dialog>`,

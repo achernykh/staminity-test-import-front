@@ -30,7 +30,7 @@
                        ng-click="$ctrl.view.compact = !$ctrl.view.compact">
                 <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
             </md-button>
-            <span class="md-body-1">{{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details' | translate}}</span>
+            <span class="md-body-1" translate>{{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details'}}</span>
             <!--
             <md-button class="md-icon-button" aria-label="File"
                        ng-click="$ctrl.onFileUpload()">

@@ -1,9 +1,12 @@
 import './activity.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {ICalendarItem} from "../../../api/calendar/calendar.interface";
+import {IUserProfile} from "../../../api/user/user.interface";
 
 class ActivityCtrl implements IComponentController {
 
-    public data: any;
+    public item: ICalendarItem;
+    public athlete: IUserProfile;
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
@@ -18,7 +21,8 @@ class ActivityCtrl implements IComponentController {
 
 const ActivityComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        item: '<',
+        athlete: '<',
         onEvent: '&'
     },
     require: {
