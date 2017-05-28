@@ -1,0 +1,78 @@
+<div class="application">
+    <div hide-md class="margin-left"></div>
+    <section class="application-body" layout="row">
+        <div flex="none" class="search-filter bg-grey-200">
+            <form name="$ctrl.searchForm" layout="column" layout-fill>
+                <md-list class="md-dense slim-input" flex="auto">
+                    <md-list-item>
+                        <md-input-container class="md-block no-message" md-no-float layout="row">
+                            <md-icon class="material-icons">group</md-icon>
+                            <md-select name="sport" class="icon" required
+                                       ng-model="$ctrl.params.objectType">
+                                <md-option ng-repeat="type in $ctrl.type track by $index"
+                                           value="{{type}}">{{'search.' + type | translate}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </md-list-item>
+                    <md-list-item>
+                        <md-input-container class="md-block no-message" md-no-float layout="row">
+                            <md-icon class="material-icons">search</md-icon>
+                            <input type="text" name="firstName"
+                                   ng-model="$ctrl.params.name" placeholder="Запрос..."
+                                   autocomplete="off" autofocus ng-disabled="false" minlength="0"
+                                   maxlength="100">
+                            <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                                <div ng-message-exp="['minlength', 'maxlength']"
+                                     translate="form.rangeStr" translate-values="{min:0, max:100}">
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </md-list-item>
+                </md-list>
+                <md-dialog-actions flex="none" layout="row">
+                    <md-button flex class="md-primary" ng-disabled="!$ctrl.searchForm.$valid" ng-click="$ctrl.onSearch($ctrl.params)" translate="search.go"></md-button>
+                </md-dialog-actions>
+            </form>
+        </div>
+        <div flex="auto" class="search-result bg-grey-100">
+            <md-table-container>
+                <table md-table class="md-primary"
+                       md-row-select="$ctrl.options.rowSelection"
+                       multiple="{{$ctrl.options.multiSelect}}"
+                       ng-model="$ctrl.selected">
+                    <thead ng-if="!$ctrl.options.decapitate" md-head>
+                    <tr md-row>
+                        <th md-column class="user-name"><span>Имя</span></th>
+                        <th md-column class="sport"><span>Виды спорта</span></th>
+                        <th md-column><span>Страна</span></th>
+                        <th md-column><span>Город</span></th>
+                        <th md-column><span>О себе</span></th>
+                    </tr>
+                    </thead>
+                    <tbody md-body style="overflow: auto">
+                    <tr md-row ng-click="$ctrl.onDetails(obj.profile.public.uri)"
+                        md-select="split"
+                        md-on-select="change" md-on-deselect="change"
+                        md-select-id="ind"
+                        md-auto-select="$ctrl.options.autoSelect"
+                        ng-repeat="obj in $ctrl.result track by $index">
+                        <td md-cell>
+                            <userpic class="border-light size-36" profile="obj.profile" unlink="false"></userpic>
+                            <span class="md-body-2 md-dark user-name">{{obj.name}}</span></td>
+                        <td md-cell>
+                            <span ng-repeat-start="sport in obj.sport" translate="sport.{{sport}}"></span>
+                            <span ng-repeat-end><span ng-if="!$last">, </span></span>
+                        </td>
+                        <td md-cell>{{obj.country}}</td>
+                        <td md-cell>{{obj.city}}</td>
+                        <td md-cell>{{obj.about}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </div>
+    </section>
+    <div hide-md class="margin-right">
+    </div>
+</div>

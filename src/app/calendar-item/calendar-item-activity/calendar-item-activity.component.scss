@@ -1,0 +1,53 @@
+@import "../../../sass/color";
+$details_width: 470px;
+$dialog_width: 95vw;
+$dialog_height: 95vh;
+
+md-dialog#activity{
+  background: none !important;
+  box-shadow: none !important;
+
+  @media (min-width: 960px) {
+      max-height: $dialog_height;
+      max-width: $dialog_width;
+  }
+
+}
+md-dialog#post-activity{
+
+  @media (min-width: 960px) {
+    max-height: $dialog_height;
+    //min-height: 600px;
+    max-width: $dialog_width;
+  }
+
+}
+
+calendar-item-activity {
+
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to right, rgba(white,1), rgba(white,1) 60%, rgba(white, 0.0));
+
+
+
+
+  .md-button.md-nav-theme.md-accent {
+    color: white;
+  }
+
+  md-nav-bar
+
+  md-nav-bar.md-nav-theme .md-button._md-nav-button.md-unselected {
+    color: rgba(255,255,255,0.7);
+  }
+  md-nav-ink-bar {
+    top: 46px;
+  }
+
+  md-toolbar.panel {
+    background: white;
+    color: black;
+  }
+
+}

@@ -1,0 +1,96 @@
+<application-frame class="requests">
+    
+    <md-toolbar layout="row" layout-align="center center" class="md-hue-3">
+        <div style="margin: 0 20px; position: relative">
+            <md-icon class="material-icons">group</md-icon>
+            <span class="badge superscript" ng-if="$ctrl.requests.inbox.new.length">{{$ctrl.requests.inbox.new.length}}</span>
+        </div>
+        <span flex translate>request.title</span>
+        <md-button ng-click="$ctrl.close()" class="md-icon-button">
+            <md-icon class="material-icons">close</md-icon>
+        </md-button>
+    </md-toolbar>
+
+    <md-tabs md-stretch-tabs="always" md-dynamic-height="true" class="md-primary md-hue-3 md-body-1">
+        <md-tab label="{{'request.inbox' | translate}}">
+            <md-tab-body>
+                <div layout-padding="10">
+                    <div class="md-caption" translate>request.waiteApprove</div>
+                    <div ng-if="!$ctrl.requests.inbox.new.length" translate>request.noRequest</div>
+                    <div ng-repeat="request in $ctrl.requests.inbox.new" class="md-no-proxy">
+                        <div layout="row">
+                            <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
+                            <div flex ui-sref="/user/{{request.initiator.public.uri}}">
+                                <div>{{request.initiator | username}}</div>
+                                <div class="md-caption">{{request | requestType | translate}}</div>
+                            </div>
+                            <div class="md-caption">{{$ctrl.fromNow(request.created)}}</div>
+                        </div>
+                        <div layout="row">
+                            <md-button ng-click="$ctrl.processRequest(request, 'A')" translate="request.accept"></md-button>
+                            <md-button ng-click="$ctrl.processRequest(request, 'D')" translate="request.reject"></md-button>
+                        </div>
+                    </div>
+                    <div class="md-caption" translate>request.history</div>
+                    <div ng-if="!$ctrl.requests.inbox.old.length" translate>request.noRequest</div>
+                    <div ng-repeat="request in $ctrl.requests.inbox.old | limitTo:$ctrl.limit.inbox" class="md-no-proxy">
+                        <div layout="row" ui-sref="/user/{{request.initiator.public.uri}}" style="width:100%">
+                            <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
+                            <div flex>
+                                <div>{{request.initiator | username}}</div>
+                                <div class="md-caption">{{$ctrl.fromNow(request.updated)}}</div>
+                            </div>
+                            <md-icon class="material-icons">{{stateIcons[request.state || 'C']}}</md-icon>
+                        </div>
+                    </div>
+                    <div ng-if="$ctrl.requests.inbox.old.length > $ctrl.limit.inbox" layout="row" layout-align="center">
+                        <md-button ng-click="$ctrl.limit.inbox = $ctrl.limit.inbox + 20" translate="request.more"></md-button>
+                    </div>
+                </div>
+            </md-tab-body>
+        </md-tab>
+
+        <md-tab label="{{'request.outbox' | translate}}">
+            <md-tab-body>
+                <div layout-padding="10">
+                    <div class="md-caption" translate>request.waiteApprove</div>
+                    <div ng-if="!$ctrl.requests.outbox.new.length" translate>request.noRequest</div>
+                    <div ng-repeat="request in $ctrl.requests.outbox.new" class="md-no-proxy">
+                        <div layout="row" style="width:100%">
+                            <div ng-if="request.groupProfile.public" style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; vertical-align: middle; margin-right: 10px; background: url({{'/group/avatar/' | image:request.groupProfile.public.avatar}}); background-size: cover; position:relative;"></div>
+                            <userpic ng-if="!request.groupProfile.public" profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
+                            <div flex>
+                                <div>{{request.groupProfile.public? request.groupProfile.public.name : (request.receiver | username)}}</div>
+                                <div class="md-caption">{{request | requestType | translate}}</div>
+                            </div>
+                            <div class="md-caption">
+                                {{$ctrl.fromNow(request.created)}}
+                            </div>
+                        </div>
+                        <div layout="row">
+                            <md-button ng-click="$ctrl.processRequest(request, 'C')" translate="request.reject"></md-button>
+                        </div>
+                    </div>
+                    <div class="md-caption" translate>request.history</div>
+                    <div ng-if="!$ctrl.requests.outbox.old.length" translate>request.noRequest</div>
+                    <div ng-repeat="request in $ctrl.requests.outbox.old | limitTo:$ctrl.limit.outbox" class="md-no-proxy">
+                        <div layout="row" style="width:100%">
+                            <div ng-if="request.groupProfile.public" style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; vertical-align: middle; margin-right: 10px; background: url({{'/group/avatar/' | image:request.groupProfile.public.avatar}}); background-size: cover; position:relative;"></div>
+                            <userpic ng-if="!request.groupProfile.public" profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
+                            <div flex>
+                                <div>{{request.groupProfile.public? request.groupProfile.public.name : (request.receiver | username)}}</div>
+                                <div class="md-caption">{{$ctrl.fromNow(request.updated)}}</div>
+                            </div>
+                            <md-icon class="material-icons">{{stateIcons[request.state || 'C']}}</md-icon>
+                        </div>
+                    </div>
+                    <div ng-if="$ctrl.requests.outbox.old.length > $ctrl.limit.outbox" layout="row" layout-align="center">
+                        <md-button ng-click="$ctrl.limit.outbox = $ctrl.limit.outbox + 20" translate="request.more"></md-button>
+                    </div>
+                </div>
+            </md-tab-body>  
+        </md-tab>
+    </md-tabs>
+            
+</application-frame>
+

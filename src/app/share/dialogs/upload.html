@@ -1,0 +1,32 @@
+<md-dialog id="upload">
+    <form ng-cloak>
+        <md-toolbar style="background: white; color: black">
+            <div class="md-toolbar-tools">
+                <h2 translate="dialogs.upload"></h2>
+                <span flex></span>
+                <md-button class="md-icon-button">
+                    <md-icon ng-click="cancel()" class="material-icons md-dark" aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        
+        <md-dialog-content class="bg-grey-200">
+            <div class="md-dialog-content" layout="column" layout-align="center center">
+                    <img src="{{src()}}"/>
+                    <div flex="none" ng-if="!src()" class="input-box">
+                        <input type="file" id="file" on-files="files" class="input-file"/>
+                        <label for="file" class="input-label">
+                            <md-icon class="material-icons">file_upload</md-icon>
+                            <span class="md-body-2 md-dark" translate="dialogs.choose"></span>
+                        </label>
+                    </div>
+            </div>
+        </md-dialog-content>
+        
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()" translate="dialogs.cancel"></md-button>
+            <md-button ng-click="upload()" translate="dialogs.upload" ng-disabled="!src()"></md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

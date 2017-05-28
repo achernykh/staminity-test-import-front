@@ -1,0 +1,4 @@
+[submodule "api"]
+	path = api
+	url = https://gitlab.com/achernykh/api.git
+	branch = develop

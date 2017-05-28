@@ -1,0 +1,26 @@
+<div class="{{$ctrl.item.activity.status}}">
+    <div layout="row">
+        <div flex="none" layout="row" layout-align="center center"
+             class="bg-circle-56 bg-blue-grey-A700">
+            <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"
+                     class="s36 light-active"></md-icon>
+        </div>
+        <div class="summary-value md-headline font-black" flex="auto" layout="column">
+            <div flex="none"><span>{{$ctrl.durationInfo}}</span>
+            </div>
+            <div flex="none"><span>{{$ctrl.intensityInfo}}</span>
+            </div>
+        </div>
+    </div>
+    <div layout="row" class="md-subhead" style="margin-top: 8px">
+        <div flex="none" layout="column">
+            <div flex="none" style="width: 56px" ng-if="!$ctrl.item.activity.percent"></div>
+            <div class="summary-percent" ng-if="$ctrl.item.activity.percent" flex="none">{{$ctrl.item.activity.printPercent()}}
+            </div>
+        </div>
+        <div flex="auto" layout="column" class="summary-info">
+            <div flex="none" ng-if="$ctrl.item.activity.categoryCode">{{'category.'+$ctrl.item.activity.categoryCode | translate}}</div>
+            <div flex="none">{{::$ctrl.item.activity.dateStart | calcTimezoneTime:$ctrl.item.user.display.timezone | date:'medium'}}&nbsp#{{$ctrl.item.activity.activityHeader.activityId}}</div>
+        </div>
+    </div>
+</div>

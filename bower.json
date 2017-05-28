@@ -21,27 +21,10 @@
   ],
   "main": "index.html",
   "dependencies": {
-    "angular": "^1.5.7",
-    "angular-component-router": "^0.2.1",
-    "angular-material": "^1.0.9",
-    "angular-sanitize": "^1.5.7",
-    "angular-animate": "^1.5.7",
-    "angular-aria": "^1.5.7",
-    "angular-translate": "^2.11.1",
-    "angular-messages": "^1.5.7",
-    "angular-scroll": "^1.0.0",
+    "angular": "^1.5.8",
     "ng-notify": "^0.8.0",
-    "animate.css": "^3.5.2",
-    "angular-websocket": "^2.0.0",
-    "moment": "^2.14.1",
-    "localforage": "^1.4.2",
-    "angular-ui-scroll": "^1.5.1",
-    "angular-drag-and-drop-lists": "^1.4.0",
-    "angular-moment": "^1.0.0",
     "angular-read-more": "^1.0.5",
-    "normalize-css": "^5.0.0"
+    "angular-toArrayFilter": "^1.0.1"
   },
-  "devDependencies": {
-    "angular-mocks": "^1.5.7"
-  }
+  "devDependencies": {}
 }

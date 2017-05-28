@@ -1,0 +1,154 @@
+<md-card flex="none" layout="column" id="zones" class="">
+    <md-card-title>
+        <h2 class="md-title" translate="settings.zones.header"></h2>
+    </md-card-title>
+    <form name="$ctrl.zonesForm">
+        <md-list class="md-dense section">
+            <md-subheader ng-repeat-start="(intensivityFactor,zone) in $ctrl.user.trainingZones track by $index">
+                <span translate="{{intensivityFactor}}"></span>
+            </md-subheader>
+            <md-list-item ng-repeat-start="(sportName,sport) in zone track by $index"
+                          ng-click="navigateTo('data usage', $event)">
+                <md-icon md-svg-src="/assets/icon/{{sportName}}.svg"></md-icon>
+                <p><span translate="{{'sport.'+ sportName}}"></span><span> ({{intensivityFactor | measureUnit:'run' | translate}})</span></p>
+                <md-button class="md-secondary" ng-click="doSecondaryAction($event)" translate="settings.zones.editSport"></md-button>
+            </md-list-item>
+            <div style="border-radius: 5px; padding: 0px 16px">
+                <div ng-repeat="zone in sport.zones track by $index"
+                     style="display: inline-block; background-color: #{{zone.color.toString(16)}}; height: 10px; opacity: {{zone.opacity}}; width: {{zone.width * 100}}%">
+                    <md-tooltip md-direction="bottom">{{zone.valueFrom | measureCalc:'run':intensivityFactor}}-{{zone.valueTo | measureCalc:'run':intensivityFactor}}</md-tooltip>
+                </div>
+            </div>
+            <md-list-item layout="row" layout-wrap ng-repeat-end>
+                <md-button class="md-exclude" ng-if="sport[measure]" ng-repeat="measure in ['FTP','maxValue','minValue'] track by $index">
+                    {{measure | translate}}:&nbsp{{sport[measure] | measureCalc:'run':intensivityFactor}}&nbsp
+                    <span>{{intensivityFactor | measureUnit:'run' | translate}}</span>
+                </md-button>
+            </md-list-item>
+            <md-list-item ng-repeat-end>
+                <p></p>
+                <md-button class="md-secondary"
+                           ng-click="$ctrl.showPasswordChange($event)"
+                           translate="settings.zones.addSport">
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </form>
+</md-card>
+
+<!--<md-card flex="none" layout="column" id="zones">
+    <div class="h1" layout="column" layout-wrap>
+        <div flex layout="row" layout-align="start center">
+            <md-icon flex="none" md-svg-icon="/pic/straighten.svg" style="margin-right: 8px" class="fill-light"></md-icon>
+            <div flex="100" layout="row" layout-align="start center">
+                <p class="md-title" translate>app.settings.zones.header</p>
+            </div>
+        </div>
+        <div flex class="hint light" style="margin-left: 32px" translate>app.settings.zones.hint</div>
+    </div>
+    <form name="vm.trainingZonesForm">
+        <div ng-repeat="param in $ctrl.user.trainingZones">
+            <div layout="row" layout-align="space-between center" class="h2">
+                <div layout="row" layout-align="start center">
+                    <md-icon flex="none" md-svg-src="/pic/{{param.type}}.svg" style="margin-right: 8px" class="s24 fill-light"></md-icon>
+                    <div flex="none" class="md-subhead">
+                        {{'_measurementUnits.' + param.type +'.name' | translate}}
+                    </div>
+                </div>
+                <md-button flex="none" class="md-raised md-primary" ng-click="">+ add
+                </md-button>
+            </div>
+            <div ng-repeat="activity in param.activity">
+                <div layout="row" layout-align="space-between center" class="h3">
+                    <div layout="row" layout-align="start center">
+                        <md-icon flex="none" md-svg-src="/pic/{{activity.name}}.svg" style="margin-right: 8px" class="s24 fill-dark"></md-icon>
+                        <p class="md-subhead">{{activity.name + ' (' + activity.unit +')'}}</p>
+                        <md-switch ng-if="param.type ==='paceSpeed'" ng-model="data.cb2" aria-label="Switch 2" ng-true-value="'pace'" ng-false-value="'speed'" class="md-primary" style="margin: 0px 16px">
+                            {{ data.cb2 }}
+                        </md-switch>
+                    </div>
+                    <md-button ng-if="activity.name !== 'default'" flex="none" class="md-raised" style="margin: 0px" ng-click="vm.removeActivity(param.type, activity.name)">delete
+                    </md-button>
+                </div>
+                <md-divider ></md-divider>
+                <div layout="row" layout-align="start center" class="padding-08-24">
+                    <div flex="none" layout="row">
+                        <md-icon md-svg-icon="/pic/format_list_bulleted.svg" class="fill-dark" style="margin-right: 8px"></md-icon>
+                        <div flex="none" class="md-body-2">Thresholds:</div>
+                    </div>
+                    <div flex="5" ng-repeat-start="threshold in activity.thresholds"></div>
+                    <md-input-container flex="auto" class="md-body-1 no-message" ng-repeat-end>
+                        <label translate>{{::threshold.code}}</label>
+                        <input type="number" name="threshold" ng-model="threshold.value" autocomplete="off" ng-disabled="false">
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-align="space-between end" class="padding-08-24">
+                    <div flex="none" layout="row" style="margin-bottom: 1px">
+                        <md-icon md-svg-icon="/pic/calculator.svg" style="margin-right: 8px" class="fill-dark"></md-icon>
+                        <div flex="none" class="md-body-2">Auto Calculate:</div>
+                    </div>
+                    <div flex="5"></div>
+                    <md-input-container flex="auto" md-no-float class="md-block no-margin md-body-1">
+                        <md-select flex class="md-body-1 no-message no-border" ng-model="activity.method" placeholder="chooseMethod">
+                            <md-optgroup label="{{::calculation.type}}" ng-repeat="calculation in vm.zoneCalculationMethod[param.type]">
+                                <md-option class="md-body-1" ng-repeat="method in calculation.method" ng-click="vm.selectMethod(method, param.type, activity.name)">
+                                    {{::method}}
+                                </md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row" ng-repeat="methodZone in activity.methodZones" class="padding-00-24" ng-if="activity.method">
+                    <div flex="none" class="md-body-1 disabled dark">{{$index+1}}</div>
+                    <div flex="5"></div>
+                    <md-input-container flex="auto" class="md-body-1 no-message no-margin">
+                        <input name="zone" ng-model="methodZone.code" autocomplete="off" ng-disabled="true" aria-label="Zone Code">
+                    </md-input-container>
+                    <div flex="5"></div>
+                    <md-input-container flex="none" class="md-body-1 no-message no-margin" style="width: 55px">
+                        <input name="zone" ng-model="methodZone.valueFrom" autocomplete="off" ng-disabled="true" aria-label="Zone Value From">
+                    </md-input-container>
+                    <div flex="5"></div>
+                    <md-input-container flex="none" class="md-body-1 no-message no-margin" style="width: 55px">
+                        <input name="zone" ng-model="methodZone.valueTo" autocomplete="off" ng-disabled="true" aria-label="Zone Value To">
+                    </md-input-container>
+                    <div flex="none" class="md-body-1 disabled dark">{{activity.unit}}</div>
+                    <md-button flex="none" ng-disabled="false" class="md-icon-button md-warn" aria-label="Delete">
+                        <md-icon md-svg-icon="/pic/delete_forever.svg" class="fill-dark"></md-icon>
+                    </md-button>
+                </div>
+                <div layout="row" layout-align="end center" class="padding-08-24" ng-if="activity.method">
+                    <md-button flex="none" class="" ng-click="vm.selectMethod(activity.method, param.type, activity.name)">calculate</md-button>
+                    <md-button flex="none" class="" ng-disabled="!activity.method" ng-click="activity.method = null">cancel</md-button>
+                    <md-button flex="none" class="md-raised md-primary" ng-disabled="!activity.methodZones" ng-click="vm.applyMethod(param.type, activity.name)">apply</md-button>
+                </div>
+                <md-divider ></md-divider>
+
+                <div layout="row" layout-align="start center" ng-repeat="zone in activity.zones" class="padding-00-24">
+                    <div flex="none" class="md-body-1 disabled dark" style="width: 24px; margin-right: 8px; text-align: center">{{$index+1}}</div>
+                    <md-input-container flex="auto" class="md-body-1 no-message no-margin">
+                        <input name="zone" ng-model="zone.code" autocomplete="off" ng-disabled="false" aria-label="Zone Code">
+                    </md-input-container>
+                    <div flex="5"></div>
+                    <md-input-container flex="none" class="md-body-1 no-message no-margin" style="width: 55px">
+                        <input name="zone" type="number" ng-model="zone.valueFrom" autocomplete="off" ng-disabled="false" aria-label="Zone Value From">
+                    </md-input-container>
+                    <div flex="5"></div>
+                    <md-input-container flex="none" class="md-body-1 no-message no-margin" style="width: 55px">
+                        <input name="zone" type="number" ng-model="zone.valueTo" autocomplete="off" ng-disabled="false" aria-label="Zone Value To">
+                    </md-input-container>
+                    <div flex="none" class="md-body-1 disabled dark">{{activity.unit}}</div>
+                    <md-button flex="none" class="md-icon-button md-warn" aria-label="Delete" ng-click="vm.removeZone(param.type, activity.name, $index)">
+                        <md-icon md-svg-icon="/pic/delete_forever.svg" class="fill-dark"></md-icon>
+                    </md-button>
+                </div>
+                <div layout="row" layout-align="end center" class="padding-08-24">
+                    <md-button flex="none" ng-click="vm.newZone(param.type, activity.name)">add new
+                    </md-button>
+                    <md-button flex="none" class="md-warn" ng-click="vm.removeAllZones(param.type, activity.name)">delete all
+                    </md-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</md-card>-->

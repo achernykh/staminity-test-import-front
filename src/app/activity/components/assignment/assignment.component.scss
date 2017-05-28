@@ -1,0 +1,97 @@
+@import '../../../../sass/color.scss';
+
+activity-assignment {
+
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  [disabled] md-input-container .md-input {
+    color: black !important;
+    border: none !important;
+  }
+
+  &:focus, &:hover {
+    overflow-y: auto;
+  }
+
+  @media(max-width: 599px) {
+    overflow-y: auto;
+  }
+
+
+  table {
+    padding: 0px 0px;
+  }
+
+  table.md-table:not(.md-row-select) td.md-cell:first-child,
+  table.md-table:not(.md-row-select) th.md-column:first-child {
+    padding-left: 0px !important;
+    padding-right: 20px !important;
+  }
+
+  table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2),
+  table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+    padding-right: 12px;
+  }
+
+  table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
+    padding-right: 12px;
+  }
+
+  table.md-table tbody.md-body > tr.md-row, table.md-table tfoot.md-foot > tr.md-row {
+    height: 40px;
+  }
+
+  table.md-table thead.md-head > tr.md-row {
+    height: 32px;
+  }
+
+  table.md-table th.md-column {
+    font-weight: normal;
+  }
+
+  table.md-table td.md-cell md-input-container{
+    margin: 0px;
+    padding: 2px 0px 0px 0px;
+
+    input {
+      text-align: right;
+      //border-color: rgba(0,0,0,0.0);
+    }
+
+    div.md-errors-spacer {
+      min-height: 0px;
+    }
+  }
+
+  .md-subheader {
+    font-size: 12px;
+  }
+
+  .error-block {
+
+    padding: 16px 16px 0px 16px;
+    color: $red-800;
+    background: $grey-100;
+    transition: all 0.3s ease-in-out;
+
+    &.ng-enter {
+      max-height: 0px;
+      opacity: 0;
+    }
+    &.ng-enter.ng-enter-active {
+      max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave {
+      max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave.ng-leave-active {
+      max-height: 0px;
+      opacity: 0;
+    }
+  }
+
+}

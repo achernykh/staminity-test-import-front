@@ -1,0 +1,45 @@
+<md-dialog>
+    <md-dialog-content class="select-users">
+        
+        <md-list>
+
+            <md-list-item layout="row" layout-align="center center">
+                <div class="md-title">
+                    {{ 'dialogs.' + message | translate}}
+                </div>
+            </md-list-item>
+
+            <md-list-item ng-repeat="user in checked()" layout="row" layout-align="center center">
+                <userpic profile="user.userProfile" is-premium="user.userProfile.isPremium"></userpic>
+                <span flex>{{ user.userProfile | username }}</span>
+                <md-switch  ng-model="user.checked" style="margin-left: 10px;"></md-switch>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <md-menu flex>
+                    <md-button ng-disabled="!unchecked().length" ng-click="$mdOpenMenu($event)" layout="row" layout-fill>
+                        <md-icon class="material-icons">supervisor_account</md-icon>
+                        <span flex style="min-width: 150px;">Добавить </span>
+                        ▾
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="user in unchecked()">
+                            <md-button ng-click="user.checked = true">
+                                <userpic profile="user.userProfile" is-premium="user.userProfile.isPremium"></userpic>
+                                {{ user.userProfile | username }}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <md-button ng-click="commit()"> Принять </md-button>
+                <span flex></span>
+                <md-button ng-click="cancel()"> Отклонить </md-button>
+            </md-list-item>
+            
+        </md-list>
+
+    </md-dialog-content>
+</md-dialog>

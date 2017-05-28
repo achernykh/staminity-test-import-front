@@ -1,0 +1,73 @@
+<div ng-if="$ctrl.item.isLoadingRange" class="screen-center-block" style="background-color: white; opacity: 0.5; position: absolute; z-index: 100">
+    <div>
+        <img src="/assets/icon/ripple.svg" width="60" height="60"/>
+    </div>
+</div>
+
+<activity-metrics-char flex="none" hide-gt-sm style="margin-top: 8px; margin-right: 8px"
+                       ng-if="!$ctrl.item.activity.structured"
+                       measures="$ctrl.chartData.measures"
+                       data="$ctrl.chartData.data"
+                       x="elapsedDuration"
+                       change="$ctrl.change"
+                       change-measure="$ctrl.changeMeasure"
+                       sport="$ctrl.item.activity.sportBasic"
+                       select="$ctrl.item.selectionTimestamp"
+                       on-selected="$ctrl.onSelectionRange(select)">График...
+</activity-metrics-char>
+<md-divider></md-divider>
+
+
+<md-list class="md-dense slim-input">
+    <form>
+        <md-list-item style="padding-top: 0px">
+            <md-input-container class="md-block no-message" md-no-float layout="row">
+                <md-icon class="material-icons">format_list_numbered</md-icon>
+                <md-select flex name="sport" class="icon" multiple="true" placeholder="Вся тренировка"
+                           ng-model="$ctrl.selectedIntervals" ng-change="$ctrl.changeSelect()">
+                    <md-optgroup label="Круги">
+                        <md-option ng-repeat="interval in $ctrl.intervals | toArray | filter:{type: 'L'} track by interval.$key"
+                                   value="{{interval.$key}}">
+                            <span>{{interval.$key}}</span>
+                            <span>({{interval.duration | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
+                            <span>{{interval.distance | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
+                            <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic | translate}})</span>
+                        </md-option>
+                    </md-optgroup>
+                    <md-optgroup label="Выделения">
+                        <md-option ng-repeat="interval in $ctrl.intervals | toArray | filter:{type: 'U'} track by interval.$key"
+                                   value="{{interval.$key}}">
+                            <span>{{interval.$key}}</span>
+                            <span>({{interval.duration | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
+                            <span>{{interval.distance | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
+                            <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic | translate}})</span>
+                        </md-option>
+                    </md-optgroup>
+                </md-select>
+                <div ng-messages="$ctrl.assignmentForm.type.$error" role="alert">
+                    <div ng-message-exp="['required']"
+                         translate="form.required">
+                    </div>
+                    <div ng-message-exp="['minlength', 'maxlength']"
+                         translate="form.rangeStr" translate-values="{min:2, max:100}">
+                    </div>
+                </div>
+            </md-input-container>
+        </md-list-item>
+    </form>
+</md-list>
+
+<measures-avg-table flex="none" class="measures-avg-table" ng-cloak
+                    calc-measures="$ctrl.getCalcMeasure($ctrl.selectedIntervals)"
+                    sport="$ctrl.item.activity.sportBasic"
+                    changes="$ctrl.changes"></measures-avg-table>
+
+<measure-main-button flex="none" class="measure-main-button" ng-cloak
+                     calc-measures="$ctrl.getCalcMeasure($ctrl.selectedIntervals)"
+                     sport="$ctrl.item.activity.sportBasic"
+                     changes="$ctrl.changes"></measure-main-button>
+
+<activity-peaks flex="auto" class="activity-peaks" ng-cloak
+                calc-measures="$ctrl.getCalcMeasure($ctrl.selectedIntervals)"
+                sport="$ctrl.item.activity.sportBasic"
+                changes="$ctrl.changes"></activity-peaks>

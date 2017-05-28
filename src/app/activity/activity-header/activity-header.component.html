@@ -1,0 +1,104 @@
+<md-toolbar flex="none" class="{{$ctrl.item.activity.status}}">
+    <div class="md-toolbar-tools" ng-cloak>
+        <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
+                       aria-label="User">
+                <md-icon class="material-icons">menu</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.item.onDelete()"
+                               ng-disabled="$ctrl.item.mode === 'post' || $ctrl.item.isCreator">
+                        <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                        <span translate="measurement.toolbar.delete"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="" ng-disabled="true">
+                        <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
+                        <span translate="measurement.toolbar.settings"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="">
+                        <md-icon class="material-icons" md-menu-align-target>swap_vertical_circle</md-icon>
+                        <span translate="Ввод в %ПАНО"></span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <h2 translate="Тренировка"></h2>
+        <span flex></span>
+        <userpic class="border-light" profile="$ctrl.item.user" is-premium="$ctrl.item.user.isPremium"></userpic>
+        <md-button class="md-icon-button" hide-gt-sm
+                   ng-click="$ctrl.item.onCancel()">
+            <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
+                   ng-click="$ctrl.item.onCancel()">
+            <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-content flex="auto" layout="column">
+    <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
+             md-stretch-tabs="always" ng-cloak
+             ng-class="{'coming': $ctrl.item.activity.status === 'coming',
+                                'not-specified': $ctrl.item.activity.status === 'not-specified',
+                                'complete': $ctrl.item.activity.status === 'complete',
+                                'complete-warn': $ctrl.item.activity.status === 'complete-warn',
+                                'complete-error': $ctrl.item.activity.status === 'complete-error' || $ctrl.item.activity.status === 'dismiss'}">
+        <md-tab id="overview" flex="auto" layout="column">
+            <md-tab-label><md-icon class="material-icons">event_note</md-icon></md-tab-label>
+            <md-tab-body layout="column" layout-fill>
+                    <activity-header-overview></activity-header-overview>
+            </md-tab-body>
+        </md-tab>
+        <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
+                ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
+            <md-tab-label><md-icon class="material-icons">assessment</md-icon></md-tab-label>
+            <md-tab-body layout-fill layout-column>
+                <activity-header-details flex="auto" layout="column" layout-fill
+                                         selection-index="$ctrl.item.selectionIndex"
+                                         change="$ctrl.item.detailsSelectChangeCount + $ctrl.item.splitsSelectChangeCount"
+                                         on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
+                </activity-header-details>
+            </md-tab-body>
+        </md-tab>
+        <md-tab id="splits" flex layout="column"
+                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
+            <md-tab-label><md-icon class="material-icons">repeat</md-icon></md-tab-label>
+            <md-tab-body layout-fill layout-column>
+                <activity-header-splits flex="auto" layout="column" layout-fill
+                                        splits="$ctrl.item.activity.intervalL"
+                                        sport="$ctrl.item.activity.sportBasic">
+                </activity-header-splits>
+            </md-tab-body>
+        </md-tab>
+        <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post'"
+                md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
+            <md-tab-label><md-icon class="material-icons">chat</md-icon></md-tab-label>
+            <md-tab-body layout-fill layout-column>
+                <activity-header-chat flex="auto" layout="column" layout-fill
+                                      activity-id="$ctrl.item.activity.id"
+                                      social="$ctrl.item.activity.header.social"
+                                      user="$ctrl.item.user" current-user="$ctrl.item.currentUser"
+                                      coach="$ctrl.item.isMyCoach">
+                </activity-header-chat>
+            </md-tab-body>
+        </md-tab>
+        <md-tab id="zones" flex layout="column">
+            <md-tab-label><md-icon class="material-icons">tune</md-icon></md-tab-label>
+            <md-tab-body layout-fill layout-column>
+                <activity-header-zones flex="auto" layout="column" layout-fill
+                                       zones="$ctrl.item.user.trainingZones"
+                                       sport="$ctrl.item.activity.sportBasic"
+                                       has-details="$ctrl.item.activity.hasImportedData">
+                </activity-header-zones>
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+</md-content>

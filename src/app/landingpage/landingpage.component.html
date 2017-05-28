@@ -1,0 +1,506 @@
+<!-- common section -->
+<application-frame class='{{$ctrl.view.style}}'>
+    <div layout="row" layout-align="center start"
+         class="app-layer"
+         style="height: auto; top: 0px; z-index: 10; position: absolute">
+        <!-- common left margin -->
+
+        <div class="body">
+
+            <!-- welcome block: start -->
+            <section flex="grow" layout="row" class="welcome-block" md-theme="dark">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="100" layout="column" layout-align="space-between center">
+                        <div flex="none" layout="row"
+                             class="logo-box"
+                             style="">
+                            <div flex="none" id="landingpage-soon"
+                                 class="md-display-2 soon animated fadeInRight"
+                                 translate="landing.welcome.promo" href="http://blog.staminity.com">
+                            </div>
+                            <div flex="none" layout="column" layout-align="start center"
+                                 class="logo">
+                                <div flex="none" id="landingpage-logo" class="animated pulse">
+                                    <img class="icon" src="/assets/icon/logo_mono.svg"/>
+                                </div>
+                                <div flex="none">
+                                    <img class="typo" src="/assets/icon/logo_typo_mono.svg"/>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div flex="auto" layout="column" layout-align="center center"
+                             id="landingpage-title"
+                             translate class="animated fadeIn">
+                            <h1 flex="none" class="md-display-3" translate="landing.welcome.description"></h1>
+                        </div>
+
+                        <div id="mc_embed_signup" flex="none" layout="column">
+                            <form flex="none" layout="column" class="start" name="startForm">
+                                <md-button flex='none' class="md-raised md-primary"
+                                           ng-disabled = "!startForm.$valid"
+                                           type="submit" name="start" ng-click="$ctrl.go()"
+                                           translate="landing.start.action"></md-button>
+                                <div class="note md-body"
+                                     translate="landing.start.note"></div>
+                            </form>
+                            <!--<form flex="none" layout="column" class="subscribe"
+                                  action="//staminity.us14.list-manage.com/subscribe/post?u=0f9d8fcdbbc8ab7bb9f344b02&amp;id=0caa4cfc49"
+                                  method="post" id="mc-embedded-subscribe-form" name="subscribeForm"
+                                  target="_blank" novalidate>
+                                    <md-input-container flex="none"  md-no-float class="md-block center">
+                                        <input ng-model="$ctrl.credentials.name"
+                                               placeholder="{{ 'landing.subscribe.name' | translate }}"
+                                               name="NAME" id="mce-NAME" autocomplete="on"
+                                               required maxlength="30">
+                                        <div ng-messages="subscribeForm.NAME.$error" role="alert">
+                                            <div ng-message="required" translate="landing.subscribe.required"></div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="none" md-no-float class="md-block center">
+                                        <input ng-model="$ctrl.credentials.email" placeholder="Email"
+                                               name="EMAIL" id="mce-EMAIL" autocomplete="on"
+                                               required minlength="4" maxlength="100"
+                                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                               placeholder="{{ 'landing.subscribe.email' | translate }}">
+                                        <div ng-messages="subscribeForm.EMAIL.$error" role="alert">
+                                            <div ng-message="required" translate="landing.subscribe.required"></div>
+                                            <div ng-message-exp="['minlength', 'maxlength', 'pattern']"
+                                                 translate="landing.subscribe.errMail">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                <div id="mce-responses" class="clear">
+                                    <div class="response" id="mce-error-response" style="display:none"></div>
+                                    <div class="response" id="mce-success-response" style="display:none"></div>
+                                </div>
+
+                                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                    <input type="text" name="b_c49c777942c67c1e4df468558_224d40e5a0" tabindex="-1" value="">
+                                </div>
+                                <md-button flex='none' class="md-raised md-primary"
+                                           ng-disabled = "!subscribeForm.$valid"
+                                           type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                           translate="landing.subscribe.action"></md-button>
+
+                                <div class="note md-body"
+                                     translate="landing.subscribe.note"></div>
+                            </form>-->
+                        </div>
+                        <md-button disabled md-ink-ripple="false" flex="none" class="md-icon-button more" aria-label="more">
+                            <md-icon class="light-active" md-svg-icon="assets/icon/expand_more.svg"></md-icon>
+                        </md-button>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+            </section>
+            <!-- welcome block: end -->
+
+            <section id="howitworks" flex="grow" layout="row" class="scheme gradient-01 main-features-block">
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+                <div flex="100" layout="column" layout-align="start center">
+                    <h2 flex="none" class="md-display-2" translate="landing.scheme.title"></h2>
+                    <h3 flex="none" class="md-headline" translate="landing.scheme.subtitle"></h3>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-01.png">
+                            <div flex="none" class="step-number md-title md-light">1</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step1.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step1.description"></div>
+                        </div>
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-02.png">
+                            <div flex="none" class="step-number md-title md-light">2</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step2.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step2.description"></div>
+                        </div>
+                        <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-scheme-03.png">
+                            <div flex="none" class="step-number md-title md-light">3</div>
+                            <h4 flex="none" class="md-title" translate="landing.scheme.step3.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.scheme.step3.description"></div>
+                        </div>
+                    </div>
+                </div>
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+            </section>
+
+            <section flex="grow" layout="row" class="devices gradient-02 main-features-block">
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+                <div flex="100" layout="column" layout-align="start center">
+                    <h2 flex="none" class="md-display-2" translate="landing.devices.title"></h2>
+                    <h3 flex="none" class="md-headline" translate="landing.devices.subtitle"></h3>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-gt-sm="50" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-devices-01.png">
+                            <h4 flex="none" class="md-title" translate="landing.devices.desktop.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.devices.desktop.description"></div>
+                        </div>
+                        <div flex="none" flex-gt-sm="50" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-devices-02.png">
+                            <h4 flex="none" class="md-title" translate="landing.devices.mobile.title"></h4>
+                            <div flex="none" class="md-body info" translate="landing.devices.mobile.description"></div>
+                        </div>
+                    </div>
+                </div>
+                <div flex-gt-sm="10" hide show-gt-sm></div>
+            </section>
+
+
+
+
+
+            <section id="athletes" flex="grow" layout="row" class="main-features-block cover-02">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="100" layout="column" layout-align="start center">
+                        <h2 flex="none" class="md-display-2" translate="landing.features.athletes.title"></h2>
+                        <h3 flex="none" class="md-headline" translate="landing.features.athletes.subtitle"></h3>
+                        <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
+                                 class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/statistics-1.svg"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.athletes.title1"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.athletes.text1"></div>
+                            </div>
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
+                                 class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-speed.svg"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.athletes.title2"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.athletes.text2"></div>
+                            </div>
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding
+                                 class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-browser.svg"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.athletes.title3"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.athletes.text3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </section>
+
+                <ul rn-carousel rn-carousel-auto-slide="15" class="carousel-block gradient-03" rn-carousel-index="athlete">
+                    <li ng-repeat="slide in $ctrl.slides['athlete'] track by $index">
+                        <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                            <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                                <img flex="none" width="100%" src="/assets/picture/{{slide}}">
+                            </div>
+                            <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
+                                <h2 flex="none" class="md-title" translate="landing.features.athletes.carousel{{$index+1}}.title"></h2>
+                                <div flex="none" class="md-body info" translate="landing.features.athletes.carousel{{$index+1}}.description"></div>
+                            </div>
+                        </div>
+                    </li><!--
+                    <li>
+                        <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                            <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="center start" layout-padding class="center">
+                                <img flex="none" width="100%" src="/assets/picture/lp-user-02.png">
+                            </div>
+                            <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
+                                <h2 flex="none" class="md-title" translate="landing.features.athletes.carousel2.title"></h2>
+                                <div flex="none" class="md-body info" translate="landing.features.athletes.carousel2.description"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                            <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                                <img flex="none" width="100%" src="/assets/picture/lp-user-03.png">
+                            </div>
+                            <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
+                                <h2 flex="none" class="md-title" translate="landing.features.athletes.carousel3.title"></h2>
+                                <div flex="none" class="md-body info" translate="landing.features.athletes.carousel3.description"></div>
+                            </div>
+                        </div>
+                    </li>-->
+                </ul>
+                <div rn-carousel-indicators ng-if="$ctrl.slides['athlete'].length > 1" slides="$ctrl.slides['athlete']" rn-carousel-index="athlete" style="background-color: #454676; text-align: center"></div>
+
+                <section id="coaches" layout="row" class="main-features-block cover-03">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="start center">
+                        <h2 flex="none" class="md-display-2" translate="landing.features.coaches.title"></h2>
+                        <h3 flex="none" class="md-headline" translate="landing.features.coaches.subtitle"></h3>
+
+                        <div flex="auto" layout="column" layout-gt-sm="row"
+                             class="block-100">
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon class="icon" md-svg-src="/assets/icon/lp-goal-1.svg"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.coaches.title1"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.coaches.text1"></div>
+                            </div>
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/research-1.svg" class="icon"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.coaches.title2"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.coaches.text2"></div>
+                            </div>
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-statistics.svg" class="icon"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.coaches.title3"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.coaches.text3"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </section>
+
+                <ul rn-carousel rn-carousel-duration="300" class="carousel-block gradient-04">
+                    <li>
+                        <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                            <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                                <img flex="none" width="100%" src="/assets/picture/lp-coach-01.png">
+                            </div>
+                            <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30"
+                                 layout="column" layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
+                                <h2 flex="none" class="md-title" translate="landing.features.coaches.carousel1.title"></h2>
+                                <div flex="none" class="md-body info" translate="landing.features.coaches.carousel1.description"></div>
+                            </div>
+                        </div>
+                    </li><!--
+                    <li>
+                        <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                            <div flex="none" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                                <img flex="none" width="100%" src="/assets/picture/lp-user-02.png">
+                            </div>
+                            <div flex="none" flex-order="1" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
+                                <h2 flex="none" class="md-title" translate="landing.features.coaches.carousel2.title"></h2>
+                                <div flex="none" class="md-body info" translate="landing.features.coaches.carousel2.description"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                            <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                                <img flex="none" width="100%" src="/assets/picture/lp-user-03.png">
+                            </div>
+                            <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
+                                <h2 flex="none" class="md-title" translate="landing.features.coaches.carousel3.title"></h2>
+                                <div flex="none" class="md-body info" translate="landing.features.coaches.carousel3.description"></div>
+                            </div>
+                        </div>
+                    </li>-->
+                </ul>
+
+                <section id="clubs" layout="row" class="main-features-block cover-04">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                    <div flex="auto" layout="column" layout-align="start center">
+                        <h2 flex="none" class="md-display-2" translate="landing.features.clubs.title"></h2>
+                        <h3 flex="none" class="md-headline" translate="landing.features.clubs.subtitle"></h3>
+
+                        <div flex="auto" layout="column" layout-gt-sm="row"
+                             class="block-100">
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon class="icon" md-svg-src="/assets/icon/hierarchical-structure.svg"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.clubs.title1"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.clubs.text1"></div>
+                            </div>
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-screen.svg" class="icon"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.clubs.title2"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.clubs.text2"></div>
+                            </div>
+                            <div flex="none" flex-gt-sm="33" layout="column" layout-align="start center" layout-padding class="center">
+                                <div flex="none">
+                                    <md-icon md-svg-src="/assets/icon/lp-analytics.svg" class="icon"></md-icon>
+                                </div>
+                                <h4 flex="none" class="md-title" translate="landing.features.clubs.title3"></h4>
+                                <div flex="none" class="md-body info" translate="landing.features.clubs.text3"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </section>
+
+            <ul rn-carousel rn-carousel-duration="300" class="carousel-block gradient-05">
+                <li>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-order-gt-sm="1" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-club-01.png">
+                        </div>
+                        <div flex="none" flex-order-gt-sm="2" flex-order="1" flex-gt-sm="30" layout="column"
+                             layout-align-gt-sm="start start" layout-align="start center" layout-padding class="text">
+                            <h2 flex="none" class="md-title" translate="landing.features.clubs.carousel1.title"></h2>
+                            <div flex="none" class="md-body info" translate="landing.features.clubs.carousel1.description"></div>
+                        </div>
+                    </div>
+                </li>
+                <li><!--
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-order="2" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-user-02.png">
+                        </div>
+                        <div flex="none" flex-order="1" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
+                            <h2 flex="none" class="md-title" translate="landing.features.clubs.carousel2.title"></h2>
+                            <div flex="none" class="md-body info" translate="landing.features.clubs.carousel2.description"></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div flex="auto" layout="column" layout-gt-sm="row" class="block-100">
+                        <div flex="none" flex-order="1" flex-gt-sm="70" layout="column" layout-align="start center" layout-padding class="center">
+                            <img flex="none" width="100%" src="/assets/picture/lp-user-03.png">
+                        </div>
+                        <div flex="none" flex-order="2" flex-gt-sm="30" layout="column" layout-align="start start" layout-padding class="">
+                            <h2 flex="none" class="md-title" translate="landing.features.clubs.carousel3.title"></h2>
+                            <div flex="none" class="md-body info" translate="landing.features.clubs.carousel3.description"></div>
+                        </div>
+                    </div>
+                </li>-->
+            </ul>
+
+                <section layout="row" class="footer-block" md-theme="dark">
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+
+                    <div flex layout="column">
+                        <div flex layout-gt-sm="row" layout="column" layout-align="center center" layout-align-gt-sm="center start">
+                            <div flex layout="column" class="footer-column">
+                                <h4 flex class="md-title md-light" translate="landing.footer.block1.title"></h4>
+                                <div flex translate="landing.footer.block1.link1"></div>
+                                <div flex translate="landing.footer.block1.link2"></div>
+                                <div flex translate="landing.footer.block1.link3"></div>
+                                <div flex translate="landing.footer.block1.link4"></div>
+                                <div flex translate="landing.footer.block1.link5"></div>
+                                <md-divider flex hide-gt-sm></md-divider>
+                            </div>
+                            <div flex layout="column" class="footer-column">
+                                <h4 flex class="md-title md-light" translate="landing.footer.block2.title"></h4>
+                                <div flex translate="landing.footer.block2.link1"></div>
+                                <div flex translate="landing.footer.block2.link2"></div>
+                                <div flex translate="landing.footer.block2.link3"></div>
+                                <div flex translate="landing.footer.block2.link4"></div>
+                                <div flex translate="landing.footer.block2.link5"></div>
+                                <md-divider flex hide-gt-sm></md-divider>
+                            </div>
+                            <div flex layout="column" class="footer-column">
+                                <h4 flex class="md-title md-light" translate="landing.footer.block3.title"></h4>
+                                <div flex translate="landing.footer.block3.link1"></div>
+                                <div flex translate="landing.footer.block3.link2"></div>
+                                <div flex translate="landing.footer.block3.link3"></div>
+                                <div flex translate="landing.footer.block3.link4"></div>
+                                <md-divider flex hide-gt-sm></md-divider>
+                            </div>
+                            <div flex layout="column" class="footer-column">
+                                <h4 flex class="md-title md-light" translate="landing.footer.block4.title"></h4>
+                                <div flex translate="landing.footer.block4.link1"></div>
+                                <div flex translate="landing.footer.block4.link2"></div>
+                                <md-divider flex hide-gt-sm></md-divider>
+                            </div>
+                        </div>
+
+                        <div flex="none" layout="row" layout-align="center start" class="social-buttons">
+                            <md-button flex="none" class="md-icon-button more" aria-label="more"
+                                       onclick="location.href='https://www.facebook.com/staminity/'">
+                                <md-icon class="light-active" md-svg-icon="assets/icon/facebook_clr.svg"></md-icon>
+                            </md-button>
+                            <md-button flex="none" class="md-icon-button more" aria-label="more"
+                                       onclick="location.href='https://vk.com/staminity'">
+                                <md-icon class="light-active" md-svg-icon="assets/icon/vkontakte_clr.svg"></md-icon>
+                            </md-button>
+                        </div>
+                        <div flex="none" class="copyright">
+                            <span>Сделано с </span>
+                            <md-icon class="fill-measure heartRate" md-svg-icon="assets/icon/heartRate.svg"></md-icon>
+                            <span>| © 2017 staminity.com Все права защищены</span>
+                        </div>
+                    </div>
+
+
+                    <!--<div id="mc_embed_signup" flex="auto" layout="column" layout-align="space-between center">
+
+                        <div flex="none" class="md-title" translate="landing.subscribe.title"></div>
+                        <form flex="none" layout="column" class="subscribe"
+                              action="//staminity.us14.list-manage.com/subscribe/post?u=0f9d8fcdbbc8ab7bb9f344b02&amp;id=0caa4cfc49"
+                              method="post" id="mc-embedded-subscribe-form" name="subscribeForm"
+                              target="_blank" novalidate>
+                            <md-input-container flex="none"  md-no-float class="md-block center">
+                                <input ng-model="$ctrl.credentials.name"
+                                       placeholder="{{ 'landing.subscribe.name' | translate }}"
+                                       name="NAME" id="mce-NAME" autocomplete="on"
+                                       required maxlength="30">
+                                <div ng-messages="subscribeForm.NAME.$error" role="alert">
+                                    <div ng-message="required" translate="landing.subscribe.required"></div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="none" md-no-float class="md-block center">
+                                <input ng-model="$ctrl.credentials.email" placeholder="Email"
+                                       name="EMAIL" id="mce-EMAIL" autocomplete="on"
+                                       required minlength="4" maxlength="100"
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                       placeholder="{{ 'landing.subscribe.email' | translate }}">
+                                <div ng-messages="subscribeForm.EMAIL.$error" role="alert">
+                                    <div ng-message="required" translate="landing.subscribe.required"></div>
+                                    <div ng-message-exp="['minlength', 'maxlength', 'pattern']"
+                                         translate="landing.subscribe.errMail">
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <div id="mce-responses" class="clear">
+                                <div class="response" id="mce-error-response" style="display:none"></div>
+                                <div class="response" id="mce-success-response" style="display:none"></div>
+                            </div>
+
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                <input type="text" name="b_c49c777942c67c1e4df468558_224d40e5a0" tabindex="-1" value="">
+                            </div>
+                            <md-button flex='none' class="md-raised md-primary"
+                                       ng-disabled = "!subscribeForm.$valid"
+                                       type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                       translate="landing.subscribe.action"></md-button>
+
+                            <div class="note md-body"
+                                 translate="landing.subscribe.note"></div>
+                        </form>
+
+                        <div flex="none" layout="row" class="social-buttons">
+
+                            <md-button flex="none" class="md-icon-button more" aria-label="more"
+                                       onclick="location.href='https://www.facebook.com/staminity/'">
+                                <md-icon class="light-active" md-svg-icon="assets/icon/fb-mono.svg"></md-icon>
+                            </md-button>
+
+                            <md-button flex="none" class="md-icon-button more" aria-label="more"
+                                       onclick="location.href='https://vk.com/staminity'">
+                                <md-icon class="light-active" md-svg-icon="assets/icon/vk-mono.svg"></md-icon>
+                            </md-button>
+
+                        </div>
+
+                        <div flex="none" class="note md-body">
+                            <span translate="landing.subscribe.question"></span>
+                            <a href="mailto:mail@staminity.com">mail@staminity.com</a>
+                        </div>
+
+                    </div>-->
+
+                    <div flex-gt-sm="10" hide show-gt-sm></div>
+                </section>
+
+        </div>
+        <!-- common right margin -->
+
+    </div>
+</application-frame>
+<!-- end of common section -->

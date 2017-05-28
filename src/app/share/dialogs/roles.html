@@ -1,0 +1,26 @@
+<md-dialog>
+    <md-dialog-content class="roles">
+        
+        <md-list>
+
+            <md-list-item layout="row" layout-align="center center">
+                <div class="md-title">
+                    Роль в клубе
+                </div>
+            </md-list-item>
+
+            <md-list-item ng-repeat="role in roles" layout="row" layout-align="center center">
+                <span flex>{{'dialogs.' + role.role | translate}}</span>
+                <md-switch  ng-model="role.checked" aria-label="role checked"></md-switch >
+            </md-list-item>
+
+            <md-list-item layout="row" layout-align="center center">
+                <md-button ng-click="commit()" translate="dialogs.ok"> Принять </md-button>
+                <span flex></span>
+                <md-button ng-click="cancel()" translate="dialogs.cancel"> Отклонить </md-button>
+            </md-list-item>
+            
+        </md-list>
+        
+    </md-dialog-content>
+</md-dialog>

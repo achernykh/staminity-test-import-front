@@ -1,0 +1,99 @@
+<md-card flex="none" layout="column" id="public" style="position: relative">
+    <md-list class="md-dense section">
+        <form name="$ctrl.publicForm">
+
+            <md-subheader>Основная информация</md-subheader>
+
+            <md-list-item layout="row" layout-wrap>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label>Название</label>
+                    <input type="text" name="firstName" ng-model="$ctrl.club.public.name" required autocomplete="off" autofocus ng-disabled="false" minlength="1" maxlength="100">
+                    <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                        <div ng-message-exp="['required']" translate="form.required"></div>
+                        <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:1, max:100}"></div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+
+            <md-list-item layout="row" layout-wrap>
+                <md-autocomplete flex="45" flex-xs="100" class="no-message" flex required
+                                ng-model="$ctrl.club.public.country"
+                                md-input-name="country"
+                                md-input-minlength="2"
+                                md-input-maxlength="18"
+                                md-no-cache="$ctrl.noCache"
+                                md-selected-item="$ctrl.club.public.country"
+                                md-search-text="$ctrl.countrySearchText"
+                                md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
+                                md-item-text="$ctrl._country_list['ru'][id]"
+                                md-require-match
+                                md-floating-label="{{'settings.personalInfo.main.country'|translate}}">
+                    <md-item-template>
+                        <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list['ru'][id]}}</span>
+                    </md-item-template>
+
+                    <div ng-messages="$ctrl.personalFirstForm.country.$error" role="alert"
+                         ng-if="$ctrl.personalFirstForm.country.$touched">
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
+                        </div>
+                        <div ng-message="required">You <b>must</b> have a favorite state.</div>
+                        <div ng-message="md-require-match">Please select an existing state.</div>
+                        <div ng-message="minlength">Your entry is not long enough.</div>
+                        <div ng-message="maxlength">Your entry is too long.</div>
+                    </div>
+                </md-autocomplete>
+
+                <div flex="10"></div>
+
+                <md-autocomplete flex="45" flex-xs="100" class="no-message" flex
+                                 md-input-name="city"
+                                 md-input-minlength="2"
+                                 md-input-maxlength="18"
+                                 md-no-cache="$ctrl.noCache"
+                                 md-selected-item="$ctrl.club.public.city"
+                                 md-search-text="$ctrl.club.public.city"
+                                 md-items="city in $ctrl.citySearch($ctrl.club.public.city)"
+                                 md-item-text="city.description"
+                                 md-require-match
+                                 md-floating-label="{{'settings.personalInfo.main.city'|translate}}">
+                    <md-item-template>
+                        <span md-highlight-text="$ctrl.citySearchText">{{city.description}}</span>
+                    </md-item-template>
+
+                    <div ng-messages="$ctrl.personalFirstForm.city.$error" role="alert"
+                         ng-if="$ctrl.personalFirstForm.city.$touched">
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
+                        </div>
+                        <div ng-message="required">You <b>must</b> have a favorite state.</div>
+                        <div ng-message="md-require-match">Please select an existing state.</div>
+                        <div ng-message="minlength">Your entry is not long enough.</div>
+                        <div ng-message="maxlength">Your entry is too long.</div>
+                    </div>
+                </md-autocomplete>
+            </md-list-item>
+
+            <md-list-item flex layout="row">
+                <md-input-container flex class="md-block no-message">
+                    <label translate="settings.personalInfo.about"></label>
+                    <textarea ng-model="$ctrl.club.public.about" name="about" rows="3" md-select-on-focus></textarea>
+                </md-input-container>
+            </md-list-item>
+
+            <md-list-item layout="row">
+                <fieldset name="activity" flex="100" style="margin: 12px 0px">
+                    <legend style="margin-bottom: 16px" translate="settings.personalInfo.sportShape.activityTypes.header"></legend>
+                    <div layout="row" layout-wrap flex>
+                        <div flex="33" ng-repeat="item in $ctrl._ACTIVITY">
+                            <md-checkbox class="md-body-1 md-primary" aria-label={{::item}} ng-checked="$ctrl.isActivityChecked(item)" ng-click="$ctrl.toggleActivity(item)">
+                                {{::item}}
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </fieldset>
+            </md-list-item>
+
+        </form>
+    </md-list>
+</md-card>

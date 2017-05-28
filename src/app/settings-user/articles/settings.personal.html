@@ -1,0 +1,245 @@
+<md-card flex="none" layout="column" id="personal" style="position: relative">
+
+    <md-list class="md-dense section">
+        <form name="$ctrl.publicForm">
+            <md-subheader>Основная информация</md-subheader>
+            <md-list-item layout="row" layout-wrap>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.firstName"></label>
+                    <input type="text" name="firstName"
+                           ng-model="$ctrl.user.public.firstName"
+                           required autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
+                    <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+                <div flex="10"></div>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.lastName"></label>
+                    <input type="text" name="lastName"
+                           ng-model="$ctrl.user.public.lastName"
+                           autocomplete="off" ng-disabled="false" required minlength="2" maxlength="100">
+                    <div ng-messages="$ctrl.publicForm.lastName.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item layout="row" layout-wrap layout-align="start center">
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.uri"></label>
+                    <input type="text" name="uri"
+                           ng-model="$ctrl.user.public.uri"
+                           required autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
+                    <div ng-messages="$ctrl.publicForm.uri.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+                <div flex="10"></div>
+            </md-list-item>
+        </form>
+        <form name="$ctrl.personalFirstForm">
+            <md-list-item layout="row" layout-wrap>
+                <!--<md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.country"></label>
+                    <!--<input type="text" name="city" ng-model="$ctrl.user.personal.country" autocomplete="off"
+                            ng-disabled="false" minlength="1" maxlength="100">-->
+
+                    <!--<md-select flex class="" ng-model="$ctrl.user.personal.country" arial-label="Privacy Level">
+                        <md-option class="" ng-value="key" ng-repeat="(key,name) in $ctrl._country_list['ru']"
+                                   ng-bind="name"></md-option>
+                    </md-select>
+                    <input type="text"/>
+                </md-input-container>-->
+                <md-autocomplete flex="45" flex-xs="100" class="no-message" flex
+                                 md-input-name="country"
+                                 md-input-minlength="2"
+                                 md-input-maxlength="18"
+                                 md-no-cache="$ctrl.noCache"
+                                 md-selected-item="$ctrl.user.personal.country"
+                                 md-search-text="$ctrl.countrySearchText"
+                                 md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
+                                 md-item-text="$ctrl._country_list['ru'][id]"
+                                 md-floating-label="{{'settings.personalInfo.main.country'|translate}}">
+                    <md-item-template>
+                        <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list['ru'][id]}}</span>
+                    </md-item-template>
+
+                    <div ng-messages="$ctrl.personalFirstForm.country.$error" role="alert"
+                         ng-if="$ctrl.personalFirstForm.country.$touched">
+                    </div>
+                </md-autocomplete>
+                <div flex="10"></div>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.main.city"></label>
+                    <input type="text" name="city" ng-model="$ctrl.user.personal.city" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
+                    <div ng-messages="$ctrl.personalFirstForm.city.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+                <!-- autocmplete for city: cors problem
+                <md-autocomplete flex="45" flex-xs="100" class="no-message" flex
+                                 md-input-name="city"
+                                 md-input-minlength="2"
+                                 md-input-maxlength="18"
+                                 md-no-cache="$ctrl.noCache"
+                                 md-selected-item="$ctrl.user.personal.city"
+                                 md-search-text="$ctrl.citySearchText"
+                                 md-items="city in $ctrl.citySearch($ctrl.citySearchText)"
+                                 md-item-text="city.description"
+                                 md-require-match
+                                 md-floating-label="{{'settings.personalInfo.main.city'|translate}}">
+                    <md-item-template>
+                        <span md-highlight-text="$ctrl.citySearchText">{{city.description}}</span>
+                    </md-item-template>
+
+                    <div ng-messages="$ctrl.personalFirstForm.city.$error" role="alert"
+                         ng-if="$ctrl.personalFirstForm.city.$touched">
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
+                        </div>
+                        <div ng-message="required">You <b>must</b> have a favorite state.</div>
+                        <div ng-message="md-require-match">Please select an existing state.</div>
+                        <div ng-message="minlength">Your entry is not long enough.</div>
+                        <div ng-message="maxlength">Your entry is too long.</div>
+                    </div>
+                </md-autocomplete> -->
+            </md-list-item>
+            <md-list-item layout="row" layout-wrap layout-align="start center">
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label>День рождения</label>
+                    <md-datepicker ng-model="$ctrl.user.personal.birthday"
+                                   md-hide-icons="calendar"
+                                   name="birthday"></md-datepicker>
+                    <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                    </div>
+                </md-input-container>
+                <div flex="10"></div>
+                <div flex="45" flex-xs="100" layout="row" layout-align="space-between center" style="margin-top: 8px;">
+                    <div flex="none" class="md-caption" translate="settings.personalInfo.sex"></div>
+                    <div flex="auto" style="margin-left: 20px">
+                        <md-radio-group name="sex" class="md-primary"
+                                        ng-model="$ctrl.user.personal.sex"
+                                        layout="row" layout-align="end center">
+                            <md-radio-button value="M"><span translate="settings.personalInfo.M"></span></md-radio-button>
+                            <md-radio-button value="F"><span translate="settings.personalInfo.W"></span></md-radio-button>
+                        </md-radio-group>
+                    </div>
+                </div>
+
+            </md-list-item>
+
+            <md-list-item flex layout="row">
+                <md-input-container flex class="md-block no-message">
+                    <label translate="settings.personalInfo.about"></label>
+                    <textarea ng-model="$ctrl.user.personal.about" name="about" rows="1" md-select-on-focus></textarea>
+                </md-input-container>
+            </md-list-item>
+        </form>
+    </md-list>
+    <md-divider></md-divider>
+    <md-list class="md-dense section">
+        <form name="$ctrl.privateFirstForm">
+
+            <div class="md-no-stiky md-subheader">
+                <div class="md-subheader-inner">
+                    <div class="md-subheader-content">
+                        <span translate="settings.personalInfo.sportShape.header"></span>
+                    </div>
+                </div>
+            </div>
+            <md-list-item layout="row" layout-wrap>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.sportShape.weight"></label>
+                    <input name="weight" ng-model="$ctrl.user.private.weight"
+                           autocomplete="off" type="number" step="0.1" min="10" max="500">
+                    <div ng-messages="$ctrl.privateFirstForm.weight.$error" role="alert">
+                        <div ng-message-exp="['min', 'max']"
+                             translate="form.rangeNum" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+                <div hide show-gt-xs flex="10"></div>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.sportShape.height"></label>
+                    <input name="height" ng-model="$ctrl.user.private.height"
+                           autocomplete="off" type="number" step="1" min="10" max="500">
+                    <div ng-messages="$ctrl.privateFirstForm.height.$error" role="alert">
+                        <div ng-message-exp="['min', 'max']"
+                             translate="form.rangeNum" translate-values="{min:'10', max:'500'}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item layout="row">
+                <md-input-container flex="100" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.sportShape.level"></label>
+                    <input name="level" ng-model="$ctrl.user.private.level"
+                           autocomplete="off" type="number" step="0.1" min="10" max="100">
+                    <div ng-messages="$ctrl.privateFirstForm.level.$error" role="alert">
+                        <div ng-message-exp="['min', 'max']"
+                             translate="form.rangeNum" translate-values="{min:'10', max:'100'}"></div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+        </form>
+
+        <form name="$ctrl.personalSecondForm" flex="100">
+            <md-list-item layout="row">
+                <fieldset name="activity" flex="100" style="margin: 12px 0px">
+                    <legend style="margin-bottom: 16px" translate="settings.personalInfo.sportShape.activityTypes.header"></legend>
+                    <div layout="row" layout-wrap flex>
+                        <div flex="33" ng-repeat="item in $ctrl._ACTIVITY">
+                            <md-checkbox class="md-body-1 md-primary" aria-label={{::item}} ng-checked="$ctrl.isActivityChecked(item)" ng-click="$ctrl.toggleActivity(item)">
+                                {{::item}}
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </fieldset>
+            </md-list-item>
+        </form>
+            <md-divider></md-divider>
+        <form name="$ctrl.privateSecondForm" flex="100">
+            <md-subheader><span translate="settings.personalInfo.contacts.header"></span></md-subheader>
+            
+            <md-list-item layout="row" layout-wrap>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.contacts.extEmail"></label>
+                    <input type="email" name="extEmail" ng-model="$ctrl.user.private.extEmail" autocomplete="off" autofocus ng-disabled="false" minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/">
+                    <div ng-messages="$ctrl.privateSecondForm.email.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+                <div flex="10"></div>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settings.personalInfo.contacts.phone"></label>
+                    <input type="text" name="phone" ng-model="$ctrl.user.private.phone" autocomplete="off" ng-disabled="false" minlength="5" maxlength="100">
+                    <div ng-messages="$ctrl.privateSecondForm.phone.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:1, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+        </form>
+    </md-list>
+</md-card>

@@ -1,0 +1,86 @@
+<application-frame class="club-profile" layout="column" layout-align="center center">
+
+    <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/group/background/' + $ctrl.club.public.background | image}})">
+        <div class="userpic" style="background-image: url({{'/group/avatar/' + $ctrl.club.public.avatar | image}})" layout-align="center"></div>
+        <div class="md-title" style="color:white; margin-bottom: 10px">{{ $ctrl.club.public.name }}</div>
+        <div class="md-caption">{{ [$ctrl.club.public.country, $ctrl.club.public.city].filter(Boolean).join(', ') }}</div>
+        <div class="md-caption" style="margin-bottom: 15px; margin-top:2px;">{{ $ctrl.club.public.activityTypes.join(', ') }}</div>
+        <div ng-if="$ctrl.club.availableInteractions">
+
+            <md-button ng-if="$ctrl.club.availableInteractions.btnJoinGroup" ng-click="$ctrl.join()" class="md-raised md-primary" style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
+                Начать тренироваться
+            </md-button>
+            
+            <md-menu ng-if="$ctrl.club.availableInteractions.btnCancelJoinGroup">
+                <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                Заявка отправлена ▾
+                </md-button>
+                <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.cancel()">
+                        Отменить заявку
+                    </md-button>
+                </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            
+            <md-menu ng-if="$ctrl.club.availableInteractions.btnLeaveGroup">
+                <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                Ваш клуб ▾
+                </md-button>
+                <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.leave()">
+                        Покинуть клуб
+                    </md-button>
+                </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            
+            <md-menu ng-if="$ctrl.club.availableInteractions.btnCancelLeaveGroup">
+                <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                Вы отправили заявку на выход ▾
+                </md-button>
+                <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.cancel()">
+                        Отменить заявку
+                    </md-button>
+                </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            
+        </div>
+
+        <md-button ng-if="!$ctrl.isManager" class="md-fab profile-fab">
+            <md-icon class="material-icons">send</md-icon>
+        </md-button>
+        <md-button ng-if="$ctrl.isManager" class="md-fab profile-fab" ui-sref="settings/club({uri: $ctrl.club.groupUri})">
+            <md-icon class="material-icons">mode_edit</md-icon>
+        </md-button>
+    </md-card>
+        
+    <md-card class="profile-content md-body-1" layout-padding="8">
+        <div class="md-caption">О клубе</div>
+        <div style="white-space: pre-wrap;">{{ $ctrl.club.public.about ||"Информация не указана" }}</div>
+        <div class="md-caption">Состав</div>
+        <div ng-if="$ctrl.club.innerGroups">
+            <md-button ng-disabled="!$ctrl.club.innerGroups.ClubCoaches.groupMembers.length" ng-click="$ctrl.showCoaches()">
+                <span>Тренеры:</span> 
+                <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-' }}</span> 
+            </md-button>                    
+            <md-button ng-disabled="!$ctrl.club.innerGroups.ClubAthletes.groupMembers.length" ng-click="$ctrl.showAthletes()">
+                <span>Спортсмены:</span> 
+                <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-' }}</span>
+            </md-button>
+        </div>
+        <div ng-if="!$ctrl.club.innerGroups">
+            <md-button ng-disabled="!$ctrl.club.groupMembers.length" ng-click="$ctrl.showMembers()">
+                <span>Участники:</span> 
+                <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.groupMembersCount }}</span>
+            </md-button>
+        </div>
+    </md-card>
+          
+</application-frame>
+

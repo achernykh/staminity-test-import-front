@@ -1,0 +1,32 @@
+<!--
+<div layout="row" md-theme="default" layout-padding>
+    <avatar-pic type="toaster.data.notification.type"
+                avatar="toaster.data.notification.avatar"
+                sref="toaster.data.notification.state"
+                is-premium="toaster.data.notification.isPremium"
+                class="md-avatar size-36"></avatar-pic>
+    <div class="md-list-item-text" layout="column">
+        <div layout="row">
+            <h3 flex>{{toaster.data.notification.name | translate}}</h3>
+            <p flex="none">{{$ctrl.fromNow(toaster.data.notification.ts)}}</p>
+        </div>
+        <p>{{toaster.data.notification.template | limitTo: 200 | translate:toaster.data.notification.params }}</p>
+    </div>
+</div>-->
+
+<md-list class="md-dense" flex>
+    <md-list-item class="md-3-line">
+        <avatar-pic type="toaster.data.notification.type"
+                    avatar="toaster.data.notification.avatar"
+                    sref="toaster.data.notification.state"
+                    is-premium="toaster.data.notification.isPremium"
+                    class="md-avatar size-36"></avatar-pic>
+        <div class="md-list-item-text" layout="column">
+            <div layout="row">
+                <h3 flex><a ui-sref="{{::toaster.data.notification.state}}">{{toaster.data.notification.name | translate}}</a></h3>
+                <p flex="none">{{$ctrl.fromNow(toaster.data.notification.ts)}}</p>
+            </div>
+            <p>{{toaster.data.notification.template | limitTo: 200 | translate:toaster.data.notification.params }}</p>
+        </div>
+    </md-list-item>
+</md-list>

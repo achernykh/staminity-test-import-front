@@ -1,0 +1,65 @@
+activity-metrics-details {
+  background: white;
+  margin-left: 16px;
+  padding-right: 16px;
+  min-width: calc(95vw - 450px);
+  border-radius: 0px 3px 3px 0px;
+
+
+
+    header {
+      //background-color: $grey-200;
+      padding: 0px 0px;
+      > md-icon:first-child {
+        margin-right: 20px !important;
+      }
+
+      .md-button.md-icon-button:last-child {
+        margin-right: -8px !important;
+      }
+
+    }
+
+
+
+  activity-route.map {
+    background-color: grey;
+  }
+
+  .angular-leaflet-map {
+    height: 100%;
+  }
+
+  activity-metrics-char {
+    //background-color: grey;
+    //margin: 0px 8px;
+    //max-height: 400px;
+  }
+
+  measure-split-table {
+    //background-color: grey;
+  }
+
+
+  activity-route, activity-metrics-char, measure-split-table {
+
+    transition: all 0.3s ease-in-out;
+
+    &.ng-enter {
+      max-height: 0px;
+      opacity: 0;
+    }
+    &.ng-enter.ng-enter-active {
+      max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave {
+      max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave.ng-leave-active {
+      max-height: 0px;
+      opacity: 0;
+    }
+  }
+}

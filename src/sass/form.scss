@@ -1,0 +1,159 @@
+form md-list, md-list form {
+    // В стандарте линия подчекивания почти такаяже темная как и разделитель блоков md-devider
+    // Вместе они смотрятся плохо, поэтому были варианты или вообще не делать линию в блоках
+    // ввода или сделать ее сильно светлее, чтобы существено отличалась от разделителя
+    md-input-container .md-input, textarea, md-select .md-select-value{
+        border-color: rgba(0,0,0,0.05);
+        padding-left: 0px;
+    }
+    // Текст внутри поля ввода идет с отступом в 2px, что брасается в глаза при наличие других
+    // текстовых элементах, которые идут с ровным отступаом от края
+    md-input-container label {
+      padding-left: 0px;
+    }
+    // Подзаголовок md-subheader имеет 16px отсупа снизу, при наличии 16px отступа сверху у первых
+    // элементов ввода или селекта расстояние становится очень большим
+    div.md-subheader + md-list-item md-select{
+        margin-top: 0px;
+    }
+
+    // В стандарте стоит 16 вверху и 12 внизу, не ровно с последующим текстом
+    md-list-item .md-list-item-inner>md-icon:first-child:not(.md-avatar-icon){
+        margin-top: 14px !important;
+        margin-bottom: 14px !important;
+    }
+
+    // В стандарте нет элемента для списка md-list, где элемент select и есть подчеркивание с
+    // отсупой слева, как в iOS или Android (http://ionicframework.com/docs/v2/components/#select)
+    md-list-item.mobile-select {
+      div.md-list-item-inner {
+        padding-left: 0px;
+        margin-left: 16px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+      p {
+        @extend .secondary, .dark;
+      }
+    }
+}
+
+//
+md-autocomplete,
+md-input-container,
+md-select {
+  &.no-message {
+    .md-errors-spacer {
+      min-height: 0 !important;
+    }
+  }
+}
+
+// Подзаголовок md-subheader имеет 16px отсупа снизу, при наличии 16px отступа сверху у первых
+// элементов ввода или селекта расстояние становится очень большим
+form md-card-title + md-list md-list-item:first-child md-input-container:first-child{
+    margin-top: 0px;
+}
+// На макетах представлены в виде списков из элементов ввода, выбора и т.д. Секции разделеются md-divider. Заголовки
+// оформляются через dev.md-subheader. Чтобы обеспечить необходимый отступ между секциями (24 px от полседнего элемента)
+// предлагается использовать стиль .section для md-list
+md-list.section {
+    padding-bottom: 20px;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+// Согласно спецификации Google Material Design для элементов input, list предусмотрен формат dense. Он предполгает
+// уменьшенный размер элементов.
+// Пример для input можно посмотреть тут https://material.io/guidelines/components/text-fields.html#text-fields-labels
+// В issue есть упоминание, что вскоре будет выполнена доработка, а возможно будет создан специальный сервис для
+// работы с dense форматом
+form md-list.md-dense, md-list.md-dense form {
+
+    md-input-container {
+        margin-bottom: 4px;
+    }
+
+    md-select {
+        margin-bottom: 4px;
+    }
+
+    legend, p, span, md-input-container input, md-input-container textarea,
+    md-input-container label:not(.md-no-float):not(.md-container-ignore),
+    md-input-container input::-webkit-input-placeholder,
+    md-input-container textarea::-webkit-input-placeholder {
+      font-size: 13px;
+      line-height: normal;
+    }
+}
+
+// Кстомизация страндартных элементов ввода input,select,textarea для отображения внутри элементов md-list, md-list-item
+// В стандарте отсуп после иконок для таких элементов 36px, а типовой отстпуп в md-list - 56px
+md-list-item md-input-container.md-icon-left:first-child {
+  padding-left: 44px; // вместо 36 px, чтобы быть с одинм отсупом с элементами md-list
+
+  > md-icon {
+    left: 0px;
+  }
+  label {
+    margin-left: 8px; // для поддержки отступа в 56px
+  }
+}
+//----------------------------------------------------------------------------------------------------------------------
+// slim form
+// набор стилей для создания форм внутри md-list, md-list-item, где высота элемента не превышает 40px,
+// в стандарте это 52px, что отличается от раза макетов и не позволяет выделить столько свободного места
+
+md-list.md-dense.slim-input md-list-item{
+
+    min-height: 40px;
+    &:before {
+      min-height: 40px;
+    }
+
+  md-icon:first-child {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+
+  div.md-list-item-inner {
+    min-height: 40px;
+    > md-icon:first-child {
+      margin-top: 8px !important;
+      margin-bottom: 8px !important;
+    }
+  }
+
+  md-input-container {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+}
+//----------------------------------------------------------------------------------------------------------------------
+// Кастомизация элемента md-data-table
+// В стандарте, если не установлено никаких проверок на элемент ввода, то поле ввода не имеет отступа от нижний графницы
+md-edit-dialog div.md-content {
+  padding: 16px 24px; // вместо 16px 24px 0px
+}
+// fix https://github.com/daniel-nagy/md-data-table/issues/235
+md-backdrop.md-edit-dialog-backdrop {
+  z-index: 81; /* or greater */
+}
+
+/**
+/
+**/
+md-list-item[disabled] div.md-button, md-list-item[disabled] md-icon {
+  color: rgba(0,0,0,0.25);
+}
+
+
+/**
+/
+**/
+md-select-menu, md-select-menu md-content, md-menu-content {
+  max-height: 70vh;
+}

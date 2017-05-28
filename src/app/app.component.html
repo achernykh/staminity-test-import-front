@@ -1,0 +1,22 @@
+<!--  Экран состоит из трех меняющихся ui-view:
+      1) background - отвечает за задний фон текущего Представления
+      2) header - отвечает за заголовок приложения, куда входят различные панели и элемент с названием Представления
+      3) application - отвечает за само Представление, в том числе и за toolbar Представления -->
+<loader></loader>
+<div class="application-background" ui-view="background"></div>
+<div class="application-header" ui-view="header"></div>
+<div ui-view="application"></div>
+
+<md-sidenav class="md-sidenav-right" md-component-id="requests" md-disable-backdrop md-whiteframe="4">
+    <requests/>
+</md-sidenav>
+
+<md-sidenav class="md-sidenav-right" md-component-id="notifications" md-whiteframe="4">
+    <notification-list is-open="$ctrl.$mdSidenav('notifications').isOpen() "/>
+</md-sidenav>
+
+<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu">
+    <application-menu ng-if="!$ctrl.isLoading"/>
+</md-sidenav>
+
+<toaster-container></toaster-container>

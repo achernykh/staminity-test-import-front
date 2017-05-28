@@ -1,0 +1,54 @@
+<md-toolbar flex="none" style="background-color: white; color: black">
+    <div class="md-toolbar-tools">
+        <h2>{{'Выберите атлета' | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <md-icon class="material-icons md-dark">search</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-icon class="material-icons md-dark">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content style="padding: 16px; overflow: auto" flex>
+    <md-grid-list style=""
+                  md-cols="2" md-cols-sm="3" md-cols-md="4" md-cols-gt-md="6"
+                  md-row-height-gt-md="2:2" md-row-height="2:2"
+                  md-gutter="8px" md-gutter-gt-sm="4px">
+
+        <md-grid-tile ng-repeat="athlete in $ctrl.athletes"
+                      md-rowspan="1"
+                      md-colspan="1"
+                      md-colspan-sm="1"
+                      md-colspan-xs="1"
+                      ng-click="$ctrl.onAnswer({response: {user: athlete.userProfile}})"
+                      style="background-image:
+                        linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)),
+                        url({{athlete.userProfile.public.background | userBackground}});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat; cursor: pointer">
+
+            <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target"
+                     style="position: absolute; top: 0px; right: 0px;">
+                <md-button class="md-icon-button md-primary" ng-click="$ctrl.onUserMenu($mdOpenMenu, $event)"
+                           aria-label="User">
+                    <md-icon style="color: white;" class="material-icons">more_vert</md-icon>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item ng-repeat="menu in $ctrl.menu">
+                        <md-button ng-click="$ctrl.transitionToState(menu.link)">
+                            <md-icon class="material-icons" md-menu-align-target>{{::menu.icon}}</md-icon>
+                            <span translate>{{menu.name}}</span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <userpic class="size-60 border-light" profile="athlete.userProfile" is-premium="athlete.userProfile.isPremium" unlink="true"></userpic>
+            <md-grid-tile-footer>
+                <h3>{{athlete.userProfile.public.firstName}} {{athlete.userProfile.public.lastName}}
+                </h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+    </md-grid-list>
+</md-content>

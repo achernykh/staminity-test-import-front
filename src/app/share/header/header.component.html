@@ -1,0 +1,43 @@
+<div layout="row" layout-align="space-between start">
+    <div id="header-left-toolbar" flex="{{$ctrl.view.leftPanel.size}}"
+         ng-include="$ctrl.view.leftPanel.url"
+         layout="row" layout-align="start center" class=""></div>
+    <div id="header-caption" class="animated bounceIn" layout="row" layout-align="start center" layout-align-gt-sm="center center" layout-fill>
+        <div flex="nogrow" ng-show="$ctrl.view.title"
+             class="app-title md-title" translate>
+            {{$ctrl.app.screen.xs ? $ctrl.view.shortTitle : $ctrl.view.fullTitle}}</div>
+        <userpic ng-if="$ctrl.$state.current.name === 'activity'" style="margin-left: 12px"
+                 class="border-light" profile="$ctrl.athlete" is-premium="$ctrl.item.user.isPremium"></userpic>
+        <div layout="row" layout-align="center center"
+             ng-class="{'back-primary-900' : !!$ctrl.athlete}"
+             ng-if="::$ctrl.isEnableAthleteSelector()"
+             style="border-radius: 12px; height: 24px; margin-left: 8px;">
+            <div ng-if="!!$ctrl.athlete" style="height: 24px;">
+                <userpic profile="$ctrl.athlete" is-premium="$ctrl.athlete.isPremium"></userpic>
+                <!--<div flex="none" class="avatar mini"
+                     style="background-image: url({{'/user/avatar/' + $ctrl.athlete.public.avatar | image}})"></div>-->
+            </div>
+            <div hide show-gt-md ng-show="!!$ctrl.athlete" class="md-body" style="-opacity: 0.54;margin-left: 8px; margin-right: 8px">
+                {{$ctrl.athlete.public.firstName}}
+                {{$ctrl.athlete.public.lastName}}
+            </div>
+            <md-button class="md-icon-button md-primary" aria-label="User"
+                       ng-click="$ctrl.showAthleteSelector($event)"
+                       style="padding: 0px; margin: 0px; height: 24px; width: 24px">
+                <md-icon class="material-icons md-light">{{$ctrl.showAthleteSelector ? 'person_add' :
+                    'arrow_drop_up.svg'}}
+                </md-icon>
+            </md-button>
+            <md-button ng-if="!!$ctrl.app.athlete"
+                       class="md-icon-button md-primary" aria-label="User"
+                       style="padding: 0px; margin: 0px; height: 24px; width: 24px"
+                       ng-click="$ctrl.athleteDiscard()">
+                <md-icon class="material-icons">remove</md-icon>
+            </md-button>
+        </div>
+    </div>
+    <div id="header-right-toolbar" flex="{{$ctrl.view.rightPanel.size}}"
+         layout="row" layout-align="end center" class="">
+        <ng-include src="$ctrl.view.rightPanel.url"></ng-include>
+    </div>
+</div>

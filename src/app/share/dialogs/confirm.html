@@ -1,0 +1,23 @@
+<md-dialog style="min-width: 320px; max-width: 360px">
+    <md-toolbar style="background-color: white; color: black">
+        <div class="md-toolbar-tools">
+            <h2 translate="dialogs.confirm"></h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon class="material-icons md-dark">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            {{'dialogs.' + message | translate}}
+        </div>
+    </md-dialog-content>
+    
+    <md-dialog-actions layout="row">
+        <md-button ng-click="cancel()" translate="dialogs.no"></md-button>
+        <span flex></span>
+        <md-button ng-click="confirm()" translate="dialogs.yes"></md-button>
+    </md-dialog-actions>
+</md-dialog>

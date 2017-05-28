@@ -1,0 +1,25 @@
+<md-toolbar class="md-hue-3">
+    <div class="md-toolbar-tools">
+        <h2 flex>Уведомления</h2>
+        <md-button class="md-icon-button" aria-label="More" ng-click="$ctrl.close()">
+            <md-icon clas="material-icons">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-list class="md-dense" flex>
+    <md-list-item class="md-3-line" ng-class="{'read': notification.isRead}" ng-click="$ctrl.onClick($event, notification)"
+                  ng-repeat="notification in $ctrl.notifications | filter track by notification.index">
+        <avatar-pic type="notification.type"
+                    avatar="notification.avatar"
+                    sref="notification.state"
+                    is-premium="notification.isPremium"
+                    class="md-avatar size-36"></avatar-pic>
+        <div class="md-list-item-text" layout="column">
+            <div layout="row">
+                <h3 flex><a ui-sref="{{::notification.state}}">{{::notification.name | translate}}</a></h3>
+                <p flex="none">{{$ctrl.fromNow(notification.ts)}}</p>
+            </div>
+            <p>{{::notification.template | limitTo: 200 | translate:notification.params }}</p>
+        </div>
+    </md-list-item>
+</md-list>

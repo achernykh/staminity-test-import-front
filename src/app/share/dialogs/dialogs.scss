@@ -1,0 +1,35 @@
+.subscriptions,
+.roles, 
+.select-users {
+    
+    .md-caption {
+        color: #455a64;
+    }
+}
+
+
+md-dialog#upload {
+    .md-dialog-content {
+        min-height: 300px;
+        min-width: 300px;
+    }
+    .input-file {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+    .input-label {
+        //max-width: 80%;
+        //font-size: 1.25rem;
+        //font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        display: inline-block;
+        overflow: hidden;
+        //padding: 0.625rem 1.25rem;
+    }
+}

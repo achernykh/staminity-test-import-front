@@ -1,0 +1,24 @@
+<div class="tooltip" style="display: none; min-width: 140px">
+        <div class="main">
+                <!--
+                <p ng-repeat="measure in $ctrl.measures track by $index"
+                   class="{{measure}}"></p> -->
+                <p class="elapsedDuration" ng-if="$ctrl.measures.hasOwnProperty('elapsedDuration')"></p>
+                <p class="distance" ng-if="$ctrl.measures.hasOwnProperty('distance')"></p>
+                <p class="heartRate" ng-if="$ctrl.measures.hasOwnProperty('heartRate')">
+                        <span class="value"></span>
+                        <span class="unit">{{'heartRate' | measureUnit:$ctrl.sport | translate}}</span></p>
+                <p class="speed" ng-if="$ctrl.measures.hasOwnProperty('speed')">
+                        <span class="value"></span>
+                        <span class="unit">{{'speed' | measureUnit:$ctrl.sport | translate}}</span></p>
+                <p class="power" ng-if="$ctrl.measures.hasOwnProperty('power')">
+                        <span class="value"></span>
+                        <span class="unit">{{'power' | measureUnit:$ctrl.sport | translate}}</span></p>
+                <p class="altitude" ng-if="$ctrl.measures.hasOwnProperty('altitude')">
+                        <span class="value"></span>
+                        <span class="unit">{{'altitude' | measureUnit:$ctrl.sport | translate}}</span></p>
+        </div>
+        <div class="deltas">
+
+        </div>
+</div>

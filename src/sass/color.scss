@@ -9,7 +9,7 @@ $contrast-black-medium:  0.70;
 $contrast-black-high:    1.00;
 
 // Палитра Blue-Grey Google Material
-$blue-grey-50: #ECEFF1;
+$blue-grey-050: #ECEFF1;
 $blue-grey-100: #CFD8DC;
 $blue-grey-200: #B0BEC5;
 $blue-grey-300: #90A4AE;
@@ -21,6 +21,7 @@ $blue-grey-800: #37474F;
 $blue-grey-900: #263238;
 
 // Палитра Grey Google Material
+$grey-050: #FAFAFA;
 $grey-100: #F5F5F5;
 $grey-200: #EEEEEE;
 $grey-300: #E0E0E0;
@@ -28,9 +29,11 @@ $grey-400: #BDBDBD;
 $grey-500: #9e9e9e;
 $grey-600: #757575;
 $grey-700: #616161;
+$grey-800: #424242;
 
 // Палитра Teal Google Material
 $teal-500: #009688;
+$teal-600: #00796B;
 $teal-700: #00796B;
 $teal-800: #00695C;
 $teal-900: #004D40;
@@ -38,6 +41,7 @@ $teal-900: #004D40;
 // Палитра Orange Google Material
 $orange-300: #FFB74D;
 $orange-500: #FF9800;
+$orange-600: #F57C00;
 $orange-700: #F57C00;
 $orange-800: #EF6C00;
 $orange-900: #E65100;
@@ -45,12 +49,14 @@ $orange-900: #E65100;
 // Палитра Deep-Orange Google Material
 $deep-orange-300: #FF8A65;
 $deep-orange-500: #FF5722;
+$deep-orange-600: #E64A19;
 $deep-orange-700: #E64A19;
 $deep-orange-800: #D84315;
 $deep-orange-900: #BF360C;
 
 // Палитра Red Google Material
 $red-500: #F44336;
+$red-600: #F44336;
 $red-700: #D32F2F;
 $red-800: #C62828;
 $red-900: #B71C1C;
@@ -58,7 +64,7 @@ $red-900: #B71C1C;
 //TODO В дальнейшем убрать данный блок и использовать только абсолютные названия палитры
 /* Цвета палитры material design */
 $primary-default: 		$blue-grey-500;
-$primary-hue-1: 		$blue-grey-50;
+$primary-hue-1: 		$blue-grey-050;
 $primary-hue-2: 		$blue-grey-600;
 $primary-hue-3: 		$blue-grey-800;
 
@@ -85,20 +91,56 @@ $success-color-hover:	$teal-900;
 
 // Серо-голубой, основной цвет
 .bg-blue-grey {
-  &-100 {
-	background-color: $blue-grey-100;
-  }
-  &-300 {
-	background-color: $blue-grey-300;
-  }
-  &-A700 {
-	  background-color: $blue-grey-700;
-	  color: white;
-  }
+	&-050 {
+		background-color: $grey-050;
+	}
+  	&-100 {
+		background-color: $blue-grey-100;
+  	}
+	&-200 {
+		background-color: $blue-grey-200;
+	}
+  	&-300 {
+		background-color: $blue-grey-300;
+  	}
+	&-400 {
+		background-color: $blue-grey-400;
+	}
+	&-500 {
+		background-color: $blue-grey-500;
+	}
+	&-600 {
+		background-color: $blue-grey-600;
+	}
+	&-700 {
+		background-color: $blue-grey-700;
+	}
+	&-800 {
+		background-color: $blue-grey-800;
+	}
+	&-900 {
+		background-color: $blue-grey-900;
+	}
+  	&-A700 {
+	  	background-color: $blue-grey-800;
+	  	color: white;
+  	}
+	&-gradient-600-400 {
+		background-image: linear-gradient(to bottom, $blue-grey-600, rgba($blue-grey-400, 1));
+	}
+	&-gradient-800-500 {
+		background-image: linear-gradient(to bottom, $blue-grey-800, rgba($blue-grey-500, 1));
+	}
+	&-gradient-900-800 {
+		background-image: linear-gradient(to bottom, $blue-grey-900, rgba($blue-grey-800, 1));
+	}
 }
 
 // Серый, цвето фона
 .bg-grey {
+	&-050 {
+		background-color: $grey-050;
+	}
 	&-100 {
 		background-color: $grey-100;
 	}
@@ -120,6 +162,9 @@ $success-color-hover:	$teal-900;
 	&-700 {
 		background-color: $grey-700;
 	}
+	&-800 {
+		background-color: $grey-800;
+	}
 	&-gradient-500-300 {
 		background-image: linear-gradient(to bottom, $grey-500, rgba($grey-300, 0.5));
 	}
@@ -132,6 +177,12 @@ $success-color-hover:	$teal-900;
 	&-500 {
 		background-color: $teal-500;
 	}
+	&-600 {
+		background-color: $teal-600;
+	}
+	&-700 {
+		background-color: $teal-700;
+	}
 	&-800 {
 		background-color: $teal-800;
 	}
@@ -139,10 +190,10 @@ $success-color-hover:	$teal-900;
 		background-color: $teal-900;
 	}
 	&-gradient-800-500 {
-		background-image: linear-gradient(to bottom, $teal-800, rgba($teal-500, 0.5));
+		background-image: linear-gradient(to bottom, $teal-800, rgba($teal-500, 1));
 	}
 	&-gradient-900-800 {
-		background-image: linear-gradient(to bottom, $teal-900, rgba($teal-800, 0.5));
+		background-image: linear-gradient(to bottom, $teal-900, rgba($teal-800, 1));
 	}
 }
 
@@ -151,6 +202,12 @@ $success-color-hover:	$teal-900;
 	&-500 {
 		background-color: $orange-500;
 	}
+	&-600 {
+		background-color: $orange-600;
+	}
+	&-700 {
+		background-color: $orange-700;
+	}
 	&-800 {
 		background-color: $orange-800;
 	}
@@ -158,10 +215,10 @@ $success-color-hover:	$teal-900;
 		background-color: $orange-900;
 	}
 	&-gradient-800-500 {
-		background-image: linear-gradient(to bottom, $orange-800, rgba($orange-500, 0.5));
+		background-image: linear-gradient(to bottom, $orange-800, rgba($orange-500, 1));
 	}
 	&-gradient-900-800 {
-		background-image: linear-gradient(to bottom, $orange-900, rgba($orange-800, 0.5));
+		background-image: linear-gradient(to bottom, $orange-900, rgba($orange-800, 1));
 	}
 }
 
@@ -171,6 +228,12 @@ $success-color-hover:	$teal-900;
 	&-500 {
 		background-color: $red-500;
 	}
+	&-600 {
+		background-color: $red-600;
+	}
+	&-700 {
+		background-color: $red-700;
+	}
 	&-800 {
 		background-color: $red-800;
 	}
@@ -178,9 +241,9 @@ $success-color-hover:	$teal-900;
 		background-color: $red-900;
 	}
 	&-gradient-800-500 {
-		background-image: linear-gradient(to bottom, $red-800, rgba($red-500, 0.5));
+		background-image: linear-gradient(to bottom, $red-800, rgba($red-500, 1));
 	}
 	&-gradient-900-800 {
-		background-image: linear-gradient(to bottom, $red-900, rgba($red-800, 0.5));
+		background-image: linear-gradient(to bottom, $red-900, rgba($red-800, 1));
 	}
 }

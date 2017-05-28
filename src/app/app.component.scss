@@ -1,0 +1,100 @@
+@import '../sass/color'; // цвета используемых палитр google-material
+@import '../sass/size'; // переменные для постояние стилей компоеннтов
+@import '../sass/animation'; // настройка animated.css
+@import '../sass/font'; // кастомизация стардартных шрифтов material design
+@import '../sass/icon'; // google material icon + различные форматы и цвета
+@import "../sass/layout"; // фикс стандартных angular material параметров, например добаление flex-2
+@import "../sass/form"; // кастимозация типовых элементов для собственной концепции дизайна, фикс стандартных стилей
+@import '../sass/base'; // mixin transition, border-radius... + мусор, который надо чистить
+
+//----------------------------------------------------------------------------------------------------------------------
+// Окно большинства Представлений представляет собой область экрана, параметры которой:
+// 1) на 60px отсупает от верхнего края экрана - там расолжен header с названием Представления, кнопкой меню
+// меню приложения, и пользовательски тулбараом с иконкой уведомлений, реквестов и пр.
+// 2) на 60px в формате Desktop и 0px в формате mobile отступ от нижнего края
+// 3) отсупны по бокам настраивается в самом представлении
+//
+// Типовая разметка представления:
+// <section class='app-layer' layout="row" layout-align="space-between start">
+//      <!-- left app margin -->
+//      <section class="margin" flex-gt-md='' gide-md></div>
+//      <!-- application content -->
+//      <section class="content" flex='' layout='column'>
+//          ...
+//      <!-- right app margin -->
+//      <section class="margin" flex-gt-md='' gide-md></div>
+// </section>
+//
+// где,
+// 1) flex размеры можно определенить внутри Представления или передать через настроечный обьект в файле
+// /core/display.constants.ts
+// 2) стили app-layer, section.content, section.margin описаны ниже
+//----------------------------------------------------------------------------------------------------------------------
+
+.app-layer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	top: 60px;
+	width: 100%;
+	height: calc(100% - 60px);
+	z-index: 40;
+
+	.body {
+		height: 100%;
+		@media (max-width: 960px) {
+			padding-bottom: 0 !important;
+		}
+	}
+
+	.footer {
+		height: 24px;
+	}
+}
+
+section.content {
+	height: 100%;
+	@media (max-width: 960px) {
+		padding-bottom: 0 !important;
+	}
+}
+
+section.margin {
+	height: 100%;
+}
+
+
+
+// скорее всего не используется и можно заменить на другие
+.app-page {
+	.app-body {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		@media (max-width: 960px) {
+			border-radius: 0;
+			height: 100%;
+		}
+	}
+}
+
+
+// Скорее всего не используются и к удалению
+.auth-page,
+.welcome-page {
+	md-card {
+		background: $primary-900;
+	}
+
+	.application-background {
+		background-image: none;
+		background-color: lightgrey;
+	}
+
+	.app-body {
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		margin: 0;
+	}
+}

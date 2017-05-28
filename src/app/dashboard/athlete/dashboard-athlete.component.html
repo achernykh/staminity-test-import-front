@@ -1,0 +1,20 @@
+<div layout="row" layout-align="space-between start">
+    <section flex="none" class="first-column" layout="column" layout-align="space-between start">
+        <userpic flex="none" profile="$ctrl.profile"></userpic>
+        <md-menu flex="none" class="menu">
+            <md-button class="md-icon-button" aria-label="More Event"
+                       ng-click="$mdOpenMenu($event)">
+                <md-icon class="material-icons md-18 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}}">menu</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item><md-button ng-click="$ctrl.$state.go('calendar',{uri: $ctrl.profile.public.uri})" translate="dashboard.calendar"></md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.$state.go('settings/user',{uri: $ctrl.profile.public.uri})" translate="dashboard.settings"></md-button></md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </section>
+    <section flex="auto" class="second-column" layout="column" layout-align="space-between end">
+        <div flex="none"></div>
+        <div flex="none" class="md-caption" style="text-align: right">{{$ctrl.profile | username}}</div>
+    </section>
+
+</div>

@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title translate ng-cloak ng-bind="fullTitle | translate">Staminity | Стаминити</title>
     <base href="/index.html">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="description" content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
-      <meta name="keywords" content="Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером"/>
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-      <meta name="google-site-verification" content="61lUeOvz-SVrqyZsNnLGrrw50m-u7OW8v6l5In5X1JU" />
+    <meta name="description"
+          content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
+    <meta name="keywords"
+          content="Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="google-site-verification" content="61lUeOvz-SVrqyZsNnLGrrw50m-u7OW8v6l5In5X1JU"/>
 
-      <!-- Open graph -->
-      <meta property="og:locale"        content="ru_RU"/>
-      <meta property="og:type"          content="website"/>
-      <meta property="og:title"         content="Стаминити | Staminity"/>
-      <meta property="og:description"   content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
-      <meta property="og:url"           content="http://staminity.com/"/>
-      <meta property="og:site_name"     content="Стаминити"/>
-      <meta property="og:image"         content="http://staminity.com/assets/picture/og-staminity-01.jpg"/>
-      <!--<meta property="og:image:url"     content="http://staminity.com/assets/picture/og-staminity-01.jpg">
-      <meta property="og:image:type"    content="image/jpeg">
-      <meta property="og:image:width"   content="500">
-      <meta property="og:image:width"   content="320">-->
-      <meta property="fb:app_id" content="660665060767427"/>
-      <!-- Facebook application id -->
+    <!-- Open graph -->
+    <meta property="og:locale" content="ru_RU"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Стаминити | Staminity"/>
+    <meta property="og:description"
+          content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
+    <meta property="og:url" content="https://staminity.com/"/>
+    <meta property="og:site_name" content="Стаминити"/>
+    <meta property="og:image" content="https://staminity.com/assets/picture/og-staminity-01.jpg"/>
+    <!--<meta property="og:image:url"     content="http://staminity.com/assets/picture/og-staminity-01.jpg">
+    <meta property="og:image:type"    content="image/jpeg">
+    <meta property="og:image:width"   content="500">
+    <meta property="og:image:width"   content="320">-->
+    <meta property="fb:app_id" content="660665060767427"/>
+    <!-- Facebook application id -->
 
-      <meta name="twitter:card" content="summary_large_image"/>
-      <meta name="twitter:site" content="@staminity"/>
-      <meta name="twitter:creator" content="@staminity"/>
-      <meta name="twitter:title" content="Стаминити | Staminity"/>
-      <meta name="twitter:description"  content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
-      <meta name="twitter:image" content="http://staminity.com/assets/picture/og-staminity-01.jpg"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@staminity"/>
+    <meta name="twitter:creator" content="@staminity"/>
+    <meta name="twitter:title" content="Стаминити | Staminity"/>
+    <meta name="twitter:description"
+          content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
+    <meta name="twitter:image" content="https://staminity.com/assets/picture/og-staminity-01.jpg"/>
 
-        <script type="application/ld+json">
+    <script type="application/ld+json">
             {
                 "@context": "http://schema.org",
                 "@type": "Thing",
@@ -40,141 +45,176 @@
                 "url": "http://staminity.com",
                 "description": "Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"
             }
-        </script>
 
-      <!-- Google analytics -->
-      <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    </script>
+    <!--
+    <link rel="manifest" href="/manifest.json">-->
 
-          ga('create', 'UA-86484345-1', 'auto');
-          ga('send', 'pageview');
+    <!--Google analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-      </script>
-      <!-- /Google analytics -->
+        ga('create', 'UA-86484345-1', 'auto');
+        ga('send', 'pageview');
 
-      <!-- Yandex.Metrika counter -->
-      <script type="text/javascript">
-          (function (d, w, c) {
-              (w[c] = w[c] || []).push(function() {
-                  try {
-                      w.yaCounter40653114 = new Ya.Metrika({
-                          id:40653114,
-                          clickmap:true,
-                          trackLinks:true,
-                          accurateTrackBounce:true,
-                          webvisor:true
-                      });
-                  } catch(e) { }
-              });
+    </script>
+    <!-- Google analytics -->
 
-              var n = d.getElementsByTagName("script")[0],
-                      s = d.createElement("script"),
-                      f = function () { n.parentNode.insertBefore(s, n); };
-              s.type = "text/javascript";
-              s.async = true;
-              s.src = "https://mc.yandex.ru/metrika/watch.js";
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function () {
+                try {
+                    w.yaCounter40653114 = new Ya.Metrika({
+                        id: 40653114,
+                        clickmap: true,
+                        trackLinks: true,
+                        accurateTrackBounce: true,
+                        //webvisor: true
+                    });
+                } catch (e) {
+                }
+            });
 
-              if (w.opera == "[object Opera]") {
-                  d.addEventListener("DOMContentLoaded", f, false);
-              } else { f(); }
-          })(document, window, "yandex_metrika_callbacks");
-      </script>
-      <noscript><div><img src="https://mc.yandex.ru/watch/40653114" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-      <!-- /Yandex.Metrika counter -->
+            var n = d.getElementsByTagName("script")[0],
+                    s = d.createElement("script"),
+                    f = function () {
+                        n.parentNode.insertBefore(s, n);
+                    };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else {
+                f();
+            }
+        })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/40653114" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- Yandex.Metrika counter -->
 
     <!-- Style sheets-->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,900&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,900&subset=latin,cyrillic' rel='stylesheet'
+          type='text/css'>
+    <!--
     <link rel="stylesheet" href="css/libs.css">
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/app.css">-->
 
-      <link rel="icon" type="image/png" href="/assets/icon/favicon-16x16.png" sizes="16x16">
-      <link rel="icon" type="image/png" href="/assets/icon/favicon-32x32.png" sizes="32x32">
-      <link rel="icon" type="image/png" href="/assets/icon/favicon-96x96.png" sizes="96x96">
-      <link rel="shortcut icon" type="image/png" href="/assets/icon/favicon-96x96.png"/>
+    <link rel="icon" type="image/png" href="/assets/icon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/assets/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/icon/favicon-96x96.png" sizes="96x96">
+    <link rel="shortcut icon" type="image/png" href="/assets/icon/favicon-96x96.png"/>
 
 
-      <!--<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">-->
+    <!--<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">-->
 
-      <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-touch-icon-57x57.png">
-      <link rel="apple-touch-icon" sizes="114x114" href="/assets/icon/apple-touch-icon-114x114.png">
-      <link rel="apple-touch-icon" sizes="72x72" href="/assets/icon/apple-touch-icon-72x72.png">
-      <link rel="apple-touch-icon" sizes="144x144" href="/assets/icon/apple-touch-icon-144x144.png">
-      <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/apple-touch-icon-60x60.png">
-      <link rel="apple-touch-icon" sizes="120x120" href="/assets/icon/apple-touch-icon-120x120.png">
-      <link rel="apple-touch-icon" sizes="76x76" href="/assets/icon/apple-touch-icon-76x76.png">
-      <link rel="apple-touch-icon" sizes="152x152" href="/assets/icon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icon/apple-touch-icon-152x152.png">
 
-      <meta name="msapplication-TileColor" content="#253238">
-      <meta name="msapplication-TileImage" content="/assets/icon/mstile-144x144.png">
+    <meta name="msapplication-TileColor" content="#253238">
+    <meta name="msapplication-TileImage" content="${require(`./assets/icon/mstile-144x144.png`)}">
+    <style type="text/css">
+        /**
+         * Hide when Angular is not yet loaded and initialized
+         */
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<staminity-application screen="screen" loading="isLoading" user="currentUser" athlete="currentAthlete">
+    <div class="screen-center-block">
+        <div>
+            <img src="/assets/icon/logo_mono.svg" width="40" height="45"/>
+        </div>
+        <div>
+            <img src="/assets/icon/logo_typo_mono.svg" width="120" height="24"/>
+        </div>
+        <div>
+            <img src="/assets/icon/ripple.svg" width="60" height="60"/>
+        </div>
+    </div>
+</staminity-application>
+<noscript>
+    <div class="screen-center-block">
+        <div>
+            <img src="/assets/icon/logo_mono.svg" width="100"/>
+        </div>
+        <div class="message">
+            <p class="md-body">Пожалуйста <a href="http://enable-javascript.com/">активируйте JavaScript</a> в браузере
+                для просмотра staminity.com</p>
+            <p class="md-body">Please <a href="http://enable-javascript.com/">enable JavaScript</a> in your browser to
+                enjoy staminity.com</p>
+        </div>
+    </div>
+</noscript>
+<!--[if lte IE11]>
+<div id="screen-center-block">
+    <div class="message md-body-1">
+        <p class="md-title center">Ваш браузер не поддерживается</p>
+        <p class="md-body">Ваш браузер не поддерживается. Для просмотра staminity.com используйте современные
+            версии браузеров, например
+            <a href="https://www.google.ru/chrome/">Chrome</a>,
+            <a href="https://www.mozilla.org/ru/firefox/new/">Firefox</a>,
+            <a href="http://www.opera.com/">Opera</a>,
+            <a href="https://browser.yandex.ru/">Yandex, </a>
+            <a href="http://www.apple.com/safari/download">Safari</a>,
+            <a href="https://www.microsoft.com/ru-ru/windows/microsoft-edge">Microsoft Edge</a>
+        </p>
+        <p class="md-title center">Sorry, your browser isn't supported</p>
+        <p class="md-body">Sorry, your browser isn't supported. Please use one of modern browsers like
+            <a href="https://www.google.com/chrome/">Chrome</a>,
+            <a href="https://www.mozilla.org/en/firefox/new/">Firefox</a>,
+            <a href="http://www.opera.com/">Opera</a>,
+            <a href="https://browser.yandex.com/">Yandex, </a>
+            <a href="http://www.apple.com/safari/download">Safari</a>,
+            <a href="https://www.microsoft.com/windows/microsoft-edge">Microsoft Edge</a>
+        </p>
 
-      <style type="text/css">
-          /**
-           * Hide when Angular is not yet loaded and initialized
-           */
-          [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-              display: none !important;
-          }
-      </style>
-  </head>
-  <body>
-      <staminity-application screen="screen" session="session" user="currentUser" athlete="currentAthlete">
-            <div class="screen-center-block">
-                <div>
-                    <img src="/assets/icon/logo_mono.svg" width="40" height="45"/>
-                </div>
-                <div>
-                    <img src="/assets/icon/logo_typo_mono.svg" width="120" height="24"/>
-                </div>
-                <div>
-                    <img src="/assets/icon/ripple.svg" width="60" height="60"/>
-                </div>
-            </div>
-        </staminity-application>
-      <noscript>
-          <div class="screen-center-block">
-              <div>
-                  <img src="/assets/icon/logo_mono.svg" width="100"/>
-              </div>
-              <div class="message">
-                  <p class="md-body">Пожалуйста <a href="http://enable-javascript.com/">активируйте JavaScript</a> в браузере для просмотра staminity.com</p>
-                  <p class="md-body">Please <a href="http://enable-javascript.com/">enable JavaScript</a> in your browser to enjoy staminity.com</p>
-              </div>
-          </div>
-      </noscript>
-      <!--[if lte IE11]>
-      <div id="screen-center-block">
-          <div class="message md-body-1">
-              <p class="md-title center">Ваш браузер не поддерживается</p>
-              <p class="md-body">Ваш браузер не поддерживается. Для просмотра staminity.com используйте современные
-                  версии браузеров, например
-                  <a href="https://www.google.ru/chrome/">Chrome</a>,
-                  <a href="https://www.mozilla.org/ru/firefox/new/">Firefox</a>,
-                  <a href="http://www.opera.com/">Opera</a>,
-                  <a href="https://browser.yandex.ru/">Yandex, </a>
-                  <a href="http://www.apple.com/safari/download">Safari</a>,
-                  <a href="https://www.microsoft.com/ru-ru/windows/microsoft-edge">Microsoft Edge</a>
-              </p>
-              <p class="md-title center">Sorry, your browser isn't supported</p>
-              <p class="md-body">Sorry, your browser isn't supported. Please use one of modern browsers like
-                  <a href="https://www.google.com/chrome/">Chrome</a>,
-                  <a href="https://www.mozilla.org/en/firefox/new/">Firefox</a>,
-                  <a href="http://www.opera.com/">Opera</a>,
-                  <a href="https://browser.yandex.com/">Yandex, </a>
-                  <a href="http://www.apple.com/safari/download">Safari</a>,
-                  <a href="https://www.microsoft.com/windows/microsoft-edge">Microsoft Edge</a>
-              </p>
+    </div>
+</div>
+<![endif]-->
 
-          </div>
-      </div>
-      <![endif]-->
+<!--<script>
+    if (!('serviceWorker' in navigator)) {
+        console.log('Service worker not supported');
+        return;
+    }
+    navigator.serviceWorker.register('service-worker.js')
+            .then(function(registration) {
+                console.log('Registered at scope:', registration.scope);
+            })
+            .catch(function(error) {
+                console.log('Registration failed:', error);
+            });
+</script>-->
 
-      <!-- Application Scripts (gulp compilation) -->
-      <script src="js/libs.js"></script>
-      <script src="js/main.js"></script>
-  </div>
+<!-- Application Scripts (gulp compilation)
+<script src="js/libs.js"></script>
+<script src="js/main.js"></script>-->
+</div>
 
-  </body>
+</body>
 </html>

@@ -1,0 +1,157 @@
+@import "../../sass/color";
+
+dashboard {
+  .app-layer, .application {
+    position: absolute;
+    top: 60px;
+    height: calc(100% - 60px);
+    width: 100%;
+    //background: grey;
+    z-index: 60;
+  }
+
+  section.application-toolbar {
+    color: white;
+    max-width: 1440px;
+    //position: absolute;
+    //width: 100%;
+    //top: 0px;
+    //height: 30px;
+    //background-color: blue;
+    margin: auto;
+  }
+
+  section.content {
+    max-width: 1440px;
+    //position: absolute;
+    //width: 100%;
+    //top: 40px;
+    overflow: hidden;
+    //background-color: lightgray;
+    height: calc(100% - 40px);
+    margin: auto;
+  }
+
+  md-toolbar.dashboard-header {
+    min-height: 32px;
+    display: block;
+    line-height: 32px;
+    //padding-left: 12px;
+    //padding-right: 12px;
+
+    div.athlete {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      display:inline-block;
+      width: 130px;
+      display:inline-block;
+      vertical-align:top;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    div.day {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      display:inline-block;
+      width: 11%;
+      vertical-align:top;
+      text-transform: capitalize;
+      padding-left: 12px;
+      padding-right: 12px;
+
+      @media (min-width: 959px) and (max-width: 1279px){
+        width: 12.2%;
+      }
+    }
+
+    div.total {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      display:inline-block;
+      width: 12.8%;
+      display:inline-block;
+      vertical-align:top;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+  }
+
+  section.dashboard-grid {
+    position: relative;
+    height: calc(100% - 55px);
+    scroll-behavior: auto;
+    overflow-y: scroll;
+    //padding: 12px;
+  }
+
+  div.dashboard-week {
+
+    position: relative; //todo проверит производительность
+    display:block;
+    min-height: 40px;
+    border-bottom: 1px solid $grey-400;
+
+    @media(max-width: 959px){
+      padding: 0;
+      border-bottom: none;
+    }
+
+    //transition: none !important;
+    transition: all 1s ease-in-out 0s;
+
+    &:hover {
+      background-color: $blue-grey-100;
+      max-height: 900px;
+
+      div.post-panel {
+        display: flex;
+        height: 24px;
+        //background-color: #00AA00;
+      }
+    }
+
+  }
+
+  div.margin-left {
+    position: absolute;
+    display: none;
+    //background: #C7E3E4;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+  section.application-body {
+    position: absolute;
+    //background: #E0D2C7;
+    height: 100%;
+    overflow: hidden;
+    left: 0%;
+    width: 100%;
+
+    @media (min-width: 1439px){
+      left: 2%;
+      width: 96%;
+      height: calc(100% - 10px);
+    }
+
+  }
+
+  div.margin-right {
+    position: absolute;
+    display: none;
+    right: 0;
+    //background: #ECD5DE;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+}

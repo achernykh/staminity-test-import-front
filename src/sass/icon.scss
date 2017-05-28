@@ -1,22 +1,29 @@
 // размеры иконок
-md-icon.s16 {
+md-icon.s16, img.s16 {
 	width: 16px;
 	height: 16px;
 	min-width: 16px;
 	min-height: 16px;
 }
-md-icon.s18 {
+md-icon.s18, md-icon.md-18, img.s18 {
 	width: 18px;
 	height: 18px;
 	min-width: 18px;
 	min-height: 18px;
 }
-md-icon.s20 {
+md-icon.s20, img.s20 {
 	width: 20px;
 	height: 20px;
 	min-width: 20px;
 	min-height: 20px;
 }
+md-icon.s36, img.s36 {
+	width: 36px;
+	height: 36px;
+	min-width: 36px;
+	min-height: 36px;
+}
+
 // цветовая схема иконок
 md-icon {
 	&.light-active svg {
@@ -52,6 +59,7 @@ md-icon {
 	}
 }
 
+// TODO старые стили для иконок
 md-icon {
 	&.fill-black-medium {
 		svg {
@@ -64,3 +72,67 @@ md-icon {
 		}
 	}
 }
+
+md-icon {
+	&.fill-measure.heartRate {
+		svg {
+			fill: #E91E63 !important;
+		}
+	}
+	&.fill-measure.power {
+		svg {
+			fill: #9C27B0 !important;
+		}
+	}
+	&.fill-measure.speed {
+		svg {
+			fill: #2196F3 !important;
+		}
+	}
+	&.md-dark {
+		svg {
+			fill: rgba(0, 0, 0, 0.70) !important;
+		}
+	}
+	&.md-dark.md-unfocused {
+		svg {
+			fill: rgba(0, 0, 0, 0.54) !important;
+		}
+	}
+	&.md-dark.md-inactive {
+		svg {
+			fill: rgba(0, 0, 0, 0.38) !important;
+		}
+	}
+	&.md-light {
+		svg {
+			fill: rgba(255, 255, 255, 1) !important;
+		}
+	}
+	&.md-light.md-unfocused {
+		svg {
+			fill: rgba(255, 255, 255, 0.70) !important;
+		}
+	}
+	&.md-light.md-inactive {
+		svg {
+			fill: rgba(255, 255, 255, 0.50) !important;
+		}
+	}
+}
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.70) !important; }
+.material-icons.md-dark.md-unfocused { color: rgba(0, 0, 0, 0.54) !important; }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.38) !important; }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1) !important; }
+.material-icons.md-light.md-unfocused { color: rgba(255, 255, 255, 0.70) !important; }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.50) !important; }

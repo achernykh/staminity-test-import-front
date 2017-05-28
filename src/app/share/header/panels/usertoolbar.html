@@ -1,0 +1,28 @@
+<div layout="row" layout-align="end center" layout-fill ng-show="!!$ctrl.AuthService.isAuthenticated()">
+
+    <md-button ng-if="$ctrl.notification > 0" class="md-icon-button md-primary badge1" aria-label="Notification"
+               ng-click="toggleRight()" data-badge="{{$ctrl.notification}}" style="min-width:40px">
+        <md-icon calss="material-icons">notification_active</md-icon>
+    </md-button>
+    <md-button class="md-icon-button md-primary" ng-click="$ctrl.toggleSlide('notifications')"
+               style="min-width:40px; overflow: visible;" aria-label="New Notification">
+        <md-icon calss="material-icons">notifications</md-icon>
+        <span class="badge superscript" ng-if="$ctrl.notifications > 0">{{$ctrl.notifications}}</span>
+    </md-button>
+    
+    <md-button class="md-icon-button md-primary" ng-click="$ctrl.toggleSlide('requests')"
+               style="min-width:40px; overflow: visible;" aria-label="New Requests">
+        <md-icon md-font-set="material-icons">group</md-icon>
+        <span class="badge superscript" ng-if="$ctrl.requests > 0">{{$ctrl.requests}}</span>
+    </md-button>
+
+    <div hide show-gt-sm layout="row" class="user-frame">
+        <div flex="none"
+             class="avatar mini"
+             style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}})"></div>
+        <div flex
+             class="md-body"
+             style="line-height: 24px; -color: white; padding: 0 8px">{{$ctrl.user | username: 'short'}}</div>
+        <user-menu id="$ctrl.user.public.uri || $ctrl.user.userId"></user-menu>
+    </div>
+</div>

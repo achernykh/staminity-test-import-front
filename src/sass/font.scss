@@ -41,6 +41,20 @@
 .right{
 	text-align: right;
 }
+
+.dark {
+	color: black;
+	&-primary {
+
+	}
+	&-secondary {
+
+	}
+	&-disable {
+
+	}
+}
+
 // Прозрачность по Material Design
 .secondary {
 	&.light {
@@ -58,6 +72,12 @@
 		color: rgba(black, 0.38);
 	}
 }
+
+.md-dark {  color: rgba(0, 0, 0, 0.54) !important;  }
+.md-dark.md-inactive {  color: rgba(0, 0, 0, 0.26) !important;  }
+.md-light {  color: rgba(255, 255, 255, 1) !important;  }
+.md-light.md-inactive { color: rgba(255, 255, 255, 0.3) !important;}
+
 
 // Узкий текст
 .tight-07 {
@@ -92,7 +112,7 @@
 
 // Уменьшенная версия .md-title для вложенных элементов экрана
 .md-title {
-  	&.small {
+  	&-small {
 		font-size: 16px;
 		line-height: 20px;
   	}
@@ -105,4 +125,27 @@
 
 .read-more-links {
 	color: darkgrey;
+}
+
+// Текст подсказок
+.hint {
+  /* Copy styles from ng-messages */
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  margin: 8px 0px;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+  /* Set our own color */
+  a {
+	text-decoration: none;
+	font-weight: 500;
+
+	&:hover {
+	  color: rgba($accent-900,0.8);
+	}
+  }
+}
+
+.md-subheader .md-subheader-inner {
+  color: $blue-grey-700;
 }

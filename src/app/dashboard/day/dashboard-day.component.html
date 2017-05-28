@@ -1,0 +1,19 @@
+<dashboard-activity ng-repeat="item in $ctrl.day.data.calendarItems | filter:{calendarItemType: 'activity'} track by item.index"
+                    item="item" athlete="$ctrl.athlete">
+</dashboard-activity>
+
+<div layout="row" layout-align="center center" flex="grow" hide show-gt-sm
+     class="post-panel" ng-class="{show: $ctrl.accent}">
+    <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More"
+                ng-click="$ctrl.postItem($event,$ctrl.day.date)">
+        <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
+    </md-button>
+    <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" ng-if="false"
+                ng-click="$ctrl.newMeasurement($event,$ctrl.data)">
+        <md-icon class="material-icon" aria-label="New">straighten</md-icon>
+    </md-button>
+    <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" ng-if="false"
+                ng-click="$ctrl.newWeekend($event,$ctrl.data)">
+        <md-icon class="material-icon" aria-label="New">weekend</md-icon>
+    </md-button>
+</div>

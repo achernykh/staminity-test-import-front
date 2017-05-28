@@ -1,0 +1,34 @@
+<div class="application">
+    <div hide-md class="margin-left"></div>
+    <section class="application-body">
+        <section class="application-toolbar" hide-xs hide-sm>
+            <span class="md-title">{{$ctrl.athletes.members.length}} атлетов</span>
+            <span class="md-title">, Неделя с {{$ctrl.toolbarDate() | date:'longDate'}}</span>
+            <md-button class="md-icon-button md-primary" aria-label="Settings" style="margin: 0px"
+                       ng-click="$ctrl.prev()">
+                <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
+            </md-button>
+            <md-button class="md-icon-button md-primary" aria-label="Settings" style="margin: 0px"
+                       ng-click="$ctrl.next()">
+                <md-icon class="material-icons md-18" aria-label="Back">navigate_next</md-icon>
+            </md-button>
+        </section>
+        <section id="dashboard" class="content animated zoomIn">
+            <md-toolbar class="dashboard-header md-caption" style="background-color: lightgrey; color: black" hide show-gt-sm>
+                <div class="athlete">Атлет</div>
+                <div class="day" style="text-transform: capitalize" ng-repeat="day in $ctrl.weekdayNames">{{day}}</div>
+                <div class="total" hide show-gt-md>Итоги</div>
+            </md-toolbar>
+            <section class="dashboard-grid bg-grey-200">
+                <div class="dashboard-week" ng-repeat="calendar in $ctrl.dashboard.calendar track by $index">
+                    <dashboard-athlete class="athlete" profile="calendar.profile"></dashboard-athlete>
+                    <dashboard-day class="day" ng-repeat="day in calendar.subItem track by $index" day="day" athlete="calendar.profile">
+                    </dashboard-day>
+                    <dashboard-total class="total" week="calendar" update="calendar.changes" hide show-gt-md>
+                    </dashboard-total>
+                </div>
+            </section>
+        </section>
+    </section>
+    <div hide-md class="margin-right"></div>
+</div>

@@ -1,0 +1,46 @@
+@import "../../../sass/color";
+
+dashboard-athlete {
+
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+
+  display: inline-block;
+  width: 130px;
+  vertical-align: top;
+
+  &:before {
+    content: none;
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 130px;
+    height: 100%;
+    z-index: 1;
+    border-right: 1px solid $grey-400;
+    //background-color: $grey-300;
+  }
+
+  padding: 8px;
+  transition: all 0s ease-in-out 0s;
+
+  md-icon.sport {
+    margin: 0px !important;
+  }
+
+  md-menu.menu button{
+    //visibility: hidden;
+    padding: 0px !important;
+    margin: 0px !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+
+    &:hover {
+
+    }
+  }
+}

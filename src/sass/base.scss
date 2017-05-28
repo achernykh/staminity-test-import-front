@@ -1,3 +1,5 @@
+@import './color';
+
 $gt-sm: 960px;
 
 @mixin transition($transition-property, $transition-time, $method, $transition-delay) {
@@ -16,6 +18,24 @@ $gt-sm: 960px;
   -ms-border-radius: $radius-property;
 }
 
+.bg-circle-32 {
+  min-width: 32px;
+  height: 32px;
+  @include border-radius(16px);
+}
+
+.bg-circle-18 {
+  min-width: 18px;
+  height: 18px;
+  @include border-radius(9px);
+}
+
+.bg-circle-56 {
+  min-width: 56px;
+  height: 56px;
+  @include border-radius(28px);
+}
+
 @mixin border-radius-custom($top-right, $top-left, $bottom-right, $bottom-left) {
 	border-radius: $top-right $top-left $bottom-right $bottom-left;
 	-moz-border-radius: $top-right $top-left $bottom-right $bottom-left;
@@ -23,6 +43,16 @@ $gt-sm: 960px;
 	-khtml-border-radius: $top-right $top-left $bottom-right $bottom-left;
 	-ms-border-radius: $top-right $top-left $bottom-right $bottom-left;
 }
+
+.md-whiteframe-1dp, .md-whiteframe-z1 {
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12); }
+
+.md-whiteframe-2dp {
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12); }
+
+.md-whiteframe-3dp {
+  box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.12); }
+
 
 .back-primary-900 {
   background: $primary-900;
@@ -37,7 +67,7 @@ $gt-sm: 960px;
 **/
 
 .screen-center-block {
-  
+
   position: fixed;
   top: 0;
 
@@ -89,58 +119,36 @@ div {
   -color: black;
 }
 
-md-card {
-
-  .padding-00-24 {
-    padding: 0px 24px !important;
-  }
-
-  .padding-04-24 {
-    padding: 4px 24px !important;
-  }
-
-  .padding-08-24 {
-    padding: 8px 24px !important;
-  }
-
-  .padding-16-24 {
-    padding: 16px 24px !important;
-  }
-
-  .padding-24-24 {
-    padding: 24px 24px !important;
-  }
-
-  .padding-0-24-24-24 {
-    padding: 0px 24px 24px 24px;
-  }
-}
-
-img.avatar{
-  border: 2px solid rgba(white, 0.7);
+div.avatar{
   padding: 0px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
 
   &.mini{
     width: 24px;
     height: 24px;
     @include border-radius(12px);
-  },
-&.small {
-  width: 48px;
-  height: 48px;
-  @include border-radius(24px);
-},
-&.medium {
-  width: 56px;
-  height: 56px;
-  @include border-radius(28px);
-},
-&.big{
-  width: 96px;
-  height: 96px;
-  @include border-radius(48px);
-}
+  }
 
+  &.small {
+    width: 48px;
+    height: 48px;
+    @include border-radius(24px);
+  }
+
+  &.medium {
+    width: 56px;
+    height: 56px;
+    border: 2px solid rgba(white, 0.7);
+    @include border-radius(28px);
+  }
+
+  &.big{
+    width: 96px;
+    height: 96px;
+    @include border-radius(48px);
+  }
 }
 
 .progress-bar {
@@ -171,7 +179,7 @@ img.avatar{
 
 .app-toolbar {
   width: 100%;
-  -height: $app-toolbar-height;
+  //-height: $app-toolbar-height;
 }
 .app-body {
   height: 100%;
@@ -184,14 +192,10 @@ img.avatar{
   margin: 0px 0px !important;
 }
 
-html, body, .container {
-  //height: 100%;
-}
-
 body {
   background-color: $primary-hue-3;
   min-width: 320px;
-  min-height: 480px;
+  //min-height: 480px;
   height: auto;
   width: auto;
   overflow-x: hidden;
@@ -205,26 +209,7 @@ body {
   height: 100%;
 }
 
-.content {
-  opacity: 1;
-  -transition: all 0.5s ease-out;
-}
-.content.ng-hide {
 
-  opacity: 0;
-}
-
-.reg {
-  max-width: 150px;
-}
-
-.content button {
-  font-size: 24px !important;
-  color: white !important;
-  padding: 16px;
-  max-width: 400px;
-
-}
 
 
 
@@ -245,4 +230,9 @@ body {
 
 md-input-container {
   width: 100%;
+}
+
+// https://github.com/angular/material/issues/5439#issuecomment-157263871
+md-pagination-wrapper {
+  width:auto !important;
 }
