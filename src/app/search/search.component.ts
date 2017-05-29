@@ -35,7 +35,8 @@ class SearchCtrl implements IComponentController {
 
     }
 
-    onDetails(uri:string, url: string = `${_connection.protocol.rest}${_connection}`) {
+    onDetails(uri:string, url: string = _connection.frontend) {
+        debugger;
         switch (this.params.objectType) {
             case 'user': case 'coach': {
                 let win = window.open(`${url}user/${uri}`, '_blank');
@@ -45,7 +46,9 @@ class SearchCtrl implements IComponentController {
     }
 
     onSearch(params: SearchParams) {
-        this.search.request(this.method, params).then(result => {debugger; console.log(result); this.result = result;});
+        this.search.request(this.method, params)
+            .then(result => {debugger; console.log(result); this.result = result;})
+            .then(() => !this.$scope.$$phase && this.$scope.$apply());
     }
 }
 

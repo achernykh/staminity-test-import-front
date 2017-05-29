@@ -101,10 +101,13 @@ class AuthCtrl implements IComponentController {
 
 	OAuth(provider:string) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
+		debugger;
 		this.$auth.link(provider, {
             internalData: {
                 postAsExternalProvider: false,
-                provider: provider
+                provider: provider,
+				activateCoachTrial: this.credentials['activateCoachTrial'],
+				activatePremiumTrial: true
             }
 		})
 			.finally(()=>this.enabled = true)

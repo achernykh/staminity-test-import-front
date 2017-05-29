@@ -14,14 +14,14 @@ export let _translate = {
 		confirmation: "Я принимаю <a href='https://legal.staminity.com/ru/license.html'>Публичную оферту</a> и соглашаюсь с <a href='https://legal.staminity.com/ru/terms.html'>Условиями использования</a> сайта.<br>",
 
 		socialText: 'Через социальные сети:',
-		socialOr: 'или',
+		socialOr: 'или свой email адрес',
 
 		// Окно регистрации / создания нового пользователя
 		signup: {
 			fullTitle: 'Регистрация нового пользователя',
 			shortTitle: 'Регистрация',
 			coach: 'Я тренер',
-			button: 'Создать'
+			button: 'Регистрация'
 		},
 		// Окно входа в сервис
 		signin: {

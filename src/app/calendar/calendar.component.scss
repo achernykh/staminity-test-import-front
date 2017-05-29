@@ -84,6 +84,7 @@ calendar {
     height: calc(100% - 55px);
     scroll-behavior: auto;
     overflow-y: scroll;
+    overflow-x: hidden;
     // xs & sm size
     @media (min-width: 0px) and (max-width: 959px) {
       height: 100%;
