@@ -39,9 +39,10 @@
                         ('settings.billing.status.disabled' | translate)
                     )}}</p>
                 </div>
-                <md-switch 
+                <md-switch
                     ng-model="$ctrl.tariffIsEnabled(tariff)"
                     ng-model-options="{getterSetter: true}"
+                    ng-disabled="tariff.clubProfile || (tariff.userProfilePayer && tariff.userProfilePayer.userId !== $ctrl.user.userId)"
                     ng-class="{ 'md-primary': true, 'md-secondary': true }"
                 >
                 </md-switch>
