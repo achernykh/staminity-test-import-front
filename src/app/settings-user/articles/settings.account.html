@@ -22,21 +22,28 @@
                 <md-button class="md-secondary" ng-click="$ctrl.showPasswordChange($event)">Новый пароль</md-button>
             </md-list-item>-->
         </md-list>
-        <md-divider></md-divider><!--
+        <md-divider></md-divider>
         <md-list class="md-dense section">
-            <md-subheader>Тарифные планы</md-subheader>
-            <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
-                          ng-repeat-start="tariff in $ctrl.user.billing.tariffs">
+            <md-subheader>{{ 'settings.billing.tariffsHeader' | translate }}</md-subheader>
+            <md-list-item class="md-2-line" ng-repeat-start="tariff in $ctrl.user.billing.tariffs">
                 <md-icon class="material-icons">person</md-icon>
                 <div class="md-list-item-text" ng-switch="property.enabled">
-                    <h3> {{ tariff.code }} </h3>
-                    <p> {{ tariff.status}}</p>
+                    <h3>{{ 'settings.billing.tariff.' + tariff.tariffCode | translate }}</h3>
+                    <p>{{tariff.isEnabled? (
+                        tariff.clubProfile && ('settings.billing.status.enabledByClub' | translate:{club:tariff.clubProfile.public.name}) ||
+                        tariff.userProfilePayer && tariff.userProfilePayer.userId !== $ctrl.user.userId && ('settings.billing.status.enabledByUser' | translate:{coach:tariff.userProfilePayer.public.firstName + ' ' + tariff.userProfilePayer.public.lastName}) ||
+                        ('settings.billing.status.enabled' | translate:{until:tariff.expireDate})
+                    ) : (
+                        tariff.isTrial && ('settings.billing.status.trial' | translate:{until:tariff.expireDate}) ||
+                        tariff.expireDate && ('settings.billing.status.paid' | translate:{until:tariff.expireDate}) ||
+                        ('settings.billing.status.disabled' | translate)
+                    )}}</p>
                 </div>
-                <md-switch class="md-secondary" ng-model="tariff.enabled"
-                           ng-disabled="!tariff.editable"
-                           ng-class="{'md-primary' : tariff.editable}"
-                           ng-change="$ctrl.showProviderSettings($event, service, property)"
-                           aria-label="Switch 1">
+                <md-switch 
+                    ng-model="$ctrl.tariffIsEnabled(tariff)"
+                    ng-model-options="{getterSetter: true}"
+                    ng-class="{ 'md-primary': true, 'md-secondary': true }"
+                >
                 </md-switch>
             </md-list-item>
             <md-divider ng-repeat-end ng-if="!$last"/>
@@ -68,7 +75,7 @@
                 <p>Поясняющий текст</p>
                 <md-button class="md-secondary" ng-click="doSecondaryAction($event)">Реестр счетов</md-button>
             </md-list-item>
-        </md-list>-->
+        </md-list>
     </form>
 </md-card>
 

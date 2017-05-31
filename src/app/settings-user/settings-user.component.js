@@ -28,7 +28,7 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message) {
+    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate) {
         console.log('SettingsCtrl constructor=', this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -47,6 +47,9 @@ class SettingsUserCtrl {
         this.SyncAdaptorService = SyncAdaptorService;
         this.dialogs = dialogs;
         this.message = message;
+        this.BillingService = BillingService;
+        this.$translate = $translate;
+
         this.adaptors = [];
 
         //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
@@ -60,6 +63,7 @@ class SettingsUserCtrl {
     $onInit() {
         // deep copy & some transormation
         this.user = new SettingsUserModel(this.user);
+        console.log('this.user', this.user);
         /**
          *
          * @type {any|Array|U[]}
@@ -82,6 +86,17 @@ class SettingsUserCtrl {
 
         moment.locale('ru');
         moment.lang('ru');
+    }
+
+    reload () {
+        this._UserService.getProfile(this.user.public.uri)
+        .then((user) => {
+            this.user =  new SettingsUserModel(user);
+            this.$scope.$apply();
+        }, (info) => {
+            this.message.systemWarning(info);
+            throw info;
+        });
     }
 
     prepareZones() {
@@ -448,7 +463,66 @@ class SettingsUserCtrl {
         //}
     }
 
-    uploadAvatar() {
+    getTariffName (tariff) {
+        return tariff.tariffCode;
+    }
+
+    getTariffStatus (tariff) {
+        return tariff.enabled? 'Enabled' : 'Disabled';
+    }
+
+    enableTariff (tariff) {
+        return this._$mdDialog.show({
+                locals: { 
+                    user: this.user,
+                    tariff: tariff
+                },
+                resolve: {
+                    billing: () => this.BillingService.getTariff(tariff.tariffId, '')
+                },
+                controller: EnableTariffController,
+                controllerAs: '$ctrl',
+                template: require('./dialogs/enableTariff.html'),
+                parent: angular.element(document.body),
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: false 
+            });
+    }
+
+    disableTariff (tariff) {
+        return this._$mdDialog.show({
+                locals: { 
+                    user: this.user,
+                    tariff: tariff
+                },
+                resolve: {
+                    billing: () => this.BillingService.getTariff(tariff.tariffId, '')
+                },
+                controller: DisableTariffController,
+                controllerAs: '$ctrl',
+                template: require('./dialogs/disableTariff.html'),
+                parent: angular.element(document.body),
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: false
+            });
+    }
+
+    tariffIsEnabled (tariff) {
+        return (isEnabled) => {
+            if (typeof isEnabled === 'undefined') {
+                return tariff.isEnabled;
+            }
+
+            (tariff.isEnabled? this.disableTariff(tariff) : this.enableTariff(tariff))
+            .then(() => { this.reload(); }, () => { this.reload(); });
+        }
+    }
+
+    uploadAvatar () {
         this.dialogs.uploadPicture()
             .then(picture => this._UserService.postProfileAvatar(picture))
             .then(user => this.setUser(user))
@@ -456,7 +530,7 @@ class SettingsUserCtrl {
             //.then(user => this.)
     }
 
-    uploadBackground() {
+    uploadBackground () {
         this.dialogs.uploadPicture()
             .then((picture) => this._UserService.postProfileBackground(picture))
             .then(user => this.setUser(user))
@@ -464,7 +538,6 @@ class SettingsUserCtrl {
     }
 
 	toggleActivity (activity) {
-
         this.personalSecondForm.$setDirty();
 		if (this.isActivityChecked(activity)) {
 			let index = this.user.personal.activity.indexOf(activity);
@@ -478,8 +551,10 @@ class SettingsUserCtrl {
 		return this.user.personal.activity.includes(activity)
 	}
 };
+
 SettingsUserCtrl.$inject = ['$scope','UserService','AuthService','$http',
-    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message'];
+    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message', 'BillingService', '$translate'];
+
 
 function DialogController($scope, $mdDialog) {
 
@@ -497,6 +572,102 @@ function DialogController($scope, $mdDialog) {
 }
 
 DialogController.$inject = ['$scope', '$mdDialog'];
+
+
+function EnableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing) {
+
+    this.tariff = tariff;
+    this.user = user;
+
+    this.autoRenewal = false;
+    this.promoCode = '';
+    this.trial = false;
+    this.term = 1;
+    this.paymentSystem = 'fondy';
+
+    this.setBilling = (billing) => {
+        this.billing = billing;
+        this.fee = this.billing.rates.find(fee => fee.rateType === 'Fixed');
+        this.monthlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 1);
+        this.yearlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 12);
+        this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
+    };
+
+    this.paymentNeeded = () => {
+        return !this.billing.joinBillConditions;
+    };
+
+    this.setBilling(billing);
+
+    this.submitPromo = () => {
+        BillingService.getTariff(tariff.tariffId, this.promoCode)
+        .then((billing) => {
+            this.activePromo = this.promoCode;
+            this.setBilling(billing);
+            console.log('submitPromo', billing);
+            $scope.$apply();
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        });
+    };
+
+    this.cancel = function () {
+        $mdDialog.cancel();
+    };
+
+    this.submit = function () {
+        BillingService.enableTariff(
+            tariff.tariffId, 
+            user.userId, 
+            this.fee.term,
+            this.autoRenewal,
+            this.fee.isTrial,
+            this.activePromo,
+            this.paymentSystem
+        ).then(() => {
+            $mdDialog.hide();
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        });
+    };
+
+    console.log('EnableTariffController', this);
+}
+
+EnableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing'];
+
+
+function DisableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing) {
+
+    this.tariff = tariff;
+    this.user = user;
+    this.billing = billing;
+
+    this.canDisconnect = () => {
+        return !(billing.rates || []).find(fee => fee.rateType === 'Variable' && fee.varActualCount);
+    };
+
+    this.cancel = function () {
+        $mdDialog.cancel();
+    };
+
+    this.submit = function () {
+        BillingService.disableTariff(tariff.tariffId, user.userId)
+        .then(() => {
+            $mdDialog.hide();
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        });
+    };
+
+    console.log('DisableTariffController', this);
+}
+
+DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing'];
+
 
 let SettingsUser = {
     bindings: {

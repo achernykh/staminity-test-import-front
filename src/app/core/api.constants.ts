@@ -3,7 +3,7 @@ export let _connection = {
         ws: 'wss://',
         rest: 'https://'
     },
-    server: 'app.staminity.com',//'app.staminity.com',
+    server: 'testapp.staminity.com:8080',//'app.staminity.com',
     content: 'https://app.staminity.com',//'http://app.staminity.com',
-    frontend: 'http://0.0.0.0:8080/'//'http://staminity.com',
+    frontend: 'https://dev2.staminity.com/'//'http://staminity.com',
 };

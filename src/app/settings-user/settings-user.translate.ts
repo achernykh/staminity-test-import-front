@@ -85,8 +85,87 @@ export const _translate = {
             email: 'Логин',
             password: 'Пароль'
         },
-        subscriptions: {
-            header: 'Подписки'
+        billing: {
+            tariffsHeader: 'Тарифные планы',
+            enableTariff: 'Подключить тариф',
+            disableTariff: 'Отключить тариф',
+            confirmEnable: 'Подключить',
+            confirmPay: 'Оплатить {{cost}} {{currency}}',
+            confirmDisable: 'Отключить',
+            cancel: 'Отмена',
+            monthly: 'Ежемесячно',
+            yearly: 'Ежегодно',
+            term: {
+                1: 'месяц',
+                12: 'год'
+            },
+            dayly: 'день',
+            subscriptionFees: 'Абонентская плата',
+            free: 'Бесплатно',
+            promo: 'Промо-код',
+            activePromo: 'Промо-код «{{promo}}» активирован',
+            submitPromo: 'Принять',
+            payment: 'Оплата',
+            card: 'Карта',
+            paypal: 'Paypal',
+            saving: 'На {{saving}}% выгоднее',
+            autoRenewal: 'Повторять платёж',
+            conditions: 'Условия подключения',
+            conditionsText: `
+Начисления по тарифу "{{tariff}}" будут объединены с начислениями по ранее подключенному тарифу.
+
+Ближайший счёт на оплату будет вам выставлен [{{validThrough}}]. 
+
+В разделе "Счета" вы можете контролировать общую сумму начислений по счетам.`,
+            tariffDisconnectionUnavailable: `
+Невозможно отключить тариф
+`,
+            tariffDisconnectNow: `
+Вы хотите отключить тариф?
+
+Доступ к фунции тарифного плана будет для вас прекращён.
+
+Нажимая кнопку "Отключить", вы соглашаетесь с тем, что:
+
+...`,
+            tariffDisconnectLater: `
+Вы хотите отключить тариф?
+
+Доступ к фунции тарифного плана будет прекращён для вас с [{{validThrough}}].
+
+Нажимая кнопку "Отключить", вы соглашаетесь с тем, что:
+
+...`,
+            group: {
+                "Athletes": 'Оплата за спортсменов',
+                "ClubAthletes": 'Оплата за спортсменов',
+                "CoachByClub": "Оплата за тренеров",
+                "PremiumByCoach": "Подключение спортсменам тарифа «Премиум»",
+                "PremiumByClub": "Подключение спортсменам тарифа «Премиум»"
+            },
+            eachInGroup: {
+                "Athletes": 'За каждого спортсмена',
+                "ClubAthletes": 'За каждого спортсмена',
+                "CoachByClub": "За каждого тренера",
+                "PremiumByCoach": "За каждого спортсмена",
+                "PremiumByClub": "За каждого спортсмена"
+            },
+            eachInGroupBelow: '{{below}}',
+            eachInGroupBetween: 'От {{from}} до {{to}}, за каждого',
+            eachInGroupAbove: 'Начиная с {{above}}',
+            tariff: {
+                "Coach": "Тренер",
+                "Premium": "Премиум",
+                "Club": "Клуб"
+            },
+            status: {
+                enabled: "Подключен до {{until}}",
+                enabledByUser: "Подключен за счет тренера {{coach}}",
+                enabledByClub: "Подключен за счет клуба {{club}}",
+                paid: "Оплачен до {{until}}",
+                trial: "Пробный период до {{until}}",
+                disabled: "Не подключен"
+            }
         },
         sync: {
             header: 'Настройка интеграции',
