@@ -95,6 +95,10 @@ export const _translate = {
             cancel: 'Отмена',
             monthly: 'Ежемесячно',
             yearly: 'Ежегодно',
+            periodically: {
+                1: 'Ежемесячно',
+                12: 'Ежегодно'
+            },
             term: {
                 1: 'месяц',
                 12: 'год'

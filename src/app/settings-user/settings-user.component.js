@@ -28,7 +28,7 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate) {
+    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia) {
         console.log('SettingsCtrl constructor=', this)
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -49,6 +49,7 @@ class SettingsUserCtrl {
         this.message = message;
         this.BillingService = BillingService;
         this.$translate = $translate;
+        this.$mdMedia = $mdMedia;
 
         this.adaptors = [];
 
@@ -487,7 +488,7 @@ class SettingsUserCtrl {
                 bindToController: true,
                 clickOutsideToClose: true,
                 escapeToClose: true,
-                fullscreen: false 
+                fullscreen: !this.$mdMedia('gt-sm')
             });
     }
 
@@ -507,7 +508,7 @@ class SettingsUserCtrl {
                 bindToController: true,
                 clickOutsideToClose: true,
                 escapeToClose: true,
-                fullscreen: false
+                fullscreen: !this.$mdMedia('gt-sm')
             });
     }
 
@@ -553,7 +554,7 @@ class SettingsUserCtrl {
 };
 
 SettingsUserCtrl.$inject = ['$scope','UserService','AuthService','$http',
-    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message', 'BillingService', '$translate'];
+    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message', 'BillingService', '$translate', '$mdMedia'];
 
 
 function DialogController($scope, $mdDialog) {
@@ -579,7 +580,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
     this.tariff = tariff;
     this.user = user;
 
-    this.autoRenewal = false;
+    this.autoRenewal = true;
     this.promoCode = '';
     this.trial = false;
     this.term = 1;

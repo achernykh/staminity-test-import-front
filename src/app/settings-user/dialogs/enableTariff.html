@@ -15,12 +15,12 @@
 
                 <md-list-item ng-if="$ctrl.monthlyFee && $ctrl.yearlyFee">
                     <md-button ng-disabled="!$ctrl.form.$valid"
-                               ng-class="{'sectioned-button_left': true, 'md-raised': true, 'md-primary': $ctrl.fee === $ctrl.monthlyFee}"
+                               ng-class="{'sectioned-button_right': true, 'md-raised': true, 'md-primary': $ctrl.fee === $ctrl.monthlyFee}"
                                ng-click="$ctrl.fee = $ctrl.monthlyFee"
                                style="line-height: 40px;"
                     >{{ 'settings.billing.monthly' | translate }}</md-button>
                     <md-button ng-disabled="!$ctrl.form.$valid"
-                               ng-class="{'sectioned-button_right': true, 'md-raised': true, 'md-primary': $ctrl.fee === $ctrl.yearlyFee}"
+                               ng-class="{'sectioned-button_left': true, 'md-raised': true, 'md-primary': $ctrl.fee === $ctrl.yearlyFee}"
                                ng-click="$ctrl.fee = $ctrl.yearlyFee"
                                style="line-height: 20px; "
                     >
@@ -31,7 +31,7 @@
 
                 <md-subheader class="md-no-sticky">{{ 'settings.billing.subscriptionFees' | translate }}</md-subheader>
                 <md-list-item layout="row">
-                    <span>{{ 'settings.billing.monthly' | translate }}</span>
+                    <span>{{ 'settings.billing.periodically.' + $ctrl.fee.term | translate }}</span>
                     <span flex></span>
                     <span ng-if="!$ctrl.fee.promoDiscount" style="font-weight:bold">{{$ctrl.fee.rate}} {{$ctrl.fee.currency}} / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}</span>
                     <span ng-if="$ctrl.fee.promoDiscount" style="font-weight:bold">
