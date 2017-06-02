@@ -5,19 +5,27 @@ import {ISessionService} from "../../core/session.service";
 import {CalendarItem} from "../calendar-item.datamodel";
 import {CalendarService} from "../../calendar/calendar.service";
 import {IMessageService} from "../../core/message.service";
+import {_eventsType} from "./calendar-items-events.constants";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
-const _FEELING: Array<string> = ['sentiment_very_satisfied','sentiment_satisfied','sentiment_neutral',
-    'sentiment_dissatisfied','sentiment_very_dissatisfied'];
+
 
 class CalendarItemEventsCtrl {
 
-    private feeling: Array<string> = _FEELING;
     private data: any;
     private mode: string;
-    private item: any;
+    private user: IUserProfile;
+
+    private item: CalendarItem;
+
+    private types: Array<string> = _eventsType;
     public onAnswer: (response: Object) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
+
+    public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
+    public isCreator: boolean;
+    public isPro: boolean;
+    public isMyCoach: boolean;
 
     static $inject = ['CalendarService','SessionService', 'message'];
 
@@ -28,41 +36,49 @@ class CalendarItemEventsCtrl {
     }
 
     $onInit() {
-        console.log('data======================', profileShort(this.SessionService.getUser()));
-        //if (this.mode === 'post') {
+
+        if (this.mode === 'post') {
             this.data = {
-                calendarItemType: 'events',
+                calendarItemType: 'event',
                 dateStart: new Date(this.data.date),
                 dateEnd: new Date(this.data.date),
-                userProfileOwner: profileShort(this.SessionService.getUser()),
+                userProfileOwner: profileShort(this.user),
                 userProfileCreator: profileShort(this.SessionService.getUser())
             };
-        //}
-        console.log('WWWWWww',this.data.userProfileOwner.public.avatar);
+        }
 
         this.item = new CalendarItem(this.data);
         this.item.prepare();
+        this.item.eventHeader.eventType = 'RestDay';
+        this.isCreator = this.item.userProfileCreator.userId === this.user.userId;
+        this.isMyCoach = this.item.userProfileCreator.userId !== this.user.userId;
     }
 
     onSave() {
         if (this.mode === 'post') {
             this.CalendarService.postItem(this.item.package())
-                .then(response => this.item.compile(response)) // сохраняем id, revision в обьекте
-                .then(() => this.onAnswer({response: {type:'post',item:this.item}}),
-                    error => this.message.systemError(error));
+                .then((response)=> {
+                    this.item.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('eventCreated');
+                    this.onAnswer({response: {type:'post', item:this.item.package()}});
+                }, error => this.message.toastError(error));
         }
         if (this.mode === 'put') {
             this.CalendarService.putItem(this.item.package())
-                .then(response => this.item.compile(response)) // сохраняем id, revision в обьекте
-                .then(() => this.onAnswer({response: {type:'put',item:this.item}}),
-                    error => this.message.systemError(error));
+                .then((response)=> {
+                    this.item.compile(response); // сохраняем id, revision в обьекте
+                    this.message.toastInfo('eventUpdated');
+                    this.onAnswer({response: {type:'put',item:this.item.package()}});
+                }, error => this.message.toastError(error));
         }
     }
 
     onDelete() {
         this.CalendarService.deleteItem('F', [this.item.calendarItemId])
-            .then(response => this.onAnswer({response: {type:'delete',item:this.item}}),
-                error => this.message.systemError(error));
+            .then(() => {
+                this.message.toastInfo('eventDeleted');
+                this.onAnswer({response: {type:'delete',item:this.item}});
+            }, error => this.message.toastError(error));
     }
 }
 
@@ -70,6 +86,7 @@ export let CalendarItemEventsComponent = {
     bindings: {
         data: '=',
         mode: '@',
+        user: '<',
         onCancel: '&',
         onAnswer: '&'
     },

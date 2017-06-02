@@ -41,14 +41,14 @@
                        md-row-select="$ctrl.options.rowSelection"
                        multiple="{{$ctrl.options.multiSelect}}"
                        ng-model="$ctrl.selected">
-                    <thead ng-if="!$ctrl.options.decapitate" md-head>
-                    <tr md-row>
-                        <th md-column class="user-name"><span>Имя</span></th>
-                        <th md-column class="sport"><span>Виды спорта</span></th>
-                        <th md-column><span>Страна</span></th>
-                        <th md-column><span>Город</span></th>
-                        <th md-column><span>О себе</span></th>
-                    </tr>
+                    <thead ng-if="!$ctrl.options.decapitate" md-head md-order="$ctrl.order">
+                        <tr md-row>
+                            <th md-column class="user-name" md-order-by="name"><span>Имя</span></th>
+                            <th md-column class="sport"><span>Виды спорта</span></th>
+                            <th md-column><span>Страна</span></th>
+                            <th md-column><span>Город</span></th>
+                            <th md-column><span>О себе</span></th>
+                        </tr>
                     </thead>
                     <tbody md-body style="overflow: auto">
                     <tr md-row ng-click="$ctrl.onDetails(obj.profile.public.uri)"
@@ -56,7 +56,7 @@
                         md-on-select="change" md-on-deselect="change"
                         md-select-id="ind"
                         md-auto-select="$ctrl.options.autoSelect"
-                        ng-repeat="obj in $ctrl.result track by $index">
+                        ng-repeat="obj in $ctrl.result | orderBy: $ctrl.order track by $index">
                         <td md-cell>
                             <userpic class="border-light size-36" profile="obj.profile" unlink="false"></userpic>
                             <span class="md-body-2 md-dark user-name">{{obj.name}}</span></td>

@@ -104,6 +104,7 @@ export default class NotificationService {
      * @returns {Array<Notification>}
      */
     process(list: Array<Notification>, notification: Notification):Array<Notification> {
+        console.time('notification process');
         let update: number = list.findIndex(n => n.id === notification.id);
         let isUpdate: boolean = update >= 0;
 

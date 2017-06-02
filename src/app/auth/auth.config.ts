@@ -12,7 +12,10 @@ function configure(
 			url: "/signin",
 			loginRequired: false,
 			view: _display_view['signin'],
-			//authRequired: ['func1'],
+			params: {
+				nextState: null,
+				nextParams: null
+			},
 			views: {
 				"application": {
 					component: "auth",

@@ -12,6 +12,7 @@ class SearchCtrl implements IComponentController {
     public params: SearchParams = {objectType: 'user'};
     public type: Array<string> = ['user','coach'];//,'club','group'];
     public result: Array<SearchResultByUser>;
+    public order: string = 'name';
 
     public options:Object = {
         rowSelection: false,
@@ -32,10 +33,10 @@ class SearchCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        this.$scope['order'] = 'name';
     }
 
-    onDetails(uri:string, url: string = _connection.frontend) {
+    onDetails(uri:string, url: string = `${window.location.origin}/`) {
         debugger;
         switch (this.params.objectType) {
             case 'user': case 'coach': {

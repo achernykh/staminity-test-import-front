@@ -490,13 +490,13 @@ export class CalendarCtrl implements IComponentController{
 
 
     onCopy(items: Array<ICalendarItem>){
+        debugger;
         this.buffer = [];
         this.firstSrcDay = null;
 
         if(items){
             this.buffer.push(...items);
             this.firstSrcDay = moment(items[0].dateStart).format('YYYY-MM-DD');
-            debugger;
         } else {
             this.calendar.forEach(w => w.subItem.forEach(d => {
                 if(d.selected) {

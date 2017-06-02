@@ -267,7 +267,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.
     // могут вызваны из любого другого представления
     onSave() {
-        console.log('save',this.activity.build());
 
         if (this.mode === 'post') {
             this.CalendarService.postItem(this.activity.build())

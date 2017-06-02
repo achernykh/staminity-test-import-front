@@ -20,9 +20,8 @@
         <div flex="none"
              class="avatar mini"
              style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}})"></div>
-        <div flex
-             class="md-body"
-             style="line-height: 24px; -color: white; padding: 0 8px">{{$ctrl.user | username: 'short'}}</div>
+        <div flex class="user-name"
+             class="md-body">{{$ctrl.user | username: 'short'}}</div>
         <user-menu id="$ctrl.user.public.uri || $ctrl.user.userId"></user-menu>
     </div>
 </div>

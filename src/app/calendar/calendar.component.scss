@@ -269,59 +269,6 @@ calendar {
   height: auto;
 }*/
 
-calendar-measurement, calendar-activity, calendar-event, calendar-competition {
-  	position: relative;
-  	min-height: 50px;
-  	margin: 6px 0px 0px 0px;
-  	cursor: pointer;
-	@include border-radius(3px);
-
-    // md size
-    @media (min-width: 960px) and (max-width: 1279px){
-      @include border-radius(0px);
-      box-shadow: none;
-
-      .data-category {
-        margin-top: 8px;
-      }
-    }
-
-  	@media (max-width: 1919px) and (min-width: 1280px){
-    	-min-width: 10%;
-    	-max-width: 175px;
-  	}
-
-  	@media (max-width: 959px){
-    	border-radius: 0px;
-    	margin: 0px 4px;
-    	min-width: 200px;
-    	padding-bottom: 0px;
-  	}
-}
-
-
-
-calendar-measurement {
-  padding: 12px;
-  @extend .bg-grey-200;
-
-
-  &:hover {
-    @extend .md-whiteframe-1dp;
-  }
-}
-
-calendar-event, calendar-competition {
-  padding: 10px 12px 12px 12px;
-  @extend .bg-grey-400;
-  @extend .md-whiteframe-1dp;
-
-  &:hover {
-    @extend .bg-grey-500;
-  }
-
-}
-
 
 calendar {
   .new {

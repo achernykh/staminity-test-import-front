@@ -5,5 +5,5 @@ export let _connection = {
     },
     server: 'app.staminity.com',//'app.staminity.com',
     content: 'https://app.staminity.com',//'http://app.staminity.com',
-    frontend: 'https://staminity.com/'//'http://staminity.com',
+    frontend: 'http://0.0.0.0:8080/'//'http://staminity.com',
 };

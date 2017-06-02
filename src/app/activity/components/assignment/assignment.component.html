@@ -1,8 +1,7 @@
 <activity-summary-info flex="none" ng-if="$ctrl.item.mode === 'view'" class="{{$ctrl.item.activity.status}}">
 </activity-summary-info>
 <fieldset flex="none" ng-disabled="$ctrl.item.mode === 'view'">
-    <md-list class="md-dense slim-input bg-grey-200"
-             ng-if="$ctrl.item.mode !== 'view'">
+    <md-list class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view'">
         <md-list-item>
             <md-input-container class="md-block no-message" md-no-float layout="row">
                 <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
