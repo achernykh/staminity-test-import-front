@@ -27,8 +27,8 @@
 <md-list class="menu-user" ng-if="$ctrl.showUserMenu">
     <md-list-item ng-repeat="menu in $ctrl.usermenu"
                   ng-click="$ctrl.transitionToState(menu.link)">
-        <md-icon class="material-icon" ng-bind="menu.icon"></md-icon>
-        <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
+        <md-icon class="material-icon">{{::menu.icon}}</md-icon>
+        <p class="md-body-2 md-dark" translate>{{::menu.name}}</p>
     </md-list-item>
 </md-list>
 
@@ -93,7 +93,7 @@
     <md-divider></md-divider>
     <md-list-item>
         <md-icon class="material-icon">memory</md-icon>
-        <p class="md-body-2" style="opacity: 0.87">2017 Стаминити, 0.5.0.beta#032</p>
+        <p class="md-body-2" style="opacity: 0.87">2017 Стаминити, 0.5.1.beta#035</p>
     </md-list-item>
 </md-list>
 

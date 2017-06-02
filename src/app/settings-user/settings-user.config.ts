@@ -75,7 +75,7 @@ function configure(
     $authProvider.oauth2({
         name: 'strava',
         url: '/oauth',//'http:/' + _connection.server + '/oauth/',
-        clientId: 15712,//17981,//15712,
+        clientId: 17981,//17981 - prd,//15712 - test,
         redirectUri: window.location.origin,
         authorizationEndpoint: 'https://www.strava.com/oauth/authorize',
         defaultUrlParams: ['client_id','response_type', 'redirect_uri'],
