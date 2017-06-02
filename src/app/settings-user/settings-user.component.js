@@ -582,8 +582,6 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
 
     this.autoRenewal = true;
     this.promoCode = '';
-    this.trial = false;
-    this.term = 1;
     this.paymentSystem = 'fondy';
 
     this.setBilling = (billing) => {
@@ -594,8 +592,8 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
         this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
     };
 
-    this.paymentNeeded = () => {
-        return !this.billing.joinBillConditions;
+    this.hasMaxPaidCount = (fee) => {
+        return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
     };
 
     this.setBilling(billing);
@@ -623,7 +621,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
             user.userId, 
             this.fee.term,
             this.autoRenewal,
-            this.fee.isTrial,
+            this.billing.trialConditions.isAvailable,
             this.activePromo,
             this.paymentSystem
         ).then(() => {
@@ -640,14 +638,24 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
 EnableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing'];
 
 
-function DisableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing) {
+function DisableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing, $translate) {
 
     this.tariff = tariff;
     this.user = user;
     this.billing = billing;
 
+    this.counts = () => {
+        return billing.rates.filter(fee => fee.rateType === 'Variable' && fee.varActualCount);
+    };    
+
     this.canDisconnect = () => {
-        return !(billing.rates || []).find(fee => fee.rateType === 'Variable' && fee.varActualCount);
+        return !this.counts().length;
+    };
+
+    this.countsText = () => {
+        return this.counts()
+            .map(fee => $translate.instant(`settings.billing.counts.${fee.varGroup}`, { count: fee.varActualCount }))
+            .join(', ');
     };
 
     this.cancel = function () {
@@ -667,7 +675,7 @@ function DisableTariffController($scope, $mdDialog, BillingService, message, use
     console.log('DisableTariffController', this);
 }
 
-DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing'];
+DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing', '$translate'];
 
 
 let SettingsUser = {

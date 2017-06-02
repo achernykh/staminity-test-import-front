@@ -91,6 +91,7 @@ export const _translate = {
             disableTariff: 'Отключить тариф',
             confirmEnable: 'Подключить',
             confirmPay: 'Оплатить {{cost}} {{currency}}',
+            confirmTrial: 'Подключить бесплатно',
             confirmDisable: 'Отключить',
             cancel: 'Отмена',
             monthly: 'Ежемесячно',
@@ -121,8 +122,15 @@ export const _translate = {
 Ближайший счёт на оплату будет вам выставлен [{{validThrough}}]. 
 
 В разделе "Счета" вы можете контролировать общую сумму начислений по счетам.`,
+            trialConditionsText: `
+Подключение бесплатно. Во время пробного периода начисления по тарифу не производятся. 
+
+Период пробного использования до [{{validThrough}}].
+`,
             tariffDisconnectionUnavailable: `
-Невозможно отключить тариф
+Отключить тариф невозможно, к вам подключены {{counts}}.
+
+Отключите их, а затем отключите тариф.
 `,
             tariffDisconnectNow: `
 Вы хотите отключить тариф?
@@ -140,6 +148,13 @@ export const _translate = {
 Нажимая кнопку "Отключить", вы соглашаетесь с тем, что:
 
 ...`,
+            counts: {
+                "Athletes": '{{count}} спортсменов',
+                "ClubAthletes": '{{count}} спортсменов',
+                "CoachByClub": "{{count}} тренеров",
+                "PremiumByCoach": "{{count}} спортсменов с Премиум-доступом",
+                "PremiumByClub": "{{count}} спортсменов с Премиум-доступом"
+            },
             group: {
                 "Athletes": 'Оплата за спортсменов',
                 "ClubAthletes": 'Оплата за спортсменов',
