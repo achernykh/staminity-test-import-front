@@ -23,7 +23,7 @@ function run(
 
         if(routeTo.loginRequired && !AuthService.isAuthenticated()) {
             message.systemWarning('forbidden_InsufficientAction');
-            $state.go('signin', {nextState: routeTo.name, nextParams: state.params()});
+            $state.target('signin', {nextState: routeTo.name, nextParams: state.params()});
             return false;
         }
 
