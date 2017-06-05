@@ -1,79 +1,61 @@
-var dataCacheName = 'staminityData-v1';
-var cacheName = 'staminityCache-v1';
 var filesToCache = [
-    '/',
-    '/index.html',
-    '/scripts/app.js',
-    '/styles/inline.css',
-    '/images/clear.png',
-    '/images/cloudy-scattered-showers.png',
-    '/images/cloudy.png',
-    '/images/fog.png',
-    '/images/ic_add_white_24px.svg',
-    '/images/ic_refresh_white_24px.svg',
-    '/images/partly-cloudy.png',
-    '/images/rain.png',
-    '/images/scattered-showers.png',
-    '/images/sleet.png',
-    '/images/snow.png',
-    '/images/thunderstorm.png',
-    '/images/wind.png'
+    'index.html',
+    'manifest.json'
 ];
 
-self.addEventListener('install', function(e) {
-    console.log('[ServiceWorker] Install');
-    e.waitUntil(
-        caches.open(cacheName).then(function(cache) {
-            console.log('[ServiceWorker] Caching app shell');
-            return cache.addAll(filesToCache);
-        })
+var staticCacheName = 'pages-cache-v6';
+
+self.addEventListener('install', function(event) {
+    console.log('Attempting to install service worker and cache static assets');
+    event.waitUntil(
+        caches.open(staticCacheName)
+            .then(function(cache) {
+                return cache.addAll(filesToCache);
+            })
     );
 });
 
-self.addEventListener('activate', function(e) {
-    console.log('[ServiceWorker] Activate');
-    e.waitUntil(
-        caches.keys().then(function(keyList) {
-            return Promise.all(keyList.map(function(key) {
-                if (key !== cacheName && key !== dataCacheName) {
-                    console.log('[ServiceWorker] Removing old cache', key);
-                    return caches.delete(key);
+self.addEventListener('fetch', function(event) {
+    console.log('Fetch event for ', event.request.url);
+    event.respondWith(
+        caches.match(event.request).then(function(response) {
+            if (response) {
+                console.log('Found ', event.request.url, ' in cache');
+                return response;
+            }
+            console.log('Network request for ', event.request.url);
+            return fetch(event.request).then(function(response) {
+                if (response.status === 404) {
+                    return caches.match('pages/404.html');
                 }
-            }));
-        })
-    );
-    return self.clients.claim();
-});
-
-self.addEventListener('fetch', function(e) {
-    console.log('[Service Worker] Fetch', e.request.url);
-    var dataUrl = 'https://app.staminity.com';
-    if (e.request.url.indexOf(dataUrl) > -1) {
-        /*
-         * When the request URL contains dataUrl, the app is asking for fresh
-         * weather data. In this case, the service worker always goes to the
-         * network and then caches the response. This is called the "Cache then
-         * network" strategy:
-         * https://jakearchibald.com/2014/offline-cookbook/#cache-then-network
-         */
-        e.respondWith(
-            caches.open(dataCacheName).then(function(cache) {
-                return fetch(e.request).then(function(response){
-                    cache.put(e.request.url, response.clone());
+                return caches.open(staticCacheName).then(function(cache) {
+                    if (event.request.url.indexOf('test') < 0) {
+                        cache.put(event.request.url, response.clone());
+                    }
                     return response;
                 });
-            })
-        );
-    } else {
-        /*
-         * The app is asking for app shell files. In this scenario the app uses the
-         * "Cache, falling back to the network" offline strategy:
-         * https://jakearchibald.com/2014/offline-cookbook/#cache-falling-back-to-network
-         */
-        e.respondWith(
-            caches.match(e.request).then(function(response) {
-                return response || fetch(e.request);
-            })
-        );
-    }
+            });
+        }).catch(function(error) {
+            console.log('Error, ', error);
+            return caches.match('pages/offline.html');
+        })
+    );
+});
+
+self.addEventListener('activate', function(event) {
+    console.log('Activating new service worker...');
+
+    var cacheWhitelist = [staticCacheName];
+
+    event.waitUntil(
+        caches.keys().then(function(cacheNames) {
+            return Promise.all(
+                cacheNames.map(function(cacheName) {
+                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
 });
