@@ -1,0 +1,45 @@
+<md-dialog style="min-width: 320px">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 >{{ 
+                $ctrl.fee.rateType === 'Variable' && ('settings.billing.group.' + $ctrl.fee.varGroup | translate) ||
+                ('settings.billing.fixedFee' | translate)
+            }}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.close()">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+
+        <md-table-container>
+            <table md-table>
+                <thead md-head>
+                    <tr md-row>
+                        <th md-column>{{ 'settings.billing.date' | translate }}</th>
+                        <th ng-if="$ctrl.fee.rateType === 'Variable'" md-column>{{ 'settings.billing.count' | translate }}</th>
+                        <th md-column>{{ 'settings.billing.amount' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row ng-repeat="entry in $ctrl.fee.transactions" class="hover-bg-blue-grey-100 animated">
+                        <td md-cell>{{ entry.date | date:shortDate }}</td>
+                        <td ng-if="$ctrl.fee.rateType === 'Variable'" md-cell>
+                            <md-button ng-if="entry.varObjects.length" ng-click="$ctrl.connections(entry.varObjects)">{{ entry.varObjects.length }}</md-button>
+                            <span ng-if="!entry.varObjects.length">-</span>
+                        </td>
+                        <td md-cell class="font-medium">{{ entry.amount | currency:$ctrl.bill.currency }}</td>
+                    </tr>
+                    <tr md-row class="hover-bg-blue-grey-100 animated">
+                        <td md-cell>{{ 'settings.billing.total' | translate }}</td>
+                        <td ng-if="$ctrl.fee.rateType === 'Variable'" md-cell></td>
+                        <td md-cell class="font-medium">{{$ctrl.fee.totalAmount || $ctrl.fee.initialAmount | currency:$ctrl.bill.currency}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+    </md-dialog-content>
+</md-dialog>

@@ -33,3 +33,18 @@ md-dialog#upload {
         //padding: 0.625rem 1.25rem;
     }
 }
+
+
+.bill-details-dialog {
+    .text-right {
+        text-align: right !important;
+    }
+
+    .md-dark * {
+        color: rgba(black, 0.54) !important;
+    }
+
+    &__is-paid {
+        margin-right: 20px
+    }
+}

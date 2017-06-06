@@ -93,7 +93,10 @@ export const _translate = {
             confirmPay: 'Оплатить {{cost}} {{currency}}',
             confirmTrial: 'Подключить бесплатно',
             confirmDisable: 'Отключить',
+            confirmSave: 'Сохранить',
+            close: 'Закрыть',
             cancel: 'Отмена',
+            open: 'Открыть',
             monthly: 'Ежемесячно',
             yearly: 'Ежегодно',
             periodically: {
@@ -106,6 +109,8 @@ export const _translate = {
             },
             dayly: 'день',
             subscriptionFees: 'Абонентская плата',
+            fixedFee: 'Абонентская плата',
+            changeFee: 'Изменить условия действующего тарифа',
             free: 'Бесплатно',
             promo: 'Промо-код',
             activePromo: 'Промо-код «{{promo}}» активирован',
@@ -172,11 +177,13 @@ export const _translate = {
             eachInGroupBelow: '{{below}}',
             eachInGroupBetween: 'От {{from}} до {{to}}, за каждого',
             eachInGroupAbove: 'Начиная с {{above}}',
-            tariff: {
+            tariffs: {
                 "Coach": "Тренер",
                 "Premium": "Премиум",
                 "Club": "Клуб"
             },
+            tariff: 'Тарифный план',
+            state: "Статус",
             status: {
                 enabled: "Подключен до {{until}}",
                 enabledByUser: "Подключен за счет тренера {{coach}}",
@@ -184,6 +191,41 @@ export const _translate = {
                 paid: "Оплачен до {{until}}",
                 trial: "Пробный период до {{until}}",
                 disabled: "Не подключен"
+            },
+            paymentStatus: "Оплата",
+            subscriptionDate: "Дата подключения",
+            subscriptionEnds: "Срок действия",
+            subscriptionConditions: "Условия действия тарифа",
+            tariffStatuses: {
+                enabled: 'Подключен',
+                notEnabled: 'Не подключен',
+                trial: 'Пробный период'
+            },
+            paymentStatuses: {
+                enabledBySelf: "За свой счёт",
+                enabledByUser: "За счет тренера {{coach}}",
+                enabledByClub: "За счет клуба {{club}}"
+            },
+            promoDiscount: 'Скидка по промо-коду',
+            volumeDiscount: 'Объёмная скидка',
+            connections: 'Подключено',
+            billFor: "Счёт за период {{from}} - {{to}}",
+            payTheBill: "Оплатить {{amount}}",
+            billIsPaid: "Оплачен {{date}}",
+            billEntry: 'Позиция счёта',
+            amount: 'Сумма',
+            date: 'Дата',
+            count: 'База начисления',
+            billTotal: 'Итого по счёту',
+            total: 'Итого',
+            billsList: 'Реестр счетов',
+            invoices: 'Счета на оплату',
+            invoiceAmount: 'Счет на сумму',
+            period: 'Период',
+            invoiceStatuses: {
+                new: 'Формируется',
+                ready: 'Оплатить',
+                complete: 'Подробно'
             }
         },
         sync: {

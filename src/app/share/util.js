@@ -34,12 +34,13 @@ export const keys = (obj) => Object.keys(obj)
 export const values = (obj) => keys(obj).map(key => obj[key])
 export const entries = (obj) => keys(obj).map(key => [key, obj[key]])
 export const object = (props) => props.reduce((o, [key, value]) => (o[key] = value, o), {})
+export const prop = (key) => (obj) => obj[key]
 
 export const maybe = (x) => (f) => f? maybe(x? f(x) : x) : x
 
 export const memorize = (f) => {
     let memo = {}
-    return (arg) => arg in memo? (memo[arg] = f(arg)) : memo[arg]
+    return (arg) => arg in memo? memo[arg] : (memo[arg] = f(arg))
 }
 
 export const log = (msg) => (x) => {

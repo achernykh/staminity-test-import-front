@@ -8,6 +8,9 @@ import {
 
 import './settings-user.component.scss';
 
+import { parseYYYYMMDD } from '../share/share.module';
+
+
 class SettingsUserModel {
     // deep copy test and initial data
     constructor (user) {
@@ -464,52 +467,16 @@ class SettingsUserCtrl {
         //}
     }
 
-    getTariffName (tariff) {
-        return tariff.tariffCode;
-    }
-
-    getTariffStatus (tariff) {
-        return tariff.enabled? 'Enabled' : 'Disabled';
+    invoiceStatus (bill) {
+        return this.BillingService.billStatus(bill);
     }
 
     enableTariff (tariff) {
-        return this._$mdDialog.show({
-                locals: { 
-                    user: this.user,
-                    tariff: tariff
-                },
-                resolve: {
-                    billing: () => this.BillingService.getTariff(tariff.tariffId, '')
-                },
-                controller: EnableTariffController,
-                controllerAs: '$ctrl',
-                template: require('./dialogs/enableTariff.html'),
-                parent: angular.element(document.body),
-                bindToController: true,
-                clickOutsideToClose: true,
-                escapeToClose: true,
-                fullscreen: !this.$mdMedia('gt-sm')
-            });
+        return this.dialogs.enableTariff(tariff, this.user);
     }
 
     disableTariff (tariff) {
-        return this._$mdDialog.show({
-                locals: { 
-                    user: this.user,
-                    tariff: tariff
-                },
-                resolve: {
-                    billing: () => this.BillingService.getTariff(tariff.tariffId, '')
-                },
-                controller: DisableTariffController,
-                controllerAs: '$ctrl',
-                template: require('./dialogs/disableTariff.html'),
-                parent: angular.element(document.body),
-                bindToController: true,
-                clickOutsideToClose: true,
-                escapeToClose: true,
-                fullscreen: !this.$mdMedia('gt-sm')
-            });
+        return this.dialogs.disableTariff(tariff, this.user);
     }
 
     tariffIsEnabled (tariff) {
@@ -521,6 +488,18 @@ class SettingsUserCtrl {
             (tariff.isEnabled? this.disableTariff(tariff) : this.enableTariff(tariff))
             .then(() => { this.reload(); }, () => { this.reload(); });
         }
+    }
+
+    billsList () {
+        return this.dialogs.billsList(this.user);
+    }
+
+    viewBill (bill) {
+        return this.dialogs.billDetails(bill, this.user);
+    }
+
+    viewTariff (tariff) {
+        return tariff.isEnabled && this.dialogs.tariffDetails(tariff, this.user);
     }
 
     uploadAvatar () {
@@ -573,109 +552,6 @@ function DialogController($scope, $mdDialog) {
 }
 
 DialogController.$inject = ['$scope', '$mdDialog'];
-
-
-function EnableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing) {
-
-    this.tariff = tariff;
-    this.user = user;
-
-    this.autoRenewal = true;
-    this.promoCode = '';
-    this.paymentSystem = 'fondy';
-
-    this.setBilling = (billing) => {
-        this.billing = billing;
-        this.fee = this.billing.rates.find(fee => fee.rateType === 'Fixed');
-        this.monthlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 1);
-        this.yearlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 12);
-        this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
-    };
-
-    this.hasMaxPaidCount = (fee) => {
-        return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
-    };
-
-    this.setBilling(billing);
-
-    this.submitPromo = () => {
-        BillingService.getTariff(tariff.tariffId, this.promoCode)
-        .then((billing) => {
-            this.activePromo = this.promoCode;
-            this.setBilling(billing);
-            console.log('submitPromo', billing);
-            $scope.$apply();
-        }, (info) => {
-            message.systemWarning(info);
-            throw info;
-        });
-    };
-
-    this.cancel = function () {
-        $mdDialog.cancel();
-    };
-
-    this.submit = function () {
-        BillingService.enableTariff(
-            tariff.tariffId, 
-            user.userId, 
-            this.fee.term,
-            this.autoRenewal,
-            this.billing.trialConditions.isAvailable,
-            this.activePromo,
-            this.paymentSystem
-        ).then(() => {
-            $mdDialog.hide();
-        }, (info) => {
-            message.systemWarning(info);
-            throw info;
-        });
-    };
-
-    console.log('EnableTariffController', this);
-}
-
-EnableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing'];
-
-
-function DisableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing, $translate) {
-
-    this.tariff = tariff;
-    this.user = user;
-    this.billing = billing;
-
-    this.counts = () => {
-        return billing.rates.filter(fee => fee.rateType === 'Variable' && fee.varActualCount);
-    };    
-
-    this.canDisconnect = () => {
-        return !this.counts().length;
-    };
-
-    this.countsText = () => {
-        return this.counts()
-            .map(fee => $translate.instant(`settings.billing.counts.${fee.varGroup}`, { count: fee.varActualCount }))
-            .join(', ');
-    };
-
-    this.cancel = function () {
-        $mdDialog.cancel();
-    };
-
-    this.submit = function () {
-        BillingService.disableTariff(tariff.tariffId, user.userId)
-        .then(() => {
-            $mdDialog.hide();
-        }, (info) => {
-            message.systemWarning(info);
-            throw info;
-        });
-    };
-
-    console.log('DisableTariffController', this);
-}
-
-DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing', '$translate'];
 
 
 let SettingsUser = {

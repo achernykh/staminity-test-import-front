@@ -56,6 +56,7 @@ userpic {
         border: 1px solid rgba(255,255,255,0.9);
     }
 }
+
 avatar-pic {
     div.avatar {
         display:inline-block;
@@ -73,4 +74,9 @@ avatar-pic {
         width: 36px;
         border-radius: 18px;
     }
+}
+
+.st-hover-background {
+    background-color: rgba(158,158,158,0.2);
+    
 }

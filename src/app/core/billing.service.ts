@@ -1,6 +1,9 @@
 import { ISocketService } from './socket.service';
-import { GetTariff, PostTariffSubscription, PutTariffSubscription, DeleteTariffSubscription } from "../../../api/billing/billing.request";
+import { GetTariff, PostTariffSubscription, PutTariffSubscription, DeleteTariffSubscription, GetBill, GetBillDetails } from "../../../api/billing/billing.request";
 import { IBillingTariff, IBill } from "../../../api/billing/billing.interface";
+
+import moment from 'moment/min/moment-with-locales.js';
+import { parseYYYYMMDD } from '../share/share.module';
 
 
 export default class BillingService {
@@ -46,11 +49,55 @@ export default class BillingService {
 
     /**
      * @param tariffId
+     * @param autoRenewal
+     * @returns {Promise<any>}
+     */
+    updateTariff(
+        tariffId: number,
+        autoRenewal: boolean
+    ) : Promise<any> {
+        return this.SocketService.send(new PutTariffSubscription(tariffId, autoRenewal));
+    }
+
+    /**
+     * @param tariffId
      * @param userIdReceiver
      * @returns {Promise<any>}
      */
     disableTariff(tariffId: number, userIdReceiver: number) : Promise<any> {
         return this.SocketService.send(new DeleteTariffSubscription(tariffId, userIdReceiver));
+    }
+
+    /**
+     * @returns {Promise<any>}
+     */
+    getBillsList() : Promise<any> {
+        return this.SocketService.send(new GetBill(new Date(0), new Date()))
+            .then((data) => data.arrayResult);
+    }
+
+    /**
+     * @param billId
+     * @param userIdReceiver
+     * @returns {Promise<any>}
+     */
+    getBillDetails(billId: number) : Promise<any> {
+        return this.SocketService.send(new GetBillDetails(billId));
+    }
+
+    /**
+     * @param bill
+     * @returns 'complete' | ready' | 'new'
+     */
+    billStatus (bill: IBill) {
+        let now = moment();
+        let startPeriod = parseYYYYMMDD(bill.startPeriod);
+        let endPeriod = parseYYYYMMDD(bill.endPeriod);
+        let billDate = parseYYYYMMDD(bill.billDate);
+
+        return bill.receiptDate && 'complete' ||
+            now > billDate && 'ready' ||
+            startPeriod < now && now < endPeriod && billDate > endPeriod && 'new';
     }
 
 }

@@ -2,7 +2,7 @@
     <form name="$ctrl.form" ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2 >{{ 'settings.billing.disableTariff' | translate }} «{{ 'settings.billing.tariff.' + $ctrl.tariff.tariffCode | translate }}»</h2>
+                <h2 >{{ 'settings.billing.disableTariff' | translate }} «{{ 'settings.billing.tariffs.' + $ctrl.tariff.tariffCode | translate }}»</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
                     <md-icon class="material-icons">close</md-icon>
@@ -25,12 +25,11 @@
         <md-dialog-actions layout="row">
             <span flex></span>
             <md-button 
-                ng-class="{'md-primary': false}"
                 ng-click="$ctrl.cancel()"
             >{{ 'settings.billing.cancel' | translate }}</md-button>
             <md-button 
                 ng-if="$ctrl.canDisconnect()"
-                ng-class="{'md-primary': true}"
+                class="md-primary"
                 ng-click="$ctrl.submit()"
             >{{ 'settings.billing.confirmDisable' | translate }}</md-button>
         </md-dialog-actions>

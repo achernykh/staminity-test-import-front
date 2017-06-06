@@ -25,10 +25,14 @@
         <md-divider></md-divider>
         <md-list class="md-dense section">
             <md-subheader>{{ 'settings.billing.tariffsHeader' | translate }}</md-subheader>
-            <md-list-item class="md-2-line" ng-repeat-start="tariff in $ctrl.user.billing.tariffs">
+            <md-list-item 
+                class="md-2-line" 
+                ng-repeat-start="tariff in $ctrl.user.billing.tariffs"
+                ng-click="tariff.isEnabled? $ctrl.viewTariff(tariff) : $ctrl.enableTariff(tariff)"
+            >
                 <md-icon class="material-icons">person</md-icon>
                 <div class="md-list-item-text" ng-switch="property.enabled">
-                    <h3>{{ 'settings.billing.tariff.' + tariff.tariffCode | translate }}</h3>
+                    <h3>{{ 'settings.billing.tariffs.' + tariff.tariffCode | translate }}</h3>
                     <p>{{tariff.isEnabled? (
                         tariff.clubProfile && ('settings.billing.status.enabledByClub' | translate:{club:tariff.clubProfile.public.name}) ||
                         tariff.userProfilePayer && tariff.userProfilePayer.userId !== $ctrl.user.userId && ('settings.billing.status.enabledByUser' | translate:{coach:tariff.userProfilePayer.public.firstName + ' ' + tariff.userProfilePayer.public.lastName}) ||
@@ -51,30 +55,31 @@
         </md-list>
         <md-divider></md-divider>
         <md-list class="md-dense section">
-            <md-subheader>Счета на оплату</md-subheader>
-            <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
-                          ng-repeat-start="bill in $ctrl.user.billing.bills"
-                          ng-switch="bill.status">
+            <md-subheader>{{ 'settings.billing.invoices' | translate }}</md-subheader>
+            <md-list-item 
+                class="md-2-line" 
+                ng-repeat-start="bill in $ctrl.user.billing.bills"
+                ng-click="$ctrl.viewBill(bill)"
+                ng-switch="$ctrl.invoiceStatus(bill)"
+            >
                 <md-icon  class="material-icons">payment</md-icon>
                 <div class="md-list-item-text">
-                    <h3> Счет на {{ bill.amount | currency}} </h3>
-                    <p> Период {{ bill.start | date: shortDate}} - {{ bill.start | date: shortDate}}</p>
+                    <h3> {{ 'settings.billing.invoiceAmount' | translate }} {{ bill.totalAmount | currency:bill.currency }}</h3>
+                    <p> {{ 'settings.billing.period' | translate }} {{ bill.startPeriod | date: shortDate}} - {{ bill.endPeriod | date: shortDate}}</p>
                 </div>
                 <div class="md-secondary" ng-switch-when="new">
-                    <md-button ng-click="doSecondaryAction($event)">Формируется</md-button>
+                    <md-button>{{ 'settings.billing.invoiceStatuses.new' | translate }}</md-button>
                 </div>
                 <div class="md-secondary" ng-switch-when="ready">
-                    <md-button class="md-accent"
-                               ng-click="doSecondaryAction($event)">Оплатить {{bill.amount | currency}}</md-button>
+                    <md-button class="md-accent" ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.ready' | translate }} {{ bill.totalAmount | currency:bill.currency }}</md-button>
                 </div>
                 <div class="md-secondary" ng-switch-when="complete">
-                    <md-button ng-click="doSecondaryAction($event)">Подробно</md-button>
+                    <md-button ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.complete' }} {{ 'settings.billing.invoiceStatuses.new' | translate }}</md-button>
                 </div>
             </md-list-item>
             <md-divider ng-repeat-end ng-if="!$last"></md-divider>
             <md-list-item>
-                <p>Поясняющий текст</p>
-                <md-button class="md-secondary" ng-click="doSecondaryAction($event)">Реестр счетов</md-button>
+                <md-button class="md-secondary" ng-click="$ctrl.billsList()">{{ 'settings.billing.billsList' | translate }}</md-button>
             </md-list-item>
         </md-list>
     </form>
