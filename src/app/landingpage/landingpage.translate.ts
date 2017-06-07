@@ -171,10 +171,11 @@ export let _translate = {
 			block2 : {
 				title: 'Помощь и поддержка',
 				link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Справочная система</a>',
-				link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Поддержка</a>',
-				link3: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
-				link4: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
-				link5: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
+				link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Портал поддержки</a>',
+				link3: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Напишите в Телеграм</a>',
+				link4: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
+				link5: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
+				link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
 			},
 			block3 : {
 				title: 'Новости',
@@ -333,8 +334,8 @@ export let _translate = {
 
 				carousel1: {
 					title: 'Club management',
-					description: 'Руководитель клуба может управлять составом клуба, назначать тренеров и распределять спортсменов между ними. <br/>' +
-					'В больших клубах можно назначить администраторов и делегировать им принятие новых членов в клуб и управление их ролями'
+					description: 'Club manager is able to manage club members, assign and reassign coach athletes between coaches. <br/>' +
+					'In large clubs club manager is able to assign club adiministrators from coaches and delegate them the acceptance of new requests and other management functions'
 				}
 				/*
 				 carousel1: {
@@ -355,32 +356,33 @@ export let _translate = {
 		},
 		footer: {
 			block1 : {
-				title: 'Приложение',
-				link1: '<a flex href="#howitworks" class="md-body md-light">Как это работает</a>',
-				link2: '<a flex href="#athletes" class="md-body md-light">Для спортсменов</a>',
-				link3: '<a flex href="#coaches" class="md-body md-light">Для тренеров</a>',
-				link4: '<a flex href="#clubs" class="md-body md-light">Для клубов</a>',
-				link5: '<a flex href="#" class="md-body md-light disable">Тарифы</a>',
+				title: 'Staminity',
+				link1: '<a flex href="#howitworks" class="md-body md-light">How it works</a>',
+				link2: '<a flex href="#athletes" class="md-body md-light">For athletes</a>',
+				link3: '<a flex href="#coaches" class="md-body md-light">For coaches</a>',
+				link4: '<a flex href="#clubs" class="md-body md-light">For clubs</a>',
+				link5: '<a flex href="#" class="md-body md-light disable">Tariffs</a>',
 			},
 			block2 : {
-				title: 'Помощь и поддержка',
-				link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Справочная система</a>',
-				link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Поддержка</a>',
-				link3: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
-				link4: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
-				link5: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
+				title: 'Help and support',
+				link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Help center (RUS)</a>',
+				link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Support portal</a>',
+				link3: '<a flex href="http://t.me/staminity_support" target="_blank" class="md-body md-light">Support in Telegram</a>',
+				link4: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Terms of service (RUS)</a>',
+				link5: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">License agreement (RUS)</a>',
+				link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Privacy policy (RUS)</a>',
 			},
 			block3 : {
-				title: 'Новости',
-				link1: '<a flex href="http://eepurl.com/cmOSiH" target="_blank" class="md-body md-light">Подписаться на рассылку</a>',
-				link2: '<a flex href="https://www.facebook.com/staminity/" target="_blank" class="md-body md-light">Мы в Facebook</a>',
-				link3: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Мы Вконтакте</a>',
-				link4: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Блог</a>',
+				title: 'Follow us',
+				link1: '<a flex href="http://eepurl.com/cmOSiH" target="_blank" class="md-body md-light">Subscribe to our newsletter (RUS)</a>',
+				link2: '<a flex href="https://www.facebook.com/staminity/" target="_blank" class="md-body md-light">Folow us in Facebook</a>',
+				link3: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Follow us in VK</a>',
+				link4: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Blog (RUS)</a>',
 			},
 			block4 : {
 				title: 'О нас',
-				link1: '<a flex href="#" class="md-body md-light disable">Наша команда</a>',
-				link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">Написать письмо</a>',
+				link1: '<a flex href="#" class="md-body md-light disable">Our team</a>',
+				link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">E-mail us</a>',
 			}
 		}
 
