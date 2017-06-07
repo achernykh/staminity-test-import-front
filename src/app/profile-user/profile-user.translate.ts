@@ -6,6 +6,7 @@ export const _translate = {
         price: 'Условия занятий',
         contact: 'Контакты',
         athletes: 'Ученики',
+        isFree: 'Доступность для новых учеников'
     },
     en: {
     }
