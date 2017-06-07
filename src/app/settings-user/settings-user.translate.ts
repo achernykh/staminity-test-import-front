@@ -177,35 +177,49 @@ export const _translate = {
             eachInGroupBelow: '{{below}}',
             eachInGroupBetween: 'От {{from}} до {{to}}, за каждого',
             eachInGroupAbove: 'Начиная с {{above}}',
+            tariff: 'Тарифный план',
             tariffs: {
                 "Coach": "Тренер",
                 "Premium": "Премиум",
                 "Club": "Клуб"
             },
-            tariff: 'Тарифный план',
-            state: "Статус",
-            status: {
-                enabled: "Подключен до {{until}}",
-                enabledByUser: "Подключен за счет тренера {{coach}}",
-                enabledByClub: "Подключен за счет клуба {{club}}",
-                paid: "Оплачен до {{until}}",
-                trial: "Пробный период до {{until}}",
-                disabled: "Не подключен"
-            },
-            paymentStatus: "Оплата",
-            subscriptionDate: "Дата подключения",
-            subscriptionEnds: "Срок действия",
-            subscriptionConditions: "Условия действия тарифа",
+            status: "Статус",
             tariffStatuses: {
-                enabled: 'Подключен',
-                notEnabled: 'Не подключен',
-                trial: 'Пробный период'
+                enabled: "Подключен до {{until}}",
+                enabledByCoach: "Подключен за счет тренера {{coach}}",
+                enabledByClub: "Подключен за счет клуба {{club}}",
+                notEnabled: "Не подключен",
+                cancelledByEnabler: "Отключен",
+                expired: "Отключен",
+                disabled: "Оплачен до {{until}}",
+                trial: "Пробный период до {{until}}",
+                unpaid: "Функции заблокированы, необходима оплата счета"
             },
-            paymentStatuses: {
-                enabledBySelf: "За свой счёт",
+            tariffStatusesIsEnabled: {
+                enabled: 'Подключен',
+                enabledByCoach: 'Подключен',
+                enabledByClub: 'Подключен',
+                notEnabled: "Не подключен",
+                cancelledByEnabler: "Отключен",
+                expired: "Отключен",
+                disabled: "Отключен",
+                trial: "Пробный период",
+                unpaid: "Ожидает оплаты"
+            },
+            tariffStatusesEnablers: {
+                enabled: "За свой счёт",
+                notEnabled: "За свой счёт",
+                cancelledByEnabler: "За свой счёт",
+                expired: "За свой счёт",
+                disabled: "За свой счёт",
+                trial: "За свой счёт",
+                unpaid: "За свой счёт",
                 enabledByUser: "За счет тренера {{coach}}",
                 enabledByClub: "За счет клуба {{club}}"
             },
+            subscriptionDate: "Дата подключения",
+            subscriptionEnds: "Срок действия",
+            subscriptionConditions: "Условия действия тарифа",
             promoDiscount: 'Скидка по промо-коду',
             volumeDiscount: 'Объёмная скидка',
             connections: 'Подключено',

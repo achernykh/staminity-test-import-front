@@ -28,26 +28,21 @@
             <md-list-item 
                 class="md-2-line" 
                 ng-repeat-start="tariff in $ctrl.user.billing.tariffs"
-                ng-click="tariff.isEnabled? $ctrl.viewTariff(tariff) : $ctrl.enableTariff(tariff)"
+                ng-click="tariff.isEnabled || tariff.unpaidBill? $ctrl.viewTariff(tariff) : $ctrl.enableTariff(tariff)"
             >
                 <md-icon class="material-icons">person</md-icon>
                 <div class="md-list-item-text" ng-switch="property.enabled">
                     <h3>{{ 'settings.billing.tariffs.' + tariff.tariffCode | translate }}</h3>
-                    <p>{{tariff.isEnabled? (
-                        tariff.clubProfile && ('settings.billing.status.enabledByClub' | translate:{club:tariff.clubProfile.public.name}) ||
-                        tariff.userProfilePayer && tariff.userProfilePayer.userId !== $ctrl.user.userId && ('settings.billing.status.enabledByUser' | translate:{coach:tariff.userProfilePayer.public.firstName + ' ' + tariff.userProfilePayer.public.lastName}) ||
-                        ('settings.billing.status.enabled' | translate:{until:tariff.expireDate})
-                    ) : (
-                        tariff.isTrial && ('settings.billing.status.trial' | translate:{until:tariff.expireDate}) ||
-                        tariff.expireDate && ('settings.billing.status.paid' | translate:{until:tariff.expireDate}) ||
-                        ('settings.billing.status.disabled' | translate)
-                    )}}</p>
+                    <p>{{ 'settings.billing.tariffStatuses.' + $ctrl.tariffStatus(tariff) | translate:{
+                        until: (tariff.expireDate | date:shortDate),
+                        club: (tariff.clubProfile | clubName),
+                        coach: (tariff.userProfilePayer | userName)
+                    } }}</p>
                 </div>
                 <md-switch
                     ng-model="$ctrl.tariffIsEnabled(tariff)"
                     ng-model-options="{getterSetter: true}"
-                    ng-disabled="tariff.clubProfile || (tariff.userProfilePayer && tariff.userProfilePayer.userId !== $ctrl.user.userId)"
-                    ng-class="{ 'md-primary': true, 'md-secondary': true }"
+                    ng-disabled="!$ctrl.tariffIsOwn(tariff) || tariff.unpaidBill"
                 >
                 </md-switch>
             </md-list-item>

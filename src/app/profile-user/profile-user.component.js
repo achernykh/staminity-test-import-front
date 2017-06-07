@@ -38,23 +38,23 @@ class ProfileCtrl {
     }
 
     coaches () {
-        this.dialogs.usersList(this.user.connections.Coaches, 'coaches')
+        this.dialogs.usersList(this.user.connections.Coaches.groupMembers, 'coaches')
     }
 
     athletes () {
-        this.dialogs.usersList(this.user.connections.allAthletes, 'athletes')
+        this.dialogs.usersList(this.user.connections.allAthletes.groupMembers, 'athletes')
     }
 
     friends () {
-        this.dialogs.usersList(this.user.connections.Friends, 'friends')
+        this.dialogs.usersList(this.user.connections.Friends.groupMembers, 'friends')
     }
 
     subscriptions () {
-        this.dialogs.usersList(this.user.connections.Following, 'following')
+        this.dialogs.usersList(this.user.connections.Following.groupMembers, 'following')
     }
 
     subscribers () {
-        this.dialogs.usersList(this.user.connections.Followers, 'followers')
+        this.dialogs.usersList(this.user.connections.Followers.groupMembers, 'followers')
     }
 
     join (group, message) {

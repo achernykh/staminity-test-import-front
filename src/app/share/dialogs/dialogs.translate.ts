@@ -15,6 +15,8 @@ export let translateDialogs = {
         following: 'Подписки',
         followers: 'Подписчики',
         members: 'Участники',
+        users: 'Пользователи',
+        feeObjects: 'База начисления',
 
         bySelf: 'За свой счет',
         byClub: 'За счет клуба',

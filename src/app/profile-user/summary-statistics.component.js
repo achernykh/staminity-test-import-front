@@ -165,23 +165,23 @@ class SummaryStatisticsCtrl {
     }
 
     coaches () {
-        this.dialogs.usersList(this.user.connections.Coaches, 'Тренеры')
+        this.dialogs.usersList(this.user.connections.Coaches.groupMembers, 'Тренеры')
     }
 
     athletes () {
-        this.dialogs.usersList(this.user.connections.allAthletes, 'Спортсмены')
+        this.dialogs.usersList(this.user.connections.allAthletes.groupMembers, 'Спортсмены')
     }
 
     friends () {
-        this.dialogs.usersList(this.user.connections.Friends, 'Друзья')
+        this.dialogs.usersList(this.user.connections.Friends.groupMembers, 'Друзья')
     }
 
     subscriptions () {
-        this.dialogs.usersList(this.user.connections.Following, 'Подписки')
+        this.dialogs.usersList(this.user.connections.Following.groupMembers, 'Подписки')
     }
 
     subscribers () {
-        this.dialogs.usersList(this.user.connections.Followers, 'Подписчики')
+        this.dialogs.usersList(this.user.connections.Followers.groupMembers, 'Подписчики')
     }
 
     join (group, message) {

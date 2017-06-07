@@ -110,9 +110,9 @@ export default class DialogsService {
             });
     }
 
-    tariffDetails (tariff, user) {
+    tariffDetails (tariff) {
         return this.$mdDialog.show({
-                locals: { user, tariff },
+                locals: { tariff },
                 resolve: {
                     billing: () => this.BillingService.getTariff(tariff.tariffId, '')
                 },
@@ -420,10 +420,12 @@ function DisableTariffController($scope, $mdDialog, BillingService, message, use
 DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing', '$translate'];
 
 
-function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, message, user, tariff, billing) {
-    this.user = user;
+function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, message, tariff, billing) {
     this.tariff = tariff;
     this.billing = billing;
+
+    this.tariffStatus = BillingService.tariffStatus(tariff);
+    this.tariffIsOwn = !BillingService.tariffEnablerClub(tariff) && !BillingService.tariffEnablerCoach(tariff);
 
     this.autoRenewal = true;
     this.promoCode = '';
@@ -436,14 +438,12 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
         return this.billing.rates.filter(fee => fee.rateType === 'Variable');
     };
 
-    this.tariffStatus = (tariff) => {
-        return tariff.isEnabled && tariff.isTrial && 'trial'
-            || tariff.isEnabled && 'enabled'
-            || 'notEnabled';
-    };
-
     this.hasMaxPaidCount = (fee) => {
         return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
+    };
+
+    this.viewFeeObjectsList = (fee) => {
+        dialogs.usersList(fee.varObjects, 'users');
     };
 
     this.submitPromo = () => {
@@ -459,23 +459,14 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
         });
     };
 
-    this.canChange = () => {
-        return this.tariff.clubProfile || this.tariff.userProfilePayer && this.tariff.userProfilePayer.userId !== this.user.userId;
-    };
-
     this.cancel = function () {
         $mdDialog.cancel();
     };
 
     this.submit = function () {
-        BillingService.enableTariff(
+        BillingService.updateTariff(
             tariff.tariffId, 
-            user.userId, 
-            this.fee.term,
-            this.autoRenewal,
-            this.billing.trialConditions.isAvailable,
-            this.activePromo,
-            this.paymentSystem
+            this.autoRenewal
         ).then(() => {
             $mdDialog.hide();
         }, (info) => {
@@ -487,7 +478,7 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
     console.log('TariffDetailsController', this);
 }
 
-TariffDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'user', 'tariff', 'billing'];
+TariffDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'tariff', 'billing'];
 
 
 function BillsListController($scope, $mdDialog, dialogs, BillingService, message, user, bills, $translate) {
@@ -512,9 +503,9 @@ function BillsListController($scope, $mdDialog, dialogs, BillingService, message
 BillsListController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'user', 'bills', '$translate'];
 
 
-function BillDetailsController($scope, $mdDialog, dialogs, BillingService, message, user, bill) {
-    this.user = user;
+function BillDetailsController($scope, $mdDialog, dialogs, BillingService, message, bill) {
     this.bill = bill;
+    this.billStatus = BillingService.billStatus(bill);
 
     this.fixedFee = (tariff) => {
         return tariff.rates.find(fee => fee.rateType === 'Fixed');
@@ -522,10 +513,6 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
 
     this.variableFees = (tariff) => {
         return tariff.rates.filter(fee => fee.rateType === 'Variable');
-    };
-
-    this.isPaid = () => {
-        return this.bill.billDate && !this.bill.receiptDate;
     };
 
     this.feeDetails = (fee) => {
@@ -543,15 +530,15 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     console.log('BillDetailsController', this);
 }
 
-BillDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'user', 'bill'];
+BillDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'bill'];
 
 
 function FeeDetailsController ($scope, $mdDialog, dialogs, fee, bill) {
     this.fee = fee;
     this.bill = bill;
 
-    this.connections = (connections) => { 
-        dialogs.usersList(connections, 'База начисления');
+    this.viewObjectsList = (entry) => { 
+        dialogs.usersList(entry.varObjects, feeObjects);
     };
 
     this.close = () => { 

@@ -27,7 +27,7 @@
                     <tr md-row ng-repeat="entry in $ctrl.fee.transactions" class="hover-bg-blue-grey-100 animated">
                         <td md-cell>{{ entry.date | date:shortDate }}</td>
                         <td ng-if="$ctrl.fee.rateType === 'Variable'" md-cell>
-                            <md-button ng-if="entry.varObjects.length" ng-click="$ctrl.connections(entry.varObjects)">{{ entry.varObjects.length }}</md-button>
+                            <md-button ng-if="entry.varObjects.length" ng-click="$ctrl.viewObjectsList(entry)">{{ entry.varObjects.length }}</md-button>
                             <span ng-if="!entry.varObjects.length">-</span>
                         </td>
                         <td md-cell class="font-medium">{{ entry.amount | currency:$ctrl.bill.currency }}</td>

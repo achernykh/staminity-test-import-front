@@ -53,6 +53,7 @@ class SettingsUserCtrl {
         this.BillingService = BillingService;
         this.$translate = $translate;
         this.$mdMedia = $mdMedia;
+        this.boundReload = () => { this.reload(); };
 
         this.adaptors = [];
 
@@ -62,6 +63,8 @@ class SettingsUserCtrl {
         //this._athlete$ = AthleteSelectorService._athlete$
         //	.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
         // Смена атлета тренера в основном окне приложения, необходмо перезагрузить все данные
+
+        console.log('SettingsUserCtrl', SettingsUserCtrl);
     }
 
     $onInit() {
@@ -467,16 +470,12 @@ class SettingsUserCtrl {
         //}
     }
 
-    invoiceStatus (bill) {
-        return this.BillingService.billStatus(bill);
+    tariffStatus (tariff) {
+        return this.BillingService.tariffStatus(tariff);
     }
 
-    enableTariff (tariff) {
-        return this.dialogs.enableTariff(tariff, this.user);
-    }
-
-    disableTariff (tariff) {
-        return this.dialogs.disableTariff(tariff, this.user);
+    tariffIsOwn (tariff) {
+        return !this.BillingService.tariffEnablerClub(tariff) && !this.BillingService.tariffEnablerCoach(tariff);
     }
 
     tariffIsEnabled (tariff) {
@@ -485,21 +484,37 @@ class SettingsUserCtrl {
                 return tariff.isEnabled;
             }
 
-            (tariff.isEnabled? this.disableTariff(tariff) : this.enableTariff(tariff))
-            .then(() => { this.reload(); }, () => { this.reload(); });
+            return (tariff.isEnabled? this.disableTariff : this.enableTariff) (tariff);
         }
     }
 
-    billsList () {
-        return this.dialogs.billsList(this.user);
+    enableTariff (tariff) {
+        return this.dialogs.enableTariff(tariff, this.user)
+            .then(this.boundReload, this.boundReload);
     }
 
-    viewBill (bill) {
-        return this.dialogs.billDetails(bill, this.user);
+    disableTariff (tariff) {
+        return this.dialogs.disableTariff(tariff, this.user)
+            .then(this.boundReload, this.boundReload);
     }
 
     viewTariff (tariff) {
-        return tariff.isEnabled && this.dialogs.tariffDetails(tariff, this.user);
+        return this.dialogs.tariffDetails(tariff, this.user)
+            .then(this.boundReload, this.boundReload);
+    }
+
+    invoiceStatus (bill) {
+        return this.BillingService.billStatus(bill);
+    }
+
+    billsList () {
+        return this.dialogs.billsList(this.user)
+            .then(this.boundReload, this.boundReload);
+    }
+
+    viewBill (bill) {
+        return this.dialogs.billDetails(bill, this.user)
+            .then(this.boundReload, this.boundReload);
     }
 
     uploadAvatar () {

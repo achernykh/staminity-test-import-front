@@ -4,12 +4,12 @@
         <md-list>
 
             <md-list-item layout="row" layout-align="center center">
-                <span class="md-title">{{'dialogs.' + title | translate}} ({{users.groupMembers.length}})</span>
+                <span class="md-title">{{'dialogs.' + title | translate}} ({{users.length}})</span>
             </md-list-item>
 
-            <md-list-item ng-repeat="user in users.groupMembers" ng-click="go(user)" layout="row" layout-align="center center">
+            <md-list-item ng-repeat="user in users" ng-click="go(user)" layout="row" layout-align="center center">
                 <userpic profile="user" is-premium="user.isPremium"></userpic>
-                {{user | username}}  
+                {{user | userName}}  
             </md-list-item>
             
         </md-list>

@@ -1,25 +1,27 @@
 import { ISocketService } from './socket.service';
+import { ISessionService } from './session.service';
 import { GetTariff, PostTariffSubscription, PutTariffSubscription, DeleteTariffSubscription, GetBill, GetBillDetails } from "../../../api/billing/billing.request";
 import { IBillingTariff, IBill } from "../../../api/billing/billing.interface";
 
 import moment from 'moment/min/moment-with-locales.js';
 import { parseYYYYMMDD } from '../share/share.module';
+import { maybe, prop } from "../share/util.js";
 
 
 export default class BillingService {
 
-    static $inject = ['SocketService'];
+    static $inject = ['SocketService', 'SessionService'];
 
-    constructor (private SocketService:ISocketService) {
+    constructor (private SocketService:ISocketService, private SessionService: ISessionService) {
 
     }
 
     /**
      * @param tariffId
      * @param promoCodeString
-     * @returns {Promise<any>}
+     * @returns {Promise<IBillingTariff>}
      */
-    getTariff (tariffId: number, promoCodeString: string) : Promise<any> {
+    getTariff (tariffId: number, promoCodeString: string) : Promise<IBillingTariff> {
         return this.SocketService.send(new GetTariff(tariffId, promoCodeString));
     }
 
@@ -69,9 +71,9 @@ export default class BillingService {
     }
 
     /**
-     * @returns {Promise<any>}
+     * @returns {Promise<[IBill]]>}
      */
-    getBillsList() : Promise<any> {
+    getBillsList() : Promise<[IBill]> {
         return this.SocketService.send(new GetBill(new Date(0), new Date()))
             .then((data) => data.arrayResult);
     }
@@ -86,10 +88,42 @@ export default class BillingService {
     }
 
     /**
+     * @param tariff
+     * @returns IClubProfile?
+     */
+    tariffEnablerClub (tariff) : any {
+        return tariff.clubProfile;
+    }
+
+    /**
+     * @param tariff
+     * @returns IUserProfile?
+     */
+    tariffEnablerCoach (tariff) : any {
+        return maybe(tariff.userProfilePayer) (prop('userId')) () !== maybe(this.SessionService.getUser()) (prop('userId')) () && tariff.userProfilePayer;
+    }
+
+    /**
+     * @param tariff
+     * @returns 'enabled' | enabledByCoach' | 'enabledByClub' | 'notEnabled' | 'cancelledByEnabler' | 'expired' | 'disabled' | 'trial' | 'unpaid'
+     */
+    tariffStatus (tariff) : string {
+        return tariff.isEnabled? (
+            tariff.isTrial && 'trial' ||
+            this.tariffEnablerClub(tariff) && 'enabledByClub' ||
+            this.tariffEnablerCoach(tariff) && 'enabledByCoach' ||
+            'enabled'
+        ) : (
+            tariff.unpaidBill && 'unpaid' ||
+            'notEnabled'
+        );
+    }
+
+    /**
      * @param bill
      * @returns 'complete' | ready' | 'new'
      */
-    billStatus (bill: IBill) {
+    billStatus (bill: IBill) : string {
         let now = moment();
         let startPeriod = parseYYYYMMDD(bill.startPeriod);
         let endPeriod = parseYYYYMMDD(bill.endPeriod);

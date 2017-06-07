@@ -37,7 +37,7 @@ import {translateNotification} from "./notification/notification.translate";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
 import {InitiatorType} from "../../../api/notification/notification.interface";
-import { memorize } from "./util.js";
+import { memorize, maybe, prop } from "./util.js";
 import {calcTimezoneTime} from "./date/date.filter";
 
 
@@ -56,7 +56,11 @@ const userBackground = () => (url:string) => url && url !== 'default.jpg' ? _con
 
 const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty('avatar') && user.public.avatar !== 'default.jpg' ? image() ('/user/avatar/',user.public.avatar) : '/assets/picture/default_avatar.png'})`;
 
-const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
+const userName = () => (user, options) => maybe(user) (prop('public')) (
+    options === 'short'? prop('firstName') : ({ firstName, lastName }) => `${firstName} ${lastName}`
+) ();
+
+const clubName = () => (club) => maybe(club) (prop('public')) (prop('name')) ();
 
 const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):string => {
     let url: string = '/assets/picture/default_avatar.png';
@@ -146,7 +150,9 @@ const Share = module('staminity.share', [])
     .filter('avatarUrl', avatarUrl)
     .filter('image', image)
     .filter('userBackground', userBackground)
-    .filter('username', username)
+    .filter('username', userName)
+    .filter('userName', userName)
+    .filter('clubName', clubName)
     .filter('ageGroup', () => ageGroup)
     .filter('requestType', () => requestType)
     .filter('measureCalc', () => measureValue)
