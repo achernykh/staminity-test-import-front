@@ -117,7 +117,7 @@
     </md-fab-trigger>
 
     <md-fab-actions>
-        <md-button aria-label="Events" class="md-fab md-raised md-mini" ng-disabled="true">
+        <md-button aria-label="Events" class="md-fab md-raised md-mini" ng-click="$ctrl.onAddEvent($event)">
             <md-icon class="material-icons md-inactive" aria-label="Events">weekend</md-icon>
         </md-button>
         <md-button aria-label="Measures" class="md-fab md-raised md-mini" ng-click="$ctrl.onAddMeasurement($event)">

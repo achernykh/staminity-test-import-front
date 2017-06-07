@@ -100,8 +100,9 @@ class HeaderCtrl implements IComponentController {
 
 	setAthlete(response: {user: IUserProfile}) {
 		//this.athlete = response.user;
+		debugger;
 		console.log('setAthlete', this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
-		this.$state.target(this.$state.current.name , {uri: response.user.public.uri});
+		this.$state.go(this.$state.current.name , {uri: response.user.public.uri});
 	}
 
 	isEnableAthleteSelector() {
