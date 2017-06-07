@@ -3,9 +3,9 @@ export const _translate = {
         fullTitle: 'Профиль пользователя',
         shortTitle: 'Профиль',
         about: 'О себе',
-        price: 'Описание услуг',
+        price: 'Условия занятий',
         contact: 'Контакты',
-        athletes: 'Достижения учеников',
+        athletes: 'Ученики',
     },
     en: {
     }
