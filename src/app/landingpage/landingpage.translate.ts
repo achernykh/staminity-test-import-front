@@ -229,11 +229,11 @@ export let _translate = {
 			note: 'Signup to continue'
 		},
 		devices: {
-			title: 'Choose your way to work',
+			title: 'Choose the way to work',
 			subtitle: '',
 			desktop: {
 				title: 'From your desktop',
-				description: 'Staminity is available from your browser. Connect with Google Chrome, Opera, Firefox или Safari. <br>' +
+				description: 'Full version is avalable from your desktop browser. Connect to Staminity with Google Chrome, Opera, Firefox или Safari. <br>' +
 				'Internet explorer and Edge are not supported'
 			},
 			mobile: {
@@ -265,7 +265,7 @@ export let _translate = {
 		features: {
 			athletes: {
 				title: 'For athletes',
-				subtitle: 'Help to train with coach and achieve your goals',
+				subtitle: 'We help to train with coach and achieve your goals',
 				title1: 'Plan',
 				text1: 'Get plan from coach or create by yourself. You will be notified about new planned workout and your coach – about your performance',
 				title2: 'Train',
@@ -274,35 +274,35 @@ export let _translate = {
 				text3: 'Communicate with coach, discuss workouts details, create a report. Comments from your friends and subsrcibers coming soon',
 				carousel1: {
 					title: 'Workout calendar',
-					description: 'Workout calendar shows training plan and completed workouts, events, measures and races. <br/>' +
+					description: 'Workout calendar shows training plan and completed workouts, events, measurements and races. <br/>' +
 					'It helps to understand the status for every workout, calculate week totals and week status'
 				},
 				carousel2: {
-					title: 'Workout plan and fact',
-					description: 'Workout summary ' +
-					'Обзор тренировки поможет оценить корректность выполнения плана с учетом установки тренера и сравнения плановых показателей с фактом. <br/>' +
-					'В чате с тренером, доступным в каждой тренировке, наставник увидит ваш отчет и ответит на вопросы по заданию'
+					title: 'Plan and fact',
+					description: 'Workout summary helps you to estimate the plan completeness, compare the workout goal with actual performance and key metrics.<br/>' +
+					'Your coach will receive your workout report and answer to your questions in Chat, available for every workout'
 				},
 				carousel3: {
-					title: 'Aнализ выполненной тренировки',
-					description: 'Проанализировать выполненную тренировку помогут интерактивный график, карта и панель кругов, расчетные показатели и пики, время в зонах. <br/>' +
-					'Если нужны детали, поможет подробный график в масштабе и рассчитанные показатели и пики по любому произвольному отрезку тренировки'
+					title: 'Deep analysis',
+					description: 'There is a set of capabilities to help to deeply analyse the workout. These are interactive chart, the set of calculated metrics, ' +
+					'laps and segments sheet, calculated time in zones sheet for every intensity metric, time and distance peeks <br/>' +
+					'Need more details about any special workout segment? Just select it on chart and we zoom the chart and calculate metrics and peaks'
 				}
 			},
 			coaches: {
-				title: 'Для тренеров',
-				subtitle: 'Cокращаем рутину в тренировочном процессе',
-				title1: 'Планируйте подготовку',
-				text1: 'Создавайте плановые задания для учеников. Планируйте каждый сегмент или тренировку в целом, задавайте интенсивность в абсолютных значениях или в процентах от ПАНО. Ваши спортсмены узнают обо всех изменениях плана',
-				title2: 'Контролируйте выполнение',
-				text2: 'Будьте в курсе, как ваши подопечные выполняют план на неделю, меняйте его при необходимости. Недельный обзор покажет статус выполнения недельного микроцикла по всем ученикам',
-				title3: 'Анализируйте тренировки',
-				text3: 'Узнавайте о выполнении спортсменами заданий, получайте подробную информацию по ним. Мы рассчитаем процент выполнения и основные показатели по отдельным сегментам и в целом по тренировке',
+				title: 'For coaches',
+				subtitle: 'We help to work with athletes and reduce routine',
+				title1: 'Plan',
+				text1: 'Create training plan for your athletes. Plan the whole workout or every segment, set intensity goals for heart rate, pace/speed or power in absolute values of %FTP.' +
+				'Your athletes will be notified about all changes in training plan',
+				title2: 'Check',
+				text2: 'Be notified of every workout completed by your athletes. Weekly dashboard helps you to get week status for all of your athletes.',
+				title3: 'Analyze',
+				text3: 'Get detailed info about every completed workout. We calculate the percent of completeness and necessary metrics for whole activity, every lap and selected segment.',
 				carousel1: {
-					title: 'Дэшборд тренера – недельный обзор по ученикам',
-					description: 'Для тренера доступен не только календарь спортсмена, но и сводный дэшборд. <br/>' +
-					'Он покажет тренировочную неделю по всем ученикам, поможет запланировать тренировки и проанализировать их выполнение. ' +
-					'Из дэшборда можно перейти в календарь спортсмена, в настройки его тренировочных зон и порогов.'
+					title: 'Coach dashboard – week review for all connected athletes',
+					description: "Dashbord is available only for coaches. <br/>" +
+					"It shows training week for all connected athletes, helps to plan and analyze workouts. From dashbord coach could go to athlete's calendar, change athlete's zones and FTP settings."
 				}
 				/*
 				 carousel1: {
@@ -322,17 +322,17 @@ export let _translate = {
 				 } */
 			},
 			clubs: {
-				title: 'Для клубов',
-				subtitle: 'Помогаем управлять клубом',
-				title1: 'Собирайте команду',
-				text1: 'Создайте клуб, подключайте тренеров и спортсменов. Управляйте запросами на вступление в клуб от других пользователей сервиса',
-				title2: 'Управляйте клубом',
-				text2: 'Назначайте тренеров и администраторов, назначайте тренеров для спортсменов клуба',
-				title3: 'Контролируйте подготовку',
-				text3: 'Недельный обзор по спортсменам клуба покажет наличие плана и сводный статус его выполнения по всем ученикам',
+				title: 'For clubs',
+				subtitle: 'We help to manage clubs',
+				title1: 'Assemble your team',
+				text1: 'Create your club, gather together athletes and coaches, manage requests from other users to join your club',
+				title2: 'Manage your club',
+				text2: 'Manage club members roles, let club members to be club athletes or administrators. Assign club coaches to club athletes.',
+				title3: 'Control training process',
+				text3: 'Week dashboard for all club athletes helps you understand how your coaches create plans and how athletes complete them',
 
 				carousel1: {
-					title: 'Управление клубом',
+					title: 'Club management',
 					description: 'Руководитель клуба может управлять составом клуба, назначать тренеров и распределять спортсменов между ними. <br/>' +
 					'В больших клубах можно назначить администраторов и делегировать им принятие новых членов в клуб и управление их ролями'
 				}
