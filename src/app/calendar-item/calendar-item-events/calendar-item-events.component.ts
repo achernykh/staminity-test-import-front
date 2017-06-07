@@ -40,6 +40,9 @@ class CalendarItemEventsCtrl {
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'event',
+                eventHeader: {
+                    eventType: 'restDay'
+                },
                 dateStart: new Date(this.data.date),
                 dateEnd: new Date(this.data.date),
                 userProfileOwner: profileShort(this.user),
@@ -49,7 +52,7 @@ class CalendarItemEventsCtrl {
 
         this.item = new CalendarItem(this.data);
         this.item.prepare();
-        this.item.eventHeader.eventType = 'RestDay';
+        //this.item.eventHeader.eventType = 'restDay';
         this.isCreator = this.item.userProfileCreator.userId === this.user.userId;
         this.isMyCoach = this.item.userProfileCreator.userId !== this.user.userId;
     }

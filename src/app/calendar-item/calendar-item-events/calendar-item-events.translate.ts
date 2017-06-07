@@ -7,7 +7,8 @@ export const _events = {
             settings: 'Настроить отображение',
             save: 'Сохарнить'
         },
-        RestDay: 'День отдыха'
+        restDay: 'День отдыха',
+        sickness: 'Болезнь'
     },
     en: {
 
