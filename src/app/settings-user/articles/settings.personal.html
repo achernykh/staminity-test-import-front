@@ -166,7 +166,7 @@
                     <textarea ng-model="$ctrl.user.personal.athletes" name="athletes" rows="2" placeholder="{{::'settings.personalInfo.athletesFull' | translate}}"></textarea>
                 </md-input-container>
             </md-list-item>
-            <md-list-item>
+            <md-list-item ng-if="$ctrl.user.public.isCoach">
                 <p>{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</p>
                 <md-switch class="md-secondary" ng-model="$ctrl.user.personal.isFree"></md-switch>
             </md-list-item>

@@ -1,5 +1,5 @@
 import './search.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope, ILocationService} from 'angular';
 import {SearchService} from "./search.service";
 import {SearchParams, SearchResultByUser, SearchMethod} from "../../../api/search/search.interface";
 import {_connection} from "../core/api.constants";
@@ -26,14 +26,22 @@ class SearchCtrl implements IComponentController {
     };
 
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['$scope','search'];
+    static $inject = ['$scope','$stateParams','$location','search'];
 
-    constructor(private $scope: IScope, private search: SearchService) {
+    constructor(private $scope: IScope,
+                private $stateParams: any,
+                private $location: ILocationService,
+                private search: SearchService) {
 
     }
 
     $onInit() {
         this.$scope['order'] = 'name';
+        let urlSearch = this.$location.search();
+        if(urlSearch && urlSearch.hasOwnProperty('objectType') && urlSearch.objectType) {
+            this.params = urlSearch;
+            this.onSearch(this.params);
+        }
     }
 
     onDetails(uri:string, url: string = `${window.location.origin}/`) {
@@ -48,7 +56,7 @@ class SearchCtrl implements IComponentController {
 
     onSearch(params: SearchParams) {
         this.search.request(this.method, params)
-            .then(result => {debugger; console.log(result); this.result = result;})
+            .then(result => this.result = result)
             .then(() => !this.$scope.$$phase && this.$scope.$apply());
     }
 }
