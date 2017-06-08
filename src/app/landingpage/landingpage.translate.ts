@@ -12,7 +12,8 @@ export let _translate = {
 			link3: 'Тарифы',
 			link4: 'Поддержка',
 			signIn: 'Войти',
-			signOut: 'Выйти'
+			signOut: 'Выйти',
+			signUp: 'Регистрация'
 		},
 		welcome: {
 			promo: 'β-версия',
@@ -184,11 +185,13 @@ export let _translate = {
 				link3: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Мы Вконтакте</a>',
 				link4: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Блог</a>',
 			},
-			 block4 : {
-			 title: 'О нас',
-			 link1: '<a flex href="#" class="md-body md-light disable">Наша команда</a>',
-			 link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">Написать письмо</a>',
-			 }
+			block4 : {
+				title: 'О нас',
+				link1: '<a flex href="#" class="md-body md-light disable">Наша команда</a>',
+				link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">Написать письмо</a>',
+			},
+			copyright1: 'Cделано с',
+			copyright2: '| © 2017 staminity.com Все права защищены'
 		}
 
 	},
@@ -383,7 +386,9 @@ export let _translate = {
 				title: 'О нас',
 				link1: '<a flex href="#" class="md-body md-light disable">Our team</a>',
 				link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">E-mail us</a>',
-			}
+			},
+			copyright1: 'Made with',
+			copyright2: '| © 2017 staminity.com All Rights Reserved'
 		}
 
 	}

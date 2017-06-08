@@ -102,7 +102,7 @@ class SummaryStatisticsCtrl {
     }
 
     $onInit(){
-        this.isMe = this.user.userId === this.UserService.profile.userId;
+        this.isMe = this.auth && this.user.userId === this.UserService.profile.userId;
         this.updateStatistics();
     }
 
@@ -127,7 +127,7 @@ class SummaryStatisticsCtrl {
     }
 
     updateStatistics () {
-        this.UserService.getSummaryStatistics(this.user.userId, this.range.start(this.period),  this.range.end(this.period), this.range.groupBy)
+        this.UserService.getSummaryStatistics(this.user.userId, this.range.start(this.period),  this.range.end(this.period), this.range.groupBy, null, this.auth)
             .then((summaryStatistics) => this.summaryStatistics = summaryStatistics)
             .then(() => {
                 pipe(
@@ -211,7 +211,8 @@ SummaryStatisticsCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','G
 
 export default {
     bindings: {
-        user: '<'
+        user: '<',
+        auth: '<'
     },
     controller: SummaryStatisticsCtrl,
     template: require('./summary-statistics.component.html')
