@@ -209,7 +209,7 @@ export let _translate = {
 		},
 		welcome: {
 			promo: 'β-version',
-			description: 'Train smart with coach, achieve your goals and interact with other athletes',
+			description: 'Train smart with coach, achieve your goals, connect with friends',
 			title1: 'ПЛАН ТВОИХ ПОБЕД',
 			title2: 'ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ',
 			button: 'Start',
@@ -235,12 +235,12 @@ export let _translate = {
 			desktop: {
 				title: 'From your desktop',
 				description: 'Full version is avalable from your desktop browser. Connect to Staminity with Google Chrome, Opera, Firefox или Safari. <br>' +
-				'Internet explorer and Edge are not supported'
+				'Internet explorer and Edge are not supported right now'
 			},
 			mobile: {
 				title: 'From smartphone',
 				description: 'Use your smartphone or tablet browser to get Staminity for mobile special edition. <br>' +
-				'IOS and Android mobile applications is coming soon...'
+				'IOS and Android mobile applications are under development and coming soon...'
 			}
 		},
 		scheme: {
@@ -253,9 +253,8 @@ export let _translate = {
 			},
 			step2 : {
 				title: 'Train',
-				description: 'You log workouts with your favorite sport watch or with smartphone application, we upload them and match with plan.<br/>' +
-				'Auto sync from Garmin Connect and Strava is available now, to upload activities from other watches and services, just connect them to Strava.  ' +
-				'Direct sync from Polar и Suunto coming soon'
+				description: 'Record your workouts with your favorite sport watch or application and they will be uploaded automatically and matched with plan. <br/>' +
+				'Auto sync from Garmin Connect and Strava is available now, others coming soon. To upload activities from others, just connect them to Strava.'
 			},
 			step3 : {
 				title: 'Analyze',
@@ -270,9 +269,9 @@ export let _translate = {
 				title1: 'Plan',
 				text1: 'Get plan from coach or create by yourself. You will be notified about new planned workout and your coach – about your performance',
 				title2: 'Train',
-				text2: 'Complete workouts and analyze them. Tracks of your activities will be automatically uploaded to Staminity and matched with plan',
+				text2: 'Complete workouts and analyze them. Your activity records will be automatically uploaded to Staminity and matched with plan',
 				title3: 'Communicate',
-				text3: 'Communicate with coach, discuss workouts details, create a report. Comments from your friends and subsrcibers coming soon',
+				text3: 'Communicate with coach, discuss workouts details, write short workout review. Comments from your friends and subsrcibers coming soon',
 				carousel1: {
 					title: 'Workout calendar',
 					description: 'Workout calendar shows training plan and completed workouts, events, measurements and races. <br/>' +
@@ -294,7 +293,7 @@ export let _translate = {
 				title: 'For coaches',
 				subtitle: 'We help to work with athletes and reduce routine',
 				title1: 'Plan',
-				text1: 'Create training plan for your athletes. Plan the whole workout or every segment, set intensity goals for heart rate, pace/speed or power in absolute values of %FTP.' +
+				text1: 'Create training plan for your athletes. Plan the whole workout or every segment, set intensity goals for heart rate, pace/speed or power in absolute values of %FTP. ' +
 				'Your athletes will be notified about all changes in training plan',
 				title2: 'Check',
 				text2: 'Be notified of every workout completed by your athletes. Weekly dashboard helps you to get week status for all of your athletes.',
@@ -303,7 +302,7 @@ export let _translate = {
 				carousel1: {
 					title: 'Coach dashboard – week review for all connected athletes',
 					description: "Dashbord is available only for coaches. <br/>" +
-					"It shows training week for all connected athletes, helps to plan and analyze workouts. From dashbord coach could go to athlete's calendar, change athlete's zones and FTP settings."
+					"It shows training week for all connected athletes, helps to plan and analyze workouts. From dashbord coach could get an access to athlete's calendar, change athlete's zones and FTP settings."
 				}
 				/*
 				 carousel1: {
@@ -328,14 +327,14 @@ export let _translate = {
 				title1: 'Assemble your team',
 				text1: 'Create your club, gather together athletes and coaches, manage requests from other users to join your club',
 				title2: 'Manage your club',
-				text2: 'Manage club members roles, let club members to be club athletes or administrators. Assign club coaches to club athletes.',
+				text2: 'Manage club members roles, let club members to be club coaches or administrators. Assign club coaches to athletes.',
 				title3: 'Control training process',
 				text3: 'Week dashboard for all club athletes helps you understand how your coaches create plans and how athletes complete them',
 
 				carousel1: {
 					title: 'Club management',
-					description: 'Club manager is able to manage club members, assign and reassign coach athletes between coaches. <br/>' +
-					'In large clubs club manager is able to assign club adiministrators from coaches and delegate them the acceptance of new requests and other management functions'
+					description: "Club manager is able to manage club members, assign and reassign coach athletes between coaches. <br/>" +
+					"In large clubs club manager is able to assign club adiministrators from coaches and delegate them manager's functions"
 				}
 				/*
 				 carousel1: {
