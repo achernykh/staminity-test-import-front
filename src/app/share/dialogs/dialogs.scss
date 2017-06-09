@@ -48,3 +48,23 @@ md-dialog#upload {
         margin-right: 20px
     }
 }
+
+.enable-tariff-dialog {
+    &__input-promo {
+        width: 165px;
+    };
+
+    &__active-promo {
+        margin-right: 20px;
+    };
+}
+
+.tariff-details-dialog {
+    &__input-promo {
+        width: 165px;
+    };
+
+    &__active-promo {
+        margin-right: 20px;
+    };
+}

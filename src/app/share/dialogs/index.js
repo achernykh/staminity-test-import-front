@@ -1,4 +1,7 @@
+import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
+import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
+
 
 export default class DialogsService {
     
@@ -41,6 +44,7 @@ export default class DialogsService {
             controller: UsersListController,
             locals: { users: users, title: title },
             template: require('./users-list.html'),
+            multiple: true,
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
@@ -85,6 +89,7 @@ export default class DialogsService {
                 controller: EnableTariffController,
                 controllerAs: '$ctrl',
                 template: require('./enable-tariff.html'),
+                multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
                 clickOutsideToClose: true,
@@ -102,6 +107,7 @@ export default class DialogsService {
                 controller: DisableTariffController,
                 controllerAs: '$ctrl',
                 template: require('./disable-tariff.html'),
+                multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
                 clickOutsideToClose: true,
@@ -119,6 +125,7 @@ export default class DialogsService {
                 controller: TariffDetailsController,
                 controllerAs: '$ctrl',
                 template: require('./tariff-details.html'),
+                multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
                 clickOutsideToClose: true,
@@ -136,6 +143,7 @@ export default class DialogsService {
                 controller: BillsListController,
                 controllerAs: '$ctrl',
                 template: require('./bills-list.html'),
+                multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
                 clickOutsideToClose: true,
@@ -153,6 +161,7 @@ export default class DialogsService {
                 controller: BillDetailsController,
                 controllerAs: '$ctrl',
                 template: require('./bill-details.html'),
+                multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
                 clickOutsideToClose: true,
@@ -167,12 +176,29 @@ export default class DialogsService {
             controller: FeeDetailsController,
             controllerAs: '$ctrl',
             template: require('./fee-details.html'),
+            multiple: true,
             parent: angular.element(document.body),
             bindToController: true,
             clickOutsideToClose: true,
             escapeToClose: true,
             fullscreen: !this.$mdMedia('gt-sm')
         });
+    }
+
+    iframe (url, title) {
+        return this.$mdDialog.show({
+            locals: { url, title },
+            controller: IframeController,
+            controllerAs: '$ctrl',
+            template: require('./iframe.html'),
+            multiple: true,
+            parent: angular.element(document.body),
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: !this.$mdMedia('gt-sm')
+        });
+
     }
 }
 
@@ -325,7 +351,20 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
 
     this.autoRenewal = true;
     this.promoCode = '';
+    this.rejectedPromoCode = '';
     this.paymentSystem = 'fondy';
+
+    this.hasMaxPaidCount = (fee) => {
+        return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
+    };
+
+    this.trialExpires = () => {
+        return moment().add(this.billing.trialConditions.term, 'months').toDate();
+    };
+
+    this.getActivePromo = (billing) => {
+        return billing.rates.map(prop('promo')).find((promo) => promo && promo.code);
+    };
 
     this.setBilling = (billing) => {
         this.billing = billing;
@@ -333,20 +372,18 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
         this.monthlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 1);
         this.yearlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 12);
         this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
-    };
-
-    this.hasMaxPaidCount = (fee) => {
-        return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
+        this.activePromo = this.getActivePromo(billing);
     };
 
     this.setBilling(billing);
 
-    this.submitPromo = () => {
-        BillingService.getTariff(tariff.tariffId, this.promoCode)
+    this.submitPromo = (promoCode) => {
+        BillingService.getTariff(tariff.tariffId, promoCode)
         .then((billing) => {
-            this.activePromo = this.promoCode;
-            this.setBilling(billing);
             console.log('submitPromo', billing);
+            this.setBilling(billing);
+            this.rejectedPromoCode = this.activePromo? '' : promoCode;
+            this.promoCode = '';
             $scope.$apply();
         }, (info) => {
             message.systemWarning(info);
@@ -365,9 +402,12 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
             this.fee.term,
             this.autoRenewal,
             this.billing.trialConditions.isAvailable,
-            this.activePromo,
+            maybe(this.activePromo) (prop('code')) (),
             this.paymentSystem
-        ).then(() => {
+        ).then((bill) => {
+            return maybe(bill) (prop('payment')) (prop('checkoutUrl')) 
+                ((url) => dialogs.iframe(url, 'Оплатить')) ();
+        }).then(() => {
             $mdDialog.hide();
         }, (info) => {
             message.systemWarning(info);
@@ -429,6 +469,7 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
 
     this.autoRenewal = true;
     this.promoCode = '';
+    this.rejectedPromoCode = '';
 
     this.fixedFee = () => {
         return this.billing.rates.find(fee => fee.rateType === 'Fixed');
@@ -446,12 +487,28 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
         dialogs.usersList(fee.varObjects, 'users');
     };
 
-    this.submitPromo = () => {
-        BillingService.getTariff(tariff.tariffId, this.promoCode)
+    this.getActivePromo = (billing) => {
+        return billing.rates.map(prop('promo')).find((promo) => promo && promo.code);
+    };
+
+    this.setBilling = (billing) => {
+        this.billing = billing;
+        this.fee = this.billing.rates.find(fee => fee.rateType === 'Fixed');
+        this.monthlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 1);
+        this.yearlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 12);
+        this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
+        this.activePromo = this.getActivePromo(billing);
+    };
+
+    this.setBilling(billing);
+
+    this.submitPromo = (promoCode) => {
+        BillingService.getTariff(tariff.tariffId, promoCode)
         .then((billing) => {
-            this.activePromo = this.promoCode;
-            this.billing = billing;
             console.log('submitPromo', billing);
+            this.setBilling(billing);
+            this.rejectedPromoCode = this.activePromo? '' : promoCode;
+            this.promoCode = '';
             $scope.$apply();
         }, (info) => {
             message.systemWarning(info);
@@ -466,7 +523,8 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
     this.submit = function () {
         BillingService.updateTariff(
             tariff.tariffId, 
-            this.autoRenewal
+            this.autoRenewal,
+            maybe(this.activePromo) (prop('code')) (),
         ).then(() => {
             $mdDialog.hide();
         }, (info) => {
@@ -519,12 +577,19 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
         return fee.transactions.length && dialogs.feeDetails(fee, this.bill);
     };
 
-    this.cancel = function () {
+    this.cancel = () => {
         $mdDialog.cancel();
     };
 
-    this.pay = function () {
-        
+    this.pay = () => {
+        return maybe(bill) (prop('payment')) (prop('checkoutUrl')) 
+            ((url) => dialogs.iframe(url, 'Оплатить')) ()
+            .then(() => {
+                $mdDialog.hide();
+            }, (info) => {
+                message.systemWarning(info);
+                throw info;
+            });
     };
 
     console.log('BillDetailsController', this);
@@ -538,7 +603,7 @@ function FeeDetailsController ($scope, $mdDialog, dialogs, fee, bill) {
     this.bill = bill;
 
     this.viewObjectsList = (entry) => { 
-        dialogs.usersList(entry.varObjects, feeObjects);
+        dialogs.usersList(entry.varObjects, 'feeObjects');
     };
 
     this.close = () => { 
@@ -549,3 +614,22 @@ function FeeDetailsController ($scope, $mdDialog, dialogs, fee, bill) {
 }
 
 FeeDetailsController.$inject = ['$scope','$mdDialog', 'dialogs', 'fee', 'bill'];
+
+
+function IframeController ($scope, $mdDialog, $sce, url, title) {
+    this.$sce = $sce;
+    this.url = url;
+    this.title = title;
+
+    this.close = () => { 
+        $mdDialog.hide(); 
+    };
+
+    this.trust = (url) => {
+        return $sce.trustAsResourceUrl(url);
+    };
+
+    console.log('IframeController', this);
+}
+
+IframeController.$inject = ['$scope','$mdDialog', '$sce', 'url', 'title'];

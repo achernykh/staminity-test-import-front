@@ -52,11 +52,13 @@ export default class BillingService {
     /**
      * @param tariffId
      * @param autoRenewal
+     * @param promoCode
      * @returns {Promise<any>}
      */
     updateTariff(
         tariffId: number,
-        autoRenewal: boolean
+        autoRenewal: boolean,
+        promoCode: string
     ) : Promise<any> {
         return this.SocketService.send(new PutTariffSubscription(tariffId, autoRenewal));
     }

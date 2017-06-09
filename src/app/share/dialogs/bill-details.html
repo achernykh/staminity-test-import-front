@@ -87,17 +87,19 @@
 
         </md-dialog-content>
 
-        <md-dialog-actions>
+        <md-dialog-actions ng-switch="$ctrl.billStatus">
             <span flex></span>
-            <md-button 
-                ng-if="$ctrl.billStatus === 'ready'" 
-                ng-click="$ctrl.cancel()"
-                class="md-accent"
-            >{{ 'settings.billing.payTheBill' | translate:{amount:($ctrl.bill.totalAmount | currency:$ctrl.bill.currency)} }}</md-button>
-            <span 
-                ng-if="$ctrl.billStatus !== 'ready'" 
-                class="font-italic md-body-1 bill-details-dialog__is-paid"
-            >{{ 'settings.billing.billIsPaid' | translate:{date:($ctrl.bill.billDate | date:shortDate)} }}</span>
+            <span ng-switch-when="ready">
+                <md-button ng-click="$ctrl.pay()" class="md-accent">{{ 
+                    'settings.billing.payTheBill' | translate:{amount:($ctrl.bill.totalAmount | currency:$ctrl.bill.currency)} 
+                }}</md-button>
+            </span>
+            <span ng-switch-when="complete" class="font-italic md-body-1 bill-details-dialog__is-paid">{{ 
+                'settings.billing.billIsPaid' | translate:{date:($ctrl.bill.billDate | date:shortDate)} 
+            }}</span>
+            <span ng-switch-when="new" class="font-italic md-body-1 bill-details-dialog__is-paid">{{ 
+                'settings.billing.invoiceStatuses.new' | translate 
+            }}</span>
         </md-dialog-actions>
     </form>
 </md-dialog>

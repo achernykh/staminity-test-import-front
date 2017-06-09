@@ -69,7 +69,7 @@
                     <md-button class="md-accent" ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.ready' | translate }} {{ bill.totalAmount | currency:bill.currency }}</md-button>
                 </div>
                 <div class="md-secondary" ng-switch-when="complete">
-                    <md-button ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.complete' }} {{ 'settings.billing.invoiceStatuses.new' | translate }}</md-button>
+                    <md-button ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.complete' | translate }}</md-button>
                 </div>
             </md-list-item>
             <md-divider ng-repeat-end ng-if="!$last"></md-divider>

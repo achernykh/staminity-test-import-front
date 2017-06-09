@@ -1,4 +1,4 @@
-<md-dialog>
+<md-dialog class="enable-tariff-dialog">
     <form name="$ctrl.form" ng-submit='$ctrl.submit()' ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -33,10 +33,10 @@
                 <md-list-item layout="row">
                     <span>{{ 'settings.billing.periodically.' + $ctrl.fee.term | translate }}</span>
                     <span flex></span>
-                    <span ng-if="!$ctrl.fee.promoDiscount" class="font-bold">{{$ctrl.fee.rate | currency:$ctrl.fee.currency}} / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}</span>
-                    <span ng-if="$ctrl.fee.promoDiscount" class="font-bold">
+                    <span ng-if="!$ctrl.fee.promo.discount" class="font-bold">{{$ctrl.fee.rate | currency:$ctrl.fee.currency}} / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}</span>
+                    <span ng-if="$ctrl.fee.promo.discount" class="font-bold">
                         <span class="text-crossed-out">{{$ctrl.fee.rate | currency:$ctrl.fee.currency}}</span> 
-                        <span class="text-accent">{{$ctrl.fee.promoDiscount * $ctrl.fee.rate | currency:$ctrl.fee.currency}}</span> / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}
+                        <span class="text-accent">{{$ctrl.fee.promo.discount * $ctrl.fee.rate | currency:$ctrl.fee.currency}}</span> / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}
                     </span>
                 </md-list-item>
 
@@ -45,10 +45,10 @@
                     <md-list-item ng-if="!fee.varFreeCount && !$ctrl.hasMaxPaidCount(fee)" layout="row">
                         <span>{{ 'settings.billing.eachInGroup.' + fee.varGroup | translate }}</span>
                         <span flex></span>
-                        <span ng-if="!fee.promoDiscount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
-                        <span ng-if="fee.promoDiscount" class="font-bold">
+                        <span ng-if="!fee.promo.discount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
+                        <span ng-if="fee.promo.discount" class="font-bold">
                             <span class="text-crossed-out">{{fee.rate | currency:fee.currency}}</span> 
-                            <span class="text-accent">{{fee.promoDiscount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
+                            <span class="text-accent">{{fee.promo.discount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
                         </span>
                     </md-list-item>
                     <md-list-item ng-if="fee.varFreeCount" layout="row">
@@ -59,28 +59,28 @@
                     <md-list-item ng-if="fee.varFreeCount && !$ctrl.hasMaxPaidCount(fee)" layout="row">
                         <span>{{ 'settings.billing.eachInGroupAbove' | translate:{above:fee.varFreeCount + 1} }}</span>
                         <span flex></span>
-                        <span ng-if="!fee.promoDiscount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
-                        <span ng-if="fee.promoDiscount" class="font-bold">
+                        <span ng-if="!fee.promo.discount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
+                        <span ng-if="fee.promo.discount" class="font-bold">
                             <span class="text-crossed-out">{{fee.rate | currency:fee.currency}}</span> 
-                            <span class="text-accent"">{{fee.promoDiscount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
+                            <span class="text-accent"">{{fee.promo.discount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
                         </span>
                     </md-list-item>
                     <md-list-item ng-if="fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)" layout="row">
                         <span>{{ 'settings.billing.eachInGroupBetween' | translate:{from:fee.varFreeCount + 1,to:fee.varMaxPaidCount} }}</span>
                         <span flex></span>
-                        <span ng-if="!fee.promoDiscount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
-                        <span ng-if="fee.promoDiscount" class="font-bold">
+                        <span ng-if="!fee.promo.discount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
+                        <span ng-if="fee.promo.discount" class="font-bold">
                             <span class="text-crossed-out">{{fee.rate | currency:fee.currency}}</span> 
-                            <span class="text-accent">{{fee.promoDiscount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
+                            <span class="text-accent">{{fee.promo.discount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
                         </span>
                     </md-list-item>
                     <md-list-item ng-if="!fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)" layout="row">
                         <span>{{ 'settings.billing.eachInGroupBelow' | translate:{below:varMaxPaidCount - 1} }}</span>
                         <span flex></span>
-                        <span ng-if="!fee.promoDiscount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
-                        <span ng-if="fee.promoDiscount" class="font-bold">
+                        <span ng-if="!fee.promo.discount.discount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
+                        <span ng-if="fee.promo.discount" class="font-bold">
                             <span class="text-crossed-out">{{fee.rate | currency:fee.currency}}</span> 
-                            <span class="text-accent">{{fee.promoDiscount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
+                            <span class="text-accent">{{fee.promo.discount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
                         </span>
                     </md-list-item>
                     <md-list-item ng-if="$ctrl.hasMaxPaidCount(fee)" layout="row">
@@ -93,13 +93,17 @@
                 <md-subheader class="md-no-sticky">{{ 'settings.billing.promo' | translate }}</md-subheader>
                 <md-list-item>
                     <div class="md-list-item-text">
-                        <md-input-container md-no-float class="md-block no-message">
+                        <md-input-container md-no-float class="md-block no-message enable-tariff-dialog__input-promo">
                             <input ng-model="$ctrl.promoCode" type="text" autocomplete="off" placeholder="{{ 'settings.billing.promo' | translate }}">
                         </md-input-container>
-                        <p ng-if="$ctrl.activePromo">{{ 'settings.billing.activePromo' | translate:{promo:$ctrl.activePromo} }}</p>
+                        <p ng-if="$ctrl.activePromo">
+                            <span class="font-italic enable-tariff-dialog__active-promo">{{ 'settings.billing.activePromo' | translate:{promo:$ctrl.activePromo.code, appliedFrom:($ctrl.activePromo.appliedFrom | date:'dd.MM.yyyy')} }}</span>
+                            <a ng-href="#" class="md-primary font-13" ng-click="$ctrl.submitPromo('')">{{ 'settings.billing.removePromo' | translate }}</a>
+                        </p>
+                        <p ng-if="$ctrl.rejectedPromoCode" class="font-italic">{{ 'settings.billing.rejectedPromo' | translate:{promo:$ctrl.rejectedPromoCode} }}</p>
                     </div>
                     <span flex></span>
-                    <md-button class="md-raised md-primary" ng-click="$ctrl.submitPromo()">{{ 'settings.billing.submitPromo' | translate }}</md-button>
+                    <md-button class="md-raised md-primary" ng-click="$ctrl.submitPromo($ctrl.promoCode)">{{ 'settings.billing.submitPromo' | translate }}</md-button>
                 </md-list-item>
 
                 <div ng-if="!$ctrl.billing.joinBillConditions && !$ctrl.billing.trialConditions.isAvailable">
@@ -122,17 +126,22 @@
                     </md-list-item>
                 </div>
 
-                <div ng-if="!$ctrl.billing.trialConditions.isAvailable && $ctrl.billing.joinBillConditions">
+                <div ng-if="$ctrl.billing.trialConditions.isAvailable && !$ctrl.billing.joinBillConditions">
                     <md-subheader class="md-no-sticky">{{ 'settings.billing.conditions' | translate }}</md-subheader>
                     <md-list-item>
-                        <p style="white-space: pre-wrap;">{{ 'settings.billing.conditionsText' | translate:{validThrough:($ctrl.billing.validThrough | date:'dd.MM.yyyy'), tariff:('settings.billing.tariffs.' + $ctrl.tariff.tariffCode | translate)} }}</p>
+                        <p style="white-space: pre-wrap;">{{ 'settings.billing.trialConditionsText' | translate:{
+                            validThrough:($ctrl.trialExpires() | date:'dd.MM.yyyy'), 
+                            tariff:('settings.billing.tariffs.' + $ctrl.tariff.tariffCode | translate)
+                        } }}</p>
                     </md-list-item>
                 </div>
 
-                <div ng-if="$ctrl.billing.trialConditions.isAvailable">
+                <div ng-if="$ctrl.billing.joinBillConditions">
                     <md-subheader class="md-no-sticky">{{ 'settings.billing.conditions' | translate }}</md-subheader>
                     <md-list-item>
-                        <p style="white-space: pre-wrap;">{{ 'settings.billing.trialConditionsText' | translate:{validThrough:($ctrl.billing.validThrough | date:'dd.MM.yyyy')} }}</p>
+                        <p style="white-space: pre-wrap;">{{ 'settings.billing.conditionsText' | translate:{
+                            validThrough:($ctrl.billing.joinBillConditions.nextBillDate | date:'dd.MM.yyyy')
+                        } }}</p>
                     </md-list-item>
                 </div>
 
@@ -146,7 +155,7 @@
                 ng-if="!$ctrl.billing.joinBillConditions && !$ctrl.billing.trialConditions.isAvailable" 
                 class="md-primary" 
                 ng-click="$ctrl.submit()"
-            >{{ 'settings.billing.confirmPay' | translate:{cost:$ctrl.fee.rate * ($ctrl.fee.promoDiscount || 1), currency:$ctrl.fee.currency} }}</md-button>
+            >{{ 'settings.billing.confirmPay' | translate:{cost:$ctrl.fee.rate * ($ctrl.fee.promo.discount || 1), currency:$ctrl.fee.currency} }}</md-button>
             <md-button 
                 ng-if="!$ctrl.billing.trialConditions.isAvailable && $ctrl.billing.joinBillConditions" 
                 class="md-primary" 
