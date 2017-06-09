@@ -1,5 +1,6 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './profile-user.translate';
+import { summaryStatisticsTranslate } from './summary-statistics.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import UserService from "../core/user.service";
 
@@ -39,6 +40,9 @@ function configure(
     $translateProvider.translations('en', {"user": _translate['en']});
     $translateProvider.translations('ru', {"user": _translate['ru']});
 
+    // Текст представлений
+    $translateProvider.translations('en', {"summaryStatistics": summaryStatisticsTranslate['en']});
+    $translateProvider.translations('ru', {"summaryStatistics": summaryStatisticsTranslate['ru']});
 }
 
 configure.$inject = ['$stateProvider','$translateProvider'];

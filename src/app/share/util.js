@@ -1,6 +1,7 @@
 export const id = _ => _
 export const pipe = (...fs) => (x) => fs.reduce((x, f) => f(x), x)
-export const times = (n) => Array.from(new Array(n)).map((_, i) => i)
+export const argument = (n) => (...args) => args[n]
+export const times = (n, f = argument(2)) => Array.from(new Array(n)).map(f)
 export const range = (x0, x1, n) => times(n + 1).map((_, i) => x0 + (x1 - x0) * i / n)
 export const last = (xs) => xs[xs.length - 1]
 export const fold = (f, x0) => (xs) => xs.reduce(f, x0)

@@ -1,7 +1,7 @@
 import './components.scss';
 import './notification/notification.scss';
 import { module, isObject } from 'angular';
-import moment from 'moment/src/moment.js';
+import moment from 'moment/min/moment-with-locales.js';
 import  { ageGroup } from '../../../api/user/user.interface';
 import  { requestType } from '../../../api/group/group.interface';
 import { _connection } from '../core/api.constants';
