@@ -1,4 +1,4 @@
-import {_connection} from './api.constants';
+import * as _connection from './env.js';
 import {ISessionService} from './session.service';
 import { IHttpService, IHttpPromise } from 'angular';
 import LoaderService from "../share/loader/loader.service";

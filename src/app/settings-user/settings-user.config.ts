@@ -3,7 +3,7 @@ import {_translate} from './settings-user.translate';
 import { DisplayView } from "../core/display.constants";
 import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
-import {_connection} from "../core/api.constants";
+import * as _connection from "../core/env.js";
 import SessionService from "../core/session.service";
 import {IAuthService} from "../auth/auth.service";
 import {IUserProfile} from "../../../api/user/user.interface";

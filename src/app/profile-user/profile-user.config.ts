@@ -33,7 +33,9 @@ function configure(
                 auth: ['AuthService', (AuthService: AuthService) => AuthService.isAuthenticated()],
                 userId: ['$stateParams', $stateParams =>  $stateParams.uri],
                 user: ['UserService','userId','auth', function (UserService, userId, auth: boolean) {
-                    return UserService.getProfile(userId, auth);
+                    return UserService.getProfile(userId, auth).catch(error => {
+                        throw error;
+                    });
                 }]
             },
             views: DefaultTemplate('user')

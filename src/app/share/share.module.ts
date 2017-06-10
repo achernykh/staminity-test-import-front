@@ -4,7 +4,7 @@ import { module, isObject } from 'angular';
 import moment from 'moment/src/moment.js';
 import  { ageGroup } from '../../../api/user/user.interface';
 import  { requestType } from '../../../api/group/group.interface';
-import { _connection } from '../core/api.constants';
+import * as _connection from '../core/env.js';
 import BackgroundComponent from './background/background.component';
 import HeaderComponent from './header/header.component';
 import ApplicationMenu from './application-menu/application-menu.component';
