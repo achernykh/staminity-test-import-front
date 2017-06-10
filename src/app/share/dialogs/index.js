@@ -516,11 +516,11 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
         });
     };
 
-    this.cancel = function () {
+    this.cancel = () => {
         $mdDialog.cancel();
     };
 
-    this.submit = function () {
+    this.submit = () => {
         BillingService.updateTariff(
             tariff.tariffId, 
             this.autoRenewal,
@@ -562,8 +562,11 @@ BillsListController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService
 
 
 function BillDetailsController($scope, $mdDialog, dialogs, BillingService, message, bill) {
-    this.bill = bill;
-    this.billStatus = BillingService.billStatus(bill);
+    this.setBill = (bill) => {
+        this.bill = bill;
+        this.billStatus = BillingService.billStatus(bill);
+        this.paymentSystem = this.getPaymentSystem(bill);
+    };
 
     this.fixedFee = (tariff) => {
         return tariff.rates.find(fee => fee.rateType === 'Fixed');
@@ -577,12 +580,17 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
         return fee.transactions.length && dialogs.feeDetails(fee, this.bill);
     };
 
-    this.cancel = () => {
-        $mdDialog.cancel();
+    this.getPaymentSystem = (bill) => {
+        return 'fondy';
+    };
+
+    this.changePaymentSystem = (paymentSystem) => {
+        return Promise.resolve(this.bill)
+            .then((bill) => this.setBill(bill));
     };
 
     this.pay = () => {
-        return maybe(bill) (prop('payment')) (prop('checkoutUrl')) 
+        return maybe(this.bill) (prop('payment')) (prop('checkoutUrl')) 
             ((url) => dialogs.iframe(url, 'Оплатить')) ()
             .then(() => {
                 $mdDialog.hide();
@@ -591,6 +599,19 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
                 throw info;
             });
     };
+
+    this.submit = () => {
+        return (
+            this.paymentSystem !== this.getPaymentSystem()?
+            this.changePaymentSystem(this.paymentSystem) : Promise.resolve()
+        ).then(this.pay);
+    };
+
+    this.cancel = () => {
+        $mdDialog.cancel();
+    };
+
+    this.setBill(bill);
 
     console.log('BillDetailsController', this);
 }

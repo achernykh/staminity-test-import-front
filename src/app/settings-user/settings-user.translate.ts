@@ -242,7 +242,15 @@ export const _translate = {
                 new: 'Формируется',
                 ready: 'Оплатить',
                 complete: 'Подробно'
-            }
+            },
+            billDatesTitle: 'Сроки',
+            billDates: {
+                start: 'Начало периода',
+                end: 'Окончание периода',
+                bill: 'Дата счёта',
+                payment: 'Дата оплаты'
+            },
+            feeDetails: 'Детали начисления'
         },
         sync: {
             header: 'Настройка интеграции',
