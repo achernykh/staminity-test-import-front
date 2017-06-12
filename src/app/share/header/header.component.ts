@@ -10,6 +10,7 @@ import {StateService, LocationServices} from 'angular-ui-router';
 import NotificationService from "../notification/notification.service";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
+import DisplayService from "../../core/display.service";
 
 class HeaderCtrl implements IComponentController {
 	public requests: number;
@@ -22,7 +23,7 @@ class HeaderCtrl implements IComponentController {
 	private openChat: ChatSession;
 
 	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', 'NotificationService',
-		'CommentService','$mdDialog', '$state','toaster'];
+		'CommentService','$mdDialog', '$state','toaster', 'display'];
 
 	constructor(
 		private $scope,
@@ -34,7 +35,8 @@ class HeaderCtrl implements IComponentController {
 		private comment: CommentService,
 		private $mdDialog: any,
 		private $state: StateService,
-		private toaster: any) {
+		private toaster: any,
+		private display: DisplayService) {
 
 
 		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
@@ -65,6 +67,11 @@ class HeaderCtrl implements IComponentController {
 				this.notifications = list.length;
 				this.$scope.$apply();
 			});
+	}
+
+	onMenu($mdOpenMenu, ev){
+		let originatorEv = ev;
+		$mdOpenMenu(ev);
 	}
 
 	toggleSlide(component) {

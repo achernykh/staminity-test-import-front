@@ -152,17 +152,20 @@
                 </md-input-container>
             </md-list-item>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
-                <md-input-container flex class="md-block no-message" md-no-float>
+                <md-input-container flex class="md-block no-message">
+                    <label translate="user.price"></label>
                     <textarea ng-model="$ctrl.user.personal.price" name="price" rows="2" placeholder="{{::'settings.personalInfo.priceFull' | translate}}"></textarea>
                 </md-input-container>
             </md-list-item>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
-                <md-input-container flex class="md-block no-message" md-no-float>
+                <md-input-container flex class="md-block no-message">
+                    <label translate="user.contact"></label>
                     <textarea ng-model="$ctrl.user.personal.contact" name="contact" rows="2" placeholder="{{::'settings.personalInfo.contactFull' | translate}}"></textarea>
                 </md-input-container>
             </md-list-item>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
-                <md-input-container flex class="md-block no-message" md-no-float>
+                <md-input-container flex class="md-block no-message">
+                    <label translate="user.athletes"></label>
                     <textarea ng-model="$ctrl.user.personal.athletes" name="athletes" rows="2" placeholder="{{::'settings.personalInfo.athletesFull' | translate}}"></textarea>
                 </md-input-container>
             </md-list-item>

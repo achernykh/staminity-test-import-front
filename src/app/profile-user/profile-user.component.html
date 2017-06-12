@@ -19,8 +19,15 @@
         <div class="md-caption" style="margin-bottom: 15px">{{ $ctrl.user.personal.activity.join(', ') }}</div>
         <div>
             <span>
-                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'startCoach')" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach" class="md-raised md-primary md-dark-theme" style="text-transform: none;">
+                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'startCoach')"
+                           ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach && ($ctrl.user.private.isFree || !$ctrl.user.private.hasOwnProperty('isFree'))"
+                           class="md-raised md-primary md-dark-theme" style="text-transform: none;">
                     Начать тренироваться
+                </md-button>
+                <md-button ng-click=""
+                           ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach && (!$ctrl.user.private.isFree && $ctrl.user.private.hasOwnProperty('isFree'))"
+                           class="md-raised md-primary md-dark-theme" style="text-transform: none;" ng-disabled="true">
+                    Набор учеников завершен
                 </md-button>
 
                 <md-button ng-if="$ctrl.user.isYourCoach && !$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup" ng-disabled="true" class="md-dark-theme">
@@ -96,13 +103,15 @@
     <md-card class="profile-content md-body-1" layout-padding="8">
         <div class="md-caption" translate>user.about</div>
         <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.about || "Информация не указана" }}</div>
-        <div class="md-caption" translate>user.price</div>
-        <div ng-if="$ctrl.user.public.isCoach" style="white-space: pre-wrap;">{{ $ctrl.user.personal.price || "Информация не указана" }}</div>
-        <div class="md-caption" translate>user.contact</div>
-        <div ng-if="$ctrl.user.public.isCoach" style="white-space: pre-wrap;">{{ $ctrl.user.personal.contact || "Информация не указана" }}</div>
-        <div class="md-caption" translate>user.athletes</div>
-        <div ng-if="$ctrl.user.public.isCoach" style="white-space: pre-wrap;">{{ $ctrl.user.personal.athletes || "Информация не указана" }}</div>
-        <div ng-if="$ctrl.user.public.isCoach" style="white-space: pre-wrap;">{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</div>
+        <div ng-if="!!$ctrl.user.public.isCoach" >
+            <div class="md-caption" translate>user.price</div>
+            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.price || "Информация не указана" }}</div>
+            <div class="md-caption" translate>user.contact</div>
+            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.contact || "Информация не указана" }}</div>
+            <div class="md-caption" translate>user.athletes</div>
+            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.athletes || "Информация не указана" }}</div>
+            <div style="white-space: pre-wrap;">{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</div>
+        </div>
         <div ng-if="$ctrl.user.private.weight || $ctrl.user.private.height">
             <span style="margin-right:25px">Вес: {{ $ctrl.user.private.weight || '-' }}</span>
             <span>Рост: {{ $ctrl.user.private.height || '-' }}</span>
@@ -149,7 +158,7 @@
         </div>
     </md-card>
 
-    <summary-statistics user="$ctrl.user"/>
+    <summary-statistics user="$ctrl.user" auth="$ctrl.auth"/>
 
 </application-frame>
 

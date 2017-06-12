@@ -1,4 +1,4 @@
-<div layout="row" layout-align="end center" layout-fill ng-show="!!$ctrl.AuthService.isAuthenticated()">
+<div layout="row" layout-align="end center" layout-fill ng-if="$ctrl.AuthService.isAuthenticated()">
 
     <md-button ng-if="$ctrl.notification > 0" class="md-icon-button md-primary badge1" aria-label="Notification"
                ng-click="toggleRight()" data-badge="{{$ctrl.notification}}" style="min-width:40px">
@@ -24,4 +24,9 @@
              class="md-body">{{$ctrl.user | username: 'short'}}</div>
         <user-menu id="$ctrl.user.public.uri || $ctrl.user.userId"></user-menu>
     </div>
+</div>
+<div layout="row" layout-align="end center" layout-fill
+     ng-if="!$ctrl.AuthService.isAuthenticated()">
+    <a ui-sref="signin" class="button" translate>landing.nav.signIn</a>
+    <a ui-sref="signup" class="button" translate>landing.nav.signUp</a>
 </div>

@@ -111,6 +111,31 @@ class AthletesCtrl {
         })
     }
 
+    invite($event){
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="athlete-invitation" aria-label="Invitation">
+                        <athlete-invitation
+                                flex layout="column" class=""
+                                coach="$ctrl.coach"                            
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </athlete-invitation>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                coach: this.user
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: true
+
+        })
+    }
+
     // helpers
 
     isPremium (member) {
@@ -138,4 +163,20 @@ const AthletesComponent = {
 };
 
 export default AthletesComponent;
+
+function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+        console.log('cancel');
+        $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+    };
+}
+DialogController.$inject = ['$scope','$mdDialog'];
 

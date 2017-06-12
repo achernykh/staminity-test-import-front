@@ -6,6 +6,7 @@ import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise } from 'angular';
 import {ISystemMessage} from "../../../api/core";
+import IHttpPromiseCallbackArg = angular.IHttpPromiseCallbackArg;
 
 
 export default class UserService {
@@ -32,10 +33,14 @@ export default class UserService {
     /**
      * Запрашиваем UserProfile на сервере
      * @param key - id | uri
+     * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    getProfile(key:string|number):Promise<IUserProfile> | Promise<ISystemMessage>{
-        return this.SocketService.send(new GetRequest(key));
+    getProfile(key:string|number, ws: boolean = true):Promise<IUserProfile> | Promise<ISystemMessage>{
+        return ws ?
+            this.SocketService.send(new GetRequest(key)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
+                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
     /**
@@ -95,8 +100,12 @@ export default class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>):Promise<Object> {
-        return this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data));
+    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true):Promise<Object> {
+        debugger;
+        return ws ?
+            this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetUserProfileSummaryStatistics(id, start, end, group, data)))
+                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
     get profile():IUserProfile {

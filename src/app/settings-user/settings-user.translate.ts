@@ -153,13 +153,17 @@ export const _translate = {
                 max: 'Максимальное значение',
                 powerThreshold: 'ПАНО мощность',
                 paceThreshold: 'ПАНО скорость',
+                custom: 'Вручную',
 
                 JoeFrielHeartRateRunning7: 'Joe Friel, 7 зон по пульсу для бега',
                 JoeFrielHeartRateCycling7: 'Joe Friel, 7 зон по пульсу для велосипеда',
                 Karvonen5: 'Karvonen, 5 зон по пульсу',
                 Yansen6: 'Peter Janssen, 6 зон по пульсу',
                 AndyCoggan6: 'Andy Coggan, 7 зон по мощности',
-                JoeFrielSpeed7: 'Joe Friel, 7 зон по темпу/скорости'
+                JoeFrielSpeed7: 'Joe Friel, 7 зон по темпу/скорости',
+                '5': '5 пользовательских зон',
+                '7': '7 пользовательских зон',
+                '9': '9 пользовательских зон'
 
             }
 

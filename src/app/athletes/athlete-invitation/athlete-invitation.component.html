@@ -1,0 +1,48 @@
+<md-toolbar style="background-color: white; color: black">
+    <div class="md-toolbar-tools">
+        <h2 translate="athlete-invitation.header"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+            <md-icon class="material-icons md-dark">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-table-container flex="auto">
+    <table md-table class="md-primary"
+           md-row-select="$ctrl.options.rowSelection"
+           multiple="{{$ctrl.options.multiSelect}}"
+           ng-model="$ctrl.selected">
+        <thead ng-if="!$ctrl.options.decapitate" md-head>
+        <tr md-row>
+            <th md-column class="first-name"><span translate>auth.firstName</span></th>
+            <th md-column class="last-name"><span translate>auth.lastName</span></th>
+            <th md-column class="email"><span translate>auth.email</span></th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row
+            ng-repeat="user in $ctrl.users track by $index">
+
+            <td md-cell>
+                <md-input-container>
+                    <input ng-model="user.firstName" required autocomplete="off" maxlength="30">
+                </md-input-container>
+            </td>
+            <td md-cell>
+                <md-input-container>
+                    <input ng-model="user.lastName" required autocomplete="off" maxlength="30">
+                </md-input-container>
+            </td>
+            <td md-cell>
+                <md-input-container>
+                    <input ng-model="user.email" maxlength="100" autocomplete="off" required
+                           ng-pattern="/^.+@.+\..+$/">
+                </md-input-container>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</md-table-container>
+<md-dialog-actions flex="none" layout="row">
+    <md-button ng-click="confirm()" translate="athlete-invitation.go"></md-button>
+</md-dialog-actions>

@@ -2,7 +2,8 @@ import './search.component.scss';
 import {IComponentOptions, IComponentController, IPromise, IScope, ILocationService} from 'angular';
 import {SearchService} from "./search.service";
 import {SearchParams, SearchResultByUser, SearchMethod} from "../../../api/search/search.interface";
-import {_connection} from "../core/api.constants";
+import * as _connection from "../core/env.js";
+import MessageService from "../core/message.service";
 
 class SearchCtrl implements IComponentController {
 
@@ -26,12 +27,13 @@ class SearchCtrl implements IComponentController {
     };
 
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['$scope','$stateParams','$location','search'];
+    static $inject = ['$scope','$stateParams','$location','search','message'];
 
     constructor(private $scope: IScope,
                 private $stateParams: any,
                 private $location: ILocationService,
-                private search: SearchService) {
+                private search: SearchService,
+                private message: MessageService) {
 
     }
 
@@ -42,6 +44,7 @@ class SearchCtrl implements IComponentController {
             this.params = urlSearch;
             this.onSearch(this.params);
         }
+        this.updateUrl(this.params);
     }
 
     onDetails(uri:string, url: string = `${window.location.origin}/`) {
@@ -57,7 +60,19 @@ class SearchCtrl implements IComponentController {
     onSearch(params: SearchParams) {
         this.search.request(this.method, params)
             .then(result => this.result = result)
-            .then(() => !this.$scope.$$phase && this.$scope.$apply());
+            .then(() => !this.$scope.$$phase && this.$scope.$apply())
+            .then(() => this.message.toastInfo('searchResult',{count: this.result.length}));
+    }
+
+    changeQuery(param: string){
+        if (['objectType'].indexOf(param) !== -1) {
+            this.result = [];
+        }
+        this.updateUrl(this.params);
+    }
+
+    updateUrl(params: SearchParams){
+        this.$location.search(params);
     }
 }
 

@@ -1,4 +1,4 @@
-import { _connection } from './api.constants';
+import * as _connection from './env.js';
 import { ISessionService } from './session.service';
 import {StateService} from 'angular-ui-router';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
