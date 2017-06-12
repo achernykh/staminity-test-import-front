@@ -3,6 +3,7 @@ import {_translate} from './profile-user.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import UserService from "../core/user.service";
 import AuthService from "../auth/auth.service";
+import {ILocationService} from 'angular';
 
 function configure(
     $stateProvider:StateProvider,
@@ -32,8 +33,12 @@ function configure(
                 view: () => new DisplayView('user'),
                 auth: ['AuthService', (AuthService: AuthService) => AuthService.isAuthenticated()],
                 userId: ['$stateParams', $stateParams =>  $stateParams.uri],
-                user: ['UserService','userId','auth', function (UserService, userId, auth: boolean) {
+                user: ['UserService','userId','auth','$location', function (UserService, userId, auth: boolean, $location: ILocationService) {
                     return UserService.getProfile(userId, auth).catch(error => {
+                        debugger;
+                        if(error.hasOwnProperty('errorMessage') && error.errorMessage === 'userNotFound'){
+                            $location.path('/404');
+                        }
                         throw error;
                     });
                 }]

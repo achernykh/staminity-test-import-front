@@ -96,7 +96,7 @@ var backend = {
 module.exports = {
     gulp: './gulp.config.js',
     src: {
-        index: [src + 'index.html', src + 'browserconfig.xml', src + 'favicon.ico'],
+        other: [src + '404.html', src + 'browserconfig.xml', src + 'favicon.ico', src + 'manifest.json'],
         jsLibs: jsLibs,
         babel: { 
             cache: {}, 

@@ -119,9 +119,10 @@ class AuthCtrl implements IComponentController {
         		this.redirect('calendar', {uri: response.data.data.userProfile.public.uri});
 				debugger;
 		}, error => {
-			debugger;
-			if (!(error.hasOwnProperty('message') && error.message.indexOf('The popup window was closed') !== -1)) {
-				this.message.systemWarning(error.data.errorMessage || error);
+			if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
+				this.message.toastInfo('userCancelOAuth');
+			} else {
+				this.message.systemWarning(error.data.errorMessage || error.errorMessage || error);
 			}
 		}).catch(response => {
 			this.message.systemError(response);

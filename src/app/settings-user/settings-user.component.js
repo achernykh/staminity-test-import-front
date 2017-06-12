@@ -269,9 +269,10 @@ class SettingsUserCtrl {
                 console.log('response', response);
                 this.toggle[adaptor.provider] = toggle;
             }, error => {
-                    debugger;
-                    if (!(error.hasOwnProperty('message') && error.message.indexOf('The popup window was close') !== -1)) {
-                        this.message.toastInfo(error.errorMessage || error.data.errorMessage);
+                    if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
+                        this.message.toastInfo('userCancelOAuth');
+                    } else {
+                        this.message.toastInfo(error.data.errorMessage || error.errorMessage || error);
                     }
                     this.toggle[adaptor.provider] = !toggle;
                 }).catch(response => {

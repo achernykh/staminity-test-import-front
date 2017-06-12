@@ -54,6 +54,7 @@ class SummaryStatisticsCtrl {
         this.UserService = UserService;
         this.GroupService = GroupService;
         this.message = SystemMessageService;
+        this.isDataEnabled = false;
 
 
         this.ranges = [{
@@ -128,7 +129,10 @@ class SummaryStatisticsCtrl {
 
     updateStatistics () {
         this.UserService.getSummaryStatistics(this.user.userId, this.range.start(this.period),  this.range.end(this.period), this.range.groupBy, null, this.auth)
-            .then((summaryStatistics) => this.summaryStatistics = summaryStatistics)
+            .then((summaryStatistics) => {
+                this.isDataEnabled = true;
+                this.summaryStatistics = summaryStatistics;
+            })
             .then(() => {
                 pipe(
                     this.range.data,

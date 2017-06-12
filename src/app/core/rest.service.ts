@@ -108,7 +108,11 @@ export class RESTService implements IRESTService {
 			.finally(()=>this.loader.hide())
 			.then((response:any)=> {
 				console.log('REST Service => postData success=', response);
-				return response.data;
+				if(response.data.hasOwnProperty('errorMessage')) {
+					throw response.data;
+				} else {
+					return response.data;
+				}
 			}, (response) => {
 				console.log('REST Service => postData error=', response);
 				throw response.data.errorMessage; // Предполагаем, что сервер ответил ошибкой в формате systemMessage

@@ -101,7 +101,6 @@ export default class UserService {
      * @returns {Promise<TResult>}
      */
     getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true):Promise<Object> {
-        debugger;
         return ws ?
             this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetUserProfileSummaryStatistics(id, start, end, group, data)))
