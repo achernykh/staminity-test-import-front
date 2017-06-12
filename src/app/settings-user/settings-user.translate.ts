@@ -225,7 +225,7 @@ export const _translate = {
             promoDiscount: 'Скидка по промо-коду',
             volumeDiscount: 'Объёмная скидка',
             connections: 'Подключено',
-            billFor: "Счёт за период {{from}} - {{to}}",
+            bill: "Счёт",
             payTheBill: "Оплатить {{amount}}",
             billIsPaid: "Оплачен {{date}}",
             billEntry: 'Позиция счёта',
@@ -238,10 +238,15 @@ export const _translate = {
             invoices: 'Счета на оплату',
             invoiceAmount: 'Счет на сумму',
             period: 'Период',
+            billStatuses: {
+                new: 'Формируется',
+                ready: 'Ожидает оплаты',
+                complete: 'Оплачен'
+            },
             invoiceStatuses: {
                 new: 'Формируется',
                 ready: 'Оплатить',
-                complete: 'Подробно'
+                complete: 'Оплачен'
             },
             billDatesTitle: 'Сроки',
             billDates: {

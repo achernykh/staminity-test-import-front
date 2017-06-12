@@ -46,7 +46,8 @@ export default class DialogsService {
             template: require('./users-list.html'),
             multiple: true,
             parent: angular.element(document.body),
-            clickOutsideToClose: true
+            clickOutsideToClose: true,
+            fullscreen: !this.$mdMedia('gt-sm')
         });
     }
     
@@ -471,7 +472,7 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
     this.promoCode = '';
     this.rejectedPromoCode = '';
 
-    this.fixedFee = () => {
+    this.getFixedFee = () => {
         return this.billing.rates.find(fee => fee.rateType === 'Fixed');
     };
 
@@ -493,9 +494,7 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
 
     this.setBilling = (billing) => {
         this.billing = billing;
-        this.fee = this.billing.rates.find(fee => fee.rateType === 'Fixed');
-        this.monthlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 1);
-        this.yearlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 12);
+        this.fixedFee = this.getFixedFee();
         this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
         this.activePromo = this.getActivePromo(billing);
     };

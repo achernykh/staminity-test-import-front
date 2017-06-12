@@ -2,7 +2,7 @@
     <form name="$ctrl.form" ng-submit='$ctrl.submit()' ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2 >{{ 'settings.billing.billFor' | translate:{from: $ctrl.bill.startPeriod, to: $ctrl.bill.endPeriod} }}</h2>
+                <h2 >{{ 'settings.billing.bill' | translate }}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
                     <md-icon class="material-icons">close</md-icon>
@@ -14,6 +14,11 @@
 
             <md-list class="md-dense">
                 <md-subheader class="md-no-sticky">{{ 'settings.billing.billDatesTitle' | translate }}</md-subheader>
+                <md-list-item>
+                    <span>{{ 'settings.billing.status' | translate }}</span>
+                    <span flex></span>
+                    <span class="font-bold">{{ 'settings.billing.billStatuses.' + $ctrl.billStatus | translate }}</span>
+                </md-list-item>
                 <md-list-item>
                     <span>{{ 'settings.billing.billDates.start' | translate }}</span>
                     <span flex></span>
@@ -39,13 +44,6 @@
             <md-subheader class="md-no-sticky">{{ 'settings.billing.feeDetails' | translate }}</md-subheader>
             <md-table-container>
                 <table md-table>
-                    <thead md-head>
-                        <tr md-row>
-                            <th md-column width="0"></th>
-                            <th md-column>{{ 'settings.billing.billEntry' | translate }}</th>
-                            <th md-column>{{ 'settings.billing.amount' | translate }}</th>
-                        </tr>
-                    </thead>
                     <tbody md-body>
                         <tr md-row
                             ng-repeat-start="tariff in $ctrl.bill.tariffs" 
@@ -73,7 +71,7 @@
                         <tr md-row ng-if="fixedFee.promoDiscount">
                             <td md-cell></td>
                             <td md-cell>{{ 'settings.billing.promoDiscount' | translate }}</td>
-                            <td md-cell class="font-bold text-right text-accent">{{ fixedFee.promoDiscount }}</td>
+                            <td md-cell class="font-bold text-right text-accent">- {{ fixedFee.promoDiscount * fixedFee.initialAmount | currency:$ctrl.bill.currency }}</td>
                         </tr>
                         <tr md-row
                             ng-repeat-start="fee in $ctrl.variableFees(tariff)" 
@@ -99,7 +97,7 @@
                         <tr md-row ng-repeat-end ng-if="fee.promoDiscount">
                             <td md-cell></td>
                             <td md-cell>{{ 'settings.billing.promoDiscount' | translate }}</td>
-                            <td md-cell class="font-bold text-right text-accent">{{ fee.promoDiscount }}</td>
+                            <td md-cell class="font-bold text-right text-accent">- {{ fee.promoDiscount * fee.initialAmount | currency:$ctrl.bill.currency }}</td>
                         </tr>
                         <tr md-row ng-repeat-end ng-hide="true"></tr>
                         <tr md-row class="bg-blue-grey-400">
@@ -136,12 +134,6 @@
                     'settings.billing.payTheBill' | translate:{amount:($ctrl.bill.totalAmount | currency:$ctrl.bill.currency)} 
                 }}</md-button>
             </span>
-            <span ng-switch-when="complete" class="font-italic md-body-1 bill-details-dialog__is-paid">{{ 
-                'settings.billing.billIsPaid' | translate:{date:($ctrl.bill.billDate | date:shortDate)} 
-            }}</span>
-            <span ng-switch-when="new" class="font-italic md-body-1 bill-details-dialog__is-paid">{{ 
-                'settings.billing.invoiceStatuses.new' | translate 
-            }}</span>
         </md-dialog-actions>
     </form>
 </md-dialog>

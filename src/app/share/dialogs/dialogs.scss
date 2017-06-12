@@ -44,6 +44,10 @@ md-dialog#upload {
         color: rgba(black, 0.54) !important;
     }
 
+    .text-accent {
+        color: rgb(221,44,0) !important;
+    }
+
     &__is-paid {
         margin-right: 20px
     }
@@ -62,9 +66,11 @@ md-dialog#upload {
 .tariff-details-dialog {
     &__input-promo {
         width: 165px;
+        margin-bottom: 30px;
     };
 
     &__active-promo {
+        max-width: 250px;
         margin-right: 20px;
     };
 }

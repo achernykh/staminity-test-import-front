@@ -16,7 +16,7 @@
                     <div class="md-list-item-text" style="white-space: pre-wrap;">{{ 
                         !$ctrl.canDisconnect() && ('settings.billing.tariffDisconnectionUnavailable' | translate:{counts:$ctrl.countsText()}) ||
                         $ctrl.tariff.disconnectNow && ('settings.billing.tariffDisconnectNow' | translate) ||
-                        ('settings.billing.tariffDisconnectLater' | translate:{validThrough:($ctrl.billing.validThrough | date:'dd.MM.yyyy')})
+                        ('settings.billing.tariffDisconnectLater' | translate:{validThrough:($ctrl.billing.expireDate | date:'dd.MM.yyyy')})
                     }}</div>
                 </md-list-item>
             </md-list>
