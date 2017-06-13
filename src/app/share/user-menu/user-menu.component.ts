@@ -4,6 +4,7 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 import SessionService from "../../core/session.service";
 import { Observable} from 'rxjs/Observable';
 import {StateService} from "angular-ui-router";
+import DisplayService from "../../core/display.service";
 
 class UserMenuCtrl implements IComponentController{
 
@@ -11,13 +12,14 @@ class UserMenuCtrl implements IComponentController{
     private user: IUserProfile;
     private profile$: Observable<IUserProfile>;
 
-    static $inject = ['$mdSidenav','$location','SessionService', '$state'];
+    static $inject = ['$mdSidenav','$location','SessionService', '$state','display'];
 
     constructor(
         private $mdSidenav: any,
         private $location: ILocationService,
         private SessionService: SessionService,
-        private $state: StateService) {
+        private $state: StateService,
+        private display: DisplayService) {
 
         this.profile$ = SessionService.profile.subscribe(profile=> {
             this.user = angular.copy(profile);

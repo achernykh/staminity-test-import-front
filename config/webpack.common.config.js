@@ -42,7 +42,7 @@ module.exports = {
             'animate.css',
             'angular-carousel',
             'angular-carousel/dist/angular-carousel.css',
-            'angular-touch',
+            'angular-touch', // not supported when use angular-material, but need for angular-carousel
             'angular-drag-and-drop-lists',
             'angularjs-scroll-glue',
             'drag-drop-webkit-mobile',

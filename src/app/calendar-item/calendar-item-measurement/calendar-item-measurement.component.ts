@@ -29,7 +29,6 @@ class CalendarItemMeasurementCtrl {
     }
 
     $onInit() {
-        console.log('data=',this);
 
         if (this.mode === 'post') {
             this.data = {

@@ -72,6 +72,32 @@ class CalendarDayCtrl {
 
             }).then(response => {}, ()=> {});
         }
+        if(type === 'event'){
+            this.$mdDialog.show({
+                controller: DialogController,
+                controllerAs: '$ctrl',
+                template: `<md-dialog id="events" aria-label="Events">
+                        <calendar-item-events 
+                                flex layout="column" class="calendar-item-events"
+                                data="$ctrl.data"
+                                mode="put"
+                                user="$ctrl.user"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-events>
+                   </md-dialog>`,
+                parent: angular.element(document.body),
+                targetEvent: $event,
+                locals: {
+                    data: data,
+                    user: this.calendar.user
+                },
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: true
+
+            }).then(response => {}, ()=> {});
+        }
     }
 
     newActivity($event, data){
@@ -84,7 +110,7 @@ class CalendarDayCtrl {
                                 layout="row" class="calendar-item-activity"
                                 date="$ctrl.date"
                                 mode="'post'"
-                                user="$ctrl.user"
+                                user="$ctrl.user" popup="true"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-activity>
                    </md-dialog>`,
@@ -125,21 +151,24 @@ class CalendarDayCtrl {
         }).then(response => {}, ()=> {});
     }
 
-    newWeekend($event, data) {
+    newEvent($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
             template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events
+                        <calendar-item-events 
                                 flex layout="column" class="calendar-item-events"
-                                data="$ctrl.data" mode="put"
+                                data="$ctrl.data"
+                                mode="post"
+                                user="$ctrl.user"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-events>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: data
+                data: data,
+                user: this.calendar.user
             },
             bindToController: true,
             clickOutsideToClose: true,

@@ -584,7 +584,7 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     };
 
     this.changePaymentSystem = (paymentSystem) => {
-        return Promise.resolve(this.bill)
+        return BillingService.updatePaymenntSystem(this.bill.billId, paymentSystem)
             .then((bill) => this.setBill(bill));
     };
 
@@ -600,10 +600,9 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     };
 
     this.submit = () => {
-        return (
-            this.paymentSystem !== this.getPaymentSystem()?
-            this.changePaymentSystem(this.paymentSystem) : Promise.resolve()
-        ).then(this.pay);
+        return Promie.resolve(this.paymentSystem !== this.getPaymentSystem())
+            .then((needUpdate) => needUpdate && this.changePaymentSystem(this.paymentSystem))
+            .then(this.pay);
     };
 
     this.cancel = () => {

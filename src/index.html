@@ -197,19 +197,11 @@
 </div>
 <![endif]-->
 
-<!--<script>
-    if (!('serviceWorker' in navigator)) {
-        console.log('Service worker not supported');
-        return;
-    }
-    navigator.serviceWorker.register('service-worker.js')
-            .then(function(registration) {
-                console.log('Registered at scope:', registration.scope);
-            })
-            .catch(function(error) {
-                console.log('Registration failed:', error);
-            });
-</script>-->
+<script type="text/javascript">
+    navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.info('SW registered!', reg))
+    .catch(err => console.error('Boo!', err));
+</script>
 
 <!-- Application Scripts (gulp compilation)
 <script src="js/libs.js"></script>

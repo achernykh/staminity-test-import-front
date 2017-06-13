@@ -6,6 +6,7 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 import { Observable} from 'rxjs/Observable';
 import './application-menu.component.scss';
 import SessionService from "../../core/session.service";
+import * as env from '../../core/env.js';
 
 class ApplicationMenuCtrl implements IComponentController{
 
@@ -15,6 +16,7 @@ class ApplicationMenuCtrl implements IComponentController{
     private profile$: Observable<IUserProfile>;
     public showUserMenu: boolean = false;
     private date: Date = new Date();
+    private env: Object = env;
 
     static $inject = ['$mdSidenav','AuthService','SessionService','$state'];
 

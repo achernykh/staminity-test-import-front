@@ -62,6 +62,35 @@ export class DashboardCtrl implements IComponentController {
         this.currentDate = moment().startOf('week');
         this.getData(this.currentDate);
 
+        this.calendar.item$
+            .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
+                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId))
+            .map(message => {
+                message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
+                return message;})
+            .subscribe((message) => {
+                debugger;
+                switch (message.action) {
+                    case 'I': {
+                        this.onPostItem(<ICalendarItem>message.value);
+                        this.$scope.$apply();
+                        break;
+                    }
+                    case 'D': {
+                        this.onDeleteItem(<ICalendarItem>message.value);
+                        this.$scope.$apply();
+                        break;
+                    }
+                    case 'U': {
+                        //this.onDeleteItem(getItemById(this.calendar, message.value.calendarItemId));
+                        this.onPostItem(<ICalendarItem>message.value);
+                        this.$scope.$apply();
+                        break;
+                    }
+                }
+            });
+
+
     }
 
     next() {
@@ -171,7 +200,7 @@ export class DashboardCtrl implements IComponentController {
                                 layout="row" class="calendar-item-activity"
                                 data="$ctrl.data"
                                 mode="$ctrl.mode"
-                                user="$ctrl.user"
+                                user="$ctrl.user" popup="true"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-activity>
                    </md-dialog>`,

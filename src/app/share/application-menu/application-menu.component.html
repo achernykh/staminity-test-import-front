@@ -27,8 +27,8 @@
 <md-list class="menu-user" ng-if="$ctrl.showUserMenu">
     <md-list-item ng-repeat="menu in $ctrl.usermenu"
                   ng-click="$ctrl.transitionToState(menu.link)">
-        <md-icon class="material-icon" ng-bind="menu.icon"></md-icon>
-        <p class="md-body-2" style="opacity: 0.87" translate>{{menu.name}}</p>
+        <md-icon class="material-icon">{{::menu.icon}}</md-icon>
+        <p class="md-body-2 md-dark" translate>{{::menu.name}}</p>
     </md-list-item>
 </md-list>
 
@@ -43,19 +43,19 @@
                   ng-click="$ctrl.transitionToState('club', club.groupUri)"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">account_circle</md-icon>
-        <p class="md-body-2" style="opacity: 0.87" translate>Профиль</p>
+        <p class="md-body-2" translate>Профиль</p>
     </md-list-item>
     <md-list-item class="menu-coach"
                   ng-click="$ctrl.transitionToState('management', club.groupUri)"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">people</md-icon>
-        <p class="md-body-2" style="opacity: 0.87" translate>Члены клуба</p>
+        <p class="md-body-2" translate>Члены клуба</p>
     </md-list-item>
     <md-list-item class="menu-coach"
                   ng-click="$ctrl.transitionToState('dashboard/club', club.groupUri)"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">developer_board</md-icon>
-        <p class="md-body-2" style="opacity: 0.87" translate>Дэшборд</p>
+        <p class="md-body-2" translate>Дэшборд</p>
     </md-list-item>
     <md-divider ng-repeat-end ng-if="!showClubMenu"></md-divider>
 </md-list>
@@ -67,12 +67,12 @@
                  ng-bind="showCoachMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
     </md-list-item>
     <md-list-item class="menu-coach" ng-click="$ctrl.transitionToState('athletes')" ng-if="showCoachMenu">
-        <md-icon class="material-icon">people</md-icon>
-        <p class="md-body-2" style="opacity: 0.87" translate>Управление спортсменами</p>
+        <md-icon class="material-icon" ng-click="">people</md-icon>
+        <p class="md-body-2">Управление спортсменами</p>
     </md-list-item>
     <md-list-item class="menu-coach" ng-click="$ctrl.transitionToState('dashboard')" ng-if="showCoachMenu">
         <md-icon class="material-icon">developer_board</md-icon>
-        <p class="md-body-2" style="opacity: 0.87" translate>Дэшборд</p>
+        <p class="md-body-2">Дэшборд</p>
     </md-list-item>
     <md-divider ng-if="!showCoachMenu"></md-divider>
 </md-list>
@@ -93,7 +93,7 @@
     <md-divider></md-divider>
     <md-list-item>
         <md-icon class="material-icon">memory</md-icon>
-        <p class="md-body-2" style="opacity: 0.87">2017 Стаминити, 0.0.1.beta#023</p>
+        <p class="md-body-2" style="opacity: 0.87">2017 Стаминити, {{::$ctrl.env.version}}#{{::$ctrl.env.build}}</p>
     </md-list-item>
 </md-list>
 

@@ -24,11 +24,16 @@ const template      = require('gulp-template');
 const gulpif        = require('gulp-if');
 const order         = require("gulp-order");
 const ftp           = require('vinyl-ftp' );
+const es = require('event-stream');
+const path = require('path');
 
 // Get/set letiables
 const config = require('./gulp.config');
 const pass = require('./pass');
 const ENV = process.env.npm_lifecycle_event;
+const version = require('./package.json').version;
+const build = require('./src/app/core/env.js').build;
+
 
 // Where our files are located
 const jsFiles   = "src/js/**/*.js";
@@ -285,13 +290,48 @@ gulp.task('set-env', function() {
         .pipe(gulp.dest('src/app/core/'))
 });
 
+gulp.task('set-env-new', function() {
+    'use strict';
+    let trg = gutil.env['trg'];
+    gutil.log(version, build);
+
+    return gulp.src('config/env.tmpl')
+        .pipe(template(Object.assign(config.backend[trg], {build: Number(build)+1, version: version})))
+        .pipe(rename({basename: 'env', extname: '.js'}))
+        .pipe(gulp.dest('src/app/core/'))
+});
+
+gulp.task('set-sw', () => {
+    'use strict';
+    let trg = gutil.env['trg'];
+    let files = [trg+'/index.html',trg+'/assets/css/**',trg+'/assets/js/**'];
+    let cache = [];
+
+    const cacheFile = (src) => {
+        return src.map((file,cb) => {
+                if (file.path.includes('.')){
+                    gutil.log('cache file:',file.path);
+                    cache.push(path.relative(path.join(file.cwd, file.base), file.path));
+                    gutil.log('cache=[]',cache);
+                }
+            });
+    }
+
+    gulp.src(files,{base: trg+'/', buffer: false}).pipe(cacheFile(es));
+
+    return gulp.src('config/sw.tmpl.js')
+        .pipe(template({cache: cache, version: `${version}#${build}`}))
+        .pipe(rename({basename: 'sw'}))
+        .pipe(gulp.dest(`./${trg === 'build' ? 'src' : trg}`));
+});
+
 gulp.task('ftp', () => {
     'use strict';
     let trg = gutil.env['trg'];
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
     let files = {
-        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/index.html'],
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/index.html'],
         assets: [trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**']
     };
 

@@ -54,7 +54,7 @@ class NotificationListCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.NotificationService.list$.subscribe((list) => {this.notifications =  list; this.$scope.$apply();});
+        this.NotificationService.list$.subscribe((list) => {this.notifications =  list; console.timeEnd('notification process'); this.$scope.$evalAsync();});
         this.session.profile.subscribe(profile=> this.currentUser = angular.copy(profile));
     }
 
@@ -94,7 +94,7 @@ class NotificationListCtrl implements IComponentController {
                                         data="$ctrl.data"
                                         mode="$ctrl.mode"
                                         user="$ctrl.user"
-                                        tab="$ctrl.tab"
+                                        tab="$ctrl.tab" popup="true"
                                         on-cancel="cancel()" on-answer="answer(response)">
                                 </calendar-item-activity>
                            </md-dialog>`,

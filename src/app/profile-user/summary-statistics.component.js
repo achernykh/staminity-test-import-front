@@ -65,8 +65,8 @@ class SummaryStatisticsCtrl {
         this.period = 0;
     }
 
-    $onInit () {
-        this.isMe = this.user.userId === this.UserService.profile.userId;
+    $onInit(){
+        this.isMe = this.auth && this.user.userId === this.UserService.profile.userId;
         this.updateStatistics();
     }
 
@@ -148,7 +148,8 @@ SummaryStatisticsCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','G
 
 export default {
     bindings: {
-        user: '<'
+        user: '<',
+        auth: '<'
     },
     controller: SummaryStatisticsCtrl,
     template: require('./summary-statistics.component.html')

@@ -58,7 +58,7 @@ class RequestsCtrl {
     }
 
     $onInit() {
-        moment.lang('ru');
+        moment.locale('ru');
     }
     
     setRequests (requests) {

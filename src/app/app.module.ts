@@ -58,7 +58,7 @@ const root = module('staminity.application', [
 	hmReedmore,
     'tmh.dynamicLocale',
     'toaster',
-	'ngTouch',
+	//'ngTouch',
 	'angular-carousel',
 	'dndLists',
 	'luegg.directives',

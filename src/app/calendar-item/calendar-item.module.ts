@@ -10,8 +10,10 @@ const CalendarItemMeasurement = module('staminity.calendar-item-measurement', []
     .component('calendarItemMeasurement', CalendarItemMeasurementComponent)
     .component('calendarItemEvents', CalendarItemEventsComponent)
     .config(['$translateProvider',($translateProvider) => {
-        $translateProvider.translations('ru', {measurement: _measurement.ru, events: _events.ru});
-        $translateProvider.translations('en', {measurement: _measurement.en, events: _events.ru});
+        $translateProvider.translations('ru', {measurement: _measurement.ru});
+        $translateProvider.translations('en', {measurement: _measurement.en});
+        $translateProvider.translations('ru', {event: _events.ru});
+        $translateProvider.translations('en', {event: _events.en});
     }])
     .name;
 

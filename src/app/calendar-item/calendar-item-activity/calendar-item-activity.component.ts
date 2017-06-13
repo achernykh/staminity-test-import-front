@@ -47,6 +47,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     activity: Activity;
     user: IUserProfile;
     tab: string;
+    popup: boolean;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
@@ -266,7 +267,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.
     // могут вызваны из любого другого представления
     onSave() {
-        console.log('save',this.activity.build());
 
         if (this.mode === 'post') {
             this.CalendarService.postItem(this.activity.build())
@@ -332,6 +332,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
+        popup: '=',
         onCancel: '&',
         onAnswer: '&'
     },

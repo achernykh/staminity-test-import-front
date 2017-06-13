@@ -1,3 +1,4 @@
+@import "../../sass/color";
 .user-info {
     font-size: 14px;
     img {
@@ -54,6 +55,9 @@ userpic {
     }
     &.border-light > div.avatar {
         border: 1px solid rgba(255,255,255,0.9);
+    }
+    &.border-active > div.avatar {
+        border: 2px solid $teal-900;
     }
 }
 

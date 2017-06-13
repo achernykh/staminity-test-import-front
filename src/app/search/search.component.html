@@ -1,14 +1,14 @@
 <div class="application">
     <div hide-md class="margin-left"></div>
-    <section class="application-body" layout="row">
+    <section class="application-body" layout-gt-md="row" layout="column">
         <div flex="none" class="search-filter bg-grey-200">
             <form name="$ctrl.searchForm" layout="column" layout-fill>
                 <md-list class="md-dense slim-input" flex="auto">
                     <md-list-item>
                         <md-input-container class="md-block no-message" md-no-float layout="row">
                             <md-icon class="material-icons">group</md-icon>
-                            <md-select name="sport" class="icon" required
-                                       ng-model="$ctrl.params.objectType">
+                            <md-select name="objectType" class="icon" required
+                                       ng-model="$ctrl.params.objectType" ng-change="$ctrl.changeQuery('objectType')">
                                 <md-option ng-repeat="type in $ctrl.type track by $index"
                                            value="{{type}}">{{'search.' + type | translate}}
                                 </md-option>
@@ -18,10 +18,10 @@
                     <md-list-item>
                         <md-input-container class="md-block no-message" md-no-float layout="row">
                             <md-icon class="material-icons">search</md-icon>
-                            <input type="text" name="firstName"
+                            <input type="text" name="name"
                                    ng-model="$ctrl.params.name" placeholder="Запрос..."
                                    autocomplete="off" autofocus ng-disabled="false" minlength="0"
-                                   maxlength="100">
+                                   maxlength="100" ng-change="$ctrl.changeQuery('name')">
                             <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
                                 <div ng-message-exp="['minlength', 'maxlength']"
                                      translate="form.rangeStr" translate-values="{min:0, max:100}">
@@ -31,46 +31,96 @@
                     </md-list-item>
                 </md-list>
                 <md-dialog-actions flex="none" layout="row">
-                    <md-button flex class="md-primary" ng-disabled="!$ctrl.searchForm.$valid" ng-click="$ctrl.onSearch($ctrl.params)" translate="search.go"></md-button>
+                    <md-button flex class="md-accent md-raised" ng-disabled="!$ctrl.searchForm.$valid" ng-click="$ctrl.onSearch($ctrl.params)" translate="search.go"></md-button>
                 </md-dialog-actions>
             </form>
         </div>
-        <div flex="auto" class="search-result bg-grey-100">
-            <md-table-container>
+        <div flex="auto" class="search-result bg-grey-200"
+             ng-if="!$ctrl.result || $ctrl.result.length === 0" layout="column" layout-align="center center" layout-fill>
+            <!--<md-icon flex="none" class="material-icons s64">search</md-icon>
+            <div flex="none" class="md-body-2" translate>Данных для просмотра нет<br>Нажмите Посик для получения </div>-->
+        </div>
+        <div flex="auto" class="search-result bg-grey-200"
+             ng-if="$ctrl.result && $ctrl.result.length>0" ng-switch on="$ctrl.params.objectType">
+            <md-table-container ng-switch-when="user">
                 <table md-table class="md-primary"
                        md-row-select="$ctrl.options.rowSelection"
                        multiple="{{$ctrl.options.multiSelect}}"
                        ng-model="$ctrl.selected">
-                    <thead ng-if="!$ctrl.options.decapitate" md-head>
-                    <tr md-row>
-                        <th md-column class="user-name"><span>Имя</span></th>
-                        <th md-column class="sport"><span>Виды спорта</span></th>
-                        <th md-column><span>Страна</span></th>
-                        <th md-column><span>Город</span></th>
-                        <th md-column><span>О себе</span></th>
-                    </tr>
+                    <thead ng-if="!$ctrl.options.decapitate" md-head md-order="$ctrl.order">
+                        <tr md-row>
+                            <th md-column class="user-name" md-order-by="name"><span>Имя</span></th>
+                            <th md-column class="sport"><span>Виды спорта</span></th>
+                            <th md-column><span>Страна</span></th>
+                            <th md-column><span>Город</span></th>
+                            <th md-column><span>О себе</span></th>
+                        </tr>
                     </thead>
                     <tbody md-body style="overflow: auto">
-                    <tr md-row ng-click="$ctrl.onDetails(obj.profile.public.uri)"
+                    <tr ng-repeat="user in $ctrl.result | orderBy: $ctrl.order track by $index"
+                        md-row ng-click="$ctrl.onDetails(user.public.uri)"
                         md-select="split"
                         md-on-select="change" md-on-deselect="change"
                         md-select-id="ind"
-                        md-auto-select="$ctrl.options.autoSelect"
-                        ng-repeat="obj in $ctrl.result track by $index">
+                        md-auto-select="$ctrl.options.autoSelect">
+                        <td md-cell layout="row" layout-align="start center" layout-fill>
+                            <userpic flex="none" class="border-light size-36" profile="user" unlink="false"></userpic>
+                            <span flex="auto" class="user-name md-body-2 md-dark user-name">{{user.name}}</span></td>
                         <td md-cell>
-                            <userpic class="border-light size-36" profile="obj.profile" unlink="false"></userpic>
-                            <span class="md-body-2 md-dark user-name">{{obj.name}}</span></td>
-                        <td md-cell>
-                            <span ng-repeat-start="sport in obj.sport" translate="sport.{{sport}}"></span>
+                            <span ng-repeat-start="sport in user.private.activity" translate="sport.{{sport}}"></span>
                             <span ng-repeat-end><span ng-if="!$last">, </span></span>
                         </td>
-                        <td md-cell>{{obj.country}}</td>
-                        <td md-cell>{{obj.city}}</td>
-                        <td md-cell>{{obj.about}}</td>
+                        <td md-cell>{{user.private.country}}</td>
+                        <td md-cell>{{user.private.city}}</td>
+                        <td md-cell><p class="about">{{user.private.about}}</p></td>
                     </tr>
                     </tbody>
                 </table>
             </md-table-container>
+            <md-grid-list ng-switch-when="coach" class="coach"
+                          style=""
+                          md-cols="1" md-cols-gt-xs="2" md-cols-gt-sm="3" md-cols-gt-md="3" md-cols-gt-lg="5" md-cols-gt-xl="7"
+                          md-row-height-gt-md="4:3" md-row-height="4:3"
+                          md-gutter="8px" md-gutter-gt-sm="8px">
+                <md-grid-tile ng-repeat="user in $ctrl.result | orderBy: $ctrl.order track by $index" ng-cloak
+                              md-rowspan="1"
+                              md-colspan="1"
+                              md-colspan-sm="1"
+                              md-colspan-xs="1"
+                              ng-click="$ctrl.onAnswer({response: {user: user}})"
+                              style="cursor: pointer">
+                    <md-card layout="column" layout-fill>
+                        <md-card-header flex="none">
+                            <div flex="auto">
+                                <div flex="auto" class="user-name md-title">{{user | username}}</div>
+                                <div class="md-caption md-dark" ng-if="user.private.country">
+                                    <span>{{user.private.country}}</span>
+                                    <span ng-if="user.private.city">,&nbsp{{user.private.city}}</span>
+                                </div>
+                                <div class="md-caption md-dark">
+                                    <span ng-repeat-start="sport in user.private.activity" translate="sport.{{sport}}"></span>
+                                    <span ng-repeat-end><span ng-if="!$last">, </span></span>
+                                </div>
+                            </div>
+                            <userpic flex="none" class="border-light size-60" profile="user" unlink="false"></userpic>
+                        </md-card-header>
+                        <md-card-content flex class="md-body-1 md-dark">
+                            <p>{{user.private.about}}</p>
+                        </md-card-content>
+                        <md-card-actions flex="none" layout="row" layout-align="start center">
+                            <md-button class="md-primary    " ng-click="$ctrl.onDetails(user.public.uri)">Профиль</md-button>
+                            <span flex></span>
+                            <div ng-if="false">
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                            </div>
+                        </md-card-actions>
+                    </md-card>
+                </md-grid-tile>
+            </md-grid-list>
         </div>
     </section>
     <div hide-md class="margin-right">

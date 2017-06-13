@@ -82,11 +82,24 @@ $warning-color-hover:	$orange-900;
 $success-color:			$teal-700;
 $success-color-hover:	$teal-900;
 
+
+.bg-orange {
+	&-600 {
+		background-color: $orange-600;
+	}
+}
+
 // Темно-оранжевый, акцент
 .bg-deep-orange {
   &-500 {
 	background-color: $deep-orange-500;
   }
+	&-600 {
+		background-color: $deep-orange-600;
+	}
+	&-700 {
+		background-color: $deep-orange-700;
+	}
 }
 
 // Серо-голубой, основной цвет

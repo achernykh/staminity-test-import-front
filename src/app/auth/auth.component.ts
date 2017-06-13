@@ -12,12 +12,13 @@ class AuthCtrl implements IComponentController {
 	private credentials: Object = null;
 	private passwordStrength: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-	static $inject = ['AuthService','SessionService','$state','$location', 'message', '$auth'];
+	static $inject = ['AuthService','SessionService','$state', '$stateParams', '$location', 'message', '$auth'];
 
 	constructor(
 		private AuthService: any,
 		private SessionService: SessionService,
 		private $state: StateService,
+		private $stateParams: any,
 		private $location: ILocationService,
 		private message: IMessageService, private $auth: any) {
 	}
@@ -27,6 +28,7 @@ class AuthCtrl implements IComponentController {
 		 * Переход в компонент по ссылке /signout
 		 * Сбрасываем данные в localStorage и переходим на экран входа пользователя
          */
+		console.log('signin', this.$state, this.$stateParams);
 		if(this.$state.$current.name === 'signout') {
 			debugger;
 			this.AuthService.signOut();
@@ -81,8 +83,9 @@ class AuthCtrl implements IComponentController {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.signIn({email: credentials.email, password: credentials.password})
 			.finally(()=>this.enabled = true)
-			.then((profile:IUserProfile) => this.$state.go('calendar',{uri: profile.public.uri}),
-				error => this.message.systemError(error));
+			.then((profile:IUserProfile) => {
+				this.redirect('calendar', {uri: profile.public.uri});
+			}, error => this.message.systemError(error));
 	}
 
 	/**
@@ -101,17 +104,20 @@ class AuthCtrl implements IComponentController {
 
 	OAuth(provider:string) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
+		debugger;
 		this.$auth.link(provider, {
             internalData: {
                 postAsExternalProvider: false,
-                provider: provider
+                provider: provider,
+				activateCoachTrial: this.credentials['activateCoachTrial'],
+				activatePremiumTrial: true
             }
 		})
 			.finally(()=>this.enabled = true)
 			.then((response: IHttpPromiseCallbackArg<{data:{userProfile: IUserProfile, systemFunctions: any}}>) => {
-        	this.AuthService.storeUser(response.data);
-			this.$state.go('calendar',{uri: response.data.data.userProfile.public.uri});
-			debugger;
+        		this.AuthService.storeUser(response.data);
+        		this.redirect('calendar', {uri: response.data.data.userProfile.public.uri});
+				debugger;
 		}, error => {
 			debugger;
 			if (!(error.hasOwnProperty('message') && error.message.indexOf('The popup window was closed') !== -1)) {
@@ -121,6 +127,17 @@ class AuthCtrl implements IComponentController {
 			this.message.systemError(response);
 			debugger;
 		});
+	}
+
+	redirect(state: string = 'calendar', params: Object):void {
+		let redirectState = this.$stateParams.hasOwnProperty('nextState') && this.$stateParams['nextState'] || state;
+		let redirectParams = this.$stateParams.hasOwnProperty('nextParams') && this.$stateParams['nextParams'] || params;
+
+		if(redirectState === 'calendar' && redirectParams.hasOwnProperty('#') && redirectParams['#']) {
+			redirectParams['#'] = null;
+		}
+		debugger;
+		this.$state.go(redirectState,redirectParams);
 	}
 
 }

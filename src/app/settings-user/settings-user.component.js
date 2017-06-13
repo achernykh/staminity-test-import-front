@@ -92,7 +92,6 @@ class SettingsUserCtrl {
         this.prepareZones();
 
         moment.locale('ru');
-        moment.lang('ru');
     }
 
     reload () {
@@ -293,7 +292,9 @@ class SettingsUserCtrl {
                 this.toggle[adaptor.provider] = toggle;
             }, error => {
                     debugger;
-                    this.message.toastInfo(error.errorMessage || error.data.errorMessage);
+                    if (!(error.hasOwnProperty('message') && error.message.indexOf('The popup window was close') !== -1)) {
+                        this.message.toastInfo(error.errorMessage || error.data.errorMessage);
+                    }
                     this.toggle[adaptor.provider] = !toggle;
                 }).catch(response => {
                     // Handle errors here.

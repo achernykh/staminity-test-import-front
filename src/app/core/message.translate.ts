@@ -418,6 +418,11 @@ export const _translateMessage = {
 		groupClubAthletesNotEmpty: {
 			title: "Ошибка",
 			text: "Необходимо очистить группу 'Атлеты клуба' перед отключением клубного тарифа"
+		},
+		// Поиск
+		searchResult: {
+			title: 'Информация',
+			text: 'Найдено {{count}} записей'
 		}
 	},
 	en: {

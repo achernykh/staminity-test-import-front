@@ -19,8 +19,8 @@ class ProfileCtrl {
 
     $onInit(){
 
-        this.me = this.UserService.profile;
-        this.isMe = this.user.userId === this.me.userId;
+        this.me = this.auth && this.UserService.profile || null;
+        this.isMe = this.auth && this.user.userId === this.me.userId;
 
         this.subscription = this.RequestsService.requestWithUser(this.user.userId)
                 .subscribe(() => { this.update() });
@@ -80,12 +80,14 @@ class ProfileCtrl {
     }
 };
 
-ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','SystemMessageService','RequestsService'];
+ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService',
+    'SystemMessageService','RequestsService'];
 
 const ProfileComponent = {
     bindings: {
         view: '<',
-        user: '<'
+        user: '<',
+        auth: '<'
     },
     controller: ProfileCtrl,
     template: require('./profile-user.component.html')

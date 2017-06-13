@@ -1,6 +1,6 @@
 import { ISocketService } from './socket.service';
 import { ISessionService } from './session.service';
-import { GetTariff, PostTariffSubscription, PutTariffSubscription, DeleteTariffSubscription, GetBill, GetBillDetails } from "../../../api/billing/billing.request";
+import { GetTariff, PostTariffSubscription, PutTariffSubscription, DeleteTariffSubscription, GetBill, GetBillDetails, PutProcessingCenter } from "../../../api/billing/billing.request";
 import { IBillingTariff, IBill } from "../../../api/billing/billing.interface";
 
 import moment from 'moment/min/moment-with-locales.js';
@@ -60,7 +60,7 @@ export default class BillingService {
         autoRenewal: boolean,
         promoCode: string
     ) : Promise<any> {
-        return this.SocketService.send(new PutTariffSubscription(tariffId, autoRenewal));
+        return this.SocketService.send(new PutTariffSubscription(tariffId, autoRenewal, promoCode));
     }
 
     /**
@@ -87,6 +87,15 @@ export default class BillingService {
      */
     getBillDetails(billId: number) : Promise<any> {
         return this.SocketService.send(new GetBillDetails(billId));
+    }
+
+    /**
+     * @param billId
+     * @param paymentSystem
+     * @returns {Promise<any>}
+     */
+    updatePaymentSystem(billId: number, paymentSystem: string) : Promise<any> {
+        return this.SocketService.send(new PutProcessingCenter(billId, paymentSystem));
     }
 
     /**

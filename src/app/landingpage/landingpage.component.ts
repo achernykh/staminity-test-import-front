@@ -4,6 +4,7 @@ import {StateService} from 'angular-ui-router';
 import SessionService from "../core/session.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import { Observable } from 'rxjs/Observable';
+import DisplayService from "../core/display.service";
 require('./landingpage.component.scss');
 
 class LandingPageCtrl implements IComponentController {
@@ -16,11 +17,12 @@ class LandingPageCtrl implements IComponentController {
 		club: ['lp-club-01.png']
 	};
 
-	static $inject = ['AuthService','$state','SessionService'];
+	static $inject = ['AuthService','$state','SessionService','display'];
 
 	constructor(private AuthService: IAuthService,
 				private $state: StateService,
-				private SessionService: SessionService) {
+				private SessionService: SessionService,
+				private display: DisplayService) {
 
 	}
 

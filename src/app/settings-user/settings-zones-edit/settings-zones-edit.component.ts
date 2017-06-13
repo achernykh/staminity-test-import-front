@@ -11,6 +11,8 @@ class SettingsZonesEditCtrl implements IComponentController {
     public onSave: (response: {intensityFactor: string, sport: string, settings: any}) => IPromise<void>;
     public onCancel: () => IPromise<void>;
 
+    private viewMode: boolean;
+
     public options:Object = {
         rowSelection: false,
         multiSelect: true,
@@ -33,6 +35,7 @@ class SettingsZonesEditCtrl implements IComponentController {
 
     $onInit() {
         this.settings = copy(this.sportSettings);
+        this.viewMode = this.settings.calculateMethod !== 'custom';
     }
 
     selectMethod(method: string, factor: string) {
@@ -41,7 +44,20 @@ class SettingsZonesEditCtrl implements IComponentController {
             FTP: this.settings['FTP'],
             minValue: this.settings['minValue'],
             maxValue: this.settings['maxValue']}, factor);
+
+        this.viewMode = this.settings.calculateMethod === 'custom';
     }
+
+    changeZone(i: number, value: number, factor: string) {
+        debugger;
+        let step: number = factor !== 'speed' ? 1 : 0.00000000000001;
+        if (i === this.settings.zones.length) {
+            return;
+        }
+        this.settings.zones[i+1].valueFrom = value + step;
+    }
+
+
 
     calculateMethod(method: string, measure: {FTP?: number, minValue?:number, maxValue?: number}, factor: string):Array<any> {
 
@@ -311,6 +327,33 @@ class SettingsZonesEditCtrl implements IComponentController {
                         valueTo: measure.maxValue || 1000 // 0:01 мин/км
                     }
                 ];
+                break;
+            }
+            case '5': {
+                zones = Array.from(new Array(5)).map((_,i) => ({
+                    id: "new",
+                    code: `Zone #${i+1}`,
+                    valueFrom: i === 0 && measure.minValue || null,
+                    valueTo: i === 4 && Math.round(measure.FTP * 1.11) || null
+                }));
+                break;
+            }
+            case '7': {
+                zones = Array.from(new Array(7)).map((_,i) => ({
+                    id: "new",
+                    code: `Zone #${i+1}`,
+                    valueFrom: i === 0 && measure.minValue || null,
+                    valueTo: i === 6 && Math.round(measure.FTP * 1.11) || null
+                }));
+                break;
+            }
+            case '9': {
+                zones = Array.from(new Array(9)).map((_,i) => ({
+                    id: "new",
+                    code: `Zone #${i+1}`,
+                    valueFrom: i === 0 && measure.minValue || null,
+                    valueTo: i === 8 && Math.round(measure.FTP * 1.11) || null
+                }));
                 break;
             }
         }
