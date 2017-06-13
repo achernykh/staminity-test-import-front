@@ -86,7 +86,7 @@ export default class BillingService {
      * @returns {Promise<any>}
      */
     getBillDetails(billId: number) : Promise<any> {
-        return this.SocketService.send(new GetBillDetails(billId));
+        return this.SocketService.send(new GetBillDetails(billId, true));
     }
 
     /**

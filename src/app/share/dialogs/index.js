@@ -360,7 +360,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
     };
 
     this.trialExpires = () => {
-        return moment().add(this.billing.trialConditions.term, 'months').toDate();
+        return moment().add(this.billing.trialConditions.term, 'days').toDate();
     };
 
     this.getActivePromo = (billing) => {
@@ -576,7 +576,7 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     };
 
     this.feeDetails = (fee) => {
-        return fee.transactions.length && dialogs.feeDetails(fee, this.bill);
+        return fee.transactions && fee.transactions.length && dialogs.feeDetails(fee, this.bill);
     };
 
     this.getPaymentSystem = (bill) => {
