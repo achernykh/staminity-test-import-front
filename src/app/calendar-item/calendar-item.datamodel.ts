@@ -8,8 +8,8 @@ export class CalendarItem implements ICalendarItem {
 
 	public revision: any;
 	public calendarItemId: any;
-	public dateStart: Date;
-	public dateEnd: Date;
+	public dateStart: string;
+	public dateEnd: string;
 	public calendarItemType: string;
 	public measurementHeader:IMeasurementHeader;
 	public eventHeader:IEventHeader = {
@@ -40,7 +40,6 @@ export class CalendarItem implements ICalendarItem {
 	package() {
 		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
 		this.dateEnd = moment(this._dateEnd).utc().add(moment().utcOffset(),'minutes').format();
-		debugger;
 		return this;
 	}
 

@@ -14,9 +14,9 @@
     "dist": "webpack",
     "distLocal": "webpack && gulp copy-assets",
     "dev1": "gulp set-env-new --trg dev1 && webpack && gulp copy-assets && gulp copy-other && gulp set-sw --trg dev1 && gulp ftp --trg dev1 --scope core",
-    "dev2": "gulp set-env-new --trg dev2 && webpack && gulp copy-assets && gulp set-sw --trg dev2 && gulp ftp --trg dev2 --scope core",
-    "dev3": "gulp set-env && webpack && gulp copy-assets && gulp ftp --trg dev3 --scope core",
-    "prd": "gulp set-env-new --trg prd && webpack && gulp copy-assets && gulp set-sw --trg prd && gulp ftp --trg prd --scope core",
+    "dev2": "gulp set-env-new --trg dev2 && webpack && gulp copy-assets && gulp copy-other && gulp set-sw --trg dev2 && gulp ftp --trg dev2 --scope core",
+    "dev3": "gulp set-env-new --trg dev3 && webpack && gulp copy-assets && gulp copy-other && gulp set-sw --trg dev3 && gulp ftp --trg dev3 --scope core",
+    "prd": "gulp set-env-new --trg prd && webpack && gulp copy-assets && gulp copy-other && gulp set-sw --trg prd && gulp ftp --trg prd --scope core",
     "analyseBuild": "webpack --json > status.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cleanjs": "rimraf src/app/*.js, src/app/**/*.js, src/app/**/**/*.js"

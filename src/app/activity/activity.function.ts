@@ -1,6 +1,10 @@
 import {Measure, getSportLimit} from "../share/measure/measure.constants";
-import {ICalcMeasures, IActivityDetails} from "../../../api/activity/activity.interface";
+import {
+    ICalcMeasures, IActivityDetails, IActivityIntervalP,
+    IActivityIntervalPW
+} from "../../../api/activity/activity.interface";
 import {copy} from 'angular';
+import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 
 export class MeasureChartData {
 
@@ -68,3 +72,37 @@ export class MeasureChartData {
 
     }
 }
+
+/**
+ * Тренировка имеет план?
+ * @param item
+ */
+export const isSpecifiedActivity = (item: ICalendarItem):boolean => {
+    let intervalP: Array<IActivityIntervalP> = <Array<IActivityIntervalP>>item.activityHeader.intervals.filter(i => i.type === 'P');
+    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
+    return (!!intervalP && intervalP.length > 0) ||
+        (!!intervalPW && (intervalPW.durationValue > 0 || intervalPW.intensityLevelFrom > 0));
+};
+
+/**
+ * Тренировака является выполненной?
+ * @param item
+ * @returns {boolean}
+ */
+export const isCompletedActivity = (item: ICalendarItem):boolean => {
+    let intervalW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'W')[0];
+    return (!!intervalW && Object.keys(intervalW.calcMeasures)
+            .filter(m => intervalW.calcMeasures[m]['value'] || intervalW.calcMeasures[m]['minValue'] ||
+                intervalW.calcMeasures[m]['maxValue'] || intervalW.calcMeasures[m]['avgValue']).length > 0);
+};
+
+/**
+ * Очиащем фактические данные по тренировке
+ * @param item
+ * @returns {ICalendarItem}
+ */
+export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
+    item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
+    delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    return item;
+};

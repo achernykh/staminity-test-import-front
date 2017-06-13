@@ -94,8 +94,10 @@ calendar-day {
   * that he's actually moving it.
   */
   section[dnd-list] .dndDraggingSource {
-    display: none;
+    //opacity: 0.5;
+    //display: none;
   }
+
 
   /**
   * An element with .dndPlaceholder class will be
