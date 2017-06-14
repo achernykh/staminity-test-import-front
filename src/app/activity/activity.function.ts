@@ -14,7 +14,7 @@ export class MeasureChartData {
 
     public measuresX: Array<string> = ['distance', 'elapsedDuration'];
     public measuresY: Array<string> = ['heartRate', 'speed', 'power','altitude'];
-    private measuresSecondary: Array<string> = ['timestamp'];
+    private measuresSecondary: Array<string> = ['timestamp','duration'];
 
     /**
      *

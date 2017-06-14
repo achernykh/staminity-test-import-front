@@ -217,6 +217,7 @@ class ActivityChartController implements IComponentController {
         // precalculate and cache chart scales for all metrics
         this.scales = {
             elapsedDuration: this.getScale("elapsedDuration", ScaleType.X),
+            duration: this.getScale("duration", ScaleType.X),
             distance: this.getScale("distance", ScaleType.X),
             speed: this.getScale("speed", ScaleType.Y),
             power: this.getScale("power", ScaleType.Y),
@@ -323,13 +324,15 @@ class ActivityChartController implements IComponentController {
             //.interpolate('monotone')
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
-            .y1(function (d) { return rangeScale(d[metric]); });
+            .y1(function (d) { return rangeScale(d[metric]); })
+            .curve(d3.curveBasis);
         let initArea = d3.area()
             .defined(this.isDataDefined)
             //.interpolate('monotone')
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
-            .y1(function () { return bottomRange; });
+            .y1(function () { return bottomRange; })
+            .curve(d3.curveBasis);
 
         let metricChart = this.$interactiveArea
             .append("path")
@@ -894,12 +897,12 @@ class ActivityChartController implements IComponentController {
         //console.log('isDataDefined', d,i);
         //return !!d;
         //return d > 0;
-        return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
+        //debugger;
+        //return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
         //return d['speed'] !== 1000;
-        /**
-         * (d['elapsedDuration'] > this.chartData.getData(i-1)['elapsedDuration']) &&
-         (d['duration'] > this.chartData.getData(i-1)['duration']);
-         */
+
+         return i !== 0 && (d['elapsedDuration'] > this.chartData.getData(i-1)['elapsedDuration']) &&
+            (d['duration'] > this.chartData.getData(i-1)['duration']);
     }
 
     private getFillColor(areaSettings: IAreaSettings): string {

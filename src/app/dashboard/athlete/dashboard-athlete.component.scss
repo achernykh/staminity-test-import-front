@@ -7,8 +7,25 @@ dashboard-athlete {
   -webkit-box-sizing: border-box;
 
   display: inline-block;
-  width: 130px;
+  width: 60px;
   vertical-align: top;
+
+  div.content {
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 60px;
+      height: 100%;
+      z-index: 0;
+      background-color: $grey-300;
+      border-right: 1px solid $grey-300;
+    }
+
+  }
 
   &:before {
     content: none;
@@ -16,7 +33,7 @@ dashboard-athlete {
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 130px;
+    width: 40px;
     height: 100%;
     z-index: 1;
     border-right: 1px solid $grey-400;
@@ -32,12 +49,12 @@ dashboard-athlete {
 
   md-menu.menu button{
     //visibility: hidden;
-    padding: 0px !important;
-    margin: 0px !important;
-    width: 18px !important;
-    height: 18px !important;
-    min-width: 18px !important;
-    min-height: 18px !important;
+    //padding: 0px !important;
+   //margin: 0px !important;
+    //width: 18px !important;
+    //height: 18px !important;
+    //min-width: 18px !important;
+    //min-height: 18px !important;
 
     &:hover {
 

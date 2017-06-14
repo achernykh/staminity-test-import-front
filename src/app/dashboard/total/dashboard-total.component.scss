@@ -6,7 +6,7 @@ dashboard-total {
   -webkit-box-sizing: border-box;
 
   display: inline-block;
-  width: 12.8%;
+  width: 11.5%;
   vertical-align: top;
 
   &:after {
@@ -15,13 +15,13 @@ dashboard-total {
     position: absolute;
     top: 0px;
     right: 0px;
-    width: 12.8%;
+    width: 11.8%;
     height: 100%;
     z-index: 1;
-    border-left: 1px solid $grey-400;
+    border-left: 1px solid $grey-300;
   }
 
-  padding: 0px 6px 8px 6px;
+  padding: 0px 0px 0px 0px;
   transition: all 0s ease-in-out 0s;
 
   md-icon.md-18, md-icon.s18{

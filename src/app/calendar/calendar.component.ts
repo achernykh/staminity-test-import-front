@@ -539,11 +539,14 @@ export class CalendarCtrl implements IComponentController{
             }
         }));
 
+        let inSelection: boolean = (selected && selected.length > 0) && selected.some(s => items.some(i => i.calendarItemId === s.calendarItemId));
+
+        debugger;
+
         this.dialogs.confirm('deletePlanActivity')
-            .then(() => this.CalendarService.deleteItem('F',
-                (items && items.length > 0) ? items.map(item => item.calendarItemId) : selected.map(item => item.calendarItemId))
+            .then(() => this.CalendarService.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
                 .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))
-                .then(()=> this.clearBuffer()));
+                .then(()=> inSelection && this.clearBuffer()));
 
         ;
     }

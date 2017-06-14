@@ -197,7 +197,7 @@ export const _display_view = {
 	// Настройка страницы: Настройки пользователя ../dashboard
 	dashboard: {
 		background: {
-			style: 'light-grey',
+			style: 'application-light', //'landing-background',
 			toolbar: true,
 			size: '160'
 		},

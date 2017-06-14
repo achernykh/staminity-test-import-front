@@ -1,9 +1,11 @@
 <div class="activity-header {{::$ctrl.activity.status}}" ng-click="$ctrl.onOpen($env,'view')"
      layout="row" layout-align="">
     <section flex="none" class="first-column" layout="column" layout-align="space-between start">
-        <md-icon flex="none" md-svg-src="/assets/icon/{{::$ctrl.activity.sportBasic}}.svg" style="margin-left: 4px"
-                 class="s24 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}} sport"></md-icon>
-        <md-menu flex="none" class="menu">
+        <div flex="none" layout="row" layout-align="center center" class="bg-circle-24 bg-blue-grey-A700">
+            <md-icon flex="none" md-svg-src="/assets/icon/{{::$ctrl.activity.sportBasic}}.svg" style="margin-left: 4px"
+                     class="s18 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}} sport"></md-icon>
+        </div>
+        <md-menu flex="none" class="menu" ng-if="false">
             <md-button class="md-icon-button" aria-label="More Event"
                        ng-click="$mdOpenMenu($event)">
                 <md-icon class="material-icons md-18 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}}">menu</md-icon>
@@ -15,16 +17,16 @@
             </md-menu-content>
         </md-menu>
     </section>
-    <section flex="auto" class="second-column" layout="column" layout-align="space-between end">
-        <div flex="none" class="md-caption duration" ng-if="::(!!$ctrl.activity.movingDuration || $ctrl.activity.distance)">
-            <div flex="none" ng-if="::$ctrl.activity.movingDuration">
-                {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.sportBasic:'movingDuration'}}</div>
-            <div flex="none" ng-if="::$ctrl.activity.distance">
-                <span>&nbsp&nbsp</span>
-                {{::$ctrl.activity.distance | measureCalc:$ctrl.activity.sportBasic:'distance'}}&nbsp
-                {{'distance' | measureUnit:$ctrl.activity.sportBasic | translate}}</div>
-        </div>
+    <section flex="auto" class="second-column" layout="column" layout-align="start start">
         <div flex="none" class="md-caption category" ng-if="::$ctrl.activity.categoryCode">
-            {{'category.'+$ctrl.activity.categoryCode | translate}}</div>
+            {{'category.'+$ctrl.activity.categoryCode | translate}}
+        </div>
+        <div flex="none" class="md-body-2 tight-02 line-14 font-medium duration " ng-if="::(!!$ctrl.activity.movingDuration || $ctrl.activity.distance)">
+            <span flex="none" ng-if="::$ctrl.activity.movingDuration">
+                {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.sportBasic:'movingDuration'}}</span>
+            <span flex="none" ng-if="::$ctrl.activity.distance">
+                &nbsp{{::$ctrl.activity.distance | measureCalc:$ctrl.activity.sportBasic:'distance'}}
+                {{'distance' | measureUnit:$ctrl.activity.sportBasic | translate}}</span>
+        </div>
     </section>
 </div>

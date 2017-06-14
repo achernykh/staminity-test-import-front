@@ -44,7 +44,7 @@ dashboard {
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
       display:inline-block;
-      width: 130px;
+      width: 40px;
       display:inline-block;
       vertical-align:top;
       padding-left: 12px;
@@ -94,7 +94,7 @@ dashboard {
     position: relative; //todo проверит производительность
     display:block;
     min-height: 40px;
-    border-bottom: 1px solid $grey-400;
+    border-bottom: 1px solid $grey-300;
 
     @media(max-width: 959px){
       padding: 0;
