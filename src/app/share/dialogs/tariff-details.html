@@ -53,7 +53,7 @@
                 <md-list-item ng-if="$ctrl.fixedFee.promo.discount">
                     <span>{{ 'settings.billing.promoDiscount'| translate }}</span>
                     <span flex></span>
-                    <span class="font-bold">{{ (1 - $ctrl.fixedFee.promo.discount) * 100 | number:2 }}%</span>
+                    <span class="font-bold">{{ $ctrl.fixedFee.promo.discount }}%</span>
                 </md-list-item>
 
                 <md-subheader ng-repeat-start="fee in $ctrl.variableFees" class="md-no-sticky">{{ 'settings.billing.group.' + fee.varGroup | translate }}</md-subheader>

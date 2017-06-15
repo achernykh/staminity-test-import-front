@@ -346,7 +346,7 @@ function SelectUsersController ($scope, $mdDialog, users, message) {
 SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'message'];
 
 
-function EnableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing) {
+function EnableTariffController($scope, $mdDialog, BillingService, dialogs, message, user, tariff, billing) {
     this.tariff = tariff;
     this.user = user;
 
@@ -419,7 +419,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, message, user
     console.log('EnableTariffController', this);
 }
 
-EnableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing'];
+EnableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'dialogs', 'message', 'user', 'tariff', 'billing'];
 
 
 function DisableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing, $translate) {
@@ -468,7 +468,6 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
     this.tariffStatus = BillingService.tariffStatus(tariff);
     this.tariffIsOwn = !BillingService.tariffEnablerClub(tariff) && !BillingService.tariffEnablerCoach(tariff);
 
-    this.autoRenewal = true;
     this.promoCode = '';
     this.rejectedPromoCode = '';
 
@@ -497,6 +496,7 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
         this.fixedFee = this.getFixedFee();
         this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
         this.activePromo = this.getActivePromo(billing);
+        this.autoRenewal = this.fixedFee.autoRenewal;
     };
 
     this.setBilling(billing);
@@ -600,7 +600,7 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     };
 
     this.submit = () => {
-        return Promie.resolve(this.paymentSystem !== this.getPaymentSystem())
+        return Promise.resolve(this.paymentSystem !== this.getPaymentSystem())
             .then((needUpdate) => needUpdate && this.changePaymentSystem(this.paymentSystem))
             .then(this.pay);
     };

@@ -71,7 +71,7 @@
                         <tr md-row ng-if="fixedFee.promoDiscount">
                             <td md-cell></td>
                             <td md-cell>{{ 'settings.billing.promoDiscount' | translate }}</td>
-                            <td md-cell class="font-bold text-right text-accent">- {{ fixedFee.promoDiscount | number:2 }}</td>
+                            <td md-cell class="font-bold text-right text-accent">{{ fixedFee.promoDiscount | number:2 }}</td>
                         </tr>
                         <tr md-row
                             ng-repeat-start="fee in $ctrl.variableFees(tariff)" 
@@ -97,7 +97,7 @@
                         <tr md-row ng-repeat-end ng-if="fee.promoDiscount">
                             <td md-cell></td>
                             <td md-cell>{{ 'settings.billing.promoDiscount' | translate }}</td>
-                            <td md-cell class="font-bold text-right text-accent">- {{ fee.promoDiscount | number:2 }}</td>
+                            <td md-cell class="font-bold text-right text-accent">{{ fee.promoDiscount | number:2 }}</td>
                         </tr>
                         <tr md-row ng-repeat-end ng-hide="true"></tr>
                         <tr md-row class="bg-blue-grey-400">
