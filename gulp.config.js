@@ -1,12 +1,12 @@
-var port = process.env.PORT;
+const port = process.env.PORT;
 
-var src = 'src/',
+const src = 'src/',
     bower = 'bower_components/',
     npm = 'node_modules/',
     dist = 'dist/',
     build = 'build/';
 
-var jsLibs = [
+const jsLibs = [
     npm+"angular/angular.js",
     //bower+"angular-component-router/angular_1_router.js",
     npm+"angular-animate/angular-animate.js",
@@ -43,7 +43,7 @@ var jsLibs = [
     npm+'smDateTimeRangePicker/src/picker.js'
 ];
 
-var cssLibs = [
+const cssLibs = [
     npm+"normalize-css/normalize.css",
     npm+"angular-material/angular-material.min.css",
     npm+"animate.css/animate.min.css",
@@ -55,7 +55,7 @@ var cssLibs = [
     //bower+"angular-material-date-picker/dist/am-date-picker.min.css"
 ];
 
-var backend = {
+const backend = {
     build: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
@@ -91,7 +91,7 @@ var backend = {
         content: 'https://app.staminity.com',
         frontend: 'https://staminity.com/'
     }
-}
+};
 
 module.exports = {
     gulp: './gulp.config.js',

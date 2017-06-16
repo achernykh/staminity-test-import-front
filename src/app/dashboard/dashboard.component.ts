@@ -18,14 +18,15 @@ export interface IDashboardWeek {
         subItem: IDashboardDay[];
         changes: number; // счетчик изменений внутри недели
     }>;
-};
+}
 
 export interface IDashboardDay {
     data: {
         calendarItems: Array<ICalendarItem>;
     };
     date: Date;
-};
+}
+
 export class DashboardCtrl implements IComponentController {
 
     public coach: IUserProfile;
@@ -40,6 +41,8 @@ export class DashboardCtrl implements IComponentController {
     private currentWeek: number = 0;
     private weekdayNames: Array<string> = [];
 
+    public selectedAthletes: Array<number> = [];
+
     static $inject = ['$scope','$mdDialog','CalendarService','SessionService', 'message'];
 
     constructor(
@@ -53,6 +56,16 @@ export class DashboardCtrl implements IComponentController {
 
     toolbarDate() {
         return new Date(moment(this.currentDate).format(this.dateFormat));
+    }
+
+    onSelectAthlete(select: boolean, id: number){
+        debugger;
+        let ind: number = this.selectedAthletes.indexOf(id);
+        if (select) {
+            this.selectedAthletes.push(id);
+        } else {
+            this.selectedAthletes.splice(ind,1);
+        }
     }
 
     $onInit() {
@@ -240,6 +253,10 @@ export class DashboardCtrl implements IComponentController {
             }, ()=> {
                 console.log('user cancel dialog, data=');
             });
+    }
+
+    onSelectWeek(select: boolean, id: number) {
+
     }
 
 }

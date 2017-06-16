@@ -15,8 +15,7 @@ dashboard-activity {
     border-radius: 12px;
   }
 
-  .activity-header {
-    //@extend .md-whiteframe-1dp;
+  div.activity {
     margin-right: 1px;
     margin-bottom: 1px;
     border-radius: 0px;
@@ -28,31 +27,9 @@ dashboard-activity {
         visibility: visible;
       }
     }
-
     &:focus {
       outline:0;
     }
-
-    section.first-column {
-      margin-right: 8px;
-    }
-
-    section.second-column {
-      width: calc(100% - 32px);
-    }
-
-    div.category, div.duration {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      width: 100%;
-    }
-
-    div.duration {
-      text-transform: lowercase;
-    }
-
-    // Задание выполнено без отклонений
     &.complete {
       color: white;
       @extend .bg-teal-500;
@@ -102,7 +79,6 @@ dashboard-activity {
         }
       }
     }
-
     &.dismiss {
       @extend .bg-red-600;
       color: white;
@@ -122,7 +98,6 @@ dashboard-activity {
         }
       }
     }
-
     &.not-specified {
       @extend .bg-blue-grey-500;
       color: white;
@@ -164,6 +139,30 @@ dashboard-activity {
 
   }
 
+  header {
+    section.first-column {
+      margin-right: 8px;
+    }
+
+    section.second-column {
+      width: calc(100% - 32px);
+    }
+
+    div.category, div.duration {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    div.duration {
+      text-transform: lowercase;
+    }
+  }
+  footer {
+    display: none;
+  }
+
   md-menu.menu button{
     visibility: hidden;
     padding: 0px !important;
@@ -179,4 +178,10 @@ dashboard-activity {
 
   }
 
+}
+
+div.dashboard-week.selected footer.descriptions {
+  display: block;
+  padding-top: 8px;
+  //background-color: red;
 }

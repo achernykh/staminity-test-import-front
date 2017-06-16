@@ -6,7 +6,7 @@ dashboard-total {
   -webkit-box-sizing: border-box;
 
   display: inline-block;
-  width: 11.5%;
+  width: auto;
   vertical-align: top;
 
   &:after {
@@ -15,7 +15,7 @@ dashboard-total {
     position: absolute;
     top: 0px;
     right: 0px;
-    width: 11.8%;
+    width: 11.1%;
     height: 100%;
     z-index: 1;
     border-left: 1px solid $grey-300;
@@ -33,7 +33,7 @@ dashboard-total {
   }
 
   section.sum {
-    padding: 12px 0px;
+    padding: 4px 0px;
   }
 
   section.sport-sum {

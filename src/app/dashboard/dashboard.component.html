@@ -20,8 +20,14 @@
                 <div class="total" hide show-gt-md>Итоги</div>
             </md-toolbar>
             <section class="dashboard-grid bg-grey-200">
-                <div class="dashboard-week" ng-repeat="calendar in $ctrl.dashboard.calendar track by $index">
-                    <dashboard-athlete class="athlete" profile="calendar.profile"></dashboard-athlete>
+                <div class="dashboard-week"
+                     ng-repeat="calendar in $ctrl.dashboard.calendar track by $index"
+                     ng-class="{'selected': $ctrl.selectedAthletes.indexOf(calendar.profile.userId) !== -1}">
+                    <dashboard-athlete class="athlete"
+                                       profile="calendar.profile"
+                                       selected="$ctrl.selectedAthletes.indexOf(calendar.profile.userId) !== -1"
+                                       on-select="calendar.selected = !calendar.selected">
+                    </dashboard-athlete>
                     <dashboard-day class="day" ng-repeat="day in calendar.subItem track by $index" day="day" athlete="calendar.profile">
                     </dashboard-day>
                     <dashboard-total class="total" week="calendar" update="calendar.changes" hide show-gt-md>

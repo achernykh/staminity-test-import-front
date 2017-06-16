@@ -1,0 +1,48 @@
+<md-card class="animated fadeInUp medium" md-theme="dark">
+    <md-card-title>
+        <h2 class="md-title">Установка пароля</h2>
+    </md-card-title>
+
+    <form flex="none" ng-submit='$ctrl.putInvite()'
+          novalidate name="$ctrl.inviteForm">
+        <md-list>
+            <md-list-item>
+                <p class="md-caption conf" translate>auth.confirmation</p>
+                <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
+                             class="md-primary md-secondary"
+                             ng-disabled="!$ctrl.enabled"
+                             style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
+                </md-checkbox>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container md-no-float class="no-message">
+                    <input required type="password" name="password1" ng-model="$ctrl.credentials.password"
+                           ng-pattern="$ctrl.passwordStrength"
+                           ng-disabled="!$ctrl.enabled"
+                           placeholder="{{ 'auth.pass' | translate }}">
+                    <div ng-messages="$ctrl.inviteForm.password1.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container md-no-float class="no-message">
+                    <input required type="password" name="password2" ng-model="$ctrl.password2"
+                           ng-pattern="$ctrl.passwordStrength"
+                           ng-disabled="!$ctrl.enabled"
+                           placeholder="{{ 'auth.pass' | translate }}">
+                    <div ng-messages="$ctrl.inviteForm.password2.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-button ng-disabled="!$ctrl.inviteForm.$valid || !$ctrl.enabled" class="md-raised submit" type="submit"
+                           ng-class="{'md-primary': $ctrl.inviteForm.$valid && !ul.auth, 'md-disabled': $ctrl.inviteForm.$error}"
+                           translate='auth.invite.button'
+                           aria-label="PutInvite Button"></md-button>
+            </md-list-item>
+        </md-list>
+    </form>
+
+</md-card>

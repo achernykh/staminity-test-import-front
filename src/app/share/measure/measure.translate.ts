@@ -48,6 +48,7 @@ export const _MEASURE_TRANSLATE = {
 
 		//
 		FTP: 'ПАНО',
+		ATP: 'АнП',
 		minValue: 'Минимум',
 		maxValue: 'Максимум',
 

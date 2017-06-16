@@ -2,7 +2,7 @@
     <div class="md-toolbar-tools">
         <h2 translate="athlete-invitation.header"></h2>
         <span flex></span>
-        <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
             <md-icon class="material-icons md-dark">close</md-icon>
         </md-button>
     </div>
@@ -25,12 +25,12 @@
 
             <td md-cell>
                 <md-input-container>
-                    <input ng-model="user.firstName" required autocomplete="off" maxlength="30">
+                    <input ng-model="user.public.firstName" required autocomplete="off" maxlength="30">
                 </md-input-container>
             </td>
             <td md-cell>
                 <md-input-container>
-                    <input ng-model="user.lastName" required autocomplete="off" maxlength="30">
+                    <input ng-model="user.public.lastName" required autocomplete="off" maxlength="30">
                 </md-input-container>
             </td>
             <td md-cell>
@@ -44,5 +44,5 @@
     </table>
 </md-table-container>
 <md-dialog-actions flex="none" layout="row">
-    <md-button ng-click="confirm()" translate="athlete-invitation.go"></md-button>
+    <md-button ng-click="$ctrl.invite()" translate="athlete-invitation.go"></md-button>
 </md-dialog-actions>

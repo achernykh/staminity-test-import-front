@@ -15,6 +15,7 @@ class DashboardActivityCtrl implements IComponentController {
 
     private isOwner: boolean = false;
     private isCreator: boolean = false;
+    private bottomPanelData: any = null;
 
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = ['$mdDialog','message'];
@@ -29,6 +30,10 @@ class DashboardActivityCtrl implements IComponentController {
 
         this.isOwner = this.activity.userProfileOwner.userId === this.dashboard.coach.userId;
         this.isCreator = this.activity.userProfileCreator.userId === this.dashboard.coach.userId;
+
+        if (this.activity.bottomPanel === 'data') {
+            this.bottomPanelData = this.activity.summaryAvg;
+        }
 
     }
 

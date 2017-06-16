@@ -1,5 +1,5 @@
-<div layout="row" layout-align="space-between start" class="content">
-    <section flex="none" class="first-column" layout="column" layout-align="space-between center">
+<section layout="row" layout-align="center start" class="avatar">
+
         <md-menu flex="none" class="menu">
             <md-button class="md-icon-button" aria-label="More Event"
                        ng-click="$mdOpenMenu($event)">
@@ -10,11 +10,14 @@
                 <md-menu-item><md-button ng-click="$ctrl.$state.go('settings/user',{uri: $ctrl.profile.public.uri})" translate="dashboard.settings"></md-button></md-menu-item>
             </md-menu-content>
         </md-menu>
-        <md-checkbox flex="none"></md-checkbox>
-    </section>
+
     <section flex="auto" class="second-column" layout="column" layout-align="space-between end" ng-if="false">
         <div flex="none"></div>
         <div flex="none" class="md-caption" style="text-align: right">{{$ctrl.profile | username}}</div>
     </section>
-
-</div>
+</section>
+<section class="panel" layout="column" layout-align="end center" layout-fill>
+    <div flex="auto"></div>
+    <md-checkbox flex="none" ng-model="$ctrl.selected"
+                 ng-change="$ctrl.dashboard.onSelectAthlete($ctrl.selected, $ctrl.profile.userId)"></md-checkbox>
+</section>
