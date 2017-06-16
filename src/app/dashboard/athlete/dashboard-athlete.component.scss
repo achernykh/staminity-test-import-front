@@ -1,5 +1,9 @@
 @import "../../../sass/color";
 
+div.dashboard-week.selected section.avatar:before, div.dashboard-week.selected section.panel:after {
+  background-color: $grey-100;
+}
+
 dashboard-athlete {
 
   box-sizing: border-box;

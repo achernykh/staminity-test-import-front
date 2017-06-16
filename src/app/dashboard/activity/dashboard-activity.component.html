@@ -4,7 +4,7 @@
         <section flex="none" class="first-column" layout="column" layout-align="space-between start">
             <div flex="none" layout="row" layout-align="center center" class="bg-circle-24 bg-blue-grey-A700">
                 <md-icon flex="none" md-svg-src="/assets/icon/{{::$ctrl.activity.sportBasic}}.svg" style="margin-left: 4px"
-                         class="s18 {{::$ctrl.activity.status === 'coming'? 'md-dark' : 'md-light'}} sport"></md-icon>
+                         class="s18 sport md-light"></md-icon>
             </div>
             <md-menu flex="none" class="menu" ng-if="false">
                 <md-button class="md-icon-button" aria-label="More Event"
@@ -59,14 +59,14 @@
              class="md-caption"
              ng-if="::($ctrl.bottomPanelData.length > 0)">
             <div flex="none">
-                <md-icon class="material-icons md-18"
-                         style="margin-right: 8px">timer</md-icon>
+                <md-icon class="material-icons md-18 md-light"
+                         style="margin-right: 8px; margin-left: 4px">timer</md-icon>
             </div>
-            <div flex layout="row" layout-wrap="true" class="md-caption secondary dark"
-                 style="margin-top: 2px; font-size: 12px; line-height: 16px">
+            <div flex layout="row" layout-wrap="true" class="md-caption md-light"
+                 style="margin-top: 2px; font-size: 12px; line-height: 16px; margin-left: 4px;">
                 <div flex="none" ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind">
                     {{::obj.value | measureCalc:$ctrl.activity.sportBasic:obj.measure}}
-                    <span flex="none" class="disable dark">&nbsp{{::obj.measure | measureUnit:$ctrl.activity.sportBasic | translate}}&nbsp</span>
+                    <span flex="none" class="md-light">&nbsp{{::obj.measure | measureUnit:$ctrl.activity.sportBasic | translate}}&nbsp</span>
                 </div>
             </div>
         </div>

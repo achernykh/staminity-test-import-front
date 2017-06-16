@@ -13,12 +13,22 @@ dashboard {
   section.application-toolbar {
     color: white;
     max-width: 1440px;
-    //position: absolute;
-    //width: 100%;
-    //top: 0px;
-    //height: 30px;
-    //background-color: blue;
     margin: auto;
+
+    md-menu-bar {
+      display: inline;
+      padding-left: 0px;
+
+      span.md-caption {
+        color: white;
+      }
+
+      .md-open span.md-caption {
+        color: black;
+      }
+
+    }
+
   }
 
   section.content {
@@ -105,7 +115,7 @@ dashboard {
     transition: all 1s ease-in-out 0s;
 
     &.selected {
-      background-color: $blue-grey-100;
+      background-color: $grey-100;
       max-height: 900px;
 
       div.post-panel {

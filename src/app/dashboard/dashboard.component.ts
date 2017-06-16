@@ -9,6 +9,7 @@ import {IGroupManagementProfile, IUserManagementProfile} from "../../../api/grou
 import { times } from '../share/util.js';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {Activity} from "../activity/activity.datamodel";
+import {IStorageService} from "../core/storage.service";
 
 export interface IDashboardWeek {
     sid: number;
@@ -40,17 +41,19 @@ export class DashboardCtrl implements IComponentController {
     private currentDate: Date = new Date();
     private currentWeek: number = 0;
     private weekdayNames: Array<string> = [];
+    private selectedAthletes: Array<number> = [];
+    private viewAthletes: Array<number> = [];
+    private orderAthletes: Array<number> = [];
 
-    public selectedAthletes: Array<number> = [];
-
-    static $inject = ['$scope','$mdDialog','CalendarService','SessionService', 'message'];
+    static $inject = ['$scope','$mdDialog','CalendarService','SessionService', 'message','storage'];
 
     constructor(
         private $scope: IScope,
         private $mdDialog: any,
         private calendar: CalendarService,
         private session: ISessionService,
-        private message: IMessageService) {
+        private message: IMessageService,
+        private storage: IStorageService) {
 
     }
 
@@ -58,14 +61,57 @@ export class DashboardCtrl implements IComponentController {
         return new Date(moment(this.currentDate).format(this.dateFormat));
     }
 
-    onSelectAthlete(select: boolean, id: number){
+    changeOrder(up: boolean){
+        let from: Array<number> = this.selectedAthletes.map(a => this.orderAthletes.indexOf(a));
+        let to: Array<number> = from.map(a => up ?
+            this.orderAthletes.indexOf(this.viewAthletes[this.viewAthletes.indexOf(this.orderAthletes[a])-1]) :
+            this.orderAthletes.indexOf(this.viewAthletes[this.viewAthletes.indexOf(this.orderAthletes[a])+1]));
+
+        if((up && this.viewAthletes.indexOf(this.orderAthletes[from[0]]) === 0) ||
+            (!up && this.viewAthletes.indexOf(this.orderAthletes[from[0]]) === this.viewAthletes.length - 1)){
+            debugger;
+            return;
+        }
+
         debugger;
+
+        from.forEach((pos,i) => {
+            let temp: number = this.orderAthletes[to[i]];
+            this.orderAthletes[to[i]] = this.orderAthletes[pos];
+            this.orderAthletes[pos] = temp;
+        });
+
+        this.viewAthletes.sort((a,b) => this.orderAthletes.indexOf(a) - this.orderAthletes.indexOf(b));
+
+        this.storage.set('dashboard_orderAthletes',this.orderAthletes);
+        this.storage.set('dashboard_viewAthletes',this.viewAthletes);
+
+    }
+
+
+    isVisible(id: number){
+        return this.viewAthletes.indexOf(id) !== -1;
+    }
+
+    setVisible(view: boolean, id: number){
+        let ind: number = this.viewAthletes.indexOf(id);
+        if (view) {
+            this.viewAthletes.push(id);
+        } else {
+            this.viewAthletes.splice(ind,1);
+        }
+        this.storage.set('dashboard_viewAthletes',this.viewAthletes);
+    }
+
+
+    onSelectAthlete(select: boolean, id: number){
         let ind: number = this.selectedAthletes.indexOf(id);
         if (select) {
             this.selectedAthletes.push(id);
         } else {
             this.selectedAthletes.splice(ind,1);
         }
+        this.storage.set('dashboard_selectedAthletes',this.selectedAthletes);
     }
 
     $onInit() {
@@ -74,6 +120,23 @@ export class DashboardCtrl implements IComponentController {
         this.currentWeek = 0;
         this.currentDate = moment().startOf('week');
         this.getData(this.currentDate);
+
+        this.viewAthletes = this.storage.get('dashboard_viewAthletes') || this.athletes.members.map(p => p.userProfile.userId);
+        this.orderAthletes = this.storage.get('dashboard_orderAthletes') || this.athletes.members.map(p => p.userProfile.userId);
+        this.selectedAthletes = this.storage.get('dashboard_selectedAthletes') || [];
+
+        this.$scope['filter'] = (calendar) => {
+            return this.isVisible(calendar.profile.userId);
+        };
+
+        this.$scope['order'] = (calendar) => {
+            return this.orderAthletes.indexOf(calendar.profile.userId);
+        };
+
+        this.athletes.members.forEach(p => {
+            p['view'] = this.isVisible(p.userProfile.userId);
+            p['order'] = (this.orderAthletes.indexOf(p.userProfile.userId)+1)*100;
+        });
 
         this.calendar.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&

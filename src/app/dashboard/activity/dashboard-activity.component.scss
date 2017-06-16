@@ -122,7 +122,7 @@ dashboard-activity {
       color: rgba(0,0,0,0.54);
 
       .bg-circle-24 {
-        @extend .bg-grey-600;
+        @extend .bg-grey-500;
       }
 
       #more {
@@ -130,9 +130,9 @@ dashboard-activity {
       }
 
       &:hover, &.selected{
-        @extend .bg-grey-500;
+        @extend .bg-grey-400;
         .bg-circle-24 {
-          @extend .bg-grey-800;
+          @extend .bg-grey-600;
         }
       }
     }
