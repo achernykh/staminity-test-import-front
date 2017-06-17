@@ -4,6 +4,7 @@ import AuthService from "../../auth/auth.service";
 import {IAuthService} from "../../auth/auth.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {UserCredentials} from "../../../../api/auth/auth.request";
+import MessageService from "../../core/message.service";
 
 class AthleteInvitationCtrl implements IComponentController {
 
@@ -41,9 +42,9 @@ class AthleteInvitationCtrl implements IComponentController {
         pageSelect: false
     };
 
-    static $inject = ['$scope', 'AuthService'];
+    static $inject = ['$scope', 'AuthService', 'message'];
 
-    constructor(private $scope: any, private AuthService: IAuthService) {
+    constructor(private $scope: any, private AuthService: IAuthService, private message: MessageService) {
 
     }
 
@@ -56,7 +57,12 @@ class AthleteInvitationCtrl implements IComponentController {
         let users = this.users.filter(u => u.email && u.public.firstName && u.public.lastName);
         if (users && users.length > 0) {
             this.AuthService.inviteUsers(this.coach.connections.Athletes.groupId,users)
-                .then((result)=>{debugger;}, (error)=>{debugger;});
+                .then((result)=>{
+                    if(result.hasOwnProperty('resultArray') && result.resultArray.every(r => r.status === 'I' || r.status === 'A')) {
+                        this.message.toastInfo('inviteSuccess');
+                        this.onCancel();
+                    }
+                }, (error)=>{debugger;});
         }
     }
 }

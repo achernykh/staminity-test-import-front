@@ -82,7 +82,7 @@ dashboard {
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
       display:inline-block;
-      width: 12.8%;
+      //width: 12.8%;
       display:inline-block;
       vertical-align:top;
       padding-left: 12px;
@@ -148,7 +148,7 @@ dashboard {
     @media (min-width: 1439px){
       left: 2%;
       width: 96%;
-      height: calc(100% - 10px);
+      height: calc(100%);
     }
 
   }

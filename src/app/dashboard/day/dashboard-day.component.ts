@@ -52,8 +52,8 @@ class DashboardDayCtrl implements IComponentController {
             .then(response => {
                 if(response.type === 'post') {
                     console.log('save activity', response);
-                    this.dashboard.onPostItem(response.item);
-                    this.message.toastInfo('Создана новая запись');
+                    //this.dashboard.onPostItem(response.item);
+                    //this.message.toastInfo('Создана новая запись');
                 }
             }, ()=> {
                 console.log('user cancel dialog');

@@ -6,7 +6,7 @@ dashboard-total {
   -webkit-box-sizing: border-box;
 
   display: inline-block;
-  width: auto;
+  width: 11.2%;
   vertical-align: top;
 
   &:after {
@@ -14,8 +14,8 @@ dashboard-total {
     display: block;
     position: absolute;
     top: 0px;
-    right: 0px;
-    width: 11.1%;
+    left: calc(60px + 83%);
+    width: 11.2%;
     height: 100%;
     z-index: 1;
     border-left: 1px solid $grey-300;

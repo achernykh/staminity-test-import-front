@@ -1,6 +1,6 @@
 export const _translateAthleteInvitation = {
     ru: {
-        header: 'Пригласить ателтов',
+        header: 'Пригласить атлeтов',
         go: 'Пригласить'
     },
     en: {

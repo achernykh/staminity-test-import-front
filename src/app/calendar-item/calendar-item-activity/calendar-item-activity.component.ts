@@ -245,13 +245,17 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     setDetailsTab(initiator: SelectInitiator, loading: boolean):void {
+        //debugger;
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
         if (this.selectedTab !== HeaderTab.Details && this.isPro) {
             this.selectedTab = HeaderTab.Details;
         }
-        if(initiator === 'details') {
-            this.$scope.$digest();
+        if(initiator === 'details' || initiator === 'splits') {
+            this.$scope.$evalAsync();
+            /**if(!this.$scope.$$phase){
+                this.$scope.$apply();
+            }**/
         }
     }
 
