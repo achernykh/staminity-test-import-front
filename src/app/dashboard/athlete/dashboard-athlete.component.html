@@ -3,6 +3,7 @@
         <md-menu flex="none" class="menu">
             <md-button class="md-icon-button" aria-label="More Event"
                        ng-click="$mdOpenMenu($event)">
+                <md-tooltip md-direction="right">{{::$ctrl.profile | username}}</md-tooltip>
                 <userpic flex="none" profile="$ctrl.profile"></userpic>
             </md-button>
             <md-menu-content>

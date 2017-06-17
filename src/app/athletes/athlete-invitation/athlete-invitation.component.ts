@@ -53,7 +53,6 @@ class AthleteInvitationCtrl implements IComponentController {
     }
 
     invite() {
-        debugger;
         let users = this.users.filter(u => u.email && u.public.firstName && u.public.lastName);
         if (users && users.length > 0) {
             this.AuthService.inviteUsers(this.coach.connections.Athletes.groupId,users)
