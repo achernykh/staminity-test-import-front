@@ -35,7 +35,7 @@ export default class BillingService {
      * @param paymentSystem
      * @returns {Promise<any>}
      */
-    enableTariff(
+    enableTariff (
         tariffId: number,
         userIdReceiver: number,
         term: number,
@@ -55,7 +55,7 @@ export default class BillingService {
      * @param promoCode
      * @returns {Promise<any>}
      */
-    updateTariff(
+    updateTariff (
         tariffId: number,
         autoRenewal: boolean,
         promoCode: string
@@ -68,14 +68,14 @@ export default class BillingService {
      * @param userIdReceiver
      * @returns {Promise<any>}
      */
-    disableTariff(tariffId: number, userIdReceiver: number) : Promise<any> {
+    disableTariff (tariffId: number, userIdReceiver: number) : Promise<any> {
         return this.SocketService.send(new DeleteTariffSubscription(tariffId, userIdReceiver));
     }
 
     /**
      * @returns {Promise<[IBill]]>}
      */
-    getBillsList() : Promise<[IBill]> {
+    getBillsList () : Promise<[IBill]> {
         return this.SocketService.send(new GetBill(new Date(0), new Date()))
             .then((data) => data.arrayResult);
     }
@@ -85,7 +85,7 @@ export default class BillingService {
      * @param userIdReceiver
      * @returns {Promise<any>}
      */
-    getBillDetails(billId: number) : Promise<any> {
+    getBillDetails (billId: number) : Promise<any> {
         return this.SocketService.send(new GetBillDetails(billId, true));
     }
 
@@ -94,8 +94,17 @@ export default class BillingService {
      * @param paymentSystem
      * @returns {Promise<any>}
      */
-    updatePaymentSystem(billId: number, paymentSystem: string) : Promise<any> {
+    updatePaymentSystem (billId: number, paymentSystem: string) : Promise<any> {
         return this.SocketService.send(new PutProcessingCenter(billId, paymentSystem));
+    }
+
+    /**
+     * @param checkoutUrl
+     * @returns {Promise<any>}
+     */
+    checkout (checkoutUrl: string) : Promise<any> {
+        window.open(checkoutUrl, '_blank');
+        return Promise.resolve();
     }
 
     /**
@@ -119,14 +128,18 @@ export default class BillingService {
      * @returns 'enabled' | enabledByCoach' | 'enabledByClub' | 'notEnabled' | 'cancelledByEnabler' | 'expired' | 'disabled' | 'trial' | 'unpaid'
      */
     tariffStatus (tariff) : string {
-        return tariff.isEnabled? (
-            tariff.isTrial && 'trial' ||
-            this.tariffEnablerClub(tariff) && 'enabledByClub' ||
-            this.tariffEnablerCoach(tariff) && 'enabledByCoach' ||
-            'enabled'
-        ) : (
-            tariff.unpaidBill && 'unpaid' ||
-            'notEnabled'
+        let tariffEnablerClub = this.tariffEnablerClub(tariff);
+        let tariffEnablerCoach = this.tariffEnablerCoach(tariff);
+
+        return (
+            tariff.isOn && tariff.expireDate && !this.tariffEnablerCoach(tariff) && 'enabled' ||
+            tariffEnablerClub && 'enabledByClub' ||
+            tariffEnablerCoach && 'enabledByCoach' ||
+            !tariff.isOn && 'notEnabled' &&
+            tariff.isTrial && tariff.expireDate && 'trial' ||
+            !tariff.isTrial && tariff.expireDate && 'isPaid' ||
+            tariff.isBlocked && 'isBlocked' ||
+            tariff.unpaidBill && 'isBlocked' 
         );
     }
 

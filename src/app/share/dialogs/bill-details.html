@@ -87,7 +87,7 @@
                         <tr md-row ng-class="{'md-dark': !fee.transactions.length}">
                             <td md-cell></td>
                             <td md-cell>{{ 'settings.billing.group.' + fee.varGroup | translate }}</td>
-                            <td md-cell class="font-bold text-right">{{ fee.initialAmount | number:2}}</td>
+                            <td md-cell class="font-bold text-right">{{ fee.initialAmount | number:2 }}</td>
                         </tr>
                         <tr md-row ng-if="fee.volumeDiscount">
                             <td md-cell></td>
@@ -130,7 +130,7 @@
             }}</md-button>
             <span flex></span>
             <span ng-switch-when="ready">
-                <md-button ng-click="$ctrl.submit()" class="md-accent">{{ 
+                <md-button ng-click="$ctrl.submit()" class="md-accent" ng-disabled="!$ctrl.bill.payment">{{ 
                     'settings.billing.payTheBill' | translate:{amount:($ctrl.bill.totalAmount | currency:$ctrl.bill.currency)} 
                 }}</md-button>
             </span>

@@ -42,7 +42,7 @@
                 <md-switch
                     ng-model="$ctrl.tariffIsEnabled(tariff)"
                     ng-model-options="{getterSetter: true}"
-                    ng-disabled="!$ctrl.tariffIsOwn(tariff) || tariff.unpaidBill"
+                    ng-disabled="!$ctrl.isAvailable"
                 >
                 </md-switch>
             </md-list-item>

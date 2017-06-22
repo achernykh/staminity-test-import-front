@@ -32,11 +32,12 @@
                 <md-subheader class="md-no-sticky">{{ 'settings.billing.subscriptionFees' | translate }}</md-subheader>
                 <md-list-item layout="row">
                     <span>{{ 'settings.billing.periodically.' + $ctrl.fee.term | translate }}</span>
+                    <span ng-if="$ctrl.fee.promo.discount" class="font-bold"> ({{ $ctrl.fee.promo.discount }}%)</span>
                     <span flex></span>
                     <span ng-if="!$ctrl.fee.promo.discount" class="font-bold">{{$ctrl.fee.rate | currency:$ctrl.fee.currency}} / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}</span>
                     <span ng-if="$ctrl.fee.promo.discount" class="font-bold">
                         <span class="text-crossed-out">{{$ctrl.fee.rate | currency:$ctrl.fee.currency}}</span> 
-                        <span class="text-accent">{{$ctrl.fee.promo.discount * $ctrl.fee.rate | currency:$ctrl.fee.currency}}</span> / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}
+                        <span class="text-accent">{{ $ctrl.discountedFee($ctrl.fee) | currency:$ctrl.fee.currency}}</span> / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}
                     </span>
                 </md-list-item>
 
@@ -44,11 +45,12 @@
                     <md-subheader class="md-no-sticky">{{ 'settings.billing.group.' + fee.varGroup | translate }}</md-subheader>
                     <md-list-item ng-if="!fee.varFreeCount && !$ctrl.hasMaxPaidCount(fee)" layout="row">
                         <span>{{ 'settings.billing.eachInGroup.' + fee.varGroup | translate }}</span>
+                        <span ng-if="fee.promo.discount" class="font-bold"> ({{ fee.promo.discount }}%)</span>
                         <span flex></span>
-                        <span ng-if="!fee.promo.discount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
+                        <span ng-if="!fee.promo.discount" class="font-bold">{{ fee.rate | currency:fee.currency }} / {{ 'settings.billing.dayly' | translate }}</span>
                         <span ng-if="fee.promo.discount" class="font-bold">
-                            <span class="text-crossed-out">{{fee.rate | currency:fee.currency}}</span> 
-                            <span class="text-accent">{{fee.promo.discount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
+                            <span class="text-crossed-out">{{ fee.rate | currency:fee.currency }}</span> 
+                            <span class="text-accent">{{ $ctrl.discountedFee(fee) | currency:fee.currency }}</span> / {{ 'settings.billing.dayly' | translate }}
                         </span>
                     </md-list-item>
                     <md-list-item ng-if="fee.varFreeCount" layout="row">
@@ -56,31 +58,16 @@
                         <span flex></span>
                         <span class="font-bold">{{ 'settings.billing.free' | translate }}</span>
                     </md-list-item>
-                    <md-list-item ng-if="fee.varFreeCount && !$ctrl.hasMaxPaidCount(fee)" layout="row">
-                        <span>{{ 'settings.billing.eachInGroupAbove' | translate:{above:fee.varFreeCount + 1} }}</span>
+                    <md-list-item layout="row">
+                        <span ng-if="!fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupBelow' | translate:{below:varMaxPaidCount - 1} }}</span>
+                        <span ng-if="fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupBetween' | translate:{from:fee.varFreeCount + 1,to:fee.varMaxPaidCount} }}</span>
+                        <span ng-if="fee.varFreeCount && !$ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupAbove' | translate:{above:fee.varFreeCount + 1} }}</span>
+                        <span ng-if="fee.promo.discount" class="font-bold"> ({{ fee.promo.discount }}%)</span>
                         <span flex></span>
                         <span ng-if="!fee.promo.discount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
                         <span ng-if="fee.promo.discount" class="font-bold">
                             <span class="text-crossed-out">{{fee.rate | currency:fee.currency}}</span> 
-                            <span class="text-accent"">{{fee.promo.discount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
-                        </span>
-                    </md-list-item>
-                    <md-list-item ng-if="fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)" layout="row">
-                        <span>{{ 'settings.billing.eachInGroupBetween' | translate:{from:fee.varFreeCount + 1,to:fee.varMaxPaidCount} }}</span>
-                        <span flex></span>
-                        <span ng-if="!fee.promo.discount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
-                        <span ng-if="fee.promo.discount" class="font-bold">
-                            <span class="text-crossed-out">{{fee.rate | currency:fee.currency}}</span> 
-                            <span class="text-accent">{{fee.promo.discount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
-                        </span>
-                    </md-list-item>
-                    <md-list-item ng-if="!fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)" layout="row">
-                        <span>{{ 'settings.billing.eachInGroupBelow' | translate:{below:varMaxPaidCount - 1} }}</span>
-                        <span flex></span>
-                        <span ng-if="!fee.promo.discount.discount" class="font-bold">{{fee.rate | currency:fee.currency}} / {{ 'settings.billing.dayly' | translate }}</span>
-                        <span ng-if="fee.promo.discount" class="font-bold">
-                            <span class="text-crossed-out">{{fee.rate | currency:fee.currency}}</span> 
-                            <span class="text-accent">{{fee.promo.discount * fee.rate | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
+                            <span class="text-accent">{{ $ctrl.discountedFee(fee) | currency:fee.currency}}</span> / {{ 'settings.billing.dayly' | translate }}
                         </span>
                     </md-list-item>
                     <md-list-item ng-if="$ctrl.hasMaxPaidCount(fee)" layout="row">

@@ -355,6 +355,8 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
     this.rejectedPromoCode = '';
     this.paymentSystem = 'fondy';
 
+    this.discountedFee = (fee) => fee.rate * (1 + fee.promo.discount / 100);
+
     this.hasMaxPaidCount = (fee) => {
         return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
     };
@@ -396,6 +398,12 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
         $mdDialog.cancel();
     };
 
+    this.pay = (bill) => {
+        let checkoutUrl = maybe(bill) (prop('payment')) (prop('checkoutUrl')) ();
+        
+        return checkoutUrl && dialogs.iframe(checkoutUrl, 'Оплатить');
+    };
+
     this.submit = function () {
         BillingService.enableTariff(
             tariff.tariffId, 
@@ -405,10 +413,9 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
             this.billing.trialConditions.isAvailable,
             maybe(this.activePromo) (prop('code')) (),
             this.paymentSystem
-        ).then((bill) => {
-            return maybe(bill) (prop('payment')) (prop('checkoutUrl')) 
-                ((url) => dialogs.iframe(url, 'Оплатить')) ();
-        }).then(() => {
+        )
+        .then(this.pay)
+        .then(() => {
             $mdDialog.hide();
         }, (info) => {
             message.systemWarning(info);
@@ -461,7 +468,7 @@ function DisableTariffController($scope, $mdDialog, BillingService, message, use
 DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing', '$translate'];
 
 
-function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, message, tariff, billing) {
+function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, message, tariff, billing) {
     this.tariff = tariff;
     this.billing = billing;
 
@@ -470,6 +477,8 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
 
     this.promoCode = '';
     this.rejectedPromoCode = '';
+
+    this.discountedFee = (fee) => fee.rate * (1 + fee.promo.discount / 100);
 
     this.getFixedFee = () => {
         return this.billing.rates.find(fee => fee.rateType === 'Fixed');
@@ -505,8 +514,12 @@ function TariffDetailsController($scope, $mdDialog, dialogs, BillingService, mes
         BillingService.getTariff(tariff.tariffId, promoCode)
         .then((billing) => {
             console.log('submitPromo', billing);
-            this.setBilling(billing);
-            this.rejectedPromoCode = this.activePromo? '' : promoCode;
+            if (this.getActivePromo(billing)) {
+                this.setBilling(billing);
+                this.rejectedPromoCode = '';
+            } else {
+                this.rejectedPromoCode = promoCode;
+            }
             this.promoCode = '';
             $scope.$apply();
         }, (info) => {
@@ -584,13 +597,17 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     };
 
     this.changePaymentSystem = (paymentSystem) => {
-        return BillingService.updatePaymenntSystem(this.bill.billId, paymentSystem)
-            .then((bill) => this.setBill(bill));
+        return BillingService.updatePaymentSystem(this.bill.billId, paymentSystem)
+            .then((bill) => this.setBill(bill), (info) => {
+                message.systemWarning(info);
+                throw info;
+            });
     };
 
     this.pay = () => {
-        return maybe(this.bill) (prop('payment')) (prop('checkoutUrl')) 
-            ((url) => dialogs.iframe(url, 'Оплатить')) ()
+        let checkoutUrl = maybe(this.bill) (prop('payment')) (prop('checkoutUrl')) ();
+
+        return checkoutUrl && BillingService.checkout(checkoutUrl)
             .then(() => {
                 $mdDialog.hide();
             }, (info) => {

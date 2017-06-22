@@ -197,36 +197,30 @@ export const _translate = {
             status: "Статус",
             tariffStatuses: {
                 enabled: "Подключен до {{until}}",
-                enabledByCoach: "Подключен за счет тренера {{coach}}",
-                enabledByClub: "Подключен за счет клуба {{club}}",
-                notEnabled: "Не подключен",
-                cancelledByEnabler: "Отключен",
-                expired: "Отключен",
-                disabled: "Оплачен до {{until}}",
+                enabledByClub: "Подключен за счет тренера {{coach}}",
+                enabledByCoach: "Подключен за счет клуба {{club}}",
+                notEnabled: "Отключен",
+                isPaid: "Оплачен до {{until}}",
                 trial: "Пробный период до {{until}}",
-                unpaid: "Функции заблокированы, необходима оплата счета"
+                isBlocked: "Функции заблокированы, необходима оплата счета"
             },
             tariffStatusesIsEnabled: {
-                enabled: 'Подключен',
-                enabledByCoach: 'Подключен',
-                enabledByClub: 'Подключен',
-                notEnabled: "Не подключен",
-                cancelledByEnabler: "Отключен",
-                expired: "Отключен",
-                disabled: "Отключен",
+                enabled: "Подключен",
+                enabledByClub: "Подключен",
+                enabledByCoach: "Подключен",
+                notEnabled: "Отключен",
+                isPaid: "Оплачен",
                 trial: "Пробный период",
-                unpaid: "Ожидает оплаты"
+                isBlocked: "Ожидает оплаты"
             },
             tariffStatusesEnablers: {
                 enabled: "За свой счёт",
+                enabledByClub: "За счет тренера {{coach}}",
+                enabledByCoach: "За счет клуба {{club}}",
                 notEnabled: "За свой счёт",
-                cancelledByEnabler: "За свой счёт",
-                expired: "За свой счёт",
-                disabled: "За свой счёт",
+                isPaid: "За свой счёт",
                 trial: "За свой счёт",
-                unpaid: "За свой счёт",
-                enabledByUser: "За счет тренера {{coach}}",
-                enabledByClub: "За счет клуба {{club}}"
+                isBlocked: "За свой счёт"
             },
             subscriptionDate: "Дата подключения",
             subscriptionEnds: "Срок действия",

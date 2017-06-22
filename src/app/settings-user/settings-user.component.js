@@ -475,14 +475,10 @@ class SettingsUserCtrl {
         return this.BillingService.tariffStatus(tariff);
     }
 
-    tariffIsOwn (tariff) {
-        return !this.BillingService.tariffEnablerClub(tariff) && !this.BillingService.tariffEnablerCoach(tariff);
-    }
-
     tariffIsEnabled (tariff) {
-        return (isEnabled) => {
-            if (typeof isEnabled === 'undefined') {
-                return tariff.isEnabled;
+        return (isOn) => {
+            if (typeof isOn === 'undefined') {
+                return tariff.isOn;
             }
 
             return tariff.isEnabled? this.disableTariff(tariff) : this.enableTariff(tariff);
