@@ -63,6 +63,14 @@
     <md-card class="profile-content md-body-1" layout-padding="8">
         <div class="md-caption">О клубе</div>
         <div style="white-space: pre-wrap;">{{ $ctrl.club.public.about ||"Информация не указана" }}</div>
+        <div class="md-caption" translate>user.price</div>
+        <div style="white-space: pre-wrap;">{{ $ctrl.club.public.price || "Информация не указана" }}</div>
+        <div class="md-caption" translate>user.contact</div>
+        <div style="white-space: pre-wrap;">{{ $ctrl.club.public.contact || "Информация не указана" }}</div>
+        <div class="md-caption" translate>user.athletes</div>
+        <div style="white-space: pre-wrap;">{{ $ctrl.club.public.athletes || "Информация не указана" }}</div>
+        <div style="white-space: pre-wrap;">{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.club.public.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</div>
+
         <div class="md-caption">Состав</div>
         <div ng-if="$ctrl.club.innerGroups">
             <md-button ng-disabled="!$ctrl.club.innerGroups.ClubCoaches.groupMembers.length" ng-click="$ctrl.showCoaches()">

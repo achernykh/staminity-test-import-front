@@ -29,7 +29,7 @@ export interface ISocketService {
     open(token:string): Promise<number>;
     response(event:any);
     reopen(event:any);
-    close();
+    close(ev: CloseEvent | {reason: string});
     send(request:IWSRequest): Promise<any>;
     messages: Subject<any>;
     connections: Subject<any>;
@@ -50,7 +50,7 @@ export class SocketService implements ISocketService {
     private requests: Array<any> = [];
     private requestId: number = 1;
     private lastHeartBit: number = null; // timestamp последнего heart bit от сервера
-    private readonly heartBitTimeout: number = 20 * 1000; // 20 секунд
+    private readonly heartBitTimeout: number = 30 * 1000; // 30 секунд
     private reopenTimeout: number = 0.5; // в секундах
     private responseTimeout: number = 5.0; // сек
     private readonly responseLimit: {} = { // лимиты ожидания по отдельным запросам (сек)
@@ -89,25 +89,34 @@ export class SocketService implements ISocketService {
             if (!this.socket || (this.socket.readyState !== SocketStatus.Open &&
                 this.socket.readyState !== SocketStatus.Connecting)) {
 
-                console.log('SocketService: opening...');
                 this.socket = new WebSocket(_connection.protocol.ws + _connection.server + '/' + token);
-                this.socket.addEventListener('message', this.response.bind(this));
-                this.socket.addEventListener('close', this.close.bind(this)); //reopen?
-                this.socket.addEventListener('error', this.reopen.bind(this));
-                
-                Observable.fromEvent(this.socket, 'open')
-                    .subscribe(this.connections);
-                
-                Observable.fromEvent(this.socket, 'message')
-                    .map((message: any) => JSON.parse(message.data))
-                    .subscribe(this.messages);
+
+                if (this.socket.readyState !== SocketStatus.Close && this.socket.readyState !== SocketStatus.Closing) {
+                    this.socket.addEventListener('message', this.response.bind(this));
+                    this.socket.addEventListener('close', this.close.bind(this)); //reopen?
+                    this.socket.addEventListener('error', this.reopen.bind(this));
+
+                    Observable.fromEvent(this.socket, 'open')
+                        .subscribe(this.connections);
+
+                    Observable.fromEvent(this.socket, 'message')
+                        .map((message: any) => JSON.parse(message.data))
+                        .subscribe(this.messages);
+                } else {
+                    console.log('SocketService: error open connection');
+                }
+
             }
 
             let onOpen = () => {
-                if (this.socket.readyState === SocketStatus.Closing) {
-                    reject(this.socket.readyState);
-                } else if (this.socket.readyState === SocketStatus.Open) {
-                    resolve(this.socket.readyState);
+                switch (this.socket.readyState) {
+                    case SocketStatus.Open: {
+                        resolve(this.socket.readyState);
+                        break;
+                    }
+                    default: {
+                        reject(this.socket.readyState);
+                    }
                 }
             };
 
@@ -128,6 +137,8 @@ export class SocketService implements ISocketService {
         
         if (this.requests[response.requestId]) {
             let callback:any = this.requests[response.requestId];
+            this.lastHeartBit = Date.now();
+
             if (response['errorMessage']) {
                 callback.reject(response.errorMessage);
             } else {
@@ -137,14 +148,12 @@ export class SocketService implements ISocketService {
             this.loader.hide();
         } else {
             if (response.hasOwnProperty('errorMessage') && response.errorMessage === 'badToken') {
-                this.close('badToken');
-                this.$state.go('signin');
+                this.close({reason: response.errorMessage});
             }
             if (response.hasOwnProperty('type') && response['type'] === 'hb') {
                 let timeStamp = Date.now();
                 if (this.lastHeartBit && (timeStamp - this.lastHeartBit) >= this.heartBitTimeout) {
-                    this.close('lostHeartBit');
-                    console.log(this.socket.readyState);
+                    this.close({reason: 'lostHeartBit'}); // TODO reopen?
                 }
                 this.lastHeartBit = Date.now();
             }
@@ -156,7 +165,8 @@ export class SocketService implements ISocketService {
      * @param event
      */
     reopen(event:any){
-        console.log('SocketService: reopen ', event, event.type);
+        console.log('SocketService: reopen ', event);
+        debugger;
 
         if(event.type === 'error'){
             setTimeout(()=> this.open(), this.reopenTimeout++ * 1000);
@@ -168,13 +178,36 @@ export class SocketService implements ISocketService {
     /**
      * Закрываем websocket сессию
      */
-    close (reason = 'signout') {
-        if (reason === 'badToken') {
-            this.message.toastInfo(reason);
+    close (ev: CloseEvent | any) {
+        console.log('SocketService: close ', ev, typeof ev);
+        if (typeof ev === 'CloseEvent') {
+            debugger;
+            return;
         }
-        if(this.socket){
-            this.socket.close(3000,reason);
+
+        this.socket.removeEventListener('message', this.response.bind(this));
+        this.socket.removeEventListener('close', this.close.bind(this));
+        this.socket.removeEventListener('error', this.reopen.bind(this));
+        this.socket.close(3000, ev.reason);
+        this.lastHeartBit = null;
+
+        switch (ev.reason) {
+            case 'badToken': {
+                this.message.toastInfo(ev.reason);
+                this.$state.go('signin');
+                break;
+            }
+            case 'lostHeartBit': {
+                this.reopen({type: 'close'});
+                break;
+            }
         }
+
+        /**if(this.socket){
+            this.socket.close(3000,ev.reason);
+        } else {
+
+        }**/
     }
 
     /**
@@ -186,13 +219,19 @@ export class SocketService implements ISocketService {
      */
     send(request:IWSRequest):Promise<any> {
 
+        if (this.lastHeartBit && (Date.now() - this.lastHeartBit) >= this.heartBitTimeout) {
+            this.close({reason: 'lostHeartBit'});
+            //debugger;
+            //return this.send(request);
+        }
+
         return this.open()
             .then(() => {
                 request.requestId = this.requestId++;
                 this.socket.send(JSON.stringify(request));
                 let deferred = this.$q.defer();
                 this.requests[request.requestId] = deferred;
-                console.log('SocketService.send=', JSON.stringify(request), this.requests, deferred);
+                //console.log('SocketService.send=', JSON.stringify(request), this.requests, deferred);
                 this.loader.show();
 
                 setTimeout(() => {
@@ -204,6 +243,6 @@ export class SocketService implements ISocketService {
                 }, (this.responseLimit[request.requestType] || this.responseTimeout) * 1000);
 
                 return deferred.promise;
-            }, () => Promise.reject('sessionClosed'));
+            }, () => Promise.reject('internetConnectionLost'));
     }
 }
