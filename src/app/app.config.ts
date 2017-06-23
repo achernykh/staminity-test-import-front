@@ -17,10 +17,13 @@ function configure(
 
     $anchorScrollProvider.disableAutoScrolling();
     let isProductionBuild: boolean = __ENV !== "build";
-	$locationProvider.html5Mode({
-		enabled: true,
+
+	/**$locationProvider.html5Mode({
+		enabled: false,
 		requireBase: false
-	});
+	});**/
+	$locationProvider.html5Mode(true);
+	$locationProvider.hashPrefix('!');
 
 	$urlRouterProvider.otherwise('/');
 	$compileProvider.debugInfoEnabled(!isProductionBuild);
