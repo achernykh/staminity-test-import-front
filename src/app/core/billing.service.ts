@@ -135,7 +135,7 @@ export default class BillingService {
             tariff.isOn && tariff.expireDate && !this.tariffEnablerCoach(tariff) && 'enabled' ||
             tariffEnablerClub && 'enabledByClub' ||
             tariffEnablerCoach && 'enabledByCoach' ||
-            !tariff.isOn && 'notEnabled' &&
+            !tariff.isOn && 'notEnabled' ||
             tariff.isTrial && tariff.expireDate && 'trial' ||
             !tariff.isTrial && tariff.expireDate && 'isPaid' ||
             tariff.isBlocked && 'isBlocked' ||
