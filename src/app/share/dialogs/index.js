@@ -5,10 +5,11 @@ import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
 
 export default class DialogsService {
     
-    constructor ($mdDialog, $mdMedia, BillingService) {
+    constructor ($mdDialog, $mdMedia, BillingService, message) {
         this.$mdDialog = $mdDialog;
         this.$mdMedia = $mdMedia;
         this.BillingService = BillingService;
+        this.message = message;
     }
     
     uploadPicture () {
@@ -86,6 +87,10 @@ export default class DialogsService {
                 locals: { user, tariff },
                 resolve: {
                     billing: () => this.BillingService.getTariff(tariff.tariffId, '')
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
                 },
                 controller: EnableTariffController,
                 controllerAs: '$ctrl',
@@ -104,6 +109,10 @@ export default class DialogsService {
                 locals: { user, tariff },
                 resolve: {
                     billing: () => this.BillingService.getTariff(tariff.tariffId, '')
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
                 },
                 controller: DisableTariffController,
                 controllerAs: '$ctrl',
@@ -122,6 +131,10 @@ export default class DialogsService {
                 locals: { tariff },
                 resolve: {
                     billing: () => this.BillingService.getTariff(tariff.tariffId, '')
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
                 },
                 controller: TariffDetailsController,
                 controllerAs: '$ctrl',
@@ -140,6 +153,10 @@ export default class DialogsService {
                 locals: { user },
                 resolve: {
                     bills: () => this.BillingService.getBillsList()
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
                 },
                 controller: BillsListController,
                 controllerAs: '$ctrl',
@@ -158,6 +175,10 @@ export default class DialogsService {
                 locals: { user },
                 resolve: {
                     bill: () => this.BillingService.getBillDetails(bill.billId)
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
                 },
                 controller: BillDetailsController,
                 controllerAs: '$ctrl',
@@ -173,7 +194,7 @@ export default class DialogsService {
 
     feeDetails (fee, bill) {
         return this.$mdDialog.show({
-            locals: {  fee, bill },
+            locals: { fee, bill },
             controller: FeeDetailsController,
             controllerAs: '$ctrl',
             template: require('./fee-details.html'),
@@ -203,7 +224,7 @@ export default class DialogsService {
     }
 }
 
-DialogsService.$inject = ['$mdDialog', '$mdMedia', 'BillingService'];
+DialogsService.$inject = ['$mdDialog', '$mdMedia', 'BillingService', 'message'];
 
 
 function ConfirmDialogController($scope, $mdDialog, message) {
@@ -400,8 +421,14 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
 
     this.pay = (bill) => {
         let checkoutUrl = maybe(bill) (prop('payment')) (prop('checkoutUrl')) ();
-        
-        return checkoutUrl && dialogs.iframe(checkoutUrl, 'Оплатить');
+
+        return checkoutUrl && BillingService.checkout(checkoutUrl)
+            .then(() => {
+                $mdDialog.hide();
+            }, (info) => {
+                message.systemWarning(info);
+                throw info;
+            });
     };
 
     this.submit = function () {

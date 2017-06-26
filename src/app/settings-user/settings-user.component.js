@@ -481,7 +481,7 @@ class SettingsUserCtrl {
                 return tariff.isOn;
             }
 
-            return tariff.isEnabled? this.disableTariff(tariff) : this.enableTariff(tariff);
+            return tariff.isOn? this.disableTariff(tariff) : this.enableTariff(tariff);
         }
     }
 

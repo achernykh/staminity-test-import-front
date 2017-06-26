@@ -50,7 +50,7 @@
                     <span ng-if="!$ctrl.fixedFee.promo.discount" class="font-bold">{{ $ctrl.fixedFee.rate | currency:$ctrl.fixedFee.currency }} / {{ 'settings.billing.term.' + $ctrl.fixedFee.term | translate }}</span>
                     <span ng-if="$ctrl.fixedFee.promo.discount" class="font-bold">
                         <span class="text-crossed-out">{{ $ctrl.fixedFee.rate }}</span> 
-                        <span class="text-accent">{{ $ctrl.discountedFee($ctrl.fixedFee) | currency:$ctrl.fixedFee.currency }}</span> / {{ 'settings.billing.dayly' | translate }}
+                        <span class="text-accent">{{ $ctrl.discountedFee($ctrl.fixedFee) | currency:$ctrl.fixedFee.currency }}</span> / {{ 'settings.billing.term.' + $ctrl.fixedFee.term | translate }}
                     </span>
                 </md-list-item>
                 <md-list-item ng-if="$ctrl.fixedFee.promo.discount">
@@ -92,6 +92,7 @@
                         <span flex></span>
                         <span class="font-bold">{{ 'settings.billing.free' | translate }}</span>
                     </md-list-item>
+
                     <md-list-item>
                         <span>{{ 'settings.billing.connections'| translate }}</span>
                         <span flex></span>

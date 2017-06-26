@@ -34,9 +34,9 @@
                     <span>{{ 'settings.billing.periodically.' + $ctrl.fee.term | translate }}</span>
                     <span ng-if="$ctrl.fee.promo.discount" class="font-bold"> ({{ $ctrl.fee.promo.discount }}%)</span>
                     <span flex></span>
-                    <span ng-if="!$ctrl.fee.promo.discount" class="font-bold">{{$ctrl.fee.rate | currency:$ctrl.fee.currency}} / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}</span>
+                    <span ng-if="!$ctrl.fee.promo.discount" class="font-bold">{{ $ctrl.fee.rate | currency:$ctrl.fee.currency }} / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}</span>
                     <span ng-if="$ctrl.fee.promo.discount" class="font-bold">
-                        <span class="text-crossed-out">{{$ctrl.fee.rate | currency:$ctrl.fee.currency}}</span> 
+                        <span class="text-crossed-out">{{ $ctrl.fee.rate | currency:$ctrl.fee.currency }}</span> 
                         <span class="text-accent">{{ $ctrl.discountedFee($ctrl.fee) | currency:$ctrl.fee.currency}}</span> / {{ 'settings.billing.term.' + $ctrl.fee.term | translate }}
                     </span>
                 </md-list-item>
@@ -58,7 +58,7 @@
                         <span flex></span>
                         <span class="font-bold">{{ 'settings.billing.free' | translate }}</span>
                     </md-list-item>
-                    <md-list-item layout="row">
+                    <md-list-item ng-if="fee.varFreeCount || $ctrl.hasMaxPaidCount(fee)" layout="row">
                         <span ng-if="!fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupBelow' | translate:{below:varMaxPaidCount - 1} }}</span>
                         <span ng-if="fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupBetween' | translate:{from:fee.varFreeCount + 1,to:fee.varMaxPaidCount} }}</span>
                         <span ng-if="fee.varFreeCount && !$ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupAbove' | translate:{above:fee.varFreeCount + 1} }}</span>
