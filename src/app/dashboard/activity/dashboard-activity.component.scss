@@ -4,6 +4,7 @@
 dashboard-activity {
   cursor: pointer;
   @extend .bg-grey-400;
+  margin-bottom: 2px;
 
   md-icon.sport {
     margin: 0px !important;
@@ -16,8 +17,8 @@ dashboard-activity {
   }
 
   div.activity {
-    margin-right: 1px;
-    margin-bottom: 1px;
+    //margin-right: 1px;
+    //margin-bottom: 1px;
     border-radius: 0px;
     padding: 8px;
 

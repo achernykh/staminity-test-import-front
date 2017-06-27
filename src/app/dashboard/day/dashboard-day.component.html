@@ -1,8 +1,9 @@
-<dashboard-activity ng-repeat="item in $ctrl.day.data.calendarItems | filter:{calendarItemType: 'activity'} track by item.index"
+<dashboard-activity flex="none"
+                    ng-repeat="item in $ctrl.day.data.calendarItems | filter:{calendarItemType: 'activity'} track by item.index"
                     item="item" athlete="$ctrl.athlete" class="dashboard-activity">
 </dashboard-activity>
-
-<div layout="row" layout-align="center center" flex="grow" hide show-gt-sm
+<div flex></div>
+<div flex="none" layout="row" layout-align="center center" hide show-gt-sm
      class="post-panel" ng-class="{show: $ctrl.accent}">
     <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More"
                 ng-click="$ctrl.postItem($event,$ctrl.day.date)">

@@ -13,10 +13,12 @@ dashboard-athlete {
   display: inline-block;
   width: 60px;
   vertical-align: top;
+  background-color: #E9E9E9;
+  border-right: 1px solid $grey-300;
 
   section.avatar {
-    height: 50px;
-    &:before {
+    //height: 50px;
+    /**&:before {
       content: "";
       display: block;
       position: absolute;
@@ -27,18 +29,23 @@ dashboard-athlete {
       z-index: 0;
       background-color: #E9E9E9;
       border-right: 1px solid $grey-300;
-    }
+    }**/
     md-menu {
       z-index: 1;
     }
     button {
-      margin: 0px;
+      margin: 0px !important;
       padding: 0px;
     }
   }
 
   section.panel {
-    &:after {
+
+    md-checkbox {
+      margin-bottom: 0px;
+      margin-left: 10px;
+    }
+    /**&:after {
       content: "";
       display: block;
       position: absolute;
@@ -54,7 +61,7 @@ dashboard-athlete {
       z-index: 1;
       margin-left: 10px;
       margin-bottom: 0px;
-    }
+    }**/
   }
 
 
