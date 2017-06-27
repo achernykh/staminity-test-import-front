@@ -463,7 +463,7 @@ function DisableTariffController($scope, $mdDialog, BillingService, message, use
 
     this.counts = () => {
         return billing.rates.filter(fee => fee.rateType === 'Variable' && fee.varActualCount);
-    };    
+    };
 
     this.canDisconnect = () => {
         return !this.counts().length;
@@ -481,7 +481,8 @@ function DisableTariffController($scope, $mdDialog, BillingService, message, use
 
     this.submit = function () {
         BillingService.disableTariff(tariff.tariffId, user.userId)
-        .then(() => {
+        .then((info) => {
+            message.systemSuccess(info.value.title);
             $mdDialog.hide();
         }, (info) => {
             message.systemWarning(info);

@@ -130,7 +130,7 @@ export const _translate = {
             card: 'Карта',
             paypal: 'Paypal',
             saving: 'На {{saving}}% выгоднее',
-            autoRenewal: 'Повторять платёж',
+            autoRenewal: 'Автоматическое продление',
             conditions: 'Условия подключения',
             conditionsText: `
 Начисления по тарифу "{{tariff}}" будут объединены с начислениями по ранее подключенному тарифу.
