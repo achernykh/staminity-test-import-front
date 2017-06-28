@@ -127,6 +127,7 @@
                     <md-subheader class="md-no-sticky">{{ 'settings.billing.conditions' | translate }}</md-subheader>
                     <md-list-item>
                         <p style="white-space: pre-wrap;">{{ 'settings.billing.conditionsText' | translate:{
+                            tariff:('settings.billing.tariffs.' + tariff.tariffCode | translate),
                             validThrough:($ctrl.billing.joinBillConditions.nextBillDate | date:'dd.MM.yyyy')
                         } }}</p>
                     </md-list-item>
@@ -142,7 +143,8 @@
                 ng-if="!$ctrl.billing.joinBillConditions && !$ctrl.billing.trialConditions.isAvailable" 
                 class="md-primary" 
                 ng-click="$ctrl.submit()"
-            >{{ 'settings.billing.confirmPay' | translate:{cost:$ctrl.fee.rate * ($ctrl.fee.promo.discount || 1), currency:$ctrl.fee.currency} }}</md-button>
+                ng-disabled="!$ctrl.bill"
+            >{{ 'settings.billing.confirmPay' | translate:{ cost:$ctrl.discountedFee($ctrl.fee), currency:$ctrl.fee.currency } }}</md-button>
             <md-button 
                 ng-if="!$ctrl.billing.trialConditions.isAvailable && $ctrl.billing.joinBillConditions" 
                 class="md-primary" 

@@ -376,7 +376,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
     this.rejectedPromoCode = '';
     this.paymentSystem = 'fondy';
 
-    this.discountedFee = (fee) => fee.rate * (1 + fee.promo.discount / 100);
+    this.discountedFee = (fee) => fee.rate * (1 + (fee.promo.discount || 0) / 100);
 
     this.hasMaxPaidCount = (fee) => {
         return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
@@ -482,7 +482,7 @@ function DisableTariffController($scope, $mdDialog, BillingService, message, use
     this.submit = function () {
         BillingService.disableTariff(tariff.tariffId, user.userId)
         .then((info) => {
-            message.systemSuccess(info.value.title);
+            message.systemSuccess(info.title);
             $mdDialog.hide();
         }, (info) => {
             message.systemWarning(info);
@@ -506,7 +506,7 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
     this.promoCode = '';
     this.rejectedPromoCode = '';
 
-    this.discountedFee = (fee) => fee.rate * (1 + fee.promo.discount / 100);
+    this.discountedFee = (fee) => fee.rate * (1 + (fee.promo.discount || 0) / 100);
 
     this.getFixedFee = () => {
         return this.billing.rates.find(fee => fee.rateType === 'Fixed');

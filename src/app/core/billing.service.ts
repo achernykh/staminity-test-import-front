@@ -103,7 +103,10 @@ export default class BillingService {
      * @returns {Promise<any>}
      */
     checkout (checkoutUrl: string) : Promise<any> {
-        window.open(checkoutUrl, '_blank');
+        let [width, height] = [500, 500];
+        let left = (screen.width - width) / 2;
+        let top = (screen.height - height) / 2;
+        window.open(checkoutUrl, '_blank', `width=${width},height=${height},left=${left},top=${top}`);
         return Promise.resolve();
     }
 
