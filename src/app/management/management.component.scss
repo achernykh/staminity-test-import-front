@@ -4,11 +4,17 @@
     left: calc(50% - 600px);
     position: absolute;
     z-index: 10;
+    height: calc(100vh - 75px);
     
     @media (max-width: 959px) {
         left: 0 !important;
         width: 100% !important;
         background: white;
+    }
+
+    md-card {
+        margin: 0px;
+        height: 100%;
     }
 
     .md-errors-spacer {
