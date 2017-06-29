@@ -26,6 +26,7 @@ export interface IDashboardDay {
         calendarItems: Array<ICalendarItem>;
     };
     date: Date;
+    selected: boolean;
 }
 
 export class DashboardCtrl implements IComponentController {
@@ -203,7 +204,8 @@ export class DashboardCtrl implements IComponentController {
                                 data: {
                                     calendarItems: []
                                 },
-                                date: moment(start).add(i,'day').format(this.dateFormat)
+                                date: moment(start).add(i,'day').format(this.dateFormat),
+                                selected: false
                             })),
                             changes: 0
                         }))

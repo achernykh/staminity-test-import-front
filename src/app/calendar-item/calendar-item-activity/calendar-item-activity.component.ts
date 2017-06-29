@@ -42,6 +42,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     date: Date;
     data: any;
+    activityType: IActivityType;
     details: IActivityDetails;
     mode: string;
     activity: Activity;
@@ -105,6 +106,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'activity',
+                activityHeader: {
+                    activityType: this.activityType || {id: null, code: null, typeBasic: null},
+                },
                 dateStart: this.date,
                 dateEnd: this.date,
                 userProfileOwner: profileShort(this.user),
@@ -112,8 +116,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
             };
         }
 
-        this.activity = new Activity(this.data);
-        this.activity.prepare();
+        this.activity = new Activity(this.data, this.mode);
+        //this.activity.prepare();
 
         //Получаем детали по тренировке загруженной из внешнего источника
         if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
@@ -264,7 +268,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(mode === 'post') {
             this.onCancel();
         } else {
-            this.activity.prepare();
+            this.activity.prepare(this.mode);
         }
     }
 
@@ -332,6 +336,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
         date: '<', // в режиме создания передает дату календаря
+        activityType: '<', // если создание идет через wizard, то передаем тип тренировки
         data: '<', // в режиме просмотр/изменение передает данные по тренировке из календаря
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря

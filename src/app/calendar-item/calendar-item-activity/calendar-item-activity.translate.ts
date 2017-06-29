@@ -1,7 +1,7 @@
-export const _measurement = {
+export const _translateActivity = {
     ru: {
         toolbar: {
-            title: 'Измерение',
+            title: 'Тренировка',
             delete: 'Удалить',
             close: 'Закрыть',
             settings: 'Настроить отображение',

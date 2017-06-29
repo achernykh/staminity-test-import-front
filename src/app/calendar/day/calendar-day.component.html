@@ -23,7 +23,6 @@
         </div>
 
         <div  hide show-gt-sm flex="none"  ng-show="$ctrl.selected || $ctrl.accent">
-
             <md-menu>
                 <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
                     <md-icon class="material-icons md-18"
@@ -61,7 +60,7 @@
              dnd-list="items"
              dnd-allowed-types="['itemType']"
              dnd-drop="callback({date: $ctrl.data.date, operation: dropEffect, index: index})">
-        <div flex="100" layout-wrap ng-switch on="item.calendarItemType" ng-switch on="item.calendarItemType"
+        <div flex="100" layout-wrap ng-switch on="item.calendarItemType"
              ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index">
             <calendar-measurement ng-switch-when="measurement"
                                   layout="row" flex="auto"

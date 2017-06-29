@@ -92,8 +92,8 @@ class ActivityHeader implements IActivityHeader {
 	public activityType: IActivityType;
 	public intervals: Array<IActivityIntervalW | IActivityIntervalPW | IActivityIntervalL> = [];
 
-	constructor(date: Date = new Date()){
-		this.startTimestamp = date;
+	constructor(header?: IActivityHeader){
+		this.startTimestamp = new Date();
 		this.activityCategory = { // категория тренировки
 			id: null,
 			code: null,
@@ -104,6 +104,7 @@ class ActivityHeader implements IActivityHeader {
 				code: null,
 				typeBasic: null
 		};
+		merge(this, header);
 		this.intervals.push(new Interval('pW'), new Interval('W'));
 	}
 }
@@ -137,9 +138,9 @@ export class Activity extends CalendarItem {
 	public actualDataIsImported: boolean = false;
     private _startDate: Date;
 
-	constructor(private item: ICalendarItem){
+	constructor(private item: ICalendarItem, private method: string = 'view'){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
-		this.prepare();
+		this.prepare(method);
 	}
 
 	// Добавляем детальные данные по тренеровке
@@ -167,12 +168,12 @@ export class Activity extends CalendarItem {
 	}
 
 	// Подготовка данных для модели отображения
-	prepare() {
+	prepare(method: string) {
 		super.prepare();
 		// Если activityHeader не установлен, значит вызван режим создаения записи
 		// необходимо создать пустые интервалы и обьявить обьекты
-		if (!this.item.hasOwnProperty('activityHeader')) {
-			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
+		if (method === 'post') {
+			this.header = new ActivityHeader(this.item.activityHeader); //создаем пустую запись с интервалом pW, W
 		} else {
 			this.header = copy(this.item.activityHeader); // angular deep copy
 			// Если итервала pW нет, то создаем его

@@ -28,7 +28,7 @@ export class CalendarItem implements ICalendarItem {
 	}
 
 	// Подготовка данных для модели отображения
-	prepare() {
+	prepare(method?: string) {
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
 		this._dateStart = new Date(this.dateStart);

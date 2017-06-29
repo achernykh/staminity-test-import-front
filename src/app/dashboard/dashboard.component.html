@@ -54,8 +54,13 @@
                                        selected="$ctrl.selectedAthletes.indexOf(calendar.profile.userId) !== -1"
                                        on-select="calendar.selected = !calendar.selected">
                     </dashboard-athlete>
-                    <dashboard-day class="day" layout="column" layout-align="space-between start"
-                                   ng-repeat="day in calendar.subItem track by $index" day="day" athlete="calendar.profile">
+                    <dashboard-day class="day" ng-class="{selected: day.selected}"
+                                   layout="column" layout-align="space-between start"
+                                   ng-repeat="day in calendar.subItem track by $index"
+                                   day="day"
+                                   athlete="calendar.profile"
+                                   selected="day.selected"
+                                   on-select="day.selected = !day.selected">
                     </dashboard-day>
                     <dashboard-total class="total" week="calendar" update="calendar.changes" hide show-gt-md>
                     </dashboard-total>
