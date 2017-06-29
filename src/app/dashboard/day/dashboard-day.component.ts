@@ -61,57 +61,7 @@ class DashboardDayCtrl implements IComponentController {
             clickOutsideToClose: false,
             escapeToClose: false,
             fullscreen: true
-        })
-            .then(response => {
-                debugger;
-                if(response.type === 'post') {
-                    console.log('save activity', response);
-                    //this.dashboard.onPostItem(response.item);
-                    //this.message.toastInfo('Создана новая запись');
-                }
-            }, ()=> {
-                console.log('user cancel dialog');
-                debugger;
-            });
-    }
-
-
-    postItem2($event, date) {
-        this.$mdDialog.show({
-            controller: CalendarItemWizardSelectCtrl,
-            controllerAs: '$ctrl',
-            template:
-                `<md-dialog id="post-activity" aria-label="Activity">
-                        <calendar-item-activity
-                                layout="row" class="calendar-item-activity"
-                                date="$ctrl.date"
-                                mode="'post'"
-                                user="$ctrl.user" popup="true"
-                                on-cancel="cancel()" on-select="answer(response)">
-                        </calendar-item-activity>
-                   </md-dialog>`,
-            parent: element(document.body),
-            targetEvent: $event,
-            locals: {
-                date: new Date(date), // дата дня в формате ГГГГ-ММ-ДД
-                user: this.athlete
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: false,
-            fullscreen: true
-        })
-            .then(response => {
-                debugger;
-                if(response.type === 'post') {
-                    console.log('save activity', response);
-                    //this.dashboard.onPostItem(response.item);
-                    //this.message.toastInfo('Создана новая запись');
-                }
-            }, ()=> {
-                console.log('user cancel dialog');
-                debugger;
-            });
+        }).then(() => {}, ()=> {});
     }
 }
 

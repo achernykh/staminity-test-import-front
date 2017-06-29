@@ -36,15 +36,15 @@ class CalendarItemEventsCtrl {
     }
 
     $onInit() {
-
+        debugger;
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'event',
                 eventHeader: {
                     eventType: 'restDay'
                 },
-                dateStart: new Date(this.data.date),
-                dateEnd: new Date(this.data.date),
+                dateStart: this.data.date,
+                dateEnd: this.data.date,
                 userProfileOwner: profileShort(this.user),
                 userProfileCreator: profileShort(this.SessionService.getUser())
             };

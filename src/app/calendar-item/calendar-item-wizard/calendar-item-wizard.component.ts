@@ -7,7 +7,7 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 class CalendarItemWizardCtrl implements IComponentController {
 
     public user: IUserProfile;
-    public date: string;
+    public data: any;
     public event: any;
 
     public onSelect: (result: {itemType: string, activityType: IActivityType}) => IPromise<void>;
@@ -29,7 +29,7 @@ class CalendarItemWizardCtrl implements IComponentController {
 export class CalendarItemWizardSelectCtrl implements IComponentController {
 
     public user: IUserProfile;
-    public date: string;
+    public date: Date;
     public event: any;
 
     static $inject = ['$scope','$mdDialog'];
@@ -40,8 +40,26 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
     }
 
     answer(itemType, activityType) {
+        debugger;
         this.$mdDialog.hide(itemType);
 
+        switch (itemType) {
+            case 'activity': {
+                this.postActivity(activityType);
+                break;
+            }
+            case 'measurement': {
+                this.postMeasurement();
+                break;
+            }
+            case 'event': {
+                this.postEvent();
+                break;
+            }
+        }
+    }
+
+    postActivity(activityType: IActivityType){
         this.$mdDialog.show({
             controller: DialogCtrl,
             controllerAs: '$ctrl',
@@ -60,7 +78,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             parent: element(document.body),
             targetEvent: this.event,
             locals: {
-                date: new Date(this.date), // дата дня в формате ГГГГ-ММ-ДД
+                date: this.date, // дата дня в формате ГГГГ-ММ-ДД
                 user: this.user,
                 activityType: activityType
             },
@@ -80,9 +98,63 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
                 console.log('user cancel dialog');
                 debugger;
             });
-
-
     }
+
+    postMeasurement(){
+        this.$mdDialog.show({
+            controller: DialogCtrl,
+            controllerAs: '$ctrl',
+            template: `<calendar-item-measurement
+                            class="calendar-item-measurement"
+                            data="$ctrl.data"
+                            mode="post"
+                            user="$ctrl.user"
+                            on-cancel="cancel()" on-answer="answer(response)">
+                      </calendar-item-measurement>`,
+            parent: angular.element(document.body),
+            targetEvent: this.event,
+            locals: {
+                data: {
+                    date: this.date // дата дня в формате ГГГГ-ММ-ДД,
+                },
+                user: this.user
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: true
+        }).then(() => {}, ()=> {});
+    }
+
+    postEvent(){
+        this.$mdDialog.show({
+            controller: DialogCtrl,
+            controllerAs: '$ctrl',
+            template: `<md-dialog id="events" aria-label="Events">
+                        <calendar-item-events 
+                                flex layout="column" class="calendar-item-events"
+                                data="$ctrl.data"
+                                mode="post"
+                                user="$ctrl.user"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-events>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: this.event,
+            locals: {
+                data: {
+                    date: this.date // дата дня в формате ГГГГ-ММ-ДД,
+                },
+                user: this.user
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: true
+
+        }).then(() => {}, () => {});
+    }
+
 }
 
 const CalendarItemWizardComponent:IComponentOptions = {
