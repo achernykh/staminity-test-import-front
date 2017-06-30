@@ -50,6 +50,8 @@ class ManagementCtrl {
     }
 
     invite($event){
+
+
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -57,14 +59,14 @@ class ManagementCtrl {
                 `<md-dialog id="athlete-invitation" aria-label="Invitation">
                         <athlete-invitation
                                 flex layout="column" class=""
-                                coach="$ctrl.coach"                            
+                                group-id="$ctrl.groupId"                            
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </athlete-invitation>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                coach: this.user
+                groupId: this.club.groupId
             },
             bindToController: true,
             clickOutsideToClose: true,

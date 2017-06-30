@@ -125,7 +125,7 @@
     "angular-scroll": "^1.0.0",
     "angular-touch": "^1.6.4",
     "angular-translate": "^2.13.1",
-    "angular-ui-router": "^1.0.0-beta.3",
+    "angular-ui-router": "^1.0.3",
     "angular-websocket": "^2.0.1",
     "angularjs-scroll-glue": "^2.2.0",
     "angularjs-toaster": "^2.1.0",

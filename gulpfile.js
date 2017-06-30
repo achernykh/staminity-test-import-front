@@ -8,15 +8,12 @@ const babelify      = require('babelify');
 const ngAnnotate    = require('browserify-ngannotate');
 const sass          = require('gulp-sass');
 const autoprefixer  = require('gulp-autoprefixer');
-//const browserSync   = require('browser-sync').create();
 const server        = require('gulp-server-livereload');
 const rename        = require('gulp-rename');
 const templateCache = require('gulp-angular-templatecache');
 const uglify        = require('gulp-uglify');
 const merge         = require('merge-stream');
-//const sftp_new      = require('gulp-sftp-new');
 const gutil         = require('gulp-util');
-//const ftp           = require('gulp-ftp');
 const imagemin      = require('gulp-imagemin');
 const cssmin        = require('gulp-cssmin');
 const open          = require('gulp-open');
@@ -337,7 +334,7 @@ gulp.task('ftp', () => {
         .src(files[scope], {base: trg+'/', buffer: false})
         .pipe(order(files[scope]))
         //.pipe(conn.newer('/')) // only upload newer files
-        .pipe(conn.dest('/'));
+        .pipe(conn.dest('/www'));
         /*.pipe(gulpif(scope === 'full',
             gulp.src([trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**'],{base: trg+'/', buffer: false})
                 .pipe( conn.newer( '/' ))

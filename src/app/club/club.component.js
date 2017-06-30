@@ -14,6 +14,7 @@ class ClubCtrl {
     $onInit(){
         let user = this.UserService.profile;
         this.isManager = this.club.innerGroups.ClubManagement.groupMembers.find(m => m.userId === user.userId);
+        this.isCoach = user.public.hasOwnProperty('isCoach') && user.public.isCoach;
 
         this.subscription = this.RequestsService.requestWithClub(this.club.groupId)
                 .subscribe(() => { this.update() });

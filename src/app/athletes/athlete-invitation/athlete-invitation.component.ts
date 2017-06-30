@@ -8,7 +8,7 @@ import MessageService from "../../core/message.service";
 
 class AthleteInvitationCtrl implements IComponentController {
 
-    public coach: IUserProfile;
+    public groupId: number;
     public onEvent: (response: Object) => IPromise<void>;
     public onCancel: () => IPromise<void>;
 
@@ -54,9 +54,10 @@ class AthleteInvitationCtrl implements IComponentController {
     }
 
     invite() {
+        debugger;
         let users = this.users.filter(u => u.email && u.public.firstName && u.public.lastName);
         if (users && users.length > 0) {
-            this.AuthService.inviteUsers(this.coach.connections.Athletes.groupId,users)
+            this.AuthService.inviteUsers(this.groupId,users)
                 .then((result)=>{
                     if(result.hasOwnProperty('resultArray') && result.resultArray.every(r => r.status === 'I' || r.status === 'A')) {
                         this.message.toastInfo('inviteSuccess');
@@ -69,7 +70,7 @@ class AthleteInvitationCtrl implements IComponentController {
 
 const AthleteInvitationComponent:IComponentOptions = {
     bindings: {
-        coach: '<',
+        groupId: '<',
         onCancel: '&',
     },
     require: {
