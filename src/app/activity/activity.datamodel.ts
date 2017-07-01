@@ -5,8 +5,9 @@ import {
 	IActivityIntervalL,
 	IActivityIntervalP,
 	IActivityMeasure,
-	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityCategory, IActivityType
+	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityType
 } from "../../../api/activity/activity.interface";
+import {IActivityCategory} from '../../../api/reference/reference.interface';
 import moment from 'moment/src/moment.js';
 import {copy, merge} from 'angular';
 import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
@@ -96,8 +97,10 @@ class ActivityHeader implements IActivityHeader {
 		this.startTimestamp = date;
 		this.activityCategory = { // категория тренировки
 			id: null,
+			revision: null,
 			code: null,
-			activityTypeId: null
+			activityTypeId: null,
+			sortOrder: null
 		};
 		this.activityType = { //вид спорта
 			id: null,

@@ -69,7 +69,7 @@ class ManagementCtrl {
                 groupId: this.club.groupId
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 

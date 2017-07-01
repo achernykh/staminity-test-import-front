@@ -129,7 +129,7 @@ class AthletesCtrl {
                 groupId: this.user.connections.Athletes.groupId
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 

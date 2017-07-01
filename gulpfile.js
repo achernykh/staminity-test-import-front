@@ -202,14 +202,17 @@ gulp.task('default', ['html', 'jsLibs', 'cssLibs', 'jsApp', 'sass', 'assets'], f
 
 // Copy other: icon, locale, picture
 gulp.task('copy-other', function() {
+    'use strict';
     return gulp.src(config.src.other)
         .pipe(gulp.dest('./'+ENV));
 });
 
 // Copy assets: icon, locale, picture
 gulp.task('copy-assets', function() {
+    'use strict';
+    let trg = ENV || gutil.env['trg'];
     return gulp.src(config.src.assets)
-        .pipe(gulp.dest('./'+ENV+'/assets'));
+        .pipe(gulp.dest('./'+trg+'/assets'));
 });
 
 gulp.task('ftp-dev1-full', function () {
@@ -334,7 +337,7 @@ gulp.task('ftp', () => {
         .src(files[scope], {base: trg+'/', buffer: false})
         .pipe(order(files[scope]))
         //.pipe(conn.newer('/')) // only upload newer files
-        .pipe(conn.dest('/www'));
+        .pipe(conn.dest('/'));
         /*.pipe(gulpif(scope === 'full',
             gulp.src([trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**'],{base: trg+'/', buffer: false})
                 .pipe( conn.newer( '/' ))

@@ -7,8 +7,9 @@ import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {
     IActivityHeader, IActivityDetails, IActivityIntervalPW,
-    IActivityMeasure, ICalcMeasures, IActivityCategory, IActivityType, IActivityIntervalW
+    IActivityMeasure, ICalcMeasures, IActivityType, IActivityIntervalW
 } from "../../../../api/activity/activity.interface";
+import {IActivityCategory} from '../../../../api/reference/reference.interface';
 import SessionService from "../../core/session.service";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
 import {Activity} from "../../activity/activity.datamodel";
