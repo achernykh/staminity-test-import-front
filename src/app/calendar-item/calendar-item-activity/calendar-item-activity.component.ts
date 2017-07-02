@@ -52,6 +52,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
+    private showSelectAthletes: boolean = false;
+    private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
+
     private selectedTimestamp: Array<any> = [];
     private selectedIntervalIndex: ISelectionIndex = { L: null, P: null, U: null}; //todo delete
     private selectionIndex: ISelectionIndex = { L: null, P: null, U: null};
@@ -147,6 +150,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .then(list => this.activity.categoriesList = list,
                     error => this.message.toastError(error));
         }
+
+        // Перечень атлетов тренера доступных для планирования
+        if(this.currentUser.connections.hasOwnProperty('allAthletes')){
+            this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
+                .map(user => ({profile: user, active: user.userId === this.user.userId}));
+
+        }
+        if(this.forAthletes.length === 0) {
+            this.forAthletes = [{profile: profileShort(this.user), active: true}];
+        }
     }
 
     changeMode(mode:string) {
@@ -156,6 +169,33 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .then(list => this.activity.categoriesList = list,
                     error => this.message.toastError(error));
         }
+    }
+
+    /**
+     * Функция получает выделенных атлетов для планирования трениовки
+     * @param response
+     */
+    selectAthletes(response){
+        debugger;
+        this.showSelectAthletes = false;
+        this.forAthletes = response;
+    }
+
+    /**
+     * Возвращает н-ого атлета для планирования тренировки, необходимо для вывода автарки в заголовки тренировки
+     * @param pos
+     * @returns {IUserProfileShort}
+     */
+    firstAthlete(pos: number){
+        return this.forAthletes.filter(athlete => athlete.active)[pos].profile;
+    }
+
+    /**
+     * Указывает, что тренировка планируется для более чем одного атлета
+     * @returns {boolean}
+     */
+    multiAthlete(){
+        return this.forAthletes.filter(athlete => athlete.active).length > 1;
     }
 
     /**
@@ -274,12 +314,15 @@ export class CalendarItemActivityCtrl implements IComponentController{
     onSave() {
 
         if (this.mode === 'post') {
-            this.CalendarService.postItem(this.activity.build())
-                .then((response)=> {
-                    this.activity.compile(response);// сохраняем id, revision в обьекте
-                    this.message.toastInfo('activityCreated');
-                    this.onAnswer({response: {type:'post', item:this.activity.build()}});
-                }, error => this.message.toastError(error));
+            this.forAthletes.filter(athlete => athlete.active).forEach(athlete =>
+                //console.log('post', athlete.profile, athlete.active)
+                this.CalendarService.postItem(this.activity.build(athlete.profile))
+                    .then((response)=> {
+                        this.activity.compile(response);// сохраняем id, revision в обьекте
+                        this.message.toastInfo('activityCreated');
+                        this.onAnswer({response: {type:'post', item:this.activity.build()}});
+                    }, error => this.message.toastError(error))
+            );
         }
         if (this.mode === 'put') {
             this.CalendarService.putItem(this.activity.build())

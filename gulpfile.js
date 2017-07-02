@@ -327,14 +327,14 @@ gulp.task('ftp', () => {
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
     let files = {
-        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/404.html', trg+'/index.html'],
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html'],
         assets: [trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**']
     };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);
 
     return gulp
-        .src(files[scope], {base: trg+'/', buffer: false})
+        .src(files[scope], {base: trg+'/.', buffer: false})
         .pipe(order(files[scope]))
         //.pipe(conn.newer('/')) // only upload newer files
         .pipe(conn.dest('/'));

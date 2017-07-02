@@ -1,11 +1,10 @@
 import {PostData, IRESTService} from '../core/rest.service';
 import {SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest} from '../../../api/auth/auth.request';
 import {ISessionService} from "../core/session.service";
-import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
+import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise, HttpHeaderType} from 'angular';
 import {ISocketService} from "../core/socket.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import GroupService from "../core/group.service";
-import HttpHeaderType = angular.HttpHeaderType;
 import {GetRequest} from "../../../api/calendar/calendar.request";
 
 

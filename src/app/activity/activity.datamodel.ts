@@ -13,6 +13,7 @@ import {copy, merge} from 'angular';
 import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {activityTypes, getType} from "./activity.constants";
+import {IUserProfileShort} from "../../../api/user/user.interface";
 
 export interface IRoute {
 	lat:number;
@@ -236,7 +237,8 @@ export class Activity extends CalendarItem {
 	}
 
 	// Подготовка данных для передачи в API
-	build() {
+	build(userProfile?: IUserProfileShort) {
+		debugger;
 		super.package();
 		this.dateEnd = this.dateStart;
 		this.header.activityType = getType(Number(this.header.activityType.id));
@@ -251,7 +253,7 @@ export class Activity extends CalendarItem {
 			revision: this.revision,
 			dateStart: this.dateStart, // timestamp даты и времени начала
 			dateEnd: this.dateEnd, // timestamp даты и времени окончания
-			userProfileOwner: this.userProfileOwner,
+			userProfileOwner: userProfile || this.userProfileOwner,
 			userProfileCreator: this.userProfileCreator,
 			//userProfileCreator: IUserProfileShort,
 			activityHeader: this.header
