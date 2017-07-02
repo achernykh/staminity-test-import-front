@@ -19,17 +19,17 @@
                         <span translate="measurement.toolbar.settings"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item>
-                    <md-button ng-click="">
-                        <md-icon class="material-icons" md-menu-align-target>swap_vertical_circle</md-icon>
-                        <span translate="Ввод в %ПАНО"></span>
+                <md-menu-item ng-if="::$ctrl.item.currentUser.connections.hasOwnProperty('allAthletes')">
+                    <md-button ng-click="$ctrl.item.showSelectAthletes = true">
+                        <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
+                        <span translate="Добавить спортсмена"></span>
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
         <h2 translate="activity.toolbar.title"></h2>
         <span flex></span>
-        <userpic class="border-light" profile="$ctrl.item.user" is-premium="$ctrl.item.user.isPremium"></userpic>
+        <userpic class="border-light" profile="$ctrl.item.firstAthlete(0)" is-premium="$ctrl.item.user.isPremium" unlink="true"></userpic>
         <md-button class="md-icon-button" hide-gt-sm
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>

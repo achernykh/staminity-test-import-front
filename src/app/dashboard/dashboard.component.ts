@@ -218,16 +218,13 @@ export class DashboardCtrl implements IComponentController {
                         let sidId = this.cache.findIndex(d => d.sid === this.currentWeek);
                         let calendarId = this.cache[sidId].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);
 
-                        // Добавляем записи календаря в соответсвующий день дэшборда
-                        this.cache[sidId].calendar[calendarId]
-                            .subItem[moment(item.dateStart, this.dateFormat).weekday()].data.calendarItems.push(item);
-                        // Сигнализируем об изменение итогов
-                        this.cache[sidId].calendar[calendarId].changes ++;
-
-
-                        /*this.cache.filter(d => d.sid === this.currentWeek)[0].calendar
-                            .filter(c => c.profile.userId === item.userProfileOwner.userId)[0]
-                            .subItem[moment(item.dateStart, this.dateFormat).weekday()].data.calendarItems.push(item);*/
+                        if(calendarId !== -1) {
+                            // Добавляем записи календаря в соответсвующий день дэшборда
+                            this.cache[sidId].calendar[calendarId]
+                                .subItem[moment(item.dateStart, this.dateFormat).weekday()].data.calendarItems.push(item);
+                            // Сигнализируем об изменение итогов
+                            this.cache[sidId].calendar[calendarId].changes ++;
+                        }
                     });
                     this.dashboard = this.cache.filter(d => d.sid === this.currentWeek)[0];
                     this.$scope.$apply();

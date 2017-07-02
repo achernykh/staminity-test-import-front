@@ -16,9 +16,9 @@
                 </md-input-container>
                 <div flex="10"></div>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label translate="settingsClub.public.uri"></label>
+                    <label translate="settingsClub.uri"></label>
                     <input type="text" name="uri"
-                           ng-model="$ctrl.club.public.uri"
+                           ng-model="$ctrl.club.groupUri"
                            required autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
                     <div ng-messages="$ctrl.publicForm.uri.$error" role="alert">
                         <div ng-message-exp="['required']"

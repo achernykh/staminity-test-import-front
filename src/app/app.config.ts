@@ -13,9 +13,11 @@ function configure(
 	pickerProvider: any,
 	tmhDynamicLocaleProvider: any,
 	$mdDateLocaleProvider: any,
-    $anchorScrollProvider: any) {
+    $anchorScrollProvider: any,
+	$qProvider: any) {
 
-    $anchorScrollProvider.disableAutoScrolling();
+	$qProvider.errorOnUnhandledRejections(false); // https://github.com/angular-ui/ui-router/issues/2889
+	$anchorScrollProvider.disableAutoScrolling();
     let isProductionBuild: boolean = __ENV !== "build";
 
 	/**$locationProvider.html5Mode({
@@ -127,6 +129,7 @@ function configure(
 }
 
 configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider',
-	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider','$anchorScrollProvider'];
+	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider',
+	'$anchorScrollProvider','$qProvider'];
 
 export default configure;

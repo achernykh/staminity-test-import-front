@@ -119,17 +119,17 @@ class AthletesCtrl {
                 `<md-dialog id="athlete-invitation" aria-label="Invitation">
                         <athlete-invitation
                                 flex layout="column" class=""
-                                coach="$ctrl.coach"                            
+                                group-id="$ctrl.groupId"                            
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </athlete-invitation>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                coach: this.user
+                groupId: this.user.connections.Athletes.groupId
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 

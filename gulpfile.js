@@ -8,15 +8,12 @@ const babelify      = require('babelify');
 const ngAnnotate    = require('browserify-ngannotate');
 const sass          = require('gulp-sass');
 const autoprefixer  = require('gulp-autoprefixer');
-//const browserSync   = require('browser-sync').create();
 const server        = require('gulp-server-livereload');
 const rename        = require('gulp-rename');
 const templateCache = require('gulp-angular-templatecache');
 const uglify        = require('gulp-uglify');
 const merge         = require('merge-stream');
-//const sftp_new      = require('gulp-sftp-new');
 const gutil         = require('gulp-util');
-//const ftp           = require('gulp-ftp');
 const imagemin      = require('gulp-imagemin');
 const cssmin        = require('gulp-cssmin');
 const open          = require('gulp-open');
@@ -205,14 +202,17 @@ gulp.task('default', ['html', 'jsLibs', 'cssLibs', 'jsApp', 'sass', 'assets'], f
 
 // Copy other: icon, locale, picture
 gulp.task('copy-other', function() {
+    'use strict';
     return gulp.src(config.src.other)
         .pipe(gulp.dest('./'+ENV));
 });
 
 // Copy assets: icon, locale, picture
 gulp.task('copy-assets', function() {
+    'use strict';
+    let trg = ENV || gutil.env['trg'];
     return gulp.src(config.src.assets)
-        .pipe(gulp.dest('./'+ENV+'/assets'));
+        .pipe(gulp.dest('./'+trg+'/assets'));
 });
 
 gulp.task('ftp-dev1-full', function () {
@@ -327,14 +327,14 @@ gulp.task('ftp', () => {
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
     let files = {
-        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/404.html', trg+'/index.html'],
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html'],
         assets: [trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**']
     };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);
 
     return gulp
-        .src(files[scope], {base: trg+'/', buffer: false})
+        .src(files[scope], {base: trg+'/.', buffer: false})
         .pipe(order(files[scope]))
         //.pipe(conn.newer('/')) // only upload newer files
         .pipe(conn.dest('/'));
