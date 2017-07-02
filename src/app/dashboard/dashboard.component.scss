@@ -45,11 +45,11 @@ dashboard {
   md-toolbar.dashboard-header {
     min-height: 32px;
     display: grid;
-    grid-template-columns: 60px repeat(7, 12%) 150px;
+    grid-template-columns: 60px repeat(8, 11.7%);
     grid-column-gap: 2px;
     line-height: 32px;
 
-    @media(max-width: 1280px){
+    @media(max-width: 1279px){
       grid-template-columns: 60px repeat(7, 13.4%);
     }
 
@@ -81,12 +81,12 @@ dashboard {
     //position: relative; //todo проверит производительность
     //display:block;
     display: grid;
-    grid-template-columns: 60px repeat(7, 12%) 150px;
+    grid-template-columns: 60px repeat(8, 11.7%);
     grid-column-gap: 2px;
     min-height: 40px;
     border-bottom: 1px solid $grey-300;
 
-    @media(max-width: 1280px){
+    @media(max-width: 1279px){
       padding: 0;
       border-bottom: none;
       grid-template-columns: 60px repeat(7, 13.4%);

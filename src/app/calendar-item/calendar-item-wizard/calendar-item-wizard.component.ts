@@ -13,7 +13,7 @@ class CalendarItemWizardCtrl implements IComponentController {
     public onSelect: (result: {itemType: string, activityType: IActivityType}) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
 
-    private activityTypes: Array<IActivityType> = activityTypes.filter(t=>t.enabled);
+    private activityTypes: Array<IActivityType> = activityTypes.filter(t=>t.enabled && t.isBasic);
 
     static $inject = [];
 

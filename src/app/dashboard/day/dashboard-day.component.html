@@ -67,28 +67,29 @@
     </div>
     <div hide show-gt-sm flex="none">
         <md-menu>
-            <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
+            <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" ng-disabled="true">
                 <md-icon class="material-icons md-18"
                          aria-label="More">more_vert</md-icon>
             </md-button>
             <md-menu-content>
-                <md-menu-item>
+                <md-menu-item ng-if="false">
                     <md-button>
                         <md-icon class="material-icons" md-menu-align-target>add_circle_outline</md-icon>
                         Добавить</md-button></md-menu-item>
-                <md-menu-item>
+                <md-menu-item ng-disable="true">
                     <md-button ng-click="$ctrl.onSelect(); $ctrl.checked = !$ctrl.checked">
                         <md-icon class="material-icons" md-menu-align-target>{{!$ctrl.selected ? 'checkbox' : 'checkbox_outline_box'}}</md-icon>
                         {{!$ctrl.selected ? 'Выделить' : 'Снять выделение'}}
                     </md-button>
                 </md-menu-item>
-                <md-menu-item>
+                <md-menu-item ng-disabled="true">
                     <md-button ng-click="$ctrl.calendar.onDelete($ctrl.data.calendarItems)">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>Удалить</md-button></md-menu-item>
-                <md-menu-item><md-button ng-click="$ctrl.selected ? angular.noop() : $ctrl.onSelect(); $ctrl.calendar.onCopy()">
+                <md-menu-item ng-disabled="true">
+                    <md-button ng-click="$ctrl.selected ? angular.noop() : $ctrl.onSelect(); $ctrl.calendar.onCopy()">
                     <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
                     Скопировать</md-button></md-menu-item>
-                <md-menu-item ng-if="$ctrl.calendar.buffer.length > 0">
+                <md-menu-item ng-if="$ctrl.calendar.buffer.length > 0" ng-disabled="true">
                     <md-button ng-click="$ctrl.calendar.onPaste($ctrl.data.date)">
                         <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
                         Вставить ({{$ctrl.calendar.buffer.length}})</md-button>
