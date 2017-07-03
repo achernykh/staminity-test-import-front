@@ -20,7 +20,8 @@ function configure(
                     (GroupService: GroupService,$stateParams, $location, auth: boolean) =>
                         GroupService.getProfile($stateParams.uri,'club',auth)
                             .catch(error => {
-                                if(error.hasOwnProperty('errorMessage') && error.errorMessage === 'clubNotFound'){
+                                debugger;
+                                if(error.hasOwnProperty('errorMessage') && error.errorMessage === 'groupNotFound'){
                                     $location.path('/404');
                                 }
                                 throw error;

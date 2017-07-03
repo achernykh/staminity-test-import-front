@@ -229,6 +229,7 @@ export class SocketService implements ISocketService {
         return this.open()
             .then(() => {
                 request.requestId = this.requestId++;
+                //console.log('socket send', request);
                 this.socket.send(JSON.stringify(request));
                 let deferred = this.$q.defer();
                 this.requests[request.requestId] = deferred;

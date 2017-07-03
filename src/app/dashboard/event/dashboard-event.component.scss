@@ -1,0 +1,63 @@
+@import "../../../sass/color";
+@import "../../../sass/base";
+
+dashboard-event {
+  cursor: pointer;
+  @extend .bg-grey-300;
+  color: rgba(0,0,0,0.54);
+  transition: all 0.3s ease-in-out;
+
+  md-icon.sport {
+    margin: 0px !important;
+  }
+
+  div.event {
+    border-radius: 0px;
+    padding: 8px;
+    &:focus {
+      outline:0;
+    }
+    &:hover, &.selected{
+      @extend .bg-grey-400;
+      .bg-circle-24 {
+        @extend .bg-grey-600;
+      }
+    }
+    header {
+      section.first-column {
+        margin-right: 8px;
+      }
+
+      section.second-column {
+        width: calc(100% - 32px);
+      }
+
+      div.bg-circle-24 {
+        @extend .bg-grey-500;
+        min-width: 24px;
+        height: 24px;
+        border-radius: 12px;
+      }
+
+      div.category, div.duration {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+      }
+
+      div.duration {
+        //text-transform: lowercase;
+      }
+    }
+    footer {
+      display: none;
+    }
+  }
+}
+
+div.dashboard-week.selected footer.descriptions {
+  display: block;
+  padding-top: 8px;
+  //background-color: red;
+}

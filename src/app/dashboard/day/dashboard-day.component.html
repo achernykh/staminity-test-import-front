@@ -16,6 +16,17 @@
                             dnd-effect-allowed="copyMove"
                             dnd-callback="$ctrl.onDrop(item, operation, $index, date, index)">
         </dashboard-activity>
+        <dashboard-event flex="none" ng-switch-when="event"
+                         layout="column" flex="auto"
+                         event="item"
+                         athlete="$ctrl.athlete"
+                         selected="$ctrl.selected"
+                         class="dashboard-activity"
+                         dnd-draggable="item"
+                         dnd-type="'itemType'"
+                         dnd-effect-allowed="copyMove"
+                         dnd-callback="$ctrl.onDrop(item, operation, $index, date, index)">
+        </dashboard-event>
     </div>
 </section>
 <div flex></div>
