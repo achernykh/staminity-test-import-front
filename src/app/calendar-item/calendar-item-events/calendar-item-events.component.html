@@ -18,11 +18,17 @@
                         <span translate="event.toolbar.settings"></span>
                     </md-button>
                 </md-menu-item>
+                <md-menu-item ng-if="::$ctrl.currentUser.connections.hasOwnProperty('allAthletes')">
+                    <md-button ng-click="$ctrl.showSelectAthletes = true">
+                        <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
+                        <span translate="Добавить спортсмена"></span>
+                    </md-button>
+                </md-menu-item>
             </md-menu-content>
         </md-menu>
         <h2 translate="event.toolbar.title"></h2>
         <span flex></span>
-        <userpic class="border-light" profile="$ctrl.item.userProfileOwner" is-premium="$ctrl.item.userProfileOwner.isPremium"></userpic>
+        <userpic class="border-light" profile="$ctrl.firstAthlete(0)" is-premium="$ctrl.user.isPremium" unlink="true"></userpic>
         <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
             <md-tooltip md-direction="left">{{'event.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
@@ -92,4 +98,9 @@
         Сохранить
     </md-button>
 </md-dialog-actions>
-</form>
+
+<calendar-item-athlete-selector ng-if="$ctrl.mode === 'post' && $ctrl.showSelectAthletes" ng-cloak
+                                coach="$ctrl.currentUser"
+                                athletes="$ctrl.forAthletes"
+                                on-select="$ctrl.selectAthletes(result)">
+</calendar-item-athlete-selector>

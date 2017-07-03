@@ -22,6 +22,10 @@ class CalendarItemEventsCtrl {
     public onAnswer: (response: Object) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
 
+    private showSelectAthletes: boolean = false;
+    private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
+
+    public currentUser: IUserProfile = null;
     public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
     public isCreator: boolean;
     public isPro: boolean;
@@ -36,7 +40,7 @@ class CalendarItemEventsCtrl {
     }
 
     $onInit() {
-        debugger;
+        this.currentUser = this.SessionService.getUser();
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'event',
@@ -55,16 +59,57 @@ class CalendarItemEventsCtrl {
         //this.item.eventHeader.eventType = 'restDay';
         this.isCreator = this.item.userProfileCreator.userId === this.user.userId;
         this.isMyCoach = this.item.userProfileCreator.userId !== this.user.userId;
+
+        // Перечень атлетов тренера доступных для планирования
+        if(this.currentUser.connections.hasOwnProperty('allAthletes')){
+            this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
+                .map(user => ({profile: user, active: user.userId === this.user.userId}));
+
+        }
+        if(this.forAthletes.length === 0 || !this.forAthletes.some(athlete => athlete.active)) {
+            this.forAthletes.push({profile: profileShort(this.user), active: true});
+        }
+
     }
+
+    /**
+     * Функция получает выделенных атлетов для планирования трениовки
+     * @param response
+     */
+    selectAthletes(response){
+        debugger;
+        this.showSelectAthletes = false;
+        this.forAthletes = response;
+    }
+
+    /**
+     * Возвращает н-ого атлета для планирования тренировки, необходимо для вывода автарки в заголовки тренировки
+     * @param pos
+     * @returns {IUserProfileShort}
+     */
+    firstAthlete(pos: number){
+        return this.forAthletes.filter(athlete => athlete.active)[pos].profile;
+    }
+
+    /**
+     * Указывает, что тренировка планируется для более чем одного атлета
+     * @returns {boolean}
+     */
+    multiAthlete(){
+        return this.forAthletes.filter(athlete => athlete.active).length > 1;
+    }
+
 
     onSave() {
         if (this.mode === 'post') {
-            this.CalendarService.postItem(this.item.package())
-                .then((response)=> {
-                    this.item.compile(response);// сохраняем id, revision в обьекте
-                    this.message.toastInfo('eventCreated');
-                    this.onAnswer({response: {type:'post', item:this.item.package()}});
-                }, error => this.message.toastError(error));
+            this.forAthletes.filter(athlete => athlete.active).forEach(athlete =>
+                this.CalendarService.postItem(this.item.package(athlete.profile))
+                    .then((response)=> {
+                        this.item.compile(response);// сохраняем id, revision в обьекте
+                        this.message.toastInfo('eventCreated');
+                        this.onAnswer({response: null});
+                    }, error => this.message.toastError(error))
+            );
         }
         if (this.mode === 'put') {
             this.CalendarService.putItem(this.item.package())

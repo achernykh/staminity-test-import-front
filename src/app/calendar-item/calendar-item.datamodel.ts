@@ -37,9 +37,11 @@ export class CalendarItem implements ICalendarItem {
 	}
 
 	// Подготовка данных для передачи в API
-	package() {
+	package(userProfile?: IUserProfileShort) {
 		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
 		this.dateEnd = moment(this._dateEnd).utc().add(moment().utcOffset(),'minutes').format();
+		debugger;
+		this.userProfileOwner = userProfile || this.userProfileOwner;
 		return this;
 	}
 

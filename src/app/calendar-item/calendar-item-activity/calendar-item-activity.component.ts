@@ -161,8 +161,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));
 
         }
-        if(this.forAthletes.length === 0) {
-            this.forAthletes = [{profile: profileShort(this.user), active: true}];
+        if(this.forAthletes.length === 0 || !this.forAthletes.some(athlete => athlete.active)) {
+            this.forAthletes.push({profile: profileShort(this.user), active: true});
         }
     }
 

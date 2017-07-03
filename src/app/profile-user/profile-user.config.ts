@@ -33,9 +33,8 @@ function configure(
                 view: () => new DisplayView('user'),
                 auth: ['AuthService', (AuthService: AuthService) => AuthService.isAuthenticated()],
                 userId: ['$stateParams', $stateParams =>  $stateParams.uri],
-                user: ['UserService','userId','auth','$location', function (UserService, userId, auth: boolean, $location: ILocationService) {
+                user: ['UserService','userId','auth','$location', function (UserService: UserService, userId, auth: boolean, $location: ILocationService) {
                     return UserService.getProfile(userId, auth).catch(error => {
-                        debugger;
                         if(error.hasOwnProperty('errorMessage') && error.errorMessage === 'userNotFound'){
                             $location.path('/404');
                         }
