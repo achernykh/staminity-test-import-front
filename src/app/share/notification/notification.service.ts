@@ -53,20 +53,8 @@ export default class NotificationService {
             })
             .share();
 
-        /*this.list$ = new Subject();
-            //.flatMap(()=>Observable.fromPromise(this.get(100,0)).share()); //Observable.fromPromise(this.get(100,0)).share();
-
-        this.socket.connections.subscribe(() => {
-            //this.list$.next()
-            //this.list$.switchMap(() => Observable.fromPromise(this.get(100,0)))
-            this.list$ = Observable.fromPromise(this.get(100,0))
-                .switchMap(list => {
-                    return this.notification$.scan( this.process.bind(this), list).startWith(list);
-                })
-                .share();
-        });*/
-
         this.list$ = this.socket.connections
+            .filter(status => status)
             .flatMap(() => Observable.fromPromise(this.get(100,0)))
             .switchMap(list => {
                 return this.notification$.scan( this.process.bind(this), list).startWith(list);
