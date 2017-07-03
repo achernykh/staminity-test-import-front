@@ -210,6 +210,19 @@ export const _translateMessage = {
 			text: "Измерение удалено"
 		},
 
+		// -------- Event --------
+		eventCreated: {
+			title: "",
+			text: "Создано новое событие"
+		},
+		eventUpdated: {
+			title: "",
+			text: "Событие изменено"
+		},
+		eventDeleted: {
+			title: "",
+			text: "Событие удалено"
+		},
 		// -------- Activity --------
 		activityCreated: {
 			title: "",
