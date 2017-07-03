@@ -1,22 +1,10 @@
-.subscriptions,
-.roles, 
-.select-users {
-
-    @media (min-width: 960px) {
-        width: 360px;
-    }
-    
-    .md-caption {
-        color: #455a64;
-    }
-}
-
-
 md-dialog#upload {
+
     .md-dialog-content {
         min-height: 300px;
         min-width: 300px;
     }
+
     .input-file {
         width: 0.1px;
         height: 0.1px;
@@ -39,10 +27,30 @@ md-dialog#upload {
 }
 
 
+.subscriptions,
+.roles, 
+.select-users {
+    .md-caption {
+        color: #455a64;
+    }
+}
+
+
+.users-list-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+        height: 80%;
+    }
+
+}
+
+
 .bill-details-dialog {
 
     @media (min-width: 960px) {
         width: 360px;
+        height: 80%;
     }
 
     .text-right {
@@ -67,6 +75,7 @@ md-dialog#upload {
 
     @media (min-width: 960px) {
         width: 360px;
+        height: 80%;
     }
 
     &__input-promo {
@@ -83,6 +92,7 @@ md-dialog#upload {
 
     @media (min-width: 960px) {
         width: 360px;
+        height: 80%;
     }
 
 }
@@ -92,6 +102,7 @@ md-dialog#upload {
 
     @media (min-width: 960px) {
         width: 360px;
+        height: 80%;
     }
 
     &__input-promo {
@@ -107,9 +118,9 @@ md-dialog#upload {
 
 
 .fee-details-dialog {
-
     @media (min-width: 960px) {
         width: 360px;
+        height: 80%;
     }
 
 }
