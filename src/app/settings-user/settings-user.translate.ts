@@ -123,6 +123,7 @@ export const _translate = {
             free: 'Бесплатно',
             promo: 'Промо-код',
             activePromo: 'Промо-код «{{promo}}» активирован с {{appliedFrom}}',
+            validPromo: 'Промо-код «{{promo}}» может быть активирован после сохранения',
             rejectedPromo: "Промо-код не найден",
             removePromo: 'Удалить',
             submitPromo: 'Принять',
@@ -131,6 +132,9 @@ export const _translate = {
             paypal: 'Paypal',
             saving: 'На {{saving}}% выгоднее',
             autoRenewal: 'Автоматическое продление',
+            autoRenewalShort: 'Автопродление',
+            isOn: 'включено',
+            isOff: 'выключено',
             conditions: 'Условия подключения',
             conditionsText: `
 Начисления по тарифу "{{tariff}}" будут объединены с начислениями по ранее подключенному тарифу.
@@ -197,8 +201,8 @@ export const _translate = {
             status: "Статус",
             tariffStatuses: {
                 enabled: "Подключен до {{until}}",
-                enabledByClub: "Подключен за счет тренера {{coach}}",
-                enabledByCoach: "Подключен за счет клуба {{club}}",
+                enabledByCoach: "Подключен за счет тренера {{coach}}",
+                enabledByClub: "Подключен за счет клуба {{club}}",
                 notEnabled: "Отключен",
                 isPaid: "Оплачен до {{until}}",
                 trial: "Пробный период до {{until}}",
@@ -215,8 +219,8 @@ export const _translate = {
             },
             tariffStatusesEnablers: {
                 enabled: "За свой счёт",
-                enabledByClub: "За счет тренера {{coach}}",
-                enabledByCoach: "За счет клуба {{club}}",
+                enabledByCoach: "За счет тренера {{coach}}",
+                enabledByClub: "За счет клуба {{club}}",
                 notEnabled: "За свой счёт",
                 isPaid: "За свой счёт",
                 trial: "За свой счёт",
@@ -258,7 +262,8 @@ export const _translate = {
                 bill: 'Дата счёта',
                 payment: 'Дата оплаты'
             },
-            feeDetails: 'Детали начисления'
+            feeDetails: 'Детали начисления',
+            autoPayment: 'Оплачивать автоматически'
         },
         sync: {
             header: 'Настройка интеграции',

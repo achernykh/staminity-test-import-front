@@ -123,12 +123,15 @@ export default class BillingService {
      * @returns IUserProfile?
      */
     tariffEnablerCoach (tariff) : any {
-        return maybe(tariff.userProfilePayer) (prop('userId')) () !== maybe(this.SessionService.getUser()) (prop('userId')) () && tariff.userProfilePayer;
+        return (
+            maybe(tariff.userProfilePayer) (prop('userId')) () !== 
+            maybe(this.SessionService.getUser()) (prop('userId')) () 
+        ) && tariff.userProfilePayer;
     }
 
     /**
      * @param tariff
-     * @returns 'enabled' | enabledByCoach' | 'enabledByClub' | 'notEnabled' | 'cancelledByEnabler' | 'expired' | 'disabled' | 'trial' | 'unpaid'
+     * @returns 'enabled' | enabledByCoach' | 'enabledByClub' | 'notEnabled' | trial' | 'isPaid' | 'isBlocked' | undefined
      */
     tariffStatus (tariff) : string {
         let tariffEnablerClub = this.tariffEnablerClub(tariff);
@@ -138,11 +141,10 @@ export default class BillingService {
             tariff.isOn && tariff.expireDate && !this.tariffEnablerCoach(tariff) && 'enabled' ||
             tariffEnablerClub && 'enabledByClub' ||
             tariffEnablerCoach && 'enabledByCoach' ||
-            !tariff.isOn && 'notEnabled' ||
             tariff.isTrial && tariff.expireDate && 'trial' ||
-            !tariff.isTrial && tariff.expireDate && 'isPaid' ||
             tariff.isBlocked && 'isBlocked' ||
-            tariff.unpaidBill && 'isBlocked' 
+            tariff.unpaidBill && 'isBlocked' ||
+            !tariff.isOn && 'notEnabled' 
         );
     }
 

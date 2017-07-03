@@ -419,18 +419,6 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
         $mdDialog.cancel();
     };
 
-    this.pay = (bill) => {
-        let checkoutUrl = maybe(bill) (prop('payment')) (prop('checkoutUrl')) ();
-
-        return checkoutUrl && BillingService.checkout(checkoutUrl)
-            .then(() => {
-                $mdDialog.hide();
-            }, (info) => {
-                message.systemWarning(info);
-                throw info;
-            });
-    };
-
     this.submit = function () {
         BillingService.enableTariff(
             tariff.tariffId, 
@@ -441,7 +429,28 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
             maybe(this.activePromo) (prop('code')) (),
             this.paymentSystem
         )
-        .then(this.pay)
+        .then((bill) => {
+            $mdDialog.hide();
+            return bill;
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        })
+        .then((bill) => {
+            return dialogs.billDetails(bill, this.user);
+        });
+    };
+
+    this.submitTrial = function () {
+        BillingService.enableTariff(
+            tariff.tariffId, 
+            user.userId, 
+            this.fee.term,
+            this.autoRenewal,
+            this.billing.trialConditions.isAvailable,
+            maybe(this.activePromo) (prop('code')) (),
+            this.paymentSystem
+        )
         .then(() => {
             $mdDialog.hide();
         }, (info) => {

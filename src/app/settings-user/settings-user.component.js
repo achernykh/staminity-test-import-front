@@ -514,6 +514,29 @@ class SettingsUserCtrl {
             .then(this.boundReload, this.boundReload);
     }
 
+    autoPayment (isOn) {
+        if (typeof isOn === 'undefined') {
+            return this.user.billing.autoPayment;
+        }
+
+        let profile = {
+            userId: this.user.userId,
+            revision: this.user.revision,
+            billing: {
+                autoPayment: isOn
+            }
+        };
+
+        this._UserService.putProfile(profile)
+        .then((success) => {
+            this.message.toastInfo('settingsSaveComplete');
+            this.user.revision = success.value.revision;
+            this.user.billing.autoPayment = isOn;
+        }, (error) => {
+            this.message.toastError(error)
+        });
+    }
+
     uploadAvatar () {
         this.dialogs.uploadPicture()
             .then(picture => this._UserService.postProfileAvatar(picture))

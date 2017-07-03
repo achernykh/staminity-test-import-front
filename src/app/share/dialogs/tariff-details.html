@@ -25,7 +25,7 @@
                         coach: (tariff.userProfilePayer | userName)
                     } }}</span>
                 </md-list-item>
-                <md-list-item>
+                <md-list-item ng-if="!['enabledByClub', 'enabledByCoach'].includes($ctrl.tariffStatus)">
                     <span>{{ 'settings.billing.subscriptionDate' | translate }}</span>
                     <span flex></span>
                     <span class="font-bold"">{{ $ctrl.billing.started || $ctrl.tariff.unpaidBill.startPeriod | date:shortDate }}</span>
@@ -124,7 +124,7 @@
                     <md-button class="md-raised md-primary" ng-click="$ctrl.submitPromo($ctrl.promoCode)">{{ 'settings.billing.submitPromo' | translate }}</md-button>
                 </md-list-item>
                 <md-list-item ng-if="$ctrl.activePromo">
-                    <span class="font-italic tariff-details-dialog__active-promo">{{ 'settings.billing.activePromo' | translate:{promo:$ctrl.activePromo.code, appliedFrom:($ctrl.activePromo.appliedFrom | date:'dd.MM.yyyy')} }}</span>
+                    <span class="font-italic tariff-details-dialog__active-promo">{{ 'settings.billing.' + ($ctrl.activePromo.appliedFrom? 'activePromo' : 'validPromo') | translate:{promo:$ctrl.activePromo.code, appliedFrom:($ctrl.activePromo.appliedFrom | date:'dd.MM.yyyy')} }}</span>
                 </md-list-item>
 
                 <md-subheader class="md-no-sticky">{{ 'settings.billing.changeFee' | translate }}</md-subheader>

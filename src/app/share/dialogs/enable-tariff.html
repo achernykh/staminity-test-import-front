@@ -140,20 +140,14 @@
             <span flex></span>
             <md-button ng-click="$ctrl.cancel()">{{ 'settings.billing.cancel' | translate }}</md-button>
             <md-button 
-                ng-if="!$ctrl.billing.joinBillConditions && !$ctrl.billing.trialConditions.isAvailable" 
-                class="md-primary" 
-                ng-click="$ctrl.submit()"
-                ng-disabled="!$ctrl.bill"
-            >{{ 'settings.billing.confirmPay' | translate:{ cost:$ctrl.discountedFee($ctrl.fee), currency:$ctrl.fee.currency } }}</md-button>
-            <md-button 
-                ng-if="!$ctrl.billing.trialConditions.isAvailable && $ctrl.billing.joinBillConditions" 
+                ng-if="!$ctrl.billing.trialConditions.isAvailable" 
                 class="md-primary" 
                 ng-click="$ctrl.submit()"
             >{{ 'settings.billing.confirmEnable' | translate }}</md-button>
             <md-button 
                 ng-if="$ctrl.billing.trialConditions.isAvailable" 
                 class="md-primary" 
-                ng-click="$ctrl.submit()"
+                ng-click="$ctrl.submitTrial()"
             >{{ 'settings.billing.confirmTrial' | translate }}</md-button>
         </md-dialog-actions>
     </form>

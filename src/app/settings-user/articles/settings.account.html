@@ -2,7 +2,7 @@
     <md-card-title>
         <h2 class="md-title" translate="settings.account.header"></h2>
     </md-card-title>
-    <form name="$ctrl.syncForm">
+    <form name="$ctrl.accountForm">
         <md-list class="md-dense section">
             <md-list-item ng-click="$ctrl.showPasswordChange($event)">
                 <p>Ваш учетная запись {{$ctrl.user.personal.extEmail}} #{{$ctrl.user.userId}}</p>
@@ -23,6 +23,8 @@
             </md-list-item>-->
         </md-list>
         <md-divider></md-divider>
+    </form>
+    <form name="$ctrl.billingForm">
         <md-list class="md-dense section">
             <md-subheader>{{ 'settings.billing.tariffsHeader' | translate }}</md-subheader>
             <md-list-item 
@@ -38,11 +40,15 @@
                         club: (tariff.clubProfile | clubName),
                         coach: (tariff.userProfilePayer | userName)
                     } }}</p>
+                    <p ng-if="!['enabledByClub', 'enabledByCoach', 'notEnabled'].includes($ctrl.tariffStatus(tariff))">
+                        {{ 'settings.billing.autoRenewalShort' | translate }}: {{ 'settings.billing.' + (tariff.autoRenewal? 'isOn' : 'isOff') | translate }}
+                    </p>
                 </div>
                 <md-switch
                     ng-model="$ctrl.tariffIsEnabled(tariff)"
                     ng-model-options="{getterSetter: true}"
                     ng-disabled="!tariff.isAvailable"
+                    ng-class="{ 'md-primary': tariff.isAvailable && !tariff.isBlocked, 'md-accent': tariff.isAvailable && tariff.isBlocked }"
                 >
                 </md-switch>
             </md-list-item>
@@ -50,7 +56,19 @@
         </md-list>
         <md-divider></md-divider>
         <md-list class="md-dense section">
-            <md-subheader>{{ 'settings.billing.invoices' | translate }}</md-subheader>
+            <md-list-item class="md-1-line" >
+                <div class="md-list-item-text">
+                    <md-subheader>{{ 'settings.billing.invoices' | translate }}</md-subheader>
+                </div>
+                <p class="md-secondary">
+                    {{ 'settings.billing.autoPayment' | translate }}
+                    <md-checkbox
+                        style="margin-left: 15px;"
+                        ng-model="$ctrl.autoPayment"
+                        ng-model-options="{getterSetter: true}"
+                    />
+                </p>
+            </md-list-item>
             <md-list-item 
                 class="md-2-line" 
                 ng-repeat-start="bill in $ctrl.user.billing.bills"

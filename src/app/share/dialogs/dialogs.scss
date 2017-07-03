@@ -1,6 +1,10 @@
 .subscriptions,
 .roles, 
 .select-users {
+
+    @media (min-width: 960px) {
+        width: 360px;
+    }
     
     .md-caption {
         color: #455a64;
@@ -36,6 +40,11 @@ md-dialog#upload {
 
 
 .bill-details-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+    }
+
     .text-right {
         text-align: right !important;
     }
@@ -53,7 +62,13 @@ md-dialog#upload {
     }
 }
 
+
 .enable-tariff-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+    }
+
     &__input-promo {
         width: 165px;
     };
@@ -63,7 +78,22 @@ md-dialog#upload {
     };
 }
 
+
+.disable-tariff-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+    }
+
+}
+
+
 .tariff-details-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+    }
+
     &__input-promo {
         width: 165px;
         margin-bottom: 30px;
@@ -73,4 +103,13 @@ md-dialog#upload {
         max-width: 250px;
         margin-right: 20px;
     };
+}
+
+
+.fee-details-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+    }
+
 }
