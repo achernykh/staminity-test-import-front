@@ -13,8 +13,15 @@ function configure(
             resolve: {
                 view: () => new DisplayView('club'),
                 userId: ['SessionService', (SessionService) => SessionService.getUser().userId],
-                club: ['GroupService','$stateParams',
-                    (GroupService,$stateParams) => GroupService.getProfile($stateParams.uri,'club')]
+                club: ['GroupService','$stateParams','$location',
+                    (GroupService,$stateParams, $location) =>
+                        GroupService.getProfile($stateParams.uri,'club')
+                            .catch(error => {
+                                if(error.hasOwnProperty('errorMessage') && error.errorMessage === 'clubNotFound'){
+                                    $location.path('/404');
+                                }
+                                throw error;
+                            })]
             },
             views: DefaultTemplate('club')
         });

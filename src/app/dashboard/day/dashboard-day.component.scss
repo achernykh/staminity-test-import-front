@@ -4,12 +4,12 @@ dashboard-day {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   display:inline-block;
-  width: 11%;
+  //width: 11.8%;
   vertical-align:top;
-  text-transform: capitalize;
+  //text-transform: capitalize;
 
   @media (min-width: 959px) and (max-width: 1279px){
-    width: 12.2%;
+    //width: 12.1%;
   }
 
   &:hover div.post-panel{
@@ -37,5 +37,8 @@ dashboard-day {
       min-width: 24px !important;
       min-height: 24px !important;
     }
+  }
+  dashboard-activity, div.post-panel {
+    width: 100%;
   }
 }

@@ -8,15 +8,12 @@ const babelify      = require('babelify');
 const ngAnnotate    = require('browserify-ngannotate');
 const sass          = require('gulp-sass');
 const autoprefixer  = require('gulp-autoprefixer');
-//const browserSync   = require('browser-sync').create();
 const server        = require('gulp-server-livereload');
 const rename        = require('gulp-rename');
 const templateCache = require('gulp-angular-templatecache');
 const uglify        = require('gulp-uglify');
 const merge         = require('merge-stream');
-//const sftp_new      = require('gulp-sftp-new');
 const gutil         = require('gulp-util');
-//const ftp           = require('gulp-ftp');
 const imagemin      = require('gulp-imagemin');
 const cssmin        = require('gulp-cssmin');
 const open          = require('gulp-open');
@@ -150,16 +147,6 @@ gulp.task('templates', function() {
         .pipe(gulp.dest('./src/js/config/'));
 });
 
-gulp.task('version', function () {
-    gulp.src(['build/css/app.css', 'build/js/app.js'])
-        .pipe(assetsVersionReplace({
-            replaceTemplateList: [
-                'build/index.html'
-            ]
-        }))
-        .pipe(gulp.dest('build/'))
-});
-
 // This task is used for building production ready
 gulp.task('build', function() {
     'use strict';
@@ -213,10 +200,19 @@ gulp.task('default', ['html', 'jsLibs', 'cssLibs', 'jsApp', 'sass', 'assets'], f
     return gulp.src(config.src.jsApp);
 });
 
+// Copy other: icon, locale, picture
+gulp.task('copy-other', function() {
+    'use strict';
+    return gulp.src(config.src.other)
+        .pipe(gulp.dest('./'+ENV));
+});
+
 // Copy assets: icon, locale, picture
 gulp.task('copy-assets', function() {
+    'use strict';
+    let trg = ENV || gutil.env['trg'];
     return gulp.src(config.src.assets)
-        .pipe(gulp.dest('./'+ENV+'/assets'));
+        .pipe(gulp.dest('./'+trg+'/assets'));
 });
 
 gulp.task('ftp-dev1-full', function () {
@@ -304,7 +300,7 @@ gulp.task('set-env-new', function() {
 gulp.task('set-sw', () => {
     'use strict';
     let trg = gutil.env['trg'];
-    let files = [trg+'/index.html',trg+'/assets/css/**',trg+'/assets/js/**'];
+    let files = [trg+'/index.html',trg+'/404.html',trg+'/assets/css/**',trg+'/assets/js/**'];
     let cache = [];
 
     const cacheFile = (src) => {
@@ -331,14 +327,14 @@ gulp.task('ftp', () => {
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
     let files = {
-        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/index.html'],
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html'],
         assets: [trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**']
     };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);
 
     return gulp
-        .src(files[scope], {base: trg+'/', buffer: false})
+        .src(files[scope], {base: trg+'/.', buffer: false})
         .pipe(order(files[scope]))
         //.pipe(conn.newer('/')) // only upload newer files
         .pipe(conn.dest('/'));

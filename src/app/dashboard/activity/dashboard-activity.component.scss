@@ -2,22 +2,25 @@
 @import "../../../sass/base";
 
 dashboard-activity {
-
   cursor: pointer;
-
   @extend .bg-grey-400;
-  
+  margin-bottom: 2px;
 
   md-icon.sport {
     margin: 0px !important;
   }
 
-  .activity-header {
-    @extend .md-whiteframe-1dp;
-    margin: 4px;
-    border-radius: 3px;
-    //@include border-radius-custom(3px, 3px, 0px, 0px);
-    padding: 4px;
+  .bg-circle-24 {
+    min-width: 24px;
+    height: 24px;
+    border-radius: 12px;
+  }
+
+  div.activity {
+    //margin-right: 1px;
+    //margin-bottom: 1px;
+    border-radius: 0px;
+    padding: 8px;
 
     &:hover {
       md-menu.menu button{
@@ -25,28 +28,20 @@ dashboard-activity {
         visibility: visible;
       }
     }
-
     &:focus {
       outline:0;
     }
-
     &.complete {
-      // Задание выполнено без отклонений
-
       color: white;
-      #more {
-        //@extend .light-active;
-      }
-      @extend .bg-teal-600;
-
-      .bg-circle-32 {
+      @extend .bg-teal-500;
+      .bg-circle-24 {
         @extend .bg-teal-800;
       }
 
       &:hover, &.selected {
         @extend .bg-teal-800;
 
-        .bg-circle-32 {
+        .bg-circle-24 {
           @extend .bg-teal-900;
         }
       }
@@ -55,14 +50,14 @@ dashboard-activity {
       &-warn {
         color: white;
         @extend .bg-orange-600;
-        .bg-circle-32 {
+        .bg-circle-24 {
           @extend .bg-orange-800;
         }
 
         &:hover, &.selected {
           @extend .bg-orange-800;
 
-          .bg-circle-32 {
+          .bg-circle-24 {
             @extend .bg-orange-900;
           }
         }
@@ -72,25 +67,24 @@ dashboard-activity {
       &-error {
         color: white;
         @extend .bg-red-600;
-        .bg-circle-32 {
+        .bg-circle-24 {
           @extend .bg-red-800;
         }
 
         &:hover, &.selected {
           @extend .bg-red-800;
 
-          .bg-circle-32 {
+          .bg-circle-24 {
             @extend .bg-red-900;
           }
         }
       }
     }
-
     &.dismiss {
       @extend .bg-red-600;
       color: white;
 
-      .bg-circle-32 {
+      .bg-circle-24 {
         @extend .bg-red-800;
       }
 
@@ -100,17 +94,16 @@ dashboard-activity {
 
       &:hover, &.selected{
         @extend .bg-red-800;
-        .bg-circle-32 {
+        .bg-circle-24 {
           @extend .bg-red-900;
         }
       }
     }
-
     &.not-specified {
       @extend .bg-blue-grey-500;
       color: white;
 
-      .bg-circle-32 {
+      .bg-circle-24 {
         @extend .bg-blue-grey-600;
       }
 
@@ -120,7 +113,7 @@ dashboard-activity {
 
       &:hover, &.selected{
         @extend .bg-blue-grey-800;
-        .bg-circle-32 {
+        .bg-circle-24 {
           @extend .bg-blue-grey-900;
         }
       }
@@ -129,8 +122,8 @@ dashboard-activity {
       @extend .bg-grey-300;
       color: rgba(0,0,0,0.54);
 
-      .bg-circle-32 {
-        @extend .bg-grey-600;
+      .bg-circle-24 {
+        @extend .bg-grey-500;
       }
 
       #more {
@@ -138,13 +131,37 @@ dashboard-activity {
       }
 
       &:hover, &.selected{
-        @extend .bg-grey-500;
-        .bg-circle-32 {
-          @extend .bg-grey-800;
+        @extend .bg-grey-400;
+        .bg-circle-24 {
+          @extend .bg-grey-600;
         }
       }
     }
 
+  }
+
+  header {
+    section.first-column {
+      margin-right: 8px;
+    }
+
+    section.second-column {
+      width: calc(100% - 32px);
+    }
+
+    div.category, div.duration {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    div.duration {
+      text-transform: lowercase;
+    }
+  }
+  footer {
+    display: none;
   }
 
   md-menu.menu button{
@@ -162,16 +179,10 @@ dashboard-activity {
 
   }
 
-  div.duration {
-    text-align: right;
-    font-weight: 500;
-    text-transform: lowercase;
-  }
+}
 
-  div.category {
-    text-align: right;
-    line-height: 14px;
-    //white-space: pre-line;
-  }
-
+div.dashboard-week.selected footer.descriptions {
+  display: block;
+  padding-top: 8px;
+  //background-color: red;
 }

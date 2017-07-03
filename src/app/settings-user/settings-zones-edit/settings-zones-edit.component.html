@@ -79,7 +79,7 @@
                                 <md-input-container class="no-border">
                                     <input type="text" ng-model="zone.code" name="code"
                                            style="text-align: left; border-color: rgba(0,0,0,0);"
-                                           ng-disabled="true">
+                                           ng-disabled="$ctrl.viewMode">
                                 </md-input-container>
                             </td>
                             <td md-cell>
@@ -88,7 +88,7 @@
                                            name="valueFrom"
                                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
                                            ng-attr-sport={{$ctrl.sport}}
-                                           ng-disabled="true">
+                                           ng-disabled="$ctrl.viewMode || (!$ctrl.viewMode && !$first)">
                                 </md-input-container>
                             </td>
                             <td md-cell>
@@ -98,7 +98,8 @@
                                            name="valueFrom"
                                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
                                            ng-attr-sport={{$ctrl.sport}}
-                                           ng-disabled="true">
+                                           ng-change="$ctrl.changeZone($index,zone.valueTo, $ctrl.intensityFactor)"
+                                           ng-disabled="$ctrl.viewMode">
                                 </md-input-container>
                             </td>
                         </tr>

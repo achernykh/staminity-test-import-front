@@ -12,3 +12,9 @@
            ng-click="$ctrl.onCancel()">
     <md-icon class="material-icons">close</md-icon>
 </md-button>
+
+<calendar-item-athlete-selector ng-if="$ctrl.mode === 'post' && $ctrl.showSelectAthletes" ng-cloak
+                                coach="$ctrl.currentUser"
+                                athletes="$ctrl.forAthletes"
+                                on-select="$ctrl.selectAthletes(result)">
+</calendar-item-athlete-selector>

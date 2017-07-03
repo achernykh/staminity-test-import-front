@@ -24,7 +24,7 @@ class SettingsZonesEditCtrl implements IComponentController {
         pageSelect: false
     };
     public selected:Array<any> = [];
-    private readonly measures: Array<string> = ['FTP','minValue', 'maxValue'];
+    private readonly measures: Array<string> = ['minValue','ATP','FTP','maxValue'];
     private readonly calculationMethod: any = _CalculationMethod;
 
     static $inject = [];
@@ -35,7 +35,7 @@ class SettingsZonesEditCtrl implements IComponentController {
 
     $onInit() {
         this.settings = copy(this.sportSettings);
-        this.viewMode = this.settings.calculateMethod !== 'custom';
+        this.viewMode = ['5','7','9'].indexOf(this.settings.calculateMethod) === -1;
     }
 
     selectMethod(method: string, factor: string) {

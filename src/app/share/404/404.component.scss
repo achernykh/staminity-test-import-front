@@ -1,0 +1,19 @@
+page-not-found {
+  section.frame {
+    height: 100vh;
+
+    background-image: url('/assets/picture/404-bg-1440.png'); //25% center no-repeat;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+  }
+  p {
+    color: white;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+
+    a {
+      color: white;
+    }
+  }
+}

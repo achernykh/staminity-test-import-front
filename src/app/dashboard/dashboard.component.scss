@@ -13,12 +13,22 @@ dashboard {
   section.application-toolbar {
     color: white;
     max-width: 1440px;
-    //position: absolute;
-    //width: 100%;
-    //top: 0px;
-    //height: 30px;
-    //background-color: blue;
     margin: auto;
+
+    md-menu-bar {
+      display: inline;
+      padding-left: 0px;
+
+      span.md-caption {
+        color: white;
+      }
+
+      .md-open span.md-caption {
+        color: black;
+      }
+
+    }
+
   }
 
   section.content {
@@ -34,78 +44,59 @@ dashboard {
 
   md-toolbar.dashboard-header {
     min-height: 32px;
-    display: block;
+    display: grid;
+    grid-template-columns: 60px repeat(7, 12%) 150px;
+    grid-column-gap: 2px;
     line-height: 32px;
-    //padding-left: 12px;
-    //padding-right: 12px;
 
-    div.athlete {
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      display:inline-block;
-      width: 130px;
-      display:inline-block;
-      vertical-align:top;
+    @media(max-width: 1280px){
+      grid-template-columns: 60px repeat(7, 13.4%);
+    }
+
+    div.athlete, div.day, div.total {
       padding-left: 12px;
       padding-right: 12px;
     }
 
     div.day {
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      display:inline-block;
-      width: 11%;
-      vertical-align:top;
       text-transform: capitalize;
-      padding-left: 12px;
-      padding-right: 12px;
-
-      @media (min-width: 959px) and (max-width: 1279px){
-        width: 12.2%;
-      }
-    }
-
-    div.total {
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      display:inline-block;
-      width: 12.8%;
-      display:inline-block;
-      vertical-align:top;
-      padding-left: 12px;
-      padding-right: 12px;
     }
 
   }
 
   section.dashboard-grid {
-    position: relative;
+    //position: relative;
     height: calc(100% - 55px);
     scroll-behavior: auto;
     overflow-y: scroll;
+    overflow-x: hidden;
+    @media(max-width: 1280px){
+      height: calc(100% - 32px);
+    }
     //padding: 12px;
   }
 
   div.dashboard-week {
 
-    position: relative; //todo проверит производительность
-    display:block;
+    //position: relative; //todo проверит производительность
+    //display:block;
+    display: grid;
+    grid-template-columns: 60px repeat(7, 12%) 150px;
+    grid-column-gap: 2px;
     min-height: 40px;
-    border-bottom: 1px solid $grey-400;
+    border-bottom: 1px solid $grey-300;
 
-    @media(max-width: 959px){
+    @media(max-width: 1280px){
       padding: 0;
       border-bottom: none;
+      grid-template-columns: 60px repeat(7, 13.4%);
     }
 
     //transition: none !important;
     transition: all 1s ease-in-out 0s;
 
-    &:hover {
-      background-color: $blue-grey-100;
+    &.selected {
+      background-color: $grey-100;
       max-height: 900px;
 
       div.post-panel {
@@ -138,7 +129,7 @@ dashboard {
     @media (min-width: 1439px){
       left: 2%;
       width: 96%;
-      height: calc(100% - 10px);
+      height: calc(100%);
     }
 
   }

@@ -152,31 +152,31 @@ $success-color-hover:	$teal-900;
 // Серый, цвето фона
 .bg-grey {
 	&-050 {
-		background-color: $grey-050;
+		background-color: $grey-050 !important;
 	}
 	&-100 {
-		background-color: $grey-100;
+		background-color: $grey-100 !important;
 	}
 	&-200 {
-		background-color: $grey-200;
+		background-color: $grey-200 !important;
 	}
 	&-300 {
-		background-color: $grey-300;
+		background-color: $grey-300 !important;
 	}
 	&-400 {
-		background-color: $grey-400;
+		background-color: $grey-400 !important;
 	}
 	&-500 {
-		background-color: $grey-500;
+		background-color: $grey-500 !important;
 	}
 	&-600 {
-		background-color: $grey-600;
+		background-color: $grey-600 !important;
 	}
 	&-700 {
-		background-color: $grey-700;
+		background-color: $grey-700 !important;
 	}
 	&-800 {
-		background-color: $grey-800;
+		background-color: $grey-800 !important;
 	}
 	&-gradient-500-300 {
 		background-image: linear-gradient(to bottom, $grey-500, rgba($grey-300, 0.5));

@@ -60,7 +60,7 @@
     <section class="items" flex="auto" layout="column"
              dnd-list="items"
              dnd-allowed-types="['itemType']"
-             dnd-drop="$ctrl.onDrop($ctrl.data.date, index, item, type)">
+             dnd-drop="callback({date: $ctrl.data.date, operation: dropEffect, index: index})">
         <div flex="100" layout-wrap ng-switch on="item.calendarItemType" ng-switch on="item.calendarItemType"
              ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index">
             <calendar-measurement ng-switch-when="measurement"
@@ -202,11 +202,10 @@
                                layout="column" flex="auto"
                                item="item" selected="$ctrl.selected"
                                dnd-draggable="item"
+                               dnd-disable-if="::!$ctrl.isSpecified(item)"
                                dnd-type="'itemType'"
                                dnd-effect-allowed="copyMove"
-                               dnd-dragstart="$ctrl.onDrag(event)"
-                               dnd-copied="$ctrl.onCopied(item)"
-                               dnd-moved="$ctrl.onMoved(item)"
+                               dnd-callback="$ctrl.onDrop(item, operation, $index, date, index)"
             </calendar-activity>
         </div>
     </section>

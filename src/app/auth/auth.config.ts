@@ -94,6 +94,21 @@ function configure(
 				}
 			}
 
+		})
+		// Представление Auth: Confirm
+        .state('invite', <StateDeclaration>{
+			url: "/invite",
+			loginRequired: false,
+			views: {
+				"application": {
+					component: "auth",
+					bindings: "view.application"
+				},
+				"form@invite": {
+					template: require('./view/invite.html')
+				}
+			}
+
 		});
 
 	// Текст представлений

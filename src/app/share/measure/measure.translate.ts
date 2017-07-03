@@ -48,6 +48,7 @@ export const _MEASURE_TRANSLATE = {
 
 		//
 		FTP: 'ПАНО',
+		ATP: 'АэП',
 		minValue: 'Минимум',
 		maxValue: 'Максимум',
 
@@ -65,13 +66,76 @@ export const _MEASURE_TRANSLATE = {
 
 	},
 	en: {
-		calendar: 'Calendar',
+		/*calendar: 'Calendar',
 		feeds: 'Activity feed',
 		reports: 'Analytics and reports',
 		plan: 'Training plans',
 		season: 'Season plans',
 		groups: 'Groups',
 		athletes: 'Athletes',
-		admin: 'Admin panel'
+		admin: 'Admin panel' */
+		// Единицы измерения
+		km: 'km',
+		meter: 'm',
+		mile: 'ml',
+		yard: 'yd',
+		kmph: 'km/h',
+		minpkm: '/km',
+		minp100m: '/100m',
+		bpm: 'bpm',
+		min: 'min',
+		watt: 'Wt',
+		percent: '%',
+		tl: '',
+		kkal: 'kkal',
+		vampkg: 'wt/kg',
+		kg: 'kg',
+		sm: 'sm',
+		none: '',
+		mh: 'm/h', // добавил - "метров в час". Это для VAM.
+
+		// Показатели
+		adjustedPower: 'APw',
+		adjustedSpeed: 'APc',
+		altitude: 'Altitude',
+		cadence: 'Cadence',
+		calories: 'Calories',
+		distance: 'Distancе',
+		duration: 'Duration',
+		efficiencyFactor: 'EF',
+		elapsedDuration: 'El. duration',
+		elevation: 'Elevation',
+		elevationGain: 'El. gain',
+		elevationLoss: 'El. loss',
+		grade: 'Grade',
+		heartRate: 'HR',
+		intensityLevel: 'IL',
+		movingDuration: 'Mov. duration',
+		power: 'Power',
+		powerDecoupling: 'Power:HR',
+		speed: 'Pace',
+		speedDecoupling: 'Pace:HR',
+		trainingLoad: 'TL',
+		vam: "VAM",
+		vamPowerKg: 'Relative power',
+		variabilityIndex: 'VI',
+
+		//
+		FTP: 'FTP',
+		ATP: 'AeP',
+		minValue: 'Min',
+		maxValue: 'Max',
+
+		// Запись календаря Измерение
+		weight: 'Weight',
+		height: 'Height',
+		waterPercent: 'Water(%)',
+		percentFat: 'Fat(%)',
+		musculeMass: 'Muscle mass(kg)',
+		pulse: 'Rest HR',
+		sleepQuality: 'Sleep quality',
+		sleepHours: 'Sleep hours',
+		overallFeeling: 'Overall feeling'
+
 	}
 };

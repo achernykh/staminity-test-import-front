@@ -8,7 +8,7 @@
         <md-button class="md-icon-button"
                    ng-click="$ctrl.toggleMap()">
             <md-icon class="md-secondary material-icon md-dark"
-                     ng-bind="$ctrl.showMap ? 'expand_more': 'expand_less'"></md-icon>
+                     ng-bind="!$ctrl.showMap ? 'expand_more': 'expand_less'"></md-icon>
         </md-button>
     </header>
 
@@ -50,7 +50,7 @@
             </md-button>
             <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
                 <md-icon class="md-secondary material-icon md-dark"
-                         ng-bind="$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
+                         ng-bind="!$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
             </md-button>
         </div>
         <div ng-if="$ctrl.item.activity.structured">

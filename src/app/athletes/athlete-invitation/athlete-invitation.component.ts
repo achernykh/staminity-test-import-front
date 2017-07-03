@@ -1,28 +1,14 @@
 import './athlete-invitation.component.scss';
 import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
-
-interface UserCredentials {
-    public: {
-        firstName: string;
-        lastName: string;
-        avatar: string;
-        background: string;
-    };
-    display: {
-        units: string;
-        firstDayOfWeek: number;
-        timezone: string;
-        language: string;
-    };
-    email: string;
-    password: string;
-    activateCoachTrial: boolean;
-    activatePremiumTrial: boolean;
-};
+import AuthService from "../../auth/auth.service";
+import {IAuthService} from "../../auth/auth.service";
+import {IUserProfile} from "../../../../api/user/user.interface";
+import {UserCredentials} from "../../../../api/auth/auth.request";
+import MessageService from "../../core/message.service";
 
 class AthleteInvitationCtrl implements IComponentController {
 
-    public data: any;
+    public groupId: number;
     public onEvent: (response: Object) => IPromise<void>;
     public onCancel: () => IPromise<void>;
 
@@ -56,9 +42,9 @@ class AthleteInvitationCtrl implements IComponentController {
         pageSelect: false
     };
 
-    static $inject = ['$scope'];
+    static $inject = ['$scope', 'AuthService', 'message'];
 
-    constructor(private $scope: any) {
+    constructor(private $scope: any, private AuthService: IAuthService, private message: MessageService) {
 
     }
 
@@ -66,11 +52,25 @@ class AthleteInvitationCtrl implements IComponentController {
         this.users = Array.from(new Array(10)).map(() => copy(this.credTempl));
         //this.users.push(copy(this.credTempl), copy(this.credTempl), copy(this.credTempl));
     }
+
+    invite() {
+        debugger;
+        let users = this.users.filter(u => u.email && u.public.firstName && u.public.lastName);
+        if (users && users.length > 0) {
+            this.AuthService.inviteUsers(this.groupId,users)
+                .then((result)=>{
+                    if(result.hasOwnProperty('resultArray') && result.resultArray.every(r => r.status === 'I' || r.status === 'A')) {
+                        this.message.toastInfo('inviteSuccess');
+                        this.onCancel();
+                    }
+                }, (error)=>{debugger;});
+        }
+    }
 }
 
 const AthleteInvitationComponent:IComponentOptions = {
     bindings: {
-        coach: '<',
+        groupId: '<',
         onCancel: '&',
     },
     require: {

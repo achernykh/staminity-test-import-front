@@ -1,11 +1,11 @@
 import {PostData, IRESTService} from '../core/rest.service';
-import {SetPasswordRequest} from '../../../api/auth/auth.request';
+import {SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest} from '../../../api/auth/auth.request';
 import {ISessionService} from "../core/session.service";
-import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
+import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise, HttpHeaderType} from 'angular';
 import {ISocketService} from "../core/socket.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import GroupService from "../core/group.service";
-import HttpHeaderType = angular.HttpHeaderType;
+import {GetRequest} from "../../../api/calendar/calendar.request";
 
 
 export interface IAuthService {
@@ -21,6 +21,8 @@ export interface IAuthService {
     signOut():void;
     confirm(request:Object):IHttpPromise<{}>;
     setPassword(request:Object):IHttpPromise<{}>;
+    inviteUsers(group: number, users: Array<Object>):Promise<any>;
+    putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any>;
     storeUser(response: IHttpPromiseCallbackArg<any>):IHttpPromiseCallbackArg<any>;
 }
 
@@ -127,7 +129,7 @@ export default class AuthService implements IAuthService {
 
     signOut():void {
         this.SessionService.delToken();
-        this.SocketService.close();
+        this.SocketService.close({reason: 'signOut'});
     }
 
     /**
@@ -149,6 +151,21 @@ export default class AuthService implements IAuthService {
             .then((result) => {
                 return result['data'];
             }); // Ожидаем system message
+    }
+
+    /**
+     * Приглашение пользователей тренером/менеджером
+     * @param group - группа AllAthletes | ClubMembers
+     * @param users -
+     * @returns {Promise<any>}
+     */
+    inviteUsers(group: number, users: Array<Object>):Promise<any> {
+        return this.SocketService.send(new InviteRequest(group,users));
+    }
+
+    putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any> {
+        return this.RESTService.postData(new PostData('/api/wsgate', new PostInviteRequest(credentials)))
+            .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
     storeUser(response: IHttpPromiseCallbackArg<any>):IHttpPromiseCallbackArg<any>{

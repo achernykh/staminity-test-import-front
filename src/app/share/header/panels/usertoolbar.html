@@ -27,6 +27,6 @@
 </div>
 <div layout="row" layout-align="end center" layout-fill
      ng-if="!$ctrl.AuthService.isAuthenticated()">
-    <a ui-sref="signin" class="button" translate>landing.nav.signIn</a>
+    <a ui-sref="signin({ nextState: '{{::$ctrl.$state.$current.name}}', nextParams: {{::$ctrl.$state.params}} })" class="button" translate>landing.nav.signIn</a>
     <a ui-sref="signup" class="button" translate>landing.nav.signUp</a>
 </div>

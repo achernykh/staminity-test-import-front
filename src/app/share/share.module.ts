@@ -39,6 +39,9 @@ import NotificationService from "./notification/notification.service";
 import {InitiatorType} from "../../../api/notification/notification.interface";
 import { memorize, maybe, prop } from "./util.js";
 import {calcTimezoneTime} from "./date/date.filter";
+import PageNotFoundComponent from "./404/404.component";
+import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
+import {_translate_PageNotFound} from "./404/404.translate";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -259,10 +262,21 @@ const Share = module('staminity.share', [])
     .component('avatarPic', AvatarPicComponent)
     .component('athleteSelector', AthleteSelectorComponent)
     .component('notificationList', NotificationListComponent)
+    .component('pageNotFound', PageNotFoundComponent)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
-    .config(['$translateProvider',($translateProvider)=>{
+    .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
+
+        $stateProvider
+            .state('404', <Ng1StateDeclaration>{
+                url: "/404",
+                views: {
+                    "application": {
+                        component: 'pageNotFound'
+                    }
+                }
+            });
 
         $translateProvider.translations('ru', {appMenu: _application_menu['ru']});
         $translateProvider.translations('en', {appMenu: _application_menu['en']});
@@ -276,6 +290,8 @@ const Share = module('staminity.share', [])
         $translateProvider.translations('en', {dialogs: translateDialogs['en']});
         $translateProvider.translations('ru', translateNotification['ru']);
         $translateProvider.translations('en', translateNotification['en']);
+        $translateProvider.translations('ru', {'404': _translate_PageNotFound['ru']});
+        $translateProvider.translations('en', {'404': _translate_PageNotFound['en']});
     }])
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал

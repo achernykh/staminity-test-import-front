@@ -30,7 +30,6 @@ class AuthCtrl implements IComponentController {
          */
 		console.log('signin', this.$state, this.$stateParams);
 		if(this.$state.$current.name === 'signout') {
-			debugger;
 			this.AuthService.signOut();
 			this.$state.go('signin');
 		}
@@ -51,8 +50,9 @@ class AuthCtrl implements IComponentController {
 			} else {
 				this.$state.go('signup');
 			}
-
 		}
+
+
 
 		// Типовая структура для создания нового пользователя
 		this.credentials = {
@@ -102,6 +102,20 @@ class AuthCtrl implements IComponentController {
 			}, error => this.message.systemWarning(error));
 	}
 
+	/**
+	 *
+	 */
+	putInvite() {
+		this.enabled = false;
+		this.AuthService.putInvite(Object.assign(this.credentials, {token: this.$location['$$search']['request']}))
+            .finally(()=>this.enabled = true)
+			.then(response => {
+				debugger;
+				this.AuthService.storeUser({data: response});
+				this.redirect('calendar', {uri: response.userProfile.public.uri});
+			}, error => this.message.systemWarning(error.errorMessage || error));
+	}
+
 	OAuth(provider:string) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		debugger;
@@ -119,9 +133,10 @@ class AuthCtrl implements IComponentController {
         		this.redirect('calendar', {uri: response.data.data.userProfile.public.uri});
 				debugger;
 		}, error => {
-			debugger;
-			if (!(error.hasOwnProperty('message') && error.message.indexOf('The popup window was closed') !== -1)) {
-				this.message.systemWarning(error.data.errorMessage || error);
+			if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
+				this.message.toastInfo('userCancelOAuth');
+			} else {
+				this.message.systemWarning(error.data.errorMessage || error.errorMessage || error);
 			}
 		}).catch(response => {
 			this.message.systemError(response);

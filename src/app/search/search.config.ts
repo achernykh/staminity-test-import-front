@@ -9,7 +9,7 @@ function configure($stateProvider:StateProvider,
     $stateProvider
         .state('search', <StateDeclaration>{
             url: '/search',
-            loginRequired: false,
+            loginRequired: true,
             authRequired: null,
             resolve: {
                 view: () => new DisplayView('search')

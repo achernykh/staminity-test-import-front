@@ -16,7 +16,7 @@ function configure(
                 user: ['UserService','SessionService', 
                     (UserService, SessionService) => UserService.getProfile(SessionService.getUser().userId)],
                 management: ['GroupService','user',
-                    (GroupService, user) => GroupService.getManagementProfile(user.connections.Athletes.groupId, 'coach')]
+                    (GroupService, user) => GroupService.getManagementProfile(user.connections.allAthletes.groupId, 'coach')]
             },
             views: DefaultTemplate('athletes')
         });

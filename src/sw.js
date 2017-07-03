@@ -1,6 +1,6 @@
 'use strict';
 
-const version = '0.5.1-beta#58'; // increment in order to force a cache update
+const version = '0.5.1-beta#60'; // increment in order to force a cache update
 const toCache = '';
 
 self.addEventListener('install', (event) => {

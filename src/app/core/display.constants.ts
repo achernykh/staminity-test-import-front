@@ -194,10 +194,36 @@ export const _display_view = {
 			size: 'grow'
 		}
 	},
+	// Настройка страницы: Настройки клуба ../settings/club
+	settingsClub: {
+		background: {
+			style: 'light-grey',
+			toolbar: true,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: true,
+			athletes: true,
+			leftPanel: {
+				url: 'header/appmenutoolbar.html',
+				size: 20
+			},
+			rightPanel: {
+				url: 'header/usertoolbar.html',
+				size: 20
+			}
+		},
+		application: {
+			style: 'app-page',
+			margin: 20,
+			size: 'grow'
+		}
+	},
 	// Настройка страницы: Настройки пользователя ../dashboard
 	dashboard: {
 		background: {
-			style: 'light-grey',
+			style: 'application-light', //'landing-background',
 			toolbar: true,
 			size: '160'
 		},
