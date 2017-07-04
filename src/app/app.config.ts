@@ -14,8 +14,10 @@ function configure(
 	tmhDynamicLocaleProvider: any,
 	$mdDateLocaleProvider: any,
     $anchorScrollProvider: any,
-	$qProvider: any) {
+	$qProvider: any,
+	$mdGestureProvider: any) {
 
+	$mdGestureProvider.skipClickHijack(); //https://github.com/angular/angular.js/issues/6251
 	$qProvider.errorOnUnhandledRejections(false); // https://github.com/angular-ui/ui-router/issues/2889
 	$anchorScrollProvider.disableAutoScrolling();
     let isProductionBuild: boolean = __ENV !== "build";
@@ -130,6 +132,6 @@ function configure(
 
 configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider',
 	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider',
-	'$anchorScrollProvider','$qProvider'];
+	'$anchorScrollProvider','$qProvider','$mdGestureProvider'];
 
 export default configure;

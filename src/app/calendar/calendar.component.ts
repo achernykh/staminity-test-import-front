@@ -413,7 +413,7 @@ export class CalendarCtrl implements IComponentController{
             });
     }
 
-    onAddWeekend($event, data) {
+    onAddEvent($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',

@@ -70,8 +70,6 @@ export class SocketService implements ISocketService {
 
     public connections: Subject<any>;
     public messages: Subject<any>;
-    public internet: Subject<any>;
-    public backend: Subject<any>;
 
     static $inject = ['$q','SessionService', 'LoaderService','message','$state','$http'];
 
@@ -85,7 +83,6 @@ export class SocketService implements ISocketService {
         this.connections = new Subject();
         this.connections.subscribe(status => this.connectionStatus = !!status);
         this.messages = new Subject();
-        this.internet = new Subject();
 
         setInterval(()=>{
             $http.get(`/favicon.ico?_=${new Date().getTime()}`)
@@ -228,6 +225,7 @@ export class SocketService implements ISocketService {
 
         switch (ev.reason) {
             case 'badToken': {
+                this.requests = [];
                 this.message.toastInfo(ev.reason);
                 this.$state.go('signin');
                 break;

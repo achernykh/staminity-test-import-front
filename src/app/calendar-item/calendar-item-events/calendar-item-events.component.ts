@@ -102,7 +102,9 @@ class CalendarItemEventsCtrl {
 
     onSave() {
         if (this.mode === 'post') {
-            this.forAthletes.filter(athlete => athlete.active).forEach(athlete =>
+            let athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
+            athletes.push(...this.forAthletes.filter(athlete => athlete.active));
+            athletes.forEach(athlete =>
                 this.CalendarService.postItem(this.item.package(athlete.profile))
                     .then((response)=> {
                         this.item.compile(response);// сохраняем id, revision в обьекте
