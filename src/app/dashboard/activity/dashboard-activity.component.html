@@ -1,4 +1,5 @@
-<div class="activity {{::$ctrl.activity.status}}" ng-click="$ctrl.onOpen($env,'view')">
+<div class="activity {{::$ctrl.activity.status}}" ng-class="{selected: $ctrl.selected}"
+     ng-click="$ctrl.onOpen($env,'view')" >
     <header layout="row" layout-align="">
         <section flex="none" class="first-column" layout="column" layout-align="space-between start">
             <div flex="none" layout="row" layout-align="center center" class="bg-circle-24 bg-blue-grey-A700">

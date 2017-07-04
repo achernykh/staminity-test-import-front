@@ -35,9 +35,10 @@
                          ng-class="::{'dark' : ($ctrl.status == 'planned')}"
                          ng-if="::(!!$ctrl.data.movingDuration || $ctrl.data.distance)">
                     <div flex="none" ng-if="::$ctrl.data.movingDuration">
-                        {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
-                    <div flex="none" ng-if="::$ctrl.data.distance">
+                        {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}
                         <span>&nbsp&nbsp</span>
+                    </div>
+                    <div flex="none" ng-if="::$ctrl.data.distance">
                         {{::$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp
                         {{'distance' | measureUnit:$ctrl.data.sportBasic | translate}}</div>
                 </section>
@@ -82,9 +83,10 @@
              ng-class="::{'dark' : ($ctrl.status == 'planned')}"
              ng-if="::(!!$ctrl.data.movingDuration || $ctrl.data.distance)">
             <div flex="none" ng-if="::$ctrl.data.movingDuration">
-                {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
-            <div flex="none" ng-if="::$ctrl.data.distance">
+                {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}
                 <span>&nbsp&nbsp</span>
+            </div>
+            <div flex="none" ng-if="::$ctrl.data.distance">
                 {{::$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp
                 {{'distance' | measureUnit:$ctrl.data.sportBasic | translate}}</div>
         </section>

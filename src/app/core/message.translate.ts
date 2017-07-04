@@ -9,7 +9,15 @@ export const _translateMessage = {
 			title: 'Неопознанная ошибка',
 			text: 'Что-то пошло не так. Попробуйте повторить действие'
 		},
-
+		// CORE
+		internetConnectionLost: {
+			title: 'Ошибка',
+			text: 'Связь с сервером потеряна. Проверьте доступность сети интернет'
+		},
+		timeoutExceeded: {
+			title: 'Ошибка',
+			text: 'Первышено время ожидания ответа на запрос'
+		},
 		// SETTINGS-USER ------------------------------------------------------
 		settingsSaveComplete: { // после успешного сохранения настроек
 			title: '',
@@ -210,6 +218,19 @@ export const _translateMessage = {
 			text: "Измерение удалено"
 		},
 
+		// -------- Event --------
+		eventCreated: {
+			title: "",
+			text: "Создано новое событие"
+		},
+		eventUpdated: {
+			title: "",
+			text: "Событие изменено"
+		},
+		eventDeleted: {
+			title: "",
+			text: "Событие удалено"
+		},
 		// -------- Activity --------
 		activityCreated: {
 			title: "",
@@ -289,7 +310,10 @@ export const _translateMessage = {
 			title: "",
 			text: "Записи вырезаны и скопированы в буфер обмена"
 		},
-
+		forbiddenAction_postCalendarItem: { //
+			title: "",
+			text: "Невозможно создать запись в календаре, недостаточно прав"
+		},
 
 		// -------- Запросы и групповые операции ---------
 		requestSent: { // отправить запрос из профиля пользователя, из профиля клуба

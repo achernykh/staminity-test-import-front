@@ -43,7 +43,7 @@ class ActivityHeaderZonesCtrl implements IComponentController {
 
     getZone(factor:string = this.factor, sport: string = this.sport):Array<any> {
         if(this.hasDetails){
-            return this.calcMeasures[factor].zones;
+            return this.calcMeasures.hasOwnProperty(factor) && this.calcMeasures[factor].zones;
         } else {
             return (this.zones[this.filter[factor]].hasOwnProperty(sport) && this.zones[this.filter[factor]][sport].zones) ||
                 this.zones[this.filter[factor]]['default'].zones;

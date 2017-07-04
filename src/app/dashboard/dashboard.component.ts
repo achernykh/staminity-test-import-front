@@ -26,6 +26,7 @@ export interface IDashboardDay {
         calendarItems: Array<ICalendarItem>;
     };
     date: Date;
+    selected: boolean;
 }
 
 export class DashboardCtrl implements IComponentController {
@@ -143,7 +144,8 @@ export class DashboardCtrl implements IComponentController {
                 this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId))
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
-                return message;})
+                return message;
+            })
             .subscribe((message) => {
                 debugger;
                 switch (message.action) {
@@ -158,7 +160,7 @@ export class DashboardCtrl implements IComponentController {
                         break;
                     }
                     case 'U': {
-                        //this.onDeleteItem(getItemById(this.calendar, message.value.calendarItemId));
+                        this.onDeleteItem(<ICalendarItem>message.value);
                         this.onPostItem(<ICalendarItem>message.value);
                         this.$scope.$apply();
                         break;
@@ -203,15 +205,16 @@ export class DashboardCtrl implements IComponentController {
                                 data: {
                                     calendarItems: []
                                 },
-                                date: moment(start).add(i,'day').format(this.dateFormat)
+                                date: moment(start).add(i,'day').format(this.dateFormat),
+                                selected: false
                             })),
                             changes: 0
                         }))
                     });
                     response.map(item => {
-                        if(item.calendarItemType === 'activity') {
+                        //if(item.calendarItemType === 'activity') {
                             item['index'] = Number(`${item.calendarItemId}${item.revision}`);
-                        }
+                        //}
 
                         let sidId = this.cache.findIndex(d => d.sid === this.currentWeek);
                         let calendarId = this.cache[sidId].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);

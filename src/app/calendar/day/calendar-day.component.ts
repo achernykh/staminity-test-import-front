@@ -149,7 +149,9 @@ class CalendarDayCtrl {
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: data,
+                data: {
+                    date: data.date
+                },
                 user: this.calendar.user
             },
             bindToController: true,
@@ -175,7 +177,9 @@ class CalendarDayCtrl {
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: data,
+                data: {
+                    date: data.date
+                },
                 user: this.calendar.user
             },
             bindToController: true,

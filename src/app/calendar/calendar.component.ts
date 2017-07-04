@@ -413,21 +413,26 @@ export class CalendarCtrl implements IComponentController{
             });
     }
 
-    onAddWeekend($event, data) {
+    onAddEvent($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
             template: `<md-dialog id="events" aria-label="Events">
                         <calendar-item-events
                                 flex layout="column" class="calendar-item-events"
-                                data="$ctrl.data" mode="put"
+                                data="$ctrl.data"
+                                user="$ctrl.user"
+                                mode="post"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-events>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                //data: data
+                data: {
+                    date: new Date() // дата дня в формате ГГГГ-ММ-ДД
+                },
+                user: this.user
             },
             bindToController: true,
             clickOutsideToClose: true,

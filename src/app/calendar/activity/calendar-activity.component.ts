@@ -37,7 +37,7 @@ class CalendarActivityCtrl {
 
     $onInit() {
         this.data = new Activity(this.item);
-        this.data.prepare();
+        //this.data.prepare();
         this.isCreator = this.data.userProfileCreator.userId === this.calendar.currentUser.userId;
         //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
         if (this.data.bottomPanel === 'data') {

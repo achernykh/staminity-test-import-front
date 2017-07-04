@@ -9,6 +9,7 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 class DashboardActivityCtrl implements IComponentController {
 
     public item: ICalendarItem;
+    public selected: boolean;
     private activity: Activity;
     private athlete: IUserProfile;
     private dashboard: DashboardCtrl;
@@ -26,7 +27,7 @@ class DashboardActivityCtrl implements IComponentController {
 
     $onInit() {
         this.activity = new Activity(this.item);
-        this.activity.prepare();
+        //this.activity.prepare();
 
         this.isOwner = this.activity.userProfileOwner.userId === this.dashboard.coach.userId;
         this.isCreator = this.activity.userProfileCreator.userId === this.dashboard.coach.userId;
@@ -66,9 +67,8 @@ class DashboardActivityCtrl implements IComponentController {
         })
             .then(response => {
                 console.log('user close dialog with =', response);
-
                 // При изменение записи сначала удаляем старую, потом создаем новую
-                if(response.type === 'put'){
+                /**if(response.type === 'put'){
                     this.dashboard.onDeleteItem(this.activity);
                     this.dashboard.onPostItem(response.item);
                     this.message.toastInfo('Изменения сохранены');
@@ -77,7 +77,7 @@ class DashboardActivityCtrl implements IComponentController {
                 if(response.type === 'delete') {
                     this.dashboard.onDeleteItem(response.item);
                     this.message.toastInfo('Запись удалена');
-                }
+                }**/
 
 
             }, ()=> {
@@ -95,6 +95,7 @@ const DashboardActivityComponent:IComponentOptions = {
     bindings: {
         item: '<',
         athlete: '<',
+        selected: '<',
         onEvent: '&'
     },
     require: {
