@@ -1,0 +1,78 @@
+<application-frame class="reference" layout="row" style="position: absolute; top: 60px; bottom: 0; left: 0; right: 0; z-index: 100;">
+
+	<div flex></div>
+
+	<md-card layout="column" style="width: 600px; overflow-y: auto;">
+		<md-list class="md-dense section">
+			<md-subheader>{{ 'reference.cathegories.user' | translate }}</md-subheader>
+			<md-list-item 
+				class="md-2-line" 
+				ng-repeat="cathegory in $ctrl.getUserCathegories()"
+			>
+				<md-icon class="material-icons">person</md-icon>
+				<div class="md-list-item-text">
+					<h3>{{ cathegory.code }}</h3>
+					<p>{{ cathegory.description }}</p>
+				</div>
+				<md-switch/>
+			</md-list-item>
+		</md-list>
+
+		<md-divider></md-divider>
+
+		<md-list class="md-dense section">
+			<md-subheader>{{ 'reference.cathegories.coach' | translate }}</md-subheader>
+			<md-list-item 
+				class="md-2-line" 
+				ng-repeat="cathegory in $ctrl.getCoachCathegories()"
+			>
+				<md-icon class="material-icons">person</md-icon>
+				<div class="md-list-item-text">
+					<h3>{{ cathegory.code }}</h3>
+					<p>Автор: {{ cathegory.userProfileCreator | userName }}</p>
+					<p>{{ cathegory.description }}</p>
+				</div>
+				<md-switch/>
+			</md-list-item>
+		</md-list>
+
+		<md-divider></md-divider>
+
+		<md-list class="md-dense section">
+			<md-subheader>{{ 'reference.cathegories.club' | translate }}</md-subheader>
+			<md-list-item 
+				class="md-2-line" 
+				ng-repeat="cathegory in $ctrl.getClubCathegories()"
+			>
+				<md-icon class="material-icons">person</md-icon>
+				<div class="md-list-item-text">
+					<h3>{{ cathegory.code }}</h3>
+					<p>Клуб: {{ cathegory.groupProfile | clubName }}</p>
+					<p>{{ cathegory.description }}</p>
+				</div>
+				<md-switch/>
+			</md-list-item>
+		</md-list>
+
+		<md-divider></md-divider>
+
+		<md-list class="md-dense section">
+			<md-subheader>{{ 'reference.cathegories.system' | translate }}</md-subheader>
+			<md-list-item 
+				class="md-2-line" 
+				ng-repeat="cathegory in $ctrl.getSystemCathegories()"
+			>
+				<md-icon class="material-icons">person</md-icon>
+				<div class="md-list-item-text">
+					<h3>{{ cathegory.code }}</h3>
+					<p>{{ cathegory.description }}</p>
+				</div>
+				<md-switch/>
+			</md-list-item>
+		</md-list>
+	</md-card>
+
+	<div flex></div>
+
+</application-frame>
+

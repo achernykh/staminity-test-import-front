@@ -349,7 +349,7 @@ export const _display_view = {
 			margin: 20,
 			size: 'grow'
 		}
-	},
+	},	
 	// Настройка страницы: Список пользователей /athletes
 	athletes: {
 		background: {
@@ -404,6 +404,32 @@ export const _display_view = {
 	},
 	// Настройка страницы: Поиск /search
 	activity: {
+		background: {
+			style: 'light-grey',
+			toolbar: true,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: true,
+			athletes: true,
+			leftPanel: {
+				url: 'header/appmenutoolbar.html',
+				size: 20
+			},
+			rightPanel: {
+				url: 'header/usertoolbar.html',
+				size: 20
+			}
+		},
+		application: {
+			style: 'app-page',
+			margin: 20,
+			size: 'grow'
+		}
+	},
+	// Настройка страницы: Шаблоны и категории /reference
+	"reference": {
 		background: {
 			style: 'light-grey',
 			toolbar: true,
