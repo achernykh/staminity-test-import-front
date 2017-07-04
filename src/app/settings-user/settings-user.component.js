@@ -505,6 +505,10 @@ class SettingsUserCtrl {
         return this.BillingService.billStatus(bill);
     }
 
+    hasPaidBill () {
+        return this.user.billing.bills.find((bill) => bill.receiptDate);
+    }
+
     billsList () {
         return this.dialogs.billsList(this.user)
             .then(this.boundReload, this.boundReload);

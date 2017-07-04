@@ -1,139 +1,136 @@
-<md-dialog class="bill-details-dialog">
-    <form name="$ctrl.form" ng-submit='$ctrl.submit()' ng-cloak>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2 >{{ 'settings.billing.bill' | translate }}</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
-                    <md-icon class="material-icons">close</md-icon>
-                </md-button>
-            </div>
-        </md-toolbar>
-
-        <md-dialog-content>
-
-            <md-list class="md-dense">
-                <md-subheader class="md-no-sticky">{{ 'settings.billing.billDatesTitle' | translate }}</md-subheader>
-                <md-list-item>
-                    <span>{{ 'settings.billing.status' | translate }}</span>
-                    <span flex></span>
-                    <span class="font-bold">{{ 'settings.billing.billStatuses.' + $ctrl.billStatus | translate }}</span>
-                </md-list-item>
-                <md-list-item>
-                    <span>{{ 'settings.billing.billDates.start' | translate }}</span>
-                    <span flex></span>
-                    <span class="font-bold">{{ $ctrl.bill.startPeriod | date:shortDate }}</span>
-                </md-list-item>
-                <md-list-item>
-                    <span>{{ 'settings.billing.billDates.end' | translate }}</span>
-                    <span flex></span>
-                    <span class="font-bold">{{ $ctrl.bill.endPeriod | date:shortDate }}</span>
-                </md-list-item>
-                <md-list-item>
-                    <span>{{ 'settings.billing.billDates.bill' | translate }}</span>
-                    <span flex></span>
-                    <span class="font-bold">{{ $ctrl.bill.billDate | date:shortDate }}</span>
-                </md-list-item>
-                <md-list-item>
-                    <span>{{ 'settings.billing.billDates.payment' | translate }}</span>
-                    <span flex></span>
-                    <span class="font-bold">{{ $ctrl.bill.receiptDate | date:shortDate }}</span>
-                </md-list-item>
-            </md-list>
-
-            <md-subheader class="md-no-sticky">{{ 'settings.billing.feeDetails' | translate }}</md-subheader>
-            <md-table-container>
-                <table md-table>
-                    <tbody md-body>
-                        <tr md-row
-                            ng-repeat-start="tariff in $ctrl.bill.tariffs" 
-                            ng-init="fixedFee = $ctrl.fixedFee(tariff)" 
-                            ng-disabled="!fixedFee.transactions.length"
-                            class="bg-blue-grey-400"
-                        >
-                            <td md-cell class="font-medium md-light" colspan="2">{{ 'settings.billing.tariff' | translate }} «{{'settings.billing.tariffs.' + tariff.tariffCode | translate}}»</td>
-                            <td md-cell class="font-bold md-light text-right">{{ tariff.totalAmount | currency:$ctrl.bill.currency }}</td>
-                        </tr>
-                        <tr md-row 
-                            ng-click="$ctrl.feeDetails(fixedFee)" 
-                            class="animated-background outline-none"
-                            ng-class="fixedFee.transactions.length? ['hover-bg-blue-grey-200', 'cursor-pointer', 'bg-blue-grey-100', 'md-ink-ripple'] : ['bg-grey-100 md-dark']"
-                        >
-                            <td md-cell></td>
-                            <td md-cell class="font-medium">{{ 'settings.billing.fixedFee' | translate }}</td>
-                            <td md-cell class="font-bold text-right">{{ fixedFee.totalAmount | currency:$ctrl.bill.currency }}</td>
-                        </tr>
-                        <tr md-row>
-                            <td md-cell></td>
-                            <td md-cell>{{ 'settings.billing.fixedFee' | translate }}</td>
-                            <td md-cell class="font-bold text-right">{{ fixedFee.initialAmount | number:2 }}</td>
-                        </tr>
-                        <tr md-row ng-if="fixedFee.promoDiscount">
-                            <td md-cell></td>
-                            <td md-cell>{{ 'settings.billing.promoDiscount' | translate }}</td>
-                            <td md-cell class="font-bold text-right text-accent">{{ fixedFee.promoDiscount | number:2 }}</td>
-                        </tr>
-                        <tr md-row
-                            ng-repeat-start="fee in $ctrl.variableFees(tariff)" 
-                            ng-click="$ctrl.feeDetails(fee)" 
-                            ng-disabled="!fee.transactions.length"
-                            class="animated-background outline-none"
-                            ng-class="fee.transactions.length? ['hover-bg-blue-grey-200', 'cursor-pointer', 'bg-blue-grey-100', 'md-ink-ripple'] : ['bg-grey-100 md-dark']"
-                        >
-                            <td md-cell></td>
-                            <td md-cell class="font-medium">{{ 'settings.billing.group.' + fee.varGroup | translate }}</td>
-                            <td md-cell class="font-bold text-right">{{ fee.totalAmount | currency:$ctrl.bill.currency }}</td>
-                        </tr>
-                        <tr md-row ng-class="{'md-dark': !fee.transactions.length}">
-                            <td md-cell></td>
-                            <td md-cell>{{ 'settings.billing.group.' + fee.varGroup | translate }}</td>
-                            <td md-cell class="font-bold text-right">{{ fee.initialAmount | number:2 }}</td>
-                        </tr>
-                        <tr md-row ng-if="fee.volumeDiscount">
-                            <td md-cell></td>
-                            <td md-cell>{{ 'settings.billing.volumeDiscount' | translate }}</td>
-                            <td md-cell class="font-bold text-right text-accent">{{ fee.volumeDiscount | number:2 }}</td>
-                        </tr>
-                        <tr md-row ng-repeat-end ng-if="fee.promoDiscount">
-                            <td md-cell></td>
-                            <td md-cell>{{ 'settings.billing.promoDiscount' | translate }}</td>
-                            <td md-cell class="font-bold text-right text-accent">{{ fee.promoDiscount | number:2 }}</td>
-                        </tr>
-                        <tr md-row ng-repeat-end ng-hide="true"></tr>
-                        <tr md-row class="bg-blue-grey-400">
-                            <td md-cell class="font-medium md-light" colspan="2">{{ 'settings.billing.billTotal' | translate }}</td>
-                            <td md-cell class="font-bold md-light text-right">{{ $ctrl.bill.totalAmount | currency:$ctrl.bill.currency }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </md-table-container>
-
-            <md-list class="md-dense" ng-if="$ctrl.billStatus === 'ready'">
-                <md-subheader class="md-no-sticky">{{ 'settings.billing.payment' | translate }}</md-subheader>
-                <md-list-item>
-                    <md-button 
-                        ng-class="{'sectioned-button_right': true, 'md-raised': true, 'md-primary': $ctrl.paymentSystem === 'fondy'}"
-                        ng-click="$ctrl.paymentSystem = 'fondy'"
-                    >{{ 'settings.billing.card' | translate }}</md-button>
-                    <md-button 
-                        ng-class="{'sectioned-button_left': true, 'md-raised': true, 'md-primary': $ctrl.paymentSystem === 'paypal'}"
-                        ng-click="$ctrl.paymentSystem = 'paypal'"
-                    >{{ 'settings.billing.paypal' | translate }}</md-button>
-                </md-list-item>
-            </md-list>
-
-        </md-dialog-content>
-
-        <md-dialog-actions ng-switch="$ctrl.billStatus">
-            <md-button ng-click="$ctrl.cancel()">{{ 
-                'settings.billing.' + ($ctrl.billStatus === 'ready'? 'cancel' : 'close') | translate 
-            }}</md-button>
+<md-dialog class="bill-details-dialog font-13">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 >{{ 'settings.billing.bill' | translate }}</h2>
             <span flex></span>
-            <span ng-switch-when="ready">
-                <md-button ng-click="$ctrl.submit()" class="md-accent" ng-disabled="!$ctrl.bill.payment">{{ 
-                    'settings.billing.payTheBill' | translate:{amount:($ctrl.bill.totalAmount | currency:$ctrl.bill.currency)} 
-                }}</md-button>
-            </span>
-        </md-dialog-actions>
-    </form>
+            <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content flex>
+        <md-list class="md-dense">
+            <md-subheader class="md-no-sticky">{{ 'settings.billing.billDatesTitle' | translate }}</md-subheader>
+            <md-list-item>
+                <span>{{ 'settings.billing.status' | translate }}</span>
+                <span flex></span>
+                <span class="font-bold">{{ 'settings.billing.billStatuses.' + $ctrl.billStatus | translate }}</span>
+            </md-list-item>
+            <md-list-item>
+                <span>{{ 'settings.billing.billDates.start' | translate }}</span>
+                <span flex></span>
+                <span class="font-bold">{{ $ctrl.bill.startPeriod | date:shortDate }}</span>
+            </md-list-item>
+            <md-list-item>
+                <span>{{ 'settings.billing.billDates.end' | translate }}</span>
+                <span flex></span>
+                <span class="font-bold">{{ $ctrl.bill.endPeriod | date:shortDate }}</span>
+            </md-list-item>
+            <md-list-item>
+                <span>{{ 'settings.billing.billDates.bill' | translate }}</span>
+                <span flex></span>
+                <span class="font-bold">{{ $ctrl.bill.billDate | date:shortDate }}</span>
+            </md-list-item>
+            <md-list-item>
+                <span>{{ 'settings.billing.billDates.payment' | translate }}</span>
+                <span flex></span>
+                <span class="font-bold">{{ $ctrl.bill.receiptDate | date:shortDate }}</span>
+            </md-list-item>
+        </md-list>
+
+        <md-subheader class="md-no-sticky">{{ 'settings.billing.feeDetails' | translate }}</md-subheader>
+        <md-table-container>
+            <table md-table>
+                <tbody md-body>
+                    <tr md-row
+                        ng-repeat-start="tariff in $ctrl.bill.tariffs" 
+                        ng-init="fixedFee = $ctrl.fixedFee(tariff)" 
+                        ng-disabled="!fixedFee.transactions.length"
+                        class="bg-blue-grey-400"
+                    >
+                        <td md-cell class="font-medium md-light" colspan="2">{{ 'settings.billing.tariff' | translate }} «{{'settings.billing.tariffs.' + tariff.tariffCode | translate}}»</td>
+                        <td md-cell class="font-bold md-light text-right">{{ tariff.totalAmount | currency:$ctrl.bill.currency }}</td>
+                    </tr>
+                    <tr md-row 
+                        ng-click="$ctrl.feeDetails(fixedFee)" 
+                        class="animated-background outline-none"
+                        ng-class="fixedFee.transactions.length? ['hover-bg-blue-grey-200', 'cursor-pointer', 'bg-blue-grey-100', 'md-ink-ripple'] : ['bg-grey-100 md-dark']"
+                    >
+                        <td md-cell></td>
+                        <td md-cell class="font-medium">{{ 'settings.billing.fixedFee' | translate }}</td>
+                        <td md-cell class="font-bold text-right">{{ fixedFee.totalAmount | currency:$ctrl.bill.currency }}</td>
+                    </tr>
+                    <tr md-row>
+                        <td md-cell></td>
+                        <td md-cell>{{ 'settings.billing.fixedFee' | translate }}</td>
+                        <td md-cell class="font-bold text-right">{{ fixedFee.initialAmount | number:2 }}</td>
+                    </tr>
+                    <tr md-row ng-if="fixedFee.promoDiscount">
+                        <td md-cell></td>
+                        <td md-cell>{{ 'settings.billing.promoDiscount' | translate }}</td>
+                        <td md-cell class="font-bold text-right text-accent">{{ fixedFee.promoDiscount | number:2 }}</td>
+                    </tr>
+                    <tr md-row
+                        ng-repeat-start="fee in $ctrl.variableFees(tariff)" 
+                        ng-click="$ctrl.feeDetails(fee)" 
+                        ng-disabled="!fee.transactions.length"
+                        class="animated-background outline-none"
+                        ng-class="fee.transactions.length? ['hover-bg-blue-grey-200', 'cursor-pointer', 'bg-blue-grey-100', 'md-ink-ripple'] : ['bg-grey-100 md-dark']"
+                    >
+                        <td md-cell></td>
+                        <td md-cell class="font-medium">{{ 'settings.billing.group.' + fee.varGroup | translate }}</td>
+                        <td md-cell class="font-bold text-right">{{ fee.totalAmount | currency:$ctrl.bill.currency }}</td>
+                    </tr>
+                    <tr md-row ng-class="{'md-dark': !fee.transactions.length}">
+                        <td md-cell></td>
+                        <td md-cell>{{ 'settings.billing.group.' + fee.varGroup | translate }}</td>
+                        <td md-cell class="font-bold text-right">{{ fee.initialAmount | number:2 }}</td>
+                    </tr>
+                    <tr md-row ng-if="fee.volumeDiscount">
+                        <td md-cell></td>
+                        <td md-cell>{{ 'settings.billing.volumeDiscount' | translate }}</td>
+                        <td md-cell class="font-bold text-right text-accent">{{ fee.volumeDiscount | number:2 }}</td>
+                    </tr>
+                    <tr md-row ng-repeat-end ng-if="fee.promoDiscount">
+                        <td md-cell></td>
+                        <td md-cell>{{ 'settings.billing.promoDiscount' | translate }}</td>
+                        <td md-cell class="font-bold text-right text-accent">{{ fee.promoDiscount | number:2 }}</td>
+                    </tr>
+                    <tr md-row ng-repeat-end ng-hide="true"></tr>
+                    <tr md-row class="bg-blue-grey-400">
+                        <td md-cell class="font-medium md-light" colspan="2">{{ 'settings.billing.billTotal' | translate }}</td>
+                        <td md-cell class="font-bold md-light text-right">{{ $ctrl.bill.totalAmount | currency:$ctrl.bill.currency }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+        <md-list class="md-dense" ng-if="$ctrl.billStatus === 'ready'">
+            <md-subheader class="md-no-sticky">{{ 'settings.billing.payment' | translate }}</md-subheader>
+            <md-list-item>
+                <md-button 
+                    ng-class="{'sectioned-button_right': true, 'md-raised': true, 'md-primary': $ctrl.getPaymentSystem() === 'fondy'}"
+                    ng-click="$ctrl.setPaymentSystem('fondy')"
+                >{{ 'settings.billing.card' | translate }}</md-button>
+                <md-button 
+                    ng-class="{'sectioned-button_left': true, 'md-raised': true, 'md-primary': $ctrl.getPaymentSystem() === 'paypal'}"
+                    ng-click="$ctrl.setPaymentSystem('paypal')"
+                >{{ 'settings.billing.paypal' | translate }}</md-button>
+            </md-list-item>
+        </md-list>
+
+    </md-dialog-content>
+
+    <md-dialog-actions ng-switch="$ctrl.billStatus">
+        <md-button ng-click="$ctrl.cancel()">{{ 
+            'settings.billing.' + ($ctrl.billStatus === 'ready'? 'cancel' : 'close') | translate 
+        }}</md-button>
+        <span flex></span>
+        <span ng-switch-when="ready">
+            <md-button ng-click="$ctrl.submit()" class="md-accent" ng-disabled="!$ctrl.bill.payment.checkoutUrl">{{ 
+                'settings.billing.payTheBill' | translate:{amount:($ctrl.bill.totalAmount | currency:$ctrl.bill.currency)} 
+            }}</md-button>
+        </span>
+    </md-dialog-actions>
 </md-dialog>

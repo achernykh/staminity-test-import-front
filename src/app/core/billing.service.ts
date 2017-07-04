@@ -138,10 +138,10 @@ export default class BillingService {
         let tariffEnablerCoach = this.tariffEnablerCoach(tariff);
 
         return (
-            tariff.isOn && tariff.expireDate && !this.tariffEnablerCoach(tariff) && 'enabled' ||
+            tariff.isTrial && tariff.expireDate && 'trial' ||
             tariffEnablerClub && 'enabledByClub' ||
             tariffEnablerCoach && 'enabledByCoach' ||
-            tariff.isTrial && tariff.expireDate && 'trial' ||
+            tariff.isOn && tariff.expireDate && !this.tariffEnablerCoach(tariff) && 'enabled' ||
             tariff.isBlocked && 'isBlocked' ||
             tariff.unpaidBill && 'isBlocked' ||
             !tariff.isOn && 'notEnabled' 

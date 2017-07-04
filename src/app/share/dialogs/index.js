@@ -614,7 +614,6 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     this.setBill = (bill) => {
         this.bill = bill;
         this.billStatus = BillingService.billStatus(bill);
-        this.paymentSystem = this.getPaymentSystem(bill);
     };
 
     this.fixedFee = (tariff) => {
@@ -629,11 +628,11 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
         return fee.transactions && fee.transactions.length && dialogs.feeDetails(fee, this.bill);
     };
 
-    this.getPaymentSystem = (bill) => {
-        return 'fondy';
+    this.getPaymentSystem = () => {
+        return this.bill.paymentSystem || 'fondy';
     };
 
-    this.changePaymentSystem = (paymentSystem) => {
+    this.setPaymentSystem = (paymentSystem) => {
         return BillingService.updatePaymentSystem(this.bill.billId, paymentSystem)
             .then((bill) => this.setBill(bill), (info) => {
                 message.systemWarning(info);
@@ -641,7 +640,7 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
             });
     };
 
-    this.pay = () => {
+    this.submit = () => {
         let checkoutUrl = maybe(this.bill) (prop('payment')) (prop('checkoutUrl')) ();
 
         return checkoutUrl && BillingService.checkout(checkoutUrl)
@@ -653,17 +652,13 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
             });
     };
 
-    this.submit = () => {
-        return Promise.resolve(this.paymentSystem !== this.getPaymentSystem())
-            .then((needUpdate) => needUpdate && this.changePaymentSystem(this.paymentSystem))
-            .then(this.pay);
-    };
-
     this.cancel = () => {
         $mdDialog.cancel();
     };
 
     this.setBill(bill);
+
+    $scope.$watch(() => this.paymentSystem, this.savePaymentSystem);
 
     console.log('BillDetailsController', this);
 }

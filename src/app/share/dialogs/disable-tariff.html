@@ -1,37 +1,35 @@
-<md-dialog class="disable-tariff-dialog">
-    <form name="$ctrl.form" ng-cloak>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2 >{{ 'settings.billing.disableTariff' | translate }} «{{ 'settings.billing.tariffs.' + $ctrl.tariff.tariffCode | translate }}»</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
-                    <md-icon class="material-icons">close</md-icon>
-                </md-button>
-            </div>
-        </md-toolbar>
-
-        <md-dialog-content>
-            <md-list class="md-dense">
-                <md-list-item>
-                    <div class="md-list-item-text" style="white-space: pre-wrap;">{{ 
-                        !$ctrl.canDisconnect() && ('settings.billing.tariffDisconnectionUnavailable' | translate:{counts:$ctrl.countsText()}) ||
-                        $ctrl.tariff.disconnectNow && ('settings.billing.tariffDisconnectNow' | translate) ||
-                        ('settings.billing.tariffDisconnectLater' | translate:{validThrough:($ctrl.billing.expireDate | date:'dd.MM.yyyy')})
-                    }}</div>
-                </md-list-item>
-            </md-list>
-        </md-dialog-content>
-
-        <md-dialog-actions layout="row">
+<md-dialog class="disable-tariff-dialog font-13" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 >{{ 'settings.billing.disableTariff' | translate }} «{{ 'settings.billing.tariffs.' + $ctrl.tariff.tariffCode | translate }}»</h2>
             <span flex></span>
-            <md-button 
-                ng-click="$ctrl.cancel()"
-            >{{ 'settings.billing.cancel' | translate }}</md-button>
-            <md-button 
-                ng-if="$ctrl.canDisconnect()"
-                class="md-primary"
-                ng-click="$ctrl.submit()"
-            >{{ 'settings.billing.confirmDisable' | translate }}</md-button>
-        </md-dialog-actions>
-    </form>
+            <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content flex>
+        <md-list class="md-dense">
+            <md-list-item>
+                <div class="md-list-item-text" style="white-space: pre-wrap;">{{ 
+                    !$ctrl.canDisconnect() && ('settings.billing.tariffDisconnectionUnavailable' | translate:{counts:$ctrl.countsText()}) ||
+                    $ctrl.tariff.disconnectNow && ('settings.billing.tariffDisconnectNow' | translate) ||
+                    ('settings.billing.tariffDisconnectLater' | translate:{validThrough:($ctrl.billing.expireDate | date:'dd.MM.yyyy')})
+                }}</div>
+            </md-list-item>
+        </md-list>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button 
+            ng-click="$ctrl.cancel()"
+        >{{ 'settings.billing.cancel' | translate }}</md-button>
+        <md-button 
+            ng-if="$ctrl.canDisconnect()"
+            class="md-primary"
+            ng-click="$ctrl.submit()"
+        >{{ 'settings.billing.confirmDisable' | translate }}</md-button>
+    </md-dialog-actions>
 </md-dialog>

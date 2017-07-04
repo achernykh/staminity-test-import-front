@@ -60,7 +60,7 @@
                 <div class="md-list-item-text">
                     <md-subheader>{{ 'settings.billing.invoices' | translate }}</md-subheader>
                 </div>
-                <p class="md-secondary">
+                <p class="md-secondary" ng-if="$ctrl.hasPaidBill()">
                     {{ 'settings.billing.autoPayment' | translate }}
                     <md-checkbox
                         style="margin-left: 15px;"
