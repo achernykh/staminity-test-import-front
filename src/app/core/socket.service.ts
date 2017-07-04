@@ -88,7 +88,7 @@ export class SocketService implements ISocketService {
         this.internet = new Subject();
 
         setInterval(()=>{
-            $http.get(`/favicon.ico?${this.requestId++}`)
+            $http.get(`/favicon.ico?_=${new Date().getTime()}`)
                 .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
                     this.internetStatus = true;
                     if(!this.connectionStatus) {
