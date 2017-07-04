@@ -42,7 +42,7 @@ export default class SessionService implements ISessionService {
 		try {
 			this._user = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
 		} catch (e) {
-			
+
 		}
 		this._profile = new BehaviorSubject(this.getUser());
 		this.profile = this._profile.asObservable();
@@ -112,7 +112,6 @@ export default class SessionService implements ISessionService {
 	}
 
 	setToken(value:Object):void {
-		debugger;
 		try {
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(value));
 			let userProfile = value['userProfile'];
