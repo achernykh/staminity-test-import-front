@@ -290,10 +290,20 @@ class ActivityChartController implements IComponentController {
         // draw new chart
         this.drawGrid(areas);
         this.drawMetricAreas(areas);
-        this.drawSelections(areas.length);
-        this.createTooltip();
-        this.setupUserSelections();
-    }
+        this.setupUserInteractionElements(areas);
+        }
+
+  /**
+   * Подготовка и отрисовка элементов графика, отвечающих за интерактивносьт вынесены в отдельный метод
+   * для модификации в контроллере-потомке.
+   * Смотри:
+   * https://gitlab.com/aborovsky/staminity-mobileapp/tree/master/src/app/activity/components/measure-chart/chart.component.ts
+   */
+  protected setupUserInteractionElements(areas) {
+    this.drawSelections(areas.length);
+    this.createTooltip();
+    this.setupUserSelections();
+  }
 
     private drawMetricAreas(areas): void {
         // append clipPath
@@ -598,7 +608,7 @@ class ActivityChartController implements IComponentController {
                 endSelection(endPos);
             });
     }
-    
+
     private addResizeHandlers(data: Array<{initPos: number, timestamp: number}>): void {
         let self = this;
         this.$interactiveArea
@@ -742,7 +752,7 @@ class ActivityChartController implements IComponentController {
                 marker.style('display', 'none');
             })
             .on('mousemove.' + markerId, function () {
-                // imterpolate current metric value and update the marker's position 
+                // imterpolate current metric value and update the marker's position
                 // and the metric's info in tooltip panel
                 var mouse = d3.mouse(this);
                 var domainValue = domainScale.invert(mouse[0]);
@@ -872,7 +882,7 @@ class ActivityChartController implements IComponentController {
         });
     }
 
-    // calculate responsitive ticks for each axis based on current chart size 
+    // calculate responsitive ticks for each axis based on current chart size
     // and specified chart's settings
     private calcTics(rangeInfo, settings): Array<number> {
         let currStep = settings.tickMinStep;

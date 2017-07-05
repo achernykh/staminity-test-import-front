@@ -163,7 +163,7 @@ export class SocketService implements ISocketService {
                 this.close({reason: 'lostHeartBit'}); // TODO reopen?
             }
         }, this.heartBitTimeout);
-        
+
         if (this.requests[response.requestId]) {
             let callback:any = this.requests[response.requestId];
             this.lastHeartBit = Date.now();
@@ -227,7 +227,7 @@ export class SocketService implements ISocketService {
             case 'badToken': {
                 this.requests = [];
                 this.message.toastInfo(ev.reason);
-                this.$state.go('signin');
+                this.$state.go('signout');
                 break;
             }
             case 'lostHeartBit': {

@@ -19,16 +19,16 @@ interface Select {
 interface SelectionOptions<T> {
     [index: string]: any;
 }
-class ActivityHeaderDetailsCtrl implements IComponentController {
+export class ActivityHeaderDetailsCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
     private selectionIndex: ISelectionIndex;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
-    private chartData: MeasureChartData; // класс для расчета данных для графика
+    protected chartData: MeasureChartData; // класс для расчета данных для графика
 
     private readonly intervalTypes = ['L','U'];
     private intervals: SelectionOptions<Select> = {};
-    private changes: number = 0;
+    protected changes: number = 0;
     private selectedIntervals: Array<string> = [];
 
     static $inject = [];

@@ -3,7 +3,7 @@ import {IComponentOptions, IComponentController, IPromise, INgModelController} f
 import {Activity} from "../activity.datamodel";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 
-class ActivityHeaderOverviewCtrl implements IComponentController {
+export class ActivityHeaderOverviewCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
     public mode: string;

@@ -2,7 +2,7 @@ import './activity-header-splits.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {IActivityIntervalL} from "../../../../api/activity/activity.interface";
 
-class ActivityHeaderSplitsCtrl implements IComponentController {
+export class ActivityHeaderSplitsCtrl implements IComponentController {
 
     public splits: Array<IActivityIntervalL>;
     public sport: string;

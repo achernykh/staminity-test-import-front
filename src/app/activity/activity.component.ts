@@ -3,7 +3,7 @@ import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {IUserProfile} from "../../../api/user/user.interface";
 
-class ActivityCtrl implements IComponentController {
+export class ActivityCtrl implements IComponentController {
 
     public item: ICalendarItem;
     public athlete: IUserProfile;

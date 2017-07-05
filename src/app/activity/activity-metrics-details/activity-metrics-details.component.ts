@@ -5,7 +5,7 @@ import {Activity} from "../activity.datamodel";
 import {isPace, getSportLimit} from "../../share/measure/measure.constants";
 import {MeasureChartData} from "../activity.function";
 
-class ActivityMetricsDetailsCtrl implements IComponentController {
+export class ActivityMetricsDetailsCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
     public mode: string;
