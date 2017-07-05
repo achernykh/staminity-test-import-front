@@ -4,6 +4,7 @@ import {StateService} from 'angular-ui-router';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import LoaderService from "../share/loader/loader.service";
 import {IMessageService} from "./message.service";
+import {IHttpService, noop} from 'angular';
 
 
 export enum SocketStatus {
@@ -64,20 +65,37 @@ export class SocketService implements ISocketService {
         postCalendarItem: 10.0
     };
 
+    private internetStatus: boolean = true;
+    private connectionStatus: boolean = true;
+
     public connections: Subject<any>;
     public messages: Subject<any>;
 
-    static $inject = ['$q','SessionService', 'LoaderService','message','$state'];
+    static $inject = ['$q','SessionService', 'LoaderService','message','$state','$http'];
 
     constructor (
         private $q: any,
         private SessionService:ISessionService,
         private loader: LoaderService,
         private message: IMessageService,
-        private $state: StateService ) {
+        private $state: StateService, private $http: IHttpService) {
 
         this.connections = new Subject();
+        this.connections.subscribe(status => this.connectionStatus = !!status);
         this.messages = new Subject();
+
+        setInterval(()=>{
+            $http.get(`/favicon.ico?_=${new Date().getTime()}`)
+                .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
+                    this.internetStatus = true;
+                    if(!this.connectionStatus) {
+                        this.open().then(() => this.connections.next(true), () => this.connections.next(false));
+                    }
+                }, () => {
+                    this.internetStatus = false;
+                    this.connections.next(false);
+                }); // подключение отсутствует
+        }, 5000);
     }
 
     /**
@@ -105,6 +123,7 @@ export class SocketService implements ISocketService {
                         .subscribe(this.messages);
                 } else {
                     console.log('SocketService: error open connection');
+                    this.connections.next(false);
                 }
 
             }
@@ -135,6 +154,15 @@ export class SocketService implements ISocketService {
     response (event:any, WS:any = this) {
         console.log('SocketService: new websocket message event', event);
         let response:IWSResponse = JSON.parse(<string>event['data']);
+
+        // Через таймаут проверяем пришел ли hb/сообщение, если нет, то считаем сессию потерянной и пробуем переоткрыть
+        setTimeout(()=>{
+            let timeStamp = Date.now();
+            if (this.lastHeartBit && (timeStamp - this.lastHeartBit) >= this.heartBitTimeout) {
+                this.connections.next(false);
+                this.close({reason: 'lostHeartBit'}); // TODO reopen?
+            }
+        }, this.heartBitTimeout);
         
         if (this.requests[response.requestId]) {
             let callback:any = this.requests[response.requestId];
@@ -154,9 +182,11 @@ export class SocketService implements ISocketService {
             if (response.hasOwnProperty('type') && response['type'] === 'hb') {
                 let timeStamp = Date.now();
                 if (this.lastHeartBit && (timeStamp - this.lastHeartBit) >= this.heartBitTimeout) {
+                    this.connections.next(false);
                     this.close({reason: 'lostHeartBit'}); // TODO reopen?
+                } else {
+                    this.lastHeartBit = Date.now();
                 }
-                this.lastHeartBit = Date.now();
             }
         }
     }
@@ -166,13 +196,15 @@ export class SocketService implements ISocketService {
      * @param event
      */
     reopen(event:any){
-        console.log('SocketService: reopen ', event);
-        debugger;
-
+        console.log('SocketService: reopen ', event, this.internetStatus);
         if(event.type === 'error'){
-            setTimeout(()=> this.open(), this.reopenTimeout++ * 1000);
-        } else if (event.type === 'close') { // or !signout
-            setTimeout(()=> this.open(), this.reopenTimeout++ * 1000);
+            setTimeout(()=> this.internetStatus && this.open().then(() => this.connections.next(true),
+                () => this.connections.next(false)),
+                this.reopenTimeout++ * 1000);
+        } else if (event.type === 'lostHeartBit') { // or !signout
+            setTimeout(()=> this.internetStatus && this.open().then(() => this.connections.next(true),
+                () => this.connections.next(false)),
+                this.reopenTimeout++ * 1000);
         }
     }
 
@@ -182,7 +214,6 @@ export class SocketService implements ISocketService {
     close (ev: CloseEvent | any) {
         console.log('SocketService: close ', ev, typeof ev);
         if (typeof ev === 'CloseEvent') {
-            debugger;
             return;
         }
 
@@ -190,25 +221,20 @@ export class SocketService implements ISocketService {
         this.socket.removeEventListener('close', this.close.bind(this));
         this.socket.removeEventListener('error', this.reopen.bind(this));
         this.socket.close(3000, ev.reason);
-        this.lastHeartBit = null;
+        //this.lastHeartBit = null;
 
         switch (ev.reason) {
             case 'badToken': {
+                this.requests = [];
                 this.message.toastInfo(ev.reason);
                 this.$state.go('signin');
                 break;
             }
             case 'lostHeartBit': {
-                this.reopen({type: 'close'});
+                this.reopen({type: 'lostHeartBit'});
                 break;
             }
         }
-
-        /**if(this.socket){
-            this.socket.close(3000,ev.reason);
-        } else {
-
-        }**/
     }
 
     /**
@@ -220,30 +246,33 @@ export class SocketService implements ISocketService {
      */
     send(request:IWSRequest):Promise<any> {
 
-        if (this.lastHeartBit && (Date.now() - this.lastHeartBit) >= this.heartBitTimeout) {
+        /**if (this.lastHeartBit && (Date.now() - this.lastHeartBit) >= this.heartBitTimeout) {
+            this.connections.next(false);
             this.close({reason: 'lostHeartBit'});
-            //debugger;
-            //return this.send(request);
+        }**/
+
+        if (!this.connectionStatus){ // если соединение не установлено
+            return Promise.reject('internetConnectionLost');
         }
 
-        return this.open()
-            .then(() => {
-                request.requestId = this.requestId++;
-                this.socket.send(JSON.stringify(request));
-                let deferred = this.$q.defer();
-                this.requests[request.requestId] = deferred;
-                //console.log('SocketService.send=', JSON.stringify(request), this.requests, deferred);
-                this.loader.show();
+        return this.open().then(() => {
+            request.requestId = this.requestId++;
+            //console.log('socket send', request);
+            this.socket.send(JSON.stringify(request));
+            let deferred = this.$q.defer();
+            this.requests[request.requestId] = deferred;
+            this.loader.show();
 
-                setTimeout(() => {
-                    if(this.requests[request.requestId]) {
-                        this.requests[request.requestId].reject('internetConnectionLost');
-                        delete this.requests[request.requestId];
-                        this.loader.hide();
-                    }
-                }, (this.responseLimit[request.requestType] || this.responseTimeout) * 1000);
+            setTimeout(() => {
+                if(this.requests[request.requestId]) {
+                    this.requests[request.requestId].reject('timeoutExceeded'); //TODO что делаем с этим?
+                    delete this.requests[request.requestId];
+                    this.loader.hide();
+                }
+            }, (this.responseLimit[request.requestType] || this.responseTimeout) * 1000);
 
-                return deferred.promise;
-            }, () => Promise.reject('internetConnectionLost'));
+            return deferred.promise;
+
+        }, () => Promise.reject('internetConnectionLost'));
     }
 }

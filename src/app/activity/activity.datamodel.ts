@@ -239,7 +239,6 @@ export class Activity extends CalendarItem {
 
 	// Подготовка данных для передачи в API
 	build(userProfile?: IUserProfileShort) {
-		debugger;
 		super.package();
 		this.dateEnd = this.dateStart;
 		this.header.activityType = getType(Number(this.header.activityType.id));

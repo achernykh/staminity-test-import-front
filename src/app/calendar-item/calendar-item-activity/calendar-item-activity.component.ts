@@ -318,7 +318,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
     onSave() {
 
         if (this.mode === 'post') {
-            this.forAthletes.filter(athlete => athlete.active).forEach(athlete =>
+            let athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
+            athletes.push(...this.forAthletes.filter(athlete => athlete.active));
+            athletes.forEach(athlete =>
                 //console.log('post', athlete.profile, athlete.active)
                 this.CalendarService.postItem(this.activity.build(athlete.profile))
                     .then((response)=> {

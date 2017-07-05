@@ -39,18 +39,17 @@ export default class RequestsService {
         private SessionService:ISessionService
     ) { 
         this.notifications = this.SocketService.messages
-        .filter(message => message.type === 'groupMembershipRequest')
-        .map(message => message.value)
-        .share();
+            .filter(message => message.type === 'groupMembershipRequest')
+            .map(message => message.value)
+            .share();
 
         this.requestsList = this.SocketService.connections
-        .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 100)))
-        .switchMap(requests => this.notifications.scan(processRequest, requests).startWith(requests))
-        .share();
+            .filter(status => status)
+            .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 100)))
+            .switchMap(requests => this.notifications.scan(processRequest, requests).startWith(requests))
+            .share();
 
-        this.requestsList.subscribe(requests => { 
-            this.requests = requests;
-        });
+        this.requestsList.subscribe(requests => this.requests = requests);
     }
 
     /**

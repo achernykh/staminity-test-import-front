@@ -11,6 +11,7 @@ import NotificationService from "../notification/notification.service";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
 import DisplayService from "../../core/display.service";
+import {ISocketService, SocketService} from "../../core/socket.service";
 
 class HeaderCtrl implements IComponentController {
 	public requests: number;
@@ -18,12 +19,14 @@ class HeaderCtrl implements IComponentController {
 	private user: IUserProfile;
 	private athlete: IUserProfile;
 	private profile$: Observable<IUserProfile>;
+	private internet$: Observable<boolean>;
 	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
 	private readonly athleteSelectorStates: Array<string> = ['calendar','settings/user'];
 	private openChat: ChatSession;
+	private internetStatus: boolean = true;
 
 	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', 'NotificationService',
-		'CommentService','$mdDialog', '$state','toaster', 'display'];
+		'CommentService','$mdDialog', '$state','toaster', 'display', 'SocketService'];
 
 	constructor(
 		private $scope,
@@ -36,10 +39,12 @@ class HeaderCtrl implements IComponentController {
 		private $mdDialog: any,
 		private $state: StateService,
 		private toaster: any,
-		private display: DisplayService) {
+		private display: DisplayService,
+		private socket: SocketService) {
 
 
-		this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
+		this.profile$ = SessionService.profile.subscribe(profile => this.user = angular.copy(profile));
+		this.socket.connections.subscribe(status => this.internetStatus = !!status);
 		this.comment.openChat$.subscribe(chat => this.openChat = chat);
 
 		if (this.RequestsService.requests) {
@@ -107,7 +112,6 @@ class HeaderCtrl implements IComponentController {
 
 	setAthlete(response: {user: IUserProfile}) {
 		//this.athlete = response.user;
-		debugger;
 		console.log('setAthlete', this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
 		this.$state.go(this.$state.current.name , {uri: response.user.public.uri});
 	}

@@ -67,9 +67,8 @@ class DashboardActivityCtrl implements IComponentController {
         })
             .then(response => {
                 console.log('user close dialog with =', response);
-
                 // При изменение записи сначала удаляем старую, потом создаем новую
-                if(response.type === 'put'){
+                /**if(response.type === 'put'){
                     this.dashboard.onDeleteItem(this.activity);
                     this.dashboard.onPostItem(response.item);
                     this.message.toastInfo('Изменения сохранены');
@@ -78,7 +77,7 @@ class DashboardActivityCtrl implements IComponentController {
                 if(response.type === 'delete') {
                     this.dashboard.onDeleteItem(response.item);
                     this.message.toastInfo('Запись удалена');
-                }
+                }**/
 
 
             }, ()=> {

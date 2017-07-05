@@ -1,16 +1,21 @@
 <div layout="row" layout-align="end center" layout-fill ng-if="$ctrl.AuthService.isAuthenticated()">
-
-    <md-button ng-if="$ctrl.notification > 0" class="md-icon-button md-primary badge1" aria-label="Notification"
+    <md-button ng-if="!$ctrl.internetStatus" flex="none">
+        <md-icon calss="material-icons animated fadeIn">signal_wifi_off</md-icon>
+    </md-button>
+    <md-button ng-if="$ctrl.notification > 0 && $ctrl.internetStatus" flex="none"
+               class="md-icon-button md-primary badge1" aria-label="Notification"
                ng-click="toggleRight()" data-badge="{{$ctrl.notification}}" style="min-width:40px">
         <md-icon calss="material-icons">notification_active</md-icon>
     </md-button>
-    <md-button class="md-icon-button md-primary" ng-click="$ctrl.toggleSlide('notifications')"
+    <md-button ng-if="$ctrl.internetStatus" class="md-icon-button md-primary" flex="none"
+               ng-click="$ctrl.toggleSlide('notifications')"
                style="min-width:40px; overflow: visible;" aria-label="New Notification">
         <md-icon calss="material-icons">notifications</md-icon>
         <span class="badge superscript" ng-if="$ctrl.notifications > 0">{{$ctrl.notifications}}</span>
     </md-button>
     
-    <md-button class="md-icon-button md-primary" ng-click="$ctrl.toggleSlide('requests')"
+    <md-button ng-if="$ctrl.internetStatus" class="md-icon-button md-primary" flex="none"
+               ng-click="$ctrl.toggleSlide('requests')"
                style="min-width:40px; overflow: visible;" aria-label="New Requests">
         <md-icon md-font-set="material-icons">group</md-icon>
         <span class="badge superscript" ng-if="$ctrl.requests > 0">{{$ctrl.requests}}</span>

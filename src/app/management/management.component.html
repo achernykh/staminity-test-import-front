@@ -90,7 +90,10 @@
                         </td>
                         <td md-cell>{{ $ctrl.roleMembership(member.roleMembership) }}</td>
                         <td md-cell>
-                            <span ng-repeat="coach in member.coaches">{{ $ctrl.member(coach).userProfile | username }} </span>
+                            <span ng-if="member.coaches && member.coaches.length">
+                                {{ $ctrl.member(member.coaches[0]).userProfile | username }}
+                                <span ng-if="member.coaches.length > 1">, +{{ member.coaches.length - 1 }}</span>
+                            </span>
                             <span ng-if="!member.coaches || !member.coaches.length">-</span>
                         </td>
                         <td md-cell>

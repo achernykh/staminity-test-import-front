@@ -15,6 +15,11 @@ self.addEventListener('activate', (event) => {
     event.waitUntil(self.clients.claim());
 });
 
+self.addEventListener('fetch', function(event) {
+
+});
+
+
 /**self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request).catch(function() {

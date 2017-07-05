@@ -300,7 +300,7 @@ gulp.task('set-env-new', function() {
 gulp.task('set-sw', () => {
     'use strict';
     let trg = gutil.env['trg'];
-    let files = [trg+'/index.html',trg+'/404.html',trg+'/assets/css/**',trg+'/assets/js/**'];
+    let files = [trg+'/index.html',trg+'/manifest.json',trg+'/assets/css/**',trg+'/assets/js/**'];
     let cache = [];
 
     const cacheFile = (src) => {
