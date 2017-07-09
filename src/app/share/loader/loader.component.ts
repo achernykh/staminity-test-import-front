@@ -1,25 +1,31 @@
-import { IComponentController, IComponentOptions } from 'angular';
+import { IComponentController, IComponentOptions, IScope } from 'angular';
 
 import LoaderService from './loader.service';
 import './loader.component.scss';
 
 class LoaderController implements IComponentController {
 
-	static $inject = ['LoaderService'];
+	static $inject = ['LoaderService','$scope'];
 
 	private isVisible: boolean;
 
-	constructor(private loaderService: LoaderService) {
+	constructor(private loaderService: LoaderService, private $scope: IScope) {
 		this.loaderService.showRequested$.subscribe(() => this.show());
 		this.loaderService.hideRequested$.subscribe(() => this.hide());
 	}
 
 	private show() {
 		this.isVisible = true;
+		this.update();
 	}
 
 	private hide() {
 		this.isVisible = false;
+		this.update();
+	}
+
+	private update() {
+		this.$scope.$evalAsync();
 	}
 
 }

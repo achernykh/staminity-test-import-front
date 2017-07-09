@@ -1,4 +1,4 @@
-<md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+<md-menu id="user-menu" md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
     <md-button class="md-icon-button md-primary" ng-click="$ctrl.onUserMenu($mdOpenMenu, $event)"
                aria-label="User">
         <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -12,13 +12,13 @@
         </md-menu-item>
         <md-menu-divider></md-menu-divider>
         <md-menu-item>
-            <md-button ng-click="changeLanguage('ru')">
+            <md-button ng-click="$ctrl.display.setLanguage('ru')">
                 <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target></md-icon>
                 <span translate>Русский</span>
             </md-button>
         </md-menu-item>
         <md-menu-item>
-            <md-button ng-click="changeLanguage('en')" ng-disabled="true">
+            <md-button ng-click="$ctrl.display.setLanguage('en')">
                 <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target></md-icon>
                 <span translate>English</span>
             </md-button>

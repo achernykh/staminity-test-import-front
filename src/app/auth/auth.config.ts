@@ -1,4 +1,4 @@
-import {StateProvider, StateDeclaration, StateService, State} from 'angular-ui-router';
+import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './auth.translate';
 import { _display_view } from "../core/display.constants";
 import SessionService from "../core/session.service";
@@ -12,7 +12,10 @@ function configure(
 			url: "/signin",
 			loginRequired: false,
 			view: _display_view['signin'],
-			//authRequired: ['func1'],
+			params: {
+				nextState: null,
+				nextParams: null
+			},
 			views: {
 				"application": {
 					component: "auth",
@@ -88,6 +91,21 @@ function configure(
 				},
 				"form@signin": {
 					template: require('./view/signin.html')
+				}
+			}
+
+		})
+		// Представление Auth: Confirm
+        .state('invite', <StateDeclaration>{
+			url: "/invite",
+			loginRequired: false,
+			views: {
+				"application": {
+					component: "auth",
+					bindings: "view.application"
+				},
+				"form@invite": {
+					template: require('./view/invite.html')
 				}
 			}
 

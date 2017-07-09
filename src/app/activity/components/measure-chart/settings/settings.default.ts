@@ -3,8 +3,8 @@ import * as d3 from 'd3';
 
 
 const DefaultChartSettings: IActivityChartSettings = {
-    minWidth: 350,
-    minAspectRation: 0.25,
+    minWidth: 320,
+    minAspectRation: 0.40,
     labelOffset: 40,
     tooltipOffset: 30,
     autoResizable: true,
@@ -30,8 +30,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#e91e63" },
-                { offset: "100%", color: "rgba(247, 153, 131, 0)" }
+                { offset: "0%", color: "rgba(233,30,99,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(247, 153, 131, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -54,8 +54,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#5677fc" },
-                { offset: "100%", color: "rgba(175, 191, 255, 0)" }
+                { offset: "0%", color: "rgba(33,150,243,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(33,150,243, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -78,8 +78,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#5677fc" },
-                { offset: "100%", color: "rgba(175, 191, 255, 0)" }
+                { offset: "0%", color: "rgba(33,150,243,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(33,150,243, 0)", opacity: 0 }
             ]
         },
         marker: {
@@ -102,8 +102,8 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#9C27B0" },
-                { offset: "100%", color: "rgba(247, 153, 131, 0)" }
+                { offset: "0%", color: "rgba(156,39,176,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(156,39,176,0)", opacity: 0 }
             ]
         },
         marker: {
@@ -163,9 +163,9 @@ const DefaultChartSettings: IActivityChartSettings = {
         zoomOffset: 30,
         axis: {
             color: '#8d8d8d',
-            tickMinStep: 300,
+            tickMinStep: 60,
             tickMinDistance: 50,
-            ticksPerLabel: 3, 
+            ticksPerLabel: 2,
             hideOnWidth: 0
         }
     },
@@ -173,7 +173,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         zoomOffset: 100,
         axis: {
             color: '#8d8d8d',
-            tickMinStep: 1000,
+            tickMinStep: 500,
             tickMinDistance: 50,
             ticksPerLabel: 2,
             hideOnWidth: 0
@@ -184,16 +184,16 @@ const DefaultChartSettings: IActivityChartSettings = {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(0, 0, 0, 0)" },
-                { offset: "100%", color: "rgba(0, 0, 0, 0.48)" }
+                { offset: "0%", color: "rgba(0, 0, 0, 0)", opacity: 0 },
+                { offset: "100%", color: "rgba(0, 0, 0, 0.48)", opacity: 0.48 }
             ]
         },
         borderArea: {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(0, 0, 0, 0)" },
-                { offset: "100%", color: "#455a64" }
+                { offset: "0%", color: "rgba(0, 0, 0, 0)", opacity: 0 },
+                { offset: "100%", color: "#455a64", opacity: 1 }
             ]
         }
     },

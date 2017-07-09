@@ -1,29 +1,35 @@
 import './dashboard-athlete.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {IUserProfile} from "../../../../api/user/user.interface";
+import {DashboardCtrl} from "../dashboard.component";
 
 class DashboardAthleteCtrl implements IComponentController {
 
     public profile: IUserProfile;
-    public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    public dashboard: DashboardCtrl;
+    public onSelect: (response: Object) => IPromise<void>;
 
-    constructor() {
+    private selected: boolean = null;
+
+    static $inject = ['$state'];
+
+    constructor(private $state: any, private $mdDialog: any) {
 
     }
 
     $onInit() {
-
+        //this.selected = this.dashboard.selectedAthletes.indexOf(this.profile.userId) !== -1;
     }
 }
 
 const DashboardAthleteComponent:IComponentOptions = {
     bindings: {
         profile: '<',
-        onEvent: '&'
+        selected: '<',
+        onSelect: '&'
     },
     require: {
-        //component: '^component'
+        dashboard: '^dashboard'
     },
     controller: DashboardAthleteCtrl,
     template: require('./dashboard-athlete.component.html') as string

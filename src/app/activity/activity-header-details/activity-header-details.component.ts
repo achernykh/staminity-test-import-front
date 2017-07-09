@@ -5,6 +5,8 @@ import {
     ISelectionIndex, SelectInitiator
 } from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {ICalcMeasures} from "../../../../api/activity/activity.interface";
+import {Measure} from "../../share/measure/measure.constants";
+import {MeasureChartData} from "../activity.function";
 
 interface Select {
     type: string;
@@ -22,6 +24,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     private selectionIndex: ISelectionIndex;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
+    private chartData: MeasureChartData; // класс для расчета данных для графика
 
     private readonly intervalTypes = ['L','U'];
     private intervals: SelectionOptions<Select> = {};
@@ -42,8 +45,8 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
                     type: type,
                     startTimestamp: d.startTimestamp,
                     endTimestamp: d.endTimestamp,
-                    duration: d.calcMeasures.duration.value || '-',
-                    distance: d.calcMeasures.distance.value || '-'
+                    duration: d.calcMeasures.hasOwnProperty('duration') && d.calcMeasures.duration.value || '-',
+                    distance: d.calcMeasures.hasOwnProperty('distance') && d.calcMeasures.distance.value || '-'
                 });
         });
     }
@@ -63,6 +66,8 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.chartData = new MeasureChartData(
+            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
         this.prepareIntervals();
     }
 
@@ -93,11 +98,12 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         if (selection.length === 0) {
             return this.item.activity.intervalW.calcMeasures;
         }
+        if (this.item.multiSelection) {
+            return this.item.multiSelectionInterval.calcMeasures;
+        }
 
         let type: string = 'interval' + selection[0].substr(0,1);
         let index: number = Number(selection[0].substr(1))-1;
-
-        //console.log('getCalcMeasure', type, index, selection);
 
         return this.item.activity[type][index].calcMeasures;
     }

@@ -7,18 +7,67 @@
         <p flex class="md-body" translate="auth.confirm.text" translate-values="{email: $ctrl.credentials.email}"></p>
     </md-card-content>
 
-    <md-card-title ng-if="!$ctrl.showConfirm">
+    <!--<md-card-title ng-if="!$ctrl.showConfirm">
         <h2 class="md-title" translate="auth.signup.shortTitle"></h2>
-    </md-card-title>
+    </md-card-title>-->
     <form flex="none" ng-if="!$ctrl.showConfirm" ng-submit='$ctrl.signup($ctrl.credentials)'
           name="$ctrl.signupForm" novalidate md-theme="dark">
         <md-list>
+            <md-list-item>
+                <p translate="auth.signup.coach"></p>
+                <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.credentials.activateCoachTrial"
+                             class="md-primary md-secondary"
+                             ng-disabled="!$ctrl.enabled"
+                             style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
+                </md-checkbox>
+            </md-list-item>
+            <md-list-item>
+                <p class="md-caption conf" translate>auth.confirmation</p>
+                <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
+                             class="md-primary md-secondary"
+                             ng-disabled="!$ctrl.enabled"
+                             style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
+                </md-checkbox>
+            </md-list-item><!--
+            <md-list-item layout="column" class="social">
+                <p class="social-text" translate="auth.socialText"></p>
+                <div class="social-buttons">
+                    <md-button class="" ng-repeat="provider in ['facebook','google','vkontakte']"
+                               ng-click="$ctrl.OAuth(provider)" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation">
+                        <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
+                        <span>{{provider}}</span>
+                    </md-button>
+                </div>
+                <div class="social-or" layout="row">
+                    <hr align="center" size="2" width="50"/>
+                    <span>&nbsp;&nbsp</span>
+                    <span translate="auth.socialOr"></span>
+                    <span>&nbsp;&nbsp</span>
+                    <hr align="center" size="2" width="50"/>
+                </div>
+            </md-list-item>-->
+            <!--<md-list-item ng-repeat="provider in ['facebook','google','vkontakte']" ng-click="$ctrl.OAuth(provider)" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation">
+                <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
+                <p class="md-body"><span translate="Вход через"></span>&nbsp;<span translate="{{::provider}}"></span></p>
+            </md-list-item>-->
+        </md-list>
+        <div layout="column" class="social-buttons">
+            <md-button ng-repeat="provider in ['facebook','google','vkontakte']"
+                       ng-class="{'disabled': !$ctrl.confirmation}"
+                       ng-click="$ctrl.OAuth(provider)" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
+                       class="social-button {{::provider}}">
+                <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
+                <span translate="Вход через"></span>&nbsp;<span translate="{{::provider}}"></span>
+            </md-button>
+        </div>
+        <div class="md-caption md-light md-inactive center" translate="auth.socialOr"></div>
+        <md-list class="">
             <md-list-item layout="row">
                 <md-input-container flex="45" md-no-float class="no-message">
                     <input maxlength="30" ng-model="$ctrl.credentials.public.firstName" name="name"
-                           required ng-disabled="!$ctrl.enabled"
-                           autofocus autocomplete="off"
-                           placeholder="{{ 'auth.firstName' | translate }}">
+                           required ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
+                           autocomplete="off"
+                           placeholder="{{'auth.firstName' | translate }}">
                     <div ng-messages="$ctrl.signupForm.name.$error">
                         <div ng-message="required" translate>auth.required</div>
                         <div ng-message="md-maxlength"
@@ -29,7 +78,7 @@
                 <div flex="10"></div>
                 <md-input-container flex="45" md-no-float class="no-message">
                     <input maxlength="30" ng-model="$ctrl.credentials.public.lastName" name="surname"
-                           required ng-disabled="!$ctrl.enabled"
+                           required ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
                            autocomplete="off"
                            placeholder="{{ 'auth.lastName' | translate }}">
                     <div ng-messages="$ctrl.signupForm.surname.$error">
@@ -43,7 +92,7 @@
                     <input required type="email" name="email" ng-model="$ctrl.credentials.email" minlength="5"
                            maxlength="100"
                            ng-pattern="/^.+@.+\..+$/"
-                           autocomplete="off" ng-disabled="!$ctrl.enabled"
+                           autocomplete="off" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
                            placeholder="{{ 'auth.email' | translate }}">
                     <div ng-messages="!$ctrl.signupForm.email.$valid" role="alert">
                         <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
@@ -55,7 +104,7 @@
             <md-list-item>
                 <md-input-container md-no-float class="no-message">
                     <input required type="password" name="password" ng-model="$ctrl.credentials.password" minlength="8"
-                           ng-disabled="!$ctrl.enabled"
+                           ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
                            ng-pattern="$ctrl.passwordStrength"
                            placeholder="{{ 'auth.pass' | translate }}">
                     <div ng-messages="$ctrl.signupForm.password.$error" role="alert">
@@ -64,22 +113,14 @@
                 </md-input-container>
             </md-list-item>
             <md-list-item>
-                <p translate="auth.signup.coach"></p>
-                <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.credentials.activateCoachTrial"
-                             class="md-primary md-secondary"
-                             ng-disabled="!$ctrl.enabled"
-                             style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
-                </md-checkbox>
-            </md-list-item>
-            <md-list-item>
-                <md-button type="submit" translate='auth.signup.button' class="md-raised"
-                           ng-disabled="!$ctrl.signupForm.$valid || !$ctrl.enabled"
+                <md-button type="submit" translate='auth.signup.button' class="md-raised submit"
+                           ng-disabled="!$ctrl.signupForm.$valid || !$ctrl.enabled || !$ctrl.confirmation"
                            ng-class="{'md-primary': $ctrl.signupForm.$valid && !ul.auth, 'md-disabled': $ctrl.signupForm.$error}"></md-button>
             </md-list-item>
         </md-list>
     </form>
 
 </md-card>
-<p class="md-caption conf" translate>auth.confirmation</p>
+
 
 

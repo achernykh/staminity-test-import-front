@@ -1,16 +1,16 @@
 import { IComponentOptions, IComponentController} from 'angular';
+import {SocketService} from "../../core/socket.service";
 require('./background.template.scss');
 
 class BackgroundCtrl implements IComponentController {
 
-	static $inject = [];
+	private internetStatus: boolean = true;
+	static $inject = ['SocketService'];
 
-	constructor() {
+	constructor(private socket: SocketService) {
+		this.socket.connections.subscribe(status => this.internetStatus = !!status);
 	}
 
-	/*toggleSlide(component) {
-		this._$mdSidenav(component).toggle().then(() => angular.noop);
-	}*/
 }
 
 const BackgroundComponent: IComponentOptions = {

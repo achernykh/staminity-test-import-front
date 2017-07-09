@@ -1,5 +1,5 @@
 <form flex="auto" layout="column" name="$ctrl.assignmentForm">
-<activity-assignment flex layout="column" class="activity-assignment"
+<activity-assignment flex="auto" layout="column" class="activity-assignment"
                      plan="$ctrl.item.activity.intervalPW"
                      actual="$ctrl.item.activity.intervalW.calcMeasures"
                      sport="$ctrl.item.activity.sportBasic"
@@ -20,9 +20,9 @@
                ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )">Отменить
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'" type="submit"
-               ng-disabled="!$ctrl.form.$dirty"
+               ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid"
                ng-class="{'md-warn': !$ctrl.form.$valid}"
-               ng-click="($ctrl.form.$valid) ? $ctrl.item.onSave() : null">
+               ng-click="$ctrl.onSave()">
         Сохранить
     </md-button>
 </md-dialog-actions>

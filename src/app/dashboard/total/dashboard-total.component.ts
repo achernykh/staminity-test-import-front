@@ -2,14 +2,14 @@ import './dashboard-total.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {
     calculateCalendarTotals, calculateCalendarSummary,
-    ICalendarTotals
+    ICalendarWeekSummary, ICalendarWeekTotal
 } from '../../calendar/total/calendar-total.function';
 
 class DashboardTotalCtrl implements IComponentController {
 
     public week: any;
-    public total: any;
-    public summary: ICalendarTotals;
+    public total: ICalendarWeekTotal;
+    public summary: ICalendarWeekSummary;
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 

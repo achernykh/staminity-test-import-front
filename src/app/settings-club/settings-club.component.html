@@ -8,7 +8,7 @@
                 <md-content flex="auto" du-scroll-container="settings-scroll-container" style="overflow-y: auto;">
                     <md-list-item ng-repeat="nav in $ctrl._NAVBAR" ng-href="{{::nav.link}}"
                                   duration="500" du-smooth-scroll du-scrollspy ng-disabled="!nav.active">
-                        <md-icon flex="none" md-svg-src="/assets/icon/{{::nav.icon}}" class="s24" ng-class="{disable: !nav.active}"></md-icon>
+                        <md-icon flex="none" class="material-icons s24" ng-class="{disable: !nav.active}">{{::nav.icon}}</md-icon>
                         <div flex hide show-gt-md class="md-body-1" style="opacity: 0.87" translate>{{::nav.name}}</div>
                     </md-list-item>
                 </md-content>

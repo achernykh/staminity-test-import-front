@@ -6,6 +6,8 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 import { Observable} from 'rxjs/Observable';
 import './application-menu.component.scss';
 import SessionService from "../../core/session.service";
+import * as env from '../../core/env.js';
+import {IAuthService} from "../../auth/auth.service";
 
 class ApplicationMenuCtrl implements IComponentController{
 
@@ -14,16 +16,18 @@ class ApplicationMenuCtrl implements IComponentController{
     private user: IUserProfile;
     private profile$: Observable<IUserProfile>;
     public showUserMenu: boolean = false;
+    private date: Date = new Date();
+    private env: Object = env;
 
     static $inject = ['$mdSidenav','AuthService','SessionService','$state'];
 
     constructor(
         private $mdSidenav: any,
-        private AuthService: any,
-        private SessionService: SessionService,
+        private AuthService: IAuthService,
+        private session: SessionService,
         private $state: StateService) {
 
-        this.profile$ = SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
+        this.profile$ = session.profile.subscribe(profile=> this.user = angular.copy(profile));
     }
 
     avatarUrl() {
@@ -39,7 +43,7 @@ class ApplicationMenuCtrl implements IComponentController{
     }
 
     checkAuth(role) {
-        return this.AuthService.isAuthorized(role).then(()=> {return true;}, ()=> {return false;});
+        return this.AuthService.isAuthorized(role);
     }
 
     transitionToState(url, param) {

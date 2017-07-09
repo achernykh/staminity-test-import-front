@@ -7,6 +7,13 @@ calendar-activity {
   @extend .bg-grey-400;
   @extend .md-whiteframe-1dp;
 
+  // xs & sm size
+  @media (min-width: 0px) and (max-width: 959px) {
+    @include border-radius(3px);
+    box-shadow: none !important;
+    margin-bottom: 8px;
+  }
+
   .activity-header {
     @include border-radius-custom(3px, 3px, 0px, 0px);
     padding: 10px 12px 12px 12px;
@@ -15,8 +22,24 @@ calendar-activity {
       outline:0;
     }
 
-    // xs - md size
-    @media (min-width: 0px) and (max-width: 1279px){
+    section.icon {
+      // xs & sm size
+      @media (min-width: 0px) and (max-width: 959px) {
+        margin-right: 16px;
+      }
+    }
+
+    section.percent {
+      line-height: 40px;
+    }
+
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      @include border-radius(3px);
+    }
+
+    // md size
+    @media (min-width: 960px) and (max-width: 1279px){
       @include border-radius(0px);
     }
 
@@ -41,6 +64,11 @@ calendar-activity {
         }
       }
 
+      // xs & sm size
+      @media (min-width: 0px) and (max-width: 959px) {
+        background: $teal-500;
+      }
+
       // Задание выполнено с отклонениями
       &-warn {
         color: white;
@@ -56,6 +84,12 @@ calendar-activity {
             @extend .bg-orange-900;
           }
         }
+
+        // xs & sm size
+        @media (min-width: 0px) and (max-width: 959px) {
+          background: $orange-500;
+        }
+
       }
 
       // Задание выполнено с существенными отклонениями
@@ -73,6 +107,12 @@ calendar-activity {
             @extend .bg-red-900;
           }
         }
+
+        // xs & sm size
+        @media (min-width: 0px) and (max-width: 959px) {
+          background: $red-500;
+        }
+
       }
     }
 
@@ -94,6 +134,10 @@ calendar-activity {
           @extend .bg-red-900;
         }
       }
+      // xs & sm size
+      @media (min-width: 0px) and (max-width: 959px) {
+        background: $red-500;
+      }
     }
 
     &.not-specified {
@@ -113,6 +157,10 @@ calendar-activity {
         .bg-circle-32 {
           @extend .bg-blue-grey-900;
         }
+      }
+      // xs & sm size
+      @media (min-width: 0px) and (max-width: 959px) {
+        background: $blue-grey-600;
       }
     }
 

@@ -1,22 +1,31 @@
-import { TransitionService, State } from 'angular-ui-router';
+import { TransitionService, StateDeclaration, StateService } from 'angular-ui-router';
 import LoaderService from "./share/loader/loader.service";
 import {IAuthService} from "./auth/auth.service";
 import MessageService from "./core/message.service";
 
-interface IStaminityState extends State {
+interface IStaminityState extends StateDeclaration {
     loginRequired: boolean;
     authRequired: Array<any>;
 }
 
-function run($transitions: TransitionService, LoaderService: LoaderService, AuthService: IAuthService, message: MessageService) {
+function run(
+    $transitions: TransitionService,
+    $state: StateService,
+    LoaderService: LoaderService,
+    AuthService: IAuthService,
+    message: MessageService) {
 
-	$transitions.onBefore({to: '*', from: '*'}, (state) => {
+    //window.navigator['standalone'] = true;
 
-        let routeTo:IStaminityState = <IStaminityState>state.$to();
+    $transitions.onBefore({to: '*', from: '*'}, (state) => {
+
+        let routeTo:IStaminityState = Object.assign(state.$to());
 
         if(routeTo.loginRequired && !AuthService.isAuthenticated()) {
-            message.systemWarning('forbiddenAction');
-            return false;
+            debugger;
+            message.systemWarning('forbidden_InsufficientAction');
+            return $state.target('signin', {nextState: routeTo.name, nextParams: state.params()});
+            //return false;
         }
 
         if(!!routeTo.authRequired && !AuthService.isAuthorized(routeTo.authRequired)) {
@@ -29,6 +38,6 @@ function run($transitions: TransitionService, LoaderService: LoaderService, Auth
 
 }
 
-run.$inject = ['$transitions','LoaderService','AuthService','message'];
+run.$inject = ['$transitions','$state','LoaderService','AuthService','message'];
 
 export default run;

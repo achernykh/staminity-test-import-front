@@ -5,6 +5,7 @@ const date = (x) => x[0]
 const type = (x) => x[1]
 const time = (x) => x[2] || 0
 const count = (x) => x[3] || 0
+const dist = (x) => x[4] || 0
 
 const sum = (xs, f = id) => xs.reduce((x, y) => x + f(y), 0)
 
@@ -53,7 +54,8 @@ class SummaryStatisticsCtrl {
         this.UserService = UserService;
         this.GroupService = GroupService;
         this.message = SystemMessageService;
-        this.isMe = this.user.userId === UserService.profile.userId;
+        this.isDataEnabled = false;
+
 
         this.ranges = [{
             name: 'Обзор года',
@@ -98,6 +100,10 @@ class SummaryStatisticsCtrl {
         this.period = 0;
 
         this.chart = chart;
+    }
+
+    $onInit(){
+        this.isMe = this.auth && this.user.userId === this.UserService.profile.userId;
         this.updateStatistics();
     }
 
@@ -117,9 +123,16 @@ class SummaryStatisticsCtrl {
         this.updateStatistics()
     }
 
+    getLabel(value) {
+        return this.valueType.name === 'время' ? Number(value/(60*60)).toFixed(1) : value;
+    }
+
     updateStatistics () {
-        this.UserService.getSummaryStatistics(this.user.userId, this.range.start(this.period),  this.range.end(this.period), this.range.groupBy)
-            .then((summaryStatistics) => this.summaryStatistics = summaryStatistics)
+        this.UserService.getSummaryStatistics(this.user.userId, this.range.start(this.period),  this.range.end(this.period), this.range.groupBy, null, this.auth)
+            .then((summaryStatistics) => {
+                this.isDataEnabled = true;
+                this.summaryStatistics = summaryStatistics;
+            })
             .then(() => {
                 pipe(
                     this.range.data,
@@ -131,17 +144,18 @@ class SummaryStatisticsCtrl {
                     groupBy(type),
                     entries,
                     map(([type, series]) => ({
-                        icon: icons[type],
-                        dist: '-',
-                        hrs: sum(series, time),
+                        sport: type,
+                        icon: `assets/icon/${type}.svg`,
+                        dist: sum(series, dist),
+                        hrs: Math.ceil(sum(series, time) / (60*60)),
                         count: sum(series, count)
                     }))
                 ) (this.summaryStatistics.series)
 
                 this.chart.tableTotal = {
                     icon: 'functions',
-                    dist: '-',
-                    hrs: sum(this.summaryStatistics.series, time),
+                    dist: sum(this.summaryStatistics.series, dist),
+                    hrs: Math.ceil(sum(this.summaryStatistics.series, time) / (60*60)),
                     count: sum(this.summaryStatistics.series, count)
                 }
             })
@@ -159,7 +173,7 @@ class SummaryStatisticsCtrl {
     }
 
     athletes () {
-        this.dialogs.usersList(this.user.connections.Athletes, 'Спортсмены')
+        this.dialogs.usersList(this.user.connections.allAthletes, 'Спортсмены')
     }
 
     friends () {
@@ -201,7 +215,8 @@ SummaryStatisticsCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','G
 
 export default {
     bindings: {
-        user: '<'
+        user: '<',
+        auth: '<'
     },
     controller: SummaryStatisticsCtrl,
     template: require('./summary-statistics.component.html')

@@ -4,13 +4,23 @@ import {
     DeleteComment
 } from "../../../api/social/comment.request";
 import {IObjectComment} from "../../../api/social/comment.interface";
+import {Observable, Subject} from "rxjs/Rx";
+
+export interface ChatSession {
+    type: string;
+    id: number;
+}
 
 export default class CommentService {
+
+    public comment$: Observable<any>;
+    public openChat$: Subject<ChatSession>;
 
     static $inject = ['SocketService'];
 
     constructor(private SocketService:ISocketService) {
-
+        this.comment$ = this.SocketService.messages.filter(message => message.type === 'objectComment').share();
+        this.openChat$ = new Subject();
     }
 
     /**

@@ -47,7 +47,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         let measure: Measure;
 
         if (intensityMeasure) {
-            new Measure(intensityMeasure, sportBasic, intensityValue);
+            measure = new Measure(intensityMeasure, sportBasic, intensityValue);
         }
 
         switch (this.item.activity.status) {
@@ -82,19 +82,24 @@ class ActivitySummaryInfoCtrl implements IComponentController {
                     this.$filter('translate')(this.$filter('measureUnit')('distance', sportBasic))) || '';
 
                 this.intensityInfo += (heartRate
-                    && this.$filter('measureCalc')(heartRate, sportBasic, 'heartRate')+' '+
+                    && this.$filter('measureCalc')(heartRate, sportBasic, 'heartRate')+'\xA0'+
                     this.$filter('translate')(this.$filter('measureUnit')('heartRate', sportBasic))+' ') || '';
 
                 this.intensityInfo += (speed
-                    && this.$filter('measureCalc')(speed, sportBasic, 'speed')+' '+
+                    && this.$filter('measureCalc')(speed, sportBasic, 'speed')+'\xA0'+
                     this.$filter('translate')(this.$filter('measureUnit')('speed', sportBasic))+' ') || '';
 
                 this.intensityInfo += (power
-                    && this.$filter('measureCalc')(power, sportBasic, 'power')+' '+
+                    && this.$filter('measureCalc')(power, sportBasic, 'power')+'\xA0'+
                     this.$filter('translate')(this.$filter('measureUnit')('power', sportBasic))+' ') || '';
 
             }
         }
+    }
+
+    view(id:number) {
+        debugger;
+        window.open(`${window.location.origin}/activity/${id}`);
     }
 }
 

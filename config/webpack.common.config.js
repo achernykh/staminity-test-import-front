@@ -18,6 +18,7 @@ module.exports = {
             'angular-messages',
             'angular-sanitize',
             'angular-material',
+            'angular-material/angular-material.scss',
             'angular-translate',
             'moment',
             'moment-timezone/builds/moment-timezone-with-data',
@@ -25,15 +26,27 @@ module.exports = {
             'satellizer',
             'rxjs',
             'angular-material-data-table',
+            'angular-material-data-table/dist/md-data-table.css',
             'smdatetimerangepicker',
+            'smdatetimerangepicker/src/picker.css',
             'angular-simple-logger', // какая-то хрень для ui-leaflet
             'leaflet',
+            'leaflet/dist/leaflet.css',
             'ui-leaflet',
             'd3',
             'angular-dynamic-locale',
             'angularjs-toaster',
+            'angularjs-toaster/toaster.css',
+            'animate.css/animate.css',
             //'angular-read-more'
-            'animate.css'
+            'animate.css',
+            'angular-carousel',
+            'angular-carousel/dist/angular-carousel.css',
+            'angular-touch', // not supported when use angular-material, but need for angular-carousel
+            'angular-drag-and-drop-lists',
+            'angularjs-scroll-glue',
+            'drag-drop-webkit-mobile',
+            'angular-ui-router'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'
@@ -42,7 +55,7 @@ module.exports = {
         rules: [
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader',
+                loader: 'babel-loader?cacheDirectory=true',
                 exclude: [/node_modules/,/bower_components/],
                 query: {
                     presets: ['es2015']

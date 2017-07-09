@@ -2,7 +2,9 @@ import moment from 'moment/src/moment.js';
 import {INotification, Notification} from "../../../../api/notification/notification.interface";
 import {ISocketService} from "../../core/socket.service";
 import {GetNotification, PutNotification} from "../../../../api/notification/notification.request";
-import {Observable} from "rxjs/Rx";
+import {Observable,BehaviorSubject,Subject} from "rxjs/Rx";
+import CommentService from "../../core/comment.service";
+import {ChatSession} from "../../core/comment.service";
 
 export interface INotificationSettings {
     newestOnTop: boolean;
@@ -15,8 +17,12 @@ export interface INotificationSettings {
 
 export default class NotificationService {
     timeouts: Array<number> = [];
+    list: Array<Notification> = [];
     notification$: Observable<any>;
     list$: Observable<Array<Notification>>;
+    openChat: ChatSession;
+    private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
+
     defaultSettings: INotificationSettings = {
         newestOnTop: false,
         timeOut: 7000,
@@ -25,23 +31,37 @@ export default class NotificationService {
         hideDuration: 300
     };
 
-    static $inject = ['SocketService','toaster'];
+    static $inject = ['SocketService','toaster','CommentService'];
 
     constructor(
-        private socket:ISocketService, private toaster: any){
+        private socket:ISocketService, private toaster: any, private comment: CommentService){
+
+        this.comment.openChat$.subscribe(chat => this.openChat = chat); // следим за открытми чатами
 
         this.notification$ = this.socket.messages
             .filter(message => message.type === 'notification')
-            .map(message => {
-                let notification = new Notification(message.value);
-                return notification;
+            .map(message => new Notification(message.value))
+            .map((n:Notification) => {
+                // Не показываем попап уведомление + делаем прочитанным уведомления по комментариям, если у пользователя
+                // открыт данны чат
+                if (this.commentTemplates.some(t => t === n.template) && !n.isRead &&
+                    (this.openChat && n.context[3] === this.openChat.id)) {
+                    this.put(n.id, null, true).then(()=>{});
+                    n.isRead = true;
+                }
+                return n;
             })
             .share();
 
         this.list$ = this.socket.connections
+            .filter(status => status)
             .flatMap(() => Observable.fromPromise(this.get(100,0)))
-            .switchMap(list => {return this.notification$.scan( this.process.bind(this), list).startWith(list);})
+            .switchMap(list => {
+                return this.notification$.scan( this.process.bind(this), list).startWith(list);
+            })
             .share();
+
+        this.list$.subscribe(list => { this.list = list; });
     }
 
     /**
@@ -61,8 +81,8 @@ export default class NotificationService {
      * @param isRead
      * @returns {Promise<any>}
      */
-    put(id: number, isRead: boolean):Promise<any>{
-        return this.socket.send(new PutNotification(id,isRead));
+    put(id: number, readUntil: string, isRead: boolean):Promise<any>{
+        return this.socket.send(new PutNotification(id,readUntil,isRead));
     }
 
     /**
@@ -72,6 +92,7 @@ export default class NotificationService {
      * @returns {Array<Notification>}
      */
     process(list: Array<Notification>, notification: Notification):Array<Notification> {
+        console.time('notification process');
         let update: number = list.findIndex(n => n.id === notification.id);
         let isUpdate: boolean = update >= 0;
 
@@ -98,7 +119,7 @@ export default class NotificationService {
                 let userClick = (Date.now() - this.timeouts[notification.index]) < settings.timeOut;
                 if(userClick) {
                     console.log('user click', notification);
-                    this.put(notification.id, true)
+                    this.put(notification.id, null, true)
                         .then((success)=>console.log(success), error => console.error(error));
                 }
             },

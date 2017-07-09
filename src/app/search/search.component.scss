@@ -1,0 +1,142 @@
+@import "../../../src/sass/color";
+
+search {
+  .app-layer, .application {
+    position: absolute;
+    top: 60px;
+    height: calc(100% - 60px);
+    width: 100%;
+    z-index: 60;
+  }
+
+  section.application-toolbar {
+    color: white;
+    max-width: 1440px;
+    margin: auto;
+
+    md-icon {
+      color: rgba(255,255,255,0.54);
+    }
+
+  }
+  section.content {
+    max-width: 1440px;
+    overflow: hidden;
+    height: calc(100% - 40px);
+    margin: auto;
+  }
+
+  div.margin-left {
+    position: absolute;
+    display: none;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+  section.application-body {
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+    left: 0%;
+    width: 100%;
+
+    @media (min-width: 1439px){
+      left: 2%;
+      width: 96%;
+      height: calc(100% - 10px);
+    }
+
+  }
+
+  div.margin-right {
+    position: absolute;
+    display: none;
+    right: 0;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+  div.search-filter {
+    width: 100%;
+
+    @media (min-width: 1280px) {
+      width: 320px;
+    }
+  }
+
+  div.search-result {
+    overflow: auto;
+  }
+
+  tr.md-row:hover {
+    background-color: $grey-200;
+    cursor: pointer;
+  }
+
+  tr.md-row:focus {
+    outline: none;
+  }
+
+  tbody tr {
+    height: 56px;
+  }
+
+  th.user-name {
+    width: 200px;
+    min-width: 200px;
+  }
+
+  td.md-cell userpic {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  td.md-cell span.user-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px !important;
+    overflow: hidden;
+  }
+
+  td.md-cell p.about {
+    line-height: 1.2em;
+    height: 2.4em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+
+  th.sport {
+    width: 150px;
+  }
+
+  span.user-name {
+    //word-wrap: no;
+  }
+
+  md-grid-list.coach {
+    margin: 8px;
+    div.md-title {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+    div.user-name {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 220px !important;
+      overflow: hidden;
+    }
+    md-card-content p{
+      height: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: pre-wrap;
+    }
+
+  }
+
+}

@@ -1,12 +1,4 @@
-<!--<section class="overview-content" ng-if="$ctrl.isLoadingDetails"
-         flex="none" layout="column" layout-align="center center" layout-fill
-         style="background-color: whitesmoke">
-    <img flex src="/assets/icon/ripple.svg" width="60" height="60"/>
-    <p>Загрузка данных....</p>
-</section>-->
 
-<!--<section flex="none" class="overview-content" layout="column"
-         ng-if="!$ctrl.isLoadingDetails">-->
 
     <header flex="none" class="map" layout="row" layout-align="start center"
             ng-if="$ctrl.item.activity.isRouteExist && !$ctrl.fullScreenTable">
@@ -16,7 +8,7 @@
         <md-button class="md-icon-button"
                    ng-click="$ctrl.toggleMap()">
             <md-icon class="md-secondary material-icon md-dark"
-                     ng-bind="$ctrl.showMap ? 'expand_more': 'expand_less'"></md-icon>
+                     ng-bind="!$ctrl.showMap ? 'expand_more': 'expand_less'"></md-icon>
         </md-button>
     </header>
 
@@ -43,19 +35,22 @@
         </md-button>
         <span flex></span>
         <div ng-if="!$ctrl.item.activity.structured">
-            <md-button ng-repeat="measure in $ctrl.measuresX track by $index" class="md-secondary md-icon-button"
+            <md-button ng-repeat="measure in $ctrl.chartData.measuresX track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartX(measure)">
-                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="md-dark"
+                         ng-class="{'md-inactive': $ctrl.chartX !== measure}"></md-icon>
                 <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
-            <md-button ng-repeat="measure in $ctrl.measuresY track by $index" class="md-secondary md-icon-button"
+            <md-button ng-repeat="measure in $ctrl.chartData.measuresY track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartMetrics(measure)">
-                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+                <md-icon md-svg-src="assets/icon/{{measure}}.svg"
+                         ng-class="{'md-inactive': !$ctrl.chartData.measures[measure].show}"
+                         class="md-dark fill-measure {{measure}}"></md-icon>
                 <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
             <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
                 <md-icon class="md-secondary material-icon md-dark"
-                         ng-bind="$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
+                         ng-bind="!$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
             </md-button>
         </div>
         <div ng-if="$ctrl.item.activity.structured">
@@ -64,8 +59,8 @@
     </header>
 
     <activity-metrics-char flex="none" ng-if="$ctrl.showChart && !$ctrl.item.activity.structured && !$ctrl.fullScreenTable"
-                           measures="$ctrl.measures"
-                           data="$ctrl.data"
+                           measures="$ctrl.chartData.measures"
+                           data="$ctrl.chartData.data"
                            x="$ctrl.chartX"
                            change="$ctrl.change"
                            change-measure="$ctrl.changeMeasure"
@@ -94,17 +89,13 @@
         <md-button class="md-icon-button" ng-click="$ctrl.fullScreenTable = !$ctrl.fullScreenTable">
             <md-icon class="md-secondary material-icon md-dark"
                      ng-bind="$ctrl.fullScreenTable ? 'fullscreen_exit': 'fullscreen'"></md-icon>
-        </md-button><!--
-        <md-button class="md-icon-button" ng-click="$ctrl.toggleTable()">
-            <md-icon class="md-secondary material-icon md-dark"
-                     ng-bind="$ctrl.showTable ? 'expand_more': 'expand_less'"></md-icon>
-        </md-button>-->
+        </md-button>
     </header>
 
     <measure-split-table flex ng-if="$ctrl.showTable && $ctrl.item.activity.hasImportedData"
                          class="chart measure-split-table"
                          splits="$ctrl.item.activity.intervalL"
-                         max="$ctrl.maxValue"
+                         max="$ctrl.chartData.maxValue"
                          selected="$ctrl.item.selectedTimestamp"
                          sport="$ctrl.item.activity.sportBasic"
                          zones="$ctrl.item.user.trainingZones"

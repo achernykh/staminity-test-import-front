@@ -25,17 +25,23 @@ calendar {
     //height: 30px;
     //background-color: blue;
     margin: auto;
+
+    md-icon {
+      color: rgba(255,255,255,0.54);
+    }
+
   }
 
   section.content {
     max-width: 1440px;
-    //position: absolute;
-    //width: 100%;
-    //top: 40px;
     overflow: hidden;
-    //background-color: lightgray;
     height: calc(100% - 40px);
     margin: auto;
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      height: 100%;
+    }
+
   }
 
   md-toolbar.calendar-header {
@@ -77,8 +83,12 @@ calendar {
     position: relative;
     height: calc(100% - 55px);
     scroll-behavior: auto;
-    overflow-y: scroll
-
+    overflow-y: scroll;
+    overflow-x: hidden;
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      height: 100%;
+    }
   }
 
   div.calendar-week {
@@ -133,6 +143,37 @@ calendar {
       min-width: 2%;
     }
   }
+
+  md-datepicker.picker {
+
+    padding-right: 0px !important;
+    margin-right: 0px !important;
+    vertical-align: inherit !important;
+
+    md-icon {
+      fill: rgba(255,255,255,0.54);
+    }
+
+    div.md-datepicker-input-container {
+      margin-left: 0px !important;
+    }
+
+    div.md-datepicker-input-container input, div.md-datepicker-input-container button{
+      display: none;
+    }
+  }
+
+  md-fab-speed-dial {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    z-index: 65;
+  }
+
+  /*div.calendar-week calendar-day:nth-child(7) {
+    border-right: 1px solid #BDBDBD;
+  }*/
+
 }
 
 
@@ -208,34 +249,6 @@ calendar {
   opacity: 1;
 }
 
-#dayzone[dnd-list] {
-  min-height: 50px;
-  -padding-left: 0px;
-}
-
-#dayzone[dnd-list] .dndDraggingSource {
-  display: none;
-}
-
-#dayzone[dnd-list] .dndPlaceholder {
-  display: block;
-  margin: 6px 6px 0px 6px;
-  border-radius: 3px;
-  -background-color: #ddd !important;
-  @extend .bg-blue-grey-100;
-  min-height: 100px;
-}
-
-#dayzone[dnd-list] {
-  -background-color: #fff;
-  -border: 1px solid #ddd;
-  -border-top-right-radius: 4px;
-  -border-top-left-radius: 4px;
-  display: block;
-  -padding: 10px 15px;
-  -margin-bottom: -1px;
-}
-
 /*.segment-list {
   outline: 0;
 }
@@ -256,75 +269,9 @@ calendar {
   height: auto;
 }*/
 
-calendar-measurement, calendar-activity, calendar-event, calendar-competition {
-  	position: relative;
-  	min-height: 50px;
-  	margin: 6px 0px 0px 0px;
-  	cursor: pointer;
-	@include border-radius(3px);
-
-    // md size
-    @media (min-width: 960px) and (max-width: 1279px){
-      @include border-radius(0px);
-      box-shadow: none;
-
-      .data-category {
-        margin-top: 8px;
-      }
-    }
-
-  	@media (max-width: 1919px) and (min-width: 1280px){
-    	-min-width: 10%;
-    	-max-width: 175px;
-  	}
-
-  	@media (max-width: 959px){
-    	border-radius: 0px;
-    	margin: 0px 4px;
-    	min-width: 200px;
-    	padding-bottom: 0px;
-  	}
-}
-
-
-
-calendar-measurement {
-  padding: 12px;
-  @extend .bg-grey-200;
-
-
-  &:hover {
-    @extend .md-whiteframe-1dp;
-  }
-}
-
-calendar-event, calendar-competition {
-  padding: 10px 12px 12px 12px;
-  @extend .bg-grey-400;
-  @extend .md-whiteframe-1dp;
-
-  &:hover {
-    @extend .bg-grey-500;
-  }
-
-}
-
 
 calendar {
   .new {
-    border-radius: 3px;
-    margin: 4px 0px;
-    -background: white;
-    visibility: hidden;
-    cursor: pointer;
-
-    &.show {
-      visibility: visible;
-    }
-
-    &:hover {
-      -background: white;
-    }
 
   }
 
@@ -334,10 +281,6 @@ calendar {
     @media (max-width: 959px) {
       width: auto;
     }
-  }
-
-  .today {
-    border-top:solid 4px $orange-800 ;
   }
 
   .md-position-fab{

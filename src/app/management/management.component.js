@@ -24,10 +24,12 @@ class ManagementCtrl {
             athletes: (member) => this.athletes(member).map(a => a.userProfile.userId).join(' '),
         };
         this.orderBy = 'sort.username';
+        this.checked = [];
+    }
+
+    $onInit(){
         this.clearFilter();
         this.sortingHotfix();
-
-        this.checked = [];
     }
     
     update () {
@@ -45,6 +47,33 @@ class ManagementCtrl {
             member.coaches = (member.coaches || []).filter(userId => this.management.members.find(m => m.userProfile.userId === userId))
             member.sort = keys(this.orderings).reduce((r, key) => (r[key] = this.orderings[key] (member), r), {})
         });
+    }
+
+    invite($event){
+
+
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="athlete-invitation" aria-label="Invitation">
+                        <athlete-invitation
+                                flex layout="column" class=""
+                                group-id="$ctrl.groupId"                            
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </athlete-invitation>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                groupId: this.club.groupId
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true
+
+        })
     }
 
     // tariffs & billing 
@@ -305,3 +334,19 @@ let ManagementComponent = {
 };
 
 export default ManagementComponent;
+
+function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+        console.log('cancel');
+        $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+    };
+}
+DialogController.$inject = ['$scope','$mdDialog'];

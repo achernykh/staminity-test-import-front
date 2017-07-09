@@ -15,12 +15,16 @@ class ProfileCtrl {
         this.GroupService = GroupService;
         this.message = SystemMessageService;
         this.RequestsService = RequestsService;
+    }
 
-        this.me = UserService.profile;
-        this.isMe = this.user.userId === this.me.userId;
+    $onInit(){
+
+        this.me = this.auth && this.UserService.profile || null;
+        this.isMe = this.auth && this.user.userId === this.me.userId;
 
         this.subscription = this.RequestsService.requestWithUser(this.user.userId)
-        .subscribe(() => { this.update() });
+                .subscribe(() => { this.update() });
+
     }
 
     $onDestroy () {
@@ -38,7 +42,7 @@ class ProfileCtrl {
     }
 
     athletes () {
-        this.dialogs.usersList(this.user.connections.Athletes, 'athletes')
+        this.dialogs.usersList(this.user.connections.allAthletes, 'athletes')
     }
 
     friends () {
@@ -76,12 +80,14 @@ class ProfileCtrl {
     }
 };
 
-ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','SystemMessageService','RequestsService'];
+ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService',
+    'SystemMessageService','RequestsService'];
 
 const ProfileComponent = {
     bindings: {
         view: '<',
-        user: '<'
+        user: '<',
+        auth: '<'
     },
     controller: ProfileCtrl,
     template: require('./profile-user.component.html')

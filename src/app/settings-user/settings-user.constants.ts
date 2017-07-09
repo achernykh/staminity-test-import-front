@@ -102,15 +102,24 @@ export const _CalculationMethod = {
     }, {
         type: 'max',
         method: ['Yansen6']
+    }, {
+        type: 'custom',
+        method: ['5','7','9']
     }],
     power: [{
         type: 'powerThreshold',
         method: ['AndyCoggan6']
+    }, {
+        type: 'custom',
+        method: ['5','7','9']
     }],
     speed: [
         {
             type: 'paceThreshold',
             method: ['JoeFrielSpeed7']
+        }, {
+            type: 'custom',
+            method: ['5','7','9']
         }
     ]
 };

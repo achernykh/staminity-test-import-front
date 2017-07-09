@@ -22,9 +22,11 @@ class AthletesCtrl {
             ageGroup: (member) => member.userProfile.public.sex
         };
         this.orderBy = 'username';
-        this.sortingHotfix();
-
         this.checked = [];
+    }
+
+    $onInit() {
+        this.sortingHotfix();
     }
 
     sortingHotfix () {
@@ -109,6 +111,31 @@ class AthletesCtrl {
         })
     }
 
+    invite($event){
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="athlete-invitation" aria-label="Invitation">
+                        <athlete-invitation
+                                flex layout="column" class=""
+                                group-id="$ctrl.groupId"                            
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </athlete-invitation>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                groupId: this.user.connections.Athletes.groupId
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true
+
+        })
+    }
+
     // helpers
 
     isPremium (member) {
@@ -136,4 +163,20 @@ const AthletesComponent = {
 };
 
 export default AthletesComponent;
+
+function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+        console.log('cancel');
+        $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+    };
+}
+DialogController.$inject = ['$scope','$mdDialog'];
 

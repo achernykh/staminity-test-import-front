@@ -30,6 +30,11 @@ export const translateNotification = {
         initialProviderSyncCompleted: "Начальная синхронизация завершена.\n" +
         "Загружено {{data[0]}} из {{data[1]}} тренировок c {{data[2] | date:'short'}}",
 
+        /*  Подключение синхронизации не удалось. Отправитель - провайдер */
+        providerSyncError: "Подключение не удалось. Необходимо повторно настроить синхронизацию",
+
+        badUsernameOrPassword: "Пользователь с таким именем и паролем не найден",
+
 
         /* Сообщение спортсмену, что его тренировка загружена. Отправитель - провайдер
         * data[0] - базовый вид спорта
@@ -68,7 +73,7 @@ export const translateNotification = {
         * data[2] - плановая дата тренировки в формате DD.MM.YY
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
-        activityModifiedByCoach: "Изменена плановая тренировка: "+
+        activityModifiedByCoach: "Изменен план в тренировке: "+
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка удалена тренером. Получатель - спортсмен, отправитель - тренер
@@ -77,7 +82,7 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityDeletedByCoach: "Удалена плановая тренировка: "+
+        activityDeletedByCoach: "Удалена тренировка: "+
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка создана спортсменом. Получатель - тренер, отправитель - спортсмен

@@ -1,18 +1,27 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './calendar.translate';
-import { DisplayView } from "../core/display.constants";
+import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service";
 import SessionService from "../core/session.service";
 
-
-
 function configure($stateProvider:StateProvider,
                    $translateProvider:any) {
 
     $stateProvider
+        .state('calendar-my', <StateDeclaration>{
+            url: "/calendar",
+            loginRequired: true,
+            authRequired: ['user'],
+            resolve: {
+                view: () => {return new DisplayView('calendar');},
+                user: ['SessionService', 'message',
+                    (SessionService:SessionService, message:MessageService, $stateParams) => SessionService.getUser()]
+            },
+            views: DefaultTemplate('calendar')
+        })
         .state('calendar', <StateDeclaration>{
             url: "/calendar/:uri",
             loginRequired: true,
@@ -42,7 +51,7 @@ function configure($stateProvider:StateProvider,
                                     });
                             } else {
                                 athlete = null;
-                                message.systemWarning('needPermissions');
+                                message.systemWarning('forbidden_InsufficientRights');
                                 throw 'need permissions';
                             }
                         }

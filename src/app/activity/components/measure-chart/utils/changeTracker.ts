@@ -17,7 +17,7 @@ export class ChangeTracker {
     };
 
     public isSelectsOnlyChange(changes): boolean {
-        return !!(changes.select) && (Object.keys(changes).length === 1);
+        return !!(changes.select) && ((Object.keys(changes).length === 1) || (Object.keys(changes).length === 0));
     };
 
     public areSelectsUpdated(changes): boolean {
@@ -31,7 +31,7 @@ export class ChangeTracker {
             return false;
         }
         if (curr.length === 0 && !this.userSelection) {
-            return false;
+            return true;//false;
         }
         if (prev.length !== curr.length) {
             return true;

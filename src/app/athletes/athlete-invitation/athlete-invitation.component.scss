@@ -1,0 +1,24 @@
+md-dialog#athlete-invitation{
+  height: 100%;
+}
+
+athlete-invitation {
+  th.first-name, th.last-name, th.email {
+    min-width: 50px;
+  }
+
+  table.md-table td.md-cell md-input-container{
+    margin: 0px;
+    padding: 2px 0px 0px 0px;
+
+    input {
+      //text-align: right;
+      //border-color: rgba(0,0,0,0.0);
+    }
+
+    div.md-errors-spacer {
+      min-height: 0px;
+    }
+  }
+
+}

@@ -24,7 +24,7 @@
                       ng-click="$ctrl.onAnswer({response: {user: athlete.userProfile}})"
                       style="background-image:
                         linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)),
-                        url({{'/user/background/' + athlete.userProfile.public.background | image}});
+                        url({{athlete.userProfile.public.background | userBackground}});
                         background-position: center center;
                         background-size: cover;
                         background-repeat: no-repeat; cursor: pointer">
@@ -44,9 +44,7 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-
-            <div class="avatar medium"
-                 style="background-image: url({{'/user/avatar/' + athlete.userProfile.public.avatar | image}})"></div>
+            <userpic class="size-60 border-light" profile="athlete.userProfile" is-premium="athlete.userProfile.isPremium" unlink="true"></userpic>
             <md-grid-tile-footer>
                 <h3>{{athlete.userProfile.public.firstName}} {{athlete.userProfile.public.lastName}}
                 </h3>

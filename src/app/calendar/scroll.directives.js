@@ -7,7 +7,7 @@ import { maybe, entries, timer, log } from './../share/util'
 
 
 const findChildInViewport = (element) => {
-  let { scrollTop } = element
+  let { scrollTop, scrollHeight } = element
   return Array.from(element.children).find(({ offsetTop, offsetHeight }) => offsetTop >= scrollTop)
 }
 
@@ -42,12 +42,13 @@ export const scrollContainer = () => ({
       return { scrollTop, scrollHeight, offsetHeight }
     }
     
-    let firstChildChanges = Observable.interval(500)
-        .map(() => findChildInViewport(element[0]))
-        .subscribe(scrollContainer.firstChildChanges)
+    let firstChildChanges = scrollContainer.scrollings
+      // .throttleTime(200)
+      .map(() => findChildInViewport(element[0]))
+      .subscribe(scrollContainer.firstChildChanges)
         
     let scroll = Rx.Observable.fromEvent(element[0], 'scroll')
-        .subscribe(scrollContainer.scrollings)
+      .subscribe(scrollContainer.scrollings)
     
     let unsubscribe = {
       frames: loop(() => scrollContainer.frames.next()),
@@ -86,26 +87,13 @@ export const onScrollHitTop = () => ({
 export const onScrollHitBottom = () => ({
   require: '^scrollContainer',
   link (scope, element, attrs, scrollContainer) {
+    let bottomPad = element[0].querySelector('.scroll__bottom-pad')
     scrollContainer.frames
     .map(() => scrollContainer.getScrollState())
-    .filter(({ scrollTop, scrollHeight, offsetHeight }) => scrollHeight - scrollTop <= offsetHeight)
+    .filter(({ scrollTop, scrollHeight, offsetHeight }) => bottomPad.offsetTop - scrollTop <= offsetHeight)
     .subscribe(() => { 
       scope.$applyAsync(attrs.onScrollHitBottom) 
     })
-  }
-})
-
-
-/*
-* Ставится прямым потомкам скроллконтейнера, выражение-аргумент выполняется, 
-* когда элемент оказывается текущим
-*/
-export const onScrollCurrentItem = () => ({
-  require: '^scrollContainer',
-  link (scope, element, attrs, scrollContainer) {
-    scrollContainer.firstChildChanges
-    .filter(child => child === element[0])
-    .subscribe(() => { attrs.onScrollCurrentItem && scope.$apply(attrs.onScrollCurrentItem) })
   }
 })
 
@@ -121,15 +109,25 @@ export const scrollKeepPosition = () => ({
     let frame = () => {
       if (snapshot) {
         let offset = snapshot.child.offsetTop
-        if (offset !== snapshot.offset) {
+        
+        if (
+            offset !== snapshot.offset && (
+                !window.chrome ||
+                window.chrome && element[0].scrollTop === snapshot.scroll
+            )
+        ) {
           let shift = offset - snapshot.offset
           element[0].scrollTop += shift
+          console.log('scrollKeepPosition', snapshot.selector, shift)
         }
       }
-      
-      snapshot = maybe(findChildInViewport(element[0])) (child => ({
+
+      snapshot = maybe (attrs.scrollKeepPosition) 
+      (selector => element[0].querySelector(attrs.scrollKeepPosition)) 
+      (child => ({
         child,
-        offset: child.offsetTop
+        offset: child.offsetTop,
+        scroll: element[0].scrollTop
       })) ()
     }
     

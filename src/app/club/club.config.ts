@@ -1,6 +1,8 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './club.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
+import {IAuthService} from "../auth/auth.service";
+import GroupService from "../core/group.service";
 
 function configure(
     $stateProvider:StateProvider,
@@ -8,13 +10,22 @@ function configure(
     $stateProvider
         .state('club', <StateDeclaration>{
             url: "/club/:uri",
-            loginRequired: true,
-            authRequired: ['func1'],
+            loginRequired: false,
+            //authRequired: ['func1'],
             resolve: {
                 view: () => new DisplayView('club'),
-                userId: ['SessionService', (SessionService) => SessionService.getUser().userId],
-                club: ['GroupService','$stateParams',
-                    (GroupService,$stateParams) => GroupService.getProfile($stateParams.uri,'club')]
+                auth: ['AuthService', (AuthService: IAuthService) => AuthService.isAuthenticated()],
+                //userId: ['SessionService', (SessionService) => SessionService.getUser().userId],
+                club: ['GroupService','$stateParams','$location', 'auth',
+                    (GroupService: GroupService,$stateParams, $location, auth: boolean) =>
+                        GroupService.getProfile($stateParams.uri,'club',auth)
+                            .catch(error => {
+                                debugger;
+                                if(error.hasOwnProperty('errorMessage') && error.errorMessage === 'groupNotFound'){
+                                    $location.path('/404');
+                                }
+                                throw error;
+                            })]
             },
             views: DefaultTemplate('club')
         });

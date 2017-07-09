@@ -1,4 +1,5 @@
-import {IActivityType, IActivityCategory} from "../../../api/activity/activity.interface";
+import {IActivityType} from "../../../api/activity/activity.interface";
+
 
 export const activityTypes: Array<IActivityType> = [
     {id: 2, code: "run", typeBasic: "run", enabled: true, isBasic: true},

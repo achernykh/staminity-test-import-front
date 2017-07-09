@@ -1,18 +1,32 @@
 import './dashboard-day.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, element, copy} from 'angular';
+import moment from 'moment/src/moment.js';
 import {IDashboardDay, DashboardCtrl} from "../dashboard.component";
-import {IUserProfile} from "../../../../api/user/user.interface";
+import {IUserProfile, IUserProfileShort} from "../../../../api/user/user.interface";
+import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
+import {CalendarItemWizardSelectCtrl} from "../../calendar-item/calendar-item-wizard/calendar-item-wizard.component";
+import {
+    isSpecifiedActivity, isCompletedActivity, clearActualDataActivity,
+    updateIntensity
+} from "../../activity/activity.function";
+import {CalendarService} from "../../calendar/calendar.service";
+import {profileShort} from "../../core/user.function";
+
 
 class DashboardDayCtrl implements IComponentController {
 
     public day: IDashboardDay;
     public athlete: IUserProfile;
+    public selected: boolean;
     public onEvent: (response: Object) => IPromise<void>;
     private dashboard: DashboardCtrl;
 
-    static $inject = ['$mdDialog','message'];
+    static $inject = ['$mdDialog','message','dialogs','CalendarService'];
 
-    constructor(private $mdDialog: any, private message: any) {
+    constructor(private $mdDialog: any,
+                private message: any,
+                private dialogs: any,
+                private CalendarService: CalendarService) {
 
     }
 
@@ -20,25 +34,86 @@ class DashboardDayCtrl implements IComponentController {
 
     }
 
-    postItem($event, date) {
+    onDrop(srcItem: ICalendarItem,
+           operation: string,
+           srcIndex:number,
+           trgDate:string,
+           trgIndex: number,
+           srcAthlete: IUserProfile) {
+
+        debugger;
+
+        let item:ICalendarItem = copy(srcItem);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
+        if (srcAthlete.userId !== this.athlete.userId) {
+            item.userProfileOwner = profileShort(srcAthlete);
+            //operation = 'copy';
+            this.dialogs.confirm('updateIntensity')
+                .then(() => {item = updateIntensity(item, srcAthlete.trainingZones);},() => {})
+                .then(() => this.onProcess(item, operation, true))
+                .then(() => operation === 'move' && this.CalendarService.deleteItem('F',[item.calendarItemId]).then(()=>{},()=>{}));
+        } else {
+            this.onProcess(item, operation);
+        }
+        return true;
+    }
+
+    onProcess(item: ICalendarItem, operation: string, post: boolean = false) {
+        switch (operation) {
+            case 'move': {
+                if (!post && isCompletedActivity(item)) {
+                    this.dialogs.confirm('moveActualActivity')
+                        .then(()=>this.CalendarService.postItem(clearActualDataActivity(item)), Promise.reject(null))
+                        .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
+                } else if(!post) {
+                    this.CalendarService.putItem(item)
+                        .then(() => this.message.toastInfo('activityMoved'))
+                        .catch(error => this.message.toastError(error));
+                } else {
+                    this.CalendarService.postItem(item)
+                        .then(() => this.message.toastInfo('activityMoved'))
+                        .catch(error => this.message.toastError(error));
+                }
+                break;
+            }
+            case 'copy': {
+                this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
+                    .then(() => this.message.toastInfo('activityCopied'))
+                    .catch(error => this.message.toastError(error));
+                break;
+            }
+        }
+    }
+
+    onSelect() {
+        this.selected = !this.selected;
+    }
+
+    isSpecified(item: ICalendarItem):boolean {
+        return isSpecifiedActivity(item);
+    }
+
+    postItem($event, date){
         this.$mdDialog.show({
-            controller: DialogController,
+            controller: CalendarItemWizardSelectCtrl,
             controllerAs: '$ctrl',
             template:
-                `<md-dialog id="post-activity" aria-label="Activity">
-                        <calendar-item-activity
-                                layout="row" class="calendar-item-activity"
-                                date="$ctrl.date"
-                                mode="'post'"
+                `<md-dialog id="wizard" aria-label="Activity">
+                        <calendar-item-wizard
+                                layout="column" class="calendar-item-wizard"
+                                date="$ctrl.date"                     
                                 user="$ctrl.user"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-activity>
+                                event="$ctrl.event"
+                                on-cancel="cancel()" on-select="$ctrl.answer(itemType, activityType)">
+                        </calendar-item-wizard>
                    </md-dialog>`,
-            parent: angular.element(document.body),
+            parent: element(document.body),
             targetEvent: $event,
             locals: {
                 date: new Date(date), // дата дня в формате ГГГГ-ММ-ДД
-                user: this.athlete
+                user: this.athlete,
+                event: $event
             },
             //resolve: {
             //    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
@@ -48,16 +123,7 @@ class DashboardDayCtrl implements IComponentController {
             clickOutsideToClose: false,
             escapeToClose: false,
             fullscreen: true
-        })
-            .then(response => {
-                if(response.type === 'post') {
-                    console.log('save activity', response);
-                    this.dashboard.onPostItem(response.item);
-                    this.message.toastInfo('Создана новая запись');
-                }
-            }, ()=> {
-                console.log('user cancel dialog');
-            });
+        }).then(() => {}, ()=> {});
     }
 }
 
@@ -65,7 +131,8 @@ const DashboardDayComponent:IComponentOptions = {
     bindings: {
         day: '<',
         athlete: '<',
-        onEvent: '&'
+        selected: '<',
+        onSelect: '&'
     },
     require: {
         dashboard: '^dashboard'
@@ -75,19 +142,3 @@ const DashboardDayComponent:IComponentOptions = {
 };
 
 export default DashboardDayComponent;
-
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
-        $mdDialog.hide();
-    };
-
-    $scope.cancel = function() {
-        console.log('cancel');
-        $mdDialog.cancel();
-    };
-
-    $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
-    };
-}
-DialogController.$inject = ['$scope','$mdDialog'];

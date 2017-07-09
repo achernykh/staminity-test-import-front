@@ -1,15 +1,41 @@
 import { IComponentOptions, IComponentController} from 'angular';
 import {IAuthService} from "../auth/auth.service";
+import {StateService} from 'angular-ui-router';
+import SessionService from "../core/session.service";
+import {IUserProfile} from "../../../api/user/user.interface";
+import { Observable } from 'rxjs/Observable';
+import DisplayService from "../core/display.service";
 require('./landingpage.component.scss');
 
 class LandingPageCtrl implements IComponentController {
 
-	static $inject = ['AuthService'];
+	private profile$: Observable<IUserProfile>;
+	private user: IUserProfile;
+	private readonly slides: any = {
+		athlete: ['lp-user-01.png','lp-user-02.png','lp-user-03.png'],
+		coach: ['lp-coach-01.png'],
+		club: ['lp-club-01.png']
+	};
 
-	constructor(private AuthService: IAuthService) { }
+	static $inject = ['AuthService','$state','SessionService','display'];
+
+	constructor(private AuthService: IAuthService,
+				private $state: StateService,
+				private SessionService: SessionService,
+				private display: DisplayService) {
+
+	}
 
 	$onInit() {
+		this.profile$ = this.SessionService.profile.subscribe(profile=> this.user = angular.copy(profile));
+	}
 
+	go() {
+		if(this.AuthService.isAuthenticated()) {
+			this.$state.go('calendar', {uri: this.user.public.uri});
+		} else {
+			this.$state.go('signup');
+		}
 	}
 
 }

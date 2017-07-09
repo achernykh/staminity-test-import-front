@@ -87,18 +87,19 @@ user {
     }
 
     summary-statistics {
-        display: block;
-        margin: 20px 0;
-        padding: 17px;
-        border-radius: 2px;
-        background-color: #607d8b;
-        color: rgba(255, 255, 255, 0.7);
 
-        @media (max-width: 0) {
-            border-radius: none !important;
+        md-card {
+            margin: 20px 0;
+            padding: 16px;
+            background-color: #607d8b;
+            color: rgba(255, 255, 255, 0.7);
+
+            @media (max-width: 0) {
+                border-radius: none !important;
+            }
         }
 
-        svg {
+        div.chart svg {
             overflow: visible;
             width: 100%;
             margin-bottom: 20px;
@@ -127,7 +128,7 @@ user {
 
             th {
                 padding: 7px;
-                text-align: left;
+                text-align: right;
                 font-size: 12px;
                 font-weight: normal;
                 font-style: normal;
@@ -138,7 +139,7 @@ user {
 
             td {
                 padding: 7px;
-                text-align: left;
+                text-align: right;
                 font-size: 14px;
                 font-weight: 500;
                 font-style: normal;

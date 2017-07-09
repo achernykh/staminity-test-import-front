@@ -136,7 +136,7 @@ section.settings-container header {
       height: 128px;
       min-height: 128px;
     }
-    background-image: linear-gradient(to top, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 73%, rgba(0, 0, 0, 0.4)), url("/background/4.png");
+    background-image: linear-gradient(to top, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 73%, rgba(0, 0, 0, 0.4));//, url("/background/4.png");
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -173,7 +173,7 @@ section.settings-container header {
     background: rgba(0,0,0,.5);
     color: #fff;
     text-decoration: none;
-    line-height: 56px;
+    line-height: 60px;
     opacity: 100;
     transition: opacity 0.3s ease;
     border-radius: 100%;

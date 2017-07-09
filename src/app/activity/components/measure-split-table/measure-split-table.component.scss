@@ -2,8 +2,13 @@
 
 measure-split-table {
 
-  overflow-y: auto;
-  overflow-x: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  &:hover, &:focus {
+    overflow-y: auto;
+    overflow-x: auto;
+  }
 
   table.md-table:not(.md-row-select) td.md-cell:first-child,
   table.md-table:not(.md-row-select) th.md-column:first-child {

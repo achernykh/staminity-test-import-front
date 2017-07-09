@@ -19,8 +19,17 @@ export const _translate = {
             M: 'Мужской',
             W: 'Женский',
             about: 'О себе...',
+            price: 'Условия занятий',
+            priceFull: 'Укажите стоимость услуг при дистанционных занятиях, стоимость личных тренировок, групповых занятий и т.п.',
+            contact: 'Контактная информация',
+            contactFull: 'Как с вами связаться новым ученикам',
+            athletes: 'Ученики',
+            athletesFull: 'Расскажите о ваших учениках: сколько занимаются у вас сейчас, скольких вы подготовили, какие их успехи вы можете отметить и т.п.',
+            isFree: 'Доступность для новых учеников',
+            isFreeTrue: 'Принимаю учеников',
+            isFreeFalse: 'Набор завершен',
             contacts: {
-                header:'Контакты',
+                header:'Контакты (доступно только вам и тренеру)',
                 extEmail: 'Дополнительный email',
                 phone: 'Телефон'
             },
@@ -117,7 +126,12 @@ export const _translate = {
                 onSyncPendingRequest: {
                     button: 'Изменить',
                     title: 'Ожидание...',
-                    text: "Ожидается подтверждение"}
+                    text: "Ожидается подтверждение"},
+                оnSyncCheckRequisites: {
+                    button: 'Изменить',
+                    title: 'Проверка...',
+                    text: "Проверка правильности введенных данных"
+                }
             }
         },
         zones: {
@@ -139,13 +153,17 @@ export const _translate = {
                 max: 'Максимальное значение',
                 powerThreshold: 'ПАНО мощность',
                 paceThreshold: 'ПАНО скорость',
+                custom: 'Вручную',
 
                 JoeFrielHeartRateRunning7: 'Joe Friel, 7 зон по пульсу для бега',
                 JoeFrielHeartRateCycling7: 'Joe Friel, 7 зон по пульсу для велосипеда',
                 Karvonen5: 'Karvonen, 5 зон по пульсу',
                 Yansen6: 'Peter Janssen, 6 зон по пульсу',
                 AndyCoggan6: 'Andy Coggan, 7 зон по мощности',
-                JoeFrielSpeed7: 'Joe Friel, 7 зон по темпу/скорости'
+                JoeFrielSpeed7: 'Joe Friel, 7 зон по темпу/скорости',
+                '5': '5 пользовательских зон',
+                '7': '7 пользовательских зон',
+                '9': '9 пользовательских зон'
 
             }
 

@@ -7,6 +7,14 @@ activity-header-chat {
   .message-list {
     padding: 8px 16px;
     overflow-y: auto;
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    &:focus, &:hover {
+      overflow-y: auto;
+    }
+
   }
 
   .message {

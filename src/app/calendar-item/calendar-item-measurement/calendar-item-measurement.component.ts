@@ -29,13 +29,12 @@ class CalendarItemMeasurementCtrl {
     }
 
     $onInit() {
-        console.log('data=',this);
 
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'measurement',
-                dateStart: new Date(this.data.date),
-                dateEnd: new Date(this.data.date),
+                dateStart: this.data.date,
+                dateEnd: this.data.date,
                 userProfileOwner: profileShort(this.user)
             };
         }
@@ -48,12 +47,14 @@ class CalendarItemMeasurementCtrl {
         if (this.mode === 'post') {
             this.CalendarService.postItem(this.item.package())
                 .then(response => this.item.compile(response)) // сохраняем id, revision в обьекте
+                .then(() => this.message.toastInfo('measurementCreated'))
                 .then(() => this.onAnswer({response: {type:'post',item:this.item}}),
                     error => this.message.toastError(error));
         }
         if (this.mode === 'put') {
             this.CalendarService.putItem(this.item.package())
                 .then(response => this.item.compile(response)) // сохраняем id, revision в обьекте
+                .then(() => this.message.toastInfo('measurementUpdated'))
                 .then(() => this.onAnswer({response: {type:'put',item:this.item}}),
                     error => this.message.toastError(error));
         }
@@ -61,8 +62,10 @@ class CalendarItemMeasurementCtrl {
 
     onDelete() {
         this.CalendarService.deleteItem('F', [this.item.calendarItemId])
-            .then(response => this.onAnswer({response: {type:'delete',item:this.item}}),
-                error => this.message.toastError(error));
+            .then(response => {
+                this.message.toastInfo('measurementDeleted');
+                this.onAnswer({response: {type:'delete',item:this.item}});
+            }, error => this.message.toastError(error));
     }
 }
 

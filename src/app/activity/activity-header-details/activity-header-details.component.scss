@@ -1,0 +1,9 @@
+activity-header-details {
+
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  &:focus, &:hover {
+    overflow-y: auto;
+  }
+}

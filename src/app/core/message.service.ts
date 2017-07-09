@@ -45,7 +45,7 @@ export default class MessageService implements IMessageService{
 	toastTemplate =
 		`<md-toast>
 			<md-icon class="material-icons" style="color: darkred"></md-icon>
-			<span class="md-toast-text" flex>{{'message.' + $ctrl.code + '.text' | translate:$ctrl.context}}</span>
+			<span class="md-toast-text" flex>{{$ctrl.code + '.text' | translate:$ctrl.context}}</span>
 			<!--<md-button class="md-highlight" ng-click="openMoreInfo($event)">More info</md-button>-->
 			<md-button ng-click="hide()">Close</md-button>
 		</md-toast>`;

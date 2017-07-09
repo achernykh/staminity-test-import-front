@@ -47,9 +47,9 @@ export const measureUnit = ['SessionService', (SessionService:ISessionService) =
 export const duration = () => (second = 0, round: string = 'second') => {
 	let time = moment().startOf('day').millisecond(second*1000);
 	if (round === 'millisecond'){
-		return time.format('H:mm:ss.S');
+		return time.format('HH:mm:ss.S');
 	} else {
-		return time.format('H:mm:ss');
+		return time.format('HH:mm:ss');
 	}
 };
 

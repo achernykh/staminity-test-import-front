@@ -5,13 +5,15 @@ import {
 	IActivityIntervalL,
 	IActivityIntervalP,
 	IActivityMeasure,
-	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityCategory, IActivityType
+	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityType
 } from "../../../api/activity/activity.interface";
+import {IActivityCategory} from '../../../api/reference/reference.interface';
 import moment from 'moment/src/moment.js';
 import {copy, merge} from 'angular';
 import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {activityTypes, getType} from "./activity.constants";
+import {IUserProfileShort} from "../../../api/user/user.interface";
 
 export interface IRoute {
 	lat:number;
@@ -110,23 +112,26 @@ class ActivityHeader implements IActivityHeader {
 	public activityType: IActivityType;
 	public intervals: Array<IActivityIntervalW | IActivityIntervalPW | IActivityIntervalL> = [];
 
-	constructor(date: Date = new Date()){
-		this.startTimestamp = date;
+	constructor(header?: IActivityHeader){
+		this.startTimestamp = new Date();
 		this.activityCategory = { // категория тренировки
 			id: null,
+			revision: null,
 			code: null,
-			activityTypeId: null
+			activityTypeId: null,
+			sortOrder: null
 		};
 		this.activityType = { //вид спорта
 			id: null,
 				code: null,
 				typeBasic: null
 		};
+		merge(this, header);
 		this.intervals.push(new Interval('pW'), new Interval('W'));
 	}
 }
 
-let toDay = (date):Date => {
+export let toDay = (date):Date => {
 	let result = new Date(date);
 	result.setHours(0, 0, 0, 0);
 	return result;
@@ -148,16 +153,16 @@ export class Activity extends CalendarItem {
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
-	private hasImportedData: boolean = false;
+	public hasImportedData: boolean = false;
 	private peaks: Array<any>;
 	private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
 	public details: IActivityDetails;
-	private actualDataIsImported: boolean = false;
+	public actualDataIsImported: boolean = false;
     private _startDate: Date;
 
-	constructor(private item: ICalendarItem){
+	constructor(private item: ICalendarItem, private method: string = 'view'){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
-		this.prepare();
+		this.prepare(method);
 	}
 
 	// Добавляем детальные данные по тренеровке
@@ -230,12 +235,12 @@ export class Activity extends CalendarItem {
 	}
 
 	// Подготовка данных для модели отображения
-	prepare() {
+	prepare(method: string) {
 		super.prepare();
 		// Если activityHeader не установлен, значит вызван режим создаения записи
 		// необходимо создать пустые интервалы и обьявить обьекты
-		if (!this.item.hasOwnProperty('activityHeader')) {
-			this.header = new ActivityHeader(); //создаем пустую запись с интервалом pW, W
+		if (method === 'post') {
+			this.header = new ActivityHeader(this.item.activityHeader); //создаем пустую запись с интервалом pW, W
 		} else {
 			this.header = copy(this.item.activityHeader); // angular deep copy
 			// Если итервала pW нет, то создаем его
@@ -296,15 +301,13 @@ export class Activity extends CalendarItem {
 	}
 
 	// Подготовка данных для передачи в API
-	build() {
+	build(userProfile?: IUserProfileShort) {
 		super.package();
 		this.dateEnd = this.dateStart;
 		this.header.activityType = getType(Number(this.header.activityType.id));
 		this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
 		this.header.intervals = [];
-		this.header.intervals.push(...this.intervalP, this.intervalPW, ...this.intervalL, this.intervalW);
-
-        debugger;
+		this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
 		return {
 			index: this.index,
@@ -313,7 +316,7 @@ export class Activity extends CalendarItem {
 			revision: this.revision,
 			dateStart: this.dateStart, // timestamp даты и времени начала
 			dateEnd: this.dateEnd, // timestamp даты и времени окончания
-			userProfileOwner: this.userProfileOwner,
+			userProfileOwner: userProfile || this.userProfileOwner,
 			userProfileCreator: this.userProfileCreator,
 			//userProfileCreator: IUserProfileShort,
 			activityHeader: this.header
@@ -495,9 +498,9 @@ export class Activity extends CalendarItem {
 	}
 
 	get defaultIntensityMeasure() {
-		return (this.intervalW.calcMeasures.hasOwnProperty('speed') &&  this.intervalW.calcMeasures.speed.hasOwnProperty('avgValue') && 'speed')
-			|| (this.intervalW.calcMeasures.hasOwnProperty('heartRate') &&  this.intervalW.calcMeasures.heartRate.hasOwnProperty('avgValue') && 'heartRate')
-			|| (this.intervalW.calcMeasures.hasOwnProperty('power') &&  this.intervalW.calcMeasures.power.hasOwnProperty('avgValue') && 'power') || null;
+		return (this.intervalW.calcMeasures.hasOwnProperty('speed') &&  this.intervalW.calcMeasures.speed.hasOwnProperty('avgValue')  && this.intervalW.calcMeasures.speed.avgValue && 'speed')
+			|| (this.intervalW.calcMeasures.hasOwnProperty('heartRate') &&  this.intervalW.calcMeasures.heartRate.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.heartRate.avgValue && 'heartRate')
+			|| (this.intervalW.calcMeasures.hasOwnProperty('power') &&  this.intervalW.calcMeasures.power.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.power.avgValue && 'power') || null;
 	}
 
 	get movingDuration() {

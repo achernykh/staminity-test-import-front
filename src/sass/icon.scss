@@ -23,6 +23,12 @@ md-icon.s36, img.s36 {
 	min-width: 36px;
 	min-height: 36px;
 }
+md-icon.s64, img.s64 {
+	width: 64px;
+	height: 64px;
+	min-width: 64px;
+	min-height: 64px;
+}
 
 // цветовая схема иконок
 md-icon {
@@ -76,27 +82,32 @@ md-icon {
 md-icon {
 	&.fill-measure.heartRate {
 		svg {
-			fill: #E91E63;
+			fill: #E91E63 !important;
 		}
 	}
 	&.fill-measure.power {
 		svg {
-			fill: #9C27B0;
+			fill: #9C27B0 !important;
 		}
 	}
 	&.fill-measure.speed {
 		svg {
-			fill: #2196F3;
+			fill: #2196F3 !important;
 		}
 	}
 	&.md-dark {
+		svg {
+			fill: rgba(0, 0, 0, 0.70) !important;
+		}
+	}
+	&.md-dark.md-unfocused {
 		svg {
 			fill: rgba(0, 0, 0, 0.54) !important;
 		}
 	}
 	&.md-dark.md-inactive {
 		svg {
-			fill: rgba(0, 0, 0, 0.26) !important;
+			fill: rgba(0, 0, 0, 0.38) !important;
 		}
 	}
 	&.md-light {
@@ -104,9 +115,14 @@ md-icon {
 			fill: rgba(255, 255, 255, 1) !important;
 		}
 	}
+	&.md-light.md-unfocused {
+		svg {
+			fill: rgba(255, 255, 255, 0.70) !important;
+		}
+	}
 	&.md-light.md-inactive {
 		svg {
-			fill: rgba(255, 255, 255, 0.3) !important;
+			fill: rgba(255, 255, 255, 0.50) !important;
 		}
 	}
 }
@@ -118,9 +134,11 @@ md-icon {
 .material-icons.md-48 { font-size: 48px; }
 
 /* Rules for using icons as black on a light background. */
-.material-icons.md-dark { color: rgba(0, 0, 0, 0.54) !important; }
-.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26) !important; }
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.70) !important; }
+.material-icons.md-dark.md-unfocused { color: rgba(0, 0, 0, 0.54) !important; }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.38) !important; }
 
 /* Rules for using icons as white on a dark background. */
 .material-icons.md-light { color: rgba(255, 255, 255, 1) !important; }
-.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3) !important; }
+.material-icons.md-light.md-unfocused { color: rgba(255, 255, 255, 0.70) !important; }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.50) !important; }

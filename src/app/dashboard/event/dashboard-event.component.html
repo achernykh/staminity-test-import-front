@@ -1,0 +1,29 @@
+<div class="event" ng-class="{selected: $ctrl.selected}"
+     ng-click="$ctrl.onOpen($env,'view')" >
+
+    <header layout="row" layout-align="">
+        <section flex="none" class="first-column" layout="column" layout-align="space-between start">
+            <div flex="none" layout="row" layout-align="center center" class="bg-circle-24 bg-blue-grey-A700">
+                <md-icon flex="none" md-svg-src="/assets/icon/{{::$ctrl.event.eventHeader.eventType}}.svg" style="margin-left: 4px"
+                         class="s18 sport md-light"></md-icon>
+            </div>
+        </section>
+        <section flex="auto" class="second-column" layout="column" layout-align="center start">
+            <div flex="none" class="md-body-2 tight-02 line-14 font-medium duration">
+                <span flex="none"translate>{{::'event.'+$ctrl.event.eventHeader.eventType}}</span>
+            </div>
+        </section>
+    </header>
+    <footer class="descriptions" ng-if="::($ctrl.event.eventHeader.target.length>0)" hide show-gt-md>
+        <div flex="none" class="md-caption secondary dark" style="font-size: 12px"
+             hm-read-more
+             hm-text="{{::$ctrl.event.eventHeader.target}}"
+             hm-limit="100"
+             hm-more-text="more"
+             hm-less-text="less"
+             hm-dots-class="read-more-dots"
+             hm-link-class="read-more-links">
+        </div>
+    </footer>
+
+</div>

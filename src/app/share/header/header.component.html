@@ -2,17 +2,20 @@
     <div id="header-left-toolbar" flex="{{$ctrl.view.leftPanel.size}}"
          ng-include="$ctrl.view.leftPanel.url"
          layout="row" layout-align="start center" class=""></div>
-    <div id="header-caption" class="animated bounceIn" layout="row" layout-align="center center" layout-fill>
+    <div id="header-caption" class="animated bounceIn" layout="row" layout-align="start center" layout-align-gt-sm="center center" layout-fill>
         <div flex="nogrow" ng-show="$ctrl.view.title"
              class="app-title md-title" translate>
             {{$ctrl.app.screen.xs ? $ctrl.view.shortTitle : $ctrl.view.fullTitle}}</div>
+        <userpic ng-if="$ctrl.$state.current.name === 'activity'" style="margin-left: 12px"
+                 class="border-light" profile="$ctrl.athlete" is-premium="$ctrl.item.user.isPremium"></userpic>
         <div layout="row" layout-align="center center"
              ng-class="{'back-primary-900' : !!$ctrl.athlete}"
              ng-if="::$ctrl.isEnableAthleteSelector()"
              style="border-radius: 12px; height: 24px; margin-left: 8px;">
             <div ng-if="!!$ctrl.athlete" style="height: 24px;">
-                <div flex="none" class="avatar mini"
-                     style="background-image: url({{'/user/avatar/' + $ctrl.athlete.public.avatar | image}})"></div>
+                <userpic profile="$ctrl.athlete" is-premium="$ctrl.athlete.isPremium"></userpic>
+                <!--<div flex="none" class="avatar mini"
+                     style="background-image: url({{'/user/avatar/' + $ctrl.athlete.public.avatar | image}})"></div>-->
             </div>
             <div hide show-gt-md ng-show="!!$ctrl.athlete" class="md-body" style="-opacity: 0.54;margin-left: 8px; margin-right: 8px">
                 {{$ctrl.athlete.public.firstName}}

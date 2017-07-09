@@ -21,6 +21,11 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         this.activity = this.item.activity;
     }
 
+    onSave(){
+        console.log('push button save', new Date().getTime());
+        this.item.onSave();
+    }
+
     onChangeForm(plan,actual,form: INgModelController) {
         console.log('onChangeForm', form.$dirty);
         this.form = form;

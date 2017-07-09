@@ -7,7 +7,7 @@ import './settings-club.component.scss';
 
 class SettingsClubCtrl {
 
-	constructor ($scope, GroupService,ActionMessageService, $locale, $http, dialogs) {
+	constructor ($scope, GroupService,ActionMessageService, $locale, $http, dialogs, message) {
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
 		this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -22,7 +22,10 @@ class SettingsClubCtrl {
 		this.dialogs = dialogs
 		this._ActionMessageService = ActionMessageService
 		this._$http = $http
+		this.message = message
+	}
 
+	$onInit(){
 		this.clubHotfix();
 	}
 
@@ -78,6 +81,7 @@ class SettingsClubCtrl {
 		this.GroupService.putProfile(this.club)
 			.then((result) => {
 				this.setClub(result)
+				this.message.toastInfo('settingsClubSaveComplete')
 			}, (error) => {
 				this._ActionMessageService.simple(error)
 			});
@@ -91,12 +95,14 @@ class SettingsClubCtrl {
 		this.dialogs.uploadPicture()
 		.then((picture) => this.GroupService.postProfileAvatar(this.club.groupId, picture))
 		.then((club) => { this.setClub(club) })
+		.then(() => this.message.toastInfo('updateClubAvatar'))
 	}
 	
 	uploadBackground () {
 		this.dialogs.uploadPicture()
 		.then((picture) => this.GroupService.postProfileBackground(this.club.groupId, picture))
 		.then((club) => { this.setClub(club) })
+		.then(() => this.message.toastInfo('updateclubBackgroundImage'))
 	}
 
 	toggleActivity (activity) {
@@ -113,7 +119,7 @@ class SettingsClubCtrl {
 		return this.club.public.activityTypes.includes(activity)
 	}
 }
-SettingsClubCtrl.$inject = ['$scope','GroupService','ActionMessageService','$locale','$http','dialogs'];
+SettingsClubCtrl.$inject = ['$scope','GroupService','ActionMessageService','$locale','$http','dialogs','message'];
 
 let SettingsClubComponent = {
 	bindings: {

@@ -57,7 +57,7 @@
                     <div ng-if="!$ctrl.requests.outbox.new.length" translate>request.noRequest</div>
                     <div ng-repeat="request in $ctrl.requests.outbox.new" class="md-no-proxy">
                         <div layout="row" style="width:100%">
-                            <div ng-if="request.groupProfile.public" style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; vertical-align: middle; margin-right: 10px; background: url({{'/group/avatar/' + request.groupProfile.public.avatar | image}}); background-size: cover; position:relative;"></div>
+                            <div ng-if="request.groupProfile.public" style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; vertical-align: middle; margin-right: 10px; background: url({{'/group/avatar/' | image:request.groupProfile.public.avatar}}); background-size: cover; position:relative;"></div>
                             <userpic ng-if="!request.groupProfile.public" profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
                             <div flex>
                                 <div>{{request.groupProfile.public? request.groupProfile.public.name : (request.receiver | username)}}</div>
@@ -75,7 +75,7 @@
                     <div ng-if="!$ctrl.requests.outbox.old.length" translate>request.noRequest</div>
                     <div ng-repeat="request in $ctrl.requests.outbox.old | limitTo:$ctrl.limit.outbox" class="md-no-proxy">
                         <div layout="row" style="width:100%">
-                            <div ng-if="request.groupProfile.public" style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; vertical-align: middle; margin-right: 10px; background: url({{'/group/avatar/' + request.groupProfile.public.avatar | image}}); background-size: cover; position:relative;"></div>
+                            <div ng-if="request.groupProfile.public" style="display:inline-block; height: 24px; width: 24px; border-radius: 12px; vertical-align: middle; margin-right: 10px; background: url({{'/group/avatar/' | image:request.groupProfile.public.avatar}}); background-size: cover; position:relative;"></div>
                             <userpic ng-if="!request.groupProfile.public" profile="request.receiver" is-premium="request.receiver.isPremium"></userpic>
                             <div flex>
                                 <div>{{request.groupProfile.public? request.groupProfile.public.name : (request.receiver | username)}}</div>

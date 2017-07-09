@@ -117,6 +117,23 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     }
 
+    link(url) {
+        window.open(url);
+    }
+
+    showRow(measure: string) {
+
+        if (this.item.mode !== 'view') {
+            return true;
+        }
+
+        if (this.item.activity.status === 'coming' || this.item.activity.status === 'dismiss') {
+            return measure === this.plan.durationMeasure || measure === this.plan.intensityMeasure;
+        } else {
+            return true;
+        }
+    }
+
     prepareValues() {
         if(this.ftpMode) {
             this.from = 'intensityByFtpFrom';
@@ -283,8 +300,8 @@ class ActivityAssignmentCtrl implements IComponentController {
         }
 
         this.form['dateStart'].$setValidity('needPermissionForFeature',
-            !isFutureDay(this.form['dateStart'].$modelValue) ||
-            (this.form['dateStart'].$modelValue && this.AuthService.isActivityPlan()));
+            !this.item.isOwner || this.AuthService.isActivityPlan() ||
+            (this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
 
     }
 

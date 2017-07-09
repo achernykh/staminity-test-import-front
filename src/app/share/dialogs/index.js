@@ -14,6 +14,15 @@ export default class DialogsService {
             clickOutsideToClose: true
         })
     }
+
+    uploadFile () {
+        return this.$mdDialog.show({
+            controller: UploadFileDialogController,
+            template: require('./file.html'),
+            parent: angular.element(document.body),
+            clickOutsideToClose: true
+        })
+    }
     
     confirm (message) {
         return this.$mdDialog.show({
@@ -83,13 +92,16 @@ ConfirmDialogController.$inject = ['$scope','$mdDialog','message'];
 
 function UploadPictureDialogController($scope, $mdDialog) {
     var file, src;
-    
+
     $scope.files = (files) => {
         file = files[0];
-        let onLoad = (event) => (scope) => { src = event.target.result };
+        let onLoad = (event) => (scope) => {
+            src = event.target.result;
+        };
         let reader = new FileReader();
-        reader.onload = (event) => { $scope.$apply(onLoad(event)) };
-        reader.readAsDataURL(file);
+        reader.onload = (event) => $scope.$apply(onLoad(event)); // результат загрузки передаем в src для вывод картинки на экран
+        reader.readAsDataURL(file); //сохраняем загрузку
+        debugger;
     };
     
     $scope.src = () => src;
@@ -107,6 +119,41 @@ function UploadPictureDialogController($scope, $mdDialog) {
     };
 }
 UploadPictureDialogController.$inject = ['$scope','$mdDialog'];
+
+function UploadFileDialogController($scope, $mdDialog) {
+    $scope.data = null;
+    var file, src;
+
+    $scope.files = (files) => {
+        $scope.data = files;
+        let onLoad = (event) => (scope) => {
+            src = event.target.result;
+        };
+        let reader = new FileReader();
+
+        for(let i=0; i < files.length; i++){
+            file = files[i];
+            reader.onload = (event) => $scope.$apply(onLoad(event));
+            reader.readAsDataURL(file);
+        }
+        debugger;
+    };
+
+    $scope.src = () => src;
+
+    $scope.hide = () => {
+        $mdDialog.hide();
+    };
+
+    $scope.cancel = () => {
+        $mdDialog.cancel();
+    };
+
+    $scope.upload = () => {
+        $mdDialog.hide(file);
+    };
+}
+UploadFileDialogController.$inject = ['$scope','$mdDialog'];
 
 function UsersListController($scope, $mdDialog, $state, users, title) {
     $scope.users = users;

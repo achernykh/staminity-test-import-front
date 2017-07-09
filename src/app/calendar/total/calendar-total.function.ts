@@ -2,7 +2,7 @@ import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {copy} from 'angular';
 import {ICalendarDay} from "../calendar.component";
 
-export interface ICalendarTotals {
+export interface ICalendarWeekSummary {
     fact: {
         distance: number;
         movingDuration: number;
@@ -12,6 +12,10 @@ export interface ICalendarTotals {
         movingDuration: number;
     };
 }
+
+export interface ICalendarWeekTotal {
+    [code: string]: ICalendarWeekSummary;
+};
 
 const searchMeasure = (point, interval) => {
     if (point === 'plan') {
@@ -28,11 +32,11 @@ const searchMeasure = (point, interval) => {
     }
 };
 
-export const calculateCalendarTotals = (items: Array<ICalendarDay>):Object => {
-    let total = {};
+export const calculateCalendarTotals = (items: Array<ICalendarDay>):ICalendarWeekTotal => {
+    let total: ICalendarWeekTotal = {};
     let sport = null;
     let distance = 0, movingDuration = 0;
-    let totalTemplate: ICalendarTotals = {fact: {distance: 0,movingDuration: 0},plan: {distance: 0,movingDuration: 0}};
+    let totalTemplate: ICalendarWeekSummary = {fact: {distance: 0,movingDuration: 0},plan: {distance: 0,movingDuration: 0}};
     let primarySport = ['run', 'bike', 'swim'];
 
     items.forEach(day => day.data.calendarItems.filter(item => item.calendarItemType === 'activity')
@@ -54,9 +58,9 @@ export const calculateCalendarTotals = (items: Array<ICalendarDay>):Object => {
     return total;
 };
 
-export const calculateCalendarSummary = (total: any):ICalendarTotals => {
+export const calculateCalendarSummary = (total: any):ICalendarWeekSummary => {
 
-    let summary: ICalendarTotals = {fact: {distance: 0,movingDuration: 0},plan: {distance: 0,movingDuration: 0}};
+    let summary: ICalendarWeekSummary = {fact: {distance: 0,movingDuration: 0},plan: {distance: 0,movingDuration: 0}};
 
     Object.keys(total).forEach((sport) => {
         if (total[sport].hasOwnProperty('fact')){

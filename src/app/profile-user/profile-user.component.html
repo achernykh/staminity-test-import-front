@@ -1,14 +1,16 @@
 <application-frame class="user-profile">
 
-    <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{'/user/background/' + $ctrl.user.public.background | image}})">
+    <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{$ctrl.user.public.background | userBackground}})">
         <div layout="row" layout-align="center center" style="width:100%">
             <div flex="40" layout="column" layout-align="center end">
                 <div class="chip" ng-if="$ctrl.user.public.isCoach">Тренер</div> 
                 <div class="chip" ng-if="$ctrl.user.public.isPremium"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
             </div>
-            <div flex="20">
+            <userpic class="size-60 border-light"
+                     profile="$ctrl.user" is-premium="$ctrl.user.isPremium"></userpic>
+            <!--<div flex="20">
                 <div class="userpic" ng-style="{'background-image': 'url(' + ('/user/avatar/' + $ctrl.user.public.avatar | image) + ')'}" layout-align="center"></div>
-            </div>
+            </div>-->
             <div flex="40">
             </div>
         </div>
@@ -17,8 +19,15 @@
         <div class="md-caption" style="margin-bottom: 15px">{{ $ctrl.user.personal.activity.join(', ') }}</div>
         <div>
             <span>
-                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'startCoach')" ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach" class="md-raised md-primary md-dark-theme" style="text-transform: none;">
+                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'startCoach')"
+                           ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach && ($ctrl.user.private.isFree || !$ctrl.user.private.hasOwnProperty('isFree'))"
+                           class="md-raised md-primary md-dark-theme" style="text-transform: none;">
                     Начать тренироваться
+                </md-button>
+                <md-button ng-click=""
+                           ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach && (!$ctrl.user.private.isFree && $ctrl.user.private.hasOwnProperty('isFree'))"
+                           class="md-raised md-primary md-dark-theme" style="text-transform: none;" ng-disabled="true">
+                    Набор учеников завершен
                 </md-button>
 
                 <md-button ng-if="$ctrl.user.isYourCoach && !$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup" ng-disabled="true" class="md-dark-theme">
@@ -64,20 +73,19 @@
                     </md-menu-content>
                 </md-menu>
             </span>
-
-            <span>
+            <span ng-if="false">
                 <md-menu>
                     <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)" style="color: white; border:1px solid rgba(255, 255, 255, 0.7); background-color: rgba(0, 0, 0, 0.12);">
                         <md-icon class="material-icons" style="color: white;">person_add</md-icon> ▾
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Followers, 'startFriends')">
+                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Followers, 'startFollow')">
                                 Подписаться
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Friends, 'startFollow')">
+                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Friends, 'startFriends')">
                                 Добавить в друзья
                             </md-button>
                         </md-menu-item>
@@ -92,8 +100,17 @@
     </md-card>
 
     <md-card class="profile-content md-body-1" layout-padding="8">
-        <div class="md-caption">О себе</div>
+        <div class="md-caption" translate>user.about</div>
         <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.about || "Информация не указана" }}</div>
+        <div ng-if="!!$ctrl.user.public.isCoach" >
+            <div class="md-caption" translate>user.price</div>
+            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.price || "Информация не указана" }}</div>
+            <div class="md-caption" translate>user.contact</div>
+            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.contact || "Информация не указана" }}</div>
+            <div class="md-caption" translate>user.athletes</div>
+            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.athletes || "Информация не указана" }}</div>
+            <div style="white-space: pre-wrap;">{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</div>
+        </div>
         <div ng-if="$ctrl.user.private.weight || $ctrl.user.private.height">
             <span style="margin-right:25px">Вес: {{ $ctrl.user.private.weight || '-' }}</span>
             <span>Рост: {{ $ctrl.user.private.height || '-' }}</span>
@@ -112,9 +129,9 @@
                 <span>Тренеры: </span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.user.connections.Coaches.groupMembers.length || '-' }} </span>
             </md-button>
-            <md-button ng-disabled="!$ctrl.user.connections.Athletes.groupMembers.length" ng-click="$ctrl.athletes()">
+            <md-button ng-disabled="!$ctrl.user.connections.allAthletes.groupMembers.length" ng-click="$ctrl.athletes()">
                 <span>Спортсмены: </span>
-                <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.Athletes.groupMembers.length || '-'}} </span>
+                <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.allAthletes  .groupMembers.length || '-'}} </span>
             </md-button>
             <md-button ng-disabled="!$ctrl.user.connections.Followers.groupMembers.length" ng-click="$ctrl.subscribers()">
                 <span>Подписчики: </span>
@@ -140,7 +157,7 @@
         </div>
     </md-card>
 
-    <summary-statistics user="$ctrl.user"/>
+    <summary-statistics user="$ctrl.user" auth="$ctrl.auth"/>
 
 </application-frame>
 

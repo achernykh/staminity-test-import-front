@@ -2,6 +2,8 @@ import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './settings-club.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import GroupService from "../core/group.service";
+import {IAuthService} from "../auth/auth.service";
+import MessageService from "../core/message.service";
 
 function configure(
     $stateProvider:StateProvider,
@@ -13,7 +15,14 @@ function configure(
                 loginRequired: true,
                 authRequired: ['func1'],
                 resolve: {
-                    view: () => new DisplayView('settings'),
+                    view: () => new DisplayView('settingsClub'),
+                    checkPermissions: ['AuthService', '$stateParams', 'message',
+                        (AuthService:IAuthService, $stateParams, message:MessageService)=> {
+                            return AuthService.isMyClub($stateParams.uri).catch(error => {
+                                message.systemWarning(error);
+                                throw error;
+                            });
+                        }],
                     club: ['GroupService','$stateParams',(GroupService:GroupService, $stateParams) =>
                         GroupService.getProfile($stateParams.uri, 'club')]
                 },

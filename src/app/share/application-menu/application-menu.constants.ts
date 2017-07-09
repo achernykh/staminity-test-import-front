@@ -17,6 +17,11 @@ export const UserMenuSettings = [
         link: "https://help.staminity.com/ru/"
     },
     {
+        icon: "error",
+        name: "userMenu.issue",
+        link: "http://support.staminity.com/"
+    },
+    {
         icon: "exit_to_app",
         name: "userMenu.exit",
         link: "signout"
@@ -29,6 +34,11 @@ export const AppMenuSettings = [
         name: "appMenu.calendar",
         link: "calendar",
         //role: [_UserRoles.user, _UserRoles.coach]
+    },
+    {
+        icon: 'search',
+        name: 'appMenu.search',
+        link: 'search'
     },
     {
         icon: "forum",

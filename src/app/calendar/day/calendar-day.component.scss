@@ -1,5 +1,6 @@
 @import "../../../sass/color";
 @import "../../../sass/font";
+@import "../../../sass/base";
 
 calendar-day {
   box-sizing: border-box;
@@ -11,25 +12,15 @@ calendar-day {
   padding: 0px 6px 8px 6px;
   height: 100%;
   width: 12.4%;
-
   vertical-align:top;
-  //text-transform: capitalize;
-
-
-  //xs	'(max-width: 599px)'
-  //gt-xs	'(min-width: 600px)'
-  //sm	'(min-width: 600px) and (max-width: 959px)'
-  //gt-sm	'(min-width: 960px)'
-  //md	'(min-width: 960px) and (max-width: 1279px)'
-  //gt-md	'(min-width: 1280px)'
-  //lg	'(min-width: 1280px) and (max-width: 1919px)'
-  //gt-lg	'(min-width: 1920px)'
-  //xl	'(min-width: 1920px)'
 
   // xs & sm size
   @media (min-width: 0px) and (max-width: 959px) {
+    width: 100%;
+    height:auto;
+    min-height: 70px;
     padding: 12px 8px 12px 8px;
-    border-bottom: 1px solid $grey-400;
+    //border-bottom: 1px solid $grey-400;
   }
 
   // md size
@@ -45,6 +36,162 @@ calendar-day {
 
   &:hover{
     @extend .bg-grey-300;
+    @media (min-width: 960px) {
+      section.actions {visibility: visible;}
+    }
   }
   transition: all 0s ease-in-out 0s;
+
+  section.toolbar {
+    .day, .weekday {
+      text-align: center;
+      min-width:24px;
+    }
+
+    @media (min-width: 0px) and (max-width: 959px) {
+      margin-right: 8px;
+    }
+    
+    &.today {
+      border-top:solid 4px $orange-800;
+      // xs & sm size
+      @media (min-width: 0px) and (max-width: 959px) {
+        .day, .weekday {
+          color: $orange-800;
+        }
+        border: none;
+      }
+    }
+  }
+
+  section.items {
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+
+    }
+  }
+
+  section.actions {
+    border-radius: 3px;
+    margin: 4px 0px;
+    visibility: hidden;
+    cursor: pointer;
+  }
+
+  /**
+  * The dnd-list should always have a min-height,
+  * otherwise you can't drop to it once it's empty
+  */
+  section[dnd-list] {
+    min-height: 50px;
+    padding-left: 0px;
+  }
+
+  /**
+  * The dndDraggingSource class will be applied to
+  * the source element of a drag operation. It makes
+  * sense to hide it to give the user the feeling
+  * that he's actually moving it.
+  */
+  section[dnd-list] .dndDraggingSource {
+    //opacity: 0.5;
+    //display: none;
+  }
+
+
+  /**
+  * An element with .dndPlaceholder class will be
+  * added to the dnd-list while the user is dragging
+  * over it.
+  */
+  section[dnd-list] .dndPlaceholder {
+    display: block;
+    margin: 6px 6px 0px 6px;
+    border-radius: 3px;
+    background-color: $blue-grey-100;
+    min-height: 100px;
+  }
+
+  /*section[dnd-list] div {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+  }*/
+
+  calendar-measurement, calendar-activity, calendar-event, calendar-competition {
+    position: relative;
+    min-height: 50px;
+    margin: 6px 0px 0px 0px;
+    cursor: pointer;
+    @include border-radius(3px);
+
+    // md size
+    @media (min-width: 960px) and (max-width: 1279px){
+      @include border-radius(0px);
+      box-shadow: none;
+
+      .data-category {
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 1919px) and (min-width: 1280px){
+      -min-width: 10%;
+      -max-width: 175px;
+    }
+
+    @media (max-width: 959px){
+      border-radius: 0px;
+      margin: 0px 4px 8px 4px;
+      min-width: 200px;
+      padding-bottom: 0px;
+    }
+  }
+
+  calendar-event {
+    background-color: $grey-300;
+
+    header {
+      padding: 12px;
+      background-color: $grey-400;
+      border-radius: 3px 3px 0px 0px;
+      @media (max-width: 1279px){
+        border-radius: 0px;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    footer {
+      padding: 12px;
+    }
+  }
+
+
+
+  calendar-measurement {
+    padding: 12px;
+    @extend .bg-grey-200;
+
+
+    &:hover {
+      @extend .md-whiteframe-1dp;
+    }
+  }
+
+  calendar-competition {
+    padding: 10px 12px 12px 12px;
+    @extend .bg-grey-400;
+    @extend .md-whiteframe-1dp;
+
+    &:hover {
+      @extend .bg-grey-500;
+    }
+
+  }
+
 }

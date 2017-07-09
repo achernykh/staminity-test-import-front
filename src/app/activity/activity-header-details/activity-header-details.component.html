@@ -4,9 +4,23 @@
     </div>
 </div>
 
+<activity-metrics-char flex="none" hide-gt-sm style="margin-top: 8px; margin-right: 8px"
+                       ng-if="!$ctrl.item.activity.structured"
+                       measures="$ctrl.chartData.measures"
+                       data="$ctrl.chartData.data"
+                       x="elapsedDuration"
+                       change="$ctrl.change"
+                       change-measure="$ctrl.changeMeasure"
+                       sport="$ctrl.item.activity.sportBasic"
+                       select="$ctrl.item.selectionTimestamp"
+                       on-selected="$ctrl.onSelectionRange(select)">График...
+</activity-metrics-char>
+<md-divider></md-divider>
+
+
 <md-list class="md-dense slim-input">
     <form>
-        <md-list-item>
+        <md-list-item style="padding-top: 0px">
             <md-input-container class="md-block no-message" md-no-float layout="row">
                 <md-icon class="material-icons">format_list_numbered</md-icon>
                 <md-select flex name="sport" class="icon" multiple="true" placeholder="Вся тренировка"

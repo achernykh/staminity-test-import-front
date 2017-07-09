@@ -67,15 +67,18 @@ class ActivityChartController implements IComponentController {
     $onInit() {
         this.absUrl = this.$location.absUrl().split('#')[0];
         this.zoomDispatch = d3.dispatch("zoom");
-        this.prepareData();
+        setTimeout(()=> this.prepareData(),300);
+        //this.prepareData();
     }
 
     $postLink(): void {
         let self = this;
         this.$element.ready(function () {
-            self.preparePlaceholder();
-            self.prepareScales();
-            self.drawChart();
+            setTimeout(() => {
+                self.preparePlaceholder();
+                self.prepareScales();
+                self.drawChart();
+            }, 700);
         });
         if (this.activityChartSettings.autoResizable) {
             this.onResize = function () { self.redraw(); };
@@ -217,6 +220,7 @@ class ActivityChartController implements IComponentController {
         // precalculate and cache chart scales for all metrics
         this.scales = {
             elapsedDuration: this.getScale("elapsedDuration", ScaleType.X),
+            duration: this.getScale("duration", ScaleType.X),
             distance: this.getScale("distance", ScaleType.X),
             speed: this.getScale("speed", ScaleType.Y),
             power: this.getScale("power", ScaleType.Y),
@@ -323,13 +327,15 @@ class ActivityChartController implements IComponentController {
             //.interpolate('monotone')
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
-            .y1(function (d) { return rangeScale(d[metric]); });
+            .y1(function (d) { return rangeScale(d[metric]); })
+            .curve(d3.curveBasis);
         let initArea = d3.area()
             .defined(this.isDataDefined)
             //.interpolate('monotone')
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
-            .y1(function () { return bottomRange; });
+            .y1(function () { return bottomRange; })
+            .curve(d3.curveBasis);
 
         let metricChart = this.$interactiveArea
             .append("path")
@@ -894,8 +900,12 @@ class ActivityChartController implements IComponentController {
         //console.log('isDataDefined', d,i);
         //return !!d;
         //return d > 0;
-        return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
+        //debugger;
+        //return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
         //return d['speed'] !== 1000;
+
+         return i !== 0 && (d['elapsedDuration'] > this.chartData.getData(i-1)['elapsedDuration']) &&
+            (d['duration'] > this.chartData.getData(i-1)['duration']);
     }
 
     private getFillColor(areaSettings: IAreaSettings): string {
@@ -911,7 +921,7 @@ class ActivityChartController implements IComponentController {
         }
     }
 
-    // create new svg gradien based on provided gradient points and max area height
+    // create new svg gradient based on provided gradient points and max area height
     private getGradient(gradientPoints: Array<IGradientPoint>, heightRation: number): string {
         let index = "lnrGradient" + this.gradientId;
         this.gradientId = this.gradientId + 1;
@@ -924,7 +934,8 @@ class ActivityChartController implements IComponentController {
             .data(gradientPoints)
             .enter().append("stop")
             .attr("offset", function (d) { return d.offset; })
-            .attr("stop-color", function (d) { return d.color; });
+            .attr("stop-color", function (d) { return d.color; })
+            .attr("stop-opacity", function (d) { return d.opacity; }); // fix for Safari
         return index;
     };
 }

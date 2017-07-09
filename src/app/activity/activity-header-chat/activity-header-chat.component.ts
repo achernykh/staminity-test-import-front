@@ -1,6 +1,6 @@
 import './activity-header-chat.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import CommentService from "../../core/comment.service";
 import {CommentType} from "../../../../api/social/comment.request";
 import {IObjectComment} from "../../../../api/social/comment.interface";
@@ -14,26 +14,25 @@ class ActivityHeaderChatCtrl implements IComponentController {
     public activityId: number;
     public social: IActivitySocial;
     public user: IUserProfile;
+    public currentUser: IUserProfile;
     public coach: boolean;
 
-    private comments: Array<IObjectComment>;
+    private comments: Array<IObjectComment> = [];
     private text: string = null;
     private readonly commentType: string = 'activity';
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['CommentService', 'message'];
+    static $inject = ['CommentService', 'message','$scope'];
 
-    constructor(private comment: CommentService, private message: MessageService) {
-
+    constructor(private comment: CommentService, private message: MessageService, private $scope: IScope) {
+        this.comment.comment$
+            .filter(item => item.value.objectType === this.commentType && item.value.objectId === this.activityId &&
+                    item.value.userProfile.userId !== this.currentUser.userId)
+            .subscribe((item) => this.comments.push(item.value));
     }
 
     $onInit() {
-        if (this.social && this.social.hasOwnProperty('coachComments') &&
-            this.social.coachComments > 0) {
-
-            this.comment.get(this.commentType, this.activityId, true)
-                .then(result => this.comments = result,
-                    error => this.message.toastError(error));
-        }
+        this.comment.get(this.commentType, this.activityId, true, 50)
+            .then(result => this.comments = result, error => this.message.toastError(error));
     }
 
     onPostComment(text) {
@@ -41,17 +40,17 @@ class ActivityHeaderChatCtrl implements IComponentController {
             .then(result=> {
                     this.text = null;
                     this.comments = result;
-                },
-                error => this.message.toastError(error));
+                }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync());
+            //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
     }
 
     isMe(id: number): boolean {
-        return (this.user.hasOwnProperty('userId') && id === this.user.userId) || false;
+        return (this.currentUser.hasOwnProperty('userId') && id === this.currentUser.userId) || false;
     }
 
     localDate(date){
-        console.log('date: ',date,moment.utc(date).format('d MMM HH:mm'),new Date().getTimezoneOffset());
-        return moment(date).add('minutes',-1*(new Date().getTimezoneOffset())).format('d MMM HH:mm');
+        console.log('date: ',date,moment.utc(date).format('DD MMM HH:mm'),new Date().getTimezoneOffset());
+        return moment(date).add('minutes',-1*(new Date().getTimezoneOffset())).format('DD MMM HH:mm');
     }
 }
 
@@ -61,6 +60,7 @@ const ActivityHeaderChatComponent:IComponentOptions = {
         activityId: '<',
         social: '<',
         user: '<',
+        currentUser: '<',
         coach: '<',
         onEvent: '&'
     },

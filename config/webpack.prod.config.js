@@ -9,9 +9,11 @@ const fileName = "[name].[chunkhash]";
 const hostEndPoint = {
     dist: "https://george3447.github.io/angular-webpack-material-lazyload-typescript-starter-template/",
     distLocal: "http://localhost:75/",
-    dev1: "http://dev1.staminity.com",
-    dev2: "http://dev2.staminity.com",
-    prd: "http://staminity.com"
+    dev1: "https://dev1.staminity.com",
+    dev2: "https://dev2.staminity.com",
+    dev3: "https://dev3.staminity.com",
+    prd: "https://staminity.com",
+    testapp: 'https://testapp.staminity.com'
 };
 
 const contentBase = {
@@ -19,7 +21,9 @@ const contentBase = {
     distLocal: './distLocal',
     dev1: './dev1',
     dev2: './dev2',
-    prd: './prd'
+    dev3: './dev3',
+    prd: './prd',
+    testapp: './testapp'
 };
 
 var cwd = process.cwd();
@@ -38,10 +42,10 @@ module.exports = {
             {
                 test: /\.js$/,
                 use: [{
-                    loader: 'babel-loader',
+                    loader: 'babel-loader?cacheDirectory=true',
                     options: { presets: ['es2015'] }
                 }],
-                exclude: /node_modules/
+                exclude: /(node_modules|bower_components)/
             },
             {
                 test: /\.scss$/,
@@ -79,7 +83,9 @@ module.exports = {
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
-                warnings: false
+                warnings: false,
+                drop_debugger: true,
+                drop_console: true
             },
             sourceMap: false
         }),
@@ -94,12 +100,12 @@ module.exports = {
     devServer: {
         contentBase: contentBase[ENV],
         stats: 'minimal',
-        /*stats: {
+        stats: {
          colors: true,
          modules: false,
          cached: false,
          chunk: false
-         },*/
+         },
         historyApiFallback: true
     }
 };

@@ -13,14 +13,21 @@ function configure(
 	pickerProvider: any,
 	tmhDynamicLocaleProvider: any,
 	$mdDateLocaleProvider: any,
-    $anchorScrollProvider: any) {
+    $anchorScrollProvider: any,
+	$qProvider: any,
+	$mdGestureProvider: any) {
 
-    $anchorScrollProvider.disableAutoScrolling();
+	$mdGestureProvider.skipClickHijack(); //https://github.com/angular/angular.js/issues/6251
+	$qProvider.errorOnUnhandledRejections(false); // https://github.com/angular-ui/ui-router/issues/2889
+	$anchorScrollProvider.disableAutoScrolling();
     let isProductionBuild: boolean = __ENV !== "build";
-	$locationProvider.html5Mode({
-		enabled: true,
+
+	/**$locationProvider.html5Mode({
+		enabled: false,
 		requireBase: false
-	});
+	});**/
+	$locationProvider.html5Mode(true);
+	$locationProvider.hashPrefix('!');
 
 	$urlRouterProvider.otherwise('/');
 	$compileProvider.debugInfoEnabled(!isProductionBuild);
@@ -105,6 +112,8 @@ function configure(
 
 	$translateProvider.preferredLanguage('ru');
 	$translateProvider.fallbackLanguage('ru');
+	//TODO необходимо перенести все фильры translate в директивы translate
+	//$translateProvider.useSanitizeValueStrategy('sanitize');
 
 	pickerProvider.setOkLabel('Save');
 	pickerProvider.setCancelLabel('Close');
@@ -112,15 +121,17 @@ function configure(
 	pickerProvider.setDayHeader('single');  //Options 'single','shortName', 'fullName'
 
 	moment.locale('ru');
-	moment.lang('ru');
-	$mdDateLocaleProvider.formatDate = (date) => moment(date).isValid() ? moment(date).format('L') : '';
+
 	tmhDynamicLocaleProvider.localeLocationPattern('/assets/locale/angular-locale_{{locale}}.js');
 	tmhDynamicLocaleProvider.defaultLocale('ru');
+	$mdDateLocaleProvider.formatDate = (date) => moment(date).isValid() ? moment(date).format('L') : '';
+	$mdDateLocaleProvider.firstDayOfWeek = 1; // monday
 
 	console.log('config complete');
 }
 
 configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider',
-	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider','$anchorScrollProvider'];
+	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider',
+	'$anchorScrollProvider','$qProvider','$mdGestureProvider'];
 
 export default configure;

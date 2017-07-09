@@ -1,16 +1,17 @@
 <div flex layout-xs="row" layout-sm="row" layout-gt-sm="column">
     <!-- day header: start -->
-    <div flex-gt-sm="none" flex="none" style="height: 30px" layout="row" layout-align="space-between center"
+    <section class="toolbar" flex-gt-sm="none" flex="none" style="height: 30px" layout="row" layout-align="space-between center"
          ng-class="{today: $ctrl.today}">
         <div flex="none">
-            <div hide-gt-sm flex="none" class="md-body-1" style="min-width: 24px">
+            <!--<div show hide-gt-sm flex="none" class="md-body-1" style="min-width: 24px">
                 {{::$ctrl.data.month | uppercase}}
+            </div>-->
+            <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px" hide show-gt-sm>
+                <span>{{::$ctrl.data.title}}</span>
+                <span ng-if="$ctrl.data.title == '01'" style="margin-left: 0.4em;">{{::$ctrl.data.month}}</span>
             </div>
-            <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px">
-                {{::$ctrl.data.title}}
-                <span hide-gt-sm style="margin-left: 0.6em;">{{::$ctrl.data.day}}</span>
-                <span hide-xs hide-sm ng-if="$ctrl.data.title == '01'" style="margin-left: 0.4em;">{{::$ctrl.data.month}}</span>
-            </div>
+            <div hide-gt-sm class="md-title day">{{::$ctrl.data.title}}</div>
+            <div hide-gt-sm class="md-caption weekday">{{::$ctrl.data.day}}</div>
         </div>
 
         <div hide show-gt-sm flex="none" ng-show="$ctrl.selected || $ctrl.accent">
@@ -22,55 +23,53 @@
         </div>
 
         <div  hide show-gt-sm flex="none"  ng-show="$ctrl.selected || $ctrl.accent">
-
             <md-menu>
                 <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
                     <md-icon class="material-icons md-18"
                              aria-label="More">more_vert</md-icon>
                 </md-button>
                 <md-menu-content>
-                    <md-menu-item><md-button>Добавить</md-button></md-menu-item>
+                    <md-menu-item>
+                        <md-button>
+                            <md-icon class="material-icons" md-menu-align-target>add_circle_outline</md-icon>
+                        Добавить</md-button></md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.onSelect(); $ctrl.checked = !$ctrl.checked">
+                            <md-icon class="material-icons" md-menu-align-target>{{!$ctrl.selected ? 'checkbox' : 'checkbox_outline_box'}}</md-icon>
                             {{!$ctrl.selected ? 'Выделить' : 'Снять выделение'}}
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.onDelete()">Удалить</md-button></md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.onCopy()">Скопировать</md-button></md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.onPaste()">Вставить</md-button></md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.calendar.onDelete($ctrl.data.calendarItems)">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>Удалить</md-button></md-menu-item>
+                    <md-menu-item><md-button ng-click="$ctrl.selected ? angular.noop() : $ctrl.onSelect(); $ctrl.calendar.onCopy()">
+                        <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                        Скопировать</md-button></md-menu-item>
+                    <md-menu-item ng-if="$ctrl.calendar.buffer.length > 0">
+                        <md-button ng-click="$ctrl.calendar.onPaste($ctrl.data.date)">
+                            <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
+                            Вставить ({{$ctrl.calendar.buffer.length}})</md-button>
+                    </md-menu-item>
                 </md-menu-content>
             </md-menu>
         </div>
-    </div>
+    </section>
     <!-- day header: end -->
     <!-- calendar items: start -->
-    <div flex layout="column">
-        <div id="dayzone"
-             flex="100" layout-wrap
-             ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index"
-             ng-switch on="item.calendarItemType"
+    <section class="items" flex="auto" layout="column"
              dnd-list="items"
              dnd-allowed-types="['itemType']"
-             dnd-drop="$ctrl.calendar.onDropItem($ctrl.data.date, index, item)">
-
-            <calendar-activity ng-switch-when="activity"
-                               layout="column" flex="auto"
-                               item="item"
-                               selected="$ctrl.selected"
-                               dnd-draggable="item"
-                               dnd-type="'itemType'"
-                               dnd-effect-allowed="move"
-                               dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                               dnd-moved="$ctrl.calendar.onDeleteItem(item)">
-            </calendar-activity>
-
+             dnd-drop="callback({date: $ctrl.data.date, operation: dropEffect, index: index})">
+        <div flex="none" layout-wrap ng-switch on="item.calendarItemType"
+             ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index">
             <calendar-measurement ng-switch-when="measurement"
                                   layout="row" flex="auto"
                                   dnd-draggable="item"
                                   dnd-type="'itemType'"
                                   dnd-effect-allowed="copyMove"
-                                  dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                                  dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)"
+                                  dnd-dragstart="$ctrl.onDrag(event)"
+                                  dnd-copied="$ctrl.onCopied(item)"
+                                  dnd-moved="$ctrl.onMoved(item)"
                                   ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
                 <div flex="none">
                     <md-icon class="material-icons md-18" style="margin-right: 8px">straighten</md-icon>
@@ -78,18 +77,18 @@
                 <div flex="auto" style="margin-top: 2px">
                     <div ng-repeat="(key,value) in item.measurementHeader.sizes"
                          class="md-caption secondary dark">
-                        {{key}}: {{value}}
+                        {{key | translate}}: {{value}}
                     </div>
                     <div ng-repeat="(key,value) in item.measurementHeader.generalMeasures"
                          class="md-caption secondary dark">
-                        {{key}}: {{value}}
+                        {{key | translate}}: {{value}}
                     </div>
                     <div ng-repeat="(key,value) in item.measurementHeader.sleepData"
                          class="md-caption secondary dark">
-                        {{key}}: {{value}}
+                        {{key | translate}}: {{value}}
                     </div>
                     <div ng-repeat="(key,value) in item.measurementHeader.feeling"
-                         class="md-caption secondary dark" ng-switch on="key">{{key}}:
+                         class="md-caption secondary dark" ng-switch on="key">
                         <span ng-switch-when="overallFeeling"
                               hm-read-more
                               hm-text="{{::value}}"
@@ -102,36 +101,65 @@
                     </div>
                 </div>
             </calendar-measurement>
-
-
-            <calendar-event ng-switch-when="event"
+            <calendar-event ng-switch-when="event" class="md-whiteframe-1dp"
                             layout="column" flex="auto"
                             dnd-draggable="item"
                             dnd-type="'itemType'"
                             dnd-effect-allowed="copyMove"
                             dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
                             dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)">
-                <div layout="row" layout-align="space-between center">
-                    <div flex="25"></div>
+                <header ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
+                    <div layout="row" layout-align="space-between center">
+                        <div flex="25"></div>
 
-                    <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
-                        <md-icon class="material-icons md-light">event_seat</md-icon>
+                        <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
+                            <md-icon class="md-light" md-svg-src="/assets/icon/{{item.eventHeader.eventType}}.svg"></md-icon>
+                        </div>
+                        <md-menu flex="none" flex-gt-sm="25">
+                            <md-button class="md-icon-button" aria-label="More Event"
+                                       style="margin-right: 0px"
+                                       ng-click="$mdOpenMenu($event)">
+                                <md-icon class="material-icons md-18">more_vert</md-icon>
+                            </md-button>
+                            <md-menu-content>
+                                <md-menu-item>
+                                    <md-button ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
+                                        <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+                                        Изменить
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ng-click="$ctrl.calendar.onCopy([item])">
+                                        <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                                        Скопировать
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.isCreator">
+                                        <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                                        Удалить
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
                     </div>
-
-                    <div flex="25">
-                        <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px">
-                            <md-icon class="material-icons md-18">more_vert</md-icon>
-                        </md-button>
-
+                    <div flex layout="row" layout-align="center center"
+                         class="md-caption dark center line-14" style="margin-top: 8px">
+                        <div flex="none" translate>{{::'event.'+item.eventHeader.eventType}}</div>
                     </div>
-                </div>
-                <div flex layout="row" layout-align="center center"
-                     class="md-caption secondary dark center line-14"
-                     style="margin-top: 8px">
-                    <div flex="none">{{::item.eventHeader.eventType}}</div>
-                </div>
+                </header>
+                <footer ng-if="::(item.eventHeader.target.length>0)" hide show-gt-md>
+                    <div flex="none" class="md-caption secondary dark" style="font-size: 12px"
+                         hm-read-more
+                         hm-text="{{::item.eventHeader.target}}"
+                         hm-limit="50"
+                         hm-more-text="more"
+                         hm-less-text="less"
+                         hm-dots-class="read-more-dots"
+                         hm-link-class="read-more-links">
+                    </div>
+                </footer>
             </calendar-event>
-
             <calendar-competition ng-switch-when="competition"
                                   layout="column" flex="auto"
                                   dnd-draggable="item"
@@ -169,26 +197,34 @@
                 </div>
 
             </calendar-competition>
+            <calendar-activity ng-switch-when="activity"
+                               layout="column" flex="auto"
+                               item="item" selected="$ctrl.selected"
+                               dnd-draggable="item"
+                               dnd-disable-if="::!$ctrl.isSpecified(item)"
+                               dnd-type="'itemType'"
+                               dnd-effect-allowed="copyMove"
+                               dnd-callback="$ctrl.onDrop(item, operation, $index, date, index)"
+            </calendar-activity>
         </div>
-    </div>
+    </section>
     <!-- calendar items: end -->
 
     <!-- add item: start -->
-    <div layout="row" layout-align="center center" flex="grow" hide show-gt-sm
-         class="new" ng-class="{show: $ctrl.accent}">
-        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More"
+    <section class="actions" layout="row" layout-align="center center" flex="none" hide show-gt-sm>
+        <md-button  class="md-icon-button" aria-label="More"
                     ng-click="$ctrl.newActivity($event,$ctrl.data)">
             <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
         </md-button>
-        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More"
+        <md-button  class="md-icon-button" aria-label="More"
                     ng-click="$ctrl.newMeasurement($event,$ctrl.data)">
             <md-icon class="material-icon" aria-label="New">straighten</md-icon>
         </md-button>
-        <md-button  hide show-gt-sm  class="md-icon-button" aria-label="More" ng-if="false"
-                    ng-click="$ctrl.newWeekend($event,$ctrl.data)">
+        <md-button  class="md-icon-button" aria-label="More"
+                    ng-click="$ctrl.newEvent($event,$ctrl.data)">
             <md-icon class="material-icon" aria-label="New">weekend</md-icon>
         </md-button>
-    </div>
+    </section>
     <!-- add item: end -->
 </div>
 

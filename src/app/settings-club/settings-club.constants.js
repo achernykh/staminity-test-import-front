@@ -1,10 +1,10 @@
 export const _NAVBAR = [
     {
-        icon: "person.svg",
+        icon: "person",
         name: 'settings.personalInfo.header',
         link: '#personal',
         active: true
-    },
+    }/*,
     {
         icon: "security.svg",
         name: 'settings.privacy.header',

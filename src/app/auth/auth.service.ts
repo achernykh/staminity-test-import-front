@@ -1,10 +1,11 @@
 import {PostData, IRESTService} from '../core/rest.service';
-import {SetPasswordRequest} from '../../../api/auth/auth.request';
+import {SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest} from '../../../api/auth/auth.request';
 import {ISessionService} from "../core/session.service";
-import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
+import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise, HttpHeaderType} from 'angular';
 import {ISocketService} from "../core/socket.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import GroupService from "../core/group.service";
+import {GetRequest} from "../../../api/calendar/calendar.request";
 
 
 export interface IAuthService {
@@ -12,6 +13,7 @@ export interface IAuthService {
     isAuthorized(roles:Array<string>):boolean;
     isCoach(role?: string):boolean;
     isMyAthlete(user: IUserProfile):Promise<any>;
+    isMyClub(uri: string):Promise<any>;
     isActivityPlan(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
     signIn(request:Object):IPromise<void>;
@@ -19,7 +21,9 @@ export interface IAuthService {
     signOut():void;
     confirm(request:Object):IHttpPromise<{}>;
     setPassword(request:Object):IHttpPromise<{}>;
-
+    inviteUsers(group: number, users: Array<Object>):Promise<any>;
+    putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any>;
+    storeUser(response: IHttpPromiseCallbackArg<any>):IHttpPromiseCallbackArg<any>;
 }
 
 export default class AuthService implements IAuthService {
@@ -73,13 +77,22 @@ export default class AuthService implements IAuthService {
                 .then(result => {
                     let athletes: Array<any> = result.members;
                     if (!athletes || !athletes.some(member => member.userProfile.userId === user.userId)) {
-                        throw 'needPermissions';
+                        throw 'forbidden_InsufficientRights';
                     } else {
                         return true;
                     }
                 });
         } else {
             throw 'groupNotFound';
+        }
+    }
+
+    isMyClub(uri: string):Promise<any> {
+        let userClubs = this.SessionService.getUser().connections['ControlledClubs'];
+        if (userClubs && userClubs.some(club => club.groupUri === uri)) {
+            return Promise.resolve();
+        } else {
+            return Promise.reject('forbidden_InsufficientRights');
         }
     }
 
@@ -116,7 +129,7 @@ export default class AuthService implements IAuthService {
 
     signOut():void {
         this.SessionService.delToken();
-        this.SocketService.close();
+        this.SocketService.close({reason: 'signOut'});
     }
 
     /**
@@ -138,6 +151,27 @@ export default class AuthService implements IAuthService {
             .then((result) => {
                 return result['data'];
             }); // Ожидаем system message
+    }
+
+    /**
+     * Приглашение пользователей тренером/менеджером
+     * @param group - группа AllAthletes | ClubMembers
+     * @param users -
+     * @returns {Promise<any>}
+     */
+    inviteUsers(group: number, users: Array<Object>):Promise<any> {
+        return this.SocketService.send(new InviteRequest(group,users));
+    }
+
+    putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any> {
+        return this.RESTService.postData(new PostData('/api/wsgate', new PostInviteRequest(credentials)))
+            .then((response: IHttpPromiseCallbackArg<any>) => response.data);
+    }
+
+    storeUser(response: IHttpPromiseCallbackArg<any>):IHttpPromiseCallbackArg<any>{
+        this.SessionService.setToken(response.data);
+        this.SocketService.open(response.data['token']).then(()=> response);
+        return response;
     }
 }
 

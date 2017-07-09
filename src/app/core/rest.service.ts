@@ -1,6 +1,7 @@
-import {_connection} from './api.constants';
+import * as _connection from './env.js';
 import {ISessionService} from './session.service';
 import { IHttpService, IHttpPromise } from 'angular';
+import LoaderService from "../share/loader/loader.service";
 
 interface IPostDataRequest {
 	method:string;
@@ -41,14 +42,11 @@ export class PostData implements IPostDataRequest {
 
 	constructor(type:string, data:any) {
 		this.method = 'POST';
-		this.url = 'http://' + _connection.server + type;
+		this.url = _connection.protocol.rest + _connection.server + type;
 		this.headers = {
 			'Authorization': 'Bearer '
 		};
-		this.data = {
-			//requestType: type,
-			requestData: data,
-		};
+		this.data = data && data.hasOwnProperty('requestData') && data || {requestData: data};
 	}
 }
 
@@ -64,17 +62,18 @@ export class PostFile implements IPostFileRequest {
 	mode:string;
 	data:any;
 
-	constructor(type:string, file:any) {
+	constructor(type:string, file:any, attr?: Object) {
 		this.method = 'POST';
-		this.url = 'http://' + _connection.server + type;
+		this.url = _connection.protocol.rest + _connection.server + type;
 		this.headers = {
 			'Authorization': 'Bearer ',
-			'Content-Type': undefined
+			'Content-Type': undefined//'multipart/form-data'//
 		};
 		this.mode = 'cors';
 		this.withCredentials = true;
 		this.data = new FormData();
 		this.data.append('file', file);
+		//Object.assign(this.data, attr);
 	}
 }
 
@@ -87,21 +86,33 @@ export class RESTService implements IRESTService {
 	//$http:any;
 	//SessionService:ISessionService;
 
-	static $inject = ['$http', 'SessionService'];
+	static $inject = ['$http', 'SessionService','LoaderService'];
 
-	constructor(private $http:IHttpService, private SessionService:ISessionService) {
+	constructor(private $http:IHttpService, private SessionService:ISessionService, private loader: LoaderService) {
 		//this.$http = $http;
 		//this.SessionService = SessionService;
 	}
 
 	postData(request:IPostDataRequest):IHttpPromise<{}> {
-		request.headers['Authorization'] += this.SessionService.getToken();
-		request.data.token = this.SessionService.getToken();
-		console.log('REST Service => postData=', request);
+		this.loader.show();
+
+		let token: string = this.SessionService.getToken();
+		if (token){
+			request.headers['Authorization'] += token;
+			request.data.token = token;
+		} else {
+			delete request.headers['Authorization'];
+		}
+
 		return this.$http(request)
+			.finally(()=>this.loader.hide())
 			.then((response:any)=> {
 				console.log('REST Service => postData success=', response);
-				return response.data;
+				if(response.data.hasOwnProperty('errorMessage')) {
+					throw response.data;
+				} else {
+					return response.data;
+				}
 			}, (response) => {
 				console.log('REST Service => postData error=', response);
 				throw response.data.errorMessage; // Предполагаем, что сервер ответил ошибкой в формате systemMessage
@@ -109,8 +120,10 @@ export class RESTService implements IRESTService {
 	}
 
 	postFile(request:IPostFileRequest):IHttpPromise<{}> {
+		this.loader.show();
 		request.headers['Authorization'] += this.SessionService.getToken();
 		return this.$http(request)
+			.finally(()=>this.loader.hide())
 			.then((result:any)=> {
 				return result;
 			}, (response) => {
