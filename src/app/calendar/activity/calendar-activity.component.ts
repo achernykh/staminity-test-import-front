@@ -70,7 +70,7 @@ class CalendarActivityCtrl {
             for (let interval of this.data.activityHeader.intervals) {
                 // Собираем лист сегментов
                 // Если интервал является плановым сегментов или группой, то формируем лист сегментов
-                if (interval.type == 'P' || interval.type == 'G') {
+                if (interval.type === 'P' || interval.type === 'G') {
                     //this.prepareSegmentList((interval.type == 'G'), interval);
 
                 }
@@ -153,7 +153,7 @@ class CalendarActivityCtrl {
         }
 
          if (this.structured) {
-            this.bottomPanel = 'segmentList';
+            //this.bottomPanel = 'segmentList';
             //console.info('segmentChart', JSON.stringify(this.segmentChart));
         }
     }
