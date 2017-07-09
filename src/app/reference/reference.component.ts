@@ -1,43 +1,64 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 
+import { sports, activityTypes } from './reference.constants';
 import './reference.component.scss';
 
 
 class ReferenceCtrl implements IComponentController {
 
-	static $inject = ['$scope', '$mdDialog', 'SystemMessageService'];
+	static $inject = ['$scope', '$mdDialog', 'message', 'ReferenceService'];
 
-	private user: any;
-	private cathegories: [IActivityCategory];
-	private templates: [IActivityTemplate];
+	private user : any;
+	private cathegories : any;
+	private templates : Array<IActivityTemplate>;
+	private activityTypes : Array<any> = activityTypes;
+	private templatesFilters : any = { activityType: activityTypes[0] };
+	private cathegoriesFilters : any = { activityType: activityTypes[0] };
+	private tab : number = 0;
+
+	private onTemplateChange = this.handleTemplateChange.bind(this);
+	private onTemplatesChange = this.handleTemplatesChange.bind(this);
+	private onCathegoryChange = this.handleCathegoryChange.bind(this);
+	private onCathegoriesChange = this.handleCathegoriesChange.bind(this);
 
 	constructor (
 		private $scope, 
 		private $mdDialog, 
-		private dialogs, 
-		private SystemMessageService
+		private message,
+		private ReferenceService
 	) {
-		this.$scope = $scope;
-		this.$mdDialog = $mdDialog;
-		this.SystemMessageService = SystemMessageService;
-		console.log('ReferenceCtrl', this);
+		this.tab = 0;
 	}
 
-	getUserCathegories () {
-		return this.cathegories.filter((cathegory) => cathegory.userProfileCreator.userId === this.user.userId);
+	updateFilters (filters, changes = {}) {
+		return { ...filters, ...changes };
 	}
 
-	getCoachCathegories () {
-		return this.cathegories.filter((cathegory) => cathegory.userProfileCreator.userId !== this.user.userId && !cathegory.groupProfile);
+	handleTemplatesChange () {
+
 	}
 
-	getClubCathegories () {
-		return this.cathegories.filter((cathegory) => cathegory.userProfileCreator.userId !== this.user.userId && cathegory.groupProfile);
+	handleTemplateChange (id, changes) {
+		this.templates = this.templates.map((template) => template.id === id? { ...template, ...changes } : template);
+		this.$scope.$apply();
 	}
 
-	getSystemCathegories () {
-		return this.cathegories.filter((cathegory) => !cathegory.userProfileCreator.userId);
+	handleCathegoryChange (id, changes) {
+		this.cathegories = this.cathegories.map((cathegory) => cathegory.id === id? { ...cathegory, ...changes } : cathegory);
+		this.$scope.$apply();
+	}
+
+	handleCathegoriesChange () {
+		this.ReferenceService.getActivityCategories(undefined, false, true)
+		.then((cathegories) => {
+			this.cathegories = cathegories;
+			this.$scope.$apply();
+		})
+		.catch((info) => { 
+			this.message.systemWarning(info);
+			throw info;
+		});
 	}
 }
 

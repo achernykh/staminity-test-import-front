@@ -88,6 +88,8 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     return url;
 };
 
+const truncate = () => (s, max = 140) => s.length <= max? s : s.slice(0, max - 1) + '…';
+
 const userpic = {
     bindings: {
         profile: '<',
@@ -266,6 +268,7 @@ const Share = module('staminity.share', [])
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
+    .filter('truncate', truncate)
     .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
 
         $stateProvider

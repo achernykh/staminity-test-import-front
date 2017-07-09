@@ -21,7 +21,7 @@ function configure (
 			auth: ['AuthService', (AuthService: AuthService) => AuthService.isAuthenticated()],
 			userId: ['SessionService', (SessionService) => SessionService.getUser().userId],
 			user: ['UserService', 'userId', 'auth', (UserService, userId, auth: boolean) => UserService.getProfile(userId, auth)],
-			cathegories: ['ReferenceService', (ReferenceService) => ReferenceService.getActivityCategories()],
+			cathegories: ['ReferenceService', (ReferenceService) => ReferenceService.getActivityCategories(undefined, false, true)],
 			templates: ['ReferenceService', (ReferenceService) => ReferenceService.getActivityTemplates()],
 		},
 		views: DefaultTemplate('reference')

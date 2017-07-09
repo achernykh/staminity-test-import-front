@@ -6,6 +6,10 @@ import {
 	GetActivityTemplate, PostActivityTemplate, PutActivityTemplate, DeleteActivityTemplate
 } from "../../../api/reference/reference.request";
 
+import { maybe, prop } from "../share/util.js";
+
+
+const systemUserId = 1;
 
 export default class ReferenceService {
 
@@ -45,7 +49,7 @@ export default class ReferenceService {
 		description: string, 
 		groupId: number, 
 		sortOrder: number, 
-		visible:boolean
+		visible: boolean
 	) : Promise<any> {
 		return this.SocketService.send(new PutActivityCategory(
 			activityCategoryId, code, description, groupId, sortOrder, visible
@@ -100,4 +104,14 @@ export default class ReferenceService {
 		return this.SocketService.send(new DeleteActivityTemplate(id));
 	}
 
+	get cathegoryOwner () {
+		let user = this.SessionService.getUser();
+		return (cathegory) => {
+			let userId = cathegory.userProfileCreator && cathegory.userProfileCreator.userId;
+			return (userId === user.userId && 'user')
+				|| (userId === systemUserId && 'system')
+				|| (cathegory.groupProfile && 'club')
+				|| 'coach';
+		};
+	};
 }

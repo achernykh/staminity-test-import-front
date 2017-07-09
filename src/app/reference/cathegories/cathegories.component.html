@@ -1,0 +1,132 @@
+<div flex></div>
+
+<md-card layout="column" style="width: 600px; overflow-y: auto;">
+	<section ng-if="$ctrl.cathegoriesByOwner.user.length" >
+		<div class="md-body-2 md-padding">{{ 'reference.cathegories.user' | translate }}</div>
+		<md-list 
+			dnd-list
+			dnd-allowed-types="['user-cathegory']"
+			dnd-drop="$ctrl.cathegoryReorder(index, item)"
+		>
+			<md-list-item 
+				ng-repeat="cathegory in $ctrl.cathegoriesByOwner.user track by cathegory.id"
+				ng-click="$ctrl.cathegoryDialog(cathegory, 'edit')"
+				dnd-draggable="cathegory"
+				dnd-type="'user-cathegory'"
+				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
+				class="cathegory md-2-line" 
+			>
+				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
+				<div class="md-list-item-text">
+					<h3>{{ cathegory.code }}</h3>
+					<p class="md-caption">{{ cathegory.description | truncate }}</p>
+				</div>
+				<md-switch
+					ng-model="$ctrl.cathegoryEnabled(cathegory)"
+					ng-model-options="{ getterSetter: true }"
+					class="md-primary"
+				/>
+			</md-list-item>
+		</md-list>
+		<md-divider></md-divider>
+	</section>
+
+	<section ng-if="$ctrl.cathegoriesByOwner.coach.length">
+		<div class="md-body-2 md-padding">{{ 'reference.cathegories.coach' | translate }}</div>
+		<md-list
+			dnd-list
+			dnd-allowed-types="['coach-cathegory']"
+			dnd-drop="$ctrl.cathegoryReorder(index, item)"
+		>
+			<md-list-item 
+				ng-repeat="cathegory in $ctrl.cathegoriesByOwner.coach"
+				ng-click="$ctrl.cathegoryDialog(cathegory, 'view')"
+				dnd-draggable="cathegory"
+				dnd-type="'coach-cathegory'"
+				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
+				class="cathegory md-3-line" 
+			>
+				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
+				<div class="md-list-item-text">
+					<h3>{{ cathegory.code }}</h3>
+					<p class="md-caption">Автор: {{ cathegory.userProfileCreator | userName }}</p>
+					<p class="md-caption">{{ cathegory.description | truncate }}</p>
+				</div>
+				<md-switch
+					ng-model="$ctrl.cathegoryEnabled(cathegory)"
+					ng-model-options="{ getterSetter: true }"
+					class="md-primary"
+				/>
+			</md-list-item>
+		</md-list>
+		<md-divider></md-divider>
+	</section>
+
+	<section ng-if="$ctrl.cathegoriesByOwner.club.length">
+		<div class="md-body-2 md-padding">{{ 'reference.cathegories.club' | translate }}</div>
+		<md-list
+			dnd-list
+			dnd-allowed-types="['club-cathegory']"
+			dnd-drop="$ctrl.cathegoryReorder(index, item)"
+		>
+			<md-list-item 
+				ng-repeat="cathegory in $ctrl.cathegoriesByOwner.club"
+				ng-click="$ctrl.cathegoryDialog(cathegory, 'view')"
+				dnd-draggable="cathegory"
+				dnd-type="'club-cathegory'"
+				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
+				class="cathegory md-3-line" 
+			>
+				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
+				<div class="md-list-item-text">
+					<h3>{{ cathegory.code }}</h3>
+					<p class="md-caption">Автор: {{ cathegory.userProfileCreator | userName }} {{ cathegory.groupProfile | clubName }}</p>
+					<p class="md-caption">{{ cathegory.description | truncate }}</p>
+				</div>
+				<md-switch 
+					ng-model="$ctrl.cathegoryEnabled(cathegory)"
+					ng-model-options="{ getterSetter: true }"
+					class="md-primary"
+				/>
+			</md-list-item>
+		</md-list>
+		<md-divider></md-divider>
+	</section>
+
+	<section ng-if="$ctrl.cathegoriesByOwner.system.length">
+		<div class="md-body-2 md-padding">{{ 'reference.cathegories.system' | translate }}</div>
+		<md-list
+			dnd-list
+			dnd-allowed-types="['system-cathegory']"
+			dnd-drop="$ctrl.cathegoryReorder(index, item)"
+		>
+			<md-list-item 
+				ng-repeat="cathegory in $ctrl.cathegoriesByOwner.system"
+				ng-click="$ctrl.cathegoryDialog(cathegory, 'view')"
+				dnd-draggable="cathegory"
+				dnd-type="'system-cathegory'"
+				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
+				class="cathegory md-2-line" 
+			>
+				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
+				<div class="md-list-item-text">
+					<h3>{{ 'category.' + cathegory.code | translate }}</h3>
+					<p class="md-caption">{{ cathegory.description | truncate }}</p>
+				</div>
+				<md-switch
+					ng-model="$ctrl.cathegoryEnabled(cathegory)"
+					ng-model-options="{ getterSetter: true }"
+					class="md-primary"
+				/>
+			</md-list-item>
+		</md-list>
+	</section>
+</md-card>
+
+<div style="width: 200px; margin-top: 61px; text-align: center">
+	<md-button ng-click="$ctrl.newCathegory()" class="md-fab md-accent md-hue-2">
+		<md-icon class="material-icons">add</md-icon>
+	</md-button>
+</div>
+
+<div flex></div>
