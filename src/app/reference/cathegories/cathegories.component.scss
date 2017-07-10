@@ -1,0 +1,74 @@
+.cathegory {
+	margin: 0 !important;
+	padding: 8px 0 !important;
+	white-space: normal !important;
+	text-align: left !important;
+	text-transform: none !important;
+
+	&-disabled {
+		opacity: 0.54;
+	}
+
+	&__label-code {
+		font-size: 16px;
+		font-weight: 500;
+		margin: 0;
+		line-height: 1.5;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	&__label-author {
+		margin-bottom: 4px;
+		line-height: 1.33;
+		font-size: 12px;
+		font-weight: 500;
+		color: rgba(0, 0, 0, 0.54);
+	}
+
+	&__label-description {
+		line-height: 1.16;
+		font-size: 12px;
+		font-weight: 500;
+		color: rgba(0, 0, 0, 0.54);
+	}
+
+	&__icon-circled {
+		width: 32px !important;
+		height: 32px !important;
+		border-radius: 16px;
+		background-color: #455a64;
+		margin: 0 20px;
+
+		svg {
+			fill: white;
+			height: 22px;
+			padding-top: 5px;
+		}
+	}
+
+	&__switch {
+		margin-left: 20px !important;
+		margin-right: 20px !important;
+	}
+}
+
+.cathegories {
+	width: 600px; 
+	overflow-y: auto;
+
+	&__list {
+		padding-bottom: 8px;
+	}
+
+	&__section {
+		padding-top: 8px;
+	}
+
+	&__subheader {
+		padding: 8px 16px !important;
+		line-height: 1.71;
+		color: rgba(0, 0, 0, 0.54);
+	}
+}

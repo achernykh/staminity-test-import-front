@@ -5,6 +5,8 @@ import { CathegoryCtrl } from '../cathegory-dialog/cathegory-dialog.controller';
 import { sports, activityTypes } from '../reference.constants';
 import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined } from '../../share/util';
 
+import './cathegories.component.scss';
+
 
 const cathegoriesFilters = {
 	activityType: (activityType) => (cathegory) => cathegory.activityTypeId === activityType.id
@@ -76,6 +78,10 @@ class CathegoriesCtrl implements IComponentController {
 		let groupId = groupProfile && groupProfile.groupId;
 		let targetCathegory = this.cathegoriesByOwner[owner][index];
 		let sortOrder = targetCathegory? targetCathegory.sortOrder : 999999;
+
+		// if (targetCathegory === cathegory) {
+		// 	return;
+		// }
 
 		this.ReferenceService.putActivityCategory(id, code, description, groupId, sortOrder, visible)
 		.catch((info) => { 
