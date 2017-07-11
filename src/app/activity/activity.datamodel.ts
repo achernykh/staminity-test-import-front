@@ -52,7 +52,7 @@ export class Interval implements IActivityInterval {
 
 	public calcMeasures: ICalcMeasures;
 
-	constructor(public type: string){
+	constructor(public type: string, obj?: {}){
 		this.type = type;
 		this.trainersPrescription = null;
 		this.durationMeasure = null; //movingDuration/distance, каким показателем задается длительность планового сегмента
@@ -101,6 +101,10 @@ export class Interval implements IActivityInterval {
 			this.distanceLength = null;
 			this.movingDurationApprox = null;
 			this.distanceApprox = null;
+		}
+
+		if(obj) { // дополнительные параметры для создания интервала
+			Object.assign(this,obj);
 		}
 	}
 }
@@ -256,7 +260,7 @@ export class Activity extends CalendarItem {
 		// Ссылки на интервалы для быстрого доступа
 		this.intervalPW = <IActivityIntervalPW>this.header.intervals.filter(i => i.type === "pW")[0];
 		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
-		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
+		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P").sort((a,b) => a['pos'] - b['pos']);
 		this.actualDataIsImported = this.intervalW.actualDataIsImported;
 
         // Запоминаем, чтобы парсить только один раз
@@ -307,6 +311,7 @@ export class Activity extends CalendarItem {
 		this.header.activityType = getType(Number(this.header.activityType.id));
 		this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
 		this.header.intervals = [];
+		debugger;
 		this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
 		return {
@@ -505,7 +510,7 @@ export class Activity extends CalendarItem {
 
 	get movingDuration() {
 		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.value;
+			&& this.intervalPW.durationValue || this.intervalPW.movingDurationLength) || this.intervalW.calcMeasures.movingDuration.value;
 	}
 
 	get duration() {
@@ -514,8 +519,9 @@ export class Activity extends CalendarItem {
 	}
 
 	get distance() {
-		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance') && this.intervalPW.durationValue) ||
-			(this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;
+		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
+            && this.intervalPW.durationValue || this.intervalPW.distanceLength) ||
+            (this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;
 	}
 
 	// Формируем перечень показателей для панели data (bottomPanel)
@@ -569,18 +575,21 @@ export class Activity extends CalendarItem {
 	formChart(){
 		let start: number = 0; //начало отсечки на графике
 		let finish: number = 0; // конец отсечки на графике
-		let maxFtp: number;
+		let maxFtp: number = 0;
 		let data: Array<any> = [];
 
 		this.intervalP.map( interval => {
 			start = finish;
 			finish = start + interval.movingDurationLength;
-			maxFtp = ((interval.intensityByFtpTo > maxFtp) && interval.intensityByFtpTo) || maxFtp;
+			maxFtp = Math.max(interval.intensityByFtpTo, maxFtp); //((interval.intensityByFtpTo > maxFtp) && interval.intensityByFtpTo) || maxFtp;
 			data.push([start, interval.intensityByFtpFrom],[finish, interval.intensityByFtpTo]);
 		});
 
+		data = data.map(d => [d[0]/finish,d[1]/maxFtp]);
+		//debugger;
+
 		// Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
-		return (data.length > 0 && data.map(d => {d[0] = d[0] / finish;	d[1] = d[1]; return d;})) || null;
+		return (data.length > 0 && data) || null;
 	}
 }
 

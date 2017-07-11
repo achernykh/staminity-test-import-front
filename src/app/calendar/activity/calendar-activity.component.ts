@@ -87,13 +87,13 @@ class CalendarActivityCtrl {
             }
 
             // Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
-            if (this.segmentChart.length) {
+            /**if (this.segmentChart.length) {
                 this.segmentChart.map((item) => {
                     item[0] = item[0] / comulativeDuration;
                     item[1] = item[1] / 100;
                     return item;
                 });
-            }
+            }**/
 
             /**
              * Вывод segmentList ограничен
@@ -216,7 +216,7 @@ class CalendarActivityCtrl {
          * Окончание рассчитывается как сумма предидущих интервалов +movingDurationLength и значение intensityByFtpTo
          */
         let comulativeDuration = duration + interval.movingDurationLength;
-        this.segmentChart.push(
+        /**this.segmentChart.push(
             [
                 duration,
                 interval.intensityByFtpFrom
@@ -224,7 +224,7 @@ class CalendarActivityCtrl {
             [
                 comulativeDuration,
                 interval.intensityByFtpTo
-            ]);
+            ]);**/
 
         return comulativeDuration;
     }

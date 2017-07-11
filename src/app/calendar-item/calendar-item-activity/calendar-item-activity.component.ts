@@ -359,9 +359,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
 
-        this.activity.intervalPW = plan;
+        debugger;
+        Object.assign(this.activity.intervalPW, plan);
+        //this.activity.intervalPW = plan;
 
-        this.activity.intervalPW.durationMeasure = (!!plan.distance['durationValue'] && 'distance') ||
+        /*this.activity.intervalPW.durationMeasure = (!!plan.distance['durationValue'] && 'distance') ||
             (!!plan.movingDuration['durationValue'] && 'movingDuration') || null;
 
         this.activity.intervalPW.durationValue =
@@ -378,7 +380,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity.intervalPW.intensityByFtpFrom =
             (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpFrom']) || null;
         this.activity.intervalPW.intensityByFtpTo =
-            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;
+            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;*/
 
         this.activity.intervalW.calcMeasures = actual;
     }

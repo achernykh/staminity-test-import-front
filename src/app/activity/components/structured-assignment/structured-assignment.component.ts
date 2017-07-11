@@ -24,10 +24,6 @@ class StructuredAssignmentCtrl implements IComponentController {
         this.item.activity.calculateInterval('pW');
         this.item.changeStructuredAssignment ++;
     }
-
-    splice(id: number) {
-        this.item.activity.spliceInterval('P',id);
-    }
 }
 
 const StructuredAssignmentComponent:IComponentOptions = {

@@ -1,15 +1,37 @@
+@import "../../../../sass/color";
+
 structured-interval {
 
   div.segment-point {
     width: 10px;
     height: 10px;
     border-radius: 5px;
-    background-color: lightslategray;
-    cursor: pointer
+    background-color: $grey-300;
+    cursor: pointer;
+
+    .key {
+      background-color: $grey-500;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+  }
+
+  div.segment-number {
+    margin-left: 6px;
   }
 
   div.interval-data, div.interval-comment {
-    padding: 0px 16px;
+    padding: 2px 16px;
+    &.key {
+      background-color: $grey-200;
+    }
+    &.selected {
+      background-color: $blue-grey-050;
+    }
+    transition: all 0.3s;
   }
 
   md-input-container{

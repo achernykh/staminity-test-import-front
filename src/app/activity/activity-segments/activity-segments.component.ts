@@ -66,10 +66,46 @@ class ActivitySegmentsCtrl implements IComponentController {
      *
      */
     addInterval() {
-        let interval: Interval = new Interval('P');
+        let interval: Interval = new Interval('P', {isSelected: false, keyInterval: false, pos: this.item.activity.intervalP.length});
         interval.durationMeasure = this.duration;
         interval.intensityMeasure = this.intensity;
         this.item.activity.completeInterval(interval);
+    }
+
+    deleteInterval() {
+        this.item.activity.intervalP.map((interval,i) => interval.isSelected && this.item.activity.spliceInterval('P',i));
+    }
+
+    isKey():boolean {
+        return this.selectedInterval().length === this.selectedKeyInterval().length;
+    }
+
+    isIndeterminate():boolean {
+        console.log(this.selectedInterval().length, this.selectedKeyInterval().length);
+        //return false;
+        return this.selectedKeyInterval().length !== 0 && this.selectedInterval().length !== this.selectedKeyInterval().length;
+    }
+
+    toggleKey(){
+        if(this.selectedInterval().length === this.selectedKeyInterval().length){
+            this.item.activity.intervalP.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = false);
+        } else if(this.selectedKeyInterval().length === 0 || this.selectedKeyInterval().length > 0){
+            this.item.activity.intervalP.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = true);
+        }
+        this.updatePW();
+    }
+
+    selectedInterval():Array<any> {
+        return this.item.activity.intervalP.filter(interval => interval.isSelected);
+    }
+
+    selectedKeyInterval():Array<any> {
+        return this.item.activity.intervalP.filter(interval => interval.isSelected && interval.keyInterval);
+    }
+
+    updatePW(){
+        this.item.activity.calculateInterval('pW');
+        this.item.changeStructuredAssignment ++;
     }
 
 }

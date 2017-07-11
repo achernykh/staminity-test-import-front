@@ -73,10 +73,12 @@ class SegmentChartController implements IComponentController {
     $postLink(): void {
         let self = this;
         this.$element.ready(function () {
-            self.isReady = true;
-            self.preparePlaceholder();
-            self.prepareScales();
-            self.drawChart();
+            setTimeout(() => {
+                self.isReady = true;
+                self.preparePlaceholder();
+                self.prepareScales();
+                self.drawChart();
+            }, 500);
         });
         if (this.chartSettings.autoResizable) {
             this.onResize = function () { self.redraw(); };
@@ -155,7 +157,6 @@ class SegmentChartController implements IComponentController {
     }
 
     private preparePlaceholder(): void {
-        //debugger;
         // calc current chart size based on the conteiner size and chart's settings
         var bounds = this.$element[0].getBoundingClientRect();
         this.width = Math.max(bounds.width, this.chartSettings.minWidth);

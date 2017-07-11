@@ -57,10 +57,11 @@
                     <activity-header-overview></activity-header-overview>
             </md-tab-body>
         </md-tab>
-        <md-tab id="segments" flex="auto" layout="column" label="Сегменты" ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.structured">
-            <md-tab-content flex="auto" layout="column" layout-fill>
+        <md-tab id="segments" flex="auto" layout="column" ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.structured">
+            <md-tab-label><md-icon class="material-icons">repeat</md-icon></md-tab-label>
+            <md-tab-body layout-column layout-fill>
                 <activity-segments flex="auto" layout="column" layout-fill></activity-segments>
-            </md-tab-content>
+            </md-tab-body>
         </md-tab>
         <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
                 ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
