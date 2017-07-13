@@ -43,6 +43,7 @@ import Athletes from "./athletes/athletes.module";
 import Club from "./club/club.module";
 import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
+import Analytics from "./analytics/analytics.module";
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
@@ -77,7 +78,8 @@ const root = module('staminity.application', [
 	Athletes,
 	Club,
 	Dashboard,
-	Search
+	Search,
+	Analytics
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

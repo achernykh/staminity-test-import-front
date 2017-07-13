@@ -427,5 +427,31 @@ export const _display_view = {
 			margin: 20,
 			size: 'grow'
 		}
-	}
+	},
+	// Настройка страницы: Аналитика и отчеты
+	analytics: {
+		background: {
+			style: 'light-grey',
+			toolbar: true,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: true,
+			athletes: true,
+			leftPanel: {
+				url: 'header/appmenutoolbar.html',
+				size: 20
+			},
+			rightPanel: {
+				url: 'header/usertoolbar.html',
+				size: 20
+			}
+		},
+		application: {
+			style: 'app-page',
+			margin: 20,
+			size: 'grow'
+		}
+	},
 };

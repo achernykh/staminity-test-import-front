@@ -1,0 +1,14 @@
+<div class="application">
+    <div hide-md class="margin-left"></div>
+    <section class="application-body" layout-gt-md="row" layout="column">
+        <div flex="none" class="analytics-filter bg-grey-200">
+            <p class="md-caption">Панель фильтрации, настройки и управления графиками</p>
+        </div>
+        <div flex="auto" class="analytics-feed bg-grey-200">
+            <p class="md-caption">Лента с графиками</p>
+            <universal-chart data="$ctrl.data" update="$ctrl.changes"></universal-chart>
+        </div>
+    </section>
+    <div hide-md class="margin-right">
+    </div>
+</div>

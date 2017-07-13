@@ -1,0 +1,68 @@
+analytics {
+  .app-layer, .application {
+    position: absolute;
+    top: 60px;
+    height: calc(100% - 60px);
+    width: 100%;
+    z-index: 60;
+  }
+
+  section.application-toolbar {
+    color: white;
+    max-width: 1440px;
+    margin: auto;
+
+    md-icon {
+      color: rgba(255,255,255,0.54);
+    }
+
+  }
+  section.content {
+    max-width: 1440px;
+    overflow: hidden;
+    height: calc(100% - 40px);
+    margin: auto;
+  }
+
+  div.margin-left {
+    position: absolute;
+    display: none;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+  section.application-body {
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+    left: 0%;
+    width: 100%;
+
+    @media (min-width: 1439px){
+      left: 2%;
+      width: 96%;
+      height: calc(100% - 10px);
+    }
+
+  }
+
+  div.margin-right {
+    position: absolute;
+    display: none;
+    right: 0;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+  div.analytics-filter {
+    width: 100%;
+
+    @media (min-width: 1280px) {
+      width: 320px;
+    }
+  }
+}
