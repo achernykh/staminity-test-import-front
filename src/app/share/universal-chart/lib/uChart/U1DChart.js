@@ -1,3 +1,7 @@
+import {USvgChart} from './USvgChart.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -55,3 +59,6 @@ class U1DChart extends USvgChart {
         });
     }
 }
+
+
+module.exports.U1DChart = U1DChart;

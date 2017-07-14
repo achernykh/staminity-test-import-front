@@ -1,3 +1,7 @@
+import {BarView} from '../BarView.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -75,3 +79,6 @@ class VerticalView extends BarView {
             .attr('y2', meanX)
     }
 }
+
+
+module.exports.VerticalView = VerticalView;

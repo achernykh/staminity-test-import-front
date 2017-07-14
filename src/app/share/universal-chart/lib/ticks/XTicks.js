@@ -1,3 +1,7 @@
+import {Ticks} from '../Ticks.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -26,3 +30,6 @@ class XTicks extends Ticks {
         return tick1.right > tick2.left;
     }
 }
+
+
+module.exports.XTicks = XTicks;

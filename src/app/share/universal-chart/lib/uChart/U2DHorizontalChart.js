@@ -1,3 +1,10 @@
+import {U2DChart} from './U2DChart.js';
+import {Formatter} from '../Formatter.js';
+import {YTicks} from '../ticks/YTicks.js';
+import {Util} from '../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -251,3 +258,6 @@ class U2DHorizontalChart extends U2DChart {
         return [this.getInnerHeight(), 0];
     }
 }
+
+
+module.exports.U2DHorizontalChart = U2DHorizontalChart;

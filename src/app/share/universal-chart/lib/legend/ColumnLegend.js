@@ -1,3 +1,7 @@
+import {Legend} from '../Legend.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -65,3 +69,6 @@ class ColumnLegend extends Legend {
         return translate;
     }
 }
+
+
+module.exports.ColumnLegend = ColumnLegend;

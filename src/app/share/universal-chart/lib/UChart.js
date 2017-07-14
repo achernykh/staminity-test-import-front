@@ -1,6 +1,15 @@
 import {Config} from './Config.js';
 import {Util} from './Util.js';
+import {UHtmlChart} from './uChart/UHtmlChart.js';
+import {U1DChart} from './uChart/U1DChart.js';
+import {Orientation} from './orientations/Orientation.js';
+import {U2DVerticalChart} from './uChart/U2DVerticalChart.js';
+import {U2DHorizontalChart} from './uChart/U2DHorizontalChart.js';
+import {View} from './View.js';
+import {Scope} from './Scope.js';
+import {BarView} from './views/BarView.js';
 import * as d3 from 'd3';
+
 
 /**
  * @public
@@ -334,5 +343,6 @@ class UChart {
 
     }
 }
+
 
 module.exports.UChart = UChart;

@@ -1,3 +1,11 @@
+import {SvgView} from './SvgView.js';
+import {UChart} from '../UChart.js';
+import {Scope} from '../Scope.js';
+import {Orientation} from '../orientations/Orientation.js';
+import {Util} from '../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  *
  */
@@ -138,3 +146,6 @@ class View2D extends SvgView {
         return [value];
     }
 }
+
+
+module.exports.View2D = View2D;

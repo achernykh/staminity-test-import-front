@@ -1,3 +1,8 @@
+import {LineVerticalState} from '../line/LineVerticalState.js';
+import {Util} from '../../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @private
  * @class
@@ -36,3 +41,6 @@ class AreaVerticalState extends LineVerticalState {
             }).curve(d3[curveName]);
     }
 }
+
+
+module.exports.AreaVerticalState = AreaVerticalState;

@@ -1,3 +1,11 @@
+import {UChart} from './UChart.js';
+import {Config} from './Config.js';
+import {Orientation} from './orientations/Orientation.js';
+import {View} from './View.js';
+import {Color} from './Color.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -179,3 +187,6 @@ class Scope {
         return y;
     }
 }
+
+
+module.exports.Scope = Scope;

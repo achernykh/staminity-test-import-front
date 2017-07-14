@@ -1,3 +1,8 @@
+import {TooltipState} from './TooltipState.js';
+import {Formatter} from '../Formatter.js';
+import * as d3 from 'd3';
+
+
 /**
  * @private
  * @class
@@ -52,3 +57,6 @@ class TooltipSingleState extends TooltipState {
         }
     }
 }
+
+
+module.exports.TooltipSingleState = TooltipSingleState;

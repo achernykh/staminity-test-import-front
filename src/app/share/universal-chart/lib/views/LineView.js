@@ -1,3 +1,11 @@
+import {View2D} from './View2D.js';
+import {UChart} from '../UChart.js';
+import {Scope} from '../Scope.js';
+import {LineState} from './line/LineState.js';
+import {Util} from '../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -137,3 +145,6 @@ class LineView extends View2D {
             .attr('height', clipPath.height);
     }
 }
+
+
+module.exports.LineView = LineView;

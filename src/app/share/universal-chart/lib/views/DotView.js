@@ -1,3 +1,11 @@
+import {View2D} from './View2D.js';
+import {UChart} from '../UChart.js';
+import {Scope} from '../Scope.js';
+import {LineState} from './line/LineState.js';
+import {AreaView} from './AreaView.js';
+import * as d3 from 'd3';
+
+
 /**
  *
  */
@@ -119,3 +127,6 @@ class DotView extends View2D {
             .attr('y2', meanLineData.y2);
     }
 }
+
+
+module.exports.DotView = DotView;

@@ -1,3 +1,8 @@
+import {LineState} from './LineState.js';
+import {Util} from '../../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @private
  * @class
@@ -115,3 +120,6 @@ class LineVerticalState extends LineState {
         return d.y;
     }
 }
+
+
+module.exports.LineVerticalState = LineVerticalState;

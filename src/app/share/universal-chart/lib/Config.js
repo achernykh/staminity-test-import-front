@@ -1,3 +1,6 @@
+import * as d3 from 'd3';
+
+
 /**
  * Configuration class.
  * @public
@@ -111,5 +114,6 @@ class Config {
         return this.get(option) == value;
     }
 }
+
 
 module.exports.Config = Config;

@@ -1,3 +1,7 @@
+import {Orientation} from './Orientation.js';
+import * as d3 from 'd3';
+
+
 /**
  *
  */
@@ -136,3 +140,6 @@ class VerticalOrientation extends Orientation {
         return margin.left;
     }
 }
+
+
+module.exports.VerticalOrientation = VerticalOrientation;

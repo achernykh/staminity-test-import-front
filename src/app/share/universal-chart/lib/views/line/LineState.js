@@ -1,3 +1,13 @@
+import {LineView} from '../LineView.js';
+import {LineVerticalState} from './LineVerticalState.js';
+import {LineHorizontalState} from './LineHorizontalState.js';
+import {AreaView} from '../AreaView.js';
+import {AreaVerticalState} from '../area/AreaVerticalState.js';
+import {AreaHorizontalState} from '../area/AreaHorizontalState.js';
+import {DotView} from '../DotView.js';
+import * as d3 from 'd3';
+
+
 /**
  * @private
  * @abstract
@@ -136,3 +146,6 @@ class LineState {
         throw new Error('Method getYScale() not implemented in ' + this.constructor.name);
     }
 }
+
+
+module.exports.LineState = LineState;

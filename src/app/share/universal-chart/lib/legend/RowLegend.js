@@ -1,3 +1,8 @@
+import {Legend} from '../Legend.js';
+import {UChart} from '../UChart.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -88,3 +93,6 @@ class RowLegend extends Legend {
         return translate;
     }
 }
+
+
+module.exports.RowLegend = RowLegend;

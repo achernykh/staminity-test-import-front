@@ -1,3 +1,9 @@
+import {TooltipState} from './TooltipState.js';
+import {Formatter} from '../Formatter.js';
+import {Util} from '../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @private
  * @class
@@ -41,3 +47,6 @@ class TooltipCombinedState extends TooltipState {
         return isEmpty.filter(d => d === false).length == 0 ? false : html;
     }
 }
+
+
+module.exports.TooltipCombinedState = TooltipCombinedState;

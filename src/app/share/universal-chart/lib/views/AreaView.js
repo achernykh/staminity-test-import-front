@@ -1,3 +1,8 @@
+import {LineView} from './LineView.js';
+import {UChart} from '../UChart.js';
+import * as d3 from 'd3';
+
+
 /**
  *
  */
@@ -52,3 +57,6 @@ class AreaView extends LineView {
         return [0];
     }
 }
+
+
+module.exports.AreaView = AreaView;

@@ -1,3 +1,10 @@
+import {U2DChart} from './U2DChart.js';
+import {Formatter} from '../Formatter.js';
+import {XTicks} from '../ticks/XTicks.js';
+import {Util} from '../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -239,3 +246,6 @@ class U2DVerticalChart extends U2DChart {
         return [0, this.getInnerWidth()];
     }
 }
+
+
+module.exports.U2DVerticalChart = U2DVerticalChart;

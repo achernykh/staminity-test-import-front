@@ -1,3 +1,7 @@
+import {BarView} from '../BarView.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -77,3 +81,6 @@ class HorizontalView extends BarView {
             .attr('y2', this.getHeight())
     }
 }
+
+
+module.exports.HorizontalView = HorizontalView;

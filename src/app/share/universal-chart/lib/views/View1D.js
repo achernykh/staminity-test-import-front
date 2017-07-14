@@ -1,3 +1,9 @@
+import {SvgView} from './SvgView.js';
+import {UChart} from '../UChart.js';
+import {Scope} from '../Scope.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -15,3 +21,6 @@ class View1D extends SvgView {
         super(config, uChart, scope);
     }
 }
+
+
+module.exports.View1D = View1D;

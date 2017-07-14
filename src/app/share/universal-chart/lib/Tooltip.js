@@ -1,3 +1,10 @@
+import {UChart} from './UChart.js';
+import {TooltipState} from './tooltip/TooltipState.js';
+import {Orientation} from './orientations/Orientation.js';
+import {TooltipCombinedState} from './tooltip/TooltipCombinedState.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -164,3 +171,6 @@ class Tooltip {
         this._tip.style('display', 'none');
     }
 }
+
+
+module.exports.Tooltip = Tooltip;

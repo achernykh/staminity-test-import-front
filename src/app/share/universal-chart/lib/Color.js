@@ -1,3 +1,8 @@
+import {Scope} from './Scope.js';
+import {Util} from './Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -59,3 +64,6 @@ class Color {
         return scale(1 / size * i);
     }
 }
+
+
+module.exports.Color = Color;

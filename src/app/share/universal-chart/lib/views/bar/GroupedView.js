@@ -1,3 +1,8 @@
+import {BarView} from '../BarView.js';
+import {Color} from '../../Color.js';
+import * as d3 from 'd3';
+
+
 /**
  * @abstract
  * @class
@@ -75,3 +80,6 @@ class GroupedView extends BarView {
         return this;
     }
 }
+
+
+module.exports.GroupedView = GroupedView;

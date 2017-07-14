@@ -1,3 +1,8 @@
+import {USvgChart} from './USvgChart.js';
+import {Pointer} from '../Pointer.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -181,3 +186,6 @@ class U2DChart extends USvgChart {
         }
     }
 }
+
+
+module.exports.U2DChart = U2DChart;

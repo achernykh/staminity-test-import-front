@@ -1,3 +1,11 @@
+import {UChart} from '../UChart.js';
+import {Orientation} from '../orientations/Orientation.js';
+import {Tooltip} from '../Tooltip.js';
+import {Legend} from '../Legend.js';
+import {Color} from '../Color.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @abstract
@@ -219,3 +227,6 @@ class USvgChart extends UChart {
             .attr('transform', 'translate(0, ' + margin.top + ')');
     }
 }
+
+
+module.exports.USvgChart = USvgChart;

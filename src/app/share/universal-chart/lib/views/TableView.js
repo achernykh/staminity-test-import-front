@@ -1,3 +1,9 @@
+import {View} from '../View.js';
+import {Formatter} from '../Formatter.js';
+import {Util} from '../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -146,3 +152,6 @@ class TableView extends View {
         return summary;
     }
 }
+
+
+module.exports.TableView = TableView;

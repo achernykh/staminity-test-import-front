@@ -1,3 +1,7 @@
+import {StackedView} from './StackedView.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -61,3 +65,6 @@ class StackedVerticalView extends StackedView {
             });
     }
 }
+
+
+module.exports.StackedVerticalView = StackedVerticalView;

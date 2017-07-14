@@ -1,3 +1,7 @@
+import {Orientation} from './Orientation.js';
+import * as d3 from 'd3';
+
+
 /**
  *
  */
@@ -155,3 +159,6 @@ class HorizontalOrientation extends Orientation {
         return margin.top;
     }
 }
+
+
+module.exports.HorizontalOrientation = HorizontalOrientation;

@@ -1,3 +1,8 @@
+import {UChart} from './UChart.js';
+import {Util} from './Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -103,3 +108,6 @@ class Pointer {
         return this._line;
     }
 }
+
+
+module.exports.Pointer = Pointer;

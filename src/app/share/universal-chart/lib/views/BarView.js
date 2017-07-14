@@ -1,3 +1,17 @@
+import {View2D} from './View2D.js';
+import {UChart} from '../UChart.js';
+import {Scope} from '../Scope.js';
+import {Orientation} from '../orientations/Orientation.js';
+import {StackedVerticalView} from './bar/StackedVerticalView.js';
+import {StackedHorizontalView} from './bar/StackedHorizontalView.js';
+import {GroupedVerticalView} from './bar/GroupedVerticalView.js';
+import {GroupedHorizontalView} from './bar/GroupedHorizontalView.js';
+import {VerticalView} from './bar/VerticalView.js';
+import {HorizontalView} from './bar/HorizontalView.js';
+import {Util} from '../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -135,3 +149,6 @@ class BarView extends View2D {
         return _.uniq(this._uChart.getMetric(1));
     }
 }
+
+
+module.exports.BarView = BarView;

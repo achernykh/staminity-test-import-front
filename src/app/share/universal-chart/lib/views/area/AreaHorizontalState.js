@@ -1,3 +1,8 @@
+import {LineHorizontalState} from '../line/LineHorizontalState.js';
+import {Util} from '../../Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @private
  * @class
@@ -36,3 +41,6 @@ class AreaHorizontalState extends LineHorizontalState {
             }).curve(d3[curveName]);
     }
 }
+
+
+module.exports.AreaHorizontalState = AreaHorizontalState;

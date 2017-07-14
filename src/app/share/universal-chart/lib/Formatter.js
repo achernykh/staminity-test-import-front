@@ -1,3 +1,7 @@
+import {Util} from './Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -49,3 +53,6 @@ class Formatter {
         return moment(date, 'MM-DD-YYYY').format(formatString);
     }
 }
+
+
+module.exports.Formatter = Formatter;

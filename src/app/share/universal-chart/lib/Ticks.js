@@ -1,3 +1,9 @@
+import {UChart} from './UChart.js';
+import {Formatter} from './Formatter.js';
+import {Util} from './Util.js';
+import * as d3 from 'd3';
+
+
 /**
  * @private
  * @abstract
@@ -126,3 +132,6 @@ class Ticks {
         throw new Error('Method _compare() not implemented in ' + this.constructor.name);
     }
 }
+
+
+module.exports.Ticks = Ticks;

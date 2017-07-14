@@ -1,3 +1,10 @@
+import {UChart} from '../UChart.js';
+import {VerticalOrientation} from './VerticalOrientation.js';
+import {HorizontalOrientation} from './HorizontalOrientation.js';
+import {Config} from '../Config.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @abstract
@@ -163,3 +170,6 @@ class Orientation {
         throw new Error('Method getPositionLineOffset() not implemented in ' + this.constructor.name);
     }
 }
+
+
+module.exports.Orientation = Orientation;

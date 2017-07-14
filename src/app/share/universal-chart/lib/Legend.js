@@ -1,3 +1,11 @@
+import {View} from './View.js';
+import {UChart} from './UChart.js';
+import {ColumnLegend} from './legend/ColumnLegend.js';
+import {RowLegend} from './legend/RowLegend.js';
+import {Color} from './Color.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -161,3 +169,6 @@ class Legend extends View {
             .attr('transform', 'translate(' + this._getTranslate() + ')');
     }
 }
+
+
+module.exports.Legend = Legend;

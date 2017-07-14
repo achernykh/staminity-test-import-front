@@ -1,3 +1,8 @@
+import {UChart} from '../UChart.js';
+import {TableView} from '../views/TableView.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @abstract
@@ -22,3 +27,6 @@ class UHtmlChart extends UChart {
         return this;
     }
 }
+
+
+module.exports.UHtmlChart = UHtmlChart;

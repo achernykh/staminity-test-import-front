@@ -1,3 +1,7 @@
+import {GroupedView} from './GroupedView.js';
+import * as d3 from 'd3';
+
+
 /**
  * @public
  * @class
@@ -64,3 +68,6 @@ class GroupedVerticalView extends GroupedView {
           });
     }
 }
+
+
+module.exports.GroupedVerticalView = GroupedVerticalView;

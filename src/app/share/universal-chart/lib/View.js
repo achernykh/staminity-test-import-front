@@ -1,3 +1,18 @@
+import {UChart} from './UChart.js';
+import {Scope} from './Scope.js';
+import {Util} from './Util.js';
+import {Tooltip} from './Tooltip.js';
+import {BarView} from './views/BarView.js';
+import {LineView} from './views/LineView.js';
+import {AreaView} from './views/AreaView.js';
+import {DotView} from './views/DotView.js';
+import {PieView} from './views/PieView.js';
+import {DonutView} from './views/DonutView.js';
+import {TableView} from './views/TableView.js';
+import {Config} from './Config.js';
+import * as d3 from 'd3';
+
+
 /**
  * View main class.
  */
@@ -188,3 +203,6 @@ class View {
         return new Config(this._config);
     }
 }
+
+
+module.exports.View = View;
