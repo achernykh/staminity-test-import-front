@@ -74,7 +74,7 @@ class ActivityChartController implements IComponentController {
     $postLink(): void {
         let self = this;
         this.$element.ready(function () {
-            setTimeout(() => {
+           setTimeout(() => {
                 self.preparePlaceholder();
                 self.prepareScales();
                 self.drawChart();

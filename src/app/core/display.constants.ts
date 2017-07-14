@@ -78,7 +78,7 @@ export const _display_view = {
 			title: false,
 			athletes: false,
 			leftPanel: {
-				url: 'layout/application/header/backbar.html',
+				url: 'header/backbar.html',
 				size: 30
 			},
 			rightPanel: {
@@ -103,7 +103,7 @@ export const _display_view = {
 			title: false,
 			athletes: false,
 			leftPanel: {
-				url: 'layout/application/header/backbar.html',
+				url: 'header/backbar.html',
 				size: 30
 			},
 			rightPanel: {

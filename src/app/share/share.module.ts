@@ -42,6 +42,7 @@ import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
 import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
 import {_translate_PageNotFound} from "./404/404.translate";
+import {translateHeader} from "./header/header.translate";
 
 const parseUtc = memorize(date => moment.utc(date));
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
@@ -280,6 +281,8 @@ const Share = module('staminity.share', [])
         $translateProvider.translations('en', translateNotification['en']);
         $translateProvider.translations('ru', {'404': _translate_PageNotFound['ru']});
         $translateProvider.translations('en', {'404': _translate_PageNotFound['en']});
+        $translateProvider.translations('ru', {header: translateHeader['ru']});
+        $translateProvider.translations('en', {header: translateHeader['en']});
     }])
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал
@@ -289,6 +292,7 @@ const Share = module('staminity.share', [])
         $templateCache.put('header/logo.html', require('./header/panels/logo.html') as string);
         $templateCache.put('header/usertoolbar.html', require('./header/panels/usertoolbar.html') as string);
         $templateCache.put('header/welcome.links.html', require('./header/panels/welcome.links.html') as string);
+        $templateCache.put('header/backbar.html', require('./header/panels/backbar.html') as string);
         $templateCache.put('notification/notification.html', require('./notification/notification.html') as string);
     }])
     .name;

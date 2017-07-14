@@ -58,7 +58,7 @@
         </div>
     </header>
 
-    <activity-metrics-char flex="none" ng-if="$ctrl.showChart && !$ctrl.item.activity.structured && !$ctrl.fullScreenTable"
+    <activity-metrics-char flex="none" ng-if="$ctrl.showChart && $ctrl.completeDetails && !$ctrl.item.activity.structured && !$ctrl.fullScreenTable"
                            measures="$ctrl.chartData.measures"
                            data="$ctrl.chartData.data"
                            x="$ctrl.chartX"
@@ -71,7 +71,7 @@
                            zoom-out-click="$ctrl.zoomOut"
                            on-selected="$ctrl.onSelectionRange(select)">График...
     </activity-metrics-char>
-    <activity-segment-chart flex="none" ng-if="$ctrl.showChart && $ctrl.item.activity.structured && !$ctrl.fullScreenTable"
+    <activity-segment-chart flex="none" ng-if="$ctrl.showChart && $ctrl.completeDetails && $ctrl.item.activity.structured && !$ctrl.fullScreenTable"
                             activity-header="$ctrl.item.activity.intervalP"
                             selected=""
                             actual-ftp="true"
