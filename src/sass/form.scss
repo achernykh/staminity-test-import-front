@@ -157,3 +157,5 @@ md-list-item[disabled] div.md-button, md-list-item[disabled] md-icon {
 md-select-menu, md-select-menu md-content, md-menu-content {
   max-height: 70vh;
 }
+// https://github.com/angular/material/issues/10516
+//.layout-row.layout-wrap > * { flex: 1 1 0; }

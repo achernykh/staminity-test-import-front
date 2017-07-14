@@ -104,8 +104,8 @@
                             </div>
                             <userpic flex="none" class="border-light size-60" profile="user" unlink="false"></userpic>
                         </md-card-header>
-                        <md-card-content flex class="md-body-1 md-dark">
-                            <p>{{user.private.about}}</p>
+                        <md-card-content flex class="md-body-1 md-dark" layout="column">
+                            <p flex="auto">{{user.private.about}}</p>
                         </md-card-content>
                         <md-card-actions flex="none" layout="row" layout-align="start center">
                             <md-button class="md-primary    " ng-click="$ctrl.onDetails(user.public.uri)">Профиль</md-button>

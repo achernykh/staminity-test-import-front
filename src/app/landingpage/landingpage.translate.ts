@@ -173,7 +173,7 @@ export let _translate = {
 				title: 'Помощь и поддержка',
 				link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Справочная система</a>',
 				link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Портал поддержки</a>',
-				link3: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Напишите в Телеграм</a>',
+				link3: '<a flex href="https://t.me/staminity_support" target="_blank" class="md-body md-light">Напишите в Телеграм</a>',
 				link4: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
 				link5: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
 				link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
