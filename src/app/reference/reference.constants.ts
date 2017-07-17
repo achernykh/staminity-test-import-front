@@ -22,13 +22,14 @@ export const activityTypes : Array<IActivityType> = [
 	{ id: 1, code: "other", typeBasic: "other", enabled: true, isBasic: true }
 ];
 
-export const sports : Array<any> = [
-	{ code: "run" },
-	{ code: "swim" },
-	{ code: "bike" },
-	{ code: "strength" },
-	{ code: "transition" },
-	{ code: "ski" },
-	{ code: "other" }
-];
+export const measuresByCode : any = {
+	swim: ['movingDuration','distance', 'heartRate','speed'],
+	bike: ['movingDuration','distance','heartRate', 'speed','power'],
+	run: ['movingDuration','distance','heartRate', 'speed'],
+	strength: ['movingDuration','distance','heartRate'],
+	transition: ['movingDuration','distance','heartRate', 'speed'],
+	ski: ['movingDuration','distance','heartRate', 'speed'],
+	other: ['movingDuration','distance','heartRate', 'speed'],
+	default: ['movingDuration','distance','heartRate', 'speed'],
+};
 

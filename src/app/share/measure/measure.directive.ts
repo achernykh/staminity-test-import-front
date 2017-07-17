@@ -97,7 +97,7 @@ export function MeasurementInput($filter): IDirective {
 	function link($scope: IScopeMeasureInput, $element: IAugmentedJQuery, $attrs: IAttributes, $ctrl: INgModelController) {
 
 		let FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
-		let interval = JSON.parse($attrs['interval']);
+		let interval = $scope.interval;
 		let ftpMode = $scope.ftpMode;//JSON.parse($attrs.ftpMode);
 		let ftp = ftpMode ? $scope.ftp : null;
 		let isFTPMeasure = false;
@@ -353,7 +353,7 @@ export function MeasurementInput($filter): IDirective {
 
 			if ($scope.measure && $attrs['sport']) {
 				measure = new Measure($scope.measure, $attrs['sport']);
-				console.log('measure = ', measure.name, measure.unit, measure.type, maskFunction(measure.type, JSON.parse($attrs['interval'])));
+				console.log('measure = ', measure.name, measure.unit, measure.type, maskFunction(measure.type, $scope.interval));
 
 				switch (measure.type){
 					case 'pace': {

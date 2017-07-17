@@ -1,7 +1,7 @@
 <application-frame class="reference" layout="row" style="position: absolute; top: 60px; bottom: 0; left: 0; right: 0; z-index: 10;">
 
 	<div style="min-width: 300px; margin-top: 52px">
-		<md-tabs md-selected="$ctrl.tab" class="md-primary md-hue-3 md-body-1">
+		<md-tabs md-selected="$ctrl.tab" class="md-primary md-hue-3 md-body-1" md-dynamic-height="true">
 			<md-tab label="{{ 'reference.templates.title' | translate }}">
 				<md-content class="md-padding" style="background: none">
 					<md-input-container class="md-block no-message" md-no-float layout="row">
@@ -17,6 +17,23 @@
 								ng-value="activityType"
 							>{{ 'sport.' + activityType.code | translate }}</md-option>
 						</md-select>
+					</md-input-container>
+					<md-input-container class="md-block no-message" md-no-float layout="row">
+						<md-icon class="material-icons" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
+						<md-select 
+							ng-model="$ctrl.templatesFilters.cathegory" 
+							ng-change="$ctrl.templatesFilters = $ctrl.updateFilters($ctrl.templatesFilters)"
+							placeholder="{{ 'reference.templates.cathegory' | translate }}"
+							name="category" class="icon"
+						>
+							<md-option 
+								ng-repeat="cathegory in $ctrl.templatesFilterCathegories" 
+								ng-value="cathegory"
+							>{{ cathegory | cathegoryCode }}</md-option>
+						</md-select>
+						<div ng-messages="$ctrl.form.cathegory.$error" role="alert">
+							<div ng-message="required" translate="form.required"></div>
+						</div>
 					</md-input-container>
 				</md-content>
 			</md-tab>
@@ -48,6 +65,7 @@
 		filters="$ctrl.templatesFilters" 
 		on-templates-change="$ctrl.onTemplatesChange" 
 		on-template-change="$ctrl.onTemplateChange" 
+		on-template-delete="$ctrl.onTemplateDelete" 
 		user="$ctrl.user"
 		flex layout="row"
 	></templates>
@@ -59,6 +77,7 @@
 		filters="$ctrl.cathegoriesFilters" 
 		on-cathegories-change="$ctrl.onCathegoriesChange"
 		on-cathegory-change="$ctrl.onCathegoryChange" 
+		on-cathegory-delete="$ctrl.onCathegoryDelete" 
 		user="$ctrl.user"
 		flex layout="row"
 	></cathegories>

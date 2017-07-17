@@ -2,7 +2,7 @@ import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
 import { CathegoryCtrl } from '../cathegory-dialog/cathegory-dialog.controller';
-import { sports, activityTypes } from '../reference.constants';
+import { activityTypes } from '../reference.constants';
 import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined } from '../../share/util';
 
 import './cathegories.component.scss';
@@ -27,6 +27,7 @@ class CathegoriesCtrl implements IComponentController {
 	private activityTypes : Array<any> = activityTypes;
 	private filters : any;
 	private onCathegoryChange : (id: number, changes: any) => any;
+	private onCathegoryDelete : (id: number) => any;
 	private onCathegoriesChange : () => any;
 
 	constructor (
@@ -79,10 +80,6 @@ class CathegoriesCtrl implements IComponentController {
 		let targetCathegory = this.cathegoriesByOwner[owner][index];
 		let sortOrder = targetCathegory? targetCathegory.sortOrder : 999999;
 
-		// if (targetCathegory === cathegory) {
-		// 	return;
-		// }
-
 		this.ReferenceService.putActivityCategory(id, code, description, groupId, sortOrder, visible)
 		.catch((info) => { 
 			this.message.systemWarning(info);
@@ -91,15 +88,26 @@ class CathegoriesCtrl implements IComponentController {
 		.then(this.onCathegoriesChange);
 	}
 
-	newCathegory () {
+	createCathegory () {
 		this.cathegoryDialog({ activityTypeId: this.filters.activityType.id }, 'create');
+	}
+
+	viewCathegory (cathegory) {
+		this.cathegoryDialog(cathegory, 'view');
+	}
+
+	editCathegory (cathegory) {
+		this.cathegoryDialog(cathegory, 'edit');
 	}
 
 	cathegoryDialog (cathegory, mode) {
 		let locals = {
+			mode,
 			cathegory: { ...cathegory },
 			user: this.user,
-			mode
+			onCathegoryChange: this.onCathegoryChange,
+			onCathegoryDelete: this.onCathegoryDelete,
+			onCathegoriesChange: this.onCathegoriesChange
 		};
 		
 		return this.$mdDialog.show({
@@ -108,8 +116,7 @@ class CathegoriesCtrl implements IComponentController {
 			locals: locals,
 			controllerAs: '$ctrl',
 			clickOutsideToClose: true
-		})
-		.then(this.onCathegoriesChange);
+		});
 	}
 }
 
@@ -119,6 +126,7 @@ const CathegoriesComponent: IComponentOptions = {
 		cathegories: '<',
 		filters: '<',
 		onCathegoryChange: '<',
+		onCathegoryDelete: '<',
 		onCathegoriesChange: '<'
 	},
 	controller: CathegoriesCtrl,

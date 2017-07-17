@@ -1,0 +1,48 @@
+.activity-template {
+	background-color: rgb(224, 224, 224);
+}
+
+.template-header {
+	padding: 12px;
+	background-color: #BDBDBD;
+	border-radius: 3px 3px 0px 0px;
+
+	&__icon-circled {
+		width: 32px !important;
+		height: 32px !important;
+		border-radius: 16px;
+		background-color: #455a64;
+
+		svg {
+			fill: white;
+			height: 22px;
+			padding-top: 5px;
+		}
+	}
+
+	&__activity {
+		font-size: 12px;
+		line-height: 1.17;
+		text-align: center;
+		color: rgba(0, 0, 0, 0.54);
+	}
+
+	&__code {
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 1.25;
+		letter-spacing: -1px;
+		text-align: center;
+		color: rgba(0, 0, 0, 0.54);
+	}
+}
+
+.template-footer {
+	padding: 12px;
+	max-height: 130px;
+	overflow: hidden;
+	font-size: 12px;
+	line-height: 1.17;
+	text-align: left;
+	color: rgba(0, 0, 0, 0.54);
+}

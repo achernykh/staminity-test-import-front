@@ -1,0 +1,47 @@
+<header flex="none" layout="column" class="template-header">
+	<div flex="none" layout="row" layout-align="space-between center" layout-align-gt-sm="space-between start">
+		<md-icon class="material-icons" style="width: 40px; text-align: center;">star</md-icon>
+		<div flex></div>
+		<div >
+			<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="template-header__icon-circled"></md-icon>
+		</div>
+		<div flex></div>
+		<div>
+			<md-menu flex="none" flex-gt-sm="25">
+				<md-button class="md-icon-button" style="margin: 0" ng-click="$mdOpenMenu($event)">
+					<md-icon class="material-icons md-18">more_vert</md-icon>
+				</md-button>
+				<md-menu-content>
+					<md-menu-item>
+						<md-button ng-click="$ctrl.onSelect()">
+							<md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+							Открыть
+						</md-button>
+					</md-menu-item>
+					<md-menu-item>
+						<md-button ng-click="$ctrl.onCopy()">
+							<md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+							Скопировать
+						</md-button>
+					</md-menu-item>
+					<md-menu-item>
+						<md-button ng-click="$ctrl.onDelete()">
+							<md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+							Удалить
+						</md-button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+		</div>
+	</div>
+	
+	<div class="template-header__activity">{{ $ctrl.template.activityCategory.code }}</div>
+
+	<div class="template-header__code">
+		{{ $ctrl.template.code }}
+	</div>
+</header>
+
+<footer flex="none" class="template-footer line-12"
+>{{ $ctrl.template.description }}</footer>
+

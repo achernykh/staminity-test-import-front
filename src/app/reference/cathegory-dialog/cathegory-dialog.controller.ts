@@ -1,13 +1,13 @@
 import { IComponentController } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
-import { sports, activityTypes } from '../reference.constants';
+import { activityTypes } from '../reference.constants';
 import './cathegory-dialog.scss';
 
 
 export class CathegoryCtrl implements IComponentController {
 
-	static $inject = ['$scope', '$mdSelect', '$mdDialog', '$translate', 'message', 'ReferenceService', 'cathegory', 'user', 'mode'];
+	static $inject = ['$scope', '$mdSelect', '$mdDialog', '$translate', 'message', 'ReferenceService', 'mode', 'cathegory', 'user', 'onCathegoriesChange', 'onCathegoryChange', 'onCathegoryDelete'];
 
 	private activityTypes: Array<any> = activityTypes;
 	private activityTypeSelection: any;
@@ -24,9 +24,12 @@ export class CathegoryCtrl implements IComponentController {
 		private $translate,
 		private message,
 		private ReferenceService,
+		private mode,
 		private cathegory,
 		private user,
-		private mode
+		private onCathegoriesChange,
+		private onCathegoryChange,
+		private onCathegoryDelete
 	) {
 		let activityType = activityTypes.find((activityType) => activityType.id === cathegory.activityTypeId);
 		this.activityTypeSelection = [activityType];
@@ -35,6 +38,7 @@ export class CathegoryCtrl implements IComponentController {
 		if (cathegoryOwner === 'system') {
 			cathegory.code = $translate.instant('category.' + cathegory.code);
 		}
+		console.log(CathegoryCtrl, this);
 	}
 
 	closeSelect () {
@@ -47,7 +51,8 @@ export class CathegoryCtrl implements IComponentController {
 
 	delete () {
 		this.ReferenceService.deleteActivityCategory(this.cathegory.id)
-		.then((info) => this.$mdDialog.hide())
+		.then(() => this.$mdDialog.hide())
+		.then(() => this.onCathegoryDelete(this.cathegory.id))
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;
@@ -63,6 +68,7 @@ export class CathegoryCtrl implements IComponentController {
 			)
 		))
 		.then((info) => this.$mdDialog.hide())
+		.then(this.onCathegoriesChange)
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;
@@ -76,6 +82,7 @@ export class CathegoryCtrl implements IComponentController {
 			id, code, description, groupId, sortOrder, visible
 		)
 		.then((info) => this.$mdDialog.hide())
+		.then(() => this.onCathegoryChange(id, { code, description }))
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;

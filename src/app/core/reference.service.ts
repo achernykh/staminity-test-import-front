@@ -68,7 +68,8 @@ export default class ReferenceService {
 	) : Promise<[IActivityTemplate]> {
 		return this.SocketService.send(new GetActivityTemplate(
 			activityCategoryId, activityTypeId, onlyVisible, onlyFavourites
-		));
+		))
+		.then((response) => response.arrayResult);
 	}
 
 	postActivityTemplate (
@@ -113,5 +114,94 @@ export default class ReferenceService {
 				|| (cathegory.groupProfile && 'club')
 				|| 'coach';
 		};
-	};
+	}
+
+	get templateOwner () {
+		let user = this.SessionService.getUser();
+		return (template) => {
+			let userId = template.userProfileCreator && template.userProfileCreator.userId;
+			return (userId === user.userId && 'user')
+				|| (userId === systemUserId && 'system')
+				|| (template.groupProfile && 'club')
+				|| 'coach';
+		};
+	}
+
+	createMeasure (code) {
+		return { code };
+	}
+
+	createInterval (type) {
+		return {
+			"type": type,
+			"power": {
+				"order": 230,
+				"sourceMeasure":"power",
+				"durationValue":0
+			},
+			"speed": {
+				"order": 220,
+				"sourceMeasure":"speed",
+				"intensityByFtpTo":0,
+				"intensityLevelTo":0,
+				"intensityByFtpFrom":0,
+				"intensityLevelFrom":0
+			},
+			"distance": {
+				"order":120,
+				"durationValue":0,
+				"sourceMeasure":"distance"
+			},
+			"heartRate": {
+				"order":210,
+				"sourceMeasure":"heartRate",
+				"intensityByFtpTo":0,
+				"intensityLevelTo":0,
+				"intensityByFtpFrom":0,
+				"intensityLevelFrom":0
+			},
+			"calcMeasures":{
+				"vam":{"code":"vam"},
+				"grade":{"code":"grade"},
+				"power":{"code":"power"},
+				"speed":{"code":"speed"},
+				"swolf":{"code":"swolf"},
+				"cadence":{"code":"cadence"},
+				"altitude":{"code":"altitude"},
+				"calories":{"code":"calories"},
+				"distance":{"code":"distance"},
+				"duration":{"code":"duration"},
+				"heartRate":{"code":"heartRate"},
+				"vamPowerKg":{"code":"vamPowerKg"},
+				"temperature":{"code":"temperature"},
+				"strideLength":{"code":"strideLength"},
+				"trainingLoad":{"code":"trainingLoad"},
+				"adjustedPower":{"code":"adjustedPower"},
+				"elevationGain":{"code":"elevationGain"},
+				"elevationLoss":{"code":"elevationLoss"},
+				"decouplingPace":{"code":"decouplingPace"},
+				"intensityLevel":{"code":"intensityLevel"},
+				"movingDuration":{"code":"movingDuration"},
+				"completePercent":{"code":"completePercent"},
+				"decouplingPower":{"code":"decouplingPower"},
+				"efficiencyFactor":{"code":"efficiencyFactor"},
+				"variabilityIndex":{"code":"variabilityIndex"},
+				"powerDistancePeaks":{"code":"powerDistancePeaks"},
+				"speedDistancePeaks":{"code":"speedDistancePeaks"},
+				"heartRateDistancePeaks":{"code":"heartRateDistancePeaks"}
+			},
+			"durationValue":10000,
+			"movingDuration":{
+				"order":110,
+				"sourceMeasure":"movingDuration"
+			},
+			"durationMeasure":"distance",
+			"intensityByFtpTo":0.8055555555555556,
+			"intensityLevelTo":145,
+			"intensityMeasure":"heartRate",
+			"intensityByFtpFrom":0.75,
+			"intensityLevelFrom":135,
+			"trainersPrescription":"Спокойно"
+		};
+	}
 }

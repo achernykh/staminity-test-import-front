@@ -14,7 +14,7 @@
 				dnd-draggable="cathegory"
 				dnd-type="'user-cathegory'"
 				draggable="true"
-				ng-click="$ctrl.cathegoryDialog(cathegory, 'edit')"
+				ng-click="$ctrl.editCathegory(cathegory)"
 				class="cathegory md-button"
 				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
 				layout="row"
@@ -48,7 +48,7 @@
 				dnd-draggable="cathegory"
 				dnd-type="'coach-cathegory'"
 				draggable="true"
-				ng-click="$ctrl.cathegoryDialog(cathegory, 'view')"
+				ng-click="$ctrl.viewCathegory(cathegory)"
 				class="cathegory md-button"
 				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
 				layout="row"
@@ -83,7 +83,7 @@
 				dnd-draggable="cathegory"
 				dnd-type="'club-cathegory'"
 				draggable="true"
-				ng-click="$ctrl.cathegoryDialog(cathegory, 'view')"
+				ng-click="$ctrl.viewCathegory(cathegory)"
 				class="cathegory md-button"
 				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
 				layout="row"
@@ -118,14 +118,14 @@
 				dnd-draggable="cathegory"
 				dnd-type="'system-cathegory'"
 				draggable="true"
-				ng-click="$ctrl.cathegoryDialog(cathegory, 'view')"
+				ng-click="$ctrl.viewCathegory(cathegory)"
 				class="cathegory md-button"
 				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
 				layout="row"
 			>
 				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
 				<div flex>
-					<h3 class="cathegory__label-code">{{ 'category.' + cathegory.code | translate }}</h3>
+					<h3 class="cathegory__label-code">{{ cathegory | cathegoryCode }}</h3>
 					<div class="cathegory__label-description">{{ cathegory.description | truncate }}</div>
 				</div>
 				<md-switch
@@ -140,7 +140,7 @@
 </md-card>
 
 <div style="width: 200px; margin-top: 61px; text-align: center">
-	<md-button ng-click="$ctrl.newCathegory()" class="md-fab md-accent md-hue-2">
+	<md-button ng-click="$ctrl.createCathegory()" class="md-fab md-accent md-hue-2">
 		<md-icon class="material-icons">add</md-icon>
 	</md-button>
 </div>

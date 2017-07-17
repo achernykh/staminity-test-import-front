@@ -7,7 +7,17 @@ export const ru = {
 		templates: {
 			singular: 'Шаблон',
 			plural: 'Шаблоны',
-			title: 'Шаблоны'
+			title: 'Шаблоны',
+			name: 'Название',
+			user: 'Мои шаблоны',
+			coach: 'Шаблоны тренера',
+			club: 'Шаблоны клуба',
+			system: 'Системные шаблоны',
+			description: 'Описание',
+			favourite: 'Избранный',
+			cathegory: 'Укажите категорию',
+			trainerPrescription: 'Установка тренера',
+			task: 'Задание'
 		},
 		cathegories: {
 			singular: 'Категория',

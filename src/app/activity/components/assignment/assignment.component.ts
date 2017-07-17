@@ -104,7 +104,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         });
 
         this.prepareValues();
-
+        console.log('ActivityAssignmentCtrl', this);
     }
 
     link(url) {

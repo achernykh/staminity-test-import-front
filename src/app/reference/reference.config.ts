@@ -22,7 +22,7 @@ function configure (
 			userId: ['SessionService', (SessionService) => SessionService.getUser().userId],
 			user: ['UserService', 'userId', 'auth', (UserService, userId, auth: boolean) => UserService.getProfile(userId, auth)],
 			cathegories: ['ReferenceService', (ReferenceService) => ReferenceService.getActivityCategories(undefined, false, true)],
-			templates: ['ReferenceService', (ReferenceService) => ReferenceService.getActivityTemplates()],
+			templates: ['ReferenceService', (ReferenceService) => ReferenceService.getActivityTemplates(undefined, undefined, false, false)],
 		},
 		views: DefaultTemplate('reference')
 	});
