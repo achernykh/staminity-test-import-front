@@ -1,5 +1,4 @@
 import {LineView} from './LineView.js';
-import {UChart} from '../UChart.js';
 import * as d3 from 'd3';
 
 
@@ -7,19 +6,6 @@ import * as d3 from 'd3';
  *
  */
 class AreaView extends LineView {
-    /**
-     * @public
-     * @static
-     * @param {Object} object - measure config
-     * @param {UChart} uChart
-     * @returns {AreaView}
-     */
-    static getInstance(config, uChart) {
-
-        return new AreaView(config, uChart);
-    }
-
-
     /**
      * @public
      * @override

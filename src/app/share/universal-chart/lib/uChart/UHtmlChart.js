@@ -1,4 +1,5 @@
 import {UChart} from '../UChart.js';
+import {Scope} from '../Scope.js';
 import {TableView} from '../views/TableView.js';
 import * as d3 from 'd3';
 
@@ -18,9 +19,13 @@ class UHtmlChart extends UChart {
 
         super.renderTo(selector);
 
-        var measureConfig = this.getConfig().get('measures.0');
-        var view = TableView.getInstance(measureConfig, this)
+        var scope = new Scope(this, this._input[0]);
+
+        var measureConfig = scope.getConfig().get('measures.0');
+        var view = new TableView(measureConfig, this, scope)
             .render();
+
+        scope.setView(view);
 
         this._views.push(view);
 

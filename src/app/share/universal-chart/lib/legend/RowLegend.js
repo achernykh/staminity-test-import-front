@@ -40,7 +40,7 @@ class RowLegend extends Legend {
                 left: 0,
                 top: 0,
                 right: 0,
-                bottom: this._rowsNumber * this._size + (this._rowsNumber - 1) * this._margin
+                bottom: this._rowsNumber * this._size + (this._rowsNumber - 1) * this._margin + 5
             };
         }
     }
@@ -83,7 +83,7 @@ class RowLegend extends Legend {
         const horizontalAlign = this._config['horizontal-align'];
 
         if (verticalAlign == 'bottom') {
-            translate[1] = this._uChart.getOuterHeight() - this.getHeight()// + margin.top + this._gap;
+            translate[1] = this._uChart.getOuterHeight() - this.getHeight() - 5// + margin.top + this._gap;
         }
 
         if (horizontalAlign == 'right') {

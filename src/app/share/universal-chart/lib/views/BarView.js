@@ -1,13 +1,4 @@
 import {View2D} from './View2D.js';
-import {UChart} from '../UChart.js';
-import {Scope} from '../Scope.js';
-import {Orientation} from '../orientations/Orientation.js';
-import {StackedVerticalView} from './bar/StackedVerticalView.js';
-import {StackedHorizontalView} from './bar/StackedHorizontalView.js';
-import {GroupedVerticalView} from './bar/GroupedVerticalView.js';
-import {GroupedHorizontalView} from './bar/GroupedHorizontalView.js';
-import {VerticalView} from './bar/VerticalView.js';
-import {HorizontalView} from './bar/HorizontalView.js';
 import {Util} from '../Util.js';
 import * as d3 from 'd3';
 
@@ -17,38 +8,6 @@ import * as d3 from 'd3';
  * @class
  */
 class BarView extends View2D {
-    /**
-     * @public
-     * @static
-     * @param {Object} object - measure config
-     * @param {UChart} uChart
-     * @param {Scope} scope
-     * @returns {BarView}
-     */
-    static getInstance(config, uChart, scope) {
-
-        var isVertical = Orientation.isVertical([uChart.getConfig().getOptions()]);
-
-        if (config.stacked) {
-            if (isVertical) {
-                return new StackedVerticalView(config, uChart, scope);
-            } else {
-                return new StackedHorizontalView(config, uChart, scope);
-            }
-        } else if (BarView._isGrouped(uChart)) {
-            if (isVertical) {
-                return new GroupedVerticalView(config, uChart, scope);
-            } else {
-                return new GroupedHorizontalView(config, uChart, scope);
-            }
-        } else {
-          if (isVertical) {
-              return new VerticalView(config, uChart, scope);
-          } else {
-              return new HorizontalView(config, uChart, scope);
-          }
-        }
-    }
 
 
     setSequenceNumber(number) {

@@ -33,6 +33,7 @@ class U1DChart extends USvgChart {
         }, this);
 
         this._legend.render();
+        this._mManager.set(this._legend)
 
         this._legend.resize();
         this._margin = this._getMargin();

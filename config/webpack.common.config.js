@@ -47,6 +47,7 @@ module.exports = {
             'angularjs-scroll-glue',
             'drag-drop-webkit-mobile',
             'angular-ui-router'
+            //'unichart/dist/uchart.min.js'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'

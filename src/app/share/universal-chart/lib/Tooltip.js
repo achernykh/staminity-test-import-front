@@ -1,5 +1,5 @@
 import {UChart} from './UChart.js';
-import {TooltipState} from './tooltip/TooltipState.js';
+import {TooltipStateFactory} from './tooltip/TooltipStateFactory.js';
 import {Orientation} from './orientations/Orientation.js';
 import {TooltipCombinedState} from './tooltip/TooltipCombinedState.js';
 import * as d3 from 'd3';
@@ -17,7 +17,7 @@ class Tooltip {
     constructor(uChart) {
 
         this._uChart = uChart;
-        this._state = TooltipState.getInstance(this);
+        this._state = TooltipStateFactory.getInstance(this);
 
         this._offset = [0, 0];
         this._align = false;

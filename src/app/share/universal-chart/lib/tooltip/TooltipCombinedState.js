@@ -29,15 +29,15 @@ class TooltipCombinedState extends TooltipState {
                   '</tr>';
               } else {
                   config.getDataAt(xValue0).forEach(function(d) {
-                      config = config.getConfig().getOptions();
+                      var data = config.getConfig().getOptions();
 
                       var isNull = d.y === null;
                       isEmpty.push(isNull);
 
                       if (! isNull) {
                           html += '<tr>' +
-                              '<td>' + this._getKey(config, d) + '</td>' +
-                              '<td>' + (Formatter.format(d.y, config) + ' ' + Util.toString(config.unit)) + '</td>' +
+                              '<td>' + this._getKey(data, d) + '</td>' +
+                              '<td>' + (Formatter.format(d.y, data) + ' ' + Util.toString(data.unit)) + '</td>' +
                           '</tr>';
                       }
                   }, this)

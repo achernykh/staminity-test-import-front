@@ -1,7 +1,5 @@
 import {View} from './View.js';
 import {UChart} from './UChart.js';
-import {ColumnLegend} from './legend/ColumnLegend.js';
-import {RowLegend} from './legend/RowLegend.js';
 import {Color} from './Color.js';
 import * as d3 from 'd3';
 
@@ -29,23 +27,6 @@ class Legend extends View {
 
     /**
      * @public
-     * @static
-     * @param {Object} config={}
-     * @param {UChart} uChart
-     * @returns {Legend}
-     */
-    static getInstance(config = {}, uChart) {
-
-        if (uChart.getConfig().get('options.legend.type', 'column') == 'column') {
-            return new ColumnLegend(config, uChart);
-        } else {
-            return new RowLegend(config, uChart);
-        }
-    }
-
-
-    /**
-     * @public
      * @returns {Number}
      */
     getWidth() {
@@ -61,12 +42,6 @@ class Legend extends View {
     getHeight() {
 
         return this._container.node().getBoundingClientRect().height;
-    }
-
-
-    getMargin() {
-
-        return this._margin;
     }
 
 

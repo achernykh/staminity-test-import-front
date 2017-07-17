@@ -1,12 +1,8 @@
 import {Config} from './Config.js';
 import {Util} from './Util.js';
-import {UHtmlChart} from './uChart/UHtmlChart.js';
-import {U1DChart} from './uChart/U1DChart.js';
-import {Orientation} from './orientations/Orientation.js';
-import {U2DVerticalChart} from './uChart/U2DVerticalChart.js';
-import {U2DHorizontalChart} from './uChart/U2DHorizontalChart.js';
-import {View} from './View.js';
+//import {View} from './View.js';
 import {Scope} from './Scope.js';
+import {ViewFactory} from './views/ViewFactory.js';
 import {BarView} from './views/BarView.js';
 import * as d3 from 'd3';
 
@@ -31,35 +27,16 @@ class UChart {
         this._id = Util.getUniqueId();
         this._views = [];
 
+        this._margin = {
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0
+        };
+
         d3.select(window).on('resize.' + this._id, function() {
             this.resize();
         }.bind(this))
-    }
-
-
-    /**
-     * @public
-     * @static
-     * @param {Object} options
-     * @returns {UChart}
-     */
-    static getInstance(options) {
-
-        if (options == undefined) {
-            return new UChart([]);
-        } else if (! Array.isArray(options)) {
-            options = [options];
-        }
-
-        if (options[0].measures[0].chartType == 'table') {
-            return new UHtmlChart(options);
-        } else if (['pie', 'donut'].indexOf(options[0].measures[0].chartType) >= 0) {
-            return new U1DChart(options);
-        } else if (Orientation.isVertical(options)) {
-            return new U2DVerticalChart(options);
-        } else {
-            return new U2DHorizontalChart(options);
-        }
     }
 
 
@@ -153,18 +130,6 @@ class UChart {
     getInnerHeight() {
 
         return this.getOuterHeight() - this._margin.top - this._margin.bottom;
-    }
-
-
-    getData() {
-
-        return this.getConfig().get('metrics');
-    }
-
-
-    getIdx(index) {
-
-        return this.getSeries(index).idx;
     }
 
 
@@ -316,10 +281,10 @@ class UChart {
 
                 if (measureConfig.id in extensionMap) {
                     var extendedScope = scope.replicate(extensionMap[measureConfig.id], measureConfig);
-                    view = View.getInstance(measureConfig, this, extendedScope);
+                    view = ViewFactory.getInstance(measureConfig, this, extendedScope);
                     extendedScope.setView(view);
                 } else {
-                    view = View.getInstance(measureConfig, this, scope);
+                    view = ViewFactory.getInstance(measureConfig, this, scope);
                     scope.setView(view);
                 }
 

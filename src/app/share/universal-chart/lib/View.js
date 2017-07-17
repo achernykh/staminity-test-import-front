@@ -1,14 +1,8 @@
 import {UChart} from './UChart.js';
 import {Scope} from './Scope.js';
 import {Util} from './Util.js';
+import {ViewFactory} from './views/ViewFactory.js';
 import {Tooltip} from './Tooltip.js';
-import {BarView} from './views/BarView.js';
-import {LineView} from './views/LineView.js';
-import {AreaView} from './views/AreaView.js';
-import {DotView} from './views/DotView.js';
-import {PieView} from './views/PieView.js';
-import {DonutView} from './views/DonutView.js';
-import {TableView} from './views/TableView.js';
 import {Config} from './Config.js';
 import * as d3 from 'd3';
 
@@ -48,7 +42,7 @@ class View {
         this.getScope().getConfig()
             .get('measures')
             .forEach(function(measureConfig) {
-                var replica = View.getInstance(measureConfig, this._uChart)
+                var replica = ViewFactory.getInstance(measureConfig, this._uChart)
                     ._setId(this._id)
                     ._setReplicaNumber(this._replicsCounter);
                 this._replicsCounter ++;
@@ -93,29 +87,6 @@ class View {
     getTooltip() {
 
         return this._uChart.getTooltip();
-    }
-
-
-    /**
-     * @public
-     * @static
-     * @param {Object} object - measure config
-     * @param {UChart} uChart
-     * @param {Scope} scope
-     * @returns {View}
-     */
-    static getInstance(config, uChart, scope) {
-
-        switch (config.chartType) {
-            case 'bar': return BarView.getInstance(config, uChart, scope);
-            case 'line': return new LineView(config, uChart, scope);
-            case 'area': return new AreaView(config, uChart, scope);
-            case 'dot': return new DotView(config, uChart, scope);
-            case 'pie': return new PieView(config, uChart, scope);
-            case 'donut': return new DonutView(config, uChart, scope);
-            case 'table': return new TableView(config, uChart, scope);
-            default: throw new Error('Unexpected chart type [' + config.chartType + ']');
-        }
     }
 
 

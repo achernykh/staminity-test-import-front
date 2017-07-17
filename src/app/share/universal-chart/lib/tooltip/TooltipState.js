@@ -1,5 +1,3 @@
-import {TooltipCombinedState} from './TooltipCombinedState.js';
-import {TooltipSingleState} from './TooltipSingleState.js';
 import {Util} from '../Util.js';
 import * as d3 from 'd3';
 
@@ -12,16 +10,6 @@ class TooltipState {
         this._tooltip = tooltip;
         this._uChart = tooltip._uChart;
         this._orientation = tooltip._uChart.getOrientation();
-    }
-
-
-    static getInstance(tooltip) {
-
-        if (tooltip._uChart._config.get('options.tooltip.combined', false)) {
-            return new TooltipCombinedState(tooltip);
-        } else {
-            return new TooltipSingleState(tooltip);
-        }
     }
 
 

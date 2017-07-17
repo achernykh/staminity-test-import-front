@@ -1,7 +1,10 @@
 import {UChart} from '../UChart.js';
-import {Orientation} from '../orientations/Orientation.js';
+import {OrientationFactory} from '../orientations/OrientationFactory.js';
 import {Tooltip} from '../Tooltip.js';
-import {Legend} from '../Legend.js';
+import {LegendFactory} from '../legend/LegendFactory.js';
+import {MMargin} from '../MMargin.js';
+import {Orientation} from '../orientations/Orientation.js';
+import {Util} from '../Util.js';
 import {Color} from '../Color.js';
 import * as d3 from 'd3';
 
@@ -21,15 +24,11 @@ class USvgChart extends UChart {
 
         super(options);
 
-        this._orientation = Orientation.getInstance(options, this);
+        this._orientation = OrientationFactory.getInstance(options, this);
         this._tooltip = new Tooltip(this);
-        this._legend = Legend.getInstance(this._config.get('options.legend', {}), this);
-        this._margin = {
-            left: 45,
-            top: 20,
-            right: 45,
-            bottom: 35
-        };
+        this._legend = LegendFactory.getInstance(this._config.get('options.legend', {}), this);
+
+        this._mManager = new MMargin(this._margin);
     }
 
 
@@ -80,7 +79,7 @@ class USvgChart extends UChart {
      */
     _getMargin() {
 
-        return this._legend.getMargin();
+        return this._mManager.getMargin();
     }
 
 
@@ -194,7 +193,8 @@ class USvgChart extends UChart {
                 return view.getConfig().get('gradient').map(function(gradient) {
                     gradient =  _.extend({}, gradient);
                     gradient.color = d3.color(gradient.color);
-                    gradient.color.opacity = Color.getOpacity(0, view.getGroups().length, gradient.color.opacity)
+                    var opacity = Util.isEmpty(gradient.opacity) ? gradient.color.opacity : gradient.opacity;
+                    gradient.color.opacity = Color.getOpacity(0, view.getGroups().length, opacity)
                     return gradient;
                 }.bind(this));
             }.bind(this))

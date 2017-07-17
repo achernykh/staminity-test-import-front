@@ -1,7 +1,7 @@
 import {View2D} from './View2D.js';
 import {UChart} from '../UChart.js';
 import {Scope} from '../Scope.js';
-import {LineState} from './line/LineState.js';
+import {LineStateFactory} from './line/LineStateFactory.js';
 import {Util} from '../Util.js';
 import * as d3 from 'd3';
 
@@ -20,20 +20,7 @@ class LineView extends View2D {
     constructor(config, uChart, scope) {
 
         super(config, uChart, scope);
-        this._state = LineState.getInstance(this);
-    }
-
-
-    /**
-     * @public
-     * @static
-     * @param {Object} object - measure config
-     * @param {UChart} uChart
-     * @returns {LineView}
-     */
-    static getInstance(config, uChart) {
-
-        return new LineView(config, uChart);
+        this._state = LineStateFactory.getInstance(this);
     }
 
 

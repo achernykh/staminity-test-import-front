@@ -51,7 +51,7 @@ class TableView extends View {
         var measures = this._uChart.getViews()
             .map(v => v.getConfig().getOptions());
 
-        var data = this._uChart.getData();
+        var data = this.getScope().getConfig().get('metrics');
 
         var thead = [];
 

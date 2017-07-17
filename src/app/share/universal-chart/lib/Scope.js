@@ -1,7 +1,7 @@
 import {UChart} from './UChart.js';
 import {Config} from './Config.js';
-import {Orientation} from './orientations/Orientation.js';
-import {View} from './View.js';
+import {OrientationFactory} from './orientations/OrientationFactory.js';
+//import {View} from './View.js';
 import {Color} from './Color.js';
 import * as d3 from 'd3';
 
@@ -21,7 +21,7 @@ class Scope {
 
         this._uChart = uChart;
         this._config = new Config(config);
-        this._orientation = Orientation.getInstance(uChart.getConfig().getOptions(), uChart);
+        this._orientation = OrientationFactory.getInstance(uChart.getConfig().getOptions(), uChart);
         this._views = [];
         this._isReplicated = false;
     }

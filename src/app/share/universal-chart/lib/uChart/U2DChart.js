@@ -38,6 +38,7 @@ class U2DChart extends USvgChart {
             }.bind(this));
 
         this._legend.render();
+        this._mManager.set(this._legend);
 
         return this;
     }

@@ -1,7 +1,8 @@
 import {U2DChart} from './U2DChart.js';
+import {MMargin} from '../MMargin.js';
+import {Util} from '../Util.js';
 import {Formatter} from '../Formatter.js';
 import {XTicks} from '../ticks/XTicks.js';
-import {Util} from '../Util.js';
 import * as d3 from 'd3';
 
 
@@ -20,16 +21,14 @@ class U2DVerticalChart extends U2DChart {
 
         super(options, originalOptions);
 
-        this._topMargin = 10;
-        this._bottomMargin = 20;
-        this._rightMargin = 5;
-        this._margin = {
+        this._mManager = new MMargin({
             left: 0,
-            top: this._topMargin,
-            right: this._rightMargin,
-            bottom: this._bottomMargin
-        };
+            top: 0,
+            right: 0,
+            bottom: 20
+        });
 
+        this._labelsMap = {};
         this._marginMap = {
             left: [],
             right: []
@@ -49,6 +48,12 @@ class U2DVerticalChart extends U2DChart {
         this._xAxisContainer = this._canvas.append('g')
             .attr('class', 'axis series-axis');
 
+        this._xAxisLabel = this._canvas.append('text')
+            .attr('class', 'axis-label x-axis-label')
+            .text(this.getConfig().get('series.0.scaleLabel', ''));
+
+        this._mManager.addBottom(this._xAxisLabel.node().getBoundingClientRect().height);
+
         this._yAxisContainer = this._canvas.selectAll('g.y-axis')
             .data(this.getMeasureAxesData())
             .enter()
@@ -59,6 +64,20 @@ class U2DVerticalChart extends U2DChart {
                 } else {
                     return 'axis measure-axis ' + d.measureName + '-measure-axis inner-axis';
                 }
+            });
+
+        var self = this;
+        var labelsData = this.getMeasureAxesData().filter(m => ! Util.isEmpty(m.scaleLabel));
+
+        this._canvas.selectAll('text.y-axis-label')
+            .data(labelsData)
+            .enter()
+            .append('text')
+            .attr('class', 'axis-label y-axis-label')
+            .attr('transform', 'rotate(90)')
+            .text(d => d.scaleLabel)
+            .each(function(d) {
+                self._labelsMap[d.measureName] = this;
             });
 
         this._views.forEach(function(view) {
@@ -81,11 +100,7 @@ class U2DVerticalChart extends U2DChart {
         super.resize();
 
         var margin = this._getMargin();
-
-        this._margin.left = margin.left;
-        this._margin.top = this._topMargin + margin.top;
-        this._margin.right = this._rightMargin + margin.right;
-        this._margin.bottom = this._bottomMargin + margin.bottom;
+        this._margin = JSON.parse(JSON.stringify(margin))
 
         this._marginMap.left = [];
         this._marginMap.right = [];
@@ -94,15 +109,14 @@ class U2DVerticalChart extends U2DChart {
         var axes = this.getMeasureScales();
 
         this._yAxisContainer
-            .each(function(config, i) {
-
-                var axis = self._getD3Axis(i, axes[config.measureName]);
-
-                d3.select(this).call(axis.tickFormat(function(value, i) {
-                    return Formatter.format(value, config);
+            .each(function(measureConfig, i) {
+                d3.select(this).call(
+                    self._getD3Axis(i, axes[measureConfig.measureName])
+                    .tickFormat(function(value, i) {
+                        return Formatter.format(value, measureConfig);
                 }));
-            }).attr('transform', function(d, i) {
-                return 'translate(' + self._getMeasureAxisOffset(i, this) + ')';
+            }).attr('transform', function(measureConfig, i) {
+                return 'translate(' + self._getMeasureAxisOffset(i, measureConfig, this) + ')';
             });
 
         var left = [];
@@ -117,16 +131,35 @@ class U2DVerticalChart extends U2DChart {
         }
 
         this._yAxisContainer.attr('transform', function(d, i) {
-                if (i % 2 == 1) {
-                    return 'translate(' + right[Math.floor(i / 2)] + ', 0)';
-                } else {
-                    return 'translate(' + left[Math.floor(i / 2)] + ', 0)';
-                }
+                return 'translate(' + self._getYAxisOffset(i, left, right) + ')';
             }.bind(this))
-            .each(function(config) {
+            .each(function(measureConfig, i) {
+                /*
+                 * Раскрашиваем значения на шкале.
+                 */
                 d3.select(this)
                     .selectAll('text')
-                    .style('fill', config.markerColor);
+                    .attr('fill', measureConfig.markerColor);
+                /*
+                 * Перемещаем подписи к осям в нужное место.
+                 */
+                if (measureConfig.measureName in self._labelsMap) {
+
+                    var width = this.getBoundingClientRect().width;
+                    var y = self._getYAxisOffset(i, left, right)[0];
+
+                    if (i % 2 == 1) {
+                        y += width + 5;
+                    } else {
+                        y -= width + 5;
+                    }
+
+                    d3.select(self._labelsMap[measureConfig.measureName])
+                        .attr('x', self.getInnerHeight() / (i % 2 == 1 ? 2 : -2))
+                        .attr('y', (i % 2 == 1 ? -y : y))
+                        .attr('transform', 'rotate(' + (i % 2 == 1 ? 90 : 270) + ')')
+                        .style('fill', measureConfig.markerColor);
+                }
             });
 
         this._xAxis = d3.axisBottom(this.getSeriesScale());
@@ -135,6 +168,14 @@ class U2DVerticalChart extends U2DChart {
             .call(this._xAxis.tickFormat(function(value, i) {
                 return Formatter.format(value, self.getSeries(0));
             }));
+
+        var xLabelOffset = [
+            this.getInnerWidth() / 2 + this._margin.left,
+            this.getInnerHeight() + this._xAxisContainer.node().getBoundingClientRect().height + this._xAxisLabel.node().getBoundingClientRect().height - 3
+        ];
+
+        this._xAxisLabel
+            .attr('transform', 'translate(' + xLabelOffset + ')');
 
         this._canvas
             .attr('transform', 'translate(0, ' + this._margin.top + ')');
@@ -153,6 +194,16 @@ class U2DVerticalChart extends U2DChart {
     }
 
 
+    _getYAxisOffset(i, left, right) {
+
+        if (i % 2 == 1) {
+            return [right[Math.floor(i / 2)], 0];
+        } else {
+            return [left[Math.floor(i / 2)], 0];
+        }
+    }
+
+
     _getXAxisOffset() {
 
         if (this._isAligned()) {
@@ -166,12 +217,17 @@ class U2DVerticalChart extends U2DChart {
     /**
      * @private
      * @param {Integer} index
+     * @param {Object} measureConfig
      * @param {HTMLElement} axisContainer
      * @returns {Number[]}
      */
-    _getMeasureAxisOffset(index, axisContainer) {
+    _getMeasureAxisOffset(index, measureConfig, axisContainer) {
 
-        const width = axisContainer.getBoundingClientRect().width;
+        var width = axisContainer.getBoundingClientRect().width;
+
+        if (measureConfig.measureName in this._labelsMap) {
+            width += this._labelsMap[measureConfig.measureName].getBoundingClientRect().width;
+        }
 
         if (index % 2 == 1) {
             this._marginMap.right.push(width);

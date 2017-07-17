@@ -1,6 +1,6 @@
 import './universal-chart.component.scss';
-import {IComponentOptions, IComponentController, IPromise, element} from 'angular';
-import {UChart} from './lib/UChart.js';
+import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {UChartFactory} from './lib/UChart/UChartFactory.js';
 
 class UniversalChartCtrl implements IComponentController {
 
@@ -13,7 +13,7 @@ class UniversalChartCtrl implements IComponentController {
     static $inject = ['$element'];
 
     constructor(private $element: any) {
-        this.chart = UChart.getInstance(null);
+        this.chart = UChartFactory.getInstance(null);
     }
 
     $onInit() {
@@ -27,7 +27,7 @@ class UniversalChartCtrl implements IComponentController {
     $onChanges() {
         this.chart.remove();
         this.container = this.$element[0];
-        this.chart = UChart.getInstance(this.data).renderTo(this.container);
+        this.chart = UChartFactory.getInstance(this.data).renderTo(this.container);
     }
 }
 

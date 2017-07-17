@@ -1,6 +1,4 @@
 import {UChart} from '../UChart.js';
-import {VerticalOrientation} from './VerticalOrientation.js';
-import {HorizontalOrientation} from './HorizontalOrientation.js';
 import {Config} from '../Config.js';
 import * as d3 from 'd3';
 
@@ -21,23 +19,6 @@ class Orientation {
 
         this._config = config;
         this._uChart = uChart;
-    }
-
-
-    /**
-     * @public
-     * @static
-     * @param {Object} config
-     * @param {UChart} uChart
-     * @returns {Orientation}
-     */
-    static getInstance(config, uChart) {
-
-        if (Orientation.isVertical([uChart.getConfig().getOptions()])) {
-            return new VerticalOrientation(config, uChart);
-        } else {
-            return new HorizontalOrientation(config, uChart);
-        }
     }
 
 

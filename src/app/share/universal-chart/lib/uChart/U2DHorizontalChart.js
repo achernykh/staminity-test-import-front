@@ -1,7 +1,8 @@
 import {U2DChart} from './U2DChart.js';
+import {MMargin} from '../MMargin.js';
+import {Util} from '../Util.js';
 import {Formatter} from '../Formatter.js';
 import {YTicks} from '../ticks/YTicks.js';
-import {Util} from '../Util.js';
 import * as d3 from 'd3';
 
 
@@ -19,15 +20,14 @@ class U2DHorizontalChart extends U2DChart {
 
         super(options);
 
-        this._marginTop = 5;
-        this._marginRight = 5;
-        this._margin = {
+        this._mManager = new MMargin({
             left: 0,
-            top: this._marginTop,
-            right: this._marginRight,
+            top: 0,
+            right: 0,
             bottom: 0
-        };
+        });
 
+        this._labelsMap = {};
         this._marginMap = {
             top: [],
             bottom: []
@@ -59,6 +59,19 @@ class U2DHorizontalChart extends U2DChart {
                 }
             });
 
+      var self = this;
+      var labelsData = this.getMeasureAxesData().filter(m => ! Util.isEmpty(m.scaleLabel));
+
+      this._canvas.selectAll('text.x-axis-label')
+          .data(labelsData)
+          .enter()
+          .append('text')
+          .attr('class', 'axis-label x-axis-label')
+          .text(d => d.scaleLabel)
+          .each(function(d) {
+              self._labelsMap[d.measureName] = this;
+          });
+
         this._views.forEach(function(view) {
             view.render()
                 .renderMeanLine();
@@ -79,9 +92,7 @@ class U2DHorizontalChart extends U2DChart {
         super.resize();
 
         var margin = this._getMargin();
-
-        this._margin.top = this._marginTop + margin.top;
-        this._margin.bottom = margin.bottom;
+        this._margin = JSON.parse(JSON.stringify(margin))
 
         this._marginMap.top = [];
         this._marginMap.bottom = [];
@@ -93,7 +104,6 @@ class U2DHorizontalChart extends U2DChart {
                 return Formatter.format(value, this.getSeries(0));
             }.bind(this)));
 
-        this._margin.right = this._marginRight + margin.right;
         var xAxisBox = this._yAxisContainer.node().getBoundingClientRect();
         if (! this._isAligned()) {
             this._margin.left = margin.left + xAxisBox.width;
@@ -107,39 +117,56 @@ class U2DHorizontalChart extends U2DChart {
         var axes = this.getMeasureScales();
 
         this._xAxisContainer
-            .each(function(config, i) {
-
-                var axis = self._getD3Axis(i, axes[config.measureName]);
-
-                d3.select(this).call(axis.tickFormat(function(value, i) {
-                    return Formatter.format(value, config);
+            .each(function(measureConfig, i) {
+                d3.select(this).call(
+                    self._getD3Axis(i, axes[measureConfig.measureName])
+                    .tickFormat(function(value, i) {
+                        return Formatter.format(value, measureConfig);
                 }));
-            }).attr('transform', function(d, i) {
-                return 'translate(' + self._getMeasureAxisOffset(i, this) + ')';
+            }).attr('transform', function(measureConfig, i) {
+                return 'translate(' + self._getMeasureAxisOffset(i, measureConfig, this) + ')';
             });
 
         var top = [this._margin.top];
         var bottom = [this.getInnerHeight() + this._margin.top];
 
-        for (var i = 0; i < this._marginMap.top.length; i ++) {
-            top.push(d3.sum(this._marginMap.top) - d3.sum(this._marginMap.top.slice(0, i)) + this._marginTop);
+        for (var i = 1; i < this._marginMap.top.length; i ++) {
+            top.push(d3.sum(this._marginMap.top) - d3.sum(this._marginMap.top.slice(0, i)) + margin.top);
         }
 
-        for (i = 1; i < this._marginMap.bottom.length; i ++) {
+        for (var i = 1; i < this._marginMap.bottom.length; i ++) {
             bottom.push(this.getInnerHeight() + this._margin.top + d3.sum(this._marginMap.bottom.slice(0, i)));
         }
 
         this._xAxisContainer
             .attr('transform', function(d, i) {
-                if (i % 2 == 1) {
-                    return 'translate(0, ' + top[Math.floor(i / 2)] + ')';
-                } else {
-                    return 'translate(0, ' + bottom[Math.floor(i / 2)] + ')';
-                }
-            }).each(function(config) {
+                return 'translate(' + self._getXAxisOffset(i, top, bottom) + ')'
+            }).each(function(measureConfig, i) {
+                /*
+                 * Раскрашиваем значения на шкале.
+                 */
                 d3.select(this)
                     .selectAll('text')
-                    .style('fill', config.markerColor);
+                    .style('fill', measureConfig.markerColor);
+                /*
+                 * Перемещаем подписи к осям в нужное место.
+                 */
+                if (measureConfig.measureName in self._labelsMap) {
+
+                    var height = this.getBoundingClientRect().height;
+                    var y = self._getXAxisOffset(i, top, bottom)[1];
+
+                    if (i % 2 == 1) {
+                        y -= height + 3;
+                    } else {
+                        y += height + 10;
+                    }
+
+                    d3.select(self._labelsMap[measureConfig.measureName])
+                        .attr('x', self.getInnerWidth() / 2)
+                        .attr('y', y)
+                        .style('fill', measureConfig.markerColor);
+                }
             });
 
         this._yAxis = d3.axisLeft(this.getSeriesScale());
@@ -166,6 +193,16 @@ class U2DHorizontalChart extends U2DChart {
     }
 
 
+    _getXAxisOffset(i, top, bottom) {
+
+        if (i % 2 == 1) {
+            return [0, top[Math.floor(i / 2)]];
+        } else {
+            return [0, bottom[Math.floor(i / 2)]];
+        }
+    }
+
+
     _getYAxisOffset() {
 
         if (this._isAligned()) {
@@ -179,12 +216,17 @@ class U2DHorizontalChart extends U2DChart {
     /**
      * @private
      * @param {Integer} index
+     * @param {Object} measureConfig
      * @param {HTMLElement} axisContainer
      * @returns {Number[]}
      */
-    _getMeasureAxisOffset(index, axisContainer) {
+    _getMeasureAxisOffset(index, measureConfig, axisContainer) {
 
-        const height = axisContainer.getBoundingClientRect().height;
+        var height = axisContainer.getBoundingClientRect().height;
+
+        if (measureConfig.measureName in this._labelsMap) {
+            height += this._labelsMap[measureConfig.measureName].getBoundingClientRect().height;
+        }
 
         if (index % 2 == 0) {
             this._marginMap.bottom.push(height);
