@@ -67,7 +67,7 @@ class ActivityChartController implements IComponentController {
     $onInit() {
         this.absUrl = this.$location.absUrl().split('#')[0];
         this.zoomDispatch = d3.dispatch("zoom");
-        setTimeout(()=> this.prepareData(),300);
+        setTimeout(()=> this.prepareData(),0);
         //this.prepareData();
     }
 
@@ -78,7 +78,7 @@ class ActivityChartController implements IComponentController {
                 self.preparePlaceholder();
                 self.prepareScales();
                 self.drawChart();
-            }, 700);
+            }, 0);
         });
         if (this.activityChartSettings.autoResizable) {
             this.onResize = function () { self.redraw(); };

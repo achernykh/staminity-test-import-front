@@ -40,25 +40,61 @@ activity-metrics-details {
     //background-color: grey;
   }
 
+  section.map, div.loading-map{
+    height: 25vh;
+  }
 
-  activity-route, activity-metrics-char, measure-split-table {
+  section.chart, div.loading-chart{
+    // gt-md
+    @media  (min-width: 1280px) {
+      height: 20vh;
+    }
+    //lg
+    @media  (min-width: 1280px) and (max-width: 1919px) {
+      height: 20vh;
+    }
+    
+  }
 
-    transition: all 0.3s ease-in-out;
+  div.loading-map, div.loading-chart, div.loading-split {
+    //transition: all 0.1s ease-out;
 
     &.ng-enter {
-      max-height: 0px;
+      //max-height: 0px;
       opacity: 0;
     }
     &.ng-enter.ng-enter-active {
-      max-height: 900px;
+      //max-height: 900px;
       opacity: 1;
     }
     &.ng-leave {
-      max-height: 900px;
+      //max-height: 900px;
       opacity: 1;
     }
     &.ng-leave.ng-leave-active {
-      max-height: 0px;
+      //max-height: 0px;
+      opacity: 0;
+    }
+  }
+
+  activity-route, activity-metrics-char, measure-split-table {
+
+    //transition: all 0.3s ease-in-out 0.3s;
+
+    &.ng-enter {
+      //max-height: 0px;
+      opacity: 0;
+    }
+    &.ng-enter.ng-enter-active {
+      //max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave {
+      //max-height: 900px;
+      opacity: 1;
+    }
+    &.ng-leave.ng-leave-active {
+      //max-height: 0px;
       opacity: 0;
     }
   }

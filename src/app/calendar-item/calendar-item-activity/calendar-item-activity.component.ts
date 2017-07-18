@@ -128,18 +128,19 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.ActivityService.getIntervals(this.activity.activityHeader.activityId)
                 .then(response => {
                     this.activity.completeIntervals(response);
-                    this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
-                        (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
+                    //this.detailsSelectChangeCount ++;
                 }, error => this.message.toastError('errorCompleteIntervals'));
 
             this.ActivityService.getDetails2(this.data.activityHeader.activityId)
                 .then(response => {
                     this.activity.completeDetails(this.details = response);
+                    //this.detailsSelectChangeCount ++;
                     this.isLoadingDetails = false;
                 }, error => this.message.toastError('errorCompleteDetails'));
         }
 
-
+        this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
+            (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
         this.types = activityTypes; // Список видов спорта
         this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
         this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;

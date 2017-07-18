@@ -1,7 +1,7 @@
 
 
     <header flex="none" class="map" layout="row" layout-align="start center"
-            ng-if="$ctrl.item.activity.isRouteExist && !$ctrl.fullScreenTable">
+            ng-if="!$ctrl.fullScreenTable">
         <md-icon class="material-icon">directions</md-icon>
         <p class="md-body-2" translate>Карта</p>
         <span flex></span>
@@ -12,12 +12,20 @@
         </md-button>
     </header>
 
-    <activity-route flex="none" ng-if="$ctrl.showMap && $ctrl.item.activity.isRouteExist && !$ctrl.fullScreenTable"
-                    class="map activity-route"
-                    data="$ctrl.item.activity.route"
-                    select="$ctrl.item.selectionTimestamp"
-                    zoom-enabled="true" layer-enabled="true">
-    </activity-route>
+    <section flex="none" class="map" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable"
+             ng-switch="$ctrl.item.activity.isRouteExist">
+        <div flex="none" class="loading-map" ng-switch-when="false"
+             layout="column" layout-align="center center">
+            <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+            <p flex="none" class="md-caption md-dark center">loading...</p>
+        </div>
+        <activity-route flex="none" ng-switch-when="true"
+                        class="map activity-route"
+                        data="$ctrl.item.activity.route"
+                        select="$ctrl.item.selectionTimestamp"
+                        zoom-enabled="true" layer-enabled="true">
+        </activity-route>
+    </section>
 
     <md-divider flex="none" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable"></md-divider>
 
@@ -58,27 +66,39 @@
         </div>
     </header>
 
-    <activity-metrics-char flex="none" ng-if="$ctrl.showChart && $ctrl.completeDetails && !$ctrl.item.activity.structured && !$ctrl.fullScreenTable"
-                           measures="$ctrl.chartData.measures"
-                           data="$ctrl.chartData.data"
-                           x="$ctrl.chartX"
-                           change="$ctrl.change"
-                           change-measure="$ctrl.changeMeasure"
-                           sport="$ctrl.item.activity.sportBasic"
-                           select="$ctrl.item.selectionTimestamp"
-                           auto-zoom="$ctrl.autoZoom"
-                           zoom-in-click="$ctrl.zoomIn"
-                           zoom-out-click="$ctrl.zoomOut"
-                           on-selected="$ctrl.onSelectionRange(select)">График...
-    </activity-metrics-char>
-    <activity-segment-chart flex="none" ng-if="$ctrl.showChart && $ctrl.completeDetails && $ctrl.item.activity.structured && !$ctrl.fullScreenTable"
-                            activity-header="$ctrl.item.activity.intervalP"
-                            selected=""
-                            actual-ftp="true"
-                            plan-ftp="true"
-                            duration-measure="movingDuration"
-                            on-select="$ctrl.onChartSelect(segmentId)">
-    </activity-segment-chart>
+    <section flex="none" class="chart" ng-if="$ctrl.showChart && !$ctrl.fullScreenTable"
+             ng-switch="$ctrl.completeDetails" layout="column">
+        <div flex="none" class="loading-chart" ng-switch-when="false"
+             layout="column" layout-align="center center">
+            <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+            <p flex="none" class="md-caption md-dark center">loading...</p>
+        </div>
+        <activity-metrics-char flex="auto" ng-switch-when="true"
+                               ng-if="!$ctrl.item.activity.structured"
+                               measures="$ctrl.chartData.measures"
+                               data="$ctrl.chartData.data"
+                               x="$ctrl.chartX"
+                               change="$ctrl.change"
+                               change-measure="$ctrl.changeMeasure"
+                               sport="$ctrl.item.activity.sportBasic"
+                               select="$ctrl.item.selectionTimestamp"
+                               auto-zoom="$ctrl.autoZoom"
+                               zoom-in-click="$ctrl.zoomIn"
+                               zoom-out-click="$ctrl.zoomOut"
+                               on-selected="$ctrl.onSelectionRange(select)">График...
+        </activity-metrics-char>
+        <activity-segment-chart flex="auto" ng-switch-when="true"
+                                ng-if="$ctrl.item.activity.structured"
+                                activity-header="$ctrl.item.activity.intervalP"
+                                selected=""
+                                actual-ftp="true"
+                                plan-ftp="true"
+                                duration-measure="movingDuration"
+                                on-select="$ctrl.onChartSelect(segmentId)">
+        </activity-segment-chart>
+    </section>
+
+
 
     <md-divider flex="none" ng-if="$ctrl.showChart && !$ctrl.fullScreenTable"></md-divider>
 
@@ -92,13 +112,22 @@
         </md-button>
     </header>
 
-    <measure-split-table flex ng-if="$ctrl.showTable && $ctrl.item.activity.hasImportedData"
-                         class="chart measure-split-table"
-                         splits="$ctrl.item.activity.intervalL"
-                         max="$ctrl.chartData.maxValue"
-                         selected="$ctrl.item.selectedTimestamp"
-                         sport="$ctrl.item.activity.sportBasic"
-                         zones="$ctrl.item.user.trainingZones"
-                         on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">Data table...
-    </measure-split-table>
+    <section flex class="splits" ng-if="$ctrl.showTable"
+             ng-switch="$ctrl.item.activity.hasImportedData" layout="column">
+        <div flex class="loading-table" ng-switch-when="false"
+             layout="column" layout-align="center center">
+            <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+            <p flex="none" class="md-caption md-dark center">loading...</p>
+        </div>
+        <measure-split-table ng-switch-when="true"
+                             class="chart measure-split-table"
+                             splits="$ctrl.item.activity.intervalL"
+                             max="$ctrl.chartData.maxValue"
+                             selected="$ctrl.item.selectedTimestamp"
+                             sport="$ctrl.item.activity.sportBasic"
+                             zones="$ctrl.item.user.trainingZones"
+                             on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">Data table...
+        </measure-split-table>
+    </section>
+
 <!--</section>-->
