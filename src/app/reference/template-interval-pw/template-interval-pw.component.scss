@@ -5,3 +5,23 @@ md-input-container
 div.md-errors-spacer {
 	min-height: 0px !important;
 }
+
+.template-interval 
+table.md-table 
+td.md-cell:first-child, {
+	padding-left: 0px !important;
+	padding-right: 20px !important;
+}
+
+.template-interval 
+table.md-table 
+th.md-column {
+	font-weight: normal;
+}
+
+.template-interval 
+md-input-container 
+.md-input[disabled] {
+	color: black !important;
+	border: none !important;
+}

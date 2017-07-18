@@ -28,6 +28,10 @@ class TemplateCtrl implements IComponentController {
 		let { activityTypeId} = this.template.activityCategory;
 		return activityTypes.find((activityType) => activityType.id === activityTypeId);
 	}
+
+	get description () {
+		return maybe(this.template.content) (prop(0)) (prop('trainerPrescription')) () || this.template.description;
+	}
 }
 
 

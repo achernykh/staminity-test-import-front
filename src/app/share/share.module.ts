@@ -88,7 +88,7 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     return url;
 };
 
-const truncate = () => (s, max = 140) => s.length <= max? s : s.slice(0, max - 1) + '…';
+const truncate = () => (s, max = 140) => s && (s.length <= max? s : s.slice(0, max - 1) + '…');
 
 const userpic = {
     bindings: {

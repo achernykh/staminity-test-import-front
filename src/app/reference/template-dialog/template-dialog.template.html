@@ -1,4 +1,4 @@
-<md-dialog style="height: 95vh; max-width: 380px; min-width: 360px;">
+<md-dialog style="height: 95vh; max-width: 380px; min-width: 360px;" class="template-dialog">
 	<form name="$ctrl.form" ng-submit="$ctrl.submit[$ctrl.mode] ()" style="height: 100%">
 		<md-dialog-content flex layout="column">
 			<md-toolbar flex="none">
@@ -19,7 +19,7 @@
 					<h2>{{ 'reference.templates.singular' | translate }}</h2>
 					<span flex></span>
 					<userpic class="border-light" profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true"></userpic>
-					<md-button class="md-icon-button" hide-gt-sm ng-click="$ctrl.close()">
+					<md-button class="md-icon-button" ng-click="$ctrl.close()">
 						<md-tooltip md-direction="left">{{ 'measurement.toolbar.close' | translate }}</md-tooltip>
 						<md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
 					</md-button>
@@ -75,22 +75,11 @@
 									</md-input-container>
 								</md-list-item>
 								<md-list-item>
-									<md-input-container class="md-block">
+									<md-input-container class="md-block no-message" md-no-float>
 										<md-icon class="material-icons">mode_edit</md-icon>
 										<input 
 											placeholder="{{ 'reference.templates.name' | translate }}" 
 											ng-model="$ctrl.activityTemplate.code"
-											ng-disabled="$ctrl.mode === 'view'"
-											required
-										/>
-									</md-input-container>
-								</md-list-item>
-								<md-list-item>
-									<md-input-container class="md-block">
-										<md-icon class="material-icons"></md-icon>
-										<input 
-											placeholder="{{ 'reference.templates.description' | translate }}" 
-											ng-model="$ctrl.activityTemplate.description"
 											ng-disabled="$ctrl.mode === 'view'"
 											required
 										/>
@@ -105,17 +94,37 @@
 										></md-switch>
 									</md-input-container>
 								</md-list-item>
-							</md-list>
 
-							<div ng-repeat="interval in $ctrl.activityTemplate.content">
-								<template-interval-pw 
-									ng-if="interval.type === 'pW'" 
-									interval="interval" 
-									activity-type="$ctrl.activityType"
-									user="$ctrl.user"
-									mode="$ctrl.mode"
-								></template-interval-pw>
-							</div>
+								<div ng-repeat="interval in $ctrl.activityTemplate.content">
+									<template-interval-pw 
+										ng-if="interval.type === 'pW'" 
+										interval="interval" 
+										activity-type="$ctrl.activityType"
+										user="$ctrl.user"
+										mode="$ctrl.mode"
+									></template-interval-pw>
+								</div>
+
+								<div class="md-caption error-block bg-grey-100" ng-messages="$ctrl.form.$error" ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
+									<div ng-message="required">{{ 'activity.error.required' | translate }}</div>
+									<div ng-message="needDuration">{{ 'activity.error.needDuration' | translate }}</div>
+									<div ng-message="singleDuration">{{ 'activity.error.singleDuration' | translate }}</div>
+									<div ng-message="singleIntensity">{{ 'activity.error.singleIntensity' | translate }}</div>
+								</div>
+
+								<md-list-item class="md-dense slim-input bg-grey-100">
+									<md-input-container flex class="md-block no-message">
+										<md-icon class="material-icons">event_note</md-icon>
+										<label class="icon">{{ 'reference.templates.trainerPrescription' | translate }}</label>
+										<textarea 
+											ng-model="$ctrl.interval.trainerPrescription"
+											class="icon" name="trainerPrescription" rows="1"
+											ng-model="$ctrl.activityTemplate.description"
+											ng-disabled="$ctrl.mode === 'view'"
+										></textarea>
+									</md-input-container>
+								</md-list-item>
+							</md-list>
 
 							<div flex="auto" class="bg-grey-100"></div>
 

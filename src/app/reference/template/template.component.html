@@ -1,6 +1,8 @@
 <header flex="none" layout="column" class="template-header">
 	<div flex="none" layout="row" layout-align="space-between center" layout-align-gt-sm="space-between start">
-		<md-icon class="material-icons" style="width: 40px; text-align: center;">star</md-icon>
+		<div style="width: 40px; padding: 8px;">
+			<md-icon ng-if="$ctrl.template.favourite" class="material-icons">star</md-icon>
+		</div>
 		<div flex></div>
 		<div >
 			<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="template-header__icon-circled"></md-icon>
@@ -35,7 +37,7 @@
 		</div>
 	</div>
 	
-	<div class="template-header__activity">{{ $ctrl.template.activityCategory.code }}</div>
+	<div class="template-header__activity">{{ $ctrl.template.activityCategory | cathegoryCode }}</div>
 
 	<div class="template-header__code">
 		{{ $ctrl.template.code }}
@@ -43,5 +45,5 @@
 </header>
 
 <footer flex="none" class="template-footer line-12"
->{{ $ctrl.template.description }}</footer>
+>{{ $ctrl.description | truncate }}</footer>
 

@@ -137,28 +137,36 @@ export default class ReferenceService {
 			"power": {
 				"order": 230,
 				"sourceMeasure":"power",
-				"durationValue":0
+				"intensityByFtpTo":null,
+				"intensityLevelTo":null,
+				"intensityByFtpFrom":null,
+				"intensityLevelFrom":null
 			},
 			"speed": {
 				"order": 220,
 				"sourceMeasure":"speed",
-				"intensityByFtpTo":0,
-				"intensityLevelTo":0,
-				"intensityByFtpFrom":0,
-				"intensityLevelFrom":0
+				"intensityByFtpTo":null,
+				"intensityLevelTo":null,
+				"intensityByFtpFrom":null,
+				"intensityLevelFrom":null
 			},
 			"distance": {
 				"order":120,
-				"durationValue":0,
-				"sourceMeasure":"distance"
+				"sourceMeasure":"distance",
+				"durationValue":null
 			},
 			"heartRate": {
 				"order":210,
 				"sourceMeasure":"heartRate",
-				"intensityByFtpTo":0,
-				"intensityLevelTo":0,
-				"intensityByFtpFrom":0,
-				"intensityLevelFrom":0
+				"intensityByFtpTo":null,
+				"intensityLevelTo":null,
+				"intensityByFtpFrom":null,
+				"intensityLevelFrom":null
+			},
+			"movingDuration":{
+				"order":110,
+				"sourceMeasure":"movingDuration",
+				"durationValue":null
 			},
 			"calcMeasures":{
 				"vam":{"code":"vam"},
@@ -190,18 +198,14 @@ export default class ReferenceService {
 				"speedDistancePeaks":{"code":"speedDistancePeaks"},
 				"heartRateDistancePeaks":{"code":"heartRateDistancePeaks"}
 			},
-			"durationValue":10000,
-			"movingDuration":{
-				"order":110,
-				"sourceMeasure":"movingDuration"
-			},
+			"durationValue":null,
 			"durationMeasure":"distance",
-			"intensityByFtpTo":0.8055555555555556,
-			"intensityLevelTo":145,
+			"intensityByFtpTo":null,
+			"intensityLevelTo":null,
 			"intensityMeasure":"heartRate",
-			"intensityByFtpFrom":0.75,
-			"intensityLevelFrom":135,
-			"trainersPrescription":"Спокойно"
+			"intensityByFtpFrom":null,
+			"intensityLevelFrom":null,
+			"trainersPrescription":""
 		};
 	}
 }
