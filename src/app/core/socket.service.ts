@@ -84,18 +84,18 @@ export class SocketService implements ISocketService {
         this.connections.subscribe(status => this.connectionStatus = !!status);
         this.messages = new Subject();
 
-        setInterval(()=>{
-            $http.get(`/favicon.ico?_=${new Date().getTime()}`)
-                .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
-                    this.internetStatus = true;
-                    if(!this.connectionStatus) {
-                        this.open().then(() => this.connections.next(true), () => this.connections.next(false));
-                    }
-                }, () => {
-                    this.internetStatus = false;
-                    this.connections.next(false);
-                }); // подключение отсутствует
-        }, 5000);
+        // setInterval(()=>{
+        //     $http.get(`/favicon.ico?_=${new Date().getTime()}`)
+        //         .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
+        //             this.internetStatus = true;
+        //             if(!this.connectionStatus) {
+        //                 this.open().then(() => this.connections.next(true), () => this.connections.next(false));
+        //             }
+        //         }, () => {
+        //             this.internetStatus = false;
+        //             this.connections.next(false);
+        //         }); // подключение отсутствует
+        // }, 5000);
     }
 
     /**
