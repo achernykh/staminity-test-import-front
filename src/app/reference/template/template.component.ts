@@ -8,20 +8,22 @@ import './template.component.scss';
 
 class TemplateCtrl implements IComponentController {
 
-	static $inject = ['$scope','$mdDialog', 'message', 'ReferenceService'];
+	static $inject = ['$scope','$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
 
 	private template: IActivityTemplate;
+	private isScreenSmall: boolean;
 	private onDelete: () => any;
 	private onSelect: () => any;
 	private onCopy: () => any;
 
 	constructor (
 		private $scope, 
-		private $mdDialog, 
+		private $mdDialog,
+		private $mdMedia, 
 		private message,
 		private ReferenceService
 	) {
-
+		this.isScreenSmall = !$mdMedia('gt-sm');
 	}
 
 	get activityType () {

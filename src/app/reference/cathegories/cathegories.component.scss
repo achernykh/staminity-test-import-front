@@ -1,12 +1,21 @@
 .cathegory {
-	margin: 0 !important;
-	padding: 8px 0 !important;
+	margin: 0;
+	padding: 8px 0;
 	white-space: normal !important;
 	text-align: left !important;
 	text-transform: none !important;
 
+	@media (max-width: 959px) {
+		padding: 15px 0;
+		border-bottom: solid 0.5px rgba(0, 0, 0, 0.14);
+	}
+
 	&-disabled {
 		opacity: 0.54;
+
+		@media (max-width: 959px) {
+			border-bottom: solid 0.5px rgba(0, 0, 0, 0.28);
+		}
 	}
 
 	&__label-code {
@@ -58,17 +67,55 @@
 	width: 600px; 
 	overflow-y: auto;
 
+	@media (max-width: 959px) {
+		width: auto; 
+		margin: 0;
+		box-shadow: none;
+		background: #fafafa;
+		border-radius: 0;
+		border-left: 0;
+		border-right: 0;
+		border-top: solid 0.5px rgba(0, 0, 0, 0.14);
+	}
+
 	&__list {
 		padding-bottom: 8px;
+
+		@media (max-width: 959px) {
+			padding: 0;
+		}
 	}
 
 	&__section {
 		padding-top: 8px;
+
+		@media (max-width: 959px) {
+			padding: 0;
+		}
 	}
 
 	&__subheader {
 		padding: 8px 16px !important;
 		line-height: 1.71;
 		color: rgba(0, 0, 0, 0.54);
+	}
+
+	&__create {
+		width: 200px; 
+		margin-top: 61px; 
+		text-align: center;
+
+		@media (max-width: 959px) {
+			position: fixed;
+			right: 16px;
+			bottom: 16px;
+			width: auto;
+		}
+	}
+}
+
+cathegories {
+	@media (max-width: 959px) {
+		background-color: #fafafa;
 	}
 }

@@ -1,10 +1,10 @@
-<application-frame class="reference" layout="row" style="position: absolute; top: 60px; bottom: 0; left: 0; right: 0; z-index: 10;">
+<application-frame class="reference" layout-gt-sm="row" layout="column">
 
-	<div style="min-width: 300px; margin-top: 52px">
+	<div class="reference__filters">
 		<md-tabs md-selected="$ctrl.tab" class="md-primary md-hue-3 md-body-1" md-dynamic-height="true">
 			<md-tab label="{{ 'reference.templates.title' | translate }}">
-				<md-content class="md-padding" style="background: none">
-					<md-input-container class="md-block no-message" md-no-float layout="row">
+				<md-content class="md-padding reference__filters-content">
+					<md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">
 						<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.templatesFilters.activityType.code || 'run' }}.svg"></md-icon>
 						<md-select 
 							placeholder="{{ 'reference.sport' | translate }}"
@@ -18,7 +18,7 @@
 							>{{ 'sport.' + activityType.code | translate }}</md-option>
 						</md-select>
 					</md-input-container>
-					<md-input-container class="md-block no-message" md-no-float layout="row">
+					<md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">
 						<md-icon class="material-icons" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
 						<md-select 
 							ng-model="$ctrl.templatesFilters.cathegory" 
@@ -38,8 +38,8 @@
 				</md-content>
 			</md-tab>
 			<md-tab label="{{ 'reference.cathegories.title' | translate }}">
-				<md-content class="md-padding" style="background: none">
-					<md-input-container class="md-block no-message" md-no-float layout="row">
+				<md-content class="md-padding reference__filters-content">
+					<md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">
 						<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.cathegoriesFilters.activityType.code || 'run' }}.svg"></md-icon>
 						<md-select 
 							placeholder="{{ 'reference.sport' | translate }}"
@@ -67,7 +67,7 @@
 		on-template-change="$ctrl.onTemplateChange" 
 		on-template-delete="$ctrl.onTemplateDelete" 
 		user="$ctrl.user"
-		flex layout="row"
+		flex layout-gt-sm="row"
 	></templates>
 
 	<cathegories 
@@ -79,7 +79,7 @@
 		on-cathegory-change="$ctrl.onCathegoryChange" 
 		on-cathegory-delete="$ctrl.onCathegoryDelete" 
 		user="$ctrl.user"
-		flex layout="row"
+		flex layout-gt-sm="row"
 	></cathegories>
 
 </application-frame>

@@ -1,49 +1,72 @@
-<header flex="none" layout="column" class="template-header">
-	<div flex="none" layout="row" layout-align="space-between center" layout-align-gt-sm="space-between start">
-		<div style="width: 40px; padding: 8px;">
-			<md-icon ng-if="$ctrl.template.favourite" class="material-icons">star</md-icon>
+<div 
+	ng-if="!$ctrl.isScreenSmall" 
+	class="activity-template template-card md-whiteframe-1dp" layout="column"
+>
+
+	<div flex="none" layout="column" class="template-header">
+		<div flex="none" layout="row" layout-align="space-between center">
+			<div style="width: 40px; padding: 8px;">
+				<md-icon ng-if="$ctrl.template.favourite" class="material-icons">star</md-icon>
+			</div>
+			<div flex></div>
+			<div >
+				<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="activity-template__icon-circled"></md-icon>
+			</div>
+			<div flex></div>
+			<div>
+				<md-menu flex="none" flex-gt-sm="25">
+					<md-button class="md-icon-button" style="margin: 0" ng-click="$mdOpenMenu($event)">
+						<md-icon class="material-icons md-18">more_vert</md-icon>
+					</md-button>
+					<md-menu-content>
+						<md-menu-item>
+							<md-button ng-click="$ctrl.onSelect()">
+								<md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+								Открыть
+							</md-button>
+						</md-menu-item>
+						<md-menu-item>
+							<md-button ng-click="$ctrl.onCopy()">
+								<md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+								Скопировать
+							</md-button>
+						</md-menu-item>
+						<md-menu-item>
+							<md-button ng-click="$ctrl.onDelete()">
+								<md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+								Удалить
+							</md-button>
+						</md-menu-item>
+					</md-menu-content>
+				</md-menu>
+			</div>
 		</div>
-		<div flex></div>
-		<div >
-			<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="template-header__icon-circled"></md-icon>
-		</div>
-		<div flex></div>
-		<div>
-			<md-menu flex="none" flex-gt-sm="25">
-				<md-button class="md-icon-button" style="margin: 0" ng-click="$mdOpenMenu($event)">
-					<md-icon class="material-icons md-18">more_vert</md-icon>
-				</md-button>
-				<md-menu-content>
-					<md-menu-item>
-						<md-button ng-click="$ctrl.onSelect()">
-							<md-icon class="material-icons" md-menu-align-target>edit</md-icon>
-							Открыть
-						</md-button>
-					</md-menu-item>
-					<md-menu-item>
-						<md-button ng-click="$ctrl.onCopy()">
-							<md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
-							Скопировать
-						</md-button>
-					</md-menu-item>
-					<md-menu-item>
-						<md-button ng-click="$ctrl.onDelete()">
-							<md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-							Удалить
-						</md-button>
-					</md-menu-item>
-				</md-menu-content>
-			</md-menu>
+		
+		<div class="template-header__activity">{{ $ctrl.template.activityCategory | cathegoryCode }}</div>
+
+		<div class="template-header__code">
+			{{ $ctrl.template.code }}
 		</div>
 	</div>
-	
-	<div class="template-header__activity">{{ $ctrl.template.activityCategory | cathegoryCode }}</div>
 
-	<div class="template-header__code">
-		{{ $ctrl.template.code }}
+	<div flex="none" class="template-footer line-12"
+	>{{ $ctrl.description | truncate }}</div>
+
+</div>
+<div 
+	ng-if="$ctrl.isScreenSmall"
+	class="activity-template template-list-item" layout="row" layout-align="start start"
+>
+
+	<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="activity-template__icon-circled" style="margin: 0 15px 0 0;"></md-icon>
+
+	<div flex>
+		<div class="activity-template__code">{{ $ctrl.template.code }}</div>
+		<div class="activity-template__activity">{{ $ctrl.template.activityCategory | cathegoryCode }}</div>
+		<div class="activity-template__description">{{ $ctrl.description | truncate }}</div>
 	</div>
-</header>
 
-<footer flex="none" class="template-footer line-12"
->{{ $ctrl.description | truncate }}</footer>
+	<md-icon ng-if="$ctrl.template.favourite" class="material-icons" style="margin: 0 0 0 15px;">star</md-icon>
+
+</div>
 

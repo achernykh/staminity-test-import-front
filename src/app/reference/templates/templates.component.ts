@@ -17,7 +17,7 @@ const filterTemplates = (filters) => (template) => (
 
 class TemplatesCtrl implements IComponentController {
 
-	static $inject = ['$scope', '$mdDialog', 'message', 'ReferenceService'];
+	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
 
 	private user : any;
 	private cathegories : any;
@@ -31,6 +31,7 @@ class TemplatesCtrl implements IComponentController {
 	constructor (
 		private $scope, 
 		private $mdDialog, 
+		private $mdMedia, 
 		private message,
 		private ReferenceService
 	) {
@@ -123,7 +124,8 @@ class TemplatesCtrl implements IComponentController {
 			template: require('../template-dialog/template-dialog.template.html') as string,
 			parent: angular.element(document.body),
 			locals: locals,
-			clickOutsideToClose: true
+			clickOutsideToClose: true,
+			fullscreen: !this.$mdMedia('gt-sm')
 		});
 	}
 }

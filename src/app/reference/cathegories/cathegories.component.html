@@ -2,7 +2,10 @@
 
 <md-card class="cathegories" layout="column">
 	<section ng-if="$ctrl.cathegoriesByOwner.user.length" class="cathegories__section">
-		<div class="md-body-2 md-padding cathegories__subheader">{{ 'reference.cathegories.user' | translate }}</div>
+		<div 
+			class="md-body-2 md-padding cathegories__subheader"
+			hide-xs hide-sm
+		>{{ 'reference.cathegories.user' | translate }}</div>
 		<div
 			dnd-list
 			dnd-allowed-types="['user-cathegory']"
@@ -29,14 +32,18 @@
 					ng-model-options="{ getterSetter: true }"
 					ng-click="$event.stopPropagation()"
 					class="md-primary cathegory__switch"
+					hide-xs hide-sm
 				/>
 			</div>
 		</div>
-		<md-divider></md-divider>
+		<md-divider hide-xs hide-sm></md-divider>
 	</section>
 
 	<section ng-if="$ctrl.cathegoriesByOwner.coach.length" class="cathegories__section">
-		<div class="md-body-2 md-padding cathegories__subheader">{{ 'reference.cathegories.coach' | translate }}</div>
+		<div 
+			class="md-body-2 md-padding cathegories__subheader"
+			hide-xs hide-sm
+		>{{ 'reference.cathegories.coach' | translate }}</div>
 		<div
 			dnd-list
 			dnd-allowed-types="['coach-cathegory']"
@@ -64,14 +71,18 @@
 					ng-model-options="{ getterSetter: true }"
 					ng-click="$event.stopPropagation()"
 					class="md-primary cathegory__switch"
+					hide-xs hide-sm
 				/>
 			</div>
 		</div>
-		<md-divider></md-divider>
+		<md-divider hide-xs hide-sm></md-divider>
 	</section>
 
 	<section ng-if="$ctrl.cathegoriesByOwner.club.length" class="cathegories__section">
-		<div class="md-body-2 md-padding cathegories__subheader">{{ 'reference.cathegories.club' | translate }}</div>
+		<div 
+			class="md-body-2 md-padding cathegories__subheader"
+			hide-xs hide-sm
+		>{{ 'reference.cathegories.club' | translate }}</div>
 		<div
 			dnd-list
 			dnd-allowed-types="['club-cathegory']"
@@ -99,14 +110,18 @@
 					ng-model-options="{ getterSetter: true }"
 					ng-click="$event.stopPropagation()"
 					class="md-primary cathegory__switch"
+					hide-xs hide-sm
 				/>
 			</div>
 		</div>
-		<md-divider></md-divider>
+		<md-divider hide-xs hide-sm></md-divider>
 	</section>
 
 	<section ng-if="$ctrl.cathegoriesByOwner.system.length" class="cathegories__section">
-		<div class="md-body-2 md-padding cathegories__subheader">{{ 'reference.cathegories.system' | translate }}</div>
+		<div 
+			class="md-body-2 md-padding cathegories__subheader"
+			hide-xs hide-sm
+		>{{ 'reference.cathegories.system' | translate }}</div>
 		<div
 			dnd-list
 			dnd-allowed-types="['system-cathegory']"
@@ -133,13 +148,14 @@
 					ng-model-options="{ getterSetter: true }"
 					ng-click="$event.stopPropagation()"
 					class="md-primary cathegory__switch"
+					hide-xs hide-sm
 				/>
 			</div>
 		</div>
 	</section>
 </md-card>
 
-<div style="width: 200px; margin-top: 61px; text-align: center">
+<div class="cathegories__create">
 	<md-button ng-click="$ctrl.createCathegory()" class="md-fab md-accent md-hue-2">
 		<md-icon class="material-icons">add</md-icon>
 	</md-button>

@@ -1,6 +1,9 @@
-<md-card flex style="overflow-y: auto;" class="templates">
+<md-card flex class="templates">
 	<section ng-if="$ctrl.templatesByOwner.user.length" class="templates__section">
-		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.user' | translate }}</div>
+		<div 
+			class="md-body-2 md-padding templates__subheader"
+			hide-xs hide-sm
+		>{{ 'reference.templates.user' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['user-template']"
@@ -21,13 +24,15 @@
 					on-copy="$ctrl.copyTemplate(template)"
 					on-select="$ctrl.editTemplate(template)"
 					on-delete="$ctrl.deleteTemplate(template)"
-					class="activity-template md-whiteframe-1dp" layout="column"
 				></activity-template>
 			</div>
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.coach.length" class="templates__section">
-		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.coach' | translate }}</div>
+		<div 
+			class="md-body-2 md-padding templates__subheader"
+			hide-xs hide-sm
+		>{{ 'reference.templates.coach' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['coach-template']"
@@ -54,7 +59,10 @@
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.club.length" class="templates__section">
-		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.club' | translate }}</div>
+		<div 
+			class="md-body-2 md-padding templates__subheader"
+			hide-xs hide-sm
+		>{{ 'reference.templates.club' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['club-template']"
@@ -81,7 +89,10 @@
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.system.length" class="templates__section">
-		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.system' | translate }}</div>
+		<div 
+			class="md-body-2 md-padding templates__subheader"
+			hide-xs hide-sm
+		>{{ 'reference.templates.system' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['system-template']"
@@ -109,7 +120,7 @@
 	</section>
 </md-card>
 
-<div style="width: 100px; margin-top: 61px; text-align: center">
+<div class="templates__create">
 	<md-button ng-click="$ctrl.createTemplate()" class="md-fab md-accent md-hue-2">
 		<md-icon class="material-icons">add</md-icon>
 	</md-button>
