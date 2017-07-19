@@ -1,9 +1,10 @@
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IComponentOptions, IComponentController, IPromise, element } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
 import { TemplateDialogCtrl } from "../template-dialog/template-dialog.controller";
 import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
 import "./templates.component.scss";
+import {getType} from "../../activity/activity.constants";
 
 
 const templatesFilters = {
@@ -14,6 +15,8 @@ const templatesFilters = {
 const filterTemplates = (filters) => (template) => (
 	keys(filters).every((key) => !filters[key] || templatesFilters[key] (filters[key], template))
 );
+
+type DialogMode = 'post' | 'put' | 'view';
 
 class TemplatesCtrl implements IComponentController {
 
@@ -67,11 +70,11 @@ class TemplatesCtrl implements IComponentController {
 		.then(this.onTemplatesChange);
 	}
 
-	createTemplate () {
+	createTemplate ($event: MouseEvent) {
 		this.templateDialog({
 			activityCategory: this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === this.filters.activityType.id),
 			content: [this.ReferenceService.createInterval('pW')]
-		}, 'create');
+		}, 'post',$event);
 	}
 
 	copyTemplate (template) {
@@ -89,12 +92,12 @@ class TemplatesCtrl implements IComponentController {
 		});
 	}
 
-	viewTemplate (template) {
+	viewTemplate (template, $event: MouseEvent) {
 		return this.templateDialog(template, 'view');
 	}
 
-	editTemplate (template) {
-		return this.templateDialog(template, 'edit');
+	editTemplate (template, $event: MouseEvent) {
+		return this.templateDialog(template, 'put');
 	}
 
 	deleteTemplate (template) {
@@ -107,7 +110,41 @@ class TemplatesCtrl implements IComponentController {
 		.then(() => this.onTemplateDelete(id));
 	}
 
-	templateDialog (template, mode) {
+	templateDialog (template, mode: DialogMode, event?: MouseEvent) {
+		debugger;
+		this.$mdDialog.show({
+			controller: DialogCtrl,
+			controllerAs: '$ctrl',
+			template:
+				`<md-dialog id="post-activity" aria-label="Activity">
+                        <calendar-item-activity
+                                layout="row" class="calendar-item-activity"
+                                date="$ctrl.date"
+                                activity-type="$ctrl.activityType"
+                                activity-category="$ctrl.activityCategory"
+                                mode="$ctrl.mode"
+                                user="$ctrl.user"
+                                popup="true"
+                                template="true"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-activity>
+                   </md-dialog>`,
+			parent: element(document.body),
+			targetEvent: event,
+			locals: {
+				mode: mode,
+				date: new Date(),//this.date, // дата дня в формате ГГГГ-ММ-ДД
+				user: this.user,
+				activityType: getType(template.activityCategory.activityTypeId),//null,//activityType,
+				activityCategory: template.activityCategory //null,//activityCategory,
+			},
+			bindToController: true,
+			clickOutsideToClose: false,
+			escapeToClose: false,
+			fullscreen: true
+		}).then(()=>{});
+
+		/**
 		let locals = {
 			mode,
 			activityTemplate: { ...template },
@@ -126,7 +163,7 @@ class TemplatesCtrl implements IComponentController {
 			locals: locals,
 			clickOutsideToClose: true,
 			fullscreen: !this.$mdMedia('gt-sm')
-		});
+		});**/
 	}
 }
 
@@ -147,3 +184,14 @@ const TemplatesComponent: IComponentOptions = {
 
 
 export default TemplatesComponent;
+
+class DialogCtrl implements IComponentController {
+
+	static $inject = ['$scope','$mdDialog'];
+
+	constructor(private $scope, private $mdDialog){
+		$scope.hide = () => $mdDialog.hide();
+		$scope.cancel = () => $mdDialog.cancel();
+		$scope.answer = (answer) => $mdDialog.hide(answer);
+	}
+}

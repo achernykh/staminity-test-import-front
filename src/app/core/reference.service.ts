@@ -1,6 +1,6 @@
 import { ISocketService } from './socket.service';
 import { ISessionService } from './session.service';
-import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
+import {IActivityCategory, IActivityTemplate, IActivityTemplatePost} from "../../../api/reference/reference.interface";
 import { 
 	GetActivityCategory, PostActivityCategory, PutActivityCategory, DeleteActivityCategory,
 	GetActivityTemplate, PostActivityTemplate, PutActivityTemplate, DeleteActivityTemplate
@@ -72,18 +72,8 @@ export default class ReferenceService {
 		.then((response) => response.arrayResult);
 	}
 
-	postActivityTemplate (
-		id: number,
-		activityCategoryId: number,
-		groupId: number,
-		code: string,
-		description: string,
-		favourite: boolean,
-		content: boolean
-	) : Promise<[IActivityCategory]> {
-		return this.SocketService.send(new PostActivityTemplate(
-			id, activityCategoryId, groupId, code, description, favourite, content
-		));
+	postActivityTemplate (template: IActivityTemplatePost) : Promise<[IActivityCategory]> {
+		return this.SocketService.send(new PostActivityTemplate(template));
 	}
 
 	putActivityTemplate (

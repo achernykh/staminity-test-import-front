@@ -3,6 +3,7 @@ import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/
 
 import { measuresByCode, activityTypes } from '../reference.constants';
 import './template-dialog.scss';
+import ReferenceService from "../../core/reference.service";
 
 
 export class TemplateDialogCtrl implements IComponentController {
@@ -23,7 +24,7 @@ export class TemplateDialogCtrl implements IComponentController {
 		private $mdDialog, 
 		private $translate,
 		private message,
-		private ReferenceService,
+		private ReferenceService: ReferenceService,
 		private activityTemplate,
 		private cathegories,
 		private user,
@@ -58,7 +59,7 @@ export class TemplateDialogCtrl implements IComponentController {
 		let activityCategoryId = activityCategory && activityCategory.id;
 		let groupId = groupProfile && groupProfile.id;
 
-		return this.ReferenceService.postActivityTemplate(
+		/**return this.ReferenceService.postActivityTemplate(
 			id, activityCategoryId, groupId, code, description, favourite, content
 		)
 		.then((info) => this.$mdDialog.hide())
@@ -66,7 +67,7 @@ export class TemplateDialogCtrl implements IComponentController {
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;
-		});
+		});**/
 	}
 
 	update () {
