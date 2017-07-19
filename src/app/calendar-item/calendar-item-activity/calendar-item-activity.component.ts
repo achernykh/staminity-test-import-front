@@ -9,13 +9,17 @@ import {
     IActivityHeader, IActivityDetails, IActivityIntervalPW,
     IActivityMeasure, ICalcMeasures, IActivityType, IActivityIntervalW
 } from "../../../../api/activity/activity.interface";
-import {IActivityCategory} from '../../../../api/reference/reference.interface';
+import {
+    IActivityCategory, IActivityTemplate,
+    IActivityTemplatePost
+} from '../../../../api/reference/reference.interface';
 import SessionService from "../../core/session.service";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
 import {Activity} from "../../activity/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
 import {IAuthService} from "../../auth/auth.service";
+import ReferenceService from "../../core/reference.service";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -44,12 +48,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
     date: Date;
     data: any;
     activityType: IActivityType;
+    activityCategory: IActivityCategory;
     details: IActivityDetails;
     mode: string;
     activity: Activity;
     user: IUserProfile;
     tab: string;
     popup: boolean;
+    template: boolean = false; // режим создания, изменения шаблона
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
@@ -84,7 +90,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private types: Array<IActivityType> = [];
 
     static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','AuthService',
-        'message','$mdMedia','dialogs'];
+        'message','$mdMedia','dialogs', 'ReferenceService'];
 
     constructor(
         private $scope: IScope,
@@ -95,7 +101,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private AuthService: IAuthService,
         private message: IMessageService,
         private $mdMedia: any,
-        private dialogs: any) {
+        private dialogs: any,
+        private ReferenceService: ReferenceService) {
 
     }
 
@@ -112,6 +119,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 calendarItemType: 'activity',
                 activityHeader: {
                     activityType: this.activityType || {id: null, code: null, typeBasic: null},
+                    activityCategory: this.activityCategory || null
                 },
                 dateStart: this.date,
                 dateEnd: this.date,
@@ -349,6 +357,36 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => this.message.toastError(error)));
     }
 
+    onSaveTemplate(){
+        debugger;
+        this.activity.build();
+        let template: IActivityTemplatePost = {
+            activityCategoryId: this.activity.header.activityCategory.id,
+            groupId: null,
+            code: this.activity.code,
+            description: null,
+            favourite: this.activity.favorite,
+            content: [...this.activity.header.intervals.filter(i => i.type === 'pW'), ...this.activity.header.intervals.filter(i => i.type === 'P')]
+        };
+
+        //TODO убрать в build для всех
+        template.content.map(interval => {
+            if (interval.hasOwnProperty('calcMeasures')) {
+                delete interval.calcMeasures;
+            }
+            return interval;
+        });
+
+        if (this.mode === 'post') {
+            this.ReferenceService.postActivityTemplate(template)
+                .then( response => {
+                    this.activity.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('activityTemplateCreated');
+                    this.onAnswer({response: {type:'post', item:this.activity.build()}});
+                }, error => this.message.toastError(error));
+        }
+    }
+
 	/**
      * Обновление данных из формы ввода/редактирования activity-assignment
      */
@@ -383,11 +421,13 @@ const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
         date: '<', // в режиме создания передает дату календаря
         activityType: '<', // если создание идет через wizard, то передаем тип тренировки
+        activityCategory: '<',
         data: '<', // в режиме просмотр/изменение передает данные по тренировке из календаря
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
         popup: '=',
+        template: '=',
         onCancel: '&',
         onAnswer: '&'
     },

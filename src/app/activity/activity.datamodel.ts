@@ -142,6 +142,10 @@ export class Activity extends CalendarItem {
 	public actualDataIsImported: boolean = false;
     private _startDate: Date;
 
+	// Дополнительные поля для использования в шаблонах тренировки
+	public code: string;
+	public favorite: boolean;
+
 	constructor(private item: ICalendarItem, private method: string = 'view'){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
 		this.prepare(method);

@@ -48,7 +48,7 @@
                 </div>
             </md-input-container>
         </md-list-item>
-        <md-list-item layout="row" layout-align="start center">
+        <md-list-item layout="row" layout-align="start center" ng-show="!$ctrl.item.template">
             <md-input-container flex="50" class="no-message" md-no-float>
                 <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
                 <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
@@ -69,6 +69,27 @@
                            ng-disabled="false">
                 </md-input-container>-->
         </md-list-item>
+
+        <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
+            <md-input-container flex="auto" class="md-block no-message" md-no-float>
+                <md-icon flex="none" class="material-icons md-dark" style="left: 0px">import_contacts</md-icon>
+                <input type="text" name="name" minlength="3" maxlength="20" required
+                       ng-model="$ctrl.item.activity.code" autocomplete="off"
+                       placeholder="Укажите название шаблона">
+                <div ng-messages="$ctrl.form.name.$error" role="alert">
+                    <div ng-message="needPermissionForFeature"
+                         translate="calendar.needPermissionForFeature">
+                    </div>
+                </div>
+                </md-input-container>
+            </md-input-container>
+        </md-list-item>
+        <md-list-item layout="row" layout-align="start center">
+            <md-icon flex="none" class="material-icons md-dark" style="margin-right: 20px">star</md-icon>
+            <p class="md-caption" flex="none">Избранный</p>
+            <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.activity.favorite" md-invert>
+            </md-switch>
+        </md-list-item>
     </md-list>
     <md-list class="md-dense slim-input bg-grey-100">
         <!--<md-subheader class="bg-grey-100">Задание</md-subheader>-->
@@ -76,7 +97,7 @@
             <p class="md-caption" style="color: #455A64">Задание</p>
             <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
                style="text-align: right; margin-right: 8px">%ПАНО: {{$ctrl.ftpMode ? 'ВЫКЛ ' : 'ВКЛ'}}</p>
-            <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1"
+            <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.template"
                        ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
             </md-switch>
         </md-list-item>
@@ -96,8 +117,8 @@
                         <th md-column hide><span>Показатель(ед.изм)</span></th>
                         <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
                         <th md-column md-numeric style="min-width: 65px"><span>План</span></th>
-                        <th md-column md-numeric style="min-width: 50px"><span>Факт</span></th>
-                        <th md-column md-numeric style="-min-width: 50px"><span>Вып</span></th>
+                        <th md-column md-numeric ng-if="!$ctrl.item.template" style="min-width: 50px"><span>Факт</span></th>
+                        <th md-column md-numeric ng-if="!$ctrl.item.template" style="-min-width: 50px"><span>Вып</span></th>
                     </tr>
                     </thead>
                     <tbody md-body>
@@ -131,7 +152,7 @@
                                        ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach">
                             </md-input-container>
                         </td>
-                        <td md-cell ng-if="!$ctrl.isFTP()">
+                        <td md-cell ng-if="!$ctrl.isFTP() && !$ctrl.item.template">
                             <md-input-container>
                                 <input ng-model="$ctrl.actual[measure.$key][$ctrl.valueType[measure.$key]]"
                                        name="actual_{{::measure.$key}}" measure-input
@@ -142,7 +163,7 @@
                                        ng-disabled="$ctrl.item.activity.actualDataIsImported">
                             </md-input-container>
                         </td>
-                        <td md-cell ng-if="$ctrl.isFTP()">
+                        <td md-cell ng-if="$ctrl.isFTP() && !$ctrl.item.template">
                             <md-input-container>
                                 <input ng-if="$ctrl.isInterval(measure.$key)" measure-input
                                        ng-model="$ctrl.actual[measure.$key]['intensityByFtp']"
@@ -162,7 +183,7 @@
                                        ng-disabled="$ctrl.item.activity.actualDataIsImported">
                             </md-input-container>
                         </td>
-                        <td md-cell>
+                        <td md-cell ng-if="!$ctrl.item.template">
                             {{$ctrl.percentComplete[measure.$key] | percent}}
                         </td>
                     </tr>

@@ -27,7 +27,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     public actual: ICalcMeasures;
     public sport: string;
     public form: INgModelController;
-    public ftpMode: number = FtpState.Off;
+    public ftpMode: number;
     public FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
     public from: string = 'intensityLevelFrom' || 'intensityByFtpFrom';
     public to: string = 'intensityLevelTo' || 'intensityByFtpTo';
@@ -104,7 +104,8 @@ class ActivityAssignmentCtrl implements IComponentController {
         });
 
         this.prepareValues();
-        console.log('ActivityAssignmentCtrl', this);
+        this.ftpMode = this.item.template ? FtpState.On : FtpState.Off;
+        //console.log('ActivityAssignmentCtrl', this);
     }
 
     link(url) {

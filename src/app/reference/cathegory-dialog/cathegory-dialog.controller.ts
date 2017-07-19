@@ -4,6 +4,7 @@ import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/
 import { cathegoryOwner } from '../reference.datamodel';
 import { activityTypes } from '../reference.constants';
 import './cathegory-dialog.scss';
+import ReferenceService from "../../core/reference.service";
 
 
 export class CathegoryCtrl implements IComponentController {
@@ -24,7 +25,7 @@ export class CathegoryCtrl implements IComponentController {
 		private $mdDialog, 
 		private $translate,
 		private message,
-		private ReferenceService,
+		private ReferenceService: ReferenceService,
 		private mode,
 		private cathegory,
 		private user,
