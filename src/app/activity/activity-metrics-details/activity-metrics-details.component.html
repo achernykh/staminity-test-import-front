@@ -1,7 +1,7 @@
 
 
     <header flex="none" class="map" layout="row" layout-align="start center"
-            ng-if="!$ctrl.fullScreenTable">
+            ng-if="!$ctrl.fullScreenTable && $ctrl.item.activity.isRouteExist">
         <md-icon class="material-icon">directions</md-icon>
         <p class="md-body-2" translate>Карта</p>
         <span flex></span>
@@ -12,12 +12,12 @@
         </md-button>
     </header>
 
-    <section flex="none" class="map" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable"
-             ng-switch="$ctrl.item.activity.isRouteExist">
+    <section flex="none" class="map" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable && $ctrl.item.activity.isRouteExist"
+             ng-switch="$ctrl.item.activity.isRouteExist && $ctrl.item.activity.hasDetails">
         <div flex="none" class="loading-map" ng-switch-when="false"
              layout="column" layout-align="center center">
             <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
-            <p flex="none" class="md-caption md-dark center">loading...</p>
+            <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
         </div>
         <activity-route flex="none" ng-switch-when="true"
                         class="map activity-route"
@@ -71,7 +71,7 @@
         <div flex="none" class="loading-chart" ng-switch-when="false"
              layout="column" layout-align="center center">
             <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
-            <p flex="none" class="md-caption md-dark center">loading...</p>
+            <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
         </div>
         <activity-metrics-char flex="auto" ng-switch-when="true"
                                ng-if="!$ctrl.item.activity.structured"
@@ -117,7 +117,7 @@
         <div flex class="loading-table" ng-switch-when="false"
              layout="column" layout-align="center center">
             <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
-            <p flex="none" class="md-caption md-dark center">loading...</p>
+            <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
         </div>
         <measure-split-table ng-switch-when="true"
                              class="chart measure-split-table"
