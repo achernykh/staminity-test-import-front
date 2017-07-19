@@ -43,6 +43,7 @@ import PageNotFoundComponent from "./404/404.component";
 import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
 import {_translate_PageNotFound} from "./404/404.translate";
 import {translateHeader} from "./header/header.translate";
+import {compareTo} from "./directives/form.directive";
 
 const parseUtc = memorize(date => moment.utc(date));
 const fromNow = () => (date) => moment.utc(date).fromNow(true);
@@ -255,6 +256,7 @@ const Share = module('staminity.share', [])
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
+    .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
     .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
 
         $stateProvider
