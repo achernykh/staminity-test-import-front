@@ -71,18 +71,10 @@ class TemplatesCtrl implements IComponentController {
 		.then(this.onTemplatesChange);
 	}
 
-<<<<<<< HEAD
-	createTemplate () {
+	createTemplate ($event: MouseEvent) {
 		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === this.filters.activityType.id);
 		let template = createTemplate(cathegory);
-		this.templateDialog(template, 'create');
-=======
-	createTemplate ($event: MouseEvent) {
-		this.templateDialog({
-			activityCategory: this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === this.filters.activityType.id),
-			content: [this.ReferenceService.createInterval('pW')]
-		}, 'post',$event);
->>>>>>> templates-cathegories
+		this.templateDialog(template, 'post', $event);
 	}
 
 	copyTemplate (template) {
