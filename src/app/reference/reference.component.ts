@@ -1,5 +1,6 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
+import { IUserProfile } from "../../../api/user/user.interface";
 
 import { activityTypes } from './reference.constants';
 import './reference.component.scss';
@@ -9,8 +10,8 @@ class ReferenceCtrl implements IComponentController {
 
 	static $inject = ['$scope', '$mdDialog', 'message', 'ReferenceService'];
 
-	private user : any;
-	private cathegories : any;
+	private user : IUserProfile;
+	private cathegories : Array<IActivityCategory>;
 	private templates : Array<IActivityTemplate>;
 	private activityTypes : Array<any> = activityTypes;
 	private templatesFilters : any = { 
@@ -36,7 +37,7 @@ class ReferenceCtrl implements IComponentController {
 		this.tab = 0;
 	}
 
-	get templatesFilterCathegories () {
+	get templatesFilterCathegories () : Array<IActivityCategory> {
 		let activityTypeId = this.templatesFilters.activityType.id;
 		let cathegoryId = this.templatesFilters.cathegory && this.templatesFilters.cathegory.id;
 		let cathegories = this.cathegories.filter((cathegory) => cathegory.activityTypeId === activityTypeId);

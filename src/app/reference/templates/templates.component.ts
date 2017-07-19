@@ -1,6 +1,8 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
+import { IUserProfile } from "../../../../api/user/user.interface";
 
+import { templateOwner, createTemplate } from "../reference.datamodel";
 import { TemplateDialogCtrl } from "../template-dialog/template-dialog.controller";
 import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
 import "./templates.component.scss";
@@ -19,8 +21,8 @@ class TemplatesCtrl implements IComponentController {
 
 	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
 
-	private user : any;
-	private cathegories : any;
+	private user : IUserProfile;
+	private cathegories : Array<IActivityCategory>;
 	private templates : Array<IActivityTemplate>;
 	private templatesByOwner : any;
 	private filters : any;
@@ -43,17 +45,16 @@ class TemplatesCtrl implements IComponentController {
 	}
 
 	handleChanges () {
-		console.log('templates filters', this.templates, this.filters);
 		this.templatesByOwner = pipe(
 			filter(filterTemplates(this.filters)),
 			orderBy(prop('sortOrder')),
-			groupBy(this.ReferenceService.templateOwner),
+			groupBy(templateOwner(this.user)),
 		) (this.templates);
 	}
 
 	templateReorder (index, template) {
 		let { id, activityCategory, code, description, groupProfile, favourite, visible } = template;
-		let owner = this.ReferenceService.templateOwner(template);
+		let owner = templateOwner(this.user) (template);
 		let groupId = groupProfile && groupProfile.groupId;
 		let activityCategoryId = activityCategory && activityCategory.id;
 		let targetTemplate = this.templatesByOwner[owner][index];
@@ -68,10 +69,9 @@ class TemplatesCtrl implements IComponentController {
 	}
 
 	createTemplate () {
-		this.templateDialog({
-			activityCategory: this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === this.filters.activityType.id),
-			content: [this.ReferenceService.createInterval('pW')]
-		}, 'create');
+		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === this.filters.activityType.id);
+		let template = createTemplate(cathegory);
+		this.templateDialog(template, 'create');
 	}
 
 	copyTemplate (template) {

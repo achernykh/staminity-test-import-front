@@ -1,6 +1,8 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
+import { IUserProfile } from "../../../../api/user/user.interface";
 
+import { cathegoryOwner } from "../reference.datamodel";
 import { CathegoryCtrl } from '../cathegory-dialog/cathegory-dialog.controller';
 import { activityTypes } from '../reference.constants';
 import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined } from '../../share/util';
@@ -20,8 +22,8 @@ class CathegoriesCtrl implements IComponentController {
 
 	static $inject = ['$scope', '$mdDialog', 'message', 'ReferenceService'];
 
-	private user : any;
-	private cathegories : any;
+	private user : IUserProfile;
+	private cathegories : Array<IActivityCategory>;
 	private cathegoriesByOwner : any;
 	private templates : Array<IActivityTemplate>;
 	private activityTypes : Array<any> = activityTypes;
@@ -47,7 +49,7 @@ class CathegoriesCtrl implements IComponentController {
 		this.cathegoriesByOwner = pipe(
 			filter(filterCathegories(this.filters)),
 			orderBy(prop('sortOrder')),
-			groupBy(this.ReferenceService.cathegoryOwner)
+			groupBy(cathegoryOwner(this.user))
 		) (this.cathegories);
 	}
 
@@ -75,7 +77,7 @@ class CathegoriesCtrl implements IComponentController {
 
 	cathegoryReorder (index, cathegory) {
 		let { id, code, description, groupProfile, visible } = cathegory;
-		let owner = this.ReferenceService.cathegoryOwner(cathegory);
+		let owner = cathegoryOwner(this.user) (cathegory);
 		let groupId = groupProfile && groupProfile.groupId;
 		let targetCathegory = this.cathegoriesByOwner[owner][index];
 		let sortOrder = targetCathegory? targetCathegory.sortOrder : 999999;

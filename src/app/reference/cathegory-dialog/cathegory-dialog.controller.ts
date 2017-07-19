@@ -1,6 +1,7 @@
 import { IComponentController } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
+import { cathegoryOwner } from '../reference.datamodel';
 import { activityTypes } from '../reference.constants';
 import './cathegory-dialog.scss';
 
@@ -34,8 +35,8 @@ export class CathegoryCtrl implements IComponentController {
 		let activityType = activityTypes.find((activityType) => activityType.id === cathegory.activityTypeId);
 		this.activityTypeSelection = [activityType];
 
-		let cathegoryOwner = this.ReferenceService.cathegoryOwner(cathegory);
-		if (cathegoryOwner === 'system') {
+		let isSystem = cathegoryOwner(user)(cathegory) === 'system';
+		if (isSystem) {
 			cathegory.code = $translate.instant('category.' + cathegory.code);
 		}
 		console.log(CathegoryCtrl, this);
