@@ -1,10 +1,11 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IActivityType } from "../../../../api/activity/activity.interface";
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 
 import { cathegoryOwner } from "../reference.datamodel";
 import { CathegoryCtrl } from '../cathegory-dialog/cathegory-dialog.controller';
-import { activityTypes } from '../reference.constants';
+import { getType, activityTypes } from "../../activity/activity.constants";
 import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined } from '../../share/util';
 
 import './cathegories.component.scss';
@@ -27,6 +28,7 @@ class CathegoriesCtrl implements IComponentController {
 	private cathegoriesByOwner : any;
 	private templates : Array<IActivityTemplate>;
 	private activityTypes : Array<any> = activityTypes;
+	private getType: (id: number) => IActivityType = getType;
 	private filters : any;
 	private onCathegoryChange : (id: number, changes: any) => any;
 	private onCathegoryDelete : (id: number) => any;
@@ -51,10 +53,6 @@ class CathegoriesCtrl implements IComponentController {
 			orderBy(prop('sortOrder')),
 			groupBy(cathegoryOwner(this.user))
 		) (this.cathegories);
-	}
-
-	activityType (id) {
-		return this.activityTypes.find((activityType) => activityType.id === id);
 	}
 
 	cathegoryEnabled (cathegory) {

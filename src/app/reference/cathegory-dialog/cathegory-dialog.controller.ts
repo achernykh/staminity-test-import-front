@@ -2,7 +2,7 @@ import { IComponentController } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
 import { cathegoryOwner } from '../reference.datamodel';
-import { activityTypes } from '../reference.constants';
+import { getType, activityTypes } from "../../activity/activity.constants";
 import './cathegory-dialog.scss';
 
 
@@ -32,7 +32,7 @@ export class CathegoryCtrl implements IComponentController {
 		private onCathegoryChange,
 		private onCathegoryDelete
 	) {
-		let activityType = activityTypes.find((activityType) => activityType.id === cathegory.activityTypeId);
+		let activityType = getType(cathegory.activityTypeId);
 		this.activityTypeSelection = [activityType];
 
 		let isSystem = cathegoryOwner(user)(cathegory) === 'system';

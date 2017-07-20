@@ -38,7 +38,7 @@
                     <md-option
                             ng-repeat="category in $ctrl.item.activity.categoriesList |
                                 filter:{activityTypeId: $ctrl.item.activity.sport}:true track by category.id"
-                            value="{{category.id}}">{{'category.'+category.code | translate}}
+                            value="{{category.id}}">{{ category | cathegoryCode }}
                     </md-option>
                 </md-select>
                 <div ng-messages="$ctrl.form.category.$error" role="alert">

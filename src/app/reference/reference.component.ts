@@ -2,7 +2,7 @@ import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
 
-import { activityTypes } from './reference.constants';
+import { getType, activityTypes } from "../activity/activity.constants";
 import './reference.component.scss';
 
 

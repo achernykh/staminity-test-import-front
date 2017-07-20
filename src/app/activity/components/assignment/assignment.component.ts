@@ -105,7 +105,7 @@ class ActivityAssignmentCtrl implements IComponentController {
 
         this.prepareValues();
         this.ftpMode = this.item.template ? FtpState.On : FtpState.Off;
-        //console.log('ActivityAssignmentCtrl', this);
+        console.log('ActivityAssignmentCtrl', this);
     }
 
     link(url) {

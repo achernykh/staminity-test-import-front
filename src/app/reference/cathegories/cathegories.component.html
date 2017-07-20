@@ -22,7 +22,7 @@
 				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
 				layout="row"
 			>
-				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
+				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.getType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
 				<div flex>
 					<h3 class="cathegory__label-code">{{ cathegory.code }}</h3>
 					<div class="cathegory__label-description">{{ cathegory.description | truncate }}</div>
@@ -60,7 +60,7 @@
 				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
 				layout="row"
 			>
-				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
+				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.getType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
 				<div flex>
 					<h3 class="cathegory__label-code">{{ cathegory.code }}</h3>
 					<div class="cathegory__label-author">Автор: {{ cathegory.userProfileCreator | userName }}</div>
@@ -99,7 +99,7 @@
 				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
 				layout="row"
 			>
-				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
+				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.getType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
 				<div flex>
 					<h3 class="cathegory__label-code">{{ cathegory.code }}</h3>
 					<div class="cathegory__label-author">Автор: {{ cathegory.userProfileCreator | userName }} {{ cathegory.groupProfile | clubName }}</div>
@@ -138,7 +138,7 @@
 				ng-class="{ 'cathegory-disabled': !cathegory.visible }"
 				layout="row"
 			>
-				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
+				<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.getType(cathegory.activityTypeId).code }}.svg" class="cathegory__icon-circled"></md-icon>
 				<div flex>
 					<h3 class="cathegory__label-code">{{ cathegory | cathegoryCode }}</h3>
 					<div class="cathegory__label-description">{{ cathegory.description | truncate }}</div>
