@@ -22,8 +22,12 @@ class ReferenceCtrl implements IComponentController {
 	private tab : number = 0;
 
 	private onTemplatesChange = this.handleTemplatesChange.bind(this);
-	private onTemplateChange = this.handleTemplateChange.bind(this);
-	private onTemplateDelete = this.handleTemplateDelete.bind(this);
+	private onTemplatesMessage = {
+		"I": this.handleTemplateCreate.bind(this),
+		"U": this.handleTemplateUpdate.bind(this),
+		"D": this.handleTemplateDelete.bind(this)
+	};
+	
 	private onCathegoriesChange = this.handleCathegoriesChange.bind(this);
 	private onCathegoryChange = this.handleCathegoryChange.bind(this);
 	private onCathegoryDelete = this.handleCathegoryDelete.bind(this);
@@ -35,6 +39,16 @@ class ReferenceCtrl implements IComponentController {
 		private ReferenceService
 	) {
 		this.tab = 0;
+	}
+
+	$onInit () {
+		this.ReferenceService.messages
+		.subscribe((message) => {
+			let action = this.onTemplatesMessage[message.action];
+			if (action) {
+				action(message.value);
+			}
+		});
 	}
 
 	get templatesFilterCathegories () : Array<IActivityCategory> {
@@ -63,13 +77,18 @@ class ReferenceCtrl implements IComponentController {
 		});
 	}
 
-	handleTemplateChange (id, changes) {
-		this.templates = this.templates.map((template) => template.id === id? { ...template, ...changes } : template);
+	handleTemplateCreate (template) {
+		this.templates = [...this.templates, template];
 		this.$scope.$apply();
 	}
 
-	handleTemplateDelete (id) {
-		this.templates = this.templates.filter((template) => template.id !== id);
+	handleTemplateUpdate (template) {
+		this.templates = this.templates.map((t) => t.id === template.id? template : t);
+		this.$scope.$apply();
+	}
+
+	handleTemplateDelete (template) {
+		this.templates = this.templates.filter((t) => t.id !== template.id);
 		this.$scope.$apply();
 	}
 

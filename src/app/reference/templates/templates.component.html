@@ -16,7 +16,7 @@
 				dnd-draggable="template"
 				dnd-type="'user-template'"
 				draggable="true"
-				ng-click="$ctrl.editTemplate(template)"
+				ng-click="$ctrl.editTemplate(template, $event)"
 				class="activity-templates-wrapper"
 			>
 				<activity-template
@@ -45,7 +45,7 @@
 				dnd-draggable="template"
 				dnd-type="'coach-template'"
 				draggable="true"
-				ng-click="$ctrl.editTemplate(template)"
+				ng-click="$ctrl.viewTemplate(template, $event)"
 				class="activity-templates-wrapper"
 			>
 				<activity-template
@@ -75,7 +75,7 @@
 				dnd-draggable="template"
 				dnd-type="'club-template'"
 				draggable="true"
-				ng-click="$ctrl.editTemplate(template)"
+				ng-click="$ctrl.viewTemplate(template, $event)"
 				class="activity-templates-wrapper"
 			>
 				<activity-template
@@ -105,7 +105,7 @@
 				dnd-draggable="template"
 				dnd-type="'system-template'"
 				draggable="true"
-				ng-click="$ctrl.editTemplate(template)"
+				ng-click="$ctrl.viewTemplate(template, $event)"
 				class="activity-templates-wrapper"
 			>
 				<activity-template

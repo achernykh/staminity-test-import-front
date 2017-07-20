@@ -1,6 +1,8 @@
-import { ISocketService } from './socket.service';
-import { ISessionService } from './session.service';
-import {IActivityCategory, IActivityTemplate, IActivityTemplatePost} from "../../../api/reference/reference.interface";
+import { Observable, Subject } from "rxjs/Rx";
+
+import { ISocketService } from '../core/socket.service';
+import { ISessionService } from '../core/session.service';
+import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { 
 	GetActivityCategory, PostActivityCategory, PutActivityCategory, DeleteActivityCategory,
 	GetActivityTemplate, PostActivityTemplate, PutActivityTemplate, DeleteActivityTemplate
@@ -9,13 +11,17 @@ import {
 
 export default class ReferenceService {
 
+	messages: Observable<any>;
+
 	static $inject = ['SocketService', 'SessionService'];
 
 	constructor (
 		private SocketService:ISocketService, 
 		private SessionService: ISessionService
 	) {
-
+		this.messages = SocketService.messages
+		.filter(message => message.type === 'activityTemplate')
+		.share();
 	}
 
 	getActivityCategories (
@@ -68,8 +74,18 @@ export default class ReferenceService {
 		.then((response) => response.arrayResult);
 	}
 
-	postActivityTemplate (template: IActivityTemplatePost) : Promise<[IActivityCategory]> {
-		return this.SocketService.send(new PostActivityTemplate(template));
+	postActivityTemplate ( 
+		id: number, 
+		activityCategoryId: number, 
+		groupId: number, 
+		code: string, 
+		description: string, 
+		favourite: boolean, 
+		content: any 
+	) : Promise<[IActivityCategory]> { 
+		return this.SocketService.send(new PostActivityTemplate( 
+			id, activityCategoryId, groupId, code, description, favourite, content 
+		)); 
 	}
 
 	putActivityTemplate (

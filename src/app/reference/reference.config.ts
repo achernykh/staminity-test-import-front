@@ -3,7 +3,7 @@ import { StateProvider, StateDeclaration, StateService } from 'angular-ui-router
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import UserService from "../core/user.service";
 import AuthService from "../auth/auth.service";
-import ReferenceService from "../core/reference.service";
+import ReferenceService from "./reference.service";
 import * as translate from './reference.translate';
 
 

@@ -9,17 +9,14 @@ import {
     IActivityHeader, IActivityDetails, IActivityIntervalPW,
     IActivityMeasure, ICalcMeasures, IActivityType, IActivityIntervalW
 } from "../../../../api/activity/activity.interface";
-import {
-    IActivityCategory, IActivityTemplate,
-    IActivityTemplatePost
-} from '../../../../api/reference/reference.interface';
+import { IActivityCategory, IActivityTemplate } from '../../../../api/reference/reference.interface';
 import SessionService from "../../core/session.service";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
 import {Activity} from "../../activity/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
 import {IAuthService} from "../../auth/auth.service";
-import ReferenceService from "../../core/reference.service";
+import ReferenceService from "../../reference/reference.service";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -357,29 +354,29 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => this.message.toastError(error)));
     }
 
-    onSaveTemplate(){
-        debugger;
+    onSaveTemplate() {
         this.activity.build();
-        let template: IActivityTemplatePost = {
-            activityCategoryId: this.activity.header.activityCategory.id,
-            groupId: null,
-            code: this.activity.code,
-            description: null,
-            favourite: this.activity.favorite,
-            content: [...this.activity.header.intervals.filter(i => i.type === 'pW'), ...this.activity.header.intervals.filter(i => i.type === 'P')]
-        };
 
-        //TODO убрать в build для всех
-        template.content.map(interval => {
-            if (interval.hasOwnProperty('calcMeasures')) {
-                delete interval.calcMeasures;
-            }
-            return interval;
-        });
+        let { templateId, code, description, favourite, visible, header } = this.activity;
+        let { activityCategory, intervals } = header;
+        let content = [
+            ...intervals.filter(i => i.type === 'pW'), 
+            ...intervals.filter(i => i.type === 'P')
+        ]
+        .map((interval) => ({ ...interval, calcMeasures: undefined }));
 
         if (this.mode === 'post') {
-            this.ReferenceService.postActivityTemplate(template)
-                .then( response => {
+            this.ReferenceService.postActivityTemplate(null, activityCategory.id, null, code, description, favourite, content)
+                .then(response => {
+                    this.activity.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('activityTemplateCreated');
+                    this.onAnswer({response: {type:'post', item:this.activity.build()}});
+                }, error => this.message.toastError(error));
+        }
+
+        if (this.mode === 'put') {
+            this.ReferenceService.putActivityTemplate(templateId, activityCategory.id, null, null, code, description, favourite, visible)
+                .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
                     this.onAnswer({response: {type:'post', item:this.activity.build()}});

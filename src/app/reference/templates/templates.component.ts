@@ -2,11 +2,11 @@ import { IComponentOptions, IComponentController, IPromise, element } from 'angu
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 
-import { templateOwner, createTemplate } from "../reference.datamodel";
-import { TemplateDialogCtrl } from "../template-dialog/template-dialog.controller";
+import { getType } from "../../activity/activity.constants";
+import { Activity } from "../../activity/activity.datamodel";
+import { templateOwner, templateToActivity } from "../reference.datamodel";
 import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
 import "./templates.component.scss";
-import {getType} from "../../activity/activity.constants";
 
 
 const templatesFilters = {
@@ -18,7 +18,46 @@ const filterTemplates = (filters) => (template) => (
 	keys(filters).every((key) => !filters[key] || templatesFilters[key] (filters[key], template))
 );
 
+
 type DialogMode = 'post' | 'put' | 'view';
+
+class DialogCtrl implements IComponentController {
+
+	static $inject = ['$scope','$mdDialog'];
+
+	constructor (private $scope, private $mdDialog) {
+		$scope.hide = () => $mdDialog.hide();
+		$scope.cancel = () => $mdDialog.cancel();
+		$scope.answer = (answer) => $mdDialog.hide(answer);
+	}
+}
+
+const dialogParams = {
+	controller: DialogCtrl,
+	controllerAs: '$ctrl',
+	template:
+		`<md-dialog id="post-activity" aria-label="Activity">
+			<calendar-item-activity
+				layout="row" class="calendar-item-activity"
+				date="$ctrl.date"
+				activity-type="$ctrl.activityType"
+				activity-category="$ctrl.activityCategory"
+				data="$ctrl.item"
+				mode="$ctrl.mode"
+				user="$ctrl.user"
+				popup="true"
+				template="true"
+				on-cancel="cancel()" on-answer="answer(response)"
+			>
+			</calendar-item-activity>
+		</md-dialog>`,
+	parent: element(document.body),
+	bindToController: true,
+	clickOutsideToClose: false,
+	escapeToClose: false,
+	fullscreen: true
+};
+
 
 class TemplatesCtrl implements IComponentController {
 
@@ -29,9 +68,6 @@ class TemplatesCtrl implements IComponentController {
 	private templates : Array<IActivityTemplate>;
 	private templatesByOwner : any;
 	private filters : any;
-	private onTemplatesChange : () => any;
-	private onTemplateChange : (id, changes) => any;
-	private onTemplateDelete : (id) => any;
 
 	constructor (
 		private $scope, 
@@ -67,14 +103,24 @@ class TemplatesCtrl implements IComponentController {
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;
-		})
-		.then(this.onTemplatesChange);
+		});
 	}
 
 	createTemplate ($event: MouseEvent) {
-		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === this.filters.activityType.id);
-		let template = createTemplate(cathegory);
-		this.templateDialog(template, 'post', $event);
+		let activityTypeId = this.filters.activityType.id;
+		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === activityTypeId);
+
+		return this.$mdDialog.show({
+			...dialogParams,
+			locals: {
+				mode: 'post',
+				date: new Date(),
+				user: this.user,
+				activityType: getType(activityTypeId),
+				activityCategory: cathegory
+			}, 
+			targetEvent: $event
+		});
 	}
 
 	copyTemplate (template) {
@@ -85,7 +131,6 @@ class TemplatesCtrl implements IComponentController {
 		this.ReferenceService.postActivityTemplate(
 			null, activityCategoryId, groupId, code, description, favourite, content
 		)
-		.then(this.onTemplatesChange)
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;
@@ -93,11 +138,39 @@ class TemplatesCtrl implements IComponentController {
 	}
 
 	viewTemplate (template, $event: MouseEvent) {
-		return this.templateDialog(template, 'view');
+		let activityTypeId = this.filters.activityType.id;
+		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === activityTypeId);
+
+		return this.$mdDialog.show({
+			...dialogParams,
+			locals: {
+				mode: 'view',
+				item: templateToActivity(template),
+				date: new Date(),
+				user: this.user,
+				activityType: getType(activityTypeId),
+				activityCategory: cathegory
+			}, 
+			targetEvent: $event
+		});
 	}
 
 	editTemplate (template, $event: MouseEvent) {
-		return this.templateDialog(template, 'put');
+		let activityTypeId = this.filters.activityType.id;
+		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === activityTypeId);
+
+		return this.$mdDialog.show({
+			...dialogParams,
+			locals: {
+				mode: 'put',
+				item: templateToActivity(template),
+				date: new Date(),
+				user: this.user,
+				activityType: getType(activityTypeId),
+				activityCategory: cathegory
+			}, 
+			targetEvent: $event
+		});
 	}
 
 	deleteTemplate (template) {
@@ -106,64 +179,7 @@ class TemplatesCtrl implements IComponentController {
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;
-		})
-		.then(() => this.onTemplateDelete(id));
-	}
-
-	templateDialog (template, mode: DialogMode, event?: MouseEvent) {
-		debugger;
-		this.$mdDialog.show({
-			controller: DialogCtrl,
-			controllerAs: '$ctrl',
-			template:
-				`<md-dialog id="post-activity" aria-label="Activity">
-                        <calendar-item-activity
-                                layout="row" class="calendar-item-activity"
-                                date="$ctrl.date"
-                                activity-type="$ctrl.activityType"
-                                activity-category="$ctrl.activityCategory"
-                                mode="$ctrl.mode"
-                                user="$ctrl.user"
-                                popup="true"
-                                template="true"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-activity>
-                   </md-dialog>`,
-			parent: element(document.body),
-			targetEvent: event,
-			locals: {
-				mode: mode,
-				date: new Date(),//this.date, // дата дня в формате ГГГГ-ММ-ДД
-				user: this.user,
-				activityType: getType(template.activityCategory.activityTypeId),//null,//activityType,
-				activityCategory: template.activityCategory //null,//activityCategory,
-			},
-			bindToController: true,
-			clickOutsideToClose: false,
-			escapeToClose: false,
-			fullscreen: true
-		}).then(()=>{});
-
-		/**
-		let locals = {
-			mode,
-			activityTemplate: { ...template },
-			user: this.user,
-			cathegories: this.cathegories,
-			onTemplatesChange: this.onTemplatesChange,
-			onTemplateChange: this.onTemplateChange,
-			onTemplateDelete: this.onTemplateDelete
-		};
-
-		return this.$mdDialog.show({
-			controller: TemplateDialogCtrl,
-			controllerAs: '$ctrl',
-			template: require('../template-dialog/template-dialog.template.html') as string,
-			parent: angular.element(document.body),
-			locals: locals,
-			clickOutsideToClose: true,
-			fullscreen: !this.$mdMedia('gt-sm')
-		});**/
+		});
 	}
 }
 
@@ -173,10 +189,7 @@ const TemplatesComponent: IComponentOptions = {
 		user: '<',
 		cathegories: '<',
 		templates: '<',
-		filters: '<',
-		onTemplateChange: '<',
-		onTemplateDelete: '<',
-		onTemplatesChange: '<'
+		filters: '<'
 	},
 	controller: TemplatesCtrl,
 	template: require('./templates.component.html') as string
@@ -184,14 +197,3 @@ const TemplatesComponent: IComponentOptions = {
 
 
 export default TemplatesComponent;
-
-class DialogCtrl implements IComponentController {
-
-	static $inject = ['$scope','$mdDialog'];
-
-	constructor(private $scope, private $mdDialog){
-		$scope.hide = () => $mdDialog.hide();
-		$scope.cancel = () => $mdDialog.cancel();
-		$scope.answer = (answer) => $mdDialog.hide(answer);
-	}
-}

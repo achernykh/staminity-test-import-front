@@ -143,8 +143,11 @@ export class Activity extends CalendarItem {
     private _startDate: Date;
 
 	// Дополнительные поля для использования в шаблонах тренировки
+	public templateId: number;
 	public code: string;
-	public favorite: boolean;
+	public description: string;
+	public favourite: boolean;
+	public visible: boolean;
 
 	constructor(private item: ICalendarItem, private method: string = 'view'){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты

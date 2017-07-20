@@ -14,7 +14,7 @@ import CommentService from "./comment.service";
 import DisplayService from "./display.service";
 import StorageService from "./storage.service";
 import BillingService from "./billing.service";
-import ReferenceService from "./reference.service";
+
 
 const Core = module('staminity.core', [])
 	.service('SocketService', SocketService)
@@ -30,7 +30,6 @@ const Core = module('staminity.core', [])
 	.service('display', DisplayService)
 	.service('BillingService', BillingService)
 	.service('storage', StorageService)
-	.service('ReferenceService', ReferenceService)
 	.component('systemMessage', SystemMessageComponent)
 	.config(['$translateProvider', ($translateProvider) => {
 		$translateProvider.translations('ru', _translateMessage['ru']);
