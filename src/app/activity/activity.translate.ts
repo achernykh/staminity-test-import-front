@@ -7,7 +7,7 @@ export const translateActivity = {
           singleIntensity: 'Можно задать лишь один параметр интенсивности',
           needPermissionForFeature: 'Не хватает полномочий для планирования в будущем'
       },
-      loading: 'Загрзука данных'
+      loading: 'Загрузка данных'
   }
 };
 

@@ -79,6 +79,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public isMyCoach: boolean;
 
     public isLoadingDetails: boolean = false;
+    private inAction: boolean = false; // true - форма на стороне бэкенд, false - на стороне frontend
+
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
@@ -317,18 +319,19 @@ export class CalendarItemActivityCtrl implements IComponentController{
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.
     // могут вызваны из любого другого представления
     onSave() {
-
+        this.inAction = true;
         if (this.mode === 'post') {
             let athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
             athletes.push(...this.forAthletes.filter(athlete => athlete.active));
             athletes.forEach(athlete =>
                 //console.log('post', athlete.profile, athlete.active)
-                this.CalendarService.postItem(this.activity.build(athlete.profile))
+                this.CalendarService.postItem(this.activity.build(athlete.profile)) //TODO переделать в Promise.all
                     .then((response)=> {
                         this.activity.compile(response);// сохраняем id, revision в обьекте
                         this.message.toastInfo('activityCreated');
                         this.onAnswer({response: {type:'post', item:this.activity.build()}});
                     }, error => this.message.toastError(error))
+                    .then(() => this.inAction = false)
             );
         }
         if (this.mode === 'put') {
@@ -337,7 +340,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     this.activity.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');
                     this.onAnswer({response: {type:'put',item:this.activity.build()}});
-                }, error => this.message.toastError(error));
+                }, error => this.message.toastError(error))
+                .then(() => this.inAction = false);
         }
     }
 

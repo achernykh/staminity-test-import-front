@@ -20,7 +20,7 @@
                ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )">Отменить
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'" type="submit"
-               ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid"
+               ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid || $ctrl.item.inAction"
                ng-class="{'md-warn': !$ctrl.form.$valid}"
                ng-click="$ctrl.onSave()">
         Сохранить

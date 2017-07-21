@@ -30,7 +30,7 @@
                     <input required type="password" name="password2" ng-model="$ctrl.password2"
                            ng-pattern="$ctrl.passwordStrength"
                            ng-disabled="!$ctrl.enabled"
-                           compare-to="password1"
+                           compare-to="$ctrl.credentials.password"
                            placeholder="{{ 'auth.pass' | translate }}">
                     <div ng-messages="$ctrl.inviteForm.password2.$error" role="alert">
                         <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>

@@ -173,13 +173,15 @@ class ActivityChartController implements IComponentController {
 
     private preparePlaceholder(): void {
         // calc current chart size based on the conteiner size and chart's settings
-        var bounds = this.$element[0].getBoundingClientRect();
-        this.width = Math.max(bounds.width, this.activityChartSettings.minWidth);
-        this.height = bounds.height;
-        var aspectRatio = this.height / this.width;
-        if (aspectRatio < this.activityChartSettings.minAspectRation) {
-            this.height = this.width * this.activityChartSettings.minAspectRation;
-        }
+        //var bounds = this.$element[0].getBoundingClientRect();
+        let parent:Element = angular.element(document).find('activity-metrics-char')[0];
+
+        this.width = parent.clientWidth;//Math.max(bounds.width, this.activityChartSettings.minWidth);
+        this.height = parent.clientHeight;//bounds.height;
+        //var aspectRatio = this.height / this.width;
+        //if (aspectRatio < this.activityChartSettings.minAspectRation) {
+            //this.height = this.width * this.activityChartSettings.minAspectRation;
+        //}
         let container = d3.select(this.$element[0]);
         // create root svg placeholder
         this.$placeholder = container
