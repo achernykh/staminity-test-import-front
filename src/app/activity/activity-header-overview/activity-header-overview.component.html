@@ -12,10 +12,17 @@
 
 <md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>
-    <md-button ng-if="$ctrl.item.mode === 'view'" ng-disabled="true"
+    <md-button ng-if="$ctrl.item.mode === 'view' && $ctrl.item.template" 
+              ng-click="$ctrl.item.onCancel()">Закрыть
+    </md-button>
+    <md-button ng-if="$ctrl.item.mode === 'view' && $ctrl.item.template" type="submit"
+               ng-disabled="!$ctrl.assignmentForm.$dirty || !$ctrl.assignmentForm.$valid"
+               ng-click="$ctrl.item.onSaveTemplate()">Сохранить
+    </md-button>
+    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template" ng-disabled="true"
                ng-click="">В шаблон
     </md-button>
-    <md-button ng-if="$ctrl.item.mode === 'view'"
+    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"
                ng-click="$ctrl.item.changeMode('put')">Изменить
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'"

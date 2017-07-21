@@ -113,6 +113,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     $onInit() {
         this.currentUser = this.SessionService.getUser();
+
         if (this.mode === 'post') {
             this.data = {
                 isTemplate: this.template,
@@ -149,7 +150,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
             }
         }
 
-
         this.types = activityTypes; // Список видов спорта
         this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
         this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
@@ -159,7 +159,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
 
         // Список категорий тренировки
-        if (this.mode === 'put' || this.mode === 'post') {
+        if (this.mode === 'put' || this.mode === 'post' || this.mode === 'view') {
             if (this.template) {
                 this.ReferenceService.getActivityCategories(undefined, false, true)
                     .then(list => this.activity.categoriesList = list,
@@ -177,8 +177,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));
 
         }
+
         if(this.forAthletes.length === 0 || !this.forAthletes.some(athlete => athlete.active)) {
             this.forAthletes.push({profile: profileShort(this.user), active: true});
+        }
+
+        if (this.template && this.data && this.data.userProfileCreator) {
+            this.forAthletes = [{ profile: this.data.userProfileCreator, active: true }];
         }
     }
 
@@ -395,7 +400,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => this.message.toastError(error));
         }
 
-        if (this.mode === 'put') {
+        if (this.mode === 'put' || this.mode === 'view') {
             this.ReferenceService.putActivityTemplate(templateId, activityCategory.id, null, null, name, description, favourite, visible)
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
