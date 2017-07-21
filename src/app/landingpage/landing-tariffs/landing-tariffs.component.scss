@@ -1,3 +1,5 @@
+@import "../../../sass/color";
+
 landing-tariffs {
   application-frame {
     top: 0px;
@@ -10,24 +12,91 @@ landing-tariffs {
     color: white;
     background-color: black;
     height: 40vh;
+
+    min-height: 250px;
+
+    background-image: url('/assets/picture/lp-bg-03-1440.jpg'); //25% center no-repeat;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    h2 {
+      margin-bottom: 16px;
+      @media (max-width: 600px) {
+        font-size: 24px !important;
+      }
+    }
+    button.md-button {
+      border: 3px solid rgba(white,0.12);
+      border-radius: 3px;
+      padding: 0px 24px;
+      background-color: rgba(white,0.12);
+
+      span {
+        line-height: 62px;
+        @media (max-width: 600px) {
+          line-height: 48px;
+          font-size: 20px !important;
+        }
+      }
+    }
+    section.tabs {
+      div.tab {
+        padding: 12px 24px;
+        min-width: 90px;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: all 0.3s;
+        @media (max-width: 600px) {
+          font-size: 16px;
+        }
+
+        &.selected {
+          color: rgba(black,0.54) !important;
+          background-color: $grey-100;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
   }
-  section.tariffs {
-    background-color: lightgrey;
+  section.tariffs, section.calculator {
+    background-color: $grey-100;
     min-height: 60vh;
 
     padding: 32px;
+  }
+  md-card.tariff {
+    margin: 8px 8px;
+    width: 100%;
 
-    md-card.tariff {
-      margin: 8px 8px;
+    @media (min-width: 960px) {
       max-width: 320px;
+    }
 
-      md-card-title span {
-        text-transform: uppercase;
-      }
+    md-card-title span {
+      text-transform: uppercase;
+    }
 
-      section.description {
+    div.description {
+      height: 50px;
+    }
 
-      }
+    div.connect-text {
+      min-height: 28px;
+      margin-bottom: 12px;
+    }
+
+    button.md-button {
+      width: 100%;
+      border: 1px solid rgba(black,0.12);
+      border-radius: 3px;
+      padding: 0px 24px;
+      margin: 16px 0px;
+      background-color: $grey-200;
     }
 
   }

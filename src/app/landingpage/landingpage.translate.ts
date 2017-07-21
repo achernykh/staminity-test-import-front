@@ -195,11 +195,12 @@ export let _translate = {
 		},
 		tariffs: {
 			title: 'Сколько стоит Стаминити?',
-			connect: 'Попробовать бесплатно',
-			connectText: 'На 14 дней, привязка кредитной карты не требуется',
-			tab1: 'Месяц',
-			tab2: 'Год',
-			tab3: 'Калькулятор',
+			connectFree: 'Попробовать бесплатно',
+			connectTrial: 'На 14 дней, привязка кредитной карты не требуется',
+            connect: 'Подключить',
+			month: 'Месяц',
+			year: 'Год',
+			calculator: 'Калькулятор',
 			name: {
 				basic: 'Базовый',
 				premium: 'Перимиум',
@@ -213,14 +214,14 @@ export let _translate = {
 				club: 'Клуб...'
 			},
 			noCreditCard: '',
-			'14day': '',
 			functions: {
 				func1: 'Функция1',
 				func2: 'Функция2',
 				func3: 'Функция3',
 				func4: 'Функция4',
 				func5: 'Функция5',
-			}
+			},
+            byMonth: '/ месяц'
 		}
 
 	},

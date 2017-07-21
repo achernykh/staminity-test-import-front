@@ -2,38 +2,60 @@
 <application-frame class='{{$ctrl.view.style}}' layout="column" layout-fill>
     <header flex="none" layout="column" layout-align="space-between center">
         <div flex="20"></div>
-        <h2 flex="none" class="md-display-2 font-black md-light md-inactive" translate="landing.tariffs.title"></h2>
+        <h2 flex="none" class="md-display-2 font-black md-light" translate="landing.tariffs.title"></h2>
         <md-button>
-            <span translate="landing.tariffs.connect"></span>
+            <span class="md-headline md-light font-medium" translate="landing.tariffs.connectFree"></span>
         </md-button>
-        <p flex="none" class="md-body-2">landing.tariffs.connectText</p>
+        <p flex="none" class="md-body-2">landing.tariffs.connectTrial</p>
         <section class="tabs" layout="row" layout-align="center end">
-            <div flex="none" class="tab" translate="landing.tariffs.tab1"></div>
-            <div flex="none" class="tab" translate="landing.tariffs.tab2"></div>
-            <div flex="none" class="tab" translate="landing.tariffs.tab3"></div>
+            <div flex="none" class="tab md-title md-light center"
+                 ng-repeat="tab in ['month','year','calculator'] track by $index"
+                 ng-class="{'selected': tab === $ctrl.selectedTab}"
+                 ng-click="$ctrl.onChangeTab(tab)"
+                 translate="landing.tariffs.{{::tab}}">
+            </div>
         </section>
     </header>
-    <section class="tariffs" layout-gt-sm="row" layout-align-gt-sm="center start" layout="column" layout-align="center center">
+    <section ng-if="$ctrl.selectedTab !== 'calculator'"
+            class="tariffs" layout-gt-sm="row" layout-align-gt-sm="center start" layout="column" layout-align="center center">
         <md-card class="tariff" flex="auto" ng-repeat="tariff in $ctrl.price track by $index">
             <md-card-title style="background-color: {{::tariff.color}}">
                 <md-card-title-text>
-                    <span class="md-body-2 md-light center">{{::'landing.tariffs.name.' + tariff.name | translate}}</span>
+                    <span class="md-title md-light center">{{::'landing.tariffs.name.' + tariff.name | translate}}</span>
                 </md-card-title-text>
             </md-card-title>
             <md-card-content layout="column">
-                <div flex="none" class="subscription" layout="row">
-                    <p class="md-headline font-black">{{::tariff.fee.subscription[$ctrl.country].month | currency}}</p><p class="md-body">/ месяц</p>
+                <div flex="none" class="subscription" layout="row" layout-align="center center">
+                    <p flex="none" class="md-headline md-dark font-black">{{tariff.fee.subscription[$ctrl.country][$ctrl.selectedTab] | currency}}</p>
+                    <p flex="none" class="md-body md-dark" translate="landing.tariffs.byMonth"></p>
                 </div>
-                <div flex="none" class="description">{{::'landing.tariffs.description.' + tariff.description | translate}}</div>
-                <md-button flex="none"><span>{{::'landing.tariffs.' + tariff.buttonText | translate}}</span></md-button>
-                <div flex="none">{{::'landing.tariffs.' + tariff.connectText | translate}}</div>
+                <div flex="none" class="description md-subhead center md-dark">{{::'landing.tariffs.description.' + tariff.description | translate}}</div>
+                <md-button flex="none"><span class="md-subhead md-dark">{{::'landing.tariffs.connect' | translate}}</span></md-button>
+                <div flex="none" class="connect-text md-dark md-inactive md-caption center">{{::'landing.tariffs.' + tariff.connectText | translate}}</div>
                 <md-divider></md-divider>
                 <div ng-repeat="function in tariff.functions track by $index">
-                    <p>{{::'landing.tariffs.functions.' + function | translate}}</p>
+                    <p class="md-subhead md-dark">{{::'landing.tariffs.functions.' + function | translate}}</p>
                 </div>
-
+                <div class="md-subhead md-dark" ng-if="tariff.fee.variable[$ctrl.country]">
+                    <md-divider></md-divider>
+                    <p class="md-inactive center">+</p>
+                    <p ng-repeat="(variable, value) in tariff.fee.variable[$ctrl.country] track by $index">
+                        <span>{{variable}}</span><span>{{value}}</span>
+                    </p>
+                </div>
             </md-card-content>
         </md-card>
+    </section>
+    <section ng-if="$ctrl.selectedTab === 'calculator'"
+             class="calculator" layout-gt-sm="row" layout-align-gt-sm="center start" layout="column" layout-align="center center">
+        <div flex-gt-sm="50" flex="none" class="parameters">
+            <md-slider flex="auto" md-discrete step="1" min="0" max="15" ng-model="$ctrl.calc.athletes" aria-label="athlete"></md-slider>
+            <md-slider flex="auto" md-discrete step="1" min="0" max="15" ng-model="$ctrl.calc.coaches" aria-label="coach"></md-slider>
+            <md-slider flex="auto" md-discrete step="1" min="0" max="15" ng-model="$ctrl.calc.proAthletes" aria-label="pro"></md-slider>
+        </div>
+        <div flex-gt-sm="50" flex="none" class="totals">
+
+        </div>
     </section>
 </application-frame>
 <!-- end of common section -->

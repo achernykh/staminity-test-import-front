@@ -7,15 +7,13 @@ export const landingTariffsData = [
             'func1', 'func2', 'func3'
         ],
         buttonText: 'connect',
-        connectText: 'noCreditCard',
+        connectText: 'connectFree',
         fee: {
             subscription: {
                 ru: {
-                    month: 300
+                    month: 0,
+                    year: 0
                 }
-            },
-            variable: {
-
             }
         }
     },
@@ -27,15 +25,13 @@ export const landingTariffsData = [
             'func4', 'func5', 'func6'
         ],
         buttonText: 'connect',
-        connectText: '14day',
+        connectText: 'connectTrial',
         fee: {
             subscription: {
                 ru: {
-                    month: 300
+                    month: 300,
+                    year: 300 * 0.9
                 }
-            },
-            variable: {
-
             }
         }
     },
@@ -47,11 +43,12 @@ export const landingTariffsData = [
             'func7', 'func8', 'func9'
         ],
         buttonText: 'connect',
-        connectText: '14day',
+        connectText: 'connectTrial',
         fee: {
             subscription: {
                 ru: {
-                    month: 300
+                    month: 300,
+                    year: 300 * 0.9
                 }
             },
             variable: {
@@ -69,11 +66,12 @@ export const landingTariffsData = [
             'func10', 'func11', 'func12'
         ],
         buttonText: 'connect',
-        connectText: '14day',
+        connectText: 'connectTrial',
         fee: {
             subscription: {
                 ru: {
-                    month: 300
+                    month: 300,
+                    year: 300 * 0.9
                 }
             },
             variable: {
