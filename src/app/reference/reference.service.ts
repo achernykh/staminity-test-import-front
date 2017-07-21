@@ -16,7 +16,7 @@ export default class ReferenceService {
 	static $inject = ['SocketService', 'SessionService'];
 
 	constructor (
-		private SocketService:ISocketService, 
+		private SocketService: ISocketService, 
 		private SessionService: ISessionService
 	) {
 		this.messages = SocketService.messages

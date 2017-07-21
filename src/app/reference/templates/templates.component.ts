@@ -10,11 +10,11 @@ import "./templates.component.scss";
 
 
 const templatesFilters = {
-	activityType: (activityType, template) => template.activityCategory.activityTypeId === activityType.id,
-	cathegory: (cathegory, template) => template.activityCategory.id === cathegory.id
+	activityType: (activityType, template: IActivityTemplate) => template.activityCategory.activityTypeId === activityType.id,
+	cathegory: (cathegory, template: IActivityTemplate) => template.activityCategory.id === cathegory.id
 };
 
-const filterTemplates = (filters) => (template) => (
+const filterTemplates = (filters) => (template: IActivityTemplate) => (
 	keys(filters).every((key) => !filters[key] || templatesFilters[key] (filters[key], template))
 );
 
@@ -92,7 +92,7 @@ class TemplatesCtrl implements IComponentController {
 		) (this.templates);
 	}
 
-	templateReorder (index, template) {
+	templateReorder (index: number, template: IActivityTemplate) {
 		let { id, activityCategory, code, description, groupProfile, favourite, visible } = template;
 		let owner = templateOwner(this.user) (template);
 		let groupId = groupProfile && groupProfile.groupId;
@@ -124,9 +124,9 @@ class TemplatesCtrl implements IComponentController {
 		});
 	}
 
-	copyTemplate (template) {
+	copyTemplate (template: IActivityTemplate) {
 		let { id, activityCategory, code, description, groupProfile, favourite, content } = template;
-		let groupId = groupProfile && groupProfile.id;
+		let groupId = groupProfile && groupProfile.groupId;
 		let activityCategoryId = activityCategory && activityCategory.id;
 
 		this.ReferenceService.postActivityTemplate(
@@ -138,7 +138,7 @@ class TemplatesCtrl implements IComponentController {
 		});
 	}
 
-	viewTemplate (template, $event: MouseEvent) {
+	viewTemplate (template: IActivityTemplate, $event: MouseEvent) {
 		let activityTypeId = this.filters.activityType.id;
 		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === activityTypeId);
 
@@ -156,7 +156,7 @@ class TemplatesCtrl implements IComponentController {
 		});
 	}
 
-	editTemplate (template, $event: MouseEvent) {
+	editTemplate (template: IActivityTemplate, $event: MouseEvent) {
 		let activityTypeId = this.filters.activityType.id;
 		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === activityTypeId);
 
@@ -174,7 +174,7 @@ class TemplatesCtrl implements IComponentController {
 		});
 	}
 
-	deleteTemplate (template) {
+	deleteTemplate (template: IActivityTemplate) {
 		let { id } = template;
 		return this.dialogs.confirm('reference.templates.confirmDelete')
 		.then((result) => result && this.ReferenceService.deleteActivityTemplate(id), () => {})

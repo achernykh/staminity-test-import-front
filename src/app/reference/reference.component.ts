@@ -1,5 +1,6 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
+import { IActivityType } from "../../../api/activity/activity.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
 
 import { getType, activityTypes } from "../activity/activity.constants";
@@ -13,7 +14,7 @@ class ReferenceCtrl implements IComponentController {
 	private user : IUserProfile;
 	private cathegories : Array<IActivityCategory>;
 	private templates : Array<IActivityTemplate>;
-	private activityTypes : Array<any> = activityTypes;
+	private activityTypes : Array<IActivityType> = activityTypes;
 	private templatesFilters : any = { 
 		activityType: activityTypes[0],
 		cathegory: null
@@ -77,17 +78,17 @@ class ReferenceCtrl implements IComponentController {
 		});
 	}
 
-	handleTemplateCreate (template) {
+	handleTemplateCreate (template: IActivityTemplate) {
 		this.templates = [...this.templates, template];
 		this.$scope.$apply();
 	}
 
-	handleTemplateUpdate (template) {
+	handleTemplateUpdate (template: IActivityTemplate) {
 		this.templates = this.templates.map((t) => t.id === template.id? template : t);
 		this.$scope.$apply();
 	}
 
-	handleTemplateDelete (template) {
+	handleTemplateDelete (template: IActivityTemplate) {
 		this.templates = this.templates.filter((t) => t.id !== template.id);
 		this.$scope.$apply();
 	}

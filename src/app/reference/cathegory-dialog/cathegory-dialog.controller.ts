@@ -1,4 +1,5 @@
 import { IComponentController } from 'angular';
+import { IActivityType } from "../../../../api/activity/activity.interface";
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
 import { cathegoryOwner } from '../reference.datamodel';
@@ -10,8 +11,8 @@ export class CathegoryCtrl implements IComponentController {
 
 	static $inject = ['$scope', '$mdSelect', '$mdDialog', '$translate', 'message', 'ReferenceService', 'mode', 'cathegory', 'user', 'onCathegoriesChange', 'onCathegoryChange', 'onCathegoryDelete'];
 
-	private activityTypes: Array<any> = activityTypes;
-	private activityTypeSelection: any;
+	private activityTypes: Array<IActivityType> = activityTypes;
+	private activityTypeSelection: Array<IActivityType>;
 	private submit = { 
 		create: () => this.create(),
 		edit: () => this.update(),

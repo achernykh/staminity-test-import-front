@@ -12,10 +12,10 @@ import './cathegories.component.scss';
 
 
 const cathegoriesFilters = {
-	activityType: (activityType) => (cathegory) => cathegory.activityTypeId === activityType.id
+	activityType: (activityType: IActivityType) => (cathegory: IActivityCategory) => cathegory.activityTypeId === activityType.id
 };
 
-const filterCathegories = (filters) => (cathegory) => (
+const filterCathegories = (filters) => (cathegory: IActivityCategory) => (
 	keys(filters).every((key) => cathegoriesFilters[key] (filters[key]) (cathegory))
 );
 
@@ -27,7 +27,7 @@ class CathegoriesCtrl implements IComponentController {
 	private cathegories : Array<IActivityCategory>;
 	private cathegoriesByOwner : any;
 	private templates : Array<IActivityTemplate>;
-	private activityTypes : Array<any> = activityTypes;
+	private activityTypes : Array<IActivityType> = activityTypes;
 	private getType: (id: number) => IActivityType = getType;
 	private filters : any;
 	private onCathegoryChange : (id: number, changes: any) => any;
@@ -55,7 +55,7 @@ class CathegoriesCtrl implements IComponentController {
 		) (this.cathegories);
 	}
 
-	cathegoryEnabled (cathegory) {
+	cathegoryEnabled (cathegory: IActivityCategory) {
 		return (visible) => {
 			if (isUndefined(visible)) {
 				return cathegory.visible;
@@ -73,7 +73,7 @@ class CathegoriesCtrl implements IComponentController {
 		};
 	}
 
-	cathegoryReorder (index, cathegory) {
+	cathegoryReorder (index: number, cathegory: IActivityCategory) {
 		let { id, code, description, groupProfile, visible } = cathegory;
 		let owner = cathegoryOwner(this.user) (cathegory);
 		let groupId = groupProfile && groupProfile.groupId;
@@ -92,15 +92,15 @@ class CathegoriesCtrl implements IComponentController {
 		this.cathegoryDialog({ activityTypeId: this.filters.activityType.id }, 'create');
 	}
 
-	viewCathegory (cathegory) {
+	viewCathegory (cathegory: IActivityCategory) {
 		this.cathegoryDialog(cathegory, 'view');
 	}
 
-	editCathegory (cathegory) {
+	editCathegory (cathegory: IActivityCategory) {
 		this.cathegoryDialog(cathegory, 'edit');
 	}
 
-	cathegoryDialog (cathegory, mode) {
+	cathegoryDialog (cathegory: any, mode: string) {
 		let locals = {
 			mode,
 			cathegory: { ...cathegory },
