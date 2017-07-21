@@ -26,6 +26,9 @@
 		font-weight: 500;
 		line-height: 1.5;
 		color: rgba(0, 0, 0, 0.87);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
 	&__activity {
@@ -63,6 +66,9 @@
 		letter-spacing: -1px;
 		text-align: center;
 		color: rgba(0, 0, 0, 0.54);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 }
 
