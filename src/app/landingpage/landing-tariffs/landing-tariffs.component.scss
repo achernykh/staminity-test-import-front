@@ -1,0 +1,34 @@
+landing-tariffs {
+  application-frame {
+    top: 0px;
+    z-index: 10;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  header {
+    color: white;
+    background-color: black;
+    height: 40vh;
+  }
+  section.tariffs {
+    background-color: lightgrey;
+    min-height: 60vh;
+
+    padding: 32px;
+
+    md-card.tariff {
+      margin: 8px 8px;
+      max-width: 320px;
+
+      md-card-title span {
+        text-transform: uppercase;
+      }
+
+      section.description {
+
+      }
+    }
+
+  }
+}

@@ -192,6 +192,35 @@ export let _translate = {
 			},
 			copyright1: 'Cделано с',
 			copyright2: '| © 2017 staminity.com Все права защищены'
+		},
+		tariffs: {
+			title: 'Сколько стоит Стаминити?',
+			connect: 'Попробовать бесплатно',
+			connectText: 'На 14 дней, привязка кредитной карты не требуется',
+			tab1: 'Месяц',
+			tab2: 'Год',
+			tab3: 'Калькулятор',
+			name: {
+				basic: 'Базовый',
+				premium: 'Перимиум',
+				coach: 'Тренер',
+				club: 'Клуб'
+			},
+			description: {
+				basic: 'Базовый...',
+				premium: 'Перимиум....',
+				coach: 'Тренер....',
+				club: 'Клуб...'
+			},
+			noCreditCard: '',
+			'14day': '',
+			functions: {
+				func1: 'Функция1',
+				func2: 'Функция2',
+				func3: 'Функция3',
+				func4: 'Функция4',
+				func5: 'Функция5',
+			}
 		}
 
 	},

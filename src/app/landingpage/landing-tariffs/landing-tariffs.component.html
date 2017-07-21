@@ -1,0 +1,39 @@
+<!-- common section -->
+<application-frame class='{{$ctrl.view.style}}' layout="column" layout-fill>
+    <header flex="none" layout="column" layout-align="space-between center">
+        <div flex="20"></div>
+        <h2 flex="none" class="md-display-2 font-black md-light md-inactive" translate="landing.tariffs.title"></h2>
+        <md-button>
+            <span translate="landing.tariffs.connect"></span>
+        </md-button>
+        <p flex="none" class="md-body-2">landing.tariffs.connectText</p>
+        <section class="tabs" layout="row" layout-align="center end">
+            <div flex="none" class="tab" translate="landing.tariffs.tab1"></div>
+            <div flex="none" class="tab" translate="landing.tariffs.tab2"></div>
+            <div flex="none" class="tab" translate="landing.tariffs.tab3"></div>
+        </section>
+    </header>
+    <section class="tariffs" layout-gt-sm="row" layout-align-gt-sm="center start" layout="column" layout-align="center center">
+        <md-card class="tariff" flex="auto" ng-repeat="tariff in $ctrl.price track by $index">
+            <md-card-title style="background-color: {{::tariff.color}}">
+                <md-card-title-text>
+                    <span class="md-body-2 md-light center">{{::'landing.tariffs.name.' + tariff.name | translate}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content layout="column">
+                <div flex="none" class="subscription" layout="row">
+                    <p class="md-headline font-black">{{::tariff.fee.subscription[$ctrl.country].month | currency}}</p><p class="md-body">/ месяц</p>
+                </div>
+                <div flex="none" class="description">{{::'landing.tariffs.description.' + tariff.description | translate}}</div>
+                <md-button flex="none"><span>{{::'landing.tariffs.' + tariff.buttonText | translate}}</span></md-button>
+                <div flex="none">{{::'landing.tariffs.' + tariff.connectText | translate}}</div>
+                <md-divider></md-divider>
+                <div ng-repeat="function in tariff.functions track by $index">
+                    <p>{{::'landing.tariffs.functions.' + function | translate}}</p>
+                </div>
+
+            </md-card-content>
+        </md-card>
+    </section>
+</application-frame>
+<!-- end of common section -->
