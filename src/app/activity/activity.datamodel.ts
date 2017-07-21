@@ -143,6 +143,7 @@ export class Activity extends CalendarItem {
     private _startDate: Date;
 
 	// Дополнительные поля для использования в шаблонах тренировки
+	public isTemplate: boolean;
 	public templateId: number;
 	public code: string;
 	public description: string;
@@ -396,6 +397,7 @@ export class Activity extends CalendarItem {
 
 	/**
 	 * Перечень статусов тренировки
+	 * 0) Шаблон - template
 	 * 1) Запланирована, в будущем - coming
 	 * 2) Запланирована, пропущена - dismiss
 	 * 3) Запланирована, выполнена - complete
@@ -405,7 +407,8 @@ export class Activity extends CalendarItem {
 	 * @returns {string}
 	 */
 	get status() {
-		return !this.isToday ?
+		return this.isTemplate? 'template' : (
+			!this.isToday ?
 			// приоритет статусов, если запись не сегодня
 			(this.coming && 'coming')
 				|| (!this.specified && 'not-specified')
@@ -418,7 +421,8 @@ export class Activity extends CalendarItem {
 				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
 				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
 				|| (!this.specified && 'not-specified')
-				|| (this.coming && 'coming');
+				|| (this.coming && 'coming')
+		);
 	}
 
 	get durationValue(){

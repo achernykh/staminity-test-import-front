@@ -1,9 +1,6 @@
 <md-card flex class="templates">
 	<section ng-if="$ctrl.templatesByOwner.user.length" class="templates__section">
-		<div 
-			class="md-body-2 md-padding templates__subheader"
-			hide-xs hide-sm
-		>{{ 'reference.templates.user' | translate }}</div>
+		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.user' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['user-template']"
@@ -29,10 +26,7 @@
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.coach.length" class="templates__section">
-		<div 
-			class="md-body-2 md-padding templates__subheader"
-			hide-xs hide-sm
-		>{{ 'reference.templates.coach' | translate }}</div>
+		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.coach' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['coach-template']"
@@ -59,10 +53,7 @@
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.club.length" class="templates__section">
-		<div 
-			class="md-body-2 md-padding templates__subheader"
-			hide-xs hide-sm
-		>{{ 'reference.templates.club' | translate }}</div>
+		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.club' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['club-template']"
@@ -89,10 +80,7 @@
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.system.length" class="templates__section">
-		<div 
-			class="md-body-2 md-padding templates__subheader"
-			hide-xs hide-sm
-		>{{ 'reference.templates.system' | translate }}</div>
+		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.system' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['system-template']"

@@ -1,7 +1,9 @@
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
+import { IActivityIntervalPW } from "../../../api/activity/activity.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
 import { Activity } from "../activity/activity.datamodel";
 import { getType } from "../activity/activity.constants";
+import { measureValue, measureUnit } from "../share/measure/measure.constants";
 
 
 export type Owner = 'user' | 'system' | 'club' | 'coach';
@@ -24,7 +26,14 @@ export const templateOwner = (user: IUserProfile) => (template: IActivityTemplat
 		|| 'coach';
 };
 
+export const nameFromInterval = (interval: IActivityIntervalPW, sport = 'default') : string => {
+	let { distance, movingDuration } = <any>(interval || {});
+	return distance.durationValue && `${measureValue(distance.durationValue, sport, 'distance')} ${measureUnit('distance', sport)}`
+		|| movingDuration.durationValue && measureValue(movingDuration.durationValue, sport, 'movingDuration');
+};
+
 export const templateToActivity = (template: IActivityTemplate) : Activity => new Activity(<any>{ 
+	isTemplate: true,
 	templateId: template.id,
 	code: template.code,
 	description: template.description,

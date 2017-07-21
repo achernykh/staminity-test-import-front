@@ -27,18 +27,20 @@
         <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0">
             <md-input-container class="md-block no-message" md-no-float>
                 <md-icon class="material-icons" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
-                <md-select ng-model="$ctrl.item.activity.category" required=""
-                           md-no-asterisk="false"
-                           placeholder="Укажите категорию"
-                           ng-model-options="{ getterSetter: true }"
-                           ng-change="$ctrl.changeParam()"
-                           ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
-                           name="category"
-                           class="icon">
+                <md-select 
+                    ng-model="$ctrl.item.activity.header.activityCategory" 
+                    ng-model-options="{ trackBy: '$value.id' }"
+                    required=""
+                    md-no-asterisk="false"
+                    placeholder="Укажите категорию"
+                    ng-change="$ctrl.changeParam()"
+                    ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
+                    name="category"
+                    class="icon"
+                >
                     <md-option
-                            ng-repeat="category in $ctrl.item.activity.categoriesList |
-                                filter:{activityTypeId: $ctrl.item.activity.sport}:true track by category.id"
-                            value="{{category.id}}">{{ category | cathegoryCode }}
+                        ng-repeat="category in $ctrl.item.activity.categoriesList | filter:{activityTypeId: $ctrl.item.activity.sport}:true track by category.id"
+                        ng-value="category">{{ category | cathegoryCode }}
                     </md-option>
                 </md-select>
                 <div ng-messages="$ctrl.form.category.$error" role="alert">
@@ -48,7 +50,7 @@
                 </div>
             </md-input-container>
         </md-list-item>
-        <md-list-item layout="row" layout-align="start center" ng-show="!$ctrl.item.template">
+        <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.template">
             <md-input-container flex="50" class="no-message" md-no-float>
                 <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
                 <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"

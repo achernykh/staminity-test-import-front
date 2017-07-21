@@ -1,5 +1,5 @@
 <div 
-	ng-if="!$ctrl.isScreenSmall" 
+	ng-if="!isScreenSmall" 
 	class="activity-template template-card md-whiteframe-1dp" layout="column"
 >
 
@@ -45,7 +45,7 @@
 		<div class="template-header__activity">{{ $ctrl.template.activityCategory | cathegoryCode }}</div>
 
 		<div class="template-header__code">
-			{{ $ctrl.template.code }}
+			{{ $ctrl.name }}
 		</div>
 	</div>
 
@@ -54,14 +54,14 @@
 
 </div>
 <div 
-	ng-if="$ctrl.isScreenSmall"
+	ng-if="isScreenSmall"
 	class="activity-template template-list-item" layout="row" layout-align="start start"
 >
 
 	<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="activity-template__icon-circled" style="margin: 0 15px 0 0;"></md-icon>
 
 	<div flex>
-		<div class="activity-template__code">{{ $ctrl.template.code }}</div>
+		<div class="activity-template__code">{{ $ctrl.name }}</div>
 		<div class="activity-template__activity">{{ $ctrl.template.activityCategory | cathegoryCode }}</div>
 		<div class="activity-template__description">{{ $ctrl.description | truncate }}</div>
 	</div>

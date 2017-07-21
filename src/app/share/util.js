@@ -8,6 +8,7 @@ export const fold = (f, x0) => (xs) => xs.reduce(f, x0)
 export const map = (f = id) => (xs) => xs.map(f)
 export const filter = (f = id) => (xs) => xs.filter(f)
 export const flatMap = (f) => fold((r, x, i) => r.concat(f(x, i)), []) 
+export const find = (f) => (xs) => xs.find(f)
 export const unique = (xs) => [...new Set(xs)]
 export const uniqueBy = (f = id) => (xs) => [...new Map(xs.map(x => [f(x), x])).values()];
 

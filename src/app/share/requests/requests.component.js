@@ -91,7 +91,7 @@ class RequestsCtrl {
     }
     
     processRequest (request, action) {
-        this.dialogs.confirm('performAction' + action)
+        this.dialogs.confirm('dialogs.performAction' + action)
         .then((confirmed) => confirmed && this.GroupService.processMembership(action, null, request.userGroupRequestId)
             .then(this.message.toastInfo('requestComplete'), error => this.message.toastError(error)));
     }

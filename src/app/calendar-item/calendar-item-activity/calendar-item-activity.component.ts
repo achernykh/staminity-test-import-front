@@ -12,6 +12,7 @@ import {
 import { IActivityCategory, IActivityTemplate } from '../../../../api/reference/reference.interface';
 import SessionService from "../../core/session.service";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
+import {nameFromInterval} from "../../reference/reference.datamodel";
 import {Activity} from "../../activity/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
@@ -113,6 +114,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.currentUser = this.SessionService.getUser();
         if (this.mode === 'post') {
             this.data = {
+                isTemplate: this.template,
                 calendarItemType: 'activity',
                 activityHeader: {
                     activityType: this.activityType || {id: null, code: null, typeBasic: null},
@@ -128,20 +130,22 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity = new Activity(this.data, this.mode);
         //this.activity.prepare();
 
-        //Получаем детали по тренировке загруженной из внешнего источника
-        if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
-            this.ActivityService.getIntervals(this.activity.activityHeader.activityId)
-                .then(response => {
-                    this.activity.completeIntervals(response);
-                    this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
-                        (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
-                }, error => this.message.toastError('errorCompleteIntervals'));
+        if (!this.template) {
+            //Получаем детали по тренировке загруженной из внешнего источника
+            if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
+                this.ActivityService.getIntervals(this.activity.activityHeader.activityId)
+                    .then(response => {
+                        this.activity.completeIntervals(response);
+                        this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
+                            (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
+                    }, error => this.message.toastError('errorCompleteIntervals'));
 
-            this.ActivityService.getDetails2(this.data.activityHeader.activityId)
-                .then(response => {
-                    this.activity.completeDetails(this.details = response);
-                    this.isLoadingDetails = false;
-                }, error => this.message.toastError('errorCompleteDetails'));
+                this.ActivityService.getDetails2(this.data.activityHeader.activityId)
+                    .then(response => {
+                        this.activity.completeDetails(this.details = response);
+                        this.isLoadingDetails = false;
+                    }, error => this.message.toastError('errorCompleteDetails'));
+            }
         }
 
 
@@ -155,9 +159,15 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post') {
-            this.ActivityService.getCategory()
-                .then(list => this.activity.categoriesList = list,
-                    error => this.message.toastError(error));
+            if (this.template) {
+                this.ReferenceService.getActivityCategories(undefined, false, true)
+                    .then(list => this.activity.categoriesList = list,
+                        error => this.message.toastError(error));
+            } else {
+                this.ActivityService.getCategory()
+                    .then(list => this.activity.categoriesList = list,
+                        error => this.message.toastError(error));
+            }
         }
 
         // Перечень атлетов тренера доступных для планирования
@@ -310,6 +320,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onReset(mode: string) {
+        if (this.template) {
+            this.onCancel();
+        }
+
         this.mode = mode;
         if(mode === 'post') {
             this.onCancel();
@@ -346,7 +360,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onDelete() {
-        this.dialogs.confirm(this.activity.hasImportedData ? 'deleteActualActivity' :'deletePlanActivity')
+        this.dialogs.confirm(this.activity.hasImportedData ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity')
             .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId])
                 .then((response)=> {
                     this.onAnswer({response: {type:'delete',item:this.activity.build()}});
@@ -355,6 +369,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onSaveTemplate() {
+        if (!this.template) {
+            this.onCancel();
+        }
+
         this.activity.build();
 
         let { templateId, code, description, favourite, visible, header } = this.activity;
@@ -411,6 +429,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
             (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;
 
         this.activity.intervalW.calcMeasures = actual;
+
+        if (this.template) {
+            let { code, intervalPW, activityHeader } = this.activity;
+            let sport = activityHeader.activityType.typeBasic;
+            this.activity.code = code || nameFromInterval(intervalPW, sport);
+        }
     }
 }
 

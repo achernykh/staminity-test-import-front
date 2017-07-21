@@ -105,11 +105,13 @@
 		margin-top: 61px; 
 		text-align: center;
 
+
 		@media (max-width: 959px) {
 			position: fixed;
 			right: 16px;
 			bottom: 16px;
 			width: auto;
+			z-index: 100;
 		}
 	}
 }

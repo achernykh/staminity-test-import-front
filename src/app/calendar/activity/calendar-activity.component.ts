@@ -296,7 +296,7 @@ class CalendarActivityCtrl {
      * Удалить запись
      */
     onDelete() {
-        this.dialogs.confirm('deletePlanActivity')
+        this.dialogs.confirm('dialogs.deletePlanActivity')
             .then(()=>this.CalendarService.deleteItem('F', [this.item.calendarItemId])
                 .then(()=>this.message.toastInfo('activityDeleted'),
                     (error)=> this.message.toastError(error)));

@@ -281,18 +281,17 @@ class ActivityAssignmentCtrl implements IComponentController {
                 this.form['plan_heartRate'].$setValidity('singleIntensity',
                     !(this.form['plan_heartRate'].$modelValue[this.index[FtpState.Off]['from']] > 0 &&
                     this.form['plan_speed'].$modelValue[this.index[FtpState.Off]['from']] > 0));
-            }
-
-            if (this.form['plan_speed'] && this.form['plan_heartRate']) {
                 this.form['plan_speed'].$setValidity('singleIntensity',
                     !(this.form['plan_heartRate'].$modelValue[this.index[FtpState.Off]['from']] > 0 &&
                     this.form['plan_speed'].$modelValue[this.index[FtpState.Off]['from']] > 0));
             }
         }
 
-        this.form['dateStart'].$setValidity('needPermissionForFeature',
-            !this.item.isOwner || this.AuthService.isActivityPlan() ||
-            (this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+        if (this.form['dateStart']) {
+            this.form['dateStart'].$setValidity('needPermissionForFeature',
+                !this.item.isOwner || this.AuthService.isActivityPlan() ||
+                (this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+        }
 
     }
 

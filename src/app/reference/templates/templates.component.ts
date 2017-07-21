@@ -61,7 +61,7 @@ const dialogParams = {
 
 class TemplatesCtrl implements IComponentController {
 
-	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
+	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'dialogs', 'ReferenceService'];
 
 	private user : IUserProfile;
 	private cathegories : Array<IActivityCategory>;
@@ -74,6 +74,7 @@ class TemplatesCtrl implements IComponentController {
 		private $mdDialog, 
 		private $mdMedia, 
 		private message,
+		private dialogs,
 		private ReferenceService
 	) {
 
@@ -175,7 +176,8 @@ class TemplatesCtrl implements IComponentController {
 
 	deleteTemplate (template) {
 		let { id } = template;
-		return this.ReferenceService.deleteActivityTemplate(id)
+		return this.dialogs.confirm('reference.templates.confirmDelete')
+		.then((result) => result && this.ReferenceService.deleteActivityTemplate(id), () => {})
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;

@@ -17,7 +17,8 @@ export const ru = {
 			favourite: 'Избранный',
 			cathegory: 'Укажите категорию',
 			trainerPrescription: 'Установка тренера',
-			task: 'Задание'
+			task: 'Задание',
+			confirmDelete: 'Удалить шаблон?'
 		},
 		cathegories: {
 			singular: 'Категория',
