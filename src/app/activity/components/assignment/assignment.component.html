@@ -75,8 +75,9 @@
         <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
             <md-input-container flex="auto" class="md-block no-message" md-no-float>
                 <md-icon flex="none" class="material-icons md-dark" style="left: 0px">import_contacts</md-icon>
-                <input type="text" name="name" minlength="3" maxlength="20" required
-                       ng-model="$ctrl.item.activity.code" autocomplete="off"
+                <input type="text" name="name" maxlength="20" required
+                       ng-model="$ctrl.item.name" 
+                       autocomplete="off"
                        placeholder="Укажите название шаблона">
                 <div ng-messages="$ctrl.form.name.$error" role="alert">
                     <div ng-message="needPermissionForFeature"
@@ -89,7 +90,7 @@
         <md-list-item layout="row" layout-align="start center">
             <md-icon flex="none" class="material-icons md-dark" style="margin-right: 20px">star</md-icon>
             <p class="md-caption" flex="none">Избранный</p>
-            <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.activity.favorite" md-invert>
+            <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.activity.favourite" md-invert>
             </md-switch>
         </md-list-item>
     </md-list>

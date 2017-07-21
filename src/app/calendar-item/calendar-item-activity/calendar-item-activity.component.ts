@@ -87,11 +87,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
 
-    static $inject = ['$scope','CalendarService','UserService','SessionService','ActivityService','AuthService',
+    static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
         'message','$mdMedia','dialogs', 'ReferenceService'];
 
     constructor(
         private $scope: IScope,
+        private $translate,
         private CalendarService: CalendarService,
         private UserService: UserService,
         private SessionService: SessionService,
@@ -375,7 +376,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         this.activity.build();
 
-        let { templateId, code, description, favourite, visible, header } = this.activity;
+        let name = this.name;
+        let description = this.activity.intervalPW.trainersPrescription;
+        let { templateId, code, favourite, visible, header } = this.activity;
         let { activityCategory, intervals } = header;
         let content = [
             ...intervals.filter(i => i.type === 'pW'), 
@@ -384,7 +387,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         .map((interval) => ({ ...interval, calcMeasures: undefined }));
 
         if (this.mode === 'post') {
-            this.ReferenceService.postActivityTemplate(null, activityCategory.id, null, code, description, favourite, content)
+            this.ReferenceService.postActivityTemplate(null, activityCategory.id, null, name, description, favourite, content)
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
@@ -393,7 +396,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
 
         if (this.mode === 'put') {
-            this.ReferenceService.putActivityTemplate(templateId, activityCategory.id, null, null, code, description, favourite, visible)
+            this.ReferenceService.putActivityTemplate(templateId, activityCategory.id, null, null, name, description, favourite, visible)
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
@@ -429,11 +432,21 @@ export class CalendarItemActivityCtrl implements IComponentController{
             (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;
 
         this.activity.intervalW.calcMeasures = actual;
+    }
 
+    get name () {
         if (this.template) {
             let { code, intervalPW, activityHeader } = this.activity;
             let sport = activityHeader.activityType.typeBasic;
-            this.activity.code = code || nameFromInterval(intervalPW, sport);
+            return code || nameFromInterval(this.$translate) (intervalPW, sport);
+        } else {
+            return this.activity.code;
+        }
+    }
+
+    set name (value) {
+        if (value !== this.name) {
+            this.activity.code = value;
         }
     }
 }

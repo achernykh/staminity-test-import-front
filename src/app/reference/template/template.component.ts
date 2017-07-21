@@ -2,7 +2,6 @@ import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
 import { maybe, prop, find } from '../../share/util.js';
-import { nameFromInterval } from "../reference.datamodel";
 import { getType, activityTypes } from "../../activity/activity.constants";
 import './template.component.scss';
 
@@ -43,8 +42,7 @@ class TemplateCtrl implements IComponentController {
 	}
 
 	get name () {
-		return this.template.code 
-			|| maybe(this.template.content) (find((interval) => interval.type === 'pW')) (nameFromInterval) ();
+		return this.template.code;
 	}
 }
 

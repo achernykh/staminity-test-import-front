@@ -26,9 +26,9 @@ export const templateOwner = (user: IUserProfile) => (template: IActivityTemplat
 		|| 'coach';
 };
 
-export const nameFromInterval = (interval: IActivityIntervalPW, sport = 'default') : string => {
+export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string) : string => {
 	let { distance, movingDuration } = <any>(interval || {});
-	return distance.durationValue && `${measureValue(distance.durationValue, sport, 'distance')} ${measureUnit('distance', sport)}`
+	return distance.durationValue && `${measureValue(distance.durationValue, sport, 'distance')} ${$translate.instant(measureUnit('distance', sport))}`
 		|| movingDuration.durationValue && measureValue(movingDuration.durationValue, sport, 'movingDuration');
 };
 
