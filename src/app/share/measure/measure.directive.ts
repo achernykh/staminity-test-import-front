@@ -77,6 +77,7 @@ const convertToFTP = (interval:boolean, initial: {}, value: any, ftp: number):an
 };
 
 const convertFromFTP = (interval:boolean, initial: {}, value: any, ftp: number):any => {
+	//debugger;
 	//return interval ? Object.assign(initial,{from: value.from * 100 / ftp, to: value.to * 100 / ftp}) : value * 100 / ftp;
 };
 
@@ -226,14 +227,11 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const numberFtpIntervalFormatters = (value: any) => {
-			//debugger;
-			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
-				initial = value;
-				let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
-				return (newValue[$scope.from] !== newValue.to) ? `${newValue[$scope.from].toFixed(0)}`+'-'+`${newValue[$scope.to].toFixed(0)}` : `${newValue[$scope.from].toFixed(0)}`;
+			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)
+				&& value[$scope.from] && value[$scope.to] ) {
+				return $scope.interval ? `${value[$scope.from]*100}`+'-'+`${value[$scope.to]*100}` : `${value[$scope.from]*100}`;
 			} else {
-				initial = {from: null, to: null};
-				return initial;
+				return null;
 			}
 		};
 
