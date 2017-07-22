@@ -98,6 +98,15 @@ landing-tariffs {
       margin: 16px 0px;
       background-color: $grey-200;
     }
-
   }
+  section.calculator {
+    div.parameters, div.totals {
+      max-width: 500px;
+      min-width: 320px;
+      /**@media (max-width: 600) {
+        width: 100%;
+      }**/
+    }
+  }
+
 }

@@ -47,14 +47,20 @@
         </md-card>
     </section>
     <section ng-if="$ctrl.selectedTab === 'calculator'"
-             class="calculator" layout-gt-sm="row" layout-align-gt-sm="center start" layout="column" layout-align="center center">
+             class="calculator"
+             layout-gt-sm="row" layout-align-gt-sm="center start" layout="column" layout-align="start center">
         <div flex-gt-sm="50" flex="none" class="parameters">
+            <h2 class="md-headline md-dark font-black" translate="landing.tariffs.calculator.params"></h2>
+            <div layout="row" layout-align="space-between center">
+                <p translate="landing.tariffs.calculator.premium"></p>
+                <md-switch></md-switch>
+            </div>
             <md-slider flex="auto" md-discrete step="1" min="0" max="15" ng-model="$ctrl.calc.athletes" aria-label="athlete"></md-slider>
             <md-slider flex="auto" md-discrete step="1" min="0" max="15" ng-model="$ctrl.calc.coaches" aria-label="coach"></md-slider>
             <md-slider flex="auto" md-discrete step="1" min="0" max="15" ng-model="$ctrl.calc.proAthletes" aria-label="pro"></md-slider>
         </div>
         <div flex-gt-sm="50" flex="none" class="totals">
-
+            <h2 class="md-headline md-dark font-black" translate="landing.tariffs.calculator.totals"></h2>
         </div>
     </section>
 </application-frame>
