@@ -144,7 +144,7 @@
                                        ng-attr-sport={{$ctrl.sport}} interval="true"
                                        ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                        ng-change="$ctrl.changeValue(measure.$key)"
-                                       ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach">
+                                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode !== 'post'">
                                 <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
                                        name="plan_{{::measure.$key}}"
                                        ng-model="measure.durationValue"
@@ -152,7 +152,7 @@
                                        ng-attr-sport={{$ctrl.sport}} interval="false"
                                        ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                        ng-change="$ctrl.changeValue(measure.$key)"
-                                       ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach">
+                                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode !== 'post'">
                             </md-input-container>
                         </td>
                         <td md-cell ng-if="!$ctrl.isFTP() && !$ctrl.item.template">
@@ -207,7 +207,7 @@
                 <label translate="Установка тренера" class="icon"></label>
                 <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
                           ng-change="$ctrl.changeParam()"
-                          ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
+                          ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode !== 'post'"
                           class="icon" name="trainersPrescription"
                           rows="1"></textarea>
             </md-input-container>

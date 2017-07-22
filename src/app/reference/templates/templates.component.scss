@@ -1,5 +1,6 @@
 .activity-templates-wrapper {
-	float: left;
+	display: inline-block;
+	float: none;
 	width: 160px;
 	padding: 6px;
 	margin: 0;
@@ -70,12 +71,13 @@
 	}
 
 	.dndPlaceholder {
-		display: block;
-		float: left;
+		display: inline-block;
+		float: none;
 		height: 122px;
 		width: 160px;
 		padding: 6px;
 		background-color: #E0E0E0 !important;
+		vertical-align: top;
 	}
 }
 
