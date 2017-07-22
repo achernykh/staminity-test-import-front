@@ -253,14 +253,14 @@ class ActivityAssignmentCtrl implements IComponentController {
             this.form['plan_distance'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
                 this.form['plan_movingDuration'].$modelValue > 0 ||
-                this.form['actual_distance'].$modelValue > 0 ||
-                this.form['actual_movingDuration'].$modelValue > 0);
+                this.form.hasOwnProperty('actual_distance') && this.form['actual_distance'].$modelValue > 0 ||
+                this.form.hasOwnProperty('actual_movingDuration') &&this.form['actual_movingDuration'].$modelValue > 0);
 
             this.form['plan_movingDuration'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
                 this.form['plan_movingDuration'].$modelValue > 0 ||
-                this.form['actual_distance'].$modelValue > 0 ||
-                this.form['actual_movingDuration'].$modelValue > 0);
+                this.form.hasOwnProperty('actual_distance') && this.form['actual_distance'].$modelValue > 0 ||
+                this.form.hasOwnProperty('actual_movingDuration') && this.form['actual_movingDuration'].$modelValue > 0);
 
             /*this.form['plan_heartRate'].$setValidity('needIntensity',
              this.form['plan_heartRate'].$modelValue[this.from] > 0 ||

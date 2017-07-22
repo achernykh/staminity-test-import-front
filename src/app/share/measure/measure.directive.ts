@@ -160,7 +160,6 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const numberFtpIntervalParsers = (value) => {
-
 			let sep = value.search('-');
 			let from, to;
 			if(sep !== -1){
@@ -229,8 +228,15 @@ export function MeasurementInput($filter): IDirective {
 		const numberFtpIntervalFormatters = (value: any) => {
 			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)
 				&& value[$scope.from] && value[$scope.to] ) {
-				return $scope.interval ? `${value[$scope.from]*100}`+'-'+`${value[$scope.to]*100}` : `${value[$scope.from]*100}`;
+				initial = value;
+				//let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
+				return $scope.interval ? `${initial[$scope.from]*100}`+'-'+`${initial[$scope.to]*100}` : `${initial[$scope.from]*100}`;
 			} else {
+				initial = value;//{[$scope.from]: null, [$scope.to]: null};
+				/**return {
+					[$scope.from]: null,
+					[$scope.to]: null
+				};**/
 				return null;
 			}
 		};
