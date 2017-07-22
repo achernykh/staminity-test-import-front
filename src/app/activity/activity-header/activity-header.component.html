@@ -58,18 +58,19 @@
             </md-tab-body>
         </md-tab>
         <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
-                ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
+                ng-if="$ctrl.item.activity.actualDataIsImported">
             <md-tab-label><md-icon class="material-icons">assessment</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-details flex="auto" layout="column" layout-fill
                                          selection-index="$ctrl.item.selectionIndex"
                                          change="$ctrl.item.detailsSelectChangeCount + $ctrl.item.splitsSelectChangeCount"
+                                         has-details="$ctrl.item.activity.hasDetails && $ctrl.item.activity.hasImportedData"
                                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
                 </activity-header-details>
             </md-tab-body>
         </md-tab>
         <md-tab id="splits" flex layout="column"
-                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
+                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.actualDataIsImported">
             <md-tab-label><md-icon class="material-icons">repeat</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-splits flex="auto" layout="column" layout-fill

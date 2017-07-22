@@ -60,7 +60,7 @@
              dnd-list="items"
              dnd-allowed-types="['itemType']"
              dnd-drop="callback({date: $ctrl.data.date, operation: dropEffect, index: index})">
-        <div flex="100" layout-wrap ng-switch on="item.calendarItemType"
+        <div flex="none" layout-wrap ng-switch on="item.calendarItemType"
              ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index">
             <calendar-measurement ng-switch-when="measurement"
                                   layout="row" flex="auto"
@@ -211,7 +211,7 @@
     <!-- calendar items: end -->
 
     <!-- add item: start -->
-    <section class="actions" layout="row" layout-align="center center" flex="grow" hide show-gt-sm>
+    <section class="actions" layout="row" layout-align="center center" flex="none" hide show-gt-sm>
         <md-button  class="md-icon-button" aria-label="More"
                     ng-click="$ctrl.newActivity($event,$ctrl.data)">
             <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>

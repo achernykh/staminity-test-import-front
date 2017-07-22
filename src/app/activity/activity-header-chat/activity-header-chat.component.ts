@@ -20,6 +20,7 @@ class ActivityHeaderChatCtrl implements IComponentController {
     private comments: Array<IObjectComment> = [];
     private text: string = null;
     private readonly commentType: string = 'activity';
+    private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = ['CommentService', 'message','$scope'];
 
@@ -36,11 +37,13 @@ class ActivityHeaderChatCtrl implements IComponentController {
     }
 
     onPostComment(text) {
+        this.inAction = true;
         this.comment.post(this.commentType, this.activityId, true, text)
             .then(result=> {
                     this.text = null;
                     this.comments = result;
-                }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync());
+                }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync())
+            .then(() => this.inAction = false);
             //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
     }
 

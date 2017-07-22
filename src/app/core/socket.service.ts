@@ -217,10 +217,14 @@ export class SocketService implements ISocketService {
             return;
         }
 
-        this.socket.removeEventListener('message', this.response.bind(this));
-        this.socket.removeEventListener('close', this.close.bind(this));
-        this.socket.removeEventListener('error', this.reopen.bind(this));
-        this.socket.close(3000, ev.reason);
+        try {
+            this.socket.removeEventListener('message', this.response.bind(this));
+            this.socket.removeEventListener('close', this.close.bind(this));
+            this.socket.removeEventListener('error', this.reopen.bind(this));
+            this.socket.close(3000, ev.reason);
+        } catch (e) {
+            console.log('socket already closed');
+        }
         //this.lastHeartBit = null;
 
         switch (ev.reason) {

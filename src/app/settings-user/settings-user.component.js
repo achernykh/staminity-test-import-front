@@ -33,6 +33,7 @@ class SettingsUserCtrl {
 
     constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia) {
         console.log('SettingsCtrl constructor=', this)
+        this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
         this._DELIVERY_METHOD = _DELIVERY_METHOD
@@ -577,6 +578,8 @@ SettingsUserCtrl.$inject = ['$scope','UserService','AuthService','$http',
 
 
 function DialogController($scope, $mdDialog) {
+
+    $scope.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
     $scope.hide = function () {
         $mdDialog.hide();
