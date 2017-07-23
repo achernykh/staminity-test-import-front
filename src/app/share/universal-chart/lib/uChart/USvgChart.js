@@ -3,7 +3,6 @@ import {OrientationFactory} from '../orientations/OrientationFactory.js';
 import {Tooltip} from '../Tooltip.js';
 import {LegendFactory} from '../legend/LegendFactory.js';
 import {MMargin} from '../MMargin.js';
-import {Orientation} from '../orientations/Orientation.js';
 import {Util} from '../Util.js';
 import {Color} from '../Color.js';
 import * as d3 from 'd3';

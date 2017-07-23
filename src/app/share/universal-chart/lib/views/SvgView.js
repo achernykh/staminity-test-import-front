@@ -1,6 +1,4 @@
 import {View} from '../View.js';
-//import {UChart} from '../UChart.js';
-//import {Scope} from '../Scope.js';
 import * as d3 from 'd3';
 
 

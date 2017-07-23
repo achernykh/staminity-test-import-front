@@ -1,4 +1,3 @@
-import {UChart} from '../UChart.js';
 import {Orientation} from './Orientation.js';
 import {VerticalOrientation} from './VerticalOrientation.js';
 import {HorizontalOrientation} from './HorizontalOrientation.js';

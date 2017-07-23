@@ -1,4 +1,3 @@
-import {LineView} from '../LineView.js';
 import * as d3 from 'd3';
 
 

@@ -1,8 +1,5 @@
 import {View2D} from './View2D.js';
-import {UChart} from '../UChart.js';
-import {Scope} from '../Scope.js';
 import {LineStateFactory} from './line/LineStateFactory.js';
-import * as d3 from 'd3';
 
 
 /**

@@ -1,4 +1,3 @@
-import {UChart} from './UChart.js';
 import * as d3 from 'd3';
 
 

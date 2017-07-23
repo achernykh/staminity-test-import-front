@@ -1,5 +1,3 @@
-import {UChart} from '../UChart.js';
-import {Legend} from '../Legend.js';
 import {ColumnLegend} from './ColumnLegend.js';
 import {RowLegend} from './RowLegend.js';
 import * as d3 from 'd3';

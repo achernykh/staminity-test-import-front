@@ -1,5 +1,5 @@
 import {Util} from './Util.js';
-import * as d3 from 'd3';
+import moment from 'moment/src/moment.js';
 
 
 /**

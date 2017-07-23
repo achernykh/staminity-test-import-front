@@ -1,8 +1,5 @@
-import {UChart} from './UChart.js';
-import {Scope} from './Scope.js';
 import {Util} from './Util.js';
 import {ViewFactory} from './views/ViewFactory.js';
-import {Tooltip} from './Tooltip.js';
 import {Config} from './Config.js';
 import * as d3 from 'd3';
 

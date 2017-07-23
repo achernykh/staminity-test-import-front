@@ -1,6 +1,4 @@
-import {UChart} from './UChart.js';
 import {TooltipStateFactory} from './tooltip/TooltipStateFactory.js';
-import {Orientation} from './orientations/Orientation.js';
 import {TooltipCombinedState} from './tooltip/TooltipCombinedState.js';
 import * as d3 from 'd3';
 

@@ -1,12 +1,8 @@
-import {LineView} from '../LineView.js';
-import {LineState} from './LineState.js';
 import {LineVerticalState} from './LineVerticalState.js';
 import {LineHorizontalState} from './LineHorizontalState.js';
-import {AreaView} from '../AreaView.js';
 import {AreaVerticalState} from '../area/AreaVerticalState.js';
 import {AreaHorizontalState} from '../area/AreaHorizontalState.js';
 import {DotView} from '../DotView.js';
-import * as d3 from 'd3';
 
 
 class LineStateFactory {

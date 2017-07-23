@@ -4,6 +4,7 @@ import {U1DChart} from './U1DChart.js';
 import {Orientation} from '../orientations/Orientation.js';
 import {U2DVerticalChart} from './U2DVerticalChart.js';
 import {U2DHorizontalChart} from './U2DHorizontalChart.js';
+import * as d3 from 'd3';
 
 
 class UChartFactory {

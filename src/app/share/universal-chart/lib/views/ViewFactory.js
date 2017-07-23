@@ -1,6 +1,3 @@
-import {UChart} from '../UChart.js';
-import {Scope} from '../Scope.js';
-import {View} from '../View.js';
 import {BarViewFactory} from './bar/BarViewFactory.js';
 import {LineView} from './LineView.js';
 import {AreaView} from './AreaView.js';

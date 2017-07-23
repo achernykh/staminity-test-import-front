@@ -46,7 +46,8 @@ module.exports = {
             'angular-drag-and-drop-lists',
             'angularjs-scroll-glue',
             'drag-drop-webkit-mobile',
-            'angular-ui-router'
+            'angular-ui-router',
+            'lodash'
             //'unichart/dist/uchart.min.js'
         ],
         // вход для приложения

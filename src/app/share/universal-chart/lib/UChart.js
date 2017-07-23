@@ -1,6 +1,5 @@
 import {Config} from './Config.js';
 import {Util} from './Util.js';
-//import {View} from './View.js';
 import {Scope} from './Scope.js';
 import {ViewFactory} from './views/ViewFactory.js';
 import {BarView} from './views/BarView.js';

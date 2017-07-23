@@ -1,6 +1,4 @@
 import {SvgView} from './SvgView.js';
-//import {UChart} from '../UChart.js';
-//import {Scope} from '../Scope.js';
 import {OrientationFactory} from '../orientations/OrientationFactory.js';
 import {Util} from '../Util.js';
 import * as d3 from 'd3';
