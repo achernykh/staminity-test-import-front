@@ -69,7 +69,8 @@ export const landingTariffsData = [
                     coachAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 210
+                        athlete: 210,
+                        premium: 180
                     }
                 }
             }
@@ -102,7 +103,8 @@ export const landingTariffsData = [
                     clubAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 210
+                        athlete: 210,
+                        premium: 180
                     },
                     clubCoaches: {
                         minCoaches: 1,

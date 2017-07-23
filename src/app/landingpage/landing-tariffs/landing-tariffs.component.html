@@ -66,6 +66,7 @@
             <div class="md-subhead md-dark">
                 <span translate="landing.tariffs.calc.athletes"></span>
                 <span>&nbsp;{{$ctrl.calc.athletes}}</span>
+                <span ng-if="$ctrl.calc.athletes > 1 && $ctrl.calc.athletes === 10*$ctrl.calc.coaches">+</span>
                 <p class="free md-caption md-dark" ng-if="$ctrl.calc.coaches && $ctrl.calc.athletes === 10*$ctrl.calc.coaches">
                 {{'landing.tariffs.calc.freeAthletes' | translate:$ctrl.getAthletePriceLimit()}}</p>
             </div>

@@ -51,7 +51,7 @@ class LandingTariffsCtrl implements IComponentController {
         }**/
 
         this.premiumPriceByUser = this.price.filter(t => t.name === 'premium')[0].fee.subscription[this.country].month;
-        this.premiumPriceByCoach = this.price.filter(t => t.name === 'coach')[0].fee.variable[this.country].premium;
+        this.premiumPriceByCoach = this.price.filter(t => t.name === 'coach')[0].fee.variable[this.country].coachAthletes.premium;
         this.coachByUser = this.price.filter(t => t.name === 'coach')[0].fee.subscription[this.country].month;
         this.athleteByCoach = this.price.filter(t => t.name === 'coach')[0].fee.variable[this.country].coachAthletes.athlete;
     }
