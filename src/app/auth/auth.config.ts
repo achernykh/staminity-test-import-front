@@ -44,6 +44,11 @@ function configure(
 		.state('signup', <StateDeclaration>{
 			url: "/signup",
 			loginRequired: false,
+			params: {
+				activatePremiumTrial: null,
+				activateCoachTrial: null,
+				activateClubTrial: null
+			},
 			resolve: {
 				view: () => new DisplayView('signup'),
 			},

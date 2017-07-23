@@ -14,7 +14,13 @@ export const landingTariffsData = [
                     month: 0,
                     year: 0
                 }
-            }
+            },
+            variable: null
+        },
+        signup: {
+            activatePremiumTrial: false,
+            activateCoachTrial: false,
+            activateClubTrial: false
         }
     },
     {
@@ -32,7 +38,13 @@ export const landingTariffsData = [
                     month: 300,
                     year: 300 * 0.9
                 }
-            }
+            },
+            variable: null
+        },
+        signup: {
+            activatePremiumTrial: true,
+            activateCoachTrial: false,
+            activateClubTrial: false
         }
     },
     {
@@ -53,9 +65,19 @@ export const landingTariffsData = [
             },
             variable: {
                 ru: {
-                    athlete: 210
+                    rules: ['coachAthletes'],
+                    coachAthletes: {
+                        minAthletes: 1,
+                        maxAthletes: 10,
+                        athlete: 210
+                    }
                 }
             }
+        },
+        signup: {
+            activatePremiumTrial: false,
+            activateCoachTrial: true,
+            activateClubTrial: false
         }
     },
     {
@@ -76,10 +98,23 @@ export const landingTariffsData = [
             },
             variable: {
                 ru: {
-                    athlete: 210,
-                    coach: 300
+                    rules: ['clubAthletes','clubCoaches'],
+                    clubAthletes: {
+                        minAthletes: 1,
+                        maxAthletes: 10,
+                        athlete: 210
+                    },
+                    clubCoaches: {
+                        minCoaches: 1,
+                        coach: 300
+                    }
                 }
             }
+        },
+        signup: {
+            activatePremiumTrial: false,
+            activateCoachTrial: false,
+            activateClubTrial: true
         }
     }
 ];

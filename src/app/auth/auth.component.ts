@@ -70,8 +70,9 @@ class AuthCtrl implements IComponentController {
 			},
 			email: '',
 			password: '',
-			activateCoachTrial: false,
-			activatePremiumTrial: true
+			activatePremiumTrial: this.$stateParams.hasOwnProperty('activatePremiumTrial') && this.$stateParams.activatePremiumTrial || true,
+			activateCoachTrial: this.$stateParams.hasOwnProperty('activateCoachTrial') && this.$stateParams.activateCoachTrial || false,
+			activateClubTrial: this.$stateParams.hasOwnProperty('activateClubTrial') && this.$stateParams.activateClubTrial || false,
 		};
 	}
 

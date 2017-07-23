@@ -21,9 +21,10 @@ landing-tariffs {
     background-size: cover;
 
     h2 {
-      margin-bottom: 16px;
+      margin: 8px 0px;
       @media (max-width: 600px) {
         font-size: 24px !important;
+        margin: 0px;
       }
     }
     button.md-button {
@@ -35,11 +36,17 @@ landing-tariffs {
       span {
         line-height: 62px;
         @media (max-width: 600px) {
-          line-height: 48px;
+          line-height: 42px;
           font-size: 20px !important;
         }
       }
     }
+
+    p.hint {
+      margin: 0px;
+      margin-bottom: 16px;
+    }
+
     section.tabs {
       div.tab {
         padding: 12px 24px;
@@ -82,12 +89,20 @@ landing-tariffs {
     }
 
     div.description {
-      height: 50px;
+      height: 55px;
+      line-height: 18px;
+    }
+
+    md-divider {
+      margin: 12px 0px;
+    }
+
+    p.function, p.plus {
+      margin: 4px 0px;
     }
 
     div.connect-text {
       min-height: 28px;
-      margin-bottom: 12px;
     }
 
     button.md-button {
@@ -103,9 +118,13 @@ landing-tariffs {
     div.parameters, div.totals {
       max-width: 500px;
       min-width: 320px;
+      margin: 0px 12px;
       /**@media (max-width: 600) {
         width: 100%;
       }**/
+    }
+    p.free {
+      margin: 4px 0px;
     }
   }
 
