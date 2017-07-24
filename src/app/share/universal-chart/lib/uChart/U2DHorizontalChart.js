@@ -3,6 +3,7 @@ import {MMargin} from '../MMargin.js';
 import {Util} from '../Util.js';
 import {Formatter} from '../Formatter.js';
 import {YTicks} from '../ticks/YTicks.js';
+import {XTicks} from '../ticks/XTicks.js';
 import * as d3 from 'd3';
 
 
@@ -99,7 +100,6 @@ class U2DHorizontalChart extends U2DChart {
 
         this._yAxis = d3.axisLeft(this.getSeriesScale());
         this._yAxisContainer
-            .call(d3.axisLeft(this.getSeriesScale()))
             .call(this._yAxis.tickFormat(function(value, i) {
                 return Formatter.format(value, this.getSeries(0));
             }.bind(this)));
@@ -114,12 +114,12 @@ class U2DHorizontalChart extends U2DChart {
         }
 
         var self = this;
-        var axes = this.getMeasureScales();
+        var measureScales = this.getMeasureScales();
 
         this._xAxisContainer
             .each(function(measureConfig, i) {
                 d3.select(this).call(
-                    self._getD3Axis(i, axes[measureConfig.measureName])
+                    self._getD3Axis(i, measureScales[measureConfig.measureName])
                     .tickFormat(function(value, i) {
                         return Formatter.format(value, measureConfig);
                 }));
@@ -147,7 +147,7 @@ class U2DHorizontalChart extends U2DChart {
                  */
                 d3.select(this)
                     .selectAll('text')
-                    .style('fill', measureConfig.markerColor);
+                    .style('fill', measureConfig.markerColor || '#000');
                 /*
                  * Перемещаем подписи к осям в нужное место.
                  */
@@ -176,8 +176,14 @@ class U2DHorizontalChart extends U2DChart {
                 return Formatter.format(value, this.getSeries(0));
             }.bind(this)));
 
-        new YTicks(this._yAxis, this._yAxisContainer, this)
+        new YTicks(this._yAxis, this._yAxisContainer, this, this.getConfig().get('series.0'))
             .rarefy();
+
+        this._xAxisContainer.each(function(measureConfig, i) {
+            var axis = self._getD3Axis(i, measureScales[measureConfig.measureName]);
+            new XTicks(axis, d3.select(this), self, measureConfig)
+                .rarefy();
+        });
 
         this._viewsContainer
             .attr('transform', 'translate(0, ' + this._margin.top + ')')
@@ -264,7 +270,7 @@ class U2DHorizontalChart extends U2DChart {
 
             var domain = d3.extent(this._getMeasureDomain(measure.measureName));
             if (! Util.isEmpty(measure.minValue)) {
-                domain[0] = Util.isEmpty(measure.minValue);
+                domain[0] = measure.minValue;
             } else {
                 domain[0] += domain[0] > 0 ? domain[0] / -100 : domain[0] / 100;
                 domain[1] += domain[1] > 0 ? domain[1] / 100 : domain[1] / -100;

@@ -1,7 +1,6 @@
 import {Util} from './Util.js';
 import moment from 'moment/src/moment.js';
 
-
 /**
  * @public
  * @class

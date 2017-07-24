@@ -1,5 +1,4 @@
 import {Legend} from '../Legend.js';
-import * as d3 from 'd3';
 
 
 /**

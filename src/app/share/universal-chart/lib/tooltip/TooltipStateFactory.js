@@ -1,6 +1,5 @@
 import {TooltipCombinedState} from './TooltipCombinedState.js';
 import {TooltipSingleState} from './TooltipSingleState.js';
-import * as d3 from 'd3';
 
 
 class TooltipStateFactory {

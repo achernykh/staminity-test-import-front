@@ -1,5 +1,4 @@
 import {Util} from './Util.js';
-import * as d3 from 'd3';
 
 
 /**
@@ -96,12 +95,13 @@ class Pointer {
         if (this._line === undefined) {
             const stroke = this._uChart.getConfig().get('options.currentPositionLine.color', 'black');
             const strokeDashArray = Util.getStrokeDashArray(this._uChart.getConfig().get('options.currentPositionLine.style'));
+            const strokeWidth = this._uChart.getConfig().get('options.currentPositionLine.width', 1);
 
             this._line = this._uChart.getCanvas()
                 .append('line')
                 .style('stroke', stroke)
                 .style('stroke-dasharray', strokeDashArray)
-                .style('stroke-width', 1);
+                .style('stroke-width', strokeWidth);
         }
 
         return this._line;

@@ -1,5 +1,4 @@
 import {PieView} from './PieView.js';
-import * as d3 from 'd3';
 
 
 /**

@@ -121,6 +121,7 @@ class USvgChart extends UChart {
 
         var dimension = this.getDimension();
 
+        console.log(dimension);
         this._svg = this._container.append('svg')
             .attr('class', 'universal-chart')
             .attr('height', dimension.height || 400);
@@ -173,7 +174,8 @@ class USvgChart extends UChart {
             .map(s => s.getViews()[0])
             .filter(v => v.getConfig().is('fillType', 'gradient'))
             .reduce(function(views, view) {
-                return views.concat(view.getReplics())
+                return views.concat(view.getReplics()
+                    .filter(v => v.getConfig().is('fillType', 'gradient')));
             }, []));
 
         this._defs.selectAll('linearGradient')

@@ -1,5 +1,4 @@
 import {GroupedView} from './GroupedView.js';
-import * as d3 from 'd3';
 
 
 /**

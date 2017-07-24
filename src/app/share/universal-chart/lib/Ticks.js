@@ -16,12 +16,13 @@ class Ticks {
      * @param {d3.selection} container
      * @param {UChart} uChart
      */
-    constructor(axis, container, uChart) {
+    constructor(axis, container, uChart, axisConfig) {
 
         this._axis = axis;
         this._container = container;
-        this._uChart = uChart;
-        this._TICKS_MIN_DISTANCE = 10;
+        this._axisConfig = axisConfig;
+        this._TICKS_MIN_DISTANCE = uChart.getConfig().get('options.ticksMinDistance', 10);
+        this._tickValues = [];
     }
 
 
@@ -41,28 +42,25 @@ class Ticks {
      */
     _rarefyLabels() {
 
-        var series = this._uChart.getSeries(0);
-
         for (var i = 2; this._isOverlaping(); i ++) {
 
             var ticksSelection = this._container.selectAll('text');
-            var values = ticksSelection.data();
-
-            values = values.map(function(d, j) {
-                if (j % i == 0) {
-                    return d;
-                } else {
-                    return null;
-                }
-            });
+            this._tickValues = ticksSelection.data()
+                .map(function(d, j) {
+                    if (j % i == 0) {
+                        return d;
+                    } else {
+                        return null;
+                    }
+                });
 
             this._container.call(this._axis.tickFormat(function(d, i) {
-                if (values[i] == null) {
+                if (this._tickValues[i] == null) {
                     return '';
                 } else {
-                    return Formatter.format(d, series);
+                    return Formatter.format(d, this._axisConfig);
                 }
-            }));
+            }.bind(this)));
         }
     }
 
@@ -72,26 +70,71 @@ class Ticks {
      */
     _rarefyTicks() {
 
+        var self = this;
+
         var ticks = this._container.selectAll('g.tick')
             .filter((d, i) => i < 2)
             .nodes()
             .map(d => d3.select(d).attr('transform'))
             .map(d => Util.getTranslate(d)[this._getIndex()]);
 
-        var step = Math.abs(ticks[1] - ticks[0]);
+        var step1 = Math.abs(ticks[1] - ticks[0]);
 
-        if (step < this._TICKS_MIN_DISTANCE && this._uChart.getSeries(0).dataType == 'date') {
+        var labeledTicks = this._container.selectAll('g.tick')
+            .filter((d, i) => self._tickValues[i] != null)
+            .filter((d, i) => i < 2)
+            .nodes()
+            .map(d => d3.select(d).attr('transform'))
+            .map(d => Util.getTranslate(d)[this._getIndex()]);
 
-            var ticksToRemove = Math.ceil(this._TICKS_MIN_DISTANCE / step) - 1;
+        var step2 = Math.abs(labeledTicks[1] - labeledTicks[0]);
+
+        var index2;
+        for (var i = 1; i < self._tickValues.length; i ++) {
+            if (self._tickValues[i] != null) {
+                index2 = i;
+                break;
+            }
+        }
+
+        var ticksMinDistance = Math.min(this._TICKS_MIN_DISTANCE, step2);
+        var index1 = Math.ceil(ticksMinDistance / step1);
+
+        // var keepIndex = Math.min(this._getCommonMinDistance(index1, index2), index2);
+        var keepIndex = index2;
+
+        if (step1 < ticksMinDistance && this._axisConfig.dataType == 'date') {
+
+            var ticksToRemove = Math.ceil(ticksMinDistance / step1) - 1;
 
             this._container.selectAll('g').nodes().forEach(function(node, i) {
-                if (i % ticksToRemove != 0) {
-                    d3.select(node).select('line').style('visibility', 'hidden');
+                if (i % keepIndex != 0) {
+                    d3.select(node).select('line').style('opacity', 0.2);
                 } else {
-                    d3.select(node).select('line').style('visibility', 'visible');
+                    d3.select(node).select('line').style('opacity', 1);
                 }
             })
         }
+    }
+
+
+    /**
+     * @private
+     * @param {Integer} min
+     * @param {Integer} max
+     * @returns {Integer}
+     */
+    _getCommonMinDistance(min, max) {
+
+        if (min >= max) {
+            return max;
+        }
+
+        while (max % min != 0 && min <= max) {
+            min ++;
+        }
+
+        return min;
     }
 
 

@@ -1,7 +1,6 @@
 import {TooltipState} from './TooltipState.js';
 import {Formatter} from '../Formatter.js';
 import {Util} from '../Util.js';
-import * as d3 from 'd3';
 
 
 /**
@@ -11,9 +10,29 @@ import * as d3 from 'd3';
 class TooltipCombinedState extends TooltipState {
     /**
      * @public
+     * @constructor
+     * @param {Tooltip} tooltip
+     */
+    constructor(tooltip) {
+
+        super(tooltip);
+        this._currentXValue = undefined;
+    }
+
+
+    /**
+     * @public
      * @param {Mixed} xValue0
+     * @returns {null|false|String}
      */
     getContent(xValue0) {
+
+        if (xValue0 === this._currentXValue) {
+            return null;
+        } else {
+            this._currentXValue = xValue0;
+        }
+        console.log('getContent(' + xValue0 + ')');
 
         var config = this._uChart.getTooltipData();
         config[0].value = xValue0;

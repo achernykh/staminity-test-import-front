@@ -1,5 +1,6 @@
 import {View2D} from './View2D.js';
 import {LineStateFactory} from './line/LineStateFactory.js';
+import {View} from '../View.js';
 
 
 /**
@@ -44,23 +45,33 @@ class DotView extends View2D {
                 } else {
                     return 5;
                 }
-            }.bind(this)).style('fill', function(d, i) {
+            }.bind(this))
+            .style('fill', function(d, i) {
                 return this.getScope().getMeasureConfig(this, i).fillColor;
+            }.bind(this))
+            .style('stroke', function(d, i) {
+                return View.getStrokeColor(this.getScope().getMeasureConfig(this, i));
+            }.bind(this))
+            .style('stroke-dasharray', function(d, i) {
+                return View.getStrokeDashArray(this.getScope().getMeasureConfig(this, i));
+            }.bind(this))
+            .style('stroke-width', function(d, i) {
+                return View.getStrokeWidth(this.getScope().getMeasureConfig(this, i));
             }.bind(this));
 
         var self = this;
         var tooltip = this.getTooltip();
 
         if (! tooltip.isCombined()) {
-          this._dots.on('mouseover', function(d, i, nodes) {
-                  tooltip
-                      .setOffset([0, 5])
-                      .setContent(tooltip.getContent(this, d, i, nodes))
-                      .setXY(self._getTooltipXY(this, d, i, nodes))
-                      .show();
-              }).on('mouseout', function() {
-                  tooltip.hide();
-              });
+            this._dots.on('mouseover', function(d, i, nodes) {
+                tooltip
+                    .setOffset([0, 5])
+                    .setContent(tooltip.getContent(this, d, i, self))
+                    .setXY(self._getTooltipXY(this, d, i, nodes))
+                    .show();
+            }).on('mouseout', function() {
+                tooltip.hide();
+            });
         }
 
         return this;
@@ -108,6 +119,17 @@ class DotView extends View2D {
             .attr('y1', meanLineData.y1)
             .attr('x2', meanLineData.x2)
             .attr('y2', meanLineData.y2);
+    }
+
+
+    /**
+     * Get groups list.
+     * @public
+     * @returns {String[]}
+     */
+    getGroups() {
+
+        return [];
     }
 }
 

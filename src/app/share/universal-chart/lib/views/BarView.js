@@ -1,6 +1,5 @@
 import {View2D} from './View2D.js';
-import {Util} from '../Util.js';
-import * as d3 from 'd3';
+import {View} from '../View.js';
 
 
 /**
@@ -37,11 +36,13 @@ class BarView extends View2D {
                 return this._getColor(d);
             }.bind(this))
             .style('stroke', function(d, i) {
-                return this.getScope().getMeasureConfig(this, i).lineColor;
+                return View.getStrokeColor(this.getScope().getMeasureConfig(this, i));
             }.bind(this))
-            .style('stroke-width', 1)
             .style('stroke-dasharray', function(d, i) {
-                return Util.getStrokeDashArray(this.getScope().getMeasureConfig(this, i).lineStyle);
+                return View.getStrokeDashArray(this.getScope().getMeasureConfig(this, i));
+            }.bind(this))
+            .style('stroke-width', function(d, i) {
+                return View.getStrokeWidth(this.getScope().getMeasureConfig(this, i));
             }.bind(this));
 
         var self = this;
@@ -51,7 +52,7 @@ class BarView extends View2D {
           bars.on('mouseover', function(d, i, nodes) {
                   tooltip
                       .setOffset([0, 5])
-                      .setContent(tooltip.getContent(this, d, i, nodes))
+                      .setContent(tooltip.getContent(this, d, i, self))
                       .setXY(self._getTooltipXY(this, d, i, nodes))
                       .show();
               }).on('mouseout', function() {

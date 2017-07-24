@@ -100,7 +100,7 @@ class PieView extends View1D {
         if (! tooltip.isCombined()) {
             this._slices.on('mouseover', function(d, i, nodes) {
                 tooltip
-                    .setContent(tooltip.getContent(this, d, i, nodes))
+                    .setContent(tooltip.getContent(this, d, i, self))
                     .show()
                     .setXY(self._getTooltipXY(this, d))
                     .show(true);

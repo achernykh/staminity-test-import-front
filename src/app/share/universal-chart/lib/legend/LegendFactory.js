@@ -1,6 +1,5 @@
 import {ColumnLegend} from './ColumnLegend.js';
 import {RowLegend} from './RowLegend.js';
-import * as d3 from 'd3';
 
 
 class LegendFactory {

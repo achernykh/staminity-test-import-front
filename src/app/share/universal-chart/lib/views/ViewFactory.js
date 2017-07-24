@@ -5,7 +5,6 @@ import {DotView} from './DotView.js';
 import {PieView} from './PieView.js';
 import {DonutView} from './DonutView.js';
 import {TableView} from './TableView.js';
-import * as d3 from 'd3';
 
 
 class ViewFactory {

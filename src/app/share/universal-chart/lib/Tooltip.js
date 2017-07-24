@@ -1,5 +1,4 @@
 import {TooltipStateFactory} from './tooltip/TooltipStateFactory.js';
-import {TooltipCombinedState} from './tooltip/TooltipCombinedState.js';
 import * as d3 from 'd3';
 
 
@@ -138,7 +137,7 @@ class Tooltip {
         ).style('display', 'block');
 
         var dimension = this._tip.node().getBoundingClientRect();
-        var yOffset = $(window).scrollTop();
+        var yOffset = this._getYOffset();
         var x;
         var y = yOffset;
 
@@ -158,6 +157,13 @@ class Tooltip {
           .style('top', y + 'px');
 
         return this;
+    }
+
+
+    _getYOffset() {
+
+        var doc = document.documentElement;
+        return (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
     }
 
 

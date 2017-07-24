@@ -6,7 +6,6 @@ import {GroupedVerticalView} from './GroupedVerticalView.js';
 import {GroupedHorizontalView} from './GroupedHorizontalView.js';
 import {VerticalView} from './VerticalView.js';
 import {HorizontalView} from './HorizontalView.js';
-import * as d3 from 'd3';
 
 
 class BarViewFactory {

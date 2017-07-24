@@ -1,7 +1,6 @@
 import {Orientation} from './Orientation.js';
 import {VerticalOrientation} from './VerticalOrientation.js';
 import {HorizontalOrientation} from './HorizontalOrientation.js';
-import * as d3 from 'd3';
 
 
 class OrientationFactory {

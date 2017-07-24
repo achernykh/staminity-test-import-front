@@ -3,6 +3,7 @@ import {MMargin} from '../MMargin.js';
 import {Util} from '../Util.js';
 import {Formatter} from '../Formatter.js';
 import {XTicks} from '../ticks/XTicks.js';
+import {YTicks} from '../ticks/YTicks.js';
 import * as d3 from 'd3';
 
 
@@ -106,12 +107,12 @@ class U2DVerticalChart extends U2DChart {
         this._marginMap.right = [];
 
         var self = this;
-        var axes = this.getMeasureScales();
+        var measureScales = this.getMeasureScales();
 
         this._yAxisContainer
             .each(function(measureConfig, i) {
                 d3.select(this).call(
-                    self._getD3Axis(i, axes[measureConfig.measureName])
+                    self._getD3Axis(i, measureScales[measureConfig.measureName])
                     .tickFormat(function(value, i) {
                         return Formatter.format(value, measureConfig);
                 }));
@@ -139,7 +140,7 @@ class U2DVerticalChart extends U2DChart {
                  */
                 d3.select(this)
                     .selectAll('text')
-                    .attr('fill', measureConfig.markerColor);
+                    .attr('fill', measureConfig.markerColor || '#000');
                 /*
                  * Перемещаем подписи к осям в нужное место.
                  */
@@ -180,8 +181,14 @@ class U2DVerticalChart extends U2DChart {
         this._canvas
             .attr('transform', 'translate(0, ' + this._margin.top + ')');
 
-        new XTicks(this._xAxis, this._xAxisContainer, this)
+        new XTicks(this._xAxis, this._xAxisContainer, this, this.getConfig().get('series.0'))
             .rarefy();
+
+        this._yAxisContainer.each(function(measureConfig) {
+            var axis = self._getD3Axis(i, measureScales[measureConfig.measureName]);
+            new YTicks(axis, d3.select(this), self, measureConfig)
+                .rarefy();
+        });
 
         this._viewsContainer
             .attr('transform', 'translate(' + this._margin.left + ', 0)')
@@ -266,7 +273,7 @@ class U2DVerticalChart extends U2DChart {
 
             var domain = d3.extent(this._getMeasureDomain(measure.measureName));
             if (! Util.isEmpty(measure.minValue)) {
-                domain[0] = Util.isEmpty(measure.minValue);
+                domain[0] = measure.minValue;
             } else {
                 domain[0] += domain[0] > 0 ? domain[0] / -100 : domain[0] / 100;
                 domain[1] += domain[1] > 0 ? domain[1] / 100 : domain[1] / -100;

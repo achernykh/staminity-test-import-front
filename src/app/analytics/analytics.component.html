@@ -4,9 +4,10 @@
         <div flex="none" class="analytics-filter bg-grey-200">
             <p class="md-caption">Панель фильтрации, настройки и управления графиками</p>
         </div>
-        <div flex="auto" class="analytics-feed bg-grey-200">
-            <p class="md-caption">Лента с графиками</p>
-            <universal-chart data="$ctrl.data" update="$ctrl.changes"></universal-chart>
+        <div flex="auto" class="analytics-feed bg-grey-200" layout="column">
+            <p flex="none" class="md-caption">Лента с графиками</p>
+            <universal-chart flex="none" data="$ctrl.data" update="$ctrl.changes"
+                             style="height: 20vh; width: 100%"></universal-chart>
         </div>
     </section>
     <div hide-md class="margin-right">

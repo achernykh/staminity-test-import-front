@@ -1,7 +1,6 @@
 import {UChart} from '../UChart.js';
 import {Scope} from '../Scope.js';
 import {TableView} from '../views/TableView.js';
-import * as d3 from 'd3';
 
 
 /**

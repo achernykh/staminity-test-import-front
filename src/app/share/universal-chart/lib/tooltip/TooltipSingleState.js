@@ -13,11 +13,14 @@ class TooltipSingleState extends TooltipState {
      * @param {Element} node
      * @param {Object} data
      * @param {Integer} i
-     * @param {NodeList} nodes
+     * @param {View} view
      */
-    getContent(node, data, i, nodes) {
+    getContent(node, data, i, view) {
 
-        var config = this._uChart.getTooltipData();
+        var config = this._uChart.getTooltipData()
+            .filter(d => d.source == 'series');
+
+        config.push(view);
 
         var html = '';
 

@@ -1,0 +1,74 @@
+div.universal-chart-tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 10px 15px;
+  font: 12px sans-serif;
+  border: 1px solid black;
+  border-radius: 3px;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 100;
+}
+
+
+div.universal-chart-tooltip table td {
+  padding: 2px 10px;
+  height: 20px;
+}
+
+div.universal-chart-tooltip table td:nth-child(2) {
+  text-align: left;
+}
+
+
+div.universal-chart-tooltip div.color-label {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+svg.universal-chart {
+  display: block;
+}
+
+svg.universal-chart text {
+  font-family: Roboto;
+}
+
+svg.universal-chart text.axis-label {
+  font-size: 12px;
+}
+
+svg.universal-chart text.x-axis-label {
+  text-anchor: middle;
+}
+
+svg.universal-chart .axis-label {
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+svg.universal-chart .legend-text {
+  font-size: 12px;
+}
+
+svg.universal-chart g.pie-view polyline {
+  fill: none;
+  stroke: black;
+  stroke-width: 1;
+}
+
+svg.universal-chart g.outer-axis path, svg.universal-chart g.outer-axis line {
+  visibility: hidden;
+}
+
+div#universal-chart table tr.thead {
+  font-weight: 500;
+  background-color: #d9d9d9;
+}
+
+div#universal-chart table tr.tfoot {
+  background-color: #efefef;
+}

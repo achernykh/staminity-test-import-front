@@ -1,7 +1,6 @@
 import {Util} from './Util.js';
 import {ViewFactory} from './views/ViewFactory.js';
 import {Config} from './Config.js';
-import * as d3 from 'd3';
 
 
 /**
@@ -23,6 +22,36 @@ class View {
         this._id = Util.getUniqueId();
         this._replicsCounter = 0;
         this._replicaNumber = 0;
+    }
+
+
+    static getStrokeColor(config) {
+
+        if (Util.hasStroke(config)) {
+            return config.lineColor || '#000';
+        } else {
+            return null;
+        }
+    }
+
+
+    static getStrokeWidth(config) {
+
+        if (Util.hasStroke(config)) {
+            return Util.isEmpty(config.lineWidth) ? 1 : config.lineWidth;
+        } else {
+            return null;
+        }
+    }
+
+
+    static getStrokeDashArray(config) {
+
+        if (Util.hasStroke(config)) {
+            return Util.getStrokeDashArray(config.lineStyle);
+        } else {
+            return null;
+        }
     }
 
 

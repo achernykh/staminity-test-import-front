@@ -1,7 +1,6 @@
 import {Config} from './Config.js';
 import {OrientationFactory} from './orientations/OrientationFactory.js';
 import {Color} from './Color.js';
-import * as d3 from 'd3';
 
 
 /**

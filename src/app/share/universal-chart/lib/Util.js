@@ -9,6 +9,20 @@ class Util {
     /**
      * @public
      * @static
+     * @param {Object} config
+     * @returns {Boolean}
+     */
+    static hasStroke(config) {
+
+        return Boolean(config.lineColor ||
+            config.lineStyle ||
+            config.lineWidth);
+    }
+
+
+    /**
+     * @public
+     * @static
      * @param {Mixed} value
      * @returns {Boolean}
      */
@@ -150,6 +164,19 @@ class Util {
         return index, uChart._originalConfig[index].measures.find(function(m) {
             return m.id == measure.id;
         });
+    }
+
+
+    /**
+     * Get path to measure icon.
+     * @param {String} measureName
+     * @param {UChart} uChart
+     * @returns {String}
+     */
+    static getIconPathName(measureName, uChart) {
+
+        var baseDir = uChart.getConfig().get('options.iconsFolder', 'assets/icon/');
+        return baseDir + measureName + '.svg';
     }
 }
 

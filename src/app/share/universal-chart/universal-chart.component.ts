@@ -1,5 +1,5 @@
 import './universal-chart.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IWindowService} from 'angular';
 import {UChartFactory} from './lib/UChart/UChartFactory.js';
 
 class UniversalChartCtrl implements IComponentController {
@@ -9,11 +9,12 @@ class UniversalChartCtrl implements IComponentController {
 
     private chart: any;
     private container: any;
+    private onResize: Function;
 
-    static $inject = ['$element'];
+    static $inject = ['$element','$window'];
 
-    constructor(private $element: any) {
-        this.chart = UChartFactory.getInstance(null);
+    constructor(private $element: any, private $window: IWindowService) {
+
     }
 
     $onInit() {
@@ -23,9 +24,28 @@ class UniversalChartCtrl implements IComponentController {
         this.chart.remove();
     };
 
+    $postLink():void {
+        let self = this;
+        this.$element.ready(() => self.redraw());
 
-    $onChanges() {
+        this.onResize = () => {
+            this.chart.remove();
+            this.redraw();
+        };
+
+        angular.element(this.$window).on('resize', this.onResize);
+    }
+
+
+    $onChanges(changes: any) {
+        if(!this.chart){
+            return;
+        }
         this.chart.remove();
+        this.redraw();
+    }
+
+    redraw():void {
         this.container = this.$element[0];
         this.chart = UChartFactory.getInstance(this.data).renderTo(this.container);
     }

@@ -172,6 +172,8 @@ class U2DChart extends USvgChart {
 
             if (content === false) {
                 this._tooltip.hide();
+            } else if (content === null) {
+
             } else {
                 var x = this._orientation.getHeight() / 2;
                 var y = position;

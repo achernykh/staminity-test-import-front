@@ -33,9 +33,33 @@ class UChart {
             bottom: 0
         };
 
+        this._icons = [];
+        this._preloadIcons();
+
         d3.select(window).on('resize.' + this._id, function() {
             this.resize();
         }.bind(this))
+    }
+
+
+    /**
+     * Подгружаем все иконки которые могут быть использованы в графике.
+     * @private
+     */
+    _preloadIcons() {
+
+        this._input.forEach(function(scopeConfig) {
+            scopeConfig.series.forEach(function(series) {
+                var image = new Image();
+                image.src = Util.getIconPathName(series.measureName, this);
+                this._icons.push(image);
+            }, this);
+            scopeConfig.measures.forEach(function(measure) {
+                var image = new Image();
+                image.src = Util.getIconPathName(measure.measureName, this);
+                this._icons.push(image);
+            }, this);
+        }, this);
     }
 
 

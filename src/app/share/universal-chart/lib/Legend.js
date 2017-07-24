@@ -1,6 +1,5 @@
 import {View} from './View.js';
 import {Color} from './Color.js';
-import * as d3 from 'd3';
 
 
 /**

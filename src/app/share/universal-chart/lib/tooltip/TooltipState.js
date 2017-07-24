@@ -1,10 +1,12 @@
 import {Util} from '../Util.js';
-import * as d3 from 'd3';
 
 
 class TooltipState {
-
-
+    /**
+     * @public
+     * @constructor
+     * @param {Tooltip} tooltip
+     */
     constructor(tooltip) {
 
         this._tooltip = tooltip;
@@ -53,7 +55,7 @@ class TooltipState {
                 key += ':';
             }
         } else if (config.tooltipType == 'icon') {
-            key = '<img class="' + config.measureName + '" src="img/icons/' + config.measureName + '.svg" height="20px" width="20px" />';
+            key = '<img class="' + config.measureName + '" src="' + Util.getIconPathName(config.measureName, this._uChart) + '" height="20px" width="20px" />';
         } else {
             key = '<div class="color-label" style="background-color: ' + this._getColor(config, defaults, node) + ';"></div>'
         }

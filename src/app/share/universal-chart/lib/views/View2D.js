@@ -45,8 +45,8 @@ class View2D extends SvgView {
         }
 
         this._meanLine = this._container.append('line')
-            .style('stroke', this._config.avgValueLineColor)
-            .style('stroke-width', 1)
+            .style('stroke', this._config.avgValueLineColor || '#000')
+            .style('stroke-width', Util.isEmpty(this._config.avgValueLineWidth) ? 1 : this._config.avgValueLineWidth)
             .style('stroke-dasharray', Util.getStrokeDashArray(this._config.avgValueLineStyle));
 
         return this;
@@ -83,7 +83,9 @@ class View2D extends SvgView {
      */
     _getColor(d, i = 0, replicaNumber = 0) {
 
-        if (this._config.fillType == 'gradient') {
+        var config = this._scope.getMeasureConfig(this, replicaNumber);
+
+        if (config.fillType == 'gradient') {
             return 'url(#' + this.getGradientId(i, replicaNumber) + ')';
         } else {
             return d.color;

@@ -1,5 +1,4 @@
 import {USvgChart} from './USvgChart.js';
-import * as d3 from 'd3';
 
 
 /**
@@ -16,6 +15,7 @@ class U1DChart extends USvgChart {
     constructor(options, originalOptions) {
 
         super(options, originalOptions);
+
     }
 
 

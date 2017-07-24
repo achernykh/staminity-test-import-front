@@ -1,5 +1,4 @@
 import {SvgView} from './SvgView.js';
-import * as d3 from 'd3';
 
 
 /**

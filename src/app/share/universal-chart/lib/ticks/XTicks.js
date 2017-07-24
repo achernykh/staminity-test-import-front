@@ -1,5 +1,4 @@
 import {Ticks} from '../Ticks.js';
-import * as d3 from 'd3';
 
 
 /**
@@ -7,6 +6,19 @@ import * as d3 from 'd3';
  * @class
  */
 class XTicks extends Ticks {
+    /**
+     * @public
+     * @constructor
+     * @param {d3.axis} axis
+     * @param {d3.selection} container
+     * @param {UChart} uChart
+     */
+    constructor(axis, container, uChart, axisConfig) {
+
+        super(axis, container, uChart, axisConfig);
+        this._DISTANCE = 10;
+    }
+
     /**
      * @protected
      * @override
@@ -27,7 +39,7 @@ class XTicks extends Ticks {
      */
     _compare(tick1, tick2) {
 
-        return tick1.right > tick2.left;
+        return tick1.right + this._DISTANCE > tick2.left;
     }
 }
 

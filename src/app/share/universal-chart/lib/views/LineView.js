@@ -1,6 +1,7 @@
 import {View2D} from './View2D.js';
 import {LineStateFactory} from './line/LineStateFactory.js';
-import {Util} from '../Util.js';
+import {View} from '../View.js';
+
 
 /**
  * @public
@@ -80,19 +81,21 @@ class LineView extends View2D {
         var measureIndexMap = this._getMeasureMap();
 
         this._line = this._container
-            .selectAll('path')
+            .selectAll('path.line')
             .data(data)
             .enter()
             .append('path')
+            .attr('class', 'line')
             .style('fill', 'none')
-            .style('shape-rendering', 'crispEdges')
             .style('stroke', function(d, i) {
-                return this.getScope().getMeasureConfig(this, measureIndexMap[i]).lineColor;
+                return View.getStrokeColor(this.getScope().getMeasureConfig(this, i));
             }.bind(this))
             .style('stroke-dasharray', function(d, i) {
-                return Util.getStrokeDashArray(this.getScope().getMeasureConfig(this, measureIndexMap[i]).lineStyle)
+                return View.getStrokeDashArray(this.getScope().getMeasureConfig(this, i));
             }.bind(this))
-            .style('stroke-width', 2)
+            .style('stroke-width', function(d, i) {
+                return View.getStrokeWidth(this.getScope().getMeasureConfig(this, i));
+            }.bind(this))
             .attr('clip-path', function(d, i) {
                 return 'url(#' + this._id + i + ')'
             }.bind(this));
@@ -126,6 +129,17 @@ class LineView extends View2D {
             .attr('y', clipPath.y)
             .attr('width', clipPath.width)
             .attr('height', clipPath.height);
+    }
+
+
+    /**
+     * Get groups list.
+     * @public
+     * @returns {String[]}
+     */
+    getGroups() {
+
+        return [];
     }
 }
 
