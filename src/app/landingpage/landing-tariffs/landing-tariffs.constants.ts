@@ -36,7 +36,7 @@ export const landingTariffsData = [
             subscription: {
                 ru: {
                     month: 300,
-                    year: 300 * 0.9
+                    year: 250
                 }
             },
             variable: null
@@ -60,7 +60,7 @@ export const landingTariffsData = [
             subscription: {
                 ru: {
                     month: 300,
-                    year: 300 * 0.9
+                    year: 250
                 }
             },
             variable: {
@@ -70,7 +70,7 @@ export const landingTariffsData = [
                         minAthletes: 1,
                         maxAthletes: 10,
                         athlete: 210,
-                        premium: 180
+                        premium: 210
                     }
                 }
             }
@@ -94,7 +94,7 @@ export const landingTariffsData = [
             subscription: {
                 ru: {
                     month: 300,
-                    year: 300 * 0.9
+                    year: 250
                 }
             },
             variable: {
@@ -104,7 +104,7 @@ export const landingTariffsData = [
                         minAthletes: 1,
                         maxAthletes: 10,
                         athlete: 210,
-                        premium: 180
+                        premium: 210
                     },
                     clubCoaches: {
                         minCoaches: 1,
