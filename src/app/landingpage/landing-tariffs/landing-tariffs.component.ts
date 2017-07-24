@@ -20,7 +20,7 @@ class LandingTariffsCtrl implements IComponentController {
 
     private calc: TariffCalc = {
         premium: false,
-        athletes: 1,
+        athletes: 5,
         coaches: 1,
         proAthletes: 0
     };
@@ -67,7 +67,12 @@ class LandingTariffsCtrl implements IComponentController {
     }
 
     onCoachChange(): void {
-        this.calc.athletes = Math.min(this.calc.athletes, this.calc.coaches * 10);//this.calc.coaches * 10 > this.calc.athletes ? this.calc.coaches * 10 : this.calc.athletes;
+        this.calc.athletes = Math.min(this.calc.athletes, this.calc.coaches * 10);
+        //this.calc.athletes = Math.max(this.calc.athletes, this.calc.coaches);
+    }
+
+    onAthleteChange(): void {
+        this.calc.proAthletes = Math.min(this.calc.proAthletes, this.calc.athletes);
     }
 
     calculate():number {
@@ -80,7 +85,7 @@ class LandingTariffsCtrl implements IComponentController {
     }
 
     calculateVariable():number {
-        return  Math.max(0, this.calc.athletes - 1) * this.athleteByCoach +
+        return  Math.max(0, this.calc.athletes - this.calc.coaches) * this.athleteByCoach +
                 this.calc.proAthletes * this.premiumPriceByCoach;;
 
     }

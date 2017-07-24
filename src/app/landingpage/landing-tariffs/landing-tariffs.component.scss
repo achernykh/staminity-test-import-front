@@ -98,6 +98,16 @@ landing-tariffs {
       margin: 12px 0px;
     }
 
+    ul.function {
+      padding: 0px;
+      padding-left: 16px;
+      list-style-position: outside;
+      list-style-type: circle;
+      li {
+        margin: 4px 0px;
+      }
+    }
+
     p.function, p.plus {
       margin: 4px 0px;
     }
