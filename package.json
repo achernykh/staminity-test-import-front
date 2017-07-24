@@ -144,7 +144,6 @@
     "normalize.css": "^5.0.0",
     "rxjs": "^5.0.3",
     "smdatetimerangepicker": "^2.0.10",
-    "ui-leaflet": "^2.0.0",
-    "unichart": "^1.0.0"
+    "ui-leaflet": "^2.0.0"
   }
 }

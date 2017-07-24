@@ -2,6 +2,10 @@ import './analytics.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {chart_example_01} from '../share/universal-chart/data/10.1_PMC_chart_four_measures.js';
 import {chart_example_02} from '../share/universal-chart/data/10.2.1_Two_IChart_four_measures.js';
+import {chart_example_03} from '../share/universal-chart/data/10.2.2_Two_IChart_four_measures.js';
+import {chart_example_04} from '../share/universal-chart/data/10.2_Two_IChart_four_measures.js';
+import {chart_example_05} from '../share/universal-chart/data/11_Cumulative_Duration_by_days.js';
+import {chart_example_06} from '../share/universal-chart/data/12_HR-and-pace-by-days.js';
 
 class AnalyticsCtrl implements IComponentController {
 
@@ -9,7 +13,7 @@ class AnalyticsCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
-    private selectedChart = [];
+    private selectedChart = [0,1,2,3,4,5];
 
     private examples = [
         {
@@ -19,6 +23,22 @@ class AnalyticsCtrl implements IComponentController {
         {
             name: '10.2.1_Two_IChart_four_measures',
             data: chart_example_02
+        },
+        {
+            name: '10.2.2_Two_IChart_four_measures',
+            data: chart_example_03
+        },
+        {
+            name: '10.2_Two_IChart_four_measures',
+            data: chart_example_04
+        },
+        {
+            name: '11_Cumulative_Duration_by_days',
+            data: chart_example_05
+        },
+        {
+            name: '12_HR-and-pace-by-days',
+            data: chart_example_06
         }
 
     ];
@@ -28,7 +48,7 @@ class AnalyticsCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.data = this.examples[1].data;/**[{
+        /**this.data = this.examples[1].data;/**[{
             "options": {
                 "tooltip": {
                     "combined": true
