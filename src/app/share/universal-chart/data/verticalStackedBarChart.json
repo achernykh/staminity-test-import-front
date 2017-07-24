@@ -1,0 +1,76 @@
+{
+    "options": {
+        "legend": {
+            "vertical-align": "top",
+            "horizontal-align": "left"
+        },
+        "tooltip": {
+            "combined": false
+        },
+        "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"]
+    },
+    "series" : [{
+        "label" : "Спортсмен",
+        "unit" : "",
+        "xAxis" : true,
+        "tooltipType" : "label",
+        "legend": true,
+        "colorPalette": true,
+        "idx" : 0,
+        "measureSource" : "...tbd....",
+        "measureName" : "athletes",
+        "valueType" : "value",
+        "groupBy" : "none",
+        "groupByIntervalLength" : 1
+    }, {
+        "label" : "Вид спорта",
+        "unit" : "",
+        "xAxis" : true,
+        "tooltipType" : "none",
+        "legend": true,
+        "idx" : 1,
+        "measureSource" : "..tbd...",
+        "measureName" : "activityType",
+        "valueType" : "value",
+        "groupBy" : "none",
+        "groupByIntervalLength" : 1
+    }],
+    "measures" : [{
+        "label" : "Дистанция",
+        "unit" : "км",
+        "chartType" : "bar",
+        "stacked" : true,
+        "cumulative": false,
+        "smoothSettings" : "",
+        "tooltipType" : "color",
+        "legend": true,
+        "visible" : true,
+        "avgValueLine": true,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "fillType": "solid",
+        "fillColor": "red",
+        "markerColor": "#5677fc",
+        "avgValueLineColor": "#5555aa",
+        "avgValueLineStyle": "dashed",
+        "idx" : 2,
+        "measureName" : "distance",
+        "measureSource" : "..tbd...",
+        "valueType" : "value",
+        "aggMethod" : "sum"
+    }],
+    "metrics" : [
+        ["Иванов Василий", "run", 210],
+        ["Иванов Василий", "swim", 0],
+        ["Иванов Василий", "bike", 0],
+        ["Петров Сергей", "run", 140],
+        ["Петров Сергей", "swim", 40],
+        ["Петров Сергей", "bike", 0],
+        ["Сидоров Петр", "run", 240],
+        ["Сидоров Петр", "swim", 20],
+        ["Сидоров Петр", "bike", 480],
+        ["Васечкин Иван", "run", 150],
+        ["Васечкин Иван", "swim", 0],
+        ["Васечкин Иван", "bike", 310]
+    ]
+}

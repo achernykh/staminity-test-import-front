@@ -1,5 +1,7 @@
 import './analytics.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {chart_example_01} from '../share/universal-chart/data/10.1_PMC_chart_four_measures.js';
+import {chart_example_02} from '../share/universal-chart/data/10.2.1_Two_IChart_four_measures.js';
 
 class AnalyticsCtrl implements IComponentController {
 
@@ -7,12 +9,26 @@ class AnalyticsCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
+    private selectedChart = [];
+
+    private examples = [
+        {
+            name: '10.1_PMC_chart_four_measures',
+            data: chart_example_01
+        },
+        {
+            name: '10.2.1_Two_IChart_four_measures',
+            data: chart_example_02
+        }
+
+    ];
+
     constructor() {
 
     }
 
     $onInit() {
-        this.data = [{
+        this.data = this.examples[1].data;/**[{
             "options": {
                 "tooltip": {
                     "combined": true
@@ -213,7 +229,7 @@ class AnalyticsCtrl implements IComponentController {
                 ["07-20-2017", 104, 55, 2, 5],
                 ["07-21-2017", 72, 57, 3, 3]
             ]
-        }];
+        }];**/
     }
 }
 

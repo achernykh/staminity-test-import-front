@@ -3,6 +3,12 @@
     <section class="application-body" layout-gt-md="row" layout="column">
         <div flex="none" class="analytics-filter bg-grey-200">
             <p class="md-caption">Панель фильтрации, настройки и управления графиками</p>
+            <md-input-container ng-repeat="select in [0,1,2,3,4,5] track by $index">
+                <md-select ng-model="$ctrl.selectedChart[select]">
+                    <md-option ng-repeat="chart in $ctrl.examples track by $index" value="chart.$key">
+                        {{chart.name}}</md-option>
+                </md-select>
+            </md-input-container>
         </div>
         <div flex="auto" class="analytics-feed bg-grey-200" layout="column">
             <p flex="none" class="md-caption">Лента с графиками</p>

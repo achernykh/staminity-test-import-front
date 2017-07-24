@@ -1,0 +1,68 @@
+{
+    "options": {
+        "legend": {
+            "vertical-align": "bottom",
+            "horizontal-align": "right"
+        },
+        "tooltip": {
+            "combined": false
+        },
+        "currentPositionLine": {
+            "enabled": true
+        }
+    },
+    "series" : [{
+        "label" : "Спортсмены",
+        "unit" : "",
+        "xAxis" : false,
+        "tooltipType" : "label",
+        "tooltipLabel" : "кто",
+        "legend": false,
+        "idx" : 0,
+        "measureName" : "distance",
+        "valueType" : "value",
+        "groupBy" : "none",
+        "groupByIntervalLength" : 1
+    }, {
+        "label" : "Виды спорта",
+        "unit" : "",
+        "xAxis" : false,
+        "tooltipType" : "label",
+        "tooltipLabel" : "что",
+        "legend": true,
+        "fillColor": "steelblue",
+        "idx" : 1,
+        "measureName" : "activityType",
+        "valueType" : "value",
+        "groupBy" : "none",
+        "groupByIntervalLength" : 1
+    }],
+    "measures" : [{
+        "label" : "Дистанция",
+        "unit" : "км",
+        "chartType" : "bar",
+        "stacked" : true,
+        "tooltipType" : "icon",
+        "legend": true,
+        "visible" : true,
+        "fillType": "solid",
+        "fillColor": "steelblue",
+        "markerColor": "#5677fc",
+        "idx" : 2,
+        "measureName" : "distance"
+    }],
+    "metrics" : [
+        ["Иванов Василий", "run", 210],
+        ["Иванов Василий", "swim", 0],
+        ["Иванов Василий", "bike", 0],
+        ["Петров Сергей", "run", 140],
+        ["Петров Сергей", "swim", 40],
+        ["Петров Сергей", "bike", 0],
+        ["Сидоров Петр", "run", 240],
+        ["Сидоров Петр", "swim", 20],
+        ["Сидоров Петр", "bike", 480],
+        ["Васечкин Иван", "run", 150],
+        ["Васечкин Иван", "swim", 0],
+        ["Васечкин Иван", "bike", 310]
+    ]
+}
