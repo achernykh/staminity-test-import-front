@@ -60,6 +60,21 @@ class LandingTariffsCtrl implements IComponentController {
         this.selectedTab = tab;
     }
 
+    getVariableIconPath(variable: Object): string {
+        let path: string = '/assets/icon';
+        return variable.hasOwnProperty('coachAthletes') && `${path}/variable_athlete.svg` ||
+            variable.hasOwnProperty('clubAthletes') && `${path}/variable_athlete_coach.svg`;
+    }
+
+    getVariableIconSize(variable: Object): string {
+        return variable.hasOwnProperty('coachAthletes') && 'width: 32px; height: 32px' ||
+            variable.hasOwnProperty('clubAthletes') && 'width: 38px; height: 32px';
+    }
+
+    getVariableType(rule: string): string {
+        return rule.search('Athlete') !== -1 ? 'person_outline' : 'person';
+    }
+
     getAthletePriceLimit():{athletes: number} {
         return ({
             athletes: this.calc.coaches * 10
