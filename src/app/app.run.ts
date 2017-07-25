@@ -11,11 +11,14 @@ interface IStaminityState extends StateDeclaration {
 function run(
     $transitions: TransitionService,
     $state: StateService,
+    $trace: any,
     LoaderService: LoaderService,
     AuthService: IAuthService,
     message: MessageService) {
 
     //window.navigator['standalone'] = true;
+
+    $trace.enable('TRANSITION'); //https://github.com/angular-ui/ui-router/issues/2977
 
     $transitions.onBefore({to: '*', from: '*'}, (state) => {
 
@@ -38,6 +41,6 @@ function run(
 
 }
 
-run.$inject = ['$transitions','$state','LoaderService','AuthService','message'];
+run.$inject = ['$transitions','$state', '$trace', 'LoaderService','AuthService','message'];
 
 export default run;

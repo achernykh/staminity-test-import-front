@@ -1,6 +1,6 @@
 import './dashboard.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise,IScope} from 'angular';
+import {IComponentOptions, IComponentController, IPromise,IScope, copy} from 'angular';
 import {CalendarService} from "../calendar/calendar.service";
 import {ISessionService} from "../core/session.service";
 import {IMessageService} from "../core/message.service";
@@ -300,7 +300,7 @@ export class DashboardCtrl implements IComponentController {
         this.firstSrcDay = null;
 
         if(items){
-            this.buffer.push(...items);
+            this.buffer.push(...copy(items));
             this.firstSrcDay = moment(items[0].dateStart).format('YYYY-MM-DD');
         } else {
             this.cache.forEach(w => w.calendar.forEach(a => a.subItem.forEach(d => {

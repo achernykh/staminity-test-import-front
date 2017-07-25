@@ -21,7 +21,7 @@ class ActivityHeaderChatCtrl implements IComponentController {
     private text: string = null;
     private readonly commentType: string = 'activity';
     private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
-    public onEvent: (response: Object) => IPromise<void>;
+    public onUpdate: (response: Object) => IPromise<void>;
     static $inject = ['CommentService', 'message','$scope'];
 
     constructor(private comment: CommentService, private message: MessageService, private $scope: IScope) {
@@ -33,7 +33,8 @@ class ActivityHeaderChatCtrl implements IComponentController {
 
     $onInit() {
         this.comment.get(this.commentType, this.activityId, true, 50)
-            .then(result => this.comments = result, error => this.message.toastError(error));
+            .then(result => this.comments = result, error => this.message.toastError(error))
+            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
     }
 
     onPostComment(text) {
@@ -43,7 +44,8 @@ class ActivityHeaderChatCtrl implements IComponentController {
                     this.text = null;
                     this.comments = result;
                 }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync())
-            .then(() => this.inAction = false);
+            .then(() => this.inAction = false)
+            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));;
             //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
     }
 
@@ -65,7 +67,7 @@ const ActivityHeaderChatComponent:IComponentOptions = {
         user: '<',
         currentUser: '<',
         coach: '<',
-        onEvent: '&'
+        onUpdate: '&'
     },
     require: {
         //component: '^component'

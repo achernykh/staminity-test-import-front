@@ -62,7 +62,8 @@ export class SocketService implements ISocketService {
         calculateActivityRange: 15.0,
         putCalendarItem: 15.0,
         getActivityCategory: 10.0,
-        postCalendarItem: 10.0
+        postCalendarItem: 10.0,
+        getGroupManagementProfile: 10.0
     };
 
     private internetStatus: boolean = true;
