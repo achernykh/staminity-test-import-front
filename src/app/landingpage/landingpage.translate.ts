@@ -247,15 +247,15 @@ export let _translate = {
 			byYear: '/год',
 
 			coachAthletes: '{{athlete | currency}}/мес за ученика. \n' +
-			'{{minAthletes}} ученик входит в абонентскую плату. \n' +
+			'{{minAthletes}} ученик включен в абонентскую плату. \n' +
 			'Оплачивается не более {{maxAthletes}} учеников, с {{maxAthletes + 1}} - бесплатно',
 
-			clubAthletes: '{{athlete | currency}}/мес за ученика клуба. \n' +
-			'{{minAthletes}} ученик для каждого тренера клуба - бесплатно. \n' +
+			clubAthletes: '{{athlete | currency}}/мес за ученика клуба.  \n' +
+			'{{minAthletes}} ученик для каждого тренера клуба не оплачивается. \n' +
 			'Оплачивается не более {{maxAthletes}} учеников на каждого тренера.',
 
-			clubCoaches: '{{coach | currency}}/мес за тренера клуба' +
-			'{{minCoaches}} тренер входит в абонентскую плату. \n',
+			clubCoaches: '{{coach | currency}}/мес за тренера клуба.  \n' +
+			'{{minCoaches}} тренер включен в абонентскую плату. \n',
 
 			calc: {
 				params: 'Параметры',
