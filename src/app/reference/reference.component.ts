@@ -2,36 +2,43 @@ import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { IActivityType } from "../../../api/activity/activity.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
+import { IGroupProfile } from "../../../api/group/group.interface";
 
 import { getType, activityTypes } from "../activity/activity.constants";
+import { ReferenceFilterParams, constrainFilterParams } from "./reference.datamodel";
 import './reference.component.scss';
 
 
 class ReferenceCtrl implements IComponentController {
 
-	static $inject = ['$scope', '$mdDialog', 'message', 'ReferenceService'];
-
-	private user : IUserProfile;
-	private cathegories : Array<IActivityCategory>;
-	private templates : Array<IActivityTemplate>;
-	private activityTypes : Array<IActivityType> = activityTypes;
-	private templatesFilters : any = { 
+	public user: IUserProfile;
+	public categories: Array<IActivityCategory>;
+	public templates: Array<IActivityTemplate>;
+	public clubUri: string;
+	public club: IGroupProfile;
+	
+	private filterParams: ReferenceFilterParams = { 
+		club: null,
 		activityType: activityTypes[0],
-		cathegory: null
+		category: null
 	};
-	private cathegoriesFilters : any = { activityType: activityTypes[0] };
-	private tab : number = 0;
+	
+	private tab: number = 0;
+	private activityTypes: Array<IActivityType> = activityTypes;
 
-	private onTemplatesChange = this.handleTemplatesChange.bind(this);
 	private onTemplatesMessage = {
 		"I": this.handleTemplateCreate.bind(this),
 		"U": this.handleTemplateUpdate.bind(this),
 		"D": this.handleTemplateDelete.bind(this)
 	};
-	
-	private onCathegoriesChange = this.handleCathegoriesChange.bind(this);
-	private onCathegoryChange = this.handleCathegoryChange.bind(this);
-	private onCathegoryDelete = this.handleCathegoryDelete.bind(this);
+
+	private onCategoriesMessage = {
+		"I": this.handleCategoryCreate.bind(this),
+		"U": this.handleCategoryUpdate.bind(this),
+		"D": this.handleCategoryDelete.bind(this)
+	};
+
+	static $inject = ['$scope', '$mdDialog', 'message', 'ReferenceService'];
 
 	constructor (
 		private $scope, 
@@ -43,7 +50,17 @@ class ReferenceCtrl implements IComponentController {
 	}
 
 	$onInit () {
-		this.ReferenceService.messages
+		this.filterParams.club = this.club;
+		
+		this.ReferenceService.activityCategoriesMessages
+		.subscribe((message) => {
+			let action = this.onCategoriesMessage[message.action];
+			if (action) {
+				action(message.value);
+			}
+		});
+		
+		this.ReferenceService.activityTemplatesMessages
 		.subscribe((message) => {
 			let action = this.onTemplatesMessage[message.action];
 			if (action) {
@@ -52,30 +69,13 @@ class ReferenceCtrl implements IComponentController {
 		});
 	}
 
-	get templatesFilterCathegories () : Array<IActivityCategory> {
-		let activityTypeId = this.templatesFilters.activityType.id;
-		let cathegoryId = this.templatesFilters.cathegory && this.templatesFilters.cathegory.id;
-		let cathegories = this.cathegories.filter((cathegory) => cathegory.activityTypeId === activityTypeId);
-		if (!cathegories.find((cathegory) => cathegory.id === cathegoryId)) {
-			this.templatesFilters = this.updateFilters(this.templatesFilters, { cathegory: cathegories[0] });
-		}
-		return cathegories;
+	get templatesFilterCategories () : Array<IActivityCategory> {
+		let activityTypeId = this.filterParams.activityType.id;
+		return this.categories.filter((category) => category.activityTypeId === activityTypeId);
 	}
 
-	updateFilters (filters, changes = {}) {
-		return { ...filters, ...changes };
-	}
-
-	handleTemplatesChange () {
-		this.ReferenceService.getActivityTemplates(undefined, undefined, false, false)
-		.then((templates) => {
-			this.templates = templates;
-			this.$scope.$apply();
-		})
-		.catch((info) => { 
-			this.message.systemWarning(info);
-			throw info;
-		});
+	updateFilters (filterParams: ReferenceFilterParams, changes: any = {}) : ReferenceFilterParams {
+		return constrainFilterParams({ ...filterParams, ...changes });
 	}
 
 	handleTemplateCreate (template: IActivityTemplate) {
@@ -93,25 +93,18 @@ class ReferenceCtrl implements IComponentController {
 		this.$scope.$apply();
 	}
 
-	handleCathegoriesChange () {
-		this.ReferenceService.getActivityCategories(undefined, false, true)
-		.then((cathegories) => {
-			this.cathegories = cathegories;
-			this.$scope.$apply();
-		})
-		.catch((info) => { 
-			this.message.systemWarning(info);
-			throw info;
-		});
-	}
-
-	handleCathegoryChange (id, changes) {
-		this.cathegories = this.cathegories.map((cathegory) => cathegory.id === id? { ...cathegory, ...changes } : cathegory);
+	handleCategoryCreate (category: IActivityCategory) {
+		this.categories = [...this.categories, category];
 		this.$scope.$apply();
 	}
 
-	handleCathegoryDelete (id) {
-		this.cathegories = this.cathegories.filter((cathegory) => cathegory.id !== id);
+	handleCategoryUpdate (category: IActivityCategory) {
+		this.categories = this.categories.map((c) => c.id === category.id? category : c);
+		this.$scope.$apply();
+	}
+
+	handleCategoryDelete (category: IActivityCategory) {
+		this.categories = this.categories.filter((c) => c.id !== category.id);
 		this.$scope.$apply();
 	}
 }
@@ -119,9 +112,10 @@ class ReferenceCtrl implements IComponentController {
 const ReferenceComponent: IComponentOptions = {
 	bindings: {
 		user: '<',
-		auth: '<',
-		cathegories: '<',
-		templates: '<'
+		categories: '<',
+		templates: '<',
+		clubUri: '<',
+		club: '<'
 	},
 	controller: ReferenceCtrl,
 	template: require('./reference.component.html') as string

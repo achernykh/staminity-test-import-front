@@ -1,20 +1,17 @@
 <div 
 	ng-if="!isScreenSmall" 
-	class="activity-template template-card md-whiteframe-1dp" layout="column"
+	layout="column" class="template-card md-whiteframe-1dp" 
 >
-
-	<div flex="none" layout="column" class="template-header">
+	<div flex="none" layout="column" class="template-card__header">
 		<div flex="none" layout="row" layout-align="space-between center">
 			<div style="width: 40px; padding: 8px;">
 				<md-icon ng-if="$ctrl.template.favourite" class="material-icons">star</md-icon>
 			</div>
-			<div flex></div>
-			<div >
-				<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="activity-template__icon-circled"></md-icon>
-			</div>
-			<div flex></div>
 			<div>
-				<md-menu flex="none" flex-gt-sm="25">
+				<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="reference__sport-icon-circled"></md-icon>
+			</div>
+			<div>
+				<md-menu flex="none">
 					<md-button class="md-icon-button" style="margin: 0" ng-click="$mdOpenMenu($event)">
 						<md-icon class="material-icons md-18">more_vert</md-icon>
 					</md-button>
@@ -42,31 +39,33 @@
 			</div>
 		</div>
 		
-		<div class="template-header__activity">{{ $ctrl.template.activityCategory | cathegoryCode }}</div>
+		<div class="template-card__activity">
+			{{ $ctrl.template.activityCategory | categoryCode }}
+		</div>
 
-		<div class="template-header__code">
+		<div class="template-card__code">
 			{{ $ctrl.name }}
 		</div>
 	</div>
 
-	<div flex="none" class="template-footer line-12"
-	>{{ $ctrl.description | truncate }}</div>
-
-</div>
-<div 
-	ng-if="isScreenSmall"
-	class="activity-template template-list-item" layout="row" layout-align="start start"
->
-
-	<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="activity-template__icon-circled" style="margin: 0 15px 0 0;"></md-icon>
-
-	<div flex>
-		<div class="activity-template__code">{{ $ctrl.name }}</div>
-		<div class="activity-template__activity">{{ $ctrl.template.activityCategory | cathegoryCode }}</div>
-		<div class="activity-template__description">{{ $ctrl.description | truncate }}</div>
+	<div flex="none" class="template-card__footer line-12">
+		{{ $ctrl.description | truncate }}
 	</div>
-
-	<md-icon ng-if="$ctrl.template.favourite" class="material-icons" style="margin: 0 0 0 15px;">star</md-icon>
-
 </div>
+
+
+<md-list-item 
+	ng-if="isScreenSmall"
+	class="template-row" 
+	layout="row" layout-align="start start"
+	md-no-ink
+>
+	<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="reference__sport-icon-circled template-row__sport-icon"></md-icon>
+	<div flex>
+		<div class="template-row__code">{{ $ctrl.name }}</div>
+		<div class="template-row__activity">{{ $ctrl.template.activityCategory | categoryCode }}</div>
+		<div class="template-row__description">{{ $ctrl.description | truncate }}</div>
+	</div>
+	<md-icon ng-if="$ctrl.template.favourite" class="material-icon template-row__favorite-icon">star</md-icon>
+</md-list-item>
 

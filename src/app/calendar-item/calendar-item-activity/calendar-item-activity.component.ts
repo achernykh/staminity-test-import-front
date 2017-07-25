@@ -12,6 +12,7 @@ import {
 import { IActivityCategory, IActivityTemplate } from '../../../../api/reference/reference.interface';
 import SessionService from "../../core/session.service";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
+import {IGroupProfileShort} from '../../../../api/group/group.interface';
 import {nameFromInterval} from "../../reference/reference.datamodel";
 import {Activity} from "../../activity/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
@@ -54,6 +55,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     tab: string;
     popup: boolean;
     template: boolean = false; // режим создания, изменения шаблона
+    club: IGroupProfileShort;
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
@@ -116,7 +118,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     $onInit() {
         this.currentUser = this.SessionService.getUser();
 
-        if (this.mode === 'post') {
+        if (this.mode === 'post' && !this.template) {
             this.data = {
                 isTemplate: this.template,
                 calendarItemType: 'activity',
@@ -127,7 +129,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 dateStart: this.date,
                 dateEnd: this.date,
                 userProfileOwner: profileShort(this.user),
-                userProfileCreator: profileShort(this.currentUser)
+                userProfileCreator: profileShort(this.currentUser),
+                groupProfile: this.club
             };
         }
 
@@ -390,7 +393,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         let name = this.name;
         let description = this.activity.intervalPW.trainersPrescription;
-        let { templateId, code, favourite, visible, header } = this.activity;
+        let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
+        let groupId = groupProfile && groupProfile.groupId;
         let { activityCategory, intervals } = header;
         let content = [
             ...intervals.filter(i => i.type === 'pW'), 
@@ -399,7 +403,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         .map((interval) => ({ ...interval, calcMeasures: undefined }));
 
         if (this.mode === 'post') {
-            this.ReferenceService.postActivityTemplate(null, activityCategory.id, null, name, description, favourite, content)
+            this.ReferenceService.postActivityTemplate(null, activityCategory.id, groupId, name, description, favourite, content)
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
@@ -408,7 +412,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
 
         if (this.mode === 'put' || this.mode === 'view') {
-            this.ReferenceService.putActivityTemplate(templateId, activityCategory.id, null, null, name, description, favourite, visible)
+            this.ReferenceService.putActivityTemplate(templateId, activityCategory.id, groupId, null, name, description, favourite, visible, content)
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
@@ -468,6 +472,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
         date: '<', // в режиме создания передает дату календаря
         activityType: '<', // если создание идет через wizard, то передаем тип тренировки
         activityCategory: '<',
+        club: '<',
         data: '<', // в режиме просмотр/изменение передает данные по тренировке из календаря
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря

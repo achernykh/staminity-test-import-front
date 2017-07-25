@@ -1,112 +1,89 @@
-<md-card flex class="templates">
+<div flex class="templates__content">
 	<section ng-if="$ctrl.templatesByOwner.user.length" class="templates__section">
-		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.user' | translate }}</div>
+		<div class="templates__subheader md-body-2 md-padding">{{ 'reference.templates.user' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['user-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
-			class="templates__list"
 		>
-			<div
+			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.user track by template.id" 
 				dnd-draggable="template"
 				dnd-type="'user-template'"
 				draggable="true"
-				ng-click="$ctrl.editTemplate(template, $event)"
-				class="activity-templates-wrapper"
-			>
-				<activity-template
-					template="template"
-					on-copy="$ctrl.copyTemplate(template)"
-					on-select="$ctrl.editTemplate(template)"
-					on-delete="$ctrl.deleteTemplate(template)"
-				></activity-template>
-			</div>
+				ng-click="$ctrl.openTemplate(template, $event)"
+				template="template"
+				on-copy="$ctrl.copyTemplate(template)"
+				on-select="$ctrl.openTemplate(template)"
+				on-delete="$ctrl.deleteTemplate(template)"
+			></activity-template>
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.coach.length" class="templates__section">
-		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.coach' | translate }}</div>
+		<div class="templates__subheader md-body-2 md-padding">{{ 'reference.templates.coach' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['coach-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
-			class="templates__list"
 		>
-			<div
+			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.coach track by template.id" 
 				dnd-draggable="template"
 				dnd-type="'coach-template'"
 				draggable="true"
-				ng-click="$ctrl.viewTemplate(template, $event)"
-				class="activity-templates-wrapper"
-			>
-				<activity-template
-					template="template"
-					on-copy="$ctrl.copyTemplate(template)"
-					on-select="$ctrl.editTemplate(template)"
-					on-delete="$ctrl.deleteTemplate(template)"
-					class="activity-template md-whiteframe-1dp" layout="column"
-				></activity-template>
-			</div>
+				ng-click="$ctrl.openTemplate(template, $event)"
+				template="template"
+				on-copy="$ctrl.copyTemplate(template)"
+				on-select="$ctrl.openTemplate(template)"
+				on-delete="$ctrl.deleteTemplate(template)"
+			></activity-template>
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.club.length" class="templates__section">
-		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.club' | translate }}</div>
+		<div class="templates__subheader md-body-2 md-padding">{{ 'reference.templates.club' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['club-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
-			class="templates__list"
 		>
-			<div
+			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.club track by template.id" 
 				dnd-draggable="template"
 				dnd-type="'club-template'"
 				draggable="true"
-				ng-click="$ctrl.viewTemplate(template, $event)"
-				class="activity-templates-wrapper"
-			>
-				<activity-template
-					template="template"
-					on-copy="$ctrl.copyTemplate(template)"
-					on-select="$ctrl.editTemplate(template)"
-					on-delete="$ctrl.deleteTemplate(template)"
-					class="activity-template md-whiteframe-1dp" layout="column"
-				></activity-template>
-			</div>
+				ng-click="$ctrl.openTemplate(template, $event)"
+				template="template"
+				on-copy="$ctrl.copyTemplate(template)"
+				on-select="$ctrl.openTemplate(template)"
+				on-delete="$ctrl.deleteTemplate(template)"
+			></activity-template>
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.system.length" class="templates__section">
-		<div class="md-body-2 md-padding templates__subheader">{{ 'reference.templates.system' | translate }}</div>
+		<div class="templates__subheader md-body-2 md-padding">{{ 'reference.templates.system' | translate }}</div>
 		<div 
 			dnd-list
 			dnd-allowed-types="['system-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
-			class="templates__list"
 		>
-			<div
+			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.system track by template.id" 
 				dnd-draggable="template"
 				dnd-type="'system-template'"
 				draggable="true"
-				ng-click="$ctrl.viewTemplate(template, $event)"
-				class="activity-templates-wrapper"
-			>
-				<activity-template
-					template="template"
-					on-copy="$ctrl.copyTemplate(template)"
-					on-select="$ctrl.editTemplate(template)"
-					on-delete="$ctrl.deleteTemplate(template)"
-					class="activity-template md-whiteframe-1dp" layout="column"
-				></activity-template>
-			</div>
+				ng-click="$ctrl.openTemplate(template, $event)"
+				template="template"
+				on-copy="$ctrl.copyTemplate(template)"
+				on-select="$ctrl.openTemplate(template)"
+				on-delete="$ctrl.deleteTemplate(template)"
+			></activity-template>
 		</div>
 	</section>
-</md-card>
+</div>
 
 <div class="templates__create">
 	<md-button ng-click="$ctrl.createTemplate($event)" class="md-fab md-accent md-hue-2">

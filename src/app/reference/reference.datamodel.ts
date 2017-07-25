@@ -1,50 +1,76 @@
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
-import { IActivityIntervalPW } from "../../../api/activity/activity.interface";
+import { IActivityType, IActivityIntervalPW } from "../../../api/activity/activity.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
-import { Activity } from "../activity/activity.datamodel";
-import { getType } from "../activity/activity.constants";
+import { IGroupProfile } from "../../../api/group/group.interface";
+import { activityTypes, getType } from "../activity/activity.constants";
 import { measureValue, measureUnit } from "../share/measure/measure.constants";
+import { path, Filter } from "../share/utility";
+
+
+type ActivityReference = IActivityCategory | IActivityTemplate;
+
+export const getUserId = path(['userProfileCreator', 'userId']);
+export const getGroupId = path(['groupProfile', 'groupId']);
+export const getCategoryActivityTypeId = path(['activityTypeId']);
+export const getTemplateActivityTypeId = path(['activityCategory', 'activityTypeId']);
+export const getTemplateActivityCategoryId = path(['activityCategory', 'id']);
 
 
 export type Owner = 'user' | 'system' | 'club' | 'coach';
 
+export const isOwner = (user: IUserProfile, item: ActivityReference) : boolean => getUserId(item) === user.userId;
+
 const systemUserId = 1;
 
-export const cathegoryOwner = (user: IUserProfile) => (cathegory: IActivityCategory) : Owner => {
-	let userId = cathegory.userProfileCreator && cathegory.userProfileCreator.userId;
-	return (userId === user.userId && 'user')
+export const isSystem = (item: ActivityReference) : boolean => getUserId(item) === systemUserId;
+
+export const getOwner = (user: IUserProfile) => (item: ActivityReference) : Owner => {
+	let userId = getUserId(item);
+	return (item.groupProfile && 'club')
 		|| (userId === systemUserId && 'system')
-		|| (cathegory.groupProfile && 'club')
+		|| (userId === user.userId && 'user')
 		|| 'coach';
 };
 
-export const templateOwner = (user: IUserProfile) => (template: IActivityTemplate) : Owner => {
-	let userId = template.userProfileCreator && template.userProfileCreator.userId;
-	return (userId === user.userId && 'user')
-		|| (userId === systemUserId && 'system')
-		|| (template.groupProfile && 'club')
-		|| 'coach';
+
+export type ReferenceFilterParams = {
+	club?: IGroupProfile;
+	activityType: IActivityType;
+	category?: IActivityCategory;
 };
+
+export const constrainFilterParams = (filterParams: ReferenceFilterParams) : ReferenceFilterParams => {
+	let { club, activityType, category } = filterParams;
+	
+	if (!filterParams.activityType) {
+		filterParams.activityType = activityTypes[0];
+	}
+	
+	if (getCategoryActivityTypeId(category) !== activityType.id) {
+		filterParams.category = null;
+	}
+	
+	return filterParams;
+};
+
+
+export const categoriesFilters: Array<Filter<ReferenceFilterParams, IActivityCategory>> = [
+	({ club }: ReferenceFilterParams) => (category: IActivityCategory) => !club || getGroupId(category) === club.groupId,
+	({ activityType }: ReferenceFilterParams) => (category: IActivityCategory) => !activityType || getCategoryActivityTypeId(category) === activityType.id
+];
+
+export const templatesFilters: Array<Filter<ReferenceFilterParams, IActivityTemplate>> = [
+	({ club }: ReferenceFilterParams) => (template: IActivityTemplate) => !club || getGroupId(template) === club.groupId,
+	({ activityType }: ReferenceFilterParams) => (template: IActivityTemplate) => !activityType || getTemplateActivityTypeId(template) === activityType.id,
+	({ category }: ReferenceFilterParams) => (template: IActivityTemplate) => !category || getTemplateActivityCategoryId(template) === category.id
+];
+
 
 export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string) : string => {
-	let { distance, movingDuration } = <any>(interval || {});
-	return distance.durationValue && `${measureValue(distance.durationValue, sport, 'distance')} ${$translate.instant(measureUnit('distance', sport))}`
-		|| movingDuration.durationValue && measureValue(movingDuration.durationValue, sport, 'movingDuration');
+	let distance = path(['distance', 'durationValue']) (interval);
+	let movingDuration = path(['movingDuration', 'durationValue']) (interval);
+	
+	return distance && `${measureValue(distance, sport, 'distance')} ${$translate.instant(measureUnit('distance', sport))}`
+		|| movingDuration && measureValue(movingDuration, sport, 'movingDuration')
+		|| '';
 };
-
-export const templateToActivity = (template: IActivityTemplate) : Activity => new Activity(<any>{ 
-	isTemplate: true,
-	templateId: template.id,
-	code: template.code,
-	description: template.description,
-	favourite: template.favourite,
-	visible: template.visible,
-	userProfileOwner: template.userProfileCreator,
-	userProfileCreator: template.userProfileCreator,
-	activityHeader: {
-		id: template.id,
-		activityCategory: template.activityCategory,
-		activityType: getType(template.activityCategory.activityTypeId),
-		intervals: template.content || []
-	}
-});

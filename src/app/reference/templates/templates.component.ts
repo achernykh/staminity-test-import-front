@@ -1,81 +1,39 @@
 import { IComponentOptions, IComponentController, IPromise, element } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
+import { IGroupProfile } from "../../../../api/group/group.interface";
 
+import IMessageService from "../../core/message.service";
+import ReferenceService from "../reference.service";
+import DialogsService from '../../share/dialogs';
 import { getType } from "../../activity/activity.constants";
-import { Activity } from "../../activity/activity.datamodel";
-import { templateOwner, templateToActivity } from "../reference.datamodel";
 import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
+import { ReferenceFilterParams, templatesFilters, Owner, isSystem, getOwner, isOwner } from "../reference.datamodel";
+import { filtersToPredicate } from "../../share/utility";
+import { templateDialog, TemplateDialogMode } from "../template-dialog/template.dialog";
+import { isManager } from "../../club/club.datamodel";
 import "./templates.component.scss";
-
-
-const templatesFilters = {
-	activityType: (activityType, template: IActivityTemplate) => template.activityCategory.activityTypeId === activityType.id,
-	cathegory: (cathegory, template: IActivityTemplate) => template.activityCategory.id === cathegory.id
-};
-
-const filterTemplates = (filters) => (template: IActivityTemplate) => (
-	keys(filters).every((key) => !filters[key] || templatesFilters[key] (filters[key], template))
-);
-
-
-type DialogMode = 'post' | 'put' | 'view';
-
-class DialogCtrl implements IComponentController {
-
-	static $inject = ['$scope','$mdDialog'];
-
-	constructor (private $scope, private $mdDialog) {
-		$scope.hide = () => $mdDialog.hide();
-		$scope.cancel = () => $mdDialog.cancel();
-		$scope.answer = (answer) => $mdDialog.hide(answer);
-	}
-}
-
-const dialogParams = {
-	controller: DialogCtrl,
-	controllerAs: '$ctrl',
-	template:
-		`<md-dialog id="post-activity" aria-label="Activity">
-			<calendar-item-activity
-				layout="row" class="calendar-item-activity"
-				date="$ctrl.date"
-				activity-type="$ctrl.activityType"
-				activity-category="$ctrl.activityCategory"
-				data="$ctrl.item"
-				mode="$ctrl.mode"
-				user="$ctrl.user"
-				popup="true"
-				template="true"
-				on-cancel="cancel()" on-answer="answer(response)"
-			>
-			</calendar-item-activity>
-		</md-dialog>`,
-	parent: element(document.body),
-	bindToController: true,
-	clickOutsideToClose: false,
-	escapeToClose: false,
-	fullscreen: true
-};
 
 
 class TemplatesCtrl implements IComponentController {
 
-	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'dialogs', 'ReferenceService'];
+	public user: IUserProfile;
+	public categories: Array<IActivityCategory>;
+	public templates: Array<IActivityTemplate>;
+	public club: IGroupProfile;
+	public filterParams: ReferenceFilterParams;
+	
+	private templatesByOwner: { [owner in Owner]: Array<IActivityTemplate> };
 
-	private user : IUserProfile;
-	private cathegories : Array<IActivityCategory>;
-	private templates : Array<IActivityTemplate>;
-	private templatesByOwner : any;
-	private filters : any;
+	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'dialogs', 'ReferenceService'];
 
 	constructor (
 		private $scope, 
 		private $mdDialog, 
 		private $mdMedia, 
-		private message,
-		private dialogs,
-		private ReferenceService
+		private message: IMessageService,
+		private dialogs: DialogsService,
+		private ReferenceService: ReferenceService
 	) {
 
 	}
@@ -86,42 +44,39 @@ class TemplatesCtrl implements IComponentController {
 
 	handleChanges () {
 		this.templatesByOwner = pipe(
-			filter(filterTemplates(this.filters)),
+			filter(filtersToPredicate(templatesFilters, this.filterParams)),
 			orderBy(prop('sortOrder')),
-			groupBy(templateOwner(this.user)),
+			groupBy(getOwner(this.user)),
 		) (this.templates);
 	}
 
 	templateReorder (index: number, template: IActivityTemplate) {
-		let { id, activityCategory, code, description, groupProfile, favourite, visible } = template;
-		let owner = templateOwner(this.user) (template);
+		let { id, activityCategory, code, description, groupProfile, favourite, visible, content } = template;
+		let owner = getOwner(this.user)(template);
 		let groupId = groupProfile && groupProfile.groupId;
 		let activityCategoryId = activityCategory && activityCategory.id;
 		let targetTemplate = this.templatesByOwner[owner][index];
 		let sortOrder = targetTemplate? targetTemplate.sortOrder : 999999;
 
-		this.ReferenceService.putActivityTemplate(id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible)
+		this.ReferenceService.putActivityTemplate(id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible, content)
 		.catch((info) => { 
 			this.message.systemWarning(info);
 			throw info;
 		});
 	}
 
-	createTemplate ($event: MouseEvent) {
-		let activityTypeId = this.filters.activityType.id;
-		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === activityTypeId);
-
-		return this.$mdDialog.show({
-			...dialogParams,
-			locals: {
-				mode: 'post',
-				date: new Date(),
-				user: this.user,
-				activityType: getType(activityTypeId),
-				activityCategory: cathegory
-			}, 
-			targetEvent: $event
-		});
+	createTemplate (targetEvent: MouseEvent) {
+		let activityTypeId = this.filterParams.activityType.id;
+		let category = this.filterParams.category;
+		
+		let template = <any> {
+			activityType: getType(activityTypeId),
+			activityCategory: category,
+			userProfileCreator: this.user,
+			groupProfile: this.club
+		};
+		
+		return this.$mdDialog.show(templateDialog('post', template, this.user, { targetEvent }));
 	}
 
 	copyTemplate (template: IActivityTemplate) {
@@ -138,40 +93,9 @@ class TemplatesCtrl implements IComponentController {
 		});
 	}
 
-	viewTemplate (template: IActivityTemplate, $event: MouseEvent) {
-		let activityTypeId = this.filters.activityType.id;
-		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === activityTypeId);
-
-		return this.$mdDialog.show({
-			...dialogParams,
-			locals: {
-				mode: 'view',
-				item: templateToActivity(template),
-				date: new Date(),
-				user: this.user,
-				activityType: getType(activityTypeId),
-				activityCategory: cathegory
-			}, 
-			targetEvent: $event
-		});
-	}
-
-	editTemplate (template: IActivityTemplate, $event: MouseEvent) {
-		let activityTypeId = this.filters.activityType.id;
-		let cathegory = this.filters.cathegory || this.cathegories.find((cathegory) => cathegory.activityTypeId === activityTypeId);
-
-		return this.$mdDialog.show({
-			...dialogParams,
-			locals: {
-				mode: 'put',
-				item: templateToActivity(template),
-				date: new Date(),
-				user: this.user,
-				activityType: getType(activityTypeId),
-				activityCategory: cathegory
-			}, 
-			targetEvent: $event
-		});
+	openTemplate (template: IActivityTemplate, targetEvent: MouseEvent) {
+		let mode: TemplateDialogMode = isOwner(this.user, template) || isManager(this.user, this.club)? 'put' : 'view';
+		return this.$mdDialog.show(templateDialog(mode, template, this.user, { targetEvent }));
 	}
 
 	deleteTemplate (template: IActivityTemplate) {
@@ -189,9 +113,10 @@ class TemplatesCtrl implements IComponentController {
 const TemplatesComponent: IComponentOptions = {
 	bindings: {
 		user: '<',
-		cathegories: '<',
+		categories: '<',
 		templates: '<',
-		filters: '<'
+		filterParams: '<',
+		club: '<'
 	},
 	controller: TemplatesCtrl,
 	template: require('./templates.component.html') as string

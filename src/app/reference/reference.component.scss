@@ -1,21 +1,31 @@
-.reference {
+@import "../../sass/color";
+
+
+reference {
 	position: absolute; 
 	top: 60px; 
 	bottom: 0; 
 	left: 0; 
 	right: 0; 
 	z-index: 10;
+	
+	@media (max-width: 959px) {
+		top: 0; 
+	}
+}
 
-	md-tabs {
+
+.reference {
+	&__wrap {
+		height: 100%;	
+	}
+	
+	&__tabs {
 		border-radius: 0;
 		
 		@media (max-width: 959px) {
-			background-color: #f5f5f5;
+			background-color: $grey-100;
 		}
-	}
-
-	@media (max-width: 959px) {
-		top: 0; 
 	}
 
 	&__filters {
@@ -36,10 +46,23 @@
 	&__filters-content {
 		background: none;
 		font-size: 12px !important;
-		color: rgba(0, 0, 0, 0.87) !important;
+		color: rgba(black, 0.87) !important;
 
 		@media (max-width: 959px) {
-			background-color: #f5f5f5;
+			background-color: $grey-100;
+		}
+	}
+
+	&__sport-icon-circled {
+		width: 32px !important;
+		height: 32px !important;
+		border-radius: 16px;
+		background-color: $blue-grey-700;
+
+		svg {
+			fill: white;
+			height: 22px;
+			padding-top: 5px;
 		}
 	}
 }

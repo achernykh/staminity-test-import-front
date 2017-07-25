@@ -2,32 +2,38 @@
 @import "../../../sass/color";
 
 
-templates {
+categories {
 	overflow-y: auto;
 
 	@media (max-width: 959px) {
 		width: auto; 
 		margin: 0;
 		box-shadow: none;
-		background-color: $grey-050;
 		border-radius: 0;
 		border-left: 0;
 		border-right: 0;
 		border-top: solid 0.5px rgba(black, 0.14);
+		background-color: $grey-050;
 	}
 }
 
 
-.templates {
+.categories {
 	&__content {
+		width: 600px; 
 		border-radius: 3px;
-		@extend .md-whiteframe-2dp;
 		background-color: $grey-050;
+		@extend .md-whiteframe-2dp;
 
 		@media (max-width: 959px) {
+			width: 100%;
 			border-radius: 0;
 			box-shadow: none;
 		}
+	}
+	
+	&__list {
+		padding: 0;
 	}
 
 	&__section {
@@ -49,7 +55,7 @@ templates {
 	}
 
 	&__create {
-		width: 100px; 
+		width: 200px; 
 		margin-top: 61px; 
 		text-align: center;
 
@@ -60,15 +66,5 @@ templates {
 			width: auto;
 			z-index: 100;
 		}
-	}
-
-	.dndPlaceholder {
-		display: inline-block;
-		float: none;
-		height: 122px;
-		width: 160px;
-		padding: 6px;
-		background-color: $grey-300 !important;
-		vertical-align: top;
 	}
 }

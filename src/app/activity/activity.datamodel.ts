@@ -14,6 +14,7 @@ import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {activityTypes, getType} from "./activity.constants";
 import {IUserProfileShort} from "../../../api/user/user.interface";
+import {IGroupProfileShort} from '../../../api/group/group.interface';
 
 export interface IRoute {
 	lat:number;
@@ -149,6 +150,7 @@ export class Activity extends CalendarItem {
 	public description: string;
 	public favourite: boolean;
 	public visible: boolean;
+	public groupProfile: IGroupProfileShort;
 
 	constructor(private item: ICalendarItem, private method: string = 'view'){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты

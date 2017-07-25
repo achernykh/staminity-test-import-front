@@ -1,4 +1,4 @@
-import { Observable, Subject } from "rxjs/Rx";
+import { Observable } from "rxjs/Rx";
 
 import { ISocketService } from '../core/socket.service';
 import { ISessionService } from '../core/session.service';
@@ -10,18 +10,26 @@ import {
 
 
 export default class ReferenceService {
-
-	messages: Observable<any>;
-
+	
 	static $inject = ['SocketService', 'SessionService'];
 
 	constructor (
 		private SocketService: ISocketService, 
 		private SessionService: ISessionService
 	) {
-		this.messages = SocketService.messages
-		.filter(message => message.type === 'activityTemplate')
-		.share();
+		
+	}
+	
+	get activityCategoriesMessages () : Observable<any> {
+		return this.SocketService.messages
+			.filter(message => message.type === 'activityCategory')
+			.share();
+	}
+	
+	get activityTemplatesMessages () : Observable<any> {
+		return this.SocketService.messages
+			.filter(message => message.type === 'activityTemplate')
+			.share();
 	}
 
 	getActivityCategories (
@@ -96,10 +104,11 @@ export default class ReferenceService {
 		code: string,
 		description: string,
 		favourite: boolean,
-		visible: boolean
+		visible: boolean,
+		content: any
 	) : Promise<[IActivityCategory]> {
 		return this.SocketService.send(new PutActivityTemplate(
-			id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible
+			id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible, content
 		));
 	}
 

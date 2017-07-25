@@ -1,14 +1,12 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
-import { maybe, prop, find } from '../../share/util.js';
+import { path } from '../../share/utility';
 import { getType, activityTypes } from "../../activity/activity.constants";
 import './template.component.scss';
 
 
 class TemplateCtrl implements IComponentController {
-
-	static $inject = ['$scope', '$filter', '$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
 
 	private template: IActivityTemplate;
 	private isScreenSmall: boolean;
@@ -16,19 +14,17 @@ class TemplateCtrl implements IComponentController {
 	private onSelect: () => any;
 	private onCopy: () => any;
 
+	static $inject = ['$scope', '$filter', '$mdDialog', '$mdMedia'];
+
 	constructor (
 		private $scope, 
 		private $filter, 
 		private $mdDialog,
-		private $mdMedia, 
-		private message,
-		private ReferenceService
+		private $mdMedia
 	) {
 		$scope.$watch(
 			() => !$mdMedia('gt-sm'), 
-			(value, prev) => {
-				$scope.isScreenSmall = value;
-			}
+			(value) => { $scope.isScreenSmall = value; }
 		);
 	}
 
@@ -38,7 +34,7 @@ class TemplateCtrl implements IComponentController {
 	}
 
 	get description () {
-		return maybe(this.template.content) (prop(0)) (prop('trainerPrescription')) () || this.template.description;
+		return path(['content', 0, 'trainerPrescription'])(this.template) || this.template.description;
 	}
 
 	get name () {

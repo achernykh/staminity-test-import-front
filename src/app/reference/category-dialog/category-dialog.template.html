@@ -1,52 +1,45 @@
 <md-dialog>
 	<md-dialog-content>
-		<form name="$ctrl.form" ng-submit="$ctrl.submit[$ctrl.mode] ()">
+		<form name="$ctrl.form" ng-submit="$ctrl.submit[$ctrl.mode]()">
 			<md-list>
 				<md-list-item layout="row" layout-align="center center">
-					<h3 style="font-size: 20px; font-weight: 500;">{{ 'reference.cathegories.singular' | translate }}</h3>
+					<h3 class="category-dialog__title">{{ 'reference.categories.singular' | translate }}</h3>
 					<span flex></span>
 					<md-button class="md-icon-button" ng-click="$ctrl.close()">
 						<md-icon class="material-icons">close</md-icon>
 					</md-button>
 				</md-list-item>
 				<md-list-item>
-					<md-input-container md-no-float style="margin: 0; width: 270px; font-size: 13px;">
+					<md-input-container md-no-float class="category-dialog__input">
 						<input 
-							placeholder="{{ 'reference.cathegories.name' | translate }}" 
-							ng-model="$ctrl.cathegory.code"
+							placeholder="{{ 'reference.categories.name' | translate }}" 
+							ng-model="$ctrl.category.code"
 							ng-disabled="$ctrl.mode === 'view'"
 							required
 						/>
 					</md-input-container>
 				</md-list-item>
 				<md-list-item>
-					<md-input-container style="margin-bottom: 0; width: 270px; font-size: 13px;">
-						<label style="font-size: 13px;">{{ 'reference.cathegories.description' | translate }}</label>
+					<md-input-container class="category-dialog__input">
+						<label>{{ 'reference.categories.description' | translate }}</label>
 						<textarea 
-							ng-model="$ctrl.cathegory.description"
+							ng-model="$ctrl.category.description"
 							ng-disabled="$ctrl.mode === 'view'"
 							required
 						></textarea>
 					</md-input-container>
 				</md-list-item>
 				<md-list-item>
-					<md-input-container md-no-float style="width: 270px; font-size: 12px;">
-						<label style="font-size: 13px;">{{ 'reference.sport' | translate }}</label>
+					<md-input-container md-no-float class="category-dialog__input">
+						<label>{{ 'reference.sport' | translate }}</label>
 						<md-select 
-							multiple 
+							required multiple 
 							ng-model="$ctrl.activityTypeSelection"
 							ng-disabled="$ctrl.mode !== 'create'"
-							flex name="activity-type" class="icon"
-							required md-no-asterisk
+							flex md-no-asterisk 
+							name="activity-type" 
+							class="category-dialog__select-activity-type"
 						>
-<!-- 							<md-select-header>
-								<md-subheader class="activity-types-menu__subheader">
-									<md-button class="md-icon-button" ng-click="$ctrl.closeSelect()" style="margin: 0">
-										<md-icon class="material-icons">arrow_back</md-icon>
-									</md-button>
-									{{ 'reference.sport' | translate }}
-								</md-subheader>
-							</md-select-header> -->
 							<md-option 
 								ng-repeat="activityType in $ctrl.activityTypes"
 								ng-value="activityType"

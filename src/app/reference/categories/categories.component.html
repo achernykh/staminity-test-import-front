@@ -1,0 +1,91 @@
+<div flex></div>
+
+<div class="categories__content" layout="column">
+	<section ng-if="$ctrl.categoriesByOwner.user.length" class="categories__section">
+		<div class="md-body-2 md-padding categories__subheader">{{ 'reference.categories.user' | translate }}</div>
+		<md-list
+			dnd-list
+			dnd-allowed-types="['user-category']"
+			dnd-drop="$ctrl.categoryReorder(index, item)"
+			class="categories__list"
+			md-no-ink
+		>
+			<category 
+				ng-repeat="category in $ctrl.categoriesByOwner.user track by category.id"
+				dnd-draggable="category"
+				dnd-type="'user-category'"
+				draggable="true"
+				ng-click="$ctrl.selectCategory(category)"
+				category="category"
+			/>
+		</md-list>
+	</section>
+
+	<section ng-if="$ctrl.categoriesByOwner.coach.length" class="categories__section">
+		<div class="md-body-2 md-padding categories__subheader">{{ 'reference.categories.coach' | translate }}</div>
+		<md-list
+			dnd-list
+			dnd-allowed-types="['coach-category']"
+			dnd-drop="$ctrl.categoryReorder(index, item)"
+			class="categories__list"
+			md-no-ink
+		>
+			<category 
+				ng-repeat="category in $ctrl.categoriesByOwner.coach"
+				dnd-draggable="category"
+				dnd-type="'coach-category'"
+				draggable="true"
+				ng-click="$ctrl.selectCategory(category)"
+				category="category"
+			/>
+		</md-list>
+	</section>
+
+	<section ng-if="$ctrl.categoriesByOwner.club.length" class="categories__section">
+		<div class="md-body-2 md-padding categories__subheader">{{ 'reference.categories.club' | translate }}</div>
+		<md-list
+			dnd-list
+			dnd-allowed-types="['club-category']"
+			dnd-drop="$ctrl.categoryReorder(index, item)"
+			class="categories__list"
+			md-no-ink
+		>
+			<category 
+				ng-repeat="category in $ctrl.categoriesByOwner.club"
+				dnd-draggable="category"
+				dnd-type="'club-category'"
+				draggable="true"
+				ng-click="$ctrl.selectCategory(category)"
+				category="category"
+			/>
+		</md-list>
+	</section>
+
+	<section ng-if="$ctrl.categoriesByOwner.system.length" class="categories__section">
+		<div class="md-body-2 md-padding categories__subheader">{{ 'reference.categories.system' | translate }}</div>
+		<md-list
+			dnd-list
+			dnd-allowed-types="['system-category']"
+			dnd-drop="$ctrl.categoryReorder(index, item)"
+			class="categories__list"
+			md-no-ink
+		>
+			<category 
+				ng-repeat="category in $ctrl.categoriesByOwner.system"
+				dnd-draggable="category"
+				dnd-type="'system-category'"
+				draggable="true"
+				ng-click="$ctrl.selectCategory(category)"
+				category="category"
+			/>
+		</md-list>
+	</section>
+</div>
+
+<div class="categories__create">
+	<md-button ng-click="$ctrl.createCategory()" class="md-fab md-accent md-hue-2">
+		<md-icon class="material-icons">add</md-icon>
+	</md-button>
+</div>
+
+<div flex></div>

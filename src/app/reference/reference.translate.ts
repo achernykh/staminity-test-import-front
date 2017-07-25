@@ -15,12 +15,12 @@ export const ru = {
 			system: 'Системные шаблоны',
 			description: 'Описание',
 			favourite: 'Избранный',
-			cathegory: 'Укажите категорию',
+			category: 'Укажите категорию',
 			trainerPrescription: 'Установка тренера',
 			task: 'Задание',
 			confirmDelete: 'Удалить шаблон?'
 		},
-		cathegories: {
+		categories: {
 			singular: 'Категория',
 			plural: 'Категории',
 			title: 'Категории',
