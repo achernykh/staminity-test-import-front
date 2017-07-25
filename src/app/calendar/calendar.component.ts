@@ -509,7 +509,7 @@ export class CalendarCtrl implements IComponentController{
                         this.firstSrcDay = d.data.date;
                     }
                     if (d.data.calendarItems && d.data.calendarItems.length > 0) {
-                        this.buffer.push(...d.data.calendarItems);
+                        this.buffer.push(...copy(d.data.calendarItems));
                     }
                 }
             }));

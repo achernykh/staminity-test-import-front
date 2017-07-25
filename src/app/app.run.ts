@@ -18,7 +18,7 @@ function run(
 
     //window.navigator['standalone'] = true;
 
-    $trace.enable('TRANSITION'); //https://github.com/angular-ui/ui-router/issues/2977
+    //$trace.enable('TRANSITION'); //https://github.com/angular-ui/ui-router/issues/2977
 
     $transitions.onBefore({to: '*', from: '*'}, (state) => {
 
