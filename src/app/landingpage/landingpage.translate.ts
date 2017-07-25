@@ -250,11 +250,11 @@ export let _translate = {
 			'{{minAthletes}} ученик входит в абонентскую плату. \n' +
 			'Оплачивается не более {{maxAthletes}} учеников, с {{maxAthletes + 1}} - бесплатно',
 
-			clubAthletes: '{{athlete | currency}}/мес за ученика клуба. \n' +
-			'{{minAthletes}} ученик для каждого тренера клуба - бесплатно. \n' +
+			clubAthletes: '{{athlete | currency}}/мес за ученика клуба.  \n' +
+			'{{minAthletes}} ученик для каждого тренера клуба – бесплатно. \n' +
 			'Оплачивается не более {{maxAthletes}} учеников на каждого тренера.',
 
-			clubCoaches: '{{coach | currency}}/мес за тренера клуба' +
+			clubCoaches: '{{coach | currency}}/мес за тренера клуба.  \n' +
 			'{{minCoaches}} тренер входит в абонентскую плату. \n',
 
 			calc: {
