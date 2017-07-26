@@ -3,7 +3,7 @@ import { IWindowService } from 'angular';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {ISocketService} from "./socket.service";
-import {MessageGroupMembership} from "../../../api/group/group.interface";
+import {MessageGroupMembership, ProtocolGroupUpdate} from "../../../api/group/group.interface";
 
 export interface IAuthToken {
 	userProfile: IUserProfile;
@@ -46,14 +46,6 @@ export default class SessionService implements ISessionService {
 		}
 		this._profile = new BehaviorSubject(this.getUser());
 		this.profile = this._profile.asObservable();
-
-		this.socket.messages
-            .filter(m => m.type === 'groupMembership' || m.type === 'controlledClub')
-            .map(this.updateProfile);
-
-	}
-
-	updateProfile(message: MessageGroupMembership):void{
 
 	}
 

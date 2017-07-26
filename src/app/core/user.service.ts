@@ -4,10 +4,9 @@ import { GetRequest, PutRequest } from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
 import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
-import { IHttpPromise } from 'angular';
+import { IHttpPromise,IHttpPromiseCallbackArg } from 'angular';
 import {ISystemMessage} from "../../../api/core";
-import IHttpPromiseCallbackArg = angular.IHttpPromiseCallbackArg;
-import {MessageGroupMembership} from "../../../api/group/group.interface";
+import {MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile} from "../../../api/group/group.interface";
 
 
 export default class UserService {
@@ -23,6 +22,9 @@ export default class UserService {
         private SocketService:ISocketService,
         private RESTService:IRESTService) {
 
+        this.SocketService.messages
+            .filter(m => m.type === 'groupMembership' || m.type === 'controlledClub')
+            .map(m => this.updateProfile(new ProtocolGroupUpdate(m)));
 
     }
 
@@ -143,4 +145,47 @@ export default class UserService {
      return Promise.all([this._StorageService.get('authToken'), file])
      .then(([authToken, data]) => this._API.uploadPicture('/user/background', data, authToken.token))
      }*/
+
+    /**
+     * Обновление connections пользователя
+     * @param message {ProtocolGroupUpdate}
+     */
+    private updateProfile(message: ProtocolGroupUpdate):void{
+        let update: boolean = false;
+
+        switch (message.type) {
+            case 'groupMembership':{
+                let group:IGroupProfile;
+                Object.keys(this._profile.connections)
+                    .forEach(g => {
+                        if (this._profile.connections[g].hasOwnProperty('groupId') &&
+                            this._profile.connections[g].groupId === message.groupProfile.groupId){
+                            group = this._profile.connections[g];
+                        }
+                    });
+                if(message.action === 'I' && group.hasOwnProperty('groupMembers')){
+                    group.groupMembers.push(message.userProfile);
+                    update = true;
+                } else if(message.action === 'D'){
+
+                }
+                break;
+            }
+            case 'controlledClub':{
+                let controlledClub:IGroupProfile =
+                    this._profile.connections.ControlledClubs.filter(g => g.groupId === message.groupProfile.groupId)[0];
+                if(message.action === 'I'){
+                    controlledClub.groupMembers.push(message.userProfile);
+                    update = true;
+                } else if(message.action === 'D'){
+
+                }
+                break;
+            }
+        }
+        if(update){
+            this.SessionService.setUser(this._profile);
+        }
+    }
+
 }
