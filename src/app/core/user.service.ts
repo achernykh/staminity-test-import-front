@@ -7,6 +7,7 @@ import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise } from 'angular';
 import {ISystemMessage} from "../../../api/core";
 import IHttpPromiseCallbackArg = angular.IHttpPromiseCallbackArg;
+import {MessageGroupMembership} from "../../../api/group/group.interface";
 
 
 export default class UserService {
@@ -18,16 +19,11 @@ export default class UserService {
     static $inject = ['SessionService', 'SocketService','RESTService'];
 
     constructor(
-        //private StorageService:any,
         private SessionService:ISessionService,
         private SocketService:ISocketService,
         private RESTService:IRESTService) {
-        //this.StorageService = StorageService;
-        //this.SessionService = SessionService;
-        //this.SocketService = SocketService;
-        //this.RESTService = RESTService;
-        //this._rxProfile = <BehaviorSubject<IUserProfile>>new BehaviorSubject([]);
-        //this.rxProfile = this._rxProfile.asObservable();
+
+
     }
 
     /**
