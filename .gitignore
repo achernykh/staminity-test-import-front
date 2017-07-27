@@ -2,6 +2,7 @@
 .idea
 npm-debug.log
 tree
+package-lock.json
 
 content/*
 www/*
