@@ -2,6 +2,8 @@ import {IUserProfile} from '../../../api/user/user.interface';
 import { IWindowService } from 'angular';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {ISocketService} from "./socket.service";
+import {MessageGroupMembership, ProtocolGroupUpdate} from "../../../api/group/group.interface";
 
 export interface IAuthToken {
 	userProfile: IUserProfile;
@@ -35,9 +37,8 @@ export default class SessionService implements ISessionService {
 
 	static $inject = ['$window'];
 
-	constructor(private $window:IWindowService) {
+	constructor(private $window:IWindowService, private socket: ISocketService) {
 		this.memoryStore = {};
-		this.$window = $window;
 		try {
 			this._user = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
 		} catch (e) {
@@ -45,6 +46,7 @@ export default class SessionService implements ISessionService {
 		}
 		this._profile = new BehaviorSubject(this.getUser());
 		this.profile = this._profile.asObservable();
+
 	}
 
 	getAuth():Object {

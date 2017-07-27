@@ -4,17 +4,26 @@
     </div>
 </div>
 
-<activity-metrics-char flex="none" hide-gt-sm style="margin-top: 8px; margin-right: 8px"
-                       ng-if="!$ctrl.item.activity.structured"
-                       measures="$ctrl.chartData.measures"
-                       data="$ctrl.chartData.data"
-                       x="elapsedDuration"
-                       change="$ctrl.change"
-                       change-measure="$ctrl.changeMeasure"
-                       sport="$ctrl.item.activity.sportBasic"
-                       select="$ctrl.item.selectionTimestamp"
-                       on-selected="$ctrl.onSelectionRange(select)">График...
-</activity-metrics-char>
+<section flex="none" class="chart" ng-if="!$ctrl.item.$mdMedia('gt-sm')"
+         ng-switch="$ctrl.completeDetails" layout="column" style="margin-top: 8px; margin-right: 8px; height: 20vh">
+
+    <div flex="none" class="loading-chart" ng-switch-when="false"
+         layout="column" layout-align="center center">
+        <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+        <p flex="none" class="md-caption md-dark center">loading...</p>
+    </div>
+    <activity-metrics-char flex="auto" ng-switch-when="true"
+                           ng-if="!$ctrl.item.activity.structured"
+                           measures="$ctrl.chartData.measures"
+                           data="$ctrl.chartData.data"
+                           x="elapsedDuration"
+                           change="$ctrl.change"
+                           change-measure="$ctrl.changeMeasure"
+                           sport="$ctrl.item.activity.sportBasic"
+                           select="$ctrl.item.selectionTimestamp"
+                           on-selected="$ctrl.onSelectionRange(select)">График...
+    </activity-metrics-char>
+</section>
 <md-divider></md-divider>
 
 

@@ -74,6 +74,14 @@ class HeaderCtrl implements IComponentController {
 			});
 	}
 
+	onBack(){
+		window.history.back();
+	}
+
+	historyLength():number {
+		return window.history.length;
+	}
+
 	onMenu($mdOpenMenu, ev){
 		let originatorEv = ev;
 		$mdOpenMenu(ev);

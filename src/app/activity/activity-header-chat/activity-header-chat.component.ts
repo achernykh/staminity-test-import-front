@@ -17,11 +17,12 @@ export class ActivityHeaderChatCtrl implements IComponentController {
   public currentUser: IUserProfile;
   public coach: boolean;
 
-  protected comments: Array<IObjectComment> = [];
-  protected text: string = null;
-  protected readonly commentType: string = 'activity';
-  public onEvent: (response: Object) => IPromise<void>;
-  static $inject = ['CommentService', 'message','$scope'];
+    protected comments: Array<IObjectComment> = [];
+    protected text: string = null;
+    protected readonly commentType: string = 'activity';
+    private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
+    private onUpdate: boolean = false; // true - ждем ответа от бэка, false - на стороне клиентаpublic onUpdate: (response: Object) => IPromise<void>;
+    static $inject = ['CommentService', 'message','$scope'];
 
     constructor(protected comment: CommentService, protected message: IMessageService, protected $scope: IScope) {
         this.comment.comment$
@@ -30,17 +31,20 @@ export class ActivityHeaderChatCtrl implements IComponentController {
             .subscribe((item) => this.comments.push(item.value));
     }
 
-  $onInit() {
-    this.comment.get(this.commentType, this.activityId, true, 50)
-      .then(result => this.comments = result, error => this.message.toastError(error));
-  }
+    $onInit() {
+        this.comment.get(this.commentType, this.activityId, true, 50)
+            .then(result => this.comments = result, error => this.message.toastError(error))
+    .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));}
 
-  onPostComment(text) {
-    this.comment.post(this.commentType, this.activityId, true, text)
-      .then(result => {
-        this.text = null;
-        this.comments = result;
-      }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync());
+    onPostComment(text) {
+        this.inAction = true;
+        this.comment.post(this.commentType, this.activityId, true, text)
+            .then(result=> {
+                    this.text = null;
+                    this.comments = result;
+                }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync())
+            .then(() => this.inAction = false)
+            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));;
             //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
   }
 
@@ -54,21 +58,21 @@ export class ActivityHeaderChatCtrl implements IComponentController {
   }
 }
 
-const ActivityHeaderChatComponent: IComponentOptions = {
-  bindings: {
-    data: '<',
-    activityId: '<',
-    social: '<',
-    user: '<',
-    currentUser: '<',
-    coach: '<',
-    onEvent: '&'
-  },
-  require: {
-    //component: '^component'
-  },
-  controller: ActivityHeaderChatCtrl,
-  template: require('./activity-header-chat.component.html') as string
+const ActivityHeaderChatComponent:IComponentOptions = {
+    bindings: {
+        data: '<',
+        activityId: '<',
+        social: '<',
+        user: '<',
+        currentUser: '<',
+        coach: '<',
+        onUpdate: '&'
+    },
+    require: {
+        //component: '^component'
+    },
+    controller: ActivityHeaderChatCtrl,
+    template: require('./activity-header-chat.component.html') as string
 };
 
 export default ActivityHeaderChatComponent;

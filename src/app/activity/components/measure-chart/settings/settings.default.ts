@@ -10,15 +10,15 @@ const DefaultChartSettings: IActivityChartSettings = {
     autoResizable: true,
     defaultMode: ActivityChartMode.elapsedDuration,
     animation: {
-        duration: 1000,
-        zoomDuration: 700,
-        delayByOrder: 200,
+        duration: 100,
+        zoomDuration: 100,
+        delayByOrder: 100,
         ease: d3.easeExp
     },
     selectAnimation: {
-        duration: 1000,
-        zoomDuration: 700,
-        delayByOrder: 200,
+        duration: 100,
+        zoomDuration: 100,
+        delayByOrder: 100,
         ease: d3.easeExp
     },
     //xMeasures: [''],

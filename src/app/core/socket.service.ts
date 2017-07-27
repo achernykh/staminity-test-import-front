@@ -62,7 +62,8 @@ export class SocketService implements ISocketService {
         calculateActivityRange: 15.0,
         putCalendarItem: 15.0,
         getActivityCategory: 10.0,
-        postCalendarItem: 10.0
+        postCalendarItem: 10.0,
+        getGroupManagementProfile: 10.0
     };
 
     private internetStatus: boolean = true;
@@ -84,18 +85,18 @@ export class SocketService implements ISocketService {
         this.connections.subscribe(status => this.connectionStatus = !!status);
         this.messages = new Subject();
 
-        setInterval(()=>{
-            $http.get(`/favicon.ico?_=${new Date().getTime()}`)
-                .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
-                    this.internetStatus = true;
-                    if(!this.connectionStatus) {
-                        this.open().then(() => this.connections.next(true), () => this.connections.next(false));
-                    }
-                }, () => {
-                    this.internetStatus = false;
-                    this.connections.next(false);
-                }); // подключение отсутствует
-        }, 5000);
+        // setInterval(()=>{
+        //     $http.get(`/favicon.ico?_=${new Date().getTime()}`)
+        //         .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
+        //             this.internetStatus = true;
+        //             if(!this.connectionStatus) {
+        //                 this.open().then(() => this.connections.next(true), () => this.connections.next(false));
+        //             }
+        //         }, () => {
+        //             this.internetStatus = false;
+        //             this.connections.next(false);
+        //         }); // подключение отсутствует
+        // }, 5000);
     }
 
     /**
@@ -221,10 +222,10 @@ export class SocketService implements ISocketService {
             this.socket.removeEventListener('message', this.response.bind(this));
             this.socket.removeEventListener('close', this.close.bind(this));
             this.socket.removeEventListener('error', this.reopen.bind(this));
+            this.socket.close(3000, ev.reason);
         } catch (e) {
+            console.log('socket already closed');
         }
-
-        this.socket.close(3000, ev.reason);
         //this.lastHeartBit = null;
 
         switch (ev.reason) {

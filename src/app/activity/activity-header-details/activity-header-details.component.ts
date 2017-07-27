@@ -22,6 +22,8 @@ interface SelectionOptions<T> {
 export class ActivityHeaderDetailsCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
+    private completeDetails: boolean = false;
+
     private selectionIndex: ISelectionIndex;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
     protected chartData: MeasureChartData; // класс для расчета данных для графика
@@ -66,15 +68,20 @@ export class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.chartData = new MeasureChartData(
-            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+        /**this.chartData = new MeasureChartData(
+            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);**/
         this.prepareIntervals();
     }
 
-    $onChanges(change: any): void {
-        if(change.hasOwnProperty('change') && !change.change.isFirstChange()) {
+    $onChanges(changes: any): void {
+        if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
             this.prepareIntervals();
             this.selectedIntervals = this.calculateIndex(this.selectionIndex);
+        }
+        if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue && !this.completeDetails) {
+            this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+            this.completeDetails = true;
+            this.prepareIntervals();
         }
     }
 
@@ -118,6 +125,7 @@ const ActivityHeaderDetailsComponent:IComponentOptions = {
     bindings: {
         data: '<',
         selectionIndex: '<',
+        hasDetails: '<',
         change: '<',
         onSelected: '&'
     },
