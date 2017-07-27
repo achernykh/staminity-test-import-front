@@ -21,7 +21,7 @@ export class ActivityHeaderChatCtrl implements IComponentController {
     protected text: string = null;
     protected readonly commentType: string = 'activity';
     private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
-    private onUpdate: boolean = false; // true - ждем ответа от бэка, false - на стороне клиентаpublic onUpdate: (response: Object) => IPromise<void>;
+    public onUpdate: (response: Object) => IPromise<void>;
     static $inject = ['CommentService', 'message','$scope'];
 
     constructor(protected comment: CommentService, protected message: IMessageService, protected $scope: IScope) {
