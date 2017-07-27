@@ -1,10 +1,17 @@
 import './dashboard-day.component.scss';
-import {IComponentOptions, IComponentController, IPromise, element} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, element, copy} from 'angular';
+import moment from 'moment/src/moment.js';
 import {IDashboardDay, DashboardCtrl} from "../dashboard.component";
-import {IUserProfile} from "../../../../api/user/user.interface";
-import {isSpecifiedActivity} from "../../activity/activity.function";
+import {IUserProfile, IUserProfileShort} from "../../../../api/user/user.interface";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {CalendarItemWizardSelectCtrl} from "../../calendar-item/calendar-item-wizard/calendar-item-wizard.component";
+import {
+    isSpecifiedActivity, isCompletedActivity, clearActualDataActivity,
+    updateIntensity
+} from "../../activity/activity.function";
+import {CalendarService} from "../../calendar/calendar.service";
+import {profileShort} from "../../core/user.function";
+
 
 class DashboardDayCtrl implements IComponentController {
 
@@ -14,14 +21,69 @@ class DashboardDayCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     private dashboard: DashboardCtrl;
 
-    static $inject = ['$mdDialog','message'];
+    static $inject = ['$mdDialog','message','dialogs','CalendarService'];
 
-    constructor(private $mdDialog: any, private message: any) {
+    constructor(private $mdDialog: any,
+                private message: any,
+                private dialogs: any,
+                private CalendarService: CalendarService) {
 
     }
 
     $onInit() {
 
+    }
+
+    onDrop(srcItem: ICalendarItem,
+           operation: string,
+           srcIndex:number,
+           trgDate:string,
+           trgIndex: number,
+           srcAthlete: IUserProfile) {
+
+        debugger;
+
+        let item:ICalendarItem = copy(srcItem);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
+        if (srcAthlete.userId !== this.athlete.userId) {
+            item.userProfileOwner = profileShort(srcAthlete);
+            //operation = 'copy';
+            this.dialogs.confirm('updateIntensity')
+                .then(() => {item = updateIntensity(item, srcAthlete.trainingZones);},() => {})
+                .then(() => this.onProcess(item, operation, true))
+                .then(() => operation === 'move' && this.CalendarService.deleteItem('F',[item.calendarItemId]).then(()=>{},()=>{}));
+        } else {
+            this.onProcess(item, operation);
+        }
+        return true;
+    }
+
+    onProcess(item: ICalendarItem, operation: string, post: boolean = false) {
+        switch (operation) {
+            case 'move': {
+                if (!post && isCompletedActivity(item)) {
+                    this.dialogs.confirm('moveActualActivity')
+                        .then(()=>this.CalendarService.postItem(clearActualDataActivity(item)), Promise.reject(null))
+                        .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
+                } else if(!post) {
+                    this.CalendarService.putItem(item)
+                        .then(() => this.message.toastInfo('activityMoved'))
+                        .catch(error => this.message.toastError(error));
+                } else {
+                    this.CalendarService.postItem(item)
+                        .then(() => this.message.toastInfo('activityMoved'))
+                        .catch(error => this.message.toastError(error));
+                }
+                break;
+            }
+            case 'copy': {
+                this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
+                    .then(() => this.message.toastInfo('activityCopied'))
+                    .catch(error => this.message.toastError(error));
+                break;
+            }
+        }
     }
 
     onSelect() {

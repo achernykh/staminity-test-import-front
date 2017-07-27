@@ -1,10 +1,10 @@
 import { IComponentOptions, IComponentController} from 'angular';
-import {IAuthService} from "../auth/auth.service";
+import {IAuthService} from "../../auth/auth.service";
 import {StateService} from 'angular-ui-router';
-import SessionService from "../core/session.service";
-import {IUserProfile} from "../../../api/user/user.interface";
+import SessionService from "../../core/session.service";
+import {IUserProfile} from "../../../../api/user/user.interface";
 import { Observable } from 'rxjs/Observable';
-import DisplayService from "../core/display.service";
+import DisplayService from "../../core/display.service";
 require('./landingpage.component.scss');
 
 class LandingPageCtrl implements IComponentController {

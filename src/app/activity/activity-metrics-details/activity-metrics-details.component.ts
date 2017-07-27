@@ -7,6 +7,9 @@ import {MeasureChartData} from "../activity.function";
 
 export class ActivityMetricsDetailsCtrl implements IComponentController {
 
+    private hasDetails: boolean = false;
+    private completeDetails: boolean = false;
+
     private item: CalendarItemActivityCtrl;
     public mode: string;
     public activity: Activity;
@@ -37,12 +40,17 @@ export class ActivityMetricsDetailsCtrl implements IComponentController {
 
     }
 
+    $onChanges(changes){
+        if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue) {
+            //debugger;
+            this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+            this.completeDetails = true;
+        }
+    }
+
     $onInit() {
-
-        this.chartData = new MeasureChartData(
-            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
-
-        return; /*
+        //debugger;
+        /*
 
         let array: Array<string>;
         let sportBasic:string = this.item.activity.sportBasic;
@@ -139,6 +147,9 @@ export class ActivityMetricsDetailsCtrl implements IComponentController {
 }
 
 const ActivityMetricsDetailsComponent: IComponentOptions = {
+    bindings: {
+        hasDetails: '<',
+    },
     require: {
         item: '^calendarItemActivity'
     },

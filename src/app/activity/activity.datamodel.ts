@@ -133,7 +133,7 @@ export class Activity extends CalendarItem {
 	public intervalU: Array<IActivityIntervalL> = [];
 	public intervalP: Array<IActivityIntervalP> = [];
 	private route: Array<IRoute>;
-	private isRouteExist: boolean = false;
+	private isRouteExist: boolean = true; // ставим начально значени true, чтобы отобразить процесс загрузки данных, далее значение будет переопределно наличем координат
 	private hasDetails: boolean = false;
 	public hasImportedData: boolean = false;
 	private peaks: Array<any>;

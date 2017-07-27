@@ -61,7 +61,11 @@ search {
   }
 
   div.search-filter {
-    width: 320px;
+    width: 100%;
+
+    @media (min-width: 1280px) {
+      width: 320px;
+    }
   }
 
   div.search-result {

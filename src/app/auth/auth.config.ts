@@ -1,6 +1,6 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './auth.translate';
-import { _display_view } from "../core/display.constants";
+import {_display_view, DisplayView} from "../core/display.constants";
 import SessionService from "../core/session.service";
 
 function configure(
@@ -11,12 +11,26 @@ function configure(
 		.state('signin', <StateDeclaration>{
 			url: "/signin",
 			loginRequired: false,
-			view: _display_view['signin'],
+			resolve: {
+				view: () => new DisplayView('signin'),
+			},
 			params: {
 				nextState: null,
 				nextParams: null
 			},
 			views: {
+				"background": {
+					component: "staminityBackground",
+					bindings: {
+						view: 'view.background'
+					}
+				},
+				"header": {
+					component: 'staminityHeader',
+					bindings: {
+						view: 'view.header'
+					}
+				},
 				"application": {
 					component: "auth",
 					bindings: "view.application"
@@ -30,9 +44,27 @@ function configure(
 		.state('signup', <StateDeclaration>{
 			url: "/signup",
 			loginRequired: false,
-			view: _display_view['signup'],
-			//authRequired: ['func1'],
+			params: {
+				activatePremiumTrial: null,
+				activateCoachTrial: null,
+				activateClubTrial: null
+			},
+			resolve: {
+				view: () => new DisplayView('signup'),
+			},
 			views: {
+				"background": {
+					component: "staminityBackground",
+					bindings: {
+						view: 'view.background'
+					}
+				},
+				"header": {
+					component: 'staminityHeader',
+					bindings: {
+						view: 'view.header'
+					}
+				},
 				"application": {
 					component: "auth",
 					bindings: "view.application"

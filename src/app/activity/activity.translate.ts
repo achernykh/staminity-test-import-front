@@ -6,7 +6,8 @@ export const translateActivity = {
           singleDuration: 'Можно указать или время, или расстояние',
           singleIntensity: 'Можно задать лишь один параметр интенсивности',
           needPermissionForFeature: 'Не хватает полномочий для планирования в будущем'
-      }
+      },
+      loading: 'Загрузка данных'
   }
 };
 

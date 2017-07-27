@@ -58,18 +58,19 @@
             </md-tab-body>
         </md-tab>
         <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
-                ng-if="$ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
+                ng-if="$ctrl.item.activity.actualDataIsImported">
             <md-tab-label><md-icon class="material-icons">assessment</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-details flex="auto" layout="column" layout-fill
                                          selection-index="$ctrl.item.selectionIndex"
                                          change="$ctrl.item.detailsSelectChangeCount + $ctrl.item.splitsSelectChangeCount"
+                                         has-details="$ctrl.item.activity.hasDetails && $ctrl.item.activity.hasImportedData"
                                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
                 </activity-header-details>
             </md-tab-body>
         </md-tab>
         <md-tab id="splits" flex layout="column"
-                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.hasImportedData && ($ctrl.item.activity.hasDetails || $ctrl.item.isLoadingDetails)">
+                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.actualDataIsImported">
             <md-tab-label><md-icon class="material-icons">repeat</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-splits flex="auto" layout="column" layout-fill
@@ -80,13 +81,17 @@
         </md-tab>
         <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post'"
                 md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
-            <md-tab-label><md-icon class="material-icons">chat</md-icon></md-tab-label>
+            <md-tab-label>
+                <md-icon class="material-icons">chat</md-icon>
+                <span class="badge superscript" ng-if="$ctrl.comments">{{$ctrl.comments}}</span>
+            </md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-chat flex="auto" layout="column" layout-fill
                                       activity-id="$ctrl.item.activity.id"
                                       social="$ctrl.item.activity.header.social"
                                       user="$ctrl.item.user" current-user="$ctrl.item.currentUser"
-                                      coach="$ctrl.item.isMyCoach">
+                                      coach="$ctrl.item.isMyCoach"
+                                      on-update="$ctrl.updateComments(response)">
                 </activity-header-chat>
             </md-tab-body>
         </md-tab>

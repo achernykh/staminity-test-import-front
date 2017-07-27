@@ -62,7 +62,8 @@ export class SocketService implements ISocketService {
         calculateActivityRange: 15.0,
         putCalendarItem: 15.0,
         getActivityCategory: 10.0,
-        postCalendarItem: 10.0
+        postCalendarItem: 10.0,
+        getGroupManagementProfile: 10.0
     };
 
     private internetStatus: boolean = true;
@@ -217,10 +218,14 @@ export class SocketService implements ISocketService {
             return;
         }
 
-        this.socket.removeEventListener('message', this.response.bind(this));
-        this.socket.removeEventListener('close', this.close.bind(this));
-        this.socket.removeEventListener('error', this.reopen.bind(this));
-        this.socket.close(3000, ev.reason);
+        try {
+            this.socket.removeEventListener('message', this.response.bind(this));
+            this.socket.removeEventListener('close', this.close.bind(this));
+            this.socket.removeEventListener('error', this.reopen.bind(this));
+            this.socket.close(3000, ev.reason);
+        } catch (e) {
+            console.log('socket already closed');
+        }
         //this.lastHeartBit = null;
 
         switch (ev.reason) {

@@ -1,15 +1,41 @@
 import './dashboard.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise,IScope} from 'angular';
+import {IComponentOptions, IComponentController, IPromise,IScope, copy} from 'angular';
 import {CalendarService} from "../calendar/calendar.service";
 import {ISessionService} from "../core/session.service";
 import {IMessageService} from "../core/message.service";
-import {IUserProfile} from "../../../api/user/user.interface";
+import {IUserProfile, IUserProfileShort, ITrainingZonesType} from "../../../api/user/user.interface";
 import {IGroupManagementProfile, IUserManagementProfile} from "../../../api/group/group.interface";
 import { times } from '../share/util.js';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {Activity} from "../activity/activity.datamodel";
 import {IStorageService} from "../core/storage.service";
+import {shiftDate, clearActualDataActivity, updateIntensity, changeUserOwner} from "../activity/activity.function";
+
+
+const getItemById = (cache: Array<IDashboardWeek>, id: number):ICalendarItem => {
+    let findData: boolean = false;
+    let w,d,c,i: number = 0;
+
+    for (w = 0; w < cache.length; w++) {
+        for(c = 0; c < cache[w].calendar.length; c++) {
+            for(d = 0; d < cache[w].calendar[c].subItem.length; d++) {
+                i = cache[w].calendar[c].subItem[d].data.calendarItems.findIndex(item => item.calendarItemId === id);
+                if (i !== -1) {
+                    findData = true;
+                    break;
+                }
+            }
+            if (findData) {
+                break;
+            }
+        }
+        if (findData) {
+            break;
+        }
+    }
+    return findData && cache[w].calendar[c].subItem[d].data.calendarItems[i] || null;
+};
 
 export interface IDashboardWeek {
     sid: number;
@@ -45,8 +71,10 @@ export class DashboardCtrl implements IComponentController {
     private selectedAthletes: Array<number> = [];
     private viewAthletes: Array<number> = [];
     private orderAthletes: Array<number> = [];
+    private buffer: Array<ICalendarItem> = [];
+    private firstSrcDay: string;
 
-    static $inject = ['$scope','$mdDialog','CalendarService','SessionService', 'message','storage'];
+    static $inject = ['$scope','$mdDialog','CalendarService','SessionService', 'message','storage','dialogs'];
 
     constructor(
         private $scope: IScope,
@@ -54,7 +82,8 @@ export class DashboardCtrl implements IComponentController {
         private calendar: CalendarService,
         private session: ISessionService,
         private message: IMessageService,
-        private storage: IStorageService) {
+        private storage: IStorageService,
+        private dialogs: any) {
 
     }
 
@@ -160,7 +189,7 @@ export class DashboardCtrl implements IComponentController {
                         break;
                     }
                     case 'U': {
-                        this.onDeleteItem(<ICalendarItem>message.value);
+                        this.onDeleteItem(getItemById(this.cache, message.value.calendarItemId));
                         this.onPostItem(<ICalendarItem>message.value);
                         this.$scope.$apply();
                         break;
@@ -264,6 +293,88 @@ export class DashboardCtrl implements IComponentController {
 
         this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);
         this.cache[w].calendar[c].changes++;
+    }
+
+    onCopy(items: Array<ICalendarItem>){
+        this.buffer = [];
+        this.firstSrcDay = null;
+
+        if(items){
+            this.buffer.push(...copy(items));
+            this.firstSrcDay = moment(items[0].dateStart).format('YYYY-MM-DD');
+        } else {
+            this.cache.forEach(w => w.calendar.forEach(a => a.subItem.forEach(d => {
+                if(d.selected){
+                    if(!this.firstSrcDay) {
+                        this.firstSrcDay = moment(d.date).format('YYYY-MM-DD');
+                    }
+                    if(d.data.calendarItems && d.data.calendarItems.length > 0) {
+                        this.buffer.push(...copy(d.data.calendarItems));
+                    }
+                }
+            })));
+        }
+        if(this.buffer && this.buffer.length > 0) {
+            this.message.toastInfo('itemsCopied');
+            this.unSelect();
+        }
+    }
+
+    onPaste(firstTrgDay: string, athlete: IUserProfile){
+        debugger;
+        let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
+        let updateZones: boolean = false;
+
+        if (this.buffer && this.buffer.length > 0) {
+            if(this.buffer.some(i => i.userProfileOwner.userId !== athlete.userId)){
+                this.dialogs.confirm('updateIntensity')
+                    .then(() => this.buffer.map(i => updateIntensity(i, athlete.trainingZones)))
+                    .then(() => this.buffer.map(i => changeUserOwner(i,athlete)))
+                    .then(() => this.onProcessPaste(shift));
+            } else if(shift) {
+                this.onProcessPaste(shift);
+            }
+        }
+    }
+
+    onProcessPaste(shift: number){
+        debugger;
+        let task:Array<Promise<any>> = [];
+        task = this.buffer
+            .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
+            .map(item => this.calendar.postItem(clearActualDataActivity(shiftDate(item, shift))));
+
+        Promise.all(task)
+            .then(()=> this.message.toastInfo('itemsPasted'), (error)=> this.message.toastError(error))
+            .then(()=> this.clearBuffer());;
+
+    }
+
+    onDelete(items:Array<ICalendarItem> = []){
+        let selected: Array<ICalendarItem> = [];
+        this.cache
+            .forEach(w => w.calendar
+                .forEach(a => a.subItem
+                    .forEach(d => (d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) &&
+                        selected.push(...d.data.calendarItems))));
+
+        let inSelection: boolean = (selected && selected.length > 0) && selected.some(s => items.some(i => i.calendarItemId === s.calendarItemId));
+        debugger;
+
+        this.dialogs.confirm('deletePlanActivity')
+            .then(() => this.calendar.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
+                .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))
+                .then(()=> inSelection && this.clearBuffer()));
+    }
+
+    clearBuffer(){
+        this.buffer = [];
+        this.firstSrcDay = null;
+        this.unSelect();
+    }
+
+    unSelect(){
+        this.cache.forEach(d => d.calendar.forEach(w => w.subItem.forEach(d => d.selected && (d.selected = false))));
     }
 
     onOpen($event, mode, data) {

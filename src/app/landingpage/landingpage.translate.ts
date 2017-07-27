@@ -173,7 +173,7 @@ export let _translate = {
 				title: 'Помощь и поддержка',
 				link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Справочная система</a>',
 				link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Портал поддержки</a>',
-				link3: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Напишите в Телеграм</a>',
+				link3: '<a flex href="https://t.me/staminity_support" target="_blank" class="md-body md-light">Напишите в Телеграм</a>',
 				link4: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
 				link5: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
 				link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
@@ -192,6 +192,82 @@ export let _translate = {
 			},
 			copyright1: 'Cделано с',
 			copyright2: '| © 2017 staminity.com Все права защищены'
+		},
+		tariffs: {
+			title: 'Сколько стоит Стаминити?',
+			tryFreeBtn: 'Попробовать бесплатно',
+			tryFree: 'Привязка кредитной карты не требуется',
+			connectFree: 'Бесплатно навсегда',
+			connectTrial: 'Пробный период 14 дней',
+            connect: 'Подключить',
+			connectTrialBtn: 'Попробовать бесплатно',
+			month: 'Месяц',
+			year: 'Год',
+			calculator: 'Калькулятор',
+			name: {
+				basic: 'Базовый',
+				premium: 'Премиум',
+				coach: 'Тренер',
+				club: 'Клуб'
+			},
+			description: {
+				basic: 'Дневник тренировок, работа с тренером, общение с друзьями',
+				premium: '"Базовый" + План и детальный анализ своих тренировок',
+				coach: 'Всё для дистанционной работы с учениками',
+				club: 'Всё для дистанционной работы нескольких тренеров с учениками'
+			},
+			noCreditCard: '',
+			functions: {
+				func1: 'Тренировочный дневник',
+				func2: 'Просмотр выполненных тренировок',
+				func3: 'Автоматическая загрузка факта',
+				func4: 'Работа с тренером: получение заданий, их выполнение и общение',
+				func5: '<i>(CКОРО) Общение с друзьями, соревнования в группах</i>',
+				func6: '<strong>Все функции по тарифу "Базовый"</strong>',
+				func7: '+ Планирование своих тренировок',
+				func8: '+ Детальный анализ тренировок',
+				func9: '+ Управление своими шаблонами и категориями тренировок',
+				func10: '<i>+ (СКОРО) Отчетность и анализ по процессу тренировок</i>',
+				func11: 'Дневник тренировок учеников',
+				func12: 'Планирование тренировок и общение с учениками',
+				func13: 'Детальный анализ выполненных тренировок',
+				func14: 'Управление шаблонами и категориями тренировок',
+				func15: 'Сводный дэшборд',
+				func16: '<i>(СКОРО) Отчетность и анализ по процессу тренировок учеников</i>',
+				func17: '<i>(СКОРО) Тренировочные планы</i>',
+				func18: '<strong>Функции тренера в рамках клуба</strong>',
+				func19: '+ Подключение дополнительных тренеров',
+				func20: '+ Назначение тренеров для учеников клуба',
+				func21: '+ Управление шаблонами и категориями тренировок клуба',
+				func22: '+ Сводный дэшборд клуба',
+				func23: '<i>+ (СКОРО) Отчетность и анализ тренировочного процесса клуба</i>',
+				func24: '<i>+ (СКОРО) Тренировочные планы клуба</i>'
+			},
+            byMonth: '/мес',
+			byYear: '/год',
+
+			coachAthletes: '{{athlete | currency}}/мес за ученика. \n' +
+			'{{minAthletes}} ученик включен в абонентскую плату. \n' +
+			'Оплачивается не более {{maxAthletes}} учеников, с {{maxAthletes + 1}} - бесплатно',
+
+			clubAthletes: '{{athlete | currency}}/мес за ученика клуба.  \n' +
+			'{{minAthletes}} ученик для каждого тренера клуба не оплачивается. \n' +
+			'Оплачивается не более {{maxAthletes}} учеников на каждого тренера.',
+
+			clubCoaches: '{{coach | currency}}/мес за тренера клуба.  \n' +
+			'{{minCoaches}} тренер включен в абонентскую плату. \n',
+
+			calc: {
+				params: 'Параметры',
+				totals: 'Итого за месяц',
+				subscription: 'Абонентская плата:',
+				variable: 'За учеников:',
+				premium: 'Нужны функции "Премиум" для себя',
+				coaches: 'Всего тренеров:',
+				athletes: 'Всего учеников:',
+				proAthletes: 'Учеников с тарифом "Премиум" за ваш счет:',
+				freeAthletes: 'Более {{athletes}} учеников бесплатно'
+			}
 		}
 
 	},
@@ -388,6 +464,37 @@ export let _translate = {
 			},
 			copyright1: 'Made with',
 			copyright2: '| © 2017 staminity.com All Rights Reserved'
+		},
+		tariffs: {
+			title: 'Сколько стоит Стаминити?',
+			connectFree: 'Попробовать бесплатно',
+			connectTrial: 'На 14 дней, привязка кредитной карты не требуется',
+			connect: 'Подключить',
+			month: 'Месяц',
+			year: 'Год',
+			calculator: 'Калькулятор',
+			name: {
+				basic: 'Базовый',
+				premium: 'Премиум',
+				coach: 'Тренер',
+				club: 'Клуб'
+			},
+			description: {
+				basic: 'Базовый...',
+				premium: 'Премиум....',
+				coach: 'Тренер....',
+				club: 'Клуб...'
+			},
+			noCreditCard: '',
+			functions: {
+				func1: 'Функция1',
+				func2: 'Функция2',
+				func3: 'Функция3',
+				func4: 'Функция4',
+				func5: 'Функция5',
+			},
+			byMonth: '/ месяц',
+			byYear: '/год'
 		}
 
 	}

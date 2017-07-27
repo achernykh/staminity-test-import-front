@@ -22,7 +22,6 @@ export class ActivityHeaderOverviewCtrl implements IComponentController {
     }
 
     onSave(){
-        console.log('push button save', new Date().getTime());
         this.item.onSave();
     }
 
