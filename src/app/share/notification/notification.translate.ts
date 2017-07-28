@@ -399,7 +399,7 @@ export const translateNotification = {
         trialTariffExpired: "Закончился пробный период по тарифу {{data[0] | translate}}",
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
-        //     header (push): Продление тарифа
+        //     header (push): Переход на платный тариф
         trialExpireInSomeDaysAfterOldTariff: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. С {{data[1]+1 | date:'short'}} " +
         "тариф будет подключен на платной основе с ежедневными начислениями",
         trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[1]+1 | date:'short'}} " +
@@ -419,8 +419,8 @@ export const translateNotification = {
 
         //  ------ Оплата счетов не прошла из-за ошибки
         //     header (push): Ошибка оплаты
-        billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[2]}} {{data[3]}} . Оплатите счет вручную',
-        billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[2]}} {{data[3]}}. Оплатите счет вручную',
+        billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[2]}} {{data[3]}}. Попробуйте еще раз',
+        billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[2]}} {{data[3]}}. Попробуйте еще раз',
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
         //     header (push): Успешная оплата
@@ -429,11 +429,20 @@ export const translateNotification = {
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
-         header (push): Отключение тарифа
+         header (push): Функции заблокированы
          **/
         disabledPremiumByCoach: 'Вам временно отключен тариф Премиум, подключенный тренером. Ожидается оплата от тренера',
         disabledPremiumByClub: 'Вам временно отключен тариф Премиум, подключенный клубом. Ожидается оплата от клуба',
         disabledCoachByClub: 'Вам временно отключен тариф Тренер, подключенный клубом. Ожидается оплата от клуба',
+
+        /* ----------- Снятие ограничений функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
+
+         Отправитель: Тренер (Фамилия, Имя) или Название клуба
+         header (push): Функции разблокированы
+         **/
+        enabledPremiumByCoach: 'Вам снова доступны функции по тарифу Премиум, подключенному тренером',
+        enabledPremiumByClub: 'Вам снова доступны функции по тарифу Премиум, подключенному клубом',
+        enabledCoachByClub: 'Вам снова доступны функции по тарифу Тренер, подключенному клубом',
 
         /* ----------- Рекарринг --------**
 
@@ -920,149 +929,157 @@ export const translateNotification = {
          **/
 
         // ------ Триал --------
-        //     header (push): Пробный период
-        trialExpireInSomeDays: "{{data[0] | translate}} trial will be expired on {{data[1] | date:'short'}}. To continue please pay the bill on {{data[2]}} {{data[3]}}",
-        trialExpireToday: "{{data[0] | translate}} trial expire today. To continue please pay the bill on {{data[2]}} {{data[3]}}",
-        trialTariffExpired: "Закончился пробный период по тарифу {{data[0] | translate}}",
+        //     header (push): Trial period
+        trialExpireInSomeDays: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'short'}}. Please pay {{data[2]}} {{data[3]}} bill to continue using the tariff functions",
+        trialExpireToday: "Trial period for {{data[0] | translate}} tariff expires today. Please pay {{data[2]}} {{data[3]}} bill to continue using the tariff functions",
+        trialTariffExpired: "Trial period for {{data[0] | translate}} tariff was expired",
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
-        //     header (push): Продление тарифа
-        trialExpireInSomeDaysAfterOldTariff: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. С {{data[1]+1 | date:'short'}} " +
-        "тариф будет подключен на платной основе с ежедневными начислениями",
-        trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[1]+1 | date:'short'}} " +
-        "тариф будет подключен на платной основе с ежедневными начислениями",
-        trialTariffExpiredAfterOldTariff: 'Закончился пробный период по тарифу {{data[0] | translate}}. ' +
-        'С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ',
+        //     header (push): Switch to pay tariff
+        trialExpireInSomeDaysAfterOldTariff: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'short'}}. From {{data[1]+1 | date:'short'}} " +
+        "the cost of using this tariff will be added to your bill on daily basis",
+        trialExpireTodayAfterOldTariff: "Trial period for {{data[0] | translate}} tariff expires today. From tomorrow" +
+        "the cost of using this tariff will be added to your bill on daily basis",
+        trialTariffExpiredAfterOldTariff: "Trial period for {{data[0] | translate}} tariff was expired. From today the cost of using this tariff will be added to your bill on daily basis",
 
         // ------ Оплата счетов + нулевые счета
-        //     header (push): Успешная оплата
-        billPayment_singleTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Тариф {{data[0] | translate}} продлен до {{data[1] | date:'short'}}",
-        billPayment_multiTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Срок действия по подключенным тарифам продлен до {{data[1] | date:'short'}}",
+        //     header (push): Successful payment
+        billPayment_singleTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your {{data[0] | translate}} tariff functions will be able till {{data[1] | date:'short'}}",
+        billPayment_multiTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your tariffs functions will be able till {{data[1] | date:'short'}}",
 
-        //     header (push): Продление тарифа
-        billPayment_singleTariff_ZeroAmount: "Дополнительных начислений по тарифу {{data[0] | translate}} нет. Тариф продлен до {{data[1] | date:'short'}}",
-        billPayment_multiTariff_ZeroAmount: "Дополнительных начислений по вашим тарифам нет. Тарифы продлены до {{data[1] | date:'short'}}",
+        //     header (push): No additional cost
+        billPayment_singleTariff_ZeroAmount: "Since last bill you have no additional cost for your tariff {{data[0] | translate}}. Keep using it till {{data[1] | date:'short'}} without any payment",
+        billPayment_multiTariff_ZeroAmount: "Since last bill you have no additional cost for your tariffs. Keep using them till {{data[1] | date:'short'}} without any payment",
 
 
         //  ------ Оплата счетов не прошла из-за ошибки
-        //     header (push): Ошибка оплаты
-        billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[2]}} {{data[3]}} . Оплатите счет вручную',
-        billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[2]}} {{data[3]}}. Оплатите счет вручную',
+        //     header (push): Payment failure
+        billPayment_Failure_singleTariff: 'Something went wrong with your {{data[2]}} {{data[3]}} payment for {{data[0] | translate}} tariff. Please try again',
+        billPayment_Failure_multiTariff: 'Something went wrong with your {{data[2]}} {{data[3]}} payment for your tariffs. Please try again',
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
-        //     header (push): Успешная оплата
-        billExpiredPaymentReceived: 'Спасибо! Ваш платеж по счету на {{data[2]}} {{data[3]}} получен',
+        //     header (push): Successful payment
+        billExpiredPaymentReceived: 'Thank you. Your {{data[2]}} {{data[3]}} payment was processed',
 
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
-         header (push): Отключение тарифа
+         header (push): Tariff blocked
          **/
-        disabledPremiumByCoach: 'Вам временно отключен тариф Премиум, подключенный тренером. Ожидается оплата от тренера',
-        disabledPremiumByClub: 'Вам временно отключен тариф Премиум, подключенный клубом. Ожидается оплата от клуба',
-        disabledCoachByClub: 'Вам временно отключен тариф Тренер, подключенный клубом. Ожидается оплата от клуба',
+        disabledPremiumByCoach: 'Your Premium by coach tariff was blocked',
+        disabledPremiumByClub: 'Your Premium by club tariff was blocked',
+        disabledCoachByClub: 'Your Coach by club tariff was blocked',
+
+        /* ----------- Снятие ограничений функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
+
+         Отправитель: Тренер (Фамилия, Имя) или Название клуба
+         header (push): Tariff enabled
+         **/
+        enabledPremiumByCoach: 'Your Premium by coach tariff was enabled',
+        enabledPremiumByClub: 'Your Premium by club tariff was enabled',
+        enabledCoachByClub: 'Your Coach by club tariff was enabled',
 
         /* ----------- Рекарринг --------**
 
          Отправитель: Стаминити
-         header (push): Оплата по тарифам
+         header (push): Future payment
          data[0] - Название тарифа
          data[1] - bill date
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
 
-        tariffRecurringTonight: "Приближается срок оплаты по тарифу {{data[0] | translate}}. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
-        tariffRecurringTonightMulti: "Приближается срок оплаты по подключенным тарифам. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
+        tariffRecurringTonight: "Your tariff {{data[0] | translate}} will be expired soon. {{data[1] | date:'short'}} we will try to charge your card for {{data[2]}} {{data[3]}}",
+        tariffRecurringTonightMulti: "Your tariffs will be expired soon. {{data[1] | date:'short'}} we will try to charge your card for {{data[2]}} {{data[3]}}",
 
         /* ----------- Рекарринг проведен успешно--------**
          Отправитель: Стаминити
-         header (push): Успешная оплата
+         header (push): Successful payment
          data[0] - Название тарифа
          data[1] - new Expiry date
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        tariffRecurringSuccess: "Оплата по тарифу {{data[0] | translate}} выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тариф продлен до {{data[1] | date:'short'}}",
-        tariffRecurringSuccessMulti: "Оплата по подключенным тарифам выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тарифы продлены до {{data[1] | date:'short'}}",
+        tariffRecurringSuccess: "Your payment for {{data[0] | translate}} tariff was successful. Your card was charged for {{data[2]}} {{data[3]}} and your tariff functions will be able till {{data[1] | date:'short'}}",
+        tariffRecurringSuccessMulti: "Your payment for your tariffs was successful. Your card was charged for {{data[2]}} {{data[3]}} and your tariff's functions will be able till {{data[1] | date:'short'}}",
 
         /* ----------- Ошибка списания по рекаррингу --------**
          Отправитель: Стаминити
-         header (push): Ошибка оплаты
+         header (push): Payment failure
          data[0] - Название тарифа
          data[1] - null
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        recurring_Failure_singleTariff: 'Оплату по тарифу {{data[0] | translate}} по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
-        recurring_Failure_multiTariff: 'Оплату по вашим тарифам по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
+        recurring_Failure_singleTariff: 'We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using the tariff {{data[0] | translate}} please check and pay unpaid bills',
+        recurring_Failure_multiTariff: 'We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using your tariffs please check and pay unpaid bills',
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
-         header (push): Удаление клуба     **/
-        clubEnvDeleteInSomeDays: 'Ваш клуб будет удален через 5 дней. Подключите тариф, чтобы этого избежать',
-        clubEnvDeleted: 'Ваш клуб удален, спортсмены и тренеры клуба отключены от клуба',
+         header (push): Delete club     **/
+        clubEnvDeleteInSomeDays: 'Your club will be deleted in 5 days. To continue using it please purchase "Club" tariff',
+        clubEnvDeleted: 'Your club was deleted. All club members have been disconnected from club',
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
-         header (push): Удаление спортсменов     **/
-        coachEnvDeleteInSomeDays: 'Связь с вашими спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать',
-        coachEnvDeleted: 'Связь с вашими спортсменами удалена',
+         header (push): Remove athletes     **/
+        coachEnvDeleteInSomeDays: 'Your athletes will be disconnected from you in 5 days. To continue work with them please purchase "Coach" tariff',
+        coachEnvDeleted: 'You have been disconnected from your athletes',
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити
-         header (push): Сроки тарифов
+         header (push): Tariff expires
          data[0] - Название тарифа
          data[1] - paidTill date
          data[2] - номер счета
          **/
-        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить использование, оплатите счет #{{data[2]}}",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить использование, оплатите счет #{{data[2]}}',
-        expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
+        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}. To continue using it please pay the bill #{{data[2]}}",
+        expireTariffPurchaseToday: 'Your tariff {{data[0] | translate}} expires today. To continue using it please pay the bill #{{data[2]}}',
+        expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
 
         /* ----------- Уведомления по счетам  --------**
          Отправитель: Стаминити
-         header (push): Оплатите счет
+         header (push): Payment required
          data[0] - номер счета
          data[1] - Сумма счета
          data[2] - Валюта счета
          **/
-        singleBBill: 'Выставлен счет #{{data[0]}} на {{data[1]}} {{data[2]}}. Просьба оплатить',
-        multipleBBill: 'Задолженность по неоплаченным счетам составляет {{data[1]}} {{data[2]}}. Просьба оплатить',
-        singleFBill: 'Для продолжения использования тарифа Премиум необходимо оплатить счет #{{data[0]}} на {{data[1]}} {{data[2]}}',
+        singleBBill: 'Please pay {{data[1]}} {{data[2]}} bill #{{data[0]}}. See details in Settings - Bills',
+        multipleBBill: 'You have unpaid bills on {{data[1]}} {{data[2]}}. Please make a payment',
+        singleFBill: 'To continue use Premium tariff please pay {{data[1]}} {{data[2]}} bill #{{data[0]}}',
 
 
         /* ----------Зоны и пороги --------**/
         /* Зоны изменены тренером. Отправитель - тренер, получатель - спортсмен. Или наоборот  */
-        zonesChangedByCoach: "Изменены настройки ваших тренировочных зон и пороговых значений",
-        zonesChangedByAthlete: "Ваш спортсмен изменил настройки тренировочных зон и пороговых значений",
+        zonesChangedByCoach: "Your training zones and thresholds was changed by coach",
+        zonesChangedByAthlete: "Your athlete was changed his training zones and thresholds",
 
         /* Предлагается изменение порогов по итогам анализа тренировки. Отправитель - Стаминити, получатель - спортсмен.
          data [0] - базовый вид спорта
          data [1] - пороговое значение
          data [2] - дата обновления */
-        newPaceFTPBySystem: "Предлагаем обновить значение ПАНО по темпу по виду спорта: {{'sport.'+data[0] | translate}}. "+
-        "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
-        newHeartRateFTPBySystem: "Предлагаем обновить значение ПАНО по пульсу по виду спорта: {{'sport.'+data[0] | translate}}. "+
-        "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
-        newPowerFTPBySystem: "Предлагаем обновить значение ПАНО по мощности по виду спорта: {{'sport.'+data[0] | translate}}. "+
-        "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
+        newPaceFTPBySystem: "New pace FTP value: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}}, " +
+        "sport: {{'sport.'+data[0] | translate}}. Please change your settings",
+        newHeartRateFTPBySystem: "New heart rate FTP value: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}, " +
+        "sport: {{'sport.'+data[0] | translate}}. Please change your settings",
+        newPowerFTPBySystem: "New power FTP value: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}, " +
+        "sport: {{'sport.'+data[0] | translate}}. Please change your settings",
 
         /* Предлагается изменение порогов по итогам анализа тренировки. Отправитель - спортсмен, получатель - тренер.
          data [0] - базовый вид спорта
          data [1] - пороговое значение
          data [2] - дата обновления */
-        newAthletePaceFTPBySystem: "Предлагаем обновить ПАНО по темпу для вашего спортсмена по итогам его тренировки. "+
-        "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
-        newAthleteHeartRateFTPBySystem: "Предлагаем обновить ПАНО по пульсу для вашего спортсмена по итогам его тренировки. "+
-        "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
-        newAthletePowerFTPBySystem: "Предлагаем обновить ПАНО по мощности для вашего спортсмена по итогам его тренировки. "+
-        "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
+        newAthletePaceFTPBySystem: "New athlete's pace FTP value: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}}, " +
+        "sport: {{'sport.'+data[0] | translate}}. Please change his FTP settings",
+        newAthleteHeartRateFTPBySystem: "New athlete's heart rate FTP value: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}, " +
+        "sport: {{'sport.'+data[0] | translate}}. Please change his FTP settings",
+        newAthletePowerFTPBySystem: "New athlete's power FTP value: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}, " +
+        "sport: {{'sport.'+data[0] | translate}}. Please change his FTP settings",
 
 
         /* ---------- Уведомления от сервиса --------**/
         /* Уведомление для пользователей сервиса. Отправитель - Стаминити.
          * data[0] - текст сообщения RUS*
          * data[1] - текст сообщения ENG **/
-        staminityNotification: "{{data[0]}}"
+        staminityNotification: "{{data[1]}}"
     }
 };
