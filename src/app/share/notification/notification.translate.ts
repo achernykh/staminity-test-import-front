@@ -386,7 +386,6 @@ export const translateNotification = {
     /* ----------Уведомления по тарифам --------**
 
     Отправитель: Стаминити
-    header (push): Тарифы и биллинг
     data[0] - Название тарифа
     data[1] - Expiry date
     data[2] - Сумма счета
@@ -394,38 +393,44 @@ export const translateNotification = {
      **/
 
         // ------ Триал --------
-        trialExpireInSomeDays: 'Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. Для продления оплатите счет на {{data[2]}} {{data[3]}}',
-        trialExpireToday: 'Пробный период по тарифу {{data[0] | translate}} закончится сегодня. Для продления оплатите счет на {{data[2]}} {{data[3]}}',
-        trialTariffExpired: 'Закончился пробный период по тарифу {{data[0] | translate}}',
+        //     header (push): Пробный период
+        trialExpireInSomeDays: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. Для продления оплатите счет на {{data[2]}} {{data[3]}}",
+        trialExpireToday: "Пробный период по тарифу {{data[0] | translate}} закончится сегодня. Для продления оплатите счет на {{data[2]}} {{data[3]}}",
+        trialTariffExpired: "Закончился пробный период по тарифу {{data[0] | translate}}",
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
-        trialExpireInSomeDaysAfterOldTariff: 'Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. С {{data[1]+1 | date:'short'}} ' +
-        'тариф будет подключен на платной основе с ежедневными начислениями',
-        trialExpireTodayAfterOldTariff: 'Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[1]+1 | date:'short'}} ' +
-        'тариф будет подключен на платной основе с ежедневными начислениями',
+        //     header (push): Продление тарифа
+        trialExpireInSomeDaysAfterOldTariff: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. С {{data[1]+1 | date:'short'}} " +
+        "тариф будет подключен на платной основе с ежедневными начислениями",
+        trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[1]+1 | date:'short'}} " +
+        "тариф будет подключен на платной основе с ежедневными начислениями",
         trialTariffExpiredAfterOldTariff: 'Закончился пробный период по тарифу {{data[0] | translate}}. ' +
         'С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ',
 
         // ------ Оплата счетов + нулевые счета
-        billPayment_singleTariff: 'Вы оплатили счет на {{data[2]}} {{data[3]}}. Тариф {{data[0] | translate}} продлен до {{data[1] | date:'short'}}',
-        billPayment_multiTariff: 'Вы оплатили счет на {{data[2]}} {{data[3]}}. Срок действия по подключенным тарифам продлен до {{data[1] | date:'short'}}',
-        billPayment_singleTariff_ZeroAmount: 'Дополнительных начислений по тарифу {{data[0] | translate}} нет. Тариф продлен до {{data[1] | date:'short'}}',
-        billPayment_multiTariff_ZeroAmount: 'Дополнительных начислений по вашим тарифам нет. Тарифы продлены до {{data[1] | date:'short'}}',
+        //     header (push): Успешная оплата
+        billPayment_singleTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Тариф {{data[0] | translate}} продлен до {{data[1] | date:'short'}}",
+        billPayment_multiTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Срок действия по подключенным тарифам продлен до {{data[1] | date:'short'}}",
+
+        //     header (push): Продление тарифа
+        billPayment_singleTariff_ZeroAmount: "Дополнительных начислений по тарифу {{data[0] | translate}} нет. Тариф продлен до {{data[1] | date:'short'}}",
+        billPayment_multiTariff_ZeroAmount: "Дополнительных начислений по вашим тарифам нет. Тарифы продлены до {{data[1] | date:'short'}}",
 
 
         //  ------ Оплата счетов не прошла из-за ошибки
+        //     header (push): Ошибка оплаты
         billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[2]}} {{data[3]}} . Оплатите счет вручную',
         billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[2]}} {{data[3]}}. Оплатите счет вручную',
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
+        //     header (push): Успешная оплата
         billExpiredPaymentReceived: 'Спасибо! Ваш платеж по счету на {{data[2]}} {{data[3]}} получен',
 
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
-         header (push): Тренер (Фамилия, Имя) или Название клуба
+         header (push): Отключение тарифа
          **/
-
         disabledPremiumByCoach: 'Вам временно отключен тариф Премиум, подключенный тренером. Ожидается оплата от тренера',
         disabledPremiumByClub: 'Вам временно отключен тариф Премиум, подключенный клубом. Ожидается оплата от клуба',
         disabledCoachByClub: 'Вам временно отключен тариф Тренер, подключенный клубом. Ожидается оплата от клуба',
@@ -440,8 +445,8 @@ export const translateNotification = {
          data[3] - Валюта счета
                   **/
 
-        tariffRecurringTonight: 'Приближается срок оплаты по тарифу {{data[0] | translate}}. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}',
-        tariffRecurringTonightMulti: 'Приближается срок оплаты по подключенным тарифам. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}',
+        tariffRecurringTonight: "Приближается срок оплаты по тарифу {{data[0] | translate}}. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
+        tariffRecurringTonightMulti: "Приближается срок оплаты по подключенным тарифам. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
 
         /* ----------- Рекарринг проведен успешно--------**
          Отправитель: Стаминити
@@ -451,8 +456,8 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        tariffRecurringSuccess: 'Оплата по тарифу {{data[0] | translate}} выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тариф продлен до {{data[1] | date:'short'}}',
-        tariffRecurringSuccessMulti: 'Оплата по подключенным тарифам выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тарифы продлены до {{data[1] | date:'short'}}',
+        tariffRecurringSuccess: "Оплата по тарифу {{data[0] | translate}} выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тариф продлен до {{data[1] | date:'short'}}",
+        tariffRecurringSuccessMulti: "Оплата по подключенным тарифам выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тарифы продлены до {{data[1] | date:'short'}}",
 
         /* ----------- Ошибка списания по рекаррингу --------**
          Отправитель: Стаминити
@@ -483,7 +488,7 @@ export const translateNotification = {
          data[1] - paidTill date
          data[2] - номер счета
          **/
-        expireTariffPurchase: 'Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить использование, оплатите счет #{{data[2]}}',
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить использование, оплатите счет #{{data[2]}}",
         expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить использование, оплатите счет #{{data[2]}}',
         expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
 
@@ -533,7 +538,531 @@ export const translateNotification = {
         * data[1] - текст сообщения ENG **/
         staminityNotification: "{{data[0]}}"
     },
-    en: {
 
+//    ----------------- ENGLISH ---------------------
+
+    en: {
+        /*  ----------ПРИМЕР --------
+         * Тестовое сообщение
+         * data[0] - базовый вид спорта
+         * data[1] - фактическое расстояние (distance)
+         * data[2] - фактическая скорость (speed)
+         * */
+        notificationTestMessage: "Новое тестовое сообщение с параметром: расстояние {{data[1] | measureCalc:data[0]:'distance'}} " +
+        "{{'distance' | measureUnit:data[0] | translate}} со скоростью {{data[2] | measureCalc:data[0]:'speed'}} {{'speed' | measureUnit:data[0] | translate}}",
+
+        /*  ----------Синхронизация фактических тренировок --------**/
+        /*  Начальная загрузка завершена. Отправитель - провайдер
+         data[0] - количество загруженных тренировок
+         data[1] - общее количество тренировок
+         data[2] - дата начальной синхронизации в формате DD.MM.YY**/
+        initialProviderSyncCompleted: "Initial sync completed.\n" +
+        "{{data[0]}} from {{data[1]}} activities loaded from {{data[2] | date:'short'}}",
+
+        /*  Подключение синхронизации не удалось. Отправитель - провайдер */
+        providerSyncError: "Sync error. Please check sync configuration",
+
+        badUsernameOrPassword: "Bad username or password",
+
+
+        /* Сообщение спортсмену, что его тренировка загружена. Отправитель - провайдер
+         * data[0] - базовый вид спорта
+         * data[1] - дата тренировки в формате DD.MM.YY
+         * data[2] - calendarItemId. Будет использоваться для перехода к тренировке, когда сделаем адресацию
+         * data[3] - фактическая длительность тренировки = calcMeasures.duration.value
+         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
+         * data[5] - фактический % выполнения = calcMeasures.completePercent.value **/
+        uploadActivityByProvider: "Activity from {{data[1] | date:'short'}} was uploaded.\n " +
+        "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3] | measureCalc:data[0]:'duration'}}",
+
+        /*  ---------- Тренировки --------**/
+
+        /* Тренировка ученика загружена. Получатель - тренер, отправитель - спортсмен.
+         * data[0] - базовый вид спорта
+         * data[1] - дата тренировки в формате DD.MM.YY
+         * data[2] - calendarItemId
+         * data[3] - фактическая длительность тренировки = calcMeasures.duration.value
+         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
+         * data[5] - фактический % выполнения = calcMeasures.completePercent.value */
+        activityCompletedByAthlete: "Activity from {{data[1] | date:'short'}} was completed \n "+
+        "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3] | measureCalc:data[0]:'duration'}}",
+
+        /*  Плановая тренировка создана тренером. Получатель - спортсмен, отправитель - тренер
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - плановая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityCreatedByCoach: "New activity plan: "+
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        /*  Плановая тренировка изменена тренером. Получатель - спортсмен, отправитель - тренер
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - плановая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityModifiedByCoach: "Activity plan was changed "+
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        /*  Плановая тренировка удалена тренером. Получатель - спортсмен, отправитель - тренер
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - плановая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityDeletedByCoach: "Activity was deleted: "+
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        /*  Плановая тренировка создана спортсменом. Получатель - тренер, отправитель - спортсмен
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - плановая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityCreatedByAthlete: "New activity created by athlete: "+
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        /*  Плановая тренировка удалена спортсменом. Получатель - тренер, отправитель - спортсмен
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - плановая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityDeletedByAthlete: "Activity was deleted by athlete: "+
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+
+        /*  Факт по тренировке изменен спортсменом. Условия получения такого уведомления:
+         - спортсмен ввел или изменил факт вручную в тренировке,
+         - спортсмен откорректировал фактическую длительность сегментов,
+         Получатель - тренер, отправитель - спортсмен.
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - фактическая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки**/
+        activityFactModifiedByAthlete: "Activity was changed by athlete: " +
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        activityCompletedByFriend: "", /* под вопросом. Тренировки друзей достаточно видеть в ленте */
+        activityCompletedByFollowing: "",  /* аналогично, под вопросом */
+
+
+        /* ---------- Комментарии, лайки, сообщения  --------**/
+        /*  Комментарий тренера спортсмену в тренировке.
+         Получатель - спортсмен, отправитель - тренер
+         * data[0] - базовый вид спорта
+         * data[1] - вид спорта
+         * data[2] - фактическая дата тренировки в формате DD.MM.YY
+         * data[3] - calendarItemId
+         * data[4] - название типа тренировки **/
+        newCoachComment: "New comment from your coach in activity:" +
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        // Получатель - тренер, отправитель - спортсмен.
+        newAthleteComment: "New comment from your athlete in activity: " +
+        "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+
+        newUserComment: "",
+        newLikeSingle: "",
+        newUserCommentsAndLikes: "",
+        newSingleMessage: "",
+        newMessages: "",
+
+        /* ---------- Принятие и отклонение запросов пользователей в группы --------**/
+        /* Athletes **/
+        /* Тренер принял запрос от спортсмена. Получатель - инициатор запроса, отправитель - тренер**/
+        requestJoinAthletesApproved: "Your request to coach was approved",
+
+        /* Тренер отклонил запрос от спортсмена. Получатель - инициатор запроса, отправитель - тренер**/
+        requestJoinAthletesDeclined: "Your request to coach was declined",
+
+        /* Тренер отключил спортсмена. Получатель - спортсмен, отправитель - тренер**/
+        leaveAthletesByAdmin: "You've been disconnected from coach",
+
+        /* Спортсмен отключился от тренера. Получатель - тренер, отправитель - спортсмен**/
+        leaveAthletesByMember: "Your athlete have been disconnected from you",
+
+        /* ClubMembers **/
+        /* Клуб одобрил запрос от пользователя. Получатель - инициатор запроса, отправитель - клуб
+         data[0] - Фамилия и Имя менеджера, обработавшего запрос
+         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль**/
+        requestJoinClubMembersApproved: "Your request to join club was approved",
+
+        /* Клуб отклонил запрос от пользователя. Получатель - инициатор запроса, отправитель - клуб
+         data[0] - Фамилия и Имя менеджера, обработавшего запрос
+         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль**/
+        requestJoinClubMembersDeclined: "Your request to join club was declined",
+
+        /* Клуб одобрил запрос на выход тренера из клуба
+         data[0] - Фамилия и Имя менеджера, обработавшего запрос
+         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль**/
+        requestLeaveClubMembersApproved: "Your leave club request was approved. You've been disconnected from club",
+
+        /* Клуб отклонил запрос на выход тренера из клуба
+         data[0] - Фамилия и Имя менеджера, обработавшего запрос
+         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль**/
+        requestLeaveClubMembersDeclined: "Your leave club request was declined",
+
+        /* Администрация исключила члена клуба. Получатель - член группы, отправитель - клуб
+         data[0] - Фамилия и Имя админа, выполнившего запрос
+         data[1] - uri админа **/
+        leaveClubMembersByAdmin: "You've been disconnected from club",
+
+        /* Член клуба вышел из клуба. Получатель - администраторы клуба, отправитель - член клуба
+         data[0] - Фамилия и Имя пользователя, который вышел из клуба,
+         data[1] - uri пользователя **/
+        leaveClubMembersByMember: "Club member leaves club",
+
+        /* Член клуба исключен из клуба администратором. Отправитель - администратор, выполнивший запрос, получатели - другие администраторы клуба
+         data[0] - Фамилия и Имя пользователя, который вышел из клуба,
+         data[1] - uri пользователя
+         data[2] - Название клуба
+         data[3[ - uri клуба           **/
+        leaveClubMembersByOtherAdmin: "{{data[0]}} have been disconnected from {{data[2]}}",
+
+
+        /* Friends **/
+        /* Запрос на дружбу принят.
+         * Отправитель - пользователь, принявший запрос. Получатель - инициатор запроса.*/
+        requestJoinFriendsApproved: "Your friend request was accepted",
+
+        /* Запрос на дружбу отклонен.
+         * Отправитель - пользователь, принявший запрос. Получатель - инициатор запроса.*/
+        requestJoinFriendsDeclined: "Your friend request was declined",
+
+        /* Прочие пользовательские группы **/
+        /* Запрос на вступление в группу одобрен.
+         Отправитель - группа. Получатель - инициатор запроса.
+         data[0] - Фамилия и Имя администратора группы, обработавшего запрос
+         data[1] - userUri администратора группы, обработавшего запрос. Для ссылки на профиль**/
+        requestJoinUserGroupApproved: "Your request was approved. You are the member of the group",
+
+        /* Запрос на вступление в группу отклонен.
+         Отправитель - группа. Получатель - инициатор запроса.
+         data[0] - Фамилия и Имя администратора группы, обработавшего запрос
+         data[1] - userUri администратора группы, обработавшего запрос. Для ссылки на профиль */
+        requestJoinUserGroupDeclined: "Your request was declined",
+
+        /* Администрация исключила члена группы. Получатель - член группы, отправитель - группа **/
+        leaveUserGroupByAdmin: "You've been removed from group",
+
+        /* Член группы вышел из группы. Получатель - администраторы группы, отправитель - член группы**/
+        leaveUserGroupByMember: "Group member leaves group",
+
+        /* Член группы исключен из группы администратором. Отправитель - администратор, выполнивший запрос, получатели - другие администраторы группы
+         data[0] - Фамилия и Имя пользователя, который вышел из группы,
+         data[1] - uri пользователя
+         data[2] - Название группы
+         data[3[ - uri группы           **/
+        leaveUserGroupByOtherAdmin: "{{data[0]}} have been removed from {{data[2]}}",
+
+        /* -- Уведомления администраторам, которые имеют копию обработанного запроса -- **/
+
+        /* Запрос на вступление в клуб одобрен другими администраторами.
+         * Отправитель - менеджер, который одобрил запрос
+         * Получатели - члены группы clubManagement, за исключением того, кто обработал запрос
+         data[0] - Фамилия и Имя инициатора исходного запроса (спортсмена, который направил запрос клубу)
+         data[1] - userUri инициатора запроса
+         data[2] - Название клуба
+         data[3] - clubUri  Для ссылки на профиль**/
+        requestJoinClubMembersApprovedByOthers: "{{data[0]}} join club {{data[2]}}",
+
+        /* Запрос на вступление в клуб отклонен другими администраторами.
+         * Отправитель - менеджер, который отклонил запрос
+         * Получатели - члены группы clubManagement, за исключением того, кто обработал запрос
+         data[0] - Фамилия и Имя инициатора исходного запроса (спортсмена, который направил запрос клубу)
+         data[1] - userUri инициатора запроса
+         data[2] - Название клуба
+         data[3] - clubUri  Для ссылки на профиль **/
+        requestJoinClubMembersDeclinedByOthers: "Join club request from {{data[0]}} was declined",
+
+        /* ---------- Оповещения в клубе  --------**/
+        /* Уведомление тренеру клуба, что к нему подключен спортсмен
+         * Отправитель - клуб. Получатель - тренер.
+         data[0] - Фамилия и Имя спортсмена
+         data[1] - userUri спортсмена. Для ссылки на профиль **/
+        clubAthleteConnected: "You have a new club athlete: {{data[0]}}",
+
+        /* Уведомление тренеру клуба, что от него отключен спортсмен
+         * Отправитель - клуб. Получатель - тренер.
+         data[0] - Фамилия и Имя спортсмена
+         data[1] - userUri спортсмена. Для ссылки на профиль **/
+        clubAthleteDisconnected: "{{data[0]}} have been removed from your athletes ",
+
+        /* Уведомление спортсмену клуба, что для него назначен тренер
+         * Отправитель - клуб. Получатель - спортсмен.
+         data[0] - Фамилия и Имя тренера
+         data[1] - userUri тренера. Для ссылки на профиль **/
+        clubCoachAssigned: "Your new club coach is {{data[0]}}",
+
+        /* Уведомление спортсмену клуба, что от него отключен тренер
+         * Отправитель - клуб. Получатель - спортсмен.
+         data[0] - Фамилия и Имя тренера
+         data[1] - userUri тренера. Для ссылки на профиль **/
+        clubCoachRemoved: "Your coach {{data[0]}} have been disconnected from you",
+
+        /* Уведомление члену клуба о назначении роли.
+         * Отправитель - клуб. Получатель - член клуба.
+         data[0] - Фамилия и Имя менеджера, обработавшего запрос
+         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
+         data[2] - название роли: Спортсмен, Тренер, Администратор**/
+        clubRoleAssigned: "Your new club role is {{data[2] | translate}}",
+
+        /* Уведомление члену клуба об отключении роли.
+         * Отправитель - клуб. Получатель - член клуба.
+         data[0] - Фамилия и Имя менеджера, обработавшего запрос
+         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль
+         data[2] - название роли: Спортсмен, Тренер, Администратор**/
+        clubRoleRemoved: "Your club role {{data[2] | translate}} was removed",
+
+        /*----- Уведомления администраторов клуба о действиях других администраторов------*/
+        /* Оповещение пользователей, которые имеют права на изменение состава членов редактируемой группы
+         Отправитель - админ группы, выполняющий добавление/удаление члена группы
+         Получатель - все остальные админы группы, кроме инициатора, имеющие право W на userGroup.membership
+         Суффиксы:
+         ByAdmin - админ назначает роль кому-то
+         ByMember - админ назначает роль себе
+         шаблон перевода:
+         <join/leave><GroupCode>ByAdmin
+         data[0] - Название клуба
+         data[1] - uri клуба
+         data[2] - Name члена клуба
+         data[3] - Uri члена клуба **/
+        joinClubManagementByAdmin: "{{data[2]}} is club admin now in {{data[0]}}",
+        joinClubCoachesByAdmin: "{{data[2]}} is club coach now in {{data[0]}}",
+        joinClubChiefCoachesByAdmin: "{{data[2]}} is chief coach now in {{data[0]}}",
+        joinClubConsultingByAdmin: "{{data[2]}} is club consultant in {{data[0]}}",
+        joinClubAthletesByAdmin: "{{data[2]}} is club athlete in {{data[0]}}",
+
+
+        joinClubCoachesByMember: "Made yourself club coach in {{data[0]}}",
+        joinClubChiefCoachesByMember: "Made yourself chief coach in {{data[0]}}",
+        joinClubConsultingByMember: "Made yourself club consultant in {{data[0]}}",
+        joinClubAthleteByMember: "Made yourself club athlete in {{data[0]}}",
+
+
+        // выход из групп
+        leaveClubManagementByAdmin: "Role 'Administrator' was removed from {{data[2]}} in club {{data[0]}}",
+        leaveClubCoachesByAdmin: "Role 'Coach' was removed from {{data[2]}} in club {{data[0]}}",
+        leaveClubChiefCoachesByAdmin: "Role 'Chief coach' was removed from {{data[2]}} in club {{data[0]}}",
+        leaveClubConsultingByAdmin: "Role 'Consultant' was removed from {{data[2]}} in club {{data[0]}}",
+        leaveClubAthletesByAdmin: "Role 'Club athlete' was removed from {{data[2]}} in club {{data[0]}}",
+
+
+        leaveClubCoachesByMember: "Removed yourself from 'ClubCoach' in club {{data[0]}}",
+        leaveClubChiefCoachesByMember: "Removed yourself from 'Chief Coach' in club {{data[0]}}",
+        leaveClubConsultingByMember: "Removed yourself from 'Consultant' in club  {{data[0]}}",
+        leaveClubAthletesByMember: "Removed yourself from 'Club athletes' in club {{data[0]}}",
+
+
+        /* Оповещение админов группы Club_<>_<>_Athletes при изменении членства
+         Отправитель - админ группы, выполняющий добавление/удаление члена группы
+         Получатель - все остальные админы группы, кроме инициатора, имеющие право W на userGroup.membership
+
+         data[0] - Название клуба
+         data[1] - uri клуба
+         data[2] - Name спортсмена
+         data[3] - Uri спортсмена
+         data[4] - Name тренера
+         data[5] - Uri тренера **/
+        joinCoachAthleteByAdmin: "Coach {{data[4]}} was assigned to club athlete {{data[2]}} in club {{data[0]}}",
+        leaveCoachAthleteByAdmin: "Coach {{data[4]}} was disconnected from club athlete {{data[2]}} in club {{data[0]}}",
+
+        /*  ----------Уведомления по членству в тарифных группах --------
+         Отправитель в зависимости от группы:
+         PremiumByClub - клуб
+         CoachByClub - клуб
+         PremiumByCoach - тренер
+
+         Получатели:
+         <join/leave><groupCode> - пользователь, получающий тарифные функции
+         <join/leave><groupCode>ByMember - админы группы, кроме себя самого
+         <join/leave><groupCode>ByAdmin - админы группы, кроме себя самого
+
+
+         Контекст data[]:
+         data[0] - Название клуба
+         data[1] - uri клуба
+         data[2] - Name члена клуба
+         data[3] - Uri члена клуба
+         **/
+
+        joinPremiumByClub: "You have Premium account paid by your club",
+        joinPremiumByClubByAdmin: "{{data[2]}} is now Premium athlete paid by club {{data[0]}}",
+        joinPremiumByClubByMember: "Подключил себе тариф 'Премиум' за счет клуба {{data[0]}}",
+
+        leavePremiumByClub: "Вам отключен тариф 'Премиум', ранее подключенный за счет клуба",
+        leavePremiumByClubByAdmin: "{{data[2]}} отключен тариф 'Премиум' за счет клуба {{data[0]}}",
+        leavePremiumByClubByMember: "Отключил себе тариф 'Премиум' за счет клуба {{data[0]}}",
+
+        joinCoachByClub: "Вам подключен тариф 'Тренер' за счет клуба",
+        joinCoachByClubByAdmin: "{{data[2]}} подключен тариф 'Тренер' за счет клуба {{data[0]}}",
+        joinCoachByClubByMember: "Подключил себе тариф 'Тренер' за счет клуба {{data[0]}}",
+
+        leaveCoachByClub: "Вам отключен тариф 'Тренер', ранее подключенный за счет клуба",
+        leaveCoachByClubByAdmin: "{{data[2]}} отключен тариф 'Тренер' за счет клуба {{data[0]}}",
+        leaveCoachByClubByMember: "Отключил себе тариф 'Тренер' за счет клуба {{data[0]}}",
+
+        joinPremiumByCoach: "Вам подключен тариф 'Премиум' за счет тренера",
+        leavePremiumByCoach: "Вам отключен тариф 'Премиум', ранее подключенный за счет тренера",
+        //другие типы для PremiumByCoach не релевантны
+
+
+        /* ----------Уведомления по тарифам --------**
+
+         Отправитель: Стаминити
+         data[0] - Название тарифа
+         data[1] - Expiry date
+         data[2] - Сумма счета
+         data[3] - Валюта счета
+         **/
+
+        // ------ Триал --------
+        //     header (push): Пробный период
+        trialExpireInSomeDays: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. Для продления оплатите счет на {{data[2]}} {{data[3]}}",
+        trialExpireToday: "Пробный период по тарифу {{data[0] | translate}} закончится сегодня. Для продления оплатите счет на {{data[2]}} {{data[3]}}",
+        trialTariffExpired: "Закончился пробный период по тарифу {{data[0] | translate}}",
+
+        // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
+        //     header (push): Продление тарифа
+        trialExpireInSomeDaysAfterOldTariff: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. С {{data[1]+1 | date:'short'}} " +
+        "тариф будет подключен на платной основе с ежедневными начислениями",
+        trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[1]+1 | date:'short'}} " +
+        "тариф будет подключен на платной основе с ежедневными начислениями",
+        trialTariffExpiredAfterOldTariff: 'Закончился пробный период по тарифу {{data[0] | translate}}. ' +
+        'С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ',
+
+        // ------ Оплата счетов + нулевые счета
+        //     header (push): Успешная оплата
+        billPayment_singleTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Тариф {{data[0] | translate}} продлен до {{data[1] | date:'short'}}",
+        billPayment_multiTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Срок действия по подключенным тарифам продлен до {{data[1] | date:'short'}}",
+
+        //     header (push): Продление тарифа
+        billPayment_singleTariff_ZeroAmount: "Дополнительных начислений по тарифу {{data[0] | translate}} нет. Тариф продлен до {{data[1] | date:'short'}}",
+        billPayment_multiTariff_ZeroAmount: "Дополнительных начислений по вашим тарифам нет. Тарифы продлены до {{data[1] | date:'short'}}",
+
+
+        //  ------ Оплата счетов не прошла из-за ошибки
+        //     header (push): Ошибка оплаты
+        billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[2]}} {{data[3]}} . Оплатите счет вручную',
+        billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[2]}} {{data[3]}}. Оплатите счет вручную',
+
+        // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
+        //     header (push): Успешная оплата
+        billExpiredPaymentReceived: 'Спасибо! Ваш платеж по счету на {{data[2]}} {{data[3]}} получен',
+
+        /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
+
+         Отправитель: Тренер (Фамилия, Имя) или Название клуба
+         header (push): Отключение тарифа
+         **/
+        disabledPremiumByCoach: 'Вам временно отключен тариф Премиум, подключенный тренером. Ожидается оплата от тренера',
+        disabledPremiumByClub: 'Вам временно отключен тариф Премиум, подключенный клубом. Ожидается оплата от клуба',
+        disabledCoachByClub: 'Вам временно отключен тариф Тренер, подключенный клубом. Ожидается оплата от клуба',
+
+        /* ----------- Рекарринг --------**
+
+         Отправитель: Стаминити
+         header (push): Оплата по тарифам
+         data[0] - Название тарифа
+         data[1] - bill date
+         data[2] - Сумма счета
+         data[3] - Валюта счета
+         **/
+
+        tariffRecurringTonight: "Приближается срок оплаты по тарифу {{data[0] | translate}}. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
+        tariffRecurringTonightMulti: "Приближается срок оплаты по подключенным тарифам. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
+
+        /* ----------- Рекарринг проведен успешно--------**
+         Отправитель: Стаминити
+         header (push): Успешная оплата
+         data[0] - Название тарифа
+         data[1] - new Expiry date
+         data[2] - Сумма счета
+         data[3] - Валюта счета
+         **/
+        tariffRecurringSuccess: "Оплата по тарифу {{data[0] | translate}} выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тариф продлен до {{data[1] | date:'short'}}",
+        tariffRecurringSuccessMulti: "Оплата по подключенным тарифам выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тарифы продлены до {{data[1] | date:'short'}}",
+
+        /* ----------- Ошибка списания по рекаррингу --------**
+         Отправитель: Стаминити
+         header (push): Ошибка оплаты
+         data[0] - Название тарифа
+         data[1] - null
+         data[2] - Сумма счета
+         data[3] - Валюта счета
+         **/
+        recurring_Failure_singleTariff: 'Оплату по тарифу {{data[0] | translate}} по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
+        recurring_Failure_multiTariff: 'Оплату по вашим тарифам по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
+
+        /* ----------- Удаление окружения клуба --------**
+         Отправитель: Стаминити
+         header (push): Удаление клуба     **/
+        clubEnvDeleteInSomeDays: 'Ваш клуб будет удален через 5 дней. Подключите тариф, чтобы этого избежать',
+        clubEnvDeleted: 'Ваш клуб удален, спортсмены и тренеры клуба отключены от клуба',
+        /* ----------- Удаление окружения тренера --------**
+         Отправитель: Стаминити
+         header (push): Удаление спортсменов     **/
+        coachEnvDeleteInSomeDays: 'Связь с вашими спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать',
+        coachEnvDeleted: 'Связь с вашими спортсменами удалена',
+
+        /* ----------- Истечение срока действия подключенных тарифов --------**
+         Отправитель: Стаминити
+         header (push): Сроки тарифов
+         data[0] - Название тарифа
+         data[1] - paidTill date
+         data[2] - номер счета
+         **/
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить использование, оплатите счет #{{data[2]}}",
+        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить использование, оплатите счет #{{data[2]}}',
+        expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
+
+        /* ----------- Уведомления по счетам  --------**
+         Отправитель: Стаминити
+         header (push): Оплатите счет
+         data[0] - номер счета
+         data[1] - Сумма счета
+         data[2] - Валюта счета
+         **/
+        singleBBill: 'Выставлен счет #{{data[0]}} на {{data[1]}} {{data[2]}}. Просьба оплатить',
+        multipleBBill: 'Задолженность по неоплаченным счетам составляет {{data[1]}} {{data[2]}}. Просьба оплатить',
+        singleFBill: 'Для продолжения использования тарифа Премиум необходимо оплатить счет #{{data[0]}} на {{data[1]}} {{data[2]}}',
+
+
+        /* ----------Зоны и пороги --------**/
+        /* Зоны изменены тренером. Отправитель - тренер, получатель - спортсмен. Или наоборот  */
+        zonesChangedByCoach: "Изменены настройки ваших тренировочных зон и пороговых значений",
+        zonesChangedByAthlete: "Ваш спортсмен изменил настройки тренировочных зон и пороговых значений",
+
+        /* Предлагается изменение порогов по итогам анализа тренировки. Отправитель - Стаминити, получатель - спортсмен.
+         data [0] - базовый вид спорта
+         data [1] - пороговое значение
+         data [2] - дата обновления */
+        newPaceFTPBySystem: "Предлагаем обновить значение ПАНО по темпу по виду спорта: {{'sport.'+data[0] | translate}}. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
+        newHeartRateFTPBySystem: "Предлагаем обновить значение ПАНО по пульсу по виду спорта: {{'sport.'+data[0] | translate}}. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
+        newPowerFTPBySystem: "Предлагаем обновить значение ПАНО по мощности по виду спорта: {{'sport.'+data[0] | translate}}. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
+
+        /* Предлагается изменение порогов по итогам анализа тренировки. Отправитель - спортсмен, получатель - тренер.
+         data [0] - базовый вид спорта
+         data [1] - пороговое значение
+         data [2] - дата обновления */
+        newAthletePaceFTPBySystem: "Предлагаем обновить ПАНО по темпу для вашего спортсмена по итогам его тренировки. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
+        newAthleteHeartRateFTPBySystem: "Предлагаем обновить ПАНО по пульсу для вашего спортсмена по итогам его тренировки. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
+        newAthletePowerFTPBySystem: "Предлагаем обновить ПАНО по мощности для вашего спортсмена по итогам его тренировки. "+
+        "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
+
+
+        /* ---------- Уведомления от сервиса --------**/
+        /* Уведомление для пользователей сервиса. Отправитель - Стаминити.
+         * data[0] - текст сообщения RUS*
+         * data[1] - текст сообщения ENG **/
+        staminityNotification: "{{data[0]}}"
     }
 };
