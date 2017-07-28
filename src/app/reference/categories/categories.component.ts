@@ -11,7 +11,7 @@ import { ReferenceFilterParams, categoriesFilters, Owner, getOwner, isOwner } fr
 import { CategoryDialogCtrl } from '../category-dialog/category-dialog.controller';
 import { getType, activityTypes } from "../../activity/activity.constants";
 import { isManager } from "../../club/club.datamodel";
-import { pipe, prop, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined } from '../../share/util';
+import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined } from '../../share/util';
 
 import './categories.component.scss';
 
@@ -44,8 +44,10 @@ class CategoriesCtrl implements IComponentController {
 	}
 
 	handleChanges () {
+		let filters = pick(['club', 'activityType']) (categoriesFilters);
+		
 		this.categoriesByOwner = pipe(
-			filter(filtersToPredicate(categoriesFilters, this.filterParams)),
+			filter(filtersToPredicate(filters, this.filterParams)),
 			orderBy(prop('sortOrder')),
 			groupBy(getOwner(this.user))
 		) (this.categories);

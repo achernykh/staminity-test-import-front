@@ -1,5 +1,6 @@
 import './requests.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
+import { Subject } from "rxjs/Rx";
 
 
 const stateIcons = {
@@ -20,8 +21,10 @@ class RequestsCtrl {
         this.dialogs = dialogs;
         this.message = message;
         this.RequestsService = RequestsService;
+        this.destroy = new Subject();
 
         this.RequestsService.requestsList
+        .takeUntil(this.destroy)
         .subscribe((requests) => { this.setRequests(requests) });
         
         this.requests = {
@@ -40,25 +43,17 @@ class RequestsCtrl {
             outbox: 20
         };
         
-        this.isOpen = false;
-    }
-    
-    get isOpen () {
-        return this._isOpen;
-    }
-    
-    set isOpen (isOpen) {
-        this._isOpen = isOpen;
-        if (isOpen) {
-            this.startRefreshing();
-        } else {
-            this.stopRefreshing();
-        }
-        console.log('requestsIsOpen', isOpen);
+        this.refreshing = setInterval(() => { this.$scope.$digest() }, 2000);
     }
 
-    $onInit() {
+    $onInit () {
         moment.locale('ru');
+    }
+
+    $onDestroy () {
+        this.destroy.next(); 
+        this.destroy.complete();
+        clearInterval(this.refreshing);
     }
     
     setRequests (requests) {
@@ -73,21 +68,7 @@ class RequestsCtrl {
     }
     
     fromNow (date) {
-        // avoiding the heavy function
-        return this._isOpen? moment.utc(date).fromNow(true) : '';
-    }
-    
-    startRefreshing () {
-        if (this.refreshing) return;
-        
-        this.refreshing = setInterval(() => { this.$scope.$digest() }, 2000);
-    }
-    
-    stopRefreshing () {
-        if (!this.refreshing) return;
-        
-        clearInterval(this.refreshing);
-        this.refreshing = null;
+        return moment.utc(date).fromNow(true);
     }
     
     processRequest (request, action) {

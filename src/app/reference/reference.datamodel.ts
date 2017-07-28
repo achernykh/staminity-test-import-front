@@ -39,31 +39,18 @@ export type ReferenceFilterParams = {
 	category?: IActivityCategory;
 };
 
-export const constrainFilterParams = (filterParams: ReferenceFilterParams) : ReferenceFilterParams => {
-	let { club, activityType, category } = filterParams;
-	
-	if (!filterParams.activityType) {
-		filterParams.activityType = activityTypes[0];
-	}
-	
-	if (getCategoryActivityTypeId(category) !== activityType.id) {
-		filterParams.category = null;
-	}
-	
-	return filterParams;
+export const categoriesFilters = {
+	club: ({ club }: ReferenceFilterParams) => (category: IActivityCategory) => !club || getGroupId(category) === club.groupId || isSystem(category),
+	activityType: ({ activityType }: ReferenceFilterParams) => (category: IActivityCategory) => !activityType || getCategoryActivityTypeId(category) === activityType.id,
+	isActive: ({ }: ReferenceFilterParams) =>  (category: IActivityCategory) => category.visible
 };
 
-
-export const categoriesFilters: Array<Filter<ReferenceFilterParams, IActivityCategory>> = [
-	({ club }: ReferenceFilterParams) => (category: IActivityCategory) => !club || getGroupId(category) === club.groupId,
-	({ activityType }: ReferenceFilterParams) => (category: IActivityCategory) => !activityType || getCategoryActivityTypeId(category) === activityType.id
-];
-
-export const templatesFilters: Array<Filter<ReferenceFilterParams, IActivityTemplate>> = [
-	({ club }: ReferenceFilterParams) => (template: IActivityTemplate) => !club || getGroupId(template) === club.groupId,
-	({ activityType }: ReferenceFilterParams) => (template: IActivityTemplate) => !activityType || getTemplateActivityTypeId(template) === activityType.id,
-	({ category }: ReferenceFilterParams) => (template: IActivityTemplate) => !category || getTemplateActivityCategoryId(template) === category.id
-];
+export const templatesFilters = {
+	club: ({ club }: ReferenceFilterParams) => (template: IActivityTemplate) => !club || getGroupId(template) === club.groupId || isSystem(template),
+	activityType: ({ activityType }: ReferenceFilterParams) => (template: IActivityTemplate) => !activityType || getTemplateActivityTypeId(template) === activityType.id,
+	category: ({ category }: ReferenceFilterParams) => (template: IActivityTemplate) => !category || getTemplateActivityCategoryId(template) === category.id,
+	isActive: ({ }: ReferenceFilterParams) =>  (template: IActivityTemplate) => template.visible
+};
 
 
 export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string) : string => {

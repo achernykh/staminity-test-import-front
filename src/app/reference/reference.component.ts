@@ -1,18 +1,25 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { Subject } from "rxjs/Rx";
+
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { IActivityType } from "../../../api/activity/activity.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
 import { IGroupProfile } from "../../../api/group/group.interface";
 
+import IMessageService from "../core/message.service";
+import ReferenceService from "./reference.service";
+import { pipe, prop, pick, orderBy, groupBy } from '../share/util';
+import { filtersToPredicate } from "../share/utility";
 import { getType, activityTypes } from "../activity/activity.constants";
-import { ReferenceFilterParams, constrainFilterParams } from "./reference.datamodel";
+import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "./reference.datamodel";
 import './reference.component.scss';
 
 
-class ReferenceCtrl implements IComponentController {
+export class ReferenceCtrl implements IComponentController {
 
 	public user: IUserProfile;
 	public categories: Array<IActivityCategory>;
+	public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
 	public templates: Array<IActivityTemplate>;
 	public clubUri: string;
 	public club: IGroupProfile;
@@ -23,8 +30,9 @@ class ReferenceCtrl implements IComponentController {
 		category: null
 	};
 	
-	private tab: number = 0;
+	private tab: 'templates' | 'categories' = 'templates';
 	private activityTypes: Array<IActivityType> = activityTypes;
+    private destroy: Subject<void> = new Subject<void>();
 
 	private onTemplatesMessage = {
 		"I": this.handleTemplateCreate.bind(this),
@@ -38,21 +46,24 @@ class ReferenceCtrl implements IComponentController {
 		"D": this.handleCategoryDelete.bind(this)
 	};
 
-	static $inject = ['$scope', '$mdDialog', 'message', 'ReferenceService'];
+	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
 
 	constructor (
 		private $scope, 
 		private $mdDialog, 
-		private message,
-		private ReferenceService
+		private $mdMedia,
+		private message: IMessageService,
+		private ReferenceService: ReferenceService
 	) {
-		this.tab = 0;
+		
 	}
 
 	$onInit () {
 		this.filterParams.club = this.club;
+		this.updateFilterParams();
 		
 		this.ReferenceService.activityCategoriesMessages
+		.takeUntil(this.destroy)
 		.subscribe((message) => {
 			let action = this.onCategoriesMessage[message.action];
 			if (action) {
@@ -61,6 +72,7 @@ class ReferenceCtrl implements IComponentController {
 		});
 		
 		this.ReferenceService.activityTemplatesMessages
+		.takeUntil(this.destroy)
 		.subscribe((message) => {
 			let action = this.onTemplatesMessage[message.action];
 			if (action) {
@@ -68,44 +80,75 @@ class ReferenceCtrl implements IComponentController {
 			}
 		});
 	}
-
-	get templatesFilterCategories () : Array<IActivityCategory> {
-		let activityTypeId = this.filterParams.activityType.id;
-		return this.categories.filter((category) => category.activityTypeId === activityTypeId);
+	
+	$onChanges () {
+		this.updateFilterParams();
+	}
+	
+	$onDestroy () {
+		this.destroy.next(); 
+		this.destroy.complete();
 	}
 
-	updateFilters (filterParams: ReferenceFilterParams, changes: any = {}) : ReferenceFilterParams {
-		return constrainFilterParams({ ...filterParams, ...changes });
+	updateFilterParams () {
+		let filters = pick(['club', 'activityType', 'isActive']) (categoriesFilters);
+		let categories = this.categories.filter(filtersToPredicate(filters, this.filterParams));
+		let category = this.filterParams.category;
+			
+		this.filterParams = { 
+			...this.filterParams, 
+			category: category && categories.find(({ id }) => category.id === id)? category : categories[0]
+		};
+		
+		this.categoriesByOwner = pipe(
+			orderBy(prop('sortOrder')),
+			groupBy(getOwner(this.user))
+		) (categories);
 	}
 
 	handleTemplateCreate (template: IActivityTemplate) {
 		this.templates = [...this.templates, template];
+		this.updateFilterParams();
 		this.$scope.$apply();
 	}
 
 	handleTemplateUpdate (template: IActivityTemplate) {
 		this.templates = this.templates.map((t) => t.id === template.id? template : t);
+		this.updateFilterParams();
 		this.$scope.$apply();
 	}
 
 	handleTemplateDelete (template: IActivityTemplate) {
 		this.templates = this.templates.filter((t) => t.id !== template.id);
+		this.updateFilterParams();
 		this.$scope.$apply();
 	}
 
 	handleCategoryCreate (category: IActivityCategory) {
 		this.categories = [...this.categories, category];
+		this.updateFilterParams();
 		this.$scope.$apply();
 	}
 
 	handleCategoryUpdate (category: IActivityCategory) {
 		this.categories = this.categories.map((c) => c.id === category.id? category : c);
+		this.updateFilterParams();
 		this.$scope.$apply();
 	}
 
 	handleCategoryDelete (category: IActivityCategory) {
 		this.categories = this.categories.filter((c) => c.id !== category.id);
+		this.updateFilterParams();
 		this.$scope.$apply();
+	}
+	
+	get isMobileLayout () : boolean {
+		let maxWidth = {
+			templates: '1200px',
+			categories: '960px'
+		} [this.tab];
+		
+		return this.$mdMedia(`(max-width: ${maxWidth})`);
 	}
 }
 

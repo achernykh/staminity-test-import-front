@@ -208,7 +208,7 @@
                 <label translate="Установка тренера" class="icon"></label>
                 <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
                           ng-change="$ctrl.changeParam()"
-                          ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode !== 'post'"
+                          ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
                           class="icon" name="trainersPrescription"
                           rows="1"></textarea>
             </md-input-container>

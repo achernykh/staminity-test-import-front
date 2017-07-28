@@ -1,7 +1,11 @@
 export const ru = {
 	reference: {
-		fullTitle: 'Шаблоны и категории',
-		shortTitle: 'Шаблоны и категории',
+		fullTitle: 'Шаблоны и категории пользователя',
+		shortTitle: 'Шаблоны и категории пользователя',
+		club: {
+			fullTitle: 'Шаблоны и категории клуба',
+			shortTitle: 'Шаблоны и категории клуба'
+		},
 		sport: 'Вид спорта',
 		edit: 'Изменить',
 		templates: {

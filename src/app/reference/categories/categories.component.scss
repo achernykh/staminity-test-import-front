@@ -1,11 +1,13 @@
 @import "../../../sass/base";
 @import "../../../sass/color";
 
+$maxMobileWidth: 960px;
 
 categories {
 	overflow-y: auto;
+	width: 100%;
 
-	@media (max-width: 959px) {
+	@media (max-width: $maxMobileWidth) {
 		width: auto; 
 		margin: 0;
 		box-shadow: none;
@@ -20,13 +22,17 @@ categories {
 
 .categories {
 	&__content {
+		max-height: none;
+		margin: auto;
 		width: 600px; 
+		min-height: 500px;
 		border-radius: 3px;
 		background-color: $grey-050;
 		@extend .md-whiteframe-2dp;
 
-		@media (max-width: 959px) {
+		@media (max-width: $maxMobileWidth) {
 			width: 100%;
+			margin: 0;
 			border-radius: 0;
 			box-shadow: none;
 		}
@@ -34,36 +40,50 @@ categories {
 	
 	&__list {
 		padding: 0;
+
+		.dndPlaceholder {
+			display: block;
+			float: none;
+			height: 75px;
+			background-color: $grey-200 !important;
+			vertical-align: top;
+		}
 	}
 
 	&__section {
-		padding: 0;
+		padding: 8px 0;
 		
 		&:not(:last-child) {
 			border-bottom: solid 0.5px rgba(black, 0.14);
 		}
+		
+		@media (max-width: $maxMobileWidth) {
+			padding: 0;
+			border-bottom: none !important;
+		}
 	}
 
 	&__subheader {
-		padding: 16px !important;
+		padding: 8px 16px !important;
 		line-height: 1.71;
 		color: rgba(black, 0.54);
 		
-		@media (max-width: 959px) {
+		@media (max-width: $maxMobileWidth) {
 			border-bottom: solid 0.5px rgba(black, 0.14);
 		}
 	}
 
 	&__create {
-		width: 200px; 
-		margin-top: 61px; 
+		position: absolute;
+		top: 65px;
+		right: calc(25% - 250px);
 		text-align: center;
 
-		@media (max-width: 959px) {
+		@media (max-width: $maxMobileWidth) {
 			position: fixed;
 			right: 16px;
 			bottom: 16px;
-			width: auto;
+			top: auto;
 			z-index: 100;
 		}
 	}

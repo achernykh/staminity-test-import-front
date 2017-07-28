@@ -39,25 +39,26 @@ export const values = (obj) => keys(obj).map(key => obj[key])
 export const entries = (obj) => keys(obj).map(key => [key, obj[key]])
 export const object = (props) => props.reduce((o, [key, value]) => (o[key] = value, o), {})
 export const prop = (key) => (obj) => obj[key]
+export const pick = (keys) => (obj) => keys.map((key) => obj[key]);
 
 export const maybe = (x) => (f) => f? maybe(x? f(x) : x) : x
 
 export const memorize = (f) => {
-    let memo = {}
-    return (arg) => arg in memo? memo[arg] : (memo[arg] = f(arg))
+	let memo = {}
+	return (arg) => arg in memo? memo[arg] : (memo[arg] = f(arg))
 }
 
 export const log = (msg) => (x) => {
-    console.log(msg, x)
-    return x
+	console.log(msg, x)
+	return x
 }
 
 export const timer = (f, msg = '') => (...args) => {
-    let t0 = performance.now()
-    let result = f(...args)
-    let t1 = performance.now()
-    console.log(msg, t1 - t0, 'ms')
-    return result
+	let t0 = performance.now()
+	let result = f(...args)
+	let t1 = performance.now()
+	console.log(msg, t1 - t0, 'ms')
+	return result
 }
 
 export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, orderBy, pipe, equals, allEqual, isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, object, memorize, maybe, log, timer }

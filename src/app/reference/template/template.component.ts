@@ -1,6 +1,7 @@
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
+import { ReferenceCtrl } from '../reference.component';
 import { path } from '../../share/utility';
 import { getType, activityTypes } from "../../activity/activity.constants";
 import './template.component.scss';
@@ -9,23 +10,18 @@ import './template.component.scss';
 class TemplateCtrl implements IComponentController {
 
 	private template: IActivityTemplate;
-	private isScreenSmall: boolean;
 	private onDelete: () => any;
 	private onSelect: () => any;
 	private onCopy: () => any;
+	private reference: ReferenceCtrl;
 
-	static $inject = ['$scope', '$filter', '$mdDialog', '$mdMedia'];
+	static $inject = ['$scope', '$filter', '$mdDialog'];
 
 	constructor (
 		private $scope, 
 		private $filter, 
-		private $mdDialog,
-		private $mdMedia
+		private $mdDialog
 	) {
-		$scope.$watch(
-			() => !$mdMedia('gt-sm'), 
-			(value) => { $scope.isScreenSmall = value; }
-		);
 	}
 
 	get activityType () {
@@ -44,6 +40,9 @@ class TemplateCtrl implements IComponentController {
 
 
 const TemplateComponent: IComponentOptions = {
+	require: {
+		reference: '^'
+	},
 	bindings: {
 		template: '<',
 		onDelete: '&',

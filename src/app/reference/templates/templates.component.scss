@@ -1,13 +1,16 @@
 @import "../../../sass/base";
 @import "../../../sass/color";
 
+$maxMobileWidth: 1200px;
 
 templates {
 	overflow-y: auto;
-
-	@media (max-width: 959px) {
+	width: 100%;
+	padding-right: 90px;
+	
+	@media (max-width: $maxMobileWidth) {
 		width: auto; 
-		margin: 0;
+		padding: 0;
 		box-shadow: none;
 		background-color: $grey-050;
 		border-radius: 0;
@@ -20,55 +23,76 @@ templates {
 
 .templates {
 	&__content {
+		min-height: 500px;
+		max-height: none;
+		width: 930px;
+		margin: 4px auto;
 		border-radius: 3px;
 		@extend .md-whiteframe-2dp;
 		background-color: $grey-050;
-
-		@media (max-width: 959px) {
+		
+		@media (max-width: $maxMobileWidth) {
+			margin: 0;
 			border-radius: 0;
 			box-shadow: none;
+			width: 100%;
 		}
 	}
 
 	&__section {
-		padding: 0;
+		padding: 6px;
 		
 		&:not(:last-child) {
 			border-bottom: solid 0.5px rgba(black, 0.14);
 		}
+	
+		@media (max-width: $maxMobileWidth) {
+			padding: 0px;
+		}
 	}
 
 	&__subheader {
-		padding: 16px !important;
+		padding: 6px 6px 0 6px !important;
 		line-height: 1.71;
 		color: rgba(black, 0.54);
-		
-		@media (max-width: 959px) {
+	
+		@media (max-width: $maxMobileWidth) {
+			padding: 12px !important;
 			border-bottom: solid 0.5px rgba(black, 0.14);
+		}
+	}
+	
+	&__items {
+		display: flex;
+		flex-wrap: wrap;
+	
+		@media (max-width: $maxMobileWidth) {
+			display: block;
+		}
+
+		.dndPlaceholder {
+			display: inline-block;
+			float: none;
+			height: 96px;
+			width: calc(20% - 12px);
+			padding: 6px;
+			background-color: $grey-200 !important;
+			vertical-align: top;
 		}
 	}
 
 	&__create {
-		width: 100px; 
-		margin-top: 61px; 
+		position: absolute;
+		top: 65px;
+		right: calc(50% - 630px);
 		text-align: center;
-
-		@media (max-width: 959px) {
+	
+		@media (max-width: $maxMobileWidth) {
 			position: fixed;
 			right: 16px;
 			bottom: 16px;
-			width: auto;
+			top: auto;
 			z-index: 100;
 		}
-	}
-
-	.dndPlaceholder {
-		display: inline-block;
-		float: none;
-		height: 122px;
-		width: 160px;
-		padding: 6px;
-		background-color: $grey-300 !important;
-		vertical-align: top;
 	}
 }

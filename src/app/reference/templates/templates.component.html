@@ -1,4 +1,4 @@
-<div flex class="templates__content">
+<div class="templates__content">
 	<section ng-if="$ctrl.templatesByOwner.user.length" class="templates__section">
 		<div class="templates__subheader md-body-2 md-padding">{{ 'reference.templates.user' | translate }}</div>
 		<div 
@@ -6,6 +6,7 @@
 			dnd-allowed-types="['user-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
+			class="templates__items"
 		>
 			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.user track by template.id" 
@@ -27,6 +28,7 @@
 			dnd-allowed-types="['coach-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
+			class="templates__items"
 		>
 			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.coach track by template.id" 
@@ -48,6 +50,7 @@
 			dnd-allowed-types="['club-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
+			class="templates__items"
 		>
 			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.club track by template.id" 
@@ -69,6 +72,7 @@
 			dnd-allowed-types="['system-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
+			class="templates__items"
 		>
 			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.system track by template.id" 
