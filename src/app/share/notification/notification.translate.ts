@@ -891,22 +891,22 @@ export const translateNotification = {
 
         joinPremiumByClub: "You have Premium account paid by your club",
         joinPremiumByClubByAdmin: "{{data[2]}} is now Premium athlete paid by club {{data[0]}}",
-        joinPremiumByClubByMember: "Подключил себе тариф 'Премиум' за счет клуба {{data[0]}}",
+        joinPremiumByClubByMember: "Made yourself Premium athlete paid by club {{data[0]}}",
 
-        leavePremiumByClub: "Вам отключен тариф 'Премиум', ранее подключенный за счет клуба",
-        leavePremiumByClubByAdmin: "{{data[2]}} отключен тариф 'Премиум' за счет клуба {{data[0]}}",
-        leavePremiumByClubByMember: "Отключил себе тариф 'Премиум' за счет клуба {{data[0]}}",
+        leavePremiumByClub: "Your Premium tariff was removed by your club",
+        leavePremiumByClubByAdmin: "Tariff Premium paid by club was removed from {{data[2]}}",
+        leavePremiumByClubByMember: "Premium tariff paid by club was removed by the user",
 
-        joinCoachByClub: "Вам подключен тариф 'Тренер' за счет клуба",
-        joinCoachByClubByAdmin: "{{data[2]}} подключен тариф 'Тренер' за счет клуба {{data[0]}}",
-        joinCoachByClubByMember: "Подключил себе тариф 'Тренер' за счет клуба {{data[0]}}",
+        joinCoachByClub: "You have Coach tariff paid by your club",
+        joinCoachByClubByAdmin: "{{data[2]}} is now Coach paid by club {{data[0]}}",
+        joinCoachByClubByMember: "Made yourself Coach paid by club {{data[0]}}",
 
-        leaveCoachByClub: "Вам отключен тариф 'Тренер', ранее подключенный за счет клуба",
-        leaveCoachByClubByAdmin: "{{data[2]}} отключен тариф 'Тренер' за счет клуба {{data[0]}}",
-        leaveCoachByClubByMember: "Отключил себе тариф 'Тренер' за счет клуба {{data[0]}}",
+        leaveCoachByClub: "Your Coach tariff was removed by your club",
+        leaveCoachByClubByAdmin: "Tariff Coach paid by club was removed from {{data[2]}}",
+        leaveCoachByClubByMember: "Coach tariff paid by club was removed by the user",
 
-        joinPremiumByCoach: "Вам подключен тариф 'Премиум' за счет тренера",
-        leavePremiumByCoach: "Вам отключен тариф 'Премиум', ранее подключенный за счет тренера",
+        joinPremiumByCoach: "You have Premium account paid by your coach",
+        leavePremiumByCoach: "Your Premium tariff was removed by your coach",
         //другие типы для PremiumByCoach не релевантны
 
 
@@ -921,8 +921,8 @@ export const translateNotification = {
 
         // ------ Триал --------
         //     header (push): Пробный период
-        trialExpireInSomeDays: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. Для продления оплатите счет на {{data[2]}} {{data[3]}}",
-        trialExpireToday: "Пробный период по тарифу {{data[0] | translate}} закончится сегодня. Для продления оплатите счет на {{data[2]}} {{data[3]}}",
+        trialExpireInSomeDays: "{{data[0] | translate}} trial will be expired on {{data[1] | date:'short'}}. To continue please pay the bill on {{data[2]}} {{data[3]}}",
+        trialExpireToday: "{{data[0] | translate}} trial expire today. To continue please pay the bill on {{data[2]}} {{data[3]}}",
         trialTariffExpired: "Закончился пробный период по тарифу {{data[0] | translate}}",
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
