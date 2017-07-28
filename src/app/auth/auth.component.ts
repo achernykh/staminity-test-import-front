@@ -85,6 +85,7 @@ class AuthCtrl implements IComponentController {
 		this.AuthService.signIn({email: credentials.email, password: credentials.password})
 			.finally(()=>this.enabled = true)
 			.then((profile:IUserProfile) => {
+				debugger;
 				this.redirect('calendar', {uri: profile.public.uri});
 			}, error => this.message.systemError(error));
 	}
