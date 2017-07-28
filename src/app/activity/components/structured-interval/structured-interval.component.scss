@@ -2,6 +2,8 @@
 
 structured-interval {
 
+  position: relative;
+
   div.segment-point {
     width: 10px;
     height: 10px;
@@ -21,10 +23,11 @@ structured-interval {
 
   div.segment-number {
     margin-left: 6px;
+    width: 25px;
   }
 
   div.interval-data, div.interval-comment {
-    padding: 2px 16px;
+    padding: 2px 16px 2px 42px;
     &.key {
       background-color: $grey-200;
     }
@@ -51,6 +54,7 @@ structured-interval {
   md-menu button {
     margin: 0px !important;
     padding: 0px !important;
+    width: 32px !important;
   }
 
   md-menu button md-icon {

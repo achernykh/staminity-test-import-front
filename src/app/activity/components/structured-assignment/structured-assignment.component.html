@@ -1,3 +1,11 @@
+<div class="group">
+    <div class="action bg-grey-050">
+        <md-icon ng-if="false" class="material-icons" ng-click="">add_circle</md-icon>
+        <div ng-if="true" class="center md-body-2 md-dark"><span>4</span><span>X</span></div>
+        <input ng-if="false" type="number" step="1"/>
+    </div>
+</div>
 <structured-interval ng-repeat="interval in $ctrl.plan | orderBy:'pos' track by $index"
                      interval="interval" sport="$ctrl.item.activity.sportBasic"
                      on-change="$ctrl.change($index,interval)" on-delete="$ctrl.splice($index)"></structured-interval>
+<div class="group-count"></div>
