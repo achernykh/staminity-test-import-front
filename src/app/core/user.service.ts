@@ -1,12 +1,13 @@
 import {IUserProfile} from '../../../api/user/user.interface';
 import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
-import { GetRequest, PutRequest } from '../../../api/user/user.request';
+import {GetRequest, PutRequest, GetConnections} from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
 import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise,IHttpPromiseCallbackArg } from 'angular';
 import {ISystemMessage} from "../../../api/core";
 import {MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile} from "../../../api/group/group.interface";
+import {Observable} from "rxjs";
 
 
 export default class UserService {
@@ -14,6 +15,7 @@ export default class UserService {
     private _profile: IUserProfile;
     private _permissions: Array<Object>;
     private _displaySettings: Object;
+    private connections$: Observable<any>;
 
     static $inject = ['SessionService', 'SocketService','RESTService'];
 
@@ -22,10 +24,21 @@ export default class UserService {
         private SocketService:ISocketService,
         private RESTService:IRESTService) {
 
-        this.SocketService.messages
+        /**this.SocketService.messages
             .filter(m => m.type === 'groupMembership' || m.type === 'controlledClub')
             .map(m => this.updateProfile(new ProtocolGroupUpdate(m)));
 
+        this.connections$ = this.SocketService.connections
+            .filter(status => status)
+            .flatMap(() => Observable.fromPromise(this.getConnections()))
+            .share();
+
+        this.connections$.subscribe(connections => this.updateConnections(connections));**/
+    }
+
+    getConnections():Promise<any> {
+        return this.SocketService.send(new GetConnections())
+            .then(result => {debugger;return result;});
     }
 
     /**
@@ -186,6 +199,12 @@ export default class UserService {
         if(update){
             this.SessionService.setUser(this._profile);
         }
+    }
+
+    private updateConnections(connections: any):void {
+        let profile: IUserProfile = this.profile;
+        profile.connections = connections;
+        this.SessionService.setUser(profile);
     }
 
 }
