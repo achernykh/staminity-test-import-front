@@ -394,8 +394,8 @@ export const translateNotification = {
 
         // ------ Триал --------
         //     header (push): Пробный период
-        trialExpireInSomeDays: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. Для продления оплатите счет на {{data[2]}} {{data[3]}}",
-        trialExpireToday: "Пробный период по тарифу {{data[0] | translate}} закончится сегодня. Для продления оплатите счет на {{data[2]}} {{data[3]}}",
+        trialExpireInSomeDays: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}",
+        trialExpireToday: "Пробный период по тарифу {{data[0] | translate}} закончится сегодня",
         trialTariffExpired: "Закончился пробный период по тарифу {{data[0] | translate}}",
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
@@ -496,20 +496,21 @@ export const translateNotification = {
          data[0] - Название тарифа
          data[1] - paidTill date
          **/
-        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить использование, оплатите счет. Если счет отсутствует, включите автопродление",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить использование, оплатите счет. Если счет отсутствует, включите автопродление',
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}",
+        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня',
         expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
 
         /* ----------- Уведомления по счетам  --------**
          Отправитель: Стаминити
          header (push): Оплатите счет
-         data[0] - номер счета
-         data[1] - Сумма счета
-         data[2] - Валюта счета
+         data[0] - название тарифа
+         data[1] - номер счета
+         data[2] - Сумма счета
+         data[3] - Валюта счета
          **/
-        singleBBill: 'Выставлен счет #{{data[0]}} на {{data[1]}} {{data[2]}}. Просьба оплатить',
-        multipleBBill: 'Задолженность по неоплаченным счетам составляет {{data[1]}} {{data[2]}}. Просьба оплатить',
-        singleFBill: 'Для продолжения использования тарифа Премиум необходимо оплатить счет #{{data[0]}} на {{data[1]}} {{data[2]}}',
+        singleBBill: 'Выставлен счет #{{data[1]}} на {{data[2]}} {{data[3]}}. Просьба оплатить',
+        multipleBBill: 'Задолженность по неоплаченным счетам составляет {{data[2]}} {{data[3]}}. Просьба оплатить',
+        singleFBill: 'Для продолжения использования тарифа {{data[0] | translate}} оплатите счет #{{data[1]}} на {{data[2]}} {{data[3]}}',
 
 
 /* ----------Зоны и пороги --------**/
@@ -929,8 +930,8 @@ export const translateNotification = {
 
         // ------ Триал --------
         //     header (push): Trial period
-        trialExpireInSomeDays: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'short'}}. Please pay {{data[2]}} {{data[3]}} bill to continue using the tariff functions",
-        trialExpireToday: "Trial period for {{data[0] | translate}} tariff expires today. Please pay {{data[2]}} {{data[3]}} bill to continue using the tariff functions",
+        trialExpireInSomeDays: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'short'}}",
+        trialExpireToday: "Trial period for {{data[0] | translate}} tariff expires today",
         trialTariffExpired: "Trial period for {{data[0] | translate}} tariff was expired",
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
@@ -943,8 +944,8 @@ export const translateNotification = {
 
         // ------ Оплата счетов + нулевые счета
         //     header (push): Successful payment
-        billPayment_singleTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your {{data[0] | translate}} tariff functions will be able till {{data[1] | date:'short'}}",
-        billPayment_multiTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your tariffs functions will be able till {{data[1] | date:'short'}}",
+        billPayment_singleTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your {{data[0] | translate}} tariff functions are able till {{data[1] | date:'short'}}",
+        billPayment_multiTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your tariffs functions are able till {{data[1] | date:'short'}}",
 
         //     header (push): No additional cost
         billPayment_singleTariff_ZeroAmount: "Since last bill you have no additional cost for your tariff {{data[0] | translate}}. Keep using it till {{data[1] | date:'short'}} without any payment",
@@ -1031,20 +1032,21 @@ export const translateNotification = {
          data[1] - paidTill date
          data[2] - номер счета
          **/
-        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}. To continue using it please pay the bill. If bill doesn't exist, switch ON 'auto renewal'",
-        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today. To continue using it please pay the bill. If bill doesn't exist, switch ON 'auto renewal'",
+        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}",
+        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today",
         expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
 
         /* ----------- Уведомления по счетам  --------**
          Отправитель: Стаминити
          header (push): Payment required
-         data[0] - номер счета
-         data[1] - Сумма счета
-         data[2] - Валюта счета
+         data[0] - название тарифа
+         data[1] - номер счета
+         data[2] - Сумма счета
+         data[3] - Валюта счета
          **/
-        singleBBill: 'Please pay {{data[1]}} {{data[2]}} bill #{{data[0]}}. See details in Settings - Bills',
-        multipleBBill: 'You have unpaid bills on {{data[1]}} {{data[2]}}. Please make a payment',
-        singleFBill: 'To continue using Premium tariff please pay {{data[1]}} {{data[2]}} bill #{{data[0]}}',
+        singleBBill: 'Please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}. See details in Settings - Bills',
+        multipleBBill: 'You have unpaid bills on {{data[2]}} {{data[3]}}. Please make a payment',
+        singleFBill: 'To continue using {{data[0] | translate}} tariff please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}',
 
 
         /* ----------Зоны и пороги --------**/
