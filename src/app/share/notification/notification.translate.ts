@@ -496,8 +496,8 @@ export const translateNotification = {
          data[0] - Название тарифа
          data[1] - paidTill date
          **/
-        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня',
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Проверьте неоплаченные счета, а если их нет - подключите автопродление тарифа",
+        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Проверьте неоплаченные счета, а если их нет - подключите автопродление тарифа',
         expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
 
         /* ----------- Уведомления по счетам  --------**
@@ -1032,8 +1032,8 @@ export const translateNotification = {
          data[1] - paidTill date
          data[2] - номер счета
          **/
-        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}",
-        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today",
+        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}. To continue please check and pay unpaid bills",
+        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today. To continue please check and pay unpaid bills",
         expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
 
         /* ----------- Уведомления по счетам  --------**
