@@ -1044,7 +1044,7 @@ export const translateNotification = {
          **/
         singleBBill: 'Please pay {{data[1]}} {{data[2]}} bill #{{data[0]}}. See details in Settings - Bills',
         multipleBBill: 'You have unpaid bills on {{data[1]}} {{data[2]}}. Please make a payment',
-        singleFBill: 'To continue use Premium tariff please pay {{data[1]}} {{data[2]}} bill #{{data[0]}}',
+        singleFBill: 'To continue using Premium tariff please pay {{data[1]}} {{data[2]}} bill #{{data[0]}}',
 
 
         /* ----------Зоны и пороги --------**/
