@@ -495,10 +495,9 @@ export const translateNotification = {
          header (push): Сроки тарифов
          data[0] - Название тарифа
          data[1] - paidTill date
-         data[2] - номер счета
          **/
-        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить использование, оплатите счет #{{data[2]}}",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить использование, оплатите счет #{{data[2]}}',
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить использование, оплатите счет. Если счет отсутствует, включите автопродление",
+        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить использование, оплатите счет. Если счет отсутствует, включите автопродление',
         expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
 
         /* ----------- Уведомления по счетам  --------**
@@ -1032,8 +1031,8 @@ export const translateNotification = {
          data[1] - paidTill date
          data[2] - номер счета
          **/
-        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}. To continue using it please pay the bill #{{data[2]}}",
-        expireTariffPurchaseToday: 'Your tariff {{data[0] | translate}} expires today. To continue using it please pay the bill #{{data[2]}}',
+        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}. To continue using it please pay the bill. If bill doesn't exist, switch ON 'auto renewal'",
+        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today. To continue using it please pay the bill. If bill doesn't exist, switch ON 'auto renewal'",
         expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
 
         /* ----------- Уведомления по счетам  --------**
