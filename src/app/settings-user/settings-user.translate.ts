@@ -94,8 +94,176 @@ export const _translate = {
             email: 'Логин',
             password: 'Пароль'
         },
-        subscriptions: {
-            header: 'Подписки'
+        billing: {
+            tariffsHeader: 'Тарифные планы',
+            enableTariff: 'Подключить тариф',
+            disableTariff: 'Отключить тариф',
+            confirmEnable: 'Подключить',
+            confirmPay: 'Оплатить {{cost}} {{currency}}',
+            confirmTrial: 'Подключить бесплатно',
+            confirmDisable: 'Отключить',
+            confirmSave: 'Сохранить',
+            close: 'Закрыть',
+            cancel: 'Отмена',
+            open: 'Открыть',
+            monthly: 'Ежемесячно',
+            yearly: 'Ежегодно',
+            periodically: {
+                1: 'Ежемесячно',
+                12: 'Ежегодно'
+            },
+            term: {
+                1: 'месяц',
+                12: 'год'
+            },
+            dayly: 'день',
+            subscriptionFees: 'Абонентская плата',
+            fixedFee: 'Абонентская плата',
+            changeFee: 'Изменить условия действующего тарифа',
+            free: 'Бесплатно',
+            promo: 'Промо-код',
+            activePromo: 'Промо-код «{{promo}}» активирован с {{appliedFrom}}',
+            validPromo: 'Промо-код «{{promo}}» может быть активирован после сохранения',
+            rejectedPromo: "Промо-код не найден",
+            removePromo: 'Удалить',
+            submitPromo: 'Принять',
+            payment: 'Оплата',
+            card: 'Карта',
+            paypal: 'Paypal',
+            saving: 'На {{saving}}% выгоднее',
+            autoRenewal: 'Автоматическое продление',
+            autoRenewalShort: 'Автопродление',
+            isOn: 'включено',
+            isOff: 'выключено',
+            conditions: 'Условия подключения',
+            conditionsText: `
+Начисления по тарифу "{{tariff}}" будут объединены с начислениями по ранее подключенному тарифу.
+
+Ближайший счёт на оплату будет вам выставлен [{{validThrough}}]. 
+
+В разделе "Счета" вы можете контролировать общую сумму начислений по счетам.`,
+            trialConditionsText: `
+Подключение бесплатно. Во время пробного периода начисления по тарифу не производятся. 
+
+Период пробного использования до [{{validThrough}}].
+`,
+            tariffDisconnectionUnavailable: `
+Отключить тариф невозможно, к вам подключены {{counts}}.
+
+Отключите их, а затем отключите тариф.
+`,
+            tariffDisconnectNow: `
+Вы хотите отключить тариф?
+
+Доступ к фунции тарифного плана будет для вас прекращён.
+
+Нажимая кнопку "Отключить", вы соглашаетесь с тем, что:
+
+...`,
+            tariffDisconnectLater: `
+Вы хотите отключить тариф?
+
+Доступ к фунции тарифного плана будет прекращён для вас с [{{validThrough}}].
+
+Нажимая кнопку "Отключить", вы соглашаетесь с тем, что:
+
+...`,
+            counts: {
+                "Athletes": '{{count}} спортсменов',
+                "ClubAthletes": '{{count}} спортсменов',
+                "CoachByClub": "{{count}} тренеров",
+                "PremiumByCoach": "{{count}} спортсменов с Премиум-доступом",
+                "PremiumByClub": "{{count}} спортсменов с Премиум-доступом"
+            },
+            group: {
+                "Athletes": 'Оплата за спортсменов',
+                "ClubAthletes": 'Оплата за спортсменов',
+                "CoachByClub": "Оплата за тренеров",
+                "PremiumByCoach": "Подключение спортсменам тарифа «Премиум»",
+                "PremiumByClub": "Подключение спортсменам тарифа «Премиум»"
+            },
+            eachInGroup: {
+                "Athletes": 'За каждого спортсмена',
+                "ClubAthletes": 'За каждого спортсмена',
+                "CoachByClub": "За каждого тренера",
+                "PremiumByCoach": "За каждого спортсмена",
+                "PremiumByClub": "За каждого спортсмена"
+            },
+            eachInGroupBelow: '{{below}}',
+            eachInGroupBetween: 'От {{from}} до {{to}}, за каждого',
+            eachInGroupAbove: 'Начиная с {{above}}',
+            tariff: 'Тарифный план',
+            tariffs: {
+                "Coach": "Тренер",
+                "Premium": "Премиум",
+                "Club": "Клуб"
+            },
+            status: "Статус",
+            tariffStatuses: {
+                enabled: "Подключен до {{until}}",
+                enabledByCoach: "Подключен за счет тренера {{coach}}",
+                enabledByClub: "Подключен за счет клуба {{club}}",
+                notEnabled: "Отключен",
+                isPaid: "Оплачен до {{until}}",
+                trial: "Пробный период до {{until}}",
+                isBlocked: "Функции заблокированы, необходима оплата счета"
+            },
+            tariffStatusesIsEnabled: {
+                enabled: "Подключен",
+                enabledByClub: "Подключен",
+                enabledByCoach: "Подключен",
+                notEnabled: "Отключен",
+                isPaid: "Оплачен",
+                trial: "Пробный период",
+                isBlocked: "Ожидает оплаты"
+            },
+            tariffStatusesEnablers: {
+                enabled: "За свой счёт",
+                enabledByCoach: "За счет тренера {{coach}}",
+                enabledByClub: "За счет клуба {{club}}",
+                notEnabled: "За свой счёт",
+                isPaid: "За свой счёт",
+                trial: "За свой счёт",
+                isBlocked: "За свой счёт"
+            },
+            subscriptionDate: "Дата подключения",
+            subscriptionEnds: "Срок действия",
+            subscriptionConditions: "Условия действия тарифа",
+            promoDiscount: 'Скидка по промо-коду',
+            volumeDiscount: 'Объёмная скидка',
+            connections: 'Подключено',
+            bill: "Счёт",
+            payTheBill: "Оплатить {{amount}}",
+            billIsPaid: "Оплачен {{date}}",
+            billEntry: 'Позиция счёта',
+            amount: 'Сумма',
+            date: 'Дата',
+            count: 'База начисления',
+            billTotal: 'Итого по счёту',
+            total: 'Итого',
+            billsList: 'Реестр счетов',
+            invoices: 'Счета на оплату',
+            invoiceAmount: 'Счет на сумму',
+            period: 'Период',
+            billStatuses: {
+                new: 'Формируется',
+                ready: 'Ожидает оплаты',
+                complete: 'Оплачен'
+            },
+            invoiceStatuses: {
+                new: 'Формируется',
+                ready: 'Оплатить',
+                complete: 'Оплачен'
+            },
+            billDatesTitle: 'Сроки',
+            billDates: {
+                start: 'Начало периода',
+                end: 'Окончание периода',
+                bill: 'Дата счёта',
+                payment: 'Дата оплаты'
+            },
+            feeDetails: 'Детали начисления',
+            autoPayment: 'Оплачивать автоматически'
         },
         sync: {
             header: 'Настройка интеграции',

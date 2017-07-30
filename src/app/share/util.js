@@ -1,6 +1,7 @@
 export const id = _ => _
 export const pipe = (...fs) => (x) => fs.reduce((x, f) => f(x), x)
-export const times = (n) => Array.from(new Array(n)).map((_, i) => i)
+export const argument = (n) => (...args) => args[n]
+export const times = (n, f = argument(1)) => Array.from(new Array(n)).map(f)
 export const range = (x0, x1, n) => times(n + 1).map((_, i) => x0 + (x1 - x0) * i / n)
 export const last = (xs) => xs[xs.length - 1]
 export const fold = (f, x0) => (xs) => xs.reduce(f, x0)
@@ -8,6 +9,7 @@ export const map = (f = id) => (xs) => xs.map(f)
 export const filter = (f = id) => (xs) => xs.filter(f)
 export const flatMap = (f) => fold((r, x, i) => r.concat(f(x, i)), []) 
 export const unique = (xs) => [...new Set(xs)]
+export const uniqueBy = (f = id) => (xs) => [...new Map(xs.map(x => [f(x), x])).values()];
 
 export const groupBy = (f = id) => (xs) => xs.reduce((a, x) => {  
     let key = f(x)
@@ -34,12 +36,13 @@ export const keys = (obj) => Object.keys(obj)
 export const values = (obj) => keys(obj).map(key => obj[key])
 export const entries = (obj) => keys(obj).map(key => [key, obj[key]])
 export const object = (props) => props.reduce((o, [key, value]) => (o[key] = value, o), {})
+export const prop = (key) => (obj) => obj[key]
 
 export const maybe = (x) => (f) => f? maybe(x? f(x) : x) : x
 
 export const memorize = (f) => {
     let memo = {}
-    return (arg) => arg in memo? (memo[arg] = f(arg)) : memo[arg]
+    return (arg) => arg in memo? memo[arg] : (memo[arg] = f(arg))
 }
 
 export const log = (msg) => (x) => {

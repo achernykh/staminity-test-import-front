@@ -1,94 +1,91 @@
-<md-card ng-if="$ctrl.isDataEnabled">
-    <div layout="column" layout-align="center begin" class="">
-        <div class="md-caption">Личная статистика</div>
+<div layout="column" layout-align="center begin" class="">
+    <div class="md-caption">{{ summaryStatistics.title }}</div>
 
-        <div layout="row">
-            <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period + 1)" style="margin: auto -8px;">
-                <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_left</md-icon>
+    <div layout="row">
+        <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period + 1)" style="margin: auto -8px;">
+            <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_left</md-icon>
+        </md-button>
+        <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period - 1)" style="margin: auto -8px;">
+            <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_right</md-icon>
+        </md-button>
+        <md-menu>
+            <md-button ng-click="$mdOpenMenu($event)" style="font-size: 13px;">
+                {{ $ctrl.range.periodLabel($ctrl.period) }} ▾
             </md-button>
-            <md-button class="paging md-icon-button" ng-click="$ctrl.selectPeriod($ctrl.period - 1)" style="margin: auto -8px;">
-                <md-icon class="material-icons" style="color: rgba(255, 255, 255, 0.7);">chevron_right</md-icon>
+            <md-menu-content>
+                <md-menu-item ng-repeat="period in [$ctrl.period+2, $ctrl.period+1, $ctrl.period, $ctrl.period-1, $ctrl.period-2]">
+                    <md-button ng-click="$ctrl.selectPeriod(period)">
+                        {{ $ctrl.range.periodLabel(period) }}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-menu flex layout-align="center" style="text-align:center;">
+            <md-button style="font-size: 15px; color: white" ng-click="$mdOpenMenu($event)">
+                {{ 'summaryStatistics.ranges.' + $ctrl.range.key | translate }} ▾
             </md-button>
-            <md-menu>
-                <md-button ng-click="$mdOpenMenu($event)" style="font-size: 13px;">
-                    {{ $ctrl.range.periodName($ctrl.period) }} ▾
-                </md-button>
-                <md-menu-content>
-                    <md-menu-item ng-repeat="period in [$ctrl.period+2, $ctrl.period+1, $ctrl.period, $ctrl.period-1, $ctrl.period-2]">
-                        <md-button ng-click="$ctrl.selectPeriod(period)">
-                            {{ $ctrl.range.periodName(period) }}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu flex layout-align="center" style="text-align:center;">
-                <md-button style="font-size: 15px; color: white" ng-click="$mdOpenMenu($event)">
-                    {{ $ctrl.range.name }} ▾
-                </md-button>
-                <md-menu-content>
-                    <md-menu-item ng-repeat="range in $ctrl.ranges">
-                        <md-button ng-click="$ctrl.selectRange(range)">
-                            {{ range.name }}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu>
-                <md-button style="font-size: 13px;" ng-click="$mdOpenMenu($event)">
-                    {{ $ctrl.valueType.name }} ▾
-                </md-button>
-                <md-menu-content>
-                    <md-menu-item ng-repeat="valueType in $ctrl.valueTypes">
-                        <md-button  ng-click="$ctrl.selectValueType(valueType)">
-                            {{ valueType.name }}
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-        </div>
-
-        <div class="chart">
-            <svg ng-attr-width="{{$ctrl.chart.width + 20}}" ng-attr-height="{{$ctrl.chart.height + 25}}">
-                <g ng-repeat="bar in $ctrl.chart.bars" ng-attr-transform="translate({{$ctrl.chart.x($index)}} 0)">
-                    <rect ng-attr-x="{{-$ctrl.chart.barWidth/2}}" ng-attr-width="{{$ctrl.chart.barWidth}}" ng-attr-y="{{$ctrl.chart.height - bar.height}}" ng-attr-height="{{bar.height}}"/>
-                    <line x1="0" x2="0" y1="150" y2="155"/>
-                    <text x="0" ng-attr-y="{{$ctrl.chart.height + 20}}">{{bar.label}}</text>
-                </g>
-                <g ng-repeat="line in $ctrl.chart.lines" ng-attr-transform="translate(0 {{line.y}})">
-                    <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" y1="0" y2="0"/>
-                    <text ng-attr-x="{{$ctrl.chart.width + 15}}">{{$ctrl.getLabel(line.label)}}</text>
-                </g>
-                <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" ng-attr-y1="{{$ctrl.chart.height}}" ng-attr-y2="{{$ctrl.chart.height}}"/>
-
-                <linearGradient id="chart-bars" x1="0" x2="0" y1="0" ng-attr-y2="{{$ctrl.chart.height}}" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#37474f"/>
-                    <stop offset="100%" stop-color="#607d8b"/>
-                </linearGradient>
-            </svg>
-        </div>
-
-        <table>
-            <tr>
-                <th style="width: 10%"></th>
-                <th style="width: 30%">Расстояние (км)</th>
-                <th style="width: 30%">Время (ч)</th>
-                <th style="width: 30%">Количество</th>
-            </tr>
-            <tr ng-repeat="row in $ctrl.chart.tableRows">
-                <td>
-                    <md-icon md-svg-src="assets/icon/{{row.sport}}.svg" class="md-light md-unfocused"></md-icon>
-                </td>
-                <td>{{ row.dist | measureCalc:'default':'distance'}}</td>
-                <td>{{ row.hrs}}</td>
-                <td>{{ row.count }}</td>
-            </tr>
-            <tr class="row-total">
-                <td><md-icon class="material-icons md-light md-unfocused">{{ $ctrl.chart.tableTotal.icon }}</md-icon></td>
-                <td>{{ $ctrl.chart.tableTotal.dist | measureCalc:'default':'distance'}}</td>
-                <td>{{ $ctrl.chart.tableTotal.hrs }}</td>
-                <td>{{ $ctrl.chart.tableTotal.count }}</td>
-            </tr>
-        </table>
+            <md-menu-content>
+                <md-menu-item ng-repeat="range in $ctrl.ranges">
+                    <md-button ng-click="$ctrl.selectRange(range)">
+                        {{ 'summaryStatistics.ranges.' + range.key | translate }}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-menu>
+            <md-button style="font-size: 13px;" ng-click="$mdOpenMenu($event)">
+                {{ 'summaryStatistics.chartValues.' + $ctrl.valueType.key | translate }} ▾
+            </md-button>
+            <md-menu-content>
+                <md-menu-item ng-repeat="valueType in $ctrl.valueTypes">
+                    <md-button  ng-click="$ctrl.selectValueType(valueType)">
+                        {{ 'summaryStatistics.chartValues.' + valueType.key | translate }}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
     </div>
 
-</md-card>
+    <div class="chart">
+        <svg ng-if="$ctrl.chart" ng-attr-width="{{$ctrl.chart.width + 20}}" ng-attr-height="{{$ctrl.chart.height + 25}}">
+            <g ng-repeat="bar in $ctrl.chart.data track by $index" ng-attr-transform="translate({{$ctrl.chart.x($index)}} {{$ctrl.chart.height}})">
+                <rect ng-attr-x="-10" ng-attr-width="20" y="0" ng-attr-height="{{$ctrl.chart.y(bar.value) || 0}}" transform="scale(1 -1)"/>
+                <line x1="0" x2="0" y1="0" y2="5"/>
+                <text x="0" y="20">{{ bar.label }}</text>
+            </g>
+            <g ng-repeat="level in $ctrl.chart.levels track by $index" ng-attr-transform="translate(0 {{$ctrl.chart.height - $ctrl.chart.y(level) || 0}})">
+                <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" y1="0" y2="0"/>
+                <text ng-attr-x="{{$ctrl.chart.width + 15}}">{{ level | number:1 }}</text>
+            </g>
+            <line x1="0" ng-attr-x2="{{$ctrl.chart.width}}" ng-attr-y1="{{$ctrl.chart.height}}" ng-attr-y2="{{$ctrl.chart.height}}"/>
+
+            <linearGradient id="chart-bars" x1="0" x2="0" y1="0" ng-attr-y2="{{$ctrl.chart.height}}" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#607d8b"/>
+                <stop offset="100%" stop-color="#37474f"/>
+            </linearGradient>
+        </svg>
+    </div>
+
+    <table>
+        <tr>
+            <th style="width: 10%"></th>
+            <th style="width: 30%">{{ 'summaryStatistics.tableValues.distance' | translate }}</th>
+            <th style="width: 30%">{{ 'summaryStatistics.tableValues.time' | translate }}</th>
+            <th style="width: 30%">{{ 'summaryStatistics.tableValues.count' | translate }}</th>
+        </tr>
+        <tr ng-repeat="row in $ctrl.tableRows">
+            <td>
+                <md-icon md-svg-src="assets/icon/{{row.sport}}.svg" class="md-light md-unfocused"></md-icon>
+            </td>
+            <td>{{ row.distance | measureCalc:'default':'distance'}}</td>
+            <td>{{ row.time | number:1 }}</td>
+            <td>{{ row.count | number:1 }}</td>
+        </tr>
+        <tr class="row-total">
+            <td><md-icon class="material-icons md-light md-unfocused">functions</md-icon></td>
+            <td>{{ $ctrl.tableTotal.distance | measureCalc:'default':'distance'}}</td>
+            <td>{{ $ctrl.tableTotal.time | number:1 }}</td>
+            <td>{{ $ctrl.tableTotal.count }}</td>
+        </tr>
+    </table>
+</div>

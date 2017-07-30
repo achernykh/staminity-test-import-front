@@ -82,7 +82,7 @@ export default class NotificationService {
      * @returns {Promise<any>}
      */
     put(id: number, readUntil: string, isRead: boolean):Promise<any>{
-        return this.socket.send(new PutNotification(id,readUntil,isRead));
+        return this.socket.send(new PutNotification(id, readUntil, isRead));
     }
 
     /**
