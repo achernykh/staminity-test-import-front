@@ -84,7 +84,7 @@ templates {
 	&__create {
 		position: absolute;
 		top: 65px;
-		right: calc(50% - 630px);
+		right: calc(25% - 310px);
 		text-align: center;
 	
 		@media (max-width: $maxMobileWidth) {
