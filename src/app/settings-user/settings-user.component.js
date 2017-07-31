@@ -8,6 +8,9 @@ import {
 
 import './settings-user.component.scss';
 
+import { parseYYYYMMDD } from '../share/share.module';
+
+
 class SettingsUserModel {
     // deep copy test and initial data
     constructor (user) {
@@ -28,7 +31,7 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message) {
+    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia) {
         console.log('SettingsCtrl constructor=', this)
         this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
@@ -48,6 +51,11 @@ class SettingsUserCtrl {
         this.SyncAdaptorService = SyncAdaptorService;
         this.dialogs = dialogs;
         this.message = message;
+        this.BillingService = BillingService;
+        this.$translate = $translate;
+        this.$mdMedia = $mdMedia;
+        this.boundReload = () => { this.reload(); };
+
         this.adaptors = [];
 
         //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
@@ -56,11 +64,14 @@ class SettingsUserCtrl {
         //this._athlete$ = AthleteSelectorService._athlete$
         //	.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
         // Смена атлета тренера в основном окне приложения, необходмо перезагрузить все данные
+
+        console.log('SettingsUserCtrl', SettingsUserCtrl);
     }
 
     $onInit() {
         // deep copy & some transormation
         this.user = new SettingsUserModel(this.user);
+        console.log('this.user', this.user);
         /**
          *
          * @type {any|Array|U[]}
@@ -82,6 +93,17 @@ class SettingsUserCtrl {
         this.prepareZones();
 
         moment.locale('ru');
+    }
+
+    reload () {
+        this._UserService.getProfile(this.user.public.uri)
+        .then((user) => {
+            this.user =  new SettingsUserModel(user);
+            this.$scope.$apply();
+        }, (info) => {
+            this.message.systemWarning(info);
+            throw info;
+        });
     }
 
     prepareZones() {
@@ -451,7 +473,77 @@ class SettingsUserCtrl {
         //}
     }
 
-    uploadAvatar() {
+    tariffStatus (tariff) {
+        return this.BillingService.tariffStatus(tariff);
+    }
+
+    tariffIsEnabled (tariff) {
+        return (isOn) => {
+            if (typeof isOn === 'undefined') {
+                return tariff.isOn;
+            }
+
+            return tariff.isOn? this.disableTariff(tariff) : this.enableTariff(tariff);
+        }
+    }
+
+    enableTariff (tariff) {
+        return this.dialogs.enableTariff(tariff, this.user)
+            .then(this.boundReload, this.boundReload);
+    }
+
+    disableTariff (tariff) {
+        return this.dialogs.disableTariff(tariff, this.user)
+            .then(this.boundReload, this.boundReload);
+    }
+
+    viewTariff (tariff) {
+        return this.dialogs.tariffDetails(tariff, this.user)
+            .then(this.boundReload, this.boundReload);
+    }
+
+    invoiceStatus (bill) {
+        return this.BillingService.billStatus(bill);
+    }
+
+    hasPaidBill () {
+        return this.user.billing.bills.find((bill) => bill.receiptDate);
+    }
+
+    billsList () {
+        return this.dialogs.billsList(this.user)
+            .then(this.boundReload, this.boundReload);
+    }
+
+    viewBill (bill) {
+        return this.dialogs.billDetails(bill, this.user)
+            .then(this.boundReload, this.boundReload);
+    }
+
+    autoPayment (isOn) {
+        if (typeof isOn === 'undefined') {
+            return this.user.billing.autoPayment;
+        }
+
+        let profile = {
+            userId: this.user.userId,
+            revision: this.user.revision,
+            billing: {
+                autoPayment: isOn
+            }
+        };
+
+        this._UserService.putProfile(profile)
+        .then((success) => {
+            this.message.toastInfo('settingsSaveComplete');
+            this.user.revision = success.value.revision;
+            this.user.billing.autoPayment = isOn;
+        }, (error) => {
+            this.message.toastError(error)
+        });
+    }
+
+    uploadAvatar () {
         this.dialogs.uploadPicture()
             .then(picture => this._UserService.postProfileAvatar(picture))
             .then(user => this.setUser(user))
@@ -459,7 +551,7 @@ class SettingsUserCtrl {
             //.then(user => this.)
     }
 
-    uploadBackground() {
+    uploadBackground () {
         this.dialogs.uploadPicture()
             .then((picture) => this._UserService.postProfileBackground(picture))
             .then(user => this.setUser(user))
@@ -467,7 +559,6 @@ class SettingsUserCtrl {
     }
 
 	toggleActivity (activity) {
-
         this.personalSecondForm.$setDirty();
 		if (this.isActivityChecked(activity)) {
 			let index = this.user.personal.activity.indexOf(activity);
@@ -481,8 +572,10 @@ class SettingsUserCtrl {
 		return this.user.personal.activity.includes(activity)
 	}
 };
+
 SettingsUserCtrl.$inject = ['$scope','UserService','AuthService','$http',
-    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message'];
+    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message', 'BillingService', '$translate', '$mdMedia'];
+
 
 function DialogController($scope, $mdDialog) {
 
@@ -502,6 +595,7 @@ function DialogController($scope, $mdDialog) {
 }
 
 DialogController.$inject = ['$scope', '$mdDialog'];
+
 
 let SettingsUser = {
     bindings: {

@@ -1,17 +1,21 @@
-<md-dialog>
+<md-dialog class="users-list-dialog">
     <md-dialog-content>
+
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 >{{'dialogs.' + title | translate}} ({{users.length}})</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="close()">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
         
         <md-list>
-
-            <md-list-item layout="row" layout-align="center center">
-                <span class="md-title">{{'dialogs.' + title | translate}} ({{users.groupMembers.length}})</span>
-            </md-list-item>
-
-            <md-list-item ng-repeat="user in users.groupMembers" ng-click="go(user)" layout="row" layout-align="center center">
+            <md-list-item ng-repeat="user in users" ng-click="go(user)" layout="row" layout-align="center center">
                 <userpic profile="user" is-premium="user.isPremium"></userpic>
-                {{user | username}}  
+                {{user | userName}}  
             </md-list-item>
-            
         </md-list>
         
     </md-dialog-content>

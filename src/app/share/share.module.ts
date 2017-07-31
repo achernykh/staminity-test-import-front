@@ -1,7 +1,7 @@
 import './components.scss';
 import './notification/notification.scss';
 import { module, isObject } from 'angular';
-import moment from 'moment/src/moment.js';
+import moment from 'moment/min/moment-with-locales.js';
 import  { ageGroup } from '../../../api/user/user.interface';
 import  { requestType } from '../../../api/group/group.interface';
 import * as _connection from '../core/env.js';
@@ -37,7 +37,7 @@ import {translateNotification} from "./notification/notification.translate";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
 import {InitiatorType} from "../../../api/notification/notification.interface";
-import { memorize } from "./util.js";
+import { memorize, maybe, prop } from "./util.js";
 import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
 import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
@@ -45,16 +45,27 @@ import {_translate_PageNotFound} from "./404/404.translate";
 import {translateHeader} from "./header/header.translate";
 import {compareTo} from "./directives/form.directive";
 
-const parseUtc = memorize(date => moment.utc(date));
-const fromNow = () => (date) => moment.utc(date).fromNow(true);
-//const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
-const image = () => (sub:string, url:string = 'default.jpg'):string => {
+
+export const parseUtc = memorize(date => moment.utc(date));
+
+export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
+
+export const fromNow = () => (date) => moment.utc(date).fromNow(true);
+
+
+const image = () => (sub: string, url:string = 'default.jpg') : string => {
     return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
 };
 
 const userBackground = () => (url:string) => url && url !== 'default.jpg' ? _connection.content + '/content/user/background/' + url : '/assets/picture/default_background.jpg';
+
 const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty('avatar') && user.public.avatar !== 'default.jpg' ? image() ('/user/avatar/',user.public.avatar) : '/assets/picture/default_avatar.png'})`;
-const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
+
+const userName = () => (user, options) => maybe(user) (prop('public')) (
+    options === 'short'? prop('firstName') : ({ firstName, lastName }) => `${firstName} ${lastName}`
+) ();
+
+const clubName = () => (club) => maybe(club) (prop('public')) (prop('name')) ();
 
 const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):string => {
     let url: string = '/assets/picture/default_avatar.png';
@@ -144,7 +155,9 @@ const Share = module('staminity.share', [])
     .filter('avatarUrl', avatarUrl)
     .filter('image', image)
     .filter('userBackground', userBackground)
-    .filter('username', username)
+    .filter('username', userName)
+    .filter('userName', userName)
+    .filter('clubName', clubName)
     .filter('ageGroup', () => ageGroup)
     .filter('requestType', () => requestType)
     .filter('measureCalc', () => measureValue)

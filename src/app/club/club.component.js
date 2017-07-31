@@ -59,15 +59,15 @@ class ClubCtrl {
     }
 
     showMembers () {
-        this.dialogs.usersList(this.club, 'members')
+        this.dialogs.usersList(this.club.groupMembers, 'members')
     }
 
     showCoaches () {
-        this.dialogs.usersList(this.club.innerGroups.ClubCoaches, 'coaches')
+        this.dialogs.usersList(this.club.innerGroups.ClubCoaches.groupMembers, 'coaches')
     }
 
     showAthletes () {
-        this.dialogs.usersList(this.club.innerGroups.ClubAthletes, 'athletes')
+        this.dialogs.usersList(this.club.innerGroups.ClubAthletes.groupMembers, 'athletes')
     }
     
     openMenu ($mdOpenMenu, event) {
