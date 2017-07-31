@@ -479,6 +479,13 @@ export const translateNotification = {
         recurring_Failure_singleTariff: 'Оплату по тарифу {{data[0] | translate}} по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
         recurring_Failure_multiTariff: 'Оплату по вашим тарифам по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
 
+        /* ----------- Создание окружения клуба при подключении тарифа--------**
+         Отправитель: Стаминити
+         header (push): Клуб создан
+         data[0] - Название клуба
+          **/
+        clubEnvCreate: 'Для вас создан клуб {{data[0]}}. Клубный раздел появится в левом меню после выхода и входа в приложение',
+
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
          header (push): Удаление клуба     **/
@@ -1013,6 +1020,13 @@ export const translateNotification = {
          **/
         recurring_Failure_singleTariff: 'We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using the tariff {{data[0] | translate}} please check and pay unpaid bills',
         recurring_Failure_multiTariff: 'We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using your tariffs please check and pay unpaid bills',
+
+        /* ----------- Создание окружения клуба при подключении тарифа--------**
+         Отправитель: Стаминити
+         header (push): Клуб создан
+         data[0] - Название клуба
+         **/
+        clubEnvCreate: 'Club {{data[0]}} created. Please log out and sign in to get an access to club functions',
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
