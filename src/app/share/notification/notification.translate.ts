@@ -503,8 +503,8 @@ export const translateNotification = {
          data[0] - Название тарифа
          data[1] - paidTill date
          **/
-        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Для продления оплатите счет, а если нет неоплаченных счетов - подключите автопродление тарифа",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Для продления оплатите счет, а если нет неоплаченных счетов - подключите автопродление тарифа',
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить, оплатите счет. Включите автопродление, если нет счетов",
+        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить, оплатите счет. Включите автопродление, если нет счетов',
         expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
 
         /* ----------- Уведомления по счетам  --------**
@@ -1046,8 +1046,8 @@ export const translateNotification = {
          data[1] - paidTill date
          data[2] - номер счета
          **/
-        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}. To continue please pay unpaid bills and switch ON auto renewal for tariff",
-        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today. To continue please pay unpaid bills and switch ON auto renewal for tariff",
+        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}. To continue please pay unpaid bills and switch ON tariff auto renewal",
+        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today. To continue please pay unpaid bills and switch ON tariff auto renewal",
         expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
 
         /* ----------- Уведомления по счетам  --------**
