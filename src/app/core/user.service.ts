@@ -1,6 +1,6 @@
 import {IUserProfile} from '../../../api/user/user.interface';
 import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
-import {GetRequest, PutRequest, GetConnections} from '../../../api/user/user.request';
+import {GetRequest, PutRequest} from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
 import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
@@ -36,10 +36,10 @@ export default class UserService {
         this.connections$.subscribe(connections => this.updateConnections(connections));**/
     }
 
-    getConnections():Promise<any> {
+    /**getConnections():Promise<any> {
         return this.SocketService.send(new GetConnections())
             .then(result => {debugger;return result;});
-    }
+    }**/
 
     /**
      * Запрашиваем UserProfile на сервере
