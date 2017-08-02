@@ -1,10 +1,10 @@
-var build = '157';
+var build = '164';
 var version = '0.5.2-beta';
 var protocol = {
   ws: 'wss://',
   rest: 'https://'
 };
-var server = 'app.staminity.com';
+var server = 'testapp.staminity.com:8080';
 var content = 'https://app.staminity.com';
 var frontend = 'https://dev2.staminity.com/';
 

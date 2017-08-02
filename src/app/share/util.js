@@ -39,7 +39,6 @@ export const values = (obj) => keys(obj).map(key => obj[key])
 export const entries = (obj) => keys(obj).map(key => [key, obj[key]])
 export const object = (props) => props.reduce((o, [key, value]) => (o[key] = value, o), {})
 export const prop = (key) => (obj) => obj[key]
-export const prop = (key) => (obj) => obj[key]
 export const pick = (keys) => (obj) => keys.map((key) => obj[key]);
 
 export const maybe = (x) => (f) => f? maybe(x? f(x) : x) : x
