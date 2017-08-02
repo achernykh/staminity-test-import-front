@@ -484,7 +484,7 @@ export const translateNotification = {
          header (push): Клуб создан
          data[0] - Название клуба
           **/
-        clubEnvCreate: 'Для вас создан клуб {{data[0]}}. Клубный раздел появится в левом меню после выхода и входа в приложение',
+        clubEnvCreate: 'Для вас создан клуб {{data[0]}}. Клубный раздел доступен в левом меню',
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
@@ -1026,7 +1026,7 @@ export const translateNotification = {
          header (push): Клуб создан
          data[0] - Название клуба
          **/
-        clubEnvCreate: 'Club {{data[0]}} created. Please log out and sign in to get an access to club functions',
+        clubEnvCreate: 'Club {{data[0]}} created, find in in left menu',
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
