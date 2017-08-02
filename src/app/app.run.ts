@@ -39,7 +39,6 @@ function run(
 	
 	$state.defaultErrorHandler((error) => {
 		message.systemWarning(error.detail);
-		$state.go('signin'); 
 	});
 }
 
