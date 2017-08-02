@@ -171,7 +171,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post' || this.mode === 'view') {
             if (this.template) {
-                this.activity.categoriesList = this.ReferenceService.categories;
+                this.activity.setCategoriesList(this.ReferenceService.categories, this.user);
 
                 this.ReferenceService.categoriesChanges
                 .takeUntil(this.destroy)
@@ -200,6 +200,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (this.template && this.data && this.data.userProfileCreator) {
             this.forAthletes = [{ profile: this.data.userProfileCreator, active: true }];
         }
+
+        console.log('CalendarItemAct', this);
     }
     
     $onDestroy () {
