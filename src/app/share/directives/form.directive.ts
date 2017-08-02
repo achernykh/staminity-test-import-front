@@ -4,14 +4,13 @@ export const compareTo = () => {
         scope: {
             otherModelValue: "=compareTo"
         },
-        link: function(scope, element, attributes, ngModel) {
+        link: (scope, element, attributes, ngModel) => {
 
-            ngModel.$validators.compareTo = function(modelValue) {
-                debugger;
+            ngModel.$validators.compareTo = (modelValue) => {
                 return modelValue === scope.otherModelValue;
             };
 
-            scope.$watch("otherModelValue", function() {
+            scope.$watch("otherModelValue", () => {
                 ngModel.$validate();
             });
         }

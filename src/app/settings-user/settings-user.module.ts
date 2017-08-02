@@ -5,6 +5,7 @@ import SyncAdaptorService from './sync-adaptor.service';
 import configure from './settings-user.config';
 import SettingsZonesComponent from "./settings-zones/settings-zones.component";
 import SettingsZonesEditComponent from "./settings-zones-edit/settings-zones-edit.component";
+import SettingsNotificationComponent from "./settings-notification/settings-notification.component";
 
 const SettingsUser = module('staminity.settings-user', [satellizer])
     .service('SyncAdaptorService', SyncAdaptorService)
@@ -12,6 +13,7 @@ const SettingsUser = module('staminity.settings-user', [satellizer])
     .component('settingsUser', SettingsUserComponent)
     .component('settingsZones', SettingsZonesComponent)
     .component('settingsZonesEdit', SettingsZonesEditComponent)
+    .component('settingsNotification', SettingsNotificationComponent)
     .config(configure)
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал

@@ -5,6 +5,9 @@ import {GetNotification, PutNotification} from "../../../../api/notification/not
 import {Observable,BehaviorSubject,Subject} from "rxjs/Rx";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
+import {memorize} from "../util.js";
+
+const parseDate = memorize(moment);
 
 export interface INotificationSettings {
     newestOnTop: boolean;
@@ -17,9 +20,7 @@ export interface INotificationSettings {
 
 export default class NotificationService {
     timeouts: Array<number> = [];
-    list: Array<Notification> = [];
     notification$: Observable<any>;
-    list$: Observable<Array<Notification>>;
     openChat: ChatSession;
     private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
 
@@ -52,16 +53,6 @@ export default class NotificationService {
                 return n;
             })
             .share();
-
-        this.list$ = this.socket.connections
-            .filter(status => status)
-            .flatMap(() => Observable.fromPromise(this.get(100,0)))
-            .switchMap(list => {
-                return this.notification$.scan( this.process.bind(this), list).startWith(list);
-            })
-            .share();
-
-        this.list$.subscribe(list => { this.list = list; });
     }
 
     /**
@@ -104,9 +95,9 @@ export default class NotificationService {
         } else {
             list.push(notification);
         }
-
+            
         return list
-            .sort((a, b) => moment(a.ts) >= moment(b.ts) ? 1 : -1)
+            .sort((a, b) => parseDate(a.ts) >= parseDate(b.ts) ? 1 : -1)
             .reverse();
     };
 

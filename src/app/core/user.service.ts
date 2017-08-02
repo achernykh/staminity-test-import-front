@@ -16,6 +16,7 @@ export default class UserService {
     private _permissions: Array<Object>;
     private _displaySettings: Object;
     private connections$: Observable<any>;
+    private message$: Observable<any>;
 
     static $inject = ['SessionService', 'SocketService','RESTService'];
 
@@ -24,21 +25,42 @@ export default class UserService {
         private SocketService:ISocketService,
         private RESTService:IRESTService) {
 
-        /**this.SocketService.messages
-            .filter(m => m.type === 'groupMembership' || m.type === 'controlledClub')
-            .map(m => this.updateProfile(new ProtocolGroupUpdate(m)));
+        // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
+        this.message$ = this.SocketService.messages
+            .filter(m => m.type === 'systemFunctions' || m.type === 'groupMembership' || m.type === 'controlledClub')
+            .share();
+
+        this.message$.subscribe(m => {
+            switch (m.type) {
+                case 'systemFunctions':{
+                    this.updatePermissions(m.value);
+                    break;
+                }
+                case 'groupMembership': {
+                    this.updateGroup(new ProtocolGroupUpdate(m));
+                    break;
+                }
+                case 'controlledClub': {
+                    this.updateClubs(new ProtocolGroupUpdate(m));
+                    break;
+                }
+            }
+        });
 
         this.connections$ = this.SocketService.connections
             .filter(status => status)
             .flatMap(() => Observable.fromPromise(this.getConnections()))
             .share();
 
-        this.connections$.subscribe(connections => this.updateConnections(connections));**/
+        this.connections$.subscribe(connections => this.updateConnections(connections));
     }
 
+    /**
+     *
+     * @returns {Promise<TResult>}
+     */
     getConnections():Promise<any> {
-        return this.SocketService.send(new GetConnections())
-            .then(result => {debugger;return result;});
+        return this.SocketService.send(new GetConnections()).then(result => result);
     }
 
     /**
@@ -165,22 +187,21 @@ export default class UserService {
      */
     private updateProfile(message: ProtocolGroupUpdate):void{
         let update: boolean = false;
-
+        debugger;
         switch (message.type) {
             case 'groupMembership':{
-                let group:IGroupProfile;
-                Object.keys(this._profile.connections)
-                    .forEach(g => {
-                        if (this._profile.connections[g].hasOwnProperty('groupId') &&
-                            this._profile.connections[g].groupId === message.groupProfile.groupId){
-                            group = this._profile.connections[g];
-                        }
-                    });
+                let group:IGroupProfile = this._profile.connections[message.groupCode] || null;
+                if(!group) {
+                    return;
+                }
                 if(message.action === 'I' && group.hasOwnProperty('groupMembers')){
                     group.groupMembers.push(message.userProfile);
                     update = true;
                 } else if(message.action === 'D'){
-
+                    let index: number = group.groupMembers.findIndex(m => m.userId === message.userProfile.userId);
+                    if(index !== -1){
+                        group.groupMembers.slice(index,1);
+                    }
                 }
                 break;
             }
@@ -199,6 +220,58 @@ export default class UserService {
         if(update){
             this.SessionService.setUser(this._profile);
         }
+    }
+
+    /**
+     * Обновление состава групп текущего пользователя
+     * @param message
+     */
+    private updateGroup(message: ProtocolGroupUpdate): void {
+        debugger;
+        let group:IGroupProfile = this.profile.connections[message.groupCode] || null;
+        if(!group) {
+            return;
+        }
+        if(message.action === 'I' && group.hasOwnProperty('groupMembers')){
+            group.groupMembers.push(message.userProfile);
+        } else if(message.action === 'D'){
+            let index: number = group.groupMembers.findIndex(m => m.userId === message.userProfile.userId);
+            if(index !== -1){
+                group.groupMembers.splice(index,1);
+            }
+        }
+        this.profile.connections[message.groupCode] = group;
+        this.SessionService.setUser(this.profile);
+    }
+
+    private updateClubs(message: ProtocolGroupUpdate): void {
+        debugger;
+        let clubs:Array<IGroupProfile> = this.profile.connections.ControlledClubs;
+        if(message.action === 'I'){
+            clubs.push(<IGroupProfile>message.groupProfile);
+            //controlledClub.groupMembers.push(message.userProfile);
+        } else if(message.action === 'D'){
+            let index:number = clubs.findIndex(g => g.groupId === message.groupProfile.groupId);
+            if(index !== -1){
+                clubs.splice(index,1);
+            }
+        } else if(message.action === 'U'){
+            let index:number = clubs.findIndex(g => g.groupId === message.groupProfile.groupId);
+            if(index !== -1){
+                clubs[index] = <IGroupProfile>message.groupProfile;
+            }
+        }
+        this.profile.connections.ControlledClubs = clubs;
+        this.SessionService.setUser(this.profile);
+    }
+
+    /**
+     * Обновляем перечень доступных для пользователя функций сервиса.
+     * Ассинхронное сообщение с функциями приходит при каждом открытие сессии
+     * @param permissions
+     */
+    private updatePermissions(permissions: Object):void {
+        this.SessionService.setPermissions(permissions);
     }
 
     private updateConnections(connections: any):void {

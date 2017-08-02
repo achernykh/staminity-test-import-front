@@ -23,7 +23,7 @@ export const _NAVBAR = [
         icon: "vpn_key",
         name: 'settings.account.header',
         link: '#account',
-        active: false
+        active: true
     },
     {
         icon: "sync",

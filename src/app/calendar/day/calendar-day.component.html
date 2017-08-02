@@ -110,11 +110,11 @@
                             dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)">
                 <header ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
                     <div layout="row" layout-align="space-between center">
-                        <div flex="25"></div>
-
-                        <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
+                        <div flex="25" hide show-gt-sm></div>
+                        <section flex="none" layout="row" layout-align="center center" class="icon bg-circle-32 bg-blue-grey-A700">
                             <md-icon class="md-light" md-svg-src="/assets/icon/{{item.eventHeader.eventType}}.svg"></md-icon>
-                        </div>
+                        </section>
+                        <div hide show-xs show-sm flex class="md-caption" translate>{{::'event.'+item.eventHeader.eventType}}</div>
                         <md-menu flex="none" flex-gt-sm="25">
                             <md-button class="md-icon-button" aria-label="More Event"
                                        style="margin-right: 0px"
@@ -143,7 +143,7 @@
                             </md-menu-content>
                         </md-menu>
                     </div>
-                    <div flex layout="row" layout-align="center center"
+                    <div hide show-gt-sm flex layout="row" layout-align="center center"
                          class="md-caption dark center line-14" style="margin-top: 8px">
                         <div flex="none" translate>{{::'event.'+item.eventHeader.eventType}}</div>
                     </div>
