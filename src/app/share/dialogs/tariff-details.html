@@ -38,7 +38,7 @@
                 <md-list-item>
                     <span>{{ 'settings.billing.subscriptionConditions' | translate }}</span>
                     <span flex></span>
-                    <a ng-href="#" class="md-primary font-13">{{ 'settings.billing.open' | translate }}</a>
+                    <a ng-href="{{ 'settings.billing.subscriptionConditionsLink' | translate:{ tariffCode: $ctrl.tariff.tariffCode } }}" class="md-primary font-13">{{ 'settings.billing.open' | translate }}</a>
                 </md-list-item>
             </md-list>
 

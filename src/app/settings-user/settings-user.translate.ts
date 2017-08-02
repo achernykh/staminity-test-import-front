@@ -229,6 +229,7 @@ export const _translate = {
             subscriptionDate: "Дата подключения",
             subscriptionEnds: "Срок действия",
             subscriptionConditions: "Условия действия тарифа",
+            subscriptionConditionsLink: "https://help.staminity.com/ru/tariffs/{{tariffCode}}.html",
             promoDiscount: 'Скидка по промо-коду',
             volumeDiscount: 'Объёмная скидка',
             connections: 'Подключено',

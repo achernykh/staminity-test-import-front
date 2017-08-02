@@ -18,9 +18,9 @@ import './reference.component.scss';
 export class ReferenceCtrl implements IComponentController {
 
 	public user: IUserProfile;
-	public categories: Array<IActivityCategory>;
+	public categories: Array<IActivityCategory> = [];
 	public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
-	public templates: Array<IActivityTemplate>;
+	public templates: Array<IActivityTemplate> = [];
 	public clubUri: string;
 	public club: IGroupProfile;
 	
@@ -32,19 +32,7 @@ export class ReferenceCtrl implements IComponentController {
 	
 	private tab: 'templates' | 'categories' = 'templates';
 	private activityTypes: Array<IActivityType> = activityTypes;
-    private destroy: Subject<void> = new Subject<void>();
-
-	private onTemplatesMessage = {
-		"I": this.handleTemplateCreate.bind(this),
-		"U": this.handleTemplateUpdate.bind(this),
-		"D": this.handleTemplateDelete.bind(this)
-	};
-
-	private onCategoriesMessage = {
-		"I": this.handleCategoryCreate.bind(this),
-		"U": this.handleCategoryUpdate.bind(this),
-		"D": this.handleCategoryDelete.bind(this)
-	};
+	private destroy: Subject<void> = new Subject<void>();
 
 	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
 
@@ -60,25 +48,26 @@ export class ReferenceCtrl implements IComponentController {
 
 	$onInit () {
 		this.filterParams.club = this.club;
+
+		this.categories = this.ReferenceService.categories;
+		this.ReferenceService.categoriesChanges
+		.takeUntil(this.destroy)
+		.subscribe((categories) => {
+			this.categories = categories;
+			this.updateFilterParams();
+			this.$scope.$apply();
+		});
+
+		this.templates = this.ReferenceService.templates;
+		this.ReferenceService.templatesChanges
+		.takeUntil(this.destroy)
+		.subscribe((templates) => {
+			this.templates = templates;
+			this.updateFilterParams();
+			this.$scope.$apply();
+		});
+
 		this.updateFilterParams();
-		
-		this.ReferenceService.activityCategoriesMessages
-		.takeUntil(this.destroy)
-		.subscribe((message) => {
-			let action = this.onCategoriesMessage[message.action];
-			if (action) {
-				action(message.value);
-			}
-		});
-		
-		this.ReferenceService.activityTemplatesMessages
-		.takeUntil(this.destroy)
-		.subscribe((message) => {
-			let action = this.onTemplatesMessage[message.action];
-			if (action) {
-				action(message.value);
-			}
-		});
 	}
 	
 	$onChanges () {
@@ -105,42 +94,6 @@ export class ReferenceCtrl implements IComponentController {
 			groupBy(getOwner(this.user))
 		) (categories);
 	}
-
-	handleTemplateCreate (template: IActivityTemplate) {
-		this.templates = [...this.templates, template];
-		this.updateFilterParams();
-		this.$scope.$apply();
-	}
-
-	handleTemplateUpdate (template: IActivityTemplate) {
-		this.templates = this.templates.map((t) => t.id === template.id? template : t);
-		this.updateFilterParams();
-		this.$scope.$apply();
-	}
-
-	handleTemplateDelete (template: IActivityTemplate) {
-		this.templates = this.templates.filter((t) => t.id !== template.id);
-		this.updateFilterParams();
-		this.$scope.$apply();
-	}
-
-	handleCategoryCreate (category: IActivityCategory) {
-		this.categories = [...this.categories, category];
-		this.updateFilterParams();
-		this.$scope.$apply();
-	}
-
-	handleCategoryUpdate (category: IActivityCategory) {
-		this.categories = this.categories.map((c) => c.id === category.id? category : c);
-		this.updateFilterParams();
-		this.$scope.$apply();
-	}
-
-	handleCategoryDelete (category: IActivityCategory) {
-		this.categories = this.categories.filter((c) => c.id !== category.id);
-		this.updateFilterParams();
-		this.$scope.$apply();
-	}
 	
 	get isMobileLayout () : boolean {
 		let maxWidth = {
@@ -155,8 +108,6 @@ export class ReferenceCtrl implements IComponentController {
 const ReferenceComponent: IComponentOptions = {
 	bindings: {
 		user: '<',
-		categories: '<',
-		templates: '<',
 		clubUri: '<',
 		club: '<'
 	},

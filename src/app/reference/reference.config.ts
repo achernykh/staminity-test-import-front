@@ -34,8 +34,6 @@ function configure (
 			club: ['GroupService', 'clubUri', (GroupService: GroupService, clubUri: string) => GroupService.getProfile(clubUri, 'club', true)],
 			userId: ['SessionService', (SessionService: SessionService) => SessionService.getUser().userId],
 			user: ['UserService', 'userId', (UserService: UserService, userId: number) => UserService.getProfile(userId, true)],
-			categories: ['ReferenceService', (ReferenceService: ReferenceService) => ReferenceService.getActivityCategories(undefined, false, true)],
-			templates: ['ReferenceService', (ReferenceService: ReferenceService) => ReferenceService.getActivityTemplates(undefined, undefined, false, false)],
 			access: ['club', 'user', (club: IGroupProfile, user: IUserProfile) => {
 				if (!isMember(user, club)) {
 					throw 'noMembership';
@@ -51,9 +49,7 @@ function configure (
 		resolve: {
 			view: () => new DisplayView('reference'),
 			userId: ['SessionService', (SessionService: SessionService) => SessionService.getUser().userId],
-			user: ['UserService', 'userId', (UserService: UserService, userId: number) => UserService.getProfile(userId, true)],
-			categories: ['ReferenceService', (ReferenceService: ReferenceService) => ReferenceService.getActivityCategories(undefined, false, true)],
-			templates: ['ReferenceService', (ReferenceService: ReferenceService) => ReferenceService.getActivityTemplates(undefined, undefined, false, false)]
+			user: ['UserService', 'userId', (UserService: UserService, userId: number) => UserService.getProfile(userId, true)]
 		},
 		views: DefaultTemplate('reference')
 	});
