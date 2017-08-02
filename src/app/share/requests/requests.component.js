@@ -22,10 +22,20 @@ class RequestsCtrl {
         this.message = message;
         this.RequestsService = RequestsService;
         this.destroy = new Subject();
-
-        this.RequestsService.requestsList
+        this.requestsList = [];
+		
+        this.isLoading = true;
+        this.RequestsService.getMembershipRequest(0, 100)
+        .then((requests) => { 
+            this.isLoading = false;
+            this.setRequests(requests);
+        });
+        
+        this.RequestsService.notifications
         .takeUntil(this.destroy)
-        .subscribe((requests) => { this.setRequests(requests) });
+        .subscribe((request) => {
+            this.setRequests(this.RequestsService.requestsReducer(this.requestsList, request));
+        });
         
         this.requests = {
             inbox: {
@@ -59,12 +69,13 @@ class RequestsCtrl {
     setRequests (requests) {
         let userId = this.SessionService.getUser().userId;
         
+        this.requestsList = requests; 
         this.requests.inbox.new = requests.filter((request) => request.receiver.userId == userId && !request.updated);
         this.requests.inbox.old = requests.filter((request) => request.receiver.userId == userId && request.updated);
         this.requests.outbox.new = requests.filter((request) => request.initiator.userId == userId && !request.updated);
         this.requests.outbox.old = requests.filter((request) => request.initiator.userId == userId && request.updated);
         
-        this.$scope.$apply();
+        this.$scope.$applyAsync();
     }
     
     fromNow (date) {

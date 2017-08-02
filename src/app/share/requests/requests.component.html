@@ -91,6 +91,10 @@
             </md-tab-body>  
         </md-tab>
     </md-tabs>
+    
+    <div ng-if="$ctrl.isLoading">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
             
 </application-frame>
 
