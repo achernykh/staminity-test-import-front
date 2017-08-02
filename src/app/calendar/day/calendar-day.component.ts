@@ -200,7 +200,7 @@ class CalendarDayCtrl {
         switch (operation) {
             case 'move': {
                 if(isCompletedActivity(item)){
-                    this.dialogs.confirm('moveActualActivity')
+                    this.dialogs.confirm('dialogs.moveActualActivity')
                         .then(()=>this.CalendarService.postItem(clearActualDataActivity(item)), Promise.reject(null))
                         .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
 

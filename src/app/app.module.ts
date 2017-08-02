@@ -27,6 +27,7 @@ import Athletes from "./athletes/athletes.module";
 import Club from "./club/club.module";
 import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
+import Reference from "./reference/reference.module";
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
@@ -34,14 +35,14 @@ const root = module('staminity.application', [
 	'ngMessages',
 	'ngAnimate',
 	'ngAria',
-    'ui.router',
-    'md.data.table',
+	'ui.router',
+	'md.data.table',
 	'smDateTimeRangePicker',
 	'nemLogging',
 	'ui-leaflet',
 	hmReedmore,
-    'tmh.dynamicLocale',
-    'toaster',
+	'tmh.dynamicLocale',
+	'toaster',
 	//'ngTouch',
 	'angular-carousel',
 	'dndLists',
@@ -61,7 +62,8 @@ const root = module('staminity.application', [
 	Athletes,
 	Club,
 	Dashboard,
-	Search
+	Search,
+	Reference
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

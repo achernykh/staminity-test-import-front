@@ -27,7 +27,7 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <h2 translate="activity.toolbar.title"></h2>
+        <h2 translate="{{::$ctrl.item.template ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
         <span flex></span>
         <userpic class="border-light" profile="$ctrl.item.firstAthlete(0)" is-premium="$ctrl.item.user.isPremium" unlink="true"></userpic>
         <md-button class="md-icon-button" hide-gt-sm
@@ -46,7 +46,7 @@
 <md-content flex="auto" layout="column">
     <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
              md-stretch-tabs="always" ng-cloak
-             ng-class="{'coming': $ctrl.item.activity.status === 'coming',
+             ng-class="{'coming': $ctrl.item.activity.status === 'coming' || $ctrl.item.activity.status === 'template',
                                 'not-specified': $ctrl.item.activity.status === 'not-specified',
                                 'complete': $ctrl.item.activity.status === 'complete',
                                 'complete-warn': $ctrl.item.activity.status === 'complete-warn',
@@ -79,7 +79,7 @@
                 </activity-header-splits>
             </md-tab-body>
         </md-tab>
-        <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post'"
+        <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post' && !$ctrl.item.template"
                 md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
             <md-tab-label>
                 <md-icon class="material-icons">chat</md-icon>
@@ -95,7 +95,7 @@
                 </activity-header-chat>
             </md-tab-body>
         </md-tab>
-        <md-tab id="zones" flex layout="column">
+        <md-tab id="zones" flex layout="column" ng-if="!$ctrl.item.template">
             <md-tab-label><md-icon class="material-icons">tune</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill

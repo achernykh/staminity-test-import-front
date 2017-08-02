@@ -1,0 +1,17 @@
+<md-dialog id="post-activity" aria-label="Activity">
+	<calendar-item-activity
+		layout="row" class="calendar-item-activity"
+		date="$ctrl.date"
+		activity-type="$ctrl.activityType"
+		activity-category="$ctrl.activityCategory"
+		club="$ctrl.club"
+		data="$ctrl.item"
+		mode="$ctrl.mode"
+		user="$ctrl.user"
+		popup="true"
+		template="true"
+		on-cancel="cancel()" 
+		on-answer="answer(response)"
+	>
+	</calendar-item-activity>
+</md-dialog>

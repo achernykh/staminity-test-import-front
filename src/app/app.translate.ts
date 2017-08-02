@@ -11,7 +11,8 @@ export const translateForm = {
         rangeStr: 'Укажите текст от {{min}} до {{max}} символов',
         cancel: 'Отменить',
         save: 'Сохранить',
-        invalidDate: 'Некорректный формат даты'
+        invalidDate: 'Некорректный формат даты',
+        delete: 'Удалить'
     },
     en: {
 

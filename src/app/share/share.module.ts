@@ -90,6 +90,8 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     return url;
 };
 
+const truncate = () => (s, max = 140) => s && (s.length <= max? s : s.slice(0, max - 1) + '…');
+
 const userpic = {
     bindings: {
         profile: '<',
@@ -269,6 +271,7 @@ const Share = module('staminity.share', [])
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
+    .filter('truncate', truncate)
     .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
 
         $stateProvider
