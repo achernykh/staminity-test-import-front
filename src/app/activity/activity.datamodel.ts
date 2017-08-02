@@ -13,8 +13,10 @@ import {copy, merge} from 'angular';
 import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {activityTypes, getType} from "./activity.constants";
-import {IUserProfileShort} from "../../../api/user/user.interface";
+import {IUserProfileShort, IUserProfile} from "../../../api/user/user.interface";
 import {IGroupProfileShort} from '../../../api/group/group.interface';
+import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../reference/reference.datamodel";
+import { pipe, orderBy, prop, groupBy } from "../share/util.js";
 
 export interface IRoute {
 	lat:number;
@@ -128,6 +130,7 @@ export class Activity extends CalendarItem {
 	public activityHeader: IActivityHeader;
 	public header: IActivityHeader;
 	public categoriesList: Array<IActivityCategory> = [];
+	public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
 	public intervalPW: IActivityIntervalPW;
 	public intervalW: IActivityIntervalW;
 	public intervalL: Array<IActivityIntervalL> = [];
@@ -505,6 +508,14 @@ export class Activity extends CalendarItem {
 
 		// Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
 		return (data.length > 0 && data.map(d => {d[0] = d[0] / finish;	d[1] = d[1] / 100; return d;})) || null;
+	}
+
+	setCategoriesList (categoriesList: Array<IActivityCategory>, userProfile: IUserProfile) {
+		this.categoriesList = categoriesList;
+		this.categoriesByOwner = pipe(
+			orderBy(prop('sortOrder')),
+			groupBy(getOwner(userProfile))
+		) (categoriesList);
 	}
 }
 
