@@ -1,11 +1,10 @@
-{
+export const chart_example_09 = {
     "options": {
         "legend": {
-            "vertical-align": "top",
-            "horizontal-align": "left",
+            "vertical-align": "bottom",
+            "horizontal-align": "right",
             "type": "row"
-        },
-        "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+        }
     },
     "series" : [{
         "label" : "Месяцы",
@@ -14,7 +13,7 @@
         "tooltipType" : "label",
         "legend": true,
         "idx" : 0,
-        "colorPalette": true,
+        "fillColor": "rgba(255, 0, 0, 0.5)",
         "measureName" : "month",
         "valueType" : "value",
         "groupBy" : "month",
@@ -23,13 +22,28 @@
     "measures" : [{
         "label" : "Калории",
         "unit" : "кКал",
-        "chartType" : "donut",
+        "chartType" : "pie",
+        "stacked" : false,
+        "cumulative": false,
+        "smoothSettings" : "curveMonotoneX",
         "tooltipType" : "color",
         "legend": false,
-        "colorPalette": true,
+        "visible" : true,
+        "avgValueLine": true,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "steelblue",
+        "lineStyle": "dashed",
+        "fillType": "solid",
+        "fillColor": "rgba(255, 0, 0, 0.5)",
         "markerColor": "#5677fc",
+        "avgValueLineColor": "red",
+        "avgValueLineStyle": "dotted",
         "idx" : 1,
-        "measureName" : "calories"
+        "measureName" : "calories",
+        "measureSource" : "..tbd...",
+        "valueType" : "value",
+        "aggMethod" : "sum"
     }],
     "metrics" : [
         ["Иванов Василий", 20],
@@ -41,4 +55,4 @@
         ["Бурда Борис", 14],
         ["Блинов Алексей", 31]
     ]
-}
+};

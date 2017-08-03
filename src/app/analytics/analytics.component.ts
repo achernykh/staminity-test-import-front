@@ -6,6 +6,9 @@ import {chart_example_03} from '../share/universal-chart/data/10.2.2_Two_IChart_
 import {chart_example_04} from '../share/universal-chart/data/10.2_Two_IChart_four_measures.js';
 import {chart_example_05} from '../share/universal-chart/data/11_Cumulative_Duration_by_days.js';
 import {chart_example_06} from '../share/universal-chart/data/12_HR-and-pace-by-days.js';
+import {chart_example_07} from '../share/universal-chart/data/16-Table-with-4-series.js';
+import {chart_example_08} from '../share/universal-chart/data/donutChart.js';
+import {chart_example_09} from '../share/universal-chart/data/pieChart.js';
 
 class AnalyticsCtrl implements IComponentController {
 
@@ -13,7 +16,7 @@ class AnalyticsCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
-    private selectedChart = [0,1,2,3,4,5];
+    private selectedChart = [0,1,2,3,4,5,6,7,8];
 
     private examples = [
         {
@@ -39,6 +42,18 @@ class AnalyticsCtrl implements IComponentController {
         {
             name: '12_HR-and-pace-by-days',
             data: chart_example_06
+        },
+        {
+            name: 'Table',
+            data: chart_example_07
+        },
+        {
+            name: 'Donut',
+            data: chart_example_08
+        },
+        {
+            name: 'Pie',
+            data: chart_example_09
         }
 
     ];
