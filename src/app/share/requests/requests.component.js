@@ -23,19 +23,6 @@ class RequestsCtrl {
         this.RequestsService = RequestsService;
         this.destroy = new Subject();
         this.requestsList = [];
-		
-        this.isLoading = true;
-        this.RequestsService.getMembershipRequest(0, 100)
-        .then((requests) => { 
-            this.isLoading = false;
-            this.setRequests(requests);
-        });
-        
-        this.RequestsService.notifications
-        .takeUntil(this.destroy)
-        .subscribe((request) => {
-            this.setRequests(this.RequestsService.requestsReducer(this.requestsList, request));
-        });
         
         this.requests = {
             inbox: {
@@ -52,6 +39,15 @@ class RequestsCtrl {
             inbox: 20,
             outbox: 20
         };
+
+        this.setRequests(this.RequestsService.requests);
+
+        this.RequestsService.requestsChanges
+        .takeUntil(this.destroy)
+        .subscribe((requests) => {
+            this.setRequests(requests);
+            this.$scope.$applyAsync();
+        });
         
         this.refreshing = setInterval(() => { this.$scope.$digest() }, 2000);
     }

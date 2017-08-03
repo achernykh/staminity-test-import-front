@@ -56,13 +56,12 @@ class NotificationListCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.NotificationService.get(100, 0)
-        .then((notifications) => { this.notifications = notifications; });
+        this.notifications = this.NotificationService.notifications;
         
-        this.NotificationService.notification$
+        this.NotificationService.notificationsChanges
         .takeUntil(this.destroy)
-        .subscribe((notification) => {
-            this.notifications = this.NotificationService.process(this.notifications, notification);
+        .subscribe((notifications) => {
+            this.notifications = notifications;
             this.$scope.$applyAsync();
         });
 

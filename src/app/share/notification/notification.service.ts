@@ -8,6 +8,7 @@ import {ChatSession} from "../../core/comment.service";
 import {memorize} from "../util.js";
 
 const parseDate = memorize(moment);
+const notificationsOrder = (a, b) => parseDate(a.ts) >= parseDate(b.ts) ? -1 : 1;
 
 export interface INotificationSettings {
     newestOnTop: boolean;
@@ -19,8 +20,22 @@ export interface INotificationSettings {
 }
 
 export default class NotificationService {
-    timeouts: Array<number> = [];
-    notification$: Observable<any>;
+    timeouts: { [index: string]: number } = {};
+
+    notifications: Notification[] = [];
+    notificationsChanges = new Subject<Notification[]>();
+    notificationsReducers = {
+        "I": (notification: Notification) => [...this.notifications, notification].sort(notificationsOrder),
+        "U": (notification: Notification) => this.notifications.map((n) => n.id === notification.id && notification.revision > n.revision? notification : n).sort(notificationsOrder)
+    };
+    resetNotifications = () => {
+        this.get(100, 0)
+        .then((notifications) => { 
+            this.notifications = notifications.sort(notificationsOrder); 
+            this.notificationsChanges.next(this.notifications);
+        });
+    }
+
     openChat: ChatSession;
     private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
 
@@ -39,20 +54,32 @@ export default class NotificationService {
 
         this.comment.openChat$.subscribe(chat => this.openChat = chat); // следим за открытми чатами
 
-        this.notification$ = this.socket.messages
-            .filter(message => message.type === 'notification')
-            .map(message => new Notification(message.value))
-            .map((n:Notification) => {
-                // Не показываем попап уведомление + делаем прочитанным уведомления по комментариям, если у пользователя
-                // открыт данны чат
-                if (this.commentTemplates.some(t => t === n.template) && !n.isRead &&
-                    (this.openChat && n.context[3] === this.openChat.id)) {
-                    this.put(n.id, null, true).then(()=>{});
-                    n.isRead = true;
-                }
-                return n;
-            })
-            .share();
+        this.resetNotifications();
+        this.socket.connections.subscribe(this.resetNotifications);
+
+        this.socket.messages
+        .filter(message => message.type === 'notification')
+        .subscribe((message) => {
+            let notification = new Notification(message.value);
+            let reducer = this.notificationsReducers[message.action || 'I'];
+
+            if (reducer) {
+                this.notifications = reducer(notification);
+                this.notificationsChanges.next(this.notifications);
+            }
+
+            if (!notification.isRead && !this.timeouts[notification.index]) {
+                this.show(notification);
+            }
+
+            // Не показываем попап уведомление + делаем прочитанным уведомления по комментариям, если у пользователя
+            // открыт данны чат
+            if (this.commentTemplates.some(t => t === notification.template) && !notification.isRead &&
+                (this.openChat && notification.context[3] === this.openChat.id)) {
+                this.put(notification.id, null, true);
+                notification.isRead = true;
+            }
+        });
     }
 
     /**
@@ -75,31 +102,6 @@ export default class NotificationService {
     put(id: number, readUntil: string, isRead: boolean):Promise<any>{
         return this.socket.send(new PutNotification(id, readUntil, isRead));
     }
-
-    /**
-     * Обработка входящих ассинхронных уведомлений
-     * @param list
-     * @param notification
-     * @returns {Array<Notification>}
-     */
-    process(list: Array<Notification>, notification: Notification):Array<Notification> {
-        console.time('notification process');
-        let update: number = list.findIndex(n => n.id === notification.id);
-        let isUpdate: boolean = update >= 0;
-
-        if (!notification.isRead) {
-            this.show(notification);
-        }
-        if (isUpdate && notification.revision >= list[update].revision) {
-            list.splice(update,1,notification);
-        } else {
-            list.push(notification);
-        }
-            
-        return list
-            .sort((a, b) => parseDate(a.ts) >= parseDate(b.ts) ? 1 : -1)
-            .reverse();
-    };
 
     show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {
         this.timeouts[notification.index] = Date.now();

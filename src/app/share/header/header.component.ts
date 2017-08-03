@@ -53,23 +53,21 @@ class HeaderCtrl implements IComponentController {
 	}
 
 	$onInit() {
-		this.NotificationService.get(100, 0)
-		.then((notifications) => { this.notificationsList = notifications; });
-		
-		this.NotificationService.notification$
+		this.notificationsList = this.NotificationService.notifications;
+
+		this.NotificationService.notificationsChanges
 		.takeUntil(this.destroy)
-		.subscribe((notification) => {
-			this.notificationsList = this.NotificationService.process(this.notificationsList, notification);
+		.subscribe((notifications) => {
+			this.notificationsList = notifications;
 			this.$scope.$applyAsync();
 		});
 		
-		this.RequestsService.getMembershipRequest(0, 100)
-		.then((requests) => { this.requestsList = requests; });
+		this.requestsList = this.RequestsService.requests;
 
-		this.RequestsService.notifications
+		this.RequestsService.requestsChanges
 		.takeUntil(this.destroy)
-		.subscribe((request) => {
-			this.requestsList = this.RequestsService.requestsReducer(this.requestsList, request);
+		.subscribe((requests) => {
+			this.requestsList = requests;
 			this.$scope.$applyAsync();
 		});
 	}
