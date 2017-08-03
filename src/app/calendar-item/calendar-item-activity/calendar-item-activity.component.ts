@@ -1,3 +1,4 @@
+import { Observable, Subject } from "rxjs/Rx";
 import './calendar-item-activity.component.scss';
 import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
 import moment from 'moment/src/moment.js';
@@ -90,6 +91,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
+    private destroy = new Subject();
 
     static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
         'message','$mdMedia','dialogs', 'ReferenceService'];
@@ -169,12 +171,17 @@ export class CalendarItemActivityCtrl implements IComponentController{
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post' || this.mode === 'view') {
             if (this.template) {
-                this.ReferenceService.getActivityCategories(undefined, false, true)
-                    .then(list => this.activity.categoriesList = list,
-                        error => this.message.toastError(error));
+                this.activity.setCategoriesList(this.ReferenceService.categories, this.user);
+
+                this.ReferenceService.categoriesChanges
+                .takeUntil(this.destroy)
+                .subscribe((categories) => {
+                    this.activity.setCategoriesList(categories, this.user);
+                    this.$scope.$apply();
+                });
             } else {
                 this.ActivityService.getCategory()
-                    .then(list => this.activity.categoriesList = list,
+                    .then(list => this.activity.setCategoriesList(list, this.user),
                         error => this.message.toastError(error));
             }
         }
@@ -193,6 +200,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (this.template && this.data && this.data.userProfileCreator) {
             this.forAthletes = [{ profile: this.data.userProfileCreator, active: true }];
         }
+
+        console.log('CalendarItemAct', this);
+    }
+    
+    $onDestroy () {
+        this.destroy.next(); 
+        this.destroy.complete();
     }
 
     changeMode(mode:string) {
