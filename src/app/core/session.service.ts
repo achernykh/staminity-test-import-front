@@ -38,7 +38,7 @@ export default class SessionService implements ISessionService {
 
 	static $inject = ['$window'];
 
-	constructor(private $window:IWindowService, private socket: ISocketService) {
+	constructor(private $window:IWindowService) {
 		this.memoryStore = {};
 		try {
 			this._user = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
