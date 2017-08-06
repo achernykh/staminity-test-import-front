@@ -20,6 +20,7 @@ import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
 import {IAuthService} from "../../auth/auth.service";
 import ReferenceService from "../../reference/reference.service";
+import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -94,7 +95,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private destroy = new Subject();
 
     static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
-        'message','$mdMedia','dialogs', 'ReferenceService'];
+        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService'];
 
     constructor(
         private $scope: IScope,
@@ -106,6 +107,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private AuthService: IAuthService,
         private message: IMessageService,
         private $mdMedia: any,
+        private $mdDialog: any,
         private dialogs: any,
         private ReferenceService: ReferenceService) {
 
@@ -478,6 +480,26 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (value !== this.name) {
             this.activity.code = value;
         }
+    }
+
+    toTemplate () {
+        let { code, intervalPW, activityHeader } = this.activity;
+        let sport = activityHeader.activityType.typeBasic;
+        let activityCode = code || nameFromInterval(this.$translate) (intervalPW, sport);
+        let description = intervalPW.trainersPrescription;
+        let { activityCategory, activityType, intervals } = activityHeader;
+
+        let template = <any> {
+            code: activityCode,
+            description: description,
+            favourite: false,
+            visible: true,
+            activityCategory: activityCategory,
+            userProfileCreator: this.user,
+            content: intervals
+        };
+        
+        return this.$mdDialog.show(templateDialog('post', template, this.user));
     }
 }
 

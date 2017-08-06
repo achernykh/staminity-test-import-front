@@ -37,7 +37,7 @@ export default class ReferenceService {
 		this.getActivityTemplates(undefined, undefined, false, false)
 		.then((templates) => {
 			this.templates = templates;
-			this.categoriesChanges.next(this.categories);
+			this.templatesChanges.next(this.templates);
 		});
 	}
 
@@ -130,7 +130,7 @@ export default class ReferenceService {
 		description: string, 
 		favourite: boolean, 
 		content: any 
-	) : Promise<[IActivityCategory]> { 
+	) : Promise<any> { 
 		return this.SocketService.send(new PostActivityTemplate( 
 			id, activityCategoryId, groupId, code, description, favourite, content 
 		)); 
@@ -146,13 +146,13 @@ export default class ReferenceService {
 		favourite: boolean,
 		visible: boolean,
 		content: any
-	) : Promise<[IActivityCategory]> {
+	) : Promise<any> {
 		return this.SocketService.send(new PutActivityTemplate(
 			id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible, content
 		));
 	}
 
-	deleteActivityTemplate (id: number) : Promise<[IActivityCategory]> {
+	deleteActivityTemplate (id: number) : Promise<any> {
 		return this.SocketService.send(new DeleteActivityTemplate(id));
 	}
 }
