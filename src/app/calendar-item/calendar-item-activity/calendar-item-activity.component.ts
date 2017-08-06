@@ -189,7 +189,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
 
         // Перечень атлетов тренера доступных для планирования
-        if(this.currentUser.connections.hasOwnProperty('allAthletes')){
+        if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));
 
