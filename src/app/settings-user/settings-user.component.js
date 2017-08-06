@@ -123,6 +123,10 @@ class SettingsUserCtrl {
         return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
     }
 
+    getDateFormat() {
+        return moment().format('L');
+    }
+
     changeTimezone(name){
         this.user.display.timezone = name;
         this.displayForm.$dirty = true;
@@ -182,7 +186,7 @@ class SettingsUserCtrl {
             this.privateFirstForm && this.privateFirstForm.$dirty ||
             this.privateSecondForm && this.privateSecondForm.$dirty ||
             this.displayForm && this.displayForm.$dirty ||
-            this.notificationsForm && this.notificationsForm.$dirty ||
+            this.notificationDirty ||
             this.privacyForm && this.privacyForm.$dirty
     }
 
@@ -455,21 +459,10 @@ class SettingsUserCtrl {
             clickOutsideToClose: true,
             escapeToClose: true,
             fullscreen: false // Only for -xs, -sm breakpoints.
-        })
-            .then((password) => {
-                console.log(`You said the information was ${password}.`);
-                this._AuthService.setPassword(password)
-                    .then((response) => {
-                        console.log(response);
-                        this.message.toastInfo('setPasswordSuccess');
-                    }, (error) => {
-                        console.log(error);
-                    })
-            }, () => {
-                // Если диалог открывается по вызову ng-change
-                if (typeof ev === 'undefined') provider.enabled = false
-                this.status = 'You cancelled the dialog.';
-            })
+        }).then((password) =>
+            this._AuthService.setPassword(password)
+                .then((response) => this.message.toastInfo('setPasswordSuccess'),
+                    (error) => this.message.toastError(error)));
         //}
     }
 

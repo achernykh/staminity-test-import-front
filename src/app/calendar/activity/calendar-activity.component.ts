@@ -152,10 +152,10 @@ class CalendarActivityCtrl {
     }
 
     $onChanges(changes) {
-        if (!changes.selected) {
+        if (changes.hasOwnProperty('selected') && !changes.selected) {
             console.log('CalendarActivityCtrl: onChange, selected=', changes.selected);
         }
-        if(!changes.item.isFirstChange()) {
+        if(changes.hasOwnProperty('item') && !changes.item.isFirstChange()) {
             this.$onInit();
         }
     }

@@ -81,13 +81,17 @@
         </md-tab>
         <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post' && !$ctrl.item.template"
                 md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
-            <md-tab-label><md-icon class="material-icons">chat</md-icon></md-tab-label>
+            <md-tab-label>
+                <md-icon class="material-icons">chat</md-icon>
+                <span class="badge superscript" ng-if="$ctrl.comments">{{$ctrl.comments}}</span>
+            </md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-chat flex="auto" layout="column" layout-fill
                                       activity-id="$ctrl.item.activity.id"
                                       social="$ctrl.item.activity.header.social"
                                       user="$ctrl.item.user" current-user="$ctrl.item.currentUser"
-                                      coach="$ctrl.item.isMyCoach">
+                                      coach="$ctrl.item.isMyCoach"
+                                      on-update="$ctrl.updateComments(response)">
                 </activity-header-chat>
             </md-tab-body>
         </md-tab>

@@ -5,6 +5,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import LoaderService from "../share/loader/loader.service";
 import {IMessageService} from "./message.service";
 import {IHttpService, noop} from 'angular';
+import {Ping} from "../../../api/core";
 
 
 export enum SocketStatus {
@@ -62,7 +63,8 @@ export class SocketService implements ISocketService {
         calculateActivityRange: 15.0,
         putCalendarItem: 15.0,
         getActivityCategory: 10.0,
-        postCalendarItem: 10.0
+        postCalendarItem: 10.0,
+        getGroupManagementProfile: 10.0
     };
 
     private internetStatus: boolean = true;
@@ -85,16 +87,19 @@ export class SocketService implements ISocketService {
         this.messages = new Subject();
 
         setInterval(()=>{
-            $http.get(`/favicon.ico?_=${new Date().getTime()}`)
-                .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
-                    this.internetStatus = true;
-                    if(!this.connectionStatus) {
-                        this.open().then(() => this.connections.next(true), () => this.connections.next(false));
-                    }
-                }, () => {
-                    this.internetStatus = false;
-                    this.connections.next(false);
-                }); // подключение отсутствует
+            if(this.socket && this.socket.readyState === SocketStatus.Open){
+                //this.send(new Ping())
+                $http.get(`/favicon.ico?_=${new Date().getTime()}`)
+                    .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
+                        this.internetStatus = true;
+                        if(!this.connectionStatus) {
+                            this.open().then(() => this.connections.next(true), () => this.connections.next(false));
+                        }
+                    }, () => {
+                        this.internetStatus = false;
+                        this.connections.next(false);
+                    }); // подключение отсутствует
+            }
         }, 5000);
     }
 

@@ -70,8 +70,9 @@ class AuthCtrl implements IComponentController {
 			},
 			email: '',
 			password: '',
-			activateCoachTrial: false,
-			activatePremiumTrial: true
+			activatePremiumTrial: this.$stateParams.hasOwnProperty('activatePremiumTrial') && this.$stateParams.activatePremiumTrial || true,
+			activateCoachTrial: this.$stateParams.hasOwnProperty('activateCoachTrial') && this.$stateParams.activateCoachTrial || false,
+			activateClubTrial: this.$stateParams.hasOwnProperty('activateClubTrial') && this.$stateParams.activateClubTrial || false,
 		};
 	}
 
@@ -84,6 +85,7 @@ class AuthCtrl implements IComponentController {
 		this.AuthService.signIn({email: credentials.email, password: credentials.password})
 			.finally(()=>this.enabled = true)
 			.then((profile:IUserProfile) => {
+				debugger;
 				this.redirect('calendar', {uri: profile.public.uri});
 			}, error => this.message.systemError(error));
 	}

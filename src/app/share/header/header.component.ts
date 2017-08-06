@@ -86,6 +86,14 @@ class HeaderCtrl implements IComponentController {
 		return this.requestsList.filter((request) => request.receiver.userId === userId && !request.updated).length;
 	}
 
+	onBack(){
+		window.history.back();
+	}
+
+	historyLength():number {
+		return window.history.length;
+	}
+
 	onMenu($mdOpenMenu, ev){
 		let originatorEv = ev;
 		$mdOpenMenu(ev);

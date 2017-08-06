@@ -15,7 +15,6 @@ import DisplayService from "./display.service";
 import StorageService from "./storage.service";
 import BillingService from "./billing.service";
 
-
 const Core = module('staminity.core', [])
 	.service('SocketService', SocketService)
 	.service('RESTService',RESTService)

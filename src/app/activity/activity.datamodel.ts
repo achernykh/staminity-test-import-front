@@ -255,7 +255,7 @@ export class Activity extends CalendarItem {
 		super.package();
 		this.dateEnd = this.dateStart;
 		this.header.activityType = getType(Number(this.header.activityType.id));
-		this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
+		//this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
@@ -321,13 +321,14 @@ export class Activity extends CalendarItem {
 		return `assets/icon/${this.header.activityType.code || 'default_sport'}.svg`;
 	}
 
-	get category():number {
-		return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('id'))
-			&& this.header.activityCategory.id;
+	get category():IActivityCategory {
+		/**return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('id'))
+			&& this.header.activityCategory.id;**/
+		return this.header.hasOwnProperty('activityCategory') && this.header.activityCategory;
 	}
 
-	set category(id: number) {
-		this.header.activityCategory = this.categoriesList.filter(c => c.id === Number(id))[0];
+	set category(c: IActivityCategory) {
+		this.header.activityCategory = c;
 	}
 
 	get categoryCode():string {

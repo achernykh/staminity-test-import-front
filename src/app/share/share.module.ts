@@ -53,7 +53,7 @@ export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
 export const fromNow = () => (date) => moment.utc(date).fromNow(true);
 
 
-const image = () => (sub: string, url: string = '') : string => {
+const image = () => (sub: string, url:string = 'default.jpg') : string => {
     return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
 };
 
@@ -71,7 +71,7 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     let url: string = '/assets/picture/default_avatar.png';
     switch (type) {
         case InitiatorType.user: {
-            url = `url(${avatar !== 'default.jpg' ? image() ('/user/avatar/',avatar) : '/assets/picture/default_avatar.png'})`;
+            url = `url(${avatar && avatar !== 'default.jpg' ? image() ('/user/avatar/', avatar) : '/assets/picture/default_avatar.png'})`;
             break;
         }
         case InitiatorType.group: case InitiatorType.club: {

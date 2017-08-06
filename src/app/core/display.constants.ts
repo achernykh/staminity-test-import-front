@@ -65,6 +65,31 @@ export const _display_view = {
 			size: 80
 		}
 	},
+	landingTariffs: {
+		background: {
+			style: 'application-light', //'landing-background',
+			toolbar: false,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: false,
+			athletes: false,
+			leftPanel: {
+				url: 'header/backbar.html',
+				size: 30
+			},
+			rightPanel: {
+				url: 'header/welcome.links.html',
+				size: 70
+			}
+		},
+		application: {
+			style: 'welcome-page',
+			margin: 'auto',
+			size: 80
+		}
+	},
 	signup: {
 		//style: 'welcome-page',
 		//background: 'landing-background blur',
