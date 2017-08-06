@@ -93,7 +93,7 @@
                 </md-input-container>
             </md-input-container>
         </md-list-item>
-        <md-list-item layout="row" layout-align="start center">
+        <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
             <md-icon flex="none" class="material-icons md-dark" style="margin-right: 20px">star</md-icon>
             <p class="md-caption" flex="none">Избранный</p>
             <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.activity.favourite" md-invert>
