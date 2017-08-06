@@ -28,7 +28,6 @@ class AuthCtrl implements IComponentController {
 		 * Переход в компонент по ссылке /signout
 		 * Сбрасываем данные в localStorage и переходим на экран входа пользователя
          */
-		console.log('signin', this.$state, this.$stateParams);
 		if(this.$state.$current.name === 'signout') {
 			this.AuthService.signOut();
 			this.$state.go('signin');
@@ -68,7 +67,7 @@ class AuthCtrl implements IComponentController {
 				timezone: 'Europe/Moscow',
 				language: 'ru'
 			},
-			email: '',
+			email: this.$stateParams.hasOwnProperty('email') && this.$stateParams.email || '',
 			password: '',
 			activatePremiumTrial: this.$stateParams.hasOwnProperty('activatePremiumTrial') && this.$stateParams.activatePremiumTrial || true,
 			activateCoachTrial: this.$stateParams.hasOwnProperty('activateCoachTrial') && this.$stateParams.activateCoachTrial || false,
@@ -102,6 +101,17 @@ class AuthCtrl implements IComponentController {
 				this.showConfirm = true;
 				this.message.systemSuccess(message.title);
 			}, error => this.message.systemWarning(error));
+	}
+
+	/**
+	 * Сброс пароля
+	 * @param credentials
+     */
+	reset(credentials) {
+		this.enabled = false; // форма ввода недоступна до получения ответа
+		this.AuthService.resetPassword(credentials.email)
+			.then(message => this.message.systemSuccess(message.title), error => this.message.systemWarning(error))
+			.then(this.enabled = true);
 	}
 
 	/**

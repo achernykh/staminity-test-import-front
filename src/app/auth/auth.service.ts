@@ -1,5 +1,8 @@
 import {PostData, IRESTService} from '../core/rest.service';
-import {SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest} from '../../../api/auth/auth.request';
+import {
+    SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest,
+    ResetPasswordRequest
+} from '../../../api/auth/auth.request';
 import {ISessionService} from "../core/session.service";
 import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise, HttpHeaderType} from 'angular';
 import {ISocketService} from "../core/socket.service";
@@ -20,6 +23,7 @@ export interface IAuthService {
     signUp(request:Object):IHttpPromise<{}>;
     signOut():void;
     confirm(request:Object):IHttpPromise<{}>;
+    resetPassword(email: string):IHttpPromise<{}>;
     setPassword(request:Object):IHttpPromise<{}>;
     inviteUsers(group: number, users: Array<Object>):Promise<any>;
     putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any>;
@@ -141,6 +145,14 @@ export default class AuthService implements IAuthService {
         return this.RESTService.postData(new PostData('/confirm', request));
     }
 
+    /**
+     * Восстановление пароля
+     * @param email
+     * @returns {IPromise<TResult>}
+     */
+    resetPassword(email: string):IHttpPromise<{}>{
+        return this.RESTService.postData(new ResetPasswordRequest(email)).then(result => result['data']);
+    }
     /**
      * Установка нового пароля текущего пользователя
      * @param password
