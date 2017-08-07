@@ -29,7 +29,8 @@ export let _translate = {
 			fullTitle: 'Войти',
 			shortTitle: 'Войти',
 			button: 'Войти',
-			remember: 'Запомнить меня'
+			remember: 'Запомнить меня',
+			reset: 'Восстановление пароля'
 		},
 		// Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
 		confirm: {
@@ -37,6 +38,19 @@ export let _translate = {
 			shortTitle: 'Подтверждение',
 			text: 'Поздравляем, Вы зарегистрировались! Для начала использования сервиса подтвердите Ваш e-mail,' +
 			' перейдя по ссылке из письма, отправленного на <b>{{email}}</b>'
+		},
+		invite: {
+			fullTitle: 'Установка пароля',
+			shortTitle: 'Установка пароля',
+		},
+		reset: {
+			fullTitle: 'Восстановление пароля',
+			shortTitle: 'Восстановление пароля',
+			info: "Enter your email address below and we'll send you a link with instructions.",
+		},
+		setpassword: {
+			fullTitle: 'Установка пароля',
+			shortTitle: 'Установка пароля'
 		},
 		// Окно "Забыли пароль"
 		forgetpass: {

@@ -60,8 +60,8 @@
                 <ng-include src="'settings.display.html'" ng-if="!$ctrl.athlete"></ng-include>
                 <ng-include src="'settings.account.html'" ng-if="!$ctrl.athlete"></ng-include>
                 <ng-include src="'settings.sync.html'" ng-if="!$ctrl.athlete"></ng-include>
-                <settings-zones zones="$ctrl.user.trainingZones"></settings-zones>
-                <settings-notification notifications="$ctrl.user.notifications" on-change="$ctrl.notificationDirty = true" ng-if="!$ctrl.athlete"></settings-notification>
+                <settings-zones zones="$ctrl.user.trainingZones"></settings-zones><!--
+                <settings-notification notifications="$ctrl.user.notifications" on-change="$ctrl.notificationDirty = true" ng-if="!$ctrl.athlete"></settings-notification>-->
 
                 <!--
                 <article flex="none" ng-include="'settings/articles/settings.notifications.html'"></article>

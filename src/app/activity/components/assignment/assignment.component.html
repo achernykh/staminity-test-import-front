@@ -38,11 +38,16 @@
                     ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
                     name="category"
                     class="icon">
-                    <md-option
-                        ng-repeat="category in $ctrl.item.activity.categoriesList | filter:{activityTypeId: $ctrl.item.activity.sport}:true track by category.id"
-                        ng-value="category">
-                        {{ category | categoryCode }}
-                    </md-option>
+                    <md-optgroup 
+                        ng-repeat="owner in ['user', 'coach', 'club', 'system']"
+                        ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
+                        label="{{ 'reference.categories.' + owner | translate }}">
+                        <md-option 
+                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.sport, visible: true}:true track by category.id"
+                            ng-value="category">
+                            {{ category | categoryCode }}
+                        </md-option>
+                    </md-optgroup>
                 </md-select>
                 <div ng-messages="$ctrl.form.category.$error" role="alert">
                     <div ng-message="required"

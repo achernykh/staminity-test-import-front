@@ -29,7 +29,7 @@
     </div>
 </md-toolbar>
 <md-content flex="auto" layout="column">
-    <md-subheader class="md-no-sticky">{{::'activity.toolbar.title' | translate}}</md-subheader>
+    <md-subheader flex="none" class="md-no-sticky">{{::'activity.toolbar.title' | translate}}</md-subheader>
     <md-list flex="auto" class="md-dense slim-input">
         <md-list-item ng-repeat="type in $ctrl.activityTypes track by type.id"
                       ng-click="$ctrl.onSelect({itemType:'activity',activityType: type})">
@@ -42,7 +42,7 @@
         </md-list-item>
     </md-list>
     <md-divider></md-divider>
-    <md-list flex="auto" class="md-dense slim-input" style="background-color: white">
+    <md-list flex="none" class="md-dense slim-input" style="background-color: white">
         <md-list-item ng-repeat="other in ['measurement','event'] track by $index" ng-click="$ctrl.onSelect({itemType:other})">
             <div flex="none" layout="row" layout-align="center center" class="icon bg-grey-600">
                 <md-icon flex="none" md-svg-src="/assets/icon/{{::other}}.svg"

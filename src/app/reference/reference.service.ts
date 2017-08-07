@@ -1,4 +1,4 @@
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
 
 import { ISocketService } from '../core/socket.service';
 import { ISessionService } from '../core/session.service';
@@ -10,26 +10,66 @@ import {
 
 
 export default class ReferenceService {
-	
+
+	public categories: Array<IActivityCategory> = [];
+	public categoriesChanges = new Subject<IActivityCategory[]>();
+	private categoriesReducers = {
+		"I": (category: IActivityCategory) => [...this.categories, category],
+		"U": (category: IActivityCategory) => this.categories.map((c) => c.id === category.id? category : c),
+		"D": (category: IActivityCategory) => this.categories.filter((c) => c.id !== category.id)
+	};
+	private resetCategories = () => {
+		this.getActivityCategories(undefined, false, true)
+		.then((categories) => {
+			this.categories = categories;
+			this.categoriesChanges.next(this.categories);
+		});
+	}
+
+	public templates: Array<IActivityTemplate> = [];
+	public templatesChanges = new Subject<IActivityTemplate[]> ();
+	private templatesReducers = {
+		"I": (template: IActivityTemplate) => [...this.templates, template],
+		"U": (template: IActivityTemplate) => this.templates.map((t) => t.id === template.id? template : t),
+		"D": (template: IActivityTemplate) => this.templates.filter((t) => t.id !== template.id)
+	};
+	private resetTemplates = () => {
+		this.getActivityTemplates(undefined, undefined, false, false)
+		.then((templates) => {
+			this.templates = templates;
+			this.templatesChanges.next(this.templates);
+		});
+	}
+
 	static $inject = ['SocketService', 'SessionService'];
 
 	constructor (
 		private SocketService: ISocketService, 
 		private SessionService: ISessionService
 	) {
-		
-	}
-	
-	get activityCategoriesMessages () : Observable<any> {
-		return this.SocketService.messages
+		this.resetCategories();
+		this.SocketService.connections.subscribe(this.resetCategories);
+		this.SocketService.messages
 			.filter(message => message.type === 'activityCategory')
-			.share();
-	}
-	
-	get activityTemplatesMessages () : Observable<any> {
-		return this.SocketService.messages
+			.subscribe((message) => {
+				let reducer = this.categoriesReducers[message.action];
+				if (reducer) {
+					this.categories = reducer(message.value);
+					this.categoriesChanges.next(this.categories);
+				}
+			});
+
+		this.resetTemplates();
+		this.SocketService.connections.subscribe(this.resetTemplates);
+		this.SocketService.messages
 			.filter(message => message.type === 'activityTemplate')
-			.share();
+			.subscribe((message) => {
+				let reducer = this.templatesReducers[message.action];
+				if (reducer) {
+					this.templates = reducer(message.value);
+					this.templatesChanges.next(this.templates);
+				}
+			});
 	}
 
 	getActivityCategories (
@@ -90,7 +130,7 @@ export default class ReferenceService {
 		description: string, 
 		favourite: boolean, 
 		content: any 
-	) : Promise<[IActivityCategory]> { 
+	) : Promise<any> { 
 		return this.SocketService.send(new PostActivityTemplate( 
 			id, activityCategoryId, groupId, code, description, favourite, content 
 		)); 
@@ -106,13 +146,13 @@ export default class ReferenceService {
 		favourite: boolean,
 		visible: boolean,
 		content: any
-	) : Promise<[IActivityCategory]> {
+	) : Promise<any> {
 		return this.SocketService.send(new PutActivityTemplate(
 			id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible, content
 		));
 	}
 
-	deleteActivityTemplate (id: number) : Promise<[IActivityCategory]> {
+	deleteActivityTemplate (id: number) : Promise<any> {
 		return this.SocketService.send(new DeleteActivityTemplate(id));
 	}
 }

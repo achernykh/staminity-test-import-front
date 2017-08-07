@@ -8,6 +8,7 @@ import { IHttpPromise,IHttpPromiseCallbackArg } from 'angular';
 import {ISystemMessage} from "../../../api/core";
 import {MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile} from "../../../api/group/group.interface";
 import {Observable} from "rxjs";
+import ReferenceService from "../reference/reference.service";
 
 
 export default class UserService {
@@ -18,12 +19,13 @@ export default class UserService {
     private connections$: Observable<any>;
     private message$: Observable<any>;
 
-    static $inject = ['SessionService', 'SocketService','RESTService'];
+    static $inject = ['SessionService', 'SocketService','RESTService','ReferenceService'];
 
     constructor(
         private SessionService:ISessionService,
         private SocketService:ISocketService,
-        private RESTService:IRESTService) {
+        private RESTService:IRESTService,
+        private ReferenceService: ReferenceService) {
 
         // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
         this.message$ = this.SocketService.messages

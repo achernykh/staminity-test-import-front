@@ -47,7 +47,7 @@ function templateToActivity (template: IActivityTemplate) : Activity {
 	});
 }
 
-export function templateDialog (mode: TemplateDialogMode, template: IActivityTemplate, user: IUserProfile, params: any) {
+export function templateDialog (mode: TemplateDialogMode, template: IActivityTemplate, user: IUserProfile, params?: any) {
 	return {
 		...defaultParams,
 		...params,

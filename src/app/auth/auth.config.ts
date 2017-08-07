@@ -97,25 +97,6 @@ function configure(
 			url: "/confirm",
 			loginRequired: false,
 			//authRequired: ['func1']
-			/* waite for https://github.com/angular-ui/ui-router/issues/3260
-			onEnter: ($state:StateService, $location:Location, SessionService, AuthService, SystemMessageService) => {
-				console.log('confirm=', $location.search, $location.search.hasOwnProperty('request'))
-				// Если пользователь проше по ссылке в письме
-				if ($location.search.hasOwnProperty('request')) {
-					AuthService.confirm({request: $location.search['request']})
-						.then((success) => {
-							console.log('confirm success=', success)
-							SystemMessageService.show(success.title, success.status, success.delay)
-							$state.go('signin')
-						}, (error) => {
-							SystemMessageService.show(error)
-							$state.go('signup')
-						})
-				} else {
-					//TODO Добавить sysmessage
-					$state.go('signup')
-				}
-			}*/
 			views: {
 				"application": {
 					component: "auth",
@@ -138,6 +119,24 @@ function configure(
 				},
 				"form@invite": {
 					template: require('./view/invite.html')
+				}
+			}
+
+		})
+		// Представление Auth: Confirm
+		.state('reset', <StateDeclaration>{
+			url: "/reset",
+			loginRequired: false,
+			params: {
+				email: null
+			},
+			views: {
+				"application": {
+					component: "auth",
+					bindings: "view.application"
+				},
+				"form@reset": {
+					template: require('./view/reset.html')
 				}
 			}
 
