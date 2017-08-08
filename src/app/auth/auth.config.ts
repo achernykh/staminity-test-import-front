@@ -113,6 +113,12 @@ function configure(
 			url: "/invite",
 			loginRequired: false,
 			views: {
+				"header": {
+					component: 'staminityHeader',
+					bindings: {
+						view: 'view.header'
+					}
+				},
 				"application": {
 					component: "auth",
 					bindings: "view.application"
@@ -142,6 +148,9 @@ function configure(
 		.state('reset', <StateDeclaration>{
 			url: "/reset",
 			loginRequired: false,
+			resolve: {
+				view: () => new DisplayView('reset'),
+			},
 			params: {
 				email: null
 			},
@@ -149,6 +158,12 @@ function configure(
 				"application": {
 					component: "auth",
 					bindings: "view.application"
+				},
+				"header": {
+					component: 'staminityHeader',
+					bindings: {
+						view: 'view.header'
+					}
 				},
 				"form@reset": {
 					template: require('./view/reset.html')

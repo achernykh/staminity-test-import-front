@@ -1,6 +1,6 @@
 import {IUserProfile} from '../../../api/user/user.interface';
 import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
-import {GetRequest, PutRequest, GetConnections} from '../../../api/user/user.request';
+import {GetRequest, PutRequest, GetConnections, GetTrainingZones} from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
 import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
@@ -65,11 +65,20 @@ export default class UserService {
     }
 
     /**
-     *
+     * Запрос обьекта connections из userProfile пользователя
      * @returns {Promise<TResult>}
      */
     getConnections():Promise<any> {
         return this.SocketService.send(new GetConnections()).then(result => result);
+    }
+
+    /**
+     * Запрос обьекта trainingZones из userProfile по группе пользователей/или по пользователю
+     * @param groupId
+     * @returns {Promise<any>}
+     */
+    getTrainingZones(groupId):Promise<any> {
+        return this.SocketService.send(new GetTrainingZones(groupId));
     }
 
     /**

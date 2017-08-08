@@ -142,6 +142,31 @@ export const _display_view = {
 			size: 'grow'
 		}
 	},
+	reset: {
+		background: {
+			style: 'dark-blue-grey',
+			toolbar: true,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: false,
+			athletes: false,
+			leftPanel: {
+				url: 'header/backbar.html',
+				size: 30
+			},
+			rightPanel: {
+				url: null,
+				size: 30
+			}
+		},
+		application: {
+			style: 'app-page',
+			margin: 20,
+			size: 'grow'
+		}
+	},
 	api: {
 		background: {
 			style: 'dark-blue-grey',
