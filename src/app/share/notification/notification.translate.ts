@@ -419,12 +419,18 @@ export const translateNotification = {
 
         //  ------ Оплата счетов не прошла из-за ошибки
         //     header (push): Ошибка оплаты
-        billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[2]}} {{data[3]}}. Попробуйте еще раз',
-        billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[2]}} {{data[3]}}. Попробуйте еще раз',
+        billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[3]}} {{data[4]}}. Попробуйте еще раз',
+        //  data[0] - Сумма счета
+        //  data[1] - Валюта счета
+        //
+        billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[3]}} {{data[4]}}. Попробуйте еще раз',
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
         //     header (push): Успешная оплата
-        billExpiredPaymentReceived: 'Спасибо! Ваш платеж по счету на {{data[2]}} {{data[3]}} получен',
+        //  data[0] - Сумма счета
+        //  data[1] - Валюта счета
+        //
+        billExpiredPaymentReceived: 'Спасибо! Ваш платеж по счету на {{data[0]}} {{data[1]}} получен',
 
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
@@ -961,12 +967,12 @@ export const translateNotification = {
 
         //  ------ Оплата счетов не прошла из-за ошибки
         //     header (push): Payment failure
-        billPayment_Failure_singleTariff: 'Something went wrong with your {{data[2]}} {{data[3]}} payment for {{data[0] | translate}} tariff. Please try again',
-        billPayment_Failure_multiTariff: 'Something went wrong with your {{data[2]}} {{data[3]}} payment for your tariffs. Please try again',
+        billPayment_Failure_singleTariff: 'Something went wrong with your {{data[3]}} {{data[4]}} payment for {{data[0] | translate}} tariff. Please try again',
+        billPayment_Failure_multiTariff: 'Something went wrong with your {{data[3]}} {{data[4]}} payment for your tariffs. Please try again',
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
         //     header (push): Successful payment
-        billExpiredPaymentReceived: 'Thank you. Your {{data[2]}} {{data[3]}} payment was processed',
+        billExpiredPaymentReceived: 'Thank you. Your {{data[3]}} {{data[4]}} payment was processed',
 
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
