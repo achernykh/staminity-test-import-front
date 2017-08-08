@@ -247,6 +247,7 @@ export class SocketService implements ISocketService {
             case 'badToken': {
                 this.requests = [];
                 this.message.toastInfo(ev.reason);
+                this.loader.hide();
                 this.$state.go('signin');
                 break;
             }
