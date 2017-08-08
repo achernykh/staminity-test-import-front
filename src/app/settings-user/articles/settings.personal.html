@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </md-input-container>
-                <div flex="10"></div>
+                <div flex="10" show hide-xs></div>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="settings.personalInfo.main.lastName"></label>
                     <input type="text" name="lastName"
@@ -123,12 +123,12 @@
             </md-list-item>
             <md-list-item layout="row" layout-wrap layout-align="start center">
                 <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label>День рождения</label>
+                    <label>День рождения в формате {{::$ctrl.getDateFormat()}}</label>
                     <md-datepicker ng-model="$ctrl.user.personal.birthday"
                                    md-hide-icons="calendar"
                                    name="birthday"></md-datepicker>
                     <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
-                        <div ng-message="valid">The entered value is not a date!</div>
+                        <div ng-message="valid" translate="form.invalidDate"></div>
                     </div>
                 </md-input-container>
                 <div flex="10"></div>

@@ -77,6 +77,7 @@ const convertToFTP = (interval:boolean, initial: {}, value: any, ftp: number):an
 };
 
 const convertFromFTP = (interval:boolean, initial: {}, value: any, ftp: number):any => {
+	//debugger;
 	//return interval ? Object.assign(initial,{from: value.from * 100 / ftp, to: value.to * 100 / ftp}) : value * 100 / ftp;
 };
 
@@ -97,7 +98,7 @@ export function MeasurementInput($filter): IDirective {
 	function link($scope: IScopeMeasureInput, $element: IAugmentedJQuery, $attrs: IAttributes, $ctrl: INgModelController) {
 
 		let FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
-		let interval = JSON.parse($attrs['interval']);
+		let interval = $scope.interval;
 		let ftpMode = $scope.ftpMode;//JSON.parse($attrs.ftpMode);
 		let ftp = ftpMode ? $scope.ftp : null;
 		let isFTPMeasure = false;
@@ -159,7 +160,6 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const numberFtpIntervalParsers = (value) => {
-
 			let sep = value.search('-');
 			let from, to;
 			if(sep !== -1){
@@ -226,14 +226,18 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const numberFtpIntervalFormatters = (value: any) => {
-			//debugger;
-			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
+			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)
+				&& value[$scope.from] && value[$scope.to] ) {
 				initial = value;
-				let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
-				return (newValue[$scope.from] !== newValue.to) ? `${newValue[$scope.from].toFixed(0)}`+'-'+`${newValue[$scope.to].toFixed(0)}` : `${newValue[$scope.from].toFixed(0)}`;
+				//let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
+				return $scope.interval ? `${initial[$scope.from]*100}`+'-'+`${initial[$scope.to]*100}` : `${initial[$scope.from]*100}`;
 			} else {
-				initial = {from: null, to: null};
-				return initial;
+				initial = value;//{[$scope.from]: null, [$scope.to]: null};
+				/**return {
+					[$scope.from]: null,
+					[$scope.to]: null
+				};**/
+				return null;
 			}
 		};
 
@@ -353,7 +357,7 @@ export function MeasurementInput($filter): IDirective {
 
 			if ($scope.measure && $attrs['sport']) {
 				measure = new Measure($scope.measure, $attrs['sport']);
-				console.log('measure = ', measure.name, measure.unit, measure.type, maskFunction(measure.type, JSON.parse($attrs['interval'])));
+				console.log('measure = ', measure.name, measure.unit, measure.type, maskFunction(measure.type, $scope.interval));
 
 				switch (measure.type){
 					case 'pace': {

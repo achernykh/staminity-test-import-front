@@ -71,15 +71,15 @@ const ActivityPeaksComponent: IComponentOptions = {
 				</md-button>
 				
 			</md-list-item>
-			<md-list-item class="peaks" layout="row" layout-wrap ng-repeat-start="category in $ctrl.peaks | filter:filter">	
-				<div flex="33" ng-repeat="peak in category.value track by $index" ng-if="peak.value">
+			<md-list-item class="peaks" ng-repeat-start="category in $ctrl.peaks | filter:filter">	
+				<div class="peak" ng-repeat="peak in category.value track by $index" ng-if="peak.value">
 					<md-button class="md-exclude">
 						{{peak.intervalLength | measureCalc:$ctrl.sport:category.type}}&nbsp{{category.type | measureUnit:$ctrl.sport | translate}}
 						<span>{{peak.value | measureCalc:$ctrl.sport:category.measure}}</span> 
 					</md-button>
 				</div>			
 			</md-list-item>
-			<md-divider ng-repeat-end></md-divider>
+			<md-divider ng-repeat-end ng-if="!$last"></md-divider>
 		</md-list>`
 
 };

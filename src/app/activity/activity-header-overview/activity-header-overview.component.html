@@ -8,20 +8,29 @@
                      on-change="$ctrl.onChangeForm(plan,actual,form)">
 </activity-assignment>
 
+
+
 <md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>
-    <md-button ng-if="$ctrl.item.mode === 'view'" ng-disabled="true"
-               ng-click="">В шаблон
+    <md-button ng-if="$ctrl.item.mode === 'view' && $ctrl.item.template" 
+              ng-click="$ctrl.item.onCancel()">Закрыть
     </md-button>
-    <md-button ng-if="$ctrl.item.mode === 'view'"
+    <md-button ng-if="$ctrl.item.mode === 'view' && $ctrl.item.template" type="submit"
+               ng-disabled="!$ctrl.assignmentForm.$dirty || !$ctrl.assignmentForm.$valid"
+               ng-click="$ctrl.item.onSaveTemplate()">Сохранить
+    </md-button>
+    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"
+               ng-click="$ctrl.item.toTemplate()">В шаблон
+    </md-button>
+    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"
                ng-click="$ctrl.item.changeMode('put')">Изменить
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'"
                ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )">Отменить
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'" type="submit"
-               ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid"
-               ng-class="{'md-warn': !$ctrl.form.$valid}"
+               ng-disabled="!$ctrl.assignmentForm.$dirty || !$ctrl.assignmentForm.$valid || $ctrl.item.inAction"
+               ng-class="{'md-warn': !$ctrl.assignmentForm.$valid}"
                ng-click="$ctrl.onSave()">
         Сохранить
     </md-button>

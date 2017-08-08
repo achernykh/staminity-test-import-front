@@ -114,8 +114,13 @@ export class RESTService implements IRESTService {
 					return response.data;
 				}
 			}, (response) => {
-				console.log('REST Service => postData error=', response);
-				throw response.data.errorMessage; // Предполагаем, что сервер ответил ошибкой в формате systemMessage
+				if (response.hasOwnProperty('status') && response.status === -1){
+                    throw 'internetConnectionLost';
+                } else if(response.hasOwnProperty('data') && response.data.hasOwnProperty('errorMessage')) {
+                    throw response.data.errorMessage;
+                } else {
+                    throw 'unknownErrorMessage';
+                }
 			});
 	}
 

@@ -19,7 +19,7 @@
         <div class="md-caption" style="margin-bottom: 15px">{{ $ctrl.user.personal.activity.join(', ') }}</div>
         <div>
             <span>
-                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'startCoach')"
+                <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'dialogs.startCoach')"
                            ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach && ($ctrl.user.private.isFree || !$ctrl.user.private.hasOwnProperty('isFree'))"
                            class="md-raised md-primary md-dark-theme" style="text-transform: none;">
                     Начать тренироваться
@@ -40,7 +40,7 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.cancel($ctrl.user.connections.Athletes, 'rejectRequest')">
+                            <md-button ng-click="$ctrl.cancel($ctrl.user.connections.Athletes, 'dialogs.rejectRequest')">
                                 Отменить заявку
                             </md-button>
                         </md-menu-item>
@@ -53,7 +53,7 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.leave($ctrl.user.connections.Athletes, 'leaveCoach')">
+                            <md-button ng-click="$ctrl.leave($ctrl.user.connections.Athletes, 'dialogs.leaveCoach')">
                                 Перестать тренироваться
                             </md-button>
                         </md-menu-item>
@@ -66,7 +66,7 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.cancel($ctrl.user.connections.Athletes, 'rejectRequest')">
+                            <md-button ng-click="$ctrl.cancel($ctrl.user.connections.Athletes, 'dialogs.rejectRequest')">
                                 Отменить заявку
                             </md-button>
                         </md-menu-item>
@@ -80,12 +80,12 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Followers, 'startFollow')">
+                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Followers, 'dialogs.startFollow')">
                                 Подписаться
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Friends, 'startFriends')">
+                            <md-button ng-click="$ctrl.join($ctrl.user.connections.Friends, 'dialogs.startFriends')">
                                 Добавить в друзья
                             </md-button>
                         </md-menu-item>

@@ -166,6 +166,14 @@ calendar-day {
         outline: none;
       }
     }
+
+    section.icon {
+      // xs & sm size
+      @media (min-width: 0px) and (max-width: 959px) {
+        margin-right: 16px;
+      }
+    }
+
     footer {
       padding: 12px;
     }

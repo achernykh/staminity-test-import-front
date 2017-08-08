@@ -1,0 +1,100 @@
+<application-frame 
+	layout="{{ $ctrl.isMobileLayout? 'column' : 'row' }}" 
+	class="reference__wrap" 
+	ng-class="{ 'reference-mobile': $ctrl.isMobileLayout }"
+>
+
+	<div class="reference__filters">
+		<md-tabs 
+			class="reference__tabs md-primary md-hue-3 md-body-1" 
+			md-dynamic-height="true"
+			md-no-pagination md-selected="2"
+		>
+			<md-tab label="{{ 'reference.templates.title' | translate }}" md-on-select="$ctrl.tab = 'templates'">
+				<md-content class="md-padding reference__filters-content">
+					<md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">
+						<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.filterParams.activityType.code || 'run' }}.svg"></md-icon>
+						<md-select 
+							placeholder="{{ 'reference.sport' | translate }}"
+							flex name="activity-type" class="icon"
+							ng-model="$ctrl.filterParams.activityType"
+							ng-change="$ctrl.updateFilterParams()"
+						>
+							<md-option 
+								ng-repeat="activityType in $ctrl.activityTypes" 
+								ng-value="activityType"
+							>
+								{{ 'sport.' + activityType.code | translate }}
+							</md-option>
+						</md-select>
+					</md-input-container>
+					<md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">
+						<md-icon class="material-icons" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
+						<md-select 
+							ng-model="$ctrl.filterParams.category" 
+							ng-change="$ctrl.updateFilterParams()"
+							placeholder="{{ 'reference.templates.category' | translate }}"
+							name="category" class="icon"
+						>
+							<md-optgroup 
+								ng-repeat="owner in ['user', 'coach', 'club', 'system']"
+								ng-if="$ctrl.categoriesByOwner[owner].length"
+								label="{{ 'reference.categories.' + owner | translate }}"
+							>
+								<md-option 
+									ng-repeat="category in $ctrl.categoriesByOwner[owner]" 
+									ng-value="category"
+								>
+									{{ category | categoryCode }}
+								</md-option>
+							</md-optgroup>
+						</md-select>
+						<div ng-messages="$ctrl.form.category.$error" role="alert">
+							<div ng-message="required" translate="form.required"></div>
+						</div>
+					</md-input-container>
+				</md-content>
+			</md-tab>
+			<md-tab label="{{ 'reference.categories.title' | translate }}" md-on-select="$ctrl.tab = 'categories'">
+				<md-content class="md-padding reference__filters-content">
+					<md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">
+						<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.filterParams.activityType.code || 'run' }}.svg"></md-icon>
+						<md-select 
+							placeholder="{{ 'reference.sport' | translate }}"
+							flex name="activity-type" class="icon"
+							ng-model="$ctrl.filterParams.activityType"
+							ng-change="$ctrl.updateFilterParams()"
+						>
+							<md-option 
+								ng-repeat="activityType in $ctrl.activityTypes" 
+								ng-value="activityType"
+							>
+								{{ 'sport.' + activityType.code | translate }}
+							</md-option>
+						</md-select>
+					</md-input-container>
+				</md-content>
+			</md-tab>
+		</md-tabs>
+	</div>
+
+	<templates 
+		ng-if="$ctrl.tab === 'templates'"
+		templates="$ctrl.templates" 
+		categories="$ctrl.categories" 
+		filter-params="$ctrl.filterParams" 
+		user="$ctrl.user"
+		club="$ctrl.club"
+	></templates>
+
+	<categories 
+		ng-if="$ctrl.tab === 'categories'"
+		templates="$ctrl.templates" 
+		categories="$ctrl.categories" 
+		filter-params="$ctrl.filterParams" 
+		user="$ctrl.user"
+		club="$ctrl.club"
+	></categories>
+
+</application-frame>
+

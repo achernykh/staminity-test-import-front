@@ -152,10 +152,10 @@ class CalendarActivityCtrl {
     }
 
     $onChanges(changes) {
-        if (!changes.selected) {
+        if (changes.hasOwnProperty('selected') && !changes.selected) {
             console.log('CalendarActivityCtrl: onChange, selected=', changes.selected);
         }
-        if(!changes.item.isFirstChange()) {
+        if(changes.hasOwnProperty('item') && !changes.item.isFirstChange()) {
             this.$onInit();
         }
     }
@@ -296,7 +296,7 @@ class CalendarActivityCtrl {
      * Удалить запись
      */
     onDelete() {
-        this.dialogs.confirm('deletePlanActivity')
+        this.dialogs.confirm('dialogs.deletePlanActivity')
             .then(()=>this.CalendarService.deleteItem('F', [this.item.calendarItemId])
                 .then(()=>this.message.toastInfo('activityDeleted'),
                     (error)=> this.message.toastError(error)));

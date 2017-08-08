@@ -22,7 +22,7 @@ import ActivityHeaderSplitsComponent from "./activity-header-splits/activity-hea
 import ActivityComponent from "./activity.component";
 
 const Activity = module('staminity.activity', [])
-    .service('ActivityService', ActivityService)
+	.service('ActivityService', ActivityService)
 	.component('activity', ActivityComponent)
 	.component('activityHeader', ActivityHeaderComponent)
 	.component('activityHeaderOverview', ActivityHeaderOverviewComponent)
@@ -49,7 +49,7 @@ const Activity = module('staminity.activity', [])
 			});
 		});
 	}])
-    .config(configure)
-    .name;
+	.config(configure)
+	.name;
 
 export default Activity;

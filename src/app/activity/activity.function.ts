@@ -5,6 +5,9 @@ import {
 } from "../../../api/activity/activity.interface";
 import {copy} from 'angular';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
+import {ITrainingZonesType, IUserProfile} from "../../../api/user/user.interface";
+import {getFTP, profileShort} from "../core/user.function";
+import moment from 'moment/min/moment-with-locales.js';
 
 export class MeasureChartData {
 
@@ -102,7 +105,37 @@ export const isCompletedActivity = (item: ICalendarItem):boolean => {
  * @returns {ICalendarItem}
  */
 export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
+    if(item.calendarItemType !== 'activity') {
+        return item;
+    }
     item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
     delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    return item;
+};
+
+export const updateIntensity = (item: ICalendarItem, trgZones: Array<ITrainingZonesType>): ICalendarItem => {
+    // TODO for interval P
+    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
+    let sport: string = item.activityHeader.activityType.code;
+    let measure: string = intervalPW.intensityMeasure;
+    let ftp: number = getFTP(trgZones,measure,sport);
+    if (!intervalPW || !trgZones || !measure || !sport) {
+        return item;
+    }
+    console.log(ftp);
+    intervalPW.intensityLevelFrom = intervalPW.intensityByFtpFrom * ftp;
+    intervalPW.intensityLevelTo = intervalPW.intensityByFtpTo * ftp;
+    debugger;
+    return item;
+};
+
+export const changeUserOwner = (item: ICalendarItem, user: IUserProfile): ICalendarItem => {
+    item.userProfileOwner = profileShort(user);
+    return item;
+};
+
+export const shiftDate = (item: ICalendarItem, shift: number) => {
+    item.dateStart = moment(item.dateStart, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
+    item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     return item;
 };

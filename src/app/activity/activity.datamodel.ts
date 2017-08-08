@@ -13,7 +13,10 @@ import {copy, merge} from 'angular';
 import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {activityTypes, getType} from "./activity.constants";
-import {IUserProfileShort} from "../../../api/user/user.interface";
+import {IUserProfileShort, IUserProfile} from "../../../api/user/user.interface";
+import {IGroupProfileShort} from '../../../api/group/group.interface';
+import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../reference/reference.datamodel";
+import { pipe, orderBy, prop, groupBy } from "../share/util.js";
 
 export interface IRoute {
 	lat:number;
@@ -127,13 +130,14 @@ export class Activity extends CalendarItem {
 	public activityHeader: IActivityHeader;
 	public header: IActivityHeader;
 	public categoriesList: Array<IActivityCategory> = [];
+	public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
 	public intervalPW: IActivityIntervalPW;
 	public intervalW: IActivityIntervalW;
 	public intervalL: Array<IActivityIntervalL> = [];
 	public intervalU: Array<IActivityIntervalL> = [];
 	public intervalP: Array<IActivityIntervalP> = [];
 	private route: Array<IRoute>;
-	private isRouteExist: boolean = false;
+	private isRouteExist: boolean = true; // ставим начально значени true, чтобы отобразить процесс загрузки данных, далее значение будет переопределно наличем координат
 	private hasDetails: boolean = false;
 	public hasImportedData: boolean = false;
 	private peaks: Array<any>;
@@ -141,6 +145,15 @@ export class Activity extends CalendarItem {
 	public details: IActivityDetails;
 	public actualDataIsImported: boolean = false;
     private _startDate: Date;
+
+	// Дополнительные поля для использования в шаблонах тренировки
+	public isTemplate: boolean;
+	public templateId: number;
+	public code: string;
+	public description: string;
+	public favourite: boolean;
+	public visible: boolean;
+	public groupProfile: IGroupProfileShort;
 
 	constructor(private item: ICalendarItem, private method: string = 'view'){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
@@ -242,7 +255,7 @@ export class Activity extends CalendarItem {
 		super.package();
 		this.dateEnd = this.dateStart;
 		this.header.activityType = getType(Number(this.header.activityType.id));
-		this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
+		//this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
@@ -308,13 +321,14 @@ export class Activity extends CalendarItem {
 		return `assets/icon/${this.header.activityType.code || 'default_sport'}.svg`;
 	}
 
-	get category():number {
-		return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('id'))
-			&& this.header.activityCategory.id;
+	get category():IActivityCategory {
+		/**return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('id'))
+			&& this.header.activityCategory.id;**/
+		return this.header.hasOwnProperty('activityCategory') && this.header.activityCategory;
 	}
 
-	set category(id: number) {
-		this.header.activityCategory = this.categoriesList.filter(c => c.id === Number(id))[0];
+	set category(c: IActivityCategory) {
+		this.header.activityCategory = c;
 	}
 
 	get categoryCode():string {
@@ -389,6 +403,7 @@ export class Activity extends CalendarItem {
 
 	/**
 	 * Перечень статусов тренировки
+	 * 0) Шаблон - template
 	 * 1) Запланирована, в будущем - coming
 	 * 2) Запланирована, пропущена - dismiss
 	 * 3) Запланирована, выполнена - complete
@@ -398,7 +413,8 @@ export class Activity extends CalendarItem {
 	 * @returns {string}
 	 */
 	get status() {
-		return !this.isToday ?
+		return this.isTemplate? 'template' : (
+			!this.isToday ?
 			// приоритет статусов, если запись не сегодня
 			(this.coming && 'coming')
 				|| (!this.specified && 'not-specified')
@@ -411,7 +427,8 @@ export class Activity extends CalendarItem {
 				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
 				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
 				|| (!this.specified && 'not-specified')
-				|| (this.coming && 'coming');
+				|| (this.coming && 'coming')
+		);
 	}
 
 	get durationValue(){
@@ -492,6 +509,14 @@ export class Activity extends CalendarItem {
 
 		// Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
 		return (data.length > 0 && data.map(d => {d[0] = d[0] / finish;	d[1] = d[1] / 100; return d;})) || null;
+	}
+
+	setCategoriesList (categoriesList: Array<IActivityCategory>, userProfile: IUserProfile) {
+		this.categoriesList = categoriesList;
+		this.categoriesByOwner = pipe(
+			orderBy(prop('sortOrder')),
+			groupBy(getOwner(userProfile))
+		) (categoriesList);
 	}
 }
 

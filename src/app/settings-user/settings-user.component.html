@@ -8,7 +8,7 @@
                 <md-list-item ng-repeat="nav in $ctrl._NAVBAR" ng-href="{{::nav.link}}"
                               duration="500" du-smooth-scroll du-scrollspy ng-disabled="!nav.active">
                     <md-icon class="material-icons" ng-class="{disable: !nav.active}">{{::nav.icon}}</md-icon>
-                    <div flex hide show-gt-md class="md-body-1" style="opacity: 0.87" translate>{{::nav.name}}</div>
+                    <div flex hide show-gt-md class="md-body-1" translate>{{::nav.name}}</div>
                 </md-list-item>
             </md-content>
         </nav>
@@ -24,8 +24,8 @@
         <!-- ЛЕНТА НАСТРОЕК -->
         <section class="settings-container" flex="auto" layout="column">
             <header flex="none" layout="column" md-theme="dark">
-                <md-card class="user-background" flex="none" layout-align="end center" style="background-image: url({{$ctrl.user.public.background | userBackground}})">
-                    <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
+                <md-card class="user-background" flex="none" layout-align="start center" style="background-image: url({{$ctrl.user.public.background | userBackground}})">
+                    <md-card-content layout="row" layout-align="space-between start" style="width: 100%">
                         <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
                                  profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true">
                             <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
@@ -44,7 +44,7 @@
                                                                        private:         $ctrl.privateFirstForm.$dirty || $ctrl.privateSecondForm.$dirty,
                                                                        privacy:         $ctrl.privacyForm.$dirty,
                                                                        display:         $ctrl.displayForm.$dirty,
-                                                                       notifications:   $ctrl.notificationForm.$dirty})">
+                                                                       notifications:   $ctrl.notificationDirty})">
                                     <md-icon class="material-icons">save</md-icon>
                                 </md-button>
                             </md-fab-trigger>
@@ -60,8 +60,10 @@
                 <ng-include src="'settings.display.html'" ng-if="!$ctrl.athlete"></ng-include>
                 <ng-include src="'settings.account.html'" ng-if="!$ctrl.athlete"></ng-include>
                 <ng-include src="'settings.sync.html'" ng-if="!$ctrl.athlete"></ng-include>
-                <settings-zones zones="$ctrl.user.trainingZones"></settings-zones>
-                                  <!--<ng-include src="'settings.zones.html'"></ng-include><!--
+                <settings-zones zones="$ctrl.user.trainingZones"></settings-zones><!--
+                <settings-notification notifications="$ctrl.user.notifications" on-change="$ctrl.notificationDirty = true" ng-if="!$ctrl.athlete"></settings-notification>-->
+
+                <!--
                 <article flex="none" ng-include="'settings/articles/settings.notifications.html'"></article>
                 <!--<ng-include src="'settings/articles/settings.templates.html'"></ng-include> -->
             </section>

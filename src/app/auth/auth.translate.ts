@@ -11,6 +11,7 @@ export let _translate = {
 		err30: '{{field}} не должно превышать 30 символов',
 		errMail: 'Проверьте правильность указания e-mail',
 		errPass: 'Пароль должен быть не менее 8 символов и содержать хотя бы одну цифру и заглавную букву',
+		errComparePass: 'Пароли не совпадают',
 		confirmation: "Я принимаю <a href='https://legal.staminity.com/ru/license.html'>Публичную оферту</a> и соглашаюсь с <a href='https://legal.staminity.com/ru/terms.html'>Условиями использования</a> сайта.<br>",
 
 		socialText: 'Через социальные сети:',
@@ -28,7 +29,8 @@ export let _translate = {
 			fullTitle: 'Войти',
 			shortTitle: 'Войти',
 			button: 'Войти',
-			remember: 'Запомнить меня'
+			remember: 'Запомнить меня',
+			reset: 'Восстановление пароля'
 		},
 		// Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
 		confirm: {
@@ -36,6 +38,19 @@ export let _translate = {
 			shortTitle: 'Подтверждение',
 			text: 'Поздравляем, Вы зарегистрировались! Для начала использования сервиса подтвердите Ваш e-mail,' +
 			' перейдя по ссылке из письма, отправленного на <b>{{email}}</b>'
+		},
+		invite: {
+			fullTitle: 'Установка пароля',
+			shortTitle: 'Установка пароля',
+		},
+		reset: {
+			fullTitle: 'Восстановление пароля',
+			shortTitle: 'Восстановление пароля',
+			info: "Enter your email address below and we'll send you a link with instructions.",
+		},
+		setpassword: {
+			fullTitle: 'Установка пароля',
+			shortTitle: 'Установка пароля'
 		},
 		// Окно "Забыли пароль"
 		forgetpass: {

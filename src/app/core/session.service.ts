@@ -2,6 +2,8 @@ import {IUserProfile} from '../../../api/user/user.interface';
 import { IWindowService } from 'angular';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {ISocketService} from "./socket.service";
+import {MessageGroupMembership, ProtocolGroupUpdate} from "../../../api/group/group.interface";
 
 export interface IAuthToken {
 	userProfile: IUserProfile;
@@ -14,6 +16,7 @@ export interface ISessionService {
 	getUser():IUserProfile;
 	setUser(value:IUserProfile):void;
 	getPermissions():Array<Object>;
+	setPermissions(value: Object):void;
 	getDisplaySettings():Object;
 	setDisplaySettings(value:Object):void;
 	setToken(value:Object):void;
@@ -37,7 +40,6 @@ export default class SessionService implements ISessionService {
 
 	constructor(private $window:IWindowService) {
 		this.memoryStore = {};
-		this.$window = $window;
 		try {
 			this._user = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
 		} catch (e) {
@@ -45,6 +47,7 @@ export default class SessionService implements ISessionService {
 		}
 		this._profile = new BehaviorSubject(this.getUser());
 		this.profile = this._profile.asObservable();
+
 	}
 
 	getAuth():Object {
@@ -88,6 +91,18 @@ export default class SessionService implements ISessionService {
 			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.permissionsKey];
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
+		}
+	}
+
+	setPermissions(value:Object):void{
+		try {
+			//this._user = value;
+			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
+			Object.assign(data, {'systemFunctions': value});
+			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
+			//this._profile.next(value);
+		} catch (e) {
+			throw new Error(e);
 		}
 	}
 

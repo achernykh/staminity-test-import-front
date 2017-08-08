@@ -42,6 +42,8 @@ import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
 import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
 import {_translate_PageNotFound} from "./404/404.translate";
+import {translateHeader} from "./header/header.translate";
+import {compareTo} from "./directives/form.directive";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -51,7 +53,7 @@ export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
 export const fromNow = () => (date) => moment.utc(date).fromNow(true);
 
 
-const image = () => (sub: string, url: string = '') : string => {
+const image = () => (sub: string, url:string = 'default.jpg') : string => {
     return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
 };
 
@@ -69,7 +71,7 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     let url: string = '/assets/picture/default_avatar.png';
     switch (type) {
         case InitiatorType.user: {
-            url = `url(${avatar !== 'default.jpg' ? image() ('/user/avatar/',avatar) : '/assets/picture/default_avatar.png'})`;
+            url = `url(${avatar && avatar !== 'default.jpg' ? image() ('/user/avatar/', avatar) : '/assets/picture/default_avatar.png'})`;
             break;
         }
         case InitiatorType.group: case InitiatorType.club: {
@@ -87,6 +89,8 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     }
     return url;
 };
+
+const truncate = () => (s, max = 140) => s && (s.length <= max? s : s.slice(0, max - 1) + '…');
 
 const userpic = {
     bindings: {
@@ -266,6 +270,8 @@ const Share = module('staminity.share', [])
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
+    .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
+    .filter('truncate', truncate)
     .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
 
         $stateProvider
@@ -292,6 +298,8 @@ const Share = module('staminity.share', [])
         $translateProvider.translations('en', translateNotification['en']);
         $translateProvider.translations('ru', {'404': _translate_PageNotFound['ru']});
         $translateProvider.translations('en', {'404': _translate_PageNotFound['en']});
+        $translateProvider.translations('ru', {header: translateHeader['ru']});
+        $translateProvider.translations('en', {header: translateHeader['en']});
     }])
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал
@@ -301,6 +309,7 @@ const Share = module('staminity.share', [])
         $templateCache.put('header/logo.html', require('./header/panels/logo.html') as string);
         $templateCache.put('header/usertoolbar.html', require('./header/panels/usertoolbar.html') as string);
         $templateCache.put('header/welcome.links.html', require('./header/panels/welcome.links.html') as string);
+        $templateCache.put('header/backbar.html', require('./header/panels/backbar.html') as string);
         $templateCache.put('notification/notification.html', require('./notification/notification.html') as string);
     }])
     .name;
