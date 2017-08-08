@@ -503,8 +503,8 @@ export const translateNotification = {
          data[0] - Название тарифа
          data[1] - paidTill date
          **/
-        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить, оплатите счет. Включите автопродление, если нет счетов",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить, оплатите счет. Включите автопродление, если нет счетов',
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить, оплатите счет. Если нет счетов, включите автопродление",
+        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить, оплатите счет. Если нет счетов, включите автопродление',
         expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
 
         /* ----------- Уведомления по счетам  --------**
