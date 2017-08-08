@@ -8,9 +8,9 @@ const PlanChartComponent: IComponentOptions = {
     bindings: {
         activityHeader: '<',    // intervals info
         select: '<',            // array of selected intervals
-        actualFtp: '@',         // false - только план
-        planFtp: '@',           // отображать ли плановый % FTP
-        durationMeasure: '@',   // отображать по времени или дистанции
+        actualFtp: '<',         // false - только план
+        planFtp: '<',           // отображать ли плановый % FTP
+        durationMeasure: '<',   // отображать по времени или дистанции
         view: '<',              // формат отображения mobile / desktop, влияет на aspectRatio
         change: '<',            // индикатор изменения данных activityHeader
         onSelect: '&'           // callback, returns intervals chosen by users

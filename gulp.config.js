@@ -59,7 +59,7 @@ const backend = {
     build: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'app.staminity.com',
+        server: 'testapp.staminity.com:8080',
         content: 'https://app.staminity.com',
         frontend: 'http://0.0.0.0:8080/'
     },

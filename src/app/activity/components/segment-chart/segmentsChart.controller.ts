@@ -98,6 +98,7 @@ class SegmentChartController implements IComponentController {
         this.prepareData();
         if (this.isReady) {
             this.cleanupPlaceholder();
+            this.preparePlaceholder();
             this.prepareScales();
             this.drawChart();
         }
@@ -119,12 +120,11 @@ class SegmentChartController implements IComponentController {
     }
 
     private prepareData(): void {
-        //debugger;
         let model = new PlanChartDatamodel(this.activityHeader);
         this.intervals = model.getIntervals();
         this.select = this.select || [];
-        this.actualFtp = this.actualFtp === "true";
-        this.planFtp = this.planFtp === "true";
+        //this.actualFtp = this.actualFtp === "true";
+        //this.planFtp = this.planFtp === "true";
         this.durationMeasure = PlanChartMode.ensure(this.durationMeasure);
     }
 
@@ -157,7 +157,7 @@ class SegmentChartController implements IComponentController {
     }
 
     private preparePlaceholder(): void {
-        // calc current chart size based on the conteiner size and chart's settings
+        // calc current chart size based on the container size and chart's settings
         var bounds = this.$element[0].getBoundingClientRect();
         this.width = Math.max(bounds.width, this.chartSettings.minWidth);
         this.height = bounds.height;
@@ -189,8 +189,8 @@ class SegmentChartController implements IComponentController {
     }
 
     private cleanupPlaceholder(): void {
-        this.$interactiveArea.selectAll().remove();
-        this.$placeholder.select('.segments-chart-grid').selectAll().remove();
+        this.$interactiveArea.remove();
+        this.$placeholder.remove();
     }
 
     private drawChart(): void {
