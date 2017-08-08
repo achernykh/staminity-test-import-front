@@ -1026,7 +1026,7 @@ export const translateNotification = {
          header (push): Клуб создан
          data[0] - Название клуба
          **/
-        clubEnvCreate: 'Club {{data[0]}} created, find in in left menu',
+        clubEnvCreate: 'Club {{data[0]}} created',
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
