@@ -106,8 +106,7 @@
                             dnd-draggable="item"
                             dnd-type="'itemType'"
                             dnd-effect-allowed="copyMove"
-                            dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
-                            dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)">
+                            dnd-callback="$ctrl.onDropEvent(item, operation, $index, date, index)">
                 <header ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
                     <div layout="row" layout-align="space-between center">
                         <div flex="25" hide show-gt-sm></div>
@@ -204,7 +203,7 @@
                                dnd-disable-if="::!$ctrl.isSpecified(item)"
                                dnd-type="'itemType'"
                                dnd-effect-allowed="copyMove"
-                               dnd-callback="$ctrl.onDrop(item, operation, $index, date, index)"
+                               dnd-callback="$ctrl.onDropActivity(item, operation, $index, date, index)"
             </calendar-activity>
         </div>
     </section>

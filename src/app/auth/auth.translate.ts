@@ -48,7 +48,7 @@ export let _translate = {
 			shortTitle: 'Восстановление пароля',
 			info: "Enter your email address below and we'll send you a link with instructions.",
 		},
-		setpassword: {
+		setpass: {
 			fullTitle: 'Установка пароля',
 			shortTitle: 'Установка пароля'
 		},

@@ -191,7 +191,7 @@ class CalendarDayCtrl {
     }
 
 
-    onDrop(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number) {
+    onDropActivity(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number) {
 
         let item: ICalendarItem = copy(srcItem);
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
@@ -218,6 +218,29 @@ class CalendarDayCtrl {
                 break;
             }
         }
+        return true;
+    }
+
+    onDropEvent(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number):boolean {
+        let item: ICalendarItem = copy(srcItem);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
+
+        switch (operation) {
+            case 'move': {
+                this.CalendarService.putItem(item)
+                    .then(() => this.message.toastInfo('eventMoved'))
+                    .catch(error => this.message.toastError(error));
+                break;
+            }
+            case 'copy': {
+                this.CalendarService.postItem(item)
+                    .then(() => this.message.toastInfo('eventCopied'))
+                    .catch(error => this.message.toastError(error));
+                break;
+            }
+        }
+
         return true;
     }
 

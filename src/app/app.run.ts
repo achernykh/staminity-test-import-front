@@ -38,7 +38,8 @@ function run(
 	$transitions.onSuccess({ to:'*',from:'*' }, state => LoaderService.hide());
 	
 	$state.defaultErrorHandler((error) => {
-		message.systemWarning(error.detail);
+		console.error(error);
+		//message.systemWarning(error.detail);
 	});
 }
 

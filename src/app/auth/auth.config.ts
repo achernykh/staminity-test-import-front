@@ -123,6 +123,21 @@ function configure(
 			}
 
 		})
+		// Представление Auth: SetPassword
+		.state('setpass', <StateDeclaration>{
+			url: "/setpass",
+			loginRequired: false,
+			views: {
+				"application": {
+					component: "auth",
+					bindings: "view.application"
+				},
+				"form@setpass": {
+					template: require('./view/setpass.html')
+				}
+			}
+
+		})
 		// Представление Auth: Confirm
 		.state('reset', <StateDeclaration>{
 			url: "/reset",
