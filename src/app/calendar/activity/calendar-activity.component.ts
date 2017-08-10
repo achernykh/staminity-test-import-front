@@ -296,10 +296,15 @@ class CalendarActivityCtrl {
      * Удалить запись
      */
     onDelete() {
-        this.dialogs.confirm('dialogs.deletePlanActivity')
-            .then(()=>this.CalendarService.deleteItem('F', [this.item.calendarItemId])
-                .then(()=>this.message.toastInfo('activityDeleted'),
-                    (error)=> this.message.toastError(error)));
+        this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
+        .then(() => this.CalendarService.deleteItem('F', [this.item.calendarItemId]))
+        .then(() => {
+            this.message.toastInfo('activityDeleted');
+        }, (error) => {
+            if (error) {
+                this.message.toastError(error);
+            }
+        });
     }
 
     /**

@@ -21,8 +21,8 @@
                     <span>{{ 'settings.billing.payment' | translate }}</span>
                     <span flex></span>
                     <span>{{'settings.billing.tariffStatusesEnablers.' + $ctrl.tariffStatus | translate:{
-                        club: (tariff.clubProfile | clubName),
-                        coach: (tariff.userProfilePayer | userName)
+                        club: ($ctrl.tariff.clubProfile | clubName),
+                        coach: ($ctrl.tariff.userProfilePayer | userName)
                     } }}</span>
                 </md-list-item>
                 <md-list-item ng-if="!['enabledByClub', 'enabledByCoach'].includes($ctrl.tariffStatus)">

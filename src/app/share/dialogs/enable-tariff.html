@@ -12,21 +12,18 @@
     <md-dialog-content flex>
         <md-list class="md-dense">
 
-            <md-list-item ng-if="$ctrl.monthlyFee && $ctrl.yearlyFee">
-                <md-button ng-class="{'sectioned-button_right': true, 'md-raised': true, 'md-primary': $ctrl.fee === $ctrl.monthlyFee}"
-                           ng-click="$ctrl.fee = $ctrl.monthlyFee"
-                           style="line-height: 40px;"
-                >{{ 'settings.billing.monthly' | translate }}</md-button>
-                <md-button ng-class="{'sectioned-button_left': true, 'md-raised': true, 'md-primary': $ctrl.fee === $ctrl.yearlyFee}"
-                           ng-click="$ctrl.fee = $ctrl.yearlyFee"
-                           style="line-height: 20px; "
-                >
-                    {{ 'settings.billing.yearly' | translate }}
-                    <div style="text-transform: none; font-weight: normal;">{{ 'settings.billing.saving' | translate:{saving: (100 * ($ctrl.monthlyFee.rate * 12 / $ctrl.yearlyFee.rate - 1) | number:0)} }}</div>
-                </md-button>
-            </md-list-item>
-
             <md-subheader class="md-no-sticky">{{ 'settings.billing.subscriptionFees' | translate }}</md-subheader>
+            <md-list-item ng-if="$ctrl.monthlyFee && $ctrl.yearlyFee">
+                <md-radio-group ng-model="$ctrl.fee" layout="row" layout-align="space-around" style="width: 100%;">
+                    <md-radio-button ng-value="$ctrl.monthlyFee">
+                        {{ 'settings.billing.monthly' | translate }}
+                    </md-radio-button>
+                    <md-radio-button ng-value="$ctrl.yearlyFee">
+                        {{ 'settings.billing.yearly' | translate }}
+                        <!--<div style="text-transform: none; font-weight: normal;">{{ 'settings.billing.saving' | translate:{saving: (100 * ($ctrl.monthlyFee.rate * 12 / $ctrl.yearlyFee.rate - 1) | number:0)} }}</div>-->
+                    </md-radio-button>
+                </md-radio-group>
+            </md-list-item>
             <md-list-item layout="row">
                 <span>{{ 'settings.billing.periodically.' + $ctrl.fee.term | translate }}</span>
                 <span ng-if="$ctrl.fee.promo.discount" class="font-bold"> ({{ $ctrl.fee.promo.discount }}%)</span>
@@ -122,9 +119,20 @@
                 <md-subheader class="md-no-sticky">{{ 'settings.billing.conditions' | translate }}</md-subheader>
                 <md-list-item>
                     <p style="white-space: pre-wrap;">{{ 'settings.billing.conditionsText' | translate:{
-                        tariff:('settings.billing.tariffs.' + tariff.tariffCode | translate),
+                        tariff:('settings.billing.tariffs.' +  $ctrl.tariff.tariffCode | translate),
                         validThrough:($ctrl.billing.joinBillConditions.nextBillDate | date:'dd.MM.yyyy')
                     } }}</p>
+                </md-list-item>
+            </div>
+
+            <div>
+                <md-list-item>
+                    <p>
+                        {{ 'settings.billing.agreementMessage' | translate }}
+                        <a class="md-primary font-13" href="{{ 'settings.billing.subscriptionConditionsLink' | translate:{ tariffCode: $ctrl.tariff.tariffCode } }}">{{ 'settings.billing.agreementLink' | translate }}</a>
+                    </p>
+                    <md-switch ng-model="$ctrl.agreement">
+                    </md-switch>
                 </md-list-item>
             </div>
 
@@ -135,14 +143,9 @@
         <span flex></span>
         <md-button ng-click="$ctrl.cancel()">{{ 'settings.billing.cancel' | translate }}</md-button>
         <md-button 
-            ng-if="!$ctrl.billing.trialConditions.isAvailable" 
             class="md-primary" 
             ng-click="$ctrl.submit()"
-        >{{ 'settings.billing.confirmEnable' | translate }}</md-button>
-        <md-button 
-            ng-if="$ctrl.billing.trialConditions.isAvailable" 
-            class="md-primary" 
-            ng-click="$ctrl.submitTrial()"
-        >{{ 'settings.billing.confirmTrial' | translate }}</md-button>
+            ng-disabled="!$ctrl.agreement"
+        >{{ 'settings.billing.' + ($ctrl.billing.trialConditions.isAvailable? 'confirmTrial' : 'confirmEnable') | translate }}</md-button>
     </md-dialog-actions>
 </md-dialog>

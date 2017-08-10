@@ -10,7 +10,7 @@
 
             <md-list-item layout="row" layout-align="center center">
                 <div class="md-caption font-medium">
-                    {{'dialogs.' + byWho | translate}}
+                    {{ byWho | translate}}
                 </div>
             </md-list-item>
 
@@ -30,9 +30,9 @@
             </md-list-item>
 
             <md-list-item layout="row" layout-align="center center">
-                <md-button ng-click="commit()" translate="dialogs.ok"></md-button>
-                <span flex></span>
                 <md-button ng-click="cancel()" translate="dialogs.cancel"></md-button>
+                <span flex></span>
+                <md-button ng-click="commit()" translate="dialogs.ok"></md-button>
             </md-list-item>
             
         </md-list>

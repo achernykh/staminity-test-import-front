@@ -61,4 +61,6 @@ export const timer = (f, msg = '') => (...args) => {
 	return result
 }
 
-export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, orderBy, pipe, equals, allEqual, isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, object, memorize, maybe, log, timer }
+export const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, orderBy, pipe, equals, allEqual, isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, object, memorize, maybe, log, timer, capitalize }

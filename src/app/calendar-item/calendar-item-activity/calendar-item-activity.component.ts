@@ -392,12 +392,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onDelete() {
-        this.dialogs.confirm(this.activity.hasImportedData ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity')
-            .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId])
-                .then((response)=> {
-                    this.onAnswer({response: {type:'delete',item:this.activity.build()}});
-                    this.message.toastInfo('activityDeleted');
-                }, error => this.message.toastError(error)));
+        this.dialogs.confirm({ text: this.activity.hasImportedData ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
+        .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId]))
+        .then((response)=> {
+            this.onAnswer({response: {type:'delete',item:this.activity.build()}});
+            this.message.toastInfo('activityDeleted');
+        }, (error) => {
+            if (error) {
+                this.message.toastError(error);
+            }
+        });
     }
 
     onSaveTemplate() {

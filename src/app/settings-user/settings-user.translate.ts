@@ -135,6 +135,8 @@ export const _translate = {
             autoRenewalShort: 'Автопродление',
             isOn: 'включено',
             isOff: 'выключено',
+            agreementMessage: "Я прочитал и согласен с ",
+            agreementLink: "условиями подключения тарифа",
             conditions: 'Условия подключения',
             conditionsText: `
 Начисления по тарифу "{{tariff}}" будут объединены с начислениями по ранее подключенному тарифу.
@@ -215,7 +217,7 @@ export const _translate = {
                 notEnabled: "Отключен",
                 isPaid: "Оплачен",
                 trial: "Пробный период",
-                isBlocked: "Ожидает оплаты"
+                isBlocked: "Тариф заблокирован, необходима оплата счета"
             },
             tariffStatusesEnablers: {
                 enabled: "За свой счёт",
@@ -246,6 +248,9 @@ export const _translate = {
             invoices: 'Счета на оплату',
             invoiceAmount: 'Счет на сумму',
             period: 'Период',
+            billId: 'Номер счёта',
+            approvalCode: 'Код авторизации',
+            paymentProcessing: 'Способ платежа',
             billStatuses: {
                 new: 'Формируется',
                 ready: 'Ожидает оплаты',
@@ -262,6 +267,11 @@ export const _translate = {
                 end: 'Окончание периода',
                 bill: 'Дата счёта',
                 payment: 'Дата оплаты'
+            },
+            billTabs: {
+                overview: 'Обзор',
+                fees: 'Начисления',
+                payment: 'Оплата'
             },
             feeDetails: 'Детали начисления',
             autoPayment: 'Оплачивать автоматически'

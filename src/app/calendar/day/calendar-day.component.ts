@@ -44,8 +44,8 @@ class CalendarDayCtrl {
     }
 
     onDelete(){
-        //this.dialogs.confirm('deletePlanActivity')
-         //   .then(()=>this.calendar.onDelete(this.data.calendarItems),()=>{});
+        //this.dialogs.confirm({ text: 'deletePlanActivity' })
+         //   .then(()=>this.calendar.onDelete(this.data.calendarItems));
     }
     onPaste(){
         //this.calendar.onPasteDay(this.data.date)
@@ -200,14 +200,13 @@ class CalendarDayCtrl {
         switch (operation) {
             case 'move': {
                 if(isCompletedActivity(item)){
-                    this.dialogs.confirm('dialogs.moveActualActivity')
-                        .then(()=>this.CalendarService.postItem(clearActualDataActivity(item)), Promise.reject(null))
-                        .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
-
+                    this.dialogs.confirm({ text: 'dialogs.moveActualActivity' })
+                    .then(() => this.CalendarService.postItem(clearActualDataActivity(item)))
+                    .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
                 } else {
                     this.CalendarService.putItem(item)
-                        .then(() => this.message.toastInfo('activityMoved'))
-                        .catch(error => this.message.toastError(error));
+                    .then(() => this.message.toastInfo('activityMoved'))
+                    .catch(error => this.message.toastError(error));
                 }
                 break;
             }

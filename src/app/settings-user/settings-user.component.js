@@ -1,3 +1,5 @@
+import { Observable, Subject } from 'rxjs/Rx';
+
 import moment from 'moment/min/moment-with-locales.js';
 import * as momentTimezone from 'moment-timezone';
 import * as angular from 'angular';
@@ -14,13 +16,17 @@ import { parseYYYYMMDD } from '../share/share.module';
 class SettingsUserModel {
     // deep copy test and initial data
     constructor (user) {
-        Object.assign(this, {
+        angular.merge(this, {
             public: {},
             personal: {},
             display: {
                 units: null,
                 firstDayOfWeek: null,
                 timezone: null
+            },
+            billing: {
+                bills: [],
+                tariifs: []
             }
         }, user);
 
@@ -54,7 +60,7 @@ class SettingsUserCtrl {
         this.BillingService = BillingService;
         this.$translate = $translate;
         this.$mdMedia = $mdMedia;
-        this.boundReload = () => { this.reload(); };
+        this.destroy = new Subject();
 
         this.adaptors = [];
 
@@ -72,6 +78,11 @@ class SettingsUserCtrl {
         // deep copy & some transormation
         this.user = new SettingsUserModel(this.user);
         console.log('this.user', this.user);
+
+        this.BillingService.messages
+        .takeUntil(this.destroy)
+        .subscribe(this.reload.bind(this));
+
         /**
          *
          * @type {any|Array|U[]}
@@ -93,6 +104,11 @@ class SettingsUserCtrl {
         this.prepareZones();
 
         moment.locale('ru');
+    }
+
+    $onDestroy () {
+        this.destroy.next(); 
+        this.destroy.complete();
     }
 
     reload () {
@@ -482,17 +498,25 @@ class SettingsUserCtrl {
 
     enableTariff (tariff) {
         return this.dialogs.enableTariff(tariff, this.user)
-            .then(this.boundReload, this.boundReload);
+            .then(this.reload.bind(this), (error) => { error && this.reload(); });
     }
 
     disableTariff (tariff) {
-        return this.dialogs.disableTariff(tariff, this.user)
-            .then(this.boundReload, this.boundReload);
+        return (tariff.isAvailable && tariff.isBlocked?
+            this.BillingService.disableTariff(tariff.tariffId, this.user.userId)
+            .then((info) => {
+                message.systemSuccess(info.title);
+                $mdDialog.hide();
+            }, (error) => {
+                message.systemWarning(error);
+            }) : this.dialogs.disableTariff(tariff, this.user)
+        )
+        .then(this.reload.bind(this), (error) => { error && this.reload(); });
     }
 
     viewTariff (tariff) {
         return this.dialogs.tariffDetails(tariff, this.user)
-            .then(this.boundReload, this.boundReload);
+            .then(this.reload.bind(this), (error) => { error && this.reload(); });
     }
 
     invoiceStatus (bill) {
@@ -505,12 +529,12 @@ class SettingsUserCtrl {
 
     billsList () {
         return this.dialogs.billsList(this.user)
-            .then(this.boundReload, this.boundReload);
+            .then(this.reload.bind(this), (error) => { error && this.reload(); });
     }
 
     viewBill (bill) {
         return this.dialogs.billDetails(bill, this.user)
-            .then(this.boundReload, this.boundReload);
+            .then(this.reload.bind(this), (error) => { error && this.reload(); });
     }
 
     autoPayment (isOn) {
