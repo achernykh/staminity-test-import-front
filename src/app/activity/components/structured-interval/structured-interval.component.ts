@@ -4,6 +4,7 @@ import {IActivityIntervalP} from "../../../../../api/activity/activity.interface
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
 import {Interval} from "../../activity.datamodel";
+import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
 
 const approxZones = {
     heartRate: [
@@ -25,6 +26,7 @@ class StructuredIntervalCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     public interval: IActivityIntervalP;
     public sport: string;
+    public loop: Loop;
 
     public onChange: (response: {interval: IActivityIntervalP}) => IPromise<void>;
     public onDelete: (response: {id: number}) => IPromise<void>;
@@ -58,9 +60,15 @@ class StructuredIntervalCtrl implements IComponentController {
         this.onDelete({id: 0});
     }
 
+    isInputMode():boolean {
+        return this.loop &&
+            this.loop.mode === LoopMode.Input &&
+            this.interval.pos === (this.loop.start + this.loop.length - 1);
+    }
+
 
     prepareInterval(){
-
+/**
         this.interval.movingDuration['durationValue'] = ((this.interval.durationMeasure === 'movingDuration' || (this.interval.durationMeasure === 'duration')) && this.interval.durationValue) || null;
         this.interval.distance['durationValue'] = (this.interval.durationMeasure === 'distance' && this.interval.durationValue) || null;
         this.interval.heartRate = Object.assign(this.interval.heartRate, {
@@ -80,7 +88,7 @@ class StructuredIntervalCtrl implements IComponentController {
              intensityLevelTo: (this.interval.intensityMeasure === 'power' && this.interval.intensityLevelTo) || null,
              intensityByFtpFrom: (this.interval.intensityMeasure === 'power' && this.interval.intensityByFtpFrom) || null,
              intensityByFtpTo: (this.interval.intensityMeasure === 'power' && this.interval.intensityByFtpTo) || null
-        });
+        });**/
     }
 
     changeValue(measure) {
@@ -203,8 +211,12 @@ const StructuredIntervalComponent:IComponentOptions = {
     bindings: {
         interval: '<',
         sport: '<',
+        groupCount: '<',
+        count: '<',
+        loop: '<',
         onChange: '&',
-        onDelete: '&'
+        onDelete: '&',
+        onSetRepeat: '&'
     },
     require: {
         item: '^calendarItemActivity'

@@ -23,6 +23,7 @@ import ActivityComponent from "./activity.component";
 import ActivitySegmentsComponent from "./activity-segments/activity-segments.component";
 import StructuredAssignmentComponent from "./components/structured-assignment/structured-assignment.component";
 import StructuredIntervalComponent from "./components/structured-interval/structured-interval.component";
+import {StructuredGroupComponent} from "./components/structured-group/structured-group.component";
 
 const Activity = module('staminity.activity', [])
     .service('ActivityService', ActivityService)
@@ -38,6 +39,7 @@ const Activity = module('staminity.activity', [])
 	.component('activitySegments', ActivitySegmentsComponent)
 	.component('structuredInterval', StructuredIntervalComponent)
 	.component('structuredAssignment', StructuredAssignmentComponent)
+	.component('structuredGroup', StructuredGroupComponent)
 	.component('measureMainButton',MeasureMainButtonComponent)
 	.component('measuresAvgTable',MeasuresAvgTableComponent)
 	.component('measureSplitTable', MeasureSplitTableComponent)

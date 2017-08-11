@@ -1,8 +1,8 @@
 <div layout="row" layout-align="start center"
      class="md-dense interval-data" ng-class="{'selected': $ctrl.interval.isSelected, 'key': $ctrl.interval.keyInterval}">
-    <div class="segment-point" flex="none"
-         ng-click="$ctrl.interval.isSelected = !$ctrl.interval.isSelected"></div>
-    <div class="segment-number md-body-1"><span translate>С</span><span>{{$ctrl.interval.pos}}</span></div>
+    <div class="segment-number md-body-1 bg-grey-200 md-dark"
+         ng-click="$ctrl.interval.isSelected = !$ctrl.interval.isSelected">
+        <span>{{$ctrl.interval.pos}}</span></div>
     <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
     <md-menu flex="none">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -90,4 +90,13 @@
     </md-input-container>
 </div>--><!--
 <div class="interval-comment md-dense md-caption md-dark md-inactive" ng-if="!showComment">{{$ctrl.interval.trainersPrescription}}</div>-->
+<div class="input-count md-dense" style="height: 44px; margin-right: 16px; margin-left: 104px"
+     ng-if="$ctrl.isInputMode()" layout="row">
+    <md-input-container flex="none" style="min-width: 61px; width: 61px">
+        <input name="count" ng-init="repeat = $ctrl.loop.repeat"
+               ng-model="repeat">
+    </md-input-container>
+    <md-button flex="none" style="min-width: 40px"
+               ng-click="$ctrl.onSetRepeat({loop: $ctrl.loop, repeat: repeat})"><span>Ok</span></md-button>
+</div>
 <md-divider></md-divider>

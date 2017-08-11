@@ -5,7 +5,8 @@ import {
 	IActivityIntervalL,
 	IActivityIntervalP,
 	IActivityMeasure,
-	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityType
+	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityType, IActivityIntervalG, IDurationMeasure,
+	IIntensityMeasure
 } from "../../../api/activity/activity.interface";
 import {IActivityCategory} from '../../../api/reference/reference.interface';
 import moment from 'moment/src/moment.js';
@@ -14,6 +15,7 @@ import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {activityTypes, getType} from "./activity.constants";
 import {IUserProfileShort} from "../../../api/user/user.interface";
+import {ActivityIntervalCalcMeasure, ActivityIntervalFactory, ActivityIntervals} from "./activity.datamodel-function";
 
 export interface IRoute {
 	lat:number;
@@ -44,11 +46,15 @@ export class Interval implements IActivityInterval {
 	distanceApprox: boolean; // признак, что distance рассчитан приблизительно
 
 	// Дополнительные поля для модели данных отображения сегмента pW | P
-	movingDuration: Object = {durationValue: null};
-	distance: Object = {durationValue: null};
-	heartRate: Object = {};
-	power: Object = {};
-	speed: Object = {};
+	movingDuration: IDurationMeasure;
+	distance: IDurationMeasure;
+	heartRate: IIntensityMeasure;
+	power: IIntensityMeasure;
+	speed: IIntensityMeasure;
+
+	// Поля для типа интервала G
+	code: string;
+	repeatCount: number;
 
 	public calcMeasures: ICalcMeasures;
 
@@ -57,7 +63,8 @@ export class Interval implements IActivityInterval {
 		this.trainersPrescription = null;
 		this.durationMeasure = null; //movingDuration/distance, каким показателем задается длительность планового сегмента
 		this.durationValue = null; // длительность интервала в ед.изм. показателя длительности
-		this.calcMeasures = {
+		//this.calcMeasures = new IntervalCalcMeasure();
+		/**{
 			heartRate: { code: 'heartRate', value: null, minValue: null, avgValue: null, maxValue: null}, // пульсовая статистика по интервалу
 			heartRateDistancePeaks: { code: 'heartRateDistancePeaks', value: null, minValue: null, avgValue: null, maxValue: null}, // данные по пульсовым пикам на разных дистанциях
 			speed: { code: 'speed', value: null, minValue: null, avgValue: null, maxValue: null}, // статистика по скорости
@@ -86,7 +93,14 @@ export class Interval implements IActivityInterval {
 			decouplingPace: { code: 'decouplingPace', value: null, minValue: null, avgValue: null, maxValue: null}, // кардиокомпенсация по скорости
 			trainingLoad: { code: 'trainingLoad', value: null, minValue: null, avgValue: null, maxValue: null}, // тренировочная нагрузка
 			completePercent: { code: 'completePercent', value: null, minValue: null, avgValue: null, maxValue: null}, // процент выполнения сегмента по отношению к плановым значениям
-		};
+		};**/
+
+		switch (type) {
+			case 'pW': {
+				this.calcMeasures = new ActivityIntervalCalcMeasure();
+				break;
+			}
+		}
 
 		if (type === 'P' || type === 'pW') {
 			this.durationMeasure = null;
@@ -101,6 +115,9 @@ export class Interval implements IActivityInterval {
 			this.distanceLength = null;
 			this.movingDurationApprox = null;
 			this.distanceApprox = null;
+		} else if(type === 'G') {
+			this.code = Math.random().toString(36).substr(2, 5);
+			this.repeatCount = 0;
 		}
 
 		if(obj) { // дополнительные параметры для создания интервала
@@ -149,11 +166,15 @@ export class Activity extends CalendarItem {
 	public activityHeader: IActivityHeader;
 	public header: IActivityHeader;
 	public categoriesList: Array<IActivityCategory> = [];
+
+	public intervals: ActivityIntervals;
 	public intervalPW: IActivityIntervalPW;
 	public intervalW: IActivityIntervalW;
 	public intervalL: Array<IActivityIntervalL> = [];
 	public intervalU: Array<IActivityIntervalL> = [];
 	public intervalP: Array<IActivityIntervalP> = [];
+	public intervalG: Array<IActivityIntervalG> = [];
+
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = false;
 	private hasDetails: boolean = false;
@@ -188,7 +209,7 @@ export class Activity extends CalendarItem {
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 	}
 
-	completeInterval(interval: IActivityIntervalL | IActivityIntervalP) {
+	completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG) {
 		//this.header.intervals.push(interval);
 		switch (interval.type) {
 			case 'U': {
@@ -198,6 +219,11 @@ export class Activity extends CalendarItem {
 			case 'P': {
 				this.intervalP.push(<IActivityIntervalP>interval);// = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
 				this.calculateInterval('pW');
+				break;
+			}
+			case 'G': {
+				this.intervalG.push(<IActivityIntervalG>interval);
+				break;
 			}
 		}
 	}
@@ -241,6 +267,8 @@ export class Activity extends CalendarItem {
 	// Подготовка данных для модели отображения
 	prepare(method: string) {
 		super.prepare();
+		this.intervals = new ActivityIntervals(this.item.hasOwnProperty('activityHeader') &&
+			this.item.activityHeader.hasOwnProperty('intervals') && this.item.activityHeader.intervals);
 		// Если activityHeader не установлен, значит вызван режим создаения записи
 		// необходимо создать пустые интервалы и обьявить обьекты
 		if (method === 'post') {
@@ -260,7 +288,7 @@ export class Activity extends CalendarItem {
 		// Ссылки на интервалы для быстрого доступа
 		this.intervalPW = <IActivityIntervalPW>this.header.intervals.filter(i => i.type === "pW")[0];
 		this.intervalW = <IActivityIntervalW>this.header.intervals.filter(i => i.type === "W")[0];
-		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P").sort((a,b) => a['pos'] - b['pos']);
+		this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P").sort((a,b) => a['pos'] - b['pos']).map(i => ActivityIntervalFactory('P',i));
 		this.actualDataIsImported = this.intervalW.actualDataIsImported;
 
         // Запоминаем, чтобы парсить только один раз

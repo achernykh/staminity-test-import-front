@@ -21,19 +21,36 @@ structured-interval {
 
   }
 
-  div.segment-number {
-    margin-left: 6px;
+  .segment-number {
     width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    background: $grey-200;
+    transition: all 0.3s;
+
+    &:focus {
+      outline:none;
+    }
+
   }
 
+  .key .segment-number {
+    background: $grey-400 !important;
+    color: white !important;
+  }
+
+  .selected .segment-number {
+    background: $deep-orange-300 !important;
+    color: white !important;
+  }
+
+
   div.interval-data, div.interval-comment {
-    padding: 2px 16px 2px 42px;
-    &.key {
-      background-color: $grey-200;
-    }
-    &.selected {
-      background-color: $blue-grey-050;
-    }
+    padding: 2px 16px 2px 16px;
     transition: all 0.3s;
   }
 

@@ -1,5 +1,7 @@
 activity-segments {
 
+  overflow: hidden;
+
   section.action-panel {
     md-checkbox {
       margin-bottom: 0px;
@@ -9,4 +11,9 @@ activity-segments {
       }
     }
   }
+
+  md-content {
+    overflow: auto;
+  }
+
 }

@@ -1,0 +1,36 @@
+structured-group {
+
+  //position: relative;
+
+  .directive {
+    position: absolute;
+    margin-left: 16px;
+    top: 21px;
+    //left: 20px;
+    height: 44px;
+    border-left: 2px solid rgba(0,0,0,0.38);
+    border-top: 2px solid rgba(0,0,0,0.38);
+    border-bottom: 2px solid rgba(0,0,0,0.38);
+    min-width: 10px;
+    width: 10px;
+
+    transition: all 0.3s 0.1s;
+
+  }
+
+  .action {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: calc(50% - 12px);
+    left: -12px;
+    z-index: 200;
+    cursor: pointer;
+
+    &:focus {
+      outline:none;
+    }
+
+  }
+
+}

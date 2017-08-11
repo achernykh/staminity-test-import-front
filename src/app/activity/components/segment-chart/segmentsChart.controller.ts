@@ -158,13 +158,17 @@ class SegmentChartController implements IComponentController {
 
     private preparePlaceholder(): void {
         // calc current chart size based on the container size and chart's settings
-        var bounds = this.$element[0].getBoundingClientRect();
-        this.width = Math.max(bounds.width, this.chartSettings.minWidth);
-        this.height = bounds.height;
-        var aspectRatio = this.height / this.width;
-        if (aspectRatio < this.chartSettings.minAspectRation) {
-            this.height = this.width * this.chartSettings.minAspectRation;
-        }
+        let parent: Element = angular.element(document).find('activity-segment-chart')[0];
+        this.width = parent.clientWidth;
+        this.height = parent.clientHeight;
+
+        //var bounds = this.$element[0].getBoundingClientRect();
+        //this.width = Math.max(bounds.width, this.chartSettings.minWidth);
+        //this.height = bounds.height;
+        //var aspectRatio = this.height / this.width;
+        //if (aspectRatio < this.chartSettings.minAspectRation) {
+        //    this.height = this.width * this.chartSettings.minAspectRation;
+        //}
         let container = d3.select(this.$element[0]);
         // create root svg placeholder
         this.$placeholder = container

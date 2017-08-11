@@ -1,11 +1,33 @@
-<div class="group">
-    <div class="action bg-grey-050">
-        <md-icon ng-if="false" class="material-icons" ng-click="">add_circle</md-icon>
-        <div ng-if="true" class="center md-body-2 md-dark"><span>4</span><span>X</span></div>
-        <input ng-if="false" type="number" step="1"/>
-    </div>
-</div>
-<structured-interval ng-repeat="interval in $ctrl.plan | orderBy:'pos' track by $index"
-                     interval="interval" sport="$ctrl.item.activity.sportBasic"
-                     on-change="$ctrl.change($index,interval)" on-delete="$ctrl.splice($index)"></structured-interval>
-<div class="group-count"></div>
+<structured-group class="structured-group" flex="none" ng-if="$ctrl.isSequenceSelected()"
+                  mode="$ctrl.mode"
+                  start="$ctrl.sequence[0]"
+                  end="$ctrl.sequence[$ctrl.sequence.length - 1]"
+                  count="$ctrl.groupCount"
+                  on-input="$ctrl.mode = $ctrl.changeMode()">
+</structured-group>
+
+<structured-group ng-repeat="loop in $ctrl.loops track by $index"
+                  class="structured-group" flex="none"
+                  mode="$ctrl.mode"
+                  start="loop.start"
+                  end="loop.start + loop.length - 1"
+                  count="loop.repeat"
+                  loop="loop"
+                  hidden-pos="$ctrl.calcPrevLoops(loop.id)"
+                  on-input="$ctrl.mode = $ctrl.changeMode()">
+</structured-group>
+
+<section class="intervals" flex="auto" layout="column" layout-fill
+         ng-class="{'margin-left': $ctrl.haveLoops()}">
+    <structured-interval ng-repeat="interval in $ctrl.plan | orderBy:'pos' track by $index"
+                         ng-if="!interval.repeatPos || interval.repeatPos === 0"
+                         interval="interval"
+                         sport="$ctrl.item.activity.sportBasic"
+                         group-count="$ctrl.mode === 'input' && interval.pos === $ctrl.sequence[$ctrl.sequence.length - 1]"
+                         count="$ctrl.groupCount"
+                         loop="$ctrl.myLoop(interval.parentGroup)"
+                         on-change="$ctrl.change($index,interval)"
+                         on-delete="$ctrl.splice($index)"
+                         on-set-repeat="$ctrl.setRepeat(loop,repeat)">
+    </structured-interval>
+</section>
