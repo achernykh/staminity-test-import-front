@@ -13,7 +13,23 @@ export let translateRequestPanel = {
         StartCoaching: 'Подключиться к тренеру',
         LeaveClubByCoach: 'Выйти из клуба',
         StartCoachingByAthlete: 'Подключиться к тренеру',
-        JoinFriends: 'Подружиться'
+        JoinFriends: 'Подружиться',
+        confirmDialog: {
+            A: {
+                Athletes: {
+                    title: 'Вы уверены?',
+                    text: 'Принять запрос на подключение к тренеру?',
+                    confirm: 'Принять',
+                    cancel: 'Отмена'
+                }
+            },
+            D: {
+
+            },
+            C: {
+
+            }
+        }
     },
     en: {
 

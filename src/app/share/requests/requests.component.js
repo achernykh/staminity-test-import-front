@@ -11,9 +11,10 @@ const stateIcons = {
 
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, RequestsService, SessionService, dialogs, message) {
+    constructor ($scope, $mdDialog, $translate, $mdSidenav, UserService, GroupService, RequestsService, SessionService, dialogs, message) {
         this.$scope = Object.assign($scope, { stateIcons });
         this.$mdDialog = $mdDialog;
+        this.$translate = $translate;
         this._$mdSidenav = $mdSidenav;
         this.UserService = UserService;
         this.GroupService = GroupService;
@@ -79,6 +80,13 @@ class RequestsCtrl {
     }
     
     processRequest (request, action) {
+        let confirmMessages = {
+            title: $translate.instant(`requests.confirmDialog.${action}.${request.groupProfile.groupCode}.title`),
+            text: $translate.instant(`requests.confirmDialog.${action}.${request.groupProfile.groupCode}.text`),
+            confirm: $translate.instant(`requests.confirmDialog.${action}.${request.groupProfile.groupCode}.confirm`),
+            cancel: $translate.instant(`requests.confirmDialog.${action}.${request.groupProfile.groupCode}.cancel`)
+        };
+
         this.dialogs.confirm({ text: 'dialogs.performAction' + action })
         .then(() => this.GroupService.processMembership(action, null, request.userGroupRequestId))
         .then(() => this.message.toastInfo('requestComplete'), (error) => error && this.message.toastError(error));

@@ -87,20 +87,15 @@ class AthletesCtrl {
     }
 
     editTariffsMessage (changes) {
-        let addTariffs = changes
-            .filter(({ direction }) => direction === "I")
-            .map(({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»');
-        let removeTariffs = changes
-            .filter(({ direction }) => direction === "O")
-            .map(({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»');
+        let addTariffs = changes.filter(({ direction }) => direction === "I");
+        let removeTariffs = changes.filter(({ direction }) => direction === "O");
+        let translateTariffCode = ({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
 
-        return capitalize([(
-            addTariffs.length > 1 && this.$translate.instant('athletes.editTariffs.addMany', { tariffCodes: addTariffs.join(', ') }) ||
-            addTariffs.length === 1 && this.$translate.instant('athletes.editTariffs.addOne', { tariffCode: addTariffs[0] })
-        ), (
-            removeTariffs.length > 1 && this.$translate.instant('athletes.editTariffs.removeMany', { tariffCodes: removeTariffs.join(', ') }) ||
-            removeTariffs.length === 1 && this.$translate.instant('athletes.editTariffs.removeOne', { tariffCode: removeTariffs[0] })
-        )].filter(id).join(', '));
+        if (addTariffs.length) {
+            return this.$translate.instant('athletes.editTariffs.addOne', { tariffCode: translateTariffCode(addTariffs[0]) });
+        } else if (removeTariffs.length) {
+            return this.$translate.instant('athletes.editTariffs.removeOne', { tariffCode: translateTariffCode(removeTariffs[0]) });
+        }
     }
     
     editTariffs () {

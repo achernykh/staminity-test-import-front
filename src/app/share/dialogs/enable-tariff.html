@@ -14,11 +14,11 @@
 
             <md-subheader class="md-no-sticky">{{ 'settings.billing.subscriptionFees' | translate }}</md-subheader>
             <md-list-item ng-if="$ctrl.monthlyFee && $ctrl.yearlyFee">
-                <md-radio-group ng-model="$ctrl.fee" layout="row" layout-align="space-around" style="width: 100%;">
-                    <md-radio-button ng-value="$ctrl.monthlyFee">
+                <md-radio-group ng-model="$ctrl.fee" layout="row" style="width: 100%;">
+                    <md-radio-button ng-value="$ctrl.monthlyFee" flex>
                         {{ 'settings.billing.monthly' | translate }}
                     </md-radio-button>
-                    <md-radio-button ng-value="$ctrl.yearlyFee">
+                    <md-radio-button ng-value="$ctrl.yearlyFee" flex>
                         {{ 'settings.billing.yearly' | translate }}
                         <!--<div style="text-transform: none; font-weight: normal;">{{ 'settings.billing.saving' | translate:{saving: (100 * ($ctrl.monthlyFee.rate * 12 / $ctrl.yearlyFee.rate - 1) | number:0)} }}</div>-->
                     </md-radio-button>
@@ -78,7 +78,11 @@
                         <input ng-model="$ctrl.promoCode" type="text" autocomplete="off" placeholder="{{ 'settings.billing.promo' | translate }}">
                     </md-input-container>
                     <p ng-if="$ctrl.activePromo">
-                        <span class="font-italic enable-tariff-dialog__active-promo">{{ 'settings.billing.activePromo' | translate:{promo:$ctrl.activePromo.code, appliedFrom:($ctrl.activePromo.appliedFrom | date:'dd.MM.yyyy')} }}</span>
+                        <span class="font-italic enable-tariff-dialog__active-promo">{{ 'settings.billing.activePromo' | translate:{
+                            promo:$ctrl.activePromo.code, 
+                            appliedFrom:($ctrl.activePromo.appliedFrom | date:'dd.MM.yyyy'),
+                            appliedTo:($ctrl.activePromo.appliedTo | date:'dd.MM.yyyy')
+                        } }}</span>
                         <a ng-href="#" class="md-primary font-13" ng-click="$ctrl.submitPromo('')">{{ 'settings.billing.removePromo' | translate }}</a>
                     </p>
                     <p ng-if="$ctrl.rejectedPromoCode" class="font-italic">{{ 'settings.billing.rejectedPromo' | translate:{promo:$ctrl.rejectedPromoCode} }}</p>
@@ -89,7 +93,7 @@
 
             <div ng-if="!$ctrl.billing.joinBillConditions && !$ctrl.billing.trialConditions.isAvailable">
                 <md-subheader class="md-no-sticky">{{ 'settings.billing.payment' | translate }}</md-subheader>
-                <md-list-item>
+                <md-list-item ng-if="false">
                     <md-button 
                         ng-class="{'sectioned-button_right': true, 'md-raised': true, 'md-primary': $ctrl.paymentSystem === 'fondy'}"
                         ng-click="$ctrl.paymentSystem = 'fondy'"
@@ -131,8 +135,8 @@
                         {{ 'settings.billing.agreementMessage' | translate }}
                         <a class="md-primary font-13" href="{{ 'settings.billing.subscriptionConditionsLink' | translate:{ tariffCode: $ctrl.tariff.tariffCode } }}">{{ 'settings.billing.agreementLink' | translate }}</a>
                     </p>
-                    <md-switch ng-model="$ctrl.agreement">
-                    </md-switch>
+                    <md-checkbox ng-model="$ctrl.agreement">
+                    </md-checkbox>
                 </md-list-item>
             </div>
 

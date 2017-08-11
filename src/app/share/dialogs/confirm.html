@@ -13,7 +13,7 @@
         <div class="md-dialog-content" style="white-space: pre-wrap;">{{ messages.text | translate }}</div>
     </md-dialog-content>
     
-    <md-dialog-actions layout="row">
+    <md-dialog-actions layout="row" style="padding: 0">
         <md-button ng-click="cancel()">{{ messages.cancel || 'dialogs.no' | translate }}</md-button>
         <span flex></span>
         <md-button ng-click="confirm()">{{ messages.confirm || 'dialogs.yes' | translate }}</md-button>

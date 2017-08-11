@@ -103,20 +103,26 @@ class ManagementCtrl {
     }
 
     editTariffsMessage (changes) {
-        let addTariffs = changes
-            .filter(({ direction }) => direction === "I")
-            .map(({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»');
-        let removeTariffs = changes
-            .filter(({ direction }) => direction === "O")
-            .map(({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»');
+        let addTariffs = changes.filter(({ direction }) => direction === "I");
+        let removeTariffs = changes.filter(({ direction }) => direction === "O");
+        let translateTariffCode = ({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
 
-        return capitalize([(
-            addTariffs.length > 1 && this.$translate.instant('users.editTariffs.addMany', { tariffCodes: addTariffs.join(', ') }) ||
-            addTariffs.length === 1 && this.$translate.instant('users.editTariffs.addOne', { tariffCode: addTariffs[0] })
-        ), (
-            removeTariffs.length > 1 && this.$translate.instant('users.editTariffs.removeMany', { tariffCodes: removeTariffs.join(', ') }) ||
-            removeTariffs.length === 1 && this.$translate.instant('users.editTariffs.removeOne', { tariffCode: removeTariffs[0] })
-        )].filter(id).join(', '));
+        if (addTariffs.length && removeTariffs.length) {
+            return this.$translate.instant('users.editTariffs.addAndRemove', { 
+                addTariffCodes: addTariffs.map(translateTariffCode).join(', '),
+                removeTariffCodes: addTariffs.map(translateTariffCode).join(', ')
+            });
+        } else if (addTariffs.length && !removeTariffs.length) {
+            return (
+                addTariffs.length > 1 && this.$translate.instant('users.editTariffs.addMany', { tariffCodes: removeTariffs.map(translateTariffCode).join(', ') }) ||
+                addTariffs.length === 1 && this.$translate.instant('users.editTariffs.addOne', { tariffCode: removeTariffs[0] })
+            );
+        } else if (!addTariffs.length && removeTariffs.length) {
+            return (
+                removeTariffs.length > 1 && this.$translate.instant('users.editTariffs.removeMany', { tariffCodes: removeTariffs.map(translateTariffCode).join(', ') }) ||
+                removeTariffs.length === 1 && this.$translate.instant('users.editTariffs.removeOne', { tariffCode: removeTariffs[0] })
+            );
+        }
     }
     
     editTariffs () {
@@ -261,20 +267,26 @@ class ManagementCtrl {
     }
 
     editRolesMessage (changes) {
-        let addRoles = changes
-            .filter(({ direction }) => direction === "I")
-            .map(({ role }) => this.$translate.instant(`dialogs.${role}`));
-        let removeRoles = changes
-            .filter(({ direction }) => direction === "O")
-            .map(({ role }) => this.$translate.instant(`dialogs.${role}`));
+        let addRoles = changes.filter(({ direction }) => direction === "I");
+        let removeRoles = changes.filter(({ direction }) => direction === "O")
+        let translateRole = ({ role }) => this.$translate.instant(`dialogs.${role}`);
 
-        return capitalize([(
-            addRoles.length > 1 && this.$translate.instant('users.editRoles.addMany', { roles: addRoles.join(', ') }) ||
-            addRoles.length === 1 && this.$translate.instant('users.editRoles.addOne', { role: addRoles[0] })
-        ), (
-            removeRoles.length > 1 && this.$translate.instant('users.editRoles.removeMany', { roles: removeRoles.join(', ') }) ||
-            removeRoles.length === 1 && this.$translate.instant('users.editRoles.removeOne', { role: removeRoles[0] })
-        )].filter(id).join(', '));
+        if (addRoles.length && removeRoles.length) {
+            return this.$translate.instant('users.editRoles.addAndRemove', { 
+                addRoles: addRoles[0].map(translateRole).join(', '), 
+                removeRoles: removeRoles[0].map(translateRole).join(', ')
+            });
+        } else if (addRoles.length && !removeRoles.length) {
+            return (
+                addRoles.length > 1 && this.$translate.instant('users.editRoles.addMany', { roles: addRoles.map(translateRole).join(', ') }) ||
+                addRoles.length === 1 && this.$translate.instant(`users.editRoles.addOne.${addRoles[0].role}`)
+            );
+        } else if (!addRoles.length && removeRoles.length) {
+            return (
+                removeRoles.length > 1 && this.$translate.instant('users.editRoles.removeMany', { roles: removeRoles.map(translateRole).join(', ') }) ||
+                removeRoles.length === 1 && this.$translate.instant(`users.editRoles.removeOne.${removeRoles[0].role}`)
+            );
+        }
     }
     
     editRoles () {

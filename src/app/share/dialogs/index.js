@@ -421,7 +421,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
     };
 
     this.submit = function () {
-        let trial = false; //this.billing.trialConditions.isAvailable;
+        let trial = this.billing.trialConditions.isAvailable;
         BillingService.enableTariff(
             tariff.tariffId, 
             user.userId, 

@@ -47,8 +47,8 @@
                 <md-switch
                     ng-model="$ctrl.tariffIsEnabled(tariff)"
                     ng-model-options="{getterSetter: true}"
-                    ng-disabled="!tariff.isAvailable"
-                    ng-class="{ 'md-primary': tariff.isAvailable && !tariff.isBlocked, 'md-accent': tariff.isAvailable && tariff.isBlocked }"
+                    ng-disabled="!tariff.isAvailable && !tariff.isBlocked"
+                    ng-class="{ 'tariffs__swich-blocked': tariff.isBlocked, 'md-primary': tariff.isAvailable && !tariff.isBlocked, 'md-accent': tariff.isAvailable && tariff.isBlocked }"
                 >
                 </md-switch>
             </md-list-item>

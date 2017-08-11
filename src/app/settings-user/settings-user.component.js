@@ -23,10 +23,6 @@ class SettingsUserModel {
                 units: null,
                 firstDayOfWeek: null,
                 timezone: null
-            },
-            billing: {
-                bills: [],
-                tariifs: []
             }
         }, user);
 

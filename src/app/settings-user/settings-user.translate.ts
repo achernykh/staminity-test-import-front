@@ -122,7 +122,7 @@ export const _translate = {
             changeFee: 'Изменить условия действующего тарифа',
             free: 'Бесплатно',
             promo: 'Промо-код',
-            activePromo: 'Промо-код «{{promo}}» активирован с {{appliedFrom}}',
+            activePromo: 'Промо-код «{{promo}}» активирован с {{appliedFrom}} по {{appliedTo}}',
             validPromo: 'Промо-код «{{promo}}» может быть активирован после сохранения',
             rejectedPromo: "Промо-код не найден",
             removePromo: 'Удалить',

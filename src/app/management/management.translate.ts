@@ -10,13 +10,23 @@ export const _translate = {
             addOne: 'подключить тариф {{tariffCode}} за счёт клуба',
             removeOne: 'отключить подключенный за счёт клуба тариф {{tariffCode}}',
             addMany: 'подключить за счёт клуба тарифы: {{tariffCodes}}',
-            removeMany: 'отключить подключенные за счёт клуба тарифы: {{tariffCodes}}'
+            removeMany: 'отключить подключенные за счёт клуба тарифы: {{tariffCodes}}',
+            addAndRemove: 'отключить подключенные за счёт клуба тарифы: {{removeTariffCodes}}, подключить за счёт клуба тарифы: {{addTariffCodes}}'
         },
         editRoles: {
-            addOne: 'добавить роль {{role}}',
-            removeOne: 'снять роль {{role}}',
-            addMany: 'добавить роли: {{roles}}',
-            removeMany: 'снять роли: {{roles}}'
+            addOne: {
+                ClubAthletes: 'Добавить роль Спортсмен',
+                ClubCoaches: 'Добавить роль Тренер',
+                ClubManagement: 'Добавить роль Менеджер'
+            },
+            addMany: 'Добавить роли: {{roles}}',
+            removeOne: {
+                ClubAthletes: 'Снять роль Спортсмен',
+                ClubCoaches: 'Снять роль Тренер',
+                ClubManagement: 'Снять роль Менеджер'
+            },
+            removeMany: 'Снять роли: {{roles}}',
+            addAndRemove: 'Добавить роли: {{addRoles}}, снять роли: {{removeRoles}}'
         }
     },
     en: {
