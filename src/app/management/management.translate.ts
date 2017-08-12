@@ -36,7 +36,7 @@ export const _translate = {
                     removeOne: {
                         ClubAthletes: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Спортсмен</a>"? Будет удалена связь с тренерами клуба и отключен доступ клуба к дневнику тренировок. ' +
                         'Сумма ежедневных начислений за спортсменов клуба будет пересчитана с завтрашнего дня',
-                        ClubCoaches: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Тренер</a>"? Сумма ежедневных начислений за тренеров клуба будет пересчитана с завтрашнего дня',
+                        ClubCoaches: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Тренер</a>"? Будет также отключен тариф "Тренер", подключенный за счет клуба',
                         ClubManagement: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Администратор</a>"?'
                     },
                     removeMany: 'Отключить роли {{roles}} выбранным членам клуба? Сумма ежедневных начислений по тарифному плану "Клуб" будет пересчитана с завтрашнего дня',
