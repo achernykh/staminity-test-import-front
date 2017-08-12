@@ -34,9 +34,9 @@ export let translateDialogs = {
         startCoach: 'Отправить запрос тренеру?',
         rejectRequest: 'Отменить заявку?',
         leaveCoach: 'Покинуть тренера?',
-        startFriends: 'Отправить заявку на добавление в друзья?',
+        startFriends: 'Отправить запрос на добавление в друзья?',
         startFollow: 'Подписаться?',
-        startClub: 'Отправить заявку на вступление в клуб?',
+        startClub: 'Отправить запрос на вступление в клуб?',
         leaveClub: 'Покинуть клуб?',
         excludeClub: 'Исключить из клуба?',
 
