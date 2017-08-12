@@ -8,13 +8,13 @@ export const _translate = {
         Club: 'Клуб',
         editTariffs: {
             confirm: {
-                title: 'Вы уверены?',
+                title: 'Изменить тарифы',
                 text: {
-                    addOne: 'подключить тариф {{tariffCode}} за счёт клуба',
-                    removeOne: 'отключить подключенный за счёт клуба тариф {{tariffCode}}',
-                    addMany: 'подключить за счёт клуба тарифы: {{tariffCodes}}',
-                    removeMany: 'отключить подключенные за счёт клуба тарифы: {{tariffCodes}}',
-                    addAndRemove: 'отключить подключенные за счёт клуба тарифы: {{removeTariffCodes}}, подключить за счёт клуба тарифы: {{addTariffCodes}}'
+                    addOne: 'Подключить за счет клуба тариф {{tariffCode}} выбранным членам клуба? Начисления по тарифу будут включены в счет клуба начиная с сегодняшнего дня',
+                    removeOne: 'Отключить тариф {{tariffCode}}, ранее подключенный за счет клуба? Изменения вступят в силу с завтрашнего дня.',
+                    addMany: 'Подключить за счет клуба тарифы {{tariffCodes}} выбранным членам клуба? Начисления по тарифам будут включены в счет клуба начиная с сегодняшнего дня.',
+                    removeMany: 'Отключить тарифы {{tariffCodes}}, ранее подключенные за счёт клуба? Изменения вступят в силу с завтрашнего дня.',
+                    addAndRemove: 'Внести изменения в тарифы? Подключить за счёт клуба тарифы: {{addTariffCodes}}, отключить подключенные за счёт клуба тарифы: {{removeTariffCodes}}'
                 },
                 confirm: 'Да',
                 cancel: 'Нет'
@@ -22,21 +22,25 @@ export const _translate = {
         },
         editRoles: {
             confirm: {
-                title: 'Вы уверены?',
+                title: 'Изменить роли',
                 text: {
                     addOne: {
-                        ClubAthletes: 'Добавить роль Спортсмен',
-                        ClubCoaches: 'Добавить роль Тренер',
-                        ClubManagement: 'Добавить роль Менеджер'
+                        ClubAthletes: 'Подключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Спортсмен</a>"? ' +
+                        'Сумма ежедневных начислений в счете клуба может быть увеличена в соответствии с условиями <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >тарифного плана "Клуб"</a>',
+                        ClubCoaches: 'Подключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Тренер</a>"? ' +
+                        'При отсутствии у выбранных членов клуба тарифного плана "Тренер", он будет подключен за счет клуба с сегодняшнего дня.',
+                        ClubManagement: 'Подключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Администратор</a>"?'
                     },
-                    addMany: 'Добавить роли: {{roles}}',
+                    addMany: 'Добавить <a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >роли </a> {{roles}} выбранным членам клуба? ' +
+                    'Сумма ежедневных начислений в счете клуба может быть увеличена в соответствии с условиями <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >тарифного плана "Клуб"</a>',
                     removeOne: {
-                        ClubAthletes: 'Снять роль Спортсмен',
-                        ClubCoaches: 'Снять роль Тренер',
-                        ClubManagement: 'Снять роль Менеджер'
+                        ClubAthletes: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Спортсмен</a>"? Будет удалена связь с тренерами клуба и отключен доступ клуба к дневнику тренировок. ' +
+                        'Сумма ежедневных начислений за спортсменов клуба будет пересчитана с завтрашнего дня',
+                        ClubCoaches: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Тренер</a>"? Сумма ежедневных начислений за тренеров клуба будет пересчитана с завтрашнего дня',
+                        ClubManagement: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Администратор</a>"?'
                     },
-                    removeMany: 'Снять роли: {{roles}}',
-                    addAndRemove: 'Добавить роли: {{addRoles}}, снять роли: {{removeRoles}}'
+                    removeMany: 'Отключить роли {{roles}} выбранным членам клуба? Сумма ежедневных начислений по тарифному плану "Клуб" будет пересчитана с завтрашнего дня',
+                    addAndRemove: 'Изменить <a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >роли в клубе</a>? Подключить роли: {{addRoles}}, отключить роли: {{removeRoles}}.'
                 },
                 confirm: 'Да',
                 cancel: 'Нет'
