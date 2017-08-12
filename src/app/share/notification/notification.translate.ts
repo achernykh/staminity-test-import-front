@@ -404,33 +404,41 @@ export const translateNotification = {
     Отправитель: Стаминити
     data[0] - Название тарифа
     data[1] - Expiry date
+    data[2] - Дата первых начислений
     data[2] - Сумма счета
     data[3] - Валюта счета
      **/
 
         // ------ Триал --------
         //     header (push): Пробный период
-        trialExpireInSomeDays: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}",
+        trialExpireInSomeDays: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'shortDate'}}",
         trialExpireToday: "Пробный период по тарифу {{data[0] | translate}} закончится сегодня",
-        trialTariffExpired: "Закончился пробный период по тарифу {{data[0] | translate}}",
+        trialExpired: "Закончился пробный период по тарифу {{data[0] | translate}}",
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
         //     header (push): Переход на платный тариф
-        trialExpireInSomeDaysAfterOldTariff: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'short'}}. С {{data[1]+1 | date:'short'}} " +
+        trialExpireInSomeDaysAfterOldTariff: "Пробный период по тарифу {{data[0] | translate}} завершается {{data[1] | date:'shortDate'}}. С {{data[2] | date:'shortDate'}} " +
         "тариф будет подключен на платной основе с ежедневными начислениями",
-        trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[1]+1 | date:'short'}} " +
+        trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[2] | date:'shortDate'}} " +
         "тариф будет подключен на платной основе с ежедневными начислениями",
         trialTariffExpiredAfterOldTariff: 'Закончился пробный период по тарифу {{data[0] | translate}}. ' +
         'С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ',
 
-        // ------ Оплата счетов + нулевые счета
-        //     header (push): Успешная оплата
-        billPayment_singleTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Тариф {{data[0] | translate}} продлен до {{data[1] | date:'short'}}",
-        billPayment_multiTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Срок действия по подключенным тарифам продлен до {{data[1] | date:'short'}}",
+        /* ------ Оплата счетов + нулевые счета
+             header (push): Успешная оплата
+        Отправитель: Стаминити
+        data[0] - Название тарифа
+        data[1] - Expiry date
+        data[2] - Дата первых начислений
+        data[2] - Сумма счета
+        data[3] - Валюта счета */
+
+        billPayment_singleTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Тариф {{data[0] | translate}} продлен до {{data[1] | date:'shortDate'}}",
+        billPayment_multiTariff: "Вы оплатили счет на {{data[2]}} {{data[3]}}. Срок действия по подключенным тарифам продлен до {{data[1] | date:'shortDate'}}",
 
         //     header (push): Продление тарифа
-        billPayment_singleTariff_ZeroAmount: "Дополнительных начислений по тарифу {{data[0] | translate}} нет. Тариф продлен до {{data[1] | date:'short'}}",
-        billPayment_multiTariff_ZeroAmount: "Дополнительных начислений по вашим тарифам нет. Тарифы продлены до {{data[1] | date:'short'}}",
+        billPayment_singleTariff_ZeroAmount: "Дополнительных начислений по тарифу {{data[0] | translate}} нет. Тариф продлен до {{data[1] | date:'shortDate'}}",
+        billPayment_multiTariff_ZeroAmount: "Дополнительных начислений по вашим тарифам нет. Тарифы продлены до {{data[1] | date:'shortDate'}}",
 
 
         //  ------ Оплата счетов не прошла из-за ошибки
@@ -476,8 +484,8 @@ export const translateNotification = {
          data[3] - Валюта счета
                   **/
 
-        tariffRecurringTonight: "Приближается срок оплаты по тарифу {{data[0] | translate}}. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
-        tariffRecurringTonightMulti: "Приближается срок оплаты по подключенным тарифам. {{data[1] | date:'short'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
+        tariffRecurringTonight: "Приближается срок оплаты по тарифу {{data[0] | translate}}. {{data[1] | date:'shortDate'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
+        tariffRecurringTonightMulti: "Приближается срок оплаты по подключенным тарифам. {{data[1] | date:'shortDate'}} будет проведена попытка списания {{data[2]}} {{data[3]}}",
 
         /* ----------- Рекарринг проведен успешно--------**
          Отправитель: Стаминити
@@ -487,8 +495,8 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        tariffRecurringSuccess: "Оплата по тарифу {{data[0] | translate}} выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тариф продлен до {{data[1] | date:'short'}}",
-        tariffRecurringSuccessMulti: "Оплата по подключенным тарифам выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тарифы продлены до {{data[1] | date:'short'}}",
+        tariffRecurringSuccess: "Оплата по тарифу {{data[0] | translate}} выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тариф продлен до {{data[1] | date:'shortDate'}}",
+        tariffRecurringSuccessMulti: "Оплата по подключенным тарифам выполнена успешно. С вашей карты списано {{data[2]}} {{data[3]}}. Тарифы продлены до {{data[1] | date:'shortDate'}}",
 
         /* ----------- Ошибка списания по рекаррингу --------**
          Отправитель: Стаминити
@@ -525,7 +533,7 @@ export const translateNotification = {
          data[0] - Название тарифа
          data[1] - paidTill date
          **/
-        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'short'}}. Чтобы продолжить, оплатите счет. Если нет счетов, включите автопродление",
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'shortDate'}}. Чтобы продолжить, оплатите счет. Если нет счетов, включите автопродление",
         expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить, оплатите счет. Если нет счетов, включите автопродление',
         expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
 
@@ -959,13 +967,13 @@ export const translateNotification = {
 
         // ------ Триал --------
         //     header (push): Trial period
-        trialExpireInSomeDays: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'short'}}",
+        trialExpireInSomeDays: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'shortDate'}}",
         trialExpireToday: "Trial period for {{data[0] | translate}} tariff expires today",
-        trialTariffExpired: "Trial period for {{data[0] | translate}} tariff was expired",
+        trialExpired: "Trial period for {{data[0] | translate}} tariff was expired",
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
         //     header (push): Switch to pay tariff
-        trialExpireInSomeDaysAfterOldTariff: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'short'}}. From {{data[1]+1 | date:'short'}} " +
+        trialExpireInSomeDaysAfterOldTariff: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'shortDate'}}. From {{data[1]+1 | date:'shortDate'}} " +
         "the cost of using this tariff will be added to your bill on daily basis",
         trialExpireTodayAfterOldTariff: "Trial period for {{data[0] | translate}} tariff expires today. From tomorrow" +
         "the cost of using this tariff will be added to your bill on daily basis",
@@ -973,12 +981,12 @@ export const translateNotification = {
 
         // ------ Оплата счетов + нулевые счета
         //     header (push): Successful payment
-        billPayment_singleTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your {{data[0] | translate}} tariff functions are able till {{data[1] | date:'short'}}",
-        billPayment_multiTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your tariffs functions are able till {{data[1] | date:'short'}}",
+        billPayment_singleTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your {{data[0] | translate}} tariff functions are able till {{data[1] | date:'shortDate'}}",
+        billPayment_multiTariff: "You've successfully paid {{data[2]}} {{data[3]}} bill. Your tariffs functions are able till {{data[1] | date:'shortDate'}}",
 
         //     header (push): No additional cost
-        billPayment_singleTariff_ZeroAmount: "Since last bill you have no additional cost for your tariff {{data[0] | translate}}. Keep using it till {{data[1] | date:'short'}} without any payment",
-        billPayment_multiTariff_ZeroAmount: "Since last bill you have no additional cost for your tariffs. Keep using them till {{data[1] | date:'short'}} without any payment",
+        billPayment_singleTariff_ZeroAmount: "Since last bill you have no additional cost for your tariff {{data[0] | translate}}. Keep using it till {{data[1] | date:'shortDate'}} without any payment",
+        billPayment_multiTariff_ZeroAmount: "Since last bill you have no additional cost for your tariffs. Keep using them till {{data[1] | date:'shortDate'}} without any payment",
 
 
         //  ------ Оплата счетов не прошла из-за ошибки
@@ -1018,8 +1026,8 @@ export const translateNotification = {
          data[3] - Валюта счета
          **/
 
-        tariffRecurringTonight: "Your tariff {{data[0] | translate}} will be expired soon. {{data[1] | date:'short'}} we will try to charge your card for {{data[2]}} {{data[3]}}",
-        tariffRecurringTonightMulti: "Your tariffs will be expired soon. {{data[1] | date:'short'}} we will try to charge your card for {{data[2]}} {{data[3]}}",
+        tariffRecurringTonight: "Your tariff {{data[0] | translate}} will be expired soon. {{data[1] | date:'shortDate'}} we will try to charge your card for {{data[2]}} {{data[3]}}",
+        tariffRecurringTonightMulti: "Your tariffs will be expired soon. {{data[1] | date:'shortDate'}} we will try to charge your card for {{data[2]}} {{data[3]}}",
 
         /* ----------- Рекарринг проведен успешно--------**
          Отправитель: Стаминити
@@ -1029,8 +1037,8 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        tariffRecurringSuccess: "Your payment for {{data[0] | translate}} tariff was successful. Your card was charged for {{data[2]}} {{data[3]}} and your tariff functions will be able till {{data[1] | date:'short'}}",
-        tariffRecurringSuccessMulti: "Your payment for your tariffs was successful. Your card was charged for {{data[2]}} {{data[3]}} and your tariff's functions will be able till {{data[1] | date:'short'}}",
+        tariffRecurringSuccess: "Your payment for {{data[0] | translate}} tariff was successful. Your card was charged for {{data[2]}} {{data[3]}} and your tariff functions will be able till {{data[1] | date:'shortDate'}}",
+        tariffRecurringSuccessMulti: "Your payment for your tariffs was successful. Your card was charged for {{data[2]}} {{data[3]}} and your tariff's functions will be able till {{data[1] | date:'shortDate'}}",
 
         /* ----------- Ошибка списания по рекаррингу --------**
          Отправитель: Стаминити
@@ -1068,7 +1076,7 @@ export const translateNotification = {
          data[1] - paidTill date
          data[2] - номер счета
          **/
-        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'short'}}. To continue please pay unpaid bills and switch ON tariff auto renewal",
+        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'shortDate'}}. To continue please pay unpaid bills and switch ON tariff auto renewal",
         expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today. To continue please pay unpaid bills and switch ON tariff auto renewal",
         expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
 
