@@ -110,7 +110,7 @@ class ManagementCtrl {
         if (addTariffs.length && removeTariffs.length) {
             return this.$translate.instant('users.editTariffs.confirm.text.addAndRemove', { 
                 addTariffCodes: addTariffs.map(translateTariffCode).join(', '),
-                removeTariffCodes: addTariffs.map(translateTariffCode).join(', ')
+                removeTariffCodes: removeTariffs.map(translateTariffCode).join(', ')
             });
         } else if (addTariffs.length && !removeTariffs.length) {
             return (
@@ -318,9 +318,9 @@ class ManagementCtrl {
         .then((changes) => {
             let members = checked.map((member) => member.userProfile.userId);
 
-            let memberships = changes.map(({ role, checked }) => ({
+            let memberships = changes.map(({ role, direction }) => ({
                 groupId: this.management.availableGroups[role],
-                direction: checked? 'I' : 'O'
+                direction
             }));
 
             return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
