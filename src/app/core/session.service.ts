@@ -68,6 +68,9 @@ export default class SessionService implements ISessionService {
 
 	getUser():IUserProfile {
 		try {
+			if (!this._user) {
+				this._user = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
+			}
 			return this._user;
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];

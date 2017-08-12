@@ -97,7 +97,7 @@ class RequestsCtrl {
     }
 };
 
-RequestsCtrl.$inject = ['$scope','$mdDialog','$mdSidenav','UserService','GroupService','RequestsService','SessionService','dialogs','message'];
+RequestsCtrl.$inject = ['$scope','$mdDialog','$translate','$mdSidenav','UserService','GroupService','RequestsService','SessionService','dialogs','message'];
 
 const RequestsComponent = {
 

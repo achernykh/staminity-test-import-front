@@ -137,7 +137,7 @@
                 </md-tab-body>
             </md-tab>
 
-            <md-tab ng-if="$ctrl.bill.payment && $ctrl.bill.payment.paymentData">
+            <md-tab ng-if="$ctrl.bill.payment && $ctrl.bill.payment.paymentData && $ctrl.billStatus === 'complete'">
                 <md-tab-label>
                     {{ 'settings.billing.billTabs.payment' | translate }}
                 </md-tab-label>

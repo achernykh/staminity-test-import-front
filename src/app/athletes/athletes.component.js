@@ -92,9 +92,9 @@ class AthletesCtrl {
         let translateTariffCode = ({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
 
         if (addTariffs.length) {
-            return this.$translate.instant('athletes.editTariffs.addOne', { tariffCode: translateTariffCode(addTariffs[0]) });
+            return this.$translate.instant('athletes.editTariffs.confirm.text.addOne', { tariffCode: translateTariffCode(addTariffs[0]) });
         } else if (removeTariffs.length) {
-            return this.$translate.instant('athletes.editTariffs.removeOne', { tariffCode: translateTariffCode(removeTariffs[0]) });
+            return this.$translate.instant('athletes.editTariffs.confirm.text.removeOne', { tariffCode: translateTariffCode(removeTariffs[0]) });
         }
     }
     
@@ -114,8 +114,14 @@ class AthletesCtrl {
                 }));
 
             let message = this.editTariffsMessage(changes);
+            let confirmDialogMessages = {
+                title: this.$translate.instant(`athletes.editTariffs.confirm.title`),
+                text: message,
+                confirm: this.$translate.instant(`athletes.editTariffs.confirm.confirm`),
+                cancel: this.$translate.instant(`athletes.editTariffs.confirm.cancel`)
+            };
 
-            return this.dialogs.confirm({ text: message }, changes);
+            return this.dialogs.confirm(confirmDialogMessages, changes);
         })
         .then((changes) => {
             let members = checked.map(member => member.userProfile.userId);
