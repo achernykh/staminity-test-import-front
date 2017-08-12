@@ -421,7 +421,7 @@ export const translateNotification = {
         "тариф будет подключен на платной основе с ежедневными начислениями",
         trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[2] | date:'shortDate'}} " +
         "тариф будет подключен на платной основе с ежедневными начислениями",
-        trialTariffExpiredAfterOldTariff: 'Закончился пробный период по тарифу {{data[0] | translate}}. ' +
+        trialExpiredAfterOldTariff: 'Закончился пробный период по тарифу {{data[0] | translate}}. ' +
         'С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ',
 
         /* ------ Оплата счетов + нулевые счета
@@ -533,8 +533,8 @@ export const translateNotification = {
          data[0] - Название тарифа
          data[1] - paidTill date
          **/
-        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'shortDate'}}. Чтобы продолжить, оплатите счет. Если нет счетов, включите автопродление",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня. Чтобы продолжить, оплатите счет. Если нет счетов, включите автопродление',
+        expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'shortDate'}}",
+        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня',
         expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
 
         /* ----------- Уведомления по счетам  --------**
@@ -973,11 +973,11 @@ export const translateNotification = {
 
         // ------ Автопродление триала в платный тариф (триал подключен после других платных тарифов)
         //     header (push): Switch to pay tariff
-        trialExpireInSomeDaysAfterOldTariff: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'shortDate'}}. From {{data[1]+1 | date:'shortDate'}} " +
+        trialExpireInSomeDaysAfterOldTariff: "Trial period for {{data[0] | translate}} tariff expires on {{data[1] | date:'shortDate'}}. From {{data[2] | date:'shortDate'}} " +
         "the cost of using this tariff will be added to your bill on daily basis",
         trialExpireTodayAfterOldTariff: "Trial period for {{data[0] | translate}} tariff expires today. From tomorrow" +
         "the cost of using this tariff will be added to your bill on daily basis",
-        trialTariffExpiredAfterOldTariff: "Trial period for {{data[0] | translate}} tariff was expired. From today the cost of using this tariff will be added to your bill on daily basis",
+        trialExpiredAfterOldTariff: "Trial period for {{data[0] | translate}} tariff was expired. From today the cost of using this tariff will be added to your bill on daily basis",
 
         // ------ Оплата счетов + нулевые счета
         //     header (push): Successful payment
@@ -1076,8 +1076,8 @@ export const translateNotification = {
          data[1] - paidTill date
          data[2] - номер счета
          **/
-        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'shortDate'}}. To continue please pay unpaid bills and switch ON tariff auto renewal",
-        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today. To continue please pay unpaid bills and switch ON tariff auto renewal",
+        expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'shortDate'}}",
+        expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today",
         expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
 
         /* ----------- Уведомления по счетам  --------**
