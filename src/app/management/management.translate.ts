@@ -31,7 +31,7 @@ export const _translate = {
                         'При отсутствии у выбранных членов клуба тарифного плана "Тренер", он будет подключен за счет клуба с сегодняшнего дня.',
                         ClubManagement: 'Подключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Администратор</a>"?'
                     },
-                    addMany: 'Добавить <a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >роли </a> {{roles}} выбранным членам клуба? ' +
+                    addMany: 'Добавить <a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >роли</a> {{roles}} выбранным членам клуба? ' +
                     'Сумма ежедневных начислений в счете клуба может быть увеличена в соответствии с условиями <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >тарифного плана "Клуб"</a>',
                     removeOne: {
                         ClubAthletes: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Спортсмен</a>"? Будет удалена связь с тренерами клуба и отключен доступ клуба к дневнику тренировок. ' +
