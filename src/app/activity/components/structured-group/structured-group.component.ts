@@ -4,10 +4,8 @@ import {Loop, LoopMode} from "../structured-assignment/structured-assignment.com
 
 class StructuredGroupCtrl implements IComponentController {
 
-    start: number;
-    end: number;
     loop: Loop;
-    hiddenPos: number;
+    hiddenPos: number = 0;
 
     private readonly box:{top:number,height:number} = {top:21,height:44}; //px
     static $inject = [];
@@ -35,9 +33,6 @@ class StructuredGroupCtrl implements IComponentController {
 
 export const StructuredGroupComponent:IComponentOptions = {
     bindings: {
-        start: '<',
-        end: '<',
-        count: '<',
         loop: '<',
         hiddenPos: '<',
         onInput: '&'

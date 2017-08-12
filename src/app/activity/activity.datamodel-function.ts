@@ -34,12 +34,8 @@ export function ActivityIntervalFactory (type: string, params?: any) {
 export class ActivityIntervals {
 
     pack: Array<ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW>;
-    //intervalPW: IActivityIntervalPW;
-    //intervalW: IActivityIntervalW;
     intervalL: Array<IActivityIntervalL> = [];
     intervalU: Array<IActivityIntervalL> = [];
-    //intervalP: Array<ActivityIntervalP> = [];
-    //intervalG: Array<IActivityIntervalG> = [];
 
     constructor(intervals: Array<IActivityIntervals> = []){
         this.pack = intervals.map(i => ActivityIntervalFactory(i.type, i));
@@ -63,7 +59,6 @@ export class ActivityIntervals {
 
     add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = []):void {
         intervals.forEach(i => {
-            debugger;
             if (typeof i === 'ActivityIntervalP' || 'ActivityIntervalG') {
                 this.pack.push(<ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW>i);
             } else {
@@ -146,6 +141,8 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     movingDurationApprox: boolean; // признак, что movingDuration определен приблизительно
     distanceApprox: boolean; // признак, что distance рассчитан приблизительно
     calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
+    parentGroup: string; // указатель на группу, в которую входит интервал
+    repeatPos: number; // номер повтора внутри группы
     pos: number; //позиция интервала в перечне
 
     // Дополнительные поля для отрисовки в бэке

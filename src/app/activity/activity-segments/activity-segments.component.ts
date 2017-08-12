@@ -11,6 +11,7 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     private duration: string = 'movingDuration';
     private intensity: string = 'heartRate';
+    private intervals: Array<ActivityIntervalP>;
 
     static $inject = [];
 
@@ -26,7 +27,7 @@ class ActivitySegmentsCtrl implements IComponentController {
 
         group = <ActivityIntervalG>ActivityIntervalFactory('G');
         group.repeatCount = 3;
-        this.item.activity.completeInterval(group);
+        this.item.activity.intervals.add([group]);
 
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
             durationMeasure: 'distance',
@@ -44,7 +45,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 4,
             repeatPos: 0
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
             durationMeasure: 'movingDuration',
@@ -62,7 +63,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 5,
             repeatPos: 0
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
             durationMeasure: 'distance',
@@ -80,7 +81,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 6,
             repeatPos: 1
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
             durationMeasure: 'movingDuration',
@@ -98,7 +99,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 7,
             repeatPos: 1
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
             durationMeasure: 'distance',
@@ -116,7 +117,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 8,
             repeatPos: 2
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
             durationMeasure: 'movingDuration',
@@ -134,7 +135,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 9,
             repeatPos: 2
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         // Отдых после первой группы
 
@@ -152,13 +153,13 @@ class ActivitySegmentsCtrl implements IComponentController {
             intensityByFtpTo: 0.65,
             pos: 10
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         // Вторая группа с ускорения по 400 метров + 800 метров, через 400 метров отдыха x 2
 
         group = <ActivityIntervalG>ActivityIntervalFactory('G');
         group.repeatCount = 2;
-        this.item.activity.completeInterval(group);
+        this.item.activity.intervals.add([group]);
 
         //400м
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
@@ -177,7 +178,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 11,
             repeatPos: 0
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         //800м
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
@@ -196,7 +197,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 12,
             repeatPos: 0
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         //400м отдыха
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
@@ -215,7 +216,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 13,
             repeatPos: 0
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         //400м
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
@@ -234,7 +235,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 14,
             repeatPos: 1
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         //800м
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
@@ -253,7 +254,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 15,
             repeatPos: 1
         });
-        this.item.activity.completeInterval(interval);
+        this.item.activity.intervals.add([interval]);
 
         //400м отдыха
         interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
@@ -272,56 +273,20 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos: 16,
             repeatPos: 1
         });
-        this.item.activity.completeInterval(interval);
+
         this.item.activity.intervals.add([interval]);
+        this.intervals = this.item.activity.intervals.intervalP;
 
+    }
 
+    onUpdate() {
+        this.intervals = this.item.activity.intervals.intervalP;
+    }
 
-        console.log('interval',interval);
-
-
-        /*let interval1: Interval = new Interval('P');
-        interval1.durationMeasure = this.duration;
-        interval1.intensityMeasure = this.intensity;
-        interval1.durationValue = 3600;
-        interval1.movingDurationLength = 3600;
-        interval1.distanceLength = 10000;
-        interval1.intensityLevelFrom = 140;
-        interval1.intensityLevelTo = 150;
-        interval1.intensityByFtpFrom = 0.70;
-        interval1.intensityByFtpTo = 0.75;
-        interval1.movingDurationApprox = false;
-        interval1.distanceApprox = true;
-
-        this.item.activity.completeInterval(interval1);
-
-        let interval2: Interval = new Interval('P');
-        interval2.durationMeasure = this.duration;
-        interval2.intensityMeasure = this.intensity;
-        interval2.durationValue = 1800;
-        interval2.movingDurationLength = 1800;
-        interval2.distanceLength = 5000;
-        interval2.intensityLevelFrom = 160;
-        interval2.intensityLevelTo = 170;
-        interval2.intensityByFtpFrom = 0.80;
-        interval2.intensityByFtpTo = 0.85;
-        interval1.movingDurationApprox = false;
-        interval1.distanceApprox = true;
-        this.item.activity.completeInterval(interval2);
-
-        let interval3: Interval = new Interval('P');
-        interval3.durationMeasure = this.duration;
-        interval3.intensityMeasure = this.intensity;
-        interval3.durationValue = 300;
-        interval3.movingDurationLength = 300;
-        interval3.distanceLength = 1000;
-        interval3.intensityLevelFrom = 180;
-        interval3.intensityLevelTo = 185;
-        interval3.intensityByFtpFrom = 0.87;
-        interval3.intensityByFtpTo = 0.90;
-        interval1.movingDurationApprox = false;
-        interval1.distanceApprox = true;
-        this.item.activity.completeInterval(interval3);*/
+    onChartSelection(id: number){
+        if(this.intervals[id]){
+            //this.intervals[id].isSelected = true;
+        }
     }
 
     /**

@@ -28,6 +28,7 @@ class StructuredIntervalCtrl implements IComponentController {
     public sport: string;
     public loop: Loop;
 
+    public onSelect: () => IPromise<void>;
     public onChange: (response: {interval: IActivityIntervalP}) => IPromise<void>;
     public onDelete: (response: {id: number}) => IPromise<void>;
 
@@ -64,6 +65,11 @@ class StructuredIntervalCtrl implements IComponentController {
         return this.loop &&
             this.loop.mode === LoopMode.Input &&
             this.interval.pos === (this.loop.start + this.loop.length - 1);
+    }
+
+    select(){
+        this.interval.isSelected = !this.interval.isSelected;
+        this.onSelect();
     }
 
 
@@ -216,6 +222,7 @@ const StructuredIntervalComponent:IComponentOptions = {
         loop: '<',
         onChange: '&',
         onDelete: '&',
+        onSelect: '&',
         onSetRepeat: '&'
     },
     require: {

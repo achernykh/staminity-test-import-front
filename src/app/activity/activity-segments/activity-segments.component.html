@@ -17,14 +17,14 @@
         </md-list-item>
     </md-list>
     <activity-segment-chart flex="none" style="display: flex; margin: 8px 16px; height: 150px"
-                            activity-header="$ctrl.item.activity.intervalP"
+                            activity-header="$ctrl.intervals"
                             selected=""
                             actual-ftp="false"
                             plan-ftp="true"
                             duration-measure="movingDuration"
                             view="'mobile'"
                             change="$ctrl.item.changeStructuredAssignment"
-                            on-select="$ctrl.onChartSelect(segmentId)">
+                            on-select="$ctrl.onChartSelection(segmentId)">
     </activity-segment-chart>
     <md-divider ng-if="$ctrl.item.mode !== 'view'"></md-divider>
     <section ng-if="$ctrl.item.mode !== 'view'" class="action-panel" flex="none" layout="row" layout-align="space-between center">
@@ -46,7 +46,7 @@
                            intervals="$ctrl.item.activity.intervals"
                            plan="$ctrl.item.activity.intervalP"
                            group="$ctrl.item.activity.intervalG"
-                           on-change="">
+                           on-change="$ctrl.onUpdate()">
     </structured-assignment>
 </md-content>
 <!--<pre>{{$ctrl.item.activity.intervalPW | json}}</pre>-->

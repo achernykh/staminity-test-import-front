@@ -1,33 +1,27 @@
-<structured-group class="structured-group" flex="none" ng-if="$ctrl.isSequenceSelected()"
-                  mode="$ctrl.mode"
-                  start="$ctrl.sequence[0]"
-                  end="$ctrl.sequence[$ctrl.sequence.length - 1]"
-                  count="$ctrl.groupCount"
+<structured-group class="structured-group" flex="none" ng-if="$ctrl.sequence"
+                  loop="$ctrl.sequence"
+                  hidden-pos="$ctrl.calcPrevLoops($ctrl.sequence.id)"
                   on-input="$ctrl.mode = $ctrl.changeMode()">
 </structured-group>
 
 <structured-group ng-repeat="loop in $ctrl.loops track by $index"
                   class="structured-group" flex="none"
-                  mode="$ctrl.mode"
-                  start="loop.start"
-                  end="loop.start + loop.length - 1"
-                  count="loop.repeat"
                   loop="loop"
-                  hidden-pos="$ctrl.calcPrevLoops(loop.id)"
-                  on-input="$ctrl.mode = $ctrl.changeMode()">
+                  hidden-pos="$ctrl.calcPrevLoops(loop.id)">
 </structured-group>
 
 <section class="intervals" flex="auto" layout="column" layout-fill
          ng-class="{'margin-left': $ctrl.haveLoops()}">
-    <structured-interval ng-repeat="interval in $ctrl.plan | orderBy:'pos' track by $index"
+    <structured-interval ng-repeat="interval in $ctrl.intervals.intervalP | orderBy:'pos' track by $index"
                          ng-if="!interval.repeatPos || interval.repeatPos === 0"
                          interval="interval"
                          sport="$ctrl.item.activity.sportBasic"
                          group-count="$ctrl.mode === 'input' && interval.pos === $ctrl.sequence[$ctrl.sequence.length - 1]"
                          count="$ctrl.groupCount"
-                         loop="$ctrl.myLoop(interval.parentGroup)"
+                         loop="$ctrl.myLoop(interval)"
                          on-change="$ctrl.change($index,interval)"
                          on-delete="$ctrl.splice($index)"
+                         on-select="$ctrl.onChangeSelection()"
                          on-set-repeat="$ctrl.setRepeat(loop,repeat)">
     </structured-interval>
 </section>

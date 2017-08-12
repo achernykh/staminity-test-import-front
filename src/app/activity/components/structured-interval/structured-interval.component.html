@@ -1,7 +1,7 @@
 <div layout="row" layout-align="start center"
      class="md-dense interval-data" ng-class="{'selected': $ctrl.interval.isSelected, 'key': $ctrl.interval.keyInterval}">
     <div class="segment-number md-body-1 bg-grey-200 md-dark"
-         ng-click="$ctrl.interval.isSelected = !$ctrl.interval.isSelected">
+         ng-click="$ctrl.select()">
         <span>{{$ctrl.interval.pos}}</span></div>
     <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
     <md-menu flex="none">
