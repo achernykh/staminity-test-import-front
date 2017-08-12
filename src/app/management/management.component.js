@@ -114,13 +114,13 @@ class ManagementCtrl {
             });
         } else if (addTariffs.length && !removeTariffs.length) {
             return (
-                addTariffs.length > 1 && this.$translate.instant('users.editTariffs.addMany', { tariffCodes: removeTariffs.map(translateTariffCode).join(', ') }) ||
-                addTariffs.length === 1 && this.$translate.instant('users.editTariffs.addOne', { tariffCode: removeTariffs[0] })
+                addTariffs.length > 1 && this.$translate.instant('users.editTariffs.addMany', { tariffCodes: addTariffs.map(translateTariffCode).join(', ') }) ||
+                addTariffs.length === 1 && this.$translate.instant('users.editTariffs.addOne', { tariffCode: translateTariffCode(addTariffs[0]) })
             );
         } else if (!addTariffs.length && removeTariffs.length) {
             return (
                 removeTariffs.length > 1 && this.$translate.instant('users.editTariffs.removeMany', { tariffCodes: removeTariffs.map(translateTariffCode).join(', ') }) ||
-                removeTariffs.length === 1 && this.$translate.instant('users.editTariffs.removeOne', { tariffCode: removeTariffs[0] })
+                removeTariffs.length === 1 && this.$translate.instant('users.editTariffs.removeOne', { tariffCode: translateTariffCode(removeTariffs[0]) })
             );
         }
     }
@@ -273,8 +273,8 @@ class ManagementCtrl {
 
         if (addRoles.length && removeRoles.length) {
             return this.$translate.instant('users.editRoles.addAndRemove', { 
-                addRoles: addRoles[0].map(translateRole).join(', '), 
-                removeRoles: removeRoles[0].map(translateRole).join(', ')
+                addRoles: addRoles.map(translateRole).join(', '), 
+                removeRoles: removeRoles.map(translateRole).join(', ')
             });
         } else if (addRoles.length && !removeRoles.length) {
             return (

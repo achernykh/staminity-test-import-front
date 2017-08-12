@@ -30,7 +30,7 @@
             <md-list-item 
                 class="md-2-line" 
                 ng-repeat-start="tariff in $ctrl.user.billing.tariffs"
-                ng-click="tariff.isOn || tariff.unpaidBill? $ctrl.viewTariff(tariff) : $ctrl.enableTariff(tariff)"
+                ng-click="tariff.isOn? $ctrl.viewTariff(tariff) : $ctrl.enableTariff(tariff)"
             >
                 <md-icon class="material-icons">person</md-icon>
                 <div class="md-list-item-text" ng-switch="property.enabled">
@@ -47,7 +47,7 @@
                 <md-switch
                     ng-model="$ctrl.tariffIsEnabled(tariff)"
                     ng-model-options="{getterSetter: true}"
-                    ng-disabled="!tariff.isAvailable && !tariff.isBlocked"
+                    ng-disabled="!tariff.isAvailable"
                     ng-class="{ 'tariffs__swich-blocked': tariff.isBlocked, 'md-primary': tariff.isAvailable && !tariff.isBlocked, 'md-accent': tariff.isAvailable && tariff.isBlocked }"
                 >
                 </md-switch>

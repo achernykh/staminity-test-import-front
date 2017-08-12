@@ -15,12 +15,12 @@
                 <md-list-item>
                     <span>{{ 'settings.billing.status' | translate }}</span>
                     <span flex></span>
-                    <span>{{'settings.billing.tariffStatusesIsEnabled.' + $ctrl.tariffStatus | translate}}</span>
+                    <span style="text-align: right;">{{'settings.billing.tariffStatusesIsEnabled.' + $ctrl.tariffStatus | translate}}</span>
                 </md-list-item>
                 <md-list-item>
                     <span>{{ 'settings.billing.payment' | translate }}</span>
                     <span flex></span>
-                    <span>{{'settings.billing.tariffStatusesEnablers.' + $ctrl.tariffStatus | translate:{
+                    <span style="text-align: right;">{{'settings.billing.tariffStatusesEnablers.' + $ctrl.tariffStatus | translate:{
                         club: ($ctrl.tariff.clubProfile | clubName),
                         coach: ($ctrl.tariff.userProfilePayer | userName)
                     } }}</span>
