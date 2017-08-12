@@ -1,3 +1,4 @@
+import { requestType } from "../../../../api/group/group.interface";
 import './requests.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import { Subject } from "rxjs/Rx";
@@ -80,14 +81,16 @@ class RequestsCtrl {
     }
     
     processRequest (request, action) {
+        let type = requestType(request);
+
         let confirmMessages = {
-            title: $translate.instant(`requests.confirmDialog.${action}.${request.groupProfile.groupCode}.title`),
-            text: $translate.instant(`requests.confirmDialog.${action}.${request.groupProfile.groupCode}.text`),
-            confirm: $translate.instant(`requests.confirmDialog.${action}.${request.groupProfile.groupCode}.confirm`),
-            cancel: $translate.instant(`requests.confirmDialog.${action}.${request.groupProfile.groupCode}.cancel`)
+            title: this.$translate.instant(`${type}.${action}.title`),
+            text: this.$translate.instant(`${type}.${action}.text`),
+            confirm: this.$translate.instant(`${type}.${action}.confirm`),
+            cancel: this.$translate.instant(`${type}.${action}.cancel`)
         };
 
-        this.dialogs.confirm({ text: 'dialogs.performAction' + action })
+        this.dialogs.confirm(confirmMessages)
         .then(() => this.GroupService.processMembership(action, null, request.userGroupRequestId))
         .then(() => this.message.toastInfo('requestComplete'), (error) => error && this.message.toastError(error));
     }
