@@ -2,12 +2,17 @@ import './activity-header-overview.component.scss';
 import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
 import {Activity} from "../activity.datamodel";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import {ActivityIntervalPW} from "../activity-datamodel/activity.interval-pw";
+import {ActivityIntervalW} from "../activity-datamodel/activity.interval-w";
 
 class ActivityHeaderOverviewCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
     public mode: string;
     public activity: Activity;
+    public intervalPW: ActivityIntervalPW;
+    public intervalW: ActivityIntervalW;
+
     public form: INgModelController;
     static $inject = [];
 
@@ -19,6 +24,8 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         // для удобства верстки создаем быстрый путь к данным
         this.mode = this.item.mode;
         this.activity = this.item.activity;
+        this.intervalPW = this.item.activity.intervals.intervalPW;
+        this.intervalW = this.item.activity.intervals.intervalW;
     }
 
     onSave(){

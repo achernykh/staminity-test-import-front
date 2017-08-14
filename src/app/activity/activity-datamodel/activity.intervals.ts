@@ -5,7 +5,6 @@ import {ActivityIntervalW} from "./activity.interval-w";
 import {IActivityIntervals} from "../../../../api/activity/activity.interface";
 import {ActivityIntervalFactory} from "./activity.functions";
 import {times} from '../../share/util.js';
-import {isDate} from "@reactivex/rxjs/dist/cjs/util/isDate";
 
 const posOrder = (a:ActivityIntervalP,b:ActivityIntervalP) => a.pos < b.pos ? -1: 1;
 
@@ -20,6 +19,10 @@ export class ActivityIntervals {
 
     constructor(intervals: Array<IActivityIntervals> = []){
         this.pack = intervals.map(i => ActivityIntervalFactory(i.type, i));
+        // Если интервалов нет, то создаем два итоговых инетрвала по плану и факту
+        if(this.pack.length === 0) {
+            this.add([ActivityIntervalFactory('pW'), ActivityIntervalFactory('W')]);
+        }
     }
 
     get intervalP():Array<ActivityIntervalP> {
@@ -34,8 +37,8 @@ export class ActivityIntervals {
         return <ActivityIntervalPW>this.pack.filter(i => i.type === 'pW')[0];
     }
 
-    get intervalW():Array<ActivityIntervalW> {
-        return <Array<ActivityIntervalW>>this.pack.filter(i => i.type === 'W');
+    get intervalW():ActivityIntervalW {
+        return <ActivityIntervalW>this.pack.filter(i => i.type === 'W')[0];
     }
 
     add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = []):void {
@@ -279,5 +282,30 @@ export class ActivityIntervals {
      */
     reorganisation(start: number, shift: number):void {
         this.intervalP.filter(i => i.pos >= start).forEach(i => this.setParams(i.type, i.pos, { pos: i.pos + shift}));
+    }
+
+    /**
+     * @description Сборка массива координат для мини-граифка
+     * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
+     * @returns {any[]}
+     */
+    chart():Array<Array<number>> {
+        let start: number = 0; //начало отсечки на графике
+        let finish: number = 0; // конец отсечки на графике
+        let maxFtp: number = 0;
+        let data: Array<any> = [];
+
+        this.intervalP.map( interval => {
+            start = finish;
+            finish = start + interval.movingDurationLength;
+            maxFtp = Math.max(interval.intensityByFtpTo, maxFtp); //((interval.intensityByFtpTo > maxFtp) && interval.intensityByFtpTo) || maxFtp;
+            data.push([start, interval.intensityByFtpFrom],[finish, interval.intensityByFtpTo]);
+        });
+
+        data = data.map(d => [d[0]/finish,d[1]/maxFtp]);
+        //debugger;
+
+        // Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
+        return (data.length > 0 && data) || null;
     }
 }

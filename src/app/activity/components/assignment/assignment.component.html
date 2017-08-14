@@ -4,7 +4,7 @@
     <md-list class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view' || $ctrl.item.template">
         <md-list-item>
             <md-input-container class="md-block no-message" md-no-float layout="row">
-                <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
+                <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
                 <md-select flex name="sport" class="icon" required
                            ng-model="$ctrl.item.activity.sport"
                            ng-model-options="{ getterSetter: true }"
@@ -27,7 +27,7 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0 || $ctrl.item.template">
             <md-input-container class="md-block no-message" md-no-float>
-                <md-icon class="material-icons" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
+                <md-icon class="material-icons md-dark" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
                 <md-select
                     ng-model="$ctrl.item.activity.header.activityCategory"
                     ng-model-options="{ trackBy: '$value.id' }"
@@ -57,15 +57,14 @@
             </md-input-container>
         </md-list-item>
         <md-list-item ng-if="$ctrl.item.activity.sport">
-            <md-icon class="material-icons" style="margin-right: 20px">format_list_numbered</md-icon>
+            <md-icon class="material-icons md-dark" style="margin-right: 20px">format_list_numbered</md-icon>
             <p>Структурированное задание</p>
             <md-switch class="md-secondary md-primary"
                        ng-model="$ctrl.item.structuredMode" md-invert>
         </md-list-item>
-        <md-list-item layout="row" layout-align="start center">
         <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.template">
             <md-input-container flex="50" class="no-message" md-no-float>
-                <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
+                <md-icon flex="none" class="material-icons md-dark" style="left: 0px">today</md-icon>
                 <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                                ng-change="$ctrl.changeParam()"
                                name="dateStart" md-hide-icons="calendar"
@@ -77,7 +76,8 @@
                     </div>
                 </div>
             </md-input-container>
-            <div flex="5"></div><!--
+            <div flex="5">
+            </div><!--
                 <md-input-container flex="45" class="no-message" md-no-float>
                     <input type="time" name="uri" class=""
                            ng-model="$ctrl.item.activity.header.startTimeStamp"
@@ -176,9 +176,9 @@
                     </thead>
                     <tbody md-body>
                     <tr md-row ng-if="$ctrl.showRow(measure.$key)"
-                        ng-repeat="measure in $ctrl.plan | toArray | orderBy:'order' | filter:search track by measure.$key">
+                        ng-repeat="measure in $ctrl.plan | toArray | filter:search | orderBy:order track by measure.$key">
                         <td md-cell>
-                            <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon>
+                            <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="md-dark"></md-icon>
                         </td>
                         <td md-cell show>
                             <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure.$key)">{{'%ПАНО' | translate}}</span>
@@ -253,7 +253,7 @@
         </div>
         <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
             <md-input-container flex class="md-block no-message">
-                <md-icon class="material-icons">event_note</md-icon>
+                <md-icon class="material-icons md-dark">event_note</md-icon>
                 <label translate="Установка тренера" class="icon"></label>
                 <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
                           ng-change="$ctrl.changeParam()"

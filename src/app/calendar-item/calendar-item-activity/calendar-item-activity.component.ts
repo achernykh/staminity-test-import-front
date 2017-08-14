@@ -175,6 +175,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
             (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
 
+        this.prepareAthletesList();
+
         // Список категорий тренировки
         if (this.mode === 'put' || this.mode === 'post' || this.mode === 'view') {
             if (this.template) {
@@ -193,7 +195,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
             }
         }
 
-        // Перечень атлетов тренера доступных для планирования
+        console.log('CalendarItemAct', this);
+    }
+
+    /**
+     * @description Подготовка перечня атлетов достунпых для планирования
+     */
+    prepareAthletesList() {
         if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));
@@ -207,8 +215,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (this.template && this.data && this.data.userProfileCreator) {
             this.forAthletes = [{ profile: this.data.userProfileCreator, active: true }];
         }
-
-        console.log('CalendarItemAct', this);
     }
     
     $onDestroy () {
@@ -241,7 +247,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @returns {IUserProfileShort}
      */
     firstAthlete(pos: number){
-        return this.forAthletes.filter(athlete => athlete.active)[pos].profile;
+        return this.forAthletes && this.forAthletes.filter(athlete => athlete.active)[pos].profile;
     }
 
     /**
@@ -249,7 +255,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @returns {boolean}
      */
     multiAthlete(){
-        return this.forAthletes.filter(athlete => athlete.active).length > 1;
+        return this.forAthletes && this.forAthletes.filter(athlete => athlete.active).length > 1;
     }
 
     /**

@@ -1,19 +1,75 @@
-import {IActivityIntervalPW, ICalcMeasures} from "../../../../api/activity/activity.interface";
+import {
+    IActivityIntervalPW, ICalcMeasures, IDurationMeasure,
+    IIntensityMeasure
+} from "../../../../api/activity/activity.interface";
 import {ActivityIntervalP} from "./activity.interval-p";
-import {ActivityIntervalCalcMeasure} from "./activity.models";
+import {ActivityIntervalCalcMeasure, DurationMeasure, IntensityMeasure} from "./activity.models";
 
 export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIntervalPW {
 
     trainersPrescription: string;
-    calcMeasures: ICalcMeasures = new ActivityIntervalCalcMeasure();
+    calcMeasures: ICalcMeasures;
     movingDurationApprox: boolean; // временя рассчитано приблизительно
     distanceApprox: boolean; // дистанция рассчитана приблизительно
 
+    // Дополнительные поля для ввода неструктурированной тренировке
+    movingDuration: IDurationMeasure = new DurationMeasure();
+    distance: IDurationMeasure = new DurationMeasure();
+    heartRate: IIntensityMeasure = new IntensityMeasure();
+    speed: IIntensityMeasure = new IntensityMeasure();
+    power: IIntensityMeasure = new IntensityMeasure();
+
     constructor(type: string, params: any) {
         super(type, params);
+        this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
         this.durationValue = this.durationValue || 0;
         this.movingDurationLength = this.movingDurationLength || 0;
         this.distanceLength = this.distanceLength || 0;
+
+        if (this.durationMeasure === 'movingDuration' || 'duration') {
+            this.movingDuration.durationValue = this.durationValue;
+        }
+
+        if (this.durationMeasure === 'distance') {
+            this.distance.durationValue = this.durationValue;
+        }
+
+        if (this.intensityMeasure === 'heartRate') {
+            Object.assign(this.heartRate, {
+                intensityLevelFrom: this.intensityLevelFrom,
+                intensityLevelTo: this.intensityLevelTo,
+                intensityByFtpFrom: this.intensityByFtpFrom,
+                intensityByFtpTo: this.intensityByFtpTo
+            });
+        }
+
+        if (this.intensityMeasure === 'speed') {
+            Object.assign(this.speed, {
+                intensityLevelFrom: this.intensityLevelFrom,
+                intensityLevelTo: this.intensityLevelTo,
+                intensityByFtpFrom: this.intensityByFtpFrom,
+                intensityByFtpTo: this.intensityByFtpTo
+            });
+        }
+
+        if (this.intensityMeasure === 'power') {
+            Object.assign(this.power, {
+                intensityLevelFrom: this.intensityLevelFrom,
+                intensityLevelTo: this.intensityLevelTo,
+                intensityByFtpFrom: this.intensityByFtpFrom,
+                intensityByFtpTo: this.intensityByFtpTo
+            });
+        }
+
+    }
+
+    percent(){
+        return this.calcMeasures.completePercent.hasOwnProperty('value') &&
+            this.calcMeasures.completePercent.value * 100 || null;
+    }
+
+    specified():boolean{
+        return this.durationValue > 0;
     }
 
     /**
