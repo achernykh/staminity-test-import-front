@@ -2,11 +2,9 @@ import './structured-assignment.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {IActivityIntervalP, IActivityIntervalG} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {
-    ActivityIntervalG, ActivityIntervalP, ActivityIntervalFactory,
-    ActivityIntervals
-} from "../../activity.datamodel-function";
 import {times} from '../../../share/util.js';
+import {ActivityIntervals} from "../../activity-datamodel/activity.intervals";
+import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
 
 // Режим вывода Повтора для группы
 export enum LoopMode {
@@ -106,7 +104,7 @@ class StructuredAssignmentCtrl implements IComponentController {
     }
 
     haveLoops():boolean {
-        return this.loops.length > 0 || this.sequence.length > 1;
+        return this.loops.length > 0 || !!this.sequence;
     }
 
     /**
@@ -124,21 +122,35 @@ class StructuredAssignmentCtrl implements IComponentController {
         return (loop && loop.pos[loop.length - 1] === interval.pos && loop) || null;
     }
 
+    /**
+     * Смена количества повторений в группе
+     * @param loop
+     * @param repeat
+     */
     setRepeat(loop: Loop, repeat: number):void {
-        debugger;
-        loop.mode = LoopMode.Group;
-        loop.repeat = repeat;
+        let success: boolean = false;
+        let loopSegment: Array<ActivityIntervalP> = [];
 
-        /**let loopSegment: Array<ActivityIntervalP> =
-            this.plan.filter(p => p.parentGroupCode === loop.code && p.repeatPos === 0);
 
-        times(repeat - loop.repeat).forEach(i => {
+        // Создание группы интервалов
+        if(loop && loop.code === null && repeat > 1) {
+            loopSegment = this.intervals.intervalP.filter(p => loop.pos.some(i => i === p.pos));
+            success = this.intervals.createGroup(loopSegment, repeat);
+        }
+        // Удаление группы интервалов
+        if(loop && loop.code !== null && repeat === 1) {
+            success = this.intervals.spliceGroup(loop.code, loop.start, loop.length, loop.repeat);
+        }
+        // Изменение количества повторений
+        if(loop && loop.code !== null && repeat > 1) {
+            loopSegment = this.intervals.intervalP.filter(p => p.parentGroup === loop.code && p.repeatPos === 0);
+            success = loop.repeat > repeat ? this.intervals.decreaseGroup(loopSegment, repeat) : this.intervals.increaseGroup(loopSegment, repeat);
+        }
 
-        });
-        let interval = <ActivityIntervalP>ActivityIntervalFactory('P', {});
-        this.item.activity.completeInterval(interval)
-
-        debugger;**/
+        if(success) {
+            this.loops = this.loopsFromGroups;
+            this.onChange();
+        }
 
     }
 

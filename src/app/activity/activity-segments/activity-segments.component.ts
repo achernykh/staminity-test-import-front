@@ -2,7 +2,9 @@ import './activity-segments.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {Interval} from "../activity.datamodel";
-import {ActivityIntervalFactory, ActivityIntervalG, ActivityIntervalP} from "../activity.datamodel-function";
+import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
+import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
+import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
 
 class ActivitySegmentsCtrl implements IComponentController {
 
@@ -21,11 +23,13 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     $onInit() {
 
+        this.intervals = this.item.activity.intervals.intervalP;
+
         // Добавляем интервалы для теста
         let interval: ActivityIntervalP;
         let group: ActivityIntervalG;
 
-        group = <ActivityIntervalG>ActivityIntervalFactory('G');
+        /**group = <ActivityIntervalG>ActivityIntervalFactory('G');
         group.repeatCount = 3;
         this.item.activity.intervals.add([group]);
 
@@ -275,7 +279,7 @@ class ActivitySegmentsCtrl implements IComponentController {
         });
 
         this.item.activity.intervals.add([interval]);
-        this.intervals = this.item.activity.intervals.intervalP;
+        this.intervals = this.item.activity.intervals.intervalP; **/
 
     }
 

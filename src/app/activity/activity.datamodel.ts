@@ -15,7 +15,9 @@ import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {activityTypes, getType} from "./activity.constants";
 import {IUserProfileShort} from "../../../api/user/user.interface";
-import {ActivityIntervalCalcMeasure, ActivityIntervalFactory, ActivityIntervals} from "./activity.datamodel-function";
+import {ActivityIntervalCalcMeasure} from "./activity-datamodel/activity.models";
+import {ActivityIntervals} from "./activity-datamodel/activity.intervals";
+import {ActivityIntervalFactory} from "./activity-datamodel/activity.functions";
 
 export interface IRoute {
 	lat:number;
