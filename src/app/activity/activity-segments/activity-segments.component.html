@@ -3,10 +3,10 @@
         <md-list-item flex="none">
             <div class="md-caption" style="color: #455A64">
                 <span>Итого: </span>
-                <span ng-if="$ctrl.item.activity.intervalPW.movingDurationApprox">~</span>
-                <span>{{$ctrl.item.activity.intervalPW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
-                <span ng-if="$ctrl.item.activity.intervalPW.distanceApprox">~</span>
-                <span>{{$ctrl.item.activity.intervalPW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
+                <span ng-if="$ctrl.item.activity.intervals.intervalPW.movingDurationApprox">~</span>
+                <span>{{$ctrl.item.activity.intervals.intervalPW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
+                <span ng-if="$ctrl.item.activity.intervals.intervalPW.distanceApprox">~</span>
+                <span>{{$ctrl.item.activity.intervals.intervalPW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
                 <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic}}</span>
             </div>
             <!--<p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"

@@ -30,8 +30,8 @@ export class ActivityIntervals {
         return <Array<ActivityIntervalG>>this.pack.filter(i => i.type === 'G');
     }
 
-    get intervalPW():Array<ActivityIntervalPW> {
-        return <Array<ActivityIntervalPW>>this.pack.filter(i => i.type === 'pW');
+    get intervalPW():ActivityIntervalPW {
+        return <ActivityIntervalPW>this.pack.filter(i => i.type === 'pW')[0];
     }
 
     get intervalW():Array<ActivityIntervalW> {
@@ -111,6 +111,9 @@ export class ActivityIntervals {
         // 4. Выстраиваем последовательность pos
         this.reorganisation(start + length * repeat, length * (1 - repeat));
 
+        // 5. Обновляем интревал pW
+        this.intervalPW.calculate(this.intervalP);
+
         return true;
     }
 
@@ -138,6 +141,9 @@ export class ActivityIntervals {
                 let params = {pos: i.pos + len * (r + 1),parentGroup: group.code, repeatPos: r + 1};
                 this.pack.push(ActivityIntervalFactory('P', Object.assign({}, i, params)));
             }));
+
+        // 5. Обновляем интревал pW
+        this.intervalPW.calculate(this.intervalP);
 
         return true;
     }
@@ -169,6 +175,9 @@ export class ActivityIntervals {
                 this.pack.push(ActivityIntervalFactory('P', Object.assign({}, i, params)));
             }));
 
+        // 5. Обновляем интревал pW
+        this.intervalPW.calculate(this.intervalP);
+
         return true;
     }
 
@@ -195,6 +204,9 @@ export class ActivityIntervals {
 
         //4. Выстраиваем последовательность pos
         this.reorganisation(segment[0].pos + (srcRepeat * len), (trgRepeat - srcRepeat) * len);
+
+        // 5. Обновляем интревал pW
+        this.intervalPW.calculate(this.intervalP);
 
         return true;
     }

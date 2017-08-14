@@ -111,6 +111,8 @@ class StructuredIntervalCtrl implements IComponentController {
 
     completeInterval(measure) {
 
+        debugger;
+
         measure = this.durationMeasure.indexOf(measure) === -1 ? this.interval.intensityMeasure : measure;
 
         if (this.durationMeasure.indexOf(measure) !== -1) {
