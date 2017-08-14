@@ -8,7 +8,8 @@ import {genHash} from "../../share/utils-function";
 export class ActivityIntervalG extends ActivityInterval implements IActivityIntervalG{
 
     code: string;
-    repeatCount: number;
+    repeatCount: number; //количество повторов сегментов
+    length: number; //длина сегментам в интервалах
     calcMeasures: ICalcMeasures;
 
     constructor(type: string, params: any){

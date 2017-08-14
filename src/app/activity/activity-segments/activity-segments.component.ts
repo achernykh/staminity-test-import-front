@@ -5,6 +5,7 @@ import {Interval} from "../activity.datamodel";
 import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
 import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
 import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
+import {ActivityIntervals} from "../activity-datamodel/activity.intervals";
 
 class ActivitySegmentsCtrl implements IComponentController {
 
@@ -13,7 +14,8 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     private duration: string = 'movingDuration';
     private intensity: string = 'heartRate';
-    private intervals: Array<ActivityIntervalP>;
+    private intervals: ActivityIntervals;
+    private select: Array<number> = [];
 
     static $inject = [];
 
@@ -23,7 +25,7 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     $onInit() {
 
-        this.intervals = this.item.activity.intervals.intervalP;
+        this.intervals = this.item.activity.intervals;
 
         // Добавляем интервалы для теста
         let interval: ActivityIntervalP;
@@ -283,8 +285,12 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     }
 
-    onUpdate() {
-        this.intervals = this.item.activity.intervals.intervalP;
+    /**
+     * @description Обновление модели данных
+     */
+    update() {
+        this.intervals = this.item.activity.intervals;
+        this.item.changeStructuredAssignment ++;
     }
 
     onChartSelection(id: number){
@@ -304,7 +310,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     deleteInterval() {
-        this.item.activity.intervalP.map((interval,i) => interval.isSelected && this.item.activity.spliceInterval('P',i));
+        //this.intervals.map((interval,i) => interval.isSelected && this.item.activity.spliceInterval('P',i));
     }
 
     isKey():boolean {
@@ -319,19 +325,20 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     toggleKey(){
         if(this.selectedInterval().length === this.selectedKeyInterval().length){
-            this.item.activity.intervalP.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = false);
+            this.intervals.intervalP.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = false);
         } else if(this.selectedKeyInterval().length === 0 || this.selectedKeyInterval().length > 0){
-            this.item.activity.intervalP.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = true);
+            this.intervals.intervalP.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = true);
         }
-        this.updatePW();
+        this.update();
+        //this.updatePW();
     }
 
     selectedInterval():Array<any> {
-        return this.item.activity.intervalP.filter(interval => interval.isSelected);
+        return this.intervals.intervalP.filter(interval => interval.isSelected);
     }
 
     selectedKeyInterval():Array<any> {
-        return this.item.activity.intervalP.filter(interval => interval.isSelected && interval.keyInterval);
+        return this.intervals.intervalP.filter(interval => interval.isSelected && interval.keyInterval);
     }
 
     updatePW(){

@@ -68,7 +68,6 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     select(){
-        this.interval.isSelected = !this.interval.isSelected;
         this.onSelect();
     }
 

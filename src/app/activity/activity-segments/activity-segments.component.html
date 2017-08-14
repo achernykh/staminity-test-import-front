@@ -3,10 +3,10 @@
         <md-list-item flex="none">
             <div class="md-caption" style="color: #455A64">
                 <span>Итого: </span>
-                <span ng-if="$ctrl.item.activity.intervals.intervalPW.movingDurationApprox">~</span>
-                <span>{{$ctrl.item.activity.intervals.intervalPW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
-                <span ng-if="$ctrl.item.activity.intervals.intervalPW.distanceApprox">~</span>
-                <span>{{$ctrl.item.activity.intervals.intervalPW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
+                <span ng-if="$ctrl.intervals.intervalPW.movingDurationApprox">~</span>
+                <span>{{$ctrl.intervals.intervalPW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
+                <span ng-if="$ctrl.intervals.intervalPW.distanceApprox">~</span>
+                <span>{{$ctrl.intervals.intervalPW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
                 <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic}}</span>
             </div>
             <!--<p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
@@ -17,8 +17,7 @@
         </md-list-item>
     </md-list>
     <activity-segment-chart flex="none" style="display: flex; margin: 8px 16px; height: 150px"
-                            activity-header="$ctrl.intervals"
-                            selected=""
+                            activity-header="$ctrl.intervals.pack"
                             actual-ftp="false"
                             plan-ftp="true"
                             duration-measure="movingDuration"
@@ -36,17 +35,16 @@
                      md-indeterminate="$ctrl.isIndeterminate()"
                      ng-click="$ctrl.toggleKey()"
                      class="md-primary">
-            <span class="md-caption">Ключевой</span></md-checkbox>
+            <span class="md-caption">Ключевой</span>
+        </md-checkbox>
         <md-button ng-if="$ctrl.selectedInterval().length > 0" ng-click="$ctrl.deleteInterval()">
             <md-icon class="material-icons">delete</md-icon><span class="md-caption">&nbsp;Удалить</span>
         </md-button>
     </section>
     <md-divider></md-divider>
     <structured-assignment flex="auto" layout="row"
-                           intervals="$ctrl.item.activity.intervals"
-                           plan="$ctrl.item.activity.intervalP"
-                           group="$ctrl.item.activity.intervalG"
-                           on-change="$ctrl.onUpdate()">
+                           intervals="$ctrl.intervals"
+                           on-change="$ctrl.update()">
     </structured-assignment>
 </md-content>
 <!--<pre>{{$ctrl.item.activity.intervalPW | json}}</pre>-->

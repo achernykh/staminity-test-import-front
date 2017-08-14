@@ -20,7 +20,7 @@
                          loop="$ctrl.myLoop(interval)"
                          on-change="$ctrl.change($index,interval)"
                          on-delete="$ctrl.splice($index)"
-                         on-select="$ctrl.onChangeSelection()"
+                         on-select="$ctrl.onChangeSelection(interval)"
                          on-set-repeat="$ctrl.setRepeat(loop,repeat)">
     </structured-interval>
 </section>

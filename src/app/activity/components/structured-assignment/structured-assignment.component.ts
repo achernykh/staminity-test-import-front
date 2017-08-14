@@ -52,7 +52,8 @@ class StructuredAssignmentCtrl implements IComponentController {
         this.onChange();
     }
 
-    onChangeSelection():void {
+    onChangeSelection(interval: ActivityIntervalP):void {
+        interval.isSelected ? this.intervals.deselect(interval.type, interval.pos) : this.intervals.select(interval.type, interval.pos);
         this.checkSequence();
         this.onChange();
     }
@@ -85,7 +86,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         let sequence:Array<number> = [];
 
         this.intervals.intervalP.forEach(i => {
-            if (i.isSelected && (sequence.length === 0 || sequence.some(p => p === i.pos - 1))) {
+            if (i.isSelected && (sequence.length === 0 || sequence.some(p => p === i.pos - 1)) && !i.parentGroup) {
                 sequence.push(i.pos);
             } else if (sequence.length === 1 ) {
                 sequence = [];
@@ -115,7 +116,7 @@ class StructuredAssignmentCtrl implements IComponentController {
      */
     myLoop(interval: ActivityIntervalP):Loop {
         // Повтор в котором участвует интервал
-        let loop: Loop = (!interval.hasOwnProperty('parentGroup')  && this.sequence) || // для выделения
+        let loop: Loop = ((!interval.hasOwnProperty('parentGroup') || interval.parentGroup === null)  && this.sequence) || // для выделения
             this.loops.filter(l => l.code === interval.parentGroup)[0] || null; // для группы
 
         //console.log('my-loop', interval.pos, !!loop, loop['pos'], loop['length']);
@@ -149,13 +150,14 @@ class StructuredAssignmentCtrl implements IComponentController {
 
         if(success) {
             this.loops = this.loopsFromGroups;
+            this.intervals.deselect();
+            this.checkSequence();
             this.onChange();
         }
 
     }
 
     changeMode():string {
-        debugger;
         return this.mode === 'group' ? 'input' : 'group';
     }
 }

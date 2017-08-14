@@ -26,7 +26,9 @@ interface ICompletePercent {
 export interface IInputPlanSegment
 {
     type: string;
+    pos: string;
     keyInterval: boolean;
+    isSelected: boolean;
     movingDurationLength: number;
     distanceLength: number;
     actualDurationValue?: number;

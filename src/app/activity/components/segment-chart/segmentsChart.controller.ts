@@ -122,7 +122,7 @@ class SegmentChartController implements IComponentController {
     private prepareData(): void {
         let model = new PlanChartDatamodel(this.activityHeader);
         this.intervals = model.getIntervals();
-        this.select = this.select || [];
+        this.select = model.getSelect() || [];
         //this.actualFtp = this.actualFtp === "true";
         //this.planFtp = this.planFtp === "true";
         this.durationMeasure = PlanChartMode.ensure(this.durationMeasure);

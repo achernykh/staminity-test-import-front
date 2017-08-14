@@ -91,6 +91,57 @@ export class ActivityIntervals {
     }
 
     /**
+     * @description Установка выделения интервала
+     * @param type
+     * @param id
+     * @param params
+     */
+    select(type: string = 'P', id: string | number, params: Object = {isSelected: true}):void {
+        // Если интрал задан
+        if (id !== undefined){
+            let i: number = this.find(type,id);
+            if (i !== -1) {
+                let interval: ActivityIntervalP = <ActivityIntervalP>this.pack[i];
+                // Если интревал является повторяющимся
+                if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
+                    let group:ActivityIntervalG = this.intervalG.filter(i => i.code === interval.parentGroup)[0];
+                    this.pack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.length === 0)
+                        .map(i => this.setParams(i.type, i.pos, params));
+                } else { // одиночный интервал
+                    Object.assign(this.pack[i], params);
+                }
+            }
+        } else { // Интервал не задан, для всех
+            this.pack.filter(i => i.type === type).map(i => this.setParams(type, i.pos, params));
+        }
+    }
+
+    /**
+     * @description Снятие выделения с интервала
+     * @param type
+     * @param id
+     */
+    deselect(type: string = 'P', id?: string | number, params = {isSelected: false}): void {
+        // Если интрал задан
+        if (id !== undefined){
+            let i: number = this.find(type,id);
+            if (i !== -1) {
+                let interval: ActivityIntervalP = <ActivityIntervalP>this.pack[i];
+                // Если интревал является повторяющимся
+                if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
+                    let group:ActivityIntervalG = this.intervalG.filter(i => i.code === interval.parentGroup)[0];
+                    this.pack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.length === 0)
+                        .map(i => this.setParams(i.type, i.pos, params));
+                } else { // одиночный интервал
+                    Object.assign(this.pack[i], params);
+                }
+            }
+        } else { // Интервал не задан, для всех
+            this.pack.filter(i => i.type === type).map(i => this.setParams(type, i.pos, params));
+        }
+    }
+
+    /**
      * Удаляем группу интервалов (первый сегмент остается)
      * @param code
      * @param start
@@ -105,7 +156,7 @@ export class ActivityIntervals {
         this.intervalP.filter(i => i.parentGroup === code && i.repeatPos > 0).map(i => this.splice(i.type, i.pos));
 
         // 3. Удаляем ссылку на группу и идентификатор повторов в первом сегменте группы
-        this.intervalP.filter(i => i.parentGroup === code && i.repeatPos > 0)
+        this.intervalP.filter(i => i.parentGroup === code && i.repeatPos === 0)
             .map(i => this.setParams(i.type, i.pos, {parentGroup: null, repeatPos: null}));
 
         // 4. Выстраиваем последовательность pos
@@ -125,7 +176,7 @@ export class ActivityIntervals {
      */
     createGroup(segment: Array<ActivityIntervalP>, repeat: number):boolean {
         // 1. создаем группу
-        let group: ActivityIntervalG = <ActivityIntervalG>ActivityIntervalFactory('G',{repeatCount: repeat});
+        let group: ActivityIntervalG = <ActivityIntervalG>ActivityIntervalFactory('G',{repeatCount: repeat, length: segment.length});
         this.pack.push(group);
 
         // 2. устанавливаем в имеющийся сегмент указатель на номер группы и порядковый номер
@@ -170,8 +221,8 @@ export class ActivityIntervals {
 
         //4. Добавляем инетрвалы
         segment.forEach(i =>
-            times(trgRepeat - srcRepeat - 1).map(r => {
-                let params = {pos: i.pos + len * (srcRepeat + r + 1),parentGroup: group.code, repeatPos: srcRepeat + r + 1};
+            times(trgRepeat - srcRepeat).map(r => {
+                let params = {pos: i.pos + len * (srcRepeat + r),parentGroup: group.code, repeatPos: srcRepeat + r + 1};
                 this.pack.push(ActivityIntervalFactory('P', Object.assign({}, i, params)));
             }));
 
@@ -227,7 +278,6 @@ export class ActivityIntervals {
      * @param shift
      */
     reorganisation(start: number, shift: number):void {
-        debugger;
         this.intervalP.filter(i => i.pos >= start).forEach(i => this.setParams(i.type, i.pos, { pos: i.pos + shift}));
     }
 }
