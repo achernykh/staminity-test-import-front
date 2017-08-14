@@ -60,7 +60,7 @@
     <md-divider ng-repeat-end ng-if="!showClubMenu"></md-divider>
 </md-list>
 
-<md-list ng-init="showCoachMenu = true" ng-if="$ctrl.checkAuth(['CoachDashboard'])">
+<md-list ng-init="showCoachMenu = true" ng-if="$ctrl.AuthService.isCoach()">
     <md-list-item>
         <p class="md-body-2" style="opacity: 0.87" translate>Спортсмены</p>
         <md-icon class="md-secondary material-icon" class="" ng-click="showCoachMenu = !showCoachMenu"

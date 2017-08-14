@@ -1,0 +1,16 @@
+.category-dialog {
+	&__title {
+		font-size: 20px; 
+		font-weight: 500;
+	}
+	
+	&__input {
+		width: 270px; 
+		margin: 0; 
+		font-size: 13px;
+	}
+	
+	&__select-activity-type {
+		font-size: 12px;
+	}
+}

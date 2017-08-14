@@ -42,7 +42,7 @@
                         <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
                     </div>
                 </md-input-container>
-            </md-list-item>
+            </md-list-item><!--
             <md-list-item>
                 <p translate="auth.signin.remember"></p>
                 <md-checkbox aria-label="Checkbox No Ink" class="md-primary md-secondary"
@@ -50,12 +50,15 @@
                              ng-disabled="!$ctrl.enabled"
                              ng-change="$ctrl.onStorage($ctrl.storage)">
                 </md-checkbox>
-            </md-list-item>
+            </md-list-item>-->
             <md-list-item>
                 <md-button ng-disabled="!$ctrl.signinForm.$valid || !$ctrl.enabled" class="md-raised submit" type="submit"
                            ng-class="{'md-primary': $ctrl.signinForm.$valid && !ul.auth, 'md-disabled': $ctrl.signinForm.$error}"
                            translate='auth.signin.button'
                            aria-label="SignIn Button"></md-button>
+            </md-list-item>
+            <md-list-item ng-click="$ctrl.$state.go('reset', {email: $ctrl.credentials.email})">
+                <p class="md-caption center" translate="auth.signin.reset"></p>
             </md-list-item>
         </md-list>
     </form>

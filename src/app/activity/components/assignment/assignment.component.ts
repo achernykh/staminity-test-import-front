@@ -27,7 +27,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     public actual: ICalcMeasures;
     public sport: string;
     public form: INgModelController;
-    public ftpMode: number = FtpState.Off;
+    public ftpMode: number;
     public FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
     public from: string = 'intensityLevelFrom' || 'intensityByFtpFrom';
     public to: string = 'intensityLevelTo' || 'intensityByFtpTo';
@@ -114,7 +114,8 @@ class ActivityAssignmentCtrl implements IComponentController {
         });
 
         this.prepareValues();
-
+        this.ftpMode = this.item.template ? FtpState.On : FtpState.Off;
+        console.log('ActivityAssignmentCtrl', this);
     }
 
     link(url) {
@@ -262,14 +263,14 @@ class ActivityAssignmentCtrl implements IComponentController {
             this.form['plan_distance'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
                 this.form['plan_movingDuration'].$modelValue > 0 ||
-                this.form['actual_distance'].$modelValue > 0 ||
-                this.form['actual_movingDuration'].$modelValue > 0);
+                this.form.hasOwnProperty('actual_distance') && this.form['actual_distance'].$modelValue > 0 ||
+                this.form.hasOwnProperty('actual_movingDuration') &&this.form['actual_movingDuration'].$modelValue > 0);
 
             this.form['plan_movingDuration'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
                 this.form['plan_movingDuration'].$modelValue > 0 ||
-                this.form['actual_distance'].$modelValue > 0 ||
-                this.form['actual_movingDuration'].$modelValue > 0);
+                this.form.hasOwnProperty('actual_distance') && this.form['actual_distance'].$modelValue > 0 ||
+                this.form.hasOwnProperty('actual_movingDuration') && this.form['actual_movingDuration'].$modelValue > 0);
 
             /*this.form['plan_heartRate'].$setValidity('needIntensity',
              this.form['plan_heartRate'].$modelValue[this.from] > 0 ||
@@ -290,18 +291,17 @@ class ActivityAssignmentCtrl implements IComponentController {
                 this.form['plan_heartRate'].$setValidity('singleIntensity',
                     !(this.form['plan_heartRate'].$modelValue[this.index[FtpState.Off]['from']] > 0 &&
                     this.form['plan_speed'].$modelValue[this.index[FtpState.Off]['from']] > 0));
-            }
-
-            if (this.form['plan_speed'] && this.form['plan_heartRate']) {
                 this.form['plan_speed'].$setValidity('singleIntensity',
                     !(this.form['plan_heartRate'].$modelValue[this.index[FtpState.Off]['from']] > 0 &&
                     this.form['plan_speed'].$modelValue[this.index[FtpState.Off]['from']] > 0));
             }
         }
 
-        this.form['dateStart'].$setValidity('needPermissionForFeature',
-            !this.item.isOwner || this.AuthService.isActivityPlan() ||
-            (this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+        if (this.form['dateStart']) {
+            this.form['dateStart'].$setValidity('needPermissionForFeature',
+                !this.item.isOwner || this.AuthService.isActivityPlan() ||
+                (this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+        }
 
     }
 

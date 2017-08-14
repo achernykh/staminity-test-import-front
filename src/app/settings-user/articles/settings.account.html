@@ -2,7 +2,7 @@
     <md-card-title>
         <h2 class="md-title" translate="settings.account.header"></h2>
     </md-card-title>
-    <form name="$ctrl.syncForm">
+    <form name="$ctrl.accountForm">
         <md-list class="md-dense section">
             <md-list-item ng-click="$ctrl.showPasswordChange($event)">
                 <p>Ваш учетная запись {{$ctrl.user.personal.extEmail}} #{{$ctrl.user.userId}}</p>
@@ -22,53 +22,79 @@
                 <md-button class="md-secondary" ng-click="$ctrl.showPasswordChange($event)">Новый пароль</md-button>
             </md-list-item>-->
         </md-list>
-        <md-divider></md-divider><!--
+        <md-divider></md-divider>
+    </form>
+    <form name="$ctrl.billingForm">
         <md-list class="md-dense section">
-            <md-subheader>Тарифные планы</md-subheader>
-            <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
-                          ng-repeat-start="tariff in $ctrl.user.billing.tariffs">
+            <md-subheader>{{ 'settings.billing.tariffsHeader' | translate }}</md-subheader>
+            <md-list-item 
+                class="md-2-line" 
+                ng-repeat-start="tariff in $ctrl.user.billing.tariffs"
+                ng-click="tariff.isOn || tariff.unpaidBill? $ctrl.viewTariff(tariff) : $ctrl.enableTariff(tariff)"
+            >
                 <md-icon class="material-icons">person</md-icon>
                 <div class="md-list-item-text" ng-switch="property.enabled">
-                    <h3> {{ tariff.code }} </h3>
-                    <p> {{ tariff.status}}</p>
+                    <h3>{{ 'settings.billing.tariffs.' + tariff.tariffCode | translate }}</h3>
+                    <p>{{ 'settings.billing.tariffStatuses.' + $ctrl.tariffStatus(tariff) | translate:{
+                        until: (tariff.expireDate | date:shortDate),
+                        club: (tariff.clubProfile | clubName),
+                        coach: (tariff.userProfilePayer | userName)
+                    } }}</p>
+                    <p ng-if="!['enabledByClub', 'enabledByCoach', 'notEnabled'].includes($ctrl.tariffStatus(tariff))">
+                        {{ 'settings.billing.autoRenewalShort' | translate }}: {{ 'settings.billing.' + (tariff.autoRenewal? 'isOn' : 'isOff') | translate }}
+                    </p>
                 </div>
-                <md-switch class="md-secondary" ng-model="tariff.enabled"
-                           ng-disabled="!tariff.editable"
-                           ng-class="{'md-primary' : tariff.editable}"
-                           ng-change="$ctrl.showProviderSettings($event, service, property)"
-                           aria-label="Switch 1">
+                <md-switch
+                    ng-model="$ctrl.tariffIsEnabled(tariff)"
+                    ng-model-options="{getterSetter: true}"
+                    ng-disabled="!tariff.isAvailable"
+                    ng-class="{ 'md-primary': tariff.isAvailable && !tariff.isBlocked, 'md-accent': tariff.isAvailable && tariff.isBlocked }"
+                >
                 </md-switch>
             </md-list-item>
             <md-divider ng-repeat-end ng-if="!$last"/>
         </md-list>
         <md-divider></md-divider>
         <md-list class="md-dense section">
-            <md-subheader>Счета на оплату</md-subheader>
-            <md-list-item class="md-2-line" ng-click="$ctrl.showProviderSettings($event, service, property)"
-                          ng-repeat-start="bill in $ctrl.user.billing.bills"
-                          ng-switch="bill.status">
+            <md-list-item class="md-1-line" >
+                <div class="md-list-item-text">
+                    <md-subheader>{{ 'settings.billing.invoices' | translate }}</md-subheader>
+                </div>
+                <p class="md-secondary" ng-if="$ctrl.hasPaidBill()">
+                    {{ 'settings.billing.autoPayment' | translate }}
+                    <md-checkbox
+                        style="margin-left: 15px;"
+                        ng-model="$ctrl.autoPayment"
+                        ng-model-options="{getterSetter: true}"
+                    />
+                </p>
+            </md-list-item>
+            <md-list-item 
+                class="md-2-line" 
+                ng-repeat-start="bill in $ctrl.user.billing.bills"
+                ng-click="$ctrl.viewBill(bill)"
+                ng-switch="$ctrl.invoiceStatus(bill)"
+            >
                 <md-icon  class="material-icons">payment</md-icon>
                 <div class="md-list-item-text">
-                    <h3> Счет на {{ bill.amount | currency}} </h3>
-                    <p> Период {{ bill.start | date: shortDate}} - {{ bill.start | date: shortDate}}</p>
+                    <h3> {{ 'settings.billing.invoiceAmount' | translate }} {{ bill.totalAmount | currency:bill.currency }}</h3>
+                    <p> {{ 'settings.billing.period' | translate }} {{ bill.startPeriod | date: shortDate}} - {{ bill.endPeriod | date: shortDate}}</p>
                 </div>
                 <div class="md-secondary" ng-switch-when="new">
-                    <md-button ng-click="doSecondaryAction($event)">Формируется</md-button>
+                    <md-button>{{ 'settings.billing.invoiceStatuses.new' | translate }}</md-button>
                 </div>
                 <div class="md-secondary" ng-switch-when="ready">
-                    <md-button class="md-accent"
-                               ng-click="doSecondaryAction($event)">Оплатить {{bill.amount | currency}}</md-button>
+                    <md-button class="md-accent" ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.ready' | translate }} {{ bill.totalAmount | currency:bill.currency }}</md-button>
                 </div>
                 <div class="md-secondary" ng-switch-when="complete">
-                    <md-button ng-click="doSecondaryAction($event)">Подробно</md-button>
+                    <md-button ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.complete' | translate }}</md-button>
                 </div>
             </md-list-item>
             <md-divider ng-repeat-end ng-if="!$last"></md-divider>
             <md-list-item>
-                <p>Поясняющий текст</p>
-                <md-button class="md-secondary" ng-click="doSecondaryAction($event)">Реестр счетов</md-button>
+                <md-button class="md-secondary" ng-click="$ctrl.billsList()">{{ 'settings.billing.billsList' | translate }}</md-button>
             </md-list-item>
-        </md-list>-->
+        </md-list>
     </form>
 </md-card>
 

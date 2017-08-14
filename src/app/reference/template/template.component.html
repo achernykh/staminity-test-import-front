@@ -1,0 +1,71 @@
+<div 
+	ng-if="!$ctrl.reference.isMobileLayout" 
+	layout="column" class="template-card md-whiteframe-1dp" 
+>
+	<div flex="none" layout="column" class="template-card__header">
+		<div flex="none" layout="row" layout-align="space-between center">
+			<div style="width: 40px; padding: 8px;">
+				<md-icon ng-if="$ctrl.template.favourite" class="material-icons">star</md-icon>
+			</div>
+			<div>
+				<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="reference__sport-icon-circled"></md-icon>
+			</div>
+			<div>
+				<md-menu flex="none">
+					<md-button class="md-icon-button" style="margin: 0" ng-click="$mdOpenMenu($event)">
+						<md-icon class="material-icons md-18">more_vert</md-icon>
+					</md-button>
+					<md-menu-content>
+						<md-menu-item>
+							<md-button ng-click="$ctrl.onSelect()">
+								<md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+								Открыть
+							</md-button>
+						</md-menu-item>
+						<md-menu-item>
+							<md-button ng-click="$ctrl.onCopy()">
+								<md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+								Скопировать
+							</md-button>
+						</md-menu-item>
+						<md-menu-item>
+							<md-button ng-click="$ctrl.onDelete()">
+								<md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+								Удалить
+							</md-button>
+						</md-menu-item>
+					</md-menu-content>
+				</md-menu>
+			</div>
+		</div>
+		
+		<div class="template-card__activity">
+			{{ $ctrl.template.activityCategory | categoryCode }}
+		</div>
+
+		<div class="template-card__code">
+			{{ $ctrl.name }}
+		</div>
+	</div>
+
+	<div flex="none" class="template-card__footer line-12">
+		{{ $ctrl.description | truncate }}
+	</div>
+</div>
+
+
+<md-list-item 
+	ng-if="$ctrl.reference.isMobileLayout"
+	class="template-row" 
+	layout="row" layout-align="start start"
+	md-no-ink
+>
+	<md-icon md-svg-src="assets/icon/{{ $ctrl.activityType.code }}.svg" class="reference__sport-icon-circled template-row__sport-icon"></md-icon>
+	<div flex>
+		<div class="template-row__code">{{ $ctrl.name }}</div>
+		<div class="template-row__activity">{{ $ctrl.template.activityCategory | categoryCode }}</div>
+		<div class="template-row__description">{{ $ctrl.description | truncate }}</div>
+	</div>
+	<md-icon ng-if="$ctrl.template.favourite" class="material-icon template-row__favorite-icon">star</md-icon>
+</md-list-item>
+

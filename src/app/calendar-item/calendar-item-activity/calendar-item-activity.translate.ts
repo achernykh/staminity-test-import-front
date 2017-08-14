@@ -5,7 +5,8 @@ export const _translateActivity = {
             delete: 'Удалить',
             close: 'Закрыть',
             settings: 'Настроить отображение',
-            save: 'Сохарнить'
+            save: 'Сохарнить',
+            template: 'Шаблон'
         },
         generalMeasures: 'Общее измерение',
         sleepData: 'Сон',

@@ -15,6 +15,19 @@ self.addEventListener('activate', (event) => {
     event.waitUntil(self.clients.claim());
 });
 
+/**this.addEventListener('fetch', (event) => {
+    event.respondWith(
+        caches.match(event.request).catch(() => {
+            return fetch(event.request).then((response) => {
+                return caches.open(`static-${version}`).then((cache) => {
+                    cache.put(event.request, response.clone());
+                    return response;
+                });
+            });
+        })
+    );
+});**/
+
 /**self.addEventListener('fetch', function(event) {
 
 });**/

@@ -41,6 +41,12 @@ export const AppMenuSettings = [
         link: 'search'
     },
     {
+        icon: 'import_contacts',
+        name: 'appMenu.reference',
+        link: 'reference'
+
+    },
+    {
         icon: "forum",
         name: "appMenu.feeds",
         link: "feeds",

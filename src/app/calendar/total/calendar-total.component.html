@@ -34,13 +34,15 @@
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                         Удалить</md-button></md-menu-item>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.calendar.onCopy()">
+                    <md-button ng-click="$ctrl.calendar.onCopy($ctrl.items)">
                         <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
                         Скопировать</md-button></md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="$ctrl.calendar.onPaste($ctrl.week.subItem[0].date)">
                         <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
-                        Вставить</md-button></md-menu-item>
+                        Вставить<span ng-if="$ctrl.calendar.buffer.length > 0">&nbsp;({{$ctrl.calendar.buffer.length}})</span>
+                    </md-button>
+                </md-menu-item>
             </md-menu-content>
         </md-menu>
 

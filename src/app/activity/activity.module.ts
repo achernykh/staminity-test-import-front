@@ -26,7 +26,7 @@ import StructuredIntervalComponent from "./components/structured-interval/struct
 import {StructuredGroupComponent} from "./components/structured-group/structured-group.component";
 
 const Activity = module('staminity.activity', [])
-    .service('ActivityService', ActivityService)
+	.service('ActivityService', ActivityService)
 	.component('activity', ActivityComponent)
 	.component('activityHeader', ActivityHeaderComponent)
 	.component('activityHeaderOverview', ActivityHeaderOverviewComponent)
@@ -57,7 +57,7 @@ const Activity = module('staminity.activity', [])
 			});
 		});
 	}])
-    .config(configure)
-    .name;
+	.config(configure)
+	.name;
 
 export default Activity;

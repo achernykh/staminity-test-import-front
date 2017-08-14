@@ -1,9 +1,15 @@
+import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
+import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
+
 
 export default class DialogsService {
     
-    constructor ($mdDialog) {
-        this.$mdDialog = $mdDialog
+    constructor ($mdDialog, $mdMedia, BillingService, message) {
+        this.$mdDialog = $mdDialog;
+        this.$mdMedia = $mdMedia;
+        this.BillingService = BillingService;
+        this.message = message;
     }
     
     uploadPicture () {
@@ -12,7 +18,7 @@ export default class DialogsService {
             template: require('./upload.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
-        })
+        });
     }
 
     uploadFile () {
@@ -21,7 +27,7 @@ export default class DialogsService {
             template: require('./file.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
-        })
+        });
     }
     
     confirm (message) {
@@ -31,7 +37,7 @@ export default class DialogsService {
             template: require('./confirm.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
-        })
+        });
     }
 
     usersList (users, title) {
@@ -39,8 +45,10 @@ export default class DialogsService {
             controller: UsersListController,
             locals: { users: users, title: title },
             template: require('./users-list.html'),
+            multiple: true,
             parent: angular.element(document.body),
-            clickOutsideToClose: true
+            clickOutsideToClose: true,
+            fullscreen: !this.$mdMedia('gt-sm')
         });
     }
     
@@ -61,7 +69,7 @@ export default class DialogsService {
             template: require('./select-users.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
-        })
+        });
     }
     
     roles (roles) {
@@ -71,10 +79,153 @@ export default class DialogsService {
             template: require('./roles.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
-        })
+        });
+    }
+
+    enableTariff (tariff, user) {
+        return this.$mdDialog.show({
+                locals: { user, tariff },
+                resolve: {
+                    billing: () => this.BillingService.getTariff(tariff.tariffId, '')
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
+                },
+                controller: EnableTariffController,
+                controllerAs: '$ctrl',
+                template: require('./enable-tariff.html'),
+                multiple: true,
+                parent: angular.element(document.body),
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: !this.$mdMedia('gt-sm')
+            });
+    }
+
+    disableTariff (tariff, user) {
+        return this.$mdDialog.show({
+                locals: { user, tariff },
+                resolve: {
+                    billing: () => this.BillingService.getTariff(tariff.tariffId, '')
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
+                },
+                controller: DisableTariffController,
+                controllerAs: '$ctrl',
+                template: require('./disable-tariff.html'),
+                multiple: true,
+                parent: angular.element(document.body),
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: !this.$mdMedia('gt-sm')
+            });
+    }
+
+    tariffDetails (tariff) {
+        return this.$mdDialog.show({
+                locals: { tariff },
+                resolve: {
+                    billing: () => this.BillingService.getTariff(tariff.tariffId, '')
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
+                },
+                controller: TariffDetailsController,
+                controllerAs: '$ctrl',
+                template: require('./tariff-details.html'),
+                multiple: true,
+                parent: angular.element(document.body),
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: !this.$mdMedia('gt-sm')
+            });
+    }
+
+    billsList (user) {
+        return this.$mdDialog.show({
+                locals: { user },
+                resolve: {
+                    bills: () => this.BillingService.getBillsList()
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
+                },
+                controller: BillsListController,
+                controllerAs: '$ctrl',
+                template: require('./bills-list.html'),
+                multiple: true,
+                parent: angular.element(document.body),
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: !this.$mdMedia('gt-sm')
+            });
+    }
+
+    billDetails (bill, user) {
+        return this.$mdDialog.show({
+                locals: { user },
+                resolve: {
+                    bill: () => this.BillingService.getBillDetails(bill.billId)
+                        .catch((info) => {
+                            this.message.systemWarning(info);
+                            throw info;
+                        })
+                },
+                controller: BillDetailsController,
+                controllerAs: '$ctrl',
+                template: require('./bill-details.html'),
+                multiple: true,
+                parent: angular.element(document.body),
+                bindToController: true,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                fullscreen: !this.$mdMedia('gt-sm')
+            });
+    }
+
+    feeDetails (fee, bill) {
+        return this.$mdDialog.show({
+            locals: { fee, bill },
+            controller: FeeDetailsController,
+            controllerAs: '$ctrl',
+            template: require('./fee-details.html'),
+            multiple: true,
+            parent: angular.element(document.body),
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: !this.$mdMedia('gt-sm')
+        });
+    }
+
+    iframe (url, title) {
+        return this.$mdDialog.show({
+            locals: { url, title },
+            controller: IframeController,
+            controllerAs: '$ctrl',
+            template: require('./iframe.html'),
+            multiple: true,
+            parent: angular.element(document.body),
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: !this.$mdMedia('gt-sm')
+        });
+
     }
 }
-DialogsService.$inject = ['$mdDialog'];
+
+DialogsService.$inject = ['$mdDialog', '$mdMedia', 'BillingService', 'message'];
+
 
 function ConfirmDialogController($scope, $mdDialog, message) {
     $scope.message = message
@@ -87,6 +238,7 @@ function ConfirmDialogController($scope, $mdDialog, message) {
         $mdDialog.hide(true);
     };
 }
+
 ConfirmDialogController.$inject = ['$scope','$mdDialog','message'];
 
 
@@ -118,7 +270,9 @@ function UploadPictureDialogController($scope, $mdDialog) {
         $mdDialog.hide(file);
     };
 }
+
 UploadPictureDialogController.$inject = ['$scope','$mdDialog'];
+
 
 function UploadFileDialogController($scope, $mdDialog) {
     $scope.data = null;
@@ -153,7 +307,9 @@ function UploadFileDialogController($scope, $mdDialog) {
         $mdDialog.hide(file);
     };
 }
+
 UploadFileDialogController.$inject = ['$scope','$mdDialog'];
+
 
 function UsersListController($scope, $mdDialog, $state, users, title) {
     $scope.users = users;
@@ -164,14 +320,18 @@ function UsersListController($scope, $mdDialog, $state, users, title) {
         $state.go("user", { uri: user.public.uri });
     };
 }
+
 UsersListController.$inject = ['$scope', '$mdDialog', '$state', 'users', 'title'];
+
 
 function RolesController ($scope, $mdDialog, roles) {
     $scope.roles = roles;
     $scope.commit = () => { $mdDialog.hide($scope.roles) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
+
 RolesController.$inject = ['$scope', '$mdDialog', 'roles'];
+
 
 function TariffsController ($scope, $mdDialog, tariffs, byUs, bySelf, byWho) {
     $scope.tariffs = tariffs;
@@ -191,14 +351,353 @@ function TariffsController ($scope, $mdDialog, tariffs, byUs, bySelf, byWho) {
     $scope.commit = () => { $mdDialog.hide($scope.selectedTariffs) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
+
 TariffsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byUs', 'bySelf', 'byWho'];
 
+
 function SelectUsersController ($scope, $mdDialog, users, message) {
-    $scope.message = message
-    $scope.users = users
+    $scope.message = message;
+    $scope.users = users;
     $scope.checked = () => users.filter(user => user.checked);
     $scope.unchecked = () => users.filter(user => !user.checked);
     $scope.commit = () => { $mdDialog.hide($scope.users) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
+
 SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'message'];
+
+
+function EnableTariffController($scope, $mdDialog, BillingService, dialogs, message, user, tariff, billing) {
+    this.tariff = tariff;
+    this.user = user;
+
+    this.autoRenewal = true;
+    this.promoCode = '';
+    this.rejectedPromoCode = '';
+    this.paymentSystem = 'fondy';
+
+    this.discountedFee = (fee) => fee.rate * (1 + (fee.promo.discount || 0) / 100);
+
+    this.hasMaxPaidCount = (fee) => {
+        return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
+    };
+
+    this.trialExpires = () => {
+        return moment().add(this.billing.trialConditions.term, 'days').toDate();
+    };
+
+    this.getActivePromo = (billing) => {
+        return billing.rates.map(prop('promo')).find((promo) => promo && promo.code);
+    };
+
+    this.setBilling = (billing) => {
+        this.billing = billing;
+        this.fee = this.billing.rates.find(fee => fee.rateType === 'Fixed');
+        this.monthlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 1);
+        this.yearlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 12);
+        this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
+        this.activePromo = this.getActivePromo(billing);
+    };
+
+    this.setBilling(billing);
+
+    this.submitPromo = (promoCode) => {
+        BillingService.getTariff(tariff.tariffId, promoCode)
+        .then((billing) => {
+            console.log('submitPromo', billing);
+            this.setBilling(billing);
+            this.rejectedPromoCode = this.activePromo? '' : promoCode;
+            this.promoCode = '';
+            $scope.$apply();
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        });
+    };
+
+    this.cancel = function () {
+        $mdDialog.cancel();
+    };
+
+    this.submit = function () {
+        BillingService.enableTariff(
+            tariff.tariffId, 
+            user.userId, 
+            this.fee.term,
+            this.autoRenewal,
+            this.billing.trialConditions.isAvailable,
+            maybe(this.activePromo) (prop('code')) (),
+            this.paymentSystem
+        )
+        .then((bill) => {
+            $mdDialog.hide();
+            return bill;
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        })
+        .then((bill) => {
+            return dialogs.billDetails(bill, this.user);
+        });
+    };
+
+    this.submitTrial = function () {
+        BillingService.enableTariff(
+            tariff.tariffId, 
+            user.userId, 
+            this.fee.term,
+            this.autoRenewal,
+            this.billing.trialConditions.isAvailable,
+            maybe(this.activePromo) (prop('code')) (),
+            this.paymentSystem
+        )
+        .then(() => {
+            $mdDialog.hide();
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        });
+    };
+
+    console.log('EnableTariffController', this);
+}
+
+EnableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'dialogs', 'message', 'user', 'tariff', 'billing'];
+
+
+function DisableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing, $translate) {
+    this.tariff = tariff;
+    this.user = user;
+    this.billing = billing;
+
+    this.counts = () => {
+        return billing.rates.filter(fee => fee.rateType === 'Variable' && fee.varActualCount);
+    };
+
+    this.canDisconnect = () => {
+        return !this.counts().length;
+    };
+
+    this.countsText = () => {
+        return this.counts()
+            .map(fee => $translate.instant(`settings.billing.counts.${fee.varGroup}`, { count: fee.varActualCount }))
+            .join(', ');
+    };
+
+    this.cancel = function () {
+        $mdDialog.cancel();
+    };
+
+    this.submit = function () {
+        BillingService.disableTariff(tariff.tariffId, user.userId)
+        .then((info) => {
+            message.systemSuccess(info.title);
+            $mdDialog.hide();
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        });
+    };
+
+    console.log('DisableTariffController', this);
+}
+
+DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'message', 'user', 'tariff', 'billing', '$translate'];
+
+
+function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, message, tariff, billing) {
+    this.tariff = tariff;
+    this.billing = billing;
+
+    this.tariffStatus = BillingService.tariffStatus(tariff);
+    this.tariffIsOwn = !BillingService.tariffEnablerClub(tariff) && !BillingService.tariffEnablerCoach(tariff);
+
+    this.promoCode = '';
+    this.rejectedPromoCode = '';
+
+    this.discountedFee = (fee) => fee.rate * (1 + (fee.promo.discount || 0) / 100);
+
+    this.getFixedFee = () => {
+        return this.billing.rates.find(fee => fee.rateType === 'Fixed');
+    };
+
+    this.variableFees = () => {
+        return this.billing.rates.filter(fee => fee.rateType === 'Variable');
+    };
+
+    this.hasMaxPaidCount = (fee) => {
+        return fee.varMaxPaidCount && fee.varMaxPaidCount < 99999;
+    };
+
+    this.viewFeeObjectsList = (fee) => {
+        dialogs.usersList(fee.varObjects, 'users');
+    };
+
+    this.getActivePromo = (billing) => {
+        return billing.rates.map(prop('promo')).find((promo) => promo && promo.code);
+    };
+
+    this.setBilling = (billing) => {
+        this.billing = billing;
+        this.fixedFee = this.getFixedFee();
+        this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
+        this.activePromo = this.getActivePromo(billing);
+        this.autoRenewal = this.fixedFee.autoRenewal;
+    };
+
+    this.setBilling(billing);
+
+    this.submitPromo = (promoCode) => {
+        BillingService.getTariff(tariff.tariffId, promoCode)
+        .then((billing) => {
+            console.log('submitPromo', billing);
+            if (this.getActivePromo(billing)) {
+                this.setBilling(billing);
+                this.rejectedPromoCode = '';
+            } else {
+                this.rejectedPromoCode = promoCode;
+            }
+            this.promoCode = '';
+            $scope.$apply();
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        });
+    };
+
+    this.cancel = () => {
+        $mdDialog.cancel();
+    };
+
+    this.submit = () => {
+        BillingService.updateTariff(
+            tariff.tariffId, 
+            this.autoRenewal,
+            maybe(this.activePromo) (prop('code')) (),
+        ).then(() => {
+            $mdDialog.hide();
+        }, (info) => {
+            message.systemWarning(info);
+            throw info;
+        });
+    };
+
+    console.log('TariffDetailsController', this);
+}
+
+TariffDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'tariff', 'billing'];
+
+
+function BillsListController($scope, $mdDialog, dialogs, BillingService, message, user, bills, $translate) {
+    this.user = user;
+    this.bills = bills;
+
+    this.close = function () {
+        $mdDialog.cancel();
+    };
+
+    this.viewBill = (bill) => {
+        return dialogs.billDetails(bill, user);
+    };
+
+    this.invoiceStatus = (bill) => {
+        return BillingService.billStatus(bill);
+    }
+
+    console.log('BillsListController', this);
+}
+
+BillsListController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'user', 'bills', '$translate'];
+
+
+function BillDetailsController($scope, $mdDialog, dialogs, BillingService, message, bill) {
+    this.setBill = (bill) => {
+        this.bill = bill;
+        this.billStatus = BillingService.billStatus(bill);
+    };
+
+    this.fixedFee = (tariff) => {
+        return tariff.rates.find(fee => fee.rateType === 'Fixed');
+    };
+
+    this.variableFees = (tariff) => {
+        return tariff.rates.filter(fee => fee.rateType === 'Variable');
+    };
+
+    this.feeDetails = (fee) => {
+        return fee.transactions && fee.transactions.length && dialogs.feeDetails(fee, this.bill);
+    };
+
+    this.getPaymentSystem = () => {
+        return this.bill.paymentSystem || 'fondy';
+    };
+
+    this.setPaymentSystem = (paymentSystem) => {
+        return BillingService.updatePaymentSystem(this.bill.billId, paymentSystem)
+            .then((bill) => this.setBill(bill), (info) => {
+                message.systemWarning(info);
+                throw info;
+            });
+    };
+
+    this.submit = () => {
+        let checkoutUrl = maybe(this.bill) (prop('payment')) (prop('checkoutUrl')) ();
+
+        return checkoutUrl && BillingService.checkout(checkoutUrl)
+            .then(() => {
+                $mdDialog.hide();
+            }, (info) => {
+                message.systemWarning(info);
+                throw info;
+            });
+    };
+
+    this.cancel = () => {
+        $mdDialog.cancel();
+    };
+
+    this.setBill(bill);
+
+    $scope.$watch(() => this.paymentSystem, this.savePaymentSystem);
+
+    console.log('BillDetailsController', this);
+}
+
+BillDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'bill'];
+
+
+function FeeDetailsController ($scope, $mdDialog, dialogs, fee, bill) {
+    this.fee = fee;
+    this.bill = bill;
+
+    this.viewObjectsList = (entry) => { 
+        dialogs.usersList(entry.varObjects, 'feeObjects');
+    };
+
+    this.close = () => { 
+        $mdDialog.hide(); 
+    };
+
+    console.log('FeeDetailsController', this);
+}
+
+FeeDetailsController.$inject = ['$scope','$mdDialog', 'dialogs', 'fee', 'bill'];
+
+
+function IframeController ($scope, $mdDialog, $sce, url, title) {
+    this.$sce = $sce;
+    this.url = url;
+    this.title = title;
+
+    this.close = () => { 
+        $mdDialog.hide(); 
+    };
+
+    this.trust = (url) => {
+        return $sce.trustAsResourceUrl(url);
+    };
+
+    console.log('IframeController', this);
+}
+
+IframeController.$inject = ['$scope','$mdDialog', '$sce', 'url', 'title'];

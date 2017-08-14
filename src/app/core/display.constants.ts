@@ -65,6 +65,31 @@ export const _display_view = {
 			size: 80
 		}
 	},
+	landingTariffs: {
+		background: {
+			style: 'application-light', //'landing-background',
+			toolbar: false,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: false,
+			athletes: false,
+			leftPanel: {
+				url: 'header/backbar.html',
+				size: 30
+			},
+			rightPanel: {
+				url: 'header/welcome.links.html',
+				size: 70
+			}
+		},
+		application: {
+			style: 'welcome-page',
+			margin: 'auto',
+			size: 80
+		}
+	},
 	signup: {
 		//style: 'welcome-page',
 		//background: 'landing-background blur',
@@ -78,7 +103,7 @@ export const _display_view = {
 			title: false,
 			athletes: false,
 			leftPanel: {
-				url: 'layout/application/header/backbar.html',
+				url: 'header/backbar.html',
 				size: 30
 			},
 			rightPanel: {
@@ -103,7 +128,32 @@ export const _display_view = {
 			title: false,
 			athletes: false,
 			leftPanel: {
-				url: 'layout/application/header/backbar.html',
+				url: 'header/backbar.html',
+				size: 30
+			},
+			rightPanel: {
+				url: null,
+				size: 30
+			}
+		},
+		application: {
+			style: 'app-page',
+			margin: 20,
+			size: 'grow'
+		}
+	},
+	reset: {
+		background: {
+			style: 'dark-blue-grey',
+			toolbar: true,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: false,
+			athletes: false,
+			leftPanel: {
+				url: 'header/backbar.html',
 				size: 30
 			},
 			rightPanel: {
@@ -349,7 +399,7 @@ export const _display_view = {
 			margin: 20,
 			size: 'grow'
 		}
-	},
+	},	
 	// Настройка страницы: Список пользователей /athletes
 	athletes: {
 		background: {
@@ -404,6 +454,32 @@ export const _display_view = {
 	},
 	// Настройка страницы: Поиск /search
 	activity: {
+		background: {
+			style: 'light-grey',
+			toolbar: true,
+			size: '160'
+		},
+		header: {
+			enabled: true,
+			title: true,
+			athletes: true,
+			leftPanel: {
+				url: 'header/appmenutoolbar.html',
+				size: 20
+			},
+			rightPanel: {
+				url: 'header/usertoolbar.html',
+				size: 20
+			}
+		},
+		application: {
+			style: 'app-page',
+			margin: 20,
+			size: 'grow'
+		}
+	},
+	// Настройка страницы: Шаблоны и категории /reference
+	"reference": {
 		background: {
 			style: 'light-grey',
 			toolbar: true,

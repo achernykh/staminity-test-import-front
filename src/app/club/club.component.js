@@ -31,7 +31,7 @@ class ClubCtrl {
     }
     
     join () {
-        return this.dialogs.confirm('startClub')
+        return this.dialogs.confirm('dialogs.startClub')
             .then((confirmed) => confirmed && this.GroupService.join(this.club.groupId, this.UserService.profile.userId)
                 .then(result => {
                     this.message.toastInfo('requestComplete');
@@ -41,7 +41,7 @@ class ClubCtrl {
     }
     
     leave () {
-        return this.dialogs.confirm('leaveClub')
+        return this.dialogs.confirm('dialogs.leaveClub')
             .then((confirmed) => confirmed && this.GroupService.leave(this.club.groupId, this.UserService.profile.userId)
                 .then(result => {
                     this.message.toastInfo('requestComplete');
@@ -50,7 +50,7 @@ class ClubCtrl {
     }
     
     cancel () {
-        return this.dialogs.confirm('rejectRequest')
+        return this.dialogs.confirm('dialogs.rejectRequest')
             .then((confirmed) => confirmed && this.GroupService.processMembership('C',this.club.groupId)
                 .then(result => {
                     this.message.toastInfo('requestComplete');
@@ -59,15 +59,15 @@ class ClubCtrl {
     }
 
     showMembers () {
-        this.dialogs.usersList(this.club, 'members')
+        this.dialogs.usersList(this.club.groupMembers, 'members')
     }
 
     showCoaches () {
-        this.dialogs.usersList(this.club.innerGroups.ClubCoaches, 'coaches')
+        this.dialogs.usersList(this.club.innerGroups.ClubCoaches.groupMembers, 'coaches')
     }
 
     showAthletes () {
-        this.dialogs.usersList(this.club.innerGroups.ClubAthletes, 'athletes')
+        this.dialogs.usersList(this.club.innerGroups.ClubAthletes.groupMembers, 'athletes')
     }
     
     openMenu ($mdOpenMenu, event) {
