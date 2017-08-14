@@ -524,8 +524,8 @@ export const translateNotification = {
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
          header (push): Удаление спортсменов     **/
-        coachEnvDeleteInSomeDays: 'Связь с вашими спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать',
-        coachEnvDeleted: 'Связь с вашими спортсменами удалена',
+        coachEnvDeleteInSomeDays: 'Связь с вашими не клубными спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать',
+        coachEnvDeleted: 'Связь с вашими не клубными спортсменами удалена',
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити
@@ -1066,8 +1066,8 @@ export const translateNotification = {
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
          header (push): Remove athletes     **/
-        coachEnvDeleteInSomeDays: 'Your athletes will be disconnected from you in 5 days. To continue work with them please purchase "Coach" tariff',
-        coachEnvDeleted: 'You have been disconnected from your athletes',
+        coachEnvDeleteInSomeDays: 'Your non-club athletes will be disconnected from you in 5 days. To continue work with them please purchase "Coach" tariff',
+        coachEnvDeleted: 'You have been disconnected from your non-club athletes',
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити
