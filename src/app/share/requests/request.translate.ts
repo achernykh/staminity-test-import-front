@@ -73,7 +73,7 @@ export let translateRequestPanel = {
             }
         },
         'JoinFriends': {
-            action: 'Добавить в друзья',
+            action: 'Принять запрос',
             A: {
                 title: 'Принять запрос',
                 text: 'Принять запрос на добавление в друзья?',
@@ -94,18 +94,24 @@ export let translateRequestPanel = {
             }
         },
         'JoinFollowers': {
-            action: 'Подключиться',
+            action: 'Подписаться',
             A: {
-                title: 'Вы уверены?',
-                text: 'Принять запрос на подключение к тренеру?',
+                title: 'Принять запрос',
+                text: 'Принять запрос на подписку?',
                 confirm: 'Принять',
                 cancel: 'Отмена'
             },
             D: {
-
+                title: 'Отклонить запрос',
+                text: 'Отклонить запрос на подписку?',
+                confirm: 'Отклонить',
+                cancel: 'Отмена'
             },
             C: {
-
+                title: 'Отменить запрос',
+                text: 'Отменить запрос на подписку?',
+                confirm: 'Да',
+                cancel: 'Нет'
             }
         },
         'LeaveClubByCoach': {
