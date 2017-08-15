@@ -14,6 +14,12 @@ export class ActivityIntervalG extends ActivityInterval implements IActivityInte
 
     constructor(type: string, params: any){
         super(type, params);
-        this.code = `${genHash(6)}-${genHash(4)}-${genHash(4)}-${genHash(4)}-${genHash(12)}`;
+        this.code = this.code || `${genHash(6)}-${genHash(4)}-${genHash(4)}-${genHash(4)}-${genHash(12)}`;
+    }
+
+    clear():IActivityIntervalG{
+        let params: Array<string> = ['params'];
+        params.map(p => delete this[p]);
+        return <IActivityIntervalG>this;
     }
 }

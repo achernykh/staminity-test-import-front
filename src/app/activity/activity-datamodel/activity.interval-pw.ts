@@ -63,7 +63,13 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
 
     }
 
-    percent(){
+    clear():IActivityIntervalPW{
+        let params: Array<string> = ['params','distance','movingDuration','heartRate','power','speed'];
+        params.map(p => delete this[p]);
+        return <IActivityIntervalPW>this;
+    }
+
+    percent():number{
         return this.calcMeasures.completePercent.hasOwnProperty('value') &&
             this.calcMeasures.completePercent.value * 100 || null;
     }
@@ -77,6 +83,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @param intervals = массив интревалов с типом P
      */
     calculate(intervals: Array<ActivityIntervalP>) {
+        debugger;
         let update:ActivityIntervalPW = new ActivityIntervalPW('pW',{});
 
         intervals.forEach(i => {

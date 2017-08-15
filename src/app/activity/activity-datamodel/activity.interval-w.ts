@@ -12,6 +12,24 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
     }
 
+    clear():IActivityIntervalW{
+        let params: Array<string> = ['params'];
+        params.map(p => delete this[p]);
+        return <IActivityIntervalW>this;
+    }
+
+    movingDuration():number {
+        return this.calcMeasures.hasOwnProperty('movingDuration') &&
+            this.calcMeasures.movingDuration.hasOwnProperty('value') &&
+            this.calcMeasures.movingDuration.value;
+    }
+
+    distance():number {
+        return this.calcMeasures.hasOwnProperty('distance') &&
+            this.calcMeasures.distance.hasOwnProperty('value') &&
+            this.calcMeasures.distance.value;
+    }
+
     /**
      * @description Проверка тренировки на выполнение
      * @returns {boolean}

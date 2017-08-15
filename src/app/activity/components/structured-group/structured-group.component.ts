@@ -23,7 +23,7 @@ class StructuredGroupCtrl implements IComponentController {
     }
 
     top():number {
-        return (this.loop.start - this.hiddenPos) * this.box.height + this.box.top;
+        return (this.loop.start - this.hiddenPos - 1) * this.box.height + this.box.top;
     }
 
     changeMode(){

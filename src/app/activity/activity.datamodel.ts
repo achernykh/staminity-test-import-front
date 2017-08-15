@@ -25,11 +25,8 @@ import {ActivityHeader} from "./activity-datamodel/activity.header";
 import {ActivityIntervalPW} from "./activity-datamodel/activity.interval-pw";
 import {ActivityIntervalW} from "./activity-datamodel/activity.interval-w";
 import {ActivityIntervalP} from "./activity-datamodel/activity.interval-p";
-
-export interface IRoute {
-	lat:number;
-	lng: number;
-}
+import {ActivityDetails, IRoute} from "./activity-datamodel/activity.details";
+import {ActivityIntervalL} from "./activity-datamodel/activity.interval-l";
 
 export enum ActivityStatus {
 
@@ -165,9 +162,9 @@ export class Activity extends CalendarItem {
 	public hasImportedData: boolean = false;
 	private peaks: Array<any>;
 	private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
-	public details: IActivityDetails;
-	public actualDataIsImported: boolean = false;
+	//public actualDataIsImported: boolean = false;
     private _startDate: Date;
+	public details: ActivityDetails;
 
 	// Дополнительные поля для использования в шаблонах тренировки
 	public isTemplate: boolean;
@@ -178,21 +175,12 @@ export class Activity extends CalendarItem {
 	public visible: boolean;
 	public groupProfile: IGroupProfileShort;
 
-	constructor(private item: ICalendarItem, private method: string = 'view'){
+	constructor(private item: ICalendarItem){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
-		this.prepare(method);
-	}
+		// Запоминаем, чтобы парсить только один раз
+		this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
 
-	// Добавляем детальные данные по тренеровке
-	completeDetails(details: IActivityDetails = null) {
-		this.details = details;
-		// Обработка детальных данных по тренировке
-		this.hasDetails = !!details && details.metrics.length > 0;
-		if(this.hasDetails) {
-			this.route = this.getRouteData(details);
-			this.isRouteExist = !!this.route;
-		}
-
+		this.prepare();
 	}
 
 	completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
@@ -200,6 +188,10 @@ export class Activity extends CalendarItem {
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...intervals, this.intervalW);
 		this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
+	}
+
+	hasImport():boolean {
+		return this.intervals.L.length > 0;
 	}
 
 	completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG) {
@@ -258,25 +250,29 @@ export class Activity extends CalendarItem {
 	}
 
 	// Подготовка данных для модели отображения
-	prepare(method: string) {
+	prepare() {
 		super.prepare();
 
 		// Заголовок тренировки
 		this.header = new ActivityHeader(this.item.activityHeader);
-
 		// Интервалы тренировки
 		this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
+		// Детали тренировки
+		this.details = new ActivityDetails();
 
+		this.updateIntervals();
+	}
+
+	updateIntervals(){
 		// Ссылки на интервалы для быстрого доступа
-		this.intervalPW = <ActivityIntervalPW>this.intervals.pack.filter(i => i.type === "pW")[0];
-		this.intervalW = <ActivityIntervalW>this.intervals.pack.filter(i => i.type === "W")[0];
-		this.intervalP = <Array<ActivityIntervalP>>this.intervals.pack.filter(i => i.type === "P")
-			.sort((a,b) => a['pos'] - b['pos'])
-			.map(i => ActivityIntervalFactory('P',i));
-		this.actualDataIsImported = this.intervals.intervalW.actualDataIsImported;
+		this.intervalPW = <ActivityIntervalPW>this.intervals.PW;
+		this.intervalW = <ActivityIntervalW>this.intervals.W;
+		this.intervalP = <Array<ActivityIntervalP>>this.intervals.P;
+		this.intervalL = <Array<ActivityIntervalL>>this.intervals.L;
+	}
 
-        // Запоминаем, чтобы парсить только один раз
-        this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
+	get actualDataIsImported(){
+		return this.intervalW.actualDataIsImported || false;
 	}
 
 	// Подготовка данных для передачи в API
@@ -285,8 +281,8 @@ export class Activity extends CalendarItem {
 		this.dateEnd = this.dateStart;
 		this.header.activityType = getType(Number(this.header.activityType.id));
 		//this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
-		this.header.intervals = [];
-		this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
+		this.header.intervals = this.intervals.build();
+		//this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
 		return {
 			index: this.index,
@@ -300,26 +296,6 @@ export class Activity extends CalendarItem {
 			//userProfileCreator: IUserProfileShort,
 			activityHeader: this.header
 		};
-	}
-
-	/**
-	 * Получаем данные для построения маршрута тренировки
-	 * @param details
-	 * @returns {any}
-	 */
-	getRouteData(details: IActivityDetails):Array<IRoute> {
-
-		if (!details.measures.hasOwnProperty('longitude') || !details.measures.hasOwnProperty('latitude')) {
-			return null;
-		}
-
-		let lng = details.measures['longitude'].idx; // lng index in array
-		let lat = details.measures['latitude'].idx; // lat index in array
-		let timestamp = details.measures['timestamp'].idx; // timestamp index in array
-
-		return details.metrics
-			.filter(m => m[lng] > 0 || m[lat] > 0)
-			.map(m => ({lng: m[lng],lat: m[lat], timestamp: m[timestamp]}));
 	}
 
 	/**
@@ -351,8 +327,6 @@ export class Activity extends CalendarItem {
 	}
 
 	get category():IActivityCategory {
-		/**return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('id'))
-			&& this.header.activityCategory.id;**/
 		return this.header.hasOwnProperty('activityCategory') && this.header.activityCategory;
 	}
 
@@ -415,10 +389,6 @@ export class Activity extends CalendarItem {
 
 	get percent() {
 		return this.intervalPW && this.intervalPW.percent();
-		/**return (this.intervalPW
-			&& this.intervalPW.hasOwnProperty('calcMeasures'
-			&& this.intervalPW.calcMeasures.hasOwnProperty('completePercent'))
-			&& this.intervalPW.calcMeasures.completePercent.value * 100) || null;**/
 	}
 
 	printPercent() {
@@ -464,7 +434,7 @@ export class Activity extends CalendarItem {
 	}
 
 	get durationMeasure() {
-		return this.intervalPW.durationMeasure
+		return (this.intervalPW && this.intervalPW.durationMeasure)
 			|| (!!this.intervalW.calcMeasures.duration.maxValue && 'duration')
 			|| (!!this.intervalW.calcMeasures.distance.maxValue && 'distance') || null;
 	}
@@ -484,20 +454,23 @@ export class Activity extends CalendarItem {
 			|| (this.intervalW.calcMeasures.hasOwnProperty('power') &&  this.intervalW.calcMeasures.power.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.power.avgValue && 'power') || null;
 	}
 
-	get movingDuration() {
-		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.movingDuration.value;
+	get movingDuration():number {
+		return this.intervalW.movingDuration() || this.intervalPW.movingDuration.durationValue || null;
+		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
+			&& this.intervalPW.durationValue) || this.intervalW.movingDuration();**/
 	}
 
 	get duration() {
-		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;
+		return this.intervalW.movingDuration() || this.intervalPW.movingDuration.durationValue || null;
+		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
+			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;**/
 	}
 
 	get distance() {
-		return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
+		return this.intervalW.distance() || this.intervalPW.distance.durationValue || null;
+		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
             && this.intervalPW.durationValue) ||
-            (this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;
+            (this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;**/
 	}
 
 	// Формируем перечень показателей для панели data (bottomPanel)

@@ -24,8 +24,8 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         // для удобства верстки создаем быстрый путь к данным
         this.mode = this.item.mode;
         this.activity = this.item.activity;
-        this.intervalPW = this.item.activity.intervals.intervalPW;
-        this.intervalW = this.item.activity.intervals.intervalW;
+        this.intervalPW = this.item.activity.intervals.PW;
+        this.intervalW = this.item.activity.intervals.W;
     }
 
     onSave(){

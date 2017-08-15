@@ -39,6 +39,12 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         this.prepareIntensity();
     }
 
+    clear():IActivityIntervalP{
+        let params: Array<string> = ['params','isSelected','distance','movingDuration','heartRate','power','speed'];
+        params.map(p => delete this[p]);
+        return <IActivityIntervalP>this;
+    }
+
 
     prepareDuration(){
         ['distance','movingDuration'].forEach(m => Object.assign(this[m], {

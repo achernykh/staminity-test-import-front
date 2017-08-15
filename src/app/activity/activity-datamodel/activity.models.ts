@@ -24,7 +24,8 @@ export class ActivityIntervalCalcMeasure implements ICalcMeasures{
         'variabilityIndex', 'efficiencyFactor', 'decouplingPower', 'decouplingPace', 'trainingLoad', 'completePercent'];
 
     constructor() {
-        Object.assign(this,...this.params.map(p => new ActivityMeasure(p)));
+        this.params.map(p => Object.assign(this, { [p]: new ActivityMeasure(p)}));
+        //Object.assign(this,...this.params.map(p => new ActivityMeasure(p)));
     }
 }
 

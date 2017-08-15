@@ -3,10 +3,10 @@
         <md-list-item flex="none">
             <div class="md-caption" style="color: #455A64">
                 <span>Итого: </span>
-                <span ng-if="$ctrl.intervals.intervalPW.movingDurationApprox">~</span>
-                <span>{{$ctrl.intervals.intervalPW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
-                <span ng-if="$ctrl.intervals.intervalPW.distanceApprox">~</span>
-                <span>{{$ctrl.intervals.intervalPW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
+                <span ng-if="$ctrl.intervals.PW.movingDurationApprox">~</span>
+                <span>{{$ctrl.intervals.PW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
+                <span ng-if="$ctrl.intervals.PW.distanceApprox">~</span>
+                <span>{{$ctrl.intervals.PW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
                 <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic}}</span>
             </div>
             <!--<p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
@@ -17,7 +17,7 @@
         </md-list-item>
     </md-list>
     <activity-segment-chart flex="none" style="display: flex; margin: 8px 16px; height: 150px"
-                            activity-header="$ctrl.intervals.pack"
+                            activity-header="$ctrl.intervals.stack"
                             actual-ftp="false"
                             plan-ftp="true"
                             duration-measure="movingDuration"

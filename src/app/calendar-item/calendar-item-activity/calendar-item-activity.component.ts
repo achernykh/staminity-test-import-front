@@ -21,6 +21,7 @@ import {activityTypes, getType} from "../../activity/activity.constants";
 import {IAuthService} from "../../auth/auth.service";
 import ReferenceService from "../../reference/reference.service";
 import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
+import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -142,60 +143,65 @@ export class CalendarItemActivityCtrl implements IComponentController{
             };
         }
 
-        this.activity = new Activity(this.data, this.mode);
-        //this.activity.prepare();
-        
+        this.activity = new Activity(this.data);
+
+        this.types = activityTypes; // Список видов спорта
+        this.structuredMode = this.activity.structured;
+
+        this.prepareDetails();
+        this.prepareAuth();
+        this.prepareAthletesList();
+        this.prepareCategories();
+        this.prepareTabPosition();
+    }
+
+    prepareDetails(){
         if (!this.template) {
             //Получаем детали по тренировке загруженной из внешнего источника
             if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
                 this.ActivityService.getIntervals(this.activity.activityHeader.activityId)
-                    .then(response => {
-                        this.activity.completeIntervals(response);
-                        //this.detailsSelectChangeCount ++;
-                    }, error => this.message.toastError('errorCompleteIntervals'));
+                    .then(response => this.activity.intervals.add(response),
+                        error => this.message.toastError('errorCompleteIntervals'))
+                    .then(() => this.activity.updateIntervals())
+                    .then(() => this.prepareTabPosition());
 
-                this.ActivityService.getDetails2(this.data.activityHeader.activityId)
-                    .then(response => {
-                        this.activity.completeDetails(this.details = response);
-                        //this.detailsSelectChangeCount ++;
-                        this.isLoadingDetails = false;
-                    }, error => this.message.toastError('errorCompleteDetails'));
+                this.ActivityService.getDetails(this.data.activityHeader.activityId)
+                    .then((response:IActivityDetails) =>
+                            this.activity.details = new ActivityDetails(response),
+                        error => this.message.toastError('errorCompleteDetails'))
+                    .then(() => this.isLoadingDetails = false);
             }
-
-            this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
-                (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
         }
+    }
 
-        this.types = activityTypes; // Список видов спорта
-        this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
-        this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
-        this.isPro = this.AuthService.isActivityPro();
-        this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
-        this.structuredMode = this.activity.structured;
+    prepareTabPosition(){
         this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
             (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
+    }
 
-        this.prepareAthletesList();
-
-        // Список категорий тренировки
+    prepareCategories(){
         if (this.mode === 'put' || this.mode === 'post' || this.mode === 'view') {
             if (this.template) {
                 this.activity.setCategoriesList(this.ReferenceService.categories, this.user);
-
                 this.ReferenceService.categoriesChanges
-                .takeUntil(this.destroy)
-                .subscribe((categories) => {
-                    this.activity.setCategoriesList(categories, this.user);
-                    this.$scope.$apply();
-                });
+                    .takeUntil(this.destroy)
+                    .subscribe((categories) => {
+                        this.activity.setCategoriesList(categories, this.user);
+                        this.$scope.$apply();
+                    });
             } else {
                 this.ActivityService.getCategory()
                     .then(list => this.activity.setCategoriesList(list, this.user),
                         error => this.message.toastError(error));
             }
         }
+    }
 
-        console.log('CalendarItemAct', this);
+    prepareAuth(){
+        this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
+        this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
+        this.isPro = this.AuthService.isActivityPro();
+        this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
     }
 
     /**
@@ -236,7 +242,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param response
      */
     selectAthletes(response){
-        debugger;
         this.showSelectAthletes = false;
         this.forAthletes = response;
     }
@@ -346,7 +351,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     setDetailsTab(initiator: SelectInitiator, loading: boolean):void {
-        //debugger;
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
         if (this.selectedTab !== HeaderTab.Details && this.isPro) {
@@ -369,7 +373,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(mode === 'post') {
             this.onCancel();
         } else {
-            this.activity.prepare(this.mode);
+            this.activity.prepare();
         }
     }
 
@@ -453,7 +457,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
 
-        debugger;
         Object.assign(this.activity.intervalPW, plan);
         //this.activity.intervalPW = plan;
 

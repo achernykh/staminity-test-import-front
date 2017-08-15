@@ -12,8 +12,8 @@ class ActivitySegmentsCtrl implements IComponentController {
     public item: CalendarItemActivityCtrl;
     public onEvent: (response: Object) => IPromise<void>;
 
-    private duration: string = 'movingDuration';
-    private intensity: string = 'heartRate';
+    private durationMeasure: string = 'movingDuration';
+    private intensityMeasure: string = 'heartRate';
     private intervals: ActivityIntervals;
     private select: Array<number> = [];
 
@@ -303,10 +303,21 @@ class ActivitySegmentsCtrl implements IComponentController {
      *
      */
     addInterval() {
-        let interval: Interval = new Interval('P', {isSelected: false, keyInterval: false, pos: this.item.activity.intervalP.length});
-        interval.durationMeasure = this.duration;
-        interval.intensityMeasure = this.intensity;
-        this.item.activity.completeInterval(interval);
+        let params = {
+            pos: this.intervals.lastPos() + 1,
+            durationMeasure: this.durationMeasure,
+            intensityMeasure: this.intensityMeasure,
+            durationValue: 30*60,
+            movingDurationLength: 30*60,
+            intensityLevelFrom: 150,
+            intensityLevelTo: 150,
+            intensityByFtpFrom: 0.70,
+            intensityByFtpTo: 0.70
+        };
+
+        this.intervals.add([ActivityIntervalFactory('P', params)]);
+        this.intervals.PW.calculate(this.intervals.P);
+        this.update();
     }
 
     deleteInterval() {
@@ -325,20 +336,20 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     toggleKey(){
         if(this.selectedInterval().length === this.selectedKeyInterval().length){
-            this.intervals.intervalP.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = false);
+            this.intervals.P.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = false);
         } else if(this.selectedKeyInterval().length === 0 || this.selectedKeyInterval().length > 0){
-            this.intervals.intervalP.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = true);
+            this.intervals.P.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = true);
         }
         this.update();
         //this.updatePW();
     }
 
     selectedInterval():Array<any> {
-        return this.intervals.intervalP.filter(interval => interval.isSelected);
+        return this.intervals.P.filter(interval => interval.isSelected);
     }
 
     selectedKeyInterval():Array<any> {
-        return this.intervals.intervalP.filter(interval => interval.isSelected && interval.keyInterval);
+        return this.intervals.P.filter(interval => interval.isSelected && interval.keyInterval);
     }
 
     updatePW(){

@@ -4,6 +4,7 @@ import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activi
 import {Activity} from "../activity.datamodel";
 import {isPace, getSportLimit} from "../../share/measure/measure.constants";
 import {MeasureChartData} from "../activity.function";
+import {IChartMeasureData} from "../activity-datamodel/activity.details";
 
 class ActivityMetricsDetailsCtrl implements IComponentController {
 
@@ -21,7 +22,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private zoomOut: number = 0;
     private autoZoom: boolean = true;
 
-    private chartData: MeasureChartData; // класс для расчета данных для графика
+    private chartData: IChartMeasureData; // класс для расчета данных для графика
 
     private measures: {} = {};
     private measuresItem: {} = {};
@@ -42,8 +43,8 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
     $onChanges(changes){
         if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue) {
-            //debugger;
-            this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+            this.chartData = this.item.activity.details.chartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures);
+            //this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.activity.details);
             this.completeDetails = true;
         }
     }

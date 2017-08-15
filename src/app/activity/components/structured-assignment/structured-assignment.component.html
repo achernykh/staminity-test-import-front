@@ -11,7 +11,7 @@
 
 <section class="intervals" flex="auto" layout="column" layout-fill
          ng-class="{'margin-left': $ctrl.haveLoops()}">
-    <structured-interval ng-repeat="interval in $ctrl.intervals.intervalP | orderBy:'pos' track by $index"
+    <structured-interval ng-repeat="interval in $ctrl.intervals.P | orderBy:'pos' track by $index"
                          ng-if="!interval.repeatPos || interval.repeatPos === 0"
                          interval="interval"
                          sport="$ctrl.item.activity.sportBasic"
