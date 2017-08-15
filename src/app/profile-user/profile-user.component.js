@@ -17,14 +17,12 @@ class ProfileCtrl {
         this.RequestsService = RequestsService;
     }
 
-    $onInit(){
-
+    $onInit() {
         this.me = this.auth && this.UserService.profile || null;
         this.isMe = this.auth && this.user.userId === this.me.userId;
 
         this.subscription = this.RequestsService.requestWithUser(this.user.userId)
-                .subscribe(() => { this.update() });
-
+        .subscribe(() => { this.update() });
     }
 
     $onDestroy () {
@@ -58,21 +56,21 @@ class ProfileCtrl {
     }
 
     join (group, message) {
-        return this.dialogs.confirm(message)
-            .then((confirmed) => confirmed && this.GroupService.join(group.groupId, this.me.userId), () => {})
-            .then((result) => { result && this.update() }, error => this.message.show(error))
+        return this.dialogs.confirm({ text: message })
+            .then(() => this.GroupService.join(group.groupId, this.me.userId))
+            .then((result) => { result && this.update() }, (error) => { error && this.message.show(error) })
     }
 
     leave (group, message) {
-        return this.dialogs.confirm(message)
-            .then((confirmed) => confirmed && this.GroupService.leave(group.groupId, this.me.userId), () => {})
-            .then((result) => { result && this.update() }, error => this.message.show(error))
+        return this.dialogs.confirm({ text: message })
+            .then(() => this.GroupService.leave(group.groupId, this.me.userId))
+            .then((result) => { result && this.update() }, (error) => { error && this.message.show(error) })
     }
 
     cancel (group, message) {
-        return this.dialogs.confirm(message)
-            .then((confirmed) => confirmed && this.GroupService.processMembership('C', group.groupId), () => {})
-            .then((result) => { result && this.update() }, error => this.message.show(error))
+        return this.dialogs.confirm({ text: message })
+            .then(() => this.GroupService.processMembership('C', group.groupId))
+            .then((result) => { result && this.update() }, (error) => { error && this.message.show(error) })
     }
 
     openMenu ($mdOpenMenu, event) {

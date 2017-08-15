@@ -1,5 +1,6 @@
 import './club.component.scss';
 
+
 class ClubCtrl {
 
     constructor ($scope, dialogs, GroupService, UserService, RequestsService, message) {
@@ -17,7 +18,7 @@ class ClubCtrl {
         this.isCoach = user.public.hasOwnProperty('isCoach') && user.public.isCoach;
 
         this.subscription = this.RequestsService.requestWithClub(this.club.groupId)
-                .subscribe(() => { this.update() });
+            .subscribe(() => { this.update() });
     }
 
     $onDestroy () {
@@ -31,31 +32,36 @@ class ClubCtrl {
     }
     
     join () {
-        return this.dialogs.confirm('dialogs.startClub')
-            .then((confirmed) => confirmed && this.GroupService.join(this.club.groupId, this.UserService.profile.userId)
-                .then(result => {
-                    this.message.toastInfo('requestComplete');
-                    this.update();
-                }, error => this.message.toastError(error)));
-            //.then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
+        return this.dialogs.confirm({ text: 'dialogs.startClub' })
+            .then(() => this.GroupService.join(this.club.groupId, this.UserService.profile.userId))
+            .then((result) => {
+                this.message.toastInfo('requestComplete');
+                this.update();
+            }, (error) => {
+                error && this.message.toastError(error);
+            });
     }
     
     leave () {
-        return this.dialogs.confirm('dialogs.leaveClub')
-            .then((confirmed) => confirmed && this.GroupService.leave(this.club.groupId, this.UserService.profile.userId)
-                .then(result => {
-                    this.message.toastInfo('requestComplete');
-                    this.update();
-                }, error => this.message.toastError(error)));
+        return this.dialogs.confirm({ text: 'dialogs.leaveClub' })
+            .then(() => this.GroupService.leave(this.club.groupId, this.UserService.profile.userId))
+            .then((result) => {
+                this.message.toastInfo('requestComplete');
+                this.update();
+            }, (error) => {
+                error && this.message.toastError(error);
+            });
     }
     
     cancel () {
-        return this.dialogs.confirm('dialogs.rejectRequest')
-            .then((confirmed) => confirmed && this.GroupService.processMembership('C',this.club.groupId)
-                .then(result => {
-                    this.message.toastInfo('requestComplete');
-                    this.update();
-                }, error => this.message.toastError(error)));
+        return this.dialogs.confirm({ text: 'dialogs.rejectRequest' })
+            .then(() => this.GroupService.processMembership('C',this.club.groupId))
+            .then((result) => {
+                this.message.toastInfo('requestComplete');
+                this.update();
+            }, (error) => {
+                error && this.message.toastError(error);
+            });
     }
 
     showMembers () {

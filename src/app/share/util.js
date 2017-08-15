@@ -63,6 +63,8 @@ export const timer = (f, msg = '') => (...args) => {
 
 export const genHash = (length) => Math.random().toString(36).substr(2, length);
 
+export const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
 export default { id, times, range, last, map, flatMap, fold, filter, unique, groupBy, orderBy, pipe, equals, allEqual,
     isArray, isBoolean, isNumber, isFunction, isString, keys, values, entries, object, memorize, maybe, log, timer,
-    genHash }
+    genHash, capitalize }

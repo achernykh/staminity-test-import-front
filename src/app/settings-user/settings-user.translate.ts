@@ -122,7 +122,7 @@ export const _translate = {
             changeFee: 'Изменить условия действующего тарифа',
             free: 'Бесплатно',
             promo: 'Промо-код',
-            activePromo: 'Промо-код «{{promo}}» активирован с {{appliedFrom}}',
+            activePromo: 'Промо-код «{{promo}}» активирован с {{appliedFrom}} по {{appliedTo}}',
             validPromo: 'Промо-код «{{promo}}» может быть активирован после сохранения',
             rejectedPromo: "Промо-код не найден",
             removePromo: 'Удалить',
@@ -135,6 +135,8 @@ export const _translate = {
             autoRenewalShort: 'Автопродление',
             isOn: 'включено',
             isOff: 'выключено',
+            agreementMessage: "Я прочитал и согласен с ",
+            agreementLink: "условиями подключения тарифа",
             conditions: 'Условия подключения',
             conditionsText: `
 Начисления по тарифу "{{tariff}}" будут объединены с начислениями по ранее подключенному тарифу.
@@ -155,19 +157,11 @@ export const _translate = {
             tariffDisconnectNow: `
 Вы хотите отключить тариф?
 
-Доступ к фунции тарифного плана будет для вас прекращён.
-
-Нажимая кнопку "Отключить", вы соглашаетесь с тем, что:
-
-...`,
+После отключения тарифа с завтрашнего дня будет отключен доступ к фунциям по тарифному плану и остановлены начисления. `,
             tariffDisconnectLater: `
 Вы хотите отключить тариф?
 
-Доступ к фунции тарифного плана будет прекращён для вас с [{{validThrough}}].
-
-Нажимая кнопку "Отключить", вы соглашаетесь с тем, что:
-
-...`,
+Доступ к фунции тарифного плана будет прекращён для вас с [{{validThrough}}].`,
             counts: {
                 "Athletes": '{{count}} спортсменов',
                 "ClubAthletes": '{{count}} спортсменов',
@@ -215,7 +209,7 @@ export const _translate = {
                 notEnabled: "Отключен",
                 isPaid: "Оплачен",
                 trial: "Пробный период",
-                isBlocked: "Ожидает оплаты"
+                isBlocked: "Тариф заблокирован, необходима оплата счета"
             },
             tariffStatusesEnablers: {
                 enabled: "За свой счёт",
@@ -246,6 +240,9 @@ export const _translate = {
             invoices: 'Счета на оплату',
             invoiceAmount: 'Счет на сумму',
             period: 'Период',
+            billId: 'Номер счёта',
+            approvalCode: 'Код авторизации',
+            paymentProcessing: 'Способ платежа',
             billStatuses: {
                 new: 'Формируется',
                 ready: 'Ожидает оплаты',
@@ -262,6 +259,11 @@ export const _translate = {
                 end: 'Окончание периода',
                 bill: 'Дата счёта',
                 payment: 'Дата оплаты'
+            },
+            billTabs: {
+                overview: 'Обзор',
+                fees: 'Начисления',
+                payment: 'Оплата'
             },
             feeDetails: 'Детали начисления',
             autoPayment: 'Оплачивать автоматически'

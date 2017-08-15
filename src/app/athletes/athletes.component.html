@@ -20,7 +20,7 @@
                 <md-tooltip md-direction="bottom">Тарифы</md-tooltip>
                 <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.removeAvailable" ng-click="$ctrl.remove()"> 
                 <md-tooltip md-direction="bottom">Удалить</md-tooltip>
                 <md-icon class="material-icons">delete</md-icon> 
             </md-button>

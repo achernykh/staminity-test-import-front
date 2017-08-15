@@ -1,3 +1,4 @@
+import { requestType } from "../../../../api/group/group.interface";
 import './requests.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import { Subject } from "rxjs/Rx";
@@ -11,9 +12,10 @@ const stateIcons = {
 
 class RequestsCtrl {
 
-    constructor ($scope, $mdDialog, $mdSidenav, UserService, GroupService, RequestsService, SessionService, dialogs, message) {
+    constructor ($scope, $mdDialog, $translate, $mdSidenav, UserService, GroupService, RequestsService, SessionService, dialogs, message) {
         this.$scope = Object.assign($scope, { stateIcons });
         this.$mdDialog = $mdDialog;
+        this.$translate = $translate;
         this._$mdSidenav = $mdSidenav;
         this.UserService = UserService;
         this.GroupService = GroupService;
@@ -79,9 +81,18 @@ class RequestsCtrl {
     }
     
     processRequest (request, action) {
-        this.dialogs.confirm('dialogs.performAction' + action)
-        .then((confirmed) => confirmed && this.GroupService.processMembership(action, null, request.userGroupRequestId)
-            .then(this.message.toastInfo('requestComplete'), error => this.message.toastError(error)));
+        let type = requestType(request);
+
+        let confirmMessages = {
+            title: this.$translate.instant(`${type}.${action}.title`),
+            text: this.$translate.instant(`${type}.${action}.text`),
+            confirm: this.$translate.instant(`${type}.${action}.confirm`),
+            cancel: this.$translate.instant(`${type}.${action}.cancel`)
+        };
+
+        this.dialogs.confirm(confirmMessages)
+        .then(() => this.GroupService.processMembership(action, null, request.userGroupRequestId))
+        .then(() => this.message.toastInfo('requestComplete'), (error) => error && this.message.toastError(error));
     }
     
     close () {
@@ -89,7 +100,7 @@ class RequestsCtrl {
     }
 };
 
-RequestsCtrl.$inject = ['$scope','$mdDialog','$mdSidenav','UserService','GroupService','RequestsService','SessionService','dialogs','message'];
+RequestsCtrl.$inject = ['$scope','$mdDialog','$translate','$mdSidenav','UserService','GroupService','RequestsService','SessionService','dialogs','message'];
 
 const RequestsComponent = {
 

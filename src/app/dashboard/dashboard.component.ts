@@ -327,7 +327,7 @@ export class DashboardCtrl implements IComponentController {
 
         if (this.buffer && this.buffer.length > 0) {
             if(this.buffer.some(i => i.userProfileOwner.userId !== athlete.userId)){
-                this.dialogs.confirm('updateIntensity')
+                this.dialogs.confirm({ text: 'updateIntensity' })
                     .then(() => this.buffer.map(i => updateIntensity(i, athlete.trainingZones)))
                     .then(() => this.buffer.map(i => changeUserOwner(i,athlete)))
                     .then(() => this.onProcessPaste(shift));
@@ -361,10 +361,10 @@ export class DashboardCtrl implements IComponentController {
         let inSelection: boolean = (selected && selected.length > 0) && selected.some(s => items.some(i => i.calendarItemId === s.calendarItemId));
         debugger;
 
-        this.dialogs.confirm('deletePlanActivity')
-            .then(() => this.calendar.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
-                .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))
-                .then(()=> inSelection && this.clearBuffer()));
+        this.dialogs.confirm({ text: 'deletePlanActivity' })
+            .then(() => this.calendar.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))
+            .then(() => this.message.toastInfo('itemsDeleted'), (error) => error && this.message.toastError(error))
+            .then(() => inSelection && this.clearBuffer());
     }
 
     clearBuffer(){
