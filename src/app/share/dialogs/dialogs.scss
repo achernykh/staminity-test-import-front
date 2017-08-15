@@ -75,14 +75,12 @@ md-dialog#upload {
 
     &__row {
         padding: 0 24px !important;
-        white-space: nowrap;
     }
 
     &__row-2 {
         padding: 0 24px 0px 48px !important;
-        height: 48px;
-        line-height: 48px;
-        white-space: nowrap;
+        min-height: 48px;
+        align-items: center;
     }
 
     &__row-3 {

@@ -70,63 +70,65 @@
                     {{ 'settings.billing.billTabs.fees' | translate }}
                 </md-tab-label>
                 <md-tab-body>
-                    <md-list ng-repeat="tariff in $ctrl.bill.tariffs" class="bill-details-dialog__list">
-                        <md-list-item
-                            ng-init="fixedFee = $ctrl.fixedFee(tariff)" 
-                            ng-disabled="!fixedFee.transactions.length"
-                            class="bg-blue-grey-400 bill-details-dialog__row"
-                        >
-                            <span class="font-medium md-light" colspan="2">{{ 'settings.billing.tariff' | translate }} «{{'settings.billing.tariffs.' + tariff.tariffCode | translate}}»</span>
-                            <span flex></span>
-                            <span class="font-bold md-light text-right">{{ tariff.totalAmount | currency:$ctrl.bill.currency }}</span>
-                        </md-list-item>
-                        <div
-                            ng-click="$ctrl.feeDetails(fixedFee)" 
-                            layout="row"
-                            class="animated-background outline-none bill-details-dialog__row-2"
-                            ng-class="fixedFee.transactions.length? ['hover-bg-blue-grey-200', 'cursor-pointer', 'bg-blue-grey-100', 'md-ink-ripple'] : ['bg-grey-100 md-dark']"
-                        >
-                            <span class="font-medium">{{ 'settings.billing.fixedFee' | translate }}</span>
-                            <span flex></span>
-                            <span class="font-bold text-right">{{ fixedFee.totalAmount | currency:$ctrl.bill.currency }}</span>
-                        </div>
-                        <md-list-item class="bill-details-dialog__row-3">
-                            <span>{{ 'settings.billing.fixedFee' | translate }}</span>
-                            <span flex></span>
-                            <span class="font-bold text-right">{{ fixedFee.initialAmount | number:2 }}</span>
-                        </md-list-item>
-                        <md-list-item ng-if="fixedFee.promoDiscount" class="bill-details-dialog__row-3">
-                            <span>{{ 'settings.billing.promoDiscount' | translate }}</span>
-                            <span flex></span>
-                            <span class="font-bold text-right text-accent">{{ fixedFee.promoDiscount | number:2 }}</span>
-                        </md-list-item>
-                        <div ng-repeat="fee in $ctrl.variableFees(tariff)">
-                            <div
-                                ng-click="$ctrl.feeDetails(fee)" 
-                                layout="row"
-                                ng-disabled="!fee.transactions.length"
-                                class="animated-background outline-none bill-details-dialog__row-2"
-                                ng-class="fee.transactions.length? ['hover-bg-blue-grey-200', 'cursor-pointer', 'bg-blue-grey-100', 'md-ink-ripple'] : ['bg-grey-100 md-dark']"
+                    <md-list class="bill-details-dialog__list">
+                        <div ng-repeat="tariff in $ctrl.bill.tariffs">
+                            <md-list-item
+                                ng-init="fixedFee = $ctrl.fixedFee(tariff)" 
+                                ng-disabled="!fixedFee.transactions.length"
+                                class="bg-blue-grey-400 bill-details-dialog__row"
                             >
-                                <span class="font-medium">{{ 'settings.billing.group.' + fee.varGroup | translate }}</span>
+                                <span class="font-medium md-light" colspan="2">{{ 'settings.billing.tariff' | translate }} «{{'settings.billing.tariffs.' + tariff.tariffCode | translate}}»</span>
                                 <span flex></span>
-                                <span class="font-bold text-right">{{ fee.totalAmount | currency:$ctrl.bill.currency }}</span>
+                                <span class="font-bold md-light text-right">{{ tariff.totalAmount | currency:$ctrl.bill.currency }}</span>
+                            </md-list-item>
+                            <div
+                                ng-click="$ctrl.feeDetails(fixedFee)" 
+                                layout="row"
+                                class="animated-background outline-none bill-details-dialog__row-2"
+                                ng-class="fixedFee.transactions.length? ['hover-bg-blue-grey-200', 'cursor-pointer', 'bg-blue-grey-100', 'md-ink-ripple'] : ['bg-grey-100 md-dark']"
+                            >
+                                <span class="font-medium">{{ 'settings.billing.fixedFee' | translate }}</span>
+                                <span flex></span>
+                                <span class="font-bold text-right">{{ fixedFee.totalAmount | currency:$ctrl.bill.currency }}</span>
                             </div>
-                            <md-list-item class="bill-details-dialog__row-3" ng-class="{'md-dark': !fee.transactions.length}">
-                                <span>{{ 'settings.billing.group.' + fee.varGroup | translate }}</span>
+                            <md-list-item class="bill-details-dialog__row-3">
+                                <span>{{ 'settings.billing.fixedFee' | translate }}</span>
                                 <span flex></span>
-                                <span class="font-bold text-right">{{ fee.initialAmount | number:2 }}</span>
+                                <span class="font-bold text-right">{{ fixedFee.initialAmount | number:2 }}</span>
                             </md-list-item>
-                            <md-list-item class="bill-details-dialog__row-3" ng-if="fee.volumeDiscount">
-                                <span>{{ 'settings.billing.volumeDiscount' | translate }}</span>
-                                <span flex></span>
-                                <span class="font-bold text-right text-accent">{{ fee.volumeDiscount | number:2 }}</span>
-                            </md-list-item>
-                            <md-list-item class="bill-details-dialog__row-3" ng-if="fee.promoDiscount">
+                            <md-list-item ng-if="fixedFee.promoDiscount" class="bill-details-dialog__row-3">
                                 <span>{{ 'settings.billing.promoDiscount' | translate }}</span>
                                 <span flex></span>
-                                <span class="font-bold text-right text-accent">{{ fee.promoDiscount | number:2 }}</span>
+                                <span class="font-bold text-right text-accent">{{ fixedFee.promoDiscount | number:2 }}</span>
                             </md-list-item>
+                            <div ng-repeat="fee in $ctrl.variableFees(tariff)">
+                                <div
+                                    ng-click="$ctrl.feeDetails(fee)" 
+                                    layout="row"
+                                    ng-disabled="!fee.transactions.length"
+                                    class="animated-background outline-none bill-details-dialog__row-2"
+                                    ng-class="fee.transactions.length? ['hover-bg-blue-grey-200', 'cursor-pointer', 'bg-blue-grey-100', 'md-ink-ripple'] : ['bg-grey-100 md-dark']"
+                                >
+                                    <span class="font-medium">{{ 'settings.billing.group.' + fee.varGroup | translate }}</span>
+                                    <span flex></span>
+                                    <span class="font-bold text-right">{{ fee.totalAmount | currency:$ctrl.bill.currency }}</span>
+                                </div>
+                                <md-list-item class="bill-details-dialog__row-3" ng-class="{'md-dark': !fee.transactions.length}">
+                                    <span>{{ 'settings.billing.group.' + fee.varGroup | translate }}</span>
+                                    <span flex></span>
+                                    <span class="font-bold text-right">{{ fee.initialAmount | number:2 }}</span>
+                                </md-list-item>
+                                <md-list-item class="bill-details-dialog__row-3" ng-if="fee.volumeDiscount">
+                                    <span>{{ 'settings.billing.volumeDiscount' | translate }}</span>
+                                    <span flex></span>
+                                    <span class="font-bold text-right text-accent">{{ fee.volumeDiscount | number:2 }}</span>
+                                </md-list-item>
+                                <md-list-item class="bill-details-dialog__row-3" ng-if="fee.promoDiscount">
+                                    <span>{{ 'settings.billing.promoDiscount' | translate }}</span>
+                                    <span flex></span>
+                                    <span class="font-bold text-right text-accent">{{ fee.promoDiscount | number:2 }}</span>
+                                </md-list-item>
+                            </div>
                         </div>
                         <md-list-item class="bg-blue-grey-400 bill-details-dialog__row">
                             <span class="font-medium md-light" colspan="2">{{ 'settings.billing.billTotal' | translate }}</span>

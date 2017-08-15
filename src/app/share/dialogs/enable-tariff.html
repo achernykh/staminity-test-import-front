@@ -131,11 +131,11 @@
 
             <div>
                 <md-list-item>
-                    <p>
+                    <p flex>
                         {{ 'settings.billing.agreementMessage' | translate }}
                         <a class="md-primary font-13" href="{{ 'settings.billing.subscriptionConditionsLink' | translate:{ tariffCode: $ctrl.tariff.tariffCode } }}">{{ 'settings.billing.agreementLink' | translate }}</a>
                     </p>
-                    <md-checkbox ng-model="$ctrl.agreement">
+                    <md-checkbox ng-model="$ctrl.agreement" class="md-secondary">
                     </md-checkbox>
                 </md-list-item>
             </div>
