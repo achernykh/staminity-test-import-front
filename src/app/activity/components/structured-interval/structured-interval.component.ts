@@ -5,6 +5,7 @@ import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-act
 import {FtpState} from "../assignment/assignment.component";
 import {Interval} from "../../activity.datamodel";
 import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
+import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
 
 const approxZones = {
     heartRate: [
@@ -24,9 +25,10 @@ const approxZones = {
 class StructuredIntervalCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public interval: IActivityIntervalP;
+    public interval: ActivityIntervalP;
     public sport: string;
     public loop: Loop;
+    public ftpMode: FtpState;
 
     public onSelect: () => IPromise<void>;
     public onChange: (response: {interval: IActivityIntervalP}) => IPromise<void>;
@@ -71,6 +73,10 @@ class StructuredIntervalCtrl implements IComponentController {
         this.onSelect();
     }
 
+    isFTP():boolean {
+        return this.ftpMode === FtpState.On;
+    }
+
 
     prepareInterval(){
 /**
@@ -98,20 +104,18 @@ class StructuredIntervalCtrl implements IComponentController {
 
     changeValue(measure) {
         this.completeInterval(measure);
-
-        /**if (measure === 'movingDuration') {
+        if (measure === 'movingDuration') {
             this.interval.movingDurationLength = this.interval.durationValue;
         }
         if (measure === 'distance') {
             this.interval.distanceLength = this.interval.durationValue;
-        }**/
+        }
         this.onChange({interval: this.interval});
     }
 
     completeInterval(measure) {
 
-        debugger;
-
+        this.interval.complete(measure, this.interval[measure]);
         measure = this.durationMeasure.indexOf(measure) === -1 ? this.interval.intensityMeasure : measure;
 
         if (this.durationMeasure.indexOf(measure) !== -1) {
@@ -221,6 +225,7 @@ const StructuredIntervalComponent:IComponentOptions = {
         groupCount: '<',
         count: '<',
         loop: '<',
+        ftpMode: '<',
         onChange: '&',
         onDelete: '&',
         onSelect: '&',

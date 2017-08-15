@@ -45,6 +45,56 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         return <IActivityIntervalP>this;
     }
 
+    /**
+     * @description Запрос данных по заданию
+     * @returns {{keyInterval: boolean, durationMeasure: string, durationValue: number, movingDurationLength: number,
+     * movingDurationApprox: boolean, distanceLength: number, distanceApprox: boolean, intensityMeasure: string,
+      * intensityLevelFrom: number, intensityByFtpFrom: number, intensityLevelTo: number, intensityByFtpTo: number,
+      * intensityDistribution: string, intensityFtpMax: number, intensityMaxZone: number}}
+     */
+    assignment():Object{
+        return {
+            keyInterval: this.keyInterval,
+
+            durationMeasure: this.durationMeasure,
+            durationValue: this.durationValue,
+            movingDurationLength: this.movingDurationLength,
+            movingDurationApprox: this.movingDurationApprox,
+            distanceLength: this.distanceLength,
+            distanceApprox: this.distanceApprox,
+
+            intensityMeasure: this.intensityMeasure,
+            intensityLevelFrom: this.intensityLevelFrom,
+            intensityByFtpFrom: this.intensityByFtpFrom,
+            intensityLevelTo: this.intensityLevelTo,
+            intensityByFtpTo: this.intensityByFtpTo,
+            intensityDistribution: this.intensityDistribution,
+            intensityFtpMax: this.intensityFtpMax,
+            intensityMaxZone: this.intensityMaxZone,
+
+        };
+    }
+
+    /**
+     * @description Заполняем расчет занчений по заданию
+     * 1)
+     */
+    complete(measure: string, value: DurationMeasure | IntensityMeasure){
+
+        // Изменилась длительность
+        if (value instanceof  DurationMeasure) {
+            debugger;
+        }
+
+        // Изменилась интенсивность
+        if (value instanceof IntensityMeasure) {
+            debugger;
+        }
+
+        //
+
+    }
+
 
     prepareDuration(){
         ['distance','movingDuration'].forEach(m => Object.assign(this[m], {

@@ -22,6 +22,7 @@ import {IAuthService} from "../../auth/auth.service";
 import ReferenceService from "../../reference/reference.service";
 import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
+import {FtpState} from "../../activity/components/assignment/assignment.component";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -66,7 +67,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
 
     public structuredMode: boolean = false;
-    public ftpMode: boolean = false;
+    public ftpMode: FtpState = FtpState.Off;
 
     private selectedTimestamp: Array<any> = [];
     private selectedIntervalIndex: ISelectionIndex = { L: null, P: null, U: null}; //todo delete

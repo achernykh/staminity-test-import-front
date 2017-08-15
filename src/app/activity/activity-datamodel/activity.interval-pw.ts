@@ -21,6 +21,13 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
 
     constructor(type: string, params: any) {
         super(type, params);
+        this.prepareData();
+    }
+
+    /**
+     * @description Подготовка данных модели
+     */
+    prepareData():void{
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
         this.durationValue = this.durationValue || 0;
         this.movingDurationLength = this.movingDurationLength || 0;
@@ -60,20 +67,31 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
                 intensityByFtpTo: this.intensityByFtpTo
             });
         }
-
     }
 
+    /**
+     * @description Подготовка данных для передачи в backend
+     * @returns {IActivityIntervalPW}
+     */
     clear():IActivityIntervalPW{
         let params: Array<string> = ['params','distance','movingDuration','heartRate','power','speed'];
         params.map(p => delete this[p]);
         return <IActivityIntervalPW>this;
     }
 
+    /**
+     * @description Процент выполнения тренировки
+     * @returns {number}
+     */
     percent():number{
         return this.calcMeasures.completePercent.hasOwnProperty('value') &&
             this.calcMeasures.completePercent.value * 100 || null;
     }
 
+    /**
+     * @description Тренировка имеет плановые данные?
+     * @returns {boolean}
+     */
     specified():boolean{
         return this.durationValue > 0;
     }
@@ -90,9 +108,9 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
 
             update.durationMeasure = i.durationMeasure;
             update.intensityMeasure = i.intensityMeasure;
-            update.durationValue += i.durationValue;
-            update.movingDurationLength += i.movingDurationLength;
-            update.distanceLength += i.distanceLength;
+            update.durationValue += i.durationValue || 0;
+            update.movingDurationLength += i.movingDurationLength || 0;
+            update.distanceLength += i.distanceLength || 0;
             update.intensityLevelFrom = Math.min(update.intensityLevelFrom || i.intensityLevelFrom, i.intensityLevelFrom); //(update.intensityLevelFrom >= i.intensityLevelFrom || update.intensityLevelFrom === null) ? i.intensityLevelFrom: update.intensityLevelFrom;
             update.intensityLevelTo = Math.max(update.intensityLevelTo || i.intensityLevelTo, i.intensityLevelTo); //(update.intensityLevelTo <= i.intensityLevelTo || update.intensityLevelTo === null) ? i.intensityLevelTo: update.intensityLevelTo;
             update.intensityByFtpFrom = Math.min(update.intensityByFtpFrom || i.intensityByFtpFrom, i.intensityByFtpFrom);//(update.intensityByFtpFrom >= i.intensityByFtpFrom || update.intensityByFtpFrom === null) ? i.intensityByFtpFrom: update.intensityByFtpFrom;

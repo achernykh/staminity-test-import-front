@@ -18,9 +18,10 @@
                          group-count="$ctrl.mode === 'input' && interval.pos === $ctrl.sequence[$ctrl.sequence.length - 1]"
                          count="$ctrl.groupCount"
                          loop="$ctrl.myLoop(interval)"
-                         on-change="$ctrl.change($index,interval)"
-                         on-delete="$ctrl.splice($index)"
+                         ftp-mode="$ctrl.item.ftpMode"
+                         on-change="$ctrl.onChangeValue(interval)"
                          on-select="$ctrl.onChangeSelection(interval)"
-                         on-set-repeat="$ctrl.setRepeat(loop,repeat)">
+                         on-set-repeat="$ctrl.setRepeat(loop,repeat)"
+                         on-delete="$ctrl.splice($index)">
     </structured-interval>
 </section>

@@ -42,13 +42,12 @@ class StructuredAssignmentCtrl implements IComponentController {
     }
 
     $onInit() {
-        debugger;
         this.loops = this.loopsFromGroups;
     }
 
-    change(index: number, interval: IActivityIntervalP) {
-        //this.plan[index] = interval;
-        this.item.activity.calculateInterval('pW');
+    onChangeValue(interval: ActivityIntervalP) {
+        this.intervals.setValue(interval.type, interval.pos, interval.assignment());
+        this.intervals.PW.calculate(this.intervals.P);
         this.item.changeStructuredAssignment ++;
         this.onChange();
     }

@@ -116,6 +116,28 @@ export class ActivityIntervals {
     }
 
     /**
+     * @description Установка значений по плану на интервал, группу
+     * @param type
+     * @param id
+     * @param params
+     */
+    setValue(type: string = 'P', id: string | number, params: Object):void {
+
+        let i: number = this.find(type,id);
+        if (i !== -1) {
+            let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
+            // Если интревал является повторяющимся
+            if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
+                let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroup)[0];
+                this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.length === 0)
+                    .map(i => this.setParams(i.type, i.pos, params));
+            } else { // одиночный интервал
+                Object.assign(this.stack[i], params);
+            }
+        }
+    }
+
+    /**
      * @description Установка выделения интервала
      * @param type
      * @param id

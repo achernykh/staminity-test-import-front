@@ -56,7 +56,7 @@
                name="plan_heartRate"
                measure="$ctrl.interval.intensityMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="true"
-               ftp-mode="false" ftp="$ctrl.getFTP()"
+               ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP()"
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
                ng-disabled="$ctrl.item.mode === 'view'">
         <input measure-input ng-switch-when="speed"
@@ -64,7 +64,7 @@
                name="plan_speed"
                measure="$ctrl.interval.intensityMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="true"
-               ftp-mode="false" ftp="$ctrl.getFTP()"
+               ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP()"
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
                ng-disabled="false">
         <input measure-input ng-switch-when="power"
@@ -72,7 +72,7 @@
                name="plan_power"
                measure="$ctrl.interval.intensityMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="true"
-               ftp-mode="false" ftp="$ctrl.getFTP()"
+               ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP()"
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
                ng-disabled="$ctrl.item.mode === 'view'">
     </md-input-container><!--

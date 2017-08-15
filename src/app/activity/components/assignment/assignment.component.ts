@@ -170,6 +170,7 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     ftpModeChange(mode: FtpState) {
         this.ftpMode = mode;
+        this.item.ftpMode = mode;
         this.prepareValues();
     }
 
@@ -349,6 +350,7 @@ const ActivityAssignmentComponent:IComponentOptions = {
         sport: '<',
         form: '<',
         editable: '<',
+        ftpMode: '<',
         onChange: '&'
     },
     controller: ActivityAssignmentCtrl,
