@@ -7,7 +7,7 @@
         <div flex="none" layout="row" layout-align="space-between center" layout-align-gt-sm="space-between start">
             <section class="percent md-caption tight-07" flex="25" hide show-gt-sm>{{::$ctrl.data.printPercent()}}</section>
             <section class="icon" flex="none" flex-gt-sm="auto" layout="row" layout-align="center start">
-                <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
+                <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-grey-600">
                     <md-icon md-svg-src="{{::$ctrl.data.sportUrl}}"
                              style="margin-left: 4px"
                              class="s24 light-active"></md-icon>
@@ -179,8 +179,8 @@
                             <img ng-src="assets/icon/bullet.svg"
                                      style="width: 15px; height: 15px; min-width: 15px; min-height: 15px"
                                      class="dark-active"/></div>
-                        <div flex="none" style="width: 40px">{{::interval.calcMeasures.distance.value}} км</div>
-                        <div flex="auto">{{::interval.calcMeasures.heartRate.value}}чсс</div>
+                        <div flex="none" style="width: 40px">{{::interval[interval.durationMeasure + 'Length'] | measureCalc:'run':interval.durationMeasure}}</div>
+                        <div flex="auto">{{::interval | measureCalcInterval:'run':interval.intensityMeasure}}</div>
                     </div>
                 </div>
             </div>

@@ -45,6 +45,8 @@ class CalendarActivityCtrl {
         }
 
         this.segmentChart = this.data.formChart();
+        this.segmentList = this.data.prepareSegmentList();
+        //console.log('CalendarActivityCtrl $onInit, summaryAvg=', this.data.summaryAvg)
         /**
          * Формат отображения тренировке в календаре зависит от нескольких параметров: 1) дата тренировки 2) факт
          * выполнения тренировки 3) наличие тренировочных сегментов (структурированная тренировка).
@@ -69,7 +71,7 @@ class CalendarActivityCtrl {
                 // Собираем лист сегментов
                 // Если интервал является плановым сегментов или группой, то формируем лист сегментов
                 if (interval.type === 'P' || interval.type === 'G') {
-                    this.prepareSegmentList((interval.type === 'G'), interval);
+                    //this.prepareSegmentList((interval.type == 'G'), interval);
 
                 }
                 // Собираем график сегментов
@@ -85,13 +87,13 @@ class CalendarActivityCtrl {
             }
 
             // Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
-            if (this.segmentChart.length) {
+            /**if (this.segmentChart.length) {
                 this.segmentChart.map((item) => {
                     item[0] = item[0] / comulativeDuration;
                     item[1] = item[1] / 100;
                     return item;
                 });
-            }
+            }**/
 
             /**
              * Вывод segmentList ограничен
@@ -148,6 +150,11 @@ class CalendarActivityCtrl {
                 }
                 //console.log('CalendarItem: $onInit',this.segmentList, this.calculateSegmentListSize(this.segmentList));
             }
+        }
+
+         if (this.structured) {
+            //this.bottomPanel = 'segmentList';
+            //console.info('segmentChart', JSON.stringify(this.segmentChart));
         }
     }
 
@@ -209,7 +216,7 @@ class CalendarActivityCtrl {
          * Окончание рассчитывается как сумма предидущих интервалов +movingDurationLength и значение intensityByFtpTo
          */
         let comulativeDuration = duration + interval.movingDurationLength;
-        this.segmentChart.push(
+        /**this.segmentChart.push(
             [
                 duration,
                 interval.intensityByFtpFrom
@@ -217,7 +224,7 @@ class CalendarActivityCtrl {
             [
                 comulativeDuration,
                 interval.intensityByFtpTo
-            ]);
+            ]);**/
 
         return comulativeDuration;
     }

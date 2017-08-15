@@ -1,6 +1,8 @@
 import {merge, IScope, IDirective, IAttributes, IAugmentedJQuery, INgModelController, IFilterService} from 'angular';
 import {Measure} from "./measure.constants";
 import moment from 'moment/src/moment.js';
+import {IActivityIntervalP} from "../../../../api/activity/activity.interface";
+import {Interval} from "../../activity/activity.datamodel";
 
 
 interface IScopeMeasureInput extends IScope {
@@ -77,7 +79,6 @@ const convertToFTP = (interval:boolean, initial: {}, value: any, ftp: number):an
 };
 
 const convertFromFTP = (interval:boolean, initial: {}, value: any, ftp: number):any => {
-	//debugger;
 	//return interval ? Object.assign(initial,{from: value.from * 100 / ftp, to: value.to * 100 / ftp}) : value * 100 / ftp;
 };
 
@@ -104,7 +105,7 @@ export function MeasurementInput($filter): IDirective {
 		let isFTPMeasure = false;
 
 		let measure:Measure = null;
-		let initial: Object = {};
+		let initial: Interval = new Interval('P');
 		let mask: any; //функция преобразование ввода по маске
 		let convert: any; //функция преобразования значения после потери фокуса
 
@@ -207,7 +208,14 @@ export function MeasurementInput($filter): IDirective {
 					$filter('measureCalc')(value[$scope.to], measure.sport, measure.name)+'-'+$filter('measureCalc')(value[$scope.from], measure.sport, measure.name):
 					$filter('measureCalc')(value[$scope.from], measure.sport, measure.name);
 			} else {
-				initial = {[$scope.from]: null, [$scope.to]: null};
+				//debugger;
+				initial = Object.assign(initial, {
+					type: value.hasOwnProperty('type') && value.type || null,
+					trainersPrescription: value.hasOwnProperty('trainersPrescription') && value.trainersPrescription || null,
+					durationMeasure: value.hasOwnProperty('durationMeasure') && value.durationMeasure || null,
+					intensityMeasure: value.hasOwnProperty('intensityMeasure') && value.intensityMeasure || null,
+					[$scope.from]: null,
+					[$scope.to]: null});
 				return initial;
 			}
 		};
@@ -220,7 +228,7 @@ export function MeasurementInput($filter): IDirective {
 				$filter('measureCalc')(value[$scope.from], measure.sport, measure.name)+'-'+$filter('measureCalc')(value[$scope.to], measure.sport, measure.name):
 					$filter('measureCalc')(value[$scope.from], measure.sport, measure.name);
 			} else {
-				initial = {[$scope.from]: null, [$scope.to]: null};
+				initial = Object.assign(initial, {[$scope.from]: null, [$scope.to]: null});
 				return initial;
 			}
 		};
@@ -232,12 +240,10 @@ export function MeasurementInput($filter): IDirective {
 				//let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
 				return $scope.interval ? `${initial[$scope.from]*100}`+'-'+`${initial[$scope.to]*100}` : `${initial[$scope.from]*100}`;
 			} else {
-				initial = value;//{[$scope.from]: null, [$scope.to]: null};
-				/**return {
-					[$scope.from]: null,
-					[$scope.to]: null
-				};**/
-				return null;
+			    initial = value;
+				//initial = Object.assign(initial, {[$scope.from]: null, [$scope.to]: null});
+				//return initial;
+                return null;
 			}
 		};
 
@@ -310,7 +316,6 @@ export function MeasurementInput($filter): IDirective {
 
 			if($ctrl.$modelValue || $ctrl.$viewValue) {
 				let percent: number = $scope.ftpMode ? 100 : 1;
-				//debugger;
 				// Пустое значение в модели данных, в представление = '
 				if (!$ctrl.$modelValue[$scope.from]) {
 					$ctrl.$viewValue = '';
@@ -336,6 +341,13 @@ export function MeasurementInput($filter): IDirective {
 				}
 			}
 			$ctrl.$render();
+		});
+
+		$scope.$watch('measure',(value:boolean, last:boolean) => {
+			if (value === last && !!!value) {
+				return;
+			}
+			setParams();
 		});
 
 		setParams();
@@ -379,8 +391,10 @@ export function MeasurementInput($filter): IDirective {
 
 						} else {
 							$ctrl.$validators['duration'] = durationValidators;
-							$ctrl.$formatters.push(durationFormatters);
-							$ctrl.$parsers.push(durationParsers);
+                            $ctrl.$formatters = [durationFormatters];
+                            $ctrl.$parsers = [durationParsers];
+							//$ctrl.$formatters.push(durationFormatters);
+							//$ctrl.$parsers.push(durationParsers);
 							convert = convertToDuration;
 							//mask = toDuration;
 						}

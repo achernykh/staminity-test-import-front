@@ -1,7 +1,7 @@
 
 
     <header flex="none" class="map" layout="row" layout-align="start center"
-            ng-if="!$ctrl.fullScreenTable && $ctrl.item.activity.isRouteExist">
+            ng-if="!$ctrl.fullScreenTable && $ctrl.item.activity.details.isRouteExist">
         <md-icon class="material-icon">directions</md-icon>
         <p class="md-body-2" translate>Карта</p>
         <span flex></span>
@@ -12,8 +12,8 @@
         </md-button>
     </header>
 
-    <section flex="none" class="map" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable && $ctrl.item.activity.isRouteExist"
-             ng-switch="$ctrl.item.activity.isRouteExist && $ctrl.item.activity.hasDetails">
+    <section flex="none" class="map" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable && $ctrl.item.activity.details.isRouteExist"
+             ng-switch="$ctrl.item.activity.details.isRouteExist && !$ctrl.item.activity.details.isEmpty">
         <div flex="none" class="loading-map" ng-switch-when="false"
              layout="column" layout-align="center center">
             <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
@@ -21,7 +21,7 @@
         </div>
         <activity-route flex="none" ng-switch-when="true"
                         class="map activity-route"
-                        data="$ctrl.item.activity.route"
+                        data="$ctrl.item.activity.details.route"
                         select="$ctrl.item.selectionTimestamp"
                         zoom-enabled="true" layer-enabled="true">
         </activity-route>
@@ -113,7 +113,7 @@
     </header>
 
     <section flex class="splits" ng-if="$ctrl.showTable"
-             ng-switch="$ctrl.item.activity.hasImportedData" layout="column">
+             ng-switch="$ctrl.item.activity.hasImport()" layout="column">
         <div flex class="loading-table" ng-switch-when="false"
              layout="column" layout-align="center center">
             <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
@@ -122,7 +122,7 @@
         <measure-split-table ng-switch-when="true"
                              class="chart measure-split-table"
                              splits="$ctrl.item.activity.intervalL"
-                             max="$ctrl.chartData.maxValue"
+                             max="$ctrl.chartData.max"
                              selected="$ctrl.item.selectedTimestamp"
                              sport="$ctrl.item.activity.sportBasic"
                              zones="$ctrl.item.user.trainingZones"

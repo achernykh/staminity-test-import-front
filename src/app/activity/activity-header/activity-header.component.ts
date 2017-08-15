@@ -34,6 +34,10 @@ export class ActivityHeaderCtrl implements IComponentController {
     updateComments(response):void {
         this.comments = response && response.hasOwnProperty('count') && response.count || null;
     }
+
+    toggleStrucuredMode() {
+        this.item.structuredMode = !this.item.structuredMode;
+    }
 }
 
 const ActivityHeaderComponent:IComponentOptions = {

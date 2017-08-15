@@ -4,7 +4,7 @@
     <md-list class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view' || $ctrl.item.template">
         <md-list-item>
             <md-input-container class="md-block no-message" md-no-float layout="row">
-                <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
+                <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
                 <md-select flex name="sport" class="icon" required
                            ng-model="$ctrl.item.activity.sport"
                            ng-model-options="{ getterSetter: true }"
@@ -27,9 +27,9 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0 || $ctrl.item.template">
             <md-input-container class="md-block no-message" md-no-float>
-                <md-icon class="material-icons" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
-                <md-select 
-                    ng-model="$ctrl.item.activity.header.activityCategory" 
+                <md-icon class="material-icons md-dark" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
+                <md-select
+                    ng-model="$ctrl.item.activity.header.activityCategory"
                     ng-model-options="{ trackBy: '$value.id' }"
                     required=""
                     md-no-asterisk="false"
@@ -38,11 +38,11 @@
                     ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
                     name="category"
                     class="icon">
-                    <md-optgroup 
+                    <md-optgroup
                         ng-repeat="owner in ['user', 'coach', 'club', 'system']"
                         ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
                         label="{{ 'reference.categories.' + owner | translate }}">
-                        <md-option 
+                        <md-option
                             ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.sport, visible: true}:true track by category.id"
                             ng-value="category">
                             {{ category | categoryCode }}
@@ -56,9 +56,15 @@
                 </div>
             </md-input-container>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.item.activity.sport">
+            <md-icon class="material-icons md-dark" style="margin-right: 20px">format_list_numbered</md-icon>
+            <p>Структурированное задание</p>
+            <md-switch class="md-secondary md-primary"
+                       ng-model="$ctrl.item.structuredMode" md-invert>
+        </md-list-item>
         <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.template">
             <md-input-container flex="50" class="no-message" md-no-float>
-                <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
+                <md-icon flex="none" class="material-icons md-dark" style="left: 0px">today</md-icon>
                 <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                                ng-change="$ctrl.changeParam()"
                                name="dateStart" md-hide-icons="calendar"
@@ -70,19 +76,23 @@
                     </div>
                 </div>
             </md-input-container>
-            <div flex="5"></div><!--
+            <div flex="5">
+            </div><!--
                 <md-input-container flex="45" class="no-message" md-no-float>
                     <input type="time" name="uri" class=""
                            ng-model="$ctrl.item.activity.header.startTimeStamp"
                            ng-disabled="false">
                 </md-input-container>-->
-        </md-list-item>
+        </md-list-item><!--
+        <md-button class="md-fab md-mini md-primary" aria-label="Use Android">
+            <md-icon class="material-icons">edit</md-icon>
+        </md-button>-->
 
         <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
             <md-input-container flex="auto" class="md-block no-message" md-no-float>
                 <md-icon flex="none" class="material-icons md-dark" style="left: 0px">import_contacts</md-icon>
                 <input type="text" name="name" maxlength="20" required
-                       ng-model="$ctrl.item.name" 
+                       ng-model="$ctrl.item.name"
                        autocomplete="off"
                        placeholder="Укажите название шаблона">
                 <div ng-messages="$ctrl.form.name.$error" role="alert">
@@ -93,7 +103,7 @@
                 </md-input-container>
             </md-input-container>
         </md-list-item>
-        <md-list-item layout="row" layout-align="start center">
+        <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
             <md-icon flex="none" class="material-icons md-dark" style="margin-right: 20px">star</md-icon>
             <p class="md-caption" flex="none">Избранный</p>
             <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.activity.favourite" md-invert>
@@ -113,9 +123,43 @@
         <md-list-item ng-if="!$ctrl.item.activity.sport">
             <p class="md-body-1">Для ввода задания укажите вид спорта и тип тренировки</p>
         </md-list-item>
-        <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.sport">
+        <md-list-item class="bg-grey-100" ng-if="($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
+            <table md-table
+                   md-row-select="$ctrl.options.rowSelection"
+                   multiple="{{$ctrl.options.multiSelect}}"
+                   ng-model="$ctrl.selected">
+                <thead ng-if="!$ctrl.options.decapitate" md-head>
+                <tr md-row>
+                    <th md-column><span></span></th>
+                    <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
+                    <th md-column md-numeric style="min-width: 80px"><span>План</span></th>
+                    <th md-column md-numeric style="min-width: 55px"><span>Факт</span></th>
+                    <th md-column md-numeric style="min-width: 50px"><span>Вып</span></th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row ng-repeat="measure in ['movingDuration','distance'] track by $index">
+                    <td md-cell>
+                        <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+                    </td>
+                    <td md-cell><span>{{measure | measureUnit:$ctrl.sport | translate}}</span></td>
+                    <td md-cell>
+                        <span ng-if="$ctrl.item.activity.intervalPW[$ctrl.structuredMeasure[measure].approx]">~</span>
+                        <span>{{$ctrl.item.activity.intervalPW[$ctrl.structuredMeasure[measure].length] | measureCalc:$ctrl.sport:measure}}</span>
+                    </td>
+                    <td md-cell></td>
+                    <td md-cell></td>
+                </tr>
+                </tbody>
+            </table>
+        </md-list-item>
+        <md-list-item class="bg-grey-100" ng-if="($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
+            <md-icon class="material-icons" style="margin-right: 20px">format_list_numbered</md-icon>
+            <p>{{$ctrl.item.activity.intervalP.length}} сегм</p>
+            <md-icon ng-click="angular.noop()" class="md-secondary material-icons">keyboard_arrow_right</md-icon>
+        </md-list-item>
+        <md-list-item class="bg-grey-100" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
             <md-table-container>
-
                 <table md-table
                        md-row-select="$ctrl.options.rowSelection"
                        multiple="{{$ctrl.options.multiSelect}}"
@@ -132,9 +176,9 @@
                     </thead>
                     <tbody md-body>
                     <tr md-row ng-if="$ctrl.showRow(measure.$key)"
-                        ng-repeat="measure in $ctrl.plan | toArray | orderBy:'order' | filter:search track by measure.$key">
+                        ng-repeat="measure in $ctrl.plan | toArray | filter:search | orderBy:order track by measure.$key">
                         <td md-cell>
-                            <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon>
+                            <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="md-dark"></md-icon>
                         </td>
                         <td md-cell show>
                             <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure.$key)">{{'%ПАНО' | translate}}</span>
@@ -209,7 +253,7 @@
         </div>
         <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
             <md-input-container flex class="md-block no-message">
-                <md-icon class="material-icons">event_note</md-icon>
+                <md-icon class="material-icons md-dark">event_note</md-icon>
                 <label translate="Установка тренера" class="icon"></label>
                 <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
                           ng-change="$ctrl.changeParam()"

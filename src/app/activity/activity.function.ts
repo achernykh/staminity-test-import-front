@@ -1,7 +1,7 @@
 import {Measure, getSportLimit} from "../share/measure/measure.constants";
 import {
     ICalcMeasures, IActivityDetails, IActivityIntervalP,
-    IActivityIntervalPW
+    IActivityIntervalPW, IActivityMeasure
 } from "../../../api/activity/activity.interface";
 import {copy} from 'angular';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
@@ -139,3 +139,4 @@ export const shiftDate = (item: ICalendarItem, shift: number) => {
     item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     return item;
 };
+

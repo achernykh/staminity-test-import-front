@@ -1,0 +1,6 @@
+<div class="directive" style="height:{{$ctrl.height()}}px; top:{{$ctrl.top()}}px">
+    <div class="action bg-grey-050" ng-click="$ctrl.changeMode()">
+        <md-icon ng-if="false" class="material-icons">add_circle</md-icon>
+        <div ng-if="true" class="center md-body-2 md-dark"><span>{{$ctrl.loop.repeat}}</span><span>X</span></div>
+    </div>
+</div>

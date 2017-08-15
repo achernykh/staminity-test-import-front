@@ -21,6 +21,8 @@ import {activityTypes, getType} from "../../activity/activity.constants";
 import {IAuthService} from "../../auth/auth.service";
 import ReferenceService from "../../reference/reference.service";
 import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
+import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
+import {FtpState} from "../../activity/components/assignment/assignment.component";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -64,6 +66,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private showSelectAthletes: boolean = false;
     private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
 
+    public structuredMode: boolean = false;
+    public ftpMode: FtpState = FtpState.Off;
+
     private selectedTimestamp: Array<any> = [];
     private selectedIntervalIndex: ISelectionIndex = { L: null, P: null, U: null}; //todo delete
     private selectionIndex: ISelectionIndex = { L: null, P: null, U: null};
@@ -73,6 +78,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     private selectedIntervalType: string;
     private changeSelectInterval: number = 0;
+    public changeStructuredAssignment: number = 0;
 
     private headerSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Заголовок
     private detailsSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Детали
@@ -138,57 +144,71 @@ export class CalendarItemActivityCtrl implements IComponentController{
             };
         }
 
-        this.activity = new Activity(this.data, this.mode);
-        //this.activity.prepare();
-        
+        this.activity = new Activity(this.data);
+
+        this.types = activityTypes; // Список видов спорта
+        this.structuredMode = this.activity.structured;
+
+        this.prepareDetails();
+        this.prepareAuth();
+        this.prepareAthletesList();
+        this.prepareCategories();
+        this.prepareTabPosition();
+    }
+
+    prepareDetails(){
         if (!this.template) {
             //Получаем детали по тренировке загруженной из внешнего источника
             if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
                 this.ActivityService.getIntervals(this.activity.activityHeader.activityId)
-                    .then(response => {
-                        this.activity.completeIntervals(response);
-                        //this.detailsSelectChangeCount ++;
-                    }, error => this.message.toastError('errorCompleteIntervals'));
+                    .then(response => this.activity.intervals.add(response),
+                        error => this.message.toastError('errorCompleteIntervals'))
+                    .then(() => this.activity.updateIntervals())
+                    .then(() => this.prepareTabPosition());
 
-                this.ActivityService.getDetails2(this.data.activityHeader.activityId)
-                    .then(response => {
-                        this.activity.completeDetails(this.details = response);
-                        //this.detailsSelectChangeCount ++;
-                        this.isLoadingDetails = false;
-                    }, error => this.message.toastError('errorCompleteDetails'));
+                this.ActivityService.getDetails(this.data.activityHeader.activityId)
+                    .then((response:IActivityDetails) =>
+                            this.activity.details = new ActivityDetails(response),
+                        error => this.message.toastError('errorCompleteDetails'))
+                    .then(() => this.isLoadingDetails = false);
             }
-
-            this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
-                (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
         }
+    }
 
-        this.types = activityTypes; // Список видов спорта
-        this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
-        this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
-        this.isPro = this.AuthService.isActivityPro();
-        this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
+    prepareTabPosition(){
         this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
             (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
+    }
 
-        // Список категорий тренировки
+    prepareCategories(){
         if (this.mode === 'put' || this.mode === 'post' || this.mode === 'view') {
             if (this.template) {
                 this.activity.setCategoriesList(this.ReferenceService.categories, this.user);
-
                 this.ReferenceService.categoriesChanges
-                .takeUntil(this.destroy)
-                .subscribe((categories) => {
-                    this.activity.setCategoriesList(categories, this.user);
-                    this.$scope.$apply();
-                });
+                    .takeUntil(this.destroy)
+                    .subscribe((categories) => {
+                        this.activity.setCategoriesList(categories, this.user);
+                        this.$scope.$apply();
+                    });
             } else {
                 this.ActivityService.getCategory()
                     .then(list => this.activity.setCategoriesList(list, this.user),
                         error => this.message.toastError(error));
             }
         }
+    }
 
-        // Перечень атлетов тренера доступных для планирования
+    prepareAuth(){
+        this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
+        this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
+        this.isPro = this.AuthService.isActivityPro();
+        this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
+    }
+
+    /**
+     * @description Подготовка перечня атлетов достунпых для планирования
+     */
+    prepareAthletesList() {
         if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));
@@ -202,8 +222,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (this.template && this.data && this.data.userProfileCreator) {
             this.forAthletes = [{ profile: this.data.userProfileCreator, active: true }];
         }
-
-        console.log('CalendarItemAct', this);
     }
     
     $onDestroy () {
@@ -225,7 +243,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param response
      */
     selectAthletes(response){
-        debugger;
         this.showSelectAthletes = false;
         this.forAthletes = response;
     }
@@ -236,7 +253,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @returns {IUserProfileShort}
      */
     firstAthlete(pos: number){
-        return this.forAthletes.filter(athlete => athlete.active)[pos].profile;
+        return this.forAthletes && this.forAthletes.filter(athlete => athlete.active)[pos].profile;
     }
 
     /**
@@ -244,7 +261,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @returns {boolean}
      */
     multiAthlete(){
-        return this.forAthletes.filter(athlete => athlete.active).length > 1;
+        return this.forAthletes && this.forAthletes.filter(athlete => athlete.active).length > 1;
     }
 
     /**
@@ -335,7 +352,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     setDetailsTab(initiator: SelectInitiator, loading: boolean):void {
-        //debugger;
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
         if (this.selectedTab !== HeaderTab.Details && this.isPro) {
@@ -358,7 +374,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(mode === 'post') {
             this.onCancel();
         } else {
-            this.activity.prepare(this.mode);
+            this.activity.prepare();
         }
     }
 
@@ -442,9 +458,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
 
-        this.activity.intervalPW = plan;
+        Object.assign(this.activity.intervalPW, plan);
+        //this.activity.intervalPW = plan;
 
-        this.activity.intervalPW.durationMeasure = (!!plan.distance['durationValue'] && 'distance') ||
+        /*this.activity.intervalPW.durationMeasure = (!!plan.distance['durationValue'] && 'distance') ||
             (!!plan.movingDuration['durationValue'] && 'movingDuration') || null;
 
         this.activity.intervalPW.durationValue =
@@ -461,7 +478,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity.intervalPW.intensityByFtpFrom =
             (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpFrom']) || null;
         this.activity.intervalPW.intensityByFtpTo =
-            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;
+            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;*/
 
         this.activity.intervalW.calcMeasures = actual;
     }
