@@ -210,8 +210,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @description Подготовка перечня атлетов достунпых для планирования
      */
     prepareAthletesList() {
+        debugger;
         if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
+                .filter(user => user.hasOwnProperty('trainingZones'))
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));
 
         }
@@ -540,7 +542,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
-        popup: '=',
+        popup: '=', //true - режим popup dialog, false - отдельное окно
         template: '=',
         onCancel: '&',
         onAnswer: '&'

@@ -1,6 +1,9 @@
-import {IUserProfile} from '../../../api/user/user.interface';
+import {IUserProfile, IUserConnections, ITrainingZonesType} from '../../../api/user/user.interface';
 import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
-import {GetRequest, PutRequest, GetConnections, GetTrainingZones} from '../../../api/user/user.request';
+import {
+    GetRequest, PutRequest, GetConnections, GetTrainingZones,
+    IGetTrainigZonesResponse
+} from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
 import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
@@ -61,24 +64,48 @@ export default class UserService {
             .flatMap(() => Observable.fromPromise(this.getConnections()))
             .share();
 
-        this.connections$.subscribe(connections => this.SessionService.setConnections(connections));
+        this.connections$.subscribe(connections => this.setConnections(connections));
+    }
+
+
+    /**
+     * @description Сохраняем обьект connections пользователя, содержит данные о группах пользователя. Если в составе
+     * групп есть allAthletes (атлеты тренера), то для дальнейшего использования дозапрашиваем настройку тренировочных
+     * зон атлетов
+     * @param connections
+     */
+    setConnections(connections: IUserConnections) {
+        if (connections && connections.allAthletes) {
+            this.getTrainingZones(null, connections.allAthletes.groupId)
+                .then((result:Array<IGetTrainigZonesResponse>) => {
+                    connections.allAthletes.groupMembers =
+                        connections.allAthletes.groupMembers.map(athlete =>
+                            Object.assign(athlete,
+                                {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
+                    return connections;
+                })
+                .then(connections => this.SessionService.setConnections(connections));
+        } else {
+            this.SessionService.setConnections(connections);
+        }
     }
 
     /**
      * Запрос обьекта connections из userProfile пользователя
-     * @returns {Promise<TResult>}
+     * @returns {Promise<any>}
      */
     getConnections():Promise<any> {
         return this.SocketService.send(new GetConnections()).then(result => result);
     }
 
     /**
-     * Запрос обьекта trainingZones из userProfile по группе пользователей/или по пользователю
+     * @description Запрос обьекта trainingZones из userProfile по группе пользователей/или по пользователю
+     * @param userId
      * @param groupId
      * @returns {Promise<any>}
      */
-    getTrainingZones(groupId):Promise<any> {
-        return this.SocketService.send(new GetTrainingZones(groupId));
+    getTrainingZones(userId: number, groupId: number = null):Promise<any> {
+        return this.SocketService.send(new GetTrainingZones(userId, groupId)).then(result => result.arrayResult);
     }
 
     /**
@@ -170,7 +197,17 @@ export default class UserService {
             return;
         }
         if(message.action === 'I' && group.hasOwnProperty('groupMembers')){
-            group.groupMembers.push(message.userProfile);
+            if(message.groupCode === 'allAthletes'){
+                this.getTrainingZones(message.userProfile.userId)
+                    .then(result => Object.assign(message.userProfile, {trainingZones: result[0]}))
+                    .then(profile => {
+                        group.groupMembers.push(profile);
+                        connections[message.groupCode] = group;
+                        return this.SessionService.setConnections(connections);
+                    });
+            } else {
+                group.groupMembers.push(message.userProfile);
+            }
         } else if(message.action === 'D'){
             let index: number = group.groupMembers.findIndex(m => m.userId === message.userProfile.userId);
             if(index !== -1){

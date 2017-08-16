@@ -46,11 +46,12 @@ export let _translate = {
 		reset: {
 			fullTitle: 'Восстановление пароля',
 			shortTitle: 'Восстановление пароля',
-			info: "Enter your email address below and we'll send you a link with instructions.",
+			info: "Укажите e-mail, с которым вы регистрировались, и мы пришлем ссылку для изменения пароля",
+            button: "Восстановить пароль"
 		},
 		setpass: {
-			fullTitle: 'Установка пароля',
-			shortTitle: 'Установка пароля',
+			fullTitle: 'Придумайте новый пароль',
+			shortTitle: 'Новый пароль',
 			button: 'Изменить'
 		},
 		// Окно "Забыли пароль"
