@@ -14,6 +14,8 @@ export interface IChartMeasureData {
     measures: {}; // Перечень показателей, которые будут показаны на графике
     data: Array<{}>; // Массив данных для показа на графике
     max: any;
+    measuresX: Array<string>;
+    measuresY: Array<string>;
 }
 
 export class ActivityDetails implements IActivityDetails {
@@ -104,7 +106,9 @@ export class ActivityDetails implements IActivityDetails {
         return {
             measures: measures,
             data: data,
-            max: maxValue
+            max: maxValue,
+            measuresX: measuresX,
+            measuresY: measuresY
         };
     }
 

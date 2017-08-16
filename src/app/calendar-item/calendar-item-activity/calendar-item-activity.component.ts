@@ -23,6 +23,7 @@ import ReferenceService from "../../reference/reference.service";
 import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
 import {FtpState} from "../../activity/components/assignment/assignment.component";
+import {ActivityIntervalFactory} from "../../activity/activity-datamodel/activity.functions";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -283,7 +284,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             let intervals: Array<{type:string, startTimestamp: number, endTimestamp: number}> = [];
             Object.keys(this.selectionIndex).forEach(type => {
                 if (this.selectionIndex[type]) {
-                    let data = this.activity.header.intervals.filter(i => i.type === type);
+                    let data = this.activity.intervals.stack.filter(i => i.type === type);
                     this.selectionIndex[type].forEach(i => intervals.push({
                         type: type,
                         startTimestamp: data[i].startTimestamp,
@@ -313,7 +314,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         let types = Object.keys(selection);
         types.forEach(type => {
             if(selection[type]){
-                let intervals = this.activity.header.intervals.filter(i => i.type === type);
+                let intervals = this.activity.intervals.stack.filter(i => i.type === type);
                 selection[type].forEach(i => selectionTimestamp.push({
                     startTimestamp: intervals[i].startTimestamp,
                     endTimestamp: intervals[i].endTimestamp
@@ -338,8 +339,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 endTimestamp: range.endTimestamp
             }])
             .then(response => {
-                this.activity.completeInterval(response.intervals.filter(i => i.type === 'U')[0]);
-                this.selectIntervalIndex(initiator,{ L: null, P: null, U: [(this.activity.intervalU && this.activity.intervalU.length-1) || 0]});
+                //this.activity.completeInterval(response.intervals.filter(i => i.type === 'U')[0]);
+                this.activity.intervals.add(response.intervals.filter(i => i.type === 'U'));
+                this.activity.updateIntervals();
+                this.selectIntervalIndex(initiator,{
+                    L: null,
+                    P: null,
+                    U: [(this.activity.intervalU && this.activity.intervalU.length - 1) || 0]});
             }, error => {
                 this.message.toastInfo(error);
                 this.setDetailsTab(initiator, false);

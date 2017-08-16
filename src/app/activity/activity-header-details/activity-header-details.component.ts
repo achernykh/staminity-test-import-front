@@ -7,6 +7,7 @@ import {
 import {ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {Measure} from "../../share/measure/measure.constants";
 import {MeasureChartData} from "../activity.function";
+import {ActivityIntervalL} from "../activity-datamodel/activity.interval-l";
 
 interface Select {
     type: string;
@@ -20,6 +21,9 @@ interface SelectionOptions<T> {
     [index: string]: any;
 }
 class ActivityHeaderDetailsCtrl implements IComponentController {
+
+    hasImport: boolean;
+    hasDetails: boolean;
 
     private item: CalendarItemActivityCtrl;
     private completeDetails: boolean = false;
@@ -40,17 +44,18 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     prepareIntervals() {
-        this.intervalTypes.forEach(type => {
-            this.item.activity.header.intervals
-                .filter(i => i.type === type)
-                .forEach((d,i) => this.intervals[d.type+(i+1)] = {
-                    type: type,
-                    startTimestamp: d.startTimestamp,
-                    endTimestamp: d.endTimestamp,
-                    duration: d.calcMeasures.hasOwnProperty('duration') && d.calcMeasures.duration.value || '-',
-                    distance: d.calcMeasures.hasOwnProperty('distance') && d.calcMeasures.distance.value || '-'
-                });
-        });
+        this.intervalTypes.forEach(type =>
+            this.item.activity.intervals.stack
+                .filter(interval => interval.type === type)
+                .forEach((interval,i) =>
+                    this.intervals[interval.type+(i+1)] = {
+                        type: type,
+                        startTimestamp: interval.startTimestamp,
+                        endTimestamp: interval.endTimestamp,
+                        duration: interval.calcMeasures.hasOwnProperty('duration') && interval.calcMeasures['duration'].value || '-',
+                        distance: interval.calcMeasures.hasOwnProperty('distance') && interval.calcMeasures['distance'].value || '-'
+                    })
+        );
     }
 
     calculateIndex(selection: ISelectionIndex) {
@@ -81,6 +86,9 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue && !this.completeDetails) {
             this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
             this.completeDetails = true;
+            this.prepareIntervals();
+        }
+        if(changes.hasOwnProperty('hasImport') && changes.hasImport.currentValue) {
             this.prepareIntervals();
         }
     }
@@ -126,6 +134,7 @@ const ActivityHeaderDetailsComponent:IComponentOptions = {
         data: '<',
         selectionIndex: '<',
         hasDetails: '<',
+        hasImport: '<',
         change: '<',
         onSelected: '&'
     },

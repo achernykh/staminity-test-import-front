@@ -442,7 +442,7 @@ class ActivityChartController implements IComponentController {
         // Setup range metrics data interpolation function
         let bisect = d3.bisector(function (d) { return d[domain]; }).left;
         let baseMetrics = this.chartData.getBaseMetrics();
-        let tooltipMetrics = this.chartData.getBaseMetrics(["timestamp"]);
+        let tooltipMetrics = this.chartData.getBaseMetrics(["timestamp","duration"]);
         let getInterpolatedData = function (pos: number): { [id: string]: number } {
             let domainValue = xScale.invert(pos);
             let index = bisect(data, domainValue);

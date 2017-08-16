@@ -33,7 +33,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
         this.movingDurationLength = this.movingDurationLength || 0;
         this.distanceLength = this.distanceLength || 0;
 
-        if (this.durationMeasure === 'movingDuration' || 'duration') {
+        if (this.durationMeasure === 'movingDuration' || this.durationMeasure === 'duration') {
             this.movingDuration.durationValue = this.durationValue;
         }
 
