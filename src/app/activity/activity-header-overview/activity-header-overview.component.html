@@ -20,7 +20,7 @@
                ng-disabled="!$ctrl.assignmentForm.$dirty || !$ctrl.assignmentForm.$valid"
                ng-click="$ctrl.item.onSaveTemplate()">Сохранить
     </md-button>
-    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"
+    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template" ng-disabled="true"
                ng-click="$ctrl.item.toTemplate()">В шаблон
     </md-button>
     <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"
