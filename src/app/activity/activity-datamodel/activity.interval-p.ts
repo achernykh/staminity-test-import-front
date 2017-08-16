@@ -40,7 +40,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     }
 
     clear():IActivityIntervalP{
-        let params: Array<string> = ['params','isSelected','distance','movingDuration','heartRate','power','speed'];
+        let params: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration','heartRate','power','speed'];
         params.map(p => delete this[p]);
         return <IActivityIntervalP>this;
     }
