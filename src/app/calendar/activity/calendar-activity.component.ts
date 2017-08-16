@@ -285,7 +285,7 @@ class CalendarActivityCtrl {
                 user: this.calendar.user
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 
