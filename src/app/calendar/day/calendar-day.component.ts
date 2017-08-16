@@ -74,7 +74,7 @@ class CalendarDayCtrl {
                     data: data
                 },
                 bindToController: true,
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 escapeToClose: true,
                 fullscreen: true
 
@@ -100,7 +100,7 @@ class CalendarDayCtrl {
                     user: this.calendar.user
                 },
                 bindToController: true,
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 escapeToClose: true,
                 fullscreen: true
 
@@ -155,7 +155,7 @@ class CalendarDayCtrl {
                 user: this.calendar.user
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
         }).then(response => {}, ()=> {});
@@ -183,7 +183,7 @@ class CalendarDayCtrl {
                 user: this.calendar.user
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 
