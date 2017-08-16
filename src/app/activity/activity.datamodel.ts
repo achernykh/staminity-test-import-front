@@ -6,7 +6,7 @@ import {
 	IActivityIntervalP,
 	IActivityMeasure,
 	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityType, IActivityIntervalG, IDurationMeasure,
-	IIntensityMeasure
+	IIntensityMeasure, IActivityIntervalU
 } from "../../../api/activity/activity.interface";
 import {IActivityCategory} from '../../../api/reference/reference.interface';
 import moment from 'moment/src/moment.js';
@@ -27,6 +27,7 @@ import {ActivityIntervalW} from "./activity-datamodel/activity.interval-w";
 import {ActivityIntervalP} from "./activity-datamodel/activity.interval-p";
 import {ActivityDetails, IRoute} from "./activity-datamodel/activity.details";
 import {ActivityIntervalL} from "./activity-datamodel/activity.interval-l";
+import {ActivityIntervalU} from "./activity-datamodel/activity.interval-u";
 
 export enum ActivityStatus {
 
@@ -152,9 +153,9 @@ export class Activity extends CalendarItem {
 	public intervalPW: ActivityIntervalPW;
 	public intervalW: ActivityIntervalW;
 	public intervalL: Array<IActivityIntervalL> = [];
-	public intervalU: Array<IActivityIntervalL> = [];
 	public intervalP: Array<ActivityIntervalP> = [];
 	public intervalG: Array<IActivityIntervalG> = [];
+	public intervalU: Array<IActivityIntervalU> = [];
 
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = true; // ставим начально значени true, чтобы отобразить процесс загрузки данных, далее значение будет переопределно наличем координат
@@ -269,6 +270,7 @@ export class Activity extends CalendarItem {
 		this.intervalW = <ActivityIntervalW>this.intervals.W;
 		this.intervalP = <Array<ActivityIntervalP>>this.intervals.P;
 		this.intervalL = <Array<ActivityIntervalL>>this.intervals.L;
+		this.intervalU = <Array<ActivityIntervalU>>this.intervals.U;
 	}
 
 	get actualDataIsImported(){

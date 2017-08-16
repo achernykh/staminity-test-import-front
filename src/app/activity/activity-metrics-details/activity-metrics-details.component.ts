@@ -24,13 +24,6 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
     private chartData: IChartMeasureData; // класс для расчета данных для графика
 
-    private measures: {} = {};
-    private measuresItem: {} = {};
-    private measuresX: Array<string> = ['distance', 'elapsedDuration'];
-    private measuresY: Array<string> = ['heartRate', 'speed', 'power','altitude'];
-    private measuresSecondary: Array<string> = ['timestamp'];
-    private maxValue: {};
-    private data: Array<{}>;
     private chartX: string = 'elapsedDuration';
     private change: number = 0;
     private changeMeasure: string = null;
@@ -134,15 +127,14 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
             this.item.clearUserInterval();
         } else {
             if (!select[0].startTimestamp) {
-                let index = this.measures['timestamp']['idx'];
-                select[0].startTimestamp = this.item.details.metrics[0][index];
+                let index = this.chartData.measures['timestamp']['idx'];
+                select[0].startTimestamp = this.item.activity.details.metrics[0][index];
             }
             this.item.addUserInterval(select[0]);
         }
     }
 
     onChartSelect(segmentId){
-        debugger;
         console.log('chart select interval=', segmentId);
     }
 }

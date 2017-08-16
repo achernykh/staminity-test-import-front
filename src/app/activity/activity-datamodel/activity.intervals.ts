@@ -10,6 +10,7 @@ import {ActivityIntervalFactory} from "./activity.functions";
 import {times} from '../../share/util.js';
 import {ActivityIntervalL} from "./activity.interval-l";
 import {isArray} from "rxjs/util/isArray";
+import {ActivityIntervalU} from "./activity.interval-u";
 
 const posOrder = (a:ActivityIntervalP,b:ActivityIntervalP) => a.pos < b.pos ? -1: 1;
 
@@ -18,8 +19,7 @@ const posOrder = (a:ActivityIntervalP,b:ActivityIntervalP) => a.pos < b.pos ? -1
  */
 export class ActivityIntervals {
 
-    stack: Array<ActivityIntervalP | ActivityIntervalL | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW>;
-    //intervalU: Array<IActivityIntervalL> = [];
+    stack: Array<ActivityIntervalP | ActivityIntervalL | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW | ActivityIntervalU>;
 
     constructor(intervals: Array<IActivityIntervals> = []){
         this.stack = intervals.map(i => ActivityIntervalFactory(i.type, i));
@@ -39,6 +39,10 @@ export class ActivityIntervals {
 
     get G():Array<ActivityIntervalG> {
         return <Array<ActivityIntervalG>>this.stack.filter(i => i.type === 'G');
+    }
+
+    get U():Array<ActivityIntervalU> {
+        return <Array<ActivityIntervalU>>this.stack.filter(i => i.type === 'U');
     }
 
     get PW():ActivityIntervalPW {

@@ -71,6 +71,7 @@
                                          selection-index="$ctrl.item.selectionIndex"
                                          change="$ctrl.item.detailsSelectChangeCount + $ctrl.item.splitsSelectChangeCount"
                                          has-details="$ctrl.item.activity.hasDetails && $ctrl.item.activity.hasImportedData"
+                                         has-import="$ctrl.item.activity.hasImport()"
                                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
                 </activity-header-details>
             </md-tab-body>
