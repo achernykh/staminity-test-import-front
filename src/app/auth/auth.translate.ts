@@ -50,7 +50,8 @@ export let _translate = {
 		},
 		setpass: {
 			fullTitle: 'Установка пароля',
-			shortTitle: 'Установка пароля'
+			shortTitle: 'Установка пароля',
+			button: 'Изменить'
 		},
 		// Окно "Забыли пароль"
 		forgetpass: {
