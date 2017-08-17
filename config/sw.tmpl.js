@@ -5,7 +5,7 @@ const version = '<%= version%>';
 const preload = '<%= cache%>';
 const cacheKey = `static-${version}`;
 const whitelist = ['http://', 'https://'];
-const blacklist = ['https://dev2.staminity.com/sw.js'];
+const blacklist = ['/sw.js'];
 
 self.addEventListener('install', (event) => {
 	console.log('sw install', event);
@@ -39,7 +39,7 @@ function clearOldCaches () {
 function shouldCache (request) {
 	return request.method === 'GET' 
 		&& !!whitelist.find((url) => request.url.startsWith(url))
-		&& !blacklist.find((url) => request.url.startsWith(url));
+		&& !blacklist.find((url) => request.url.includes(url));
 }
 
 function cachedFetch (request) {
