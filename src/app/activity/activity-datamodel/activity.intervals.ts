@@ -2,6 +2,8 @@ import {ActivityIntervalP} from "./activity.interval-p";
 import {ActivityIntervalG} from "./activity.interval-g";
 import {ActivityIntervalPW} from "./activity.interval-pw";
 import {ActivityIntervalW} from "./activity.interval-w";
+import {ActivityIntervalU} from "./activity.interval-u";
+
 import {
     IActivityIntervals, IActivityIntervalP, IActivityIntervalPW,
     IActivityIntervalW, IActivityIntervalG
@@ -10,7 +12,6 @@ import {ActivityIntervalFactory} from "./activity.functions";
 import {times} from '../../share/util.js';
 import {ActivityIntervalL} from "./activity.interval-l";
 import {isArray} from "rxjs/util/isArray";
-import {ActivityIntervalU} from "./activity.interval-u";
 
 const posOrder = (a:ActivityIntervalP,b:ActivityIntervalP) => a.pos < b.pos ? -1: 1;
 
@@ -358,10 +359,12 @@ export class ActivityIntervals {
             finish = start + interval.movingDurationLength;
             maxFtp = Math.max(interval.intensityByFtpTo, maxFtp); //((interval.intensityByFtpTo > maxFtp) && interval.intensityByFtpTo) || maxFtp;
             minFtp = Math.min(interval.intensityByFtpFrom, minFtp);
-            data.push([start, interval.intensityByFtpFrom],[finish, interval.intensityByFtpTo]);
+            data.push([start, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2],
+                [finish, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2]);
         });
 
         minFtp = minFtp * 0.90;
+        debugger;
         data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
         //debugger;
 
