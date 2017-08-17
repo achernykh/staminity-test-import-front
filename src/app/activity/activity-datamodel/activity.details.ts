@@ -34,7 +34,6 @@ export class ActivityDetails implements IActivityDetails {
 
     constructor(params?: any){
         Object.assign(this, params || {});
-        debugger;
         this._route = this.calculateRoute();
         this.isEmpty = this.metrics.length === 0;
         this.isRouteExist = this._route.length > 0;
