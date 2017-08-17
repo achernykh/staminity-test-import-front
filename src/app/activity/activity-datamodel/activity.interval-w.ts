@@ -13,7 +13,8 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
     }
 
     clear():IActivityIntervalW{
-        let params: Array<string> = ['params'];
+        let params: Array<string> = ['params', ...Object.keys(this.calcMeasures)];
+        //Object.keys(this).map(k => api.indexOf(k) === -1 && delete this[k]);
         params.map(p => delete this[p]);
         return <IActivityIntervalW>this;
     }
