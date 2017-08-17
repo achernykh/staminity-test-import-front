@@ -4,7 +4,7 @@ const DEBUG = true;
 const version = '<%= version%>';
 const preload = '<%= cache%>';
 const cacheKey = `static-${version}`;
-const urlsToCache = [/.*/, /\/assets\//];
+const urlsToCache = [/http:\/\/.*/, /https:\/\/.*/, /\/assets\//];
 
 self.addEventListener('install', (event) => {
 	console.log('sw install', event);

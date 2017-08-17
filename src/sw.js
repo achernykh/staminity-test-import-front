@@ -1,10 +1,10 @@
 'use strict';
 
 const DEBUG = true;
-const version = '0.5.2-beta#319a';
+const version = '0.5.2-beta#321';
 const preload = 'index.html,manifest.json,assets/locale/angular-locale_en.js,assets/locale/angular-locale_ru.js';
-const cacheKey = `static-0.5.2-beta#319a`;
-const urlsToCache = [/.*/, /\/assets\//];
+const cacheKey = `static-0.5.2-beta#321`;
+const urlsToCache = [/http:\/\/.*/, /https:\/\/.*/, /\/assets\//];
 
 self.addEventListener('install', (event) => {
 	console.log('sw install', event);
