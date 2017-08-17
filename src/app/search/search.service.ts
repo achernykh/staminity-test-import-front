@@ -1,5 +1,5 @@
 import {ISocketService} from "../core/socket.service";
-import {SearchMethod, SearchParams, SearchResultByUser} from "../../../api/search/search.interface";
+import {SearchMethod, SearchParams, SearchResultByUser, SearchResultByGroup} from "../../../api/search/search.interface";
 import {SearchGetResult} from "../../../api/search/search.request";
 
 export class SearchService {
@@ -16,8 +16,11 @@ export class SearchService {
      * @param params
      * @returns {Promise<TResult>}
      */
-    request(method: SearchMethod, params: SearchParams): Promise<Array<SearchResultByUser>>{
+    request(method: SearchMethod, params: SearchParams): Promise<Array<SearchResultByUser | SearchResultByGroup>>{
         return this.socket.send(new SearchGetResult(method,params))
-            .then(result => result.hasOwnProperty('arrayResult') && result.arrayResult.map(r => new SearchResultByUser(r)));
+            .then(result => result.hasOwnProperty('arrayResult') &&
+                params.objectType === 'user' || params.objectType === 'coach' ?
+                    result.arrayResult.map(r => new SearchResultByUser(r)) :
+                    result.arrayResult.map(r => new SearchResultByGroup(r)));
     }
 }

@@ -121,6 +121,59 @@
                     </md-card>
                 </md-grid-tile>
             </md-grid-list>
+            <md-grid-list ng-switch-when="club" class="coach"
+                          style=""
+                          md-cols="1" md-cols-gt-xs="2" md-cols-gt-sm="3" md-cols-gt-md="3" md-cols-gt-lg="5" md-cols-gt-xl="7"
+                          md-row-height-gt-md="4:3" md-row-height="4:3"
+                          md-gutter="8px" md-gutter-gt-sm="8px">
+                <md-grid-tile ng-repeat="club in $ctrl.result | orderBy:'-athleteCount' track by $index" ng-cloak
+                              md-rowspan="1"
+                              md-colspan="1"
+                              md-colspan-sm="1"
+                              md-colspan-xs="1"
+                              ng-click="$ctrl.onAnswer({response: {club: club}})"
+                              style="cursor: pointer">
+                    <md-card layout="column" layout-fill>
+                        <md-card-header flex="none">
+                            <div flex="auto">
+                                <div flex="auto" class="user-name md-title">{{club.name ? club.name : 'club.name'}}</div>
+                                <div class="md-caption md-dark" ng-if="club.country">
+                                    <span>{{club.country}}</span>
+                                    <span ng-if="club.city">,&nbsp{{club.city}}</span>
+                                </div>
+                                <div class="md-caption md-dark">
+                                    <span ng-repeat-start="sport in club.activityTypes" translate="sport.{{sport}}"></span>
+                                    <span ng-repeat-end><span ng-if="!$last">, </span></span>
+                                </div>
+                                <div class="md-caption md-dark">
+                                    <span>Атлетов: {{club.athleteCount}},</span>
+                                    <span>Тренеров: {{club.coachCount}}</span>
+                                </div>
+                            </div>
+                            <avatar-pic type="club.type"
+                                        avatar="club.avatar"
+                                        sref="club.state"
+                                        is-premium="club.isPremium"
+                                        class="md-avatar border-light size-60"></avatar-pic>
+                            <!--<userpic flex="none" class="border-light size-60" profile="user" unlink="false"></userpic>-->
+                        </md-card-header>
+                        <md-card-content flex class="md-body-1 md-dark" layout="column">
+                            <p flex="auto">{{club.about}}</p>
+                        </md-card-content>
+                        <md-card-actions flex="none" layout="row" layout-align="start center">
+                            <md-button class="md-primary    " ng-click="$ctrl.onDetails(club.uri)">Профиль</md-button>
+                            <span flex></span>
+                            <div ng-if="false">
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                                <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
+                            </div>
+                        </md-card-actions>
+                    </md-card>
+                </md-grid-tile>
+            </md-grid-list>
         </div>
     </section>
     <div hide-md class="margin-right">

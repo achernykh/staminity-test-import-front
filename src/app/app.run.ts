@@ -15,7 +15,7 @@ function run(
 	AuthService: IAuthService,
 	message: MessageService
 ) {
-	//window.navigator['standalone'] = true;
+	window.navigator['standalone'] = true;
 	
 	$transitions.onBefore({to: '*', from: '*'}, (state) => {
 		let routeTo:IStaminityState = Object.assign(state.$to());
