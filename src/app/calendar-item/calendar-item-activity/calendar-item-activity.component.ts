@@ -466,8 +466,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
 
-        this.activity.intervals.PW.update(plan);
-        this.activity.intervals.W.update({calcMeasures: actual});
+        //this.activity.intervals.setParams('pW', null, plan);
+        this.activity.intervalPW.update(plan);
+        this.activity.intervalW.update({calcMeasures: actual});
         this.activity.updateIntervals();
         //Object.assign(this.activity.intervalPW, plan);
         //this.activity.intervalPW = plan;

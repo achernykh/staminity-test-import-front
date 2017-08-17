@@ -24,8 +24,11 @@ export class ActivityIntervals {
     constructor(intervals: Array<IActivityIntervals> = []){
         this.stack = intervals.map(i => ActivityIntervalFactory(i.type, i));
         // Если интервалов нет, то создаем два итоговых инетрвала по плану и факту
-        if(this.stack.length === 0) {
-            this.add([ActivityIntervalFactory('pW'), ActivityIntervalFactory('W')]);
+        if(!this.PW) {
+            this.add([ActivityIntervalFactory('pW')]);
+        }
+        if(!this.W) {
+            this.add([ActivityIntervalFactory('W')]);
         }
     }
 
@@ -46,7 +49,7 @@ export class ActivityIntervals {
     }
 
     get PW():ActivityIntervalPW {
-        return <ActivityIntervalPW>this.stack.filter(i => i.type === 'pW')[0] || <ActivityIntervalPW>ActivityIntervalFactory('pW');
+        return <ActivityIntervalPW>this.stack.filter(i => i.type === 'pW')[0];
     }
 
     get W():ActivityIntervalW {
@@ -85,6 +88,12 @@ export class ActivityIntervals {
             case 'G': {
                 return this.stack.findIndex(i => i.type === type && i['code'] === <string>id);
             }
+            case 'pW': {
+                return this.stack.findIndex(i => i.type === type);
+            }
+            case 'W': {
+                return this.stack.findIndex(i => i.type === type);
+            }
         }
     }
 
@@ -114,7 +123,7 @@ export class ActivityIntervals {
      */
     setParams(type: string, id: string | number, params: Object): void {
         let i: number = this.find(type,id);
-        if(id !== -1) {
+        if(i !== -1) {
             Object.assign(this.stack[i], params);
         }
     }
