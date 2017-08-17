@@ -2,6 +2,7 @@ import { TransitionService, StateDeclaration, StateService } from 'angular-ui-ro
 import LoaderService from "./share/loader/loader.service";
 import {IAuthService} from "./auth/auth.service";
 import MessageService from "./core/message.service";
+import { path } from './share/utility';
 
 interface IStaminityState extends StateDeclaration {
 	loginRequired: boolean;
@@ -11,11 +12,38 @@ interface IStaminityState extends StateDeclaration {
 function run(
 	$transitions: TransitionService,
 	$state: StateService,
+	$translate,
+	$mdToast,
 	LoaderService: LoaderService,
 	AuthService: IAuthService,
 	message: MessageService
 ) {
 	//window.navigator['standalone'] = true;
+
+	let workerController = path(['serviceWorker', 'controller']) (navigator);
+
+	if (workerController) {
+		let checkWorkerState = () => {
+			console.log('checkWorkerState', workerController);
+			if (workerController.state === 'redundant') {
+				let toast = $mdToast.simple({ hideDelay: 0 })
+					.textContent($translate.instant('updateToast.message'))
+					.action($translate.instant('updateToast.action'))
+					.highlightAction(true)
+					.highlightClass('md-accent');
+
+				$mdToast.show(toast)
+					.then((response) => {
+						if (response === 'ok') {
+							window.location.reload();
+						}
+					});
+			}
+		};
+
+		checkWorkerState();
+		workerController.onstatechange = checkWorkerState;
+	}
 	
 	$transitions.onBefore({to: '*', from: '*'}, (state) => {
 		let routeTo:IStaminityState = Object.assign(state.$to());
@@ -43,6 +71,6 @@ function run(
 	});
 }
 
-run.$inject = ['$transitions','$state','LoaderService','AuthService','message'];
+run.$inject = ['$transitions','$state','$translate','$mdToast','LoaderService','AuthService','message'];
 
 export default run;

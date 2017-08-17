@@ -1,6 +1,10 @@
 export const translateGeneral = {
     ru: {
-        staminity: 'Стаминити'
+        staminity: 'Стаминити',
+        updateToast: {
+            message: 'Перезагрузите страницу, чтобы загрузить обновление сервиса Staminity',
+            action: 'ПЕРЕЗАГРУЗИТЬ'
+        }
     }
 };
 

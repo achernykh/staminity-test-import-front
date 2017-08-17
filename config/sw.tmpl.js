@@ -1,9 +1,10 @@
 'use strict';
 
+const DEBUG = true;
 const version = '<%= version%>';
 const preload = '<%= cache%>';
 const cacheKey = `static-${version}`;
-const urlsToCache = [/\/assets\//];
+const urlsToCache = [/.*/, /\/assets\//];
 
 self.addEventListener('install', (event) => {
 	console.log('sw install', event);
@@ -24,12 +25,14 @@ self.addEventListener('fetch', (event) => {
 
 function initCache () {
 	return caches.open(cacheKey)
-		.then((cache) => cache.addAll(preload.split(',')));
+		.then((cache) => cache.addAll(preload.split(',')))
+		.then(() => self.skipWaiting());
 }
 
 function clearOldCaches () {
 	return caches.keys()
-		.then((keys) => Promise.all(keys.filter((key) => key !== cacheKey).map((key) => caches.delete(key))));
+		.then((keys) => Promise.all(keys.filter((key) => key !== cacheKey).map((key) => caches.delete(key))))
+		.then(() => self.clients.claim());
 }
 
 function shouldCache (request) {
@@ -63,14 +66,14 @@ function hasResult (result) {
 
 function dump (...msgs) {
 	return (arg) => {
-		console.log(...msgs, arg);
+		DEBUG && console.log(...msgs, arg);
 		return arg;
 	};
 }
 
 function dumpError (...msgs) {
 	return (error) => {
-		console.log(...msgs, error);
+		DEBUG && console.log(...msgs, error);
 		throw error;
 	};
 }
