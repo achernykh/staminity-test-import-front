@@ -131,12 +131,11 @@
                               md-colspan="1"
                               md-colspan-sm="1"
                               md-colspan-xs="1"
-                              ng-click="$ctrl.onAnswer({response: {club: club}})"
                               style="cursor: pointer">
                     <md-card layout="column" layout-fill>
                         <md-card-header flex="none">
                             <div flex="auto">
-                                <div flex="auto" class="user-name md-title">{{club.name ? club.name : 'club.name'}}</div>
+                                <div flex="auto" class="user-name md-title">{{club.name ? club.name : 'Без названия'}}</div>
                                 <div class="md-caption md-dark" ng-if="club.country">
                                     <span>{{club.country}}</span>
                                     <span ng-if="club.city">,&nbsp{{club.city}}</span>
@@ -152,8 +151,6 @@
                             </div>
                             <avatar-pic type="club.type"
                                         avatar="club.avatar"
-                                        sref="club.state"
-                                        is-premium="club.isPremium"
                                         class="md-avatar border-light size-60"></avatar-pic>
                             <!--<userpic flex="none" class="border-light size-60" profile="user" unlink="false"></userpic>-->
                         </md-card-header>
@@ -161,7 +158,7 @@
                             <p flex="auto">{{club.about}}</p>
                         </md-card-content>
                         <md-card-actions flex="none" layout="row" layout-align="start center">
-                            <md-button class="md-primary    " ng-click="$ctrl.onDetails(club.uri)">Профиль</md-button>
+                            <md-button class="md-primary    " ng-click="$ctrl.onDetails(club.groupUri)">Профиль</md-button>
                             <span flex></span>
                             <div ng-if="false">
                                 <md-icon class="material-icons" class="md-dark md-inactive">star</md-icon>
