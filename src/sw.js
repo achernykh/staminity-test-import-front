@@ -1,10 +1,11 @@
 'use strict';
 
 const DEBUG = true;
-const version = '0.5.2-beta#321';
+const version = '0.5.2-beta#324';
 const preload = 'index.html,manifest.json,assets/locale/angular-locale_en.js,assets/locale/angular-locale_ru.js';
-const cacheKey = `static-0.5.2-beta#321`;
-const urlsToCache = [/http:\/\/.*/, /https:\/\/.*/, /\/assets\//];
+const cacheKey = `static-0.5.2-beta#324`;
+const whitelist = [/^"http://"/, /^"https://"/];
+const blacklist = [/^"https://dev2.staminity.com/sw.js"/];
 
 self.addEventListener('install', (event) => {
 	console.log('sw install', event);
@@ -36,7 +37,9 @@ function clearOldCaches () {
 }
 
 function shouldCache (request) {
-	return !!urlsToCache.find((regexp) => regexp.test(request.url));
+	return request.method === 'GET' 
+		&& !!whitelist.find((regexp) => regexp.test(request.url))
+		&& !blacklist.find((regexp) => regexp.test(request.url));
 }
 
 function cachedFetch (request) {
