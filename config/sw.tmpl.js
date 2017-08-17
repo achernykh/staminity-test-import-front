@@ -4,7 +4,7 @@ const DEBUG = true;
 const version = '<%= version%>';
 const preload = '<%= cache%>';
 const cacheKey = `static-${version}`;
-const whitelist = ['http://', 'https://'];
+const whitelist = ['https://'];
 const blacklist = ['/sw.js'];
 
 self.addEventListener('install', (event) => {
@@ -19,9 +19,10 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
 	let { request } = event;
-	event.respondWith(
-		dump('sw fetch', request, 'cache?')(shouldCache(request))? cachedFetch(request) : fetch(request)
-	);
+	
+	if (shouldHandle(request)) {
+		event.respondWith(cachedFetch(request));
+	}
 });
 
 function initCache () {
@@ -36,7 +37,7 @@ function clearOldCaches () {
 		.then(() => self.clients.claim());
 }
 
-function shouldCache (request) {
+function shouldHandle (request) {
 	return request.method === 'GET' 
 		&& !!whitelist.find((url) => request.url.startsWith(url))
 		&& !blacklist.find((url) => request.url.includes(url));

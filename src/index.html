@@ -199,23 +199,6 @@
     navigator.serviceWorker.register('/sw.js')
             .then(reg => console.info('SW registered!', reg))
             .catch(err => console.error('Boo!', err));
-
-    // Check to see if the service worker controlling the page at initial load
-    // has become redundant, since this implies there's a new service worker with fresh content.
-    // if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-    //     navigator.serviceWorker.controller.onstatechange = function(event) {
-    //         if (event.target.state === 'redundant') {
-    //             // Define a handler that will be used for the next io-toast tap, at which point it
-    //             // be automatically removed.
-    //             const tapHandler = function() {
-    //                 window.location.reload();
-    //             };
-
-    //            // alert('new version of application avaliable');
-    //         }
-    //     };
-    // }
-
 </script>
 
 <!-- Application Scripts (gulp compilation)
