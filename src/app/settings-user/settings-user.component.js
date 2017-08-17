@@ -492,6 +492,12 @@ class SettingsUserCtrl {
         }
     }
 
+    selectTariff (tariff) {
+        if (!tariff.isBlocked) {
+            tariff.isOn? this.viewTariff(tariff) : this.enableTariff(tariff);
+        }
+    }
+
     enableTariff (tariff) {
         return this.dialogs.enableTariff(tariff, this.user)
             .then(this.reload.bind(this), (error) => { error && this.reload(); });

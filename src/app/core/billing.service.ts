@@ -146,9 +146,9 @@ export default class BillingService {
             tariff.isTrial && tariff.expireDate && 'trial' ||
             tariffEnablerClub && 'enabledByClub' ||
             tariffEnablerCoach && 'enabledByCoach' ||
-            tariff.isOn && 'enabled' ||
             tariff.isBlocked && 'isBlocked' ||
             tariff.unpaidBill && 'isBlocked' ||
+            tariff.isOn && 'enabled' ||
             !tariff.isOn && 'notEnabled' 
         );
     }
