@@ -466,7 +466,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
 
-        Object.assign(this.activity.intervalPW, plan);
+        this.activity.intervals.PW.update(plan);
+        this.activity.intervals.W.update({calcMeasures: actual});
+        this.activity.updateIntervals();
+        //Object.assign(this.activity.intervalPW, plan);
         //this.activity.intervalPW = plan;
 
         /*this.activity.intervalPW.durationMeasure = (!!plan.distance['durationValue'] && 'distance') ||
@@ -488,7 +491,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity.intervalPW.intensityByFtpTo =
             (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;*/
 
-        this.activity.intervalW.calcMeasures = actual;
+        //this.activity.intervalW.calcMeasures = actual;
     }
 
     get name () {
