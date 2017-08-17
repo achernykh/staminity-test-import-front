@@ -56,6 +56,12 @@ class SearchCtrl implements IComponentController {
             case 'user': case 'coach': {
                 let win = window.open(`${url}user/${uri}`, '_blank');
                 win.focus();
+                break;
+            }
+            case 'club': {
+                let win = window.open(`${url}club/${uri}`, '_blank');
+                win.focus();
+                break;
             }
         }
     }
