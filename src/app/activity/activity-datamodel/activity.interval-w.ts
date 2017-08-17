@@ -12,6 +12,10 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
     }
 
+    update(params: Object) {
+        Object.assign(this, params);
+    }
+
     clear():IActivityIntervalW{
         let params: Array<string> = ['params', ...Object.keys(this.calcMeasures)];
         //Object.keys(this).map(k => api.indexOf(k) === -1 && delete this[k]);

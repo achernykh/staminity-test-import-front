@@ -69,6 +69,10 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
         }
     }
 
+    update(params: Object) {
+        Object.assign(this, params);
+    }
+
     /**
      * @description Подготовка данных для передачи в backend
      * @returns {IActivityIntervalPW}
