@@ -327,7 +327,7 @@ export const translateNotification = {
         joinClubCoachesByMember: "Назначил себя тренером клуба {{data[0]}}",
         joinClubChiefCoachesByMember: "Назначил себя главным тренером клуба {{data[0]}}",
         joinClubConsultingByMember: "Назначил себя консультантом клуба {{data[0]}}",
-        joinClubAthleteByMember: "Включил себя в число спортсменов клуба {{data[0]}}",
+        joinClubAthletesByMember: "Включил себя в число спортсменов клуба {{data[0]}}",
 
 
         // выход из групп
@@ -886,7 +886,7 @@ export const translateNotification = {
         joinClubCoachesByMember: "Made yourself club coach in {{data[0]}}",
         joinClubChiefCoachesByMember: "Made yourself chief coach in {{data[0]}}",
         joinClubConsultingByMember: "Made yourself club consultant in {{data[0]}}",
-        joinClubAthleteByMember: "Made yourself club athlete in {{data[0]}}",
+        joinClubAthletesByMember: "Made yourself club athlete in {{data[0]}}",
 
 
         // выход из групп
