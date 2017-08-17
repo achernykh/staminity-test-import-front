@@ -299,7 +299,7 @@ gulp.task('set-env-new', function() {
 
 gulp.task('set-sw', () => {
     'use strict';
-    let trg = gutil.env['trg'];
+    let trg = gutil.env['trg'] === 'build' ? 'src' : gutil.env['trg'];
     let files = [trg+'/index.html',trg+'/manifest.json',trg+'/assets/css/**',trg+'/assets/js/**',
         trg+'/assets/locale/**',trg+'/assets/icon/**',trg+'/assets/picture/**',trg+'/assets/images/**'];
 
@@ -320,7 +320,7 @@ gulp.task('set-sw', () => {
     return gulp.src('config/sw.tmpl.js')
         .pipe(template({cache: cache, version: `${version}#${build}`}))
         .pipe(rename({basename: 'sw'}))
-        .pipe(gulp.dest(`./${trg === 'build' ? 'src' : trg}`));
+        .pipe(gulp.dest(`./${trg}`));
 });
 
 gulp.task('ftp', () => {

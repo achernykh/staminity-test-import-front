@@ -1,48 +1,76 @@
 'use strict';
 
-const version = '<%= version%>'; // increment in order to force a cache update
-const toCache = '<%= cache%>';
+const version = '<%= version%>';
+const preload = '<%= cache%>';
+const cacheKey = `static-${version}`;
+const urlsToCache = [/\/assets\//];
 
 self.addEventListener('install', (event) => {
-    event.waitUntil(
-    caches.open(`static-${version}`)
-        .then((cache) => cache.addAll(toCache.split(','))
-        .then(() => self.skipWaiting()))
-);
+	console.log('sw install', event);
+	event.waitUntil(initCache().then(dump('sw install done'), dumpError('sw install err')));
 });
 
 self.addEventListener('activate', (event) => {
-    event.waitUntil(self.clients.claim());
+	console.log('sw activate', event);
+	event.waitUntil(clearOldCaches().then(dump('sw activate done'), dumpError('sw activate err')));
 });
 
-/**this.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request).catch(() => {
-            return fetch(event.request).then((response) => {
-                return caches.open(`static-${version}`).then((cache) => {
-                    cache.put(event.request, response.clone());
-                    return response;
-                });
-            });
-        })
-    );
-});**/
+self.addEventListener('fetch', (event) => {
+	let { request } = event;
+	event.respondWith(
+		dump('sw fetch', request, 'cache?')(shouldCache(request))? cachedFetch(request) : fetch(request)
+	);
+});
 
-/**self.addEventListener('fetch', function(event) {
+function initCache () {
+	return caches.open(cacheKey)
+		.then((cache) => cache.addAll(preload.split(',')));
+}
 
-});**/
+function clearOldCaches () {
+	return caches.keys()
+		.then((keys) => Promise.all(keys.filter((key) => key !== cacheKey).map((key) => caches.delete(key))));
+}
 
-/**self.addEventListener('fetch', (event) => {
-    console.log('fetch request',event.request);
-    event.respondWith(caches.match(event.request)
-            .catch(() => {
-                return fetch(event.request).then((response) => {
-                    console.log('fetch cache',response);
-                    return caches.open('v1').then((cache) => {
-                        cache.put(event.request, response.clone());
-                        return response;
-                    });
-                });
-            })
-    );
-});**/
+function shouldCache (request) {
+	return !!urlsToCache.find((regexp) => regexp.test(request.url));
+}
+
+function cachedFetch (request) {
+	return caches.match(request)
+		.then(hasResult)
+		.then(dump('sw cached', request), dumpError('sw not cached', request))
+		.catch(() => {
+			let response = fetch(request);
+			let cache = caches.open(cacheKey);
+
+			Promise.all([response, cache])
+			.then(([response, cache]) => {
+				cache.put(request, response.clone());
+			});
+
+			return response;
+		});
+}
+
+function hasResult (result) {
+	if (result) {
+		return result;
+	} else {
+		throw new Error();
+	}
+}
+
+function dump (...msgs) {
+	return (arg) => {
+		console.log(...msgs, arg);
+		return arg;
+	};
+}
+
+function dumpError (...msgs) {
+	return (error) => {
+		console.log(...msgs, error);
+		throw error;
+	};
+}
