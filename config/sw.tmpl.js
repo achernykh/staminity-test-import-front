@@ -36,7 +36,8 @@ function clearOldCaches () {
 }
 
 function shouldCache (request) {
-	return !!urlsToCache.find((regexp) => regexp.test(request.url));
+	return request.method === 'GET' &&
+		!!urlsToCache.find((regexp) => regexp.test(request.url));
 }
 
 function cachedFetch (request) {
