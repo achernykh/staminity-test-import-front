@@ -10,6 +10,7 @@
  * идти следом друг за дргуом передавая рассчитанное значение на вход следующему
  * фильтру
  * 
+ * При добавлении новых уведомлений необходимо создавать строку для последующего тестированию данного шаблона. Пример см. в notificationTestMessage
  * */
 export const translateNotification = {
     ru: {
@@ -18,6 +19,8 @@ export const translateNotification = {
          * data[0] - базовый вид спорта
          * data[1] - фактическое расстояние (distance)
          * data[2] - фактическая скорость (speed)
+         UNIT TEST:
+         'notificationTestMessage', jsonb_build_array('базовый вид спорта', distance числом, speed числом),
          * */
         notificationTestMessage: "Новое тестовое сообщение с параметром: расстояние {{data[1] | measureCalc:data[0]:'distance'}} " +
         "{{'distance' | measureUnit:data[0] | translate}} со скоростью {{data[2] | measureCalc:data[0]:'speed'}} {{'speed' | measureUnit:data[0] | translate}}",
