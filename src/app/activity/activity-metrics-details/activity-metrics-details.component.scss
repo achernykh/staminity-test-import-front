@@ -45,6 +45,7 @@ activity-metrics-details {
   }
 
   section.chart, div.loading-chart{
+    height: 20vh;
     // gt-md
     @media  (min-width: 1280px) {
       height: 20vh;
