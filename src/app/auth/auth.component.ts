@@ -161,7 +161,6 @@ class AuthCtrl implements IComponentController {
 	}
 
 	redirect(state: string = 'calendar', params: Object):void {
-		debugger;
 		let redirectState = this.$stateParams.hasOwnProperty('nextState') && this.$stateParams['nextState'] || state;
 		let redirectParams = this.$stateParams.hasOwnProperty('nextParams') && this.$stateParams['nextParams'] || params;
 
@@ -169,7 +168,7 @@ class AuthCtrl implements IComponentController {
 			redirectParams['#'] = null;
 		}
 		//  Устанавливаем таймаут на случай выхода/входа пользователя. Без тайм-аута вход без выхода не успевает
-		setTimeout(() => this.$state.go(redirectState,redirectParams), 500);
+		setTimeout(() => this.$state.go(redirectState,redirectParams), 1000);
 	}
 
 }

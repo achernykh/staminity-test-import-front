@@ -1,12 +1,12 @@
 import { module } from 'angular';
 
 import ReferenceService from "./reference.service";
-import ReferenceComponent from './reference.component.ts';
-import CategoriesComponent from './categories/categories.component.ts';
-import CategoryComponent from './category/category.component.ts';
-import TemplatesComponent from './templates/templates.component.ts';
-import TemplateComponent from './template/template.component.ts';
-import { categoryCodeFilter } from './reference.filters.ts';
+import ReferenceComponent from './reference.component';
+import CategoriesComponent from './categories/categories.component';
+import CategoryComponent from './category/category.component';
+import TemplatesComponent from './templates/templates.component';
+import TemplateComponent from './template/template.component';
+import { categoryCodeFilter } from './reference.filters';
 import config from './reference.config';
 
 
