@@ -168,7 +168,7 @@ class AuthCtrl implements IComponentController {
 			redirectParams['#'] = null;
 		}
 		//  Устанавливаем таймаут на случай выхода/входа пользователя. Без тайм-аута вход без выхода не успевает
-		setTimeout(() => this.$state.go(redirectState,redirectParams), 500);
+		setTimeout(() => this.$state.go(redirectState,redirectParams), 1000);
 	}
 
 }

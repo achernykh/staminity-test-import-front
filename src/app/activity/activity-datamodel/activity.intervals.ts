@@ -2,6 +2,8 @@ import {ActivityIntervalP} from "./activity.interval-p";
 import {ActivityIntervalG} from "./activity.interval-g";
 import {ActivityIntervalPW} from "./activity.interval-pw";
 import {ActivityIntervalW} from "./activity.interval-w";
+import {ActivityIntervalU} from "./activity.interval-u";
+
 import {
     IActivityIntervals, IActivityIntervalP, IActivityIntervalPW,
     IActivityIntervalW, IActivityIntervalG
@@ -10,7 +12,6 @@ import {ActivityIntervalFactory} from "./activity.functions";
 import {times} from '../../share/util.js';
 import {ActivityIntervalL} from "./activity.interval-l";
 import {isArray} from "rxjs/util/isArray";
-import {ActivityIntervalU} from "./activity.interval-u";
 
 const posOrder = (a:ActivityIntervalP,b:ActivityIntervalP) => a.pos < b.pos ? -1: 1;
 
@@ -104,14 +105,29 @@ export class ActivityIntervals {
     }
 
     /**
-     * @description Удаление инетрвала
+     * @description Удаление интервала
      * @param type
      * @param id
      */
-    splice(type: string, id: string | number):void {
+    splice(type: string, id: string | number): void {
         let i: number = this.find(type, id);
-        if(id !== -1) {
-            this.stack.splice(i,1);
+        if(i !== -1){
+            let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
+            // Если интревал является повторяющимся
+            if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
+                let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroup)[0];
+                this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.length === 0)
+                    .map(interval => {
+                        i = this.find(interval.type, interval.pos);
+                        // 1. удаляем интревал
+                        this.stack.splice(i,1);
+                        // 2. реорганизуем инетрвалы, сдвигаем на -1 позицию вверх
+                        this.reorganisation(interval.pos, -1);
+                    });
+            } else { // одиночный интервал
+                this.stack.splice(i,1);
+                this.reorganisation(interval.pos, -1);
+            }
         }
     }
 
@@ -358,7 +374,8 @@ export class ActivityIntervals {
             finish = start + interval.movingDurationLength;
             maxFtp = Math.max(interval.intensityByFtpTo, maxFtp); //((interval.intensityByFtpTo > maxFtp) && interval.intensityByFtpTo) || maxFtp;
             minFtp = Math.min(interval.intensityByFtpFrom, minFtp);
-            data.push([start, interval.intensityByFtpFrom],[finish, interval.intensityByFtpTo]);
+            data.push([start, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2],
+                [finish, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2]);
         });
 
         minFtp = minFtp * 0.90;
