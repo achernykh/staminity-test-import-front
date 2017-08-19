@@ -10,15 +10,15 @@ const DefaultChartSettings: IActivityChartSettings = {
     autoResizable: true,
     defaultMode: ActivityChartMode.elapsedDuration,
     animation: {
-        duration: 1000,
-        zoomDuration: 700,
-        delayByOrder: 200,
+        duration: 100,
+        zoomDuration: 100,
+        delayByOrder: 100,
         ease: d3.easeExp
     },
     selectAnimation: {
-        duration: 1000,
-        zoomDuration: 700,
-        delayByOrder: 200,
+        duration: 100,
+        zoomDuration: 100,
+        delayByOrder: 100,
         ease: d3.easeExp
     },
     //xMeasures: [''],
@@ -163,9 +163,9 @@ const DefaultChartSettings: IActivityChartSettings = {
         zoomOffset: 30,
         axis: {
             color: '#8d8d8d',
-            tickMinStep: 300,
+            tickMinStep: 60,
             tickMinDistance: 50,
-            ticksPerLabel: 3, 
+            ticksPerLabel: 2,
             hideOnWidth: 0
         }
     },
@@ -173,7 +173,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         zoomOffset: 100,
         axis: {
             color: '#8d8d8d',
-            tickMinStep: 1000,
+            tickMinStep: 500,
             tickMinDistance: 50,
             ticksPerLabel: 2,
             hideOnWidth: 0

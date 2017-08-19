@@ -1,0 +1,33 @@
+<md-card class="animated fadeInUp medium" md-theme="dark">
+    <md-card-title>
+        <h2 class="md-title" translate="auth.reset.title"></h2>
+    </md-card-title>
+
+    <form flex="none" ng-submit='$ctrl.reset($ctrl.credentials)'
+          novalidate name="$ctrl.resetForm">
+        <div class="md-caption md-light md-inactive center info" translate="auth.reset.info"></div>
+        <md-list>
+            <md-list-item>
+                <md-input-container md-no-float class="no-message">
+                    <input required type="email" name="email" ng-model="$ctrl.credentials.email"
+                           autocomplete="on" ng-disabled="!$ctrl.enabled"
+                           minlength="5" maxlength="100"
+                           ng-pattern="/^.+@.+\..+$/"
+                           placeholder="{{ 'auth.email' | translate }}">
+                    <div ng-messages="$ctrl.resetForm.email.$error" role="alert">
+                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
+                            auth.errMail
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+        </md-list>
+        <md-list-item>
+            <md-button ng-disabled="!$ctrl.resetForm.$valid || !$ctrl.enabled" class="md-raised submit" type="submit"
+                       ng-class="{'md-primary': $ctrl.resetForm.$valid && !ul.auth, 'md-disabled': $ctrl.resetForm.$error}"
+                       translate='auth.reset.button'
+                       aria-label="PutInvite Button"></md-button>
+        </md-list-item>
+    </form>
+
+</md-card>

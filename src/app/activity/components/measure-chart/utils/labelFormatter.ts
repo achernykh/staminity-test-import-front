@@ -18,6 +18,10 @@ const LabelFormatters = {
         formatter: (x,sport) => timeFormatter(x),
         label: (sport) => '',
     },
+    duration: {
+        formatter: (x,sport) => timeFormatter(x),
+        label: (sport) => '',
+    },
     distance:
     {
         formatter: (x, sport) => measureValue(x,sport,'distance'),

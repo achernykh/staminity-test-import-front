@@ -30,6 +30,7 @@ class SegmentChartController implements IComponentController {
     private select: Array<number>;
     private actualFtp;
     private planFtp;
+    private view: string;
     private durationMeasure: string;
     private onSelect: Function;
 
@@ -57,9 +58,11 @@ class SegmentChartController implements IComponentController {
         private chartSettings: IPlanChartSettings,
         private $mdMedia: any) {
 
-        this.chartSettings.minAspectRation = (this.$mdMedia('gt-md') && 0.20)
-            || (this.$mdMedia('gt-lg') && 0.10)
-            || this.chartSettings.minAspectRation;
+        if (this.view !== 'mobile') {
+            this.chartSettings.minAspectRation = (this.$mdMedia('gt-md') && 0.20)
+                || (this.$mdMedia('gt-lg') && 0.10)
+                || this.chartSettings.minAspectRation;
+        }
     }
 
     $onInit(): void {
@@ -70,10 +73,12 @@ class SegmentChartController implements IComponentController {
     $postLink(): void {
         let self = this;
         this.$element.ready(function () {
-            self.isReady = true;
-            self.preparePlaceholder();
-            self.prepareScales();
-            self.drawChart();
+            setTimeout(() => {
+                self.isReady = true;
+                self.preparePlaceholder();
+                self.prepareScales();
+                self.drawChart();
+            }, 500);
         });
         if (this.chartSettings.autoResizable) {
             this.onResize = function () { self.redraw(); };
@@ -93,6 +98,7 @@ class SegmentChartController implements IComponentController {
         this.prepareData();
         if (this.isReady) {
             this.cleanupPlaceholder();
+            this.preparePlaceholder();
             this.prepareScales();
             this.drawChart();
         }
@@ -116,13 +122,14 @@ class SegmentChartController implements IComponentController {
     private prepareData(): void {
         let model = new PlanChartDatamodel(this.activityHeader);
         this.intervals = model.getIntervals();
-        this.select = this.select || [];
-        this.actualFtp = this.actualFtp === "true";
-        this.planFtp = this.planFtp === "true";
+        this.select = model.getSelect() || [];
+        //this.actualFtp = this.actualFtp === "true";
+        //this.planFtp = this.planFtp === "true";
         this.durationMeasure = PlanChartMode.ensure(this.durationMeasure);
     }
 
     private prepareScales(): void {
+        //debugger;
         let mode: ChartMode = this.actualFtp ? "fact" : "plan";
         let totalDuration = d3.sum(this.intervals, function (d: IPlanInterval) { return d[mode].movingDuration.duration; });
         let totalDistance = d3.sum(this.intervals, function (d: IPlanInterval) { return d[mode].distance.duration; });
@@ -150,14 +157,18 @@ class SegmentChartController implements IComponentController {
     }
 
     private preparePlaceholder(): void {
-        // calc current chart size based on the conteiner size and chart's settings
-        var bounds = this.$element[0].getBoundingClientRect();
-        this.width = Math.max(bounds.width, this.chartSettings.minWidth);
-        this.height = bounds.height;
-        var aspectRatio = this.height / this.width;
-        if (aspectRatio < this.chartSettings.minAspectRation) {
-            this.height = this.width * this.chartSettings.minAspectRation;
-        }
+        // calc current chart size based on the container size and chart's settings
+        let parent: Element = angular.element(document).find('activity-segment-chart')[0];
+        this.width = parent.clientWidth;
+        this.height = parent.clientHeight;
+
+        //var bounds = this.$element[0].getBoundingClientRect();
+        //this.width = Math.max(bounds.width, this.chartSettings.minWidth);
+        //this.height = bounds.height;
+        //var aspectRatio = this.height / this.width;
+        //if (aspectRatio < this.chartSettings.minAspectRation) {
+        //    this.height = this.width * this.chartSettings.minAspectRation;
+        //}
         let container = d3.select(this.$element[0]);
         // create root svg placeholder
         this.$placeholder = container
@@ -182,8 +193,8 @@ class SegmentChartController implements IComponentController {
     }
 
     private cleanupPlaceholder(): void {
-        this.$interactiveArea.selectAll().remove();
-        this.$placeholder.select('.segments-chart-grid').selectAll().remove();
+        this.$interactiveArea.remove();
+        this.$placeholder.remove();
     }
 
     private drawChart(): void {

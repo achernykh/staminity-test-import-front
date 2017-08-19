@@ -1,6 +1,13 @@
 import {Measure, getSportLimit} from "../share/measure/measure.constants";
-import {ICalcMeasures, IActivityDetails} from "../../../api/activity/activity.interface";
+import {
+    ICalcMeasures, IActivityDetails, IActivityIntervalP,
+    IActivityIntervalPW, IActivityMeasure
+} from "../../../api/activity/activity.interface";
 import {copy} from 'angular';
+import {ICalendarItem} from "../../../api/calendar/calendar.interface";
+import {ITrainingZonesType, IUserProfile} from "../../../api/user/user.interface";
+import {getFTP, profileShort} from "../core/user.function";
+import moment from 'moment/min/moment-with-locales.js';
 
 export class MeasureChartData {
 
@@ -10,7 +17,7 @@ export class MeasureChartData {
 
     public measuresX: Array<string> = ['distance', 'elapsedDuration'];
     public measuresY: Array<string> = ['heartRate', 'speed', 'power','altitude'];
-    private measuresSecondary: Array<string> = ['timestamp'];
+    private measuresSecondary: Array<string> = ['timestamp','duration'];
 
     /**
      *
@@ -68,3 +75,68 @@ export class MeasureChartData {
 
     }
 }
+
+/**
+ * Тренировка имеет план?
+ * @param item
+ */
+export const isSpecifiedActivity = (item: ICalendarItem):boolean => {
+    let intervalP: Array<IActivityIntervalP> = <Array<IActivityIntervalP>>item.activityHeader.intervals.filter(i => i.type === 'P');
+    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
+    return (!!intervalP && intervalP.length > 0) ||
+        (!!intervalPW && (intervalPW.durationValue > 0 || intervalPW.intensityLevelFrom > 0));
+};
+
+/**
+ * Тренировака является выполненной?
+ * @param item
+ * @returns {boolean}
+ */
+export const isCompletedActivity = (item: ICalendarItem):boolean => {
+    let intervalW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'W')[0];
+    return (!!intervalW && Object.keys(intervalW.calcMeasures)
+            .filter(m => intervalW.calcMeasures[m]['value'] || intervalW.calcMeasures[m]['minValue'] ||
+                intervalW.calcMeasures[m]['maxValue'] || intervalW.calcMeasures[m]['avgValue']).length > 0);
+};
+
+/**
+ * Очиащем фактические данные по тренировке
+ * @param item
+ * @returns {ICalendarItem}
+ */
+export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
+    if(item.calendarItemType !== 'activity') {
+        return item;
+    }
+    item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
+    delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    return item;
+};
+
+export const updateIntensity = (item: ICalendarItem, trgZones: Array<ITrainingZonesType>): ICalendarItem => {
+    // TODO for interval P
+    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
+    let sport: string = item.activityHeader.activityType.code;
+    let measure: string = intervalPW.intensityMeasure;
+    let ftp: number = getFTP(trgZones,measure,sport);
+    if (!intervalPW || !trgZones || !measure || !sport) {
+        return item;
+    }
+    console.log(ftp);
+    intervalPW.intensityLevelFrom = intervalPW.intensityByFtpFrom * ftp;
+    intervalPW.intensityLevelTo = intervalPW.intensityByFtpTo * ftp;
+    debugger;
+    return item;
+};
+
+export const changeUserOwner = (item: ICalendarItem, user: IUserProfile): ICalendarItem => {
+    item.userProfileOwner = profileShort(user);
+    return item;
+};
+
+export const shiftDate = (item: ICalendarItem, shift: number) => {
+    item.dateStart = moment(item.dateStart, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
+    item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
+    return item;
+};
+

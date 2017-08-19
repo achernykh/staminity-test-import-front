@@ -1,6 +1,7 @@
 <!-- Меню приложения и логотип (если пользователь авторизован) -->
 <div layout="row">
-    <md-button class="md-icon-button md-primary" aria-label="Settings"
+    <md-button ng-if="$ctrl.AuthService.isAuthenticated()" class="md-icon-button md-primary"
+               aria-label="Settings"
                ng-click="$ctrl.toggleSlide('appmenu')">
         <md-icon class="material-icons md-light" size="24">menu</md-icon>
     </md-button>

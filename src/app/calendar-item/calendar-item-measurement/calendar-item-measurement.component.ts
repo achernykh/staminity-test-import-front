@@ -29,13 +29,12 @@ class CalendarItemMeasurementCtrl {
     }
 
     $onInit() {
-        console.log('data=',this);
 
         if (this.mode === 'post') {
             this.data = {
                 calendarItemType: 'measurement',
-                dateStart: new Date(this.data.date),
-                dateEnd: new Date(this.data.date),
+                dateStart: this.data.date,
+                dateEnd: this.data.date,
                 userProfileOwner: profileShort(this.user)
             };
         }

@@ -1,0 +1,27 @@
+<structured-group class="structured-group" flex="none" ng-if="$ctrl.sequence"
+                  loop="$ctrl.sequence"
+                  hidden-pos="$ctrl.calcPrevLoops($ctrl.sequence.id)">
+</structured-group>
+
+<structured-group ng-repeat="loop in $ctrl.loops track by $index"
+                  class="structured-group" flex="none"
+                  loop="loop"
+                  hidden-pos="$ctrl.calcPrevLoops(loop.id)">
+</structured-group>
+
+<section class="intervals" flex="auto" layout="column" layout-fill
+         ng-class="{'margin-left': $ctrl.haveLoops()}">
+    <structured-interval ng-repeat="interval in $ctrl.intervals.P | orderBy:'pos' track by $index"
+                         ng-if="!interval.repeatPos || interval.repeatPos === 0"
+                         interval="interval"
+                         sport="$ctrl.item.activity.sportBasic"
+                         group-count="$ctrl.mode === 'input' && interval.pos === $ctrl.sequence[$ctrl.sequence.length - 1]"
+                         count="$ctrl.groupCount"
+                         loop="$ctrl.myLoop(interval)"
+                         ftp-mode="$ctrl.item.ftpMode"
+                         on-change="$ctrl.onChangeValue(interval)"
+                         on-select="$ctrl.onChangeSelection(interval)"
+                         on-set-repeat="$ctrl.setRepeat(loop,repeat)"
+                         on-delete="$ctrl.splice($index)">
+    </structured-interval>
+</section>

@@ -71,7 +71,7 @@ fieldset {
 // Пример для input можно посмотреть тут https://material.io/guidelines/components/text-fields.html#text-fields-labels
 // В issue есть упоминание, что вскоре будет выполнена доработка, а возможно будет создан специальный сервис для
 // работы с dense форматом
-form md-list.md-dense, md-list.md-dense form {
+form md-list.md-dense, md-list.md-dense form, div.md-dense {
 
     md-input-container {
         margin-bottom: 4px;
@@ -157,3 +157,5 @@ md-list-item[disabled] div.md-button, md-list-item[disabled] md-icon {
 md-select-menu, md-select-menu md-content, md-menu-content {
   max-height: 70vh;
 }
+// https://github.com/angular/material/issues/10516
+//.layout-row.layout-wrap > * { flex: 1 1 0; }

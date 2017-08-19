@@ -1,6 +1,6 @@
 import './activity-header-chat.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import CommentService from "../../core/comment.service";
 import {CommentType} from "../../../../api/social/comment.request";
 import {IObjectComment} from "../../../../api/social/comment.interface";
@@ -20,10 +20,11 @@ class ActivityHeaderChatCtrl implements IComponentController {
     private comments: Array<IObjectComment> = [];
     private text: string = null;
     private readonly commentType: string = 'activity';
-    public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['CommentService', 'message'];
+    private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
+    public onUpdate: (response: Object) => IPromise<void>;
+    static $inject = ['CommentService', 'message','$scope'];
 
-    constructor(private comment: CommentService, private message: MessageService) {
+    constructor(private comment: CommentService, private message: MessageService, private $scope: IScope) {
         this.comment.comment$
             .filter(item => item.value.objectType === this.commentType && item.value.objectId === this.activityId &&
                     item.value.userProfile.userId !== this.currentUser.userId)
@@ -32,15 +33,20 @@ class ActivityHeaderChatCtrl implements IComponentController {
 
     $onInit() {
         this.comment.get(this.commentType, this.activityId, true, 50)
-            .then(result => this.comments = result, error => this.message.toastError(error));
+            .then(result => this.comments = result, error => this.message.toastError(error))
+            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
     }
 
     onPostComment(text) {
+        this.inAction = true;
         this.comment.post(this.commentType, this.activityId, true, text)
             .then(result=> {
                     this.text = null;
                     this.comments = result;
-                }, error => this.message.toastError(error));
+                }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync())
+            .then(() => this.inAction = false)
+            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));;
+            //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
     }
 
     isMe(id: number): boolean {
@@ -61,7 +67,7 @@ const ActivityHeaderChatComponent:IComponentOptions = {
         user: '<',
         currentUser: '<',
         coach: '<',
-        onEvent: '&'
+        onUpdate: '&'
     },
     require: {
         //component: '^component'

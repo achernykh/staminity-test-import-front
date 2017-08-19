@@ -13,14 +13,21 @@ function configure(
 	pickerProvider: any,
 	tmhDynamicLocaleProvider: any,
 	$mdDateLocaleProvider: any,
-    $anchorScrollProvider: any) {
+    $anchorScrollProvider: any,
+	$qProvider: any,
+	$mdGestureProvider: any) {
 
-    $anchorScrollProvider.disableAutoScrolling();
+	$mdGestureProvider.skipClickHijack(); //https://github.com/angular/angular.js/issues/6251
+	$qProvider.errorOnUnhandledRejections(false); // https://github.com/angular-ui/ui-router/issues/2889
+	$anchorScrollProvider.disableAutoScrolling();
     let isProductionBuild: boolean = __ENV !== "build";
-	$locationProvider.html5Mode({
-		enabled: true,
+
+	/**$locationProvider.html5Mode({
+		enabled: false,
 		requireBase: false
-	});
+	});**/
+	$locationProvider.html5Mode(true);
+	$locationProvider.hashPrefix('!');
 
 	$urlRouterProvider.otherwise('/');
 	$compileProvider.debugInfoEnabled(!isProductionBuild);
@@ -117,13 +124,24 @@ function configure(
 
 	tmhDynamicLocaleProvider.localeLocationPattern('/assets/locale/angular-locale_{{locale}}.js');
 	tmhDynamicLocaleProvider.defaultLocale('ru');
-	$mdDateLocaleProvider.formatDate = (date) => moment(date).isValid() ? moment(date).format('L') : '';
+
+	$mdDateLocaleProvider.parseDate = (dateString) => {
+		let m = moment(dateString, 'L', true);
+		return m.isValid() ? m.toDate() : new Date(NaN);
+	};
+
+	$mdDateLocaleProvider.formatDate = (date) => {
+		let m = moment(date);
+		return m.isValid() ? m.format('L') : '';
+	};
+
 	$mdDateLocaleProvider.firstDayOfWeek = 1; // monday
 
 	console.log('config complete');
 }
 
 configure.$inject = ['$compileProvider', '$locationProvider', '$urlRouterProvider','$mdThemingProvider',
-	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider','$anchorScrollProvider'];
+	'$stateProvider','$translateProvider', 'pickerProvider','tmhDynamicLocaleProvider', '$mdDateLocaleProvider',
+	'$anchorScrollProvider','$qProvider','$mdGestureProvider'];
 
 export default configure;

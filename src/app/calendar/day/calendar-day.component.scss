@@ -1,5 +1,6 @@
 @import "../../../sass/color";
 @import "../../../sass/font";
+@import "../../../sass/base";
 
 calendar-day {
   box-sizing: border-box;
@@ -93,8 +94,10 @@ calendar-day {
   * that he's actually moving it.
   */
   section[dnd-list] .dndDraggingSource {
-    display: none;
+    //opacity: 0.5;
+    //display: none;
   }
+
 
   /**
   * An element with .dndPlaceholder class will be
@@ -118,5 +121,85 @@ calendar-day {
     padding: 10px 15px;
     margin-bottom: -1px;
   }*/
+
+  calendar-measurement, calendar-activity, calendar-event, calendar-competition {
+    position: relative;
+    min-height: 50px;
+    margin: 6px 0px 0px 0px;
+    cursor: pointer;
+    @include border-radius(3px);
+
+    // md size
+    @media (min-width: 960px) and (max-width: 1279px){
+      @include border-radius(0px);
+      box-shadow: none;
+
+      .data-category {
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 1919px) and (min-width: 1280px){
+      -min-width: 10%;
+      -max-width: 175px;
+    }
+
+    @media (max-width: 959px){
+      border-radius: 0px;
+      margin: 0px 4px 8px 4px;
+      min-width: 200px;
+      padding-bottom: 0px;
+    }
+  }
+
+  calendar-event {
+    background-color: $grey-300;
+
+    header {
+      padding: 12px;
+      background-color: $grey-400;
+      border-radius: 3px 3px 0px 0px;
+      @media (max-width: 1279px){
+        border-radius: 0px;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+
+    section.icon {
+      // xs & sm size
+      @media (min-width: 0px) and (max-width: 959px) {
+        margin-right: 16px;
+      }
+    }
+
+    footer {
+      padding: 12px;
+    }
+  }
+
+
+
+  calendar-measurement {
+    padding: 12px;
+    @extend .bg-grey-200;
+
+
+    &:hover {
+      @extend .md-whiteframe-1dp;
+    }
+  }
+
+  calendar-competition {
+    padding: 10px 12px 12px 12px;
+    @extend .bg-grey-400;
+    @extend .md-whiteframe-1dp;
+
+    &:hover {
+      @extend .bg-grey-500;
+    }
+
+  }
 
 }

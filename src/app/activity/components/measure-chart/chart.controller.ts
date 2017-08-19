@@ -67,15 +67,18 @@ class ActivityChartController implements IComponentController {
     $onInit() {
         this.absUrl = this.$location.absUrl().split('#')[0];
         this.zoomDispatch = d3.dispatch("zoom");
-        this.prepareData();
+        setTimeout(()=> this.prepareData(),0);
+        //this.prepareData();
     }
 
     $postLink(): void {
         let self = this;
         this.$element.ready(function () {
-            self.preparePlaceholder();
-            self.prepareScales();
-            self.drawChart();
+           setTimeout(() => {
+                self.preparePlaceholder();
+                self.prepareScales();
+                self.drawChart();
+            }, 0);
         });
         if (this.activityChartSettings.autoResizable) {
             this.onResize = function () { self.redraw(); };
@@ -170,13 +173,15 @@ class ActivityChartController implements IComponentController {
 
     private preparePlaceholder(): void {
         // calc current chart size based on the conteiner size and chart's settings
-        var bounds = this.$element[0].getBoundingClientRect();
-        this.width = Math.max(bounds.width, this.activityChartSettings.minWidth);
-        this.height = bounds.height;
-        var aspectRatio = this.height / this.width;
-        if (aspectRatio < this.activityChartSettings.minAspectRation) {
-            this.height = this.width * this.activityChartSettings.minAspectRation;
-        }
+        //var bounds = this.$element[0].getBoundingClientRect();
+        let parent:Element = angular.element(document).find('activity-metrics-char')[0];
+
+        this.width = parent.clientWidth;//Math.max(bounds.width, this.activityChartSettings.minWidth);
+        this.height = parent.clientHeight;//bounds.height;
+        //var aspectRatio = this.height / this.width;
+        //if (aspectRatio < this.activityChartSettings.minAspectRation) {
+            //this.height = this.width * this.activityChartSettings.minAspectRation;
+        //}
         let container = d3.select(this.$element[0]);
         // create root svg placeholder
         this.$placeholder = container
@@ -217,6 +222,7 @@ class ActivityChartController implements IComponentController {
         // precalculate and cache chart scales for all metrics
         this.scales = {
             elapsedDuration: this.getScale("elapsedDuration", ScaleType.X),
+            duration: this.getScale("duration", ScaleType.X),
             distance: this.getScale("distance", ScaleType.X),
             speed: this.getScale("speed", ScaleType.Y),
             power: this.getScale("power", ScaleType.Y),
@@ -323,13 +329,15 @@ class ActivityChartController implements IComponentController {
             //.interpolate('monotone')
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
-            .y1(function (d) { return rangeScale(d[metric]); });
+            .y1(function (d) { return rangeScale(d[metric]); })
+            .curve(d3.curveBasis);
         let initArea = d3.area()
             .defined(this.isDataDefined)
             //.interpolate('monotone')
             .x(function (d) { return domainScale(d[domainMetric]); })
             .y0(function () { return bottomRange; })
-            .y1(function () { return bottomRange; });
+            .y1(function () { return bottomRange; })
+            .curve(d3.curveBasis);
 
         let metricChart = this.$interactiveArea
             .append("path")
@@ -434,7 +442,7 @@ class ActivityChartController implements IComponentController {
         // Setup range metrics data interpolation function
         let bisect = d3.bisector(function (d) { return d[domain]; }).left;
         let baseMetrics = this.chartData.getBaseMetrics();
-        let tooltipMetrics = this.chartData.getBaseMetrics(["timestamp"]);
+        let tooltipMetrics = this.chartData.getBaseMetrics(["timestamp","duration"]);
         let getInterpolatedData = function (pos: number): { [id: string]: number } {
             let domainValue = xScale.invert(pos);
             let index = bisect(data, domainValue);
@@ -894,8 +902,12 @@ class ActivityChartController implements IComponentController {
         //console.log('isDataDefined', d,i);
         //return !!d;
         //return d > 0;
-        return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
+        //debugger;
+        //return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
         //return d['speed'] !== 1000;
+
+         return i !== 0 && (d['elapsedDuration'] > this.chartData.getData(i-1)['elapsedDuration']) &&
+            (d['duration'] > this.chartData.getData(i-1)['duration']);
     }
 
     private getFillColor(areaSettings: IAreaSettings): string {

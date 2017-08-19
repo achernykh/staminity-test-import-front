@@ -2,8 +2,8 @@ import {ISocketService} from '../core/socket.service';
 import {ICalendarItem} from '../../../api/calendar/calendar.interface';
 import {GetRequest, PostRequest, PutRequest, DeleteRequest} from '../../../api/calendar/calendar.request';
 import {Observable} from "rxjs/Rx";
-import IHttpPromise = angular.IHttpPromise;
 import {IRESTService, PostFile} from "../core/rest.service";
+import {IHttpPromise, copy} from 'angular';
 
 export class CalendarService {
     item$: Observable<any>;
@@ -37,7 +37,8 @@ export class CalendarService {
      * @returns {Promise}
      */
     postItem(item:ICalendarItem):Promise<any> {
-        return this.SocketService.send(new PostRequest(item));
+        let data: ICalendarItem = copy(item);
+        return this.SocketService.send(new PostRequest(data));
     }
 
     /**

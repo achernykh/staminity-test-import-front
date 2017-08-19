@@ -1,6 +1,5 @@
 import {translateSport, translateCategories, translateActivity} from "./activity.translate";
-import {StateProvider} from "angular-ui-router/lib/index";
-import {Ng1StateDeclaration} from "@uirouter/angularjs/lib-esm/interface";
+import {StateProvider, Ng1StateDeclaration} from "angular-ui-router";
 import {DisplayView, DefaultTemplate} from "../core/display.constants";
 import {CalendarService} from "../calendar/calendar.service";
 import MessageService from "../core/message.service";

@@ -1,18 +1,10 @@
-.subscriptions,
-.roles, 
-.select-users {
-    
-    .md-caption {
-        color: #455a64;
-    }
-}
-
-
 md-dialog#upload {
+
     .md-dialog-content {
         min-height: 300px;
         min-width: 300px;
     }
+
     .input-file {
         width: 0.1px;
         height: 0.1px;
@@ -32,4 +24,121 @@ md-dialog#upload {
         overflow: hidden;
         //padding: 0.625rem 1.25rem;
     }
+}
+
+
+.subscriptions,
+.roles, 
+.select-users {
+    .md-caption {
+        color: #455a64;
+    }
+}
+
+
+.users-list-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+        height: 80%;
+    }
+
+}
+
+
+.bill-details-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+        height: 80%;
+    }
+
+    .text-right {
+        text-align: right !important;
+    }
+
+    .md-dark * {
+        color: rgba(black, 0.54) !important;
+    }
+
+    .text-accent {
+        color: rgb(221,44,0) !important;
+    }
+
+    &__is-paid {
+        margin-right: 20px
+    }
+
+    &__list {
+        padding: 0;
+    }
+
+    &__row {
+        padding: 0 24px !important;
+    }
+
+    &__row-2 {
+        padding: 0 24px 0px 48px !important;
+        min-height: 48px;
+        align-items: center;
+    }
+
+    &__row-3 {
+        padding: 0 24px 0 64px !important;
+    }
+}
+
+
+.enable-tariff-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+        height: 80%;
+    }
+
+    &__input-promo {
+        width: 165px;
+    };
+
+    &__active-promo {
+        margin-right: 20px;
+    };
+}
+
+
+.disable-tariff-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+        height: 80%;
+    }
+
+}
+
+
+.tariff-details-dialog {
+
+    @media (min-width: 960px) {
+        width: 360px;
+        height: 80%;
+    }
+
+    &__input-promo {
+        width: 165px;
+        margin-bottom: 30px;
+    };
+
+    &__active-promo {
+        max-width: 250px;
+        margin-right: 20px;
+    };
+}
+
+
+.fee-details-dialog {
+    @media (min-width: 960px) {
+        width: 360px;
+        height: 80%;
+    }
+
 }

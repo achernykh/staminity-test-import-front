@@ -1,12 +1,12 @@
-var port = process.env.PORT;
+const port = process.env.PORT;
 
-var src = 'src/',
+const src = 'src/',
     bower = 'bower_components/',
     npm = 'node_modules/',
     dist = 'dist/',
     build = 'build/';
 
-var jsLibs = [
+const jsLibs = [
     npm+"angular/angular.js",
     //bower+"angular-component-router/angular_1_router.js",
     npm+"angular-animate/angular-animate.js",
@@ -43,7 +43,7 @@ var jsLibs = [
     npm+'smDateTimeRangePicker/src/picker.js'
 ];
 
-var cssLibs = [
+const cssLibs = [
     npm+"normalize-css/normalize.css",
     npm+"angular-material/angular-material.min.css",
     npm+"animate.css/animate.min.css",
@@ -55,34 +55,34 @@ var cssLibs = [
     //bower+"angular-material-date-picker/dist/am-date-picker.min.css"
 ];
 
-var backend = {
+const backend = {
     build: {
-        protocol_ws: 'wss://',
-        protocol_rest: 'https://',
-        server: 'app.staminity.com',
-        content: 'https://app.staminity.com',
-        frontend: 'http://0.0.0.0:8080/'
-    },
-    dev1: {
-        protocol_ws: 'wss://',
-        protocol_rest: 'https://',
-        server: 'app.staminity.com',
-        content: 'https://app.staminity.com',
-        frontend: 'https://dev1.staminity.com/'
-    },
-    dev2: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
         server: 'testapp.staminity.com:8080',
         content: 'https://app.staminity.com',
         frontend: 'https://dev2.staminity.com/'
     },
+    dev1: {
+        protocol_ws: 'wss://',
+        protocol_rest: 'https://',
+        server: 'testapp.staminity.com:8080',
+        content: 'https://app.staminity.com',
+        frontend: 'http://dev1.staminity.com/'
+    },
+    dev2: {
+        protocol_ws: 'wss://',
+        protocol_rest: 'https://',
+        server: 'testapp.staminity.com:8080',
+        content: 'https://app.staminity.com',
+        frontend: 'http://dev2.staminity.com/'
+    },
     dev3: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'app.staminity.com',
+        server: 'testapp.staminity.com:8080',
         content: 'https://app.staminity.com',
-        frontend: 'https://dev3.staminity.com/'
+        frontend: 'http://dev3.staminity.com/'
     },
     prd: {
         protocol_ws: 'wss://',
@@ -91,12 +91,12 @@ var backend = {
         content: 'https://app.staminity.com',
         frontend: 'https://staminity.com/'
     }
-}
+};
 
 module.exports = {
     gulp: './gulp.config.js',
     src: {
-        index: [src + 'index.html', src + 'browserconfig.xml', src + 'favicon.ico'],
+        other: [src + 'browserconfig.xml', src + 'favicon.ico', src + 'manifest.json'],
         jsLibs: jsLibs,
         babel: { 
             cache: {}, 

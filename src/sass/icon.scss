@@ -23,6 +23,12 @@ md-icon.s36, img.s36 {
 	min-width: 36px;
 	min-height: 36px;
 }
+md-icon.s64, img.s64 {
+	width: 64px;
+	height: 64px;
+	min-width: 64px;
+	min-height: 64px;
+}
 
 // цветовая схема иконок
 md-icon {
@@ -121,9 +127,49 @@ md-icon {
 	}
 }
 
+/**@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../assets/fonts/MaterialIcons-Regular.eot');
+	src: local('Material Icons'),
+	local('MaterialIcons-Regular'),
+	url('../assets/fonts/MaterialIcons-Regular.woff2') format('woff2'),
+	url('../assets/fonts/MaterialIcons-Regular.woff') format('woff'),
+	url('../assets/fonts/MaterialIcons-Regular.ttf') format('truetype');
+}**/
+
+.material-icons {
+	font-family: 'Material Icons';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;  /* Preferred icon size */
+	display: inline-block;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+
+	/* Support for Firefox. */
+	-moz-osx-font-smoothing: grayscale;
+
+	/* Support for IE. */
+	font-feature-settings: 'liga';
+}
+
+
+
 /* Rules for sizing the icon. */
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
+.material-icons.md-32 { font-size: 32px; height: 32px; width: 32px; }
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
 

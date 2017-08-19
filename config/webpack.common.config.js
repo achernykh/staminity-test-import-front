@@ -46,7 +46,8 @@ module.exports = {
             'angular-drag-and-drop-lists',
             'angularjs-scroll-glue',
             'drag-drop-webkit-mobile',
-            'angular-ui-router'
+            'angular-ui-router'//,
+            //'material-design-icons'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'
@@ -74,6 +75,10 @@ module.exports = {
             {
                 test: /\.html$/,
                 loader: 'html-loader?interpolate'
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file-loader?name=assets/fonts/[name].[ext]'
             }
         ]
     },

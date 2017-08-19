@@ -4,11 +4,18 @@
 
 </activity-header>
 <activity-metrics-details flex="auto" layout="column" hide show-gt-sm layout="column"
-                          ng-if="$ctrl.mode !== 'post' && ($ctrl.activity.hasDetails || $ctrl.isLoadingDetails)">
+                          has-details="!$ctrl.activity.details.isEmpty"
+                          ng-if="$ctrl.mode !== 'post' && ($ctrl.activity.actualDataIsImported)">
 
 </activity-metrics-details>
 <md-button flex="none" class="md-fab md-mini md-accent" aria-label="Use Android" hide show-gt-sm
-           ng-if="$ctrl.popup && $ctrl.mode !== 'post' && ($ctrl.activity.hasDetails || $ctrl.isLoadingDetails)"
+           ng-if="$ctrl.popup && $ctrl.mode !== 'post' && ($ctrl.activity.actualDataIsImported)"
            ng-click="$ctrl.onCancel()">
     <md-icon class="material-icons">close</md-icon>
 </md-button>
+
+<calendar-item-athlete-selector ng-if="$ctrl.mode === 'post' && $ctrl.showSelectAthletes" ng-cloak
+                                coach="$ctrl.currentUser"
+                                athletes="$ctrl.forAthletes"
+                                on-select="$ctrl.selectAthletes(result)">
+</calendar-item-athlete-selector>

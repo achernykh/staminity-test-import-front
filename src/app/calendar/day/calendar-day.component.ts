@@ -4,8 +4,10 @@ import * as angular from 'angular';
 import {IMessageService} from "../../core/message.service";
 import ActivityService from "../../activity/activity.service";
 import {CalendarService} from "../calendar.service";
-import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
+import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge, copy} from 'angular';
 import {CalendarCtrl, ICalendarDayData} from "../calendar.component";
+import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
+import {isSpecifiedActivity, isCompletedActivity, clearActualDataActivity} from "../../activity/activity.function";
 
 class CalendarDayCtrl {
 
@@ -13,6 +15,7 @@ class CalendarDayCtrl {
     data: ICalendarDayData;
     selected: boolean;
     calendar: CalendarCtrl;
+
 
     static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs'];
 
@@ -26,6 +29,11 @@ class CalendarDayCtrl {
 
     }
 
+    isSpecified(item: ICalendarItem):boolean {
+        return isSpecifiedActivity(item);
+    }
+
+
     $onInit(){
 	    let diff = moment().diff(moment(this.data.date),'days',true);
         this.today = diff >= 0 && diff < 1;
@@ -36,8 +44,8 @@ class CalendarDayCtrl {
     }
 
     onDelete(){
-        //this.dialogs.confirm('deletePlanActivity')
-         //   .then(()=>this.calendar.onDelete(this.data.calendarItems),()=>{});
+        //this.dialogs.confirm({ text: 'deletePlanActivity' })
+         //   .then(()=>this.calendar.onDelete(this.data.calendarItems));
     }
     onPaste(){
         //this.calendar.onPasteDay(this.data.date)
@@ -66,7 +74,33 @@ class CalendarDayCtrl {
                     data: data
                 },
                 bindToController: true,
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
+                escapeToClose: true,
+                fullscreen: true
+
+            }).then(response => {}, ()=> {});
+        }
+        if(type === 'event'){
+            this.$mdDialog.show({
+                controller: DialogController,
+                controllerAs: '$ctrl',
+                template: `<md-dialog id="events" aria-label="Events">
+                        <calendar-item-events 
+                                flex layout="column" class="calendar-item-events"
+                                data="$ctrl.data"
+                                mode="put"
+                                user="$ctrl.user"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </calendar-item-events>
+                   </md-dialog>`,
+                parent: angular.element(document.body),
+                targetEvent: $event,
+                locals: {
+                    data: data,
+                    user: this.calendar.user
+                },
+                bindToController: true,
+                clickOutsideToClose: false,
                 escapeToClose: true,
                 fullscreen: true
 
@@ -115,34 +149,41 @@ class CalendarDayCtrl {
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: data,
+                data: {
+                    date: data.date
+                },
                 user: this.calendar.user
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
         }).then(response => {}, ()=> {});
     }
 
-    newWeekend($event, data) {
+    newEvent($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
             template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events
+                        <calendar-item-events 
                                 flex layout="column" class="calendar-item-events"
-                                data="$ctrl.data" mode="put"
+                                data="$ctrl.data"
+                                mode="post"
+                                user="$ctrl.user"
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </calendar-item-events>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: data
+                data: {
+                    date: data.date
+                },
+                user: this.calendar.user
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 
@@ -150,13 +191,56 @@ class CalendarDayCtrl {
     }
 
 
-    onDrop(date,index,item, type) {
-        console.info('dnd drop event',date,index,item,type);
-        item.dateStart = new Date(date);
-        item.dateEnd = new Date(date);
-        this.CalendarService.postItem(item)
-            .then(() => {}, error => this.message.toastError(error));
-        return item;
+    onDropActivity(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number) {
+
+        let item: ICalendarItem = copy(srcItem);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
+
+        switch (operation) {
+            case 'move': {
+                if(isCompletedActivity(item)){
+                    this.dialogs.confirm({ text: 'dialogs.moveActualActivity' })
+                    .then(() => this.CalendarService.postItem(clearActualDataActivity(item)))
+                    .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
+                } else {
+                    this.CalendarService.putItem(item)
+                    .then(() => this.message.toastInfo('activityMoved'))
+                    .catch(error => this.message.toastError(error));
+                }
+                break;
+            }
+            case 'copy': {
+                this.CalendarService.postItem(isCompletedActivity(item)? clearActualDataActivity(item) : item)
+                    .then(() => this.message.toastInfo('activityCopied'))
+                    .catch(error => this.message.toastError(error));
+                break;
+            }
+        }
+        return true;
+    }
+
+    onDropEvent(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number):boolean {
+        let item: ICalendarItem = copy(srcItem);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
+
+        switch (operation) {
+            case 'move': {
+                this.CalendarService.putItem(item)
+                    .then(() => this.message.toastInfo('eventMoved'))
+                    .catch(error => this.message.toastError(error));
+                break;
+            }
+            case 'copy': {
+                this.CalendarService.postItem(item)
+                    .then(() => this.message.toastInfo('eventCopied'))
+                    .catch(error => this.message.toastError(error));
+                break;
+            }
+        }
+
+        return true;
     }
 
     onDrag(event) {
@@ -164,15 +248,16 @@ class CalendarDayCtrl {
     }
 
     onCopied(item) {
-        this.message.toastInfo('activityCopied');
+        //debugger;
+        //this.message.toastInfo('activityCopied');
         console.info('dnd copied event',item);
+
     }
 
     onMoved(item) {
+        //debugger;
         console.info('dnd moved event', item);
-        this.message.toastInfo('activityMoved');
-        this.CalendarService.deleteItem('F',[item.calendarItemId])
-            .then(() => {}, error => this.message.toastError(error));
+
     }
 
 }

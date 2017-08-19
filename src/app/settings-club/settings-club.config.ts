@@ -15,7 +15,7 @@ function configure(
                 loginRequired: true,
                 authRequired: ['func1'],
                 resolve: {
-                    view: () => new DisplayView('settings'),
+                    view: () => new DisplayView('settingsClub'),
                     checkPermissions: ['AuthService', '$stateParams', 'message',
                         (AuthService:IAuthService, $stateParams, message:MessageService)=> {
                             return AuthService.isMyClub($stateParams.uri).catch(error => {

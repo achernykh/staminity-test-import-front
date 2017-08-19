@@ -6,9 +6,13 @@
             <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}}; padding:0; margin: 0;" class="animated"> 
                 <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
             </md-input-container>
-            <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch" style="vertical-align: top;"> 
-                <md-icon class="material-icons">search</md-icon> 
+            <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch" style="vertical-align: top;">
+                <md-icon class="material-icons">search</md-icon>
             </md-button>
+            <md-button class="md-icon-button" ng-click="$ctrl.invite($event)" style="vertical-align: top;">
+                <md-icon class="material-icons">group_add</md-icon>
+            </md-button>
+
         </div>
         <md-toolbar class="md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center" style="background-color: #cfd8dc; color: #607d8b; padding: 16px 26px;">
             <span flex>{{ $ctrl.checked.length }} items selected</span>
@@ -16,7 +20,7 @@
                 <md-tooltip md-direction="bottom">Тарифы</md-tooltip>
                 <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.removeAvailable" ng-click="$ctrl.remove()"> 
                 <md-tooltip md-direction="bottom">Удалить</md-tooltip>
                 <md-icon class="material-icons">delete</md-icon> 
             </md-button>

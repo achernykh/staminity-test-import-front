@@ -54,9 +54,9 @@ class CalendarTotalCtrl implements IComponentController {
     $onChanges(changes){
 
         if(changes.update){
-
+            this.items = [];
             if(this.week.hasOwnProperty('subItem') && this.week.subItem && this.week.subItem.length > 0) {
-                this.week.subItem.forEach(day => day.data.calendarItems && day.data.calendarItems.length > 0 || this.items.push(...day.data.calendarItems));
+                this.week.subItem.forEach(day => day.data.calendarItems && day.data.calendarItems.length > 0 && this.items.push(...day.data.calendarItems));
             }
             this.total = calculateCalendarTotals(this.week.subItem);
 

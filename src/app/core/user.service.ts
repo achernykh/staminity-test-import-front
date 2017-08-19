@@ -1,41 +1,124 @@
-import {IUserProfile} from '../../../api/user/user.interface';
+import {IUserProfile, IUserConnections, ITrainingZonesType} from '../../../api/user/user.interface';
 import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
-import { GetRequest, PutRequest } from '../../../api/user/user.request';
+import {
+    GetRequest, PutRequest, GetConnections, GetTrainingZones,
+    IGetTrainigZonesResponse
+} from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
 import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
-import { IHttpPromise } from 'angular';
+import { IHttpPromise,IHttpPromiseCallbackArg, copy } from 'angular';
 import {ISystemMessage} from "../../../api/core";
+import {MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile} from "../../../api/group/group.interface";
+import {Observable} from "rxjs";
+import ReferenceService from "../reference/reference.service";
 
 
 export default class UserService {
 
-    private _profile: IUserProfile;
-    private _permissions: Array<Object>;
-    private _displaySettings: Object;
+    private connections$: Observable<any>;
+    private message$: Observable<any>;
+    private profile$: Observable<IUserProfile>;
+    private profile: IUserProfile = null;
 
-    static $inject = ['SessionService', 'SocketService','RESTService'];
+    static $inject = ['SessionService', 'SocketService','RESTService','ReferenceService'];
 
     constructor(
-        //private StorageService:any,
         private SessionService:ISessionService,
         private SocketService:ISocketService,
-        private RESTService:IRESTService) {
-        //this.StorageService = StorageService;
-        //this.SessionService = SessionService;
-        //this.SocketService = SocketService;
-        //this.RESTService = RESTService;
-        //this._rxProfile = <BehaviorSubject<IUserProfile>>new BehaviorSubject([]);
-        //this.rxProfile = this._rxProfile.asObservable();
+        private RESTService:IRESTService,
+        private ReferenceService: ReferenceService) {
+
+        // Подписываемся на текущий профиль пользователя
+        this.profile$ = this.SessionService.profile.subscribe(profile => this.profile = copy(profile));
+
+        // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
+        this.message$ = this.SocketService.messages
+            .filter(m => (m.type === 'systemFunctions' || m.type === 'systemFunction' || m.type === 'groupMembership' ||
+                m.type === 'controlledClub') && m.value).share();
+
+        this.message$.subscribe(m => {
+            switch (m.type) {
+                case 'systemFunctions': {
+                    this.SessionService.setPermissions(m.value);
+                    break;
+                }
+                case 'systemFunction':{
+                    debugger;
+                    this.updatePermissions(m);
+                    break;
+                }
+                case 'groupMembership': {
+                    this.updateGroup(new ProtocolGroupUpdate(m));
+                    break;
+                }
+                case 'controlledClub': {
+                    this.updateClubs(new ProtocolGroupUpdate(m));
+                    break;
+                }
+            }
+        });
+
+        this.connections$ = this.SocketService.connections
+            .filter(status => status)
+            .flatMap(() => Observable.fromPromise(this.getConnections()))
+            .share();
+
+        this.connections$.subscribe(connections => this.setConnections(connections));
+    }
+
+
+    /**
+     * @description Сохраняем обьект connections пользователя, содержит данные о группах пользователя. Если в составе
+     * групп есть allAthletes (атлеты тренера), то для дальнейшего использования дозапрашиваем настройку тренировочных
+     * зон атлетов
+     * @param connections
+     */
+    setConnections(connections: IUserConnections) {
+        if (connections && connections.allAthletes) {
+            this.getTrainingZones(null, connections.allAthletes.groupId)
+                .then((result:Array<IGetTrainigZonesResponse>) => {
+                    connections.allAthletes.groupMembers =
+                        connections.allAthletes.groupMembers.map(athlete =>
+                            Object.assign(athlete,
+                                {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
+                    return connections;
+                })
+                .then(connections => this.SessionService.setConnections(connections));
+        } else {
+            this.SessionService.setConnections(connections);
+        }
+    }
+
+    /**
+     * Запрос обьекта connections из userProfile пользователя
+     * @returns {Promise<any>}
+     */
+    getConnections():Promise<any> {
+        return this.SocketService.send(new GetConnections()).then(result => result);
+    }
+
+    /**
+     * @description Запрос обьекта trainingZones из userProfile по группе пользователей/или по пользователю
+     * @param userId
+     * @param groupId
+     * @returns {Promise<any>}
+     */
+    getTrainingZones(userId: number, groupId: number = null):Promise<any> {
+        return this.SocketService.send(new GetTrainingZones(userId, groupId)).then(result => result.arrayResult);
     }
 
     /**
      * Запрашиваем UserProfile на сервере
      * @param key - id | uri
+     * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    getProfile(key:string|number):Promise<IUserProfile> | Promise<ISystemMessage>{
-        return this.SocketService.send(new GetRequest(key));
+    getProfile(key:string|number, ws: boolean = true):Promise<IUserProfile> | Promise<ISystemMessage>{
+        return ws ?
+            this.SocketService.send(new GetRequest(key)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
+                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
     /**
@@ -95,48 +178,94 @@ export default class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>):Promise<Object> {
-        return this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data));
+    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true):Promise<any> {
+        return ws ?
+            this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetUserProfileSummaryStatistics(id, start, end, group, data)))
+                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
-    get profile():IUserProfile {
-        if (!!!this._profile) {
-            this._profile = this.SessionService.getUser();
+    /**
+     * Обновление состава групп текущего пользователя
+     * @param message
+     */
+    private updateGroup(message: ProtocolGroupUpdate): void {
+        let connections = this.profile.connections || null;
+        let group:IGroupProfile = connections && connections[message.groupCode] || null;
+
+        if(!group) {
+            return;
         }
-        return this._profile;
-    }
-
-    set profile(profile:IUserProfile) {
-        this._profile = profile;
-        this.SessionService.setUser(this._profile);
-    }
-
-    get permissions():Array<Object> {
-    	if(!!!this._permissions){
-            this._permissions = this.SessionService.getPermissions();
+        if(message.action === 'I' && group.hasOwnProperty('groupMembers')){
+            if(message.groupCode === 'allAthletes'){
+                this.getTrainingZones(message.userProfile.userId)
+                    .then(result => Object.assign(message.userProfile, {trainingZones: result[0]}))
+                    .then(profile => {
+                        group.groupMembers.push(profile);
+                        connections[message.groupCode] = group;
+                        return this.SessionService.setConnections(connections);
+                    });
+            } else {
+                group.groupMembers.push(message.userProfile);
+            }
+        } else if(message.action === 'D'){
+            let index: number = group.groupMembers.findIndex(m => m.userId === message.userProfile.userId);
+            if(index !== -1){
+                group.groupMembers.splice(index,1);
+            }
         }
-        return this._permissions;
+        connections[message.groupCode] = group;
+        this.SessionService.setConnections(connections);
     }
 
-    get displaySettings():Object {
-        if (!!!this._displaySettings) {
-            this._displaySettings = this.SessionService.getDisplaySettings();
+    private updateClubs(message: ProtocolGroupUpdate): void {
+        let connections = this.profile.connections || null;
+        let clubs:Array<IGroupProfile> = connections && connections.ControlledClubs || null;
+
+        if(!clubs) {
+            return;
         }
-        return this._displaySettings;
+
+        if(message.action === 'I'){
+            clubs.push(<IGroupProfile>message.groupProfile);
+            //controlledClub.groupMembers.push(message.userProfile);
+        } else if(message.action === 'D'){
+            let index:number = clubs.findIndex(g => g.groupId === message.groupProfile.groupId);
+            if(index !== -1){
+                clubs.splice(index,1);
+            }
+        } else if(message.action === 'U'){
+            let index:number = clubs.findIndex(g => g.groupId === message.groupProfile.groupId);
+            if(index !== -1){
+                clubs[index] = <IGroupProfile>message.groupProfile;
+            }
+        }
+        connections.ControlledClubs = clubs;
+        this.SessionService.setConnections(connections);
     }
 
-    set displaySettings(display:Object){
-        this._displaySettings = display;
-        this.SessionService.setDisplaySettings(this._displaySettings);
+    /**
+     * Обновляем перечень доступных для пользователя функций сервиса.
+     * Ассинхронное сообщение с функциями приходит при каждом открытие сессии
+     * @param permissions
+     */
+    private updatePermissions(message: {action: string, value: any}):void {
+        let permissions = this.SessionService.getPermissions();
+        switch (message.action){
+            case 'U': {
+                Object.keys(message.value).forEach(p => permissions[p] = message.value[p]);
+                break;
+            }
+            case 'I': {
+                Object.assign(permissions, message.value);
+                break;
+            }
+            case 'D': {
+                Object.keys(message.value).forEach(p => permissions.hasOwnProperty(p) && delete permissions[p]);
+                break;
+            }
+        }
+        this.SessionService.setPermissions(permissions);
     }
 
-    /*setUserpic (file: any) : Promise<IUserProfile> {
-     return Promise.all([this._StorageService.get('authToken'), file])
-     .then(([authToken, data]) => this._API.uploadPicture('/user/avatar', data, authToken.token))
-     }
-
-     setHeader (file: any) : Promise<IUserProfile> {
-     return Promise.all([this._StorageService.get('authToken'), file])
-     .then(([authToken, data]) => this._API.uploadPicture('/user/background', data, authToken.token))
-     }*/
 }

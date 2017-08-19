@@ -1,6 +1,7 @@
 import './notification-list.component.scss';
 import * as moment from 'moment/min/moment-with-locales.js';
 import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
+import {Subject} from "rxjs/Rx";
 import NotificationService from "./notification.service";
 import {INotification, Notification, Initiator} from "../../../../api/notification/notification.interface";
 import {CalendarService} from "../../calendar/calendar.service";
@@ -31,6 +32,7 @@ class NotificationListCtrl implements IComponentController {
     };
     private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
     private currentUser: IUserProfile;
+	private destroy: Subject<any> = new Subject();
 
     static $inject = ['$scope','$mdDialog','$mdSidenav','NotificationService','CalendarService', 'UserService',
         'SessionService'];
@@ -54,12 +56,21 @@ class NotificationListCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.NotificationService.list$.subscribe((list) => {this.notifications =  list; this.$scope.$apply();});
+        this.notifications = this.NotificationService.notifications;
+        
+        this.NotificationService.notificationsChanges
+        .takeUntil(this.destroy)
+        .subscribe((notifications) => {
+            this.notifications = notifications;
+            this.$scope.$applyAsync();
+        });
+
         this.session.profile.subscribe(profile=> this.currentUser = angular.copy(profile));
     }
 
     $onDestroy(): void {
-
+        this.destroy.next(); 
+        this.destroy.complete();
     }
 
     fromNow (date) {

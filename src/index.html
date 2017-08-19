@@ -2,14 +2,14 @@
 <html>
 <head>
     <title translate ng-cloak ng-bind="fullTitle | translate">Staminity | Стаминити</title>
-    <base href="/index.html">
+    <base href="/">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="description"
           content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
     <meta name="keywords"
           content="Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером"/>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimal-ui, user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="google-site-verification" content="61lUeOvz-SVrqyZsNnLGrrw50m-u7OW8v6l5In5X1JU"/>
 
@@ -47,9 +47,7 @@
             }
 
     </script>
-    <!--
-    <link rel="manifest" href="/manifest.json">-->
-
+    <link rel="manifest" href="/manifest.json">
     <!--Google analytics -->
     <script>
         (function (i, s, o, g, r, a, m) {
@@ -197,19 +195,28 @@
 </div>
 <![endif]-->
 
-<!--<script>
-    if (!('serviceWorker' in navigator)) {
-        console.log('Service worker not supported');
-        return;
+<script type="text/javascript">
+    navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.info('SW registered!', reg))
+            .catch(err => console.error('Boo!', err));
+
+    // Check to see if the service worker controlling the page at initial load
+    // has become redundant, since this implies there's a new service worker with fresh content.
+    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.onstatechange = function(event) {
+            if (event.target.state === 'redundant') {
+                // Define a handler that will be used for the next io-toast tap, at which point it
+                // be automatically removed.
+                const tapHandler = function() {
+                    window.location.reload();
+                };
+
+               // alert('new version of application avaliable');
+            }
+        };
     }
-    navigator.serviceWorker.register('service-worker.js')
-            .then(function(registration) {
-                console.log('Registered at scope:', registration.scope);
-            })
-            .catch(function(error) {
-                console.log('Registration failed:', error);
-            });
-</script>-->
+
+</script>
 
 <!-- Application Scripts (gulp compilation)
 <script src="js/libs.js"></script>

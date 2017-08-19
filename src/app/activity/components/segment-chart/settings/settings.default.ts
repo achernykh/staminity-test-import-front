@@ -2,7 +2,7 @@
 
 const DefaultPlanChartSettings: IPlanChartSettings = {
     minWidth: 300,
-    minAspectRation: 0.25,
+    minAspectRation: 0.5,
     autoResizable: true,
     rangeScaleOffset: { min: 20, max: 10 },
     planArea: {

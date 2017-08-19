@@ -7,7 +7,7 @@
         <div flex="none" layout="row" layout-align="space-between center" layout-align-gt-sm="space-between start">
             <section class="percent md-caption tight-07" flex="25" hide show-gt-sm>{{::$ctrl.data.printPercent()}}</section>
             <section class="icon" flex="none" flex-gt-sm="auto" layout="row" layout-align="center start">
-                <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-blue-grey-A700">
+                <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-grey-600">
                     <md-icon md-svg-src="{{::$ctrl.data.sportUrl}}"
                              style="margin-left: 4px"
                              class="s24 light-active"></md-icon>
@@ -35,9 +35,10 @@
                          ng-class="::{'dark' : ($ctrl.status == 'planned')}"
                          ng-if="::(!!$ctrl.data.movingDuration || $ctrl.data.distance)">
                     <div flex="none" ng-if="::$ctrl.data.movingDuration">
-                        {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
-                    <div flex="none" ng-if="::$ctrl.data.distance">
+                        {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}
                         <span>&nbsp&nbsp</span>
+                    </div>
+                    <div flex="none" ng-if="::$ctrl.data.distance">
                         {{::$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp
                         {{'distance' | measureUnit:$ctrl.data.sportBasic | translate}}</div>
                 </section>
@@ -75,16 +76,17 @@
         <div flex="none" layout="row" layout-align="center center" hide show-gt-sm
              class="md-caption secondary center data-category"
              ng-class="::{'dark' : ($ctrl.status == 'planned')}">
-            <div flex="none" class="line-14" ng-if="::$ctrl.data.categoryCode" translate>{{::'category.'+$ctrl.data.categoryCode}}</div>
+            <div flex="none" class="line-14" ng-if="::$ctrl.data.category">{{::$ctrl.data.category | categoryCode}}</div>
         </div>
         <section flex="none" layout="row" layout-align="center center" hide show-gt-sm
              class="md-title-small secondary center tight-10"
              ng-class="::{'dark' : ($ctrl.status == 'planned')}"
              ng-if="::(!!$ctrl.data.movingDuration || $ctrl.data.distance)">
             <div flex="none" ng-if="::$ctrl.data.movingDuration">
-                {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}</div>
-            <div flex="none" ng-if="::$ctrl.data.distance">
+                {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}
                 <span>&nbsp&nbsp</span>
+            </div>
+            <div flex="none" ng-if="::$ctrl.data.distance">
                 {{::$ctrl.data.distance | measureCalc:$ctrl.data.sportBasic:'distance'}}&nbsp
                 {{'distance' | measureUnit:$ctrl.data.sportBasic | translate}}</div>
         </section>
@@ -177,8 +179,8 @@
                             <img ng-src="assets/icon/bullet.svg"
                                      style="width: 15px; height: 15px; min-width: 15px; min-height: 15px"
                                      class="dark-active"/></div>
-                        <div flex="none" style="width: 40px">{{::interval.calcMeasures.distance.value}} км</div>
-                        <div flex="auto">{{::interval.calcMeasures.heartRate.value}}чсс</div>
+                        <div flex="none" style="width: 40px">{{::interval[interval.durationMeasure + 'Length'] | measureCalc:'run':interval.durationMeasure}}</div>
+                        <div flex="auto">{{::interval | measureCalcInterval:'run':interval.intensityMeasure}}</div>
                     </div>
                 </div>
             </div>

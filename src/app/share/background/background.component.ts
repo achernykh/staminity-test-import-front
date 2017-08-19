@@ -1,16 +1,17 @@
 import { IComponentOptions, IComponentController} from 'angular';
+import {SocketService} from "../../core/socket.service";
+import {IAuthService} from "../../auth/auth.service";
 require('./background.template.scss');
 
 class BackgroundCtrl implements IComponentController {
 
-	static $inject = [];
+	private internetStatus: boolean = true;
+	static $inject = ['SocketService','AuthService'];
 
-	constructor() {
+	constructor(private socket: SocketService, private auth: IAuthService) {
+		this.socket.connections.subscribe(status => this.internetStatus = !!status || !this.auth.isAuthenticated());
 	}
 
-	/*toggleSlide(component) {
-		this._$mdSidenav(component).toggle().then(() => angular.noop);
-	}*/
 }
 
 const BackgroundComponent: IComponentOptions = {

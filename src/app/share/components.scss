@@ -1,3 +1,4 @@
+@import "../../sass/color";
 .user-info {
     font-size: 14px;
     img {
@@ -55,7 +56,11 @@ userpic {
     &.border-light > div.avatar {
         border: 1px solid rgba(255,255,255,0.9);
     }
+    &.border-active > div.avatar {
+        border: 2px solid $teal-900;
+    }
 }
+
 avatar-pic {
     div.avatar {
         display:inline-block;
@@ -73,4 +78,17 @@ avatar-pic {
         width: 36px;
         border-radius: 18px;
     }
+    &.size-60 > div.avatar {
+        height: 60px;
+        width: 60px;
+        border-radius: 30px;
+    }
+    &.border-light > div.avatar {
+        border: 1px solid rgba(255,255,255,0.9);
+    }
+}
+
+.st-hover-background {
+    background-color: rgba(158,158,158,0.2);
+    
 }

@@ -1,0 +1,38 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 >{{ 'settings.billing.billsList' | translate }}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.close()">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <md-list class="md-dense section">
+            <md-list-item 
+                class="md-2-line" 
+                ng-repeat-start="bill in $ctrl.bills"
+                ng-click="$ctrl.viewBill(bill)"
+                ng-switch="$ctrl.invoiceStatus(bill)"
+            >
+                <md-icon  class="material-icons">payment</md-icon>
+                <div class="md-list-item-text">
+                    <h3> {{ 'settings.billing.invoiceAmount' | translate }} {{ bill.totalAmount | currency: bill.currency }}</h3>
+                    <p> {{ 'settings.billing.period' | translate }} {{ bill.startPeriod | date: shortDate}} - {{ bill.endPeriod | date: shortDate}}</p>
+                </div>
+                <div class="md-secondary" ng-switch-when="new">
+                    <md-button>{{ 'settings.billing.invoiceStatuses.new' | translate }}</md-button>
+                </div>
+                <div class="md-secondary" ng-switch-when="ready">
+                    <md-button class="md-accent" ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.ready' | translate }} {{ bill.totalAmount | currency:bill.currency }}</md-button>
+                </div>
+                <div class="md-secondary" ng-switch-when="complete">
+                    <md-button ng-click="$ctrl.viewBill(bill)">{{ 'settings.billing.invoiceStatuses.complete' | translate }}</md-button>
+                </div>
+            </md-list-item>
+            <md-divider ng-repeat-end ng-if="!$last"></md-divider>
+        </md-list>
+    </md-dialog-content>
+</md-dialog>

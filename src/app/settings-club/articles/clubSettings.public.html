@@ -7,10 +7,26 @@
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label>Название</label>
-                    <input type="text" name="firstName" ng-model="$ctrl.club.public.name" required autocomplete="off" autofocus ng-disabled="false" minlength="1" maxlength="100">
+                    <input type="text" name="firstName" ng-model="$ctrl.club.public.name"
+                           required autocomplete="off" autofocus ng-disabled="false" minlength="1" maxlength="100">
                     <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
                         <div ng-message-exp="['required']" translate="form.required"></div>
                         <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:1, max:100}"></div>
+                    </div>
+                </md-input-container>
+                <div flex="10"></div>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="settingsClub.uri"></label>
+                    <input type="text" name="uri"
+                           ng-model="$ctrl.club.groupUri"
+                           required autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
+                    <div ng-messages="$ctrl.publicForm.uri.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
                     </div>
                 </md-input-container>
             </md-list-item>
@@ -79,6 +95,28 @@
                     <label translate="settings.personalInfo.about"></label>
                     <textarea ng-model="$ctrl.club.public.about" name="about" rows="3" md-select-on-focus></textarea>
                 </md-input-container>
+            </md-list-item>
+            <md-list-item flex layout="row">
+                <md-input-container flex class="md-block no-message">
+                    <label translate="user.price"></label>
+                    <textarea ng-model="$ctrl.club.public.price" name="price" rows="2" placeholder="{{::'settings.personalInfo.priceFull' | translate}}"></textarea>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item flex layout="row">
+                <md-input-container flex class="md-block no-message">
+                    <label translate="user.contact"></label>
+                    <textarea ng-model="$ctrl.club.public.contact" name="contact" rows="2" placeholder="{{::'settings.personalInfo.contactFull' | translate}}"></textarea>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item flex layout="row">
+                <md-input-container flex class="md-block no-message">
+                    <label translate="user.athletes"></label>
+                    <textarea ng-model="$ctrl.club.public.athletes" name="athletes" rows="2" placeholder="{{::'settings.personalInfo.athletesFull' | translate}}"></textarea>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <p>{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.club.public.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</p>
+                <md-switch class="md-secondary" ng-model="$ctrl.club.public.isFree"></md-switch>
             </md-list-item>
 
             <md-list-item layout="row">

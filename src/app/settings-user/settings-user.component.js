@@ -1,3 +1,5 @@
+import { Observable, Subject } from 'rxjs/Rx';
+
 import moment from 'moment/min/moment-with-locales.js';
 import * as momentTimezone from 'moment-timezone';
 import * as angular from 'angular';
@@ -8,10 +10,13 @@ import {
 
 import './settings-user.component.scss';
 
+import { parseYYYYMMDD } from '../share/share.module';
+
+
 class SettingsUserModel {
     // deep copy test and initial data
     constructor (user) {
-        Object.assign(this, {
+        angular.merge(this, {
             public: {},
             personal: {},
             display: {
@@ -28,8 +33,9 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message) {
+    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia) {
         console.log('SettingsCtrl constructor=', this)
+        this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
         this._DELIVERY_METHOD = _DELIVERY_METHOD
@@ -47,6 +53,11 @@ class SettingsUserCtrl {
         this.SyncAdaptorService = SyncAdaptorService;
         this.dialogs = dialogs;
         this.message = message;
+        this.BillingService = BillingService;
+        this.$translate = $translate;
+        this.$mdMedia = $mdMedia;
+        this.destroy = new Subject();
+
         this.adaptors = [];
 
         //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
@@ -55,11 +66,19 @@ class SettingsUserCtrl {
         //this._athlete$ = AthleteSelectorService._athlete$
         //	.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
         // Смена атлета тренера в основном окне приложения, необходмо перезагрузить все данные
+
+        console.log('SettingsUserCtrl', SettingsUserCtrl);
     }
 
     $onInit() {
         // deep copy & some transormation
         this.user = new SettingsUserModel(this.user);
+        console.log('this.user', this.user);
+
+        this.BillingService.messages
+        .takeUntil(this.destroy)
+        .subscribe(this.reload.bind(this));
+
         /**
          *
          * @type {any|Array|U[]}
@@ -83,6 +102,22 @@ class SettingsUserCtrl {
         moment.locale('ru');
     }
 
+    $onDestroy () {
+        this.destroy.next(); 
+        this.destroy.complete();
+    }
+
+    reload () {
+        this._UserService.getProfile(this.user.public.uri)
+        .then((user) => {
+            this.user =  new SettingsUserModel(user);
+            this.$scope.$apply();
+        }, (info) => {
+            this.message.systemWarning(info);
+            throw info;
+        });
+    }
+
     prepareZones() {
 
 
@@ -98,6 +133,10 @@ class SettingsUserCtrl {
     getTimezoneTitle(){
         let timezone = this.user.display.timezone;
         return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
+    }
+
+    getDateFormat() {
+        return moment().format('L');
     }
 
     changeTimezone(name){
@@ -159,7 +198,7 @@ class SettingsUserCtrl {
             this.privateFirstForm && this.privateFirstForm.$dirty ||
             this.privateSecondForm && this.privateSecondForm.$dirty ||
             this.displayForm && this.displayForm.$dirty ||
-            this.notificationsForm && this.notificationsForm.$dirty ||
+            this.notificationDirty ||
             this.privacyForm && this.privacyForm.$dirty
     }
 
@@ -269,8 +308,11 @@ class SettingsUserCtrl {
                 console.log('response', response);
                 this.toggle[adaptor.provider] = toggle;
             }, error => {
-                    debugger;
-                    this.message.toastInfo(error.errorMessage || error.data.errorMessage);
+                    if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
+                        this.message.toastInfo('userCancelOAuth');
+                    } else {
+                        this.message.toastInfo(error.data.errorMessage || error.errorMessage || error);
+                    }
                     this.toggle[adaptor.provider] = !toggle;
                 }).catch(response => {
                     // Handle errors here.
@@ -429,25 +471,98 @@ class SettingsUserCtrl {
             clickOutsideToClose: true,
             escapeToClose: true,
             fullscreen: false // Only for -xs, -sm breakpoints.
-        })
-            .then((password) => {
-                console.log(`You said the information was ${password}.`);
-                this._AuthService.setPassword(password)
-                    .then((response) => {
-                        console.log(response);
-                        this.message.toastInfo('setPasswordSuccess');
-                    }, (error) => {
-                        console.log(error);
-                    })
-            }, () => {
-                // Если диалог открывается по вызову ng-change
-                if (typeof ev === 'undefined') provider.enabled = false
-                this.status = 'You cancelled the dialog.';
-            })
+        }).then((password) =>
+            this._AuthService.setPassword(password)
+                .then((response) => this.message.toastInfo('setPasswordSuccess'),
+                    (error) => this.message.toastError(error)));
         //}
     }
 
-    uploadAvatar() {
+    tariffStatus (tariff) {
+        return this.BillingService.tariffStatus(tariff);
+    }
+
+    tariffIsEnabled (tariff) {
+        return (isOn) => {
+            if (typeof isOn === 'undefined') {
+                return tariff.isOn;
+            }
+
+            return tariff.isOn? this.disableTariff(tariff) : this.enableTariff(tariff);
+        }
+    }
+
+    selectTariff (tariff) {
+        if (!tariff.isBlocked) {
+            tariff.isOn? this.viewTariff(tariff) : this.enableTariff(tariff);
+        }
+    }
+
+    enableTariff (tariff) {
+        return this.dialogs.enableTariff(tariff, this.user)
+            .then(this.reload.bind(this), (error) => { error && this.reload(); });
+    }
+
+    disableTariff (tariff) {
+        return (tariff.isAvailable && tariff.isBlocked?
+            this.BillingService.disableTariff(tariff.tariffId, this.user.userId)
+            .then((info) => {
+                message.systemSuccess(info.title);
+                $mdDialog.hide();
+            }, (error) => {
+                message.systemWarning(error);
+            }) : this.dialogs.disableTariff(tariff, this.user)
+        )
+        .then(this.reload.bind(this), (error) => { error && this.reload(); });
+    }
+
+    viewTariff (tariff) {
+        return this.dialogs.tariffDetails(tariff, this.user)
+            .then(this.reload.bind(this), (error) => { error && this.reload(); });
+    }
+
+    invoiceStatus (bill) {
+        return this.BillingService.billStatus(bill);
+    }
+
+    hasPaidBill () {
+        return this.user.billing.bills.find((bill) => bill.receiptDate);
+    }
+
+    billsList () {
+        return this.dialogs.billsList(this.user)
+            .then(this.reload.bind(this), (error) => { error && this.reload(); });
+    }
+
+    viewBill (bill) {
+        return this.dialogs.billDetails(bill, this.user)
+            .then(this.reload.bind(this), (error) => { error && this.reload(); });
+    }
+
+    autoPayment (isOn) {
+        if (typeof isOn === 'undefined') {
+            return this.user.billing.autoPayment;
+        }
+
+        let profile = {
+            userId: this.user.userId,
+            revision: this.user.revision,
+            billing: {
+                autoPayment: isOn
+            }
+        };
+
+        this._UserService.putProfile(profile)
+        .then((success) => {
+            this.message.toastInfo('settingsSaveComplete');
+            this.user.revision = success.value.revision;
+            this.user.billing.autoPayment = isOn;
+        }, (error) => {
+            this.message.toastError(error)
+        });
+    }
+
+    uploadAvatar () {
         this.dialogs.uploadPicture()
             .then(picture => this._UserService.postProfileAvatar(picture))
             .then(user => this.setUser(user))
@@ -455,7 +570,7 @@ class SettingsUserCtrl {
             //.then(user => this.)
     }
 
-    uploadBackground() {
+    uploadBackground () {
         this.dialogs.uploadPicture()
             .then((picture) => this._UserService.postProfileBackground(picture))
             .then(user => this.setUser(user))
@@ -463,7 +578,6 @@ class SettingsUserCtrl {
     }
 
 	toggleActivity (activity) {
-
         this.personalSecondForm.$setDirty();
 		if (this.isActivityChecked(activity)) {
 			let index = this.user.personal.activity.indexOf(activity);
@@ -477,10 +591,14 @@ class SettingsUserCtrl {
 		return this.user.personal.activity.includes(activity)
 	}
 };
+
 SettingsUserCtrl.$inject = ['$scope','UserService','AuthService','$http',
-    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message'];
+    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message', 'BillingService', '$translate', '$mdMedia'];
+
 
 function DialogController($scope, $mdDialog) {
+
+    $scope.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
     $scope.hide = function () {
         $mdDialog.hide();
@@ -496,6 +614,7 @@ function DialogController($scope, $mdDialog) {
 }
 
 DialogController.$inject = ['$scope', '$mdDialog'];
+
 
 let SettingsUser = {
     bindings: {

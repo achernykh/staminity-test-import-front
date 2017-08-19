@@ -1,6 +1,7 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './athletes.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
+import {_translateAthleteInvitation} from "./athlete-invitation/athlete-invitation.translate";
 
 function configure(
     $stateProvider:StateProvider,
@@ -15,7 +16,7 @@ function configure(
                 user: ['UserService','SessionService', 
                     (UserService, SessionService) => UserService.getProfile(SessionService.getUser().userId)],
                 management: ['GroupService','user',
-                    (GroupService, user) => GroupService.getManagementProfile(user.connections.Athletes.groupId, 'coach')]
+                    (GroupService, user) => GroupService.getManagementProfile(user.connections.allAthletes.groupId, 'coach')]
             },
             views: DefaultTemplate('athletes')
         });
@@ -23,6 +24,8 @@ function configure(
     // Текст представлений
     $translateProvider.translations('en', {"athletes": _translate['en']});
     $translateProvider.translations('ru', {"athletes": _translate['ru']});
+    $translateProvider.translations('en', {"athlete-invitation": _translateAthleteInvitation['en']});
+    $translateProvider.translations('ru', {"athlete-invitation": _translateAthleteInvitation['ru']});
 
 }
 

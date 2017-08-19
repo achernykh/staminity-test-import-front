@@ -1,0 +1,149 @@
+<md-dialog class="tariff-details-dialog">
+    <form name="$ctrl.form" ng-submit='$ctrl.submit()' ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 >{{ 'settings.billing.tariff' | translate }} «{{ 'settings.billing.tariffs.' + $ctrl.tariff.tariffCode | translate }}»</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-list class="md-dense">
+                <md-subheader class="md-no-sticky">{{ 'settings.billing.status' | translate }}</md-subheader>
+                <md-list-item>
+                    <span>{{ 'settings.billing.status' | translate }}</span>
+                    <span flex></span>
+                    <span style="text-align: right;">{{'settings.billing.tariffStatusesIsEnabled.' + $ctrl.tariffStatus | translate}}</span>
+                </md-list-item>
+                <md-list-item>
+                    <span>{{ 'settings.billing.payment' | translate }}</span>
+                    <span flex></span>
+                    <span style="text-align: right;">{{'settings.billing.tariffStatusesEnablers.' + $ctrl.tariffStatus | translate:{
+                        club: ($ctrl.tariff.clubProfile | clubName),
+                        coach: ($ctrl.tariff.userProfilePayer | userName)
+                    } }}</span>
+                </md-list-item>
+                <md-list-item ng-if="!['enabledByClub', 'enabledByCoach'].includes($ctrl.tariffStatus)">
+                    <span>{{ 'settings.billing.subscriptionDate' | translate }}</span>
+                    <span flex></span>
+                    <span class="font-bold"">{{ $ctrl.billing.started || $ctrl.tariff.unpaidBill.startPeriod | date:shortDate }}</span>
+                </md-list-item>
+                <md-list-item ng-if="$ctrl.tariffIsOwn">
+                    <span>{{ 'settings.billing.subscriptionEnds' | translate }}</span>
+                    <span flex></span>
+                    <span class="font-bold">{{ $ctrl.tariff.expireDate || $ctrl.tariff.unpaidBill.endPeriod | date:shortDate }}</span>
+                </md-list-item>
+                <md-list-item>
+                    <span>{{ 'settings.billing.subscriptionConditions' | translate }}</span>
+                    <span flex></span>
+                    <a ng-href="{{ 'settings.billing.subscriptionConditionsLink' | translate:{ tariffCode: $ctrl.tariff.tariffCode } }}" class="md-primary font-13">{{ 'settings.billing.open' | translate }}</a>
+                </md-list-item>
+            </md-list>
+
+            <md-list ng-if="$ctrl.tariffIsOwn" class="md-dense">
+                <md-subheader class="md-no-sticky">{{ 'settings.billing.fixedFee' | translate }}</md-subheader>
+                <md-list-item>
+                    <span>{{ 'settings.billing.subscriptionFees' | translate }}</span>
+                    <span flex></span>
+                    <span ng-if="!$ctrl.fixedFee.promo.discount" class="font-bold">{{ $ctrl.fixedFee.rate | currency:$ctrl.fixedFee.currency }} / {{ 'settings.billing.term.' + $ctrl.fixedFee.term | translate }}</span>
+                    <span ng-if="$ctrl.fixedFee.promo.discount" class="font-bold">
+                        <span class="text-crossed-out">{{ $ctrl.fixedFee.rate }}</span> 
+                        <span class="text-accent">{{ $ctrl.discountedFee($ctrl.fixedFee) | currency:$ctrl.fixedFee.currency }}</span> / {{ 'settings.billing.term.' + $ctrl.fixedFee.term | translate }}
+                    </span>
+                </md-list-item>
+                <md-list-item ng-if="$ctrl.fixedFee.promo.discount">
+                    <span>{{ 'settings.billing.promoDiscount'| translate }}</span>
+                    <span flex></span>
+                    <span class="font-bold">{{ $ctrl.fixedFee.promo.discount }}%</span>
+                </md-list-item>
+
+                <md-subheader ng-repeat-start="fee in $ctrl.variableFees" class="md-no-sticky">{{ 'settings.billing.group.' + fee.varGroup | translate }}</md-subheader>
+                    <md-list-item ng-if="!fee.varFreeCount && !$ctrl.hasMaxPaidCount(fee)">
+                        <span>{{ 'settings.billing.eachInGroup.' + fee.varGroup | translate }}</span>
+                        <span flex></span>
+                        <span ng-if="!fee.promo.discount" class="font-bold">
+                            {{ fee.rate | currency:fee.currency }} / {{ 'settings.billing.dayly' | translate }}
+                        </span>
+                        <span ng-if="fee.promo.discount" class="font-bold">
+                            <span class="text-crossed-out">{{ fee.rate | currency:fee.currency }}</span> 
+                            <span class="text-accent">{{ $ctrl.discountedFee(fee) | currency:$ctrl.fixedFee.currency }}</span> / {{ 'settings.billing.dayly' | translate }}
+                        </span>
+                    </md-list-item>
+                    <md-list-item ng-if="fee.varFreeCount">
+                        <span>{{ 'settings.billing.eachInGroupBelow' | translate:{below:fee.varFreeCount} }}</span>
+                        <span flex></span>
+                        <span class="font-bold">{{ 'settings.billing.free' | translate }}</span>
+                    </md-list-item>
+                    <md-list-item ng-if="fee.varFreeCount || $ctrl.hasMaxPaidCount(fee)">
+                        <span ng-if="!fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupBelow' | translate:{below:varMaxPaidCount - 1} }}</span>
+                        <span ng-if="fee.varFreeCount && !$ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupAbove' | translate:{above:fee.varFreeCount + 1} }}</span>
+                        <span ng-if="fee.varFreeCount && $ctrl.hasMaxPaidCount(fee)">{{ 'settings.billing.eachInGroupBetween' | translate:{from:fee.varFreeCount + 1,to:fee.varMaxPaidCount} }}</span>
+                        <span flex></span>
+                        <span ng-if="!fee.promo.discount" class="font-bold"">{{ fee.rate | currency:fee.currency }} / {{ 'settings.billing.dayly' | translate }}</span>
+                        <span ng-if="fee.promo.discount" class="font-bold">
+                            <span class="text-crossed-out">{{ fee.rate }}</span> 
+                            <span class="text-accent">{{ $ctrl.discountedFee(fee) | currency:fee.currency }}</span> / {{ 'settings.billing.dayly' | translate }}
+                        </span>
+                    </md-list-item>
+                    <md-list-item ng-if="$ctrl.hasMaxPaidCount(fee)">
+                        <span>{{ 'settings.billing.eachInGroupAbove' | translate:{above:fee.varMaxPaidCount + 1} }}</span>
+                        <span flex></span>
+                        <span class="font-bold">{{ 'settings.billing.free' | translate }}</span>
+                    </md-list-item>
+
+                    <md-list-item>
+                        <span>{{ 'settings.billing.connections'| translate }}</span>
+                        <span flex></span>
+                        <span class="font-bold">
+                            <md-button ng-click="$ctrl.viewFeeObjectsList(fee)" ng-disabled="!fee.varObjects.length">{{ fee.varActualCount || '-' }}</md-button>
+                        </span>
+                    </md-list-item>
+                    <md-list-item ng-if="fee.promo.discount">
+                        <span>{{ 'settings.billing.promoDiscount'| translate }}</span>
+                        <span flex></span>
+                        <span class="font-bold">{{ fee.promo.discount }}%</span>
+                    </md-list-item>
+                    <md-list-item ng-if="fee.volumeDiscount">
+                        <span>{{ 'settings.billing.volumeDiscount'| translate }}</span>
+                        <span flex></span>
+                        <span class="font-bold">{{ fee.volumeDiscount }}%</span>
+                    </md-list-item>
+                <md-divider ng-repeat-end ng-hide="true"></md-divider>
+
+                <md-subheader class="md-no-sticky">{{ 'settings.billing.promo' | translate }}</md-subheader>
+                <md-list-item>
+                    <div class="md-list-item-text">
+                        <md-input-container md-no-float class="md-block no-message enable-tariff-dialog__input-promo">
+                            <input ng-model="$ctrl.promoCode" type="text" autocomplete="off" placeholder="{{ 'settings.billing.promo' | translate }}">
+                        </md-input-container>
+                        <p ng-if="$ctrl.rejectedPromoCode" class="font-italic">{{ 'settings.billing.rejectedPromo' | translate:{promo:$ctrl.rejectedPromoCode} }}</p>
+                    </div>
+                    <span flex></span>
+                    <md-button class="md-raised md-primary" ng-click="$ctrl.submitPromo($ctrl.promoCode)">{{ 'settings.billing.submitPromo' | translate }}</md-button>
+                </md-list-item>
+                <md-list-item ng-if="$ctrl.activePromo">
+                    <span class="font-italic tariff-details-dialog__active-promo">{{ 'settings.billing.' + ($ctrl.activePromo.appliedFrom? 'activePromo' : 'validPromo') | translate:{
+                        promo:$ctrl.activePromo.code, 
+                        appliedFrom:($ctrl.activePromo.appliedFrom | date:'dd.MM.yyyy'),
+                        appliedTo:($ctrl.activePromo.appliedTo | date:'dd.MM.yyyy')
+                    } }}</span>
+                </md-list-item>
+
+                <md-subheader class="md-no-sticky">{{ 'settings.billing.changeFee' | translate }}</md-subheader>
+                <md-list-item>
+                    <p>{{ 'settings.billing.autoRenewal' | translate }}</p>
+                    <md-checkbox ng-model="$ctrl.autoRenewal" class="md-secondary"></md-checkbox>
+                </md-list-item>
+            </md-list>
+        </md-dialog-content>
+
+        <md-dialog-actions>
+            <span flex></span>
+            <md-button ng-if="$ctrl.tariffIsOwn" ng-click="$ctrl.cancel()">{{ 'settings.billing.cancel' | translate }}</md-button>
+            <md-button ng-if="$ctrl.tariffIsOwn" ng-click="$ctrl.submit()" ng-disabled="$ctrl.form.$pristine" class="md-primary">{{ 'settings.billing.confirmSave' | translate}}</md-button>
+            <md-button ng-if="!$ctrl.tariffIsOwn" ng-click="$ctrl.cancel()">{{ 'settings.billing.close' | translate }}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

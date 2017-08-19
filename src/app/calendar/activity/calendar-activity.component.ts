@@ -37,7 +37,7 @@ class CalendarActivityCtrl {
 
     $onInit() {
         this.data = new Activity(this.item);
-        this.data.prepare();
+        //this.data.prepare();
         this.isCreator = this.data.userProfileCreator.userId === this.calendar.currentUser.userId;
         //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
         if (this.data.bottomPanel === 'data') {
@@ -45,6 +45,8 @@ class CalendarActivityCtrl {
         }
 
         this.segmentChart = this.data.formChart();
+        this.segmentList = this.data.prepareSegmentList();
+        //console.log('CalendarActivityCtrl $onInit, summaryAvg=', this.data.summaryAvg)
         /**
          * Формат отображения тренировке в календаре зависит от нескольких параметров: 1) дата тренировки 2) факт
          * выполнения тренировки 3) наличие тренировочных сегментов (структурированная тренировка).
@@ -69,7 +71,7 @@ class CalendarActivityCtrl {
                 // Собираем лист сегментов
                 // Если интервал является плановым сегментов или группой, то формируем лист сегментов
                 if (interval.type === 'P' || interval.type === 'G') {
-                    this.prepareSegmentList((interval.type === 'G'), interval);
+                    //this.prepareSegmentList((interval.type == 'G'), interval);
 
                 }
                 // Собираем график сегментов
@@ -85,13 +87,13 @@ class CalendarActivityCtrl {
             }
 
             // Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
-            if (this.segmentChart.length) {
+            /**if (this.segmentChart.length) {
                 this.segmentChart.map((item) => {
                     item[0] = item[0] / comulativeDuration;
                     item[1] = item[1] / 100;
                     return item;
                 });
-            }
+            }**/
 
             /**
              * Вывод segmentList ограничен
@@ -149,13 +151,18 @@ class CalendarActivityCtrl {
                 //console.log('CalendarItem: $onInit',this.segmentList, this.calculateSegmentListSize(this.segmentList));
             }
         }
+
+         if (this.structured) {
+            //this.bottomPanel = 'segmentList';
+            //console.info('segmentChart', JSON.stringify(this.segmentChart));
+        }
     }
 
     $onChanges(changes) {
-        if (!changes.selected) {
+        if (changes.hasOwnProperty('selected') && !changes.selected) {
             console.log('CalendarActivityCtrl: onChange, selected=', changes.selected);
         }
-        if(!changes.item.isFirstChange()) {
+        if(changes.hasOwnProperty('item') && !changes.item.isFirstChange()) {
             this.$onInit();
         }
     }
@@ -209,7 +216,7 @@ class CalendarActivityCtrl {
          * Окончание рассчитывается как сумма предидущих интервалов +movingDurationLength и значение intensityByFtpTo
          */
         let comulativeDuration = duration + interval.movingDurationLength;
-        this.segmentChart.push(
+        /**this.segmentChart.push(
             [
                 duration,
                 interval.intensityByFtpFrom
@@ -217,7 +224,7 @@ class CalendarActivityCtrl {
             [
                 comulativeDuration,
                 interval.intensityByFtpTo
-            ]);
+            ]);**/
 
         return comulativeDuration;
     }
@@ -278,7 +285,7 @@ class CalendarActivityCtrl {
                 user: this.calendar.user
             },
             bindToController: true,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 
@@ -296,10 +303,15 @@ class CalendarActivityCtrl {
      * Удалить запись
      */
     onDelete() {
-        this.dialogs.confirm('deletePlanActivity')
-            .then(()=>this.CalendarService.deleteItem('F', [this.item.calendarItemId])
-                .then(()=>this.message.toastInfo('activityDeleted'),
-                    (error)=> this.message.toastError(error)));
+        this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
+        .then(() => this.CalendarService.deleteItem('F', [this.item.calendarItemId]))
+        .then(() => {
+            this.message.toastInfo('activityDeleted');
+        }, (error) => {
+            if (error) {
+                this.message.toastError(error);
+            }
+        });
     }
 
     /**

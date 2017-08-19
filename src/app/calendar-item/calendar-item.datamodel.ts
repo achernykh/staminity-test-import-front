@@ -1,6 +1,6 @@
 import {merge} from 'angular';
 import moment from 'moment/src/moment.js';
-import {IMeasurementHeader, ICalendarItem} from "../../../api/calendar/calendar.interface";
+import {IMeasurementHeader, ICalendarItem, IEventHeader} from "../../../api/calendar/calendar.interface";
 import {IUserProfileShort} from "../../../api/user/user.interface";
 import {IActivityHeader} from "../../../api/activity/activity.interface";
 
@@ -8,10 +8,14 @@ export class CalendarItem implements ICalendarItem {
 
 	public revision: any;
 	public calendarItemId: any;
-	public dateStart: Date;
-	public dateEnd: Date;
+	public dateStart: string;
+	public dateEnd: string;
 	public calendarItemType: string;
 	public measurementHeader:IMeasurementHeader;
+	public eventHeader:IEventHeader = {
+		eventType: null,
+		target: null
+	};
 	public activityHeader: IActivityHeader;
 	public userProfileOwner: IUserProfileShort;
 	public userProfileCreator: IUserProfileShort;
@@ -24,7 +28,7 @@ export class CalendarItem implements ICalendarItem {
 	}
 
 	// Подготовка данных для модели отображения
-	prepare() {
+	prepare(method?: string) {
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
 		this._dateStart = new Date(this.dateStart);
@@ -33,10 +37,10 @@ export class CalendarItem implements ICalendarItem {
 	}
 
 	// Подготовка данных для передачи в API
-	package() {
+	package(userProfile?: IUserProfileShort) {
 		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
-		this.dateEnd = moment(this._dateEnd).utc().add(moment().utcOffset(),'minutes').format();
-		debugger;
+		this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
+		this.userProfileOwner = userProfile || this.userProfileOwner;
 		return this;
 	}
 

@@ -1,7 +1,9 @@
 activity-header-details {
 
-  overflow-y: hidden;
-  overflow-x: hidden;
+  @media (min-width: 600px) {
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
 
   &:focus, &:hover {
     overflow-y: auto;

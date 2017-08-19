@@ -1,0 +1,18 @@
+<div
+	layout="row" layout-align="start start"
+	ng-class="{ 'category-disabled': !$ctrl.category.visible }"
+	class="category__list-item"
+	md-no-ink md-no-proxy
+>
+	<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityTypeCode }}.svg" class="reference__sport-icon-circled category__sport-icon"></md-icon>
+	<div flex>
+		<h3 class="category__label-code">{{ $ctrl.category | categoryCode }}</h3>
+		<div ng-if="$ctrl.category.userProfileCreator" class="category__label-author">Автор: {{ $ctrl.category.userProfileCreator | userName }}</div>
+		<div class="category__label-description">{{ $ctrl.category.description | truncate }}</div>
+	</div>
+	<md-switch
+		ng-model="$ctrl.isEnabled"
+		ng-click="$event.stopPropagation()"
+		class="md-primary"
+	/>
+</div>

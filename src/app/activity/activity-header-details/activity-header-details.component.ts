@@ -7,6 +7,7 @@ import {
 import {ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {Measure} from "../../share/measure/measure.constants";
 import {MeasureChartData} from "../activity.function";
+import {ActivityIntervalL} from "../activity-datamodel/activity.interval-l";
 
 interface Select {
     type: string;
@@ -21,7 +22,12 @@ interface SelectionOptions<T> {
 }
 class ActivityHeaderDetailsCtrl implements IComponentController {
 
+    hasImport: boolean;
+    hasDetails: boolean;
+
     private item: CalendarItemActivityCtrl;
+    private completeDetails: boolean = false;
+
     private selectionIndex: ISelectionIndex;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
     private chartData: MeasureChartData; // класс для расчета данных для графика
@@ -38,17 +44,18 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     prepareIntervals() {
-        this.intervalTypes.forEach(type => {
-            this.item.activity.header.intervals
-                .filter(i => i.type === type)
-                .forEach((d,i) => this.intervals[d.type+(i+1)] = {
-                    type: type,
-                    startTimestamp: d.startTimestamp,
-                    endTimestamp: d.endTimestamp,
-                    duration: d.calcMeasures.hasOwnProperty('duration') && d.calcMeasures.duration.value || '-',
-                    distance: d.calcMeasures.hasOwnProperty('distance') && d.calcMeasures.distance.value || '-'
-                });
-        });
+        this.intervalTypes.forEach(type =>
+            this.item.activity.intervals.stack
+                .filter(interval => interval.type === type)
+                .forEach((interval,i) =>
+                    this.intervals[interval.type+(i+1)] = {
+                        type: type,
+                        startTimestamp: interval.startTimestamp,
+                        endTimestamp: interval.endTimestamp,
+                        duration: interval.calcMeasures.hasOwnProperty('duration') && interval.calcMeasures['duration'].value || '-',
+                        distance: interval.calcMeasures.hasOwnProperty('distance') && interval.calcMeasures['distance'].value || '-'
+                    })
+        );
     }
 
     calculateIndex(selection: ISelectionIndex) {
@@ -66,15 +73,23 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.chartData = new MeasureChartData(
-            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+        /**this.chartData = new MeasureChartData(
+            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);**/
         this.prepareIntervals();
     }
 
-    $onChanges(change: any): void {
-        if(change.hasOwnProperty('change') && !change.change.isFirstChange()) {
+    $onChanges(changes: any): void {
+        if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
             this.prepareIntervals();
             this.selectedIntervals = this.calculateIndex(this.selectionIndex);
+        }
+        if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue && !this.completeDetails) {
+            this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+            this.completeDetails = true;
+            this.prepareIntervals();
+        }
+        if(changes.hasOwnProperty('hasImport') && changes.hasImport.currentValue) {
+            this.prepareIntervals();
         }
     }
 
@@ -118,6 +133,8 @@ const ActivityHeaderDetailsComponent:IComponentOptions = {
     bindings: {
         data: '<',
         selectionIndex: '<',
+        hasDetails: '<',
+        hasImport: '<',
         change: '<',
         onSelected: '&'
     },

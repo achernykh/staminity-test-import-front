@@ -1,4 +1,4 @@
-import {_connection} from './api.constants';
+import * as _connection from './env.js';
 import {ISessionService} from './session.service';
 import { IHttpService, IHttpPromise } from 'angular';
 import LoaderService from "../share/loader/loader.service";
@@ -46,10 +46,7 @@ export class PostData implements IPostDataRequest {
 		this.headers = {
 			'Authorization': 'Bearer '
 		};
-		this.data = {
-			//requestType: type,
-			requestData: data,
-		};
+		this.data = data && data.hasOwnProperty('requestData') && data || {requestData: data};
 	}
 }
 
@@ -98,17 +95,32 @@ export class RESTService implements IRESTService {
 
 	postData(request:IPostDataRequest):IHttpPromise<{}> {
 		this.loader.show();
-		request.headers['Authorization'] += this.SessionService.getToken();
-		request.data.token = this.SessionService.getToken();
-		console.log('REST Service => postData=', request);
+
+		let token: string = this.SessionService.getToken();
+		if (token){
+			request.headers['Authorization'] += token;
+			request.data.token = token;
+		} else {
+			delete request.headers['Authorization'];
+		}
+
 		return this.$http(request)
 			.finally(()=>this.loader.hide())
 			.then((response:any)=> {
 				console.log('REST Service => postData success=', response);
-				return response.data;
+				if(response.data.hasOwnProperty('errorMessage')) {
+					throw response.data;
+				} else {
+					return response.data;
+				}
 			}, (response) => {
-				console.log('REST Service => postData error=', response);
-				throw response.data.errorMessage; // Предполагаем, что сервер ответил ошибкой в формате systemMessage
+				if (response.hasOwnProperty('status') && response.status === -1){
+                    throw 'internetConnectionLost';
+                } else if(response.hasOwnProperty('data') && response.data.hasOwnProperty('errorMessage')) {
+                    throw response.data.errorMessage;
+                } else {
+                    throw 'unknownErrorMessage';
+                }
 			});
 	}
 

@@ -3,9 +3,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var ENV = process.env.npm_lifecycle_event;
 
+console.log('env', process.env.HOST, process.env.PORT);
+
 module.exports = {
     output: {
-        publicPath: 'http://localhost:8080/',
+        // publicPath: 'http://localhost:8080/',
         filename: 'assets/js/[name].js',
         chunkFilename: 'assets/js/[name].js'
     },
@@ -23,6 +25,10 @@ module.exports = {
             {
                 test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$/,
                 loader: 'file-loader?name=assets/images/[name].[ext]'
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file-loader?name=assets/fonts/[name].[ext]'
             }
         ]
     },
@@ -31,6 +37,8 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'assets/js/[name].js' })
     ],
     devServer: {
+        host: process.env.HOST || '0.0.0.0',
+        port: +process.env.PORT || 8080,
         contentBase: './src',
         stats: 'minimal',
         /*stats: {
