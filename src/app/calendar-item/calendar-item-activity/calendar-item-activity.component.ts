@@ -64,7 +64,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
-    private showSelectAthletes: boolean = false;
+    public showSelectAthletes: boolean = false;
+    public showSelectTemplate: boolean = false;
     private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
 
     public structuredMode: boolean = false;

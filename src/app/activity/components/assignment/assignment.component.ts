@@ -149,6 +149,10 @@ class ActivityAssignmentCtrl implements IComponentController {
         }
     }
 
+    onTemplateOpen(){
+        this.item.showSelectTemplate = true;
+    }
+
     prepareValues() {
         if(this.ftpMode) {
             this.from = 'intensityByFtpFrom';

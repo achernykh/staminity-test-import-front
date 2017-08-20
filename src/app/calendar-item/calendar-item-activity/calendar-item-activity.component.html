@@ -19,3 +19,9 @@
                                 athletes="$ctrl.forAthletes"
                                 on-select="$ctrl.selectAthletes(result)">
 </calendar-item-athlete-selector>
+
+<calendar-item-template-selector ng-if="$ctrl.showSelectTemplate"
+                                 ng-cloack class="calendar-item-template-selector"
+                                 on-back="$ctrl.showSelectTemplate = false"
+                                 on-select="$ctrl.onSelectTemplate(result)">
+</calendar-item-template-selector>

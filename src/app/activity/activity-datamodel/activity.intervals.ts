@@ -364,7 +364,6 @@ export class ActivityIntervals {
         });
 
         minFtp = minFtp * 0.90;
-        debugger;
         data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
         //debugger;
 

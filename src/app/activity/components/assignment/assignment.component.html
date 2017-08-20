@@ -62,6 +62,11 @@
             <md-switch class="md-secondary md-primary"
                        ng-model="$ctrl.item.structuredMode" md-invert>
         </md-list-item>
+        <md-list-item ng-click="$ctrl.onTemplateOpen()">
+            <md-icon class="material-icons md-dark" style="margin-right: 20px">import_contacts</md-icon>
+            <p translate="activity.template"></p>
+            <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>
+        </md-list-item>
         <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.template">
             <md-input-container flex="50" class="no-message" md-no-float>
                 <md-icon flex="none" class="material-icons md-dark" style="left: 0px">today</md-icon>

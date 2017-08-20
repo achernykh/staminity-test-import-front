@@ -8,6 +8,7 @@ import CalendarItemWizardComponent from "./calendar-item-wizard/calendar-item-wi
 import {_translateActivity} from "./calendar-item-activity/calendar-item-activity.translate";
 import {_translateWizard} from "./calendar-item-wizard/calendar-item-wizard.translate";
 import CalendarItemAthleteSelectorComponent from "./calendar-item-athlete-selector/calendar-item-athlete-selector.component";
+import CalendarItemTemplateSelectorComponent from "./calendar-item-template-selector/calendar-item-template-selector.component";
 
 const CalendarItemMeasurement = module('staminity.calendar-item-measurement', [])
     .component('calendarItemActivity', CalendarItemActivityComponent)
@@ -15,6 +16,7 @@ const CalendarItemMeasurement = module('staminity.calendar-item-measurement', []
     .component('calendarItemEvents', CalendarItemEventsComponent)
     .component('calendarItemWizard', CalendarItemWizardComponent)
     .component('calendarItemAthleteSelector', CalendarItemAthleteSelectorComponent)
+    .component('calendarItemTemplateSelector', CalendarItemTemplateSelectorComponent)
     .config(['$translateProvider',($translateProvider) => {
         $translateProvider.translations('ru', {activity: _translateActivity.ru});
         $translateProvider.translations('en', {activity: _translateActivity.en});
