@@ -1,7 +1,10 @@
 import './search.component.scss';
 import {IComponentOptions, IComponentController, IPromise, IScope, ILocationService} from 'angular';
 import {SearchService} from "./search.service";
-import {SearchParams, SearchResultByUser, SearchMethod} from "../../../api/search/search.interface";
+import {
+    SearchParams, SearchResultByUser, SearchMethod,
+    SearchResultByGroup
+} from "../../../api/search/search.interface";
 import * as _connection from "../core/env.js";
 import MessageService from "../core/message.service";
 
@@ -11,8 +14,8 @@ class SearchCtrl implements IComponentController {
     public readonly method:SearchMethod = 'byParams';
 
     public params: SearchParams = {objectType: 'user'};
-    public type: Array<string> = ['user','coach'];//,'club','group'];
-    public result: Array<SearchResultByUser>;
+    public type: Array<string> = ['user','coach','club'];//,'club','group'];
+    public result: Array<SearchResultByUser | SearchResultByGroup>;
     public order: string = 'name';
 
     public options:Object = {
@@ -53,6 +56,12 @@ class SearchCtrl implements IComponentController {
             case 'user': case 'coach': {
                 let win = window.open(`${url}user/${uri}`, '_blank');
                 win.focus();
+                break;
+            }
+            case 'club': {
+                let win = window.open(`${url}club/${uri}`, '_blank');
+                win.focus();
+                break;
             }
         }
     }

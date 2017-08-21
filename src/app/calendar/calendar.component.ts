@@ -549,10 +549,10 @@ export class CalendarCtrl implements IComponentController{
 
         debugger;
 
-        this.dialogs.confirm('dialogs.deletePlanActivity')
-            .then(() => this.CalendarService.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
-                .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))
-                .then(()=> inSelection && this.clearBuffer()));
+        this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
+        .then(() => this.CalendarService.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))
+        .then(() => this.message.toastInfo('itemsDeleted'), (error) => error && this.message.toastError(error))
+        .then(() => inSelection && this.clearBuffer());
     }
 
     clearBuffer() {

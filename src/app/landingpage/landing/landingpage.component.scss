@@ -169,6 +169,7 @@ landing-page {
 				color: currentColor;
 				//text-transform: uppercase;
 				text-align: center;//right;
+				visibility: hidden;
 
 				@media (max-width: 599px), (orientation: landscape) {
 					width: 120px;

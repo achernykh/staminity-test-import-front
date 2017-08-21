@@ -30,10 +30,10 @@ export default class DialogsService {
         });
     }
     
-    confirm (message) {
+    confirm (messages, value = null) {
         return this.$mdDialog.show({
             controller: ConfirmDialogController,
-            locals: { message: message },
+            locals: { messages, value },
             template: require('./confirm.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
@@ -227,19 +227,19 @@ export default class DialogsService {
 DialogsService.$inject = ['$mdDialog', '$mdMedia', 'BillingService', 'message'];
 
 
-function ConfirmDialogController($scope, $mdDialog, message) {
-    $scope.message = message
+function ConfirmDialogController($scope, $mdDialog, messages, value) {
+    $scope.messages = messages;
     
     $scope.cancel = () => {
         $mdDialog.cancel();
     };
     
     $scope.confirm = () => {
-        $mdDialog.hide(true);
+        $mdDialog.hide(value);
     };
 }
 
-ConfirmDialogController.$inject = ['$scope','$mdDialog','message'];
+ConfirmDialogController.$inject = ['$scope','$mdDialog','messages', 'value'];
 
 
 function UploadPictureDialogController($scope, $mdDialog) {
@@ -375,6 +375,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
     this.promoCode = '';
     this.rejectedPromoCode = '';
     this.paymentSystem = 'fondy';
+    this.agreement = false;
 
     this.discountedFee = (fee) => fee.rate * (1 + (fee.promo.discount || 0) / 100);
 
@@ -420,39 +421,24 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
     };
 
     this.submit = function () {
+        let trial = this.billing.trialConditions.isAvailable;
         BillingService.enableTariff(
             tariff.tariffId, 
             user.userId, 
             this.fee.term,
             this.autoRenewal,
-            this.billing.trialConditions.isAvailable,
+            trial,
             maybe(this.activePromo) (prop('code')) (),
             this.paymentSystem
         )
         .then((bill) => {
             $mdDialog.hide();
-            return bill;
-        }, (info) => {
-            message.systemWarning(info);
-            throw info;
-        })
-        .then((bill) => {
-            return dialogs.billDetails(bill, this.user);
-        });
-    };
 
-    this.submitTrial = function () {
-        BillingService.enableTariff(
-            tariff.tariffId, 
-            user.userId, 
-            this.fee.term,
-            this.autoRenewal,
-            this.billing.trialConditions.isAvailable,
-            maybe(this.activePromo) (prop('code')) (),
-            this.paymentSystem
-        )
-        .then(() => {
-            $mdDialog.hide();
+            if (!trial) {
+                dialogs.billDetails(bill, this.user);
+            }
+
+            return bill;
         }, (info) => {
             message.systemWarning(info);
             throw info;

@@ -10,6 +10,7 @@
  * идти следом друг за дргуом передавая рассчитанное значение на вход следующему
  * фильтру
  * 
+ * При добавлении новых уведомлений необходимо создавать строку для последующего тестированию данного шаблона. Пример см. в notificationTestMessage
  * */
 export const translateNotification = {
     ru: {
@@ -18,6 +19,8 @@ export const translateNotification = {
          * data[0] - базовый вид спорта
          * data[1] - фактическое расстояние (distance)
          * data[2] - фактическая скорость (speed)
+         UNIT TEST:
+         'notificationTestMessage', jsonb_build_array('базовый вид спорта', distance числом, speed числом),
          * */
         notificationTestMessage: "Новое тестовое сообщение с параметром: расстояние {{data[1] | measureCalc:data[0]:'distance'}} " +
         "{{'distance' | measureUnit:data[0] | translate}} со скоростью {{data[2] | measureCalc:data[0]:'speed'}} {{'speed' | measureUnit:data[0] | translate}}",
@@ -327,7 +330,7 @@ export const translateNotification = {
         joinClubCoachesByMember: "Назначил себя тренером клуба {{data[0]}}",
         joinClubChiefCoachesByMember: "Назначил себя главным тренером клуба {{data[0]}}",
         joinClubConsultingByMember: "Назначил себя консультантом клуба {{data[0]}}",
-        joinClubAthleteByMember: "Включил себя в число спортсменов клуба {{data[0]}}",
+        joinClubAthletesByMember: "Включил себя в число спортсменов клуба {{data[0]}}",
 
 
         // выход из групп
@@ -524,8 +527,8 @@ export const translateNotification = {
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
          header (push): Удаление спортсменов     **/
-        coachEnvDeleteInSomeDays: 'Связь с вашими спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать',
-        coachEnvDeleted: 'Связь с вашими спортсменами удалена',
+        coachEnvDeleteInSomeDays: 'Связь с вашими не клубными спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать',
+        coachEnvDeleted: 'Связь с вашими не клубными спортсменами удалена',
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити
@@ -886,7 +889,7 @@ export const translateNotification = {
         joinClubCoachesByMember: "Made yourself club coach in {{data[0]}}",
         joinClubChiefCoachesByMember: "Made yourself chief coach in {{data[0]}}",
         joinClubConsultingByMember: "Made yourself club consultant in {{data[0]}}",
-        joinClubAthleteByMember: "Made yourself club athlete in {{data[0]}}",
+        joinClubAthletesByMember: "Made yourself club athlete in {{data[0]}}",
 
 
         // выход из групп
@@ -1066,8 +1069,8 @@ export const translateNotification = {
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
          header (push): Remove athletes     **/
-        coachEnvDeleteInSomeDays: 'Your athletes will be disconnected from you in 5 days. To continue work with them please purchase "Coach" tariff',
-        coachEnvDeleted: 'You have been disconnected from your athletes',
+        coachEnvDeleteInSomeDays: 'Your non-club athletes will be disconnected from you in 5 days. To continue work with them please purchase "Coach" tariff',
+        coachEnvDeleted: 'You have been disconnected from your non-club athletes',
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити

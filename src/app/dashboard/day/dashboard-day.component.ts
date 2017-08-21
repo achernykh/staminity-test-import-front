@@ -49,10 +49,10 @@ class DashboardDayCtrl implements IComponentController {
         if (srcAthlete.userId !== this.athlete.userId) {
             item.userProfileOwner = profileShort(srcAthlete);
             //operation = 'copy';
-            this.dialogs.confirm('updateIntensity')
-                .then(() => {item = updateIntensity(item, srcAthlete.trainingZones);},() => {})
+            this.dialogs.confirm({ text: 'updateIntensity' })
+                .then(() => {item = updateIntensity(item, srcAthlete.trainingZones);})
                 .then(() => this.onProcess(item, operation, true))
-                .then(() => operation === 'move' && this.CalendarService.deleteItem('F',[item.calendarItemId]).then(()=>{},()=>{}));
+                .then(() => operation === 'move' && this.CalendarService.deleteItem('F',[item.calendarItemId]));
         } else {
             this.onProcess(item, operation);
         }
@@ -63,8 +63,8 @@ class DashboardDayCtrl implements IComponentController {
         switch (operation) {
             case 'move': {
                 if (!post && isCompletedActivity(item)) {
-                    this.dialogs.confirm('moveActualActivity')
-                        .then(()=>this.CalendarService.postItem(clearActualDataActivity(item)), Promise.reject(null))
+                    this.dialogs.confirm({ text: 'moveActualActivity' })
+                        .then(() =>this.CalendarService.postItem(clearActualDataActivity(item)))
                         .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
                 } else if(!post) {
                     this.CalendarService.putItem(item)

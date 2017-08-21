@@ -12,4 +12,8 @@ export class ActivityInterval implements IActivityInterval{
     constructor(public type: string, private params?: any) {
         Object.assign(this, params);
     }
+
+    update(params: Object) {
+        Object.assign(this, params);
+    }
 }

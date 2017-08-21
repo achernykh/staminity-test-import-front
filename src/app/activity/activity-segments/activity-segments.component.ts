@@ -320,8 +320,11 @@ class ActivitySegmentsCtrl implements IComponentController {
         this.update();
     }
 
-    deleteInterval() {
-        //this.intervals.map((interval,i) => interval.isSelected && this.item.activity.spliceInterval('P',i));
+    delete() {
+        this.intervals.P.filter(interval => interval.isSelected)
+            .map(interval => this.intervals.splice(interval.type, interval.pos));
+        this.intervals.PW.calculate(this.intervals.P);
+        this.update();
     }
 
     isKey():boolean {

@@ -105,14 +105,29 @@ export class ActivityIntervals {
     }
 
     /**
-     * @description Удаление инетрвала
+     * @description Удаление интервала
      * @param type
      * @param id
      */
-    splice(type: string, id: string | number):void {
+    splice(type: string, id: string | number): void {
         let i: number = this.find(type, id);
-        if(id !== -1) {
-            this.stack.splice(i,1);
+        if(i !== -1){
+            let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
+            // Если интревал является повторяющимся
+            if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
+                let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroup)[0];
+                this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.length === 0)
+                    .map(interval => {
+                        i = this.find(interval.type, interval.pos);
+                        // 1. удаляем интревал
+                        this.stack.splice(i,1);
+                        // 2. реорганизуем инетрвалы, сдвигаем на -1 позицию вверх
+                        this.reorganisation(interval.pos, -1);
+                    });
+            } else { // одиночный интервал
+                this.stack.splice(i,1);
+                this.reorganisation(interval.pos, -1);
+            }
         }
     }
 

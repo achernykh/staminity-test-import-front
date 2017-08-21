@@ -78,6 +78,14 @@ avatar-pic {
         width: 36px;
         border-radius: 18px;
     }
+    &.size-60 > div.avatar {
+        height: 60px;
+        width: 60px;
+        border-radius: 30px;
+    }
+    &.border-light > div.avatar {
+        border: 1px solid rgba(255,255,255,0.9);
+    }
 }
 
 .st-hover-background {
