@@ -21,7 +21,8 @@
 </calendar-item-athlete-selector>
 
 <calendar-item-template-selector ng-if="$ctrl.showSelectTemplate"
+                                 templates-by-owner="$ctrl.templatesByOwner"
                                  ng-cloack class="calendar-item-template-selector"
                                  on-back="$ctrl.showSelectTemplate = false"
-                                 on-select="$ctrl.onSelectTemplate(result)">
+                                 on-select="$ctrl.onSelectTemplate(template)">
 </calendar-item-template-selector>

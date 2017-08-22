@@ -1,24 +1,38 @@
 import './calendar-item-template-selector.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IActivityTemplate} from "../../../../api/reference/reference.interface";
+import ReferenceService from "../../reference/reference.service";
+import {Subject} from "rxjs/Rx";
+import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
+import {templatesFilters, ReferenceFilterParams, getOwner} from "../../reference/reference.datamodel";
+import {IUserProfile} from "../../../../api/user/user.interface";
+import {filtersToPredicate} from "../../share/utility/filtering";
 
 class CalendarItemTemplateSelectorCtrl implements IComponentController {
 
     public data: any;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    private templatesByOwner: { [owner: string]: Array<IActivityTemplate> };
 
-    constructor() {
+    static $inject = ['$scope','ReferenceService'];
+
+    constructor(
+        private $scope,
+        private ReferenceService: ReferenceService) {
 
     }
 
-    $onInit() {
-
+    $onInit(): void {
     }
+
+    $onDestroy(): void {
+    }
+
 }
 
 const CalendarItemTemplateSelectorComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        templatesByOwner: '<',
         onBack: '&',
         onSelect: '&'
     },

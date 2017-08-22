@@ -114,6 +114,9 @@ class TemplatesCtrl implements IComponentController {
 
 
 const TemplatesComponent: IComponentOptions = {
+	require: {
+		reference: '^'
+	},
 	bindings: {
 		user: '<',
 		categories: '<',

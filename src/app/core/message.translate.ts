@@ -179,7 +179,7 @@ export const _translateMessage = {
 		resetPasswordSuccess: {
 			title: '',
 			text: 'На ваш адрес e-mail отправлена ссылка для восстановления пароля'
-		}
+		},
 
 		// --------------- SIGN OUT ---------------
 		signoutSuccess: { // сообщение об успешной завершении пользовательской сессии

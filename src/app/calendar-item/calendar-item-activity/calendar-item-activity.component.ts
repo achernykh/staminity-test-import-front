@@ -23,7 +23,10 @@ import ReferenceService from "../../reference/reference.service";
 import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
 import {FtpState} from "../../activity/components/assignment/assignment.component";
-import {ActivityIntervalFactory} from "../../activity/activity-datamodel/activity.functions";
+import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
+import {templatesFilters, ReferenceFilterParams, getOwner} from "../../reference/reference.datamodel";
+import {filtersToPredicate} from "../../share/utility/filtering";
+import {ActivityIntervals} from "../../activity/activity-datamodel/activity.intervals";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -87,6 +90,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private splitsSelectChangeCount: number = 0;
     private isLoadingRange: boolean = false; // индиактор загрузки результатов calculateActivityRange
 
+    public filterParams: ReferenceFilterParams; // набор фильтрации (вид спорта, категория, клуб) для фильтрации шаблонов пользователя
+    public templates: Array<IActivityTemplate> = []; // набор шаблоново тренировок пользователя
+    private destroy: Subject<void> = new Subject<void>();
+    private templatesByOwner: { [owner: string]: Array<IActivityTemplate> }; // шаблоны тренировки для выдчи пользователю в разрезе свои, тренера, системные и пр..
+
     private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
     public currentUser: IUserProfile = null;
     public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
@@ -100,7 +108,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
-    private destroy = new Subject();
 
     static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
         'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService'];
@@ -155,6 +162,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.prepareAuth();
         this.prepareAthletesList();
         this.prepareCategories();
+        this.prepareTemplates();
         this.prepareTabPosition();
     }
 
@@ -200,11 +208,47 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
+    prepareTemplates(): void {
+        this.templates = this.ReferenceService.templates;
+        this.ReferenceService.templatesChanges
+            .takeUntil(this.destroy)
+            .subscribe((templates) => {
+                this.templates = templates;
+                this.updateFilterParams();
+                this.$scope.$apply();
+            });
+
+        this.updateFilterParams();
+    }
+
+    onSelectTemplate(template: IActivityTemplate){
+        this.showSelectTemplate = false;
+        this.activity.intervals = new ActivityIntervals(template.content);
+        this.activity.updateIntervals();
+        this.$scope.$apply();
+    }
+
     prepareAuth(){
         this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
         this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
         this.isPro = this.AuthService.isActivityPro();
         this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
+    }
+
+    updateFilterParams(): void {
+        this.filterParams = {
+            club: null,
+            activityType: this.activity.header.activityType,
+            category: this.activity.header.activityCategory
+        };
+
+        let filters = pick(['club', 'activityType', 'category']) (templatesFilters);
+
+        this.templatesByOwner = pipe(
+            filter(filtersToPredicate(filters, this.filterParams)),
+            orderBy(prop('sortOrder')),
+            groupBy(getOwner(this.user)),
+        ) (this.templates);
     }
 
     /**

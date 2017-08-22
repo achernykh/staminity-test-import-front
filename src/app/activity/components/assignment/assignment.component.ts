@@ -270,6 +270,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         setTimeout(()=>{
             this.validateForm();
             this.updateForm();
+            this.item.updateFilterParams();
         }, 100);
     }
 
