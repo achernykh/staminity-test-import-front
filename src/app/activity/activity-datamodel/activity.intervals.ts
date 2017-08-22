@@ -89,7 +89,6 @@ export class ActivityIntervals {
     }
 
     lastPos():number{
-       debugger;
         let max:number = Math.max(...this.P.map(i => i.pos),0);
         return max;
     }
@@ -354,7 +353,6 @@ export class ActivityIntervals {
 
         minFtp = minFtp * 0.90;
         data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
-        //debugger;
 
         // Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
         return (data.length > 0 && data) || null;

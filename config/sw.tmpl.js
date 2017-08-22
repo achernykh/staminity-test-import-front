@@ -5,7 +5,7 @@ const version = '<%= version%>';
 const preload = '<%= cache%>';
 const cacheKey = `static-${version}`;
 const whitelist = ['https://'];
-const blacklist = ['/sw.js'];
+const blacklist = ['/sw.js', 'favicon.ico?'];
 
 self.addEventListener('install', (event) => {
 	console.log('sw install', event);
@@ -19,7 +19,7 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
 	let { request } = event;
-	
+
 	if (shouldHandle(request)) {
 		event.respondWith(cachedFetch(request));
 	}

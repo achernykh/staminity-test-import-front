@@ -83,12 +83,12 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
         // Изменилась длительность
         if (value instanceof  DurationMeasure) {
-            debugger;
+
         }
 
         // Изменилась интенсивность
         if (value instanceof IntensityMeasure) {
-            debugger;
+            
         }
 
         //
