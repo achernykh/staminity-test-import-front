@@ -88,6 +88,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private headerSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Заголовок
     private detailsSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Детали
     private splitsSelectChangeCount: number = 0;
+    private templateChangeCount: number = 0; // счетчик изменения выбора шаблона тренировки, обновляем задание
     private isLoadingRange: boolean = false; // индиактор загрузки результатов calculateActivityRange
 
     public filterParams: ReferenceFilterParams; // набор фильтрации (вид спорта, категория, клуб) для фильтрации шаблонов пользователя
@@ -225,6 +226,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.showSelectTemplate = false;
         this.activity.intervals = new ActivityIntervals(template.content);
         this.activity.updateIntervals();
+        this.templateChangeCount ++;
         this.$scope.$apply();
     }
 

@@ -356,6 +356,7 @@ const ActivityAssignmentComponent:IComponentOptions = {
         form: '<',
         editable: '<',
         ftpMode: '<',
+        change: '<',
         onChange: '&'
     },
     controller: ActivityAssignmentCtrl,
