@@ -8,7 +8,7 @@ import {
     CalculateActivityRange
 } from '../../../api/activity/activity.request';
 import {ISocketService} from '../core/socket.service';
-import {RESTService, PostData} from "../core/rest.service";
+import {RESTService, PostData, GetData} from "../core/rest.service";
 
 export default class ActivityService {
 
@@ -37,7 +37,7 @@ export default class ActivityService {
     getDetails(id:number, ws: boolean = false):Promise<IActivityDetails> {
         return ws ?
             this.SocketService.send(new GetDetailsRequest(id)) :
-            this.RESTService.postData(new PostData(`/activity/${id}/full`, null));
+            this.RESTService.postData(new GetData(`/activity/${id}/full`, null));
     }
 
     /**
