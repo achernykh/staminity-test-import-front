@@ -1,5 +1,6 @@
 <form flex="auto" layout="column" name="$ctrl.assignmentForm">
-<activity-assignment flex="auto" layout="column" class="activity-assignment"
+<activity-assignment ng-if="!$ctrl.item.showTemplate"
+                     flex="auto" layout="column" class="activity-assignment"
                      plan="$ctrl.item.activity.intervalPW"
                      actual="$ctrl.item.activity.intervalW.calcMeasures"
                      sport="$ctrl.item.activity.sportBasic"
@@ -21,7 +22,7 @@
                ng-disabled="!$ctrl.assignmentForm.$dirty || !$ctrl.assignmentForm.$valid"
                ng-click="$ctrl.item.onSaveTemplate()">Сохранить
     </md-button>
-    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template" ng-disabled="true"
+    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"
                ng-click="$ctrl.item.toTemplate()">В шаблон
     </md-button>
     <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"

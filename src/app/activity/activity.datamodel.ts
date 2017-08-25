@@ -457,22 +457,36 @@ export class Activity extends CalendarItem {
 	}
 
 	get movingDuration():number {
-		return this.intervalW.movingDuration() || this.intervalPW.movingDuration.durationValue || null;
+		return this.intervalW.movingDuration() ||
+			(this.intervalPW.movingDurationApprox && this.intervalPW.movingDurationLength) ||
+			(!this.intervalPW.movingDurationApprox && this.intervalPW.movingDuration.durationValue) || null;
 		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.movingDuration();**/
 	}
 
+	get movingDurationApprox():boolean {
+		return !!!this.intervalW.movingDuration() && this.intervalPW.movingDurationApprox;
+	}
+
 	get duration() {
-		return this.intervalW.movingDuration() || this.intervalPW.movingDuration.durationValue || null;
+		return this.intervalW.movingDuration() ||
+			(this.intervalPW.movingDurationApprox && this.intervalPW.movingDurationLength) ||
+			(!this.intervalPW.movingDurationApprox && this.intervalPW.movingDuration.durationValue) || null;
 		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;**/
 	}
 
 	get distance() {
-		return this.intervalW.distance() || this.intervalPW.distance.durationValue || null;
+		return this.intervalW.distance() ||
+			(this.intervalPW.distanceApprox && this.intervalPW.distanceLength) ||
+			(!this.intervalPW.distanceApprox && this.intervalPW.distance.durationValue) || null;
 		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
             && this.intervalPW.durationValue) ||
             (this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;**/
+	}
+
+	get distanceApprox():boolean {
+		return !!!this.intervalW.distance() && this.intervalPW.distanceApprox;
 	}
 
 	// Формируем перечень показателей для панели data (bottomPanel)

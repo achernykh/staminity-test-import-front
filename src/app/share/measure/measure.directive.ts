@@ -292,6 +292,7 @@ export function MeasurementInput($filter): IDirective {
 				$ctrl.$setViewValue(mask($ctrl.$viewValue));
 			}
 			$ctrl.$render();
+			debugger;
 		});
 
 		$element.on('blur', () => {
@@ -350,6 +351,12 @@ export function MeasurementInput($filter): IDirective {
 			setParams();
 		});
 
+		$scope.$watch('change', (newValue: number) => {
+			console.log('change assignment: ',$scope, $attrs, $ctrl, newValue);
+			$ctrl.$render();
+			//debugger;
+		});
+
 		setParams();
 
 		function setParams() {
@@ -366,10 +373,8 @@ export function MeasurementInput($filter): IDirective {
 
             $scope.isFTPMeasure = FTPMeasures.indexOf($scope.measure) !== -1;
 
-
 			if ($scope.measure && $attrs['sport']) {
 				measure = new Measure($scope.measure, $attrs['sport']);
-				console.log('measure = ', measure.name, measure.unit, measure.type, maskFunction(measure.type, $scope.interval));
 
 				switch (measure.type){
 					case 'pace': {
@@ -393,10 +398,7 @@ export function MeasurementInput($filter): IDirective {
 							$ctrl.$validators['duration'] = durationValidators;
                             $ctrl.$formatters = [durationFormatters];
                             $ctrl.$parsers = [durationParsers];
-							//$ctrl.$formatters.push(durationFormatters);
-							//$ctrl.$parsers.push(durationParsers);
 							convert = convertToDuration;
-							//mask = toDuration;
 						}
 						break;
 					}
@@ -427,6 +429,7 @@ export function MeasurementInput($filter): IDirective {
 		scope: {
 			ftpMode: '<',
 			ftp: '<',
+			change: '<',
 			interval: '=',
             measure: '='
 		}
