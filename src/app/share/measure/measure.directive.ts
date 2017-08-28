@@ -238,7 +238,9 @@ export function MeasurementInput($filter): IDirective {
 				&& value[$scope.from] && value[$scope.to] ) {
 				initial = value;
 				//let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
-				return $scope.interval ? `${initial[$scope.from]*100}`+'-'+`${initial[$scope.to]*100}` : `${initial[$scope.from]*100}`;
+				return $scope.interval && initial[$scope.from] !== initial[$scope.to] ?
+					`${initial[$scope.from]*100}`+'-'+`${initial[$scope.to]*100}` :
+					`${initial[$scope.from]*100}`;
 			} else {
 			    initial = value;
 				//initial = Object.assign(initial, {[$scope.from]: null, [$scope.to]: null});

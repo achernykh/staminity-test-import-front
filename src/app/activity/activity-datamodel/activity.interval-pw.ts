@@ -137,4 +137,17 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
 
         Object.assign(this, update);
     }
+
+    /**
+     * @description подготовка интревала к сохранению в шаблоне
+     * @returns {IActivityIntervalPW}
+     */
+    toTemplate(): IActivityIntervalPW {
+        this.intensityLevelFrom = null;
+        this.intensityLevelTo = null;
+        this.intensityByFtpFrom = Math.ceil(this.intensityByFtpFrom * 100) / 100;
+        this.intensityByFtpTo = Math.ceil(this.intensityByFtpTo * 100) / 100;
+
+        return this.clear();
+    }
 }

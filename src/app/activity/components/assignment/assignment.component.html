@@ -58,7 +58,7 @@
         </md-list-item>
         <md-list-item ng-click="$ctrl.onTemplateOpen()" ng-if="!$ctrl.item.template && $ctrl.item.activity.header.activityCategory">
             <md-icon class="material-icons md-dark" style="margin-right: 20px">import_contacts</md-icon>
-            <p translate>{{$ctrl.item.templateByFilter ? 'activity.template.enable' : 'activity.template.empty'}}</p>
+            <p translate>{{$ctrl.templateSelectorText}}</p>
             <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>
         </md-list-item>
         <md-list-item ng-if="$ctrl.item.activity.sport">

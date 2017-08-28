@@ -172,6 +172,11 @@ class ActivityAssignmentCtrl implements IComponentController {
         this.item.showSelectTemplate = true;
     }
 
+    get templateSelectorText(): string {
+        return this.item.activeTemplate && `Шаблон: ${this.item.activeTemplate.description}` ||
+                this.item.templateByFilter && 'activity.template.enable' || 'activity.template.empty';
+    }
+
     prepareValues() {
         if(this.ftpMode) {
             this.from = 'intensityByFtpFrom';
@@ -216,9 +221,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         if(!!!key) {
             return;
         }
-
-        //debugger;
-
+        this.clearTemplate();
         this.validateForm();
         this.ftpMode === FtpState.Off ? this.completeFtpMeasure(key) : this.completeAbsoluteMeasure(key);
         this.prepareDataForUpdate();
@@ -287,10 +290,15 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     changeParam() {
         setTimeout(()=>{
+            this.clearTemplate();
             this.validateForm();
             this.updateForm();
             this.item.updateFilterParams();
         }, 100);
+    }
+
+    clearTemplate() {
+        this.item.activeTemplate = null;
     }
 
     validateForm() {

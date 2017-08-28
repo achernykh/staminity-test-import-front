@@ -69,6 +69,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     public showSelectAthletes: boolean = false;
     public showSelectTemplate: boolean = false;
+    public activeTemplate: IActivityTemplate = null;
     private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
 
     public structuredMode: boolean = false;
@@ -95,7 +96,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public templates: Array<IActivityTemplate> = []; // набор шаблоново тренировок пользователя
     private destroy: Subject<void> = new Subject<void>();
     private templatesByOwner: { [owner: string]: Array<IActivityTemplate> }; // шаблоны тренировки для выдчи пользователю в разрезе свои, тренера, системные и пр..
-    private templateByFilter: boolean = false; // false - нет шаблонов в соответствии с фильтром, true - есть шаблоны
+    public templateByFilter: boolean = false; // false - нет шаблонов в соответствии с фильтром, true - есть шаблоны
 
     private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
     public currentUser: IUserProfile = null;
@@ -224,7 +225,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onSelectTemplate(template: IActivityTemplate){
+        debugger;
         this.showSelectTemplate = false;
+        this.activeTemplate = template;
         this.activity.intervals = new ActivityIntervals(template.content);
         this.activity.updateIntervals();
         this.templateChangeCount ++;
@@ -578,7 +581,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
             visible: true,
             activityCategory: activityCategory,
             userProfileCreator: this.user,
-            content: intervals
+            content: [this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
+                ...this.activity.intervalP.map(i => i)]
         };
         
         return this.$mdDialog.show(templateDialog('post', template, this.user));
