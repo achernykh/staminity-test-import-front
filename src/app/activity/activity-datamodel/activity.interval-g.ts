@@ -9,12 +9,13 @@ export class ActivityIntervalG extends ActivityInterval implements IActivityInte
 
     code: string;
     repeatCount: number; //количество повторов сегментов
-    length: number; //длина сегментам в интервалах
     calcMeasures: ICalcMeasures;
+    grpLength: number; // количество сегментов в группе
+    fPos: number; // intervalP.pos первого сегмента в группе
 
     constructor(type: string, params: any){
         super(type, params);
-        this.code = this.code || `${genHash(6)}-${genHash(4)}-${genHash(4)}-${genHash(4)}-${genHash(12)}`;
+        this.code = this.code || `${genHash(6)}`;//`${genHash(6)}-${genHash(4)}-${genHash(4)}-${genHash(4)}-${genHash(12)}`;
     }
 
     clear():IActivityIntervalG{

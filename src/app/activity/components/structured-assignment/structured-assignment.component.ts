@@ -66,8 +66,8 @@ class StructuredAssignmentCtrl implements IComponentController {
             id: i,
             code: g.code,
             mode: LoopMode.Group,
-            start: this.intervals.P.filter(i => i.parentGroup === g.code && i.repeatPos === 0)[0].pos,
-            length: this.intervals.P.filter(i => i.parentGroup === g.code && i.repeatPos === 0).length,
+            start: g.fPos, //this.intervals.P.filter(i => i.parentGroup === g.code && i.repeatPos === 0)[0].pos,
+            length: g.grpLength, //this.intervals.P.filter(i => i.parentGroup === g.code && i.repeatPos === 0).length,
             repeat: g.repeatCount,
             pos: this.intervals.P.filter(i => i.parentGroup === g.code).map(i => i.pos)
         }));
@@ -139,7 +139,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         // Создание группы интервалов
         if(loop && loop.code === null && repeat > 1) {
             loopSegment = this.intervals.P.filter(p => loop.pos.some(i => i === p.pos));
-            success = this.intervals.createGroup(loopSegment, repeat);
+            success = this.intervals.createGroup(loopSegment, repeat, loop.start);
         }
         // Удаление группы интервалов
         if(loop && loop.code !== null && repeat === 1) {
