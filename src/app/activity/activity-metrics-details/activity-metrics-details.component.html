@@ -44,7 +44,7 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <div flex="auto" layout="row" ng-if="$ctrl.chartOption === 'measures'">
+        <div flex="auto" layout="row" layout-align="start center" ng-if="$ctrl.chartOption === 'measures'">
             <md-switch flex="none" ng-model="$ctrl.autoZoom" class="md-primary md-hue-1" aria-label="Switch 1">
                 <span class="md-caption">Autozoom: {{ $ctrl.autoZoom }}</span>
             </md-switch>
@@ -75,7 +75,7 @@
                          ng-bind="!$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
             </md-button>
         </div>
-        <div flex="auto" layout="row" ng-if="$ctrl.chartOption === 'segments'">
+        <div flex="auto" layout="row" layout-align="start center" ng-if="$ctrl.chartOption === 'segments'">
             <span flex="auto"></span>
             <md-button flex="none"
                        ng-repeat="measure in $ctrl.chartData.measuresX track by $index" class="md-secondary md-icon-button"

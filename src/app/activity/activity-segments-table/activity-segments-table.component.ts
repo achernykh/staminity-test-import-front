@@ -36,8 +36,8 @@ class ActivitySegmentsTableCtrl implements IComponentController {
             initiator: 'splits',
             selection: {
                 U: null,
-                P: null,
-                L: this.selected.map(i => i.ind)}
+                P: this.selected.map(i => i.pos - 1),
+                L: null}
         });
     }
 }

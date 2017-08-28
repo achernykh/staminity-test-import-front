@@ -173,7 +173,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     get templateSelectorText(): string {
-        return this.item.activeTemplate && `Шаблон: ${this.item.activeTemplate.description}` ||
+        return this.item.activity.header.template && `Шаблон: ${this.item.activity.header.template.code}` ||
                 this.item.templateByFilter && 'activity.template.enable' || 'activity.template.empty';
     }
 
@@ -298,7 +298,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     clearTemplate() {
-        this.item.activeTemplate = null;
+        this.item.activity.header.template = null;
     }
 
     validateForm() {

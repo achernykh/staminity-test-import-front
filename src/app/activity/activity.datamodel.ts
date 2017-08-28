@@ -145,7 +145,7 @@ export let toDay = (date):Date => {
 export class Activity extends CalendarItem {
 
 	public activityHeader: IActivityHeader;
-	public header: IActivityHeader;
+	public header: ActivityHeader;
 	public categoriesList: Array<IActivityCategory> = [];
 
 	public intervals: ActivityIntervals;
@@ -253,7 +253,6 @@ export class Activity extends CalendarItem {
 	// Подготовка данных для модели отображения
 	prepare() {
 		super.prepare();
-
 		// Заголовок тренировки
 		this.header = new ActivityHeader(this.item.activityHeader);
 		// Интервалы тренировки
@@ -281,9 +280,10 @@ export class Activity extends CalendarItem {
 	build(userProfile?: IUserProfileShort) {
 		super.package();
 		this.dateEnd = this.dateStart;
+		//this.header = this.header.build();
 		this.header.activityType = getType(Number(this.header.activityType.id));
 		//this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
-		this.header.intervals = this.intervals.build();
+		//this.header.intervals = this.intervals.build();
 		//this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
 		return {
@@ -296,7 +296,7 @@ export class Activity extends CalendarItem {
 			userProfileOwner: userProfile || this.userProfileOwner,
 			userProfileCreator: this.userProfileCreator,
 			//userProfileCreator: IUserProfileShort,
-			activityHeader: this.header
+			activityHeader: Object.assign(this.header.build(), {intervals: this.intervals.build()})
 		};
 	}
 
@@ -309,6 +309,7 @@ export class Activity extends CalendarItem {
 	}
 
 	set sport(id) {
+		debugger;
 		this.header.activityType = getType(Number(id));
 	}
 

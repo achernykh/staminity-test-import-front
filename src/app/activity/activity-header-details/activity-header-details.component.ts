@@ -32,7 +32,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
     private chartData: MeasureChartData; // класс для расчета данных для графика
 
-    private readonly intervalTypes = ['L','U'];
+    private readonly intervalTypes = ['P','L','U'];
     private intervals: SelectionOptions<Select> = {};
     private changes: number = 0;
     private selectedIntervals: Array<string> = [];

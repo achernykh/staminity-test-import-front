@@ -37,6 +37,14 @@ enum HeaderTab {
     Chat
 };
 
+enum HeaderStructuredTab {
+    Overview,
+    Segments,
+    Details,
+    Zones,
+    Chat
+}
+
 export interface ISelectionIndex {
     L: Array<number>;
     P: Array<number>;
@@ -69,7 +77,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     public showSelectAthletes: boolean = false;
     public showSelectTemplate: boolean = false;
-    public activeTemplate: IActivityTemplate = null;
     private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
 
     public structuredMode: boolean = false;
@@ -99,6 +106,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public templateByFilter: boolean = false; // false - нет шаблонов в соответствии с фильтром, true - есть шаблоны
 
     private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
+    private tabs: Object = {
+        Overview: 0,
+        Segments: 1,
+        Details: 2,
+        Zones: 3,
+        Chat: 4
+    };
     public currentUser: IUserProfile = null;
     public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
     public isCreator: boolean;
@@ -213,6 +227,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     prepareTemplates(): void {
         this.templates = this.ReferenceService.templates;
+        this.activity.header.template = this.templates.filter(t => t.id === this.activity.header.templateId)[0] || null;
         this.ReferenceService.templatesChanges
             .takeUntil(this.destroy)
             .subscribe((templates) => {
@@ -226,7 +241,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     onSelectTemplate(template: IActivityTemplate){
         this.showSelectTemplate = false;
-        this.activeTemplate = template;
+        this.activity.header.template = template;
         this.activity.intervals = new ActivityIntervals(template.content);
         this.activity.updateIntervals();
         this.templateChangeCount ++;
@@ -413,14 +428,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
     setDetailsTab(initiator: SelectInitiator, loading: boolean):void {
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
-        if (this.selectedTab !== HeaderTab.Details && this.isPro) {
+
+        if(this.activity.structured && this.selectedTab !== HeaderStructuredTab.Details && this.isPro) {
+            this.selectedTab = HeaderStructuredTab.Details;
+        }
+        if(!this.activity.structured && this.selectedTab !== HeaderTab.Details && this.isPro) {
             this.selectedTab = HeaderTab.Details;
         }
+
         if(initiator === 'details' || initiator === 'splits') {
             this.$scope.$evalAsync();
-            /**if(!this.$scope.$$phase){
-                this.$scope.$apply();
-            }**/
         }
     }
 
