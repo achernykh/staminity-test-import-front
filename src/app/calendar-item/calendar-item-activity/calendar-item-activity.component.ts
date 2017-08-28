@@ -225,7 +225,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onSelectTemplate(template: IActivityTemplate){
-        debugger;
         this.showSelectTemplate = false;
         this.activeTemplate = template;
         this.activity.intervals = new ActivityIntervals(template.content);
@@ -263,7 +262,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @description Подготовка перечня атлетов достунпых для планирования
      */
     prepareAthletesList() {
-        debugger;
         if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .filter(user => user.hasOwnProperty('trainingZones'))

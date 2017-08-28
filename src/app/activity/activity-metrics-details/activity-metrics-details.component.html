@@ -3,7 +3,7 @@
     <header flex="none" class="map" layout="row" layout-align="start center"
             ng-if="!$ctrl.fullScreenTable && $ctrl.item.activity.details.isRouteExist">
         <md-icon class="material-icon">directions</md-icon>
-        <p class="md-body-2" translate>Карта</p>
+        <p class="md-body-2" translate="activity.details.map.title"></p>
         <span flex></span>
         <md-button class="md-icon-button"
                    ng-click="$ctrl.toggleMap()">
@@ -30,39 +30,60 @@
     <md-divider flex="none" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable"></md-divider>
 
     <header flex="none" layout="row" layout-align="start center" ng-if="!$ctrl.fullScreenTable">
-        <md-icon class="material-icon">multiline_chart</md-icon>
-        <p class="md-body-2" style="margin-right: 16px" translate>График</p>
-        <md-switch ng-model="$ctrl.autoZoom" class="md-primary md-hue-1" aria-label="Switch 1">
-            <span class="md-caption">Autozoom: {{ $ctrl.autoZoom }}</span>
-        </md-switch>
-        <md-button class="md-icon-button" ng-click="$ctrl.zoomIn = $ctrl.zoomIn+1" ng-if="!$ctrl.autoZoom">
-            <md-icon class="material-icons">zoom_in</md-icon>
-        </md-button>
-        <md-button class="md-icon-button" ng-click="$ctrl.zoomOut = $ctrl.zoomOut+1" ng-if="!$ctrl.autoZoom">
-            <md-icon class="material-icons">zoom_out</md-icon>
-        </md-button>
-        <span flex></span>
-        <div ng-if="!$ctrl.item.activity.structured">
-            <md-button ng-repeat="measure in $ctrl.chartData.measuresX track by $index" class="md-secondary md-icon-button"
+        <md-icon flex="none" class="material-icon">multiline_chart</md-icon>
+        <p flex="none" class="md-body-2" translate="activity.details.table.{{$ctrl.chartOption}}"></p>
+        <md-menu flex="none" ng-if="$ctrl.item.activity.structured">
+            <md-button aria-label="Table variant menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content width="3">
+                <md-menu-item ng-repeat="option in $ctrl.chartOptions track by $index">
+                    <md-button ng-click="$ctrl.chartOption = option">
+                        <span class="md-caption" translate="activity.details.chart.{{option}}"></span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <div flex="auto" layout="row" ng-if="$ctrl.chartOption === 'measures'">
+            <md-switch flex="none" ng-model="$ctrl.autoZoom" class="md-primary md-hue-1" aria-label="Switch 1">
+                <span class="md-caption">Autozoom: {{ $ctrl.autoZoom }}</span>
+            </md-switch>
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.zoomIn = $ctrl.zoomIn+1" ng-if="!$ctrl.autoZoom">
+                <md-icon class="material-icons">zoom_in</md-icon>
+            </md-button>
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.zoomOut = $ctrl.zoomOut+1" ng-if="!$ctrl.autoZoom">
+                <md-icon class="material-icons">zoom_out</md-icon>
+            </md-button>
+            <span flex></span>
+            <md-button flex="none"
+                       ng-repeat="measure in $ctrl.chartData.measuresX track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartX(measure)">
                 <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="md-dark"
                          ng-class="{'md-inactive': $ctrl.chartX !== measure}"></md-icon>
                 <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
-            <md-button ng-repeat="measure in $ctrl.chartData.measuresY track by $index" class="md-secondary md-icon-button"
+            <md-button flex="none"
+                       ng-repeat="measure in $ctrl.chartData.measuresY track by $index" class="md-secondary md-icon-button"
                        ng-click="$ctrl.changeChartMetrics(measure)">
                 <md-icon md-svg-src="assets/icon/{{measure}}.svg"
                          ng-class="{'md-inactive': !$ctrl.chartData.measures[measure].show}"
                          class="md-dark fill-measure {{measure}}"></md-icon>
                 <md-tooltip>{{measure | translate}}</md-tooltip>
             </md-button>
-            <md-button class="md-icon-button" ng-click="$ctrl.toggleChart()">
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.toggleChart()">
                 <md-icon class="md-secondary material-icon md-dark"
                          ng-bind="!$ctrl.showChart ? 'expand_more': 'expand_less'"></md-icon>
             </md-button>
         </div>
-        <div ng-if="$ctrl.item.activity.structured">
-            управление не структурированной тренировкой
+        <div flex="auto" layout="row" ng-if="$ctrl.chartOption === 'segments'">
+            <span flex="auto"></span>
+            <md-button flex="none"
+                       ng-repeat="measure in $ctrl.chartData.measuresX track by $index" class="md-secondary md-icon-button"
+                       ng-click="$ctrl.changeChartX(measure)">
+                <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="md-dark"
+                         ng-class="{'md-inactive': $ctrl.chartX !== measure}"></md-icon>
+                <md-tooltip>{{measure | translate}}</md-tooltip>
+            </md-button>
         </div>
     </header>
 
@@ -74,7 +95,7 @@
             <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
         </div>
         <activity-metrics-char flex="auto" ng-switch-when="true"
-                               ng-if="!$ctrl.item.activity.structured"
+                               ng-if="$ctrl.chartOption === 'measures'"
                                measures="$ctrl.chartData.measures"
                                data="$ctrl.chartData.data"
                                x="$ctrl.chartX"
@@ -88,12 +109,12 @@
                                on-selected="$ctrl.onSelectionRange(select)">График...
         </activity-metrics-char>
         <activity-segment-chart flex="auto" ng-switch-when="true"
-                                ng-if="$ctrl.item.activity.structured"
+                                ng-if="$ctrl.chartOption === 'segments'"
                                 activity-header="$ctrl.item.activity.intervalP"
                                 selected=""
                                 actual-ftp="true"
                                 plan-ftp="true"
-                                duration-measure="movingDuration"
+                                duration-measure="$ctrl.chartX"
                                 on-select="$ctrl.onChartSelect(segmentId)">
         </activity-segment-chart>
     </section>
@@ -103,10 +124,22 @@
     <md-divider flex="none" ng-if="$ctrl.showChart && !$ctrl.fullScreenTable"></md-divider>
 
     <header flex="none" layout="row" layout-align="start center">
-        <md-icon class="material-icon">format_list_numbered</md-icon>
-        <p class="md-body-2" translate>Отрезки</p>
+        <md-icon flex="none" class="material-icon">format_list_numbered</md-icon>
+        <p flex="none" class="md-body-2" translate="activity.details.table.{{$ctrl.tableOption}}"></p>
+        <md-menu flex="none" ng-if="$ctrl.item.activity.structured">
+            <md-button aria-label="Table variant menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content width="3">
+                <md-menu-item ng-repeat="option in $ctrl.tableOptions track by $index">
+                    <md-button ng-click="$ctrl.tableOption = option">
+                        <span class="md-caption" translate="activity.details.table.{{option}}"></span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
         <span flex></span>
-        <md-button class="md-icon-button" ng-click="$ctrl.fullScreenTable = !$ctrl.fullScreenTable">
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.fullScreenTable = !$ctrl.fullScreenTable">
             <md-icon class="md-secondary material-icon md-dark"
                      ng-bind="$ctrl.fullScreenTable ? 'fullscreen_exit': 'fullscreen'"></md-icon>
         </md-button>
@@ -119,7 +152,7 @@
             <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
             <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
         </div>
-        <measure-split-table ng-switch-when="true"
+        <measure-split-table ng-switch-when="true" ng-if="$ctrl.tableOption === 'laps'"
                              class="chart measure-split-table"
                              splits="$ctrl.item.activity.intervalL"
                              max="$ctrl.chartData.max"
@@ -128,6 +161,12 @@
                              zones="$ctrl.item.user.trainingZones"
                              on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">Data table...
         </measure-split-table>
+        <activity-segments-table ng-switch-when="true" ng-if="$ctrl.tableOption === 'segments'"
+                                 class="chart activity-segments-table measure-split-table"
+                                 segments="$ctrl.item.activity.intervalP"
+                                 sport="$ctrl.item.activity.sportBasic"
+                                 on-select="$ctrl.item.selectIntervalIndex(initiator,selection)">
+        </activity-segments-table>
     </section>
 
 <!--</section>-->

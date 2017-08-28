@@ -46,7 +46,6 @@ class StructuredAssignmentCtrl implements IComponentController {
     }
 
     $onChanges(changes: any):void{
-        debugger;
     }
 
     onChangeValue(interval: ActivityIntervalP) {
