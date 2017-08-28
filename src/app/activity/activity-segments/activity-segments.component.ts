@@ -6,6 +6,7 @@ import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
 import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
 import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
 import {ActivityIntervals} from "../activity-datamodel/activity.intervals";
+import {FtpState} from "../components/assignment/assignment.component";
 
 class ActivitySegmentsCtrl implements IComponentController {
 
@@ -16,6 +17,8 @@ class ActivitySegmentsCtrl implements IComponentController {
     private intensityMeasure: string = 'heartRate';
     private intervals: ActivityIntervals;
     private select: Array<number> = [];
+
+    public ftpMode: number;
 
     static $inject = [];
 
@@ -358,6 +361,11 @@ class ActivitySegmentsCtrl implements IComponentController {
     updatePW(){
         this.item.activity.calculateInterval('pW');
         this.item.changeStructuredAssignment ++;
+    }
+
+    ftpModeChange(mode: FtpState) {
+        this.ftpMode = mode;
+        this.item.ftpMode = mode;
     }
 
 }
