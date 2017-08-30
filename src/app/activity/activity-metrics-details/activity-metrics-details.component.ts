@@ -22,6 +22,12 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private zoomOut: number = 0;
     private autoZoom: boolean = true;
 
+    private chartOptions: Array<string> = ['measures','segments'];
+    private chartOption: 'measures' | 'segments';
+
+    private tableOptions: Array<string> = ['laps','segments'];
+    private tableOption: 'laps' | 'segments';
+
     private chartData: IChartMeasureData; // класс для расчета данных для графика
 
     private chartX: string = 'elapsedDuration';
@@ -43,6 +49,10 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
+
+        this.item.activity.structured ? this.tableOption = 'segments' : this.tableOption = 'laps';
+        this.item.activity.structured ? this.chartOption = 'segments' : this.chartOption = 'measures';
+
         //debugger;
         /*
 

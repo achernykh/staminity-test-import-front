@@ -161,7 +161,7 @@ const Share = module('staminity.share', [])
     .filter('userName', userName)
     .filter('clubName', clubName)
     .filter('ageGroup', () => ageGroup)
-    .filter('requestType', () => requestType)
+    .filter('requestType', () => (request) => requestType(request) + '.action')
     .filter('measureCalc', () => measureValue)
     .filter('measureCalcInterval', ['$filter',($filter) => {
         return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart:boolean = false, units:string = 'metric') => {

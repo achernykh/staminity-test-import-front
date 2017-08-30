@@ -1,5 +1,10 @@
 export const translateActivity = {
   ru: {
+      template: {
+          title: 'Выберите шаблон',
+          enable: 'Имеется шаблон',
+          empty: 'Шаблоны отсутсвуют'
+      },
       error: {
           required: 'Заполните обязательные поля',
           needDuration: 'Укажите время или расстояние',

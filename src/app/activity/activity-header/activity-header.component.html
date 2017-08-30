@@ -1,6 +1,7 @@
 <md-toolbar flex="none" class="{{$ctrl.item.activity.status}}">
     <div class="md-toolbar-tools" ng-cloak>
-        <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+        <md-menu flex-order="{{$ctrl.item.popup ? 1 : 6}}"
+                 md-position-mode="target-right target" md-offset="0 60">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
                        aria-label="User">
                 <md-icon class="material-icons">menu</md-icon>
@@ -27,15 +28,15 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <h2 translate="{{::$ctrl.item.template ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
-        <span flex></span>
-        <userpic class="border-light" profile="$ctrl.item.firstAthlete(0)" is-premium="$ctrl.item.user.isPremium" unlink="true"></userpic>
-        <md-button class="md-icon-button" hide-gt-sm
+        <h2 flex-order="2" translate="{{::$ctrl.item.template ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
+        <span flex flex-order="3"></span>
+        <userpic flex-order="4" class="border-light" profile="$ctrl.item.firstAthlete(0)" is-premium="$ctrl.item.user.isPremium" unlink="true"></userpic>
+        <md-button flex-order="5" class="md-icon-button" hide-gt-sm
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
         </md-button>
-        <md-button class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
+        <md-button flex-order="{{$ctrl.item.popup ? 6 : 1}}" class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>

@@ -25,19 +25,18 @@ export class ActivityDetails implements IActivityDetails {
     social: IActivityDetailsSocial;
     // значения показателей. Порядок значений соответствует порядку idx ключей объекта $.measures.<measureCode>.idx
     measures: IActivityDetailsMeasure;
-    metrics: Array<Array<number>>;
+    metrics: Array<Array<number>> = [];
 
-    public isEmpty: boolean = true;
+    isEmpty: boolean = true;
+    isRouteExist: boolean = false;
+
     private _route: Array<IRoute> = [];
 
     constructor(params?: any){
         Object.assign(this, params || {});
         this._route = this.calculateRoute();
-        this.isEmpty = this._route.length === 0;
-    }
-
-    isRouteExist():boolean {
-        return this._route.length > 0;
+        this.isEmpty = this.metrics.length === 0;
+        this.isRouteExist = this._route.length > 0;
     }
 
     get route():Array<IRoute> {
@@ -117,7 +116,10 @@ export class ActivityDetails implements IActivityDetails {
      * @returns {{lng: number, lat: number, timestamp: number}[]}
      */
     private calculateRoute():Array<IRoute> {
-        if(!this.measures){
+        if(!this.measures || (
+            this.measures &&
+            !this.measures.hasOwnProperty('longitude') &&
+            !this.measures.hasOwnProperty('latitude'))){
             return [];
         }
         let lng = this.measures['longitude'].idx; // lng index in array

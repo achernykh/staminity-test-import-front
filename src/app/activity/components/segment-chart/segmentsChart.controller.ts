@@ -52,7 +52,7 @@ class SegmentChartController implements IComponentController {
     static $inject = ['$element', '$location', '$window', 'segmentChartSettings','$mdMedia'];
 
     constructor(
-        private $element,
+        private $element: JQuery,
         private $location,
         private $window,
         private chartSettings: IPlanChartSettings,
@@ -157,10 +157,9 @@ class SegmentChartController implements IComponentController {
     }
 
     private preparePlaceholder(): void {
-        // calc current chart size based on the container size and chart's settings
-        let parent: Element = angular.element(document).find('activity-segment-chart')[0];
-        this.width = parent.clientWidth;
-        this.height = parent.clientHeight;
+        //let parent: Element = angular.element(document).find('activity-segment-chart')[0];
+        this.width = this.$element[0].clientWidth;//parent.clientWidth;
+        this.height = this.$element[0].clientHeight;//parent.clientHeight;
 
         //var bounds = this.$element[0].getBoundingClientRect();
         //this.width = Math.max(bounds.width, this.chartSettings.minWidth);

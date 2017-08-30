@@ -102,17 +102,21 @@ class TemplatesCtrl implements IComponentController {
 
 	deleteTemplate (template: IActivityTemplate) {
 		let { id } = template;
-		return this.dialogs.confirm('reference.templates.confirmDelete')
-		.then((result) => result && this.ReferenceService.deleteActivityTemplate(id), () => {})
-		.catch((info) => { 
-			this.message.systemWarning(info);
-			throw info;
-		});
+		return this.dialogs.confirm({ text: 'reference.templates.confirmDelete' })
+			.then(() => this.ReferenceService.deleteActivityTemplate(id))
+			.catch((error) => { 
+				if (error) {
+					this.message.systemWarning(error); 
+				}
+			});
 	}
 }
 
 
 const TemplatesComponent: IComponentOptions = {
+	require: {
+		reference: '^'
+	},
 	bindings: {
 		user: '<',
 		categories: '<',

@@ -1,3 +1,5 @@
+import { Observable, Subject } from 'rxjs/Rx';
+
 import { ISocketService } from './socket.service';
 import { ISessionService } from './session.service';
 import { GetTariff, PostTariffSubscription, PutTariffSubscription, DeleteTariffSubscription, GetBill, GetBillDetails, PutProcessingCenter } from "../../../api/billing/billing.request";
@@ -9,11 +11,14 @@ import { maybe, prop } from "../share/util.js";
 
 
 export default class BillingService {
+    public messages: Observable<any>;
 
     static $inject = ['SocketService', 'SessionService'];
 
     constructor (private SocketService:ISocketService, private SessionService: ISessionService) {
-
+        this.messages = this.SocketService.messages
+            .filter((message) => message.type === 'bill')
+            .share();
     }
 
     /**
@@ -141,9 +146,9 @@ export default class BillingService {
             tariff.isTrial && tariff.expireDate && 'trial' ||
             tariffEnablerClub && 'enabledByClub' ||
             tariffEnablerCoach && 'enabledByCoach' ||
-            tariff.isOn && tariff.expireDate && !this.tariffEnablerCoach(tariff) && 'enabled' ||
             tariff.isBlocked && 'isBlocked' ||
             tariff.unpaidBill && 'isBlocked' ||
+            tariff.isOn && 'enabled' ||
             !tariff.isOn && 'notEnabled' 
         );
     }

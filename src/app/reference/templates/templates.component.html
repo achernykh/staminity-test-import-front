@@ -15,6 +15,7 @@
 				draggable="true"
 				ng-click="$ctrl.openTemplate(template, $event)"
 				template="template"
+				is-mobile-layout="$ctrl.reference.isMobileLayout"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"
 				on-delete="$ctrl.deleteTemplate(template)"

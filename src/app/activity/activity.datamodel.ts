@@ -145,7 +145,7 @@ export let toDay = (date):Date => {
 export class Activity extends CalendarItem {
 
 	public activityHeader: IActivityHeader;
-	public header: IActivityHeader;
+	public header: ActivityHeader;
 	public categoriesList: Array<IActivityCategory> = [];
 
 	public intervals: ActivityIntervals;
@@ -253,7 +253,6 @@ export class Activity extends CalendarItem {
 	// Подготовка данных для модели отображения
 	prepare() {
 		super.prepare();
-
 		// Заголовок тренировки
 		this.header = new ActivityHeader(this.item.activityHeader);
 		// Интервалы тренировки
@@ -281,9 +280,10 @@ export class Activity extends CalendarItem {
 	build(userProfile?: IUserProfileShort) {
 		super.package();
 		this.dateEnd = this.dateStart;
+		//this.header = this.header.build();
 		this.header.activityType = getType(Number(this.header.activityType.id));
 		//this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
-		this.header.intervals = this.intervals.build();
+		//this.header.intervals = this.intervals.build();
 		//this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
 		return {
@@ -296,7 +296,7 @@ export class Activity extends CalendarItem {
 			userProfileOwner: userProfile || this.userProfileOwner,
 			userProfileCreator: this.userProfileCreator,
 			//userProfileCreator: IUserProfileShort,
-			activityHeader: this.header
+			activityHeader: Object.assign(this.header.build(), {intervals: this.intervals.build()})
 		};
 	}
 
@@ -309,6 +309,7 @@ export class Activity extends CalendarItem {
 	}
 
 	set sport(id) {
+		debugger;
 		this.header.activityType = getType(Number(id));
 	}
 
@@ -457,22 +458,36 @@ export class Activity extends CalendarItem {
 	}
 
 	get movingDuration():number {
-		return this.intervalW.movingDuration() || this.intervalPW.movingDuration.durationValue || null;
+		return this.intervalW.movingDuration() ||
+			(this.intervalPW.movingDurationApprox && this.intervalPW.movingDurationLength) ||
+			(!this.intervalPW.movingDurationApprox && this.intervalPW.movingDuration.durationValue) || null;
 		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.movingDuration();**/
 	}
 
+	get movingDurationApprox():boolean {
+		return !!!this.intervalW.movingDuration() && this.intervalPW.movingDurationApprox;
+	}
+
 	get duration() {
-		return this.intervalW.movingDuration() || this.intervalPW.movingDuration.durationValue || null;
+		return this.intervalW.movingDuration() ||
+			(this.intervalPW.movingDurationApprox && this.intervalPW.movingDurationLength) ||
+			(!this.intervalPW.movingDurationApprox && this.intervalPW.movingDuration.durationValue) || null;
 		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
 			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;**/
 	}
 
 	get distance() {
-		return this.intervalW.distance() || this.intervalPW.distance.durationValue || null;
+		return this.intervalW.distance() ||
+			(this.intervalPW.distanceApprox && this.intervalPW.distanceLength) ||
+			(!this.intervalPW.distanceApprox && this.intervalPW.distance.durationValue) || null;
 		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
             && this.intervalPW.durationValue) ||
             (this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;**/
+	}
+
+	get distanceApprox():boolean {
+		return !!!this.intervalW.distance() && this.intervalPW.distanceApprox;
 	}
 
 	// Формируем перечень показателей для панели data (bottomPanel)

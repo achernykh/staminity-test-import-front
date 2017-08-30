@@ -105,14 +105,29 @@ export class ActivityIntervals {
     }
 
     /**
-     * @description Удаление инетрвала
+     * @description Удаление интервала
      * @param type
      * @param id
      */
-    splice(type: string, id: string | number):void {
+    splice(type: string, id: string | number): void {
         let i: number = this.find(type, id);
-        if(id !== -1) {
-            this.stack.splice(i,1);
+        if(i !== -1){
+            let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
+            // Если интревал является повторяющимся
+            if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
+                let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroup)[0];
+                this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.grpLength === 0)
+                    .map(interval => {
+                        i = this.find(interval.type, interval.pos);
+                        // 1. удаляем интревал
+                        this.stack.splice(i,1);
+                        // 2. реорганизуем инетрвалы, сдвигаем на -1 позицию вверх
+                        this.reorganisation(interval.pos, -1);
+                    });
+            } else { // одиночный интервал
+                this.stack.splice(i,1);
+                this.reorganisation(interval.pos, -1);
+            }
         }
     }
 
@@ -143,7 +158,7 @@ export class ActivityIntervals {
             // Если интревал является повторяющимся
             if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
                 let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroup)[0];
-                this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.length === 0)
+                this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.grpLength === 0)
                     .map(i => this.setParams(i.type, i.pos, params));
             } else { // одиночный интервал
                 Object.assign(this.stack[i], params);
@@ -166,7 +181,7 @@ export class ActivityIntervals {
                 // Если интревал является повторяющимся
                 if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
                     let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroup)[0];
-                    this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.length === 0)
+                    this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.grpLength === 0)
                         .map(i => this.setParams(i.type, i.pos, params));
                 } else { // одиночный интервал
                     Object.assign(this.stack[i], params);
@@ -191,7 +206,7 @@ export class ActivityIntervals {
                 // Если интревал является повторяющимся
                 if (interval.hasOwnProperty('parentGroup') && interval.parentGroup) {
                     let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroup)[0];
-                    this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.length === 0)
+                    this.stack.filter(i => i.type === type && i.parentGroup === group.code && (i.pos - interval.pos) % group.grpLength === 0)
                         .map(i => this.setParams(i.type, i.pos, params));
                 } else { // одиночный интервал
                     Object.assign(this.stack[i], params);
@@ -233,11 +248,17 @@ export class ActivityIntervals {
      * @description Добавляем новую группу интервалов
      * @param segment - набор интервалов для повторения
      * @param repeat - количество повторений в группе
+     * @param start - pos первого интервала
      * @returns {boolean}
      */
-    createGroup(segment: Array<ActivityIntervalP>, repeat: number):boolean {
+    createGroup(segment: Array<ActivityIntervalP>, repeat: number, start: number):boolean {
         // 1. создаем группу
-        let group: ActivityIntervalG = <ActivityIntervalG>ActivityIntervalFactory('G',{repeatCount: repeat, length: segment.length});
+        let group: ActivityIntervalG = <ActivityIntervalG>ActivityIntervalFactory('G', {
+            repeatCount: repeat,
+            grpLength: segment.length,
+            fPos: start
+        });
+
         this.stack.push(group);
 
         // 2. устанавливаем в имеющийся сегмент указатель на номер группы и порядковый номер
@@ -263,7 +284,7 @@ export class ActivityIntervals {
     /**
      * @description Увелечение количества повторений в группе
      * @param segment
-     * @param repeat
+     * @param trgRepeat
      * @returns {boolean}
      */
     increaseGroup(segment: Array<ActivityIntervalP>, trgRepeat: number):boolean {
@@ -364,7 +385,6 @@ export class ActivityIntervals {
         });
 
         minFtp = minFtp * 0.90;
-        debugger;
         data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
         //debugger;
 

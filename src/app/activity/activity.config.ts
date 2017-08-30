@@ -30,19 +30,6 @@ function configure($translateProvider:any,
                     })]
             },
             views: {
-                "background": {
-                    component: "staminityBackground",
-                    bindings: {
-                        view: 'view.background'
-                    }
-                },
-                "header": {
-                    component: 'staminityHeader',
-                    bindings: {
-                        view: 'view.header',
-                        athlete: 'athlete'
-                    }
-                },
                 "application": {
                     component: "activity",
                     bindings: {
