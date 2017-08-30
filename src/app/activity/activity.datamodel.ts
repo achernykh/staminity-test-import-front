@@ -28,6 +28,7 @@ import {ActivityIntervalP} from "./activity-datamodel/activity.interval-p";
 import {ActivityDetails, IRoute} from "./activity-datamodel/activity.details";
 import {ActivityIntervalL} from "./activity-datamodel/activity.interval-l";
 import {ActivityIntervalU} from "./activity-datamodel/activity.interval-u";
+import {ActivityIntervalG} from "./activity-datamodel/activity.interval-g";
 
 export enum ActivityStatus {
 
@@ -152,10 +153,10 @@ export class Activity extends CalendarItem {
 	public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
 	public intervalPW: ActivityIntervalPW;
 	public intervalW: ActivityIntervalW;
-	public intervalL: Array<IActivityIntervalL> = [];
+	public intervalL: Array<ActivityIntervalL> = [];
 	public intervalP: Array<ActivityIntervalP> = [];
-	public intervalG: Array<IActivityIntervalG> = [];
-	public intervalU: Array<IActivityIntervalU> = [];
+	public intervalG: Array<ActivityIntervalG> = [];
+	public intervalU: Array<ActivityIntervalU> = [];
 
 	private route: Array<IRoute>;
 	private isRouteExist: boolean = true; // ставим начально значени true, чтобы отобразить процесс загрузки данных, далее значение будет переопределно наличем координат
@@ -187,7 +188,7 @@ export class Activity extends CalendarItem {
 	completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...intervals, this.intervalW);
-		this.intervalL = <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
+		this.intervalL = <Array<ActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 	}
 
@@ -195,11 +196,11 @@ export class Activity extends CalendarItem {
 		return this.intervals.L.length > 0;
 	}
 
-	completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG) {
+	completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG | ActivityIntervalU) {
 		//this.header.intervals.push(interval);
 		switch (interval.type) {
 			case 'U': {
-				this.intervalU.push(interval); //= <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "U");
+				this.intervalU.push(<ActivityIntervalU>interval); //= <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "U");
 				break;
 			}
 			case 'P': {
@@ -208,7 +209,7 @@ export class Activity extends CalendarItem {
 				break;
 			}
 			case 'G': {
-				this.intervalG.push(<IActivityIntervalG>interval);
+				this.intervalG.push(<ActivityIntervalG>interval);
 				break;
 			}
 		}
@@ -268,6 +269,7 @@ export class Activity extends CalendarItem {
 		this.intervalPW = <ActivityIntervalPW>this.intervals.PW;
 		this.intervalW = <ActivityIntervalW>this.intervals.W;
 		this.intervalP = <Array<ActivityIntervalP>>this.intervals.P;
+		this.intervalG = <Array<ActivityIntervalG>>this.intervals.G;
 		this.intervalL = <Array<ActivityIntervalL>>this.intervals.L;
 		this.intervalU = <Array<ActivityIntervalU>>this.intervals.U;
 	}

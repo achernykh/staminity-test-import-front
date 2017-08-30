@@ -22,7 +22,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     movingDurationApprox: boolean; // признак, что movingDuration определен приблизительно
     distanceApprox: boolean; // признак, что distance рассчитан приблизительно
     calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
-    parentGroup: string; // указатель на группу, в которую входит интервал
+    parentGroupCode: string; // указатель на группу, в которую входит интервал
     repeatPos: number; // номер повтора внутри группы
 
     // Дополнительные поля для отрисовки в бэке
