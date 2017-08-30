@@ -13,6 +13,7 @@ import {_translateMessage} from './message.translate';
 import CommentService from "./comment.service";
 import DisplayService from "./display.service";
 import StorageService from "./storage.service";
+import StatisticsService from "./statistics.service";
 
 const Core = module('staminity.core', [])
 	.service('SocketService', SocketService)
@@ -27,6 +28,7 @@ const Core = module('staminity.core', [])
 	.service('CommentService', CommentService)
 	.service('display', DisplayService)
 	.service('storage', StorageService)
+	.service('statistics', StatisticsService)
 	.component('systemMessage', SystemMessageComponent)
 	.config(['$translateProvider',($translateProvider)=>{
 
