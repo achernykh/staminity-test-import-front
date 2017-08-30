@@ -5,7 +5,7 @@ export const _translateActivity = {
             delete: 'Удалить',
             close: 'Закрыть',
             settings: 'Настроить отображение',
-            save: 'Сохарнить',
+            save: 'Сохранить',
             template: 'Шаблон'
         },
         generalMeasures: 'Общее измерение',
