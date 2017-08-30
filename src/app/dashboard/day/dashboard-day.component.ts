@@ -41,7 +41,6 @@ class DashboardDayCtrl implements IComponentController {
            trgIndex: number,
            srcAthlete: IUserProfile) {
 
-        debugger;
 
         let item:ICalendarItem = copy(srcItem);
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);

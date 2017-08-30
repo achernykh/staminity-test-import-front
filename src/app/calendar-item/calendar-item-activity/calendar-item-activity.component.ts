@@ -243,6 +243,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.showSelectTemplate = false;
         this.activity.header.template = template;
         this.activity.intervals = new ActivityIntervals(template.content);
+        debugger;
+        this.activity.intervals.PW.completeAbsoluteValue(this.user.trainingZones, this.activity.sportBasic);
+        this.activity.intervals.P.map(i => i.completeAbsoluteValue(this.user.trainingZones, this.activity.sportBasic));
         this.activity.updateIntervals();
         this.templateChangeCount ++;
     }
@@ -508,11 +511,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
         let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
         let groupId = groupProfile && groupProfile.groupId;
         let { activityCategory, intervals } = header;
-        let content = [
-            ...intervals.filter(i => i.type === 'pW'), 
+        let content = [this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
+            ...this.activity.intervalP.map(i => i)];
+        /**let content = [
+            ...intervals.filter(i => i.type === 'pW'),
             ...intervals.filter(i => i.type === 'P')
         ]
-        .map((interval) => ({ ...interval, calcMeasures: undefined }));
+        .map((interval) => ({ ...interval, calcMeasures: undefined,  }));**/
 
         if (this.mode === 'post') {
             this.ReferenceService.postActivityTemplate(null, activityCategory.id, groupId, name, description, favourite, content)

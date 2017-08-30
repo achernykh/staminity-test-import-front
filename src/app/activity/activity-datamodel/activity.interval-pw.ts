@@ -75,11 +75,11 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
 
     /**
      * @description Подготовка данных для передачи в backend
+     * @param keys
      * @returns {IActivityIntervalPW}
      */
-    clear():IActivityIntervalPW{
-        let params: Array<string> = ['params', 'distance','movingDuration','heartRate','power','speed'];
-        params.map(p => delete this[p]);
+    clear(keys: Array<string> = ['params', 'distance','movingDuration','heartRate','power','speed']):IActivityIntervalPW{
+        keys.map(p => delete this[p]);
         return <IActivityIntervalPW>this;
     }
 
