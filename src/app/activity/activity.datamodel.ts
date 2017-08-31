@@ -279,7 +279,7 @@ export class Activity extends CalendarItem {
 	}
 
 	// Подготовка данных для передачи в API
-	build(userProfile?: IUserProfileShort) {
+	build(userProfile?: IUserProfileShort):ICalendarItem {
 		super.package();
 		this.dateEnd = this.dateStart;
 		//this.header = this.header.build();
@@ -289,7 +289,7 @@ export class Activity extends CalendarItem {
 		//this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
 		return {
-			index: this.index,
+			//index: this.index,
 			calendarItemId: this.calendarItemId,
 			calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
 			revision: this.revision,

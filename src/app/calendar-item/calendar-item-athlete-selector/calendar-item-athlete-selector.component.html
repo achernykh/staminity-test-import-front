@@ -3,12 +3,17 @@
         <md-button class="md-icon-button" ng-click="$ctrl.onBack()">
             <md-icon class="material-icons md-dark">arrow_back</md-icon>
         </md-button>
-        <h2>{{'Выберите атлета' | translate}}</h2>
+        <h2>{{'activity.athleteSelector.title' | translate}}</h2>
         <span flex></span>
     </div>
 </md-toolbar>
 
 <md-list class="bg-grey-100" style="padding: 16px; overflow: auto; height: 100%">
+    <md-list-item>
+        <p translate="activity.athleteSelector.recalculate"></p>
+        <md-switch class="md-primary" ng-model="$ctrl.recalculateMode"></md-switch>
+    </md-list-item>
+    <md-divider></md-divider>
     <md-list-item ng-repeat="athlete in $ctrl.athletes track by $index">
         <userpic profile="athlete.profile" unlink="true"></userpic>
         <p>{{athlete.profile | username}}</p>

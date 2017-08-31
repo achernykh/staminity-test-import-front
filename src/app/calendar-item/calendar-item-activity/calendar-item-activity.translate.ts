@@ -8,6 +8,10 @@ export const _translateActivity = {
             save: 'Сохранить',
             template: 'Шаблон'
         },
+        athleteSelector: {
+            title: 'Выберите атлета',
+            recalculate: 'Пересчитать от ПАНО'
+        },
         generalMeasures: 'Общее измерение',
         sleepData: 'Сон',
         feeling: 'Состояние',

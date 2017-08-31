@@ -1,4 +1,4 @@
-import {IActivityIntervalW, ICalcMeasures} from "../../../../api/activity/activity.interface";
+import {IActivityIntervalW, ICalcMeasures, IActivityIntervalPW} from "../../../../api/activity/activity.interface";
 import {ActivityInterval} from "./activity.interval";
 import {ActivityIntervalCalcMeasure} from "./activity.models";
 
@@ -42,5 +42,14 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
     completed():boolean {
         let measure: Array<string> = ['duration','movingDuration','distance'];
         return measure.some(m => this.calcMeasures[m].hasOwnProperty('value') && this.calcMeasures[m].value);
+    }
+
+    // TODO надо продумать алгоритм перевода фактических итогов плановый интервал
+    toTemplate(): IActivityIntervalPW {
+        return Object.assign(this.clear(), {
+            type: 'pW'
+        }, {
+
+        });
     }
 }

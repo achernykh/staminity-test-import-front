@@ -1,6 +1,6 @@
 import { Observable, Subject } from "rxjs/Rx";
 import './calendar-item-activity.component.scss';
-import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
+import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge, copy} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
@@ -27,6 +27,7 @@ import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, 
 import {templatesFilters, ReferenceFilterParams, getOwner} from "../../reference/reference.datamodel";
 import {filtersToPredicate} from "../../share/utility/filtering";
 import {ActivityIntervals} from "../../activity/activity-datamodel/activity.intervals";
+import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -77,7 +78,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     public showSelectAthletes: boolean = false;
     public showSelectTemplate: boolean = false;
-    private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
+    private forAthletes: Array<{profile: IUserProfile, active: boolean}> = [];
+    private recalculateMode: boolean = false;
 
     public structuredMode: boolean = false;
     public ftpMode: FtpState = FtpState.Off;
@@ -243,7 +245,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.showSelectTemplate = false;
         this.activity.header.template = template;
         this.activity.intervals = new ActivityIntervals(template.content);
-        debugger;
         this.activity.intervals.PW.completeAbsoluteValue(this.user.trainingZones, this.activity.sportBasic);
         this.activity.intervals.P.map(i => i.completeAbsoluteValue(this.user.trainingZones, this.activity.sportBasic));
         this.activity.updateIntervals();
@@ -288,7 +289,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
 
         if(this.forAthletes.length === 0 || !this.forAthletes.some(athlete => athlete.active)) {
-            this.forAthletes.push({profile: profileShort(this.user), active: true});
+            this.forAthletes.push({profile: this.user, active: true});
         }
 
         if (this.template && this.data && this.data.userProfileCreator) {
@@ -313,9 +314,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
     /**
      * Функция получает выделенных атлетов для планирования трениовки
      * @param response
+     * @param mode
      */
-    selectAthletes(response){
+    selectAthletes(response, mode: boolean){
         this.showSelectAthletes = false;
+        this.recalculateMode = mode;
         this.forAthletes = response;
     }
 
@@ -462,18 +465,23 @@ export class CalendarItemActivityCtrl implements IComponentController{
     onSave() {
         this.inAction = true;
         if (this.mode === 'post') {
-            let athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
+            let athletes: Array<{profile: IUserProfile, active: boolean}> = [];
             athletes.push(...this.forAthletes.filter(athlete => athlete.active));
-            athletes.forEach(athlete =>
+            athletes.forEach(athlete => {
+                let activity = copy(this.activity);
+                if(this.recalculateMode) {
+                    activity.intervals.PW.completeAbsoluteValue(athlete.profile.trainingZones, this.activity.sportBasic);
+                    //TODO intervalP
+                }
                 //console.log('post', athlete.profile, athlete.active)
-                this.CalendarService.postItem(this.activity.build(athlete.profile)) //TODO переделать в Promise.all
+                this.CalendarService.postItem(activity.build(profileShort(athlete.profile))) //TODO переделать в Promise.all
                     .then((response)=> {
                         this.activity.compile(response);// сохраняем id, revision в обьекте
                         this.message.toastInfo('activityCreated');
                         this.onAnswer({response: {type:'post', item:this.activity.build()}});
                     }, error => this.message.toastError(error))
-                    .then(() => this.inAction = false)
-            );
+                    .then(() => this.inAction = false);
+            });
         }
         if (this.mode === 'put') {
             this.CalendarService.putItem(this.activity.build())
@@ -511,8 +519,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
         let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
         let groupId = groupProfile && groupProfile.groupId;
         let { activityCategory, intervals } = header;
+        debugger;
         let content = [this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
-            ...this.activity.intervalP.map(i => i)];
+            ...this.activity.intervalP.map(i => i)].map(interval => ({...interval, calcMeasures: undefined}));
         /**let content = [
             ...intervals.filter(i => i.type === 'pW'),
             ...intervals.filter(i => i.type === 'P')
