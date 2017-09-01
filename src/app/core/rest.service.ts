@@ -50,6 +50,29 @@ export class PostData implements IPostDataRequest {
 	}
 }
 
+export class GetData implements IPostDataRequest {
+
+	method:string;
+	url:string;
+	headers:{
+		'Authorization':string
+	};
+	data:{
+		//requestType:string;
+		requestData:any;
+		token?:string; // указывается в момент отправки запроса
+	};
+
+	constructor(type:string, data:any) {
+		this.method = 'GET';
+		this.url = _connection.protocol.rest + _connection.server + type;
+		this.headers = {
+			'Authorization': 'Bearer '
+		};
+		this.data = data && data.hasOwnProperty('requestData') && data || {requestData: data};
+	}
+}
+
 export class PostFile implements IPostFileRequest {
 
 	method:string;
