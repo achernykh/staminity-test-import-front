@@ -12,6 +12,20 @@ export const _translateActivity = {
             title: 'Выберите атлета',
             recalculate: 'Пересчитать от ПАНО'
         },
+        details: {
+            map: {
+                title: 'Маршрут'
+            },
+            table: {
+                laps: 'Отрезки',
+                segments: 'Сегменты'
+            },
+            chart: {
+                measures: 'График: Показатели',
+                segments: 'График: Сегменты'
+
+            }
+        },
         generalMeasures: 'Общее измерение',
         sleepData: 'Сон',
         feeling: 'Состояние',
