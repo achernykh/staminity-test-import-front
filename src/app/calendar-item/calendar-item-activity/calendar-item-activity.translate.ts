@@ -27,7 +27,7 @@ export const _translateActivity = {
             }
         },
         generalMeasures: 'Общее измерение',
-        sleepData: 'Сон',
+          sleepData: 'Сон',
         feeling: 'Состояние',
         sentiment: {
             sentiment_very_satisfied: 'Отличное',
