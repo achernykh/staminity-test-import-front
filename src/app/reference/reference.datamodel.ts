@@ -57,6 +57,6 @@ export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, 
 	//let distance = path(['distance', 'durationValue']) (interval);
 	//let movingDuration = path(['movingDuration', 'durationValue']) (interval);
 
-	return `${measureValue(interval.durationValue, sport, interval.durationMeasure)}` +
-		` ${$translate.instant(measureUnit(interval.durationMeasure, sport))}` || '';
+	return (interval.durationValue &&
+		`${measureValue(interval.durationValue, sport, interval.durationMeasure)} ${$translate.instant(measureUnit(interval.durationMeasure, sport))}`) || '';
 };
