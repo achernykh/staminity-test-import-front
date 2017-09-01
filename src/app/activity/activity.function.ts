@@ -125,7 +125,6 @@ export const updateIntensity = (item: ICalendarItem, trgZones: ITrainingZones): 
     console.log(ftp);
     intervalPW.intensityLevelFrom = intervalPW.intensityByFtpFrom * ftp;
     intervalPW.intensityLevelTo = intervalPW.intensityByFtpTo * ftp;
-    debugger;
     return item;
 };
 

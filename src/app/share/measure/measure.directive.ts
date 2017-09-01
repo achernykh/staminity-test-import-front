@@ -294,7 +294,6 @@ export function MeasurementInput($filter): IDirective {
 				$ctrl.$setViewValue(mask($ctrl.$viewValue));
 			}
 			$ctrl.$render();
-			debugger;
 		});
 
 		$element.on('blur', () => {

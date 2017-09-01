@@ -51,7 +51,7 @@ class SearchCtrl implements IComponentController {
     }
 
     onDetails(uri:string, url: string = `${window.location.origin}/`) {
-        debugger;
+
         switch (this.params.objectType) {
             case 'user': case 'coach': {
                 let win = window.open(`${url}user/${uri}`, '_blank');

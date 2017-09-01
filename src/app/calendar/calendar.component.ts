@@ -114,7 +114,6 @@ export class CalendarCtrl implements IComponentController{
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
             .subscribe((message) => {
-                debugger;
                 switch (message.action) {
                     case 'I': {
                         this.onPostItem(<ICalendarItem>message.value);
@@ -495,7 +494,6 @@ export class CalendarCtrl implements IComponentController{
 
 
     onCopy(items: Array<ICalendarItem>){
-        debugger;
         this.buffer = [];
         this.firstSrcDay = null;
 
@@ -520,7 +518,6 @@ export class CalendarCtrl implements IComponentController{
     }
 
     onPaste(firstTrgDay: string){
-        debugger;
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
 
@@ -536,7 +533,6 @@ export class CalendarCtrl implements IComponentController{
     }
 
     onDelete(items:Array<ICalendarItem>) {
-        debugger;
         let selected: Array<ICalendarItem> = [];
 
         this.calendar.forEach(w => w.subItem.forEach(d => {
@@ -546,8 +542,6 @@ export class CalendarCtrl implements IComponentController{
         }));
 
         let inSelection: boolean = (selected && selected.length > 0) && selected.some(s => items.some(i => i.calendarItemId === s.calendarItemId));
-
-        debugger;
 
         this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
         .then(() => this.CalendarService.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))

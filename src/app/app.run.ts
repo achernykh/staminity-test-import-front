@@ -21,7 +21,6 @@ function run(
 		let routeTo:IStaminityState = Object.assign(state.$to());
 		
 		if(routeTo.loginRequired && !AuthService.isAuthenticated()) {
-			debugger;
 			message.systemWarning('forbidden_InsufficientAction');
 			return $state.target('signin', {nextState: routeTo.name, nextParams: state.params()});
 			//return false;

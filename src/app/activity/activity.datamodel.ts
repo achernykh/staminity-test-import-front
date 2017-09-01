@@ -311,7 +311,6 @@ export class Activity extends CalendarItem {
 	}
 
 	set sport(id) {
-		debugger;
 		this.header.activityType = getType(Number(id));
 	}
 

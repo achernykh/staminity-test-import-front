@@ -105,7 +105,6 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @param intervals = массив интревалов с типом P
      */
     calculate(intervals: Array<ActivityIntervalP>) {
-        debugger;
         let update:ActivityIntervalPW = new ActivityIntervalPW('pW',{});
 
         intervals.forEach(i => {

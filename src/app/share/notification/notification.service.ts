@@ -69,7 +69,6 @@ export default class NotificationService {
             }
 
             if (!notification.isRead && !this.timeouts[notification.index]) {
-                debugger;
                 this.show(notification);
             }
 

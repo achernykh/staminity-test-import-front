@@ -99,7 +99,6 @@ export class ActivityIntervals {
     }
 
     lastPos():number{
-       debugger;
         let max:number = Math.max(...this.P.map(i => i.pos),0);
         return max;
     }

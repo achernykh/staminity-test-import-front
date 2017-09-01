@@ -209,8 +209,20 @@ export class CalendarItemActivityCtrl implements IComponentController{
             (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
     }
 
+    /**
+     * Подготовка перечня категорий.
+     * Актуальный список содержится в сервисе ReferenceService
+     */
     prepareCategories(){
-        if (this.mode === 'put' || this.mode === 'post' || this.mode === 'view') {
+        this.activity.setCategoriesList(this.ReferenceService.categories, this.user);
+        this.ReferenceService.categoriesChanges
+            .takeUntil(this.destroy)
+            .subscribe((categories) => {
+                this.activity.setCategoriesList(categories, this.user);
+                this.$scope.$apply();
+            });
+
+        /**if (this.mode === 'put' || this.mode === 'post' || this.mode === 'view') {
             if (this.template) {
                 this.activity.setCategoriesList(this.ReferenceService.categories, this.user);
                 this.ReferenceService.categoriesChanges
@@ -224,7 +236,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then(list => this.activity.setCategoriesList(list, this.user),
                         error => this.message.toastError(error));
             }
-        }
+        }**/
     }
 
     prepareTemplates(): void {
@@ -519,7 +531,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
         let groupId = groupProfile && groupProfile.groupId;
         let { activityCategory, intervals } = header;
-        debugger;
         let content = [this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
             ...this.activity.intervalP.map(i => i)].map(interval => ({...interval, calcMeasures: undefined}));
         /**let content = [

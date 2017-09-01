@@ -61,7 +61,6 @@ export class CalendarService {
     }
 
     postFile(file: any, activityId?:number):IHttpPromise<any> {
-        debugger;
         return this.RESTService.postFile(new PostFile(`/api/private/upload`,file, { activityId: activityId}))
             .then((response) => response.data);
     }
