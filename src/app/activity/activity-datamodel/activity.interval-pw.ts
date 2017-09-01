@@ -75,11 +75,11 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
 
     /**
      * @description Подготовка данных для передачи в backend
+     * @param keys
      * @returns {IActivityIntervalPW}
      */
-    clear():IActivityIntervalPW{
-        let params: Array<string> = ['params', 'distance','movingDuration','heartRate','power','speed'];
-        params.map(p => delete this[p]);
+    clear(keys: Array<string> = ['params', 'distance','movingDuration','heartRate','power','speed']):IActivityIntervalPW{
+        keys.map(p => delete this[p]);
         return <IActivityIntervalPW>this;
     }
 
@@ -105,7 +105,6 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @param intervals = массив интревалов с типом P
      */
     calculate(intervals: Array<ActivityIntervalP>) {
-        debugger;
         let update:ActivityIntervalPW = new ActivityIntervalPW('pW',{});
 
         intervals.forEach(i => {
@@ -136,5 +135,18 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
         }
 
         Object.assign(this, update);
+    }
+
+    /**
+     * @description подготовка интревала к сохранению в шаблоне
+     * @returns {IActivityIntervalPW}
+     */
+    toTemplate(): IActivityIntervalPW {
+        this.intensityLevelFrom = null;
+        this.intensityLevelTo = null;
+        this.intensityByFtpFrom = Math.ceil(this.intensityByFtpFrom * 100) / 100;
+        this.intensityByFtpTo = Math.ceil(this.intensityByFtpTo * 100) / 100;
+
+        return this.clear();
     }
 }

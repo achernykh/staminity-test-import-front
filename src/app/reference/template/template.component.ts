@@ -40,11 +40,9 @@ class TemplateCtrl implements IComponentController {
 
 
 const TemplateComponent: IComponentOptions = {
-	require: {
-		reference: '^'
-	},
 	bindings: {
 		template: '<',
+        isMobileLayout: '<',
 		onDelete: '&',
 		onSelect: '&',
 		onCopy: '&'

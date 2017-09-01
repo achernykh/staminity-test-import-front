@@ -40,7 +40,6 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
     }
 
     answer(itemType, activityType) {
-        debugger;
         this.$mdDialog.hide(itemType);
 
         switch (itemType) {
@@ -88,7 +87,6 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             fullscreen: true
         })
             .then(response => {
-                debugger;
                 if(response.type === 'post') {
                     console.log('save activity', response);
                     //this.dashboard.onPostItem(response.item);
@@ -96,7 +94,6 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
                 }
             }, ()=> {
                 console.log('user cancel dialog');
-                debugger;
             });
     }
 

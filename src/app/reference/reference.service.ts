@@ -13,17 +13,19 @@ export default class ReferenceService {
 
 	public categories: Array<IActivityCategory> = [];
 	public categoriesChanges = new Subject<IActivityCategory[]>();
+
 	private categoriesReducers = {
 		"I": (category: IActivityCategory) => [...this.categories, category],
 		"U": (category: IActivityCategory) => this.categories.map((c) => c.id === category.id? category : c),
 		"D": (category: IActivityCategory) => this.categories.filter((c) => c.id !== category.id)
 	};
+
 	private resetCategories = () => {
 		this.getActivityCategories(undefined, false, true)
-		.then((categories) => {
-			this.categories = categories;
-			this.categoriesChanges.next(this.categories);
-		});
+			.then((categories) => {
+				this.categories = categories;
+				this.categoriesChanges.next(this.categories);
+			});
 	}
 
 	public templates: Array<IActivityTemplate> = [];
@@ -33,12 +35,13 @@ export default class ReferenceService {
 		"U": (template: IActivityTemplate) => this.templates.map((t) => t.id === template.id? template : t),
 		"D": (template: IActivityTemplate) => this.templates.filter((t) => t.id !== template.id)
 	};
+
 	private resetTemplates = () => {
 		this.getActivityTemplates(undefined, undefined, false, false)
-		.then((templates) => {
-			this.templates = templates;
-			this.templatesChanges.next(this.templates);
-		});
+			.then((templates) => {
+				this.templates = templates;
+				this.templatesChanges.next(this.templates);
+			});
 	}
 
 	static $inject = ['SocketService', 'SessionService'];

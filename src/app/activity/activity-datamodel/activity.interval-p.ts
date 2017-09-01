@@ -2,6 +2,8 @@ import {IActivityIntervalP, IActivityInterval, ICalcMeasures,
     IDurationMeasure, IIntensityMeasure} from "../../../../api/activity/activity.interface";
 import {ActivityInterval} from "./activity.interval";
 import {DurationMeasure, IntensityMeasure} from "./activity.models";
+import {ITrainingZonesType, ITrainingZones} from "../../../../api/user/user.interface";
+import {getFTP} from "../../core/user.function";
 
 export class ActivityIntervalP extends ActivityInterval implements IActivityIntervalP{
 
@@ -22,7 +24,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     movingDurationApprox: boolean; // признак, что movingDuration определен приблизительно
     distanceApprox: boolean; // признак, что distance рассчитан приблизительно
     calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
-    parentGroup: string; // указатель на группу, в которую входит интервал
+    parentGroupCode: string; // указатель на группу, в которую входит интервал
     repeatPos: number; // номер повтора внутри группы
 
     // Дополнительные поля для отрисовки в бэке
@@ -39,9 +41,8 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         this.prepareIntensity();
     }
 
-    clear():IActivityIntervalP{
-        let params: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration','heartRate','power','speed'];
-        params.map(p => delete this[p]);
+    clear(keys: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration','heartRate','power','speed']):IActivityIntervalP{
+        keys.map(p => delete this[p]);
         return <IActivityIntervalP>this;
     }
 
@@ -83,12 +84,10 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
         // Изменилась длительность
         if (value instanceof  DurationMeasure) {
-            debugger;
         }
 
         // Изменилась интенсивность
         if (value instanceof IntensityMeasure) {
-            debugger;
         }
 
         //
@@ -109,6 +108,25 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
             intensityByFtpFrom: (this.intensityMeasure === m && this.intensityByFtpFrom) || null,
             intensityByFtpTo: (this.intensityMeasure === m && this.intensityByFtpTo) || null
         }));
+    }
+
+    clearAbsoluteValue() {
+        this.intensityLevelFrom = null;
+        this.intensityLevelTo = null;
+    }
+
+    clearRelativeValue() {
+        this.intensityByFtpFrom = null;
+        this.intensityByFtpTo = null;
+
+    }
+
+    completeAbsoluteValue(zones: ITrainingZones, sport: string) {
+        this.intensityLevelFrom = this[this.intensityMeasure].intensityLevelFrom =
+            getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpFrom;
+
+        this.intensityLevelTo = this[this.intensityMeasure].intensityLevelTo =
+            getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpTo;
     }
 
 }

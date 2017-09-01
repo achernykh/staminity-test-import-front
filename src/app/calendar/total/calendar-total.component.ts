@@ -46,7 +46,6 @@ class CalendarTotalCtrl implements IComponentController {
     }
 
     onToggle() {
-        debugger;
         this.selected = !this.selected;
         this.week.subItem.forEach(day => day.selected = !day.selected);
     }

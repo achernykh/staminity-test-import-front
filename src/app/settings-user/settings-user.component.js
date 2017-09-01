@@ -263,10 +263,10 @@ class SettingsUserCtrl {
     }
 
     showProviderSettings(ev, adaptor, toggle) {
-        debugger;
+
         //1. Отключить синхронизацию через тумблер switch == off
         if(!toggle && adaptor.status.switch) {
-            debugger;
+
             var confirm = this._$mdDialog.confirm()
                 .title('Вы хотите отключить синхронизацию?')
                 .textContent('После отключения данные из внешнего источника останутся доступными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации')
@@ -279,7 +279,6 @@ class SettingsUserCtrl {
                 .then(() => this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
                     moment(adaptor.startDate).format('YYYY-MM-DD'), toggle ? "Enabled" : "Disabled")
                     .then(response => {
-                        debugger;
                         this.updateAdaptor(adaptor, response);
                         console.info(response);
                         this.toggle[adaptor.provider] = toggle;
@@ -292,7 +291,6 @@ class SettingsUserCtrl {
                     });
 
         } else if(toggle && !adaptor.status.switch && adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { //2. Подключить OAuth синхронизацию
-            debugger;
             // Подключение стравы
             this.$auth.link(adaptor.provider,{
                 internalData: {
@@ -302,7 +300,6 @@ class SettingsUserCtrl {
                     provider: adaptor.provider
                 }
             }).then(response => {
-                debugger;
                 // You have successfully linked an account.
                 this.updateAdaptor(adaptor, response.data.data);
                 console.log('response', response);
@@ -316,14 +313,12 @@ class SettingsUserCtrl {
                     this.toggle[adaptor.provider] = !toggle;
                 }).catch(response => {
                     // Handle errors here.
-                    debugger;
                     console.error('response', response);
                     this.message.toastInfo(response);
                     this.toggle[adaptor.provider] = !toggle;
             });
         } //3. Подключить user/pass синхронизацию или 4. Изменить настройки синхронизации
         else if(toggle) {
-            debugger;
             this._$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
@@ -338,11 +333,9 @@ class SettingsUserCtrl {
                 escapeToClose: true,
                 fullscreen: false // Only for -xs, -sm breakpoints.
             }).then((form) => {
-                debugger;
                 if (adaptor.status.code === 'offSyncNeverEnabled') {// подключение
                     this.SyncAdaptorService.post(adaptor.provider, form.username, form.password, form.startDate)
                         .then(response => {
-                        debugger;
                         this.updateAdaptor(adaptor, response);
                         console.info(response);
                         this.toggle[adaptor.provider] = toggle;
@@ -376,7 +369,7 @@ class SettingsUserCtrl {
 
         return;
 
-                debugger;
+
         if (adaptor.status.switch) { // Идет подключение или настройка подключенного провайдера
             if(adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { // Если идет подключение по OAuth
 
@@ -395,11 +388,9 @@ class SettingsUserCtrl {
                     escapeToClose: true,
                     fullscreen: false // Only for -xs, -sm breakpoints.
                 }).then((form) => {
-                    debugger;
                     if (adaptor.status.switch) {// операция изменения данных подключения
                         this.SyncAdaptorService.post(adaptor.provider, form.username, form.password, form.startDate)
                             .then(response => {
-                                debugger;
                                 this.updateAdaptor(adaptor, response);
                                 console.info(response);
                             },
@@ -435,7 +426,6 @@ class SettingsUserCtrl {
                 .then(() => this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
                     moment(adaptor.startDate).format('YYYY-MM-DD'), adaptor.status.switch ? "Enabled" : "Disabled")
                     .then(response => {
-                        debugger;
                         this.updateAdaptor(adaptor, response);
                         console.info(response);
                     }, error => {

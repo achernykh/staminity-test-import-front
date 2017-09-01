@@ -43,7 +43,7 @@
                         ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
                         label="{{ 'reference.categories.' + owner | translate }}">
                         <md-option
-                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.sport,  visible: true} track by category.id"
+                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.sport, visible: true}:true track by category.id"
                             ng-value="category">
                             {{ category | categoryCode }}
                         </md-option>
@@ -55,13 +55,20 @@
                     </div>
                 </div>
             </md-input-container>
-        </md-list-item><!--
+        </md-list-item>
+        <md-list-item ng-click="$ctrl.onTemplateOpen()"
+                      ng-if="!$ctrl.item.template && $ctrl.item.activity.header.activityCategory"
+                      ng-disabled="!$ctrl.item.templateByFilter">
+            <md-icon class="material-icons md-dark" style="margin-right: 20px">import_contacts</md-icon>
+            <p translate>{{$ctrl.templateSelectorText}}</p>
+            <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>
+        </md-list-item>
         <md-list-item ng-if="$ctrl.item.activity.sport">
             <md-icon class="material-icons md-dark" style="margin-right: 20px">format_list_numbered</md-icon>
             <p>Структурированное задание</p>
             <md-switch class="md-secondary md-primary"
                        ng-model="$ctrl.item.structuredMode" md-invert>
-        </md-list-item>-->
+        </md-list-item>
         <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.template">
             <md-input-container flex="50" class="no-message" md-no-float>
                 <md-icon flex="none" class="material-icons md-dark" style="left: 0px">today</md-icon>
@@ -91,7 +98,7 @@
         <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
             <md-input-container flex="auto" class="md-block no-message" md-no-float>
                 <md-icon flex="none" class="material-icons md-dark" style="left: 0px">import_contacts</md-icon>
-                <input type="text" name="name" maxlength="20" required
+                <input type="text" name="name" maxlength="150" required
                        ng-model="$ctrl.item.name"
                        autocomplete="off"
                        placeholder="Укажите название шаблона">
@@ -114,9 +121,11 @@
         <!--<md-subheader class="bg-grey-100">Задание</md-subheader>-->
         <md-list-item>
             <p class="md-caption" style="color: #455A64">Задание</p>
-            <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
+            <p ng-if="!$ctrl.item.activity.structured"
+               class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
                style="text-align: right; margin-right: 8px">%ПАНО: {{$ctrl.ftpMode ? 'ВЫКЛ ' : 'ВКЛ'}}</p>
-            <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.template"
+            <md-switch ng-if="!$ctrl.item.activity.structured"
+                       class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.template"
                        ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
             </md-switch>
         </md-list-item>
@@ -198,6 +207,7 @@
                                 <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
                                        name="plan_{{::measure.$key}}"
                                        ng-model="measure.durationValue"
+                                       change="$ctrl.change"
                                        measure="measure.$key"
                                        ng-attr-sport={{$ctrl.sport}} interval="false"
                                        ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"

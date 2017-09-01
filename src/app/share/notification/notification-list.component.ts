@@ -89,7 +89,6 @@ class NotificationListCtrl implements IComponentController {
     }
 
     onClick($event, notification: Notification):void {
-        debugger;
         if(Object.keys(this.activityTemplates).some(k => k === notification.template)) {
 
             this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
@@ -117,7 +116,7 @@ class NotificationListCtrl implements IComponentController {
                             tab: (this.commentTemplates.some(t => t === notification.template) && 'chat') || null
                         },
                         resolve: {
-                            user: () => { debugger;
+                            user: () => {
                                 return this.currentUser.userId === activity.userProfileOwner.userId ? Promise.resolve(this.currentUser) :
                                     this.UserService.getProfile(activity.userProfileOwner.userId).catch(error => console.error(error));
                             }

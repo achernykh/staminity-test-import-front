@@ -17,5 +17,13 @@
 <calendar-item-athlete-selector ng-if="$ctrl.mode === 'post' && $ctrl.showSelectAthletes" ng-cloak
                                 coach="$ctrl.currentUser"
                                 athletes="$ctrl.forAthletes"
-                                on-select="$ctrl.selectAthletes(result)">
+                                recalculate-mode="$ctrl.recalculateMode"
+                                on-select="$ctrl.selectAthletes(result, recalculate)">
 </calendar-item-athlete-selector>
+
+<calendar-item-template-selector ng-if="$ctrl.showSelectTemplate"
+                                 templates-by-owner="$ctrl.templatesByOwner"
+                                 ng-cloack class="calendar-item-template-selector"
+                                 on-back="$ctrl.showSelectTemplate = false"
+                                 on-select="$ctrl.onSelectTemplate(template)">
+</calendar-item-template-selector>

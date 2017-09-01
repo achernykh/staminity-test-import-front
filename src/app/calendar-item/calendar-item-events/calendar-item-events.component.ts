@@ -77,7 +77,6 @@ class CalendarItemEventsCtrl {
      * @param response
      */
     selectAthletes(response){
-        debugger;
         this.showSelectAthletes = false;
         this.forAthletes = response;
     }

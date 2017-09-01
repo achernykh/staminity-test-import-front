@@ -46,7 +46,6 @@ class StructuredAssignmentCtrl implements IComponentController {
     }
 
     $onChanges(changes: any):void{
-        debugger;
     }
 
     onChangeValue(interval: ActivityIntervalP) {
@@ -67,10 +66,10 @@ class StructuredAssignmentCtrl implements IComponentController {
             id: i,
             code: g.code,
             mode: LoopMode.Group,
-            start: this.intervals.P.filter(i => i.parentGroup === g.code && i.repeatPos === 0)[0].pos,
-            length: this.intervals.P.filter(i => i.parentGroup === g.code && i.repeatPos === 0).length,
+            start: g.fPos, //this.intervals.P.filter(i => i.parentGroupCode === g.code && i.repeatPos === 0)[0].pos,
+            length: g.grpLength, //this.intervals.P.filter(i => i.parentGroupCode === g.code && i.repeatPos === 0).length,
             repeat: g.repeatCount,
-            pos: this.intervals.P.filter(i => i.parentGroup === g.code).map(i => i.pos)
+            pos: this.intervals.P.filter(i => i.parentGroupCode === g.code).map(i => i.pos)
         }));
     }
 
@@ -90,7 +89,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         let sequence:Array<number> = [];
 
         this.intervals.P.forEach(i => {
-            if (i.isSelected && (sequence.length === 0 || sequence.some(p => p === i.pos - 1)) && !i.parentGroup) {
+            if (i.isSelected && (sequence.length === 0 || sequence.some(p => p === i.pos - 1)) && !i.parentGroupCode) {
                 sequence.push(i.pos);
             } else if (sequence.length === 1 ) {
                 sequence = [];
@@ -120,8 +119,8 @@ class StructuredAssignmentCtrl implements IComponentController {
      */
     myLoop(interval: ActivityIntervalP):Loop {
         // Повтор в котором участвует интервал
-        let loop: Loop = ((!interval.hasOwnProperty('parentGroup') || interval.parentGroup === null)  && this.sequence) || // для выделения
-            this.loops.filter(l => l.code === interval.parentGroup)[0] || null; // для группы
+        let loop: Loop = ((!interval.hasOwnProperty('parentGroupCode') || interval.parentGroupCode === null)  && this.sequence) || // для выделения
+            this.loops.filter(l => l.code === interval.parentGroupCode)[0] || null; // для группы
 
         //console.log('my-loop', interval.pos, !!loop, loop['pos'], loop['length']);
         return (loop && loop.pos[loop.length - 1] === interval.pos && loop) || null;
@@ -140,7 +139,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         // Создание группы интервалов
         if(loop && loop.code === null && repeat > 1) {
             loopSegment = this.intervals.P.filter(p => loop.pos.some(i => i === p.pos));
-            success = this.intervals.createGroup(loopSegment, repeat);
+            success = this.intervals.createGroup(loopSegment, repeat, loop.start);
         }
         // Удаление группы интервалов
         if(loop && loop.code !== null && repeat === 1) {
@@ -148,7 +147,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         }
         // Изменение количества повторений
         if(loop && loop.code !== null && repeat > 1) {
-            loopSegment = this.intervals.P.filter(p => p.parentGroup === loop.code && p.repeatPos === 0);
+            loopSegment = this.intervals.P.filter(p => p.parentGroupCode === loop.code && p.repeatPos === 0);
             success = loop.repeat > repeat ? this.intervals.decreaseGroup(loopSegment, repeat) : this.intervals.increaseGroup(loopSegment, repeat);
         }
 

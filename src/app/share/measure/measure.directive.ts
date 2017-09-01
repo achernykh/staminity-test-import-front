@@ -238,7 +238,9 @@ export function MeasurementInput($filter): IDirective {
 				&& value[$scope.from] && value[$scope.to] ) {
 				initial = value;
 				//let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
-				return $scope.interval ? `${initial[$scope.from]*100}`+'-'+`${initial[$scope.to]*100}` : `${initial[$scope.from]*100}`;
+				return $scope.interval && initial[$scope.from] !== initial[$scope.to] ?
+					`${initial[$scope.from]*100}`+'-'+`${initial[$scope.to]*100}` :
+					`${initial[$scope.from]*100}`;
 			} else {
 			    initial = value;
 				//initial = Object.assign(initial, {[$scope.from]: null, [$scope.to]: null});
@@ -350,6 +352,12 @@ export function MeasurementInput($filter): IDirective {
 			setParams();
 		});
 
+		$scope.$watch('change', (newValue: number) => {
+			console.log('change assignment: ',$scope, $attrs, $ctrl, newValue);
+			$ctrl.$render();
+			//debugger;
+		});
+
 		setParams();
 
 		function setParams() {
@@ -366,10 +374,8 @@ export function MeasurementInput($filter): IDirective {
 
             $scope.isFTPMeasure = FTPMeasures.indexOf($scope.measure) !== -1;
 
-
 			if ($scope.measure && $attrs['sport']) {
 				measure = new Measure($scope.measure, $attrs['sport']);
-				console.log('measure = ', measure.name, measure.unit, measure.type, maskFunction(measure.type, $scope.interval));
 
 				switch (measure.type){
 					case 'pace': {
@@ -393,10 +399,7 @@ export function MeasurementInput($filter): IDirective {
 							$ctrl.$validators['duration'] = durationValidators;
                             $ctrl.$formatters = [durationFormatters];
                             $ctrl.$parsers = [durationParsers];
-							//$ctrl.$formatters.push(durationFormatters);
-							//$ctrl.$parsers.push(durationParsers);
 							convert = convertToDuration;
-							//mask = toDuration;
 						}
 						break;
 					}
@@ -427,6 +430,7 @@ export function MeasurementInput($filter): IDirective {
 		scope: {
 			ftpMode: '<',
 			ftp: '<',
+			change: '<',
 			interval: '=',
             measure: '='
 		}

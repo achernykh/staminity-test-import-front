@@ -4,7 +4,6 @@ import {IActivityInterval} from "../../../../api/activity/activity.interface";
  */
 export class ActivityInterval implements IActivityInterval{
 
-    parentGroup: string;
     startTimestamp: number;
     endTimestamp: number;
     pos: number; //позиция интервала в перечне (используем для интервала P)

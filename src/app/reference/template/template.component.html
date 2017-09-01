@@ -1,5 +1,5 @@
 <div 
-	ng-if="!$ctrl.reference.isMobileLayout" 
+	ng-if="!$ctrl.isMobileLayout"
 	layout="column" class="template-card md-whiteframe-1dp" 
 >
 	<div flex="none" layout="column" class="template-card__header">
@@ -55,7 +55,7 @@
 
 
 <md-list-item 
-	ng-if="$ctrl.reference.isMobileLayout"
+	ng-if="$ctrl.isMobileLayout"
 	class="template-row" 
 	layout="row" layout-align="start start"
 	md-no-ink

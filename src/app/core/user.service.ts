@@ -44,7 +44,6 @@ export default class UserService {
                     break;
                 }
                 case 'systemFunction':{
-                    debugger;
                     this.updatePermissions(m);
                     break;
                 }

@@ -123,13 +123,32 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     $onInit() {
         // расчет процента по позициям планогово задания в тренировке
+        this.prepareData();
         this.$scope.measure[this.item.activity.sportBasic || 'default'].forEach(key => {
             this.percentComplete[key] = this.calcPercent(key) || null;
         });
-
         this.prepareValues();
         this.ftpMode = this.item.template ? FtpState.On : FtpState.Off;
-        console.log('ActivityAssignmentCtrl', this);
+    }
+
+    $onChanges(changes: any): void {
+        if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
+            this.plan = null;
+            this.actual = null;
+            //this.$scope.$evalAsync();
+
+            setTimeout(() => {
+                this.prepareData();
+                this.validateForm();
+            }, 100);
+
+        }
+    }
+
+    prepareData(): void {
+        this.plan = this.item.activity.intervalPW;
+        this.actual = this.item.activity.intervalW.calcMeasures;
+        this.$scope.$evalAsync();
     }
 
     link(url) {
@@ -147,6 +166,15 @@ class ActivityAssignmentCtrl implements IComponentController {
         } else {
             return true;
         }
+    }
+
+    onTemplateOpen(){
+        this.item.showSelectTemplate = true;
+    }
+
+    get templateSelectorText(): string {
+        return this.item.activity.header.template && `Шаблон: ${this.item.activity.header.template.code}` ||
+                this.item.templateByFilter && 'activity.template.enable' || 'activity.template.empty';
     }
 
     prepareValues() {
@@ -193,9 +221,7 @@ class ActivityAssignmentCtrl implements IComponentController {
         if(!!!key) {
             return;
         }
-
-        //debugger;
-
+        this.clearTemplate();
         this.validateForm();
         this.ftpMode === FtpState.Off ? this.completeFtpMeasure(key) : this.completeAbsoluteMeasure(key);
         this.prepareDataForUpdate();
@@ -264,9 +290,15 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     changeParam() {
         setTimeout(()=>{
+            this.clearTemplate();
             this.validateForm();
             this.updateForm();
+            this.item.updateFilterParams();
         }, 100);
+    }
+
+    clearTemplate() {
+        this.item.activity.header.template = null;
     }
 
     validateForm() {
@@ -345,12 +377,11 @@ const ActivityAssignmentComponent:IComponentOptions = {
         item: '^calendarItemActivity'
     },
     bindings: {
-        plan: '<',
-        actual: '<',
         sport: '<',
         form: '<',
         editable: '<',
         ftpMode: '<',
+        change: '<',
         onChange: '&'
     },
     controller: ActivityAssignmentCtrl,

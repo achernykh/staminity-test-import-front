@@ -253,7 +253,6 @@ function UploadPictureDialogController($scope, $mdDialog) {
         let reader = new FileReader();
         reader.onload = (event) => $scope.$apply(onLoad(event)); // результат загрузки передаем в src для вывод картинки на экран
         reader.readAsDataURL(file); //сохраняем загрузку
-        debugger;
     };
     
     $scope.src = () => src;
@@ -290,7 +289,6 @@ function UploadFileDialogController($scope, $mdDialog) {
             reader.onload = (event) => $scope.$apply(onLoad(event));
             reader.readAsDataURL(file);
         }
-        debugger;
     };
 
     $scope.src = () => src;
