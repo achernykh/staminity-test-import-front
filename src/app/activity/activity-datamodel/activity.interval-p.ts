@@ -122,11 +122,14 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     }
 
     completeAbsoluteValue(zones: ITrainingZones, sport: string) {
-        this.intensityLevelFrom = this[this.intensityMeasure].intensityLevelFrom =
-            getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpFrom;
 
-        this.intensityLevelTo = this[this.intensityMeasure].intensityLevelTo =
-            getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpTo;
+        if(this.intensityMeasure) {
+            this.intensityLevelFrom = this[this.intensityMeasure].intensityLevelFrom =
+                getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpFrom;
+
+            this.intensityLevelTo = this[this.intensityMeasure].intensityLevelTo =
+                getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpTo;
+        }
     }
 
 }
