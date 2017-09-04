@@ -67,7 +67,7 @@ export default class AuthService implements IAuthService {
         }
         //console.log('auth', userRoles, authorizedRoles, new Date(userRoles[authorizedRoles[0]]), new Date());
         return authorizedRoles.every(role => this.permissions.hasOwnProperty(role) &&
-            new Date(this.permissions[role]) >= new Date());
+            new Date(this.permissions[role]).setHours(0, 0, 0, 0) >= new Date());
     }
 
     isCoach(role: string = 'Calendar_Athletes'):boolean {
