@@ -35,6 +35,8 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     power: IIntensityMeasure = new IntensityMeasure();
     speed: IIntensityMeasure = new IntensityMeasure();
 
+    private readonly limit: { warn: number, error: number} = { warn: 10, error: 20 };
+
     constructor(type: string, params: IActivityInterval) {
         super(type, params);
         this.prepareDuration();
@@ -130,6 +132,23 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
             this.intensityLevelTo = this[this.intensityMeasure].intensityLevelTo =
                 getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpTo;
         }
+    }
+
+    /**
+     * @description Процент выполнения тренировки
+     * @returns {number}
+     */
+    percent():number{
+        return this.calcMeasures.completePercent.hasOwnProperty('value') &&
+            this.calcMeasures.completePercent.value * 100 || null;
+    }
+
+    get status():string {
+        return  (!this.percent() && 'coming') ||
+                (Math.abs(100 - this.percent()) <= this.limit.warn) && 'complete' ||
+                (Math.abs(100 - this.percent()) <= this.limit.error) && 'complete-warn' ||
+                (Math.abs(100 - this.percent()) > this.limit.error) && 'complete-error';
+
     }
 
 }

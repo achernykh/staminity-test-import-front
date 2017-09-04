@@ -10,6 +10,7 @@ export class ActivityIntervalG extends ActivityInterval implements IActivityInte
     code: string;
     repeatCount: number; //количество повторов сегментов
     calcMeasures: ICalcMeasures;
+    totalMeasures: Array<ICalcMeasures>;
     grpLength: number; // количество сегментов в группе
     fPos: number; // intervalP.pos первого сегмента в группе
 

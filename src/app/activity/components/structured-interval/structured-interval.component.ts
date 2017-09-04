@@ -1,11 +1,12 @@
 import './structured-interval.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
 import {IActivityIntervalP} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
 import {Interval} from "../../activity.datamodel";
 import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
 import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
+import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
 
 const approxZones = {
     heartRate: [
@@ -27,8 +28,12 @@ class StructuredIntervalCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     public interval: ActivityIntervalP;
     public sport: string;
+    public group: ActivityIntervalG;
     public loop: Loop;
     public ftpMode: FtpState;
+    public viewPlan: boolean;
+    public viewActual: boolean;
+    public viewGroup: boolean;
 
     public onSelect: () => IPromise<void>;
     public onChange: (response: {interval: IActivityIntervalP}) => IPromise<void>;
@@ -59,6 +64,10 @@ class StructuredIntervalCtrl implements IComponentController {
         this.prepareInterval();
     }
 
+    $onChanges():void {
+        this.prepareInterval();
+    }
+
     splice() {
         this.onDelete({id: 0});
     }
@@ -79,6 +88,12 @@ class StructuredIntervalCtrl implements IComponentController {
 
 
     prepareInterval(){
+        debugger;
+        this.interval = copy(this.interval);
+        if(this.group && this.viewGroup) {
+            let ind: number = (this.interval.pos - this.group.fPos) % this.group.grpLength;
+            Object.assign(this.interval.calcMeasures, this.group.totalMeasures[ind]);
+        }
 /**
         this.interval.movingDuration['durationValue'] = ((this.interval.durationMeasure === 'movingDuration' || (this.interval.durationMeasure === 'duration')) && this.interval.durationValue) || null;
         this.interval.distance['durationValue'] = (this.interval.durationMeasure === 'distance' && this.interval.durationValue) || null;
@@ -221,7 +236,11 @@ class StructuredIntervalCtrl implements IComponentController {
 const StructuredIntervalComponent:IComponentOptions = {
     bindings: {
         interval: '<',
+        viewPlan: '<',
+        viewActual: '<',
+        viewGroup: '<',
         sport: '<',
+        group: '<',
         groupCount: '<',
         count: '<',
         loop: '<',

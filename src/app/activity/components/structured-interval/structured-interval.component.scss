@@ -36,11 +36,38 @@ structured-interval {
       outline:none;
     }
 
+    &.key {
+      background: $grey-400 !important;
+      color: white !important;
+    }
+
+    &.complete {
+      color: white !important;
+      background: $teal-600 !important;
+    }
+
+    &.complete-warn {
+      color: white !important;
+      background-color: $orange-800 !important;
+    }
+
+    &.complete-error {
+      color: white !important;
+      background-color: $red-800 !important;
+    }
+
   }
 
-  .key .segment-number {
-    background: $grey-400 !important;
-    color: white !important;
+  .key {
+    .complete {
+      background: $teal-900 !important;
+    }
+    .complete-warn {
+      background-color: $orange-900 !important;
+    }
+    .complete-error {
+      background-color: $red-900 !important;
+    }
   }
 
   .selected .segment-number {
@@ -52,6 +79,7 @@ structured-interval {
   div.interval-data, div.interval-comment {
     padding: 2px 16px 2px 16px;
     transition: all 0.3s;
+    min-height: 40px;
   }
 
   md-input-container{
@@ -79,15 +107,17 @@ structured-interval {
     margin-right: 0px;
   }
 
-  md-input-container.duration {
+  md-input-container.duration, span.duration {
     width: 55px;
     min-width: 55px;
     margin-right: 8px;
+    text-align: right;
   }
 
-  md-input-container.intensity {
+  md-input-container.intensity, span.intensity {
     width: 80px;
-    min-width: 80px
+    min-width: 80px;
+    text-align: right;
   }
 
   md-icon.duration, md-icon.intensity {
@@ -95,11 +125,16 @@ structured-interval {
   }
 
   md-icon.duration {
-    margin-left: 8px;
+    margin-left: 16px;
   }
 
   md-divider {
     margin-left: 16px;
+  }
+
+  md-input-container .md-input[disabled] {
+    color: rgba(black, 0.54);
+    background-image: none;
   }
 
 }

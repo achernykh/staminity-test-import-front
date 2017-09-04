@@ -5,6 +5,7 @@ import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-act
 import {times} from '../../../share/util.js';
 import {ActivityIntervals} from "../../activity-datamodel/activity.intervals";
 import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
+import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
 
 // Режим вывода Повтора для группы
 export enum LoopMode {
@@ -28,6 +29,9 @@ class StructuredAssignmentCtrl implements IComponentController {
 
     public intervals: ActivityIntervals;
     public item: CalendarItemActivityCtrl;
+    public viewPlan: boolean;
+    public viewActual: boolean;
+    public viewGroup: boolean;
 
     private mode: 'input' | 'colapse' | 'group' = 'group';
     private loops: Array<Loop>;
@@ -163,11 +167,19 @@ class StructuredAssignmentCtrl implements IComponentController {
     changeMode():string {
         return this.mode === 'group' ? 'input' : 'group';
     }
+
+    group(interval: ActivityIntervalP):ActivityIntervalG {
+        return ((this.viewGroup && interval.hasOwnProperty('parentGroupCode') && interval.parentGroupCode) &&
+            this.intervals.G.filter(i => i.code === interval.parentGroupCode)[0]) || null;
+    }
 }
 
 const StructuredAssignmentComponent:IComponentOptions = {
     bindings: {
         intervals: '<',
+        viewPlan: '<',
+        viewActual: '<',
+        viewGroup: '<',
         onEvent: '&',
         onChange: '&'
     },

@@ -13,6 +13,10 @@ class ActivitySegmentsCtrl implements IComponentController {
     public item: CalendarItemActivityCtrl;
     public onEvent: (response: Object) => IPromise<void>;
 
+    public viewPlan: boolean = true;
+    public viewActual: boolean = false;
+    public viewGroup: boolean = true;
+
     private durationMeasure: string = 'movingDuration';
     private intensityMeasure: string = 'heartRate';
     private intervals: ActivityIntervals;

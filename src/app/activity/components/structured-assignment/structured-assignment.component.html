@@ -3,18 +3,22 @@
                   hidden-pos="$ctrl.calcPrevLoops($ctrl.sequence.id)">
 </structured-group>
 
-<structured-group ng-repeat="loop in $ctrl.loops track by $index"
+<structured-group ng-repeat="loop in $ctrl.loops track by $index" ng-if="$ctrl.viewGroup"
                   class="structured-group" flex="none"
                   loop="loop"
                   hidden-pos="$ctrl.calcPrevLoops(loop.id)">
 </structured-group>
 
 <section class="intervals" flex="auto" layout="column" layout-fill
-         ng-class="{'margin-left': $ctrl.haveLoops()}">
+         ng-class="{'margin-left': $ctrl.haveLoops() && $ctrl.viewGroup}">
     <structured-interval ng-repeat="interval in $ctrl.intervals.P | orderBy:'pos' track by $index"
-                         ng-if="!interval.repeatPos || interval.repeatPos === 0"
+                         ng-if="!$ctrl.viewGroup || ($ctrl.viewGroup && (!interval.repeatPos || interval.repeatPos === 0))"
                          interval="interval"
+                         view-plan="$ctrl.viewPlan"
+                         view-actual="$ctrl.viewActual"
+                         view-group="$ctrl.viewGroup"
                          sport="$ctrl.item.activity.sportBasic"
+                         group="$ctrl.group(interval)"
                          group-count="$ctrl.mode === 'input' && interval.pos === $ctrl.sequence[$ctrl.sequence.length - 1]"
                          count="$ctrl.groupCount"
                          loop="$ctrl.myLoop(interval)"

@@ -84,15 +84,6 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
     }
 
     /**
-     * @description Процент выполнения тренировки
-     * @returns {number}
-     */
-    percent():number{
-        return this.calcMeasures.completePercent.hasOwnProperty('value') &&
-            this.calcMeasures.completePercent.value * 100 || null;
-    }
-
-    /**
      * @description Тренировка имеет плановые данные?
      * @returns {boolean}
      */

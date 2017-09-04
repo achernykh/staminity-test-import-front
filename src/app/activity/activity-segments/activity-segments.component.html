@@ -17,7 +17,7 @@
     </md-list>
     <activity-segment-chart flex="none" style="display: flex; margin: 8px 16px; height: 150px"
                             activity-header="$ctrl.intervals.stack"
-                            actual-ftp="false"
+                            actual-ftp="::$ctrl.item.activity.completed"
                             plan-ftp="true"
                             duration-measure="movingDuration"
                             view="'mobile'"
@@ -26,6 +26,19 @@
     </activity-segment-chart>
 
     <md-divider ng-if="$ctrl.item.mode !== 'view'"></md-divider>
+
+    <section ng-if="$ctrl.item.mode === 'view'" class="view-panel"
+             flex="none" layout="row" layout-align="center center">
+        <md-button ng-click="$ctrl.viewPlan = !$ctrl.viewPlan">
+            <span class="md-caption md-dark">План</span>
+        </md-button>
+        <md-button ng-click="$ctrl.viewActual = !$ctrl.viewActual">
+            <span class="md-caption md-dark">Факт</span>
+        </md-button>
+        <md-button ng-click="$ctrl.viewGroup = !$ctrl.viewGroup">
+            <span class="md-caption md-dark">Группы</span>
+        </md-button>
+    </section>
 
     <section ng-if="$ctrl.item.mode !== 'view'" class="action-panel" flex="none"
              layout="row" layout-align="center center">
@@ -46,6 +59,9 @@
     <md-divider></md-divider>
     <structured-assignment flex="auto" layout="row"
                            intervals="$ctrl.intervals"
+                           view-plan="$ctrl.viewPlan"
+                           view-actual="$ctrl.viewActual"
+                           view-group="$ctrl.viewGroup"
                            on-change="$ctrl.update()">
     </structured-assignment>
 </md-content>
