@@ -37,7 +37,7 @@
                ng-disabled="$ctrl.item.mode === 'view'">
     </md-input-container>
     <span class="duration" flex="noshrink" ng-if="$ctrl.viewActual && $ctrl.viewGroup">
-        {{$ctrl.interval.calcMeasures[$ctrl.interval.durationMeasure].value / ($ctrl.group ? $ctrl.group.grpLength : 1) | measureCalc:$ctrl.sport:$ctrl.interval.durationMeasure}}
+        {{$ctrl.interval.calcMeasures[$ctrl.interval.durationMeasure][$ctrl.group ? 'avgValue' : 'value'] | measureCalc:$ctrl.sport:$ctrl.interval.durationMeasure}}
     </span>
     <span class="duration" flex="noshrink" ng-if="$ctrl.viewActual && !$ctrl.viewGroup">
         {{$ctrl.interval.calcMeasures[$ctrl.interval.durationMeasure].value | measureCalc:$ctrl.sport:$ctrl.interval.durationMeasure}}

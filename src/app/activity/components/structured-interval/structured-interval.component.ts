@@ -88,7 +88,6 @@ class StructuredIntervalCtrl implements IComponentController {
 
 
     prepareInterval(){
-        debugger;
         this.interval = copy(this.interval);
         if(this.group && this.viewGroup) {
             let ind: number = (this.interval.pos - this.group.fPos) % this.group.grpLength;
