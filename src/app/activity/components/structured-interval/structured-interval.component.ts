@@ -64,7 +64,7 @@ class StructuredIntervalCtrl implements IComponentController {
         this.prepareInterval();
     }
 
-    $onChanges():void {
+    $onChanges(changes: any): void {
         this.prepareInterval();
     }
 
@@ -89,7 +89,7 @@ class StructuredIntervalCtrl implements IComponentController {
 
     prepareInterval(){
         this.interval = copy(this.interval);
-        if(this.group && this.viewGroup) {
+        if(this.group && this.group.hasOwnProperty('totalMeasures') && this.viewGroup) {
             let ind: number = (this.interval.pos - this.group.fPos) % this.group.grpLength;
             Object.assign(this.interval.calcMeasures, this.group.totalMeasures[ind]);
         }
@@ -244,6 +244,7 @@ const StructuredIntervalComponent:IComponentOptions = {
         count: '<',
         loop: '<',
         ftpMode: '<',
+        change: '<',
         onChange: '&',
         onDelete: '&',
         onSelect: '&',

@@ -139,12 +139,13 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @returns {number}
      */
     percent():number{
-        return this.calcMeasures.completePercent.hasOwnProperty('value') &&
-            this.calcMeasures.completePercent.value * 100 || null;
+        return this.hasOwnProperty('calcMeasures') && this.calcMeasures.hasOwnProperty('completePercent') &&
+            this.calcMeasures.completePercent.hasOwnProperty('value') && this.calcMeasures.completePercent.value * 100 ||
+            null;
     }
 
     get status():string {
-        return  (!this.percent() && 'coming') ||
+        return  (this.percent() === null && 'coming') ||
                 (Math.abs(100 - this.percent()) <= this.limit.warn) && 'complete' ||
                 (Math.abs(100 - this.percent()) <= this.limit.error) && 'complete-warn' ||
                 (Math.abs(100 - this.percent()) > this.limit.error) && 'complete-error';

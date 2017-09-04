@@ -1,5 +1,5 @@
 import './structured-assignment.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
 import {IActivityIntervalP, IActivityIntervalG} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {times} from '../../../share/util.js';
@@ -28,6 +28,7 @@ export interface Loop {
 class StructuredAssignmentCtrl implements IComponentController {
 
     public intervals: ActivityIntervals;
+    public segments: Array<ActivityIntervalP>;
     public item: CalendarItemActivityCtrl;
     public viewPlan: boolean;
     public viewActual: boolean;
@@ -180,6 +181,7 @@ const StructuredAssignmentComponent:IComponentOptions = {
         viewPlan: '<',
         viewActual: '<',
         viewGroup: '<',
+        change: '<',
         onEvent: '&',
         onChange: '&'
     },

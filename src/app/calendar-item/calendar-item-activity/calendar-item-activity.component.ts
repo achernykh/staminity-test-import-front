@@ -189,10 +189,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (!this.template) {
             //Получаем детали по тренировке загруженной из внешнего источника
             if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
-                this.ActivityService.getIntervals(this.activity.activityHeader.activityId)
-                    .then(response => this.activity.intervals.add(response),
+                let intervalsType: Array<string> = this.activity.structured ? ['L','P'] : ['L'];
+                this.ActivityService.getIntervals(this.activity.activityHeader.activityId, intervalsType)
+                    .then(response => this.activity.intervals.add(response, 'update'),
                         error => this.message.toastError('errorCompleteIntervals'))
                     .then(() => this.activity.updateIntervals())
+                    .then(() => this.changeStructuredAssignment++)
                     .then(() => this.prepareTabPosition());
 
                 this.ActivityService.getDetails(this.data.activityHeader.activityId)

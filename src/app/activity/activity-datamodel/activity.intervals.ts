@@ -57,12 +57,17 @@ export class ActivityIntervals {
         return <ActivityIntervalW>this.stack.filter(i => i.type === 'W')[0];
     }
 
-    add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = []):void {
+    add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = [], mode: 'insert' | 'update' = 'insert'):void {
         intervals.forEach(i => {
-            if (typeof i === 'ActivityIntervalP' || 'ActivityIntervalG') {
+            if(typeof i === 'object'){
+                if (mode === 'update' && i['type'] === 'P' && this.find(i['type'], i['pos']) !== -1) {
+                    this.setParams(i['type'], i['pos'], {calcMeasures: i['calcMeasures']});
+                } else {
+                    this.stack.push(ActivityIntervalFactory(i['type'], i));
+                }
+            }
+            else if (i instanceof ActivityIntervalP || ActivityIntervalG) {
                 this.stack.push(<ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW>i);
-            } else {
-                this.stack.push(ActivityIntervalFactory(i['type'], i));
             }
         });
     }
@@ -108,7 +113,7 @@ export class ActivityIntervals {
      * @param type
      * @param id
      */
-    splice(type: string, id: string | number): void {
+    splice(type: string, id: string | number = null): void {
         let i: number = this.find(type, id);
         if(i !== -1){
             let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
@@ -137,6 +142,7 @@ export class ActivityIntervals {
      * @param params - обновленный набор свойств интервала
      */
     setParams(type: string, id: string | number, params: Object): void {
+        if(!id) {return;}
         let i: number = this.find(type,id);
         if(i !== -1) {
             Object.assign(this.stack[i], params);

@@ -7,7 +7,7 @@ class StructuredGroupCtrl implements IComponentController {
     loop: Loop;
     hiddenPos: number = 0;
 
-    private readonly box:{top:number,height:number} = {top:21,height:40}; //px
+    private readonly box:{top:number,height:number} = {top:21,height:44}; //px
     static $inject = [];
 
     constructor() {

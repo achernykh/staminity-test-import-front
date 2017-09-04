@@ -1,5 +1,5 @@
-<md-content flex="auto">
-    <md-list class="md-dense slim-input bg-grey-100" layout="column">
+<md-content flex="auto" layout="column">
+    <md-list flex="none" class="md-dense slim-input bg-grey-100" layout="column">
         <md-list-item flex="none">
             <div class="md-caption" style="color: #455A64">
                 <span>Итого: </span>
@@ -15,7 +15,8 @@
                        ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
         </md-list-item>
     </md-list>
-    <activity-segment-chart flex="none" style="display: flex; margin: 8px 16px; height: 150px"
+    <activity-segment-chart flex="none" hide show-xs show-sm
+                            style="margin: 8px 16px; height: 150px"
                             activity-header="$ctrl.intervals.stack"
                             actual-ftp="::$ctrl.item.activity.completed"
                             plan-ftp="true"
@@ -29,13 +30,16 @@
 
     <section ng-if="$ctrl.item.mode === 'view'" class="view-panel"
              flex="none" layout="row" layout-align="center center">
-        <md-button ng-click="$ctrl.viewPlan = !$ctrl.viewPlan">
+        <md-button flex ng-click="$ctrl.viewPlan = !$ctrl.viewPlan; $ctrl.viewActual = $ctrl.viewPlan ? false : true"
+                   ng-class="{'bg-grey-200': $ctrl.viewPlan, 'md-dark': !$ctrl.viewPlan}">
             <span class="md-caption md-dark">План</span>
         </md-button>
-        <md-button ng-click="$ctrl.viewActual = !$ctrl.viewActual">
+        <md-button flex ng-click="$ctrl.viewActual = !$ctrl.viewActual; $ctrl.viewPlan = $ctrl.viewActual ? false : true"
+                   ng-class="{'bg-grey-200': $ctrl.viewActual, 'md-dark': !$ctrl.viewActual}">
             <span class="md-caption md-dark">Факт</span>
         </md-button>
-        <md-button ng-click="$ctrl.viewGroup = !$ctrl.viewGroup">
+        <md-button flex ng-click="$ctrl.viewGroup = !$ctrl.viewGroup"
+                   ng-class="{'bg-grey-200': $ctrl.viewGroup, 'md-dark': !$ctrl.viewGroup}">
             <span class="md-caption md-dark">Группы</span>
         </md-button>
     </section>
@@ -57,11 +61,17 @@
         </md-button>
     </section>
     <md-divider></md-divider>
-    <structured-assignment flex="auto" layout="row"
+    <div flex="auto" class="loading-table" ng-if="!$ctrl.hasImport"
+         layout="column" layout-align="center center">
+        <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+        <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
+    </div>
+    <structured-assignment flex="auto" layout="row" ng-if="$ctrl.hasImport"
                            intervals="$ctrl.intervals"
                            view-plan="$ctrl.viewPlan"
                            view-actual="$ctrl.viewActual"
                            view-group="$ctrl.viewGroup"
+                           change="$ctrl.item.changeStructuredAssignment"
                            on-change="$ctrl.update()">
     </structured-assignment>
 </md-content>
