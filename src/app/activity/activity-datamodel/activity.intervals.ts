@@ -72,6 +72,10 @@ export class ActivityIntervals {
                             this.setParams(i['type'], i['pos'], {calcMeasures: i['calcMeasures']});
                             break;
                         }
+                        case 'G': {
+                            this.setParams(i['type'], i['code'], {totalMeasures: i['totalMeasures']});
+                            break;
+                        }
                         case 'L': {
                             this.stack.push(ActivityIntervalFactory(i['type'], i));
                             break;
@@ -128,21 +132,30 @@ export class ActivityIntervals {
      * @param type
      * @param id
      */
-    splice(type: string, id: string | number = null): void {
+    splice(type: string, id: string | number = null, mode: 'single' | 'multi' = 'multi'): void {
+        debugger;
         let i: number = this.find(type, id);
         if(i !== -1){
             let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
             // Если интревал является повторяющимся
-            if (interval.hasOwnProperty('parentGroupCode') && interval.parentGroupCode) {
+            if (mode === 'multi' && interval.hasOwnProperty('parentGroupCode') && interval.parentGroupCode) {
+                debugger;
                 let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroupCode)[0];
+
                 this.P.filter(i => i.type === type && i.parentGroupCode === group.code && (i.pos - interval.pos) % group.grpLength === 0)
                     .map(interval => {
-                        i = this.find(interval.type, interval.pos);
-                        // 1. удаляем интревал
-                        this.stack.splice(i,1);
+                        // 1. Удалеяем интервалы
+                        this.stack.splice(this.find(interval.type, interval.pos),1);
                         // 2. реорганизуем инетрвалы, сдвигаем на -1 позицию вверх
                         this.reorganisation(interval.pos, -1);
                     });
+
+                // 3. меняем количество сегментов в повторе
+                group.grpLength --;
+
+                // 3. Если остается только один сегмент в группе,
+                // то удалем группу и убираем ссылку на группу оставшихся интервалах
+
             } else { // одиночный интервал
                 this.stack.splice(i,1);
                 this.reorganisation(interval.pos, -1);
@@ -354,7 +367,7 @@ export class ActivityIntervals {
 
         //3. Удаляем интервалы
         this.P.filter(i => i.parentGroupCode === group.code && i.repeatPos >= trgRepeat)
-            .map(i => this.splice(i.type, i.pos));
+            .map(i => this.splice(i.type, i.pos, 'single'));
 
         //4. Выстраиваем последовательность pos
         this.reorganisation(segment[0].pos + (srcRepeat * len), (trgRepeat - srcRepeat) * len);

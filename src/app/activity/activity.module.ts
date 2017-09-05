@@ -25,6 +25,7 @@ import StructuredAssignmentComponent from "./components/structured-assignment/st
 import StructuredIntervalComponent from "./components/structured-interval/structured-interval.component";
 import {StructuredGroupComponent} from "./components/structured-group/structured-group.component";
 import ActivitySegmentsTableComponent from "./activity-segments-table/activity-segments-table.component";
+import ActivityAssignmentButtonsComponent from "./components/assignment-buttons/activity-assignment-buttons.component";
 
 const Activity = module('staminity.activity', [])
 	.service('ActivityService', ActivityService)
@@ -52,6 +53,7 @@ const Activity = module('staminity.activity', [])
 	.constant('segmentChartSettings', DefaultPlanChartSettings)
 	.component('activitySegmentChart', PlanChartComponent)
 	.component('activitySegmentsTable', ActivitySegmentsTableComponent)
+	.component('activityAssignmentButtons', ActivityAssignmentButtonsComponent)
 	.run(['$timeout','leafletData',($timeout, leafletData)=> {
 		$timeout(()=> {
 			leafletData.getMap().then((map) => {

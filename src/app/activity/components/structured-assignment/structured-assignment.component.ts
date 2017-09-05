@@ -51,6 +51,7 @@ class StructuredAssignmentCtrl implements IComponentController {
     }
 
     $onChanges(changes: any):void{
+        this.loops = this.loopsFromGroups;
     }
 
     onChangeValue(interval: ActivityIntervalP) {

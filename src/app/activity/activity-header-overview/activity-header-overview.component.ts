@@ -13,7 +13,6 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
     public intervalPW: ActivityIntervalPW;
     public intervalW: ActivityIntervalW;
 
-    public form: INgModelController;
     static $inject = [];
 
     constructor() {
@@ -28,14 +27,9 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         this.intervalW = this.item.activity.intervals.W;
     }
 
-    onSave(){
-        //console.log('push button save', new Date().getTime());
-        this.item.template ? this.item.onSaveTemplate() : this.item.onSave();
-    }
-
     onChangeForm(plan,actual,form: INgModelController) {
-        console.log('onChangeForm', form.$dirty);
-        this.form = form;
+        this.item.assignmentForm.$dirty = this.item.assignmentForm.$dirty || form.$dirty;
+        this.item.assignmentForm.$valid = this.item.assignmentForm.$valid || form.$valid;
         this.item.updateAssignment(plan,actual);
     }
 }

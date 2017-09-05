@@ -67,7 +67,9 @@
             <md-icon class="material-icons md-dark" style="margin-right: 20px">format_list_numbered</md-icon>
             <p>Структурированное задание</p>
             <md-switch class="md-secondary md-primary"
-                       ng-model="$ctrl.item.structuredMode" md-invert>
+                       ng-model="$ctrl.item.structuredMode"
+                       ng-change="$ctrl.changeStructuredMode()"
+                       md-invert>
         </md-list-item>
         <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.template">
             <md-input-container flex="50" class="no-message" md-no-float>
@@ -165,7 +167,8 @@
         <md-list-item class="bg-grey-100" ng-if="($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
             <md-icon class="material-icons" style="margin-right: 20px">format_list_numbered</md-icon>
             <p>{{$ctrl.item.activity.intervalP.length}} сегм</p>
-            <md-icon ng-click="angular.noop()" class="md-secondary material-icons">keyboard_arrow_right</md-icon>
+            <md-icon ng-click="$ctrl.item.changeTab('Segments')"
+                     class="md-secondary material-icons">keyboard_arrow_right</md-icon>
         </md-list-item>
         <md-list-item class="bg-grey-100" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
             <md-table-container>

@@ -1,6 +1,6 @@
 import { Observable, Subject } from "rxjs/Rx";
 import './calendar-item-activity.component.scss';
-import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge, copy} from 'angular';
+import { IComponentOptions, IComponentController, IFormController, INgModelController, IPromise, IScope, merge, copy} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
@@ -31,14 +31,14 @@ import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
-enum HeaderTab {
+export enum HeaderTab {
     Overview,
     Details,
     Zones,
     Chat
 };
 
-enum HeaderStructuredTab {
+export enum HeaderStructuredTab {
     Overview,
     Segments,
     Details,
@@ -76,6 +76,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
     onAnswer: (response: Object) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
+    public assignmentForm: INgModelController; // форма ввода задания структурированного / не структурированного
+    public inAction: boolean = false; // true - форма на стороне бэкенд (кнопки формы блокируются), false - на стороне frontend
+
     public showSelectAthletes: boolean = false;
     public showSelectTemplate: boolean = false;
     private forAthletes: Array<{profile: IUserProfile, active: boolean}> = [];
@@ -107,14 +110,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private templatesByOwner: { [owner: string]: Array<IActivityTemplate> }; // шаблоны тренировки для выдчи пользователю в разрезе свои, тренера, системные и пр..
     public templateByFilter: boolean = false; // false - нет шаблонов в соответствии с фильтром, true - есть шаблоны
 
-    private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
-    private tabs: Object = {
-        Overview: 0,
-        Segments: 1,
-        Details: 2,
-        Zones: 3,
-        Chat: 4
-    };
+    public selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
+
     public currentUser: IUserProfile = null;
     public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
     public isCreator: boolean;
@@ -122,7 +119,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public isMyCoach: boolean;
 
     public isLoadingDetails: boolean = false;
-    private inAction: boolean = false; // true - форма на стороне бэкенд, false - на стороне frontend
 
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
@@ -189,7 +185,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (!this.template) {
             //Получаем детали по тренировке загруженной из внешнего источника
             if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
-                let intervalsType: Array<string> = this.activity.structured ? ['L','P'] : ['L'];
+                let intervalsType: Array<string> = this.activity.structured ? ['L','P','G'] : ['L'];
                 this.ActivityService.getIntervals(this.activity.activityHeader.activityId, intervalsType)
                     .then(response => this.activity.intervals.add(response, 'update'),
                         error => this.message.toastError('errorCompleteIntervals'))
@@ -209,6 +205,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
     prepareTabPosition(){
         this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
             (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
+    }
+
+    changeTab(tab: string):void {
+        this.selectedTab = this.structuredMode ? HeaderStructuredTab[tab] : HeaderTab[tab];
     }
 
     /**
@@ -581,29 +581,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity.intervalPW.update(plan);
         this.activity.intervalW.update({calcMeasures: actual});
         this.activity.updateIntervals();
-        //Object.assign(this.activity.intervalPW, plan);
-        //this.activity.intervalPW = plan;
-
-        /*this.activity.intervalPW.durationMeasure = (!!plan.distance['durationValue'] && 'distance') ||
-            (!!plan.movingDuration['durationValue'] && 'movingDuration') || null;
-
-        this.activity.intervalPW.durationValue =
-            (plan[this.activity.intervalPW.durationMeasure] && plan[this.activity.intervalPW.durationMeasure]['durationValue']) || null;
-
-        this.activity.intervalPW.intensityMeasure = (!!plan.heartRate['intensityLevelFrom'] && 'heartRate') ||
-            (!!plan.speed['intensityLevelFrom'] && 'speed') || (!!plan.power['intensityLevelFrom'] && 'power') || null;
-
-        this.activity.intervalPW.intensityLevelFrom =
-            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityLevelFrom']) || null;
-        this.activity.intervalPW.intensityLevelTo =
-            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityLevelTo']) || null;
-
-        this.activity.intervalPW.intensityByFtpFrom =
-            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpFrom']) || null;
-        this.activity.intervalPW.intensityByFtpTo =
-            (plan[this.activity.intervalPW.intensityMeasure] && plan[this.activity.intervalPW.intensityMeasure]['intensityByFtpTo']) || null;*/
-
-        //this.activity.intervalW.calcMeasures = actual;
     }
 
     get name () {

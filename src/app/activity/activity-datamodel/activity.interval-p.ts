@@ -65,14 +65,15 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
     private prepareDuration(){
 
-        ['distance','movingDuration'].forEach(m => !this[m] && Object.assign(this[m], {
+        ['distance','movingDuration'].forEach(m => !this[m].durationValue && Object.assign(this[m], {
             durationValue: (this.durationMeasure === m && this.durationValue) || null
         }));
     }
 
     private prepareIntensity(){
 
-        ['heartRate','speed','power'].forEach(m => !this[m] && Object.assign(this[m], {
+        ['heartRate','speed','power'].forEach(m =>
+            (!this[m].intensityLevelFrom && !this[m].intensityByFtpFrom) && Object.assign(this[m], {
             intensityLevelFrom: (this.intensityMeasure === m && this.intensityLevelFrom) || null,
             intensityLevelTo: (this.intensityMeasure === m && this.intensityLevelTo) || null,
             intensityByFtpFrom: (this.intensityMeasure === m && this.intensityByFtpFrom) || null,

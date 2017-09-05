@@ -79,8 +79,8 @@
     </structured-assignment>
 </md-content>
 <!--<pre>{{$ctrl.item.activity.intervalPW | json}}</pre>-->
-
-<md-dialog-actions flex="none" layout="row" style="background: white">
+<activity-assignment-buttons></activity-assignment-buttons>
+<!--<md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>
     <md-button ng-if="$ctrl.item.mode === 'view'" ng-disabled="true"
                ng-click="">В шаблон
@@ -89,13 +89,14 @@
                ng-click="$ctrl.item.changeMode('put')">Изменить
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'"
-               ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )">Отменить
+               ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )"
+               translate="activity.reset">
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'" type="submit"
                ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid"
                ng-class="{'md-warn': !$ctrl.form.$valid}"
-               ng-click="$ctrl.onSave()">
-        Сохранить
+               ng-click="$ctrl.onSave()"
+               translate="activity.save">
     </md-button>
-</md-dialog-actions>
+</md-dialog-actions>-->
 </form>

@@ -4,7 +4,10 @@ import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../
 import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../../share/measure/measure.constants";
 import {Activity} from "../../activity.datamodel";
 import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
-import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import {
+    CalendarItemActivityCtrl,
+    HeaderStructuredTab
+} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import moment from 'moment/src/moment.js';
 import {IAuthService} from "../../../auth/auth.service";
 
@@ -296,6 +299,10 @@ class ActivityAssignmentCtrl implements IComponentController {
             this.updateForm();
             this.item.updateFilterParams();
         }, 100);
+    }
+
+    changeStructuredMode(){
+        this.item.structuredMode ? this.item.selectedTab = HeaderStructuredTab.Segments : angular.noop();
     }
 
     clearTemplate() {

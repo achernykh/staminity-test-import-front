@@ -35,6 +35,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.valid();
         this.prepareIntervals();
     }
 
@@ -46,11 +47,16 @@ class ActivitySegmentsCtrl implements IComponentController {
         this.intervals = this.item.activity.intervals;
     }
 
+    valid():void {
+        this.item.assignmentForm.$setValidity('needInterval', this.intervals.P.length > 0);
+    }
     /**
      * @description Обновление модели данных
      */
-    update() {
+    update():void {
         this.intervals = this.item.activity.intervals;
+        this.valid();
+        this.item.assignmentForm.$setDirty();
         this.item.changeStructuredAssignment ++;
     }
 
@@ -82,7 +88,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     delete() {
-        this.intervals.P.filter(interval => interval.isSelected)
+        this.intervals.P.filter(interval => interval.isSelected && (interval.repeatPos === null || interval.repeatPos === 0))
             .map(interval => this.intervals.splice(interval.type, interval.pos));
         this.intervals.PW.calculate(this.intervals.P);
         this.update();

@@ -20,7 +20,7 @@ export class ActivityIntervalG extends ActivityInterval implements IActivityInte
     }
 
     clear():IActivityIntervalG{
-        ['params', 'calcMeasures'].map(p => delete this[p]);
+        ['params', 'calcMeasures', 'totalMeasures'].map(p => delete this[p]);
         return <IActivityIntervalG>this;
     }
 }
