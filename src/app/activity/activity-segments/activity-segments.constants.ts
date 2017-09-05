@@ -15,19 +15,19 @@ export const getSegmentTemplates = () => ({
                 durationMeasure: 'distance',
                 intensityMeasure: 'heartRate',
                 distance: new DurationMeasure(1*1000), //m
-                heartRate: new IntensityMeasure(0.70,0.74)
+                heartRate: new IntensityMeasure(0.75,0.80)
             },
             {
                 durationMeasure: 'movingDuration',
-                intensityMeasure: 'heartRate',
-                movingDuration: new DurationMeasure(50*60), //m
-                heartRate: new IntensityMeasure(0.75,0.78)
+                intensityMeasure: 'pace',
+                movingDuration: new DurationMeasure(50*60), //sec
+                heartRate: new IntensityMeasure(0.85,0.85)
             },
             {
                 durationMeasure: 'distance',
                 intensityMeasure: 'heartRate',
                 distance: new DurationMeasure(1*1000), //m
-                heartRate: new IntensityMeasure(0.70,0.74)
+                heartRate: new IntensityMeasure(0.75,0.80)
             }
         ],
         default: [
@@ -35,24 +35,38 @@ export const getSegmentTemplates = () => ({
                 durationMeasure: 'distance',
                 intensityMeasure: 'heartRate',
                 distance: new DurationMeasure(10*100), //m
-                heartRate: new IntensityMeasure(0.70,0.74)
+                heartRate: new IntensityMeasure(0.80,0.74)
             }
         ]
     },
     bike: {
+        first: [{
+                durationMeasure: 'movingDuration',
+                intensityMeasure: 'heartRate',
+                movingDuration: new DurationMeasure(60*60), //sec
+                heartRate: new IntensityMeasure(0.80,0.80)
+            }
+        ],
         default: [{
             durationMeasure: 'movingDuration',
             intensityMeasure: 'heartRate',
             distance: new DurationMeasure(60*10), //sec
-            heartRate: new IntensityMeasure(0.70,0.74)
+            heartRate: new IntensityMeasure(0.75,0.75)
         }]
     },
     swim: {
+        first: [{
+                durationMeasure: 'distance',
+                intensityMeasure: 'speed',
+                movingDuration: new DurationMeasure(10*100), //m
+                heartRate: new IntensityMeasure(0.90,0.90)
+            }
+        ],
         default: [{
             durationMeasure: 'distance',
             intensityMeasure: 'speed',
-            distance: new DurationMeasure(5*100), //m
-            heartRate: new IntensityMeasure(0.70,0.74)
+            distance: new DurationMeasure(3*100), //m
+            heartRate: new IntensityMeasure(0.75,0.75)
         }]
     }
 });
