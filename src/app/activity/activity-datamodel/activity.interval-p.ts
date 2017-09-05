@@ -6,6 +6,7 @@ import {ITrainingZonesType, ITrainingZones} from "../../../../api/user/user.inte
 import {getFTP} from "../../core/user.function";
 import {FtpState} from "../components/assignment/assignment.component";
 import {approxZones} from "./activity.interval-p.functions";
+import {copy} from 'angular';
 
 export class ActivityIntervalP extends ActivityInterval implements IActivityIntervalP{
 
@@ -49,6 +50,11 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         ['intensityLevelFrom','intensityLevelTo']
     ];
 
+    hasRecalculate: boolean = false;
+    keys: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration',
+        'heartRate','power','speed', 'speed', 'zones', 'limit', 'opposite', 'index', 'ftpMeasures','keys',
+        'hasRecalculate'];
+
     constructor(type: string, params: IActivityInterval) {
         super(type, params);
 
@@ -86,8 +92,10 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @param keys
      * @returns {IActivityIntervalP}
      */
-    clear(keys: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration',
-        'heartRate','power','speed', 'speed', 'zones', 'limit', 'opposite', 'index', 'ftpMeasures']):IActivityIntervalP{
+    clear(keys: Array<string> = this.keys):IActivityIntervalP{
+        if(this.hasRecalculate) {
+            ['calcMeasures'].map(key => this.keys.splice(this.keys.indexOf(key), 1));
+        }
         keys.map(p => delete this[p]);
         return <IActivityIntervalP>this;
     }
@@ -294,9 +302,13 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @returns {IActivityIntervalP}
      */
     prepareForCalculateRange():IActivityIntervalP {
-        this.startTimestamp = null;
-        this.endTimestamp = null;
-        return this.clear();
+        let interval: IActivityIntervalP = copy(this);
+        this.keys.map(p => delete interval[p]);
+        this.hasRecalculate = true;
+
+        interval.startTimestamp = null;
+        interval.endTimestamp = null;
+        return interval;
     }
 
 }

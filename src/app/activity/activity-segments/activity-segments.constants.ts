@@ -19,9 +19,9 @@ export const getSegmentTemplates = () => ({
             },
             {
                 durationMeasure: 'movingDuration',
-                intensityMeasure: 'pace',
+                intensityMeasure: 'speed',
                 movingDuration: new DurationMeasure(50*60), //sec
-                heartRate: new IntensityMeasure(0.85,0.85)
+                speed: new IntensityMeasure(0.85,0.85)
             },
             {
                 durationMeasure: 'distance',
@@ -35,7 +35,7 @@ export const getSegmentTemplates = () => ({
                 durationMeasure: 'distance',
                 intensityMeasure: 'heartRate',
                 distance: new DurationMeasure(10*100), //m
-                heartRate: new IntensityMeasure(0.80,0.74)
+                heartRate: new IntensityMeasure(0.74,0.80)
             }
         ]
     },
@@ -59,14 +59,14 @@ export const getSegmentTemplates = () => ({
                 durationMeasure: 'distance',
                 intensityMeasure: 'speed',
                 movingDuration: new DurationMeasure(10*100), //m
-                heartRate: new IntensityMeasure(0.90,0.90)
+                speed: new IntensityMeasure(0.90,0.90)
             }
         ],
         default: [{
             durationMeasure: 'distance',
             intensityMeasure: 'speed',
             distance: new DurationMeasure(3*100), //m
-            heartRate: new IntensityMeasure(0.75,0.75)
+            speed: new IntensityMeasure(0.75,0.75)
         }]
     }
 });

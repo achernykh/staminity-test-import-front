@@ -5,7 +5,7 @@ class CalendarActivityChartCtrl {
                 'complete-warn': ['#FF9800', '#EF6C00'],
                 'complete-error': ['#F44336', '#C62828'],
                 'dismiss': ['#F44336', '#C62828'],
-                'coming': ['#BDBDBD', '#9E9E9E']
+                'coming': ['#E0E0E0', '#BDBDBD']
         };
 
         this.$location = $location;
