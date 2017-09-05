@@ -7,8 +7,8 @@ import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
 import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
 import {ActivityIntervals} from "../activity-datamodel/activity.intervals";
 import {FtpState} from "../components/assignment/assignment.component";
-import {segmentTemplate, getChanges} from "./activity-segments.constants";
-import {getFTP} from "../../core/user.function";
+import {getSegmentTemplates, getChanges} from "./activity-segments.constants";
+import {getFTP, getFtpBySport} from "../../core/user.function";
 import {IActivityInterval} from "../../../../api/activity/activity.interface";
 
 
@@ -64,12 +64,19 @@ class ActivitySegmentsCtrl implements IComponentController {
      *
      */
     addInterval() {
-        debugger;
-        let template: IActivityInterval = segmentTemplate(this.intervals.lastPos() + 1, this.item.activity.sportBasic);
-        let interval: ActivityIntervalP = new ActivityIntervalP('P', template);
-        let ftp: number = getFTP(this.item.currentUser.trainingZones,interval.intensityMeasure,this.item.activity.sportBasic);
+        let sport: string = this.item.activity.sportBasic;
+        let ftp:{[measure: string] : number} = getFtpBySport(this.item.currentUser.trainingZones, sport);
 
-        this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
+        getSegmentTemplates()[sport][this.intervals.lastPos() ? 'default' : 'first'].forEach(template => {
+            let interval: ActivityIntervalP = new ActivityIntervalP('P', Object.assign(template, {pos: this.intervals.lastPos() + 1}));
+            this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
+        });
+
+        //let template: IActivityInterval = segmentTemplate(this.intervals.lastPos() + 1, this.item.activity.sportBasic);
+        //let interval: ActivityIntervalP = new ActivityIntervalP('P', template);
+        //let ftp:{[measure: string] : number} = getFtpBySport(this.item.currentUser.trainingZones, this.item.activity.sportBasic);
+
+        //this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
         this.intervals.PW.calculate(this.intervals.P);
         this.update();
     }

@@ -5,25 +5,55 @@ import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
 // Предустановки добавления нового сегмента по видам спорта
 export const segmentTemplate = (pos: number, sport: string, type: string = 'default'):IActivityIntervalP => {
 
-    return Object.assign(getTemplates()[sport][type], {pos: pos},);
+    return Object.assign(getSegmentTemplates()[sport][type], {pos: pos},);
 };
 
-const getTemplates = () => ({
+export const getSegmentTemplates = () => ({
     run: {
-        default: {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            distance: new DurationMeasure(1000),
-            heartRate: new IntensityMeasure(0.70,0.74)
-        }
+        first: [
+            {
+                durationMeasure: 'distance',
+                intensityMeasure: 'heartRate',
+                distance: new DurationMeasure(1*1000), //m
+                heartRate: new IntensityMeasure(0.70,0.74)
+            },
+            {
+                durationMeasure: 'movingDuration',
+                intensityMeasure: 'heartRate',
+                movingDuration: new DurationMeasure(50*60), //m
+                heartRate: new IntensityMeasure(0.75,0.78)
+            },
+            {
+                durationMeasure: 'distance',
+                intensityMeasure: 'heartRate',
+                distance: new DurationMeasure(1*1000), //m
+                heartRate: new IntensityMeasure(0.70,0.74)
+            }
+        ],
+        default: [
+            {
+                durationMeasure: 'distance',
+                intensityMeasure: 'heartRate',
+                distance: new DurationMeasure(10*100), //m
+                heartRate: new IntensityMeasure(0.70,0.74)
+            }
+        ]
     },
     bike: {
-        durationMeasure: 'movingDuration',
-        intensityMeasure: 'heartRate',
-        duration: 600,
-        intensityByFtpFrom: 0.70,
-        intensityByFtpTo: 0.74
-
+        default: [{
+            durationMeasure: 'movingDuration',
+            intensityMeasure: 'heartRate',
+            distance: new DurationMeasure(60*10), //sec
+            heartRate: new IntensityMeasure(0.70,0.74)
+        }]
+    },
+    swim: {
+        default: [{
+            durationMeasure: 'distance',
+            intensityMeasure: 'speed',
+            distance: new DurationMeasure(5*100), //m
+            heartRate: new IntensityMeasure(0.70,0.74)
+        }]
     }
 });
 

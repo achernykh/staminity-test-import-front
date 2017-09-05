@@ -5,6 +5,7 @@ import {DurationMeasure, IntensityMeasure} from "./activity.models";
 import {ITrainingZonesType, ITrainingZones} from "../../../../api/user/user.interface";
 import {getFTP} from "../../core/user.function";
 import {FtpState} from "../components/assignment/assignment.component";
+import {approxZones} from "./activity.interval-p.functions";
 
 export class ActivityIntervalP extends ActivityInterval implements IActivityIntervalP{
 
@@ -85,7 +86,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @returns {IActivityIntervalP}
      */
     clear(keys: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration',
-        'heartRate','power','speed', 'speed', 'zones', 'limit', 'index', 'ftpMeasures']):IActivityIntervalP{
+        'heartRate','power','speed', 'speed', 'zones', 'limit', 'opposite', 'index', 'ftpMeasures']):IActivityIntervalP{
         keys.map(p => delete this[p]);
         return <IActivityIntervalP>this;
     }
@@ -126,13 +127,11 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * интенсивности
      */
     complete(
-        ftp: number,
+        ftp: {[measure: string] : number},
         ftpState: FtpState = FtpState.On,
         changes: Array<{
             measure: string;
             value: DurationMeasure | IntensityMeasure}> = []): ActivityIntervalP{
-
-        debugger;
 
         changes.forEach(change => {
             // Изменилась длительность
@@ -145,14 +144,21 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
             // Изменилась интенсивность
             if (change.value instanceof IntensityMeasure) {
-                // Устанавливаем параметр интенсивности
+                // 3. Устанавливаем параметр интенсивности
                 this.intensityMeasure = change.measure;
-                // Устанавливаем значение длительности
+                // 4. Устанавливаем значение длительности
                 this.ftpMeasures[ftpState].map(key => this[key] = change.value[key]);
-                // Добавляем относительные значния интенсивности
+                // 5. Добавляем относительные значния интенсивности
                 this.ftpMeasures[ftpState].map(key =>
-                    this[this.opposite[key]] = this.calculateFtpValue(ftp, ftpState, this.opposite[key]));
+                    this[this.opposite[key]] = this.calculateFtpValue(ftp[this.intensityMeasure], ftpState, this.opposite[key]));
+                // 6. Опредлеяем максимальную зону интенсивности
+                [this.intensityFtpMax, this.intensityMaxZone] = this.maxZone();
             }
+
+            // 6. Рассчитываем время и расстояние по сегменту, а также признаки приблизительного расчета:
+            // movingDurationLength, distanceLength, movingDurationApprox, distanceLengthApprox
+            [this.movingDurationLength, this.distanceLength, this.movingDurationApprox, this.distanceApprox] =
+                this.approxCalc(this.intensityMeasure, ftp);
         });
 
         //
@@ -176,6 +182,66 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         return ftpState === FtpState.On ?
             this[measure][key] = this[measure][this.opposite[key]] * ftp :
             this[measure][key] = this[measure][this.opposite[key]] / ftp;
+    }
+
+    approxCalc(measure, ftp: {[measure: string] : number}):Array<any> {
+
+        if (this.durationMeasure === 'movingDuration' &&
+            this.intensityMeasure === 'speed') {
+            return [this.durationValue,
+                this.durationValue * (this.intensityLevelFrom + this.intensityLevelTo)/2,
+                false, false];
+
+        } else if (this.durationMeasure === 'distance' &&
+            this.intensityMeasure === 'speed') {
+            return [this.durationValue / ((this.intensityLevelFrom + this.intensityLevelTo)/2),
+                this.durationValue,
+                false, false];
+
+        } else if (this.durationMeasure === 'movingDuration' &&
+            (this.intensityMeasure === 'heartRate' || this.intensityMeasure === 'power')) {
+            let speed: number = this.approxSpeed(measure, ftp);
+            return [this.durationValue, this.durationValue * speed, false, true];
+
+        } else if (this.durationMeasure === 'distance' &&
+            (this.intensityMeasure === 'heartRate' || this.intensityMeasure === 'power')) {
+            let speed: number = this.approxSpeed(measure, ftp);
+            return [this.durationValue / speed, this.durationValue, true, false];
+
+        } else {
+            return [null, null, false, false];
+        }
+    }
+
+    approxSpeed(measure, ftp: {[measure: string] : number}):number {
+        let FTP: number = (this.intensityByFtpFrom + this.intensityByFtpTo) / 2;
+
+        if (!FTP) {
+            return null;
+        }
+
+        let zoneId: number = approxZones[measure].findIndex(z => FTP.toFixed(2) >= z.from && FTP.toFixed(2) <= z.to);
+        let delta: number, approxFTP: number;
+
+        if (zoneId === 0) { // для первой зоны
+            delta = FTP/approxZones[measure][zoneId]['to'];
+            approxFTP = approxZones['speed'][zoneId]['to'] * delta;
+        }
+        else if (zoneId === approxZones[measure].length - 1) {  // для последней зоны
+            delta = FTP/approxZones[measure][zoneId]['from'];
+            approxFTP = approxZones['speed'][zoneId]['from'] * delta;
+        }
+        else { // для всех остальных зон
+            delta = (FTP - approxZones[measure][zoneId]['from'])/ (approxZones[measure][zoneId]['to'] - approxZones[measure][zoneId]['from']);
+            approxFTP = approxZones['speed'][zoneId]['from'] + delta * (approxZones['speed'][zoneId]['to'] - approxZones['speed'][zoneId]['from']);
+        }
+
+        //console.log('approx', measure, FTP, zoneId, delta, approxFTP, this.getFTP('speed'));
+        return approxFTP * ftp['speed'];
+    }
+
+    maxZone():Array<number> {
+        return [0,0];
     }
 
     clearAbsoluteValue() {
