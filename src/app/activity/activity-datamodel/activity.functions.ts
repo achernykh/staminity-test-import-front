@@ -3,6 +3,7 @@ import {ActivityIntervalG} from "./activity.interval-g";
 import {ActivityIntervalPW} from "./activity.interval-pw";
 import {ActivityIntervalW} from "./activity.interval-w";
 import {ActivityIntervalL} from "./activity.interval-l";
+import {ITrainingZones} from "../../../../api/user/user.interface";
 
 /**
  * Фабрика создания интеравала тренировки

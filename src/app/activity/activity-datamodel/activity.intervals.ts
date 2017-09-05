@@ -59,15 +59,30 @@ export class ActivityIntervals {
 
     add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = [], mode: 'insert' | 'update' = 'insert'):void {
         intervals.forEach(i => {
-            if(typeof i === 'object'){
-                if (mode === 'update' && i['type'] === 'P' && this.find(i['type'], i['pos']) !== -1) {
-                    this.setParams(i['type'], i['pos'], {calcMeasures: i['calcMeasures']});
-                } else {
+            if(mode === 'insert') { // режим добавления
+                if(typeof i === 'object') {
                     this.stack.push(ActivityIntervalFactory(i['type'], i));
+                } else if (i instanceof ActivityIntervalP || ActivityIntervalG) {
+                    this.stack.push(<ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW>i);
                 }
-            }
-            else if (i instanceof ActivityIntervalP || ActivityIntervalG) {
-                this.stack.push(<ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW>i);
+            } else { // режим обновления
+                if(typeof i === 'object') {
+                    switch (i['type']) {
+                        case 'P': {
+                            this.setParams(i['type'], i['pos'], {calcMeasures: i['calcMeasures']});
+                            break;
+                        }
+                        case 'L': {
+                            this.stack.push(ActivityIntervalFactory(i['type'], i));
+                            break;
+                        }
+                        case 'pW':
+                        case 'W': {
+                            Object.assign(this.PW, {calcMeasures: i['calcMeasures']});
+                            break;
+                        }
+                    }
+                }
             }
         });
     }
@@ -326,6 +341,7 @@ export class ActivityIntervals {
      * @returns {boolean}
      */
     decreaseGroup(segment: Array<ActivityIntervalP>, trgRepeat: number):boolean {
+        debugger;
         //1. Номер группы и начальное количество повторов
         let group: ActivityIntervalG = <ActivityIntervalG>this.stack
             .filter(i => i.type === 'G' && i['code'] === segment[0].parentGroupCode)[0];

@@ -7,6 +7,10 @@ import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
 import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
 import {ActivityIntervals} from "../activity-datamodel/activity.intervals";
 import {FtpState} from "../components/assignment/assignment.component";
+import {segmentTemplate, getChanges} from "./activity-segments.constants";
+import {getFTP} from "../../core/user.function";
+import {IActivityInterval} from "../../../../api/activity/activity.interface";
+
 
 class ActivitySegmentsCtrl implements IComponentController {
 
@@ -60,19 +64,12 @@ class ActivitySegmentsCtrl implements IComponentController {
      *
      */
     addInterval() {
-        let params = {
-            pos: this.intervals.lastPos() + 1,
-            durationMeasure: this.durationMeasure,
-            intensityMeasure: this.intensityMeasure,
-            durationValue: 30*60,
-            movingDurationLength: 30*60,
-            intensityLevelFrom: 150,
-            intensityLevelTo: 150,
-            intensityByFtpFrom: 0.70,
-            intensityByFtpTo: 0.70
-        };
+        debugger;
+        let template: IActivityInterval = segmentTemplate(this.intervals.lastPos() + 1, this.item.activity.sportBasic);
+        let interval: ActivityIntervalP = new ActivityIntervalP('P', template);
+        let ftp: number = getFTP(this.item.currentUser.trainingZones,interval.intensityMeasure,this.item.activity.sportBasic);
 
-        this.intervals.add([ActivityIntervalFactory('P', params)]);
+        this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
         this.intervals.PW.calculate(this.intervals.P);
         this.update();
     }

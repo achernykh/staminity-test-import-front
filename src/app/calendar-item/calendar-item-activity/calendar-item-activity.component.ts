@@ -353,6 +353,19 @@ export class CalendarItemActivityCtrl implements IComponentController{
         return this.forAthletes && this.forAthletes.filter(athlete => athlete.active).length > 1;
     }
 
+    calculateActivityRange():void {
+        this.ActivityService.calculateRange(
+            this.activity.id,
+            null,
+            null,
+            [...this.activity.intervalP.map(i=> i.prepareForCalculateRange())])
+            //.then(response => {debugger;}, error => {debugger;})
+            .then(response => this.activity.intervals.add(response.intervals, 'update'),
+                error => this.message.toastError('errorCompleteIntervals'))
+            .then(() => this.activity.updateIntervals())
+            .then(() => this.changeStructuredAssignment++);
+    }
+
     /**
      * Установка выделения переданных индексов интервалов
      * @param initiator - 'header' | 'details'

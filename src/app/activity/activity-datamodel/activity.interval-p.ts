@@ -4,6 +4,7 @@ import {ActivityInterval} from "./activity.interval";
 import {DurationMeasure, IntensityMeasure} from "./activity.models";
 import {ITrainingZonesType, ITrainingZones} from "../../../../api/user/user.interface";
 import {getFTP} from "../../core/user.function";
+import {FtpState} from "../components/assignment/assignment.component";
 
 export class ActivityIntervalP extends ActivityInterval implements IActivityIntervalP{
 
@@ -29,21 +30,62 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
     // Дополнительные поля для отрисовки в бэке
     isSelected: boolean; // сегмент выделен
-    distance: IDurationMeasure = new DurationMeasure();
-    movingDuration: IDurationMeasure = new DurationMeasure();
-    heartRate: IIntensityMeasure = new IntensityMeasure();
-    power: IIntensityMeasure = new IntensityMeasure();
-    speed: IIntensityMeasure = new IntensityMeasure();
+    distance: IDurationMeasure;
+    movingDuration: IDurationMeasure;
+    heartRate: IIntensityMeasure;
+    power: IIntensityMeasure;
+    speed: IIntensityMeasure;
 
     private readonly limit: { warn: number, error: number} = { warn: 10, error: 20 };
+    private readonly opposite: any = {
+        intensityLevelFrom: 'intensityByFtpFrom',
+        intensityLevelTo: 'intensityByFtpTo',
+        intensityByFtpFrom: 'intensityLevelFrom',
+        intensityByFtpTo: 'intensityLevelTo'
+    };
+    private readonly ftpMeasures = [
+        ['intensityByFtpFrom','intensityByFtpTo'],
+        ['intensityLevelFrom','intensityLevelTo']
+    ];
 
     constructor(type: string, params: IActivityInterval) {
         super(type, params);
+
+        this.distance = this.distance || new DurationMeasure();
+        this.movingDuration = this.movingDuration || new DurationMeasure();
+
+        this.heartRate = this.heartRate || new IntensityMeasure();
+        this.speed = this.speed || new IntensityMeasure();
+        this.power = this.power || new IntensityMeasure();
+
         this.prepareDuration();
         this.prepareIntensity();
     }
 
-    clear(keys: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration','heartRate','power','speed']):IActivityIntervalP{
+    private prepareDuration(){
+
+        ['distance','movingDuration'].forEach(m => !this[m] && Object.assign(this[m], {
+            durationValue: (this.durationMeasure === m && this.durationValue) || null
+        }));
+    }
+
+    private prepareIntensity(){
+
+        ['heartRate','speed','power'].forEach(m => !this[m] && Object.assign(this[m], {
+            intensityLevelFrom: (this.intensityMeasure === m && this.intensityLevelFrom) || null,
+            intensityLevelTo: (this.intensityMeasure === m && this.intensityLevelTo) || null,
+            intensityByFtpFrom: (this.intensityMeasure === m && this.intensityByFtpFrom) || null,
+            intensityByFtpTo: (this.intensityMeasure === m && this.intensityByFtpTo) || null
+        }));
+    }
+
+    /**
+     * @description Очитска интервала от вспомагательных полей, перевод к структуре api
+     * @param keys
+     * @returns {IActivityIntervalP}
+     */
+    clear(keys: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration',
+        'heartRate','power','speed', 'speed', 'zones', 'limit', 'index', 'ftpMeasures']):IActivityIntervalP{
         keys.map(p => delete this[p]);
         return <IActivityIntervalP>this;
     }
@@ -79,37 +121,61 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     }
 
     /**
-     * @description Заполняем расчет занчений по заданию
-     * 1)
+     * @description Дополняем интревал не заполненными значениями
+     * Метод работает как для заполнения интревала в целом, так и после изменения парамтреа длительности или
+     * интенсивности
      */
-    complete(measure: string, value: DurationMeasure | IntensityMeasure){
+    complete(
+        ftp: number,
+        ftpState: FtpState = FtpState.On,
+        changes: Array<{
+            measure: string;
+            value: DurationMeasure | IntensityMeasure}> = []): ActivityIntervalP{
 
-        // Изменилась длительность
-        if (value instanceof  DurationMeasure) {
-        }
+        debugger;
 
-        // Изменилась интенсивность
-        if (value instanceof IntensityMeasure) {
-        }
+        changes.forEach(change => {
+            // Изменилась длительность
+            if (change.value instanceof  DurationMeasure) {
+                // 1. Устанавливаем параметр длительности
+                this.durationMeasure = change.measure;
+                // 2. Устанавливаем значение длительности
+                this.durationValue = change.value.durationValue;
+            }
+
+            // Изменилась интенсивность
+            if (change.value instanceof IntensityMeasure) {
+                // Устанавливаем параметр интенсивности
+                this.intensityMeasure = change.measure;
+                // Устанавливаем значение длительности
+                this.ftpMeasures[ftpState].map(key => this[key] = change.value[key]);
+                // Добавляем относительные значния интенсивности
+                this.ftpMeasures[ftpState].map(key =>
+                    this[this.opposite[key]] = this.calculateFtpValue(ftp, ftpState, this.opposite[key]));
+            }
+        });
 
         //
-
+        return this;
     }
 
+    /**
+     * @description Перерасчет относительного значения интенсивности в асболютное и наоборот
+     * @param ftp - значение ftp
+     * @param ftpState - режим ввода значения
+     * @param key - параметр, который необходимо рассчитать
+     * @param measure - показатель интенсиновсти, по которому идет расчет
+     * @returns {number} - рассчитанное знаение аболютное | относительное
+     */
+    calculateFtpValue(
+        ftp: number,
+        ftpState: FtpState,
+        key: string,
+        measure: string = this.intensityMeasure):number {
 
-    prepareDuration(){
-        ['distance','movingDuration'].forEach(m => Object.assign(this[m], {
-            durationValue: (this.durationMeasure === m && this.durationValue) || null
-        }));
-    }
-
-    prepareIntensity(){
-        ['heartRate','speed','power'].forEach(m => Object.assign(this[m], {
-            intensityLevelFrom: (this.intensityMeasure === m && this.intensityLevelFrom) || null,
-            intensityLevelTo: (this.intensityMeasure === m && this.intensityLevelTo) || null,
-            intensityByFtpFrom: (this.intensityMeasure === m && this.intensityByFtpFrom) || null,
-            intensityByFtpTo: (this.intensityMeasure === m && this.intensityByFtpTo) || null
-        }));
+        return ftpState === FtpState.On ?
+            this[measure][key] = this[measure][this.opposite[key]] * ftp :
+            this[measure][key] = this[measure][this.opposite[key]] / ftp;
     }
 
     clearAbsoluteValue() {
@@ -144,12 +210,26 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
             null;
     }
 
+    /**
+     * @description Статус выполнения интервала
+     * @returns {string}
+     */
     get status():string {
         return  (this.percent() === null && 'coming') ||
                 (Math.abs(100 - this.percent()) <= this.limit.warn) && 'complete' ||
                 (Math.abs(100 - this.percent()) <= this.limit.error) && 'complete-warn' ||
                 (Math.abs(100 - this.percent()) > this.limit.error) && 'complete-error';
 
+    }
+
+    /**
+     * @description Подготавливаем инетрвал для перерасчета на стороне бэка
+     * @returns {IActivityIntervalP}
+     */
+    prepareForCalculateRange():IActivityIntervalP {
+        this.startTimestamp = null;
+        this.endTimestamp = null;
+        return this.clear();
     }
 
 }

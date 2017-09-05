@@ -15,7 +15,9 @@
                        ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
         </md-list-item>
     </md-list>
-    <activity-segment-chart flex="none" hide show-xs show-sm
+    <!-- Показываем график сегментов если 1) мобильный вид 2) если десктоп и нет детальных данных -->
+    <activity-segment-chart flex="none"
+                            ng-if="!$ctrl.item.$mdMedia('gt-md') || ($ctrl.item.$mdMedia('gt-md') && !$ctrl.item.activity.actualDataIsImported)"
                             style="margin: 8px 16px; height: 150px"
                             activity-header="$ctrl.intervals.stack"
                             actual-ftp="::$ctrl.item.activity.completed"
@@ -61,12 +63,13 @@
         </md-button>
     </section>
     <md-divider></md-divider>
-    <div flex="auto" class="loading-table" ng-if="!$ctrl.hasImport"
+    <div flex="auto" class="loading-table" ng-if="!$ctrl.hasImport && $ctrl.item.activity.actualDataIsImported"
          layout="column" layout-align="center center">
         <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
         <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
     </div>
-    <structured-assignment flex="auto" layout="row" ng-if="$ctrl.hasImport"
+    <structured-assignment flex="auto" layout="row"
+                           ng-if="!$ctrl.item.activity.actualDataIsImported || ($ctrl.hasImport && $ctrl.item.activity.actualDataIsImported)"
                            intervals="$ctrl.intervals"
                            view-plan="$ctrl.viewPlan"
                            view-actual="$ctrl.viewActual"
