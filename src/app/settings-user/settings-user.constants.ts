@@ -76,7 +76,7 @@ export const _NAVBAR = [
      }*/
 ];
 
-export const _LANGUAGE = {'ru': {text: 'Русский'}/*,'en': {text: 'English'}*/};
+export const _LANGUAGE = { 'ru': {text: 'Русский'}, 'en': {text: 'English'} };
 export const _UNITS = ['metric'/*,'imperial'*/];
 
 export const _DELIVERY_METHOD = [{

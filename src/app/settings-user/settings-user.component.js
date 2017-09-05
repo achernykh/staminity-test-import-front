@@ -33,7 +33,7 @@ class SettingsUserModel {
 
 class SettingsUserCtrl {
 
-    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia) {
+    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia, PreferencesService) {
         console.log('SettingsCtrl constructor=', this)
         this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
@@ -56,6 +56,8 @@ class SettingsUserCtrl {
         this.BillingService = BillingService;
         this.$translate = $translate;
         this.$mdMedia = $mdMedia;
+        this.PreferencesService = PreferencesService;
+        
         this.destroy = new Subject();
 
         this.adaptors = [];
@@ -155,6 +157,7 @@ class SettingsUserCtrl {
     }
 
     changeLanguage(lng) {
+        this.PreferencesService.setLocale(lng);
         this.user.display.language = lng;
         this.displayForm.$dirty = true;
     }
@@ -582,8 +585,9 @@ class SettingsUserCtrl {
 	}
 };
 
-SettingsUserCtrl.$inject = ['$scope','UserService','AuthService','$http',
-    '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message', 'BillingService', '$translate', '$mdMedia'];
+SettingsUserCtrl.$inject = [
+    '$scope', 'UserService', 'AuthService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs','message', 'BillingService', '$translate', '$mdMedia', 'PreferencesService'
+];
 
 
 function DialogController($scope, $mdDialog) {
