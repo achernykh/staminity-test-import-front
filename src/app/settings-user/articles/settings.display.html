@@ -6,15 +6,15 @@
         <md-list class="md-dense">
             <md-list-item class="mobile-select">
                 <span translate="settings.display.language"></span>
-                <span class="md-secondary"
-                     ng-bind="$ctrl._LANGUAGE[$ctrl.user.display.language].text"></span>
+                <span class="md-secondary">{{ $ctrl.display.locales[$ctrl.display.getLocale()] }}</span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon class="material-icons">arrow_drop_down</md-icon>
                     </md-button>
                     <md-menu-content width="4">
-                        <md-menu-item ng-repeat='(id,language) in $ctrl._LANGUAGE'>
-                            <md-button ng-bind="language.text" ng-click="$ctrl.changeLanguage(id)">
+                        <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
+                            <md-button ng-click="$ctrl.display.setLocale(locale)">
+                                {{ localeName }}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>

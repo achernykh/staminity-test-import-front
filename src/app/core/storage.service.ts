@@ -4,8 +4,8 @@ import {Observable} from "rxjs/Rx";
 import {IUserProfile} from "../../../api/user/user.interface";
 
 export interface IStorageService {
-    get(key:string):any;
-    set(key:string, data:any):void;
+    get(key: string, byUser?: boolean) : any;
+    set(key: string, data: any, byUser?: boolean) : void;
 }
 
 const preset = {

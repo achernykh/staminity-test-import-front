@@ -30,7 +30,7 @@ class HeaderCtrl implements IComponentController {
 	private destroy: Subject<any> = new Subject();
 
 	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', 'NotificationService',
-		'CommentService','$mdDialog', '$state','toaster', 'display', 'SocketService'];
+		'CommentService','$mdDialog', '$state','toaster', 'DisplayService', 'SocketService'];
 
 	constructor(
 		private $scope,

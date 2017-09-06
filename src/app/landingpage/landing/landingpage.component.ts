@@ -17,7 +17,7 @@ class LandingPageCtrl implements IComponentController {
 		club: ['lp-club-01.png']
 	};
 
-	static $inject = ['AuthService','$state','SessionService','display'];
+	static $inject = ['AuthService', '$state', 'SessionService', 'DisplayService'];
 
 	constructor(private AuthService: IAuthService,
 				private $state: StateService,

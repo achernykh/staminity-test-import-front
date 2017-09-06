@@ -37,7 +37,6 @@ const root = module('staminity.application', [
 	'ngAria',
 	'ui.router',
 	'md.data.table',
-	'smDateTimeRangePicker',
 	'nemLogging',
 	'ui-leaflet',
 	hmReedmore,

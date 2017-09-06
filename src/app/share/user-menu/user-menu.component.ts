@@ -12,7 +12,7 @@ class UserMenuCtrl implements IComponentController{
     private user: IUserProfile;
     private profile$: Observable<IUserProfile>;
 
-    static $inject = ['$mdSidenav','$location','SessionService', '$state','display'];
+    static $inject = ['$mdSidenav','$location','SessionService', '$state', 'DisplayService'];
 
     constructor(
         private $mdSidenav: any,
