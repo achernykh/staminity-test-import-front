@@ -37,6 +37,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     $onInit() {
         this.valid();
         this.prepareIntervals();
+        this.addInterval();
     }
 
     $onChanges():void {
@@ -69,20 +70,26 @@ class ActivitySegmentsCtrl implements IComponentController {
     /**
      *
      */
-    addInterval() {
+    addInterval(scenario?: string) {
         let sport: string = this.item.activity.sportBasic;
         let ftp:{[measure: string] : number} = getFtpBySport(this.item.currentUser.trainingZones, sport);
 
-        getSegmentTemplates()[sport][this.intervals.lastPos() ? 'default' : 'first'].forEach(template => {
-            let interval: ActivityIntervalP = new ActivityIntervalP('P', Object.assign(template, {pos: this.intervals.lastPos() + 1}));
-            this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
+        scenario = scenario || this.intervals.lastPos() ? 'default' : 'first';
+
+        getSegmentTemplates()[sport][scenario].forEach(template => {
+            switch (template.type) {
+                case 'P': {
+                    let interval: ActivityIntervalP = new ActivityIntervalP('P', Object.assign(template, {pos: this.intervals.lastPos() + 1}));
+                    this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
+                    break;
+                }
+                case 'G': {
+                    this.intervals.add([new ActivityIntervalG('G', Object.assign(template, {fPos: this.intervals.lastPos() + 1}))]);
+                    break;
+                }
+            }
         });
 
-        //let template: IActivityInterval = segmentTemplate(this.intervals.lastPos() + 1, this.item.activity.sportBasic);
-        //let interval: ActivityIntervalP = new ActivityIntervalP('P', template);
-        //let ftp:{[measure: string] : number} = getFtpBySport(this.item.currentUser.trainingZones, this.item.activity.sportBasic);
-
-        //this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
         this.intervals.PW.calculate(this.intervals.P);
         this.update();
     }

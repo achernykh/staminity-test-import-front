@@ -7,6 +7,8 @@ import {Interval} from "../../activity.datamodel";
 import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
 import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
 import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
+import {getFtpBySport} from "../../../core/user.function";
+import {DurationMeasure, IntensityMeasure} from "../../activity-datamodel/activity.models";
 
 const approxZones = {
     heartRate: [
@@ -54,6 +56,8 @@ class StructuredIntervalCtrl implements IComponentController {
     private intensity: string = 'heartRate';
     private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
 
+    private ftp: {[measure: string] : number};
+
     static $inject = [];
 
     constructor() {
@@ -61,6 +65,7 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.ftp = getFtpBySport(this.item.currentUser.trainingZones, this.sport);
         this.prepareInterval();
     }
 
@@ -117,7 +122,7 @@ class StructuredIntervalCtrl implements IComponentController {
         });**/
     }
 
-    changeValue(measure) {
+    changeValue(measure: string) {
         this.completeInterval(measure);
         if (measure === 'movingDuration') {
             this.interval.movingDurationLength = this.interval.durationValue;
@@ -128,10 +133,10 @@ class StructuredIntervalCtrl implements IComponentController {
         this.onChange({interval: this.interval});
     }
 
-    completeInterval(measure) {
-
-        //this.interval.complete(measure, this.interval[measure]);
-        measure = this.durationMeasure.indexOf(measure) === -1 ? this.interval.intensityMeasure : measure;
+    completeInterval(measure: string) {
+        let value:DurationMeasure | IntensityMeasure = this.interval[measure];
+        this.interval.complete(this.ftp, this.ftpMode, [{ measure: measure, value: value}]);
+        /**measure = this.durationMeasure.indexOf(measure) === -1 ? this.interval.intensityMeasure : measure;
 
         if (this.durationMeasure.indexOf(measure) !== -1) {
             this.interval.durationValue = this.interval[measure].durationValue;
@@ -149,7 +154,7 @@ class StructuredIntervalCtrl implements IComponentController {
         [this.interval.movingDurationLength,
             this.interval.distanceLength,
             this.interval.movingDurationApprox,
-            this.interval.distanceApprox] = this.approxCalc(this.interval.intensityMeasure);
+            this.interval.distanceApprox] = this.approxCalc(this.interval.intensityMeasure);**/
 
     }
 

@@ -1,6 +1,7 @@
 import {IActivityIntervalP} from "../../../../api/activity/activity.interface";
 import {DurationMeasure, IntensityMeasure} from "../activity-datamodel/activity.models";
 import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
+import {genHash} from "../../share/utils-function";
 
 // Предустановки добавления нового сегмента по видам спорта
 export const segmentTemplate = (pos: number, sport: string, type: string = 'default'):IActivityIntervalP => {
@@ -8,22 +9,61 @@ export const segmentTemplate = (pos: number, sport: string, type: string = 'defa
     return Object.assign(getSegmentTemplates()[sport][type], {pos: pos},);
 };
 
-export const getSegmentTemplates = () => ({
+export const getSegmentTemplates = (group:string = genHash(6)) => ({
     run: {
         first: [
             {
+                type: 'P',
                 durationMeasure: 'distance',
                 intensityMeasure: 'heartRate',
                 distance: new DurationMeasure(1*1000), //m
                 heartRate: new IntensityMeasure(0.75,0.80)
             },
             {
+                type: 'G',
+                code: group,
+                repeatCount: 2,
+                grpLength: 2,
+                fPos: null //определяется на следующем шаге, обязательно чтобы далее следовал интервал группы
+            },
+            {
+                type: 'P',
+                parentGroupCode: group,
+                repeatPos: 0,
                 durationMeasure: 'movingDuration',
                 intensityMeasure: 'speed',
                 movingDuration: new DurationMeasure(50*60), //sec
                 speed: new IntensityMeasure(0.85,0.85)
             },
             {
+                type: 'P',
+                parentGroupCode: group,
+                repeatPos: 0,
+                durationMeasure: 'distance',
+                intensityMeasure: 'heartRate',
+                distance: new DurationMeasure(1*1000), //m
+                heartRate: new IntensityMeasure(0.75,0.80)
+            },
+            {
+                type: 'P',
+                parentGroupCode: group,
+                repeatPos: 1,
+                durationMeasure: 'movingDuration',
+                intensityMeasure: 'speed',
+                movingDuration: new DurationMeasure(50*60), //sec
+                speed: new IntensityMeasure(0.85,0.85)
+            },
+            {
+                type: 'P',
+                parentGroupCode: group,
+                repeatPos: 1,
+                durationMeasure: 'distance',
+                intensityMeasure: 'heartRate',
+                distance: new DurationMeasure(1*1000), //m
+                heartRate: new IntensityMeasure(0.75,0.80)
+            },
+            {
+                type: 'P',
                 durationMeasure: 'distance',
                 intensityMeasure: 'heartRate',
                 distance: new DurationMeasure(1*1000), //m
@@ -32,6 +72,7 @@ export const getSegmentTemplates = () => ({
         ],
         default: [
             {
+                type: 'P',
                 durationMeasure: 'distance',
                 intensityMeasure: 'heartRate',
                 distance: new DurationMeasure(10*100), //m

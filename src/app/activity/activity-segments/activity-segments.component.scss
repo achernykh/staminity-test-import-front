@@ -16,4 +16,18 @@ activity-segments {
     overflow: auto;
   }
 
+  md-menu.add {
+    button: {
+      margin-left: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-right: 0px;
+      width: 24px;
+    }
+    md-icon {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+  }
+
 }

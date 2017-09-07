@@ -75,12 +75,12 @@
 
         <div flex="none" layout="row" layout-align="center center" hide show-gt-sm
              class="md-caption secondary center data-category"
-             ng-class="::{'dark' : ($ctrl.status == 'planned')}">
+             ng-class="::{'md-dark' : $ctrl.data.status === 'coming'}">
             <div flex="none" class="line-14" ng-if="::$ctrl.data.category">{{::$ctrl.data.category | categoryCode}}</div>
         </div>
         <section flex="none" layout="row" layout-align="center center" hide show-gt-sm
              class="md-title-small secondary center tight-10"
-             ng-class="::{'md-dark' : ($ctrl.status == 'planned')}"
+             ng-class="::{'md-dark' : $ctrl.data.status === 'coming'}"
              ng-if="::(!!$ctrl.data.movingDuration || $ctrl.data.distance)">
             <div flex="none" ng-if="::$ctrl.data.movingDurationApprox">~</div>
             <div flex="none" ng-if="::$ctrl.data.movingDuration">

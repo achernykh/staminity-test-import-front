@@ -505,7 +505,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then((response)=> {
                         this.activity.compile(response);// сохраняем id, revision в обьекте
                         this.message.toastInfo('activityCreated');
-                        this.onAnswer({response: {type:'post', item:this.activity.build()}});
+                        this.onAnswer({response: {type:'post', item:this.activity}});
                     }, error => this.message.toastError(error))
                     .then(() => this.inAction = false);
             });
@@ -515,7 +515,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');
-                    this.onAnswer({response: {type:'put',item:this.activity.build()}});
+                    this.onAnswer({response: {type:'put',item:this.activity}});
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
         }
@@ -559,7 +559,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
-                    this.onAnswer({response: {type:'post', item:this.activity.build()}});
+                    this.onAnswer({response: {type:'post', item:this.activity}});
                 }, error => this.message.toastError(error));
         }
 
@@ -568,7 +568,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
-                    this.onAnswer({response: {type:'post', item:this.activity.build()}});
+                    this.onAnswer({response: {type:'post', item:this.activity}});
                 }, error => this.message.toastError(error));
         }
     }

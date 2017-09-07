@@ -1,14 +1,21 @@
 <md-content flex="auto" layout="column">
     <md-list flex="none" class="md-dense slim-input bg-grey-100" layout="column">
         <md-list-item flex="none">
-            <div class="md-caption" style="color: #455A64">
-                <span>Итого: </span>
+            <div class="md-caption" style="color: #455A64" ng-if="!$ctrl.item.activity.completed">
+                <span translate="activity.segments.total"></span>
                 <span ng-if="$ctrl.intervals.PW.movingDurationApprox">~</span>
-                <span>{{$ctrl.intervals.PW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
+                <span>{{$ctrl.intervals.PW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'movingDuration'}}</span>
                 <span ng-if="$ctrl.intervals.PW.distanceApprox">~</span>
                 <span>{{$ctrl.intervals.PW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
                 <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic}}</span>
             </div>
+            <div class="md-caption" style="color: #455A64" ng-if="$ctrl.item.activity.completed">
+                <span translate="activity.segments.total"></span>
+                <span>{{$ctrl.intervals.W.movingDuration() | measureCalc:$ctrl.item.activity.sportBasic:'movingDuration'}}</span>
+                <span>{{$ctrl.intervals.W.distance() | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
+                <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic}}</span>
+            </div>
+
             <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
                style="text-align: right; margin-right: 8px">%ПАНО: {{$ctrl.ftpMode ? 'ВЫКЛ ' : 'ВКЛ'}}</p>
             <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.template"
@@ -17,7 +24,7 @@
     </md-list>
     <!-- Показываем график сегментов если 1) мобильный вид 2) если десктоп и нет детальных данных -->
     <activity-segment-chart flex="none"
-                            ng-if="!$ctrl.item.$mdMedia('gt-md') || ($ctrl.item.$mdMedia('gt-md') && !$ctrl.item.activity.actualDataIsImported)"
+                            ng-if="!$ctrl.item.$mdMedia('gt-sm') || ($ctrl.item.$mdMedia('gt-sm') && !$ctrl.item.activity.actualDataIsImported)"
                             style="margin: 8px 16px; height: 150px"
                             activity-header="$ctrl.intervals.stack"
                             actual-ftp="::$ctrl.item.activity.completed"
@@ -30,7 +37,7 @@
 
     <md-divider ng-if="$ctrl.item.mode !== 'view'"></md-divider>
 
-    <section ng-if="$ctrl.item.mode === 'view'" class="view-panel"
+    <section ng-if="$ctrl.item.mode === 'view' && $ctrl.item.activity.actualDataIsImported" class="view-panel"
              flex="none" layout="row" layout-align="center center">
         <md-button flex ng-click="$ctrl.viewPlan = !$ctrl.viewPlan; $ctrl.viewActual = $ctrl.viewPlan ? false : true"
                    ng-class="{'bg-grey-200': $ctrl.viewPlan, 'md-dark': !$ctrl.viewPlan}">
@@ -48,17 +55,31 @@
 
     <section ng-if="$ctrl.item.mode !== 'view'" class="action-panel" flex="none"
              layout="row" layout-align="center center">
-        <md-button ng-click="$ctrl.addInterval()">
-            <md-icon class="material-icons">add_circle</md-icon><span class="md-caption">&nbsp;Добавить</span>
+        <md-button ng-click="$ctrl.addInterval()" flex="33" class="bg-grey-200">
+            <!--<md-icon class="material-icons">add_circle</md-icon>-->
+            <span class="md-caption">&nbsp;Добавить</span>
+            <md-menu flex="none" class="add">
+                <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons">arrow_drop_down</md-icon>
+                </md-button>
+                <md-menu-content width="3">
+                    <md-menu-item ng-repeat="type in ['warmUp','active', 'recovery', 'interval', 'rampUp', 'rampDown','coolDown'] track by $index">
+                        <md-button ng-click="$ctrl.addInterval(type)">
+                            <md-icon class="md-dark" md-svg-src="/assets/icon/duration.svg"></md-icon>
+                            <span class="md-caption" translate="activity.segments.add.{{type}}"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </md-button>
-        <md-checkbox ng-if="$ctrl.selectedInterval().length > 0"
+        <md-checkbox ng-if="$ctrl.selectedInterval().length > 0" flex="33"
                      ng-checked="$ctrl.isKey()"
                      md-indeterminate="$ctrl.isIndeterminate()"
                      ng-click="$ctrl.toggleKey()"
                      class="md-primary">
             <span class="md-caption">Ключевой</span>
         </md-checkbox>
-        <md-button ng-if="$ctrl.selectedInterval().length > 0" ng-click="$ctrl.delete()">
+        <md-button ng-if="$ctrl.selectedInterval().length > 0" ng-click="$ctrl.delete()" flex="33" class="bg-grey-200">
             <md-icon class="material-icons">delete</md-icon><span class="md-caption">&nbsp;Удалить</span>
         </md-button>
     </section>

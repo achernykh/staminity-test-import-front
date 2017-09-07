@@ -1,9 +1,23 @@
 export const translateActivity = {
   ru: {
+      save: 'Сохранить',
+      toTemplate: 'В Шаблон',
+      edit: 'Изменить',
+      reset: 'Отменить',
+      assignment: {
+          title: 'Задание',
+          needSport: 'Для ввода задания укажите вид спорта и тип тренировки',
+          structured: 'Струкутрированное задание'
+      },
+      segments: {
+          total: 'Итоги:'
+      },
       template: {
           title: 'Выберите шаблон',
           enable: 'Есть шаблоны',
-          empty: 'Шаблонов нет'
+          empty: 'Шаблонов нет',
+          favorite: 'Избранный',
+          namePlaceholder: 'Укажите название шаблона'
       },
       error: {
           required: 'Заполните обязательные поля',

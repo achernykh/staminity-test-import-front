@@ -157,9 +157,10 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
                 this.intensityMeasure = change.measure;
                 // 4. Устанавливаем значение длительности
                 this.ftpMeasures[ftpState].map(key => this[key] = change.value[key]);
-                // 5. Добавляем относительные значния интенсивности
+                // 5. Добавляем относительные значения интенсивности в параметре и в интервале
                 this.ftpMeasures[ftpState].map(key =>
-                    this[this.opposite[key]] = this.calculateFtpValue(ftp[this.intensityMeasure], ftpState, this.opposite[key]));
+                    this[this.opposite[key]] = this[this.intensityMeasure][this.opposite[key]] =
+                        this.calculateFtpValue(ftp[this.intensityMeasure], ftpState, key));
                 // 6. Опредлеяем максимальную зону интенсивности
                 [this.intensityFtpMax, this.intensityMaxZone] = this.maxZone();
             }
@@ -178,7 +179,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @description Перерасчет относительного значения интенсивности в асболютное и наоборот
      * @param ftp - значение ftp
      * @param ftpState - режим ввода значения
-     * @param key - параметр, который необходимо рассчитать
+     * @param key - параметр, на основание которого необходимо рассчитать
      * @param measure - показатель интенсиновсти, по которому идет расчет
      * @returns {number} - рассчитанное знаение аболютное | относительное
      */
@@ -188,9 +189,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         key: string,
         measure: string = this.intensityMeasure):number {
 
-        return ftpState === FtpState.On ?
-            this[measure][key] = this[measure][this.opposite[key]] * ftp :
-            this[measure][key] = this[measure][this.opposite[key]] / ftp;
+        return ftpState === FtpState.On ? this[measure][key] * ftp : Math.ceil(this[measure][key] * 100 / ftp) / 100;
     }
 
     approxCalc(measure, ftp: {[measure: string] : number}):Array<any> {

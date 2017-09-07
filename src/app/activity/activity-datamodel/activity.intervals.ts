@@ -80,9 +80,12 @@ export class ActivityIntervals {
                             this.stack.push(ActivityIntervalFactory(i['type'], i));
                             break;
                         }
-                        case 'pW':
-                        case 'W': {
+                        case 'pW': {
                             Object.assign(this.PW, {calcMeasures: i['calcMeasures']});
+                            break;
+                        }
+                        case 'W': {
+                            Object.assign(this.W, {calcMeasures: i['calcMeasures']});
                             break;
                         }
                     }

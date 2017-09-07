@@ -460,10 +460,8 @@ export class Activity extends CalendarItem {
 
 	get movingDuration():number {
 		return this.intervalW.movingDuration() ||
-			(this.intervalPW.movingDurationApprox && this.intervalPW.movingDurationLength) ||
-			(!this.intervalPW.movingDurationApprox && this.intervalPW.movingDuration.durationValue) || null;
-		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.movingDuration();**/
+			(this.structured && this.intervalPW.movingDurationLength) ||
+			(this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
 	}
 
 	get movingDurationApprox():boolean {
@@ -472,19 +470,14 @@ export class Activity extends CalendarItem {
 
 	get duration() {
 		return this.intervalW.movingDuration() ||
-			(this.intervalPW.movingDurationApprox && this.intervalPW.movingDurationLength) ||
-			(!this.intervalPW.movingDurationApprox && this.intervalPW.movingDuration.durationValue) || null;
-		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;**/
+			(this.structured && this.intervalPW.movingDurationLength) ||
+			(this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
 	}
 
 	get distance() {
 		return this.intervalW.distance() ||
-			(this.intervalPW.distanceApprox && this.intervalPW.distanceLength) ||
-			(!this.intervalPW.distanceApprox && this.intervalPW.distance.durationValue) || null;
-		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
-            && this.intervalPW.durationValue) ||
-            (this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;**/
+			(this.structured && this.intervalPW.distanceLength) ||
+			(this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null;
 	}
 
 	get distanceApprox():boolean {

@@ -26,6 +26,9 @@ import StructuredIntervalComponent from "./components/structured-interval/struct
 import {StructuredGroupComponent} from "./components/structured-group/structured-group.component";
 import ActivitySegmentsTableComponent from "./activity-segments-table/activity-segments-table.component";
 import ActivityAssignmentButtonsComponent from "./components/assignment-buttons/activity-assignment-buttons.component";
+import ActivityAssignmentHeaderComponent from "./components/assignement-header/activity-assignment-header.component";
+import AssignmentSummaryNonStructuredComponent from "./components/assignment-summary-non-structured/assignment-summary-non-structured.component";
+import AssignmentSummaryStructuredComponent from "./components/assignment-summary-structured/assignment-summary-structured.component";
 
 const Activity = module('staminity.activity', [])
 	.service('ActivityService', ActivityService)
@@ -54,6 +57,9 @@ const Activity = module('staminity.activity', [])
 	.component('activitySegmentChart', PlanChartComponent)
 	.component('activitySegmentsTable', ActivitySegmentsTableComponent)
 	.component('activityAssignmentButtons', ActivityAssignmentButtonsComponent)
+	.component('activityAssignmentHeader', ActivityAssignmentHeaderComponent)
+	.component('assignmentSummaryNonStructured', AssignmentSummaryNonStructuredComponent)
+	.component('assignmentSummaryStructured', AssignmentSummaryStructuredComponent)
 	.run(['$timeout','leafletData',($timeout, leafletData)=> {
 		$timeout(()=> {
 			leafletData.getMap().then((map) => {
