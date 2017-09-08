@@ -31,7 +31,8 @@ export const translateActivity = {
           add: {
               first: '',
               default: '',
-              interval: 'Разминка + Интервалы + Заминка',
+              interval: 'Серия интервалов',
+              complexinterval: 'Разминка + Интервалы + Заминка',
               complex: 'Разминка + Работа + Заминка',
               warmUp: 'Разминка',
               coolDown: 'Заминка',
