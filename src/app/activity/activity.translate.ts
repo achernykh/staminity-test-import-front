@@ -7,7 +7,7 @@ export const translateActivity = {
       assignment: {
           title: 'Задание',
           needSport: 'Для ввода задания укажите вид спорта и тип тренировки',
-          structured: 'Струкутрированное задание'
+          structured: 'План по сегментам'
       },
       segments: {
           total: 'Итоги:'
@@ -24,9 +24,24 @@ export const translateActivity = {
           needDuration: 'Укажите время или расстояние',
           singleDuration: 'Можно указать или время, или расстояние',
           singleIntensity: 'Можно задать лишь один параметр интенсивности',
-          needPermissionForFeature: 'Не хватает полномочий для планирования в будущем'
+          needPermissionForFeature: 'Для планирования в будущем нужен тариф "Премиум"'
       },
-      loading: 'Загрузка данных'
+      loading: 'Загрузка данных',
+      segments: {
+          add: {
+              first: '',
+              default: '',
+              interval: 'Разминка + Интервалы + Заминка',
+              complex: 'Разминка + Работа + Заминка',
+              warmUp: 'Разминка',
+              coolDown: 'Заминка',
+              active: 'Рабочий интервал',
+              recovery: 'Восстановление',
+              rampUp: 'Работа с возрастанием нагрузки',
+              coolDown: 'Работа с убыванием нагрузки'
+
+          }
+      }
   }
 };
 

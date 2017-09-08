@@ -11,7 +11,16 @@ export const segmentTemplate = (pos: number, sport: string, type: string = 'defa
 
 export const getSegmentTemplates = (group:string = genHash(6)) => ({
     run: {
-        first: [
+        default: [
+            {
+                type: 'P',
+                durationMeasure: 'distance',
+                intensityMeasure: 'heartRate',
+                distance: new DurationMeasure(10*100), //m
+                heartRate: new IntensityMeasure(0.74,0.80)
+            }
+        ],
+        interval: [
             {
                 type: 'P',
                 durationMeasure: 'distance',
@@ -30,36 +39,36 @@ export const getSegmentTemplates = (group:string = genHash(6)) => ({
                 type: 'P',
                 parentGroupCode: group,
                 repeatPos: 0,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'distance',
                 intensityMeasure: 'speed',
-                movingDuration: new DurationMeasure(50*60), //sec
-                speed: new IntensityMeasure(0.85,0.85)
+                distance: new DurationMeasure(1*1000), //m
+                speed: new IntensityMeasure(0.89,0.90)
             },
             {
                 type: 'P',
                 parentGroupCode: group,
                 repeatPos: 0,
-                durationMeasure: 'distance',
+                durationMeasure: 'movingDuration',
                 intensityMeasure: 'heartRate',
-                distance: new DurationMeasure(1*1000), //m
+                movingDuration: new DurationMeasure(3*60), //sec
                 heartRate: new IntensityMeasure(0.75,0.80)
             },
             {
                 type: 'P',
                 parentGroupCode: group,
                 repeatPos: 1,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'distance',
                 intensityMeasure: 'speed',
-                movingDuration: new DurationMeasure(50*60), //sec
-                speed: new IntensityMeasure(0.85,0.85)
+                distance: new DurationMeasure(1*1000), //m
+                speed: new IntensityMeasure(0.89,0.90)
             },
             {
                 type: 'P',
                 parentGroupCode: group,
                 repeatPos: 1,
-                durationMeasure: 'distance',
+                durationMeasure: 'movingDuration',
                 intensityMeasure: 'heartRate',
-                distance: new DurationMeasure(1*1000), //m
+                movingDuration: new DurationMeasure(3*60), //sec
                 heartRate: new IntensityMeasure(0.75,0.80)
             },
             {
@@ -70,24 +79,31 @@ export const getSegmentTemplates = (group:string = genHash(6)) => ({
                 heartRate: new IntensityMeasure(0.75,0.80)
             }
         ],
-        default: [
+        complex: [
             {
                 type: 'P',
                 durationMeasure: 'distance',
                 intensityMeasure: 'heartRate',
-                distance: new DurationMeasure(10*100), //m
-                heartRate: new IntensityMeasure(0.74,0.80)
+                distance: new DurationMeasure(2*1000), //m
+                heartRate: new IntensityMeasure(0.75,0.80)
+            },
+            {
+                type: 'P',
+                durationMeasure: 'distance',
+                intensityMeasure: 'speed',
+                distance: new DurationMeasure(8*1000), //m
+                speed: new IntensityMeasure(0.89,0.90)
+            },
+            {
+                type: 'P',
+                durationMeasure: 'distance',
+                intensityMeasure: 'heartRate',
+                distance: new DurationMeasure(1*1000), //m
+                heartRate: new IntensityMeasure(0.75,0.80)
             }
-        ]
+         ]
     },
     bike: {
-        first: [{
-                durationMeasure: 'movingDuration',
-                intensityMeasure: 'heartRate',
-                movingDuration: new DurationMeasure(60*60), //sec
-                heartRate: new IntensityMeasure(0.80,0.80)
-            }
-        ],
         default: [{
             durationMeasure: 'movingDuration',
             intensityMeasure: 'heartRate',
@@ -96,18 +112,35 @@ export const getSegmentTemplates = (group:string = genHash(6)) => ({
         }]
     },
     swim: {
-        first: [{
-                durationMeasure: 'distance',
-                intensityMeasure: 'speed',
-                movingDuration: new DurationMeasure(10*100), //m
-                speed: new IntensityMeasure(0.90,0.90)
-            }
-        ],
         default: [{
             durationMeasure: 'distance',
             intensityMeasure: 'speed',
             distance: new DurationMeasure(3*100), //m
-            speed: new IntensityMeasure(0.75,0.75)
+            speed: new IntensityMeasure(0.80,0.80)
+        }]
+    },
+    strength: {
+        default: [{
+            durationMeasure: 'movingDuration',
+            intensityMeasure: 'heartRate',
+            movingDuration: new DurationMeasure(30*60), //s
+            heartRate: new IntensityMeasure(0.75,0.85)
+        }]
+    },
+    ski: {
+        default: [{
+            durationMeasure: 'movingDuration',
+            intensityMeasure: 'heartRate',
+            movingDuration: new DurationMeasure(30*60), //m
+            heartRate: new IntensityMeasure(0.75,0.85)
+        }]
+    },
+    other: {
+        default: [{
+            durationMeasure: 'movingDuration',
+            intensityMeasure: 'heartRate',
+            movingDuration: new DurationMeasure(30*60), //m
+            heartRate: new IntensityMeasure(0.75,0.85)
         }]
     }
 });
