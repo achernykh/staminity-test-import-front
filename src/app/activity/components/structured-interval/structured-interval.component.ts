@@ -169,7 +169,7 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     getFTP(measure: string = this.interval.intensityMeasure, sport: string = this.sport):number {
-        let zones = this.item.currentUser.trainingZones;
+        let zones = this.item.user.trainingZones;
         return (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport]['FTP']) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty('default') && zones[measure]['default']['FTP']) || null;
     }

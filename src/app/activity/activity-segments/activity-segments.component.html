@@ -63,8 +63,8 @@
                     <md-icon class="material-icons">arrow_drop_down</md-icon>
                 </md-button>
                 <md-menu-content width="3">
-                    <md-menu-item ng-repeat="(type,obj) in $ctrl.scenario[$ctrl.item.activity.sportBasic] track by $index">
-                        <md-button ng-click="$ctrl.addInterval(type)" ng-if="type !== 'default'">
+                    <md-menu-item ng-repeat="(type,obj) in $ctrl.scenario[$ctrl.item.activity.sportBasic] track by $index" ng-if="type !== 'default'">
+                        <md-button ng-click="$ctrl.addInterval(type)">
                             <md-icon class="md-dark" md-svg-src="/assets/icon/duration.svg"></md-icon>
                             <span class="md-caption" translate="activity.segments.add.{{type}}"></span>
                         </md-button>

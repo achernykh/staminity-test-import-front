@@ -484,6 +484,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.onCancel();
         } else {
             this.activity.prepare();
+            this.changeStructuredAssignment ++;
         }
     }
 

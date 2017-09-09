@@ -4,6 +4,7 @@ import {ActivityIntervalPW} from "./activity.interval-pw";
 import {ActivityIntervalW} from "./activity.interval-w";
 import {ActivityIntervalL} from "./activity.interval-l";
 import {ITrainingZones} from "../../../../api/user/user.interface";
+import {ActivityIntervalU} from "./activity.interval-u";
 
 /**
  * Фабрика создания интеравала тренировки
@@ -27,6 +28,9 @@ export function ActivityIntervalFactory (type: string, params?: any) {
         }
         case 'W': {
             return new ActivityIntervalW(type, params);
+        }
+        case 'U': {
+            return new ActivityIntervalU(type, params);
         }
     }
 }
