@@ -4,8 +4,8 @@ import { Observable } from "rxjs/Rx";
 import { IUserProfile } from "../../../api/user/user.interface";
 
 export interface IStorageService {
-	get (key: string, byUser?: boolean) : any;
-	set (key: string, data: any, byUser?: boolean) : void;
+	get (key: string) : any;
+	set (key: string, data: any) : void;
 }
 
 export default class StorageService implements IStorageService {
@@ -13,26 +13,20 @@ export default class StorageService implements IStorageService {
 	private readonly location: string = 'localStorage';
 	private storage: any;
 
-	static $inject = ['$window', 'SessionService'];
+	static $inject = ['$window'];
 
 	constructor (
-		private $window: IWindowService,
-		private sessionService: ISessionService
+		private $window: IWindowService
 	) {
 		this.storage = $window[this.location];
 	}
 
-	getKey (key: string, byUser: boolean = true) {
-		let user = this.sessionService.getUser();
-		return user && byUser ? `${user.userId}#${key}` : key;
+	get (key: string) : any {
+		return JSON.parse(this.storage.getItem(key)) || null;
 	}
 
-	get (key: string, byUser?: boolean) : any {
-		return JSON.parse(this.storage.getItem(this.getKey(key, byUser))) || null;
-	}
-
-	set (key: string, data: any, byUser?: boolean) : void {
-		this.storage.setItem(this.getKey(key, byUser), JSON.stringify(data));
+	set (key: string, data: any) : void {
+		this.storage.setItem(key, JSON.stringify(data));
 	}
 
 }

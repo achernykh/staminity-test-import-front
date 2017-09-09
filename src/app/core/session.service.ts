@@ -34,7 +34,7 @@ export default class SessionService implements ISessionService {
 
 	private session: BehaviorSubject<ISession>;
 
-	static $inject = ['StorageService'];
+	static $inject = ['storage'];
 
 	constructor (
 		private storage: IStorageService
