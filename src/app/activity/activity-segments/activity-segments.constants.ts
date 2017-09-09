@@ -150,6 +150,7 @@ export const getSegmentTemplates = (group:string = genHash(6)) => ({
     },
     bike: {
         default: [{
+            type: 'P',
             durationMeasure: 'movingDuration',
             intensityMeasure: 'heartRate',
             distance: new DurationMeasure(60*10), //sec
@@ -158,6 +159,7 @@ export const getSegmentTemplates = (group:string = genHash(6)) => ({
     },
     swim: {
         default: [{
+            type: 'P',
             durationMeasure: 'distance',
             intensityMeasure: 'speed',
             distance: new DurationMeasure(3*100), //m
@@ -166,6 +168,7 @@ export const getSegmentTemplates = (group:string = genHash(6)) => ({
     },
     strength: {
         default: [{
+            type: 'P',
             durationMeasure: 'movingDuration',
             intensityMeasure: 'heartRate',
             movingDuration: new DurationMeasure(30*60), //s
@@ -174,6 +177,7 @@ export const getSegmentTemplates = (group:string = genHash(6)) => ({
     },
     ski: {
         default: [{
+            type: 'P',
             durationMeasure: 'movingDuration',
             intensityMeasure: 'heartRate',
             movingDuration: new DurationMeasure(30*60), //m
@@ -182,6 +186,7 @@ export const getSegmentTemplates = (group:string = genHash(6)) => ({
     },
     other: {
         default: [{
+            type: 'P',
             durationMeasure: 'movingDuration',
             intensityMeasure: 'heartRate',
             movingDuration: new DurationMeasure(30*60), //m

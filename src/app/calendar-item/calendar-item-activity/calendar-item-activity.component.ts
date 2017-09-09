@@ -28,6 +28,7 @@ import {templatesFilters, ReferenceFilterParams, getOwner} from "../../reference
 import {filtersToPredicate} from "../../share/utility/filtering";
 import {ActivityIntervals} from "../../activity/activity-datamodel/activity.intervals";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
+import {ActivityIntervalPW} from "../../activity/activity-datamodel/activity.interval-pw";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -97,6 +98,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private selectedIntervalType: string;
     private changeSelectInterval: number = 0;
     public changeStructuredAssignment: number = 0;
+    public resetStructuredAssignment: number = 0;
 
     private headerSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Заголовок
     private detailsSelectChangeCount: number = 0; // счетчик изменений выбора интервала в панели Детали
@@ -483,8 +485,23 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(mode === 'post') {
             this.onCancel();
         } else {
-            this.activity.prepare();
-            this.changeStructuredAssignment ++;
+            if(this.activity.structured) {
+                let hasRecalculated: boolean = this.activity.intervals.PW.hasRecalculate;
+                this.activity.intervals.P = <Array<ActivityIntervalPW>>this.activity.intervals.P.map(i => i.reset());
+                this.activity.intervals.PW = <ActivityIntervalPW>this.activity.intervals.PW.reset();
+                /**if(hasRecalculated) {
+                    this.calculateActivityRange(false);
+                } else {
+                    this.activity.updateIntervals();
+                    this.resetStructuredAssignment ++;
+                }**/
+
+                this.activity.updateIntervals();
+                this.resetStructuredAssignment ++;
+
+            } else {
+                this.activity.prepare();
+            }
         }
     }
 

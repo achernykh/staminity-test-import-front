@@ -106,8 +106,12 @@ class ActivitySegmentsCtrl implements IComponentController {
             }
         });
 
-        this.intervals.PW.calculate(this.intervals.P);
-        this.update();
+        if(this.item.activity.completed) {
+            this.item.calculateActivityRange(false);
+        } else {
+            this.intervals.PW.calculate(this.intervals.P);
+            this.update();
+        }
     }
 
     delete() {
@@ -115,8 +119,16 @@ class ActivitySegmentsCtrl implements IComponentController {
             interval.isSelected &&
             (!interval.hasOwnProperty('repeatPos') || interval.repeatPos === null || interval.repeatPos === 0))
             .map(interval => this.intervals.splice(interval.type, interval.pos));
-        this.intervals.PW.calculate(this.intervals.P);
-        this.update();
+
+        if(this.item.activity.completed) {
+            this.item.calculateActivityRange(false);
+        } else {
+            this.intervals.PW.calculate(this.intervals.P);
+            this.update();
+        }
+
+        //this.intervals.PW.calculate(this.intervals.P);
+        //this.update();
     }
 
     isKey():boolean {
@@ -163,6 +175,7 @@ const ActivitySegmentsComponent:IComponentOptions = {
     bindings: {
         data: '<',
         hasImport: '<',
+        change: '<',
         onEvent: '&'
     },
     require: {

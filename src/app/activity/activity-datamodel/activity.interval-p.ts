@@ -7,6 +7,7 @@ import {getFTP} from "../../core/user.function";
 import {FtpState} from "../components/assignment/assignment.component";
 import {approxZones} from "./activity.interval-p.functions";
 import {copy} from 'angular';
+import {ActivityIntervalPW} from "./activity.interval-pw";
 
 export class ActivityIntervalP extends ActivityInterval implements IActivityIntervalP{
 
@@ -98,6 +99,14 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         }
         keys.map(p => delete this[p]);
         return <IActivityIntervalP>this;
+    }
+
+    /**
+     * Восстановление первоначального интервала
+     * @param initial
+     */
+    reset():ActivityIntervalP | ActivityIntervalPW {
+        return Object.assign(this, this.params);
     }
 
     /**

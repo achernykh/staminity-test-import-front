@@ -37,6 +37,11 @@ export class ActivityIntervals {
         return <Array<ActivityIntervalP>>this.stack.filter(i => i.type === 'P').sort(posOrder);
     }
 
+    set P(intervals: Array<ActivityIntervalP>) {
+        this.P.map(i => this.splice('P',i.pos,'single'));
+        this.add([...intervals]);
+    }
+
     get L():Array<ActivityIntervalL> {
         return <Array<ActivityIntervalL>>this.stack.filter(i => i.type === 'L');
     }
@@ -51,6 +56,11 @@ export class ActivityIntervals {
 
     get PW():ActivityIntervalPW {
         return <ActivityIntervalPW>this.stack.filter(i => i.type === 'pW')[0];
+    }
+
+    set PW(interval: ActivityIntervalPW) {
+        this.splice('pW', null, 'single');
+        this.add([interval]);
     }
 
     get W():ActivityIntervalW {
@@ -136,7 +146,6 @@ export class ActivityIntervals {
      * @param id
      */
     splice(type: string, id: string | number = null, mode: 'single' | 'multi' = 'multi'): void {
-        debugger;
         let i: number = this.find(type, id);
         if(i !== -1){
             let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
@@ -161,7 +170,9 @@ export class ActivityIntervals {
 
             } else { // одиночный интервал
                 this.stack.splice(i,1);
-                this.reorganisation(interval.pos, -1);
+                if(type === 'P'){
+                    this.reorganisation(interval.pos, -1);
+                }
             }
         }
     }
@@ -177,6 +188,14 @@ export class ActivityIntervals {
         let i: number = this.find(type,id);
         if(i !== -1) {
             Object.assign(this.stack[i], params);
+        }
+        // Сохраняем полученные детали по интревала в свойстве params - начальное состояние интревала
+        // Далее будет использовано в методе reset() для приведения интервала в начальное состояние
+        if(params.hasOwnProperty('calcMeasures') && !this.stack[i].params.hasOwnProperty('calcMeasures')){
+            Object.assign(this.stack[i].params, {calcMeasures: params['calcMeasures']});
+        }
+        if(params.hasOwnProperty('totalMeasures') && !this.stack[i].params.hasOwnProperty('totalMeasures')){
+            Object.assign(this.stack[i].params, {calcMeasures: params['totalMeasures']});
         }
     }
 

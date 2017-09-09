@@ -68,7 +68,9 @@
             <md-tab-label><md-icon class="material-icons">format_list_numbered</md-icon></md-tab-label>
             <md-tab-body layout-column layout-fill>
                 <activity-segments flex="auto" layout="column" layout-fill
-                                   has-import="$ctrl.item.activity.hasImport()"></activity-segments>
+                                   has-import="$ctrl.item.activity.hasImport()"
+                                   change="$ctrl.item.resetStructuredAssignment">
+                </activity-segments>
             </md-tab-body>
         </md-tab>
         <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"

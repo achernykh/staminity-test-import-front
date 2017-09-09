@@ -65,7 +65,7 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.ftp = getFtpBySport(this.item.currentUser.trainingZones, this.sport);
+        this.ftp = getFtpBySport(this.item.user.trainingZones, this.sport);
         this.prepareInterval();
     }
 
