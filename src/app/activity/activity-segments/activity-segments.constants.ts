@@ -8,7 +8,7 @@ export const segmentTemplate = (pos: number, sport: string, type: string = 'defa
 
     return Object.assign(getSegmentTemplates()[sport][type], {pos: pos},);
 };
-
+// 'warmUp','active', 'recovery', 'interval', 'rampUp', 'rampDown','coolDown'
 export const getSegmentTemplates = (group:string = genHash(6)) => ({
     run: {
         default: [

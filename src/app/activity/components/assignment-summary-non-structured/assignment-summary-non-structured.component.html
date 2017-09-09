@@ -1,8 +1,11 @@
-<md-list class="md-dense slim-input bg-grey-100">
+<md-list class="md-dense slim-input bg-grey-100 assignment-summary-non-structured">
     <md-list-item>
         <p class="md-caption" style="color: #455A64" translate="activity.assignment.title"></p>
         <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
-           style="text-align: right; margin-right: 8px">%ПАНО: {{$ctrl.ftpMode ? 'ВЫКЛ ' : 'ВКЛ'}}</p>
+           style="text-align: right; margin-right: 8px">
+            <span translate="activity.percentFTP"></span>
+            <span translate="{{$ctrl.ftpMode ? 'activity.ftpMode.off ' : 'activity.ftpMode.on'}}"></span>
+        </p>
         <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.template"
                    ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
         </md-switch>
@@ -19,11 +22,11 @@
                 <thead ng-if="!$ctrl.options.decapitate" md-head>
                 <tr md-row>
                     <th md-column><span></span></th>
-                    <th md-column hide><span>Показатель(ед.изм)</span></th>
-                    <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
-                    <th md-column md-numeric style="min-width: 65px"><span>План</span></th>
-                    <th md-column md-numeric ng-if="!$ctrl.item.template" style="min-width: 50px"><span>Факт</span></th>
-                    <th md-column md-numeric ng-if="!$ctrl.item.template" style="-min-width: 50px"><span>Вып</span></th>
+                    <th md-column hide><span translate="activity.measureUnitFull"></span></th>
+                    <th md-column show style="min-width: 50px"><span translate="activity.measureUnitShort"></span></th>
+                    <th md-column md-numeric style="min-width: 65px"><span translate="activity.plan"></span></th>
+                    <th md-column md-numeric ng-if="!$ctrl.item.template" style="min-width: 50px"><span translate="activity.actual"></span></th>
+                    <th md-column md-numeric ng-if="!$ctrl.item.template" style="-min-width: 50px"><span translate="activity.completeShort"></span></th>
                 </tr>
                 </thead>
                 <tbody md-body>
@@ -33,7 +36,7 @@
                         <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="md-dark"></md-icon>
                     </td>
                     <td md-cell show>
-                        <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure.$key)">{{'%ПАНО' | translate}}</span>
+                        <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure.$key)" translate="activity.percentFTP"></span>
                         <span ng-if="!($ctrl.isFTP() && $ctrl.isInterval(measure.$key))">{{measure.$key | measureUnit:$ctrl.sport | translate}}</span>
                     </td>
 
@@ -110,7 +113,7 @@
     <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
         <md-input-container flex class="md-block no-message">
             <md-icon class="material-icons md-dark">event_note</md-icon>
-            <label translate="Установка тренера" class="icon"></label>
+            <label translate="activity.trainersPrescription" class="icon"></label>
             <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
                       ng-change="$ctrl.changeParam()"
                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"

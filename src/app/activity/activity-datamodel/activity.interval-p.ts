@@ -127,6 +127,14 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
             intensityFtpMax: this.intensityFtpMax,
             intensityMaxZone: this.intensityMaxZone,
 
+            isSelected: this.isSelected,
+
+            distance: this.distance,
+            movingDuration: this.movingDuration,
+            heartRate: this.heartRate,
+            speed: this.speed,
+            power: this.power
+
         };
     }
 

@@ -1,6 +1,7 @@
 <div layout="row" layout-align="start center" name="$ctrl.form"
      class="md-dense interval-data" ng-class="{'selected': $ctrl.interval.isSelected, 'key': $ctrl.interval.keyInterval}">
-    <div class="segment-number md-body-1 bg-grey-200 md-dark" ng-class="{'{{::$ctrl.interval.status}}': $ctrl.viewActual}"
+    <div class="segment-number md-body-1 bg-grey-200 md-dark"
+         ng-class="{'{{::$ctrl.interval.status}}': $ctrl.viewActual, 'coming': $ctrl.viewPlan, 'block': $ctrl.item.mode === 'view'}"
          ng-click="$ctrl.select()">
         <span>{{$ctrl.interval.pos}}</span></div>
     <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
@@ -22,6 +23,7 @@
         <input measure-input ng-switch-when="movingDuration"
                name="plan_movingDuration"
                ng-model="$ctrl.interval.movingDuration.durationValue"
+               ng-model-options="{ debounce: 500 }"
                measure="$ctrl.interval.durationMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="false"
                ftp-mode="false" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
@@ -30,6 +32,7 @@
         <input ng-if="$ctrl.viewPlan" measure-input ng-switch-when="distance"
                name="plan_distance"
                ng-model="$ctrl.interval.distance.durationValue"
+               ng-model-options="{ debounce: 500 }"
                measure="$ctrl.interval.durationMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="false"
                ftp-mode="false" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"

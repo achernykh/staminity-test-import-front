@@ -56,6 +56,10 @@ structured-interval {
       background-color: $red-800 !important;
     }
 
+    &.block {
+      pointer-events: none;
+    }
+
   }
 
   .key {
@@ -67,6 +71,9 @@ structured-interval {
     }
     .complete-error {
       background-color: $red-900 !important;
+    }
+    .coming {
+      background-color: $grey-400 !important;
     }
   }
 

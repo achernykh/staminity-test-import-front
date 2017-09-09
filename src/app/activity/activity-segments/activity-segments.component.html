@@ -40,16 +40,16 @@
     <section ng-if="$ctrl.item.mode === 'view' && $ctrl.item.activity.actualDataIsImported" class="view-panel"
              flex="none" layout="row" layout-align="center center">
         <md-button flex ng-click="$ctrl.viewPlan = !$ctrl.viewPlan; $ctrl.viewActual = $ctrl.viewPlan ? false : true"
-                   ng-class="{'bg-grey-200': $ctrl.viewPlan, 'md-dark': !$ctrl.viewPlan}">
-            <span class="md-caption md-dark">План</span>
+                   ng-class="{'bg-grey-300': $ctrl.viewPlan, 'md-dark': !$ctrl.viewPlan}">
+            <span class="md-caption md-dark" translate="activity.plan"></span>
         </md-button>
         <md-button flex ng-click="$ctrl.viewActual = !$ctrl.viewActual; $ctrl.viewPlan = $ctrl.viewActual ? false : true"
-                   ng-class="{'bg-grey-200': $ctrl.viewActual, 'md-dark': !$ctrl.viewActual}">
-            <span class="md-caption md-dark">Факт</span>
+                   ng-class="{'bg-grey-300': $ctrl.viewActual, 'md-dark': !$ctrl.viewActual}">
+            <span class="md-caption md-dark" translate="activity.actual"></span>
         </md-button>
         <md-button flex ng-click="$ctrl.viewGroup = !$ctrl.viewGroup"
-                   ng-class="{'bg-grey-200': $ctrl.viewGroup, 'md-dark': !$ctrl.viewGroup}">
-            <span class="md-caption md-dark">Группы</span>
+                   ng-class="{'bg-grey-300': $ctrl.viewGroup, 'md-dark': !$ctrl.viewGroup}">
+            <span class="md-caption md-dark" translate="activity.segments.group"></span>
         </md-button>
     </section>
 
@@ -63,8 +63,8 @@
                     <md-icon class="material-icons">arrow_drop_down</md-icon>
                 </md-button>
                 <md-menu-content width="3">
-                    <md-menu-item ng-repeat="type in ['warmUp','active', 'recovery', 'interval', 'rampUp', 'rampDown','coolDown'] track by $index">
-                        <md-button ng-click="$ctrl.addInterval(type)">
+                    <md-menu-item ng-repeat="(type,obj) in $ctrl.scenario[$ctrl.item.activity.sportBasic] track by $index">
+                        <md-button ng-click="$ctrl.addInterval(type)" ng-if="type !== 'default'">
                             <md-icon class="md-dark" md-svg-src="/assets/icon/duration.svg"></md-icon>
                             <span class="md-caption" translate="activity.segments.add.{{type}}"></span>
                         </md-button>
@@ -77,10 +77,10 @@
                      md-indeterminate="$ctrl.isIndeterminate()"
                      ng-click="$ctrl.toggleKey()"
                      class="md-primary">
-            <span class="md-caption">Ключевой</span>
+            <span class="md-caption" translate="activity.segments.key"></span>
         </md-checkbox>
         <md-button ng-if="$ctrl.selectedInterval().length > 0" ng-click="$ctrl.delete()" flex="33" class="bg-grey-200">
-            <md-icon class="material-icons">delete</md-icon><span class="md-caption">&nbsp;Удалить</span>
+            <md-icon class="material-icons">delete</md-icon><span class="md-caption" translate="activity.delete"></span>
         </md-button>
     </section>
     <md-divider></md-divider>

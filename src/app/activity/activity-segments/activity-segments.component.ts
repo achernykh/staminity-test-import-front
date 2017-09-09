@@ -25,6 +25,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     private intensityMeasure: string = 'heartRate';
     private intervals: ActivityIntervals;
     private select: Array<number> = [];
+    private scenario: any = getSegmentTemplates();
 
     public ftpMode: number;
 
@@ -34,10 +35,17 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     }
 
+    /**
+     *
+     */
+    private firstSelectPosition(): number {
+        return this.intervals.P.some(i => i.isSelected) && this.intervals.P.filter(i => i.isSelected)[0]['pos'] || null;
+    }
+
     $onInit() {
         this.valid();
         this.prepareIntervals();
-        this.addInterval();
+        //this.addInterval();
     }
 
     $onChanges():void {
@@ -70,21 +78,29 @@ class ActivitySegmentsCtrl implements IComponentController {
     /**
      *
      */
-    addInterval(scenario?: string) {
+    addInterval(scenarioType: string = 'default') {
         let sport: string = this.item.activity.sportBasic;
         let ftp:{[measure: string] : number} = getFtpBySport(this.item.currentUser.trainingZones, sport);
+        let interval: ActivityIntervalP;
+        let pos: number = null;
+        let scenario: any = getSegmentTemplates();
 
-        scenario = scenario || this.intervals.lastPos() ? 'default' : 'first';
+        if(this.selectedInterval().length > 0) {
+            pos = this.firstSelectPosition() + 1;
+            this.intervals.reorganisation(pos, 1);
+        } else {
+            pos = this.intervals.lastPos() + 1;
+        }
 
-        getSegmentTemplates()[sport][scenario].forEach(template => {
+        scenario[sport][scenarioType].forEach(template => {
             switch (template.type) {
                 case 'P': {
-                    let interval: ActivityIntervalP = new ActivityIntervalP('P', Object.assign(template, {pos: this.intervals.lastPos() + 1}));
+                    interval = new ActivityIntervalP('P', Object.assign(template, {pos: pos}));
                     this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
                     break;
                 }
                 case 'G': {
-                    this.intervals.add([new ActivityIntervalG('G', Object.assign(template, {fPos: this.intervals.lastPos() + 1}))]);
+                    this.intervals.add([new ActivityIntervalG('G', Object.assign(template, {fPos: pos}))]);
                     break;
                 }
             }
@@ -95,7 +111,9 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     delete() {
-        this.intervals.P.filter(interval => interval.isSelected && (interval.repeatPos === null || interval.repeatPos === 0))
+        this.intervals.P.filter(interval =>
+            interval.isSelected &&
+            (!interval.hasOwnProperty('repeatPos') || interval.repeatPos === null || interval.repeatPos === 0))
             .map(interval => this.intervals.splice(interval.type, interval.pos));
         this.intervals.PW.calculate(this.intervals.P);
         this.update();
@@ -122,7 +140,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     selectedInterval():Array<any> {
-        return this.intervals.P.filter(interval => interval.isSelected);
+        return this.intervals.P.filter(interval => interval.isSelected) || [];
     }
 
     selectedKeyInterval():Array<any> {

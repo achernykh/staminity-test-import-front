@@ -143,7 +143,7 @@
             </div>
         </div>
         <!-- Панель: Перечень сегментов структурированной тренировки -->
-        <div flex="none" ng-switch-when="segmentList"
+        <div flex="none" ng-switch-when="segmentList" ng-if="false"
              flex layout="column"
              class="md-caption">
             <div ng-repeat="interval in $ctrl.segmentList | filter:$ctrl.collapse track by $index"
@@ -188,7 +188,7 @@
             </div>
 
         </div>
-        <div flex="none" ng-if="::($ctrl.segmentList.length > 4)"
+        <div flex="none" ng-if="::($ctrl.segmentList.length > 4) && false"
              flex layout="row" layout-align="center start"
              class="md-caption bt-more"
              ng-click="$ctrl.collapse.hasOwnProperty('show') ? $ctrl.collapse = {} : $ctrl.collapse = {show: true}">

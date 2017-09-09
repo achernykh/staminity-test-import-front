@@ -96,7 +96,31 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @param intervals = массив интревалов с типом P
      */
     calculate(intervals: Array<ActivityIntervalP>) {
-        let update:ActivityIntervalPW = new ActivityIntervalPW('pW',{});
+        let update: {
+            durationMeasure: string,
+            intensityMeasure: string,
+            durationValue: number,
+            movingDurationLength: number,
+            distanceLength: number,
+            intensityLevelFrom: number,
+            intensityLevelTo: number,
+            intensityByFtpFrom: number,
+            intensityByFtpTo: number,
+            movingDurationApprox: boolean,
+            distanceApprox: boolean
+        } = {
+            durationMeasure: null,
+            intensityMeasure: null,
+            durationValue: null,
+            movingDurationLength: null,
+            distanceLength: null,
+            intensityLevelFrom: null,
+            intensityLevelTo: null,
+            intensityByFtpFrom: null,
+            intensityByFtpTo: null,
+            movingDurationApprox: null,
+            distanceApprox: null
+        };
 
         intervals.forEach(i => {
 

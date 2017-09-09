@@ -84,7 +84,7 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     select(){
-        this.interval.isSelected = !this.interval.isSelected;
+        //this.interval.isSelected = !this.interval.isSelected;
         this.onSelect();
     }
 
@@ -94,7 +94,9 @@ class StructuredIntervalCtrl implements IComponentController {
 
 
     prepareInterval(){
-        this.interval = copy(this.interval);
+        //this.interval = copy(this.interval); // срабатывает обновление модели (мешает работе с вводом скорости)
+        Object.assign(this.interval, this.interval);
+
         if(this.group && this.group.hasOwnProperty('totalMeasures') && this.viewGroup) {
             let ind: number = (this.interval.pos - this.group.fPos) % this.group.grpLength;
             Object.assign(this.interval.calcMeasures, this.group.totalMeasures[ind]);

@@ -30,7 +30,7 @@
                     ng-model-options="{ trackBy: '$value.id' }"
                     required=""
                     md-no-asterisk="false"
-                    placeholder="Укажите категорию"
+                    placeholder="{{::'activity.assignment.categoryLabel' | translate}}"
                     ng-change="$ctrl.changeParam()"
                     ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
                     name="category"
