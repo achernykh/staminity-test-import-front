@@ -1,40 +1,34 @@
 import { Observable, Subject } from 'rxjs/Rx';
-
 import moment from 'moment/min/moment-with-locales.js';
 import * as momentTimezone from 'moment-timezone';
 import * as angular from 'angular';
+
 import {
     _NAVBAR, _DELIVERY_METHOD, _UNITS,
     _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list, _SYNC_ADAPTORS, syncStatus
 } from './settings-user.constants';
-
+import { parseYYYYMMDD } from '../share/share.module';
 import './settings-user.component.scss';
 
-import { parseYYYYMMDD } from '../share/share.module';
 
 
-class SettingsUserModel {
-    // deep copy test and initial data
-    constructor (user) {
-        angular.merge(this, {
-            public: {},
-            personal: {},
-            display: {
-                units: null,
-                firstDayOfWeek: null,
-                timezone: null
-            }
-        }, user);
+let emptyUser = {
+    public: {
 
-        this.personal.activity = this.personal.activity || [];
-        this.personal.birthday = (this.personal.hasOwnProperty('birthday') && new Date(this.personal.birthday)) || null;
+    },
+    personal: {
+        activity: []
+    },
+    display: {
+        units: null,
+        firstDayOfWeek: null,
+        timezone: null
     }
-}
+};
 
 class SettingsUserCtrl {
 
-    constructor($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia, display) {
-        console.log('SettingsCtrl constructor=', this)
+    constructor ($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia, display) {
         this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -43,11 +37,12 @@ class SettingsUserCtrl {
         this._UNITS = _UNITS
         this._country_list = _country_list;
         this._SYNC_ADAPTORS = _SYNC_ADAPTORS;
+
         this.$scope = $scope;
-        this._UserService = UserService;
-        this._AuthService = AuthService;
-        this._$http = $http
-        this._$mdDialog = $mdDialog
+        this.UserService = UserService;
+        this.AuthService = AuthService;
+        this.$http = $http
+        this.$mdDialog = $mdDialog
         this.$auth = $auth
         this.SyncAdaptorService = SyncAdaptorService;
         this.dialogs = dialogs;
@@ -58,23 +53,14 @@ class SettingsUserCtrl {
         this.display = display;
 
         this.destroy = new Subject();
-
         this.adaptors = [];
-
-        //this.profile$ = UserService.rxProfile.subscribe((profile)=>console.log('subscribe=',profile));
-        //this.dialogs = dialogs
-
-        //this._athlete$ = AthleteSelectorService._athlete$
-        //	.subscribe((athlete)=> console.log('SettingsCtrl new athlete=', athlete))
-        // Смена атлета тренера в основном окне приложения, необходмо перезагрузить все данные
 
         console.log('SettingsUserCtrl', SettingsUserCtrl);
     }
 
-    $onInit() {
-        // deep copy & some transormation
-        this.user = new SettingsUserModel(this.user);
-        console.log('this.user', this.user);
+    $onInit () {
+        this.setUser(this.UserService.userProfile.get());
+        this.UserService.userProfile.changes.subscribe(this.setUser.bind(this));
 
         this.BillingService.messages
         .takeUntil(this.destroy)
@@ -106,61 +92,63 @@ class SettingsUserCtrl {
         this.destroy.complete();
     }
 
-    reload () {
-        this._UserService.getProfile(this.user.public.uri)
-        .then((user) => {
-            this.user =  new SettingsUserModel(user);
-            this.$scope.$apply();
-        }, (info) => {
+    setUser (user) {
+        this.user = angular.merge({}, user);
+        this.$scope.$apply();
+    }
+
+    successHandler (message) {
+        return () => this.message.toastInfo(message);
+    }
+    
+    errorHandler () {
+        return (info) => {
             this.message.systemWarning(info);
             throw info;
-        });
+        }
     }
 
-    prepareZones() {
+    reload () {
+        this.UserService.getProfile(this.user.public.uri)
+        .then(this.setUser.bind(this), this.errorHandler());
+    }
+
+    prepareZones () {
 
     }
 
-    setUser (user) {
-        this.user = user;
-        this.user.public = this.user.public || {};
-        this.user.public.activityTypes = this.user.public.activityTypes || [];
-        //this.$scope.$apply();
-    }
-
-    getTimezoneTitle() {
+    getTimezoneTitle () {
         let timezone = this.user.display.timezone;
         return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
     }
 
-    getDateFormat() {
+    getDateFormat () {
         return moment().format('L');
     }
 
-    changeTimezone(name) {
+    changeTimezone (name) {
         this.user.display.timezone = name;
         this.displayForm.$dirty = true;
     }
 
-    changeUnit(units) {
+    changeUnit (units) {
         this.user.display.units = units;
         this.displayForm.$dirty = true;
     }
 
-    changeFirstDayOfWeek(number) {
+    changeFirstDayOfWeek (number) {
         this.user.display.firstDayOfWeek = number;
         this.displayForm.$dirty = true;
     }
 
-    countrySearch(query) {
+    countrySearch (query) {
         return query ?
-            Object.keys(this._country_list['ru']).filter((key)=> {
-                return this._country_list['ru'][key].toLowerCase().indexOf(query.toLowerCase()) === 0
-            }) : this._country_list
+            Object.keys(this._country_list['ru']).filter((key) => this._country_list['ru'][key].toLowerCase().indexOf(query.toLowerCase()) === 0) 
+            : 
+            this._country_list
     }
 
-    citySearch(query) {
-
+    citySearch (query) {
         let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json'
         let language = 'ru'
         let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM'
@@ -175,16 +163,10 @@ class SettingsUserCtrl {
         }
 
         return this._$http(request)
-            .then((result)=> {
-                console.log('citySearch result:', result.predictions)
-                return result.predictions
-            }, (error) => {
-                console.log('citySearch error:', error)
-                return []
-            })
+            .then((result) => result.predictions, (error) => [])
     }
 
-    isDirty() {
+    isDirty () {
         return this.publicForm && this.publicForm.$dirty ||
             this.personalFirstForm && this.personalFirstForm.$dirty ||
             this.personalSecondForm && this.personalSecondForm.$dirty ||
@@ -195,7 +177,7 @@ class SettingsUserCtrl {
             this.privacyForm && this.privacyForm.$dirty
     }
 
-    isValid() {
+    isValid () {
         return this.publicForm && this.publicForm.$valid ||
             this.personalFirstForm && this.personalFirstForm.$valid ||
             this.personalSecondForm && this.personalSecondForm.$valid ||
@@ -206,56 +188,41 @@ class SettingsUserCtrl {
             this.privacyForm && this.privacyForm.$valid
     }
 
-    update(form) {
-        var profile = {
+    update (form) {
+        let userProfile = {
             userId: this.user.userId,
             revision: this.user.revision
         };
-        for (var name in form) {
+
+        for (let name in form) {
             if (form[name]) {
-                profile[name] = this.user[name];
-                console.log('settings ctrl => update profile form: ', name);
+                userProfile[name] = this.user[name];
                 if (name === "personal" || name === "private") {
                     this[name + 'FirstForm'].$setPristine();
                     this[name + 'SecondForm'].$setPristine();
-                } else
-                    if (this.hasOwnProperty(name+'Form')) {
-                        this[name + 'Form'].$setPristine();
-                    }
+                } else if (this.hasOwnProperty(name+'Form')) {
+                    this[name + 'Form'].$setPristine();
+                }
             }
         }
-        console.log('settings ctrl => update profile form: ', profile);
-        this._UserService.putProfile(profile)
-            .then((success)=> {
-                console.log('success=', success)
-                this.message.toastInfo('settingsSaveComplete');
-                this.user.revision = success.value.revision
-            }, (error)=> {
-                this.message.toastError(error)
-            });
+
+        this.UserService.putProfile(userProfile)
+        .then(this.successHandler('settingsSaveComplete'), this.errorHandler());
     }
 
-    get language() {
-
-    }
-
-    set language(id) {
-
-    }
-
-    weekdays(day) {
+    weekdays (day) {
         return moment.weekdays(false, day);
     }
 
-    syncEnabled(adaptor) {
+    syncEnabled (adaptor) {
         return adaptor.state === "Enabled";
     }
 
-    changeProviderSettings(ev, adaptor){
+    changeProviderSettings (ev, adaptor){
 
     }
 
-    showProviderSettings(ev, adaptor, toggle) {
+    showProviderSettings (ev, adaptor, toggle) {
 
         //1. Отключить синхронизацию через тумблер switch == off
         if(!toggle && adaptor.status.switch) {
@@ -429,7 +396,7 @@ class SettingsUserCtrl {
         }
     }
 
-    updateAdaptor(adaptor, response){
+    updateAdaptor (adaptor, response) {
         let idx = this.adaptors.findIndex(a => a.provider === adaptor.provider);
         this.adaptors[idx].state = response.state;
         this.adaptors[idx].lastSync = response.lastSync;
@@ -438,12 +405,7 @@ class SettingsUserCtrl {
         this.message.toastInfo('settingsSaveComplete');
     }
 
-
-
-    showPasswordChange(ev) {
-        //console.log('provider settings =', typeof ev, service, provider)
-
-        //if(provider.enabled) {
+    showPasswordChange (ev) {
         this._$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -454,11 +416,11 @@ class SettingsUserCtrl {
             clickOutsideToClose: true,
             escapeToClose: true,
             fullscreen: false // Only for -xs, -sm breakpoints.
-        }).then((password) =>
-            this._AuthService.setPassword(password)
-                .then((response) => this.message.toastInfo('setPasswordSuccess'),
-                    (error) => this.message.toastError(error)));
-        //}
+        }).then((password) => {
+            this.AuthService.setPassword(password)
+            .then(this.successHandler('setPasswordSuccess'))
+            .catch(this.errorHandler());
+        });
     }
 
     tariffStatus (tariff) {
@@ -535,29 +497,23 @@ class SettingsUserCtrl {
             }
         };
 
-        this._UserService.putProfile(profile)
-        .then((success) => {
-            this.message.toastInfo('settingsSaveComplete');
-            this.user.revision = success.value.revision;
-            this.user.billing.autoPayment = isOn;
-        }, (error) => {
-            this.message.toastError(error)
-        });
+        this.UserService.putProfile(profile)
+        .then(this.successHandler('settingsSaveComplete'))
+        .catch(this.errorHandler());
     }
 
     uploadAvatar () {
         this.dialogs.uploadPicture()
-            .then(picture => this._UserService.postProfileAvatar(picture))
-            .then(user => this.setUser(user))
-            .then(() => this.message.toastInfo('updateAvatar'))
-            //.then(user => this.)
+        .then(picture => this.UserService.postProfileAvatar(picture))
+        .then(this.successHandler('updateAvatar'))
+        .catch(this.errorHandler());
     }
 
     uploadBackground () {
         this.dialogs.uploadPicture()
-            .then((picture) => this._UserService.postProfileBackground(picture))
-            .then(user => this.setUser(user))
-            .then(() => this.message.toastInfo('updateBackgroundImage'))
+        .then((picture) => this.UserService.postProfileBackground(picture))
+        .then(this.successHandler('updateBackgroundImage'))
+        .catch(this.errorHandler());
     }
 
 	toggleActivity (activity) {

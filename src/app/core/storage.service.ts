@@ -1,39 +1,38 @@
-import {IWindowService, copy} from 'angular';
-import {ISessionService} from "./session.service";
-import {Observable} from "rxjs/Rx";
-import {IUserProfile} from "../../../api/user/user.interface";
+import { IWindowService, copy } from 'angular';
+import { ISessionService } from "./session.service";
+import { Observable } from "rxjs/Rx";
+import { IUserProfile } from "../../../api/user/user.interface";
 
 export interface IStorageService {
-    get(key: string, byUser?: boolean) : any;
-    set(key: string, data: any, byUser?: boolean) : void;
+	get (key: string, byUser?: boolean) : any;
+	set (key: string, data: any, byUser?: boolean) : void;
 }
 
-const preset = {
-    dashboard: {
-        order: null,
-        selected: null
-    }
-};
-
 export default class StorageService implements IStorageService {
-    private readonly location: string = 'localStorage';
-    private userId: number = null;
-    private profile$: Observable<IUserProfile>;
 
-    static $inject = ['$window','SessionService'];
+	private readonly location: string = 'localStorage';
+	private storage: any;
 
-    constructor(private $window: IWindowService,
-                private session: ISessionService) {
+	static $inject = ['$window', 'SessionService'];
 
-        this.profile$ = session.profile.subscribe(profile=> this.userId = angular.copy(profile).userId || null);
-    }
+	constructor (
+		private $window: IWindowService,
+		private sessionService: ISessionService
+	) {
+		this.storage = $window[this.location];
+	}
 
-    get(key:string, byUser:boolean = true):any {
-        return JSON.parse(this.$window[this.location].getItem(byUser ? `${this.userId}#${key}`: key)) || null;
-    }
+	getKey (key: string, byUser: boolean = true) {
+		let user = this.sessionService.getUser();
+		return user && byUser ? `${user.userId}#${key}` : key;
+	}
 
-    set(key:string, data:any, byUser:boolean = true):void {
-        this.$window[this.location].setItem(byUser ? `${this.userId}#${key}`: key, JSON.stringify(data));
-    }
+	get (key: string, byUser?: boolean) : any {
+		return JSON.parse(this.storage.getItem(this.getKey(key, byUser))) || null;
+	}
+
+	set (key: string, data: any, byUser?: boolean) : void {
+		this.storage.setItem(this.getKey(key, byUser), JSON.stringify(data));
+	}
 
 }

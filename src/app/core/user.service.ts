@@ -1,3 +1,4 @@
+import {merge} from "angular";
 import {IUserProfile, IUserConnections, ITrainingZonesType} from '../../../api/user/user.interface';
 import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
 import {
@@ -5,7 +6,7 @@ import {
     IGetTrainigZonesResponse
 } from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
-import {ISessionService} from './session.service';
+import {ISessionService, getUser} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise,IHttpPromiseCallbackArg, copy } from 'angular';
 import {ISystemMessage} from "../../../api/core";
@@ -18,7 +19,6 @@ export default class UserService {
 
     private connections$: Observable<any>;
     private message$: Observable<any>;
-    private profile$: Observable<IUserProfile>;
     private profile: IUserProfile = null;
 
     static $inject = ['SessionService', 'SocketService','RESTService','ReferenceService'];
@@ -27,10 +27,11 @@ export default class UserService {
         private SessionService:ISessionService,
         private SocketService:ISocketService,
         private RESTService:IRESTService,
-        private ReferenceService: ReferenceService) {
-
-        // Подписываемся на текущий профиль пользователя
-        this.profile$ = this.SessionService.profile.subscribe(profile => this.profile = copy(profile));
+        private ReferenceService: ReferenceService
+    ) {
+        this.SessionService.getObservable()
+        .map(getUser)
+        .subscribe(profile => this.profile = copy(profile));
 
         // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
         this.message$ = this.SocketService.messages
@@ -83,9 +84,9 @@ export default class UserService {
                                 {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
                     return connections;
                 })
-                .then(connections => this.SessionService.setConnections(connections));
+                .then(connections => this.SessionService.updateUser({connections}));
         } else {
-            this.SessionService.setConnections(connections);
+            this.SessionService.updateUser({connections});
         }
     }
 
@@ -125,15 +126,13 @@ export default class UserService {
      * @param profile - может содержать частичные данные профиля, по секциям
      * @returns {Promise<T>}
      */
-    putProfile(profile:IUserProfile):Promise<IUserProfile> {
-        return this.SocketService.send(new PutRequest(profile))
-                .then((result)=>{
-                    let currentUser = this.SessionService.getUser();
-                    if (result.value.id === currentUser.userId){
-                        this.SessionService.setUser(Object.assign(currentUser, profile, result.value.revision));
-                    }
-                    return result;
-                });
+    putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
+        return this.SocketService.send(new PutRequest(userChanges))
+            .then((result) => {
+                let updatedUser = merge(userChanges, result.value.revision);
+                this.SessionService.updateUser(updatedUser);
+                return updatedUser;
+            });
     }
 
     /**
@@ -143,11 +142,8 @@ export default class UserService {
      */
     postProfileAvatar(file:any):IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
-            .then((response)=>{
-                let currentUser = this.SessionService.getUser();
-                if (response.data['userId'] === currentUser.userId){
-                    this.SessionService.setUser(<IUserProfile>response.data);
-                }
+            .then((response) => {
+                this.SessionService.updateUser(response.data);
                 return response.data;
             });
             //.then((response) => response.data);
@@ -159,11 +155,8 @@ export default class UserService {
      */
     postProfileBackground(file:any):IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile('/user/background',file))
-            .then((response)=>{
-                let currentUser = this.SessionService.getUser();
-                if (response.data['userId'] === currentUser.userId){
-                    this.SessionService.setUser(<IUserProfile>response.data);
-                }
+            .then((response) => {
+                this.SessionService.updateUser(response.data);
                 return response.data;
             });
     }
@@ -202,7 +195,7 @@ export default class UserService {
                     .then(profile => {
                         group.groupMembers.push(profile);
                         connections[message.groupCode] = group;
-                        return this.SessionService.setConnections(connections);
+                        return this.SessionService.updateUser({connections});
                     });
             } else {
                 group.groupMembers.push(message.userProfile);
@@ -214,7 +207,7 @@ export default class UserService {
             }
         }
         connections[message.groupCode] = group;
-        this.SessionService.setConnections(connections);
+        this.SessionService.updateUser({connections});
     }
 
     private updateClubs(message: ProtocolGroupUpdate): void {
@@ -240,7 +233,7 @@ export default class UserService {
             }
         }
         connections.ControlledClubs = clubs;
-        this.SessionService.setConnections(connections);
+        this.SessionService.updateUser({connections});
     }
 
     /**
@@ -249,22 +242,7 @@ export default class UserService {
      * @param permissions
      */
     private updatePermissions(message: {action: string, value: any}):void {
-        let permissions = this.SessionService.getPermissions();
-        switch (message.action){
-            case 'U': {
-                Object.keys(message.value).forEach(p => permissions[p] = message.value[p]);
-                break;
-            }
-            case 'I': {
-                Object.assign(permissions, message.value);
-                break;
-            }
-            case 'D': {
-                Object.keys(message.value).forEach(p => permissions.hasOwnProperty(p) && delete permissions[p]);
-                break;
-            }
-        }
-        this.SessionService.setPermissions(permissions);
+        this.SessionService.setPermissions(message.value);
     }
 
 }

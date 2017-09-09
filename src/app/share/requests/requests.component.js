@@ -54,10 +54,6 @@ class RequestsCtrl {
         this.refreshing = setInterval(() => { this.$scope.$digest() }, 2000);
     }
 
-    $onInit () {
-        moment.locale('ru');
-    }
-
     $onDestroy () {
         this.destroy.next(); 
         this.destroy.complete();

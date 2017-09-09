@@ -1,46 +1,60 @@
 import { Observable, Subject } from "rxjs/Rx";
 import moment from 'moment/min/moment-with-locales.js';
+import { merge } from 'angular';
 
-import { IStorageService } from '../core/storage.service';
+import { ISession, getUser, ISessionService } from './session.service';
+import UserService from './user.service';
+import { path } from '../share/utility';
 
+
+let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
+let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 1;
 
 export default class DisplayService {
+
+	private handleLocaleChange = (locale: string) => {
+		this.$translate.use(locale);
+		this.tmhDynamicLocale.set(locale);
+		moment.locale(locale);
+	}
+
+	private handleFirstDayOfWeekChange = (day: number) => {
+		this.$mdDateLocale.firstDayOfWeek = day;
+	}
 
 	public locales = {
 		ru: 'Русский',
 		en: 'English'
 	};
 
-	static $inject = ['storage', '$translate', 'tmhDynamicLocale', '$mdDateLocale'];
+	static $inject = ['SessionService', 'UserService', '$translate', 'tmhDynamicLocale', '$mdDateLocale'];
 
 	constructor (
-		private StorageService: IStorageService,
+		private sessionService: ISessionService,
+		private userService: UserService,
 		private $translate: any, 
 		private tmhDynamicLocale: any,
 		private $mdDateLocale: any
 	) {
-		this.setLocale(this.getLocale());
-		this.setFirstDayOfWeek(1);
+		sessionService.getObservable()
+		.map(getLocale)
+		.distinct()
+		.subscribe(this.handleLocaleChange);
+
+		sessionService.getObservable()
+		.map(getFirstDayOfWeek)
+		.distinct()
+		.subscribe(this.handleFirstDayOfWeekChange);
 	}
 
 	getLocale () : string {
-		return this.StorageService.get('locale', false) || 'ru';
+		let session = this.sessionService.get();
+		return getLocale(session);
 	}
-	
+
 	setLocale (locale: string) {
-		this.StorageService.set('locale', locale, false);
-
-		this.$translate.use(locale);
-		this.tmhDynamicLocale.set(locale);
-		moment.locale(locale);
-	}
-
-	getFirstDayOfWeek () : number {		
-		return this.$mdDateLocale.firstDayOfWeek;
-	}
-	
-	setFirstDayOfWeek (day: number) {
-		this.$mdDateLocale.firstDayOfWeek = day;
+		this.sessionService.updateUser({ display: { language: locale } });
+		this.userService.putProfile(this.sessionService.getUser());
 	}
 }
 

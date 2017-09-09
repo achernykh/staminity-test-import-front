@@ -5,7 +5,7 @@ import {INotification, Notification} from "../../../../api/notification/notifica
 import {IGroupMembershipRequest} from '../../../../api/group/group.interface';
 import UserService from "../../core/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
-import SessionService from "../../core/session.service";
+import { ISessionService, getUser } from "../../core/session.service";
 import RequestsService from "../../core/requests.service";
 import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
@@ -36,7 +36,7 @@ class HeaderCtrl implements IComponentController {
 		private $scope,
 		private $mdSidenav: any,
 		private AuthService: any,
-		private SessionService: SessionService,
+		private SessionService: ISessionService,
 		private RequestsService: RequestsService,
 		private	NotificationService: NotificationService,
 		private comment: CommentService,
@@ -44,12 +44,20 @@ class HeaderCtrl implements IComponentController {
 		private $state: StateService,
 		private toaster: any,
 		private display: DisplayService,
-		private socket: SocketService) {
+		private socket: SocketService
+	) {
+		SessionService.getObservable()
+		.takeUntil(this.destroy)
+		.map(getUser)
+		.subscribe((userProfile) => this.user = angular.copy(userProfile));
 
-
-		this.profile$ = SessionService.profile.subscribe(profile => this.user = angular.copy(profile));
-		this.socket.connections.subscribe(status => this.internetStatus = !!status);
-		this.comment.openChat$.subscribe(chat => this.openChat = chat);
+		this.socket.connections
+		.takeUntil(this.destroy)
+		.subscribe(status => this.internetStatus = !!status);
+		
+		this.comment.openChat$
+		.takeUntil(this.destroy)
+		.subscribe(chat => this.openChat = chat);
 	}
 
 	$onInit() {
