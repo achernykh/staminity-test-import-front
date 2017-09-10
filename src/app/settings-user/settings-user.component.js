@@ -503,7 +503,7 @@ class SettingsUserCtrl {
             billing: { autoPayment: isOn }
         };
 
-        this.UserService.putProfile(userChanges)
+        this.UserService.updateCurrentUser(userChanges)
         .then(this.successHandler('settingsSaveComplete'))
         .catch(this.errorHandler());
     }
