@@ -105,7 +105,7 @@
          ng-switch on="$ctrl.data.bottomPanel">
         <!-- Панель: Установка тренера -->
         <div flex="none" ng-switch-when="plan">
-            <div ng-if="::$ctrl.data.intensityMeasure" layout="row" class="md-caption secondary dark" style="margin-top: 2px">
+            <div ng-if="::($ctrl.data.intensityMeasure && !$ctrl.data.structured)" layout="row" class="md-caption secondary dark" style="margin-top: 2px">
                 <div flex="none">
                     {{::$ctrl.data.intervalPW | measureCalcInterval:$ctrl.data.sportBasic:$ctrl.data.intensityMeasure}}
                     <span flex="none" class="disable dark">&nbsp{{::$ctrl.data.intensityMeasure | measureUnit:$ctrl.data.sportBasic | translate}}</span>

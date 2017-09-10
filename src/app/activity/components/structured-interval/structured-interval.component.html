@@ -39,11 +39,10 @@
                ng-change="$ctrl.changeValue($ctrl.interval.durationMeasure)"
                ng-disabled="$ctrl.item.mode === 'view'">
     </md-input-container>
-    <span class="duration" flex="noshrink" ng-if="$ctrl.viewActual && $ctrl.viewGroup">
-        {{$ctrl.interval.calcMeasures[$ctrl.interval.durationMeasure][$ctrl.group ? 'avgValue' : 'value'] | measureCalc:$ctrl.sport:$ctrl.interval.durationMeasure}}
-    </span>
-    <span class="duration" flex="noshrink" ng-if="$ctrl.viewActual && !$ctrl.viewGroup">
-        {{$ctrl.interval.calcMeasures[$ctrl.interval.durationMeasure].value | measureCalc:$ctrl.sport:$ctrl.interval.durationMeasure}}
+    <span class="duration" flex="noshrink" ng-if="$ctrl.viewActual">
+        {{$ctrl.group && $ctrl.viewGroup ?
+            $ctrl.interval.totalMeasures[$ctrl.interval.durationMeasure].avgValue :
+            $ctrl.interval.calcMeasures[$ctrl.interval.durationMeasure].value | measureCalc:$ctrl.sport:$ctrl.interval.durationMeasure}}
     </span>
     <span flex="auto"></span>
     <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.intensityMeasure}}.svg" class="md-dark intensity"></md-icon>
@@ -62,6 +61,7 @@
     </md-menu>
     <md-input-container ng-if="$ctrl.viewPlan"
                         flex="noshrink" class="intensity" ng-switch="$ctrl.interval.intensityMeasure">
+        <span class="input-ftp" ng-if="$ctrl.isFTP()" ng-disabled="$ctrl.item.mode === 'view'">%</span>
         <input ng-switch-when="heartRate"
                measure-input
                ng-model="$ctrl.interval.heartRate"
@@ -95,11 +95,11 @@
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
                ng-disabled="$ctrl.item.mode === 'view'">
     </md-input-container>
-    <span class="intensity" flex="noshrink" ng-if="$ctrl.viewActual && $ctrl.viewGroup">
-        {{$ctrl.interval.calcMeasures[$ctrl.interval.intensityMeasure].avgValue | measureCalc:$ctrl.sport:$ctrl.interval.intensityMeasure}}
-    </span>
-    <span class="intensity" flex="noshrink" ng-if="$ctrl.viewActual && !$ctrl.viewGroup">
-        {{$ctrl.interval.calcMeasures[$ctrl.interval.intensityMeasure].avgValue | measureCalc:$ctrl.sport:$ctrl.interval.intensityMeasure}}
+
+    <span class="intensity" flex="noshrink" ng-if="$ctrl.viewActual">
+        {{$ctrl.group && $ctrl.viewGroup ?
+            $ctrl.interval.totalMeasures[$ctrl.interval.intensityMeasure].avgValue :
+            $ctrl.interval.calcMeasures[$ctrl.interval.intensityMeasure].value | measureCalc:$ctrl.sport:$ctrl.interval.intensityMeasure}}
     </span>
     <!--
     <md-button class="md-icon-button" ng-click="$ctrl.splice()">

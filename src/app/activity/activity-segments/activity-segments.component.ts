@@ -11,6 +11,14 @@ import {getSegmentTemplates, getChanges} from "./activity-segments.constants";
 import {getFTP, getFtpBySport} from "../../core/user.function";
 import {IActivityInterval} from "../../../../api/activity/activity.interface";
 
+export enum SegmentChangeReason {
+    addInterval,
+    deleteInterval,
+    changeValue,
+    selectInterval,
+    keyInterval,
+    changeGroupCount
+}
 
 class ActivitySegmentsCtrl implements IComponentController {
 
@@ -62,11 +70,27 @@ class ActivitySegmentsCtrl implements IComponentController {
     /**
      * @description Обновление модели данных
      */
-    update():void {
+    update(reason: SegmentChangeReason):void {
         this.intervals = this.item.activity.intervals;
         this.valid();
         this.item.assignmentForm.$setDirty();
-        this.item.changeStructuredAssignment ++;
+
+        switch(reason) {
+            case SegmentChangeReason.addInterval:
+            case SegmentChangeReason.deleteInterval:
+            case SegmentChangeReason.changeGroupCount: {
+                if(this.item.activity.completed) {
+                    this.item.calculateActivityRange(false);
+                }
+                this.intervals.PW.calculate(this.intervals.P);
+            }
+            case SegmentChangeReason.keyInterval: {
+                this.intervals.PW.calculate(this.intervals.P);
+            }
+            default: { // selectInterval
+                this.item.changeStructuredAssignment ++;
+            }
+        }
     }
 
     onChartSelection(id: number){
@@ -106,12 +130,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             }
         });
 
-        if(this.item.activity.completed) {
-            this.item.calculateActivityRange(false);
-        } else {
-            this.intervals.PW.calculate(this.intervals.P);
-            this.update();
-        }
+        this.update(SegmentChangeReason.addInterval);
     }
 
     delete() {
@@ -120,15 +139,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             (!interval.hasOwnProperty('repeatPos') || interval.repeatPos === null || interval.repeatPos === 0))
             .map(interval => this.intervals.splice(interval.type, interval.pos));
 
-        if(this.item.activity.completed) {
-            this.item.calculateActivityRange(false);
-        } else {
-            this.intervals.PW.calculate(this.intervals.P);
-            this.update();
-        }
-
-        //this.intervals.PW.calculate(this.intervals.P);
-        //this.update();
+        this.update(SegmentChangeReason.deleteInterval);
     }
 
     isKey():boolean {
@@ -147,8 +158,7 @@ class ActivitySegmentsCtrl implements IComponentController {
         } else if(this.selectedKeyInterval().length === 0 || this.selectedKeyInterval().length > 0){
             this.intervals.P.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = true);
         }
-        this.update();
-        //this.updatePW();
+       this.update(SegmentChangeReason.keyInterval);
     }
 
     selectedInterval():Array<any> {
@@ -157,11 +167,6 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     selectedKeyInterval():Array<any> {
         return this.intervals.P.filter(interval => interval.isSelected && interval.keyInterval);
-    }
-
-    updatePW(){
-        this.item.activity.calculateInterval('pW');
-        this.item.changeStructuredAssignment ++;
     }
 
     ftpModeChange(mode: FtpState) {

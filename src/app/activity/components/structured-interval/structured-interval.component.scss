@@ -144,4 +144,14 @@ structured-interval {
     background-image: none;
   }
 
+  span.input-ftp {
+    position: absolute;
+    left: 0px;
+    top: 9px;
+
+    &[disabled] {
+      left: 16px;
+    }
+  }
+
 }

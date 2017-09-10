@@ -31,6 +31,8 @@ export class ActivityIntervals {
         if(!this.W) {
             this.add([ActivityIntervalFactory('W')]);
         }
+
+        this.prepare();
     }
 
     get P():Array<ActivityIntervalP> {
@@ -67,6 +69,13 @@ export class ActivityIntervals {
         return <ActivityIntervalW>this.stack.filter(i => i.type === 'W')[0];
     }
 
+    prepare() {
+        // 1. Перенеоис totalMeasures в первые позиции повторяющихся интревалов
+        this.G.map(group =>
+            group.hasOwnProperty('totalMeasures') && group.totalMeasures.map((total, ind) =>
+                this.setParams('P', group.fPos + ind, {totalMeasures: total})));
+    }
+
     add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = [], mode: 'insert' | 'update' = 'insert'):void {
         intervals.forEach(i => {
             if(mode === 'insert') { // режим добавления
@@ -84,6 +93,8 @@ export class ActivityIntervals {
                         }
                         case 'G': {
                             this.setParams(i['type'], i['code'], {totalMeasures: i['totalMeasures']});
+                            // 1. Перенеоис totalMeasures в первые позиции повторяющихся интревалов
+                            i['totalMeasures'].map((total, ind) => this.setParams('P', i['fPos'] + ind, {totalMeasures: total}));
                             break;
                         }
                         case 'L': {
@@ -191,10 +202,10 @@ export class ActivityIntervals {
         }
         // Сохраняем полученные детали по интревала в свойстве params - начальное состояние интревала
         // Далее будет использовано в методе reset() для приведения интервала в начальное состояние
-        if(params.hasOwnProperty('calcMeasures') && !this.stack[i].params.hasOwnProperty('calcMeasures')){
+        if(i !== -1 && params && params.hasOwnProperty('calcMeasures') && !this.stack[i].params.hasOwnProperty('calcMeasures')){
             Object.assign(this.stack[i].params, {calcMeasures: params['calcMeasures']});
         }
-        if(params.hasOwnProperty('totalMeasures') && !this.stack[i].params.hasOwnProperty('totalMeasures')){
+        if(i !== -1 && params && params.hasOwnProperty('totalMeasures') && !this.stack[i].params.hasOwnProperty('totalMeasures')){
             Object.assign(this.stack[i].params, {calcMeasures: params['totalMeasures']});
         }
     }
@@ -359,7 +370,7 @@ export class ActivityIntervals {
         //4. Добавляем инетрвалы
         segment.forEach(i =>
             times(trgRepeat - srcRepeat).map(r => {
-                let params = {pos: i.pos + len * (srcRepeat + r),parentGroupCode: group.code, repeatPos: srcRepeat + r + 1};
+                let params = {pos: i.pos + len * (srcRepeat + r),parentGroupCode: group.code, repeatPos: srcRepeat + r};
                 this.stack.push(ActivityIntervalFactory('P', Object.assign({}, i, params)));
             }));
 

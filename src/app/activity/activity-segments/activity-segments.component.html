@@ -17,7 +17,10 @@
             </div>
 
             <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
-               style="text-align: right; margin-right: 8px">%ПАНО: {{$ctrl.ftpMode ? 'ВЫКЛ ' : 'ВКЛ'}}</p>
+               style="text-align: right; margin-right: 8px">
+                <span translate="activity.percentFTP"></span>
+                <span translate="{{$ctrl.ftpMode ? 'activity.ftpMode.off ' : 'activity.ftpMode.on'}}"></span>
+            </p>
             <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.template"
                        ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
         </md-list-item>
@@ -96,7 +99,7 @@
                            view-actual="$ctrl.viewActual"
                            view-group="$ctrl.viewGroup"
                            change="$ctrl.item.changeStructuredAssignment"
-                           on-change="$ctrl.update()">
+                           on-change="$ctrl.update(reason)">
     </structured-assignment>
 </md-content>
 <!--<pre>{{$ctrl.item.activity.intervalPW | json}}</pre>-->

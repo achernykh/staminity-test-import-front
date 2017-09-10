@@ -6,6 +6,7 @@ import {times} from '../../../share/util.js';
 import {ActivityIntervals} from "../../activity-datamodel/activity.intervals";
 import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
 import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
+import {SegmentChangeReason} from "../../activity-segments/activity-segments.component";
 
 // Режим вывода Повтора для группы
 export enum LoopMode {
@@ -39,7 +40,7 @@ class StructuredAssignmentCtrl implements IComponentController {
     private sequence: Loop;
 
     public onEvent: (response: Object) => IPromise<void>;
-    public onChange: () => IPromise<void>;
+    public onChange: (response: {reason: SegmentChangeReason}) => IPromise<void>;
     static $inject = [];
 
     constructor() {
@@ -60,13 +61,13 @@ class StructuredAssignmentCtrl implements IComponentController {
         if(this.item.activity.completed){
             this.item.calculateActivityRange(false);
         }
-        this.onChange();
+        this.onChange({reason: SegmentChangeReason.changeValue});
     }
 
     onChangeSelection(interval: ActivityIntervalP):void {
         interval.isSelected ? this.intervals.deselect(interval.type, interval.pos) : this.intervals.select(interval.type, interval.pos);
         this.checkSequence();
-        this.onChange();
+        this.onChange({reason: SegmentChangeReason.selectInterval});
     }
 
     get loopsFromGroups():Array<Loop>{
@@ -163,7 +164,7 @@ class StructuredAssignmentCtrl implements IComponentController {
             this.loops = this.loopsFromGroups;
             this.intervals.deselect();
             this.checkSequence();
-            this.onChange();
+            this.onChange({reason: SegmentChangeReason.changeGroupCount});
         }
 
     }
