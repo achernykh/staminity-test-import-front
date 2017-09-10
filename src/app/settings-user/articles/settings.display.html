@@ -13,7 +13,7 @@
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
-                            <md-button ng-click="$ctrl.user.display.language = locale">
+                            <md-button ng-click="$ctrl.changeLocale(locale)">
                                 {{ localeName }}
                             </md-button>
                         </md-menu-item>

@@ -2,13 +2,14 @@ import { Observable, Subject } from "rxjs/Rx";
 import moment from 'moment/min/moment-with-locales.js';
 import { merge } from 'angular';
 
-import { ISession, getUser, ISessionService } from './session.service';
+import { IUserProfile } from '../../../api/user/user.interface';
+import { ISessionService } from './session.service';
 import UserService from './user.service';
 import { path } from '../share/utility';
 
 
-let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
-let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 1;
+let getLocale = (userProfile: IUserProfile) : string => path(['display', 'language']) (userProfile) || 'ru';
+let getFirstDayOfWeek = (userProfile: IUserProfile) : number => path(['display', 'firstDayOfWeek']) (userProfile) || 1;
 
 export default class DisplayService {
 
@@ -16,6 +17,7 @@ export default class DisplayService {
 		this.$translate.use(locale);
 		this.tmhDynamicLocale.set(locale);
 		moment.locale(locale);
+		console.log('DisplayService locale', locale);
 	}
 
 	private handleFirstDayOfWeekChange = (day: number) => {
@@ -30,31 +32,35 @@ export default class DisplayService {
 	static $inject = ['SessionService', 'UserService', '$translate', 'tmhDynamicLocale', '$mdDateLocale'];
 
 	constructor (
-		private sessionService: ISessionService,
-		private userService: UserService,
+		private SessionService: ISessionService,
+		private UserService: UserService,
 		private $translate: any, 
 		private tmhDynamicLocale: any,
 		private $mdDateLocale: any
 	) {
-		sessionService.getObservable()
+		UserService.currentUser
 		.map(getLocale)
-		.distinct()
+		.distinctUntilChanged()
 		.subscribe(this.handleLocaleChange);
 
-		sessionService.getObservable()
+		UserService.currentUser
 		.map(getFirstDayOfWeek)
-		.distinct()
+		.distinctUntilChanged()
 		.subscribe(this.handleFirstDayOfWeekChange);
 	}
 
 	getLocale () : string {
-		let session = this.sessionService.get();
-		return getLocale(session);
+		return getLocale(this.UserService.getCurrentUser());
 	}
 
 	setLocale (locale: string) {
-		this.sessionService.updateUser({ display: { language: locale } });
-		this.userService.putProfile(this.sessionService.getUser());
+		let userChanges = { display: { language: locale } };
+
+		if (this.SessionService.getToken()) {
+			this.UserService.updateCurrentUser(<any>userChanges);
+		} else {
+			this.SessionService.updateUser(<any>userChanges);
+		}
 	}
 }
 

@@ -6,9 +6,9 @@ import {
     IGetTrainigZonesResponse
 } from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
-import {ISessionService, getUser} from './session.service';
+import {ISessionService, getUser, getCurrentUserId} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
-import { IHttpPromise,IHttpPromiseCallbackArg, copy } from 'angular';
+import { IHttpPromise, IHttpPromiseCallbackArg, copy } from 'angular';
 import {ISystemMessage} from "../../../api/core";
 import {MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile} from "../../../api/group/group.interface";
 import {Observable} from "rxjs";
@@ -19,9 +19,9 @@ export default class UserService {
 
     private connections$: Observable<any>;
     private message$: Observable<any>;
-    private profile: IUserProfile = null;
+    public currentUser: Observable<IUserProfile>;
 
-    static $inject = ['SessionService', 'SocketService','RESTService','ReferenceService'];
+    static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
 
     constructor(
         private SessionService:ISessionService,
@@ -29,9 +29,14 @@ export default class UserService {
         private RESTService:IRESTService,
         private ReferenceService: ReferenceService
     ) {
+        this.currentUser = this.SessionService.getObservable()
+            .map(getUser)
+            .distinctUntilChanged();
+
         this.SessionService.getObservable()
-        .map(getUser)
-        .subscribe(profile => this.profile = copy(profile));
+            .map(getCurrentUserId)
+            .distinctUntilChanged()
+            .subscribe(this.refreshCurrentUser.bind(this));
 
         // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
         this.message$ = this.SocketService.messages
@@ -67,6 +72,28 @@ export default class UserService {
         this.connections$.subscribe(connections => this.setConnections(connections));
     }
 
+    getCurrentUser () : IUserProfile {
+        return this.SessionService.getUser() || {};
+    }
+
+    refreshCurrentUser (userId) {
+        if (userId && this.SessionService.isCurrentUserId(userId)) {
+            this.getProfile(userId)
+            .then((userProfile) => {
+                this.SessionService.updateUser(userProfile);
+            });
+        }
+    }
+
+    updateCurrentUser (userChanges: IUserProfile) {
+        let { userId, revision } = this.getCurrentUser();
+        return this.putProfile(merge({}, userChanges, { userId, revision }))
+            .then(({ revision }) => {
+                let updatedUser = merge({}, userChanges, { revision });
+                this.SessionService.updateUser(updatedUser);
+                return updatedUser;
+            });
+    }
 
     /**
      * @description Сохраняем обьект connections пользователя, содержит данные о группах пользователя. Если в составе
@@ -94,7 +121,7 @@ export default class UserService {
      * Запрос обьекта connections из userProfile пользователя
      * @returns {Promise<any>}
      */
-    getConnections():Promise<any> {
+    getConnections() : Promise<any> {
         return this.SocketService.send(new GetConnections()).then(result => result);
     }
 
@@ -104,7 +131,7 @@ export default class UserService {
      * @param groupId
      * @returns {Promise<any>}
      */
-    getTrainingZones(userId: number, groupId: number = null):Promise<any> {
+    getTrainingZones(userId: number, groupId: number = null) : Promise<any> {
         return this.SocketService.send(new GetTrainingZones(userId, groupId)).then(result => result.arrayResult);
     }
 
@@ -114,7 +141,7 @@ export default class UserService {
      * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    getProfile(key:string|number, ws: boolean = true):Promise<IUserProfile> | Promise<ISystemMessage>{
+    getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
         return ws ?
             this.SocketService.send(new GetRequest(key)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
@@ -128,11 +155,7 @@ export default class UserService {
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(userChanges))
-            .then((result) => {
-                let updatedUser = merge(userChanges, result.value.revision);
-                this.SessionService.updateUser(updatedUser);
-                return updatedUser;
-            });
+            .then((result) => result.value);
     }
 
     /**
@@ -140,7 +163,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileAvatar(file:any):IHttpPromise<any> {
+    postProfileAvatar(file:any) : IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
@@ -153,7 +176,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileBackground(file:any):IHttpPromise<any> {
+    postProfileBackground(file:any) : IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile('/user/background',file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
@@ -170,7 +193,7 @@ export default class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true):Promise<any> {
+    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> {
         return ws ?
             this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetUserProfileSummaryStatistics(id, start, end, group, data)))
@@ -181,8 +204,8 @@ export default class UserService {
      * Обновление состава групп текущего пользователя
      * @param message
      */
-    private updateGroup(message: ProtocolGroupUpdate): void {
-        let connections = this.profile.connections || null;
+    private updateGroup(message: ProtocolGroupUpdate) : void {
+        let connections = copy(this.getCurrentUser().connections) || null;
         let group:IGroupProfile = connections && connections[message.groupCode] || null;
 
         if(!group) {
@@ -211,7 +234,7 @@ export default class UserService {
     }
 
     private updateClubs(message: ProtocolGroupUpdate): void {
-        let connections = this.profile.connections || null;
+        let connections = copy(this.getCurrentUser().connections) || null;
         let clubs:Array<IGroupProfile> = connections && connections.ControlledClubs || null;
 
         if(!clubs) {

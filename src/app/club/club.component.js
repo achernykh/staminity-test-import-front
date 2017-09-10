@@ -3,9 +3,10 @@ import './club.component.scss';
 
 class ClubCtrl {
 
-    constructor ($scope, dialogs, GroupService, UserService, RequestsService, message) {
+    constructor ($scope, dialogs, SessionService, GroupService, UserService, RequestsService, message) {
         this.$scope = Object.assign($scope, { Boolean });
         this.dialogs = dialogs;
+        this.SessionService = SessionService;
         this.GroupService = GroupService;
         this.UserService = UserService;
         this.RequestsService = RequestsService;
@@ -13,7 +14,7 @@ class ClubCtrl {
     }
 
     $onInit(){
-        let user = this.UserService.profile;
+        let user = this.SessionService.getUser();
         this.isManager = this.club.innerGroups.ClubManagement.groupMembers.find(m => m.userId === user.userId);
         this.isCoach = user.public.hasOwnProperty('isCoach') && user.public.isCoach;
 
@@ -33,7 +34,7 @@ class ClubCtrl {
     
     join () {
         return this.dialogs.confirm({ text: 'dialogs.startClub' })
-            .then(() => this.GroupService.join(this.club.groupId, this.UserService.profile.userId))
+            .then(() => this.GroupService.join(this.club.groupId, this.SessionService.getCurrentUserId()))
             .then((result) => {
                 this.message.toastInfo('requestComplete');
                 this.update();
@@ -44,7 +45,7 @@ class ClubCtrl {
     
     leave () {
         return this.dialogs.confirm({ text: 'dialogs.leaveClub' })
-            .then(() => this.GroupService.leave(this.club.groupId, this.UserService.profile.userId))
+            .then(() => this.GroupService.leave(this.club.groupId, this.SessionService.getCurrentUserId()))
             .then((result) => {
                 this.message.toastInfo('requestComplete');
                 this.update();
@@ -81,7 +82,7 @@ class ClubCtrl {
     }
 
 };
-ClubCtrl.$inject = ['$scope','dialogs','GroupService','UserService','RequestsService','message'];
+ClubCtrl.$inject = ['$scope','dialogs','SessionService','GroupService','UserService','RequestsService','message'];
 
 const ClubComponent = {
 

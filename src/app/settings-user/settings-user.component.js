@@ -11,7 +11,6 @@ import { parseYYYYMMDD } from '../share/share.module';
 import './settings-user.component.scss';
 
 
-
 let emptyUser = {
     public: {
 
@@ -22,9 +21,11 @@ let emptyUser = {
     display: {
         units: null,
         firstDayOfWeek: null,
-        timezone: null
+        timezone: null,
+        language: null
     }
 };
+
 
 class SettingsUserCtrl {
 
@@ -59,8 +60,9 @@ class SettingsUserCtrl {
     }
 
     $onInit () {
-        this.setUser(this.UserService.userProfile.get());
-        this.UserService.userProfile.changes.subscribe(this.setUser.bind(this));
+        this.UserService.currentUser
+        .takeUntil(this.destroy)
+        .subscribe(this.setUser.bind(this));
 
         this.BillingService.messages
         .takeUntil(this.destroy)
@@ -93,8 +95,7 @@ class SettingsUserCtrl {
     }
 
     setUser (user) {
-        this.user = angular.merge({}, user);
-        this.$scope.$apply();
+        this.user = angular.copy(user);
     }
 
     successHandler (message) {
@@ -126,6 +127,11 @@ class SettingsUserCtrl {
         return moment().format('L');
     }
 
+    changeLocale (locale) {
+        this.user.display.language = locale;
+        this.displayForm.$dirty = true;
+    }
+
     changeTimezone (name) {
         this.user.display.timezone = name;
         this.displayForm.$dirty = true;
@@ -142,15 +148,15 @@ class SettingsUserCtrl {
     }
 
     countrySearch (query) {
-        return query ?
-            Object.keys(this._country_list['ru']).filter((key) => this._country_list['ru'][key].toLowerCase().indexOf(query.toLowerCase()) === 0) 
-            : 
-            this._country_list
+        let countries = this._country_list[this.display.getLocale()];
+        let regexp = new RegExp(query, 'i');
+
+        return query ? Object.keys(countries).filter((key) => ~countries[key].search(regexp)) : countries;
     }
 
     citySearch (query) {
-        let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json'
-        let language = 'ru'
+        let language = this.display.getLocale();
+        let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
         let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM'
         let request = {
             method: 'GET',
@@ -160,10 +166,9 @@ class SettingsUserCtrl {
                 'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
                 'Access-Control-Allow-Origin': '*'
             }
-        }
+        };
 
-        return this._$http(request)
-            .then((result) => result.predictions, (error) => [])
+        return this._$http(request).then((result) => result.predictions, (error) => []);
     }
 
     isDirty () {
@@ -189,14 +194,8 @@ class SettingsUserCtrl {
     }
 
     update (form) {
-        let userProfile = {
-            userId: this.user.userId,
-            revision: this.user.revision
-        };
-
         for (let name in form) {
             if (form[name]) {
-                userProfile[name] = this.user[name];
                 if (name === "personal" || name === "private") {
                     this[name + 'FirstForm'].$setPristine();
                     this[name + 'SecondForm'].$setPristine();
@@ -206,7 +205,7 @@ class SettingsUserCtrl {
             }
         }
 
-        this.UserService.putProfile(userProfile)
+        this.UserService.updateCurrentUser(this.user)
         .then(this.successHandler('settingsSaveComplete'), this.errorHandler());
     }
 
@@ -489,15 +488,11 @@ class SettingsUserCtrl {
             return this.user.billing.autoPayment;
         }
 
-        let profile = {
-            userId: this.user.userId,
-            revision: this.user.revision,
-            billing: {
-                autoPayment: isOn
-            }
+        let userChanges = { 
+            billing: { autoPayment: isOn } 
         };
 
-        this.UserService.putProfile(profile)
+        this.UserService.updateCurrentUser(userChanges)
         .then(this.successHandler('settingsSaveComplete'))
         .catch(this.errorHandler());
     }

@@ -13,6 +13,7 @@ export interface ISession {
 }
 
 export const getUser = (session: ISession) : IUserProfile => session.userProfile;
+export const getCurrentUserId: (session: ISession) => number | string = path([getUser, 'userId']);
 export const getToken = (session: ISession) : string => session.token;
 export const getPermissions = (session: ISession) : Object => session.systemFunctions;
 
@@ -23,11 +24,12 @@ export interface ISessionService  {
 	getObservable() : Observable<ISession>;
 
 	getUser () : IUserProfile;
+	getCurrentUserId () : number | string;
+	isCurrentUserId (userId: number | string) : boolean;
+	updateUser (userChanges: Object);
 	getToken () : string;
 	getPermissions () : Object;
 	setPermissions (permissions: Object);
-	isCurrentUserId (userId: number | string) : boolean;
-	updateUser (userChanges: Object);
 }
 
 export default class SessionService implements ISessionService {
@@ -50,7 +52,7 @@ export default class SessionService implements ISessionService {
 
 	change (changes: Object) {
 		let session = this.get();
-		this.set(merge(session, changes));
+		this.set(merge({}, session, changes));
 	}
 
 	get () : ISession {
@@ -62,7 +64,21 @@ export default class SessionService implements ISessionService {
 	}
 
 	getUser () : IUserProfile {
-		return getUser(this.get());
+		return getUser(this.get()) || {};
+	}
+
+	getCurrentUserId () : number | string {
+		return getCurrentUserId(this.get());
+	}
+
+	isCurrentUserId (userId: number | string) : boolean {
+		return userId === this.getCurrentUserId();
+	}
+
+	updateUser (userProfile: Object) {
+		if (!userProfile['userId'] || this.isCurrentUserId(userProfile['userId'])) {
+			this.change({ userProfile: { ...userProfile } });
+		}
 	}
 
 	getToken () : string {
@@ -74,16 +90,6 @@ export default class SessionService implements ISessionService {
 	}
 
 	setPermissions (permissions: Object) {
-		this.change({ systemFunctions: permissions });
-	}
-
-	isCurrentUserId (userId: number | string) : boolean {
-		return userId === path([getUser, 'userId']) (this.get());
-	}
-
-	updateUser (userChanges: Object) {
-		if (!userChanges['userId'] || this.isCurrentUserId(userChanges['userId'])) {
-			this.change({ userProfile: userChanges });
-		}
+		this.change({ systemFunctions: { ...permissions } });
 	}
 }

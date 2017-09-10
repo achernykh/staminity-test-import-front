@@ -37,7 +37,7 @@ class ApplicationMenuCtrl implements IComponentController{
         session.getObservable()
         .takeUntil(this.destroy)
         .map(getPermissions)
-        .distinct()
+        .distinctUntilChanged()
         .subscribe(() => $scope.$evalAsync());
     }
 
