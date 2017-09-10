@@ -3,13 +3,13 @@ import moment from 'moment/min/moment-with-locales.js';
 import { merge } from 'angular';
 
 import { IUserProfile } from '../../../api/user/user.interface';
-import { ISessionService } from './session.service';
+import { ISessionService, ISession, getUser } from './session.service';
 import UserService from './user.service';
 import { path } from '../share/utility';
 
 
-let getLocale = (userProfile: IUserProfile) : string => path(['display', 'language']) (userProfile) || 'ru';
-let getFirstDayOfWeek = (userProfile: IUserProfile) : number => path(['display', 'firstDayOfWeek']) (userProfile) || 1;
+let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
+let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 1;
 
 export default class DisplayService {
 
@@ -38,26 +38,26 @@ export default class DisplayService {
 		private tmhDynamicLocale: any,
 		private $mdDateLocale: any
 	) {
-		UserService.currentUser
+		SessionService.getObservable()
 		.map(getLocale)
 		.distinctUntilChanged()
 		.subscribe(this.handleLocaleChange);
 
-		UserService.currentUser
+		SessionService.getObservable()
 		.map(getFirstDayOfWeek)
 		.distinctUntilChanged()
 		.subscribe(this.handleFirstDayOfWeekChange);
 	}
 
 	getLocale () : string {
-		return getLocale(this.UserService.getCurrentUser());
+		return getLocale(this.SessionService.get());
 	}
 
 	setLocale (locale: string) {
 		let userChanges = { display: { language: locale } };
 
 		if (this.SessionService.getToken()) {
-			this.UserService.updateCurrentUser(<any>userChanges);
+			this.UserService.putProfile(<any>userChanges);
 		} else {
 			this.SessionService.updateUser(<any>userChanges);
 		}

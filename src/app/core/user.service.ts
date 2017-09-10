@@ -19,7 +19,6 @@ export default class UserService {
 
     private connections$: Observable<any>;
     private message$: Observable<any>;
-    public currentUser: Observable<IUserProfile>;
 
     static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
 
@@ -29,14 +28,16 @@ export default class UserService {
         private RESTService:IRESTService,
         private ReferenceService: ReferenceService
     ) {
-        this.currentUser = this.SessionService.getObservable()
-            .map(getUser)
-            .distinctUntilChanged();
-
         this.SessionService.getObservable()
             .map(getCurrentUserId)
             .distinctUntilChanged()
-            .subscribe(this.refreshCurrentUser.bind(this));
+            .filter((userId) => userId && this.SessionService.isCurrentUserId(userId))
+            .subscribe((userId) => {
+                this.getProfile(userId)
+                .then((userProfile) => {
+                    this.SessionService.updateUser(userProfile);
+                });
+            });
 
         // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
         this.message$ = this.SocketService.messages
@@ -70,29 +71,6 @@ export default class UserService {
             .share();
 
         this.connections$.subscribe(connections => this.setConnections(connections));
-    }
-
-    getCurrentUser () : IUserProfile {
-        return this.SessionService.getUser() || {};
-    }
-
-    refreshCurrentUser (userId) {
-        if (userId && this.SessionService.isCurrentUserId(userId)) {
-            this.getProfile(userId)
-            .then((userProfile) => {
-                this.SessionService.updateUser(userProfile);
-            });
-        }
-    }
-
-    updateCurrentUser (userChanges: IUserProfile) {
-        let { userId, revision } = this.getCurrentUser();
-        return this.putProfile(merge({}, userChanges, { userId, revision }))
-            .then(({ revision }) => {
-                let updatedUser = merge({}, userChanges, { revision });
-                this.SessionService.updateUser(updatedUser);
-                return updatedUser;
-            });
     }
 
     /**
@@ -155,7 +133,12 @@ export default class UserService {
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(userChanges))
-            .then((result) => result.value);
+            .then((result) => result.value)
+            .then(({ revision }) => {
+                let updatedUser = merge({}, userChanges, { revision });
+                this.SessionService.updateUser(updatedUser);
+                return updatedUser;
+            });
     }
 
     /**
@@ -205,7 +188,7 @@ export default class UserService {
      * @param message
      */
     private updateGroup(message: ProtocolGroupUpdate) : void {
-        let connections = copy(this.getCurrentUser().connections) || null;
+        let connections = copy(this.SessionService.getUser().connections) || null;
         let group:IGroupProfile = connections && connections[message.groupCode] || null;
 
         if(!group) {
@@ -234,7 +217,7 @@ export default class UserService {
     }
 
     private updateClubs(message: ProtocolGroupUpdate): void {
-        let connections = copy(this.getCurrentUser().connections) || null;
+        let connections = copy(this.SessionService.getUser().connections) || null;
         let clubs:Array<IGroupProfile> = connections && connections.ControlledClubs || null;
 
         if(!clubs) {

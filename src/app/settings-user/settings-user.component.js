@@ -29,7 +29,7 @@ let emptyUser = {
 
 class SettingsUserCtrl {
 
-    constructor ($scope, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia, display) {
+    constructor ($scope, SessionService, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia, display) {
         this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -40,6 +40,7 @@ class SettingsUserCtrl {
         this._SYNC_ADAPTORS = _SYNC_ADAPTORS;
 
         this.$scope = $scope;
+        this.SessionService = SessionService;
         this.UserService = UserService;
         this.AuthService = AuthService;
         this.$http = $http
@@ -60,8 +61,10 @@ class SettingsUserCtrl {
     }
 
     $onInit () {
-        this.UserService.currentUser
+        this.SessionService.getObservable()
         .takeUntil(this.destroy)
+        .map((session) => session.userProfile)
+        .distinctUntilChanged()
         .subscribe(this.setUser.bind(this));
 
         this.BillingService.messages
@@ -95,7 +98,9 @@ class SettingsUserCtrl {
     }
 
     setUser (user) {
-        this.user = angular.copy(user);
+        if (user.userId === this.user.userId) {
+            this.user = angular.copy(user);
+        }
     }
 
     successHandler (message) {
@@ -205,12 +210,13 @@ class SettingsUserCtrl {
             }
         }
 
-        this.UserService.updateCurrentUser(this.user)
+        this.UserService.putProfile(this.user)
         .then(this.successHandler('settingsSaveComplete'), this.errorHandler());
     }
 
     weekdays (day) {
-        return moment.weekdays(false, day);
+        let days = moment.weekdays();
+        return days[day];
     }
 
     syncEnabled (adaptor) {
@@ -492,7 +498,7 @@ class SettingsUserCtrl {
             billing: { autoPayment: isOn } 
         };
 
-        this.UserService.updateCurrentUser(userChanges)
+        this.UserService.putProfile(userChanges)
         .then(this.successHandler('settingsSaveComplete'))
         .catch(this.errorHandler());
     }
@@ -527,7 +533,7 @@ class SettingsUserCtrl {
 };
 
 SettingsUserCtrl.$inject = [
-    '$scope', 'UserService', 'AuthService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs', 'message', 'BillingService', '$translate', '$mdMedia', 'DisplayService'
+    '$scope', 'SessionService', 'UserService', 'AuthService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs', 'message', 'BillingService', '$translate', '$mdMedia', 'DisplayService'
 ];
 
 
