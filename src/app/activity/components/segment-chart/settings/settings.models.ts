@@ -7,6 +7,7 @@
 export interface IGradientPoint {
     offset: string;
     color: string;
+    opacity: number;
 }
 
 export interface IGridSettings {

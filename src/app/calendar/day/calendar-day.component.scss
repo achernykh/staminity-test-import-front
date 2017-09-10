@@ -35,7 +35,7 @@ calendar-day {
   }
 
   &:hover{
-    @extend .bg-grey-300;
+    background-color: rgba($grey-300, 0.3);
     @media (min-width: 960px) {
       section.actions {visibility: visible;}
     }
