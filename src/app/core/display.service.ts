@@ -70,7 +70,7 @@ export default class DisplayService {
 	getUnits () : string {
 		return getUnits(this.SessionService.get());
 	}
-	
+
 	getTimezone () : string {
 		return getTimezone(this.SessionService.get());
 	}

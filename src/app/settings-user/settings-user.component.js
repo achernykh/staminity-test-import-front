@@ -499,8 +499,8 @@ class SettingsUserCtrl {
             return this.user.billing.autoPayment;
         }
 
-        let userChanges = { 
-            billing: { autoPayment: isOn } 
+        let userChanges = {
+            billing: { autoPayment: isOn }
         };
 
         this.UserService.putProfile(userChanges)

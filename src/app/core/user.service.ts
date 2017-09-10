@@ -23,7 +23,7 @@ export default class UserService {
         'groupMembership': (message) => this.updateGroup(new ProtocolGroupUpdate(message)),
         'controlledClub': (message) => this.updateClubs(new ProtocolGroupUpdate(message))
     };
-    
+
     static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
 
     constructor(
@@ -109,7 +109,7 @@ export default class UserService {
      */
     getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
         return ws ? (
-            this.SocketService.send(new GetRequest(key)) 
+            this.SocketService.send(new GetRequest(key))
         ) : (
             this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data)
