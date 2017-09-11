@@ -1,7 +1,7 @@
 <div layout="row" layout-align="start center" name="$ctrl.form"
      class="md-dense interval-data" ng-class="{'selected': $ctrl.interval.isSelected, 'key': $ctrl.interval.keyInterval}">
     <div class="segment-number md-body-1 bg-grey-200 md-dark"
-         ng-class="{'{{::$ctrl.interval.status}}': $ctrl.viewActual, 'coming': $ctrl.viewPlan, 'block': $ctrl.item.mode === 'view'}"
+         ng-class="{'{{::$ctrl.interval.status}}': $ctrl.viewActual, 'coming': $ctrl.viewPlan}"
          ng-click="$ctrl.select()">
         <span>{{$ctrl.interval.pos}}</span></div>
     <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
@@ -99,7 +99,7 @@
     <span class="intensity" flex="noshrink" ng-if="$ctrl.viewActual">
         {{$ctrl.group && $ctrl.viewGroup ?
             $ctrl.interval.totalMeasures[$ctrl.interval.intensityMeasure].avgValue :
-            $ctrl.interval.calcMeasures[$ctrl.interval.intensityMeasure].value | measureCalc:$ctrl.sport:$ctrl.interval.intensityMeasure}}
+            $ctrl.interval.calcMeasures[$ctrl.interval.intensityMeasure].avgValue | measureCalc:$ctrl.sport:$ctrl.interval.intensityMeasure}}
     </span>
     <!--
     <md-button class="md-icon-button" ng-click="$ctrl.splice()">

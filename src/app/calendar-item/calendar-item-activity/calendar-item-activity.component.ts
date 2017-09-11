@@ -29,6 +29,8 @@ import {filtersToPredicate} from "../../share/utility/filtering";
 import {ActivityIntervals} from "../../activity/activity-datamodel/activity.intervals";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {ActivityIntervalPW} from "../../activity/activity-datamodel/activity.interval-pw";
+import {ActivityIntervalL} from "../../activity/activity-datamodel/activity.interval-l";
+import {ActivityIntervalP} from "../../activity/activity-datamodel/activity.interval-p";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -80,6 +82,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public assignmentForm: INgModelController; // форма ввода задания структурированного / не структурированного
     public inAction: boolean = false; // true - форма на стороне бэкенд (кнопки формы блокируются), false - на стороне frontend
 
+    public showIntervalOverview: boolean = false;
+    public intervalOverview: ActivityIntervalL | ActivityIntervalP;
     public showSelectAthletes: boolean = false;
     public showSelectTemplate: boolean = false;
     private forAthletes: Array<{profile: IUserProfile, active: boolean}> = [];

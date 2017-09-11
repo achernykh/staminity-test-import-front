@@ -60,7 +60,7 @@
                 <div flex="none" class="status-bar">
                     <div ng-if="!!$ctrl.data.summary.fact.movingDuration || !!$ctrl.summary.data.plan.movingDuration"
                          class="progress {{$ctrl.data.summaryStatus()}}"
-                         style="width: {{$ctrl.data.summaryPercent(sport)}}%"></div>
+                         style="width: {{$ctrl.data.summaryPercentByCount(sport)}}%"></div>
                 </div>
                 <div flex="none" layout="row" layout-align="space-between center">
                     <div flex="none">{{$ctrl.data.summary.fact.distance | measureCalc:'default':'distance'}}&nbsp</div>
@@ -90,7 +90,7 @@
                     <div flex="none" class="status-bar">
                         <div ng-if="!!$ctrl.data.total[sport].fact.movingDuration || !!$ctrl.data.total[sport].plan.movingDuration"
                              class="progress {{$ctrl.data.totalStatus(sport)}}"
-                             style="width: {{$ctrl.data.totalPercent(sport)}}%"></div>
+                             style="width: {{$ctrl.data.totalPercentByCount(sport)}}%"></div>
                     </div>
                     <div flex="none" layout="row" layout-align="space-between center">
                         <div flex="none">{{$ctrl.data.total[sport].fact.distance | measureCalc:sport:'distance'}}&nbsp</div>

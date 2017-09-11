@@ -84,8 +84,12 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     select(){
-        //this.interval.isSelected = !this.interval.isSelected;
-        this.onSelect();
+        if(this.item.mode === 'view') {
+            this.item.showIntervalOverview = true;
+            this.item.intervalOverview = this.interval;
+        } else {
+            this.onSelect();
+        }
     }
 
     isFTP():boolean {
