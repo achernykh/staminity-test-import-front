@@ -6,6 +6,7 @@ import {
     ICalendarWeekSummary, ICalendarWeekTotal
 } from './calendar-total.function';
 import {ICalendarWeek} from "../calendar.component";
+import {CalendarWeekData} from "./calendar-week-total.datamodel";
 
 const searchMeasure = (point, interval) => {
     if (point === 'plan') {
@@ -27,6 +28,7 @@ class CalendarTotalCtrl implements IComponentController {
     public week: ICalendarWeek;
     public selected: boolean;
 
+    private data: CalendarWeekData;
     private title: string;
     private items: Array<any> = [];
     private checked: boolean = false;
@@ -53,6 +55,7 @@ class CalendarTotalCtrl implements IComponentController {
     $onChanges(changes){
 
         if(changes.update){
+            this.data = new CalendarWeekData(this.week);
             this.items = [];
             if(this.week.hasOwnProperty('subItem') && this.week.subItem && this.week.subItem.length > 0) {
                 this.week.subItem.forEach(day => day.data.calendarItems && day.data.calendarItems.length > 0 && this.items.push(...day.data.calendarItems));

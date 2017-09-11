@@ -1,5 +1,7 @@
-import {IActivityIntervalP, IActivityInterval, ICalcMeasures,
-    IDurationMeasure, IIntensityMeasure} from "../../../../api/activity/activity.interface";
+import {
+    IActivityIntervalP, IActivityInterval, ICalcMeasures,
+    IDurationMeasure, IIntensityMeasure, IActivityIntervalPW
+} from "../../../../api/activity/activity.interface";
 import {ActivityInterval} from "./activity.interval";
 import {DurationMeasure, IntensityMeasure} from "./activity.models";
 import {ITrainingZonesType, ITrainingZones} from "../../../../api/user/user.interface";
@@ -325,6 +327,22 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         interval.startTimestamp = null;
         interval.endTimestamp = null;
         return interval;
+    }
+
+    /**
+     * @description подготовка интревала к сохранению в шаблоне
+     * @returns {IActivityIntervalPW}
+     */
+    toTemplate(): IActivityIntervalP | IActivityIntervalPW {
+        this.intensityLevelFrom = null;
+        this.intensityLevelTo = null;
+        this.intensityByFtpFrom = Math.ceil(this.intensityByFtpFrom * 100) / 100;
+        this.intensityByFtpTo = Math.ceil(this.intensityByFtpTo * 100) / 100;
+        if (this.hasOwnProperty('calcMeasures')){
+            delete this.calcMeasures;
+        }
+
+        return this;
     }
 
 }

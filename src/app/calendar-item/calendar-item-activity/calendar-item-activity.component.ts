@@ -265,6 +265,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity.intervals.PW.completeAbsoluteValue(this.user.trainingZones, this.activity.sportBasic);
         this.activity.intervals.P.map(i => i.completeAbsoluteValue(this.user.trainingZones, this.activity.sportBasic));
         this.activity.updateIntervals();
+        this.structuredMode = this.activity.structured;
         this.templateChangeCount ++;
     }
 
@@ -565,8 +566,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
         let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
         let groupId = groupProfile && groupProfile.groupId;
         let { activityCategory, intervals } = header;
-        let content = [this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
-            ...this.activity.intervalP.map(i => i)].map(interval => ({...interval, calcMeasures: undefined}));
+        /**[
+            //this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
+            this.activity.intervalPW.toTemplate(),
+            ...this.activity.intervalP.map(i => i.toTemplate()),
+            //...this.activity.intervalP.map(i => i).map(interval => ({...interval, calcMeasures: undefined})),
+            ...this.activity.intervalG.map(i => i).map(interval => ({...interval, totalMeasures: undefined}))];
         /**let content = [
             ...intervals.filter(i => i.type === 'pW'),
             ...intervals.filter(i => i.type === 'P')
@@ -574,7 +579,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
         .map((interval) => ({ ...interval, calcMeasures: undefined,  }));**/
 
         if (this.mode === 'post') {
-            this.ReferenceService.postActivityTemplate(null, activityCategory.id, groupId, name, description, favourite, content)
+            this.ReferenceService.postActivityTemplate(
+                null,
+                activityCategory.id,
+                groupId,
+                name,
+                description,
+                favourite,
+                this.activity.intervals.buildTemplate())
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
@@ -583,7 +595,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
 
         if (this.mode === 'put' || this.mode === 'view') {
-            this.ReferenceService.putActivityTemplate(templateId, activityCategory.id, groupId, null, name, description, favourite, visible, content)
+            this.ReferenceService.putActivityTemplate(
+                templateId,
+                activityCategory.id,
+                groupId,
+                null,
+                name,
+                description,
+                favourite,
+                visible,
+                this.activity.intervals.buildTemplate())
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityTemplateCreated');
@@ -632,8 +653,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
             visible: true,
             activityCategory: activityCategory,
             userProfileCreator: this.user,
-            content: [this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
-                ...this.activity.intervalP.map(i => i)]
+            content: [this.activity.intervals.PW, ...this.activity.intervals.P, ...this.activity.intervals.G]
+            //content: [this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
+            //    ...this.activity.intervalP.map(i => i.toTemplate()), ...this.activity.intervalG]
         };
         
         return this.$mdDialog.show(templateDialog('post', template, this.user));

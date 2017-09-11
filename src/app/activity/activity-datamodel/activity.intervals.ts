@@ -119,6 +119,10 @@ export class ActivityIntervals {
         return [...this.P.map(i => this.clear(i)), ...this.G.map(i => this.clear(i)), this.clear(this.W), this.clear(this.PW)];
     }
 
+    buildTemplate() {
+        return [...this.P.map(i => i.toTemplate()), ...this.G, this.PW.toTemplate()];
+    }
+
     clear(interval: ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW):IActivityIntervals{
         return interval.clear();
     }
