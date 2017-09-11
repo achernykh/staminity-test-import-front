@@ -60,7 +60,7 @@ class CalendarWeekSummary implements ICalendarWeekSummary{
 
 
 interface ICalendarWeekTotal {
-    [code: string]: ICalendarWeekSummary;
+    [sport: string]: ICalendarWeekSummary;
 };
 
 const getSummaryFromInterval = (point: string, interval, itemDate: string): Array<number> => {
@@ -119,6 +119,9 @@ export class CalendarWeekData {
     private _total: ICalendarWeekTotal;
     private _items: Array<ICalendarItem> = [];
 
+    private readonly primarySport: [string] = ['run', 'bike', 'swim'];
+    private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
+
     constructor(week: ICalendarWeek) {
         this._items = (week.hasOwnProperty('subItem') && week.subItem) &&
             this.getItems(week.subItem).filter(i => i.calendarItemType === 'activity');
@@ -146,22 +149,11 @@ export class CalendarWeekData {
         let summary: ICalendarWeekSummary = new CalendarWeekSummary();
 
         Object.keys(this._total).forEach((sport) => {
-            if (this._total[sport].hasOwnProperty('fact')){
-                summary.fact.distance +=
-                    (this._total[sport].fact.hasOwnProperty('distance') &&
-                    this._total[sport].fact.distance) || 0;
-                summary.fact.movingDuration +=
-                    (this._total[sport].fact.hasOwnProperty('movingDuration') &&
-                    this._total[sport].fact.movingDuration) || 0;
-            }
-            if (this._total[sport].hasOwnProperty('plan')){
-                summary.plan.distance +=
-                    (this._total[sport].plan.hasOwnProperty('distance') &&
-                    this._total[sport].plan.distance) || 0;
-                summary.plan.movingDuration +=
-                    (this._total[sport].plan.hasOwnProperty('movingDuration') &&
-                    this._total[sport].plan.movingDuration) || 0;
-            }
+            Object.keys(this._total[sport]).forEach(point => {
+                Object.keys(this._total[sport][point]).forEach(key => {
+                    summary[point][key] += this._total[sport][point].hasOwnProperty(key) && this._total[sport][point][key] || 0;
+                });
+            });
         });
 
         return summary;
@@ -173,11 +165,10 @@ export class CalendarWeekData {
         let sport = null;
         let distance = 0, movingDuration = 0, completed = 0, completePercent = 0, specified = 0, completedOnToday = 0;
         let totalTemplate: ICalendarWeekSummary = new CalendarWeekSummary();
-        let primarySport = ['run', 'bike', 'swim'];
 
         this._items.forEach(item => {
             sport = item.activityHeader.activityType.typeBasic;
-            sport = (primarySport.indexOf(sport) !== -1 && sport) || 'other';
+            sport = (this.primarySport.indexOf(sport) !== -1 && sport) || 'other';
             item.activityHeader.intervals.filter(interval => interval.type === 'W' || interval.type === 'pW')
                 .forEach(interval => {
                     let point = interval.type === 'W' ? 'fact' : 'plan';
@@ -197,6 +188,43 @@ export class CalendarWeekData {
         });
 
         return total;
+    }
+
+    hasSummary():boolean {
+        return this._summary &&
+            (this._summary.plan.specified > 0 || this._summary.fact.completed > 0) || false;
+    }
+
+    hasTotalBySport(sport: string): boolean {
+        return this._total && this._total.hasOwnProperty(sport) &&
+            (this._total[sport].plan.specified > 0 || this._total[sport].fact.completed > 0) || false;
+    }
+
+    totalStatus(sport: string):string {
+        let percent: number = this.totalPercent(sport);
+        return this._total && this._total.hasOwnProperty(sport) && percent &&
+            ((Math.abs(100-percent) <= this.statusLimit.warn && percent > 0) && 'complete') ||
+            ((Math.abs(100-percent) <= this.statusLimit.error && percent > 0) && 'complete-warn') ||
+            ((Math.abs(100-percent) > this.statusLimit.error && percent > 0)  && 'complete-error') || 'coming';
+
+    }
+
+    totalPercent(sport: string):number {
+        return this._total && this._total.hasOwnProperty(sport) &&
+                100 * this._total[sport].plan.completePercent / this._total[sport].plan.specified;
+    }
+
+    summaryStatus():string {
+        let percent: number = this.summaryPercent();
+        return this._summary && percent &&
+            ((Math.abs(100-percent) <= this.statusLimit.warn && percent > 0) && 'complete') ||
+            ((Math.abs(100-percent) <= this.statusLimit.error && percent > 0) && 'complete-warn') ||
+            ((Math.abs(100-percent) > this.statusLimit.error && percent > 0)  && 'complete-error') || 'coming';
+    }
+
+    summaryPercent():number {
+        return this._summary &&
+            100 * this._summary.plan.completePercent / this._summary.plan.specified;
     }
 
 }

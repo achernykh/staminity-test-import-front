@@ -40,6 +40,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     heartRate: IIntensityMeasure;
     power: IIntensityMeasure;
     speed: IIntensityMeasure;
+    totalMeasures: ICalcMeasures; //для первых инетрвало в рамках группы
 
     private readonly limit: { warn: number, error: number} = { warn: 10, error: 20 };
     private readonly opposite: any = {
@@ -56,7 +57,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     hasRecalculate: boolean = false;
     keys: Array<string> = ['params', 'calcMeasures', 'isSelected','distance','movingDuration',
         'heartRate','power','speed', 'speed', 'zones', 'limit', 'opposite', 'index', 'ftpMeasures','keys',
-        'hasRecalculate'];
+        'hasRecalculate','totalMeasures'];
 
     constructor(type: string, params: IActivityInterval) {
         super(type, params);

@@ -1,24 +1,18 @@
 <!-- weektotal header: start -->
 
-<section class="total-toolbar" flex-gt-sm="none" flex="none" layout="row" layout-align="space-between center">
+<section class="total-toolbar" flex-gt-sm="none" flex="none" layout="row" layout-align="space-between center"
+         ng-mouseover="$ctrl.showMenu = true" ng-mouseleave="$ctrl.showMenu = false">
+
     <div flex="none" class="md-body-1" style="min-width: 24px">
         Неделя {{$ctrl.title}}
     </div>
-    <div flex="none" ng-if="(!!$ctrl.summary.fact.movingDuration || !!$ctrl.summary.plan.movingDuration) && false"
-         class="md-body-1" style="background: grey; color: white; border-radius: 10px; padding: 0px 5px">
-        {{100*$ctrl.summary.fact.movingDuration/$ctrl.summary.plan.movingDuration |number:0}}%</div>
+    <div flex="auto" layout="row" layout-align="end center">
 
-    <!--
-    <div hide show-gt-sm flex="none" ng-show="$ctrl.selected || $ctrl.accent">
-        <md-checkbox ng-model="$ctrl.checked"
-                     ng-change="$ctrl.onToggle({sid: $ctrl.week.sid, value: $ctrl.checked})"
-                     aria-label="Checkbox 1" class="md-primary"
-                     style="margin-bottom: 0px; margin-left: 12px">
-        </md-checkbox>
-    </div>-->
+        <div flex="none" ng-if="$ctrl.data.hasSummary() && !$ctrl.showMenu"
+             class="md-body-1 summary-status {{$ctrl.data.summaryStatus()}}">
+            {{$ctrl.data.summaryPercent() |number:0}}%</div>
 
-
-        <md-menu flex="none" md-position-mode="target-right target">
+        <md-menu flex="none" md-position-mode="target-right target" ng-if="$ctrl.showMenu">
             <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
                 <md-icon class="material-icons md-18">more_vert</md-icon>
             </md-button>
@@ -46,30 +40,33 @@
             </md-menu-content>
         </md-menu>
 
+    </div>
+
 
 </section>
 
 <section flex="none" class="total-content">
 
-    <div ng-if="!!$ctrl.summary.fact.movingDuration || !!$ctrl.summary.plan.movingDuration || !!$ctrl.summary.fact.distance || !!$ctrl.summary.plan.distance">
+    <div ng-if="$ctrl.data.hasSummary()">
         <section layout="row" class="sum">
             <md-icon flex="none" class="material-icons md-18">functions</md-icon>
             <div flex layout="column" class="md-body-1 secondary dark">
                 <div flex="none" layout="row" layout-align="space-between center">
-                    <div flex="none">{{$ctrl.summary.fact.movingDuration | measureCalc:'default':'movingDuration'}}&nbsp</div>
+                    <div flex="none">{{$ctrl.data.summary.fact.movingDuration | measureCalc:'default':'movingDuration'}}&nbsp</div>
                     <div flex="none" class="disable dark">
-                        <span>{{$ctrl.summary.plan.movingDuration | measureCalc:'default':'movingDuration'}}</span>
+                        <span>{{$ctrl.data.summary.plan.movingDuration | measureCalc:'default':'movingDuration'}}</span>
                     </div>
                 </div>
-                <div flex="none" style="height: 2px; border-radius: 1px; background: #E0E0E0">
-                    <div ng-if="!!$ctrl.summary.fact.movingDuration || !!$ctrl.summary.plan.movingDuration"
-                         style="max-width: 100%; height: 2px; border-radius: 1px; background: #9E9E9E; width: {{100*$ctrl.summary.fact.movingDuration/$ctrl.summary.plan.movingDuration}}%"></div>
+                <div flex="none" class="status-bar">
+                    <div ng-if="!!$ctrl.data.summary.fact.movingDuration || !!$ctrl.summary.data.plan.movingDuration"
+                         class="progress {{$ctrl.data.summaryStatus()}}"
+                         style="width: {{$ctrl.data.summaryPercent(sport)}}%"></div>
                 </div>
                 <div flex="none" layout="row" layout-align="space-between center">
-                    <div flex="none">{{$ctrl.summary.fact.distance | measureCalc:'default':'distance'}}&nbsp</div>
+                    <div flex="none">{{$ctrl.data.summary.fact.distance | measureCalc:'default':'distance'}}&nbsp</div>
                     <div></div>
                     <div flex="none" class="disable dark">
-                        <span>{{$ctrl.summary.plan.distance | measureCalc:'default':'distance'}}</span>
+                        <span>{{$ctrl.data.summary.plan.distance | measureCalc:'default':'distance'}}</span>
                         <span>{{'distance' | measureUnit:'run' | translate}}</span>
                     </div>
                 </div>
@@ -77,28 +74,29 @@
         </section>
     </div>
 
-    <div ng-repeat="sport in $ctrl.primarySport track by $index">
-        <div ng-if="$ctrl.total.hasOwnProperty(sport) && (!!$ctrl.total[sport].fact.movingDuration || !!$ctrl.total[sport].plan.movingDuration || !!$ctrl.total[sport].fact.distance || !!$ctrl.total[sport].plan.distance)">
+    <div ng-repeat="sport in $ctrl.data.primarySport track by $index">
+        <div ng-if="$ctrl.data.hasTotalBySport(sport)">
             <md-divider></md-divider>
             <section layout="row" class="sport-sum">
                 <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
                 <div flex layout="column" class="md-body-1 secondary dark">
                     <div flex="none" layout="row" layout-align="space-between center">
-                        <div flex="none">{{$ctrl.total[sport].fact.movingDuration | measureCalc:sport:'movingDuration'}}&nbsp</div>
+                        <div flex="none">{{$ctrl.data.total[sport].fact.movingDuration | measureCalc:sport:'movingDuration'}}&nbsp</div>
                         <div ></div>
                         <div flex="none" class="disable dark">
-                            <span>{{$ctrl.total[sport].plan.movingDuration | measureCalc:sport:'movingDuration'}}</span>
+                            <span>{{$ctrl.data.total[sport].plan.movingDuration | measureCalc:sport:'movingDuration'}}</span>
                         </div>
                     </div>
-                    <div flex="none" style="height: 2px; border-radius: 1px; background: #E0E0E0">
-                        <div ng-if="!!$ctrl.total[sport].fact.movingDuration || !!$ctrl.total[sport].plan.movingDuration"
-                             style="max-width: 100%; height: 2px; border-radius: 1px; background: #9E9E9E; width: {{100*$ctrl.total[sport].fact.movingDuration/$ctrl.total[sport].plan.movingDuration}}%"></div>
+                    <div flex="none" class="status-bar">
+                        <div ng-if="!!$ctrl.data.total[sport].fact.movingDuration || !!$ctrl.data.total[sport].plan.movingDuration"
+                             class="progress {{$ctrl.data.totalStatus(sport)}}"
+                             style="width: {{$ctrl.data.totalPercent(sport)}}%"></div>
                     </div>
                     <div flex="none" layout="row" layout-align="space-between center">
-                        <div flex="none">{{$ctrl.total[sport].fact.distance | measureCalc:sport:'distance'}}&nbsp</div>
+                        <div flex="none">{{$ctrl.data.total[sport].fact.distance | measureCalc:sport:'distance'}}&nbsp</div>
                         <div></div>
                         <div flex="none" class="disable dark">
-                            <span>{{$ctrl.total[sport].plan.distance | measureCalc:sport:'distance'}}</span>
+                            <span>{{$ctrl.data.total[sport].plan.distance | measureCalc:sport:'distance'}}</span>
                             <span>{{'distance' | measureUnit:sport | translate}}</span>
                         </div>
                     </div>

@@ -360,9 +360,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
     calculateActivityRange(nonContiguousMode: boolean):void {
         this.ActivityService.calculateRange(
             this.activity.id, null, null,
-            [   this.activity.intervalPW.prepareForCalculateRange(),
-                ...this.activity.intervalP.map(i=> i.prepareForCalculateRange()),
-                ...this.activity.intervalG.map(i => i.prepareForCalculateRange())], nonContiguousMode)
+            [   this.activity.intervals.PW.prepareForCalculateRange(),
+                ...this.activity.intervals.P.map(i=> i.prepareForCalculateRange()),
+                ...this.activity.intervals.G.map(i => i.prepareForCalculateRange())], nonContiguousMode)
             //.then(response => {debugger;}, error => {debugger;})
             .then(response => this.activity.intervals.add(response.intervals, 'update'),
                 error => this.message.toastError('errorCompleteIntervals'))

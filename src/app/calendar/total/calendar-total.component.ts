@@ -36,6 +36,8 @@ class CalendarTotalCtrl implements IComponentController {
     //private totalTemplate: ICalendarTotals;
     private summary: ICalendarWeekSummary;
 
+    private shoMenu: boolean = false;
+
     private readonly primarySport: [string] = ['run', 'bike', 'swim'];
 
     static $inject = ['$mdDialog'];
