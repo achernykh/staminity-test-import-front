@@ -109,7 +109,7 @@ const getSummaryFromInterval = (point: string, interval, itemDate: string): Arra
         distance = interval.hasOwnProperty('distanceLength') && interval.distanceLength ||
                 interval.durationMeasure === 'distance' && interval.durationValue || null;
 
-        movingDuration = interval.hasOwnProperty('movingDuration') && interval.movingDurationLength ||
+        movingDuration = interval.hasOwnProperty('movingDurationLength') && interval.movingDurationLength ||
             interval.durationMeasure === 'movingDuration' && interval.durationValue || null;
 
     } else {
