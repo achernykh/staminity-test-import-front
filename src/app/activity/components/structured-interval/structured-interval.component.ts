@@ -85,8 +85,8 @@ class StructuredIntervalCtrl implements IComponentController {
 
     select(){
         if(this.item.mode === 'view') {
-            this.item.showIntervalOverview = true;
-            this.item.intervalOverview = this.interval;
+            //this.item.showIntervalOverview = true;
+            //this.item.intervalOverview = this.interval;
         } else {
             this.onSelect();
         }

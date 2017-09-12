@@ -493,8 +493,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         } else {
             if(this.activity.structured) {
                 let hasRecalculated: boolean = this.activity.intervals.PW.hasRecalculate;
-                this.activity.intervals.P = <Array<ActivityIntervalPW>>this.activity.intervals.P.map(i => i.reset());
-                this.activity.intervals.PW = <ActivityIntervalPW>this.activity.intervals.PW.reset();
+                this.activity.intervals.P.map(i => i.reset());
+                this.activity.intervals.PW.reset();
                 /**if(hasRecalculated) {
                     this.calculateActivityRange(false);
                 } else {

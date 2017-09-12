@@ -1,12 +1,13 @@
 <structured-group class="structured-group" flex="none" ng-if="$ctrl.sequence"
                   loop="$ctrl.sequence"
-                  hidden-pos="$ctrl.calcPrevLoops($ctrl.sequence.id)">
+                  hidden-pos="$ctrl.calcPrevLoops($ctrl.sequence)">
 </structured-group>
 
 <structured-group ng-repeat="loop in $ctrl.loops track by $index" ng-if="$ctrl.viewGroup"
                   class="structured-group" flex="none"
                   loop="loop"
-                  hidden-pos="$ctrl.calcPrevLoops(loop.id)">
+                  change="$ctrl.item.changeStructuredAssignment"
+                  hidden-pos="$ctrl.calcPrevLoops(loop)">
 </structured-group>
 
 <section class="intervals" flex="auto" layout="column" layout-fill

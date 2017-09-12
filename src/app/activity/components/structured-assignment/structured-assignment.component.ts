@@ -82,10 +82,10 @@ class StructuredAssignmentCtrl implements IComponentController {
         }));
     }
 
-    calcPrevLoops(id: number):number {
+    calcPrevLoops(currLoop: Loop):number {
         let count: number = 0;
         this.loops.forEach(l => {
-            if(id > l.id) {
+            if(currLoop.start > l.start) {
                 count += (l.repeat - 1) * l.length;
                 count = l.mode === LoopMode.Input ? --count : count; // строка ввода дает +1 позицию в списке
             }

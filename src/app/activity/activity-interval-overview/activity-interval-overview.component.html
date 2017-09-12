@@ -9,7 +9,7 @@
 </md-toolbar>
 <md-content flex="auto">
 
-    <section flex="none" class="map" ng-if="$ctrl.item.activity.details.isRouteExist"
+    <section flex="none" class="map" ng-if="$ctrl.item.activity.details.isRouteExist && false"
              ng-switch="$ctrl.item.activity.details.isRouteExist && !$ctrl.item.activity.details.isEmpty">
         <div flex="none" class="loading-map" ng-switch-when="false"
              layout="column" layout-align="center center">
@@ -20,7 +20,7 @@
                         class="map activity-route"
                         data="$ctrl.item.activity.details.route"
                         select="$ctrl.selection"
-                        zoom-enabled="false" layer-enabled="false">
+                        zoom-enabled="true" layer-enabled="false">
         </activity-route>
     </section>
 
@@ -46,14 +46,13 @@
                         <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
                     </td>
                     <td md-cell><span>{{measure | measureUnit:$ctrl.$ctrl.item.activity.sportBasic | translate}}</span></td>
-                    <td md-cell>
-                        <span ng-if="$ctrl.interval[$ctrl.structuredMeasure[measure].approx]">~</span>
-                        <span>{{$ctrl.interval[$ctrl.structuredMeasure[measure].length] | measureCalc:$ctrl.item.activity.sportBasic:measure}}</span>
+                    <td md-cell class="md-body-2 md-dark">
+                        <span>{{$ctrl.interval[measure] | measureCalcInterval:$ctrl.item.activity.sportBasic:measure}}</span>
                     </td>
-                    <td md-cell>
-                        <span>{{$ctrl.interval[measure].value | measureCalc:$ctrl.item.activity.sportBasic:measure}}</span>
+                    <td md-cell class="md-body-2 md-dark">
+                        <span>{{$ctrl.interval.calcMeasure[measure].value | measureCalc:$ctrl.item.activity.sportBasic:measure}}</span>
                     </td>
-                    <td md-cell>
+                    <td md-cell class="md-body-1 md-dark md-inactive">
                         <span>{{$ctrl.interval.completePercent.value | percent}}</span>
                     </td>
                 </tr>

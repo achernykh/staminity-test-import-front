@@ -169,19 +169,28 @@ export class ActivityIntervals {
                 debugger;
                 let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroupCode)[0];
 
-                this.P.filter(i => i.type === type && i.parentGroupCode === group.code && (i.pos - interval.pos) % group.grpLength === 0)
-                    .map(interval => {
-                        // 1. Удалеяем интервалы
-                        this.stack.splice(this.find(interval.type, interval.pos),1);
-                        // 2. реорганизуем инетрвалы, сдвигаем на -1 позицию вверх
-                        this.reorganisation(interval.pos, -1);
-                    });
+                // Если после удаления в группе остается только один сегменты, то удалем группу и оставляем только
+                // один оставшийся сегмент без повторений
+                if(group.grpLength === 2) {
+                    // 1. Сбарсываем группу, остаются только первые сегменты
+                    this.spliceGroup(group.code, group.fPos, group.grpLength, group.repeatCount);
+                    // 2. Удаляем выделенный сегмент
+                    this.splice(type, id, 'single');
+                    // 3. Меняем нумерацию
+                    //this.reorganisation(<number>id, -1);
+                } else {
 
-                // 3. меняем количество сегментов в повторе
-                group.grpLength --;
+                    this.P.filter(i => i.type === type && i.parentGroupCode === group.code && (i.pos - interval.pos) % group.grpLength === 0)
+                        .map(interval => {
+                            // 1. Удалеяем интервалы
+                            this.stack.splice(this.find(interval.type, interval.pos),1);
+                            // 2. реорганизуем инетрвалы, сдвигаем на -1 позицию вверх
+                            this.reorganisation(interval.pos, -1);
+                        });
 
-                // 3. Если остается только один сегмент в группе,
-                // то удалем группу и убираем ссылку на группу оставшихся интервалах
+                    // 3. меняем количество сегментов в повторе
+                    group.grpLength --;
+                }
 
             } else { // одиночный интервал
                 this.stack.splice(i,1);
@@ -210,7 +219,7 @@ export class ActivityIntervals {
             Object.assign(this.stack[i].params, {calcMeasures: params['calcMeasures']});
         }
         if(i !== -1 && params && params.hasOwnProperty('totalMeasures') && !this.stack[i].params.hasOwnProperty('totalMeasures')){
-            Object.assign(this.stack[i].params, {calcMeasures: params['totalMeasures']});
+            Object.assign(this.stack[i].params, {totalMeasures: params['totalMeasures']});
         }
     }
 
@@ -299,7 +308,7 @@ export class ActivityIntervals {
         this.splice('G', code);
 
         // 2. Удаляем интервалы с repeatCount > 0
-        this.P.filter(i => i.parentGroupCode === code && i.repeatPos > 0).map(i => this.splice(i.type, i.pos));
+        this.P.filter(i => i.parentGroupCode === code && i.repeatPos > 0).map(i => this.splice(i.type, i.pos, 'single'));
 
         // 3. Удаляем ссылку на группу и идентификатор повторов в первом сегменте группы
         this.P.filter(i => i.parentGroupCode === code && i.repeatPos === 0)
@@ -432,6 +441,7 @@ export class ActivityIntervals {
      */
     reorganisation(start: number, shift: number):void {
         this.P.filter(i => i.pos >= start).forEach(i => this.setParams(i.type, i.pos, { pos: i.pos + shift}));
+        this.G.filter(g => g.fPos >= start).forEach(g => this.setParams(g.type, g.code, { fPos: g.fPos + shift}));
     }
 
     /**

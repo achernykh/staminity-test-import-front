@@ -44,6 +44,13 @@
             $ctrl.interval.totalMeasures[$ctrl.interval.durationMeasure].avgValue :
             $ctrl.interval.calcMeasures[$ctrl.interval.durationMeasure].value | measureCalc:$ctrl.sport:$ctrl.interval.durationMeasure}}
     </span>
+
+    <span class="md-dark md-inactive" style="width: 40px" flex="none" ng-if="$ctrl.viewActual">
+        &nbsp;({{$ctrl.group && $ctrl.viewGroup ?
+            $ctrl.interval.totalMeasures.completePercent.completenessByDuration :
+            $ctrl.interval.calcMeasures.completePercent.completenessByDuration | percent}})
+    </span>
+
     <span flex="auto"></span>
     <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.intensityMeasure}}.svg" class="md-dark intensity"></md-icon>
     <md-menu flex="none" ng-if="$ctrl.item.mode !== 'view'">
@@ -100,6 +107,12 @@
         {{$ctrl.group && $ctrl.viewGroup ?
             $ctrl.interval.totalMeasures[$ctrl.interval.intensityMeasure].avgValue :
             $ctrl.interval.calcMeasures[$ctrl.interval.intensityMeasure].avgValue | measureCalc:$ctrl.sport:$ctrl.interval.intensityMeasure}}
+    </span>
+
+    <span class="md-dark md-inactive" style="width: 40px" flex="none" ng-if="$ctrl.viewActual">
+        &nbsp;({{$ctrl.group && $ctrl.viewGroup ?
+            $ctrl.interval.totalMeasures.completePercent.completenessByIntensity :
+            $ctrl.interval.calcMeasures.completePercent.completenessByIntensity | percent}})
     </span>
     <!--
     <md-button class="md-icon-button" ng-click="$ctrl.splice()">
