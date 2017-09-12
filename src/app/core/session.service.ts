@@ -97,6 +97,7 @@ export default class SessionService implements ISessionService {
 	}
 
 	setConnections(value:any):void {
+		debugger;
 		try {
 			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
 			if(data && data.hasOwnProperty('userProfile')){

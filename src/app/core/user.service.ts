@@ -82,7 +82,7 @@ export default class UserService {
                             Object.assign(athlete,
                                 {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
                     return connections;
-                })
+                }, error => {throw `error in getTrainingZones => ${error}`;})
                 .then(connections => this.SessionService.setConnections(connections));
         } else {
             this.SessionService.setConnections(connections);

@@ -252,7 +252,9 @@ export class SocketService implements ISocketService {
                 break;
             }
             case 'lostHeartBit': {
-                this.reopen({type: 'lostHeartBit'});
+                if(this.SessionService.getToken()) {
+                    this.reopen({type: 'lostHeartBit'});
+                }
                 break;
             }
         }
@@ -267,7 +269,7 @@ export class SocketService implements ISocketService {
      */
     send(request:IWSRequest):Promise<any> {
 
-        if (!this.connectionStatus){ // если соединение не установлено
+        if (!this.connectionStatus && this.socket.readyState !== SocketStatus.Close){ // если соединение не установлено
             return Promise.reject('internetConnectionLost');
         }
 
@@ -293,6 +295,6 @@ export class SocketService implements ISocketService {
 
             return deferred.promise;
 
-        }, () => Promise.reject('internetConnectionLost'));
+        }, () => {throw 'internetConnectionLost';});
     }
 }
