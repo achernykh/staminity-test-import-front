@@ -46,7 +46,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     prepareIntervals() {
         this.intervalTypes.forEach(type =>
             this.item.activity.intervals.stack
-                .filter(interval => interval.type === type)
+                .filter(interval => interval.type === type && interval.hasOwnProperty('calcMeasures'))
                 .forEach((interval,i) =>
                     this.intervals[interval.type+(i+1)] = {
                         type: type,

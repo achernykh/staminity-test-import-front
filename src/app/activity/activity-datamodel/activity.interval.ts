@@ -8,7 +8,7 @@ export class ActivityInterval implements IActivityInterval{
     endTimestamp: number;
     pos: number; //позиция интервала в перечне (используем для интервала P)
 
-    constructor(public type: string, private params?: any) {
+    constructor(public type: string, public params?: any) {
         Object.assign(this, params);
     }
 

@@ -573,7 +573,8 @@ class SegmentChartController implements IComponentController {
             .data(gradientPoints)
             .enter().append("stop")
             .attr("offset", function (d) { return d.offset; })
-            .attr("stop-color", function (d) { return d.color; });
+            .attr("stop-color", function (d) { return d.color; })
+            .attr("stop-opacity", function (d) { return d.opacity; }); // fix for Safari;
         return index;
     };
 }

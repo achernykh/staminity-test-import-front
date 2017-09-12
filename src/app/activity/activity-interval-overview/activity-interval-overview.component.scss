@@ -1,0 +1,127 @@
+@import "../../../sass/color";
+$details_width: 360px;
+$dialog_width: 95vw;
+$dialog_height: 95vh;
+
+activity-interval-overview {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  z-index: 200;
+  background: $grey-100;
+
+  @media (min-width: 960px) {
+    max-width: $details_width;
+    min-width: $details_width;
+  }
+
+  md-toolbar {
+    &.complete {
+      // Задание выполнено без отклонений
+      color: white;
+      @extend .bg-teal-800;
+      .bg-circle-32 {
+        @extend .bg-teal-900;
+      }
+      // Задание выполнено с отклонениями
+      &-warn {
+        color: white;
+        @extend .bg-orange-800;
+        .bg-circle-32 {
+          @extend .bg-orange-900;
+        }
+      }
+      // Задание выполнено с существенными отклонениями
+      &-error {
+        color: white;
+        @extend .bg-red-800;
+        .bg-circle-32 {
+          @extend .bg-red-800;
+        }
+      }
+    }
+    // задание пропущено
+    &.dismiss {
+      @extend .bg-red-800;
+      color: white;
+      .bg-circle-32 {
+        @extend .bg-red-900;
+      }
+    }
+    // без плана
+    &.not-specified {
+      @extend .bg-blue-grey-800;
+      color: white;
+      .bg-circle-32 {
+        @extend .bg-blue-grey-900;
+      }
+    }
+    // плановое задание
+    &.coming, &.template{
+      @extend .bg-grey-600;
+      color: white;
+      .bg-circle-32 {
+        @extend .bg-grey-700;
+      }
+    }
+
+  }
+
+  transition: all 0.5s ease-in-out 0s;
+
+  &.ng-enter {
+    left: $details_width;
+    max-width: 0;
+    min-width: 0;
+  }
+  &.ng-enter.ng-enter-active {
+    left: 0;
+  }
+  &.ng-leave {
+    left: 0;
+  }
+  &.ng-leave.ng-leave-active {
+    left: $details_width;
+    max-width: 0;
+    min-width: 0;
+  }
+
+  overflow-x: hidden;
+
+  table.md-table:not(.md-row-select) td.md-cell:first-child,
+  table.md-table:not(.md-row-select) th.md-column:first-child {
+    padding-left: 0px !important;
+  }
+
+  table.md-table td.md-cell {
+    font-size: inherit;
+  }
+
+  table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2),
+  table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+    padding-right: 12px;
+  }
+
+  table.md-table tbody.md-body > tr.md-row, table.md-table tfoot.md-foot > tr.md-row {
+    height: 32px;
+  }
+
+  table.md-table thead.md-head > tr.md-row {
+    height: 32px;
+  }
+
+  table.md-table th.md-column {
+    font-weight: normal;
+  }
+
+  .md-subheader {
+    font-size: 12px;
+  }
+
+  .md-subheader .md-subheader-inner {
+    color: #455A64;
+  }
+
+
+}

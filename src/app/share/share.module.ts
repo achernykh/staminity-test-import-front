@@ -191,7 +191,7 @@ const Share = module('staminity.share', [])
     }])
     .filter('percent', ['$filter',($filter)=> {
         return (value, decimal = 0) => {
-            if (value) {
+            if (value >= 0) {
                 return $filter('number')(value*100,decimal)+'%';
             }
         };

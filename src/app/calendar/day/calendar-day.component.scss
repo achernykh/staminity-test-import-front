@@ -35,7 +35,7 @@ calendar-day {
   }
 
   &:hover{
-    @extend .bg-grey-300;
+    background-color: rgba($grey-300, 0.3);
     @media (min-width: 960px) {
       section.actions {visibility: visible;}
     }
@@ -131,8 +131,8 @@ calendar-day {
 
     // md size
     @media (min-width: 960px) and (max-width: 1279px){
-      @include border-radius(0px);
-      box-shadow: none;
+      border-radius: 0px !important;
+      box-shadow: none !important;
 
       .data-category {
         margin-top: 8px;
@@ -157,7 +157,6 @@ calendar-day {
 
     header {
       padding: 12px;
-      background-color: $grey-400;
       border-radius: 3px 3px 0px 0px;
       @media (max-width: 1279px){
         border-radius: 0px;

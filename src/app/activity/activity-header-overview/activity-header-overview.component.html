@@ -1,43 +1,47 @@
-<form flex="auto" layout="column" name="$ctrl.assignmentForm">
+<form flex="auto" layout="column" name="$ctrl.item.assignmentForm">
 <activity-assignment ng-if="!$ctrl.item.showTemplate"
                      flex="auto" layout="column" class="activity-assignment"
                      plan="$ctrl.item.activity.intervalPW"
                      actual="$ctrl.item.activity.intervalW.calcMeasures"
                      sport="$ctrl.item.activity.sportBasic"
-                     form="$ctrl.assignmentForm"
+                     form="$ctrl.item.assignmentForm"
                      editable="$ctrl.item.mode !== 'view'"
                      ftp-mode="$ctrl.item.ftpMode"
                      change="$ctrl.item.templateChangeCount"
                      on-change="$ctrl.onChangeForm(plan,actual,form)">
 </activity-assignment>
 
+<activity-assignment-buttons></activity-assignment-buttons>
 
-
-<md-dialog-actions flex="none" layout="row" style="background: white">
+<!--<md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>
     <md-button ng-if="$ctrl.item.mode === 'view' && $ctrl.item.template" 
-              ng-click="$ctrl.item.onCancel()">Закрыть
+               ng-click="$ctrl.item.onCancel()"
+               translate="activity.close">
     </md-button>
     <md-button ng-if="$ctrl.item.mode === 'view' && $ctrl.item.template" type="submit"
-               ng-disabled="!$ctrl.assignmentForm.$dirty || !$ctrl.assignmentForm.$valid"
-               ng-click="$ctrl.item.onSaveTemplate()">Сохранить
+               ng-disabled="!$ctrl.item.assignmentForm.$dirty || !$ctrl.item.assignmentForm.$valid"
+               ng-click="$ctrl.item.onSaveTemplate()"
+               translate="activity.save">
     </md-button>
     <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template && $ctrl.item.activity.specified"
-               ng-click="$ctrl.item.toTemplate()">В шаблон
+               ng-click="$ctrl.item.toTemplate()"
+               translate="activity.toTemplate">
     </md-button>
     <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"
-               ng-click="$ctrl.item.changeMode('put')">Изменить
+               ng-click="$ctrl.item.changeMode('put')"
+               translate="activity.edit">
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'"
-               ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )">Отменить
+               ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )"
+               translate="activity.reset">
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'" type="submit"
-               ng-disabled="!$ctrl.assignmentForm.$valid || $ctrl.item.inAction"
-               ng-class="{'md-warn': !$ctrl.assignmentForm.$valid}"
-               ng-click="$ctrl.onSave()">
-        Сохранить
+               ng-disabled="!$ctrl.item.assignmentForm.$valid || $ctrl.item.inAction"
+               ng-class="{'md-warn': !$ctrl.item.assignmentForm.$valid}"
+               ng-click="$ctrl.onSave()" translate="activity.save">
     </md-button>
-</md-dialog-actions>
+</md-dialog-actions>-->
 </form>
 
 
