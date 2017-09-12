@@ -1,5 +1,5 @@
 @import "../../../sass/color";
-$details_width: 380px;
+$details_width: 360px;
 $dialog_width: 95vw;
 $dialog_height: 95vh;
 
@@ -7,10 +7,8 @@ activity-interval-overview {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 100%;
   height: 100%;
   z-index: 200;
-  min-width: 100%;
   background: $grey-100;
 
   @media (min-width: 960px) {
@@ -70,20 +68,23 @@ activity-interval-overview {
 
   }
 
-
-  transition: all 0.8s ease-in-out;
+  transition: all 0.5s ease-in-out 0s;
 
   &.ng-enter {
-    left: 9000px;
+    left: $details_width;
+    max-width: 0;
+    min-width: 0;
   }
   &.ng-enter.ng-enter-active {
-    left: 0px;
+    left: 0;
   }
   &.ng-leave {
-    left: 0px;
+    left: 0;
   }
   &.ng-leave.ng-leave-active {
-    left: 9000px;
+    left: $details_width;
+    max-width: 0;
+    min-width: 0;
   }
 
 }

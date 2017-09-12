@@ -4,6 +4,77 @@
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">arrow_back</md-icon>
         </md-button>
-        <h2 translate="{{::$ctrl.item.template ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
+        <h2 translate="{{::$ctrl.title}}"></h2>
     </div>
 </md-toolbar>
+<md-content flex="auto">
+
+    <section flex="none" class="map" ng-if="$ctrl.item.activity.details.isRouteExist"
+             ng-switch="$ctrl.item.activity.details.isRouteExist && !$ctrl.item.activity.details.isEmpty">
+        <div flex="none" class="loading-map" ng-switch-when="false"
+             layout="column" layout-align="center center">
+            <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+            <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
+        </div>
+        <activity-route flex="none" ng-switch-when="true"
+                        class="map activity-route"
+                        data="$ctrl.item.activity.details.route"
+                        select="$ctrl.selection"
+                        zoom-enabled="false" layer-enabled="false">
+        </activity-route>
+    </section>
+
+    <md-table-container>
+        <md-subheader translate="activity.assignment.title"></md-subheader>
+        <md-list-item>
+            <table md-table
+                   md-row-select="$ctrl.options.rowSelection"
+                   multiple="{{$ctrl.options.multiSelect}}"
+                   ng-model="$ctrl.selected">
+                <thead ng-if="!$ctrl.options.decapitate" md-head>
+                <tr md-row>
+                    <th md-column><span></span></th>
+                    <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
+                    <th md-column md-numeric style="min-width: 80px"><span>План</span></th>
+                    <th md-column md-numeric style="min-width: 55px"><span>Факт</span></th>
+                    <th md-column md-numeric style="min-width: 55px"><span>Вып</span></th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row ng-repeat="measure in [$ctrl.interval.durationMeasure,$ctrl.interval.intensityMeasure] track by $index">
+                    <td md-cell>
+                        <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
+                    </td>
+                    <td md-cell><span>{{measure | measureUnit:$ctrl.$ctrl.item.activity.sportBasic | translate}}</span></td>
+                    <td md-cell>
+                        <span ng-if="$ctrl.interval[$ctrl.structuredMeasure[measure].approx]">~</span>
+                        <span>{{$ctrl.interval[$ctrl.structuredMeasure[measure].length] | measureCalc:$ctrl.item.activity.sportBasic:measure}}</span>
+                    </td>
+                    <td md-cell>
+                        <span>{{$ctrl.interval[measure].value | measureCalc:$ctrl.item.activity.sportBasic:measure}}</span>
+                    </td>
+                    <td md-cell>
+                        <span>{{$ctrl.interval.completePercent.value | percent}}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-list-item>
+    </md-table-container>
+
+
+    <measures-avg-table flex="none" class="measures-avg-table" ng-cloak
+                        calc-measures="$ctrl.interval.totalMeasures || $ctrl.interval.calcMeasures"
+                        sport="$ctrl.item.activity.sportBasic"
+                        changes="$ctrl.changes"></measures-avg-table>
+
+    <measure-main-button flex="none" class="measure-main-button" ng-cloak
+                         calc-measures="$ctrl.interval.totalMeasures || $ctrl.interval.calcMeasures"
+                         sport="$ctrl.item.activity.sportBasic"
+                         changes="$ctrl.changes"></measure-main-button>
+
+    <activity-peaks flex="auto" class="activity-peaks" ng-cloak
+                    calc-measures="$ctrl.interval.totalMeasures || $ctrl.interval.calcMeasures"
+                    sport="$ctrl.item.activity.sportBasic"
+                    changes="$ctrl.changes"></activity-peaks>
+</md-content>

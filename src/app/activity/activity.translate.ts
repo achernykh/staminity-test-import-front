@@ -47,6 +47,12 @@ export const translateActivity = {
           favorite: 'Избранный',
           namePlaceholder: 'Укажите название шаблона'
       },
+      split: {
+          segment: 'Сегмент',
+          segmentGroup: 'Серия сегментов x{{count}}',
+          interval: 'Отрезок'
+
+      },
       error: {
           required: 'Заполните обязательные поля',
           needDuration: 'Укажите время или расстояние',
