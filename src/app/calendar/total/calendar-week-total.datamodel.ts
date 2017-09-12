@@ -88,9 +88,9 @@ const getSummaryFromInterval = (point: string, interval, itemDate: string): Arra
     let completePercent: number = 0;
     let completedOnToday: number = 0;
     let completePercentOnToday: number = 0;
-    let coming:boolean = toDay(new Date(itemDate)).getTime() > toDay(new Date()).getTime();
+    let coming:boolean = toDay(new Date(itemDate)).getTime() > toDay(new Date().setDate(new Date().getDate() - 1)).getTime();
 
-    console.log(itemDate, toDay(new Date(itemDate)).getTime(), toDay(new Date()).getTime());
+    //console.log(itemDate, toDay(new Date(itemDate)).getTime(), toDay(new Date()).getTime());
 
     if (point === 'plan') {
         specified ++;

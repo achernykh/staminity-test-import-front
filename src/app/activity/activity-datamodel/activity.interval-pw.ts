@@ -126,7 +126,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
 
             update.durationMeasure = i.durationMeasure;
             update.intensityMeasure = i.intensityMeasure;
-            update.durationValue += i.durationValue || 0;
+            //update.durationValue += i.durationValue || 0;
             update.movingDurationLength += i.movingDurationLength || 0;
             update.distanceLength += i.distanceLength || 0;
             update.intensityLevelFrom = Math.min(update.intensityLevelFrom || i.intensityLevelFrom, i.intensityLevelFrom); //(update.intensityLevelFrom >= i.intensityLevelFrom || update.intensityLevelFrom === null) ? i.intensityLevelFrom: update.intensityLevelFrom;
@@ -138,6 +138,12 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
 
         update.movingDurationApprox = intervals.some(i => i.movingDurationApprox);
         update.distanceApprox = intervals.some(i => i.distanceApprox);
+
+        update.durationMeasure = (!update.movingDurationApprox
+            || (update.movingDurationApprox && update.distanceApprox)) && 'movingDuration' || 'distance';
+
+        update.durationValue = update.durationMeasure === 'movingDuration' &&
+            update.movingDurationLength || update.distanceLength;
 
         // Округляем дистанцию в м до 100м/1км, по времени до 1/5 минут
         if(update.movingDurationApprox){

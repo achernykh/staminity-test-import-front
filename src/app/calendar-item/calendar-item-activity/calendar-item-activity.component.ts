@@ -491,10 +491,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(mode === 'post') {
             this.onCancel();
         } else {
-            if(this.activity.structured) {
-                let hasRecalculated: boolean = this.activity.intervals.PW.hasRecalculate;
-                this.activity.intervals.P.map(i => i.reset());
-                this.activity.intervals.PW.reset();
+            if(this.activity.structured && this.activity.activityHeader.intervals.some(i => i.type === 'P')) {
+                this.onCancel();
+                //let hasRecalculated: boolean = this.activity.intervals.PW.hasRecalculate;
+                //this.activity.intervals.P.map(i => i.reset());
+                //this.activity.intervals.PW.reset();
                 /**if(hasRecalculated) {
                     this.calculateActivityRange(false);
                 } else {
@@ -502,11 +503,25 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     this.resetStructuredAssignment ++;
                 }**/
 
-                this.activity.updateIntervals();
-                this.resetStructuredAssignment ++;
+                //this.activity.updateIntervals();
+                //this.resetStructuredAssignment ++;
 
             } else {
+                let tempDetails: ActivityDetails = this.activity.details || null;
+                let tempIntervalDetails: Array<ActivityIntervalL> = this.activity.intervalL || null;
                 this.activity.prepare();
+
+                if(tempDetails) {
+                    this.activity.details = tempDetails;
+                }
+
+                if(tempIntervalDetails) {
+                    this.activity.intervals.add(tempIntervalDetails);
+                }
+
+                this.activity.updateIntervals();
+
+                this.structuredMode = this.activity.structured;
             }
         }
     }
