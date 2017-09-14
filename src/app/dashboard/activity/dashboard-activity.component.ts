@@ -14,6 +14,8 @@ class DashboardActivityCtrl implements IComponentController {
     private athlete: IUserProfile;
     private dashboard: DashboardCtrl;
 
+    private segmentChart: Array<any> = [];
+
     private isOwner: boolean = false;
     private isCreator: boolean = false;
     private bottomPanelData: any = null;
@@ -35,6 +37,8 @@ class DashboardActivityCtrl implements IComponentController {
         if (this.activity.bottomPanel === 'data') {
             this.bottomPanelData = this.activity.summaryAvg;
         }
+
+        this.segmentChart = this.activity.formChart();
 
     }
 

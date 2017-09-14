@@ -40,7 +40,7 @@ class MeasuresAvgTableCtrl implements IComponentController {
     $onInit() {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
-        this.$scope.measure = ['heartRate', 'speed', 'power','cadence', 'elevationGain'];
+        this.$scope.measure = ['heartRate', 'speed', 'power','cadence']; // elevationGain
         this.$scope.search = (m) => this.$scope.measure.indexOf(m.$key) !== -1;
     }
 }

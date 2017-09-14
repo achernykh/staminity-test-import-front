@@ -36,8 +36,8 @@ export default class RequestsService {
         private SocketService:ISocketService,
         private SessionService:ISessionService
     ) {
-        this.resetRequests();
-        this.SocketService.connections.subscribe(this.resetRequests);
+        //this.resetRequests();
+        this.SocketService.connections.subscribe(status => status && this.resetRequests());
 
         this.SocketService.messages
         .filter((message) => message.type === 'groupMembershipRequest')

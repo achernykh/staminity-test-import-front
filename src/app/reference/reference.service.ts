@@ -50,8 +50,8 @@ export default class ReferenceService {
 		private SocketService: ISocketService, 
 		private SessionService: ISessionService
 	) {
-		this.resetCategories();
-		this.SocketService.connections.subscribe(this.resetCategories);
+		//this.resetCategories();
+		this.SocketService.connections.subscribe(status => status && this.resetCategories());
 		this.SocketService.messages
 			.filter(message => message.type === 'activityCategory')
 			.subscribe((message) => {
@@ -62,8 +62,8 @@ export default class ReferenceService {
 				}
 			});
 
-		this.resetTemplates();
-		this.SocketService.connections.subscribe(this.resetTemplates);
+		//this.resetTemplates();
+		this.SocketService.connections.subscribe(status => status && this.resetTemplates());
 		this.SocketService.messages
 			.filter(message => message.type === 'activityTemplate')
 			.subscribe((message) => {

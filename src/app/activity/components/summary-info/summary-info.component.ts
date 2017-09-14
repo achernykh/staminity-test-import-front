@@ -51,29 +51,40 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         }
 
         switch (this.item.activity.status) {
-            case 'coming': case 'dismiss': {
+            case 'coming': case 'dismiss': { // показываем плановые значения
 
-                this.durationInfo = this.$filter('measureCalc')(durationValue, sportBasic, durationMeasure)+' '+
-                    this.$filter('translate')(this.$filter('measureUnit')(durationMeasure, sportBasic));
+                if(this.item.activity.structured) { // для структурированных тренировок
+                    this.durationInfo =
+                        `${this.item.activity.movingDurationApprox ? '~' : ''}` +
+                        `${this.$filter('measureCalc')(this.item.activity.movingDuration, sportBasic, 'movingDuration')}` +
+                        ' ' + `${this.item.activity.distanceApprox ? '~' : ''}` +
+                        `${this.$filter('measureCalc')(this.item.activity.distance, sportBasic, 'distance')}` +
+                        '\xA0' + `${this.$filter('translate')(this.$filter('measureUnit')('distance', sportBasic))}`;
 
-                if (intensityMeasure) {
-                    if (intensityValue['to'] === intensityValue['from']) {// если значение
-                        this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)) || '';
-                    } else { // если интервал
-                        if (measure.isPace()) {
-                            this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('to') && this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '') +
-                                '-' + (this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '');
-                        } else {
-                            this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '') +
-                                '-' + (this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '');
+                    this.intensityInfo = null;
+                } else {
+                    this.durationInfo = this.$filter('measureCalc')(durationValue, sportBasic, durationMeasure)+' '+
+                        this.$filter('translate')(this.$filter('measureUnit')(durationMeasure, sportBasic));
+
+                    if (intensityMeasure) {
+                        if (intensityValue['to'] === intensityValue['from']) {// если значение
+                            this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure)) || '';
+                        } else { // если интервал
+                            if (measure.isPace()) {
+                                this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('to') && this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '') +
+                                    '-' + (this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '');
+                            } else {
+                                this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty('from') && this.$filter('measureCalc')(intensityValue['from'], sportBasic, intensityMeasure) || '') +
+                                    '-' + (this.$filter('measureCalc')(intensityValue['to'], sportBasic, intensityMeasure) || '');
+                            }
                         }
+                        this.intensityInfo += ' ' + this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic));
                     }
-                    this.intensityInfo += ' ' + this.$filter('translate')(this.$filter('measureUnit')(intensityMeasure, sportBasic));
                 }
 
                 break;
             }
-            default: {
+            default: { // показываем фактические значения
                 this.durationInfo += (movingDuration
                     && this.$filter('measureCalc')(movingDuration, sportBasic, 'movingDuration') + ' ') || '';
 

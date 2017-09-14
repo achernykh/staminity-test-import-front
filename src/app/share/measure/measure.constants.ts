@@ -426,6 +426,8 @@ export const measureValue = (input: number, sport: string, measure: string, char
         else {
             return Number(input).toFixed(fixed);
         }
+    } else {
+        return input;
     }
 };
 
