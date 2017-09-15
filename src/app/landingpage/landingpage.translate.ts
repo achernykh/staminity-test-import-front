@@ -2,10 +2,10 @@ export let _translate = {
 	ru: {
 		// Стартовая страница
 
-		fullTitle: 'Стаминити',
-		shortTitle: 'Стаминити',
-		description: 'Приложение для удаленной работы тренеров и клубов с учениками в циклических видах спорта',
-		keywords: 'Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером',
+		fullTitle: 'Сервис для работы с тренером и календарь тренировок Staminity | Стаминити',
+		shortTitle: 'Сервис для работы с тренером и календарь тренировок Staminity | Стаминити',
+		description: 'Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов',
+		keywords: 'программа для работы с тренером, приложение для работы с тренером, приложение для тренера, программа для тренера, работа с тренером, занятия с тренером, бег, триатлон, плавание, календарь тренировок, тренировочный календарь, работа с учениками, Стаминити, Staminity, дистанционная работа с тренером',
 		nav: {
 			link1: 'Возможности',
 			link2: 'Блог',
@@ -17,7 +17,7 @@ export let _translate = {
 		},
 		welcome: {
 			promo: 'β-версия',
-			description: 'Удаленная работа с тренером и социальная сеть для спортсменов',
+			description: 'Приложение для работы с тренером и календарь тренировок',
 			title1: 'ПЛАН ТВОИХ ПОБЕД',
 			title2: 'ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ',
 			button: 'Старт',
@@ -274,10 +274,10 @@ export let _translate = {
 	en: {
 		// Landing page
 
-		fullTitle: 'Staminity',
-		shortTitle: 'Staminity',
-		description: 'Application for remote interaction between coaches and athletes in cyclic kinds of sport',
-		keywords: 'Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером',
+		fullTitle: 'Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity',
+		shortTitle: 'Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity',
+		description: 'Application for online training in running, cycling, swimming and triathlon. Training plans, workout log, online training for athletes, coaches and clubs',
+		keywords: 'wokout log, online training running, online training cycling, online training swimming, online training triathlon, online training sport, training plan, training plans, online training program, online training application, application for coaches, application for coach, work with coach, train with coach, run, triathlon, cycling, swimming, workout diary, activity log, activity diary, work with athletes, Staminity, work with coach online',
 		nav: {
 			link1: 'Features',
 			link2: 'Blog (rus)',
@@ -288,7 +288,7 @@ export let _translate = {
 		},
 		welcome: {
 			promo: 'β-version',
-			description: 'Train smart with coach, achieve your goals, connect with friends',
+			description: 'Workout log and online training application',
 			title1: 'ПЛАН ТВОИХ ПОБЕД',
 			title2: 'ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ',
 			button: 'Start',
@@ -344,13 +344,13 @@ export let _translate = {
 		features: {
 			athletes: {
 				title: 'For athletes',
-				subtitle: 'We help to train with coach and achieve your goals',
+				subtitle: 'Help to train online with coach and achieve your goals',
 				title1: 'Plan',
-				text1: 'Get plan from coach or create by yourself. You will be notified about new planned workout and your coach – about your performance',
+				text1: 'Get training plans from your coach or create them by yourself. You will be notified about new planned workout and your coach will be notified about your performance',
 				title2: 'Train',
-				text2: 'Complete workouts and analyze them. Your activity records will be automatically uploaded to Staminity and matched with plan',
+				text2: 'Complete workouts and analyze them. Your activity records will be automatically uploaded to Staminity and will be matched with plan',
 				title3: 'Communicate',
-				text3: 'Communicate with coach, discuss workouts details, write short workout review. Comments from your friends and subsrcibers coming soon',
+				text3: 'Chat with coach, discuss workouts details, write short workout review. Comments from your friends and subsrcibers are coming soon',
 				carousel1: {
 					title: 'Workout calendar',
 					description: 'Workout calendar shows training plan and completed workouts, events, measurements and races. <br/>' +
@@ -458,7 +458,7 @@ export let _translate = {
 				link4: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Blog (RUS)</a>',
 			},
 			block4 : {
-				title: 'О нас',
+				title: 'About us',
 				link1: '<a flex href="#" class="md-body md-light disable">Our team</a>',
 				link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">E-mail us</a>',
 			},
