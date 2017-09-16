@@ -1,0 +1,72 @@
+<md-dialog>
+	<md-dialog-content>
+		<form name="$ctrl.form" ng-submit="$ctrl.submit[$ctrl.mode]()">
+			<md-list>
+				<md-list-item layout="row" layout-align="center center">
+					<h3 class="category-dialog__title">{{ 'reference.categories.singular' | translate }}</h3>
+					<span flex></span>
+					<md-button class="md-icon-button" ng-click="$ctrl.close()">
+						<md-icon class="material-icons">close</md-icon>
+					</md-button>
+				</md-list-item>
+				<md-list-item>
+					<md-input-container md-no-float class="category-dialog__input">
+						<input 
+							placeholder="{{ 'reference.categories.name' | translate }}" 
+							ng-model="$ctrl.categoryCode"
+							ng-disabled="$ctrl.mode === 'view'"
+							required
+						/>
+					</md-input-container>
+				</md-list-item>
+				<md-list-item>
+					<md-input-container class="category-dialog__input">
+						<label>{{ 'reference.categories.description' | translate }}</label>
+						<textarea 
+							ng-model="$ctrl.category.description"
+							ng-disabled="$ctrl.mode === 'view'"
+							required
+						></textarea>
+					</md-input-container>
+				</md-list-item>
+				<md-list-item>
+					<md-input-container md-no-float class="category-dialog__input">
+						<label>{{ 'reference.sport' | translate }}</label>
+						<md-select 
+							required multiple 
+							ng-model="$ctrl.activityTypeSelection"
+							ng-disabled="$ctrl.mode !== 'create'"
+							flex md-no-asterisk 
+							name="activity-type" 
+							class="category-dialog__select-activity-type"
+						>
+							<md-option 
+								ng-repeat="activityType in $ctrl.activityTypes"
+								ng-value="activityType"
+							>
+								{{ 'sport.' + activityType.code | translate }}
+							</md-option>
+						</md-select>
+					</md-input-container>
+				</md-list-item>
+				<md-list-item ng-if="$ctrl.mode !== 'view'">
+					<md-button 
+						ng-if="$ctrl.mode === 'edit'"
+						ng-click="$ctrl.delete()"
+						class="md-primary"
+					>
+						{{ 'form.delete' | translate }}
+					</md-button>
+					<div flex></div>
+					<md-button 
+						ng-disabled="!$ctrl.form.$valid"
+						class="md-primary"
+						type="submit"
+					>
+						{{ 'form.save' | translate }}
+					</md-button>
+				</md-list-item>
+			</md-list>
+		</form>
+	</md-dialog-content>
+</md-dialog>

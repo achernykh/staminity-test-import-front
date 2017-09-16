@@ -2,6 +2,7 @@ export const _application_menu = {
     ru: {
         calendar: 'Календарь',
         search: 'Поиск',
+        reference: 'Шаблоны и категории',
         feeds: 'Лента',
         reports: 'Аналитика и отчеты',
         plan: 'Тренировочные планы',
@@ -13,6 +14,7 @@ export const _application_menu = {
     en: {
         calendar: 'Calendar',
         search: 'Search',
+        reference: 'Templates & Categories',
         feeds: 'Activity feed',
         reports: 'Analytics and reports',
         plan: 'Training plans',

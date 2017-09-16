@@ -15,6 +15,15 @@ function configure($stateProvider:StateProvider,
 				view: () => new DisplayView('landingPage')
 			},
 			views: DefaultTemplate('landingPage')
+		})
+		.state('tariffs', <StateDeclaration>{
+			url: '/tariffs',
+			loginRequired: false,
+			authRequired: null,
+			resolve: {
+				view: () => new DisplayView('landingTariffs')
+			},
+			views: DefaultTemplate('landingTariffs')
 		});
 
 	// Текст представлений

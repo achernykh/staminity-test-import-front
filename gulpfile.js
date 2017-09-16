@@ -297,28 +297,26 @@ gulp.task('set-env-new', function() {
         .pipe(gulp.dest('src/app/core/'))
 });
 
-gulp.task('set-sw', () => {
+gulp.task('set-sw', (next) => {
     'use strict';
-    let trg = gutil.env['trg'];
-    let files = [trg+'/index.html',trg+'/manifest.json',trg+'/assets/css/**',trg+'/assets/js/**'];
-    let cache = [];
+    let trg = gutil.env['trg'] === 'build' ? 'src' : gutil.env['trg'];
+    let files = [trg+'/index.html',trg+'/manifest.json',trg+'/assets/css/**',trg+'/assets/js/**',
+        trg+'/assets/locale/**',trg+'/assets/icon/**',trg+'/assets/picture/**',trg+'/assets/images/**'];
 
-    const cacheFile = (src) => {
-        return src.map((file,cb) => {
-                if (file.path.includes('.')){
-                    gutil.log('cache file:',file.path);
-                    cache.push(path.relative(path.join(file.cwd, file.base), file.path));
-                    gutil.log('cache=[]',cache);
-                }
-            });
-    }
+    gulp.src(files,{base: trg + '/', buffer: false})
+        .pipe(gutil.buffer((err, files) => {
+            let cache = files
+                .filter((file) => file.path.includes('.'))
+                .map((file) => path.relative(path.join(file.cwd, file.base), file.path));
 
-    gulp.src(files,{base: trg+'/', buffer: false}).pipe(cacheFile(es));
+            gutil.log('cache', cache);
 
-    return gulp.src('config/sw.tmpl.js')
-        .pipe(template({cache: cache, version: `${version}#${build}`}))
-        .pipe(rename({basename: 'sw'}))
-        .pipe(gulp.dest(`./${trg === 'build' ? 'src' : trg}`));
+            gulp.src('config/sw.tmpl.js')
+                .pipe(template({cache: cache, version: `${version}#${build}`}))
+                .pipe(rename({basename: 'sw'}))
+                .pipe(gulp.dest(`./${trg}`))
+                .on('end', next);
+        }));
 });
 
 gulp.task('ftp', () => {
@@ -328,7 +326,7 @@ gulp.task('ftp', () => {
     let conn = ftp.create(pass[trg]);
     let files = {
         core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html'],
-        assets: [trg+'/assets/icon/**',trg+'/assets/images/**',trg+'/assets/locale/**',trg+'/assets/picture/**']
+        assets: [trg+'/assets/**']
     };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);

@@ -9,7 +9,6 @@ measure-split-table {
     overflow-y: auto;
     overflow-x: auto;
   }
-
   table.md-table:not(.md-row-select) td.md-cell:first-child,
   table.md-table:not(.md-row-select) th.md-column:first-child {
     padding-left: 0px !important;
@@ -46,6 +45,7 @@ measure-split-table {
   table.md-table th.md-column {
     font-weight: normal;
   }
+
 
   .md-subheader {
     font-size: 12px;

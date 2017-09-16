@@ -1,0 +1,105 @@
+@import "../../../../sass/color";
+
+structured-interval {
+
+  position: relative;
+
+  div.segment-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: $grey-300;
+    cursor: pointer;
+
+    .key {
+      background-color: $grey-500;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+  }
+
+  .segment-number {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    background: $grey-200;
+    transition: all 0.3s;
+
+    &:focus {
+      outline:none;
+    }
+
+  }
+
+  .key .segment-number {
+    background: $grey-400 !important;
+    color: white !important;
+  }
+
+  .selected .segment-number {
+    background: $deep-orange-300 !important;
+    color: white !important;
+  }
+
+
+  div.interval-data, div.interval-comment {
+    padding: 2px 16px 2px 16px;
+    transition: all 0.3s;
+  }
+
+  md-input-container{
+    margin: 0px;
+    padding: 2px 0px 0px 0px;
+
+    input {
+      text-align: right;
+      //border-color: rgba(0,0,0,0.0);
+    }
+
+    div.md-errors-spacer {
+      min-height: 0px;
+    }
+  }
+
+  md-menu button {
+    margin: 0px !important;
+    padding: 0px !important;
+    width: 32px !important;
+  }
+
+  md-menu button md-icon {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  md-input-container.duration {
+    width: 55px;
+    min-width: 55px;
+    margin-right: 8px;
+  }
+
+  md-input-container.intensity {
+    width: 80px;
+    min-width: 80px
+  }
+
+  md-icon.duration, md-icon.intensity {
+    margin: 0px;
+  }
+
+  md-icon.duration {
+    margin-left: 8px;
+  }
+
+  md-divider {
+    margin-left: 16px;
+  }
+
+}

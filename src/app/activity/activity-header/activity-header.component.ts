@@ -12,6 +12,8 @@ export class ActivityHeaderCtrl implements IComponentController {
     public mode: string;
     public activity: Activity;
 
+    private comments: number = null;
+
     static $inject = ['$mdMedia','CommentService'];
 
     constructor(private $mdMedia: any, private comment: CommentService) {
@@ -27,6 +29,14 @@ export class ActivityHeaderCtrl implements IComponentController {
 
     closeChat():void {
         this.comment.openChat$.next(null);
+    }
+
+    updateComments(response):void {
+        this.comments = response && response.hasOwnProperty('count') && response.count || null;
+    }
+
+    toggleStrucuredMode() {
+        this.item.structuredMode = !this.item.structuredMode;
     }
 }
 

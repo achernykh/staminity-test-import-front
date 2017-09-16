@@ -2,6 +2,9 @@ import {IUserProfile} from '../../../api/user/user.interface';
 import { IWindowService } from 'angular';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {ISocketService} from "./socket.service";
+import {MessageGroupMembership, ProtocolGroupUpdate} from "../../../api/group/group.interface";
+import {Subject} from "rxjs/Rx";
 
 export interface IAuthToken {
 	userProfile: IUserProfile;
@@ -9,11 +12,14 @@ export interface IAuthToken {
 
 export interface ISessionService {
 	profile: any;
+	permissions: BehaviorSubject<Object>;
 	getAuth():any;
 	getToken():string;
 	getUser():IUserProfile;
 	setUser(value:IUserProfile):void;
+	setConnections(value:any):void;
 	getPermissions():Array<Object>;
+	setPermissions(value: Object):void;
 	getDisplaySettings():Object;
 	setDisplaySettings(value:Object):void;
 	setToken(value:Object):void;
@@ -31,13 +37,13 @@ export default class SessionService implements ISessionService {
 	private _profile: BehaviorSubject<IUserProfile>;
 	private _user: IUserProfile;
 	public profile: any;
+	public permissions: BehaviorSubject<Object>;
 
 
 	static $inject = ['$window'];
 
 	constructor(private $window:IWindowService) {
 		this.memoryStore = {};
-		this.$window = $window;
 		try {
 			this._user = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
 		} catch (e) {
@@ -45,6 +51,8 @@ export default class SessionService implements ISessionService {
 		}
 		this._profile = new BehaviorSubject(this.getUser());
 		this.profile = this._profile.asObservable();
+		this.permissions = new BehaviorSubject(this.getPermissions());
+
 	}
 
 	getAuth():Object {
@@ -65,6 +73,9 @@ export default class SessionService implements ISessionService {
 
 	getUser():IUserProfile {
 		try {
+			if (!this._user) {
+				this._user = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.userKey];
+			}
 			return this._user;
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
@@ -75,9 +86,24 @@ export default class SessionService implements ISessionService {
 		try {
 			this._user = value;
 			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
-			Object.assign(data, {'userProfile': value});
-			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
-			this._profile.next(value);
+			if(data){
+				Object.assign(data, {'userProfile': value});
+				this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
+				this._profile.next(value);
+			}
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+
+	setConnections(value:any):void {
+		try {
+			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
+			if(data && data.hasOwnProperty('userProfile')){
+				data.userProfile['connections'] = value;
+				this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
+				this._profile.next(this._user = data.userProfile);
+			}
 		} catch (e) {
 			throw new Error(e);
 		}
@@ -88,6 +114,19 @@ export default class SessionService implements ISessionService {
 			return JSON.parse(this.$window[this.storageType].getItem(this.tokenKey))[this.permissionsKey];
 		} catch (e) {
 			return this.memoryStore[this.tokenKey];
+		}
+	}
+
+	setPermissions(value:Object):void{
+		try {
+			let data = JSON.parse(this.$window[this.storageType].getItem(this.tokenKey));
+			if(data){
+				Object.assign(data, {'systemFunctions': value});
+				this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(data));
+				this.permissions.next(value);
+			}
+		} catch (e) {
+			throw new Error(e);
 		}
 	}
 
@@ -110,12 +149,9 @@ export default class SessionService implements ISessionService {
 	}
 
 	setToken(value:Object):void {
-		debugger;
 		try {
 			this.$window[this.storageType].setItem(this.tokenKey, JSON.stringify(value));
-			let userProfile = value['userProfile'];
-			this._user = userProfile;
-			this._profile.next(userProfile);
+			this._profile.next(this._user = value['userProfile']);
 		} catch (e) {
 			throw new Error(e);
 		}

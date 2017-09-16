@@ -124,7 +124,17 @@ function configure(
 
 	tmhDynamicLocaleProvider.localeLocationPattern('/assets/locale/angular-locale_{{locale}}.js');
 	tmhDynamicLocaleProvider.defaultLocale('ru');
-	$mdDateLocaleProvider.formatDate = (date) => moment(date).isValid() ? moment(date).format('L') : '';
+
+	$mdDateLocaleProvider.parseDate = (dateString) => {
+		let m = moment(dateString, 'L', true);
+		return m.isValid() ? m.toDate() : new Date(NaN);
+	};
+
+	$mdDateLocaleProvider.formatDate = (date) => {
+		let m = moment(date);
+		return m.isValid() ? m.format('L') : '';
+	};
+
 	$mdDateLocaleProvider.firstDayOfWeek = 1; // monday
 
 	console.log('config complete');

@@ -1,0 +1,42 @@
+<md-card class="animated fadeInUp medium" md-theme="dark">
+    <md-card-title>
+        <h2 class="md-title" translate="auth.setpass.fullTitle"></h2>
+    </md-card-title>
+
+    <form flex="none" ng-submit='$ctrl.setpass($ctrl.credentials)'
+          novalidate name="$ctrl.setpassForm">
+        <md-list>
+            <md-list-item>
+                <md-input-container md-no-float class="no-message">
+                    <input required type="password" name="password1" ng-model="$ctrl.credentials.password"
+                           ng-pattern="$ctrl.passwordStrength"
+                           ng-disabled="!$ctrl.enabled"
+                           placeholder="{{ 'auth.pass' | translate }}">
+                    <div ng-messages="$ctrl.setpassForm.password1.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container md-no-float class="no-message">
+                    <input required type="password" name="password2" ng-model="$ctrl.password2"
+                           ng-pattern="$ctrl.passwordStrength"
+                           ng-disabled="!$ctrl.enabled"
+                           compare-to="$ctrl.credentials.password"
+                           placeholder="{{ 'auth.pass' | translate }}">
+                    <div ng-messages="$ctrl.setpassForm.password2.$error" role="alert">
+                        <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
+                        <div ng-message-exp="'compareTo'" translate>auth.errComparePass</div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item>
+                <md-button ng-disabled="!$ctrl.setpassForm.$valid || !$ctrl.enabled" class="md-raised submit" type="submit"
+                           ng-class="{'md-primary': $ctrl.setpassForm.$valid && !ul.auth, 'md-disabled': $ctrl.setpassForm.$error}"
+                           translate='auth.setpass.button'
+                           aria-label="PutInvite Button"></md-button>
+            </md-list-item>
+        </md-list>
+    </form>
+
+</md-card>

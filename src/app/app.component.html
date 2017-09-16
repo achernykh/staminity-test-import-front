@@ -7,15 +7,15 @@
 <div class="application-header" ui-view="header"></div>
 <div ui-view="application"></div>
 
-<md-sidenav class="md-sidenav-right" md-component-id="requests" md-disable-backdrop md-whiteframe="4">
+<md-sidenav class="md-sidenav-right" md-component-id="requests" md-disable-backdrop md-whiteframe="4" ng-if="$ctrl.auth.isAuthenticated()">
     <requests/>
 </md-sidenav>
 
-<md-sidenav class="md-sidenav-right" md-component-id="notifications" md-whiteframe="4">
-    <notification-list is-open="$ctrl.$mdSidenav('notifications').isOpen() "/>
+<md-sidenav class="md-sidenav-right" md-component-id="notifications" md-whiteframe="4" ng-if="$ctrl.auth.isAuthenticated()">
+    <notification-list/>
 </md-sidenav>
 
-<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu">
+<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu" ng-if="$ctrl.auth.isAuthenticated()">
     <application-menu ng-if="!$ctrl.isLoading"/>
 </md-sidenav>
 

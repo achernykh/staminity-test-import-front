@@ -1,6 +1,7 @@
 import './notification-list.component.scss';
 import * as moment from 'moment/min/moment-with-locales.js';
 import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
+import {Subject} from "rxjs/Rx";
 import NotificationService from "./notification.service";
 import {INotification, Notification, Initiator} from "../../../../api/notification/notification.interface";
 import {CalendarService} from "../../calendar/calendar.service";
@@ -31,6 +32,7 @@ class NotificationListCtrl implements IComponentController {
     };
     private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
     private currentUser: IUserProfile;
+	private destroy: Subject<any> = new Subject();
 
     static $inject = ['$scope','$mdDialog','$mdSidenav','NotificationService','CalendarService', 'UserService',
         'SessionService'];
@@ -54,12 +56,21 @@ class NotificationListCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.NotificationService.list$.subscribe((list) => {this.notifications =  list; console.timeEnd('notification process'); this.$scope.$evalAsync();});
+        this.notifications = this.NotificationService.notifications;
+        
+        this.NotificationService.notificationsChanges
+        .takeUntil(this.destroy)
+        .subscribe((notifications) => {
+            this.notifications = notifications;
+            this.$scope.$applyAsync();
+        });
+
         this.session.profile.subscribe(profile=> this.currentUser = angular.copy(profile));
     }
 
     $onDestroy(): void {
-
+        this.destroy.next(); 
+        this.destroy.complete();
     }
 
     fromNow (date) {
@@ -78,7 +89,6 @@ class NotificationListCtrl implements IComponentController {
     }
 
     onClick($event, notification: Notification):void {
-        debugger;
         if(Object.keys(this.activityTemplates).some(k => k === notification.template)) {
 
             this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
@@ -106,7 +116,7 @@ class NotificationListCtrl implements IComponentController {
                             tab: (this.commentTemplates.some(t => t === notification.template) && 'chat') || null
                         },
                         resolve: {
-                            user: () => { debugger;
+                            user: () => {
                                 return this.currentUser.userId === activity.userProfileOwner.userId ? Promise.resolve(this.currentUser) :
                                     this.UserService.getProfile(activity.userProfileOwner.userId).catch(error => console.error(error));
                             }

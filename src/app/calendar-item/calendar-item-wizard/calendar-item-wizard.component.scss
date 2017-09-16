@@ -2,6 +2,8 @@
 
 md-dialog#wizard{
   @media (min-width: 960px) {
+    height: 100%;
+    max-height: 85%;
     min-width: 320px;
     max-width: 360px;
     min-height: 520px;
@@ -9,8 +11,9 @@ md-dialog#wizard{
 }
 
 .calendar-item-wizard {
+  height: 100%;
   max-height: 100%;
-  background-color: $grey-050;
+  //background-color: $grey-050;
 
   .md-toolbar-tools md-menu:first-child {
     margin-left: -8px;

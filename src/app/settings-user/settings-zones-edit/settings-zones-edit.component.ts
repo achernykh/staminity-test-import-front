@@ -49,7 +49,6 @@ class SettingsZonesEditCtrl implements IComponentController {
     }
 
     changeZone(i: number, value: number, factor: string) {
-        debugger;
         let step: number = factor !== 'speed' ? 1 : 0.00000000000001;
         if (i === this.settings.zones.length) {
             return;

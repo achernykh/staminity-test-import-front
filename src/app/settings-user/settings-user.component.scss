@@ -233,3 +233,25 @@ section.settings-container md-list-item md-input-container {
     width: 300px;
   }
 }
+
+.sectioned-button_left {
+  margin-left: 0; 
+  border-bottom-left-radius: 0; 
+  border-top-left-radius: 0;
+}
+
+.sectioned-button_right {
+  margin-right: 0; 
+  border-bottom-right-radius: 0; 
+  border-top-right-radius: 0;
+}
+
+.tariffs__swich-blocked {
+  .md-bar {
+    background-color: rgba(221,44,0,0.87) !important;
+  }
+
+  .md-thumb {
+    background-color: rgba(221,44,0,0.87) !important;
+  }
+}

@@ -10,14 +10,14 @@
             </md-list-item>
 
             <md-list-item ng-repeat="role in roles" layout="row" layout-align="center center">
-                <span flex>{{'dialogs.' + role.role | translate}}</span>
-                <md-switch  ng-model="role.checked" aria-label="role checked"></md-switch >
+                <span flex>{{ 'dialogs.' + role.role | translate }}</span>
+                <md-switch ng-model="role.checked" aria-label="role checked"></md-switch >
             </md-list-item>
 
-            <md-list-item layout="row" layout-align="center center">
-                <md-button ng-click="commit()" translate="dialogs.ok"> Принять </md-button>
-                <span flex></span>
+            <md-list-item layout="row" layout-align="center center" style="padding: 0">
                 <md-button ng-click="cancel()" translate="dialogs.cancel"> Отклонить </md-button>
+                <span flex></span>
+                <md-button ng-click="commit()" translate="dialogs.ok"> Принять </md-button>
             </md-list-item>
             
         </md-list>

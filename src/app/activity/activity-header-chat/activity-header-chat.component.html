@@ -24,7 +24,8 @@
         <textarea ng-model="$ctrl.text" max-rows="5"
                   name="about" rows="1"></textarea>
     </md-input-container>
-    <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onPostComment($ctrl.text)">
+    <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onPostComment($ctrl.text)"
+               ng-disabled="$ctrl.inAction || (!ctrl.inAction && !($ctrl.text.length > 0))">
         <md-icon class="material-icons">send</md-icon>
     </md-button>
 </div>

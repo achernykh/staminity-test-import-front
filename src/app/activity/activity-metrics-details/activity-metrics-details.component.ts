@@ -4,8 +4,12 @@ import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activi
 import {Activity} from "../activity.datamodel";
 import {isPace, getSportLimit} from "../../share/measure/measure.constants";
 import {MeasureChartData} from "../activity.function";
+import {IChartMeasureData} from "../activity-datamodel/activity.details";
 
 class ActivityMetricsDetailsCtrl implements IComponentController {
+
+    private hasDetails: boolean = false;
+    private completeDetails: boolean = false;
 
     private item: CalendarItemActivityCtrl;
     public mode: string;
@@ -18,15 +22,14 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private zoomOut: number = 0;
     private autoZoom: boolean = true;
 
-    private chartData: MeasureChartData; // класс для расчета данных для графика
+    private chartOptions: Array<string> = ['measures','segments'];
+    private chartOption: 'measures' | 'segments';
 
-    private measures: {} = {};
-    private measuresItem: {} = {};
-    private measuresX: Array<string> = ['distance', 'elapsedDuration'];
-    private measuresY: Array<string> = ['heartRate', 'speed', 'power','altitude'];
-    private measuresSecondary: Array<string> = ['timestamp'];
-    private maxValue: {};
-    private data: Array<{}>;
+    private tableOptions: Array<string> = ['laps','segments'];
+    private tableOption: 'laps' | 'segments';
+
+    private chartData: IChartMeasureData; // класс для расчета данных для графика
+
     private chartX: string = 'elapsedDuration';
     private change: number = 0;
     private changeMeasure: string = null;
@@ -37,12 +40,21 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
     }
 
+    $onChanges(changes){
+        if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue) {
+            this.chartData = this.item.activity.details.chartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures);
+            //this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.activity.details);
+            this.completeDetails = true;
+        }
+    }
+
     $onInit() {
 
-        this.chartData = new MeasureChartData(
-            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+        this.item.activity.structured ? this.tableOption = 'segments' : this.tableOption = 'laps';
+        this.item.activity.structured ? this.chartOption = 'segments' : this.chartOption = 'measures';
 
-        return; /*
+        //debugger;
+        /*
 
         let array: Array<string>;
         let sportBasic:string = this.item.activity.sportBasic;
@@ -125,20 +137,22 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
             this.item.clearUserInterval();
         } else {
             if (!select[0].startTimestamp) {
-                let index = this.measures['timestamp']['idx'];
-                select[0].startTimestamp = this.item.details.metrics[0][index];
+                let index = this.chartData.measures['timestamp']['idx'];
+                select[0].startTimestamp = this.item.activity.details.metrics[0][index];
             }
             this.item.addUserInterval(select[0]);
         }
     }
 
     onChartSelect(segmentId){
-        debugger;
         console.log('chart select interval=', segmentId);
     }
 }
 
 const ActivityMetricsDetailsComponent: IComponentOptions = {
+    bindings: {
+        hasDetails: '<',
+    },
     require: {
         item: '^calendarItemActivity'
     },

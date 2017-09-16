@@ -1,5 +1,8 @@
 import * as angular from 'angular';
-import { IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {Subject} from "rxjs/Rx";
+import {INotification, Notification} from "../../../../api/notification/notification.interface";
+import {IGroupMembershipRequest} from '../../../../api/group/group.interface';
 import UserService from "../../core/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import SessionService from "../../core/session.service";
@@ -14,8 +17,8 @@ import DisplayService from "../../core/display.service";
 import {ISocketService, SocketService} from "../../core/socket.service";
 
 class HeaderCtrl implements IComponentController {
-	public requests: number;
-	public notifications: number;
+	public requestsList: IGroupMembershipRequest[] = [];
+	private notificationsList: Array<Notification> = [];
 	private user: IUserProfile;
 	private athlete: IUserProfile;
 	private profile$: Observable<IUserProfile>;
@@ -24,6 +27,7 @@ class HeaderCtrl implements IComponentController {
 	private readonly athleteSelectorStates: Array<string> = ['calendar','settings/user'];
 	private openChat: ChatSession;
 	private internetStatus: boolean = true;
+	private destroy: Subject<any> = new Subject();
 
 	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', 'NotificationService',
 		'CommentService','$mdDialog', '$state','toaster', 'display', 'SocketService'];
@@ -46,32 +50,48 @@ class HeaderCtrl implements IComponentController {
 		this.profile$ = SessionService.profile.subscribe(profile => this.user = angular.copy(profile));
 		this.socket.connections.subscribe(status => this.internetStatus = !!status);
 		this.comment.openChat$.subscribe(chat => this.openChat = chat);
-
-		if (this.RequestsService.requests) {
-			this.requests = this.RequestsService.requests.filter((request) => request.receiver.userId === this.user.userId && !request.updated).length;
-		}
-
-		this.RequestsService.requestsList
-		.map((requests) => requests.filter((request) => request.receiver.userId === this.user.userId && !request.updated))
-		.subscribe((requestsInboxNew) => {
-			this.requests = requestsInboxNew.length;
-			this.$scope.$apply();
-		});
 	}
 
 	$onInit() {
-		if (this.NotificationService.list) {
-			this.notifications = this.NotificationService.list.filter(notification => !notification.isRead).length;
-		}
+		this.notificationsList = this.NotificationService.notifications;
 
-		this.NotificationService.list$
-			.map(list => {
-				return list.filter(notification => !notification.isRead);
-			})
-			.subscribe(list => {
-				this.notifications = list.length;
-				this.$scope.$apply();
-			});
+		this.NotificationService.notificationsChanges
+		.takeUntil(this.destroy)
+		.subscribe((notifications) => {
+			this.notificationsList = notifications;
+			this.$scope.$applyAsync();
+		});
+		
+		this.requestsList = this.RequestsService.requests;
+
+		this.RequestsService.requestsChanges
+		.takeUntil(this.destroy)
+		.subscribe((requests) => {
+			this.requestsList = requests;
+			this.$scope.$applyAsync();
+		});
+	}
+
+	$onDestroy() {
+		this.destroy.next(); 
+		this.destroy.complete();
+	}
+	
+	get notifications() {
+		return this.notificationsList.filter((notification) => !notification.isRead).length;
+	}
+	
+	get requests() {
+		let userId = this.user.userId;
+		return this.requestsList.filter((request) => request.receiver.userId === userId && !request.updated).length;
+	}
+
+	onBack(){
+		window.history.back();
+	}
+
+	historyLength():number {
+		return window.history.length;
 	}
 
 	onMenu($mdOpenMenu, ev){

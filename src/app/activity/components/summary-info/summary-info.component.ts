@@ -98,8 +98,8 @@ class ActivitySummaryInfoCtrl implements IComponentController {
     }
 
     view(id:number) {
-        debugger;
-        window.open(`${window.location.origin}/activity/${id}`);
+        //debugger;
+        //window.open(`${window.location.origin}/activity/${id}`);
     }
 }
 

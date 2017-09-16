@@ -23,7 +23,7 @@ export const _NAVBAR = [
         icon: "vpn_key",
         name: 'settings.account.header',
         link: '#account',
-        active: false
+        active: true
     },
     {
         icon: "sync",
@@ -58,7 +58,7 @@ export const _NAVBAR = [
         icon: "notifications",
         name: 'settings.notification.header',
         link: '#notifications',
-        active: true
+        active: false
     }
     // UX для этих панелей не определен
     /*,
@@ -192,6 +192,10 @@ export const syncStatus = (last,state) => {
         onSyncPendingRequest: {
             code: 'onSyncCreate',
             switch: true
+        },
+        onCheckRequisites: {
+            code: 'onSyncCreate',
+            switch: true
         }
     };
 
@@ -228,6 +232,11 @@ export const syncStatus = (last,state) => {
     //  Статус 7: Ожидается присоединение аккаунта пользователя к аккаунту сервсиа
     if (state === "PendingRequest") {
         return status.onSyncPendingRequest;
+    }
+
+    // Статус 8: Проверка реквизитов подключения
+    if (state === "CheckRequisites") {
+        return status.onCheckRequisites;
     }
 
 };

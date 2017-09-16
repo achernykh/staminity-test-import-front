@@ -1,5 +1,5 @@
 import * as angular from 'angular';
-import { IComponentOptions, IComponentController} from 'angular';
+import { IComponentOptions, IComponentController, IScope} from 'angular';
 import { UserMenuSettings, AppMenuSettings } from './application-menu.constants';
 import {StateService} from "angular-ui-router";
 import {IUserProfile} from "../../../../api/user/user.interface";
@@ -19,23 +19,18 @@ class ApplicationMenuCtrl implements IComponentController{
     private date: Date = new Date();
     private env: Object = env;
 
-    static $inject = ['$mdSidenav','AuthService','SessionService','$state'];
+    static $inject = ['$scope','$mdSidenav','AuthService','SessionService','$state'];
 
     constructor(
+        private $scope: IScope,
         private $mdSidenav: any,
         private AuthService: IAuthService,
         private session: SessionService,
         private $state: StateService) {
 
-        this.profile$ = session.profile.subscribe(profile=> this.user = angular.copy(profile));
-    }
+        session.profile.subscribe(profile=> this.user = angular.copy(profile));
+        session.permissions.subscribe(() => $scope.$evalAsync());
 
-    avatarUrl() {
-        //return _connection.content + (this.user? '/content/user/avatar/' + this.user.public.avatar : '/assets/avatar/default.png')
-    }
-
-    backgroundUrl() {
-        //return _connection.content + (this.user? '/content/user/background/' + this.user.public.background : '/assets/picture/pattern0.jpg')
     }
 
     toggleSlide(){

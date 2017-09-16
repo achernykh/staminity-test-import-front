@@ -76,6 +76,10 @@ module.exports = {
             {
                 test: /\.html$/,
                 loader: 'html-loader?interpolate'
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file-loader?name=assets/fonts/[name].[ext]'
             }
         ]
     },

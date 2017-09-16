@@ -1,13 +1,14 @@
-import { flatMap, unique, keys, entries, pipe, object, allEqual } from '../share/util.js';
+import { noop, flatMap, unique, keys, entries, pipe, object, allEqual } from '../share/util.js';
 import './athletes.component.scss';
 
 
 class AthletesCtrl {
 
-    constructor ($scope, $mdDialog, GroupService, dialogs, $mdMedia, $mdBottomSheet, SystemMessageService) {
+    constructor ($scope, $mdDialog, $translate, GroupService, dialogs, $mdMedia, $mdBottomSheet, SystemMessageService) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
+        this.$translate = $translate;
         this.$mdBottomSheet = $mdBottomSheet;
         this.GroupService = GroupService;
         this.dialogs = dialogs;
@@ -27,6 +28,7 @@ class AthletesCtrl {
 
     $onInit() {
         this.sortingHotfix();
+        console.log('AthletesCtrl', this);
     }
 
     sortingHotfix () {
@@ -44,7 +46,9 @@ class AthletesCtrl {
                 this.checked = [];
                 this.sortingHotfix(); 
                 this.$scope.$apply();
-            }, (error) => { this.SystemMessageService.show(error) })
+            }, (error) => { 
+                this.SystemMessageService.show(error); 
+            });
     }
 
     // tariffs & billing 
@@ -64,10 +68,34 @@ class AthletesCtrl {
             .filter(bill => !this.isOurBill(bill))
             .map(bill => bill.tariffCode);
     }
+
+    isClubAthlete () {
+        let ownClubIds = this.user.connections.Clubs.map((club) => club.groupId);
+        return (member) => member.clubs && member.clubs.find((club) => ownClubIds.includes(club.groupId));
+    }
+
+    get removeAvailable () {
+        let isClubAthlete = this.isClubAthlete();
+        return this.checked.every((m) => !isClubAthlete(m));
+    }
     
     get tariffsAvailable () {
-        return allEqual(this.checked.map(m => this.tariffsByUs(m)), angular.equals)
+        let isClubAthlete = this.isClubAthlete();
+        return this.checked.every((m) => !isClubAthlete(m))
+            && allEqual(this.checked.map(m => this.tariffsByUs(m)), angular.equals)
             && allEqual(this.checked.map(m => this.tariffsBySelf(m)), angular.equals);
+    }
+
+    editTariffsMessage (changes) {
+        let addTariffs = changes.filter(({ direction }) => direction === "I");
+        let removeTariffs = changes.filter(({ direction }) => direction === "O");
+        let translateTariffCode = ({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
+
+        if (addTariffs.length) {
+            return this.$translate.instant('athletes.editTariffs.confirm.text.addOne', { tariffCode: translateTariffCode(addTariffs[0]) });
+        } else if (removeTariffs.length) {
+            return this.$translate.instant('athletes.editTariffs.confirm.text.removeOne', { tariffCode: translateTariffCode(removeTariffs[0]) });
+        }
     }
     
     editTariffs () {
@@ -76,30 +104,55 @@ class AthletesCtrl {
         let byUs = this.tariffsByUs(checked[0]);
         let bySelf = this.tariffsBySelf(checked[0]);
 
-        this.dialogs.tariffs(tariffs, byUs, bySelf, 'byCoach')
-        .then(selectedTariffs => {
-            if (!selectedTariffs) return;
-            
-            let members = checked.map(member => member.userProfile.userId);
-            
-            let memberships = tariffs
-                .filter(tariffCode => selectedTariffs.includes(tariffCode) != byUs.includes(tariffCode))
-                .map(tariffCode => ({
-                    groupId: this.management.tariffGroups[tariffCode + 'ByCoach'],
+        this.dialogs.tariffs(tariffs, byUs, bySelf, 'dialogs.byCoach')
+        .then((selectedTariffs) => {
+            let changes = tariffs
+                .filter((tariffCode) => selectedTariffs.includes(tariffCode) != byUs.includes(tariffCode))
+                .map((tariffCode) => ({
+                    tariffCode,
                     direction: selectedTariffs.includes(tariffCode)? 'I' : 'O'
                 }));
-                
+
+            let message = this.editTariffsMessage(changes);
+            let confirmDialogMessages = {
+                title: this.$translate.instant(`athletes.editTariffs.confirm.title`),
+                text: message,
+                confirm: this.$translate.instant(`athletes.editTariffs.confirm.confirm`),
+                cancel: this.$translate.instant(`athletes.editTariffs.confirm.cancel`)
+            };
+
+            return this.dialogs.confirm(confirmDialogMessages, changes);
+        })
+        .then((changes) => {
+            let members = checked.map(member => member.userProfile.userId);
+
+            let memberships = changes.map(({ tariffCode, direction }) => ({
+                direction, 
+                groupId: this.management.tariffGroups[tariffCode + 'ByCoach']
+            }));
+
             return this.GroupService.putGroupMembershipBulk(this.user.connections.Athletes.groupId, memberships, members);
-        }, () => {})
-        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+        })
+        .then((result) => { 
+            result && this.update(); 
+        }, (error) => { 
+            if (error) {
+                this.SystemMessageService.show(error); 
+                this.update(); 
+            }
+        });
     }
 
     // removing & other actions
     
     remove () {
-        this.dialogs.confirm('turnOffAthletes')
-        .then((confirmed) => confirmed && Promise.all(this.checked.map((m) => this.GroupService.leave(this.user.connections.Athletes.groupId, m.userProfile.userId))), () => {})
-        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
+        this.dialogs.confirm({ text: 'dialogs.turnOffAthletes' })
+        .then(() => Promise.all(this.checked.map((m) => this.GroupService.leave(this.user.connections.Athletes.groupId, m.userProfile.userId))))
+        .then((result) => { 
+            result && this.update();
+        }, (error) => { 
+            error && this.SystemMessageService.show(error);
+        });
     }
     
     showActions (member) {
@@ -142,7 +195,9 @@ class AthletesCtrl {
         return member.userProfile.billing.find(tariff => tariff.tariffCode == 'Premium');
     }
 };
-AthletesCtrl.$inject = ['$scope','$mdDialog','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService']
+
+AthletesCtrl.$inject = ['$scope','$mdDialog', '$translate','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];
+
 
 const AthletesComponent = {
 

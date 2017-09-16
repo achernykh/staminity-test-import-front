@@ -61,7 +61,7 @@ class CalendarItemEventsCtrl {
         this.isMyCoach = this.item.userProfileCreator.userId !== this.user.userId;
 
         // Перечень атлетов тренера доступных для планирования
-        if(this.currentUser.connections.hasOwnProperty('allAthletes')){
+        if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));
 
@@ -77,7 +77,6 @@ class CalendarItemEventsCtrl {
      * @param response
      */
     selectAthletes(response){
-        debugger;
         this.showSelectAthletes = false;
         this.forAthletes = response;
     }

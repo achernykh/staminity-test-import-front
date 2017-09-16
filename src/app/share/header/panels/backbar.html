@@ -1,16 +1,14 @@
 <div layout="row">
-    <div flex layout="row" layout-align="start center" ng-show="isAuthenticated()">
-        <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-click="$ctrl.goBack()">
-            <md-icon calss="material-icon" aria-label="Back">arrow_back</md-icon>
+    <div flex layout="row" layout-align="start center" ng-if="$ctrl.historyLength() > 0">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="$ctrl.onBack()">
+            <md-icon class="material-icons md-light">arrow_back</md-icon>
         </md-button>
-        <p class="md-body" style="line-height: 24px; margin-bottom: 0px; margin-top: 4px">Back</p>
+        <p class="md-body" style="line-height: 40px; margin-bottom: 0px; margin-top: 0px" translate="header.back">Back</p>
     </div>
-    <div flex layout="row" layout-align="start center" layout-fill ng-show="!isAuthenticated()">
-        <md-button class="md-icon-button md-primary" aria-label="Settings"
-                   ng-click="$ctrl.goTo('/welcome')">
-            <md-icon class="material-icons" aria-label="Back">home</md-icon>
+    <div flex layout="row" layout-align="start center" layout-fill ng-if="$ctrl.historyLength() === 0">
+        <md-button class="md-icon-button md-primary" aria-label="Settings" ng-click="$ctrl.$state.go('welcome')">
+            <md-icon class="material-icons md-light" aria-label="Home">home</md-icon>
         </md-button>
-        <p class="md-body" style="line-height: 24px; margin-bottom: 0px; margin-top: 4px">Home page</p>
+        <p class="md-body" style="line-height: 40px; margin-bottom: 0px; margin-top: 0px" translate="header.home"></p>
     </div>
 </div>

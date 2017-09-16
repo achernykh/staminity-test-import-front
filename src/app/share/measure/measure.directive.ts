@@ -1,6 +1,8 @@
 import {merge, IScope, IDirective, IAttributes, IAugmentedJQuery, INgModelController, IFilterService} from 'angular';
 import {Measure} from "./measure.constants";
 import moment from 'moment/src/moment.js';
+import {IActivityIntervalP} from "../../../../api/activity/activity.interface";
+import {Interval} from "../../activity/activity.datamodel";
 
 
 interface IScopeMeasureInput extends IScope {
@@ -97,13 +99,13 @@ export function MeasurementInput($filter): IDirective {
 	function link($scope: IScopeMeasureInput, $element: IAugmentedJQuery, $attrs: IAttributes, $ctrl: INgModelController) {
 
 		let FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
-		let interval = JSON.parse($attrs['interval']);
+		let interval = $scope.interval;
 		let ftpMode = $scope.ftpMode;//JSON.parse($attrs.ftpMode);
 		let ftp = ftpMode ? $scope.ftp : null;
 		let isFTPMeasure = false;
 
 		let measure:Measure = null;
-		let initial: Object = {};
+		let initial: Interval = new Interval('P');
 		let mask: any; //функция преобразование ввода по маске
 		let convert: any; //функция преобразования значения после потери фокуса
 
@@ -159,7 +161,6 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const numberFtpIntervalParsers = (value) => {
-
 			let sep = value.search('-');
 			let from, to;
 			if(sep !== -1){
@@ -207,7 +208,14 @@ export function MeasurementInput($filter): IDirective {
 					$filter('measureCalc')(value[$scope.to], measure.sport, measure.name)+'-'+$filter('measureCalc')(value[$scope.from], measure.sport, measure.name):
 					$filter('measureCalc')(value[$scope.from], measure.sport, measure.name);
 			} else {
-				initial = {[$scope.from]: null, [$scope.to]: null};
+				//debugger;
+				initial = Object.assign(initial, {
+					type: value.hasOwnProperty('type') && value.type || null,
+					trainersPrescription: value.hasOwnProperty('trainersPrescription') && value.trainersPrescription || null,
+					durationMeasure: value.hasOwnProperty('durationMeasure') && value.durationMeasure || null,
+					intensityMeasure: value.hasOwnProperty('intensityMeasure') && value.intensityMeasure || null,
+					[$scope.from]: null,
+					[$scope.to]: null});
 				return initial;
 			}
 		};
@@ -220,20 +228,24 @@ export function MeasurementInput($filter): IDirective {
 				$filter('measureCalc')(value[$scope.from], measure.sport, measure.name)+'-'+$filter('measureCalc')(value[$scope.to], measure.sport, measure.name):
 					$filter('measureCalc')(value[$scope.from], measure.sport, measure.name);
 			} else {
-				initial = {[$scope.from]: null, [$scope.to]: null};
+				initial = Object.assign(initial, {[$scope.from]: null, [$scope.to]: null});
 				return initial;
 			}
 		};
 
 		const numberFtpIntervalFormatters = (value: any) => {
-			//debugger;
-			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
+			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)
+				&& value[$scope.from] && value[$scope.to] ) {
 				initial = value;
-				let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
-				return (newValue[$scope.from] !== newValue.to) ? `${newValue[$scope.from].toFixed(0)}`+'-'+`${newValue[$scope.to].toFixed(0)}` : `${newValue[$scope.from].toFixed(0)}`;
+				//let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
+				return $scope.interval && initial[$scope.from] !== initial[$scope.to] ?
+					`${initial[$scope.from]*100}`+'-'+`${initial[$scope.to]*100}` :
+					`${initial[$scope.from]*100}`;
 			} else {
-				initial = {from: null, to: null};
-				return initial;
+			    initial = value;
+				//initial = Object.assign(initial, {[$scope.from]: null, [$scope.to]: null});
+				//return initial;
+                return null;
 			}
 		};
 
@@ -306,7 +318,6 @@ export function MeasurementInput($filter): IDirective {
 
 			if($ctrl.$modelValue || $ctrl.$viewValue) {
 				let percent: number = $scope.ftpMode ? 100 : 1;
-				//debugger;
 				// Пустое значение в модели данных, в представление = '
 				if (!$ctrl.$modelValue[$scope.from]) {
 					$ctrl.$viewValue = '';
@@ -334,6 +345,19 @@ export function MeasurementInput($filter): IDirective {
 			$ctrl.$render();
 		});
 
+		$scope.$watch('measure',(value:boolean, last:boolean) => {
+			if (value === last && !!!value) {
+				return;
+			}
+			setParams();
+		});
+
+		$scope.$watch('change', (newValue: number) => {
+			console.log('change assignment: ',$scope, $attrs, $ctrl, newValue);
+			$ctrl.$render();
+			//debugger;
+		});
+
 		setParams();
 
 		function setParams() {
@@ -350,10 +374,8 @@ export function MeasurementInput($filter): IDirective {
 
             $scope.isFTPMeasure = FTPMeasures.indexOf($scope.measure) !== -1;
 
-
 			if ($scope.measure && $attrs['sport']) {
 				measure = new Measure($scope.measure, $attrs['sport']);
-				console.log('measure = ', measure.name, measure.unit, measure.type, maskFunction(measure.type, JSON.parse($attrs['interval'])));
 
 				switch (measure.type){
 					case 'pace': {
@@ -375,10 +397,9 @@ export function MeasurementInput($filter): IDirective {
 
 						} else {
 							$ctrl.$validators['duration'] = durationValidators;
-							$ctrl.$formatters.push(durationFormatters);
-							$ctrl.$parsers.push(durationParsers);
+                            $ctrl.$formatters = [durationFormatters];
+                            $ctrl.$parsers = [durationParsers];
 							convert = convertToDuration;
-							//mask = toDuration;
 						}
 						break;
 					}
@@ -409,6 +430,7 @@ export function MeasurementInput($filter): IDirective {
 		scope: {
 			ftpMode: '<',
 			ftp: '<',
+			change: '<',
 			interval: '=',
             measure: '='
 		}

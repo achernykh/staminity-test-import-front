@@ -1,7 +1,7 @@
 import './components.scss';
 import './notification/notification.scss';
 import { module, isObject } from 'angular';
-import moment from 'moment/src/moment.js';
+import moment from 'moment/min/moment-with-locales.js';
 import  { ageGroup } from '../../../api/user/user.interface';
 import  { requestType } from '../../../api/group/group.interface';
 import * as _connection from '../core/env.js';
@@ -37,30 +37,42 @@ import {translateNotification} from "./notification/notification.translate";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
 import {InitiatorType} from "../../../api/notification/notification.interface";
-import { memorize } from "./util.js";
+import { memorize, maybe, prop } from "./util.js";
 import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
 import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
 import {_translate_PageNotFound} from "./404/404.translate";
 import UniversalChartComponent from "./universal-chart/universal-chart.component";
+import {translateHeader} from "./header/header.translate";
+import {compareTo} from "./directives/form.directive";
 
-const parseUtc = memorize(date => moment.utc(date));
-const fromNow = () => (date) => moment.utc(date).fromNow(true);
-//const image = () => (relativeUrl) => _connection.content + '/content' + relativeUrl;
-const image = () => (sub:string,url:string = ''):string => {
-    //debugger;
+
+export const parseUtc = memorize(date => moment.utc(date));
+
+export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
+
+export const fromNow = () => (date) => moment.utc(date).fromNow(true);
+
+
+const image = () => (sub: string, url:string = 'default.jpg') : string => {
     return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
 };
 
 const userBackground = () => (url:string) => url && url !== 'default.jpg' ? _connection.content + '/content/user/background/' + url : '/assets/picture/default_background.jpg';
+
 const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty('avatar') && user.public.avatar !== 'default.jpg' ? image() ('/user/avatar/',user.public.avatar) : '/assets/picture/default_avatar.png'})`;
-const username = () => (user, options) => options === 'short' ? `${user.public.firstName}` : `${user.public.firstName} ${user.public.lastName}`;
+
+const userName = () => (user, options) => maybe(user) (prop('public')) (
+    options === 'short'? prop('firstName') : ({ firstName, lastName }) => `${firstName} ${lastName}`
+) ();
+
+const clubName = () => (club) => maybe(club) (prop('public')) (prop('name')) ();
 
 const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):string => {
     let url: string = '/assets/picture/default_avatar.png';
     switch (type) {
         case InitiatorType.user: {
-            url = `url(${avatar !== 'default.jpg' ? image() ('/user/avatar/',avatar) : '/assets/picture/default_avatar.png'})`;
+            url = `url(${avatar && avatar !== 'default.jpg' ? image() ('/user/avatar/', avatar) : '/assets/picture/default_avatar.png'})`;
             break;
         }
         case InitiatorType.group: case InitiatorType.club: {
@@ -78,6 +90,8 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
     }
     return url;
 };
+
+const truncate = () => (s, max = 140) => s && (s.length <= max? s : s.slice(0, max - 1) + '…');
 
 const userpic = {
     bindings: {
@@ -144,9 +158,11 @@ const Share = module('staminity.share', [])
     .filter('avatarUrl', avatarUrl)
     .filter('image', image)
     .filter('userBackground', userBackground)
-    .filter('username', username)
+    .filter('username', userName)
+    .filter('userName', userName)
+    .filter('clubName', clubName)
     .filter('ageGroup', () => ageGroup)
-    .filter('requestType', () => requestType)
+    .filter('requestType', () => (request) => requestType(request) + '.action')
     .filter('measureCalc', () => measureValue)
     .filter('measureCalcInterval', ['$filter',($filter) => {
         return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart:boolean = false, units:string = 'metric') => {
@@ -256,6 +272,8 @@ const Share = module('staminity.share', [])
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
+    .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
+    .filter('truncate', truncate)
     .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
 
         $stateProvider
@@ -282,6 +300,8 @@ const Share = module('staminity.share', [])
         $translateProvider.translations('en', translateNotification['en']);
         $translateProvider.translations('ru', {'404': _translate_PageNotFound['ru']});
         $translateProvider.translations('en', {'404': _translate_PageNotFound['en']});
+        $translateProvider.translations('ru', {header: translateHeader['ru']});
+        $translateProvider.translations('en', {header: translateHeader['en']});
     }])
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал
@@ -291,6 +311,7 @@ const Share = module('staminity.share', [])
         $templateCache.put('header/logo.html', require('./header/panels/logo.html') as string);
         $templateCache.put('header/usertoolbar.html', require('./header/panels/usertoolbar.html') as string);
         $templateCache.put('header/welcome.links.html', require('./header/panels/welcome.links.html') as string);
+        $templateCache.put('header/backbar.html', require('./header/panels/backbar.html') as string);
         $templateCache.put('notification/notification.html', require('./notification/notification.html') as string);
     }])
     .name;

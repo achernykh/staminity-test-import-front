@@ -20,9 +20,14 @@ import DefaultPlanChartSettings from "./components/segment-chart/settings/settin
 import PlanChartComponent from "./components/segment-chart/segmentsChart.component";
 import ActivityHeaderSplitsComponent from "./activity-header-splits/activity-header-splits.component";
 import ActivityComponent from "./activity.component";
+import ActivitySegmentsComponent from "./activity-segments/activity-segments.component";
+import StructuredAssignmentComponent from "./components/structured-assignment/structured-assignment.component";
+import StructuredIntervalComponent from "./components/structured-interval/structured-interval.component";
+import {StructuredGroupComponent} from "./components/structured-group/structured-group.component";
+import ActivitySegmentsTableComponent from "./activity-segments-table/activity-segments-table.component";
 
 const Activity = module('staminity.activity', [])
-    .service('ActivityService', ActivityService)
+	.service('ActivityService', ActivityService)
 	.component('activity', ActivityComponent)
 	.component('activityHeader', ActivityHeaderComponent)
 	.component('activityHeaderOverview', ActivityHeaderOverviewComponent)
@@ -32,6 +37,10 @@ const Activity = module('staminity.activity', [])
 	.component('activityHeaderChat', ActivityHeaderChatComponent)
 	.component('activityMetricsDetails', ActivityMetricsDetailsComponent)
 	.component('activitySummaryInfo', ActivitySummaryInfoComponent)
+	.component('activitySegments', ActivitySegmentsComponent)
+	.component('structuredInterval', StructuredIntervalComponent)
+	.component('structuredAssignment', StructuredAssignmentComponent)
+	.component('structuredGroup', StructuredGroupComponent)
 	.component('measureMainButton',MeasureMainButtonComponent)
 	.component('measuresAvgTable',MeasuresAvgTableComponent)
 	.component('measureSplitTable', MeasureSplitTableComponent)
@@ -42,6 +51,7 @@ const Activity = module('staminity.activity', [])
 	.component('activityMetricsChar', chartComponent)
 	.constant('segmentChartSettings', DefaultPlanChartSettings)
 	.component('activitySegmentChart', PlanChartComponent)
+	.component('activitySegmentsTable', ActivitySegmentsTableComponent)
 	.run(['$timeout','leafletData',($timeout, leafletData)=> {
 		$timeout(()=> {
 			leafletData.getMap().then((map) => {
@@ -49,7 +59,7 @@ const Activity = module('staminity.activity', [])
 			});
 		});
 	}])
-    .config(configure)
-    .name;
+	.config(configure)
+	.name;
 
 export default Activity;

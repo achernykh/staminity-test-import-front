@@ -1,13 +1,14 @@
-import { flatMap, unique, keys, entries, pipe, object, allEqual } from '../share/util.js';
+import { noop, id, flatMap, unique, keys, entries, pipe, object, allEqual, capitalize } from '../share/util.js';
 import './management.component.scss';
 
 
 class ManagementCtrl {
 
-    constructor ($scope, $mdDialog, GroupService, dialogs, $mdMedia, $mdBottomSheet, SystemMessageService) {
+    constructor ($scope, $mdDialog, $translate, GroupService, dialogs, $mdMedia, $mdBottomSheet, SystemMessageService) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
+        this.$translate = $translate;
         this.$mdBottomSheet = $mdBottomSheet;
         this.GroupService = GroupService;
         this.dialogs = dialogs;
@@ -39,7 +40,9 @@ class ManagementCtrl {
                 this.checked = [];
                 this.sortingHotfix();
                 this.$scope.$apply();
-            }, (error) => { this.SystemMessageService.show(error) })
+            }, (error) => { 
+                this.SystemMessageService.show(error);
+            });
     }
 
     sortingHotfix () {
@@ -98,6 +101,29 @@ class ManagementCtrl {
         return allEqual(this.checked.map(m => this.tariffsByUs(m)), angular.equals)
             && allEqual(this.checked.map(m => this.tariffsBySelf(m)), angular.equals);
     }
+
+    editTariffsMessage (changes) {
+        let addTariffs = changes.filter(({ direction }) => direction === "I");
+        let removeTariffs = changes.filter(({ direction }) => direction === "O");
+        let translateTariffCode = ({ tariffCode }) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
+
+        if (addTariffs.length && removeTariffs.length) {
+            return this.$translate.instant('users.editTariffs.confirm.text.addAndRemove', { 
+                addTariffCodes: addTariffs.map(translateTariffCode).join(', '),
+                removeTariffCodes: removeTariffs.map(translateTariffCode).join(', ')
+            });
+        } else if (addTariffs.length && !removeTariffs.length) {
+            return (
+                addTariffs.length > 1 && this.$translate.instant('users.editTariffs.confirm.text.addMany', { tariffCodes: addTariffs.map(translateTariffCode).join(', ') }) ||
+                addTariffs.length === 1 && this.$translate.instant('users.editTariffs.confirm.text.addOne', { tariffCode: translateTariffCode(addTariffs[0]) })
+            );
+        } else if (!addTariffs.length && removeTariffs.length) {
+            return (
+                removeTariffs.length > 1 && this.$translate.instant('users.editTariffs.confirm.text.removeMany', { tariffCodes: removeTariffs.map(translateTariffCode).join(', ') }) ||
+                removeTariffs.length === 1 && this.$translate.instant('users.editTariffs.confirm.text.removeOne', { tariffCode: translateTariffCode(removeTariffs[0]) })
+            );
+        }
+    }
     
     editTariffs () {
         let tariffs = ['Coach', 'Premium'];
@@ -105,22 +131,42 @@ class ManagementCtrl {
         let byUs = this.tariffsByUs(checked[0]);
         let bySelf = this.tariffsBySelf(checked[0]);
 
-        this.dialogs.tariffs(tariffs, byUs, bySelf, 'byClub')
-        .then(selectedTariffs => {
-            if (!selectedTariffs) return;
-            
-            let members = checked.map(member => member.userProfile.userId);
-            
-            let memberships = tariffs
-                .filter(tariffCode => selectedTariffs.includes(tariffCode) != byUs.includes(tariffCode))
-                .map(tariffCode => ({
-                    groupId: this.management.tariffGroups[tariffCode + 'ByClub'],
+        this.dialogs.tariffs(tariffs, byUs, bySelf, 'dialogs.byClub')
+        .then((selectedTariffs) => {
+            let changes = tariffs
+                .filter((tariffCode) => selectedTariffs.includes(tariffCode) != byUs.includes(tariffCode))
+                .map((tariffCode) => ({
+                    tariffCode,
                     direction: selectedTariffs.includes(tariffCode)? 'I' : 'O'
                 }));
-                
+
+            let confirmDialogMessages = {
+                title: this.$translate.instant(`users.editTariffs.confirm.title`),
+                text: this.editTariffsMessage(changes),
+                confirm: this.$translate.instant(`users.editTariffs.confirm.confirm`),
+                cancel: this.$translate.instant(`users.editTariffs.confirm.cancel`)
+            };
+
+            return this.dialogs.confirm(confirmDialogMessages, changes);
+        })
+        .then((changes) => {
+            let members = checked.map(member => member.userProfile.userId);
+
+            let memberships = changes.map(({ tariffCode, direction }) => ({
+                direction, 
+                groupId: this.management.tariffGroups[tariffCode + 'ByClub']
+            }));
+
             return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
-        }, () => {})
-        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+        })
+        .then((result) => { 
+            result && this.update();
+        }, (error) => { 
+            if (error) {
+                this.SystemMessageService.show(error); 
+                this.update(); 
+            }
+        });
     }
 
     // coaches
@@ -157,8 +203,15 @@ class ManagementCtrl {
             }));
 
             return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
-        }, () => {})
-        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+        })
+        .then((result) => { 
+            result && this.update(); 
+        }, (error) => { 
+            if (error) {
+                this.SystemMessageService.show(error); 
+                this.update(); 
+            }
+        });
     }
 
     // athletes
@@ -201,8 +254,15 @@ class ManagementCtrl {
                 this.GroupService.putGroupMembershipBulk(this.club.groupId, addMemberships, athletesToAdd),
                 this.GroupService.putGroupMembershipBulk(this.club.groupId, removeMemberships, athletesToRemove)
             ])
-        }, () => {})
-        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+        })
+        .then((result) => { 
+            result && this.update(); 
+        }, (error) => { 
+            if (error) {
+                this.SystemMessageService.show(error); 
+                this.update(); 
+            }
+        });
     }
 
     // roles
@@ -210,39 +270,81 @@ class ManagementCtrl {
     get rolesAvailable() {
         return allEqual(this.checked.map((user) => user.roleMembership), angular.equals)
     }
+
+    editRolesMessage (changes) {
+        let addRoles = changes.filter(({ direction }) => direction === "I");
+        let removeRoles = changes.filter(({ direction }) => direction === "O")
+        let translateRole = ({ role }) => this.$translate.instant(`dialogs.${role}`);
+
+        if (addRoles.length && removeRoles.length) {
+            return this.$translate.instant('users.editRoles.confirm.text.addAndRemove', { 
+                addRoles: addRoles.map(translateRole).join(', '), 
+                removeRoles: removeRoles.map(translateRole).join(', ')
+            });
+        } else if (addRoles.length && !removeRoles.length) {
+            return (
+                addRoles.length > 1 && this.$translate.instant('users.editRoles.confirm.text.addMany', { roles: addRoles.map(translateRole).join(', ') }) ||
+                addRoles.length === 1 && this.$translate.instant(`users.editRoles.confirm.text.addOne.${addRoles[0].role}`)
+            );
+        } else if (!addRoles.length && removeRoles.length) {
+            return (
+                removeRoles.length > 1 && this.$translate.instant('users.editRoles.confirm.text.removeMany', { roles: removeRoles.map(translateRole).join(', ') }) ||
+                removeRoles.length === 1 && this.$translate.instant(`users.editRoles.confirm.text.removeOne.${removeRoles[0].role}`)
+            );
+        }
+    }
     
     editRoles () {
         let checked = this.checked
         let checkedRoles = checked[0].roleMembership || []
         let roles = ['ClubAthletes', 'ClubCoaches', 'ClubManagement']
-            .map((role) => ({
-                role: role,
-                checked: checkedRoles.includes(role)
-            }))
+            .map((role) => ({ role, checked: checkedRoles.includes(role) }));
 
         this.dialogs.roles(roles)
         .then((roles) => {
-            if (!roles) return;
+            let changes = roles
+                .filter(({ role, checked }) => !!checked != !!checkedRoles.includes(role))
+                .map(({ role, checked }) => ({ role, direction: checked? 'I' : 'O' }));
 
-            let members = checked.map(member => member.userProfile.userId);
-            let memberships = roles
-            .filter(role => !!role.checked != !!checkedRoles.includes(role.role))
-            .map(role => ({
-                groupId: this.management.availableGroups[role.role],
-                direction: role.checked? 'I' : 'O'
+            let confirmDialogMessages = {
+                title: this.$translate.instant(`users.editRoles.confirm.title`),
+                text: this.editRolesMessage(changes),
+                confirm: this.$translate.instant(`users.editRoles.confirm.confirm`),
+                cancel: this.$translate.instant(`users.editRoles.confirm.cancel`)
+            };
+
+            return this.dialogs.confirm(confirmDialogMessages, changes);
+        })
+        .then((changes) => {
+            let members = checked.map((member) => member.userProfile.userId);
+
+            let memberships = changes.map(({ role, direction }) => ({
+                groupId: this.management.availableGroups[role],
+                direction
             }));
 
             return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
-        }, () => {})
-        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error); this.update(); })
+        })
+        .then((result) => { 
+            result && this.update();
+        }, (error) => {
+            if (error) {
+                this.SystemMessageService.show(error); 
+                this.update(); 
+            }
+        });
     }
 
     // removing & other actions
     
     remove () {
-        this.dialogs.confirm('excludeClub')
-        .then((confirmed) => confirmed && Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))), () => {})
-        .then((result) => { result && this.update() }, (error) => { this.SystemMessageService.show(error) })
+        this.dialogs.confirm({ text: 'dialogs.excludeClub' })
+        .then(() => Promise.all(this.checked.map((m) => this.GroupService.leave(this.club.groupId, m.userProfile.userId))))
+        .then((result) => { 
+            result && this.update();
+        }, (error) => { 
+            error && this.SystemMessageService.show(error); 
+        });
     }
     
     showActions (member) {
@@ -315,7 +417,7 @@ class ManagementCtrl {
     }
 };
 
-ManagementCtrl.$inject = ['$scope','$mdDialog','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];
+ManagementCtrl.$inject = ['$scope','$mdDialog','$translate','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];
 
 
 let ManagementComponent = {

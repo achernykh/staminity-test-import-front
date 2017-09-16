@@ -1,0 +1,48 @@
+.activity-segments-table {
+
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  &:hover, &:focus {
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+
+  table.md-table:not(.md-row-select) td.md-cell:first-child,
+  table.md-table:not(.md-row-select) th.md-column:first-child {
+    padding-left: 0px !important;
+  }
+
+  table.md-table.md-row-select td.md-cell:nth-child(2),
+  table.md-table.md-row-select th.md-column:nth-child(2) {
+    padding: 0 12px 0 24px;
+  }
+
+  table.md-table.md-row-select td.md-cell:nth-child(n+3):nth-last-child(n+2),
+  table.md-table.md-row-select th.md-column:nth-child(n+3):nth-last-child(n+2) {
+    padding: 0 24px 0 0;
+  }
+
+  table.md-table.md-row-select td.md-cell:first-child,
+  table.md-table.md-row-select th.md-column:first-child {
+    padding-left: 0px !important;
+  }
+
+  table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2),
+  table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+    padding-right: 32px;
+  }
+
+  table.md-table tbody.md-body > tr.md-row, table.md-table tfoot.md-foot > tr.md-row {
+    height: 32px;
+  }
+
+  table.md-table thead.md-head > tr.md-row {
+    height: 32px;
+  }
+
+  table.md-table th.md-column {
+    font-weight: normal;
+  }
+
+}

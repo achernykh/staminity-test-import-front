@@ -19,8 +19,8 @@
             </md-menu>
         </section>
         <section flex="auto" class="second-column" layout="column" layout-align="start start">
-            <div flex="none" class="md-caption category" ng-if="::$ctrl.activity.categoryCode">
-                {{'category.'+$ctrl.activity.categoryCode | translate}}
+            <div flex="none" class="md-caption category" ng-if="::$ctrl.activity.category">
+                {{$ctrl.activity.category | categoryCode}}
             </div>
             <div flex="none" class="md-body-2 tight-02 line-14 font-medium duration " ng-if="::(!!$ctrl.activity.movingDuration || $ctrl.activity.distance)">
             <span flex="none" ng-if="::$ctrl.activity.movingDuration">

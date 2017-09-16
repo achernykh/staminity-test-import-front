@@ -2,7 +2,7 @@
 <html>
 <head>
     <title translate ng-cloak ng-bind="fullTitle | translate">Staminity | Стаминити</title>
-    <base href="/">
+    <base href="/index.html">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="description"
@@ -106,9 +106,6 @@
     <!-- Yandex.Metrika counter -->
 
     <!-- Style sheets-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,900&subset=latin,cyrillic' rel='stylesheet'
-          type='text/css'>
     <!--
     <link rel="stylesheet" href="css/libs.css">
     <link rel="stylesheet" href="css/app.css">-->
@@ -199,23 +196,6 @@
     navigator.serviceWorker.register('/sw.js')
             .then(reg => console.info('SW registered!', reg))
             .catch(err => console.error('Boo!', err));
-
-    // Check to see if the service worker controlling the page at initial load
-    // has become redundant, since this implies there's a new service worker with fresh content.
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.onstatechange = function(event) {
-            if (event.target.state === 'redundant') {
-                // Define a handler that will be used for the next io-toast tap, at which point it
-                // be automatically removed.
-                const tapHandler = function() {
-                    window.location.reload();
-                };
-
-               // alert('new version of application avaliable');
-            }
-        };
-    }
-
 </script>
 
 <!-- Application Scripts (gulp compilation)

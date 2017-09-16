@@ -40,7 +40,7 @@ class ActivityRouteCtrl implements IComponentController {
 const ActivityRouteComponent:IComponentOptions = {
 
     controller: ActivityRouteCtrl,
-    template: `<leaflet width="100%" height="25vh"
+    template: `<leaflet width="100%" height="20vh"
                         paths="$ctrl.map.paths"
                         layers="$ctrl.map.layers"
                         markers="$ctrl.map.markers"

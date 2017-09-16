@@ -1,55 +1,60 @@
+import moment from 'moment/src/moment.js';
 import { orderBy } from '../share/util.js';
 import { IGroupMembershipRequest } from '../../../api/group/group.interface';
 import { GetMembershipRequest, ProcessMembershipRequest } from '../../../api/group/group.request';
 import { ISessionService } from './session.service';
 import { ISocketService } from './socket.service';
 import { Observable, Subject } from 'rxjs/Rx';
-import moment from 'moment/src/moment.js';
+import { memorize } from '../share/util.js';
 
 
+const parseDate = memorize(moment);
 const requestId = request => request.userGroupRequestId;
 const requestDate = request => request.updated || request.created;
 const isSameRequest = (r0) => (r1) => r0.userGroupRequestId === r1.userGroupRequestId;
-
-
-const processRequest = (requests, request) => {
-    let prev = requests.find(isSameRequest(request));
-    
-    if (prev) {
-        requests[requests.indexOf(prev)] = request;
-    } else {
-        requests.push(request);
-    }
-    
-    return requests
-        .sort((a, b) => moment(requestDate(a)) >= moment(requestDate(b))? 1 : -1)
-        .reverse();
-};
-
+const requestsOrder = (a, b) => parseDate(requestDate(a)) >= parseDate(requestDate(b))? -1 : 1;
 
 export default class RequestsService {
-    notifications: Observable<any>;
-    requestsList: Observable<any>;
-    requests: any;
+    public messages: Observable<IGroupMembershipRequest>;
+    public requests: IGroupMembershipRequest[] = [];
+    public requestsChanges = new Subject<IGroupMembershipRequest[]>();
+    private requestsReducers = {
+        "I": (request: IGroupMembershipRequest) => [...this.requests, request].sort(requestsOrder),
+        "U": (request: IGroupMembershipRequest) => this.requests.map((r) => isSameRequest(request)(r)? request : r).sort(requestsOrder)
+    };
+    private resetRequests = () => {
+        this.getMembershipRequest(0, 100)
+        .then((requests) => { 
+            this.requests = requests.sort(requestsOrder); 
+            this.requestsChanges.next(this.requests);
+        });
+    }
 
     static $inject = ['SocketService', 'SessionService'];
 
     constructor(
         private SocketService:ISocketService,
         private SessionService:ISessionService
-    ) { 
-        this.notifications = this.SocketService.messages
-            .filter(message => message.type === 'groupMembershipRequest')
-            .map(message => message.value)
-            .share();
+    ) {
+        this.resetRequests();
+        this.SocketService.connections.subscribe(this.resetRequests);
 
-        this.requestsList = this.SocketService.connections
-            .filter(status => status)
-            .flatMap(() => Observable.fromPromise(this.getMembershipRequest(0, 100)))
-            .switchMap(requests => this.notifications.scan(processRequest, requests).startWith(requests))
-            .share();
+        this.SocketService.messages
+        .filter((message) => message.type === 'groupMembershipRequest')
+        .subscribe((message) => {
+            let request = message.value;
+            let reducer = this.requestsReducers[message.action || 'I'];
 
-        this.requestsList.subscribe(requests => this.requests = requests);
+            if (reducer) {
+                this.requests = reducer(request);
+                this.requestsChanges.next(this.requests);
+            }
+        });
+
+        this.messages = this.SocketService.messages
+            .filter((message) => message.type === 'groupMembershipRequest')
+            .map((message) => message.value)
+            .share();
     }
 
     /**
@@ -77,7 +82,7 @@ export default class RequestsService {
      * @returns Observable<any>
      */
     requestWithUser (userId:number) : Observable<any> {
-        return this.notifications.filter(r => r.initiator.userId === userId || r.receiver.userId === userId);
+        return this.messages.filter(r => r.initiator.userId === userId || r.receiver.userId === userId);
     }
 
     /**
@@ -86,7 +91,7 @@ export default class RequestsService {
      * @returns Observable<any>
      */
     requestWithClub (clubId:number) : Observable<any> {
-        return this.notifications.filter(r => r.groupProfile.groupId === clubId);
+        return this.messages.filter(r => r.groupProfile.groupId === clubId);
     }
 }
 

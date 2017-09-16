@@ -5,6 +5,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import LoaderService from "../share/loader/loader.service";
 import {IMessageService} from "./message.service";
 import {IHttpService, noop} from 'angular';
+import {Ping} from "../../../api/core";
 
 
 export enum SocketStatus {
@@ -52,8 +53,9 @@ export class SocketService implements ISocketService {
     private requestId: number = 1;
     private lastHeartBit: number = null; // timestamp последнего heart bit от сервера
     private readonly heartBitTimeout: number = 30 * 1000; // 30 секунд
+    private readonly connectionTimeout: number = 300; // таймаут для завершения соедниения сессии (мс)
     private reopenTimeout: number = 0.5; // в секундах
-    private responseTimeout: number = 5.0; // сек
+    private responseTimeout: number = 10.0; // сек
     private readonly responseLimit: {} = { // лимиты ожидания по отдельным запросам (сек)
         getActivityIntervals: 10.0,
         postUserExternalAccount: 60.0,
@@ -62,7 +64,8 @@ export class SocketService implements ISocketService {
         calculateActivityRange: 15.0,
         putCalendarItem: 15.0,
         getActivityCategory: 10.0,
-        postCalendarItem: 10.0
+        postCalendarItem: 10.0,
+        getGroupManagementProfile: 10.0
     };
 
     private internetStatus: boolean = true;
@@ -85,16 +88,19 @@ export class SocketService implements ISocketService {
         this.messages = new Subject();
 
         setInterval(()=>{
-            $http.get(`/favicon.ico?_=${new Date().getTime()}`)
-                .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
-                    this.internetStatus = true;
-                    if(!this.connectionStatus) {
-                        this.open().then(() => this.connections.next(true), () => this.connections.next(false));
-                    }
-                }, () => {
-                    this.internetStatus = false;
-                    this.connections.next(false);
-                }); // подключение отсутствует
+            if(this.socket && this.socket.readyState === SocketStatus.Open){
+                //this.send(new Ping())
+                $http.get(`/favicon.ico?_=${new Date().getTime()}`)
+                    .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
+                        this.internetStatus = true;
+                        if(!this.connectionStatus) {
+                            this.open().then(() => this.connections.next(true), () => this.connections.next(false));
+                        }
+                    }, () => {
+                        this.internetStatus = false;
+                        this.connections.next(false);
+                    }); // подключение отсутствует
+            }
         }, 5000);
     }
 
@@ -103,7 +109,7 @@ export class SocketService implements ISocketService {
      * @returns {Promise<T>}
      * @param token
      */
-    open(token:string = this.SessionService.getToken(), delay:number = 100):Promise<number> {
+    open(token:string = this.SessionService.getToken(), delay:number = 100):Promise<any> {
         return new Promise((resolve, reject) => {
             if (!this.socket || (this.socket.readyState !== SocketStatus.Open &&
                 this.socket.readyState !== SocketStatus.Connecting)) {
@@ -132,14 +138,23 @@ export class SocketService implements ISocketService {
                 switch (this.socket.readyState) {
                     case SocketStatus.Open: {
                         resolve(this.socket.readyState);
-                        break;
+                    }
+                    case SocketStatus.Connecting: {
+                        setTimeout(() => {
+                            if (this.socket.readyState === SocketStatus.Open) {
+                                return resolve(this.socket.readyState);
+                            } else {
+                                return reject(`connection ws error: status ${SocketStatus[this.socket.readyState]}`);
+                            }
+                        }, this.connectionTimeout);
                     }
                     default: {
-                        reject(this.socket.readyState);
+                        return reject(`connection ws error: status ${SocketStatus[this.socket.readyState]}`);
                     }
                 }
             };
 
+            //onOpen();
             this.socket.readyState ? onOpen() : this.socket.addEventListener('open', onOpen);
         });
     }
@@ -198,12 +213,12 @@ export class SocketService implements ISocketService {
     reopen(event:any){
         console.log('SocketService: reopen ', event, this.internetStatus);
         if(event.type === 'error'){
-            setTimeout(()=> this.internetStatus && this.open().then(() => this.connections.next(true),
+            setTimeout(()=> this.SessionService.getToken() && this.internetStatus && this.open().then(() => this.connections.next(true),
                 () => this.connections.next(false)),
                 this.reopenTimeout++ * 1000);
         } else if (event.type === 'lostHeartBit') { // or !signout
-            setTimeout(()=> this.internetStatus && this.open().then(() => this.connections.next(true),
-                () => this.connections.next(false)),
+            setTimeout(()=> this.SessionService.getToken() && this.internetStatus &&
+                this.open().then(() => this.connections.next(true),() => this.connections.next(false)),
                 this.reopenTimeout++ * 1000);
         }
     }
@@ -212,25 +227,27 @@ export class SocketService implements ISocketService {
      * Закрываем websocket сессию
      */
     close (ev: CloseEvent | any) {
-        console.log('SocketService: close ', ev, typeof ev);
+        console.log('SocketService: close ', new Date().toTimeString(), this.socket);
         if (typeof ev === 'CloseEvent') {
             return;
         }
 
         try {
+            //debugger;
             this.socket.removeEventListener('message', this.response.bind(this));
             this.socket.removeEventListener('close', this.close.bind(this));
             this.socket.removeEventListener('error', this.reopen.bind(this));
+            this.socket.close(3000, ev.reason);
         } catch (e) {
+            console.log('socket already closed');
         }
-
-        this.socket.close(3000, ev.reason);
         //this.lastHeartBit = null;
 
         switch (ev.reason) {
             case 'badToken': {
                 this.requests = [];
                 this.message.toastInfo(ev.reason);
+                this.loader.hide();
                 this.$state.go('signin');
                 break;
             }
@@ -250,13 +267,12 @@ export class SocketService implements ISocketService {
      */
     send(request:IWSRequest):Promise<any> {
 
-        /**if (this.lastHeartBit && (Date.now() - this.lastHeartBit) >= this.heartBitTimeout) {
-            this.connections.next(false);
-            this.close({reason: 'lostHeartBit'});
-        }**/
-
         if (!this.connectionStatus){ // если соединение не установлено
             return Promise.reject('internetConnectionLost');
+        }
+
+        if(!this.SessionService.getToken()) { // если пользователь не авторизован
+            return Promise.reject('userNotAuthorized');
         }
 
         return this.open().then(() => {

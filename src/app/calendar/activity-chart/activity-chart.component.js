@@ -5,7 +5,7 @@ class CalendarActivityChartCtrl {
                 'complete-warn': ['#FF9800', '#EF6C00'],
                 'complete-error': ['#F44336', '#C62828'],
                 'dismiss': ['#F44336', '#C62828'],
-                'coming': ['#BDBDBD', '#757575']
+                'coming': ['#BDBDBD', '#9E9E9E']
         };
 
         this.$location = $location;
@@ -22,15 +22,13 @@ class CalendarActivityChartCtrl {
 
 
     $onInit(){
-        "use strict";
 
         this.d = [[0, 0], ...this.data, [1, 0]]
             .map(([x, y], i) => i? `H ${x} V ${y}` : `M ${x} ${y}`)
             .join(' ');
 
         this.color = this.colors[this.status];
-
-        this.url = this.$location.absUrl();
+        this.url = this.$location.absUrl();//.replace(/(\w+)#(\w+)/,$1);//`${this.$location.protocol()}//${this.$location.host()}:${this.$location.port()}${this.$location.path()}`;//
 
         //console.debug('CalendarActivityChartCtrl: $onInit =>', this.d, this.color);
 

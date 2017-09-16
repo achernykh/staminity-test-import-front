@@ -1,6 +1,10 @@
 export const translateGeneral = {
     ru: {
-        staminity: 'Стаминити'
+        staminity: 'Стаминити',
+        updateToast: {
+            message: 'Перезагрузите страницу, чтобы загрузить обновление сервиса Staminity',
+            action: 'ПЕРЕЗАГРУЗИТЬ'
+        }
     }
 };
 
@@ -10,7 +14,9 @@ export const translateForm = {
         rangeNum: 'Укажите значение в диапазоне от {{min}} до {{max}}',
         rangeStr: 'Укажите текст от {{min}} до {{max}} символов',
         cancel: 'Отменить',
-        save: 'Сохранить'
+        save: 'Сохранить',
+        invalidDate: 'Некорректный формат даты',
+        delete: 'Удалить'
     },
     en: {
 

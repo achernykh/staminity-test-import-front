@@ -5,10 +5,29 @@ export const _translateActivity = {
             delete: 'Удалить',
             close: 'Закрыть',
             settings: 'Настроить отображение',
-            save: 'Сохарнить'
+            save: 'Сохранить',
+            template: 'Шаблон'
+        },
+        athleteSelector: {
+            title: 'Выберите атлета',
+            recalculate: 'Пересчитать от ПАНО'
+        },
+        details: {
+            map: {
+                title: 'Маршрут'
+            },
+            table: {
+                laps: 'Отрезки',
+                segments: 'Сегменты'
+            },
+            chart: {
+                measures: 'График: Показатели',
+                segments: 'График: Сегменты'
+
+            }
         },
         generalMeasures: 'Общее измерение',
-        sleepData: 'Сон',
+          sleepData: 'Сон',
         feeling: 'Состояние',
         sentiment: {
             sentiment_very_satisfied: 'Отличное',

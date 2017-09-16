@@ -1,11 +1,11 @@
 import {Measure, getSportLimit} from "../share/measure/measure.constants";
 import {
     ICalcMeasures, IActivityDetails, IActivityIntervalP,
-    IActivityIntervalPW
+    IActivityIntervalPW, IActivityMeasure
 } from "../../../api/activity/activity.interface";
 import {copy} from 'angular';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
-import {ITrainingZonesType, IUserProfile} from "../../../api/user/user.interface";
+import {ITrainingZonesType, IUserProfile, ITrainingZones} from "../../../api/user/user.interface";
 import {getFTP, profileShort} from "../core/user.function";
 import moment from 'moment/min/moment-with-locales.js';
 
@@ -113,7 +113,7 @@ export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
     return item;
 };
 
-export const updateIntensity = (item: ICalendarItem, trgZones: Array<ITrainingZonesType>): ICalendarItem => {
+export const updateIntensity = (item: ICalendarItem, trgZones: ITrainingZones): ICalendarItem => {
     // TODO for interval P
     let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
     let sport: string = item.activityHeader.activityType.code;
@@ -125,7 +125,6 @@ export const updateIntensity = (item: ICalendarItem, trgZones: Array<ITrainingZo
     console.log(ftp);
     intervalPW.intensityLevelFrom = intervalPW.intensityByFtpFrom * ftp;
     intervalPW.intensityLevelTo = intervalPW.intensityByFtpTo * ftp;
-    debugger;
     return item;
 };
 
@@ -139,3 +138,4 @@ export const shiftDate = (item: ICalendarItem, shift: number) => {
     item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     return item;
 };
+

@@ -1,5 +1,7 @@
 ﻿import {IInputPlanSegment } from './segmentsChart.input';
 
+const posOrder = (a:IInputPlanSegment,b:IInputPlanSegment) => a.pos < b.pos ? -1: 1;
+
 export enum IntervalStatus {
     unknown,
     success,
@@ -21,6 +23,7 @@ export interface ISegmentMeasures {
 export interface IPlanInterval {
     originId: number;
     isKey: boolean;
+    isSelected: boolean;
     status: IntervalStatus;
     intensityMeasure: string;
     durationMeasure: string;
@@ -42,6 +45,11 @@ export class PlanChartDatamodel {
         let currentPlanTime = 0;
         let currentFactDistance = 0;
         let currentFactTime = 0;
+
+        activityHeader = activityHeader.filter(i => i.type === 'P');
+        activityHeader.sort(posOrder);
+        console.log('header sort', activityHeader.map(i => i.pos));
+
         for (var i = 0; i < activityHeader.length; i++) {
             let segment = activityHeader[i];
             let intensityMeasure = segment.intensityMeasure || PlanChartDatamodel.DEFAULT_MEASURE;
@@ -78,6 +86,7 @@ export class PlanChartDatamodel {
             this.intervals.push({
                 originId: i,
                 isKey: segment.keyInterval,
+                isSelected: segment.isSelected,
                 status: this.getStatus(segment),
                 intensityMeasure: intensityMeasure,
                 durationMeasure: segment.durationMeasure,
@@ -91,6 +100,12 @@ export class PlanChartDatamodel {
 
     public getIntervals(): Array<IPlanInterval> {
         return this.intervals || [];
+    }
+
+    public getSelect(): Array<number> {
+        let select: Array<number> = [];
+        this.intervals.forEach((interval,i) => interval.isSelected && select.push(i));
+        return select || [];
     }
 
     private getIntervalPlanFTP(segment: IInputPlanSegment): number {

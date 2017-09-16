@@ -79,7 +79,6 @@ class SettingsZonesCtrl implements IComponentController {
             escapeToClose: false,
             fullscreen: true
         }).then(response => {
-            debugger;
             this.zones[response.intensityFactor][response.sport] = response.settings;
             this.parent.update({trainingZones: true});
             this.prepareZones();

@@ -1,6 +1,6 @@
 import './dashboard.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise,IScope} from 'angular';
+import {IComponentOptions, IComponentController, IPromise,IScope, copy} from 'angular';
 import {CalendarService} from "../calendar/calendar.service";
 import {ISessionService} from "../core/session.service";
 import {IMessageService} from "../core/message.service";
@@ -99,11 +99,8 @@ export class DashboardCtrl implements IComponentController {
 
         if((up && this.viewAthletes.indexOf(this.orderAthletes[from[0]]) === 0) ||
             (!up && this.viewAthletes.indexOf(this.orderAthletes[from[0]]) === this.viewAthletes.length - 1)){
-            debugger;
             return;
         }
-
-        debugger;
 
         from.forEach((pos,i) => {
             let temp: number = this.orderAthletes[to[i]];
@@ -176,7 +173,6 @@ export class DashboardCtrl implements IComponentController {
                 return message;
             })
             .subscribe((message) => {
-                debugger;
                 switch (message.action) {
                     case 'I': {
                         this.onPostItem(<ICalendarItem>message.value);
@@ -267,7 +263,6 @@ export class DashboardCtrl implements IComponentController {
      * @param item
      */
     onPostItem(item: ICalendarItem) {
-        debugger;
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
@@ -283,7 +278,6 @@ export class DashboardCtrl implements IComponentController {
      * @param item
      */
     onDeleteItem(item: ICalendarItem){
-        debugger;
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
@@ -300,7 +294,7 @@ export class DashboardCtrl implements IComponentController {
         this.firstSrcDay = null;
 
         if(items){
-            this.buffer.push(...items);
+            this.buffer.push(...copy(items));
             this.firstSrcDay = moment(items[0].dateStart).format('YYYY-MM-DD');
         } else {
             this.cache.forEach(w => w.calendar.forEach(a => a.subItem.forEach(d => {
@@ -309,7 +303,7 @@ export class DashboardCtrl implements IComponentController {
                         this.firstSrcDay = moment(d.date).format('YYYY-MM-DD');
                     }
                     if(d.data.calendarItems && d.data.calendarItems.length > 0) {
-                        this.buffer.push(...d.data.calendarItems);
+                        this.buffer.push(...copy(d.data.calendarItems));
                     }
                 }
             })));
@@ -321,13 +315,12 @@ export class DashboardCtrl implements IComponentController {
     }
 
     onPaste(firstTrgDay: string, athlete: IUserProfile){
-        debugger;
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let updateZones: boolean = false;
 
         if (this.buffer && this.buffer.length > 0) {
             if(this.buffer.some(i => i.userProfileOwner.userId !== athlete.userId)){
-                this.dialogs.confirm('updateIntensity')
+                this.dialogs.confirm({ text: 'dialogs.updateIntensity' })
                     .then(() => this.buffer.map(i => updateIntensity(i, athlete.trainingZones)))
                     .then(() => this.buffer.map(i => changeUserOwner(i,athlete)))
                     .then(() => this.onProcessPaste(shift));
@@ -338,7 +331,7 @@ export class DashboardCtrl implements IComponentController {
     }
 
     onProcessPaste(shift: number){
-        debugger;
+
         let task:Array<Promise<any>> = [];
         task = this.buffer
             .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
@@ -359,12 +352,11 @@ export class DashboardCtrl implements IComponentController {
                         selected.push(...d.data.calendarItems))));
 
         let inSelection: boolean = (selected && selected.length > 0) && selected.some(s => items.some(i => i.calendarItemId === s.calendarItemId));
-        debugger;
 
-        this.dialogs.confirm('deletePlanActivity')
-            .then(() => this.calendar.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId))
-                .then(()=> this.message.toastInfo('itemsDeleted'), (error)=> this.message.toastError(error))
-                .then(()=> inSelection && this.clearBuffer()));
+        this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
+            .then(() => this.calendar.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))
+            .then(() => this.message.toastInfo('itemsDeleted'), (error) => error && this.message.toastError(error))
+            .then(() => inSelection && this.clearBuffer());
     }
 
     clearBuffer(){

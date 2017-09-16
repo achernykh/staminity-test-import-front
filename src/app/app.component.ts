@@ -1,10 +1,12 @@
 import { IComponentController, IComponentOptions } from 'angular';
 
 import './app.component.scss';
+import {IAuthService} from "./auth/auth.service";
 
 class AppController implements IComponentController {
-	static $inject = ['$mdSidenav'];
-	constructor(private $mdSidenav: any) { }
+	static $inject = ['$mdSidenav','AuthService'];
+	constructor(private $mdSidenav: any,
+				private auth: IAuthService) { }
 }
 
 const AppComponent: IComponentOptions = {

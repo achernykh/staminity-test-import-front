@@ -20,7 +20,8 @@ class ActivityHeaderChatCtrl implements IComponentController {
     private comments: Array<IObjectComment> = [];
     private text: string = null;
     private readonly commentType: string = 'activity';
-    public onEvent: (response: Object) => IPromise<void>;
+    private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
+    public onUpdate: (response: Object) => IPromise<void>;
     static $inject = ['CommentService', 'message','$scope'];
 
     constructor(private comment: CommentService, private message: MessageService, private $scope: IScope) {
@@ -32,15 +33,19 @@ class ActivityHeaderChatCtrl implements IComponentController {
 
     $onInit() {
         this.comment.get(this.commentType, this.activityId, true, 50)
-            .then(result => this.comments = result, error => this.message.toastError(error));
+            .then(result => this.comments = result, error => this.message.toastError(error))
+            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
     }
 
     onPostComment(text) {
+        this.inAction = true;
         this.comment.post(this.commentType, this.activityId, true, text)
             .then(result=> {
                     this.text = null;
                     this.comments = result;
-                }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync());
+                }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync())
+            .then(() => this.inAction = false)
+            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));;
             //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
     }
 
@@ -62,7 +67,7 @@ const ActivityHeaderChatComponent:IComponentOptions = {
         user: '<',
         currentUser: '<',
         coach: '<',
-        onEvent: '&'
+        onUpdate: '&'
     },
     require: {
         //component: '^component'

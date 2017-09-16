@@ -1,4 +1,4 @@
-import {IPromise} from 'angular';
+import {IPromise, IHttpPromise} from 'angular';
 import {
     IActivityDetails, IActivityIntervalW, IActivityIntervalP, IActivityIntervalG, IActivityIntervalPW,
     IActivityIntervalL, IActivityInterval
@@ -8,7 +8,7 @@ import {
     CalculateActivityRange
 } from '../../../api/activity/activity.request';
 import {ISocketService} from '../core/socket.service';
-import {RESTService, PostData} from "../core/rest.service";
+import {RESTService, PostData, GetData} from "../core/rest.service";
 
 export default class ActivityService {
 
@@ -31,10 +31,13 @@ export default class ActivityService {
     /**
      * Обновляем данные пользователя
      * @param profile - может содержать частичные данные профиля, по секциям
+     * @param ws - протокол запроса, true - websocket, false - http
      * @returns {Promise<T>}
      */
-    getDetails(id:number):Promise<IActivityDetails> {
-        return this.SocketService.send(new GetDetailsRequest(id));
+    getDetails(id:number, ws: boolean = false):Promise<IActivityDetails> {
+        return ws ?
+            this.SocketService.send(new GetDetailsRequest(id)) :
+            this.RESTService.postData(new GetData(`/activity/${id}/full`, null));
     }
 
     /**
@@ -46,15 +49,6 @@ export default class ActivityService {
     getIntervals(id:number, types: string = 'L'):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
         return this.SocketService.send(new GetActivityIntervals(id, types))
             .then((response: {intervals: Array<any>}) => response.intervals);
-    }
-
-    /**
-     *
-     * @param id
-     * @returns {IHttpPromise<{}>}
-     */
-    getDetails2(id:number): IPromise<any>{
-        return this.RESTService.postData(new PostData(`/activity/${id}/full`, null));
     }
 
     /**
