@@ -131,7 +131,7 @@ class AnalyticsCtrl implements IComponentController {
             charts: [chart]
         };
 
-        this.statistics.getMetrics(request).then(result => { debugger; }, error => { debugger; });
+        this.statistics.getMetrics(request).then(result => { }, error => { });
     }
 }
 
