@@ -123,4 +123,15 @@
                       rows="1"></textarea>
         </md-input-container>
     </md-list-item>
+    <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
+        <md-input-container flex class="md-block no-message">
+            <md-icon class="material-icons md-dark">visibility_off</md-icon>
+            <label translate="activity.trainersPrivatePrescription" class="icon"></label>
+            <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrivatePrescription"
+                      ng-change="$ctrl.changeParam()"
+                      ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
+                      class="icon" name="trainersPrescription"
+                      rows="1"></textarea>
+        </md-input-container>
+    </md-list-item>
 </md-list>
