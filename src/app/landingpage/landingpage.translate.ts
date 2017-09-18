@@ -470,7 +470,7 @@ export let _translate = {
 			tryFreeBtn: 'TRY IT FREE',
 			tryFree: 'No credit card required',
 			connectFree: 'TRY IT FREE',
-			connectTrial: '14 day free trial, no credit card required',
+			connectTrial: '14 day free trial',
 			connect: 'Get started',
 			connectTrialBtn: 'TRY IT FREE',
 			month: 'Month',
