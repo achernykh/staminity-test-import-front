@@ -490,7 +490,6 @@ export let _translate = {
 				club: 'All for clubs with several coaches to work with athletes'
 			},
 			noCreditCard: '',
-
 			functions: {
 				func1: 'Workout log',
 				func2: 'Review completed workouts',

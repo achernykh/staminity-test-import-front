@@ -18,6 +18,7 @@ export const landingTariffsData = [
                     month: 0,
                     year: 0
                 }
+
             },
             variable: null
         },
