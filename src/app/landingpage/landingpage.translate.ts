@@ -281,7 +281,7 @@ export let _translate = {
 		nav: {
 			link1: 'Features',
 			link2: 'Blog (rus)',
-			link3: 'Tariffs',
+			link3: 'Pricing',
 			link4: 'Support',
 			signIn: 'Login',
 			signOut: 'Logout'
@@ -466,35 +466,54 @@ export let _translate = {
 			copyright2: '| © 2017 staminity.com All Rights Reserved'
 		},
 		tariffs: {
-			title: 'Сколько стоит Стаминити?',
-			connectFree: 'Попробовать бесплатно',
-			connectTrial: 'На 14 дней, привязка кредитной карты не требуется',
-			connect: 'Подключить',
-			month: 'Месяц',
-			year: 'Год',
-			calculator: 'Калькулятор',
+			title: 'Find a plan that’s right for you',
+			connectFree: 'TRY IT FREE',
+			connectTrial: '14 day free trial, no credit card required',
+			connect: 'Get started',
+			month: 'Month',
+			year: 'Year',
+			calculator: 'Tariff calculator',
 			name: {
-				basic: 'Базовый',
-				premium: 'Премиум',
-				coach: 'Тренер',
-				club: 'Клуб'
+				basic: 'Basic',
+				premium: 'Premium',
+				coach: 'Coach',
+				club: 'Club'
 			},
 			description: {
-				basic: 'Базовый...',
-				premium: 'Премиум....',
-				coach: 'Тренер....',
-				club: 'Клуб...'
+				basic: 'Workout log, train with coach, connect with friends',
+				premium: '"Basic" + Plan and analyze your workouts',
+				coach: 'All for coach to work with athletes',
+				club: 'All for clubs with several coaches to work with athletes'
 			},
 			noCreditCard: '',
 			functions: {
-				func1: 'Функция1',
-				func2: 'Функция2',
-				func3: 'Функция3',
-				func4: 'Функция4',
-				func5: 'Функция5',
+				func1: 'Workout log',
+				func2: 'Review completed workouts',
+				func3: 'Auto sync with actual data providers',
+				func4: 'Online training with coach',
+				func5: '<i>(SOON) Chat with friends, groups and leaderboards</i>',
+				func6: '<strong>All in "Basic" tariff +:</strong>',
+				func7: '+ Plan your workouts',
+				func8: '+ Analyze workouts in details',
+				func9: '+ Manage categories and workout templates',
+				func10: '<i>+ (SOON) Repors and analytics</i>',
+				func11: 'Workout log for every athlete',
+				func12: 'Plan workouts and chat with athletes',
+				func13: "Analyze athlete's workouts in details",
+				func14: 'Manage categories and workout templates',
+				func15: 'Coach dashboard',
+				func16: '<i>(SOON) Reports and analytics for coach</i>',
+				func17: '<i>(СКОРО) Manage training plans </i>',
+				func18: '<strong>All Coach functions for club athletes +:</strong>',
+				func19: '+ Connect additional coaches',
+				func20: '+ Assign coaches to club athletes',
+				func21: '+ Manage club workout categories and templates',
+				func22: '+ Club dashboard',
+				func23: '<i>+ (SOON) Reports and analytics for club</i>',
+				func24: '<i>+ (СКОРО) Manage training plans</i>'
 			},
-			byMonth: '/ месяц',
-			byYear: '/год'
+			byMonth: '/ month',
+			byYear: '/year'
 		}
 
 	}
