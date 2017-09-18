@@ -467,12 +467,16 @@ export let _translate = {
 		},
 		tariffs: {
 			title: 'Find a plan that’s right for you',
+			tryFreeBtn: 'TRY IT FREE',
+			tryFree: 'No credit card required',
 			connectFree: 'TRY IT FREE',
 			connectTrial: '14 day free trial, no credit card required',
 			connect: 'Get started',
+			connectTrialBtn: 'TRY IT FREE',
 			month: 'Month',
 			year: 'Year',
 			calculator: 'Tariff calculator',
+
 			name: {
 				basic: 'Basic',
 				premium: 'Premium',
@@ -485,7 +489,8 @@ export let _translate = {
 				coach: 'All for coach to work with athletes',
 				club: 'All for clubs with several coaches to work with athletes'
 			},
-			noCreditCard: 'No credit card required',
+			noCreditCard: '',
+
 			functions: {
 				func1: 'Workout log',
 				func2: 'Review completed workouts',
@@ -513,7 +518,30 @@ export let _translate = {
 				func24: '<i>+ (СКОРО) Manage training plans</i>'
 			},
 			byMonth: '/ month',
-			byYear: '/year'
+			byYear: '/year',
+
+			coachAthletes: '{{athlete | currency}}/month per athlete. \n' +
+			'{{minAthletes}} athletes included in subscription fee. \n' +
+			'Pay maximum for {{maxAthletes}} athletes, {{maxAthletes + 1}}-th and above are free',
+
+			clubAthletes: '{{athlete | currency}}/month per club athlete.  \n' +
+			'{{minAthletes}} free athlete for every club coach included. \n' +
+			'Pay maximum for {{maxAthletes}} athletes for every club coach',
+
+			clubCoaches: '{{coach | currency}}/month per club coach.  \n' +
+			'{{minCoaches}} club coach included in subscription fee. \n',
+
+			calc: {
+				params: 'Params',
+				totals: 'Total per month',
+				subscription: 'Subscription fee:',
+				variable: 'For athletes:',
+				premium: 'Need PREMIUM tariff for yourself',
+				coaches: 'Coaches:',
+				athletes: 'Athletes:',
+				proAthletes: 'Athletes with PREMIUM tariff paid by you:',
+				freeAthletes: '{{athletes}}+ athletes are without payment'
+			}
 		}
 
 	}
