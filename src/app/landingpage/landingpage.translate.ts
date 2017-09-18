@@ -512,7 +512,7 @@ export let _translate = {
 				func18: '<strong>All Coach functions for club athletes +:</strong>',
 				func19: '+ Connect additional coaches',
 				func20: '+ Assign coaches to club athletes',
-				func21: '+ Manage club workout categories and templates',
+				func21: '+ Manage club categories and workout templates',
 				func22: '+ Club dashboard',
 				func23: '<i>+ (SOON) Reports and analytics for club</i>',
 				func24: '<i>+ (СКОРО) Manage training plans</i>'
