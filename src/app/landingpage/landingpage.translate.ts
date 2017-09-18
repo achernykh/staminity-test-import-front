@@ -485,7 +485,7 @@ export let _translate = {
 				coach: 'All for coach to work with athletes',
 				club: 'All for clubs with several coaches to work with athletes'
 			},
-			noCreditCard: '',
+			noCreditCard: 'No credit card required',
 			functions: {
 				func1: 'Workout log',
 				func2: 'Review completed workouts',
