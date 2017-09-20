@@ -12,12 +12,13 @@ import {chart_example_09} from '../share/universal-chart/data/pieChart.js';
 import {IReportRequestData, IChart} from "../../../api/statistics/statistics.interface";
 import {ISessionService} from "../core/session.service";
 import StatisticsService from "../core/statistics.service";
+import {IAnalyticsChart} from "./analytics-chart/analytics-chart.model";
 
 class AnalyticsCtrl implements IComponentController {
 
     public data: any;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['SessionService','statistics'];
+    static $inject = ['SessionService','statistics', 'analyticsDefaultSettings'];
 
     private selectedChart = [0,1,2,3,4,5,6,7,8];
 
@@ -61,7 +62,9 @@ class AnalyticsCtrl implements IComponentController {
 
     ];
 
-    constructor(private session: ISessionService, private statistics: StatisticsService) {
+    constructor(private session: ISessionService,
+                private statistics: StatisticsService,
+                private defaultSettings: Array<IAnalyticsChart>) {
 
     }
 

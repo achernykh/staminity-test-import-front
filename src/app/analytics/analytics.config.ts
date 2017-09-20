@@ -27,8 +27,8 @@ function configure($stateProvider:StateProvider,
             views: DefaultTemplate('analytics')
         });
 
-    $translateProvider.translations('en', {dashboard: translateAnalytics['en']});
-    $translateProvider.translations('ru', {dashboard: translateAnalytics['ru']});
+    $translateProvider.translations('en', {analytics: translateAnalytics['en']});
+    $translateProvider.translations('ru', {analytics: translateAnalytics['ru']});
 }
 
 configure.$inject = ['$stateProvider', '$translateProvider'];

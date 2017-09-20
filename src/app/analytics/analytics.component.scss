@@ -15,18 +15,6 @@
 
   }
 
-  &__filter {
-    width: 360px;
-    min-width: 360px;
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    @media (max-width: 959px) {
-      width: 100%;
-      height: auto;
-    }
-  }
-
   &__chart-section {
     overflow-y: auto;
 

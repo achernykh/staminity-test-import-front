@@ -1,0 +1,17 @@
+<md-menu-content class="md-whiteframe-4dp analytics-chart-filter-panel">
+    <md-menu-item>
+        <md-button ng-click="ctrl.sampleAction('share', $event)">
+            Share...
+        </md-button>
+    </md-menu-item>
+    <md-menu-item class="md-indent">
+        <md-menu>
+            <md-button ng-click="$mdMenu.open()">Mode</md-button>
+            <md-menu-content width="3">
+                <md-menu-item type="radio" ng-model="ctrl.settings.presentationMode" value="'presentation'">Presentation</md-menu-item>
+                <md-menu-item type="radio" ng-model="ctrl.settings.presentationMode" value="'edit'">Edit</md-menu-item>
+                <md-menu-item type="radio" ng-model="ctrl.settings.presentationMode" value="'modifiable'">Modifiable</md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </md-menu-item>
+</md-menu-content>

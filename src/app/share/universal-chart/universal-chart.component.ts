@@ -54,6 +54,7 @@ class UniversalChartCtrl implements IComponentController {
 const UniversalChartComponent:IComponentOptions = {
     bindings: {
         data: '<',
+        update: '<',
         onEvent: '&'
     },
     require: {

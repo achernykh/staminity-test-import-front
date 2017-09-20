@@ -1,0 +1,14 @@
+.analytics-management-panel {
+
+  width: 360px;
+  min-width: 360px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+
+  @media (max-width: 959px) {
+    width: 100%;
+    height: auto;
+  }
+
+}
