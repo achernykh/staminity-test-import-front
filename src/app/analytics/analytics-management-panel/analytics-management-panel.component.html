@@ -1,11 +1,24 @@
 <nav class="analytics-management-panel md-whiteframe-2dp bg-grey-100" flex="none">
     <md-tabs md-dynamic-height md-border-bottom>
+        <!-- ПАНЕЛЬ ФИЛЬТРОВ -->
         <md-tab label="{{'analytics.panel.filter' | translate}}">
-            <md-content class="md-padding">
-                <h1 class="md-display-2">Tab One</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>
-            </md-content>
+            <md-list class="md-dense slim-input bg-grey-200">
+                <md-list-item>
+                    <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.sportUrl}}">
+                    </md-icon>
+                    <md-select flex name="sport" class="icon" required
+                               ng-model="$ctrl.item.activity.sport"
+                               ng-change="$ctrl.changeParam()"
+                               ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
+                        <md-option ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
+                                   value="{{type.id}}">
+                            {{'sport.'+type.code | translate}}
+                        </md-option>
+                    </md-select>
+                </md-list-item>
+            </md-list>
         </md-tab>
+        <!-- ПАНЕЛЬ ОТЧЕТОВ -->
         <md-tab label="{{'analytics.panel.charts' | translate}}">
             <md-list class="md-dense" flex>
                 <md-subheader class="md-no-sticky" translate="analytics.defaultCharts"></md-subheader>
