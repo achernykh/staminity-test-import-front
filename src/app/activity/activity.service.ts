@@ -46,7 +46,7 @@ export default class ActivityService {
      * @param types
      * @returns {Promise<any>}
      */
-    getIntervals(id:number, types: string = 'L'):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
+    getIntervals(id:number, types: Array<string> = ['L']):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
         return this.SocketService.send(new GetActivityIntervals(id, types))
             .then((response: {intervals: Array<any>}) => response.intervals);
     }
@@ -61,8 +61,13 @@ export default class ActivityService {
         return this.SocketService.send(new GetActivityGategory(id , onlyMine));
     }
 
-    calculateRange(activityId: number, start: number, end: number, type: Array<IActivityInterval>):Promise<any> {
-        return this.SocketService.send(new CalculateActivityRange(activityId, start,end, type));
+    calculateRange(
+        activityId: number,
+        start: number,
+        end: number,
+        type: Array<IActivityInterval>,
+        nonContiguousMode: boolean = true):Promise<any> {
+        return this.SocketService.send(new CalculateActivityRange(activityId, start,end, type, nonContiguousMode));
     }
 
 }

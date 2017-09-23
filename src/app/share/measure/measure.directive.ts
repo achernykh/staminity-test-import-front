@@ -114,7 +114,6 @@ export function MeasurementInput($filter): IDirective {
 
 		// Преобразование для ввода пульса
 		const paceIntervalParsers = (value) => {
-			//debugger;
 			console.log('$parsers=',value);
 
 			let sep = value.search('-');
@@ -190,25 +189,21 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const durationFtpParsers = (value) => {
-			//debugger;
 			return $filter('measureSave')(measure.name, value, measure.sport);
 		};
 
 		const numberFtpParsers = (value) => {
-			//debugger;
 			return value / 100;
 		};
 
 		const paceIntervalFormatters = (value: any) => {
-			//debugger;
-			console.log('check pace interval formatters', value);
+			console.log('check pace interval formatters', $ctrl, value);
 			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
 				initial = value;
 				return (value[$scope.from] !== value[$scope.to]) ?
 					$filter('measureCalc')(value[$scope.to], measure.sport, measure.name)+'-'+$filter('measureCalc')(value[$scope.from], measure.sport, measure.name):
 					$filter('measureCalc')(value[$scope.from], measure.sport, measure.name);
 			} else {
-				//debugger;
 				initial = Object.assign(initial, {
 					type: value.hasOwnProperty('type') && value.type || null,
 					trainersPrescription: value.hasOwnProperty('trainersPrescription') && value.trainersPrescription || null,
@@ -221,7 +216,6 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const numberIntervalFormatters = (value: any) => {
-			//debugger;
 			if(value && value.hasOwnProperty($scope.from) && value.hasOwnProperty($scope.to)) {
 				initial = value;
 				return (value[$scope.from] !== value[$scope.to]) ?
@@ -254,27 +248,21 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		const durationFormatters = (value) => {
-			//debugger;
-            //let newValue = $filter('measureCalc')(value, measure.sport, measure.name);
 			return (!!value && $filter('measureCalc')(value, measure.sport, measure.name)) || null;
 		};
 
 		const durationFtpFormatters = (value) => {
-			//debugger;
-			//let newValue = convertFromFTP($scope.interval, initial, value, $scope.ftp);
 			return (!!value && `${(value*100).toFixed(0)}`) || null;
 		};
 
 		const paceIntervalValidators = (model: any) => {
-			//debugger;
-			//console.log('check pace interval validators', model, typeof model, model.from, model.to);
+			console.log('check pace interval validators', model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
+				model[$scope.from] <= model[$scope.to]);
 			return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
                 model[$scope.from] <= model[$scope.to];
 		};
 
 		const numberIntervalValidators = (model: any) => {
-			//debugger;
-			//console.log('check number interval validators', model.from, model.to, model.from <= model.to);
 			return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
 				model[$scope.from] <= model[$scope.to];
 		};
@@ -289,6 +277,9 @@ export function MeasurementInput($filter): IDirective {
 		};
 
 		// Для обновляние viewValue добавляем $render
+		/**
+		 *
+         */
 		$element.on('keyup change', () => {
 			if (!!$ctrl.$viewValue && !!mask) {
 				$ctrl.$setViewValue(mask($ctrl.$viewValue));
@@ -314,8 +305,9 @@ export function MeasurementInput($filter): IDirective {
 			}
 
 			setParams();
-			console.log('watch', $scope.measure, $scope.interval, $ctrl.$viewValue, mask);
 
+			// TODO расчет необходимо перенести в intervalPW.complete()
+			// Если не заполнено относительное или аболютное значение, то выполняем перерасчет
 			if($ctrl.$modelValue || $ctrl.$viewValue) {
 				let percent: number = $scope.ftpMode ? 100 : 1;
 				// Пустое значение в модели данных, в представление = '
@@ -342,9 +334,21 @@ export function MeasurementInput($filter): IDirective {
 					}
 				}
 			}
+			// Если относительное значение содержит дробную часть
+			/**if((Math.ceil($ctrl.$modelValue.intensityByFtpFrom * 100) !== $ctrl.$modelValue.intensityByFtpFrom * 100) ||
+				(Math.ceil($ctrl.$modelValue.intensityByFtpTo * 100) !== $ctrl.$modelValue.intensityByFtpTo * 100)) {
+				if($scope.interval && $ctrl.$modelValue[$scope.from] !== $ctrl.$modelValue[$scope.to]) {
+					$ctrl.$viewValue = `${Math.ceil($ctrl.$modelValue.intensityByFtpFrom * 100) / 100}-${Math.ceil($ctrl.$modelValue.intensityByFtpTo * 100) / 100}`;
+				} else {
+					$ctrl.$viewValue = `${Math.ceil($ctrl.$modelValue.intensityByFtpTo * 100) / 100}`;
+				}
+			}**/
 			$ctrl.$render();
 		});
 
+		/**
+		 *
+         */
 		$scope.$watch('measure',(value:boolean, last:boolean) => {
 			if (value === last && !!!value) {
 				return;
@@ -352,10 +356,11 @@ export function MeasurementInput($filter): IDirective {
 			setParams();
 		});
 
+		/**
+		 *
+         */
 		$scope.$watch('change', (newValue: number) => {
-			console.log('change assignment: ',$scope, $attrs, $ctrl, newValue);
 			$ctrl.$render();
-			//debugger;
 		});
 
 		setParams();

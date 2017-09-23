@@ -1,11 +1,14 @@
 import './structured-interval.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
 import {IActivityIntervalP} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
 import {Interval} from "../../activity.datamodel";
 import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
 import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
+import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
+import {getFtpBySport} from "../../../core/user.function";
+import {DurationMeasure, IntensityMeasure} from "../../activity-datamodel/activity.models";
 
 const approxZones = {
     heartRate: [
@@ -27,8 +30,12 @@ class StructuredIntervalCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     public interval: ActivityIntervalP;
     public sport: string;
+    public group: ActivityIntervalG;
     public loop: Loop;
     public ftpMode: FtpState;
+    public viewPlan: boolean;
+    public viewActual: boolean;
+    public viewGroup: boolean;
 
     public onSelect: () => IPromise<void>;
     public onChange: (response: {interval: IActivityIntervalP}) => IPromise<void>;
@@ -49,6 +56,8 @@ class StructuredIntervalCtrl implements IComponentController {
     private intensity: string = 'heartRate';
     private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
 
+    private ftp: {[measure: string] : number};
+
     static $inject = [];
 
     constructor() {
@@ -56,6 +65,11 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.ftp = getFtpBySport(this.item.user.trainingZones, this.sport);
+        this.prepareInterval();
+    }
+
+    $onChanges(changes: any): void {
         this.prepareInterval();
     }
 
@@ -70,7 +84,12 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     select(){
-        this.onSelect();
+        if(this.item.mode === 'view') {
+            //this.item.showIntervalOverview = true;
+            //this.item.intervalOverview = this.interval;
+        } else {
+            this.onSelect();
+        }
     }
 
     isFTP():boolean {
@@ -79,6 +98,13 @@ class StructuredIntervalCtrl implements IComponentController {
 
 
     prepareInterval(){
+        //this.interval = copy(this.interval); // срабатывает обновление модели (мешает работе с вводом скорости)
+        Object.assign(this.interval, this.interval);
+
+        /**if(this.group && this.group.hasOwnProperty('totalMeasures') && this.viewGroup) {
+            let ind: number = (this.interval.pos - this.group.fPos) % this.group.grpLength;
+            Object.assign(this.interval.calcMeasures, this.group.totalMeasures[ind]);
+        }**/
 /**
         this.interval.movingDuration['durationValue'] = ((this.interval.durationMeasure === 'movingDuration' || (this.interval.durationMeasure === 'duration')) && this.interval.durationValue) || null;
         this.interval.distance['durationValue'] = (this.interval.durationMeasure === 'distance' && this.interval.durationValue) || null;
@@ -102,7 +128,7 @@ class StructuredIntervalCtrl implements IComponentController {
         });**/
     }
 
-    changeValue(measure) {
+    changeValue(measure: string) {
         this.completeInterval(measure);
         if (measure === 'movingDuration') {
             this.interval.movingDurationLength = this.interval.durationValue;
@@ -113,10 +139,10 @@ class StructuredIntervalCtrl implements IComponentController {
         this.onChange({interval: this.interval});
     }
 
-    completeInterval(measure) {
-
-        this.interval.complete(measure, this.interval[measure]);
-        measure = this.durationMeasure.indexOf(measure) === -1 ? this.interval.intensityMeasure : measure;
+    completeInterval(measure: string) {
+        let value:DurationMeasure | IntensityMeasure = this.interval[measure];
+        this.interval.complete(this.ftp, this.ftpMode, [{ measure: measure, value: value}]);
+        /**measure = this.durationMeasure.indexOf(measure) === -1 ? this.interval.intensityMeasure : measure;
 
         if (this.durationMeasure.indexOf(measure) !== -1) {
             this.interval.durationValue = this.interval[measure].durationValue;
@@ -134,7 +160,7 @@ class StructuredIntervalCtrl implements IComponentController {
         [this.interval.movingDurationLength,
             this.interval.distanceLength,
             this.interval.movingDurationApprox,
-            this.interval.distanceApprox] = this.approxCalc(this.interval.intensityMeasure);
+            this.interval.distanceApprox] = this.approxCalc(this.interval.intensityMeasure);**/
 
     }
 
@@ -147,7 +173,7 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     getFTP(measure: string = this.interval.intensityMeasure, sport: string = this.sport):number {
-        let zones = this.item.currentUser.trainingZones;
+        let zones = this.item.user.trainingZones;
         return (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport]['FTP']) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty('default') && zones[measure]['default']['FTP']) || null;
     }
@@ -221,11 +247,16 @@ class StructuredIntervalCtrl implements IComponentController {
 const StructuredIntervalComponent:IComponentOptions = {
     bindings: {
         interval: '<',
+        viewPlan: '<',
+        viewActual: '<',
+        viewGroup: '<',
         sport: '<',
+        group: '<',
         groupCount: '<',
         count: '<',
         loop: '<',
         ftpMode: '<',
+        change: '<',
         onChange: '&',
         onDelete: '&',
         onSelect: '&',

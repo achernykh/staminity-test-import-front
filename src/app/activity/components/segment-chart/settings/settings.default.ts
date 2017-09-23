@@ -9,15 +9,15 @@ const DefaultPlanChartSettings: IPlanChartSettings = {
         area: {
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#e0e0e0" },
-                { offset: "100%", color: "#ffffff" }
+                { offset: "0%", color: "#e0e0e0", opacity: 1 },
+                { offset: "100%", color: "#ffffff", opacity: 1 }
             ]
         },
         keySegment: {
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "#dedede" },
-                { offset: "100%", color: "#efefef" }
+                { offset: "0%", color: "#dedede", opacity: 1 },
+                { offset: "100%", color: "#efefef", opacity: 1 }
             ]
         }
     },
@@ -25,15 +25,15 @@ const DefaultPlanChartSettings: IPlanChartSettings = {
         area: {
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(0, 0, 0, 0)" },
-                { offset: "100%", color: "rgba(0, 0, 0, 0.48)" }
+                { offset: "0%", color: "rgba(0, 0, 0, 0)", opacity: 0 },
+                { offset: "100%", color: "rgba(0, 0, 0, 0.48)", opacity: 0.48 }
             ]
         },
         border: {
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(0, 0, 0, 0)" },
-                { offset: "100%", color: "#455a64" }
+                { offset: "0%", color: "rgba(0, 0, 0, 0)", opacity: 0 },
+                { offset: "100%", color: "#455a64", opacity: 1 }
             ]
         },
         borderWidth: 2
@@ -42,15 +42,15 @@ const DefaultPlanChartSettings: IPlanChartSettings = {
         area: {
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(0, 0, 150, 0)" },
-                { offset: "100%", color: "rgba(0, 0, 150, 0.48)" }
+                { offset: "0%", color: "rgba(0, 0, 150, 0)", opacity: 0 },
+                { offset: "100%", color: "rgba(0, 0, 150, 0.48)", opacity: 0.48 }
             ]
         },
         border: {
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(0, 0, 0, 0)" },
-                { offset: "100%", color: "#455a64" }
+                { offset: "0%", color: "rgba(0, 0, 0, 0)", opacity: 0 },
+                { offset: "100%", color: "#455a64", opacity: 1 }
             ]
         },
         borderWidth: 2

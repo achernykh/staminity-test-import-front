@@ -1,23 +1,36 @@
-<md-content flex="auto">
-    <md-list class="md-dense slim-input bg-grey-100" layout="column">
+<md-content flex="auto" layout="column">
+    <md-list flex="none" class="md-dense slim-input bg-grey-100" layout="column">
         <md-list-item flex="none">
-            <div class="md-caption" style="color: #455A64">
-                <span>Итого: </span>
+            <div class="md-caption" style="color: #455A64" ng-if="!$ctrl.item.activity.completed">
+                <span translate="activity.segments.total"></span>
                 <span ng-if="$ctrl.intervals.PW.movingDurationApprox">~</span>
-                <span>{{$ctrl.intervals.PW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'duration'}}</span>
+                <span>{{$ctrl.intervals.PW.movingDurationLength | measureCalc:$ctrl.item.activity.sportBasic:'movingDuration'}}</span>
                 <span ng-if="$ctrl.intervals.PW.distanceApprox">~</span>
                 <span>{{$ctrl.intervals.PW.distanceLength | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
                 <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic}}</span>
             </div>
+            <div class="md-caption" style="color: #455A64" ng-if="$ctrl.item.activity.completed">
+                <span translate="activity.segments.total"></span>
+                <span>{{$ctrl.intervals.W.movingDuration() | measureCalc:$ctrl.item.activity.sportBasic:'movingDuration'}}</span>
+                <span>{{$ctrl.intervals.W.distance() | measureCalc:$ctrl.item.activity.sportBasic:'distance'}}</span>
+                <span>{{'distance' | measureUnit:$ctrl.item.activity.sportBasic}}</span>
+            </div>
+
             <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
-               style="text-align: right; margin-right: 8px">%ПАНО: {{$ctrl.ftpMode ? 'ВЫКЛ ' : 'ВКЛ'}}</p>
+               style="text-align: right; margin-right: 8px">
+                <span translate="activity.percentFTP"></span>
+                <span translate="{{$ctrl.ftpMode ? 'activity.ftpMode.off ' : 'activity.ftpMode.on'}}"></span>
+            </p>
             <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.template"
                        ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
         </md-list-item>
     </md-list>
-    <activity-segment-chart flex="none" style="display: flex; margin: 8px 16px; height: 150px"
+    <!-- Показываем график сегментов если 1) мобильный вид 2) если десктоп и нет детальных данных -->
+    <activity-segment-chart flex="none"
+                            ng-if="!$ctrl.item.$mdMedia('gt-sm') || ($ctrl.item.$mdMedia('gt-sm') && !$ctrl.item.activity.actualDataIsImported)"
+                            style="margin: 8px 16px; height: 150px"
                             activity-header="$ctrl.intervals.stack"
-                            actual-ftp="false"
+                            actual-ftp="::$ctrl.item.activity.completed"
                             plan-ftp="true"
                             duration-measure="movingDuration"
                             view="'mobile'"
@@ -27,31 +40,71 @@
 
     <md-divider ng-if="$ctrl.item.mode !== 'view'"></md-divider>
 
+    <section ng-if="$ctrl.item.mode === 'view' && $ctrl.item.activity.actualDataIsImported" class="view-panel"
+             flex="none" layout="row" layout-align="center center">
+        <md-button flex ng-click="$ctrl.viewPlan = !$ctrl.viewPlan; $ctrl.viewActual = $ctrl.viewPlan ? false : true"
+                   ng-class="{'bg-grey-300': $ctrl.viewPlan, 'md-dark': !$ctrl.viewPlan}">
+            <span class="md-caption md-dark" translate="activity.plan"></span>
+        </md-button>
+        <md-button flex ng-click="$ctrl.viewActual = !$ctrl.viewActual; $ctrl.viewPlan = $ctrl.viewActual ? false : true"
+                   ng-class="{'bg-grey-300': $ctrl.viewActual, 'md-dark': !$ctrl.viewActual}">
+            <span class="md-caption md-dark" translate="activity.actual"></span>
+        </md-button>
+        <md-button flex ng-click="$ctrl.viewGroup = !$ctrl.viewGroup"
+                   ng-class="{'bg-grey-300': $ctrl.viewGroup, 'md-dark': !$ctrl.viewGroup}">
+            <span class="md-caption md-dark" translate="activity.segments.group"></span>
+        </md-button>
+    </section>
+
     <section ng-if="$ctrl.item.mode !== 'view'" class="action-panel" flex="none"
              layout="row" layout-align="center center">
-        <md-button ng-click="$ctrl.addInterval()">
-            <md-icon class="material-icons">add_circle</md-icon><span class="md-caption">&nbsp;Добавить</span>
+        <md-button ng-click="$ctrl.addInterval()" flex="33" class="bg-grey-200">
+            <!--<md-icon class="material-icons">add_circle</md-icon>-->
+            <span class="md-caption">&nbsp;Добавить</span>
+            <md-menu flex="none" class="add">
+                <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons">arrow_drop_down</md-icon>
+                </md-button>
+                <md-menu-content width="3">
+                    <md-menu-item ng-repeat="(type,obj) in $ctrl.scenario[$ctrl.item.activity.sportBasic] track by $index" ng-if="type !== 'default'">
+                        <md-button ng-click="$ctrl.addInterval(type)">
+                            <md-icon class="md-dark" md-svg-src="/assets/icon/duration.svg"></md-icon>
+                            <span class="md-caption" translate="activity.segments.add.{{type}}"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </md-button>
-        <md-checkbox ng-if="$ctrl.selectedInterval().length > 0"
+        <md-checkbox ng-if="$ctrl.selectedInterval().length > 0" flex="33"
                      ng-checked="$ctrl.isKey()"
                      md-indeterminate="$ctrl.isIndeterminate()"
                      ng-click="$ctrl.toggleKey()"
                      class="md-primary">
-            <span class="md-caption">Ключевой</span>
+            <span class="md-caption" translate="activity.segments.key"></span>
         </md-checkbox>
-        <md-button ng-if="$ctrl.selectedInterval().length > 0" ng-click="$ctrl.delete()">
-            <md-icon class="material-icons">delete</md-icon><span class="md-caption">&nbsp;Удалить</span>
+        <md-button ng-if="$ctrl.selectedInterval().length > 0" ng-click="$ctrl.delete()" flex="33" class="bg-grey-200">
+            <md-icon class="material-icons">delete</md-icon><span class="md-caption" translate="activity.delete"></span>
         </md-button>
     </section>
     <md-divider></md-divider>
+    <div flex="auto" class="loading-table" ng-if="!$ctrl.hasImport && $ctrl.item.activity.actualDataIsImported"
+         layout="column" layout-align="center center">
+        <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+        <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
+    </div>
     <structured-assignment flex="auto" layout="row"
+                           ng-if="!$ctrl.item.activity.actualDataIsImported || ($ctrl.hasImport && $ctrl.item.activity.actualDataIsImported)"
                            intervals="$ctrl.intervals"
-                           on-change="$ctrl.update()">
+                           view-plan="$ctrl.viewPlan"
+                           view-actual="$ctrl.viewActual"
+                           view-group="$ctrl.viewGroup"
+                           change="$ctrl.item.changeStructuredAssignment"
+                           on-change="$ctrl.update(reason)">
     </structured-assignment>
 </md-content>
 <!--<pre>{{$ctrl.item.activity.intervalPW | json}}</pre>-->
-
-<md-dialog-actions flex="none" layout="row" style="background: white">
+<activity-assignment-buttons></activity-assignment-buttons>
+<!--<md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>
     <md-button ng-if="$ctrl.item.mode === 'view'" ng-disabled="true"
                ng-click="">В шаблон
@@ -60,13 +113,14 @@
                ng-click="$ctrl.item.changeMode('put')">Изменить
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'"
-               ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )">Отменить
+               ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )"
+               translate="activity.reset">
     </md-button>
     <md-button ng-if="$ctrl.item.mode !== 'view'" type="submit"
                ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid"
                ng-class="{'md-warn': !$ctrl.form.$valid}"
-               ng-click="$ctrl.onSave()">
-        Сохранить
+               ng-click="$ctrl.onSave()"
+               translate="activity.save">
     </md-button>
-</md-dialog-actions>
+</md-dialog-actions>-->
 </form>

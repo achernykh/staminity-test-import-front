@@ -1,0 +1,109 @@
+<md-list class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view' || $ctrl.item.template">
+    <md-list-item>
+        <md-input-container class="md-block no-message" md-no-float layout="row">
+            <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
+            <md-select flex name="sport" class="icon" required
+                       ng-model="$ctrl.item.activity.sport"
+                       ng-model-options="{ getterSetter: true }"
+                       ng-change="$ctrl.changeParam()"
+                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
+                <md-option ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
+                           value="{{type.id}}">
+                    {{'sport.'+type.code | translate}}
+                </md-option>
+            </md-select>
+            <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                <div ng-message-exp="['required']"
+                     translate="form.required">
+                </div>
+                <div ng-message-exp="['minlength', 'maxlength']"
+                     translate="form.rangeStr" translate-values="{min:2, max:100}">
+                </div>
+            </div>
+        </md-input-container>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0 || $ctrl.item.template">
+        <md-input-container class="md-block no-message" md-no-float>
+            <md-icon class="material-icons md-dark" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
+            <md-select
+                    ng-model="$ctrl.item.activity.header.activityCategory"
+                    ng-model-options="{ trackBy: '$value.id' }"
+                    required=""
+                    md-no-asterisk="false"
+                    placeholder="{{::'activity.assignment.categoryLabel' | translate}}"
+                    ng-change="$ctrl.changeParam()"
+                    ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
+                    name="category"
+                    class="icon">
+                <md-optgroup
+                        ng-repeat="owner in ['user', 'coach', 'club', 'system']"
+                        ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
+                        label="{{ 'reference.categories.' + owner | translate }}">
+                    <md-option
+                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.sport, visible: true}:true track by category.id"
+                            ng-value="category">
+                        {{ category | categoryCode }}
+                    </md-option>
+                </md-optgroup>
+            </md-select>
+            <div ng-messages="$ctrl.form.category.$error" role="alert">
+                <div ng-message="required"
+                     translate="form.required">
+                </div>
+            </div>
+        </md-input-container>
+    </md-list-item>
+    <md-list-item ng-click="$ctrl.onTemplateOpen()"
+                  ng-if="!$ctrl.item.template && $ctrl.item.activity.header.activityCategory"
+                  ng-disabled="!$ctrl.item.templateByFilter">
+        <md-icon class="material-icons md-dark" style="margin-right: 20px">import_contacts</md-icon>
+        <p translate>{{$ctrl.templateSelectorText}}</p>
+        <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.item.activity.sport">
+        <md-icon class="material-icons md-dark" style="margin-right: 20px">format_list_numbered</md-icon>
+        <p translate="activity.assignment.structured"></p>
+        <md-switch class="md-secondary md-primary"
+                   ng-model="$ctrl.item.structuredMode"
+                   ng-change="$ctrl.changeStructuredMode()"
+                   md-invert>
+    </md-list-item>
+    <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.template">
+        <md-input-container flex="50" class="no-message" md-no-float>
+            <md-icon flex="none" class="material-icons md-dark" style="left: 0px">today</md-icon>
+            <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
+                           ng-change="$ctrl.changeParam()"
+                           name="dateStart" md-hide-icons="calendar"
+                           ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
+                           style="margin-left: 42px"></md-datepicker>
+            <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
+                <div ng-message="needPermissionForFeature"
+                     translate="calendar.needPermissionForFeature">
+                </div>
+            </div>
+        </md-input-container>
+        <div flex="5">
+        </div>
+    </md-list-item>
+    <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
+        <md-input-container flex="auto" class="md-block no-message" md-no-float>
+            <md-icon flex="none" class="material-icons md-dark" style="left: 0px">import_contacts</md-icon>
+            <input type="text" name="name" maxlength="150" required
+                   ng-model="$ctrl.item.name"
+                   autocomplete="off"
+                   placeholder="{{::'activity.template.namePlaceholder' | translate}}">
+            <div ng-messages="$ctrl.form.name.$error" role="alert">
+                <div ng-message="needPermissionForFeature"
+                     translate="calendar.needPermissionForFeature">
+                </div>
+            </div>
+        </md-input-container>
+        </md-input-container>
+    </md-list-item>
+    <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
+        <md-icon flex="none" class="material-icons md-dark" style="margin-right: 20px">star</md-icon>
+        <p class="md-caption" flex="none" translate="activity.template.favorite"></p>
+        <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.activity.favourite" md-invert>
+        </md-switch>
+    </md-list-item>
+</md-list>

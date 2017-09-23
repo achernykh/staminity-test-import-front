@@ -10,6 +10,7 @@ import {IUserProfile} from "../../../api/user/user.interface";
 import GroupService from "../core/group.service";
 import {GetRequest} from "../../../api/calendar/calendar.request";
 import {Observable} from "rxjs/Rx";
+import {toDay} from "../activity/activity.datamodel";
 
 
 export interface IAuthService {
@@ -61,8 +62,7 @@ export default class AuthService implements IAuthService {
      */
     isAuthorized(authorizedRoles: Array<any> = []) : boolean {
         let userRoles = this.SessionService.getPermissions();
-        //console.log('auth', userRoles, authorizedRoles, new Date(userRoles[authorizedRoles[0]]), new Date());
-        return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && new Date(userRoles[role]) >= new Date());
+        return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
     }
 
     isCoach(role: string = 'Calendar_Athletes') : boolean {

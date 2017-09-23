@@ -29,6 +29,10 @@
                 &nbsp{{::$ctrl.activity.distance | measureCalc:$ctrl.activity.sportBasic:'distance'}}
                 {{'distance' | measureUnit:$ctrl.activity.sportBasic | translate}}</span>
             </div>
+            <calendar-activity-chart flex="none" style="width: 100%"
+                                     ng-if="::$ctrl.segmentChart"
+                                     hide show-gt-sm data="::$ctrl.segmentChart" status="::$ctrl.activity.status">
+            </calendar-activity-chart>
         </section>
     </header>
     <footer class="descriptions" hide show-gt-md ng-switch on="$ctrl.activity.bottomPanel">
