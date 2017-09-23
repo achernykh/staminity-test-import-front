@@ -89,6 +89,8 @@ class SettingsUserCtrl {
             offset: momentTimezone.tz(z).offset
         }));
 
+        console.log('timezones', this.timeZones);
+
         this.prepareZones();
     }
 

@@ -9,6 +9,8 @@ import { path } from '../share/utility';
 
 
 let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
+let getUnits = (session: ISession) : string => path([getUser, 'display', 'units']) (session) || 'metric';
+let getTimezone = (session: ISession) : string => path([getUser, 'display', 'timezone']) (session) || '+00:00';
 let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 1;
 
 export default class DisplayService {
@@ -61,6 +63,14 @@ export default class DisplayService {
 		} else {
 			this.SessionService.updateUser(<any>userChanges);
 		}
+	}
+
+	getUnits () : string {
+		return getUnits(this.SessionService.get());
+	}
+	
+	getTimezone () : string {
+		return getTimezone(this.SessionService.get());
 	}
 }
 
