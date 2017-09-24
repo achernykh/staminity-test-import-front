@@ -1,5 +1,5 @@
 import './analytics.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import {chart_example_01} from '../share/universal-chart/data/10.1_PMC_chart_four_measures.js';
 import {chart_example_02} from '../share/universal-chart/data/10.2.1_Two_IChart_four_measures.js';
 import {chart_example_03} from '../share/universal-chart/data/10.2.2_Two_IChart_four_measures.js';
@@ -10,15 +10,46 @@ import {chart_example_07} from '../share/universal-chart/data/16-Table-with-4-se
 import {chart_example_08} from '../share/universal-chart/data/donutChart.js';
 import {chart_example_09} from '../share/universal-chart/data/pieChart.js';
 import {IReportRequestData, IChart} from "../../../api/statistics/statistics.interface";
-import {ISessionService} from "../core/session.service";
+import {ISessionService, getUser} from "../core/session.service";
 import StatisticsService from "../core/statistics.service";
 import {IAnalyticsChart} from "./analytics-chart/analytics-chart.model";
+import {IUserProfile, IUserProfilePublic, IUserProfileShort} from "../../../api/user/user.interface";
+import {Subject} from "rxjs/Rx";
+import {activityTypes} from "../activity/activity.constants";
+import {IActivityType} from "../../../api/activity/activity.interface";
+import {
+    IAnalyticsChartFilterParam, IReportPeriodOptions,
+    PeriodOptions
+} from "./analytics-chart-filter/analytics-chart-filter.model";
+import {IActivityCategory} from "../../../api/reference/reference.interface";
+import ReferenceService from "../reference/reference.service";
+import {Owner, getOwner} from "../reference/reference.datamodel";
+import { pipe, orderBy, prop, groupBy } from "../share/util.js";
 
-class AnalyticsCtrl implements IComponentController {
+
+export class AnalyticsCtrl implements IComponentController {
 
     public data: any;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['SessionService','statistics', 'analyticsDefaultSettings'];
+
+    private filter: {
+        users: IAnalyticsChartFilterParam<IUserProfileShort>;
+        activityTypes: IAnalyticsChartFilterParam<IActivityType>;
+        activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
+        periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
+    } = {
+        users: null,
+        activityTypes: null,
+        activityCategories: null,
+        periods: null
+    };
+
+    public user: IUserProfile;
+    public categoriesByOwner: {[owner in Owner]: Array<IActivityCategory>};
+
+    private destroy: Subject<any> = new Subject();
+
+    static $inject = ['$scope','SessionService','statistics', 'ReferenceService', 'analyticsDefaultSettings'];
 
     private selectedChart = [0,1,2,3,4,5,6,7,8];
 
@@ -62,9 +93,31 @@ class AnalyticsCtrl implements IComponentController {
 
     ];
 
-    constructor(private session: ISessionService,
+    constructor(private $scope: IScope,
+                private session: ISessionService,
                 private statistics: StatisticsService,
+                private reference: ReferenceService,
                 private defaultSettings: Array<IAnalyticsChart>) {
+
+        session.getObservable()
+            .takeUntil(this.destroy)
+            .map(getUser)
+            .subscribe(userProfile => {
+                this.user = userProfile;
+                this.prepareUsersFilter(userProfile);
+            });
+
+        reference.categoriesChanges
+            .takeUntil(this.destroy)
+            .subscribe(categories => {
+                this.prepareCategoriesFilter(categories, this.user);
+                this.$scope.$apply();
+            });
+
+        this.prepareSportTypesFilter();
+        this.prepareCategoriesFilter(reference.categories, this.user);
+        this.preparePeriodsFilter();
+
 
     }
 
@@ -130,11 +183,74 @@ class AnalyticsCtrl implements IComponentController {
                 aggMethod: "sum"
             }]
         };
-        let request: IReportRequestData = {
-            charts: [chart]
+    }
+
+    $onDestroy() {
+        this.destroy.next();
+        this.destroy.complete();
+    }
+
+    private prepareUsersFilter(user: IUserProfile) {
+        this.filter.users = {
+            type: 'checkbox',
+            area: 'params',
+            name: 'users',
+            model: null,
+            options: []
+
         };
 
-        this.statistics.getMetrics(request).then(result => { }, error => { });
+        this.filter.users.options.push({
+            userId: user.userId,
+            public: user.public
+        });
+
+        if(user.public.isCoach && user.connections.hasOwnProperty('allAthletes')) {
+            this.filter.users.options.push(...user.connections.allAthletes.groupMembers.map(a => ({
+                    userId: a.userId,
+                    public: a.public
+                })));
+        }
+
+        this.filter.users.model = [this.filter.users.options[0].userId];
+    }
+
+    private prepareSportTypesFilter() {
+        this.filter.activityTypes = {
+            type: 'checkbox',
+            area: 'params',
+            name: 'activityTypes',
+            model: null,
+            options: activityTypes
+        };
+        this.filter.activityTypes.model = [this.filter.activityTypes.options[0].id];
+    }
+
+    private prepareCategoriesFilter(categoriesList: Array<IActivityCategory>, userProfile: IUserProfile) {
+
+        this.filter.activityCategories = {
+            type: 'checkbox',
+            area: 'params',
+            name: 'activityCategories',
+            model: [],
+            options: categoriesList
+        };
+
+        this.categoriesByOwner = pipe(
+            orderBy(prop('sortOrder')),
+            groupBy(getOwner(userProfile))
+        ) (categoriesList);
+    }
+
+    private preparePeriodsFilter() {
+        this.filter.periods = {
+            type: 'date',
+            area: 'params',
+            name: 'periods',
+            model: null,
+            options: PeriodOptions()
+        };
+        this.filter.periods.model = JSON.stringify(this.filter.periods.options[0].period);
     }
 }
 

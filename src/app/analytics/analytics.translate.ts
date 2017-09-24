@@ -6,6 +6,9 @@ export const translateAnalytics = {
             filter: 'Фильтр',
             charts: 'Отчеты'
         },
+        filter: {
+            more: ' и еще {{num}}...'
+        },
         // Переводы преднастроенных отчетов
         actualMovingDuration: {
             title: 'Фактическое время тренировок',
