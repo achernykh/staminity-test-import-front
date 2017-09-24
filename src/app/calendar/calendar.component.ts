@@ -100,8 +100,6 @@ export class CalendarCtrl implements IComponentController{
     }
 
     $onInit() {
-        moment.locale('ru');
-
         let date = moment(this.$location.hash());
         let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek;
         this.currentUser = this.session.getUser();

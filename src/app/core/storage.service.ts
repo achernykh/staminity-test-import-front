@@ -1,39 +1,32 @@
-import {IWindowService, copy} from 'angular';
-import {ISessionService} from "./session.service";
-import {Observable} from "rxjs/Rx";
-import {IUserProfile} from "../../../api/user/user.interface";
+import { IWindowService, copy } from 'angular';
+import { ISessionService } from "./session.service";
+import { Observable } from "rxjs/Rx";
+import { IUserProfile } from "../../../api/user/user.interface";
 
 export interface IStorageService {
-    get(key:string):any;
-    set(key:string, data:any):void;
+	get (key: string) : any;
+	set (key: string, data: any) : void;
 }
 
-const preset = {
-    dashboard: {
-        order: null,
-        selected: null
-    }
-};
-
 export default class StorageService implements IStorageService {
-    private readonly location: string = 'localStorage';
-    private userId: number = null;
-    private profile$: Observable<IUserProfile>;
 
-    static $inject = ['$window','SessionService'];
+	private readonly location: string = 'localStorage';
+	private storage: any;
 
-    constructor(private $window: IWindowService,
-                private session: ISessionService) {
+	static $inject = ['$window'];
 
-        this.profile$ = session.profile.subscribe(profile=> this.userId = angular.copy(profile).userId || null);
-    }
+	constructor (
+		private $window: IWindowService
+	) {
+		this.storage = $window[this.location];
+	}
 
-    get(key:string, byUser:boolean = true):any {
-        return JSON.parse(this.$window[this.location].getItem(byUser ? `${this.userId}#${key}`: key)) || null;
-    }
+	get (key: string) : any {
+		return JSON.parse(this.storage.getItem(key)) || null;
+	}
 
-    set(key:string, data:any, byUser:boolean = true):void {
-        this.$window[this.location].setItem(byUser ? `${this.userId}#${key}`: key, JSON.stringify(data));
-    }
+	set (key: string, data: any) : void {
+		this.storage.setItem(key, JSON.stringify(data));
+	}
 
 }

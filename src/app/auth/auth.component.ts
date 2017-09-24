@@ -82,9 +82,12 @@ class AuthCtrl implements IComponentController {
 	signin(credentials) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.signIn({email: credentials.email, password: credentials.password})
-			.finally(()=>this.enabled = true)
-			.then((profile:IUserProfile) => this.redirect('calendar', {uri: profile.public.uri}),
-				error => this.message.systemError(error));
+			.finally(() => this.enabled = true)
+			.then((profile: IUserProfile) => {
+				this.redirect('calendar', {uri: profile.public.uri});
+			}, (error) => {
+				this.message.systemError(error);
+			});
 	}
 
 	/**
@@ -94,11 +97,13 @@ class AuthCtrl implements IComponentController {
 	signup(credentials) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.signUp(credentials)
-			.finally(()=>this.enabled = true)
-			.then(message => {
+			.finally(() => this.enabled = true)
+			.then((message) => {
 				this.showConfirm = true;
 				this.message.systemSuccess(message.title);
-			}, error => this.message.systemWarning(error));
+			}, (error) => {
+				this.message.systemWarning(error);
+			});
 	}
 
 	/**
@@ -108,7 +113,7 @@ class AuthCtrl implements IComponentController {
 	reset(credentials) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.resetPassword(credentials.email)
-			.then(message => this.message.systemSuccess(message.title), error => this.message.systemWarning(error))
+			.then((message) => this.message.systemSuccess(message.title), error => this.message.systemWarning(error))
 			.then(() => this.enabled = true);
 	}
 
@@ -119,7 +124,7 @@ class AuthCtrl implements IComponentController {
 	setpass(credentials){
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.setPassword(credentials.password, this.$location['$$search']['request'])
-			.then(message => this.message.systemSuccess(message.title), error => this.message.systemWarning(error))
+			.then((message) => this.message.systemSuccess(message.title), error => this.message.systemWarning(error))
 			.then(() => this.enabled = true)
 			.then(() => this.$state.go('signin'));
 	}
@@ -130,11 +135,13 @@ class AuthCtrl implements IComponentController {
 	putInvite(credentials) {
 		this.enabled = false;
 		this.AuthService.putInvite(Object.assign(credentials, {token: this.$location['$$search']['request']}))
-            .finally(()=>this.enabled = true)
-			.then(response => {
-				this.AuthService.storeUser({data: response});
-				this.redirect('calendar', {uri: response.userProfile.public.uri});
-			}, error => this.message.systemWarning(error.errorMessage || error));
+            .finally(() => this.enabled = true)
+			.then((sessionData) => {
+				this.AuthService.signedIn(sessionData);
+				this.redirect('calendar', {uri: sessionData.userProfile.public.uri});
+			}, (error) => {
+				this.message.systemWarning(error.errorMessage || error);
+			});
 	}
 
 	OAuth(provider:string) {
@@ -149,15 +156,16 @@ class AuthCtrl implements IComponentController {
 		})
 			.finally(()=>this.enabled = true)
 			.then((response: IHttpPromiseCallbackArg<{data:{userProfile: IUserProfile, systemFunctions: any}}>) => {
-        		this.AuthService.storeUser(response.data);
-        		this.redirect('calendar', {uri: response.data.data.userProfile.public.uri});
-		}, error => {
-			if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
-				this.message.toastInfo('userCancelOAuth');
-			} else {
-				this.message.systemWarning(error.data.errorMessage || error.errorMessage || error);
-			}
-		}).catch(response => this.message.systemError(response));
+				let sessionData = response.data.data;
+				this.AuthService.signedIn(sessionData);
+				this.redirect('calendar', {uri: sessionData.userProfile.public.uri});
+			}, (error) => {
+				if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
+					this.message.toastInfo('userCancelOAuth');
+				} else {
+					this.message.systemWarning(error.data.errorMessage || error.errorMessage || error);
+				}
+			}).catch(response => this.message.systemError(response));
 	}
 
 	redirect(state: string = 'calendar', params: Object):void {

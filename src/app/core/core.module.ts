@@ -8,10 +8,9 @@ import { ActionMessageService } from "./actionmessage.service.js";
 import UserService from "./user.service";
 import GroupService from "./group.service";
 import RequestsService from "./requests.service";
-import MessageService from './message.service';
-import {_translateMessage} from './message.translate';
+import MessageService, { configure as messagesConf } from './message.service';
 import CommentService from "./comment.service";
-import DisplayService from "./display.service";
+import DisplayService, { configure as displayConf } from "./display.service";
 import StorageService from "./storage.service";
 import StatisticsService from "./statistics.service";
 import BillingService from "./billing.service";
@@ -27,15 +26,13 @@ const Core = module('staminity.core', [])
 	.service('RequestsService', RequestsService)
 	.service('message', MessageService)
 	.service('CommentService', CommentService)
-	.service('display', DisplayService)
+	.service('DisplayService', DisplayService)
 	.service('BillingService', BillingService)
 	.service('storage', StorageService)
 	.service('statistics', StatisticsService)
 	.component('systemMessage', SystemMessageComponent)
-	.config(['$translateProvider', ($translateProvider) => {
-		$translateProvider.translations('ru', _translateMessage['ru']);
-		$translateProvider.translations('en', _translateMessage['en']);
-	}])
+	.config(messagesConf)
+	.config(displayConf)
 	.name;
 
 export default Core;

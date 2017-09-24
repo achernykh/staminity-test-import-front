@@ -1,6 +1,9 @@
 import * as angular from 'angular';
 import {IRootScopeService,ICompileService,ITimeoutService} from 'angular';
 
+import {_translateMessage} from './message.translate';
+
+
 export interface IMessageService {
 
 	system(code: string, status: string, context?: {}, delay?: number): void;
@@ -147,3 +150,11 @@ function ToastCtrl($scope, $mdToast) {
 }
 
 ToastCtrl.$inject = ['$scope','$mdToast'];
+
+
+export function configure ($translateProvider) {
+	$translateProvider.translations('ru', _translateMessage['ru']);
+	$translateProvider.translations('en', _translateMessage['en']);
+}
+
+configure.$inject = ['$translateProvider'];
