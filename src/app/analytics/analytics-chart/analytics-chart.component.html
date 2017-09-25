@@ -1,4 +1,4 @@
-<md-content class="analytics-chart md-whiteframe-2dp" ng-switch="$ctrl.chart.hasOwnProperty('metrics')" layout="column">
+<md-content class="analytics-chart md-whiteframe-2dp" ng-switch="$ctrl.chart.hasMetrics()" layout="column">
     <div flex="none" class="analytics-chart__header" layout="row" layout-align="start space-between">
         <h1 class="md-body-2 md-dark title" flex="auto" translate="analytics.{{$ctrl.chart.title}}"></h1>
         <div flex="none" layout="row">
@@ -19,7 +19,7 @@
     </div>
     <universal-chart ng-switch-when="true"  class="analytics-chart__data"
                      flex="auto"
-                     data="$ctrl.chart"
+                     data="$ctrl.chart.charts"
                      update="$ctrl.updateCount">
     </universal-chart>
 </md-content>

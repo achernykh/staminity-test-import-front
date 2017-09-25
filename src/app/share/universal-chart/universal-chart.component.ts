@@ -38,6 +38,7 @@ class UniversalChartCtrl implements IComponentController {
 
 
     $onChanges(changes: any) {
+        debugger;
         if(!this.chart){
             return;
         }

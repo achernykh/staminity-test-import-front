@@ -41,7 +41,8 @@ export const PeriodOptions = (options: Array<string> = ['thisYear','thisMonth','
 export interface IAnalyticsChartFilterParam<T> {
     type: 'date' | 'text' | 'select' | 'checkbox' | 'radio';
     area: 'params' | 'series' | 'measures';
-    ind?: number; // индекс в массиве series/measures
+    ind?: Array<number>; // индекс в массиве chart
+    idx?: Array<number>; // индекс в массиве series/measures
     name: string;
     model: any;
     options: Array<T>;

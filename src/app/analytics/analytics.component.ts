@@ -12,7 +12,7 @@ import {chart_example_09} from '../share/universal-chart/data/pieChart.js';
 import {IReportRequestData, IChart} from "../../../api/statistics/statistics.interface";
 import {ISessionService, getUser} from "../core/session.service";
 import StatisticsService from "../core/statistics.service";
-import {IAnalyticsChart} from "./analytics-chart/analytics-chart.model";
+import {IAnalyticsChart, AnalyticsChart} from "./analytics-chart/analytics-chart.model";
 import {IUserProfile, IUserProfilePublic, IUserProfileShort} from "../../../api/user/user.interface";
 import {Subject} from "rxjs/Rx";
 import {activityTypes} from "../activity/activity.constants";
@@ -30,6 +30,7 @@ import { pipe, orderBy, prop, groupBy } from "../share/util.js";
 export class AnalyticsCtrl implements IComponentController {
 
     public data: any;
+    public charts: Array<AnalyticsChart>;
     public onEvent: (response: Object) => IPromise<void>;
 
     private filter: {
@@ -114,6 +115,7 @@ export class AnalyticsCtrl implements IComponentController {
                 this.$scope.$apply();
             });
 
+        this.prepareCharts(defaultSettings);
         this.prepareSportTypesFilter();
         this.prepareCategoriesFilter(reference.categories, this.user);
         this.preparePeriodsFilter();
@@ -190,6 +192,10 @@ export class AnalyticsCtrl implements IComponentController {
         this.destroy.complete();
     }
 
+    private prepareCharts(charts: Array<IAnalyticsChart>) {
+        this.charts = charts.map(c => new AnalyticsChart(c));
+    }
+
     private prepareUsersFilter(user: IUserProfile) {
         this.filter.users = {
             type: 'checkbox',
@@ -197,7 +203,6 @@ export class AnalyticsCtrl implements IComponentController {
             name: 'users',
             model: null,
             options: []
-
         };
 
         this.filter.users.options.push({

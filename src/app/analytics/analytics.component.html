@@ -6,7 +6,7 @@
     </analytics-management-panel>
     <section flex="auto" class="analytics__chart-section">
         <section class="analytics__chart-grid">
-            <analytics-chart ng-repeat="chart in $ctrl.defaultSettings | filter:{ active: true }"
+            <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true }"
                              chart="chart"
                              filter="$ctrl.filter"
                              filter-changes="$ctrl.filterChanges"

@@ -1,5 +1,5 @@
 import {IAnalyticsChartFilter} from "../analytics-chart-filter/analytics-chart-filter.model";
-import {IChartMeasure, IChartParams} from "../../../../api/statistics/statistics.interface";
+import {IChartMeasure, IChartParams, IChart} from "../../../../api/statistics/statistics.interface";
 
 export class AnalyticsChartLayout {
 
@@ -30,9 +30,26 @@ export interface IAnalyticsChart {
     description?: string;
     filter: IAnalyticsChartFilter;
     layout: AnalyticsChartLayout;
-    params: IChartParams;
-    measures: Array<IChartMeasure>;
-    series: Array<IChartMeasure>;
-    metrics?: Array<Array<any>>;
+    charts: Array<IChart>;
+}
+
+export class AnalyticsChart implements IAnalyticsChart{
+
+    order: number;
+    active: boolean;
+    icon?: string;
+    title: string;
+    description?: string;
+    filter: IAnalyticsChartFilter;
+    layout: AnalyticsChartLayout;
+    charts: Array<IChart>;
+
+    constructor(params?: IAnalyticsChart) {
+        Object.assign(this, params);
+    }
+
+    hasMetrics(): boolean {
+        return this.charts.some(c => c.hasOwnProperty('metrics'));
+    }
 
 }
