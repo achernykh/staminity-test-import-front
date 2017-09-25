@@ -38,9 +38,21 @@ export const translateAnalytics = {
             title: 'Фактическое расстояние тренировок',
             description: 'Тренировочные объемы по периодам'
         },
-        DistanceHRPaceTL: {
+        distanceHRPaceTL: {
             title: 'Пульс, темп, TL',
             description: 'Средние показатели тренировок по периодам'
+        },
+        timeInZonesHR: {
+            title: 'Время в зонах: Пульс',
+            description: 'Время в зонах по пульсу за период'
+        },
+        timeInZonesSpeed: {
+            title: 'Время в зонах: Темп/Скорость',
+            description: 'Время в зонах по темпу/скорости за период'
+        },
+        timeInZonesPower: {
+            title: 'Время в зонах: Мощность',
+            description: 'Время в зонах по мощности за период'
         },
     },
 
