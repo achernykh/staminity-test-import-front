@@ -14,7 +14,7 @@
                                    multiple="true"
                                    md-selected-text="$ctrl.usersSelectedText()"
                                    ng-model="$ctrl.filter.users.model"
-                                   ng-change="$ctrl.change('users')">
+                                   ng-change="$ctrl.change('users')"
                                    ng-disabled="!$ctrl.filter.users.options || $ctrl.filter.users.options.length <= 1">
                             <md-option ng-repeat="user in $ctrl.filter.users.options track by user.userId"
                                        value="{{user.userId}}">
@@ -59,7 +59,7 @@
                                 ng-model="$ctrl.filter.activityCategories.model"
                                 ng-model-options="{ trackBy: '$value' }"
                                 md-no-asterisk="false"
-                                ng-change="$ctrl.onChange()"
+                                ng-change="$ctrl.change('activityCategories')"
                                 type="number"
                                 name="category"
                                 class="icon">
@@ -91,7 +91,7 @@
                                    multiple="false"
                                    md-selected-text="$ctrl.periodsSelectedText()"
                                    ng-model="$ctrl.filter.periods.model"
-                                   ng-change="$ctrl.onChange()">
+                                   ng-change="$ctrl.change('periods')">
                             <md-option ng-repeat="type in $ctrl.filter.periods.options track by $index"
                                        value="{{type.period}}">
                                 <span>{{'analytics.params.' + type.name | translate}}</span>

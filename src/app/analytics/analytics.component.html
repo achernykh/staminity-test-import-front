@@ -4,7 +4,7 @@
                                 on-change="$ctrl.filterChanges = $ctrl.filterChanges + 1">
     </analytics-management-panel>
     <section flex="auto" class="analytics__chart-section">
-        <section class="analytics__chart-grid">
+        <section class="analytics__chart-grid" ng-if="$ctrl.prepareComplete">
             <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true }"
                              ng-style="chart.layout.style"
                              chart="chart"

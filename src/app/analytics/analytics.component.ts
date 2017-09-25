@@ -45,6 +45,8 @@ export class AnalyticsCtrl implements IComponentController {
         periods: null
     };
 
+    private prepareComplete: boolean = false;
+
     public user: IUserProfile;
     public categoriesByOwner: {[owner in Owner]: Array<IActivityCategory>};
 
@@ -119,8 +121,7 @@ export class AnalyticsCtrl implements IComponentController {
         this.prepareSportTypesFilter();
         this.prepareCategoriesFilter(reference.categories, this.user);
         this.preparePeriodsFilter();
-
-
+        this.prepareComplete = true;
     }
 
     $onInit() {

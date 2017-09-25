@@ -126,7 +126,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 2,
-        active: true,
+        active: false,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'actualDistance.title',
         description: 'actualDistance.description',
@@ -237,7 +237,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 3,
-        active: true,
+        active: false,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'distanceHRPaceTL.title',
         description: 'distanceHRPaceTL.description',
@@ -440,7 +440,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 4,
-        active: true,
+        active: false,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesHR.title',
         description: 'timeInZonesHR.description',
@@ -473,7 +473,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
             ]
         },
-        layout: new AnalyticsChartLayout(1, 1, 4, 4),
+        layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
@@ -547,7 +547,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "lineStyle": "dotted",
                 "fillType": "solid",
                 "fillColor": "#449999",
-                "gradient": [{}, {}],
                 "markerColor": "#449999",
                 "avgValueLineColor": "green",
                 "avgValueLineStyle": "dashed",
@@ -568,7 +567,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 5,
-        active: true,
+        active: false,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesSpeed.title',
         description: 'timeInZonesSpeed.description',
@@ -601,7 +600,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
             ]
         },
-        layout: new AnalyticsChartLayout(1, 1, 5, 5),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
@@ -675,7 +674,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "lineStyle": "dotted",
                 "fillType": "solid",
                 "fillColor": "#449999",
-                "gradient": [{}, {}],
                 "markerColor": "#449999",
                 "avgValueLineColor": "green",
                 "avgValueLineStyle": "dashed",
@@ -696,7 +694,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 6,
-        active: true,
+        active: false,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesPower.title',
         description: 'timeInZonesPower.description',
@@ -729,7 +727,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
             ]
         },
-        layout: new AnalyticsChartLayout(1, 1, 6, 6),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
@@ -803,7 +801,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "lineStyle": "dotted",
                 "fillType": "solid",
                 "fillColor": "#449999",
-                "gradient": [{}, {}],
                 "markerColor": "#449999",
                 "avgValueLineColor": "green",
                 "avgValueLineStyle": "dashed",
