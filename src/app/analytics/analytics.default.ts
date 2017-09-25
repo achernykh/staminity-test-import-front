@@ -1,6 +1,7 @@
 import {IAnalyticsChart, AnalyticsChartLayout} from "./analytics-chart/analytics-chart.model";
 import {PeriodOptions} from "./analytics-chart-filter/analytics-chart-filter.model";
 
+//noinspection TypeScriptValidateTypes
 export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     /**
      * 1. Фактическое время тренировок
@@ -36,19 +37,21 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 {
                     type: 'radio',
                     area: 'series',
-                    ind: 0,
-                    name: 'groupBy',
+                    ichart: [0],
+                    idx: [0],
+                    name: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day','week','month']
                 },
                 {
                     type: 'radio',
                     area: 'measures',
-                    ind: 0,
-                    name: 'lineStyle',
-                    model: 'dotted',
-                    options: ['solid','dashed','dotted']
-                }
+                    ichart: [0],
+                    idx: [1],
+                    name: 'cumulative',
+                    model: false,
+                    options: [false,true]
+                },
             ]
         },
         layout: new AnalyticsChartLayout(1,1,1,1),
@@ -58,11 +61,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             periods: null
         },
         series : [{
-            "label" : "Недели",
+            "label" : "Период",
             "unit" : "",
             "xAxis" : true,
             "tooltipType" : "label",
-            "tooltipLabel" : "Неделя",
+            "tooltipLabel" : "Период",
             "legend": false,
             "currentPositionLine": true,
             "idx" : 0,
@@ -71,7 +74,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             "dataType": "date",
             "dateFormat": "DD.MM",
             "valueType" : "value",
-            "groupBy" : "week",
+            "seriesDateTrunc" : "week",
             "groupByIntervalLength" : 1
         }],
         measures : [{
@@ -295,7 +298,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         ]
     },
     /**
-     * 2. Фактическое расстояние по тренировокам
+     * 2. Фактическое расстояние по тренировкам
      * Фильтры:
      * а) атлет
      * Признаки:
@@ -327,19 +330,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 {
                     type: 'radio',
                     area: 'series',
-                    ind: 0,
-                    name: 'groupBy',
+                    ichart: [0],
+                    idx: [0],
+                    name: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day','week','month']
                 },
                 {
                     type: 'radio',
                     area: 'measures',
-                    ind: 0,
-                    name: 'lineStyle',
-                    model: 'dotted',
-                    options: ['solid','dashed','dotted']
-                }
+                    ichart: [0],
+                    idx: [1],
+                    name: 'cumulative',
+                    model: 'false',
+                    options: ['false','true']
+                },
+
             ]
         },
         layout: new AnalyticsChartLayout(1,1,2,2),
@@ -349,11 +355,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             periods: null
         },
         series : [{
-            "label" : "Недели",
+            "label" : "Период",
             "unit" : "",
             "xAxis" : true,
             "tooltipType" : "label",
-            "tooltipLabel" : "Неделя",
+            "tooltipLabel" : "Период",
             "legend": false,
             "currentPositionLine": true,
             "idx" : 0,
@@ -362,11 +368,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             "dataType": "date",
             "dateFormat": "DD.MM",
             "valueType" : "value",
-            "groupBy" : "week",
+            "seriesDateTrunc" : "week",
             "groupByIntervalLength" : 1
         }],
         measures : [{
-            "label" : "Время",
+            "label" : "Расстояние",
             "unit" : "",
             "chartType" : "bar",
             "stacked" : false,
@@ -395,7 +401,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             "avgValueLineStyle": "dashed",
             "idx" : 1,
             "measureSource" : "activity.actual.measure",
-            "measureName" : "duration",
+            "measureName" : "distance",
             "dataType": "number",
             "dateFormat": "",
             "valueType" : "value",
@@ -584,5 +590,227 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             ["07-29-2017", 7.5],
             ["07-30-2017", null]
         ]
+    },
+    /*
+     Показатели по периодам
+     Расстояние, Средний пульс, средний темп, TL
+     */
+
+    {
+
+        order: 3,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'DistanceHRPaceTL.title',
+        description: 'DistanceHRPaceTL.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    type: 'radio',
+                    area: 'series',
+                    ichart: [0],
+                    idx: [0],
+                    name: 'seriesDateTrunc',
+                    model: 'day',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1, 3, 3),
+        params: {
+            users: null,//[this.session.getUser().userId],
+            activityTypes: null,//[2],
+            periods: null
+        },
+        options: {
+            "tooltip": {
+                "combined": true
+            },
+            "legend": {
+                "vertical-align": "top",
+                "horizontal-align": "right"
+            },
+            "currentPositionLine": {
+                "enabled": true,
+                "radius": 4,
+                "opacity": 1
+            }
+        },
+        series: [{
+            "label": "Период",
+            "unit": "",
+            "xAxis": true,
+            "tooltipType": "label",
+            "tooltipLabel": "Период",
+            "legend": false,
+            "currentPositionLine": true,
+            "idx": 0,
+            "measureSource": "activity.startDate",
+            "measureName": "Days",
+            "dataType": "date",
+            "dateFormat": "DD.MM",
+            "valueType": "value",
+            "seriesDateTrunc": "day",
+            "groupByIntervalLength": 1
+        }],
+        measures: [
+            {
+                "label": "Расстояние",
+                "unit": "км",
+                "chartType": "bar",
+                "stacked": false,
+                "cumulative": false,
+                "smoothSettings": "null",
+                "tooltipType": "icon",
+                "minValue": 0,
+                "legend": false,
+                "visible": true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "lineColor": "#449999",
+                "lineStyle": "dotted",
+                "fillType": "gradient",
+                "fillColor": "",
+                "gradient": [{
+                    "offset": "0%",
+                    "color": "#449999"
+                }, {
+                    "offset": "100%",
+                    "color": "rgba(175, 191, 255, 0)"
+                }],
+                "markerColor": "#449999",
+                "avgValueLineColor": "green",
+                "avgValueLineStyle": "dashed",
+                "idx": 1,
+                "measureSource": "activity.actual.measure",
+                "measureName": "distance",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "value",
+                "aggMethod": "sum"
+            },
+            {
+                "id": "tl",
+                "label": "TL",
+                "unit": "",
+                "chartType": "dot",
+                "stacked": false,
+                "cumulative": false,
+                "smoothSettings": "null",
+                "tooltipType": "color",
+                "minValue": 0,
+                "legend": true,
+                "visible": true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "lineColor": null,
+                "lineStyle": null,
+                "fillType": "solid",
+                "fillColor": "rgba(255, 0, 0, 0.5)",
+                "gradient": [{}, {}],
+                "markerColor": "rgb(255, 0, 0)",
+                "avgValueLineColor": null,
+                "avgValueLineStyle": null,
+                "idx": 2,
+                "measureSource": "activity.actual.measure",
+                "measureName": "tl",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "value",
+                "aggMethod": "sum"
+
+            },
+            {
+                "id": "heartRate",
+                "label": "Средний пульс",
+                "unit": "уд/м",
+                "chartType": "line",
+                "stacked": null,
+                "smoothSettings": "curveMonotoneX",
+                "tooltipType": "color",
+                "legend": true,
+                "visible": true,
+                "avgValueLine": false,
+                "lineColor": "lightblue",
+                "lineStyle": "solid",
+                "lineWidth": 2,
+                "fillType": "none",
+                "fillColor": "",
+                "markerColor": "rgba(153, 190, 201, 1)",
+                "idx": 3,
+                "measureSource": "activity.actual.measure",
+                "measureName": "heartRate",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "avgValue",
+                "aggMethod": "avg"
+            },
+            {
+                "id": "pace",
+                "label": "Средний темп",
+                "unit": "мин/км",
+                "chartType": "line",
+                "stacked": null,
+                "cumulative": false,
+                "smoothSettings": "curveMonotoneX",
+                "tooltipType": "color",
+                "legend": true,
+                "visible": true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "lineColor": "#FF9999",
+                "lineStyle": "solid",
+                "fillType": "",
+                "fillColor": "",
+                "gradient": [{}, {}],
+                "markerColor": "#FF9999",
+                "avgValueLineColor": "",
+                "avgValueLineStyle": "",
+                "idx": 4,
+                "measureSource": "activity.actual.measure",
+                "measureName": "speed",
+                "dataType": "time",
+                "dateFormat": "mm:ss",
+                "valueType": "avgValue",
+                "aggMethod": "avg",
+                "reverse": true
+            }
+        ],
+        metrics: [
+            ["07-02-2017", 10.5, 66, 151, 250],
+            ["07-03-2017", 12, 76, 141, 300],
+            ["07-04-2017", 15, 86, 151, 260],
+            ["07-05-2017", 8, 66, 141, 310],
+            ["07-06-2017", null, null, null, null],
+            ["07-07-2017", 8.13, 76, 138, 270],
+            ["07-08-2017", null, null, null, null],
+            ["07-09-2017", 21, 86, 149, 260],
+            ["07-10-2017", 23, 66, 161, 310],
+            ["07-11-2017", 6, 76, 165, 278],
+            ["07-12-2017", 11, 68, 140, 300],
+            ["07-13-2017", 14, 61, 155, 287],
+            ["07-14-2017", 10.1, 69, 151, 314],
+            ["07-15-2017", 12, 90, 158, 300],
+            ["07-16-2017", 10.5, 101, 151, 240]
+        ]
+
     }
 ];
