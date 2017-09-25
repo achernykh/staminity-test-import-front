@@ -31,6 +31,10 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
 
     change(filter: string) {
         switch (filter) {
+            case 'users': {
+                this.filter.users.model = this.filter.users.model.map(v => Number(v));
+                break;
+            }
             case 'activityType':
                 this.filter.activityTypes.model = this.filter.activityTypes.model.map(v => Number(v));
                 break;
