@@ -32,18 +32,19 @@ class UniversalChartCtrl implements IComponentController {
             this.chart.remove();
             this.redraw();
         };
-
         angular.element(this.$window).on('resize', this.onResize);
     }
 
 
     $onChanges(changes: any) {
-        debugger;
-        if(!this.chart){
-            return;
+        if(changes.hasOwnProperty('update') && !changes.update.isFirstChange()){
+            if(!this.chart){
+                return;
+            }
+
+            this.chart.remove();
+            this.redraw();
         }
-        this.chart.remove();
-        this.redraw();
     }
 
     redraw():void {

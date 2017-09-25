@@ -1,12 +1,12 @@
 <section layout-gt-sm="row" layout="column" class="analytics__application">
-    <analytics-management-panel charts="$ctrl.defaultSettings"
+    <analytics-management-panel charts="$ctrl.charts"
                                 filter="$ctrl.filter"
-                                on-change="$ctrl.filterChanges = $ctrl.filterChanges + 1"
-    >
+                                on-change="$ctrl.filterChanges = $ctrl.filterChanges + 1">
     </analytics-management-panel>
     <section flex="auto" class="analytics__chart-section">
         <section class="analytics__chart-grid">
             <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true }"
+                             ng-style="chart.layout.style"
                              chart="chart"
                              filter="$ctrl.filter"
                              filter-changes="$ctrl.filterChanges"

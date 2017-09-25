@@ -6,7 +6,10 @@
                                     filter="$ctrl.chart.filter"
                                     on-change="$ctrl.update(param, option)">
             </analytics-chart-filter>
-            <md-button flex="none" class="md-icon-button" ng-click="">
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.grow()">
+                <md-icon class="md-secondary md-dark material-icons">settings_ethernet</md-icon>
+            </md-button>
+            <md-button flex="none" class="md-icon-button" ng-click="" ng-disabled="true">
                 <md-icon class="md-secondary material-icon md-dark md-inactive">fullscreen</md-icon>
             </md-button>
         </div>
@@ -17,9 +20,11 @@
         <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
         <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
     </div>
-    <universal-chart ng-switch-when="true"  class="analytics-chart__data"
-                     flex="auto"
-                     data="$ctrl.chart.charts"
-                     update="$ctrl.updateCount">
-    </universal-chart>
+    <div ng-switch-when="true" flex="auto" layout="column" class="analytics-chart__data">
+        <universal-chart flex="auto"
+                         data="$ctrl.chart.charts"
+                         update="$ctrl.updateCount">
+        </universal-chart>
+    </div>
+
 </md-content>

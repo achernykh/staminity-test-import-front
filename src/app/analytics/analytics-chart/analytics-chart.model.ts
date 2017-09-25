@@ -1,22 +1,19 @@
 import {IAnalyticsChartFilter} from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IChartMeasure, IChartParams, IChart} from "../../../../api/statistics/statistics.interface";
+import moment from 'moment/src/moment.js';
 
 export class AnalyticsChartLayout {
 
 
-    constructor(private gridColumnStart: number,
-                private gridColumnEnd: number,
-                private gridRowStart: number,
-                private gridRowEnd: number){
+    constructor(public gridColumnEnd: number,
+                public gridRowEnd: number){
 
     }
 
     get style(): any {
         return {
-            'grid-column-start': this.gridColumnStart,
-            'grid-column-end': this.gridColumnEnd,
-            'grid-row-start': this.gridRowStart,
-            'grid-row-end': this.gridRowEnd
+            'grid-column-end': `span ${this.gridColumnEnd}`,
+            'grid-row-end':`span ${this.gridRowEnd}`
         };
     }
 
@@ -50,6 +47,33 @@ export class AnalyticsChart implements IAnalyticsChart{
 
     hasMetrics(): boolean {
         return this.charts.some(c => c.hasOwnProperty('metrics'));
+    }
+
+    prepareMetrics(ind: number, metrics: Array<Array<any>>): void {
+        this.charts[ind].metrics = [];
+        metrics.map(m => {
+            let metric: Array<any> = [];
+            m.map((value,i) => {
+                let params: IChartMeasure = this.charts[ind].series.filter(s => s.idx === i)[0] ||
+                    this.charts[ind].measures.filter(s => s.idx === i)[0];
+
+                if(params) {
+                    if(params.dataType === 'date') {
+                        metric.push(moment(value).format('MM-DD-YYYY'));
+                    } else if(params.measureName === 'duration' ) {
+                        metric.push(value / 60 / 60);
+                    } else if(params.measureName === 'distance') {
+                        metric.push(value / 1000);
+                    } else if (params.measureName === 'speed' && params.dataType === 'time') {
+                        metric.push(!!value ? (60 * 60) / (value * 3.6) : null);
+                    } else {
+                        metric.push(value);
+                    }
+
+               }
+            });
+            this.charts[ind].metrics.push(metric);
+        });
     }
 
 }

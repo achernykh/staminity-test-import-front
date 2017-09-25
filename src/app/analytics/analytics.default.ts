@@ -54,7 +54,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 },
             ]
         },
-        layout: new AnalyticsChartLayout(1,1,1,1),
+        layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
@@ -168,7 +168,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
             ]
         },
-        layout: new AnalyticsChartLayout(1,1,2,2),
+        layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
@@ -270,7 +270,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
             ]
         },
-        layout: new AnalyticsChartLayout(1, 1, 3, 3),
+        layout: new AnalyticsChartLayout(2,1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
