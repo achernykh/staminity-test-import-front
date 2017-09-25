@@ -14,7 +14,7 @@
                                    multiple="true"
                                    md-selected-text="$ctrl.usersSelectedText()"
                                    ng-model="$ctrl.filter.users.model"
-                                   ng-change="$ctrl.onChange()"
+                                   ng-change="$ctrl.change('users')">
                                    ng-disabled="!$ctrl.filter.users.options || $ctrl.filter.users.options.length <= 1">
                             <md-option ng-repeat="user in $ctrl.filter.users.options track by user.userId"
                                        value="{{user.userId}}">

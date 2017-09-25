@@ -58,7 +58,7 @@ class AnalyticsChartCtrl implements IComponentController {
     private prepareParams() {
         // TODO merge filters & protected params
         this.chart.params = {
-            users: this.filter.users.model,
+            users: this.filter.users.model.map(u => Number(u)),
             activityTypes: this.filter.activityTypes.model,
             activityCategories: null,
             periods: [JSON.parse(this.filter.periods.model)]
