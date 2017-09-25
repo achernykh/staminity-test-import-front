@@ -239,8 +239,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         order: 3,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'DistanceHRPaceTL.title',
-        description: 'DistanceHRPaceTL.description',
+        title: 'distanceHRPaceTL.title',
+        description: 'distanceHRPaceTL.description',
         filter: {
             enabled: true,
             params: [
@@ -432,6 +432,390 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "reverse": true
                 }
             ]
+        }]
+    },
+    /*
+    Время в зонах по пульсу
+     */
+    {
+
+        order: 4,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'timeInZonesHR.title',
+        description: 'timeInZonesHR.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1, 4, 4),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": true
+                },
+                "colorPalette": false
+            },
+            series : [
+                {
+                    "label" : "Период",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Период",
+                    "legend": false,
+                    "currentPositionLine": true,
+                    "idx" : 0,
+                    "measureSource" : "activity.startDate",
+                    "measureName" : "Weeks",
+                    "dataType": "date",
+                    "dateFormat": "DD.MM",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "week",
+                    "groupByIntervalLength" : 1
+                },
+                {
+                    "label" : "Зоны пульса",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Зона",
+                    "legend": true,
+                    "currentPositionLine": true,
+                    "idx" : 1,
+                    "measureSource": "user.zones.heartRate",
+                    "fillColor": "#449999",
+                    "measureName" : "HRZones",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "groupBy" : "",
+                    "groupByIntervalLength" : 1
+                }],
+            measures : [{
+                "label" : "Время в зонах",
+                "unit" : "",
+                "chartType" : "bar",
+                "stacked" : true,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "lineColor": "#449999",
+                "lineStyle": "dotted",
+                "fillType": "solid",
+                "fillColor": "#449999",
+                "gradient": [{}, {}],
+                "markerColor": "#449999",
+                "avgValueLineColor": "green",
+                "avgValueLineStyle": "dashed",
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "heartRateTimeInZone",
+                "dataType": "time",
+                "dateFormat": "HH:mm:ss",
+                "valueType" : "timeInZone",
+                "aggMethod" : "sum"
+            }]
+
+        }]
+    },
+    /*
+     Время в зонах по темпу
+     */
+    {
+
+        order: 5,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'timeInZonesSpeed.title',
+        description: 'timeInZonesSpeed.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1, 5, 5),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": true
+                },
+                "colorPalette": false
+            },
+            series : [
+                {
+                    "label" : "Период",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Период",
+                    "legend": false,
+                    "currentPositionLine": true,
+                    "idx" : 0,
+                    "measureSource" : "activity.startDate",
+                    "measureName" : "Weeks",
+                    "dataType": "date",
+                    "dateFormat": "DD.MM",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "week",
+                    "groupByIntervalLength" : 1
+                },
+                {
+                    "label" : "Зоны",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Зона",
+                    "legend": true,
+                    "currentPositionLine": true,
+                    "idx" : 1,
+                    "measureSource": "user.zones.Speed",
+                    "fillColor": "#449999",
+                    "measureName" : "SpeedZones",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "groupBy" : "",
+                    "groupByIntervalLength" : 1
+                }],
+            measures : [{
+                "label" : "Время в зонах",
+                "unit" : "",
+                "chartType" : "bar",
+                "stacked" : true,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "lineColor": "#449999",
+                "lineStyle": "dotted",
+                "fillType": "solid",
+                "fillColor": "#449999",
+                "gradient": [{}, {}],
+                "markerColor": "#449999",
+                "avgValueLineColor": "green",
+                "avgValueLineStyle": "dashed",
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "speedTimeInZone",
+                "dataType": "time",
+                "dateFormat": "HH:mm:ss",
+                "valueType" : "timeInZone",
+                "aggMethod" : "sum"
+            }]
+
+        }]
+    },
+    /*
+     Время в зонах по мощности
+     */
+    {
+
+        order: 6,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'timeInZonesPower.title',
+        description: 'timeInZonesPower.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1, 6, 6),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": true
+                },
+                "colorPalette": false
+            },
+            series : [
+                {
+                    "label" : "Период",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Период",
+                    "legend": false,
+                    "currentPositionLine": true,
+                    "idx" : 0,
+                    "measureSource" : "activity.startDate",
+                    "measureName" : "Weeks",
+                    "dataType": "date",
+                    "dateFormat": "DD.MM",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "week",
+                    "groupByIntervalLength" : 1
+                },
+                {
+                    "label" : "Зоны мощности",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Зона",
+                    "legend": true,
+                    "currentPositionLine": true,
+                    "idx" : 1,
+                    "measureSource": "user.zones.power",
+                    "fillColor": "#449999",
+                    "measureName" : "PowerZones",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "groupBy" : "",
+                    "groupByIntervalLength" : 1
+                }],
+            measures : [{
+                "label" : "Время в зонах",
+                "unit" : "",
+                "chartType" : "bar",
+                "stacked" : true,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "lineColor": "#449999",
+                "lineStyle": "dotted",
+                "fillType": "solid",
+                "fillColor": "#449999",
+                "gradient": [{}, {}],
+                "markerColor": "#449999",
+                "avgValueLineColor": "green",
+                "avgValueLineStyle": "dashed",
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "powerTimeInZone",
+                "dataType": "time",
+                "dateFormat": "HH:mm:ss",
+                "valueType" : "timeInZone",
+                "aggMethod" : "sum"
+            }]
+
         }]
     }
  ];
