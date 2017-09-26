@@ -19,6 +19,7 @@ class AnalyticsChartCtrl implements IComponentController {
     };
 
     public onEvent: (response: Object) => IPromise<void>;
+    public onFullScreen: () => IPromise<void>;
 
     public updateCount: number = 0;
 
@@ -75,6 +76,14 @@ class AnalyticsChartCtrl implements IComponentController {
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 1 ? this.chart.layout.gridRowEnd = 2 : angular.noop();
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 2 ? this.chart.layout.gridRowEnd = 1 : angular.noop();
         this.updateCount++;
+    }
+
+    fullScreen() {
+        this.chart.layout.fullScreen = !this.chart.layout.fullScreen;
+        setTimeout(() => {
+                this.updateCount++;
+                this.$scope.$apply();
+            }, 1);
     }
 
     private prepareParams() {

@@ -5,6 +5,8 @@ import moment from 'moment/src/moment.js';
 export class AnalyticsChartLayout {
 
 
+    fullScreen: boolean = false;
+
     constructor(public gridColumnEnd: number,
                 public gridRowEnd: number){
 

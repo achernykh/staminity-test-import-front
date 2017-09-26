@@ -9,8 +9,9 @@
             <md-button flex="none" class="md-icon-button" ng-click="$ctrl.grow()">
                 <md-icon class="md-secondary md-dark material-icons">settings_ethernet</md-icon>
             </md-button>
-            <md-button flex="none" class="md-icon-button" ng-click="" ng-disabled="true">
-                <md-icon class="md-secondary material-icon md-dark md-inactive">fullscreen</md-icon>
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.fullScreen()">
+                <md-icon class="md-secondary material-icon md-dark"
+                         ng-bind="$ctrl.chart.layout.fullScreen ? 'fullscreen_exit' : 'fullscreen'"></md-icon>
             </md-button>
         </div>
     </div>

@@ -7,13 +7,11 @@
         <section class="analytics__chart-grid" ng-if="$ctrl.prepareComplete">
             <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true }"
                              ng-style="chart.layout.style"
+                             ng-class="{'full-screen': chart.layout.fullScreen}"
                              chart="chart"
                              filter="$ctrl.filter"
                              filter-changes="$ctrl.filterChanges"
-                             mobile-view=""
-                             on-expand=""
-                             on-collapse=""
-                             on-full-screen="">
+                             mobile-view="">
             </analytics-chart>
         </section>
     </section>
