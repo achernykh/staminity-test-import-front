@@ -66,6 +66,10 @@ class AnalyticsChartCtrl implements IComponentController {
                 //this.updateCount++;
                 break;
             }
+            case 'params': {
+                param.ind.map(ind => this.chart.charts[ind].params[param.name] = value);
+                this.prepareParams();
+            }
         }
 
         if(param.area === 'params' || ['seriesDateTrunc','cumulative'].indexOf(param.name) !== -1) {
@@ -91,11 +95,11 @@ class AnalyticsChartCtrl implements IComponentController {
     private prepareParams() {
         // TODO merge filters & protected params
 
-        this.chart.charts.map(c => c.params = {
+        this.chart.charts.map((c,i) => c.params = {
             users: this.filter.users.model.map(u => Number(u)),
             activityTypes: this.filter.activityTypes.model,
             activityCategories: null,
-            periods: [JSON.parse(this.filter.periods.model)]
+            periods: this.chart.charts[i].params.periods || [JSON.parse(this.filter.periods.model)]
         });
     }
 

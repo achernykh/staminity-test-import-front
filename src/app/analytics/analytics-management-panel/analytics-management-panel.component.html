@@ -112,7 +112,7 @@
                     <div class="md-list-item-text">
                         <h3 translate="analytics.{{chart.title}}"></h3>
                         <p translate="analytics.{{chart.description}}"></p>
-                        <md-switch class="md-secondary md-primary" ng-model="chart.active"></md-switch>
+                        <md-switch class="md-secondary md-primary" ng-change="$ctrl.onChangeCharts()" ng-model="chart.active"></md-switch>
                     </div>
                 </md-list-item>
             </md-list>

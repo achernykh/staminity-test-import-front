@@ -1,7 +1,8 @@
 <section layout-gt-sm="row" layout="column" class="analytics__application">
     <analytics-management-panel charts="$ctrl.charts"
                                 filter="$ctrl.filter"
-                                on-change="$ctrl.filterChanges = $ctrl.filterChanges + 1">
+                                on-change-filter="$ctrl.changeGlobalFilter()"
+                                on-change-charts="$ctrl.saveSettings('charts')">
     </analytics-management-panel>
     <section flex="auto" class="analytics__chart-section">
         <section class="analytics__chart-grid" ng-if="$ctrl.prepareComplete">

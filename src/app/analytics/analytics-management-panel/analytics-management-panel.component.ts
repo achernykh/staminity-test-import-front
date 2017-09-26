@@ -17,7 +17,8 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
     };
 
     private analytics: AnalyticsCtrl;
-    public onChange: (response: Object) => IPromise<void>;
+    public onChangeFilter: () => IPromise<void>;
+    public onChangeCharts: () => IPromise<void>;
 
     static $inject = ['$filter'];
 
@@ -39,7 +40,7 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
                 this.filter.activityTypes.model = this.filter.activityTypes.model.map(v => Number(v));
                 break;
         }
-        this.onChange({});
+        this.onChangeFilter();
     }
 
     usersSelectedText():string {
@@ -80,7 +81,7 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
 
     periodsSelectedText(): string {
         if(this.filter.periods.model) {
-            return `${this.$filter('translate')('analytics.param.' +
+            return `${this.$filter('translate')('analytics.params.' +
                 this.filter.periods.options.filter(p => p.period.startDate === JSON.parse(this.filter.periods.model).startDate &&
                     p.period.endDate === JSON.parse(this.filter.periods.model).endDate)[0].name)}`;
 
@@ -94,7 +95,8 @@ const AnalyticsManagementPanelComponent:IComponentOptions = {
     bindings: {
         charts: '<',
         filter: '<',
-        onChange: '&'
+        onChangeFilter: '&',
+        onChangeCharts: '&'
     },
     require: {
         analytics: '^analytics'

@@ -45,6 +45,9 @@ export class AnalyticsChart implements IAnalyticsChart{
 
     constructor(params?: IAnalyticsChart) {
         Object.assign(this, params);
+        if(this.hasOwnProperty('layout') && this.layout) {
+            this.layout = new AnalyticsChartLayout(this.layout.gridColumnEnd, this.layout.gridRowEnd);
+        }
     }
 
     hasMetrics(): boolean {

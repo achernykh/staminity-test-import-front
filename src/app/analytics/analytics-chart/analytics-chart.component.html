@@ -6,6 +6,9 @@
                                     filter="$ctrl.chart.filter"
                                     on-change="$ctrl.update(param, option)">
             </analytics-chart-filter>
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.chart.active = false">
+                <md-icon class="md-secondary md-dark material-icons">visibility_off</md-icon>
+            </md-button>
             <md-button flex="none" class="md-icon-button" ng-click="$ctrl.grow()">
                 <md-icon class="md-secondary md-dark material-icons">settings_ethernet</md-icon>
             </md-button>

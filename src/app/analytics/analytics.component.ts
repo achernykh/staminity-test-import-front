@@ -25,6 +25,7 @@ import {IActivityCategory} from "../../../api/reference/reference.interface";
 import ReferenceService from "../reference/reference.service";
 import {Owner, getOwner} from "../reference/reference.datamodel";
 import { pipe, orderBy, prop, groupBy } from "../share/util.js";
+import {IStorageService} from "../core/storage.service";
 
 
 export class AnalyticsCtrl implements IComponentController {
@@ -45,6 +46,8 @@ export class AnalyticsCtrl implements IComponentController {
         periods: null
     };
 
+    private filterChanges: number = null;
+
     private prepareComplete: boolean = false;
 
     public user: IUserProfile;
@@ -52,7 +55,7 @@ export class AnalyticsCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ['$scope','SessionService','statistics', 'ReferenceService', 'analyticsDefaultSettings'];
+    static $inject = ['$scope','SessionService','statistics', 'storage', 'ReferenceService', 'analyticsDefaultSettings'];
 
     private selectedChart = [0,1,2,3,4,5,6,7,8];
 
@@ -99,28 +102,41 @@ export class AnalyticsCtrl implements IComponentController {
     constructor(private $scope: IScope,
                 private session: ISessionService,
                 private statistics: StatisticsService,
+                private storage: IStorageService,
                 private reference: ReferenceService,
                 private defaultSettings: Array<IAnalyticsChart>) {
+
+        let storageCharts: any = null;
+        let storageFilters: {
+            users: IAnalyticsChartFilterParam<IUserProfileShort>;
+            activityTypes: IAnalyticsChartFilterParam<IActivityType>;
+            activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
+            periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
+        } = null;
 
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
             .subscribe(userProfile => {
                 this.user = userProfile;
-                this.prepareUsersFilter(userProfile);
+                storageCharts = this.getSettings('charts') && this.getSettings('charts').map(c => new AnalyticsChart(c));
+                storageFilters = this.getSettings('filter');
+                this.prepareUsersFilter(userProfile, storageFilters && storageFilters.users.model);
             });
 
         reference.categoriesChanges
             .takeUntil(this.destroy)
             .subscribe(categories => {
-                this.prepareCategoriesFilter(categories, this.user);
+                this.prepareCategoriesFilter(categories, this.user, storageFilters && storageFilters.activityCategories.model);
                 this.$scope.$apply();
             });
 
-        this.prepareCharts(defaultSettings);
-        this.prepareSportTypesFilter();
-        this.prepareCategoriesFilter(reference.categories, this.user);
-        this.preparePeriodsFilter();
+        this.prepareCharts(storageCharts || defaultSettings);
+        this.prepareSportTypesFilter(storageFilters && storageFilters.activityTypes.model);
+        this.prepareCategoriesFilter(reference.categories, this.user, storageFilters && storageFilters.activityCategories.model);
+        this.preparePeriodsFilter(storageFilters && storageFilters.periods.model);
+        this.saveSettings('charts');
+        this.saveSettings('filter');
         this.prepareComplete = true;
     }
 
@@ -193,16 +209,29 @@ export class AnalyticsCtrl implements IComponentController {
         this.destroy.complete();
     }
 
+    changeGlobalFilter() {
+        this.filterChanges++;
+        this.saveSettings('filter');
+    }
+
+    private getSettings(obj: string): any {
+        return this.storage.get(`${this.user.userId}#analytics_${obj}`);
+    }
+
+    private saveSettings(obj: string) {
+        this.storage.set(`${this.user.userId}#analytics_${obj}`,this[obj]);
+    }
+
     private prepareCharts(charts: Array<IAnalyticsChart>) {
         this.charts = charts.map(c => new AnalyticsChart(c));
     }
 
-    private prepareUsersFilter(user: IUserProfile) {
+    private prepareUsersFilter(user: IUserProfile, model: any) {
         this.filter.users = {
             type: 'checkbox',
             area: 'params',
             name: 'users',
-            model: null,
+            model: model || null,
             options: []
         };
 
@@ -218,27 +247,31 @@ export class AnalyticsCtrl implements IComponentController {
                 })));
         }
 
-        this.filter.users.model = [this.filter.users.options[0].userId];
+        if(!this.filter.users.model) {
+            this.filter.users.model = [this.filter.users.options[0].userId];
+        }
     }
 
-    private prepareSportTypesFilter() {
+    private prepareSportTypesFilter(model: any) {
         this.filter.activityTypes = {
             type: 'checkbox',
             area: 'params',
             name: 'activityTypes',
-            model: null,
+            model: model || null,
             options: activityTypes
         };
-        this.filter.activityTypes.model = [this.filter.activityTypes.options[0].id];
+        if(!this.filter.activityTypes.model){
+            this.filter.activityTypes.model = [this.filter.activityTypes.options[0].id];
+        }
     }
 
-    private prepareCategoriesFilter(categoriesList: Array<IActivityCategory>, userProfile: IUserProfile) {
+    private prepareCategoriesFilter(categoriesList: Array<IActivityCategory>, userProfile: IUserProfile, model: any) {
 
         this.filter.activityCategories = {
             type: 'checkbox',
             area: 'params',
             name: 'activityCategories',
-            model: [],
+            model: model || [],
             options: categoriesList
         };
 
@@ -248,15 +281,17 @@ export class AnalyticsCtrl implements IComponentController {
         ) (categoriesList);
     }
 
-    private preparePeriodsFilter() {
+    private preparePeriodsFilter(model: any) {
         this.filter.periods = {
             type: 'date',
             area: 'params',
             name: 'periods',
-            model: null,
+            model: model || null,
             options: PeriodOptions()
         };
-        this.filter.periods.model = JSON.stringify(this.filter.periods.options[0].period);
+        if(!this.filter.periods.model){
+            this.filter.periods.model = JSON.stringify(this.filter.periods.options[0].period);
+        }
     }
 }
 

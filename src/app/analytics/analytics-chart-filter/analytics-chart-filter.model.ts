@@ -1,30 +1,31 @@
-
+import moment from 'moment/src/moment.js';
 import {IReportPeriod} from "../../../../api/statistics/statistics.interface";
 
 const periodByType = (type: string): IReportPeriod => {
+    let format: string = 'YYYYMMDD';
     switch (type) {
         case 'thisYear': {
             return {
-                startDate: '20170101',
-                endDate: '20171231'
+                startDate: moment().startOf('year').format(format),
+                endDate: moment().endOf('year').format(format)
             };
         }
         case 'thisMonth': {
             return {
-                startDate: '20170901',
-                endDate: '20170930'
+                startDate: moment().startOf('month').format(format),
+                endDate: moment().endOf('month').format(format)
             };
         }
         case 'thisWeek': {
             return {
-                startDate: '20170918',
-                endDate: '20170924'
+                startDate: moment().startOf('week').format(format),
+                endDate: moment().endOf('week').format(format)
             };
         }
         case 'customPeriod': {
             return {
-                startDate: null,
-                endDate: '20170924'
+                startDate: moment().startOf('year').format(format),
+                endDate: moment().format(format)
             };
         }
     }

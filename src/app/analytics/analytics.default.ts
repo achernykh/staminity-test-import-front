@@ -81,10 +81,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             measures : [{
                 label: "Время",
                 unit: "",
-                chartType: "bar",
+                chartType: 'area',
                 stacked: false,
                 cumulative: false,
-                smoothSettings: "null",
+                smoothSettings: 'curveStep',
                 tooltipType: "icon",
                 minValue: 0,
                 legend: false,
@@ -92,19 +92,19 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 avgValueLine: true,
                 scaleVisible: true,
                 calculateTotals: "",
-                lineColor: "#449999",
-                lineStyle: "dotted",
+                lineColor: "#FF5722", // deep-orange-500
+                lineStyle: "solid",
                 fillType: "gradient",
                 fillColor: "",
                 gradient: [{
                     offset: "0%",
-                    color: "#449999"
+                    color: "rgba(251, 233, 231, 1)" // deep-orange-50
                 }, {
                     offset: "100%",
-                    color: "rgba(175, 191, 255, 0)"
+                    color: "rgba(255, 138, 101, 1)" // deep-orange-300
                 }],
-                markerColor: "#449999",
-                avgValueLineColor: "green",
+                markerColor: "#FF5722", // deep-orange-500
+                avgValueLineColor: "#37474F", //
                 avgValueLineStyle: "dashed",
                 idx: 1,
                 measureSource: "activity.actual.measure",
@@ -195,10 +195,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             measures : [{
                 label: "Расстояние",
                 unit: "",
-                chartType: "bar",
+                chartType: "area",
+                smoothSettings: 'curveStep',
                 stacked: false,
                 cumulative: false,
-                smoothSettings: "null",
                 tooltipType: "icon",
                 minValue: 0,
                 legend: false,
@@ -206,19 +206,19 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 avgValueLine: true,
                 scaleVisible: true,
                 calculateTotals: "",
-                lineColor: "#449999",
-                lineStyle: "dotted",
+                lineColor: "#607D8B", // blue-grey-500
+                lineStyle: "solid",
                 fillType: "gradient",
                 fillColor: "",
                 gradient: [{
                     "offset": "0%",
-                    "color": "#449999"
+                    "color": "rgba(236, 239, 241, 1)" // blue-grey-50
                 }, {
                     "offset": "100%",
-                    "color": "rgba(175, 191, 255, 0)"
+                    "color": "rgba(144, 164, 174, 1)" // blue-grey-300
                 }],
-                markerColor: "#449999",
-                avgValueLineColor: "green",
+                markerColor: "#607D8B", // blue-grey-500
+                avgValueLineColor: "#D84315", // deep-orange-800
                 avgValueLineStyle: "dashed",
                 idx: 1,
                 measureSource: "activity.actual.measure",
@@ -417,7 +417,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "calculateTotals": "",
                     "lineColor": "#FF9999",
                     "lineStyle": "solid",
-                    "fillType": "",
+                    "fillType": "none",
                     "fillColor": "",
                     "markerColor": "#FF9999",
                     "avgValueLineColor": "",

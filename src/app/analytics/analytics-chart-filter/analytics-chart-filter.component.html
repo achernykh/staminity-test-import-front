@@ -20,7 +20,8 @@
                         <md-menu-item ng-repeat="option in param.options"
                                       type="radio"
                                       ng-model="param.model"
-                                      value="{{option}}">{{'analytics.params.' + option.name | translate}}
+                                      ng-change="$ctrl.onChange({param: param, option: option})"
+                                      ng-value="{{option}}">{{'analytics.params.' + option.name | translate}}
                         </md-menu-item>
                         <md-menu-divider ng-if="param.hasOwnProperty('protected')"></md-menu-divider>
                         <md-menu-item ng-if="param.hasOwnProperty('protected')"
