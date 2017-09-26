@@ -101,8 +101,8 @@ export const translateAnalytics = {
             description: 'Тренировочные объемы по времени по видам спорта'
         },
         DistanceByActivityTypes: {
-            title: 'Объемы по видам спорта (время)',
-            description: 'Тренировочные объемы по времени по видам спорта'
+            title: 'Сводные объемы по видам спорта',
+            description: 'Объемы тренировок по видам спорта за период'
         },
     },
 
