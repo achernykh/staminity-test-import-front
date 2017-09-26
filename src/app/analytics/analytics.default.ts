@@ -1059,4 +1059,289 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }]
         }]
     },
+    /**
+     Пики по пульсу по времени
+     */
+    {
+
+        order: 9,
+        active: false,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'HRTimePeaks.title',
+        description: 'HRTimePeaks.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "currentPositionLine": {
+                    "enabled": true
+                }
+            },
+            series : [{
+                "label" : "Пики",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Пик",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx" : 0,
+                "measureSource" : "peaksByTime",
+                "measureName" : "Peaks",
+                "dataType": "string",
+                "dateFormat": "",
+                "valueType" : "value",
+                "seriesDateTrunc" : "",
+                "groupByIntervalLength" : 1
+            }],
+            measures : [{
+                "id": 0,
+                "label" : "Пульс",
+                "unit" : "уд/м",
+                "chartType" : "area",
+                "smoothSettings" : "curveCatmullRom",
+                "tooltipType" : "icon",
+                "legend": true,
+                "lineColor": "#449999",
+                "lineStyle": "dotted",
+                "fillType": "gradient",
+                "gradient": [{"offset": "0%","color": "rgba(0, 0, 0, 0.2)"},
+                    {"offset": "100%","color": "rgba(0, 156, 0, 0.8)" }],
+                "markerColor": "rgba(0, 156, 0, 0.8)",
+                "idx" : 1,
+                "measureSource": "activity.actual.measure",
+                "measureName": "powerTimePeaks",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "peak",
+                "aggMethod": "max"
+            }]
+        }]
+    },
+    /**
+     Пики по темпу/скорости по времени
+     */
+    {
+
+        order: 10,
+        active: false,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'SpeedTimePeaks.title',
+        description: 'SpeedTimePeaks.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "currentPositionLine": {
+                    "enabled": true
+                }
+            },
+            series : [{
+                "label" : "Пики",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Пик",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx" : 0,
+                "measureSource" : "peaksByTime",
+                "measureName" : "Peaks",
+                "dataType": "string",
+                "dateFormat": "",
+                "valueType" : "value",
+                "seriesDateTrunc" : "",
+                "groupByIntervalLength" : 1
+            }],
+            measures : [{
+                "id": 0,
+                "label" : "Скорость/темп",
+                "unit" : "",
+                "chartType" : "area",
+                "smoothSettings" : "curveCatmullRom",
+                "tooltipType" : "icon",
+                "legend": true,
+                "lineColor": "#449999",
+                "lineStyle": "dotted",
+                "fillType": "gradient",
+                "gradient": [{"offset": "0%","color": "rgba(0, 0, 0, 0.2)"},
+                    {"offset": "100%","color": "rgba(0, 156, 0, 0.8)" }],
+                "markerColor": "rgba(0, 156, 0, 0.8)",
+                "idx" : 1,
+                "measureSource": "activity.actual.measure",
+                "measureName": "speedTimePeaks",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "peak",
+                "aggMethod": "max"
+            }]
+        }]
+    },
+    /**
+     Пики по мощности по времени
+     */
+    {
+
+        order: 11,
+        active: false,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'PowerTimePeaks.title',
+        description: 'PowerTimePeaks.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "currentPositionLine": {
+                    "enabled": true
+                }
+            },
+            series : [{
+                "label" : "Пики",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Пик",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx" : 0,
+                "measureSource" : "peaksByTime",
+                "measureName" : "Peaks",
+                "dataType": "string",
+                "dateFormat": "",
+                "valueType" : "value",
+                "seriesDateTrunc" : "",
+                "groupByIntervalLength" : 1
+            }],
+            measures : [{
+                "id": 0,
+                "label" : "Мощность",
+                "unit" : "Вт",
+                "chartType" : "area",
+                "smoothSettings" : "curveCatmullRom",
+                "tooltipType" : "icon",
+                "legend": true,
+                "lineColor": "#449999",
+                "lineStyle": "dotted",
+                "fillType": "gradient",
+                "gradient": [{"offset": "0%","color": "rgba(0, 0, 0, 0.2)"},
+                    {"offset": "100%","color": "rgba(0, 156, 0, 0.8)" }],
+                "markerColor": "rgba(0, 156, 0, 0.8)",
+                "idx" : 1,
+                "measureSource": "activity.actual.measure",
+                "measureName": "powerTimePeaks",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "peak",
+                "aggMethod": "max"
+            }]
+        }]
+    },
  ];
