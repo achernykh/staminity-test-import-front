@@ -126,7 +126,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 2,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'actualDistance.title',
         description: 'actualDistance.description',
@@ -237,7 +237,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 3,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'distanceHRPaceTL.title',
         description: 'distanceHRPaceTL.description',
@@ -440,7 +440,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 4,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesHR.title',
         description: 'timeInZonesHR.description',
@@ -567,7 +567,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 5,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesSpeed.title',
         description: 'timeInZonesSpeed.description',
@@ -694,7 +694,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 6,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesPower.title',
         description: 'timeInZonesPower.description',
@@ -821,7 +821,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 7,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'distanceByAthletesByPeriods.title',
         description: 'distanceByAthletesByPeriods.description',
@@ -943,7 +943,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 8,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'durationByAthletesByPeriods.title',
         description: 'durationByAthletesByPeriods.description',
@@ -1065,7 +1065,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 9,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'HRTimePeaks.title',
         description: 'HRTimePeaks.description',
@@ -1131,7 +1131,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "groupByIntervalLength" : 1
             }],
             measures : [{
-                "id": 0,
+                "id": "0",
                 "label" : "Пульс",
                 "unit" : "уд/м",
                 "chartType" : "area",
@@ -1160,7 +1160,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 10,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'SpeedTimePeaks.title',
         description: 'SpeedTimePeaks.description',
@@ -1226,7 +1226,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "groupByIntervalLength" : 1
             }],
             measures : [{
-                "id": 0,
+                "id": "0",
                 "label" : "Скорость/темп",
                 "unit" : "",
                 "chartType" : "area",
@@ -1255,7 +1255,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
 
         order: 11,
-        active: false,
+        active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'PowerTimePeaks.title',
         description: 'PowerTimePeaks.description',
@@ -1321,7 +1321,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "groupByIntervalLength" : 1
             }],
             measures : [{
-                "id": 0,
+                "id": "0",
                 "label" : "Мощность",
                 "unit" : "Вт",
                 "chartType" : "area",

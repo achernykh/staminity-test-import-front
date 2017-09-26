@@ -18,6 +18,8 @@ class AnalyticsChartCtrl implements IComponentController {
         periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
     };
 
+    private errorStack: Array<string> = [];
+
     public onEvent: (response: Object) => IPromise<void>;
     public onFullScreen: () => IPromise<void>;
 
@@ -103,11 +105,14 @@ class AnalyticsChartCtrl implements IComponentController {
         };
 
         this.statistics.getMetrics(request).then(result => {
+            this.errorStack = [];
             if(result && result.hasOwnProperty('charts') && !result['charts'].some(c => c.hasOwnProperty('errorMessage'))) {
                 result['charts'].map((r,i) => this.chart.prepareMetrics(i, r.metrics));
                 this.updateCount++;
                 this.$scope.$apply();
 
+            } else if(result['charts'].some(c => c.hasOwnProperty('errorMessage'))) {
+                this.errorStack = result['charts'].filter(c => c.hasOwnProperty('errorMessage')).map(c => c.errorMessage);
             }
         }, error => { });
     }
