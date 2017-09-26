@@ -3241,31 +3241,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "vertical-align": "top",
                     "horizontal-align": "right"
                 },
-                "tooltip": {
-                    "combined": false
-                },
-                "currentPositionLine": {
-                    "enabled": false
-                },
                 "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
             },
-            series : [{
-                "label" : "Период",
-                "unit" : "",
-                "xAxis" : true,
-                "tooltipType" : "label",
-                "tooltipLabel" : "Период",
-                "legend": false,
-                "currentPositionLine": false,
-                "idx" : 0,
-                "measureSource" : "activity.startDate",
-                "measureName" : "Weeks",
-                "dataType": "date",
-                "dateFormat": "DD.MM",
-                "valueType" : "value",
-                "seriesDateTrunc" : "week",
-                "groupByIntervalLength" : 1
-            },
+            series: [
                 {
                     "label" : "Виды спорта",
                     "unit" : "",
@@ -3275,7 +3253,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "legend": true,
                     "colorPalette": true,
                     "currentPositionLine": false,
-                    "idx" : 1,
+                    "idx" : 0,
                     "fillColor": "#449999",
                     "measureSource": "activityType",
                     "measureName" : "",
@@ -3284,32 +3262,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "valueType" : "value",
                     "seriesDateTrunc" : "",
                     "groupByIntervalLength" : 1	 }
-
-            ],
-            measures : [{
-                "label" : "Время",
-                "unit" : "ч",
-                "chartType" : "bar",
-                "stacked" : true,
-                "cumulative": false,
-                "smoothSettings" : "null",
-                "tooltipType" : "color",
-                "minValue" : 0,
-                "legend": false,
-                "visible" : true,
-                "avgValueLine": false,
-                "scaleVisible": true,
-                "calculateTotals": "",
-                "fillColor": "",
-                "colorPalette": true,
-                "idx" : 2,
-                "measureSource" : "activity.actual.measure",
-                "measureName" : "duration",
-                "dataType": "number",
-                "dateFormat": "",
-                "valueType" : "value",
-                "aggMethod" : "sum"
-
+                ],
+            measures: [
+                {
+                    "label" : "Расстояние",
+                    "unit" : "км",
+                    "chartType" : "donut",
+                    "stacked" : false,
+                    "cumulative": false,
+                    "smoothSettings" : "null",
+                    "tooltipType" : "color",
+                    "minValue" : 0,
+                    "legend": false,
+                    "visible" : true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "fillColor": "",
+                    "colorPalette": true,
+                    "idx" : 1,
+                    "measureSource" : "activity.actual.measure",
+                    "measureName" : "distance",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "aggMethod" : "sum"
             }]
         }]
     },
