@@ -1441,4 +1441,375 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }]
         }]
     },
+    /**
+     Дистанция по видам спорта по периодам
+     Stacked bar chart
+     */
+    {
+
+        order: 13,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'DistanceByActivityTypeByPeriods.title',
+        description: 'DistanceByActivityTypeByPeriods.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": false
+                },
+                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+            },
+            series : [{
+                    "label" : "Период",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Период",
+                    "legend": false,
+                    "currentPositionLine": false,
+                    "idx" : 0,
+                    "measureSource" : "activity.startDate",
+                    "measureName" : "Weeks",
+                    "dataType": "date",
+                    "dateFormat": "DD.MM",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "week",
+                    "groupByIntervalLength" : 1
+                },
+                {
+                    "label" : "Виды спорта",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Вид спорта",
+                    "legend": true,
+                    "colorPalette": true,
+                    "currentPositionLine": false,
+                    "idx" : 1,
+                    "fillColor": "#449999",
+                    "measureSource": "activityType",
+                    "measureName" : "",
+                    "dataType": "string",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "",
+                    "groupByIntervalLength" : 1	 }
+
+                ],
+            measures : [{
+                "label" : "Расстояние",
+                "unit" : "км",
+                "chartType" : "bar",
+                "stacked" : true,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "fillColor": "",
+                "colorPalette": true,
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "distance",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType" : "value",
+                "aggMethod" : "sum"
+
+            }]
+        }]
+    },
+    /**
+     Продолжительность (duration) по видам спорта по периодам
+     Stacked bar chart
+     */
+    {
+
+        order: 14,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'DurationByActivityTypeByPeriods.title',
+        description: 'DurationByActivityTypeByPeriods.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": false
+                },
+                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+            },
+            series : [{
+                "label" : "Период",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Период",
+                "legend": false,
+                "currentPositionLine": false,
+                "idx" : 0,
+                "measureSource" : "activity.startDate",
+                "measureName" : "Weeks",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType" : "value",
+                "seriesDateTrunc" : "week",
+                "groupByIntervalLength" : 1
+            },
+                {
+                    "label" : "Виды спорта",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Вид спорта",
+                    "legend": true,
+                    "colorPalette": true,
+                    "currentPositionLine": false,
+                    "idx" : 1,
+                    "fillColor": "#449999",
+                    "measureSource": "activityType",
+                    "measureName" : "",
+                    "dataType": "string",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "",
+                    "groupByIntervalLength" : 1	 }
+
+            ],
+            measures : [{
+                "label" : "Время",
+                "unit" : "ч",
+                "chartType" : "bar",
+                "stacked" : true,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "fillColor": "",
+                "colorPalette": true,
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "duration",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType" : "value",
+                "aggMethod" : "sum"
+
+            }]
+        }]
+    },
+    /**
+     Расстояние по видам спорта (piechart)
+     */
+    {
+
+        order: 15,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'DistanceByActivityTypes.title',
+        description: 'DistanceByActivityTypes.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": false
+                },
+                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+            },
+            series : [{
+                "label" : "Период",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Период",
+                "legend": false,
+                "currentPositionLine": false,
+                "idx" : 0,
+                "measureSource" : "activity.startDate",
+                "measureName" : "Weeks",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType" : "value",
+                "seriesDateTrunc" : "week",
+                "groupByIntervalLength" : 1
+            },
+                {
+                    "label" : "Виды спорта",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Вид спорта",
+                    "legend": true,
+                    "colorPalette": true,
+                    "currentPositionLine": false,
+                    "idx" : 1,
+                    "fillColor": "#449999",
+                    "measureSource": "activityType",
+                    "measureName" : "",
+                    "dataType": "string",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "",
+                    "groupByIntervalLength" : 1	 }
+
+            ],
+            measures : [{
+                "label" : "Время",
+                "unit" : "ч",
+                "chartType" : "bar",
+                "stacked" : true,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "fillColor": "",
+                "colorPalette": true,
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "duration",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType" : "value",
+                "aggMethod" : "sum"
+
+            }]
+        }]
+    },
  ];

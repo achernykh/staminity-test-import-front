@@ -92,6 +92,18 @@ export const translateAnalytics = {
             title: 'Пики мощности по времени',
             description: 'Максимальные пики по мощности по времени'
         },
+        DistanceByActivityTypeByPeriods: {
+            title: 'Объемы по видам спорта (расстояние)',
+            description: 'Тренировочные объемы по расстоянию по видам спорта'
+        },
+        DurationByActivityTypeByPeriods: {
+            title: 'Объемы по видам спорта (время)',
+            description: 'Тренировочные объемы по времени по видам спорта'
+        },
+        DistanceByActivityTypes: {
+            title: 'Объемы по видам спорта (время)',
+            description: 'Тренировочные объемы по времени по видам спорта'
+        },
     },
 
 
