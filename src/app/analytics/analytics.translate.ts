@@ -80,9 +80,13 @@ export const translateAnalytics = {
             title: 'Пики пульса по времени',
             description: 'Максимальные пиковые значения по пульсу по времени'
         },
+        PaceTimePeaks: {
+            title: 'Пики темпа по времени',
+            description: 'Максимальные пики по темпу по времени'
+        },
         SpeedTimePeaks: {
             title: 'Пики скорости по времени',
-            description: 'Максимальные пики по темпу/скорости по времени'
+            description: 'Максимальные пики по скорости по времени'
         },
         PowerTimePeaks: {
             title: 'Пики мощности по времени',

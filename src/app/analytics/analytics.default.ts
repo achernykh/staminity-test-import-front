@@ -7,7 +7,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      * Фильтры:
      * а) атлет
      * Признаки:
-     * а) нарастояющим итогом - да/нет
+     * а) нарастающим итогом - да/нет
      * б) группировка по дням / по неделям / по месяцам
      */
     {
@@ -1155,15 +1155,15 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Пики по темпу/скорости по времени
+     Пики по темпу по времени
      */
     {
 
         order: 10,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'SpeedTimePeaks.title',
-        description: 'SpeedTimePeaks.description',
+        title: 'PaceTimePeaks.title',
+        description: 'PaceTimePeaks.description',
         filter: {
             enabled: true,
             params: [
@@ -1227,7 +1227,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }],
             measures : [{
                 "id": "0",
-                "label" : "Скорость/темп",
+                "label" : "Темп",
                 "unit" : "",
                 "chartType" : "area",
                 "smoothSettings" : "curveCatmullRom",
@@ -1245,7 +1245,104 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType": "peak",
-                "aggMethod": "max"
+                "aggMethod": "max",
+                "reverse": true
+            }]
+        }]
+    },
+    /**
+     Пики по скорости по времени
+     */
+    {
+
+        order: 11,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'PaceTimePeaks.title',
+        description: 'PaceTimePeaks.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "currentPositionLine": {
+                    "enabled": true
+                }
+            },
+            series : [{
+                "label" : "Пики",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Пик",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx" : 0,
+                "measureSource" : "peaksByTime",
+                "measureName" : "Peaks",
+                "dataType": "string",
+                "dateFormat": "",
+                "valueType" : "value",
+                "seriesDateTrunc" : "",
+                "groupByIntervalLength" : 1
+            }],
+            measures : [{
+                "id": "0",
+                "label" : "Скорость",
+                "unit" : "км/ч",
+                "chartType" : "area",
+                "smoothSettings" : "curveCatmullRom",
+                "tooltipType" : "icon",
+                "legend": true,
+                "lineColor": "#449999",
+                "lineStyle": "dotted",
+                "fillType": "gradient",
+                "gradient": [{"offset": "0%","color": "rgba(0, 0, 0, 0.2)"},
+                    {"offset": "100%","color": "rgba(0, 156, 0, 0.8)" }],
+                "markerColor": "rgba(0, 156, 0, 0.8)",
+                "idx" : 1,
+                "measureSource": "activity.actual.measure",
+                "measureName": "speedTimePeaks",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "peak",
+                "aggMethod": "max",
+                "reverse": false
             }]
         }]
     },
@@ -1254,7 +1351,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
 
-        order: 11,
+        order: 12,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'PowerTimePeaks.title',
