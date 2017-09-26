@@ -230,7 +230,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }]
         }]
     },
-     /*
+     /**
      Показатели по периодам
      Расстояние, Средний пульс, средний темп, TL
      */
@@ -434,7 +434,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             ]
         }]
     },
-    /*
+    /**
     Время в зонах по пульсу
      */
     {
@@ -561,7 +561,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
         }]
     },
-    /*
+    /**
      Время в зонах по темпу
      */
     {
@@ -688,7 +688,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
         }]
     },
-    /*
+    /**
      Время в зонах по мощности
      */
     {
@@ -814,5 +814,249 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }]
 
         }]
-    }
+    },
+    /**
+     Объемы по расстоянию по ученикам
+     */
+    {
+
+        order: 7,
+        active: false,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'distanceByAthletesByPeriods.title',
+        description: 'distanceByAthletesByPeriods.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": true
+                },
+                "currentPositionLine": {
+                    "enabled": false
+                },
+                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+            },
+            series : [{
+                "label" : "Период",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Период",
+                "legend": false,
+                "currentPositionLine": false,
+                "idx" : 0,
+                "measureSource" : "activity.startDate",
+                "measureName" : "Weeks",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType" : "value",
+                "seriesDateTrunc" : "week",
+                "groupByIntervalLength" : 1
+            },
+            {
+                "label" : "Атлет",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "none",
+                "tooltipLabel" : "Атлет",
+                "legend": true,
+                "colorPalette": true,
+                "currentPositionLine": false,
+                "idx" : 1,
+                "fillColor": "#449999",
+                "measureSource": "activity.owner",
+                "measureName" : "name",
+                "dataType": "string",
+                "dateFormat": "",
+                "valueType" : "value",
+                "seriesDateTrunc" : "",
+                "groupByIntervalLength" : 1} ],
+
+            measures : [{
+                "label" : "Расстояние",
+                "unit" : "км",
+                "chartType" : "bar",
+                "stacked" : false,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "fillColor": "",
+                "colorPalette": true,
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "distance",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType" : "value",
+                "aggMethod" : "sum"
+            }]
+
+        }]
+    },
+    /**
+     Объемы по времени по ученикам
+     */
+    {
+
+        order: 8,
+        active: false,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'durationByAthletesByPeriods.title',
+        description: 'durationByAthletesByPeriods.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'date',
+                    area: 'params',
+                    name: 'period',
+                    model: {
+                        name: 'thisYear',
+                        period: {
+                            startDate: null,
+                            endDate: null
+                        }
+                    },
+                    options: PeriodOptions()
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    model: 'week',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": false
+                },
+                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+            },
+            series : [
+                {
+                    "label" : "Период",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Период",
+                    "legend": false,
+                    "currentPositionLine": false,
+                    "idx" : 0,
+                    "measureSource" : "activity.startDate",
+                    "measureName" : "Weeks",
+                    "dataType": "date",
+                    "dateFormat": "DD.MM",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "week",
+                    "groupByIntervalLength" : 1
+                },
+                {
+                    "label" : "Атлет",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "label",
+                    "tooltipLabel" : "Атлет",
+                    "legend": true,
+                    "colorPalette": true,
+                    "currentPositionLine": false,
+                    "idx" : 1,
+                    "fillColor": "#449999",
+                    "measureSource": "activity.owner",
+                    "measureName" : "name",
+                    "dataType": "string",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "",
+                    "groupByIntervalLength" : 1	 }
+                ],
+            measures : [{
+                    "label" : "Время",
+                    "unit" : "ч",
+                    "chartType" : "bar",
+                    "stacked" : false,
+                    "cumulative": false,
+                    "smoothSettings" : "null",
+                    "tooltipType" : "icon",
+                    "minValue" : 0,
+                    "legend": false,
+                    "visible" : true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "fillColor": "",
+                    "colorPalette": true,
+                    "idx" : 2,
+                    "measureSource" : "activity.actual.measure",
+                    "measureName" : "duration",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "aggMethod" : "sum"
+            }]
+        }]
+    },
  ];

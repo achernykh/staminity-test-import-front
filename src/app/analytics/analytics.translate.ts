@@ -7,17 +7,31 @@ export const translateAnalytics = {
             charts: 'Отчеты'
         },
         filter: {
-            more: ' и еще {{num}}...'
+            more: ' и еще {{num}}...',
+            users: {
+                placeholder: "Пользователь"
+            },
+            activityTypes: {
+                placeholder: "Виды спорта"
+            },
+            activityCategories: {
+                empty: "Выберите категорию"
+            },
+            periods: {
+                placeholder: "Период"
+            },
         },
+        defaultCharts: "Доступные графики",
         params: {
             // названия параметров
             seriesDateTrunc: "Группировать",
             cumulative: "Нарастающим итогом",
             period: "Период",
-            thisYear: "Этот год",
-            thisMonth: "",
-            thisWeek: "",
-            customPeriod: "",
+            thisYear: "С начала года",
+            thisMonth: "С начала месяца",
+            thisWeek: "С начала недели",
+            customPeriod: "Выбрать...",
+            protected: "Единый для всех графиков",
 
 
             // значения параметров
@@ -53,6 +67,14 @@ export const translateAnalytics = {
         timeInZonesPower: {
             title: 'Время в зонах: Мощность',
             description: 'Время в зонах по мощности за период'
+        },
+        distanceByAthletesByPeriods: {
+            title: 'Тренировки учеников (расстояние)',
+            description: 'Тренировочные объемы по ученикам (расстояние)'
+        },
+        durationByAthletesByPeriods: {
+            title: 'Тренировки учеников (время)',
+            description: 'Тренировочные объемы по ученикам (расстояние)'
         },
     },
 
