@@ -49,7 +49,7 @@ class U2DHorizontalChart extends U2DChart {
             .attr('class', 'axis series-axis');
 
         this._xAxisContainer = this._canvas.selectAll('g.y-axis')
-            .data(this.getViews().map(v => v.getConfig().getOptions()))
+            .data(this.getMeasureAxesData(true))
             .enter()
             .append('g')
             .attr('class', function(d, i) {
@@ -286,14 +286,6 @@ class U2DHorizontalChart extends U2DChart {
         }, this);
 
         return axes;
-    }
-
-
-    _getMeasureDomain(measureName) {
-
-        return _.uniq(this._getViewsByMeasureName(measureName).reduce(function(domain, view) {
-            return domain.concat(view.getY())
-        }, []));
     }
 
 

@@ -108,21 +108,44 @@ class U2DChart extends USvgChart {
 
     /**
      * Get measure axes data.
+     * @public
+     * @param {Boolean} excludeInvisible
      * @returns {Object[]}
      */
-    getMeasureAxesData() {
+    getMeasureAxesData(excludeInvisible = false) {
 
         return _(this.getViews())
             .map(v => v.getConfig().getOptions())
             .filter(function(d) {
-                // return d['visible'];
-                return true;
+                if (excludeInvisible) {
+                    return true;
+                    return d['scaleVisible'] !== false;
+                } else {
+                    return true;
+                }
             }).groupBy(d => d['measureName'])
             .values()
             .map(d => d[0])
             .value();
     }
 
+    /**
+     * Get measure domain.
+     * Domain is two dimensional array with min and max values.
+     * @private
+     * @param {String} measureName
+     * @returns {Number[]}
+     */
+    _getMeasureDomain(measureName) {
+
+        return _.uniq(this._getViewsByMeasureName(measureName).reduce(function(domain, view) {
+            if ('_getMeasureDomain' in view) {
+                return domain.concat(view._getMeasureDomain());
+            } else {
+                return domain.concat(view.getY());
+            }
+        }, []));
+    }
 
     _mouseLeaveEventHandler() {
 

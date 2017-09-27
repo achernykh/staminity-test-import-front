@@ -65,11 +65,8 @@ class StackedView extends BarView {
           return this.getData()
               .map(function(set) {
                   return set.find(function(d) {
-                      return d.x0 == xValue0
+                      return d.x0 == xValue0;
                   })
-              }).map(function(d) {
-                  d.y = d.y1;
-                  return d;
               });
     }
 

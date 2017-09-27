@@ -56,7 +56,7 @@ class U2DVerticalChart extends U2DChart {
         this._mManager.addBottom(this._xAxisLabel.node().getBoundingClientRect().height);
 
         this._yAxisContainer = this._canvas.selectAll('g.y-axis')
-            .data(this.getMeasureAxesData())
+            .data(this.getMeasureAxesData(true))
             .enter()
             .append('g')
             .attr('class', function(d, i) {
@@ -289,14 +289,6 @@ class U2DVerticalChart extends U2DChart {
         }, this);
 
         return axes;
-    }
-
-
-    _getMeasureDomain(measureName) {
-
-        return _.uniq(this._getViewsByMeasureName(measureName).reduce(function(domain, view) {
-            return domain.concat(view.getY())
-        }, []));
     }
 
 
