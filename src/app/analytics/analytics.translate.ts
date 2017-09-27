@@ -80,13 +80,29 @@ export const translateAnalytics = {
             title: 'Пики пульса по времени',
             description: 'Максимальные пиковые значения по пульсу по времени'
         },
+        PaceTimePeaks: {
+            title: 'Пики темпа по времени',
+            description: 'Максимальные пики по темпу по времени'
+        },
         SpeedTimePeaks: {
             title: 'Пики скорости по времени',
-            description: 'Максимальные пики по темпу/скорости по времени'
+            description: 'Максимальные пики по скорости по времени'
         },
         PowerTimePeaks: {
             title: 'Пики мощности по времени',
             description: 'Максимальные пики по мощности по времени'
+        },
+        DistanceByActivityTypeByPeriods: {
+            title: 'Объемы по видам спорта (расстояние)',
+            description: 'Тренировочные объемы по расстоянию по видам спорта'
+        },
+        DurationByActivityTypeByPeriods: {
+            title: 'Объемы по видам спорта (время)',
+            description: 'Тренировочные объемы по времени по видам спорта'
+        },
+        DistanceByActivityTypes: {
+            title: 'Сводные объемы по видам спорта',
+            description: 'Объемы тренировок по видам спорта за период'
         },
     },
 
