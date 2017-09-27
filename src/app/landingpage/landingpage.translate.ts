@@ -167,7 +167,7 @@ export let _translate = {
 				link2: '<a flex href="#athletes" class="md-body md-light">Для спортсменов</a>',
 				link3: '<a flex href="#coaches" class="md-body md-light">Для тренеров</a>',
 				link4: '<a flex href="#clubs" class="md-body md-light">Для клубов</a>',
-				link5: '<a flex href="#" class="md-body md-light disable">Тарифы</a>',
+				link5: '<a flex href="https://staminity.com/tariffs" class="md-body md-light">Тарифы</a>',
 			},
 			block2 : {
 				title: 'Помощь и поддержка',
