@@ -83,9 +83,6 @@
                 </md-list-item>
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">
-                        <!--<md-icon>
-                            <userpic flex="none" profile="$ctrl.filter.users.model"></userpic>
-                        </md-icon>-->
                         <label translate="analytics.filter.periods.placeholder"></label>
                         <md-select flex="auto" name="periods" class="icon"
                                    multiple="false"
@@ -97,6 +94,30 @@
                                 <span>{{'analytics.params.' + type | translate}}</span>
                             </md-option>
                         </md-select>
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item ng-if="$ctrl.filter.periods.model === 'customPeriod'">
+                    <md-input-container class="md-block no-message" layout="row">
+                        <label translate="analytics.filter.periods.startDate"></label>
+                        <md-datepicker ng-model="$ctrl.startDate" flex="auto"
+                                       md-hide-icons="calendar"
+                                       ng-change="$ctrl.change('periods')"
+                                       name="startDate"></md-datepicker>
+                        <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                            <div ng-message="valid" translate="form.invalidDate"></div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item ng-if="$ctrl.filter.periods.model === 'customPeriod'">
+                    <md-input-container class="md-block no-message" layout="row">
+                        <label translate="analytics.filter.periods.endDate"></label>
+                        <md-datepicker ng-model="$ctrl.endDate" flex="auto"
+                                       md-hide-icons="calendar"
+                                       ng-change="$ctrl.change('periods')"
+                                       name="endDate"></md-datepicker>
+                        <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                            <div ng-message="valid" translate="form.invalidDate"></div>
+                        </div>
                     </md-input-container>
                 </md-list-item>
             </md-list>

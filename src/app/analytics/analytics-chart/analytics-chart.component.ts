@@ -118,6 +118,7 @@ class AnalyticsChartCtrl implements IComponentController {
             activityTypes: this.filter.activityTypes.model,
             activityCategories: this.filter.activityCategories.model,
             periods: (!periodsParams.protected && periodByType(periodsParams.model)) ||
+                (angular.isArray(this.filter.periods.data) && this.filter.periods.data) ||
                 periodByType(this.filter.periods.model) || this.chart.charts[i].params.periods
         });
     }

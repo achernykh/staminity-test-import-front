@@ -47,6 +47,7 @@ export interface IAnalyticsChartFilterParam<T> {
     name: string;
     text: string; // название показателя для вывода на экран analytics.params... | translate
     model: any;
+    data?: any; // расчетные данные для формирования model (используется для customPeriod)
     options: Array<T>;
     protected?: boolean;
 }
