@@ -20,7 +20,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
     private errorStack: Array<string> = [];
 
-    public onEvent: (response: Object) => IPromise<void>;
+    public onChangeFilter: () => IPromise<void>;
     public onFullScreen: () => IPromise<void>;
 
     public updateCount: number = 0;
@@ -44,7 +44,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
     }
 
-    update(param: IAnalyticsChartFilterParam<any>, value) {
+    update(param: IAnalyticsChartFilterParam<any>, value, protectedOption: boolean) {
         switch(param.area) {
             case 'series': {
                 param.ind.map(ind =>
@@ -63,14 +63,20 @@ class AnalyticsChartCtrl implements IComponentController {
                 break;
             }
             case 'params': {
-                param.ind.map(ind => this.chart.charts[ind].params[param.name] = value);
-                this.prepareParams();
+                if(protectedOption) {
+
+                } else {
+                    param.ind.map(ind => this.chart.charts[ind].params[param.name] = value);
+                    this.prepareParams();
+                }
             }
         }
 
         if(param.area === 'params' || ['seriesDateTrunc','cumulative','measureName'].indexOf(param.name) !== -1) {
             this.prepareData();
         }
+
+        this.onChangeFilter(); // сохраняем настройки в браузере
     }
 
     grow() {
@@ -90,12 +96,16 @@ class AnalyticsChartCtrl implements IComponentController {
 
     private prepareParams() {
         // TODO merge filters & protected params
+        // TODO update protected filters for params
+
+        let periodParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'period')[0];
 
         this.chart.charts.map((c,i) => c.params = {
             users: this.filter.users.model.map(u => Number(u)),
             activityTypes: this.filter.activityTypes.model,
-            activityCategories: null,
-            periods: this.chart.charts[i].params.periods || [JSON.parse(this.filter.periods.model)]
+            activityCategories: this.filter.activityCategories.model,
+            periods: (!periodParams.protected && [periodParams.model.period]) ||
+                this.chart.charts[i].params.periods
         });
     }
 
@@ -123,6 +133,7 @@ const AnalyticsChartComponent:IComponentOptions = {
         chart: '<',
         filter: '<',
         filterChanges: '<',
+        onChangeFilter: '<',
         onExpand: '&',
         onCollapse: '&',
         onFullScreen: '&'

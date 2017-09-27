@@ -45,6 +45,7 @@ export interface IAnalyticsChartFilterParam<T> {
     ind?: Array<number>; // индекс в массиве chart
     idx?: Array<number>; // индекс в массиве series/measures
     name: string;
+    text: string; // название показателя для вывода на экран analytics.params... | translate
     model: any;
     options: Array<T>;
     protected?: boolean;

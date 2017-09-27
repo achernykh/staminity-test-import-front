@@ -231,6 +231,7 @@ export class AnalyticsCtrl implements IComponentController {
             type: 'checkbox',
             area: 'params',
             name: 'users',
+            text: 'users',
             model: model || null,
             options: []
         };
@@ -257,6 +258,7 @@ export class AnalyticsCtrl implements IComponentController {
             type: 'checkbox',
             area: 'params',
             name: 'activityTypes',
+            text: 'activityTypes',
             model: model || null,
             options: activityTypes
         };
@@ -271,6 +273,7 @@ export class AnalyticsCtrl implements IComponentController {
             type: 'checkbox',
             area: 'params',
             name: 'activityCategories',
+            text: 'activityCategories',
             model: model || [],
             options: categoriesList
         };
@@ -286,6 +289,7 @@ export class AnalyticsCtrl implements IComponentController {
             type: 'date',
             area: 'params',
             name: 'periods',
+            text: 'periods',
             model: model || null,
             options: PeriodOptions()
         };

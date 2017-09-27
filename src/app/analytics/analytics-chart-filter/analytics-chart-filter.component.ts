@@ -13,9 +13,9 @@ class AnalyticsChartFilterCtrl implements IComponentController {
     private position;
     private config;
 
-    static $inject = ['$mdPanel'];
+    static $inject = ['$mdPanel','$mdDialog'];
 
-    constructor(private $mdPanel: any) {
+    constructor(private $mdPanel: any, private $mdDialog: any) {
 
         this.position = $mdPanel.newPanelPosition()
             .relativeTo('.open-button')

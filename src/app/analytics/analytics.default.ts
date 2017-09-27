@@ -24,13 +24,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
+                    text: 'period',
+                    model: null,
                     options: PeriodOptions(),
                     protected: true
                 },
@@ -40,6 +35,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'measures',
                     name: 'measureName',
+                    text: 'volume',
                     model: 'duration',
                     options: ['duration','distance']
                 },
@@ -49,6 +45,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day','week','month']
                 },
@@ -58,6 +55,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'measures',
                     name: 'cumulative',
+                    text: 'cumulative',
                     model: false,
                     options: [false,true]
                 },
@@ -147,6 +145,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -162,6 +161,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'period',
                     model: 'week',
                     options: ['day','week','month']
                 },
@@ -171,6 +171,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'measures',
                     name: 'cumulative',
+                    text: 'cumulative',
                     model: 'false',
                     options: ['false','true']
                 },
@@ -258,6 +259,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -273,6 +275,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'day',
                     options: ['day', 'week', 'month', 'quarter']
                 } /*,
@@ -422,7 +425,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "dot",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "",
+                    "smoothSettings": "null",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -445,7 +448,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "valueType": "value",
                     "aggMethod": "avg",
                     "reverse": true
-                }
+                },
                 {
                     "id": "heartRate",
                     "label": "Средний пульс",
@@ -609,6 +612,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -624,6 +628,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -736,6 +741,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -751,6 +757,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -863,6 +870,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -878,6 +886,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -990,6 +999,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1005,6 +1015,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -1112,6 +1123,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1127,6 +1139,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -1234,6 +1247,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1249,6 +1263,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -1329,6 +1344,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1344,6 +1360,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -1425,6 +1442,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1440,6 +1458,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -1521,6 +1540,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1536,6 +1556,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -1617,6 +1638,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1632,6 +1654,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -1741,6 +1764,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1756,6 +1780,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }
@@ -1864,6 +1889,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'date',
                     area: 'params',
                     name: 'period',
+                    text: 'period',
                     model: {
                         name: 'thisYear',
                         period: {
@@ -1879,6 +1905,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day', 'week', 'month', 'quarter']
                 }

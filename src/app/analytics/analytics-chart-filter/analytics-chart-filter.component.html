@@ -15,23 +15,24 @@
                           ng-switch="param.type">
                 <!-- тип 1: выбор даты -->
                 <md-menu ng-switch-when="date">
-                    <md-button ng-click="$mdMenu.open()" translate="analytics.params.{{param.name}}"></md-button>
+                    <md-button ng-click="$mdMenu.open()" translate="analytics.params.{{param.text}}"></md-button>
                     <md-menu-content  width="3">
                         <md-menu-item ng-repeat="option in param.options"
                                       type="radio"
                                       ng-model="param.model"
                                       ng-change="$ctrl.onChange({param: param, option: option})"
-                                      ng-value="{{option}}">{{'analytics.params.' + option.name | translate}}
+                                      ng-value="{{option}}">{{'analytics.params.' + option.text | translate}}
                         </md-menu-item>
                         <md-menu-divider ng-if="param.hasOwnProperty('protected')"></md-menu-divider>
                         <md-menu-item ng-if="param.hasOwnProperty('protected')"
                                       type="checkbox"
+                                      ng-change="$ctrl.onChange({param: param, option: param.protected, protected: true})"
                                       ng-model="param.protected">{{'analytics.params.protected' | translate}}</md-menu-item>
                     </md-menu-content>
                 </md-menu>
                 <!-- тип 2: радио-выбор -->
                 <md-menu ng-switch-when="radio">
-                    <md-button ng-click="$mdMenu.open()" translate="analytics.params.{{param.name}}"></md-button>
+                    <md-button ng-click="$mdMenu.open()" translate="analytics.params.{{param.text}}"></md-button>
                     <md-menu-content  width="3">
                         <md-menu-item ng-repeat="option in param.options"
                                       type="radio"
@@ -47,7 +48,7 @@
                 </md-menu>
                 <!-- тип 3: множественный-выбор -->
                 <md-menu ng-switch-when="checkbox">
-                    <md-button ng-click="$mdMenu.open()" translate="analytics.params.{{param.name}}"></md-button>
+                    <md-button ng-click="$mdMenu.open()" translate="analytics.params.{{param.text}}"></md-button>
                     <md-menu-content  width="3">
                         <md-menu-item ng-repeat="option in param.options"
                                       type="checkbox"
