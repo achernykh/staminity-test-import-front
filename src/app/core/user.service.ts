@@ -17,9 +17,13 @@ import ReferenceService from "../reference/reference.service";
 
 export default class UserService {
 
-    private connections$: Observable<any>;
-    private message$: Observable<any>;
-
+    messageHandlers = {
+        'systemFunctions': ({ value }) => this.SessionService.setPermissions(value),
+        'systemFunction': (message) => this.updatePermissions(message),
+        'groupMembership': (message) => this.updateGroup(new ProtocolGroupUpdate(message)),
+        'controlledClub': (message) => this.updateClubs(new ProtocolGroupUpdate(message))
+    };
+    
     static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
 
     constructor(
@@ -29,48 +33,30 @@ export default class UserService {
         private ReferenceService: ReferenceService
     ) {
         this.SessionService.getObservable()
-            .map(getCurrentUserId)
-            .distinctUntilChanged()
-            .filter((userId) => userId && this.SessionService.isCurrentUserId(userId))
-            .subscribe((userId) => {
-                this.getProfile(userId)
-                .then((userProfile) => {
-                    this.SessionService.updateUser(userProfile);
-                });
+        .map(getCurrentUserId)
+        .distinctUntilChanged()
+        .filter((userId) => userId && this.SessionService.isCurrentUserId(userId))
+        .subscribe((userId) => {
+            this.getProfile(userId)
+            .then((userProfile) => {
+                this.SessionService.updateUser(userProfile);
             });
+        });
 
         // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
-        this.message$ = this.SocketService.messages
-            .filter(m => (m.type === 'systemFunctions' || m.type === 'systemFunction' || m.type === 'groupMembership' ||
-                m.type === 'controlledClub') && m.value).share();
-
-        this.message$.subscribe(m => {
-            switch (m.type) {
-                case 'systemFunctions': {
-                    this.SessionService.setPermissions(m.value);
-                    break;
-                }
-                case 'systemFunction':{
-                    this.updatePermissions(m);
-                    break;
-                }
-                case 'groupMembership': {
-                    this.updateGroup(new ProtocolGroupUpdate(m));
-                    break;
-                }
-                case 'controlledClub': {
-                    this.updateClubs(new ProtocolGroupUpdate(m));
-                    break;
-                }
+        this.SocketService.messages
+        .filter(({ type }) => this.messageHandlers[type])
+        .subscribe((message) => {
+            let messageHandler = this.messageHandlers[message.type];
+            if (messageHandler) {
+                messageHandler(message);
             }
         });
 
-        this.connections$ = this.SocketService.connections
-            .filter(status => status)
-            .flatMap(() => Observable.fromPromise(this.getConnections()))
-            .share();
-
-        this.connections$.subscribe(connections => this.setConnections(connections));
+        this.SocketService.connections
+        .filter((status) => status)
+        .flatMap(() => Observable.fromPromise(this.getConnections()))
+        .subscribe((connections) => this.setConnections(connections));
     }
 
     /**
@@ -82,16 +68,16 @@ export default class UserService {
     setConnections(connections: IUserConnections) {
         if (connections && connections.allAthletes) {
             this.getTrainingZones(null, connections.allAthletes.groupId)
-                .then((result:Array<IGetTrainigZonesResponse>) => {
-                    connections.allAthletes.groupMembers =
-                        connections.allAthletes.groupMembers.map(athlete =>
-                            Object.assign(athlete,
-                                {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
-                    return connections;
-                }, (error) => {
-                    throw `error in getTrainingZones => ${error}`;
-                })
-                .then(connections => this.SessionService.updateUser({connections}));
+            .then((result:Array<IGetTrainigZonesResponse>) => {
+                connections.allAthletes.groupMembers =
+                    connections.allAthletes.groupMembers.map(athlete =>
+                        Object.assign(athlete,
+                            {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
+                return connections;
+            }, (error) => {
+                throw `error in getTrainingZones => ${error}`;
+            })
+            .then(connections => this.SessionService.updateUser({connections}));
         } else {
             this.SessionService.updateUser({connections});
         }
@@ -122,10 +108,12 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
-        return ws ?
-            this.SocketService.send(new GetRequest(key)) :
+        return ws ? (
+            this.SocketService.send(new GetRequest(key)) 
+        ) : (
             this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
-                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
+            .then((response: IHttpPromiseCallbackArg<any>) => response.data)
+        );
     }
 
     /**
@@ -135,12 +123,17 @@ export default class UserService {
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
         return this.SocketService.send(new PutRequest(userChanges))
-            .then((result) => result.value)
-            .then(({ revision }) => {
-                let updatedUser = merge({}, userChanges, { revision });
-                this.SessionService.updateUser(updatedUser);
-                return updatedUser;
-            });
+        .then((result) => result.value)
+        .then(({ revision }) => {
+            let updatedUser = merge({}, userChanges, { revision });
+            this.SessionService.updateUser(updatedUser);
+            return updatedUser;
+        }, (error) => {
+            if (error === 'expiredObject') {
+                this.getProfile(userChanges.userId)
+                .then((user) => this.putProfile({ ...user, ...userChanges }));
+            }
+        });
     }
 
     /**
