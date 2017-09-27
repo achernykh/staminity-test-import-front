@@ -36,6 +36,15 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 },
                 {
                     ind: [0],
+                    idx: [1],
+                    type: 'radio',
+                    area: 'measures',
+                    name: 'measureName',
+                    model: 'duration',
+                    options: ['duration','distance']
+                },
+                {
+                    ind: [0],
                     idx: [0],
                     type: 'radio',
                     area: 'series',
@@ -79,7 +88,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 groupByIntervalLength: 1
             }],
             measures : [{
-                label: "Время",
+                label: "Обьем",
                 unit: "",
                 chartType: 'area',
                 stacked: false,

@@ -52,8 +52,6 @@ class AnalyticsChartCtrl implements IComponentController {
                         .filter(s => param.idx.indexOf(s.idx) !== -1)
                         .map(s => s[param.name] = value)
                 );
-                //this.chart.series[param.ind][param.name] = value;
-                //this.updateCount++;
                 break;
             }
             case 'measures': {
@@ -62,8 +60,6 @@ class AnalyticsChartCtrl implements IComponentController {
                         .filter(s => param.idx.indexOf(s.idx) !== -1)
                         .map(s => s[param.name] = value)
                 );
-                //this.chart.measures[param.ind][param.name] = value;
-                //this.updateCount++;
                 break;
             }
             case 'params': {
@@ -72,7 +68,7 @@ class AnalyticsChartCtrl implements IComponentController {
             }
         }
 
-        if(param.area === 'params' || ['seriesDateTrunc','cumulative'].indexOf(param.name) !== -1) {
+        if(param.area === 'params' || ['seriesDateTrunc','cumulative','measureName'].indexOf(param.name) !== -1) {
             this.prepareData();
         }
     }
