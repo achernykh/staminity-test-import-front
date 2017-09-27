@@ -21,12 +21,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
+                    name: 'periods',
+                    text: 'periods',
                     model: null,
-                    options: PeriodOptions(),
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod'],
                     protected: true
                 },
                 {
@@ -142,18 +142,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -161,7 +155,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
-                    text: 'period',
+                    text: 'periods',
                     model: 'week',
                     options: ['day','week','month']
                 },
@@ -256,18 +250,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -609,18 +597,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -738,18 +720,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -867,18 +843,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -996,18 +966,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -1120,18 +1084,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -1244,18 +1202,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -1341,18 +1293,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -1439,18 +1385,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -1537,18 +1477,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -1635,18 +1569,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -1761,18 +1689,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],
@@ -1886,18 +1808,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             params: [
                 {
                     ind: [0],
-                    type: 'date',
+                    type: 'radio',
                     area: 'params',
-                    name: 'period',
-                    text: 'period',
-                    model: {
-                        name: 'thisYear',
-                        period: {
-                            startDate: null,
-                            endDate: null
-                        }
-                    },
-                    options: PeriodOptions()
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
                 },
                 {
                     ind: [0],

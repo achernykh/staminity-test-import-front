@@ -1,6 +1,9 @@
 import './analytics-chart.component.scss';
 import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
-import {IAnalyticsChartFilterParam, IReportPeriodOptions} from "../analytics-chart-filter/analytics-chart-filter.model";
+import {
+    IAnalyticsChartFilterParam, IReportPeriodOptions,
+    periodByType
+} from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IAnalyticsChart, AnalyticsChart} from "./analytics-chart.model";
 import {IReportRequestData, IChart} from "../../../../api/statistics/statistics.interface";
 import {IUserProfileShort} from "../../../../api/user/user.interface";
@@ -15,9 +18,10 @@ class AnalyticsChartCtrl implements IComponentController {
         users: IAnalyticsChartFilterParam<IUserProfileShort>;
         activityTypes: IAnalyticsChartFilterParam<IActivityType>;
         activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
-        periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
+        periods: IAnalyticsChartFilterParam<string>;
     };
 
+    private filterChange: number = null;
     private errorStack: Array<string> = [];
 
     public onChangeFilter: () => IPromise<void>;
@@ -67,12 +71,12 @@ class AnalyticsChartCtrl implements IComponentController {
 
                 } else {
                     param.ind.map(ind => this.chart.charts[ind].params[param.name] = value);
-                    this.prepareParams();
                 }
+                this.prepareParams();
             }
         }
 
-        if(param.area === 'params' || ['seriesDateTrunc','cumulative','measureName'].indexOf(param.name) !== -1) {
+        if(param.area === 'params' || protectedOption || ['seriesDateTrunc','cumulative','measureName'].indexOf(param.name) !== -1) {
             this.prepareData();
         }
 
@@ -95,17 +99,26 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     private prepareParams() {
-        // TODO merge filters & protected params
-        // TODO update protected filters for params
 
-        let periodParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'period')[0];
+        let periodsParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'periods')[0];
+
+        // Обновляем значение фильтров по заблокированным локальным фильтрам
+        Object.keys(this.filter)
+            .filter(f => this.chart.filter.params.some(p => p.area === 'params' && p.name === f))
+            .map(f => {
+                let param = this.chart.filter.params.filter(p => p.area === 'params' && p.name === f)[0];
+                if(param.protected) {
+                    param.model = this.filter[f].model;
+                    this.filterChange++;
+                }
+            });
 
         this.chart.charts.map((c,i) => c.params = {
             users: this.filter.users.model.map(u => Number(u)),
             activityTypes: this.filter.activityTypes.model,
             activityCategories: this.filter.activityCategories.model,
-            periods: (!periodParams.protected && [periodParams.model.period]) ||
-                this.chart.charts[i].params.periods
+            periods: (!periodsParams.protected && periodByType(periodsParams.model)) ||
+                periodByType(this.filter.periods.model) || this.chart.charts[i].params.periods
         });
     }
 
@@ -133,7 +146,7 @@ const AnalyticsChartComponent:IComponentOptions = {
         chart: '<',
         filter: '<',
         filterChanges: '<',
-        onChangeFilter: '<',
+        onChangeFilter: '&',
         onExpand: '&',
         onCollapse: '&',
         onFullScreen: '&'

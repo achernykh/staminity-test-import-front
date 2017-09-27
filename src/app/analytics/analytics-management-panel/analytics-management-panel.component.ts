@@ -81,10 +81,7 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
 
     periodsSelectedText(): string {
         if(this.filter.periods.model) {
-            return `${this.$filter('translate')('analytics.params.' +
-                this.filter.periods.options.filter(p => p.period.startDate === JSON.parse(this.filter.periods.model).startDate &&
-                    p.period.endDate === JSON.parse(this.filter.periods.model).endDate)[0].name)}`;
-
+            return `${this.$filter('translate')('analytics.params.' + this.filter.periods.model)}`;
         } else {
             return this.$filter('translate')('analytics.filter.periods.empty');
         }

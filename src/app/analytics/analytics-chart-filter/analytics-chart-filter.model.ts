@@ -1,32 +1,32 @@
 import moment from 'moment/src/moment.js';
 import {IReportPeriod} from "../../../../api/statistics/statistics.interface";
 
-const periodByType = (type: string): IReportPeriod => {
+export const periodByType = (type: string): Array<IReportPeriod> => {
     let format: string = 'YYYYMMDD';
     switch (type) {
         case 'thisYear': {
-            return {
+            return [{
                 startDate: moment().startOf('year').format(format),
                 endDate: moment().endOf('year').format(format)
-            };
+            }];
         }
         case 'thisMonth': {
-            return {
+            return [{
                 startDate: moment().startOf('month').format(format),
                 endDate: moment().endOf('month').format(format)
-            };
+            }];
         }
         case 'thisWeek': {
-            return {
+            return [{
                 startDate: moment().startOf('week').format(format),
                 endDate: moment().endOf('week').format(format)
-            };
+            }];
         }
         case 'customPeriod': {
-            return {
+            return [{
                 startDate: moment().startOf('year').format(format),
                 endDate: moment().format(format)
-            };
+            }];
         }
     }
 };
@@ -35,7 +35,7 @@ export const PeriodOptions = (options: Array<string> = ['thisYear','thisMonth','
     Array<IReportPeriodOptions> => {
     return options.map(o => ({
         name: o,
-        period: periodByType(o)
+        period: null//periodByType(o)
     }));
 };
 

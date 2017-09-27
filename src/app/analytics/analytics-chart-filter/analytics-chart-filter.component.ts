@@ -57,6 +57,7 @@ class AnalyticsChartFilterCtrl implements IComponentController {
 const AnalyticsChartFilterComponent:IComponentOptions = {
     bindings: {
         filter: '<',
+        change: '<',
         onChange: '&'
     },
     require: {

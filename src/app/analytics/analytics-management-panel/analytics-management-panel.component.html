@@ -93,8 +93,8 @@
                                    ng-model="$ctrl.filter.periods.model"
                                    ng-change="$ctrl.change('periods')">
                             <md-option ng-repeat="type in $ctrl.filter.periods.options track by $index"
-                                       value="{{type.period}}">
-                                <span>{{'analytics.params.' + type.name | translate}}</span>
+                                       value="{{type}}">
+                                <span>{{'analytics.params.' + type | translate}}</span>
                             </md-option>
                         </md-select>
                     </md-input-container>

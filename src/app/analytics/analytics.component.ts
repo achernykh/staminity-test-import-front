@@ -38,7 +38,7 @@ export class AnalyticsCtrl implements IComponentController {
         users: IAnalyticsChartFilterParam<IUserProfileShort>;
         activityTypes: IAnalyticsChartFilterParam<IActivityType>;
         activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
-        periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
+        periods: IAnalyticsChartFilterParam<string>;
     } = {
         users: null,
         activityTypes: null,
@@ -141,67 +141,6 @@ export class AnalyticsCtrl implements IComponentController {
     }
 
     $onInit() {
-        let chart: IChart = {
-            params: {
-                users: [this.session.getUser().userId],
-                activityTypes: [2],
-                periods: [{
-                    startDate: '2017.01.01',
-                    endDate: '2017.12.31'
-                }]
-            },
-            series: [{
-                label: "Месяцы",
-                unit: "",
-                xAxis: true,
-                tooltipType: "icon",
-                legend: false,
-                currentPositionLine: true,
-                idx: 0,
-                measureSource: "...StartDate....",
-                measureName: "day",
-                dataType: "date",
-                dateFormat: "MMM-YY",
-                valueType: "value",
-                seriesDateTrunc: "month",
-                groupByIntervalLength: 1
-            }],
-            measures: [{
-                label: "Расстояние",
-                unit: "км",
-                chartType: "bar",
-                stacked: false,
-                cumulative: false,
-                smoothSettings: "null",
-                tooltipType: "icon",
-                legend: false,
-                visible: true,
-                avgValueLine: true,
-                scaleVisible: true,
-                calculateTotals: "",
-                lineColor: "#449999",
-                lineStyle: "dotted",
-                fillType: "gradient",
-                fillColor: "",
-                gradient: [{
-                    offset: "0%",
-                    color: "#449999"
-                }, {
-                    offset: "100%",
-                    color: "rgba(175, 191, 255, 0)"
-                }],
-                markerColor: "#449999",
-                avgValueLineColor: "green",
-                avgValueLineStyle: "dashed",
-                idx: 1,
-                measureName: "distance",
-                dataType: "number",
-                dateFormat: "",
-                valueType: "value",
-                measureSource: "..tbd...",
-                aggMethod: "sum"
-            }]
-        };
     }
 
     $onDestroy() {
@@ -215,6 +154,7 @@ export class AnalyticsCtrl implements IComponentController {
     }
 
     private getSettings(obj: string): any {
+        //return null;
         return this.storage.get(`${this.user.userId}#analytics_${obj}`);
     }
 
@@ -291,10 +231,10 @@ export class AnalyticsCtrl implements IComponentController {
             name: 'periods',
             text: 'periods',
             model: model || null,
-            options: PeriodOptions()
+            options: ['thisYear','thisMonth','thisWeek','customPeriod']
         };
         if(!this.filter.periods.model){
-            this.filter.periods.model = JSON.stringify(this.filter.periods.options[0].period);
+            this.filter.periods.model = this.filter.periods.options[0];
         }
     }
 }

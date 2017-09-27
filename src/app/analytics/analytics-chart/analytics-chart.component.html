@@ -4,6 +4,7 @@
         <div flex="none" layout="row">
             <analytics-chart-filter flex="none"
                                     filter="$ctrl.chart.filter"
+                                    change="$ctrl.filterChange"
                                     on-change="$ctrl.update(param, option, protected)">
             </analytics-chart-filter>
             <md-button flex="none" class="md-icon-button" ng-click="$ctrl.chart.active = false">

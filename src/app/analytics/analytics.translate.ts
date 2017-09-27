@@ -26,7 +26,7 @@ export const translateAnalytics = {
             // названия параметров
             seriesDateTrunc: "Группировать",
             cumulative: "Нарастающим итогом",
-            period: "Период",
+            periods: "Период",
             thisYear: "С начала года",
             thisMonth: "С начала месяца",
             thisWeek: "С начала недели",
