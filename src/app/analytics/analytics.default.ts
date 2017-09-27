@@ -232,15 +232,15 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     },
      /**
      Показатели по периодам
-     Расстояние, Средний пульс, средний темп, TL
+     Расстояние, Средний пульс, средний темп, мощность, TL, IL, speedDecoupling, powerDecoupling
      */
     {
 
         order: 3,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'distanceHRPaceTL.title',
-        description: 'distanceHRPaceTL.description',
+        title: 'activityMeasures.title',
+        description: 'activityMeasures.description',
         filter: {
             enabled: true,
             params: [
@@ -266,7 +266,37 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     name: 'seriesDateTrunc',
                     model: 'day',
                     options: ['day', 'week', 'month', 'quarter']
-                }
+                } /*,
+                {
+                    //visible для TL и IL
+                    ind: [0],
+                    idx: [2,3],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'visible',
+                    model: 'true',
+                    options: ['true', 'false']
+                },
+                {
+                    //visible для HR, Speed, Power
+                    ind: [0],
+                    idx: [4,5,6],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'visible',
+                    model: 'true',
+                    options: ['true', 'false']
+                },
+                {
+                    //visible для speedDecoupling и paceDecoupling
+                    ind: [0],
+                    idx: [7,8],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'visible',
+                    model: 'true',
+                    options: ['true', 'false']
+                } */
 
             ]
         },
@@ -305,7 +335,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "date",
                 "dateFormat": "DD.MM",
                 "valueType": "value",
-                "seriesDateTrunc": "day",
+                "seriesDateTrunc": "week",
                 "groupByIntervalLength": 1
             }],
             measures: [
@@ -346,7 +376,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "aggMethod": "sum"
                 },
                 {
-                    "id": "tl",
+                    "id": "TL",
                     "label": "TL",
                     "unit": "",
                     "chartType": "dot",
@@ -355,6 +385,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "smoothSettings": "null",
                     "tooltipType": "color",
                     "minValue": 0,
+                    "radius": 3,
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
@@ -364,18 +395,48 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "lineStyle": null,
                     "fillType": "solid",
                     "fillColor": "rgba(255, 0, 0, 0.5)",
-                    "markerColor": "rgb(255, 0, 0)",
+                    "markerColor": "rgba(255, 0, 0, 0.5)",
                     "avgValueLineColor": null,
                     "avgValueLineStyle": null,
                     "idx": 2,
                     "measureSource": "activity.actual.measure",
-                    "measureName": "tl",
+                    "measureName": "trainingLoad",
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType": "value",
-                    "aggMethod": "sum"
-
+                    "aggMethod": "avg"
                 },
+                {
+                    "id": "IL",
+                    "label": "IL",
+                    "unit": "",
+                    "chartType": "dot",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "radius": 3,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#00a0aa",
+                    "lineStyle": "solid",
+                    "fillType": "solid",
+                    "fillColor": "#00a0aa",
+                    "markerColor": "#00a0aa",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 3,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "intensityLevel",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "value",
+                    "aggMethod": "avg",
+                    "reverse": true
+                }
                 {
                     "id": "heartRate",
                     "label": "Средний пульс",
@@ -393,7 +454,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "fillType": "none",
                     "fillColor": "",
                     "markerColor": "rgba(153, 190, 201, 1)",
-                    "idx": 3,
+                    "idx": 4,
                     "measureSource": "activity.actual.measure",
                     "measureName": "heartRate",
                     "dataType": "number",
@@ -422,7 +483,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "markerColor": "#FF9999",
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
-                    "idx": 4,
+                    "idx": 5,
                     "measureSource": "activity.actual.measure",
                     "measureName": "speed",
                     "dataType": "time",
@@ -430,6 +491,93 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "valueType": "avgValue",
                     "aggMethod": "avg",
                     "reverse": true
+                },
+                {
+                    "id": "power",
+                    "label": "Средняя мощность",
+                    "unit": "Вт",
+                    "chartType": "line",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#b060a4",
+                    "lineStyle": "solid",
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "#b060a4",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 6,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "power",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "avgValue",
+                    "aggMethod": "avg"
+                },
+                {
+                    "id": "speedDecoupling",
+                    "label": "Темп:ЧСС",
+                    "unit": "",
+                    "chartType": "line",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#e3ef83",
+                    "lineStyle": "solid",
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "#e3ef83",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 7,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "speedDecoupling",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "value",
+                    "aggMethod": "avg"
+                },
+                {
+                    "id": "powerDecoupling",
+                    "label": "Мощность:ЧСС",
+                    "unit": "",
+                    "chartType": "line",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#e3bf43",
+                    "lineStyle": "solid",
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "#e3bf43",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 8,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "powerDecoupling",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "value",
+                    "aggMethod": "avg"
                 }
             ]
         }]
