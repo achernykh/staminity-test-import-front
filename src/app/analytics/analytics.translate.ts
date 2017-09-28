@@ -18,7 +18,9 @@ export const translateAnalytics = {
                 empty: "Выберите категорию"
             },
             periods: {
-                placeholder: "Период"
+                placeholder: "Период",
+                startDate: "Начало периода",
+                endDate: "Конец периода"
             },
         },
         defaultCharts: "Доступные графики",
