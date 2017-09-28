@@ -45,16 +45,24 @@ export const translateAnalytics = {
             },
         // Переводы преднастроенных отчетов
         actualMovingDuration: {
-            title: 'Фактическое время тренировок',
+            title: 'Время тренировок',
             description: 'Тренировочные объемы по периодам'
         },
         actualDistance: {
-            title: 'Фактическое расстояние тренировок',
+            title: 'Расстояние тренировок',
             description: 'Тренировочные объемы по периодам'
         },
-        activityMeasures: {
-            title: 'Показатели тренировок',
-            description: 'Средние показатели тренировок по периодам'
+        activityMeasuresHRPaceDecoupling: {
+            title: 'Темп и кардиокомпенсация',
+            description: 'Средний пульс, темп и КК по темпу'
+        },
+        activityMeasuresHRPowerDecoupling: {
+            title: 'Мощность и кардиокомпенсация',
+            description: 'Средний пульс, мощность и КК по мощности'
+        },
+        activityMeasuresTL: {
+            title: 'Тренировочная нагрузка (TL)',
+            description: 'Тренировочная нагрузка и уровень интенсивности'
         },
         timeInZonesHR: {
             title: 'Время в зонах: Пульс',
@@ -74,11 +82,11 @@ export const translateAnalytics = {
         },
         durationByAthletesByPeriods: {
             title: 'Тренировки учеников (время)',
-            description: 'Тренировочные объемы по ученикам (расстояние)'
+            description: 'Тренировочные объемы по ученикам (время)'
         },
         HRTimePeaks: {
             title: 'Пики пульса по времени',
-            description: 'Максимальные пиковые значения по пульсу по времени'
+            description: 'Максимальные пики по пульсу по времени'
         },
         PaceTimePeaks: {
             title: 'Пики темпа по времени',
@@ -101,7 +109,7 @@ export const translateAnalytics = {
             description: 'Тренировочные объемы по времени по видам спорта'
         },
         DistanceByActivityTypes: {
-            title: 'Сводные объемы по видам спорта',
+            title: 'Соотношение объемов тренировок',
             description: 'Объемы тренировок по видам спорта за период'
         },
     },

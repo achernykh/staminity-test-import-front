@@ -29,6 +29,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     options: ['thisYear','thisMonth','thisWeek','customPeriod'],
                     protected: true
                 },
+                /*
+                Закомментировал, т.к. при переключении непонятно, что выводится на графике
+                Чтобы сделать, надо:
+                * научиться менять подпись графика при изменении параметра
+                * научиться передавать обозначение единицы измерения в график (параметр unit)
+                * научиться выводить несколько одинаковых графиков в ленту, т.к. найдутся пользователи, которые захотят видеть одновременно
+                и объемы по расстоянию, и по времени
+
                 {
                     ind: [0],
                     idx: [1],
@@ -38,7 +46,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     text: 'volume',
                     model: 'duration',
                     options: ['duration','distance']
-                },
+                },*/
                 {
                     ind: [0],
                     idx: [0],
@@ -68,6 +76,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 activityTypes: null,//[2],
                 periods: null
             },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": true
+                },
+                "currentPositionLine": {
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
+                },
+                "colorPalette": false
+            },
             series : [{
                 label : "Период",
                 unit : "",
@@ -88,7 +110,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             measures : [{
                 label: "Обьем",
                 unit: "",
-                chartType: 'area',
+                chartType: 'bar',
                 stacked: false,
                 cumulative: false,
                 smoothSettings: 'curveStep',
@@ -155,7 +177,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     type: 'radio',
                     area: 'series',
                     name: 'seriesDateTrunc',
-                    text: 'periods',
+                    text: 'seriesDateTrunc',
                     model: 'week',
                     options: ['day','week','month']
                 },
@@ -179,6 +201,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 activityTypes: null,//[2],
                 periods: null
             },
+            options: {
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "tooltip": {
+                    "combined": true
+                },
+                "currentPositionLine": {
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
+                },
+                "colorPalette": false
+            },
             series : [{
                 label: "Период",
                 unit: "",
@@ -198,7 +234,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }],
             measures : [{
                 label: "Расстояние",
-                unit: "",
+                unit: "км",
                 chartType: "area",
                 smoothSettings: 'curveStep',
                 stacked: false,
@@ -235,16 +271,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
      /**
-     Показатели по периодам
-     Расстояние, Средний пульс, средний темп, мощность, TL, IL, speedDecoupling, powerDecoupling
+     3.Показатели по периодам
+     Расстояние, Средний пульс, средний темп, speedDecoupling
      */
     {
 
         order: 3,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'activityMeasures.title',
-        description: 'activityMeasures.description',
+        title: 'activityMeasuresHRPaceDecoupling.title',
+        description: 'activityMeasuresHRPaceDecoupling.description',
         filter: {
             enabled: true,
             params: [
@@ -266,38 +302,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     text: 'seriesDateTrunc',
                     model: 'day',
                     options: ['day', 'week', 'month', 'quarter']
-                } /*,
-                {
-                    //visible для TL и IL
-                    ind: [0],
-                    idx: [2,3],
-                    type: 'radio',
-                    area: 'series',
-                    name: 'visible',
-                    model: 'true',
-                    options: ['true', 'false']
-                },
-                {
-                    //visible для HR, Speed, Power
-                    ind: [0],
-                    idx: [4,5,6],
-                    type: 'radio',
-                    area: 'series',
-                    name: 'visible',
-                    model: 'true',
-                    options: ['true', 'false']
-                },
-                {
-                    //visible для speedDecoupling и paceDecoupling
-                    ind: [0],
-                    idx: [7,8],
-                    type: 'radio',
-                    area: 'series',
-                    name: 'visible',
-                    model: 'true',
-                    options: ['true', 'false']
-                } */
-
+                }
             ]
         },
         layout: new AnalyticsChartLayout(2,1),
@@ -318,7 +323,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": {
                     "enabled": true,
                     "radius": 4,
-                    "opacity": 1
+                    "color": "rgba(0,0,0,0.5)"
                 }
             },
             series: [{
@@ -331,7 +336,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": true,
                 "idx": 0,
                 "measureSource": "activity.startDate",
-                "measureName": "Days",
+                "measureName": "Weeks",
                 "dataType": "date",
                 "dateFormat": "DD.MM",
                 "valueType": "value",
@@ -376,68 +381,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "aggMethod": "sum"
                 },
                 {
-                    "id": "TL",
-                    "label": "TL",
-                    "unit": "",
-                    "chartType": "dot",
-                    "stacked": false,
-                    "cumulative": false,
-                    "smoothSettings": "null",
-                    "tooltipType": "color",
-                    "minValue": 0,
-                    "radius": 3,
-                    "legend": true,
-                    "visible": true,
-                    "avgValueLine": false,
-                    "scaleVisible": true,
-                    "calculateTotals": "",
-                    "lineColor": null,
-                    "lineStyle": null,
-                    "fillType": "solid",
-                    "fillColor": "rgba(255, 0, 0, 0.5)",
-                    "markerColor": "rgba(255, 0, 0, 0.5)",
-                    "avgValueLineColor": null,
-                    "avgValueLineStyle": null,
-                    "idx": 2,
-                    "measureSource": "activity.actual.measure",
-                    "measureName": "trainingLoad",
-                    "dataType": "number",
-                    "dateFormat": "",
-                    "valueType": "value",
-                    "aggMethod": "avg"
-                },
-                {
-                    "id": "IL",
-                    "label": "IL",
-                    "unit": "",
-                    "chartType": "dot",
-                    "stacked": null,
-                    "cumulative": false,
-                    "smoothSettings": "null",
-                    "tooltipType": "color",
-                    "legend": true,
-                    "visible": true,
-                    "radius": 3,
-                    "avgValueLine": false,
-                    "scaleVisible": true,
-                    "calculateTotals": "",
-                    "lineColor": "#00a0aa",
-                    "lineStyle": "solid",
-                    "fillType": "solid",
-                    "fillColor": "#00a0aa",
-                    "markerColor": "#00a0aa",
-                    "avgValueLineColor": "",
-                    "avgValueLineStyle": "",
-                    "idx": 3,
-                    "measureSource": "activity.actual.measure",
-                    "measureName": "intensityLevel",
-                    "dataType": "number",
-                    "dateFormat": "",
-                    "valueType": "value",
-                    "aggMethod": "avg",
-                    "reverse": true
-                },
-                {
                     "id": "heartRate",
                     "label": "Средний пульс",
                     "unit": "уд/м",
@@ -454,7 +397,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "fillType": "none",
                     "fillColor": "",
                     "markerColor": "rgba(153, 190, 201, 1)",
-                    "idx": 4,
+                    "idx": 2,
                     "measureSource": "activity.actual.measure",
                     "measureName": "heartRate",
                     "dataType": "number",
@@ -483,7 +426,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "markerColor": "#FF9999",
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
-                    "idx": 5,
+                    "idx": 3,
                     "measureSource": "activity.actual.measure",
                     "measureName": "speed",
                     "dataType": "time",
@@ -491,35 +434,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "valueType": "avgValue",
                     "aggMethod": "avg",
                     "reverse": true
-                },
-                {
-                    "id": "power",
-                    "label": "Средняя мощность",
-                    "unit": "Вт",
-                    "chartType": "line",
-                    "stacked": null,
-                    "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
-                    "tooltipType": "color",
-                    "legend": true,
-                    "visible": true,
-                    "avgValueLine": false,
-                    "scaleVisible": true,
-                    "calculateTotals": "",
-                    "lineColor": "#b060a4",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#b060a4",
-                    "avgValueLineColor": "",
-                    "avgValueLineStyle": "",
-                    "idx": 6,
-                    "measureSource": "activity.actual.measure",
-                    "measureName": "power",
-                    "dataType": "number",
-                    "dateFormat": "",
-                    "valueType": "avgValue",
-                    "aggMethod": "avg"
                 },
                 {
                     "id": "speedDecoupling",
@@ -542,12 +456,180 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "markerColor": "#e3ef83",
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
-                    "idx": 7,
+                    "idx": 4,
                     "measureSource": "activity.actual.measure",
                     "measureName": "speedDecoupling",
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType": "value",
+                    "aggMethod": "avg"
+                }
+            ]
+        }]
+    },
+    /**
+     4.Показатели по периодам
+     Расстояние, Средний пульс, средняя мощность, powerDecoupling
+     */
+    {
+
+        order: 4,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'activityMeasuresHRPowerDecoupling.title',
+        description: 'activityMeasuresHRPowerDecoupling.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'radio',
+                    area: 'params',
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
+                    model: 'day',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+
+            ]
+        },
+        layout: new AnalyticsChartLayout(2,1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "currentPositionLine": {
+                    "enabled": true,
+                    "radius": 4,
+                    "color": "rgba(0,0,0,0.5)"
+                }
+            },
+            series: [{
+                "label": "Период",
+                "unit": "",
+                "xAxis": true,
+                "tooltipType": "label",
+                "tooltipLabel": "Период",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx": 0,
+                "measureSource": "activity.startDate",
+                "measureName": "Weeks",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType": "value",
+                "seriesDateTrunc": "week",
+                "groupByIntervalLength": 1
+            }],
+            measures: [
+                {
+                    "label": "Расстояние",
+                    "unit": "км",
+                    "chartType": "bar",
+                    "stacked": false,
+                    "cumulative": false,
+                    "smoothSettings": "null",
+                    "tooltipType": "icon",
+                    "minValue": 0,
+                    "legend": false,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#449999",
+                    "lineStyle": "dotted",
+                    "fillType": "gradient",
+                    "fillColor": "",
+                    "gradient": [{
+                        "offset": "0%",
+                        "color": "#449999"
+                    }, {
+                        "offset": "100%",
+                        "color": "rgba(175, 191, 255, 0)"
+                    }],
+                    "markerColor": "#449999",
+                    "avgValueLineColor": "green",
+                    "avgValueLineStyle": "dashed",
+                    "idx": 1,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "distance",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "value",
+                    "aggMethod": "sum"
+                },
+                {
+                    "id": "heartRate",
+                    "label": "Средний пульс",
+                    "unit": "уд/м",
+                    "chartType": "line",
+                    "stacked": null,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "lineColor": "lightblue",
+                    "lineStyle": "solid",
+                    "lineWidth": 2,
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "rgba(153, 190, 201, 1)",
+                    "idx": 2,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "heartRate",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "avgValue",
+                    "aggMethod": "avg"
+                },
+                {
+                    "id": "power",
+                    "label": "Средняя мощность",
+                    "unit": "Вт",
+                    "chartType": "line",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#b060a4",
+                    "lineStyle": "solid",
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "#b060a4",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 3,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "power",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "avgValue",
                     "aggMethod": "avg"
                 },
                 {
@@ -571,7 +653,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "markerColor": "#e3bf43",
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
-                    "idx": 8,
+                    "idx": 4,
                     "measureSource": "activity.actual.measure",
                     "measureName": "powerDecoupling",
                     "dataType": "number",
@@ -583,11 +665,149 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-    Время в зонах по пульсу
+     5.Нагрузка за период (TL)
      */
     {
 
-        order: 4,
+        order: 5,
+        active: true,
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'activityMeasuresTL.title',
+        description: 'activityMeasuresTL.description',
+        filter: {
+            enabled: true,
+            params: [
+                {
+                    ind: [0],
+                    type: 'radio',
+                    area: 'params',
+                    name: 'periods',
+                    text: 'periods',
+                    model: null,
+                    options: ['thisYear','thisMonth','thisWeek','customPeriod']
+                },
+                {
+                    ind: [0],
+                    idx: [0],
+                    type: 'radio',
+                    area: 'series',
+                    name: 'seriesDateTrunc',
+                    text: 'seriesDateTrunc',
+                    model: 'day',
+                    options: ['day', 'week', 'month', 'quarter']
+                }
+            ]
+        },
+        layout: new AnalyticsChartLayout(2,1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "legend": {
+                    "vertical-align": "top",
+                    "horizontal-align": "right"
+                },
+                "currentPositionLine": {
+                    "enabled": true,
+                    "radius": 4,
+                    "color": "rgba(0,0,0,0.5)"
+                }
+            },
+            series: [{
+                "label": "Период",
+                "unit": "",
+                "xAxis": true,
+                "tooltipType": "label",
+                "tooltipLabel": "Период",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx": 0,
+                "measureSource": "activity.startDate",
+                "measureName": "Days",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType": "value",
+                "seriesDateTrunc": "week",
+                "groupByIntervalLength": 1
+            }],
+            measures: [
+                {
+                    "id": "TL",
+                    "label": "TL",
+                    "unit": "",
+                    "chartType": "bar",
+                    "stacked": false,
+                    "cumulative": false,
+                    "smoothSettings": "null",
+                    "tooltipType": "color",
+                    "minValue": 0,
+                    "radius": 3,
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": true,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#d96cbe",
+                    "lineStyle": "solid",
+                    "fillType": "solid",
+                    "fillColor": "#d96cbe",
+                    "markerColor": "#d96cbe",
+                    "avgValueLineColor": "#8c90c8",
+                    "avgValueLineStyle": "dashed",
+                    "idx": 1,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "trainingLoad",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "value",
+                    "aggMethod": "avg"
+                },
+                {
+                    "id": "IL",
+                    "label": "IL",
+                    "unit": "",
+                    "chartType": "dot",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "null",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "radius": 3,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#2887c8",
+                    "lineStyle": "solid",
+                    "fillType": "solid",
+                    "fillColor": "#2887c8",
+                    "markerColor": "#2887c8",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 3,
+                    "measureSource": "activity.actual.measure",
+                    "measureName": "intensityLevel",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType": "value",
+                    "aggMethod": "avg",
+                    "reverse": false
+                }
+            ]
+        }]
+    },
+    /**
+    6.Время в зонах по пульсу
+     */
+    {
+
+        order: 6,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesHR.title',
@@ -627,15 +847,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "horizontal-align": "center",
+                    "type": "row"
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": true
-                },
-                "colorPalette": false
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
+                }
             },
             series : [
                 {
@@ -659,9 +880,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Зоны пульса",
                     "unit" : "",
                     "xAxis" : true,
-                    "tooltipType" : "label",
-                    "tooltipLabel" : "#",
+                    "tooltipType" : "none",
+                    "tooltipLabel" : "Зона",
                     "legend": true,
+                    "colorPalette": false,
                     "currentPositionLine": true,
                     "idx" : 1,
                     "measureSource": "activity.owner.zones",
@@ -696,7 +918,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "avgValueLineStyle": "dashed",
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
-                "measureName" : "heartRateMTM",
+                "measureName" : "heartRateMPM",
                 "dataType": "time",
                 "dateFormat": "HH:mm:ss",
                 "valueType" : "timeInZone",
@@ -706,11 +928,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Время в зонах по темпу
+     7.Время в зонах по темпу
      */
     {
 
-        order: 5,
+        order: 7,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesSpeed.title',
@@ -750,15 +972,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "horizontal-align": "center",
+                    "type": "row"
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": true
-                },
-                "colorPalette": false
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
+                }
             },
             series : [
                 {
@@ -782,7 +1005,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Зоны",
                     "unit" : "",
                     "xAxis" : true,
-                    "tooltipType" : "label",
+                    "tooltipType" : "none",
                     "tooltipLabel" : "Зона",
                     "legend": true,
                     "currentPositionLine": true,
@@ -819,7 +1042,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "avgValueLineStyle": "dashed",
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
-                "measureName" : "speedMTM",
+                "measureName" : "speedMPM",
                 "dataType": "time",
                 "dateFormat": "HH:mm:ss",
                 "valueType" : "timeInZone",
@@ -829,11 +1052,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Время в зонах по мощности
+     8.Время в зонах по мощности
      */
     {
-
-        order: 6,
+        order: 8,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesPower.title',
@@ -873,15 +1095,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "horizontal-align": "center",
+                    "type": "row"
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": true
-                },
-                "colorPalette": false
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
+                }
             },
             series : [
                 {
@@ -905,7 +1128,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Зоны мощности",
                     "unit" : "",
                     "xAxis" : true,
-                    "tooltipType" : "label",
+                    "tooltipType" : "none",
                     "tooltipLabel" : "Зона",
                     "legend": true,
                     "currentPositionLine": true,
@@ -942,7 +1165,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "avgValueLineStyle": "dashed",
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
-                "measureName" : "powerMTM",
+                "measureName" : "powerMPM",
                 "dataType": "time",
                 "dateFormat": "HH:mm:ss",
                 "valueType" : "timeInZone",
@@ -952,11 +1175,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Объемы по расстоянию по ученикам
+     9.Объемы по расстоянию по ученикам
      */
     {
 
-        order: 7,
+        order: 9,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'distanceByAthletesByPeriods.title',
@@ -996,10 +1219,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "horizontal-align": "center",
+                    "type": "row"
                 },
                 "tooltip": {
-                    "combined": true
+                    "combined": false
                 },
                 "currentPositionLine": {
                     "enabled": false
@@ -1070,11 +1294,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Объемы по времени по ученикам
+     10.Объемы по времени по ученикам
      */
     {
 
-        order: 8,
+        order: 10,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'durationByAthletesByPeriods.title',
@@ -1114,7 +1338,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "horizontal-align": "right",
+                    "type": "row"
                 },
                 "tooltip": {
                     "combined": false
@@ -1188,11 +1413,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Пики по пульсу по времени
+     11.Пики по пульсу по времени
      */
     {
 
-        order: 9,
+        order: 11,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'HRTimePeaks.title',
@@ -1234,7 +1459,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": true
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
                 }
             },
             series : [{
@@ -1261,7 +1487,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "chartType" : "area",
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
-                "legend": true,
+                "legend": false,
                 "lineColor": "#449999",
                 "lineStyle": "dotted",
                 "fillType": "gradient",
@@ -1270,7 +1496,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "markerColor": "rgba(0, 156, 0, 0.8)",
                 "idx" : 1,
                 "measureSource": "activity.actual.measure",
-                "measureName": "powerTimePeaks",
+                "measureName": "heartRateTimePeaks",
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType": "peak",
@@ -1279,11 +1505,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Пики по темпу по времени
+     12.Пики по темпу по времени
      */
     {
 
-        order: 10,
+        order: 12,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'PaceTimePeaks.title',
@@ -1325,7 +1551,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": true
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
                 }
             },
             series : [{
@@ -1348,7 +1575,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             measures : [{
                 "id": "0",
                 "label" : "Темп",
-                "unit" : "",
+                "unit" : "мин/км",
                 "chartType" : "area",
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
@@ -1371,15 +1598,15 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Пики по скорости по времени
+     13.Пики по скорости по времени
      */
     {
 
-        order: 11,
+        order: 13,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'PaceTimePeaks.title',
-        description: 'PaceTimePeaks.description',
+        title: 'SpeedTimePeaks.title',
+        description: 'SpeedTimePeaks.description',
         filter: {
             enabled: true,
             params: [
@@ -1417,7 +1644,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": true
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
                 }
             },
             series : [{
@@ -1444,7 +1672,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "chartType" : "area",
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
-                "legend": true,
+                "legend": false,
                 "lineColor": "#449999",
                 "lineStyle": "dotted",
                 "fillType": "gradient",
@@ -1463,11 +1691,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Пики по мощности по времени
+     14.Пики по мощности по времени
      */
     {
 
-        order: 12,
+        order: 14,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'PowerTimePeaks.title',
@@ -1509,7 +1737,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": true
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
                 }
             },
             series : [{
@@ -1536,7 +1765,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "chartType" : "area",
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
-                "legend": true,
+                "legend": false,
                 "lineColor": "#449999",
                 "lineStyle": "dotted",
                 "fillType": "gradient",
@@ -1554,12 +1783,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Дистанция по видам спорта по периодам
+     15.Дистанция по видам спорта по периодам
      Stacked bar chart
      */
     {
 
-        order: 13,
+        order: 15,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'DistanceByActivityTypeByPeriods.title',
@@ -1599,13 +1828,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "horizontal-align": "center",
+                    "type": "row"
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": false
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
+
                 },
                 "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
             },
@@ -1630,14 +1862,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Виды спорта",
                     "unit" : "",
                     "xAxis" : true,
-                    "tooltipType" : "label",
+                    "tooltipType" : "none",
                     "tooltipLabel" : "Вид спорта",
                     "legend": true,
                     "colorPalette": true,
                     "currentPositionLine": false,
                     "idx" : 1,
                     "fillColor": "#449999",
-                    "measureSource": "activityType",
+                    "measureSource": "activityTypeBasic",
                     "measureName" : "",
                     "dataType": "string",
                     "dateFormat": "",
@@ -1674,12 +1906,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Продолжительность (duration) по видам спорта по периодам
+     16.Продолжительность (duration) по видам спорта по периодам
      Stacked bar chart
      */
     {
 
-        order: 14,
+        order: 16,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'DurationByActivityTypeByPeriods.title',
@@ -1719,13 +1951,15 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "horizontal-align": "right",
+                    "type": "row"
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": true
                 },
                 "currentPositionLine": {
-                    "enabled": false
+                    "enabled": true,
+                    "color": "rgba(0,0,0,0.5)"
                 },
                 "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
             },
@@ -1750,14 +1984,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Виды спорта",
                     "unit" : "",
                     "xAxis" : true,
-                    "tooltipType" : "label",
+                    "tooltipType" : "none",
                     "tooltipLabel" : "Вид спорта",
                     "legend": true,
                     "colorPalette": true,
                     "currentPositionLine": false,
                     "idx" : 1,
                     "fillColor": "#449999",
-                    "measureSource": "activityType",
+                    "measureSource": "activityTypeBasic",
                     "measureName" : "",
                     "dataType": "string",
                     "dateFormat": "",
@@ -1794,11 +2028,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     Расстояние по видам спорта (piechart)
+     17.Расстояние по видам спорта (piechart)
      */
     {
 
-        order: 15,
+        order: 17,
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'DistanceByActivityTypes.title',
@@ -1854,7 +2088,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "currentPositionLine": false,
                     "idx" : 0,
                     "fillColor": "#449999",
-                    "measureSource": "activityType",
+                    "measureSource": "activityTypeBasic",
                     "measureName" : "",
                     "dataType": "string",
                     "dateFormat": "",
