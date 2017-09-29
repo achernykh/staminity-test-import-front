@@ -21,6 +21,8 @@ class AnalyticsChartCtrl implements IComponentController {
         periods: IAnalyticsChartFilterParam<string>;
     };
 
+    private context: Object = {};
+
     private filterChange: number = null;
     private errorStack: Array<string> = [];
 
@@ -43,6 +45,7 @@ class AnalyticsChartCtrl implements IComponentController {
     $onChanges(changes): void {
         if((changes.hasOwnProperty('chart') && changes.filterChanges.isFirstChange()) ||
             (changes.hasOwnProperty('filterChanges') && !changes.filterChanges.isFirstChange())){
+            this.prepareTitleContext();
             this.prepareParams();
             this.prepareData();
         }
@@ -62,7 +65,8 @@ class AnalyticsChartCtrl implements IComponentController {
                 param.ind.map(ind =>
                     this.chart.charts[ind].measures
                         .filter(s => param.idx.indexOf(s.idx) !== -1)
-                        .map(s => s[param.name] = value)
+                        .map(s => Object.keys(param.change[value]).map(k => s[k] = param.change[value][k]))
+                        //.map(s => s[param.name] = value)
                 );
                 break;
             }
@@ -76,10 +80,11 @@ class AnalyticsChartCtrl implements IComponentController {
             }
         }
 
-        if(param.area === 'params' || protectedOption || ['seriesDateTrunc','cumulative','measureName'].indexOf(param.name) !== -1) {
+        if(param.area === 'params' || protectedOption ||
+            Object.keys(param.change[value]).some(change => ['seriesDateTrunc','cumulative','measureName'].indexOf(change) !== -1)) {
             this.prepareData();
         }
-
+        this.prepareTitleContext();
         this.onChangeFilter(); // сохраняем настройки в браузере
     }
 
@@ -96,6 +101,14 @@ class AnalyticsChartCtrl implements IComponentController {
                 this.updateCount++;
                 this.$scope.$apply();
             }, 1);
+    }
+
+    private prepareTitleContext() {
+        if(this.chart.hasOwnProperty('context')) {
+            this.chart.context.map(c => {
+                this.context[c.param] = this.chart.charts[c.ind][c.area].filter(s => s.idx === c.idx)[0][c.param];
+            });
+        }
     }
 
     private prepareParams() {

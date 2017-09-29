@@ -1,6 +1,7 @@
 <md-content class="analytics-chart md-whiteframe-2dp" ng-switch="$ctrl.chart.hasMetrics()" layout="column">
     <div flex="none" class="analytics-chart__header" layout="row" layout-align="start space-between">
-        <h1 class="md-body-2 md-dark title" flex="auto" translate="analytics.{{$ctrl.chart.title}}"></h1>
+        <h1 class="md-body-2 md-dark title" flex="auto"
+            translate="analytics.{{$ctrl.chart.title}}" translate-values="{{$ctrl.context}}"></h1>
         <div flex="none" layout="row">
             <analytics-chart-filter flex="none"
                                     filter="$ctrl.chart.filter"

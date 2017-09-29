@@ -49,6 +49,7 @@ export interface IAnalyticsChartFilterParam<T> {
     model: any;
     data?: any; // расчетные данные для формирования model (используется для customPeriod)
     options: Array<T>;
+    change?: any; // объект содержащий перечень изменения для структуры series/measures
     protected?: boolean;
 }
 

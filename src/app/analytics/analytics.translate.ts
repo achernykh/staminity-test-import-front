@@ -26,6 +26,8 @@ export const translateAnalytics = {
         defaultCharts: "Доступные графики",
         params: {
             // названия параметров
+            distance: 'Расстояние',
+            duration: 'Время',
             seriesDateTrunc: "Группировать",
             cumulative: "Нарастающим итогом",
             periods: "Период",
@@ -47,7 +49,7 @@ export const translateAnalytics = {
             },
         // Переводы преднастроенных отчетов
         actualMovingDuration: {
-            title: 'Время тренировок',
+            title: "Время тренировок {{'analytics.params.' + measureName | translate}}",
             description: 'Тренировочные объемы по периодам'
         },
         actualDistance: {

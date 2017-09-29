@@ -21,11 +21,19 @@ export class AnalyticsChartLayout {
 
 }
 
+export interface IAnalyticsChartTitleContext {
+    ind: number;
+    idx: number;
+    area: string;
+    param: string;
+}
+
 export interface IAnalyticsChart {
     order: number;
     active: boolean;
     icon?: string;
     title: string;
+    context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
     filter: IAnalyticsChartFilter;
     layout: AnalyticsChartLayout;
@@ -38,6 +46,7 @@ export class AnalyticsChart implements IAnalyticsChart{
     active: boolean;
     icon?: string;
     title: string;
+    context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
     filter: IAnalyticsChartFilter;
     layout: AnalyticsChartLayout;

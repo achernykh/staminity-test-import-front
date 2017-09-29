@@ -15,6 +15,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'actualMovingDuration.title',
+        context: [{
+            ind: 0,
+            idx: 1,
+            area: 'measures',
+            param: 'measureName'
+        }],
         description: 'actualMovingDuration.description',
         filter: {
             enabled: true,
@@ -35,7 +41,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 * научиться менять подпись графика при изменении параметра
                 * научиться передавать обозначение единицы измерения в график (параметр unit)
                 * научиться выводить несколько одинаковых графиков в ленту, т.к. найдутся пользователи, которые захотят видеть одновременно
-                и объемы по расстоянию, и по времени
+                и объемы по расстоянию, и по времени */
 
                 {
                     ind: [0],
@@ -45,8 +51,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     name: 'measureName',
                     text: 'volume',
                     model: 'duration',
-                    options: ['duration','distance']
-                },*/
+                    options: ['duration','distance'],
+                    change: {
+                        duration: {
+                            measureName: 'duration',
+                            unit: 'ч'
+                        },
+                        distance: {
+                            measureName: 'distance',
+                            unit: 'км'
+                        }
+                    }
+                },
                 {
                     ind: [0],
                     idx: [0],
@@ -72,9 +88,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: 'global',//[this.session.getUser().userId],
+                activityTypes: 'global',//[2],
+                periods: 'global'
             },
             options: {
                 "legend": {
