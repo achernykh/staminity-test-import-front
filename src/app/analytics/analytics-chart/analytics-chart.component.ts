@@ -11,6 +11,7 @@ import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
 import StatisticsService from "../../core/statistics.service";
 import {AnalyticsCtrl} from "../analytics.component";
+import {getSportsByBasicId} from "../../activity/activity.constants";
 
 class AnalyticsChartCtrl implements IComponentController {
 
@@ -96,6 +97,8 @@ class AnalyticsChartCtrl implements IComponentController {
         if(update){
             this.prepareParams();
             this.prepareData();
+        } else {
+            this.updateCount++;
         }
         this.onChangeFilter();
     }
@@ -163,22 +166,23 @@ class AnalyticsChartCtrl implements IComponentController {
     private prepareParams() {
 
         //let periodsParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'periods')[0];
-
-        // Обновляем значение фильтров по заблокированным локальным фильтрам
-        Object.keys(this.filter)
-            .filter(f => this.chart.filter.params.some(p => p.area === 'params' && p.name === f))
-            .map(f => {
-                let param = this.chart.filter.params.filter(p => p.area === 'params' && p.name === f)[0];
-                if(param.protected) {
-                    param.model = this.filter[f].model;
-                    this.filterChange++;
-                }
-            });
+        let globalParams: {
+            users: Array<number>;
+            activityTypes: Array<number>;
+        } = {
+            users: [],
+            activityTypes: []
+        };
+        this.filter.activityTypes.model.map(id => globalParams.activityTypes.push(...getSportsByBasicId(id)));
+        globalParams.users = [Number(this.filter.users.model)];
 
         this.chart.charts.map((c,i) => c.params = {
-            users: (!this.chart.globalParams && c.params.users && c.params.users) ||
-                this.filter.users.model.map(u => Number(u)),
-            activityTypes: this.filter.activityTypes.model,
+            users:
+                (this.chart.globalParams && globalParams.users) ||
+                (c.params.users && c.params.users) || null,
+            activityTypes:
+                (this.chart.globalParams && globalParams.activityTypes) ||
+                (c.params.activityTypes && c.params.activityTypes) || null,
             activityCategories: this.filter.activityCategories.model,
             periods: (!this.chart.globalParams && c.params.periods && c.params.periods) ||
                 (angular.isArray(this.filter.periods.data) && this.filter.periods.data) ||

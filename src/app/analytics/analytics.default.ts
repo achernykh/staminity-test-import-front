@@ -32,7 +32,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 idx: [1],
                 type: 'radio',
                 area: 'measures',
-                name: 'measureName',
                 text: 'volume',
                 model: 'duration',
                 options: ['duration','distance'],
@@ -52,7 +51,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 idx: [0],
                 type: 'radio',
                 area: 'series',
-                name: 'seriesDateTrunc',
                 text: 'seriesDateTrunc',
                 model: 'week',
                 options: ['day','week','month'],
@@ -73,7 +71,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 idx: [1],
                 type: 'radio',
                 area: 'measures',
-                name: 'cumulative',
                 text: 'cumulative',
                 model: false,
                 options: [false,true],
@@ -240,6 +237,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'actualDistance.title',
         description: 'actualDistance.description',
+        globalParams: true,
         filter: {
             enabled: true,
             params: [
@@ -362,6 +360,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'activityMeasuresHRPaceDecoupling.title',
         description: 'activityMeasuresHRPaceDecoupling.description',
+        globalParams: true,
         filter: {
             enabled: true,
             params: [
@@ -386,6 +385,26 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 }
             ]
         },
+        settings: [
+            {
+                ind: [0],
+                idx: [1,2,3,4],
+                type: 'checkbox',
+                area: 'measures',
+                text: 'measures',
+                multiTextParam: 'label',
+                model: [true,true,false,true],
+                options: [true,false],
+                change: {
+                    'true': {
+                        visible: 'true',
+                    },
+                    'false': {
+                        visible: 'false',
+                    }
+                }
+            }
+        ],
         layout: new AnalyticsChartLayout(2,1),
         charts: [{
             params: {
@@ -496,7 +515,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "smoothSettings": "curveMonotoneX",
                     "tooltipType": "color",
                     "legend": true,
-                    "visible": true,
+                    "visible": false,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",

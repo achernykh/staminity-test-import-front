@@ -15,7 +15,7 @@ import StatisticsService from "../core/statistics.service";
 import {IAnalyticsChart, AnalyticsChart} from "./analytics-chart/analytics-chart.model";
 import {IUserProfile, IUserProfilePublic, IUserProfileShort} from "../../../api/user/user.interface";
 import {Subject} from "rxjs/Rx";
-import {activityTypes} from "../activity/activity.constants";
+import {activityTypes, getSportBasic} from "../activity/activity.constants";
 import {IActivityType} from "../../../api/activity/activity.interface";
 import {
     IAnalyticsChartFilterParam, IReportPeriodOptions,
@@ -147,7 +147,7 @@ export class AnalyticsCtrl implements IComponentController {
         }
 
         if(!this.filter.users.model) {
-            this.filter.users.model = [this.filter.users.options[0].userId];
+            this.filter.users.model = this.filter.users.options[0].userId;
         }
     }
 
@@ -158,7 +158,7 @@ export class AnalyticsCtrl implements IComponentController {
             name: 'activityTypes',
             text: 'activityTypes',
             model: model || null,
-            options: activityTypes
+            options: getSportBasic()
         };
         if(!this.filter.activityTypes.model){
             this.filter.activityTypes.model = [this.filter.activityTypes.options[0].id];

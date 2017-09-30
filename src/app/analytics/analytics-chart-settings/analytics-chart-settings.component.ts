@@ -1,6 +1,6 @@
 import './analytics-chart-settings.component.scss';
 import moment from 'moment/src/moment.js';
-import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, copy, INgModelController} from 'angular';
 import {IUserProfileShort} from "../../../../api/user/user.interface";
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
@@ -10,6 +10,7 @@ import {
     periodByType
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IAnalyticsChart} from "../analytics-chart/analytics-chart.model";
+import {activityTypes, getSportsByBasicId} from "../../activity/activity.constants";
 
 class AnalyticsChartSettingsCtrl implements IComponentController {
 
@@ -25,6 +26,8 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     private settings: Array<IAnalyticsChartFilterParam<any>>;
 
     private update: boolean = false;
+
+    private settingsForm: INgModelController;
 
     public onSave: (response: {chart: IAnalyticsChart, update: boolean}) => IPromise<void>;
     static $inject = ['$filter'];
@@ -42,7 +45,25 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     changeParamsPoint() {
         if(!this.chart.globalParams) {
             this.chart.localParams = copy(this.globalFilter);
+            this.chart.localParams.users.model = [this.globalFilter.users.model];
+            this.globalFilter.activityTypes.model.map(id =>
+                this.chart.localParams.activityTypes.model.push(...getSportsByBasicId(id)));
+            this.chart.localParams.activityTypes.options = activityTypes;
         }
+    }
+
+    getGroupCheckboxStatus(param: IAnalyticsChartFilterParam<any>, idx: number): boolean {
+        return param.model[param.idx.indexOf(idx)];
+    }
+
+    setGroupCheckboxStatus(param: IAnalyticsChartFilterParam<any>, idx: number){
+        param.model[param.idx.indexOf(idx)] = !param.model[param.idx.indexOf(idx)];
+        this.change(Object.assign({},param,{idx: [idx]}), param.model[param.idx.indexOf(idx)]);
+        this.settingsForm.$setDirty();
+    }
+
+    getCheckboxLabel(param: IAnalyticsChartFilterParam<any>, idx: number): string {
+        return this.chart.charts[param.ind[0]].measures.filter(a => a.idx === idx)[0][param.multiTextParam];
     }
 
     change(param: IAnalyticsChartFilterParam<any>, value) {
@@ -58,8 +79,8 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             case 'measures': {
                 param.ind.map(ind =>
                         this.chart.charts[ind].measures
-                            .filter(s => param.idx.indexOf(s.idx) !== -1)
-                            .map(s => Object.keys(param.change[value]).map(k => s[k] = param.change[value][k]))
+                            .filter(m => param.idx.indexOf(m.idx) !== -1)
+                            .map(m => Object.keys(param.change[value]).map(k => m[k] = param.change[value][k]))
                     //.map(s => s[param.name] = value)
                 );
                 break;
