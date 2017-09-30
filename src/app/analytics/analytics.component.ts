@@ -108,11 +108,38 @@ export class AnalyticsCtrl implements IComponentController {
 
     changeGlobalFilter() {
         this.filterChanges++;
+    }
+
+    restoreSettings() {
+        this.storage.remove(`${this.user.userId}#analytics_charts`);
+        this.storage.remove(`${this.user.userId}#analytics_filter`);
+        this.filter = {
+            users: null,
+            activityTypes: null,
+            activityCategories: null,
+            periods: null
+        };
+        this.prepareComplete = false;
+
+        let storageCharts: any = null;
+        let storageFilters: {
+            users: IAnalyticsChartFilterParam<IUserProfileShort>;
+            activityTypes: IAnalyticsChartFilterParam<IActivityType>;
+            activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
+            periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
+        } = null;
+
+        this.prepareCharts(this.defaultSettings);
+        this.prepareUsersFilter(this.user);
+        this.prepareSportTypesFilter();
+        this.prepareCategoriesFilter(this.reference.categories, this.user);
+        this.preparePeriodsFilter();
+        this.saveSettings('charts');
         this.saveSettings('filter');
+        this.prepareComplete = true;
     }
 
     private getSettings(obj: string): any {
-        //return null;
         return this.storage.get(`${this.user.userId}#analytics_${obj}`);
     }
 
@@ -124,13 +151,13 @@ export class AnalyticsCtrl implements IComponentController {
         this.charts = charts.map(c => new AnalyticsChart(c));
     }
 
-    private prepareUsersFilter(user: IUserProfile, model: any) {
+    private prepareUsersFilter(user: IUserProfile, restore?: any) {
         this.filter.users = {
             type: 'checkbox',
             area: 'params',
             name: 'users',
             text: 'users',
-            model: model || null,
+            model: restore || null,
             options: []
         };
 
@@ -151,13 +178,13 @@ export class AnalyticsCtrl implements IComponentController {
         }
     }
 
-    private prepareSportTypesFilter(model: any) {
+    private prepareSportTypesFilter(restore?: any) {
         this.filter.activityTypes = {
             type: 'checkbox',
             area: 'params',
             name: 'activityTypes',
             text: 'activityTypes',
-            model: model || null,
+            model: restore || null,
             options: getSportBasic()
         };
         if(!this.filter.activityTypes.model){
@@ -165,14 +192,14 @@ export class AnalyticsCtrl implements IComponentController {
         }
     }
 
-    private prepareCategoriesFilter(categoriesList: Array<IActivityCategory>, userProfile: IUserProfile, model: any) {
+    private prepareCategoriesFilter(categoriesList: Array<IActivityCategory>, userProfile: IUserProfile, restore?: any) {
 
         this.filter.activityCategories = {
             type: 'checkbox',
             area: 'params',
             name: 'activityCategories',
             text: 'activityCategories',
-            model: model || [],
+            model: restore || [],
             options: categoriesList
         };
 
@@ -182,7 +209,7 @@ export class AnalyticsCtrl implements IComponentController {
         ) (categoriesList);
     }
 
-    private preparePeriodsFilter(model: any) {
+    private preparePeriodsFilter(model?: any) {
         this.filter.periods = {
             type: 'date',
             area: 'params',

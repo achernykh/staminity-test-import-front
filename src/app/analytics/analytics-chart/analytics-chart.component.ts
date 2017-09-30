@@ -100,7 +100,6 @@ class AnalyticsChartCtrl implements IComponentController {
         } else {
             this.updateCount++;
         }
-        this.onChangeFilter();
     }
 
     update(param: IAnalyticsChartFilterParam<any>, value, protectedOption: boolean) {

@@ -4,14 +4,14 @@
         <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'filters'">
             <md-icon class="md-secondary md-dark material-icons">filter_list</md-icon>
         </md-button>
-        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'charts'">
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'settings'">
             <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
         </md-button>
     </div>
     <div ng-switch-when="filters" layout="column">
         <md-toolbar flex="none" class="bg-grey-200" style="color: black">
             <div class="md-toolbar-tools" ng-cloak>
-                <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'hide';$ctrl.onChangeFilter()" ng-if="$ctrl.panel">
+                <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'hide';$ctrl.onChangeFilter()">
                     <md-icon class="md-secondary md-dark material-icons">arrow_back</md-icon>
                 </md-button>
                 <h2 class="md-dark">{{'analytics.panel.filter' | translate}}</h2>
@@ -137,19 +137,28 @@
             </md-list>
         </form>
     </div>
-    <div ng-switch-when="charts" layout="column">
+    <div ng-switch-when="settings" layout="column">
         <md-toolbar flex="none" class="bg-grey-200" style="color: black">
             <div class="md-toolbar-tools" ng-cloak>
-                <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'hide';$ctrl.onChangeFilter()" ng-if="$ctrl.charts">
+                <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'hide';$ctrl.onChangeFilter()">
                     <md-icon class="md-secondary md-dark material-icons">arrow_back</md-icon>
                 </md-button>
-                <h2 class="md-dark">{{'analytics.panel.charts' | translate}}</h2>
+                <h2 class="md-dark">{{'analytics.panel.settings' | translate}}</h2>
                 <span flex></span>
             </div>
         </md-toolbar>
         <md-divider></md-divider>
         <md-content flex="auto">
             <md-list class="md-dense" flex>
+                <md-list-item ng-click="$ctrl.analytics.saveSettings('charts');$ctrl.analytics.saveSettings('filter')">
+                    <p translate="analytics.settings.saveContext"></p>
+                    <md-icon class="md-secondary md-dark material-icons">save</md-icon>
+
+                </md-list-item>
+                <md-list-item ng-click="$ctrl.analytics.restoreSettings()">
+                    <p translate="analytics.settings.restoreContext"></p>
+                    <md-icon class="md-secondary md-dark material-icons">restore</md-icon>
+                </md-list-item>
                 <md-subheader class="md-no-sticky">{{'analytics.defaultCharts' | translate}}</md-subheader>
                 <md-list-item class="md-2-line"
                               ng-repeat="chart in $ctrl.charts">

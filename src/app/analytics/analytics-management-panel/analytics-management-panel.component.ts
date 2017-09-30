@@ -21,7 +21,7 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
         periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
     };
 
-    private panel: 'filters' | 'charts' | 'hide' = 'filters';
+    private panel: 'filters' | 'settings' | 'hide' = 'filters';
     private startDate: Date;
     private endDate: Date;
 
