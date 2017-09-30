@@ -45,8 +45,35 @@ class AnalyticsChartFilterCtrl implements IComponentController {
     }
 
     onOpen(env: Event) {
-        this.config.openFrom = env;
-        this.$mdPanel.open(this.config);
+        //this.config.openFrom = env;
+        //this.$mdPanel.open(this.config);
+        this.$mdDialog.show({
+            controller: ($scope, $mdDialog) => {
+                $scope.hide = () => $mdDialog.hide();
+                $scope.cancel = () => $mdDialog.cancel();
+                $scope.answer = (answer) => $mdDialog.hide(answer);
+            },
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="analytics-chart-settings" aria-label="Analytics Chart Settings">
+                        <analytics-chart-settings
+                                layout="row" class="analytics-chart-settings"
+                                settings="$ctrl.settings"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </analytics-chart-settings>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: env,
+            locals: {
+                settings: this.filter
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true
+
+        }).then(() => {}, ()=> {});
+
     }
 
     change(param, option) {

@@ -31,9 +31,9 @@ class AnalyticsChartCtrl implements IComponentController {
 
     public updateCount: number = 0;
 
-    static $inject = ['$scope','statistics'];
+    static $inject = ['$scope','statistics','$mdDialog'];
 
-    constructor(private $scope: IScope, private statistics: StatisticsService) {
+    constructor(private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any) {
 
     }
 
@@ -49,6 +49,39 @@ class AnalyticsChartCtrl implements IComponentController {
             this.prepareParams();
             this.prepareData();
         }
+    }
+
+    onSettings(env: Event) {
+        debugger;
+        //this.config.openFrom = env;
+        //this.$mdPanel.open(this.config);
+        this.$mdDialog.show({
+            controller: ['$scope','$mdDialog', ($scope, $mdDialog) => {
+                $scope.hide = () => $mdDialog.hide();
+                $scope.cancel = () => $mdDialog.cancel();
+                $scope.answer = (answer) => $mdDialog.hide(answer);
+            }],
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="analytics-chart-settings" aria-label="Analytics Chart Settings">
+                        <analytics-chart-settings
+                                layout="row" class="analytics-chart-settings"
+                                settings="$ctrl.settings"
+                                on-cancel="cancel()" on-answer="answer(response)">
+                        </analytics-chart-settings>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: env,
+            locals: {
+                settings: this.chart
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true
+
+        }).then(() => {}, ()=> {});
+
     }
 
     update(param: IAnalyticsChartFilterParam<any>, value, protectedOption: boolean) {

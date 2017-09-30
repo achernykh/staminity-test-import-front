@@ -3,11 +3,14 @@
         <h1 class="md-body-2 md-dark title" flex="auto"
             translate="analytics.{{$ctrl.chart.title}}" translate-values="{{$ctrl.context}}"></h1>
         <div flex="none" layout="row">
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
+                <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
+            </md-button><!--
             <analytics-chart-filter flex="none"
                                     filter="$ctrl.chart.filter"
                                     change="$ctrl.filterChange"
                                     on-change="$ctrl.update(param, option, protected)">
-            </analytics-chart-filter>
+            </analytics-chart-filter>-->
             <md-button flex="none" class="md-icon-button" ng-click="$ctrl.chart.active = false">
                 <md-icon class="md-secondary md-dark material-icons">visibility_off</md-icon>
             </md-button>
