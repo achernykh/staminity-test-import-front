@@ -1,5 +1,21 @@
-<nav class="analytics-management-panel md-whiteframe-2dp bg-grey-100" flex="none">
-    <md-tabs md-dynamic-height md-border-bottom>
+<nav class="analytics-management-panel md-whiteframe-2dp bg-grey-100" flex="none"
+     ng-class="{'panel': $ctrl.showPanel}">
+    <div ng-if="!$ctrl.showPanel" layout="column">
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.showPanel = true">
+            <md-icon class="md-secondary md-dark material-icons">arrow_forward</md-icon>
+        </md-button>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
+            <md-icon class="md-secondary md-dark material-icons">filter</md-icon>
+        </md-button>
+        <md-divider style="padding: 16px 0px"></md-divider>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
+            <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
+        </md-button>
+    </div>
+    <md-button flex="none" class="md-icon-button" ng-click="$ctrl.showPanel = false" ng-if="$ctrl.showPanel">
+        <md-icon class="md-secondary md-dark material-icons">arrow_back</md-icon>
+    </md-button>
+    <md-tabs md-dynamic-height md-border-bottom ng-if="$ctrl.showPanel">
         <!-- ПАНЕЛЬ ФИЛЬТРОВ -->
         <md-tab label="{{'analytics.panel.filter' | translate}}">
             <form>

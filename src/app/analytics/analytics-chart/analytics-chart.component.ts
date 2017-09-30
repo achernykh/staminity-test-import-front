@@ -1,5 +1,5 @@
 import './analytics-chart.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope, copy} from 'angular';
 import {
     IAnalyticsChartFilterParam, IReportPeriodOptions,
     periodByType
@@ -10,9 +10,11 @@ import {IUserProfileShort} from "../../../../api/user/user.interface";
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
 import StatisticsService from "../../core/statistics.service";
+import {AnalyticsCtrl} from "../analytics.component";
 
 class AnalyticsChartCtrl implements IComponentController {
 
+    public analytics: AnalyticsCtrl;
     public chart: AnalyticsChart;
     public filter: {
         users: IAnalyticsChartFilterParam<IUserProfileShort>;
@@ -52,36 +54,50 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     onSettings(env: Event) {
-        debugger;
+        //debugger;
         //this.config.openFrom = env;
         //this.$mdPanel.open(this.config);
         this.$mdDialog.show({
             controller: ['$scope','$mdDialog', ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (answer) => $mdDialog.hide(answer);
+                $scope.answer = (chart,update) => $mdDialog.hide({chart: chart,update: update});
             }],
             controllerAs: '$ctrl',
             template:
                 `<md-dialog id="analytics-chart-settings" aria-label="Analytics Chart Settings">
                         <analytics-chart-settings
-                                layout="row" class="analytics-chart-settings"
-                                settings="$ctrl.settings"
-                                on-cancel="cancel()" on-answer="answer(response)">
+                                layout="column" class="analytics-chart-settings"
+                                chart="$ctrl.chart"
+                                global-filter="$ctrl.filter"
+                                categories-by-owner="$ctrl.categories"
+                                on-cancel="cancel()" on-save="answer(chart, update)">
                         </analytics-chart-settings>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: env,
             locals: {
-                settings: this.chart
+                chart: this.chart,
+                filter: this.filter,
+                categoriesByOwner: this.analytics.categoriesByOwner
             },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 
-        }).then(() => {}, ()=> {});
+        }).then((response) => this.updateSettings(response.chart, response.update), () => {});
 
+    }
+
+    private updateSettings(chart: AnalyticsChart, update: boolean) {
+        this.chart = copy(chart);
+        this.prepareTitleContext();
+        if(update){
+            this.prepareParams();
+            this.prepareData();
+        }
+        this.onChangeFilter();
     }
 
     update(param: IAnalyticsChartFilterParam<any>, value, protectedOption: boolean) {
@@ -146,7 +162,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
     private prepareParams() {
 
-        let periodsParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'periods')[0];
+        //let periodsParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'periods')[0];
 
         // Обновляем значение фильтров по заблокированным локальным фильтрам
         Object.keys(this.filter)
@@ -160,10 +176,11 @@ class AnalyticsChartCtrl implements IComponentController {
             });
 
         this.chart.charts.map((c,i) => c.params = {
-            users: this.filter.users.model.map(u => Number(u)),
+            users: (!this.chart.globalParams && c.params.users && c.params.users) ||
+                this.filter.users.model.map(u => Number(u)),
             activityTypes: this.filter.activityTypes.model,
             activityCategories: this.filter.activityCategories.model,
-            periods: (!periodsParams.protected && periodByType(periodsParams.model)) ||
+            periods: (!this.chart.globalParams && c.params.periods && c.params.periods) ||
                 (angular.isArray(this.filter.periods.data) && this.filter.periods.data) ||
                 periodByType(this.filter.periods.model) || this.chart.charts[i].params.periods
         });
@@ -199,7 +216,7 @@ const AnalyticsChartComponent:IComponentOptions = {
         onFullScreen: '&'
     },
     require: {
-        //component: '^component'
+        analytics: '^analytics'
     },
     controller: AnalyticsChartCtrl,
     template: require('./analytics-chart.component.html') as string

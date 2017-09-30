@@ -46,7 +46,12 @@ export const translateAnalytics = {
             false: "Нет",
             true: "Да"
 
-            },
+        },
+        settings: {
+            title: 'Настройки графика',
+            params: 'Параметры выбора данных',
+            layout: 'Параметры отображения'
+        },
         // Переводы преднастроенных отчетов
         actualMovingDuration: {
             title: "Время тренировок {{'analytics.params.' + measureName | translate}}",

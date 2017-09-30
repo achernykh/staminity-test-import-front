@@ -57,48 +57,6 @@ export class AnalyticsCtrl implements IComponentController {
 
     static $inject = ['$scope','SessionService','statistics', 'storage', 'ReferenceService', 'analyticsDefaultSettings'];
 
-    private selectedChart = [0,1,2,3,4,5,6,7,8];
-
-    private examples = [
-        {
-            name: '10.1_PMC_chart_four_measures',
-            data: chart_example_01
-        },
-        {
-            name: '10.2.1_Two_IChart_four_measures',
-            data: chart_example_02
-        },
-        {
-            name: '10.2.2_Two_IChart_four_measures',
-            data: chart_example_03
-        },
-        {
-            name: '10.2_Two_IChart_four_measures',
-            data: chart_example_04
-        },
-        {
-            name: '11_Cumulative_Duration_by_days',
-            data: chart_example_05
-        },
-        {
-            name: '12_HR-and-pace-by-days',
-            data: chart_example_06
-        },
-        {
-            name: 'Table',
-            data: chart_example_07
-        },
-        {
-            name: 'Donut',
-            data: chart_example_08
-        },
-        {
-            name: 'Pie',
-            data: chart_example_09
-        }
-
-    ];
-
     constructor(private $scope: IScope,
                 private session: ISessionService,
                 private statistics: StatisticsService,

@@ -58,14 +58,16 @@ class AnalyticsChartFilterCtrl implements IComponentController {
                 `<md-dialog id="analytics-chart-settings" aria-label="Analytics Chart Settings">
                         <analytics-chart-settings
                                 layout="row" class="analytics-chart-settings"
-                                settings="$ctrl.settings"
+                                settings="$ctrl.settings",
+                                global-filter="$ctrl.filter",
                                 on-cancel="cancel()" on-answer="answer(response)">
                         </analytics-chart-settings>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: env,
             locals: {
-                settings: this.filter
+                settings: this.filter,
+                filter: this.filter
             },
             bindToController: true,
             clickOutsideToClose: false,

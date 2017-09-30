@@ -1,9 +1,23 @@
 <section layout-gt-sm="row" layout="column" class="analytics__application">
     <analytics-management-panel charts="$ctrl.charts"
                                 filter="$ctrl.filter"
+                                on-hide="$ctr.showPanel = false"
                                 on-change-filter="$ctrl.changeGlobalFilter()"
                                 on-change-charts="$ctrl.saveSettings('charts')">
     </analytics-management-panel>
+    <!--<nav class="analytics__navigator md-whiteframe-2dp bg-grey-100" layout="column"
+         ng-class="{'hide': $ctrl.showPanel}">
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.showPanel = true">
+            <md-icon class="md-secondary md-dark material-icons">arrow_forward</md-icon>
+        </md-button>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
+            <md-icon class="md-secondary md-dark material-icons">filter</md-icon>
+        </md-button>
+        <md-divider style="padding: 16px 0px"></md-divider>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
+            <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
+        </md-button>
+    </nav>-->
     <section flex="auto" class="analytics__chart-section">
         <section class="analytics__chart-grid" ng-if="$ctrl.prepareComplete">
             <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true }"

@@ -1,4 +1,7 @@
-import {IAnalyticsChartFilter} from "../analytics-chart-filter/analytics-chart-filter.model";
+import {
+    IAnalyticsChartFilter,
+    IAnalyticsChartFilterParam
+} from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IChartMeasure, IChartParams, IChart} from "../../../../api/statistics/statistics.interface";
 import moment from 'moment/src/moment.js';
 
@@ -35,7 +38,11 @@ export interface IAnalyticsChart {
     title: string;
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
+    settings?: Array<IAnalyticsChartFilterParam<any>>;
     filter: IAnalyticsChartFilter;
+    globalParams?: boolean;
+    localParams?: any;
+    paramsDescription?: string;
     layout: AnalyticsChartLayout;
     charts: Array<IChart>;
 }
@@ -49,6 +56,9 @@ export class AnalyticsChart implements IAnalyticsChart{
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
     filter: IAnalyticsChartFilter;
+    globalParams?: boolean;
+    localParams?: any;
+    paramsDescription?: string;
     layout: AnalyticsChartLayout;
     charts: Array<IChart>;
 

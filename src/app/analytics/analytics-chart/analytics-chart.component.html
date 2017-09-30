@@ -23,7 +23,7 @@
             </md-button>
         </div>
     </div>
-    <p flex="none" class="md-caption md-dark analytics-chart__description" translate="analytics.{{$ctrl.chart.description}}"></p>
+    <p flex="none" class="md-caption md-dark analytics-chart__description">{{$ctrl.chart.paramsDescription}}</p>
 
     <div ng-switch-when="false" ng-if="$ctrl.errorStack.length === 0"
          flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">

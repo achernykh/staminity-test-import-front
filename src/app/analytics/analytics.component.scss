@@ -15,6 +15,13 @@
 
   }
 
+  &__navigator {
+    transition: all 0.3s;
+    &.hide {
+      display: none;
+    }
+  }
+
   &__chart-section {
     overflow-y: auto;
 

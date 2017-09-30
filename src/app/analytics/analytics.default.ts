@@ -22,6 +22,71 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             param: 'measureName'
         }],
         description: 'actualMovingDuration.description',
+        globalParams: true,
+        localParams: {
+
+        },
+        settings: [
+            {
+                ind: [0],
+                idx: [1],
+                type: 'radio',
+                area: 'measures',
+                name: 'measureName',
+                text: 'volume',
+                model: 'duration',
+                options: ['duration','distance'],
+                change: {
+                    duration: {
+                        measureName: 'duration',
+                        unit: 'ч'
+                    },
+                    distance: {
+                        measureName: 'distance',
+                        unit: 'км'
+                    }
+                }
+            },
+            {
+                ind: [0],
+                idx: [0],
+                type: 'radio',
+                area: 'series',
+                name: 'seriesDateTrunc',
+                text: 'seriesDateTrunc',
+                model: 'week',
+                options: ['day','week','month'],
+                change: {
+                    day: {
+                        seriesDateTrunc: 'day'
+                    },
+                    week: {
+                        seriesDateTrunc: 'week'
+                    },
+                    month: {
+                        seriesDateTrunc: 'month'
+                    }
+                }
+            },
+            {
+                ind: [0],
+                idx: [1],
+                type: 'radio',
+                area: 'measures',
+                name: 'cumulative',
+                text: 'cumulative',
+                model: false,
+                options: [false,true],
+                change: {
+                    'false': {
+                        cumulative: false
+                    },
+                    'true': {
+                        cumulative: true
+                    }
+                }
+            }
+        ],
         filter: {
             enabled: true,
             params: [
@@ -88,9 +153,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
-                users: 'global',//[this.session.getUser().userId],
-                activityTypes: 'global',//[2],
-                periods: 'global'
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
             },
             options: {
                 "legend": {
