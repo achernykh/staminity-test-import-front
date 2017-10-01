@@ -89,7 +89,7 @@ export default class UserService {
                                 {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
                     return connections;
                 }, error => {throw `error in getTrainingZones => ${error}`;})
-                .then(connections => this.SessionService.setConnections(connections));
+                .then(connections => this.SessionService.updateUser({connections}));
         } else {
             this.SessionService.updateUser({connections});
         }
