@@ -7,11 +7,9 @@
                            on-change-charts="$ctrl.saveSettings('charts')">
     </training-plans-filter>
     <section flex="auto" class="training-plans-search__plans-section">
-        <section class="training-plans-search__area" ng-if="$ctrl.prepareComplete">
-            <training-plans-list ng-repeat="chart in $ctrl.charts | filter:{ active: true }"
-                             ng-style="chart.layout.style"
-                             ng-class="{'full-screen': chart.layout.fullScreen}"
-                             chart="chart"
+        <section class="training-plans-search__area">
+            <training-plans-list
+                             plans="$ctrl.demoList"
                              filter="$ctrl.filter"
                              filter-changes="$ctrl.filterChanges"
                              on-change-filter="$ctrl.saveSettings('charts')"

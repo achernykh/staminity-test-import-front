@@ -1,6 +1,6 @@
 import {StateProvider, StateDeclaration} from "angular-ui-router";
 import {DisplayView, DefaultTemplate, supportLng} from "../core/display.constants";
-import {_translateTrainingPlansSearch} from "./training-plans.translate";
+import {_translateTrainingPlans} from "./training-plans.translate";
 
 function configure($stateProvider:StateProvider, $translateProvider){
 
@@ -10,13 +10,12 @@ function configure($stateProvider:StateProvider, $translateProvider){
             loginRequired: false,
             authRequired: [],
             resolve: {
-                view: () => new DisplayView('training-plans-search')
-
+                view: () => new DisplayView('trainingPlansSearch')
             },
-            views: DefaultTemplate('training-plans-search')
+            views: DefaultTemplate('trainingPlansSearch')
         });
 
-    supportLng.map(lng => $translateProvider.translations(lng, { trainingPlans: _translateTrainingPlansSearch[lng] }));
+    supportLng.map(lng => $translateProvider.translations(lng, { trainingPlans: _translateTrainingPlans[lng] }));
 
 }
 configure.$inject = ['$stateProvider', '$translateProvider'];

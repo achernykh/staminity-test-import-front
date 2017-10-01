@@ -1,0 +1,36 @@
+.training-plans-filter {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+  width: 52px;
+  transition: all 0.5s;
+
+  &.panel {
+    width: 360px;
+    min-width: 360px;
+    transition: all 0.5s;
+  }
+
+  @media (max-width: 959px) {
+    width: 100%;
+    height: auto;
+  }
+
+  &__plans, &__events, &__hide {
+    height: 100%;
+  }
+
+  .md-datepicker-input-container {
+    width: 100%;
+  }
+
+  .md-datepicker-triangle-button {
+    right: 4px !important;
+  }
+
+  .md-button.create {
+    padding: 0 16px;
+    width: calc(100% - 16px);
+  }
+
+}

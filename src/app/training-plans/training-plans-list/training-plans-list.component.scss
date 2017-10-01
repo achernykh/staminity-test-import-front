@@ -1,0 +1,27 @@
+@import "../../../sass/color";
+
+.training-plans-list {
+
+  .name {
+    margin-bottom: 0;
+  }
+
+  .author {
+    margin-top: 0;
+  }
+
+  tbody tr {
+    cursor: pointer;
+    &:hover {
+      background-color: $grey-100;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+
+  th.md-column:first-child {
+    width: 36px !important;
+  }
+
+}

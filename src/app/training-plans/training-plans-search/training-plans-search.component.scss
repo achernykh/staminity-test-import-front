@@ -16,6 +16,7 @@
 
   &__plans-section {
     overflow-y: auto;
+    margin: 0px 8px;
 
     @media (max-width: 959px) {
       overflow-y: initial;

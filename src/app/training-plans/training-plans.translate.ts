@@ -1,7 +1,17 @@
-export const _translateTrainingPlansSearch = {
+export const _translateTrainingPlans = {
     ru: {
-        fullTitle: 'Посик плана подготовкото',
-        shortTitle: 'Посик плана',
+        fullTitle: 'Поиск плана подготовкото',
+        shortTitle: 'Поиск плана',
+        filter: {
+            create: 'Создать'
+        },
+        form: {
+            title: 'Тренировочный план',
+            tabs: {
+                general: 'Основное',
+                info: 'Информация'
+            }
+        }
     },
     en: {
 

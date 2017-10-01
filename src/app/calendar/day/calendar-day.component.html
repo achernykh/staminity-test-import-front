@@ -50,6 +50,11 @@
                             <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
                             Вставить ({{$ctrl.calendar.buffer.length}})</md-button>
                     </md-menu-item>
+                    <md-menu-item ng-if="$ctrl.calendar.buffer.length > 0">
+                        <md-button ng-click="$ctrl.calendar.onPostPlan($event)">
+                            <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
+                            Создать тренировочный план ({{$ctrl.calendar.buffer.length}})</md-button>
+                    </md-menu-item>
                 </md-menu-content>
             </md-menu>
         </div>
