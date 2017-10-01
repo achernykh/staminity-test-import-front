@@ -1,5 +1,7 @@
 import { merge } from 'angular';
 
+export const supportLng: Array<string> = ['en', 'ru'];
+
 export class DisplayView  {
 	constructor(private state: string){
 		merge(
