@@ -21,6 +21,7 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
         periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
     };
 
+    private panel: 'filters' | 'settings' | 'hide' = 'filters';
     private startDate: Date;
     private endDate: Date;
 
@@ -63,12 +64,9 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
     }
 
     usersSelectedText():string {
-        if(this.filter.users.model && this.filter.users.model.length > 0) {
+        if(this.filter.users.model) {
             return `${this.$filter('username')(
-                this.filter.users.options.filter(u => u.userId === Number(this.filter.users.model[0]))[0])}      
-                ${this.filter.users.model.length > 1 ?
-                    this.$filter('translate')('analytics.filter.more',{num: this.filter.users.model.length - 1}) : ''}`;
-
+                this.filter.users.options.filter(u => u.userId === Number(this.filter.users.model))[0])}`;
         } else {
             return this.$filter('translate')('analytics.filter.users.empty');
         }

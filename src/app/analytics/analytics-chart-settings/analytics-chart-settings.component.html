@@ -1,6 +1,6 @@
 <md-toolbar flex="none" style="background: white; color: black">
     <div class="md-toolbar-tools">
-        <h2 class="md-dark md-active">{{::'analytics.settings.title' | translate}}</h2>
+        <h2 class="md-dark">{{::'analytics.settings.title' | translate}}</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
             <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
@@ -136,7 +136,7 @@
             <md-subheader class="md-no-sticky">{{'analytics.settings.layout' | translate}}</md-subheader>
             <md-list-item ng-repeat="param in $ctrl.chart.settings" ng-switch="param.type">
                 <div ng-switch-when="radio" layout="column">
-                    <p class="md-body-1" flex="none" translate="analytics.params.{{param.text}}"></p>
+                    <p class="md-body-2 md-dark md-active" flex="none" translate="analytics.params.{{param.text}}"></p>
                     <md-radio-group flex="none" name="param.text" class="md-primary"
                                     ng-model="param.model"
                                     ng-change="$ctrl.change(param, param.model)">
@@ -144,6 +144,14 @@
                             <span class="md-body-1">{{'analytics.params.' + option | translate}}</span>
                         </md-radio-button>
                     </md-radio-group>
+                </div>
+                <div ng-switch-when="checkbox" ng-if="param.idx.length > 1" layout="column">
+                    <p class="md-body-2 md-dark md-active" flex="none" translate="analytics.params.{{param.text}}"></p>
+                    <md-checkbox ng-repeat="idx in param.idx" class="md-primary" name="{{param.text}}-{{idx}}"
+                                     ng-checked="$ctrl.getGroupCheckboxStatus(param, idx)"
+                                     ng-click="$ctrl.setGroupCheckboxStatus(param, idx)">
+                        <span>{{$ctrl.getCheckboxLabel(param, idx)}}</span>
+                    </md-checkbox>
                 </div>
             </md-list-item>
         </md-list>

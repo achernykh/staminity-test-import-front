@@ -1,33 +1,31 @@
 <nav class="analytics-management-panel md-whiteframe-2dp bg-grey-100" flex="none"
-     ng-class="{'panel': $ctrl.showPanel}">
-    <div ng-if="!$ctrl.showPanel" layout="column">
-        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.showPanel = true">
-            <md-icon class="md-secondary md-dark material-icons">arrow_forward</md-icon>
+     ng-class="{'panel': $ctrl.panel !== 'hide'}" ng-switch="$ctrl.panel">
+    <div ng-switch-when="hide" layout="column">
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'filters'">
+            <md-icon class="md-secondary md-dark material-icons">filter_list</md-icon>
         </md-button>
-        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
-            <md-icon class="md-secondary md-dark material-icons">filter</md-icon>
-        </md-button>
-        <md-divider style="padding: 16px 0px"></md-divider>
-        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'settings'">
             <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
         </md-button>
     </div>
-    <md-button flex="none" class="md-icon-button" ng-click="$ctrl.showPanel = false" ng-if="$ctrl.showPanel">
-        <md-icon class="md-secondary md-dark material-icons">arrow_back</md-icon>
-    </md-button>
-    <md-tabs md-dynamic-height md-border-bottom ng-if="$ctrl.showPanel">
-        <!-- ПАНЕЛЬ ФИЛЬТРОВ -->
-        <md-tab label="{{'analytics.panel.filter' | translate}}">
-            <form>
+    <div ng-switch-when="filters" layout="column">
+        <md-toolbar flex="none" class="bg-grey-200" style="color: black">
+            <div class="md-toolbar-tools" ng-cloak>
+                <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'hide';$ctrl.onChangeFilter()">
+                    <md-icon class="md-secondary md-dark material-icons">arrow_back</md-icon>
+                </md-button>
+                <h2 class="md-dark">{{'analytics.panel.filter' | translate}}</h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+        <md-divider></md-divider>
+        <form flex="auto" name="$ctrl.filterForm">
             <md-list class="md-dense">
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">
-                        <!--<md-icon>
-                            <userpic flex="none" profile="$ctrl.filter.users.model"></userpic>
-                        </md-icon>-->
                         <label translate="analytics.filter.users.placeholder"></label>
                         <md-select flex="auto" name="sport" class="icon"
-                                   multiple="true"
+                                   multiple="false"
                                    md-selected-text="$ctrl.usersSelectedText()"
                                    ng-model="$ctrl.filter.users.model"
                                    ng-change="$ctrl.change('users')"
@@ -51,7 +49,7 @@
                                    md-selected-text="$ctrl.activityTypesSelectedText()"
                                    ng-model="$ctrl.filter.activityTypes.model"
                                    ng-change="$ctrl.change('activityType')">
-                                   <md-option ng-repeat="type in $ctrl.filter.activityTypes.options | filter:{enabled: true} track by type.id"
+                            <md-option ng-repeat="type in $ctrl.filter.activityTypes.options | filter:{enabled: true} track by type.id"
                                        value="{{type.id}}">
                                 {{'sport.' + type.code | translate}}
                             </md-option>
@@ -137,15 +135,38 @@
                     </md-input-container>
                 </md-list-item>
             </md-list>
-            </form>
-        </md-tab>
-        <!-- ПАНЕЛЬ ОТЧЕТОВ -->
-        <md-tab label="{{'analytics.panel.charts' | translate}}">
+            <div flex="auto"></div>
+            <md-button style="width: calc(100% - 16px)" flex="none"><span translate="analytics.filter.go"></span></md-button>
+        </form>
+    </div>
+    <div ng-switch-when="settings" layout="column">
+        <md-toolbar flex="none" class="bg-grey-200" style="color: black">
+            <div class="md-toolbar-tools" ng-cloak>
+                <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'hide';$ctrl.onChangeFilter()">
+                    <md-icon class="md-secondary md-dark material-icons">arrow_back</md-icon>
+                </md-button>
+                <h2 class="md-dark">{{'analytics.panel.settings' | translate}}</h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+        <md-divider></md-divider>
+        <md-content flex="auto">
             <md-list class="md-dense" flex>
-                <md-subheader class="md-no-sticky" translate="analytics.defaultCharts"></md-subheader>
+                <md-list-item ng-click="$ctrl.analytics.saveSettings('charts');$ctrl.analytics.saveSettings('filter')">
+                    <p translate="analytics.settings.saveContext"></p>
+                    <md-icon class="md-secondary md-dark material-icons">save</md-icon>
+
+                </md-list-item>
+                <md-list-item ng-click="$ctrl.analytics.restoreSettings()">
+                    <p translate="analytics.settings.restoreContext"></p>
+                    <md-icon class="md-secondary md-dark material-icons">restore</md-icon>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-subheader class="md-no-sticky">{{'analytics.defaultCharts' | translate}}</md-subheader>
+                <p class="md-caption md-dark hint-text" translate="analytics.settings.authRoles"></p>
                 <md-list-item class="md-2-line"
                               ng-repeat="chart in $ctrl.charts">
-                    <md-icon class="material-icons md-dark">{{::chart.icon}}</md-icon>
+                    <!--<md-icon class="material-icons md-dark">{{::chart.icon}}</md-icon>-->
                     <div class="md-list-item-text">
                         <h3 translate="analytics.{{chart.title}}"></h3>
                         <p translate="analytics.{{chart.description}}"></p>
@@ -153,6 +174,6 @@
                     </div>
                 </md-list-item>
             </md-list>
-        </md-tab>
-    </md-tabs>
+        </md-content>
+    </div>
 </nav>

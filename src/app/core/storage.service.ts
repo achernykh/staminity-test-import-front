@@ -6,6 +6,7 @@ import { IUserProfile } from "../../../api/user/user.interface";
 export interface IStorageService {
 	get (key: string) : any;
 	set (key: string, data: any) : void;
+	remove (key: string): void;
 }
 
 export default class StorageService implements IStorageService {
@@ -27,6 +28,10 @@ export default class StorageService implements IStorageService {
 
 	set (key: string, data: any) : void {
 		this.storage.setItem(key, JSON.stringify(data));
+	}
+
+	remove (key: string) {
+		this.storage.removeItem(key);
 	}
 
 }

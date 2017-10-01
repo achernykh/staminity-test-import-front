@@ -2,16 +2,26 @@
   overflow-x: hidden;
   overflow-y: auto;
   height: 100%;
+  width: 52px;
   transition: all 0.5s;
 
   &.panel {
     width: 360px;
     min-width: 360px;
+    transition: all 0.5s;
   }
 
   @media (max-width: 959px) {
     width: 100%;
     height: auto;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .hint-text {
+    padding: 0 16px;
   }
 
   .md-datepicker-input-container {
