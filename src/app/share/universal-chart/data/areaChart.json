@@ -1,0 +1,60 @@
+{
+    "options": {
+        "legend": {
+            "vertical-align": "top",
+            "horizontal-align": "left",
+            "type": "row"
+        },
+        "tooltip": {
+            "combined": true
+        }
+    },
+    "series" : [{
+        "label" : "Месяцы",
+        "unit" : "",
+        "xAxis" : true,
+        "tooltipType" : "label",
+        "legend": true,
+        "idx" : 0,
+        "measureName" : "month",
+        "valueType" : "value",
+        "groupBy" : "month",
+        "groupByIntervalLength" : 1,
+        "fillColor": "red"
+    }],
+    "measures" : [{
+        "label" : "Калории",
+        "unit" : "кКал",
+        "chartType" : "area",
+        "smoothSettings" : "curveMonotoneX",
+        "tooltipType" : "color",
+        "legend": false,
+        "visible" : true,
+        "lineColor": "red",
+        "lineStyle": "solid",
+        "lineWidth": 1,
+        "fillType": "gradient",
+        "gradient": [{
+            "offset": "0%",
+            "color": "#5677fc"
+        }, {
+            "offset": "100%",
+            "color": "rgba(175, 191, 255, 0)"
+        }],
+        "idx" : 1,
+        "measureName" : "calories",
+        "minValue": 0,
+        "markerColor": "#5677fc"
+    }],
+    "metrics" : [
+        ["Иванов Василий", 20],
+        ["Петров Сергей", 10],
+        ["Петров Сергей1", 17],
+        ["Сидоров Петр", null],
+        ["Васечкин Иван", null],
+        ["Друзь Александр", 21],
+        ["Поташов Максим", null],
+        ["Бурда Борис", 14],
+        ["Блинов Алексей", 31]
+    ]
+}

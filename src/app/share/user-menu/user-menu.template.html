@@ -11,16 +11,10 @@
             </md-button>
         </md-menu-item>
         <md-menu-divider></md-menu-divider>
-        <md-menu-item>
-            <md-button ng-click="$ctrl.display.setLanguage('ru')">
-                <md-icon md-svg-src="/assets/icon/ru.svg" md-24 md-menu-align-target></md-icon>
-                <span translate>Русский</span>
-            </md-button>
-        </md-menu-item>
-        <md-menu-item>
-            <md-button ng-click="$ctrl.display.setLanguage('en')">
-                <md-icon md-svg-src="/assets/icon/en.svg" md-24 md-menu-align-target></md-icon>
-                <span translate>English</span>
+        <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
+            <md-button ng-click="$ctrl.display.setLocale(locale)">
+                <md-icon md-svg-src="/assets/icon/{{ locale }}.svg" md-24 md-menu-align-target></md-icon>
+                <span>{{ localeName }}</span>
             </md-button>
         </md-menu-item>
     </md-menu-content>

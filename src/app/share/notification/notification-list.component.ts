@@ -7,7 +7,7 @@ import {INotification, Notification, Initiator} from "../../../../api/notificati
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
 import CommentService from "../../core/comment.service";
-import {ISessionService} from "../../core/session.service";
+import {ISessionService, getUser} from "../../core/session.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 
@@ -44,7 +44,8 @@ class NotificationListCtrl implements IComponentController {
         private NotificationService: NotificationService,
         private CalendarService: CalendarService,
         private UserService: UserService,
-        private session: ISessionService) {
+        private session: ISessionService
+    ) {
 
     }
 
@@ -65,10 +66,13 @@ class NotificationListCtrl implements IComponentController {
             this.$scope.$applyAsync();
         });
 
-        this.session.profile.subscribe(profile=> this.currentUser = angular.copy(profile));
+        this.session.getObservable()
+        .takeUntil(this.destroy)
+        .map(getUser)
+        .subscribe((profile) => this.currentUser = angular.copy(profile));
     }
 
-    $onDestroy(): void {
+    $onDestroy() {
         this.destroy.next(); 
         this.destroy.complete();
     }

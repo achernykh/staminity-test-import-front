@@ -82,10 +82,15 @@ module.exports = {
             names: ["vendor", "manifest"]
         }),
         new webpack.optimize.UglifyJsPlugin({
+            mangle: {
+                reserved: ['LineView','AreaView','DotView'],
+                keep_fnames: true,
+                keep_classnames: true,
+            },
             compress: {
-                warnings: false,
-                drop_debugger: true,
-                drop_console: true
+                warnings: false, //false
+                drop_debugger: true, // true
+                drop_console: true // true
             },
             sourceMap: false
         }),

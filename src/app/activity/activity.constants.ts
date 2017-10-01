@@ -24,6 +24,10 @@ export const activityTypes: Array<IActivityType> = [
 
 export const getType = (id: number):IActivityType => activityTypes.filter(type => type.id === id)[0];
 export const getSportBasic = ():Array<IActivityType> => activityTypes.filter(type => type.isBasic);
+export const getSportsByBasicId = (basic: number):Array<number> => {
+    let basicType:IActivityType = getType(basic);
+    return activityTypes.filter(type => type.typeBasic === basicType.code).map(t => t.id);
+};
 
 //export const getCategory(id: number):IActivityCategory => this.category.filter(type => type.id === id)[0];
 

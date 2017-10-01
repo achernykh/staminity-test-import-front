@@ -1,0 +1,46 @@
+{
+    "options": {
+        "axes": {
+            "series": {
+                "alignByZero": true
+            }
+        }
+    },
+    "series" : [{
+        "label" : "Месяцы",
+        "unit" : "",
+        "xAxis" : true,
+        "tooltipType" : "label",
+        "idx" : 0,
+        "measureName" : "month",
+        "dataType": "date",
+        "dateFormat": "DD.MM"
+    }],
+    "measures" : [{
+        "label" : "Калории",
+        "unit" : "кКал",
+        "chartType" : "dot",
+        "radius": 7,
+        "tooltipType" : "color",
+        "legend": false,
+        "visible" : true,
+        "fillType": "solid",
+        "fillColor": "rgba(255, 0, 0, 0.5)",
+        "markerColor": "#5677fc",
+        "avgValueLine": true,
+        "avgValueLineColor": "red",
+        "avgValueLineStyle": "dashed",
+        "idx" : 1,
+        "measureName" : "calories"
+    }],
+    "metrics" : [
+        ["01-01-2016", 20],
+        ["01-02-2016", -10],
+        ["01-03-2016", 17],
+        ["01-04-2016", 35],
+        ["01-05-2016", 21],
+        ["01-06-2016", 27],
+        ["01-07-2016", 14],
+        ["01-08-2016", 31]
+    ]
+}

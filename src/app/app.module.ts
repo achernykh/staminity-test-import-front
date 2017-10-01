@@ -29,6 +29,7 @@ import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
 import TrainingPlans from "./training-plans/training-plans.module";
+import Analytics from "./analytics/analytics.module";
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
@@ -38,7 +39,6 @@ const root = module('staminity.application', [
 	'ngAria',
 	'ui.router',
 	'md.data.table',
-	'smDateTimeRangePicker',
 	'nemLogging',
 	'ui-leaflet',
 	hmReedmore,
@@ -65,6 +65,7 @@ const root = module('staminity.application', [
 	Dashboard,
 	Search,
 	Reference,
+	Analytics,
 	TrainingPlans
 ])
 	.component('staminityApplication', AppComponent)

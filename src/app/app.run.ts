@@ -16,7 +16,8 @@ function run(
 	$mdToast,
 	LoaderService: LoaderService,
 	AuthService: IAuthService,
-	message: MessageService
+	message: MessageService,
+	DisplayService: any // not used, just force DisplayService being initialized
 ) {
 	//window.navigator['standalone'] = true;
 
@@ -70,6 +71,6 @@ function run(
 	});
 }
 
-run.$inject = ['$transitions','$state','$translate','$mdToast','LoaderService','AuthService','message'];
+run.$inject = ['$transitions','$state','$translate','$mdToast','LoaderService','AuthService','message','DisplayService'];
 
 export default run;

@@ -142,7 +142,6 @@ export class DashboardCtrl implements IComponentController {
     }
 
     $onInit() {
-        moment.locale('ru');
         this.cache = [];
         this.currentWeek = 0;
         this.currentDate = moment().startOf('week');

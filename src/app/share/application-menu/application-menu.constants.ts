@@ -56,8 +56,8 @@ export const AppMenuSettings = [
     {
         icon: "insert_chart",
         name: "appMenu.reports",
-        link: "reports",
-        state: 'soon'
+        link: "analytics"
+        //state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {

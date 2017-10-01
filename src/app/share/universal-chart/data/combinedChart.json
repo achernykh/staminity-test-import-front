@@ -1,0 +1,173 @@
+[{
+    "options": {
+        "tooltip": {
+            "combined": true
+        },
+        "currentPositionLine": {
+            "enabled": true
+        },
+        "legend": {
+            "vertical-align": "top",
+            "horizontal-align": "right",
+            "type": "row"
+        }
+    },
+    "series" : [{
+        "label" : "Месяцы",
+        "scaleLabel": "Какие-то мужики (ось)",
+        "xAxis" : true,
+        "tooltipType" : "label",
+        "legend": true,
+        "fillColor": "red",
+        "idx" : 0,
+        "measureName" : "month"
+    }],
+    "measures" : [{
+        "id": 0,
+        "label" : "Калории",
+        "scaleLabel": "Калории (ось)",
+        "unit" : "кКал",
+        "chartType" : "dot",
+        "tooltipType" : "color",
+        "legend": false,
+        "avgValueLine": true,
+        "fillType": "solid",
+        "fillColor": "rgba(0, 255, 0, 0.5)",
+        "markerColor": "rgb(0, 255, 0)",
+        "avgValueLineColor": "rgb(0, 255, 0)",
+        "avgValueLineStyle": "dotted",
+        "idx" : 1,
+        "measureName" : "calories"
+    }, {
+        "id": 4,
+        "label" : "Калории",
+        "scaleLabel": "Дистанция (ось)",
+        "unit" : "кКал",
+        "chartType" : "bar",
+        "tooltipType" : "color",
+        "legend": false,
+        "avgValueLine": true,
+        "lineColor": "steelblue",
+        "lineStyle": "dashed",
+        "fillType": "solid",
+        "fillColor": "rgba(0, 0, 255, 0.2)",
+        "markerColor": "rgb(0, 0, 255)",
+        "avgValueLineColor": "steelblue",
+        "avgValueLineStyle": "dotted",
+        "idx" : 2,
+        "measureName" : "distance"
+    }],
+    "metrics" : [
+        ["Иванов Василий",  2000, 3],
+        ["Петров Сергей",   1000, 4],
+        ["Сидоров Петр",    1700, 5],
+        ["Васечкин Иван",   3500, 1],
+        ["Друзь Александр", 2100, 8],
+        ["Поташов Максим",  2700, 9],
+        ["Бурда Борис",     1400, 11],
+        ["Блинов Алексей",  3100, 2]
+    ]
+}, {
+    "series" : [{
+        "label" : "Месяцы",
+        "xAxis" : true,
+        "tooltipType" : "label",
+        "legend": true,
+        "fillColor": "red",
+        "idx" : 0,
+        "measureName" : "month"
+    }],
+    "measures" : [{
+        "id": 1,
+        "label" : "Калории",
+        "scaleLabel": "Длительность (ось)",
+        "unit" : "кКал",
+        "chartType" : "line",
+        "smoothSettings" : "curveMonotoneX",
+        "tooltipType" : "color",
+        "legend": false,
+        "avgValueLine": true,
+        "lineColor": "steelblue",
+        "lineStyle": "dashed",
+        "fillType": "solid",
+        "fillColor": "rgba(255, 0, 0, 0.5)",
+        "markerColor": "rgb(255, 0, 0)",
+        "avgValueLineColor": "rgb(255, 0, 0)",
+        "avgValueLineStyle": "dotted",
+        "idx" : 1,
+        "measureName" : "duration"
+    }, {
+        "id": 3,
+        "label" : "Калории",
+        "unit" : "кКал",
+        "chartType" : "bar",
+        "tooltipType" : "color",
+        "legend": false,
+        "avgValueLine": true,
+        "lineColor": "steelblue",
+        "lineStyle": "dashed",
+        "fillType": "solid",
+        "fillColor": "grey",
+        "markerColor": "grey",
+        "avgValueLineColor": "grey",
+        "avgValueLineStyle": "dashed",
+        "idx" : 2,
+        "measureName" : "power"
+    }],
+    "metrics" : [
+        ["Иванов Василий",  12100, 1000],
+        ["Петров Сергей",   22400, 12000],
+        ["Сидоров Петр",    10700, 3000],
+        ["Васечкин Иван",   9900,  3000],
+        ["Друзь Александр", 30100, 1000],
+        ["Поташов Максим",  12800, 8000],
+        ["Бурда Борис",     24000, 6000],
+        ["Блинов Алексей",  20300, 5000]
+    ]
+}, {
+    "series" : [{
+        "label" : "Месяцы",
+        "xAxis" : true,
+        "tooltipType" : "label",
+        "legend": true,
+        "fillColor": "red",
+        "idx" : 0,
+        "measureName" : "month"
+    }],
+    "measures" : [{
+        "id": 2,
+        "label" : "Калории",
+        "unit" : "кКал",
+        "chartType" : "area",
+        "smoothSettings" : "curveMonotoneX",
+        "tooltipType" : "color",
+        "legend": false,
+        "avgValueLine": true,
+        "lineColor": "steelblue",
+        "lineStyle": "dashed",
+        "fillType": "gradient",
+        "fillColor": "orange",
+        "gradient": [{
+            "offset": "0%",
+            "color": "rgba(0, 102, 204, 0.8)"
+        }, {
+            "offset": "50%",
+            "color": "rgb(0, 202, 204)",
+            "opacity": 0.1
+        }],
+        "markerColor": "orange",
+        "avgValueLineColor": "orange",
+        "avgValueLineStyle": "dotted",
+        "idx" : 1,
+        "measureName" : "speed",
+        "minValue": 0
+    }],
+    "metrics" : [
+        ["Иванов Василий",  15],
+        ["Петров Сергей",   21],
+        ["Сидоров Петр",    3],
+        ["Васечкин Иван",   7],
+        ["Друзь Александр", 15],
+        ["Поташов Максим",  2]
+    ]
+}]

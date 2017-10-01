@@ -3,9 +3,9 @@ import { IComponentOptions, IComponentController, IScope} from 'angular';
 import { UserMenuSettings, AppMenuSettings } from './application-menu.constants';
 import {StateService} from "angular-ui-router";
 import {IUserProfile} from "../../../../api/user/user.interface";
-import { Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Rx';
 import './application-menu.component.scss';
-import SessionService from "../../core/session.service";
+import { ISessionService, getUser, getPermissions } from "../../core/session.service";
 import * as env from '../../core/env.js';
 import {IAuthService} from "../../auth/auth.service";
 
@@ -14,10 +14,10 @@ class ApplicationMenuCtrl implements IComponentController{
     private appmenu: Array<any> = AppMenuSettings;
     private usermenu: Array<any> = UserMenuSettings;
     private user: IUserProfile;
-    private profile$: Observable<IUserProfile>;
     public showUserMenu: boolean = false;
     private date: Date = new Date();
     private env: Object = env;
+    private destroy = new Subject();
 
     static $inject = ['$scope','$mdSidenav','AuthService','SessionService','$state'];
 
@@ -25,12 +25,25 @@ class ApplicationMenuCtrl implements IComponentController{
         private $scope: IScope,
         private $mdSidenav: any,
         private AuthService: IAuthService,
-        private session: SessionService,
-        private $state: StateService) {
+        private session: ISessionService,
+        private $state: StateService
+    ) {
+        session.getObservable()
+        .takeUntil(this.destroy)
+        .map(getUser)
 
-        session.profile.subscribe(profile=> this.user = angular.copy(profile));
-        session.permissions.subscribe(() => $scope.$evalAsync());
+        .subscribe(profile=> this.user = angular.copy(profile));
 
+        session.getObservable()
+        .takeUntil(this.destroy)
+        .map(getPermissions)
+        .distinctUntilChanged()
+        .subscribe(() => $scope.$evalAsync());
+    }
+
+    $onDestroy() {
+        this.destroy.next(); 
+        this.destroy.complete();
     }
 
     toggleSlide(){
