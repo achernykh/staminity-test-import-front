@@ -1,0 +1,26 @@
+.training-plans-search {
+
+  &__application {
+    width: 100%;
+    position: absolute;
+    top: 64px;
+    height: calc(100vh - 64px);
+
+    @media (max-width: 959px) {
+      width: auto;
+      margin: 8px;
+      height: calc(100vh - 86px);
+      overflow-y: auto;
+    }
+  }
+
+  &__plans-section {
+    overflow-y: auto;
+
+    @media (max-width: 959px) {
+      overflow-y: initial;
+    }
+  }
+
+
+}

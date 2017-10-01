@@ -5,7 +5,7 @@ import TrainingPlansSearchComponent from "./training-plans-search/training-plans
 
 const TrainingPlans = module('staminity.training-plans', [])
     .service('TrainingPlansService', TrainingPlansService)
-    .component('TrainingPlansSearch', TrainingPlansSearchComponent)
+    .component('trainingPlansSearch', TrainingPlansSearchComponent)
     .config(configure)
     .name;
 

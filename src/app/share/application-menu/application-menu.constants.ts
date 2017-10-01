@@ -63,8 +63,7 @@ export const AppMenuSettings = [
     {
         icon: "show_chart",
         name: "appMenu.plan",
-        link: "plan",
-        state: 'soon'
+        link: "training-plans-search"
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
