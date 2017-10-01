@@ -22,10 +22,12 @@ export const translateAnalytics = {
                 startDate: "Начало периода",
                 endDate: "Конец периода"
             },
+            go: 'Обновить'
         },
         defaultCharts: "Доступные графики",
         params: {
             // названия параметров
+            volume: 'Тренировочные объемы',
             distance: 'Расстояние',
             duration: 'Время',
             seriesDateTrunc: "Группировать",
@@ -54,11 +56,17 @@ export const translateAnalytics = {
         settings: {
             title: 'Настройки графика',
             params: 'Параметры выбора данных',
-            layout: 'Параметры отображения'
+            layout: 'Параметры отображения',
+            globalParams: 'Использовать общие параметры',
+            saveContext: 'Сохранить настройки',
+            restoreContext: 'Сбросить настройки',
+            authRoles: 'Роль'
+
         },
         // Переводы преднастроенных отчетов
         actualMovingDuration: {
-            title: "Время тренировок {{'analytics.params.' + measureName | translate}}",
+            //  title: "Время тренировок {{'analytics.params.' + measureName | translate}}",
+            title: 'Время тренировок',
             description: 'Тренировочные объемы по периодам'
         },
         actualDistance: {
@@ -117,6 +125,18 @@ export const translateAnalytics = {
             title: 'Соотношение объемов тренировок',
             description: 'Объемы тренировок по видам спорта за период'
         },
+        measurementsByPeriods: {
+            title: 'История измерений',
+            description: 'История измерений'
+        },
+        weightAndTotalVolume: {
+            title: 'Тренировочные объемы и вес',
+            description: 'Тренировочные объемы и вес'
+        },
+        completePercent: {
+            title: 'Выполнение плана',
+            description: 'Процент выполнения плановых тренировок'
+        }
     },
 
 

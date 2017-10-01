@@ -1280,7 +1280,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             options: {
                 "legend": {
-                    "vertical-align": "top",
+                    "vertical-align": "bottom",
                     "horizontal-align": "center",
                     "type": "row"
                 },
@@ -1405,7 +1405,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             options: {
                 "legend": {
-                    "vertical-align": "top",
+                    "vertical-align": "bottom",
                     "horizontal-align": "center",
                     "type": "row"
                 },
@@ -1811,7 +1811,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             options: {
                 "legend": {
-                    "vertical-align": "top",
+                    "vertical-align": "bottom",
                     "horizontal-align": "center",
                     "type": "row"
                 },
@@ -1984,5 +1984,510 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "aggMethod" : "sum"
             }]
         }]
-    }
+    },
+    /**
+     15.История измерений
+     */
+    {
+        order: 15,
+        active: true,
+        auth: [],
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'measurementsByPeriods.title',
+        context: [],
+        description: 'measurementsByPeriods.description',
+        globalParams: true,
+        localParams: {
+
+        },
+        settings: [
+            {
+                ind: [0],
+                idx: [1,2,3,4],
+                type: 'checkbox',
+                area: 'measures',
+                text: 'measures',
+                multiTextParam: 'label',
+                model: [true,true,false,false],
+                options: [true, false],
+                change: {
+                    'false': {
+                        visible: false
+                    },
+                    'true': {
+                        visible: true
+                    }
+                }
+            }
+        ],
+        layout: new AnalyticsChartLayout(2,1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "legend": {
+                    "vertical-align": "bottom",
+                    "horizontal-align": "center",
+                    "type": "row"
+                },
+                "currentPositionLine": {
+                    "enabled": true,
+                    "radius": 4,
+                    "color": "rgba(0,0,0,0.5)"
+                }
+            },
+            series: [{
+                "label": "Период",
+                "unit": "",
+                "xAxis": true,
+                "tooltipType": "label",
+                "tooltipLabel": "Период",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx": 0,
+                "measureSource": "activity.startDate",
+                "measureName": "Days",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType": "value",
+                "seriesDateTrunc": "day",
+                "groupByIntervalLength": 1
+            }],
+            measures: [
+                {
+                    "id": "pulse",
+                    "label": "Пульс покоя",
+                    "unit": "уд/м",
+                    "chartType": "dot",
+                    "stacked": null,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "lineColor": "lightblue",
+                    "lineStyle": "solid",
+                    "lineWidth": 2,
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "rgba(153, 190, 201, 1)",
+                    "idx": 1,
+                    'measureSource': "measurement",
+                    'measureName': "generalMeasures",
+                    "valueType": "pulse",
+                    "aggMethod": "avg",
+                    "dataType": "number",
+                    "dateFormat": ""
+                },
+                {
+                    "id": "weight",
+                    "label": "Вес",
+                    "unit": "кг",
+                    "chartType": "line",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#FF9999",
+                    "lineStyle": "solid",
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "#FF9999",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 2,
+                    'measureSource': "measurement",
+                    'measureName': "sizes",
+                    "valueType": "weight",
+                    "aggMethod": "avg",
+                    "dataType": "number",
+                    "dateFormat": ""
+                },
+                {
+                    "id": "muscleMass",
+                    "label": "Мышечная масса",
+                    "unit": "кг",
+                    "chartType": "line",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#e3ef83",
+                    "lineStyle": "solid",
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "#e3ef83",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 3,
+                    'measureSource': "measurement",
+                    'measureName': "generalMeasures",
+                    "valueType": "muscleMass",
+                    "aggMethod": "avg",
+                    "dataType": "number",
+                    "dateFormat": ""
+                },
+                {
+                    "id": "percentFat",
+                    "label": "Процент жира",
+                    "unit": "%",
+                    "chartType": "line",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#b060a4",
+                    "lineStyle": "solid",
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "#b060a4",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 4,
+                    'measureSource': "measurement",
+                    'measureName': "generalMeasures",
+                    "valueType": "percentFat",
+                    "aggMethod": "avg",
+                    "dataType": "number",
+                    "dateFormat": ""
+                }
+            ]
+        }]
+    },
+    /**
+     16.Вес и объемы
+     */
+    {
+        order: 16,
+        active: true,
+        auth: [],
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'weightAndTotalVolume.title',
+        context: [],
+        description: 'weightAndTotalVolume.description',
+        globalParams: true,
+        localParams: {
+
+        },
+        settings: [
+            {
+                ind: [0],
+                idx: [1],
+                type: 'radio',
+                area: 'measures',
+                name: 'measureName',
+                text: 'volume',
+                model: 'distance',
+                options: ['duration','distance'],
+                change: {
+                    duration: {
+                        measureName: 'duration',
+                        unit: 'ч'
+                    },
+                    distance: {
+                        measureName: 'distance',
+                        unit: 'км'
+                    }
+                }
+            },
+            {
+                ind: [0],
+                idx: [2],
+                type: 'checkbox',
+                area: 'measures',
+                text: 'measures',
+                multiTextParam: 'label',
+                model: [true],
+                options: [true, false],
+                change: {
+                    'false': {
+                        visible: false
+                    },
+                    'true': {
+                        visible: true
+                    }
+                }
+            }
+        ],
+        layout: new AnalyticsChartLayout(2,1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "legend": {
+                    "vertical-align": "bottom",
+                    "horizontal-align": "center",
+                    "type": "row"
+                },
+                "currentPositionLine": {
+                    "enabled": true,
+                    "radius": 4,
+                    "color": "rgba(0,0,0,0.5)"
+                }
+            },
+            series: [{
+                "label": "Период",
+                "unit": "",
+                "xAxis": true,
+                "tooltipType": "label",
+                "tooltipLabel": "Период",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx": 0,
+                "measureSource": "activity.startDate",
+                "measureName": "Days",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType": "value",
+                "seriesDateTrunc": "day",
+                "groupByIntervalLength": 1
+            }],
+            measures: [
+                {
+                    "label" : "Расстояние",
+                    "unit" : "км",
+                    "chartType" : "bar",
+                    "stacked" : true,
+                    "cumulative": false,
+                    "smoothSettings" : "null",
+                    "tooltipType" : "icon",
+                    "minValue" : 0,
+                    "legend": false,
+                    "visible" : true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "fillColor": "",
+                    "colorPalette": true,
+                    "idx" : 1,
+                    "measureSource" : "activity.actual.measure",
+                    "measureName" : "distance",
+                    "dataType": "number",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "aggMethod" : "sum"
+                },
+                {
+                    "id": "weight",
+                    "label": "Вес",
+                    "unit": "кг",
+                    "chartType": "line",
+                    "stacked": null,
+                    "cumulative": false,
+                    "smoothSettings": "curveMonotoneX",
+                    "tooltipType": "color",
+                    "legend": true,
+                    "visible": true,
+                    "avgValueLine": false,
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    "lineColor": "#FF9999",
+                    "lineStyle": "solid",
+                    "fillType": "none",
+                    "fillColor": "",
+                    "markerColor": "#FF9999",
+                    "avgValueLineColor": "",
+                    "avgValueLineStyle": "",
+                    "idx": 2,
+                    'measureSource': "measurement",
+                    'measureName': "sizes",
+                    "valueType": "weight",
+                    "aggMethod": "avg",
+                    "dataType": "number",
+                    "dateFormat": ""
+                }
+            ]
+        }]
+    },
+    /**
+     17.План и факт
+     */
+    {
+        order: 17,
+        active: true,
+        auth: [],
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'completePercent.title',
+        context: [],
+        description: 'completePercent.description',
+        globalParams: true,
+        localParams: {
+
+        },
+        settings: [
+            {
+                ind: [0],
+                idx: [0],
+                type: 'radio',
+                area: 'series',
+                name: 'seriesDateTrunc',
+                text: 'seriesDateTrunc',
+                model: 'week',
+                options: ['day','week','month'],
+                change: {
+                    'day': {
+                        seriesDateTrunc: 'day'
+                    },
+                    'week': {
+                        seriesDateTrunc: 'week'
+                    },
+                    'month': {
+                        seriesDateTrunc: 'month'
+                    }
+                }
+            },
+            {
+                ind: [0],
+                idx: [1],
+                type: 'radio',
+                area: 'measures',
+                name: 'measureName',
+                text: 'volume',
+                model: 'duration',
+                options: ['duration','distance'],
+                change: {
+                    duration: {
+                        measureName: 'duration',
+                        unit: 'ч'
+                    },
+                    distance: {
+                        measureName: 'distance',
+                        unit: 'км'
+                    }
+                }
+            },
+        ],
+        layout: new AnalyticsChartLayout(2,1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "tooltip": {
+                    "combined": true
+                },
+                "legend": {
+                    "vertical-align": "bottom",
+                    "horizontal-align": "center",
+                    "type": "row"
+                },
+                "currentPositionLine": {
+                    "enabled": true,
+                    "radius": 4,
+                    "color": "rgba(0,0,0,0.5)"
+                }
+            },
+            series: [{
+                "label": "Период",
+                "unit": "",
+                "xAxis": true,
+                "tooltipType": "label",
+                "tooltipLabel": "Период",
+                "legend": false,
+                "currentPositionLine": true,
+                "idx": 0,
+                "measureSource": "activity.startDate",
+                "measureName": "Days",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType": "value",
+                "seriesDateTrunc": "day",
+                "groupByIntervalLength": 1
+            }],
+            measures: [
+                {
+                    label: "Расстояние",
+                    unit: "км",
+                    chartType: "area",
+                    smoothSettings: 'curveStep',
+                    stacked: false,
+                    cumulative: false,
+                    tooltipType: "icon",
+                    minValue: 0,
+                    legend: false,
+                    visible: true,
+                    avgValueLine: false,
+                    scaleVisible: true,
+                    calculateTotals: "",
+                    lineColor: "#4dd0e1", // cyan-300
+                    lineStyle: "solid",
+                    fillType: "gradient",
+                    fillColor: "",
+                    gradient: [{
+                        "offset": "0%",
+                        "color": "rgba(255, 247, 250, 1)" // cyan-50
+                    }, {
+                        "offset": "100%",
+                        "color": "rgba(84, 208, 224, 1)" // cyan-300
+                    }],
+                    markerColor: "#00bcd4", // cyan-500
+                    idx : 1,
+                    measureSource : "activity.actual.measure",
+                    measureName: "distance",
+                    dataType: "number",
+                    dateFormat: "",
+                    valueType : "value",
+                    aggMethod : "sum"
+                },
+                {
+                    label: "Процент выполнения",
+                    unit: "",
+                    chartType: "line",
+                    smoothSettings: 'curveStep',
+                    stacked: false,
+                    cumulative: false,
+                    tooltipType: "icon",
+                    minValue: 0,
+                    legend: true,
+                    visible: true,
+                    avgValueLine: true,
+                    scaleVisible: true,
+                    calculateTotals: "",
+                    lineColor: "#004d40", // teal-900
+                    lineStyle: "solid",
+                    fillType: "",
+                    fillColor: "",
+                    markerColor: "#004d40", // teal-900
+                    avgValueLineColor: "#D84315", // deep-orange-800
+                    avgValueLineStyle: "dashed",
+                    idx : 2,
+                    measureSource : "activity.plan.measure",
+                    measureName : "completePercent",
+                    dataType: "value",
+                    dateFormat: "",
+                    valueType : "value",
+                    aggMethod : "avg"
+                }
+            ]
+        }]
+    },
  ];
