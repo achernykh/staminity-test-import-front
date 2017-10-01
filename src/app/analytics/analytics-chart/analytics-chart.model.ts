@@ -33,13 +33,14 @@ export interface IAnalyticsChartTitleContext {
 
 export interface IAnalyticsChart {
     order: number;
+    auth: Array<string>;
     active: boolean;
     icon?: string;
     title: string;
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
     settings?: Array<IAnalyticsChartFilterParam<any>>;
-    filter: IAnalyticsChartFilter;
+    //filter: IAnalyticsChartFilter;
     globalParams?: boolean;
     localParams?: any;
     paramsDescription?: string;
@@ -50,12 +51,13 @@ export interface IAnalyticsChart {
 export class AnalyticsChart implements IAnalyticsChart{
 
     order: number;
+    auth: Array<string>;
     active: boolean;
     icon?: string;
     title: string;
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
-    filter: IAnalyticsChartFilter;
+    //filter: IAnalyticsChartFilter;
     globalParams?: boolean;
     localParams?: any;
     paramsDescription?: string;

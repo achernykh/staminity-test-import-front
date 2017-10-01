@@ -40,7 +40,7 @@ export const translateAnalytics = {
             protected: "Единый для всех графиков",
             heartRate: "Пульс",
             paceSpeed: "Скорость/темп",
-            paceSpeedUnit: "Отображение темпа/скорости"
+            paceSpeedUnit: "Отображение темпа/скорости",
 
 
 

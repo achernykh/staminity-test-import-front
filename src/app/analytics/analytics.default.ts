@@ -2474,7 +2474,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     calculateTotals: "",
                     lineColor: "#004d40", // teal-900
                     lineStyle: "solid",
-                    fillType: "",
+                    fillType: "none",
                     fillColor: "",
                     markerColor: "#004d40", // teal-900
                     avgValueLineColor: "#D84315", // deep-orange-800
