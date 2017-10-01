@@ -135,6 +135,8 @@
                     </md-input-container>
                 </md-list-item>
             </md-list>
+            <div flex="auto"></div>
+            <md-button style="width: calc(100% - 16px)" flex="none"><span translate="analytics.filter.go"></span></md-button>
         </form>
     </div>
     <div ng-switch-when="settings" layout="column">
@@ -159,10 +161,12 @@
                     <p translate="analytics.settings.restoreContext"></p>
                     <md-icon class="md-secondary md-dark material-icons">restore</md-icon>
                 </md-list-item>
+                <md-divider></md-divider>
                 <md-subheader class="md-no-sticky">{{'analytics.defaultCharts' | translate}}</md-subheader>
+                <p class="md-caption md-dark hint-text" translate="analytics.settings.authRoles"></p>
                 <md-list-item class="md-2-line"
                               ng-repeat="chart in $ctrl.charts">
-                    <md-icon class="material-icons md-dark">{{::chart.icon}}</md-icon>
+                    <!--<md-icon class="material-icons md-dark">{{::chart.icon}}</md-icon>-->
                     <div class="md-list-item-text">
                         <h3 translate="analytics.{{chart.title}}"></h3>
                         <p translate="analytics.{{chart.description}}"></p>
