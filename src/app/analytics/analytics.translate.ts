@@ -36,6 +36,10 @@ export const translateAnalytics = {
             thisWeek: "С начала недели",
             customPeriod: "Выбрать...",
             protected: "Единый для всех графиков",
+            heartRate: "Пульс",
+            paceSpeed: "Скорость/темп",
+            paceSpeedUnit: "Отображение темпа/скорости"
+
 
 
             // значения параметров
@@ -61,13 +65,9 @@ export const translateAnalytics = {
             title: 'Расстояние тренировок',
             description: 'Тренировочные объемы по периодам'
         },
-        activityMeasuresHRPaceDecoupling: {
-            title: 'Темп и кардиокомпенсация',
-            description: 'Средний пульс, темп и КК по темпу'
-        },
-        activityMeasuresHRPowerDecoupling: {
-            title: 'Мощность и кардиокомпенсация',
-            description: 'Средний пульс, мощность и КК по мощности'
+        activityMeasuresSelected: {
+            title: 'Показатели тренировок',
+            description: 'История изменения показателей тренировок'
         },
         activityMeasuresTL: {
             title: 'Тренировочная нагрузка (TL)',
@@ -110,12 +110,8 @@ export const translateAnalytics = {
             description: 'Максимальные пики по мощности по времени'
         },
         DistanceByActivityTypeByPeriods: {
-            title: 'Объемы по видам спорта (расстояние)',
-            description: 'Тренировочные объемы по расстоянию по видам спорта'
-        },
-        DurationByActivityTypeByPeriods: {
-            title: 'Объемы по видам спорта (время)',
-            description: 'Тренировочные объемы по времени по видам спорта'
+            title: 'Объемы по видам спорта',
+            description: 'Тренировочные объемы по видам спорта'
         },
         DistanceByActivityTypes: {
             title: 'Соотношение объемов тренировок',
