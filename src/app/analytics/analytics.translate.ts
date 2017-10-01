@@ -86,11 +86,11 @@ export const translateAnalytics = {
             description: 'Время в зонах по мощности за период'
         },
         distanceByAthletesByPeriods: {
-            title: 'Тренировки учеников (расстояние)',
+            title: 'Объемы учеников (расстояние)',
             description: 'Тренировочные объемы по ученикам (расстояние)'
         },
         durationByAthletesByPeriods: {
-            title: 'Тренировки учеников (время)',
+            title: 'Объемы учеников (время)',
             description: 'Тренировочные объемы по ученикам (время)'
         },
         HRTimePeaks: {

@@ -1,52 +1,50 @@
 import {IAnalyticsChart, AnalyticsChartLayout} from "./analytics-chart/analytics-chart.model";
 import {PeriodOptions} from "./analytics-chart-filter/analytics-chart-filter.model";
 
+//noinspection TypeScriptValidateTypes,TypeScriptValidateTypes
 export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     /**
-     * 1. Фактическое время тренировок
-     * Фильтры:
-     * а) атлет
-     * Признаки:
-     * а) нарастающим итогом - да/нет
-     * б) группировка по дням / по неделям / по месяцам
+     9.Объемы по расстоянию по ученикам
      */
     {
         order: 1,
         active: true,
+        auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'actualMovingDuration.title',
-        context: [{
-            ind: 0,
-            idx: 1,
-            area: 'measures',
-            param: 'measureName'
-        }],
-        description: 'actualMovingDuration.description',
+        title: 'distanceByAthletesByPeriods.title',
+        context: [],
+        description: 'distanceByAthletesByPeriods.description',
         globalParams: true,
         localParams: {
-
+            "users": {
+                "type": "checkbox",
+                "area": "params",
+                "name": "users",
+                "text": "users",
+                "model": "first5" //первые 5 спортсменов
+            },
+            "activityTypes": {
+                "type": "checkbox",
+                "area": "params",
+                "name": "activityTypes",
+                "text": "activityTypes",
+                "model": null //все
+            },
+            "periods": {
+                "type": "date",
+                "area": "params",
+                "name": "periods",
+                "text": "periods",
+                "model": "thisYear",
+                "options": [
+                    "thisYear",
+                    "thisMonth",
+                    "thisWeek",
+                    "customPeriod"
+                ]
+            }
         },
         settings: [
-            {
-                ind: [0],
-                idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'measureName',
-                text: 'volume',
-                model: 'duration',
-                options: ['duration','distance'],
-                change: {
-                    duration: {
-                        measureName: 'duration',
-                        unit: 'ч'
-                    },
-                    distance: {
-                        measureName: 'distance',
-                        unit: 'км'
-                    }
-                }
-            },
             {
                 ind: [0],
                 idx: [0],
@@ -54,16 +52,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 area: 'series',
                 name: 'seriesDateTrunc',
                 text: 'seriesDateTrunc',
-                model: 'week',
+                model: 'month',
                 options: ['day','week','month'],
                 change: {
-                    day: {
+                    'day': {
                         seriesDateTrunc: 'day'
                     },
-                    week: {
+                    'week': {
                         seriesDateTrunc: 'week'
                     },
-                    month: {
+                    'month': {
                         seriesDateTrunc: 'month'
                     }
                 }
@@ -87,69 +85,374 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 }
             }
         ],
-        filter: {
-            enabled: true,
-            params: [
-                {
-                    ind: [0],
-                    type: 'radio',
-                    area: 'params',
-                    name: 'periods',
-                    text: 'periods',
-                    model: null,
-                    options: ['thisYear','thisMonth','thisWeek','customPeriod'],
-                    protected: true
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "bottom",
+                    "horizontal-align": "left",
+                    "type": "row"
                 },
-                /*
-                Закомментировал, т.к. при переключении непонятно, что выводится на графике
-                Чтобы сделать, надо:
-                * научиться менять подпись графика при изменении параметра
-                * научиться передавать обозначение единицы измерения в график (параметр unit)
-                * научиться выводить несколько одинаковых графиков в ленту, т.к. найдутся пользователи, которые захотят видеть одновременно
-                и объемы по расстоянию, и по времени */
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": false
+                },
+                "palette": ["#673ab7", "#3f51b5", "#03a9f4", "#00bcd4", "#009688", "#8bc34a", "#cddc39", "#ffeb3b"]
+            },
+            series : [{
+                "label" : "Период",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Период",
+                "legend": false,
+                "currentPositionLine": false,
+                "idx" : 0,
+                "measureSource" : "activity.startDate",
+                "measureName" : "Weeks",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType" : "value",
+                "seriesDateTrunc" : "week",
+                "groupByIntervalLength" : 1
+            },
+                {
+                    "label" : "Атлет",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "none",
+                    "tooltipLabel" : "Атлет",
+                    "legend": true,
+                    "colorPalette": true,
+                    "currentPositionLine": false,
+                    "idx" : 1,
+                    "fillColor": "#449999",
+                    "measureSource": "activity.owner",
+                    "measureName" : "name",
+                    "dataType": "string",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "",
+                    "groupByIntervalLength" : 1} ],
 
-                {
-                    ind: [0],
-                    idx: [1],
-                    type: 'radio',
-                    area: 'measures',
-                    name: 'measureName',
-                    text: 'volume',
-                    model: 'duration',
-                    options: ['duration','distance'],
-                    change: {
-                        duration: {
-                            measureName: 'duration',
-                            unit: 'ч'
-                        },
-                        distance: {
-                            measureName: 'distance',
-                            unit: 'км'
-                        }
-                    }
-                },
-                {
-                    ind: [0],
-                    idx: [0],
-                    type: 'radio',
-                    area: 'series',
-                    name: 'seriesDateTrunc',
-                    text: 'seriesDateTrunc',
-                    model: 'week',
-                    options: ['day','week','month']
-                },
-                {
-                    ind: [0],
-                    idx: [1],
-                    type: 'radio',
-                    area: 'measures',
-                    name: 'cumulative',
-                    text: 'cumulative',
-                    model: false,
-                    options: [false,true]
-                },
-            ]
+            measures : [{
+                "label" : "Расстояние",
+                "unit" : "км",
+                "chartType" : "bar",
+                "stacked" : false,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "fillColor": "",
+                "colorPalette": true,
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "distance",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType" : "value",
+                "aggMethod" : "sum"
+            }]
+
+        }]
+    },
+    /**
+     10.Объемы по времени по ученикам
+     */
+    {
+        order: 2,
+        active: true,
+        auth: ["CoachDashboard"],
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'durationByAthletesByPeriods.title',
+        context: [],
+        description: 'durationByAthletesByPeriods.description',
+        globalParams: true,
+        localParams: {
+            "users": {
+                "type": "checkbox",
+                "area": "params",
+                "name": "users",
+                "text": "users",
+                "model": "first5" //первые 5 спортсменов
+            },
+            "activityTypes": {
+                "type": "checkbox",
+                "area": "params",
+                "name": "activityTypes",
+                "text": "activityTypes",
+                "model": null //все
+            },
+            "periods": {
+                "type": "date",
+                "area": "params",
+                "name": "periods",
+                "text": "periods",
+                "model": "thisYear",
+                "options": [
+                    "thisYear",
+                    "thisMonth",
+                    "thisWeek",
+                    "customPeriod"
+                ]
+            }
         },
+        settings: [
+            {
+                ind: [0],
+                idx: [0],
+                type: 'radio',
+                area: 'series',
+                name: 'seriesDateTrunc',
+                text: 'seriesDateTrunc',
+                model: 'month',
+                options: ['day','week','month'],
+                change: {
+                    'day': {
+                        seriesDateTrunc: 'day'
+                    },
+                    'week': {
+                        seriesDateTrunc: 'week'
+                    },
+                    'month': {
+                        seriesDateTrunc: 'month'
+                    }
+                }
+            },
+            {
+                ind: [0],
+                idx: [1],
+                type: 'radio',
+                area: 'measures',
+                name: 'cumulative',
+                text: 'cumulative',
+                model: false,
+                options: [false,true],
+                change: {
+                    'false': {
+                        cumulative: false
+                    },
+                    'true': {
+                        cumulative: true
+                    }
+                }
+            }
+        ],
+        layout: new AnalyticsChartLayout(1, 1),
+        charts: [{
+            params: {
+                users: null,//[this.session.getUser().userId],
+                activityTypes: null,//[2],
+                periods: null
+            },
+            options: {
+                "legend": {
+                    "vertical-align": "bottom",
+                    "horizontal-align": "left",
+                    "type": "row"
+                },
+                "tooltip": {
+                    "combined": false
+                },
+                "currentPositionLine": {
+                    "enabled": false
+                },
+                "palette": ["#673ab7", "#3f51b5", "#03a9f4", "#00bcd4", "#009688", "#8bc34a", "#cddc39", "#ffeb3b"]
+            },
+            series : [{
+                "label" : "Период",
+                "unit" : "",
+                "xAxis" : true,
+                "tooltipType" : "label",
+                "tooltipLabel" : "Период",
+                "legend": false,
+                "currentPositionLine": false,
+                "idx" : 0,
+                "measureSource" : "activity.startDate",
+                "measureName" : "Weeks",
+                "dataType": "date",
+                "dateFormat": "DD.MM",
+                "valueType" : "value",
+                "seriesDateTrunc" : "week",
+                "groupByIntervalLength" : 1
+            },
+                {
+                    "label" : "Атлет",
+                    "unit" : "",
+                    "xAxis" : true,
+                    "tooltipType" : "none",
+                    "tooltipLabel" : "Атлет",
+                    "legend": true,
+                    "colorPalette": true,
+                    "currentPositionLine": false,
+                    "idx" : 1,
+                    "fillColor": "#449999",
+                    "measureSource": "activity.owner",
+                    "measureName" : "name",
+                    "dataType": "string",
+                    "dateFormat": "",
+                    "valueType" : "value",
+                    "seriesDateTrunc" : "",
+                    "groupByIntervalLength" : 1} ],
+
+            measures : [{
+                "label" : "Время",
+                "unit" : "ч",
+                "chartType" : "bar",
+                "stacked" : false,
+                "cumulative": false,
+                "smoothSettings" : "null",
+                "tooltipType" : "color",
+                "minValue" : 0,
+                "legend": false,
+                "visible" : true,
+                "avgValueLine": false,
+                "scaleVisible": true,
+                "calculateTotals": "",
+                "fillColor": "",
+                "colorPalette": true,
+                "idx" : 2,
+                "measureSource" : "activity.actual.measure",
+                "measureName" : "duration",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType" : "value",
+                "aggMethod" : "sum"
+            }]
+
+        }]
+    },
+    /**
+     * 1. Фактическое время тренировок
+     * Фильтры:
+     * а) атлет
+     * Признаки:
+     * а) нарастающим итогом - да/нет
+     * б) группировка по дням / по неделям / по месяцам
+     */
+    {
+        order: 1,
+        active: true,
+        auth: [],
+        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
+        title: 'actualMovingDuration.title',
+        context: [{
+            ind: 0,
+            idx: 1,
+            area: 'measures',
+            param: 'measureName'
+        }],
+        description: 'actualMovingDuration.description',
+        globalParams: true,
+        localParams: {
+            "users": {
+                "type": "checkbox",
+                "area": "params",
+                "name": "users",
+                "text": "users",
+                "model": "me"
+            },
+            "activityTypes": {
+                "type": "checkbox",
+                "area": "params",
+                "name": "activityTypes",
+                "text": "activityTypes",
+                "model": [
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6"]
+            },
+            "periods": {
+                "type": "date",
+                "area": "params",
+                "name": "periods",
+                "text": "periods",
+                "model": "thisYear",
+                "options": [
+                    "thisYear",
+                    "thisMonth",
+                    "thisWeek",
+                    "customPeriod"
+                ]
+            }
+        },
+        settings: [
+            /* Переключение время/объем не нужно для графика
+            {
+                ind: [0],
+                idx: [1],
+                type: 'radio',
+                area: 'measures',
+                name: 'measureName',
+                text: 'volume',
+                model: 'duration',
+                options: ['duration','distance'],
+                change: {
+                    duration: {
+                        measureName: 'duration',
+                        unit: 'ч'
+                    },
+                    distance: {
+                        measureName: 'distance',
+                        unit: 'км'
+                    }
+                }
+            },*/
+            {
+                ind: [0],
+                idx: [0],
+                type: 'radio',
+                area: 'series',
+                name: 'seriesDateTrunc',
+                text: 'seriesDateTrunc',
+                model: 'month',
+                options: ['day','week','month'],
+                change: {
+                    'day': {
+                        seriesDateTrunc: 'day'
+                    },
+                    'week': {
+                        seriesDateTrunc: 'week'
+                    },
+                    'month': {
+                        seriesDateTrunc: 'month'
+                    }
+                }
+            },
+            {
+                ind: [0],
+                idx: [1],
+                type: 'radio',
+                area: 'measures',
+                name: 'cumulative',
+                text: 'cumulative',
+                model: false,
+                options: [false,true],
+                change: {
+                    'false': {
+                        cumulative: false
+                    },
+                    'true': {
+                        cumulative: true
+                    }
+                }
+            }
+        ],
         layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
@@ -191,7 +494,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             measures : [{
                 label: "Обьем",
                 unit: "",
-                chartType: 'bar',
+                chartType: 'area',
                 stacked: false,
                 cumulative: false,
                 smoothSettings: 'curveStep',
@@ -237,6 +540,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 2,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'actualDistance.title',
         description: 'actualDistance.description',
@@ -356,9 +660,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      Расстояние, Средний пульс, средний темп, speedDecoupling
      */
     {
-
         order: 3,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'activityMeasuresHRPaceDecoupling.title',
         description: 'activityMeasuresHRPaceDecoupling.description',
@@ -556,6 +860,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
         order: 4,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'activityMeasuresHRPowerDecoupling.title',
         description: 'activityMeasuresHRPowerDecoupling.description',
@@ -749,9 +1054,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      5.Нагрузка за период (TL)
      */
     {
-
         order: 5,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'activityMeasuresTL.title',
         description: 'activityMeasuresTL.description',
@@ -887,9 +1192,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     6.Время в зонах по пульсу
      */
     {
-
         order: 6,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesHR.title',
         description: 'timeInZonesHR.description',
@@ -1012,9 +1317,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      7.Время в зонах по темпу
      */
     {
-
         order: 7,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesSpeed.title',
         description: 'timeInZonesSpeed.description',
@@ -1138,6 +1443,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 8,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'timeInZonesPower.title',
         description: 'timeInZonesPower.description',
@@ -1259,9 +1565,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      9.Объемы по расстоянию по ученикам
      */
     {
-
         order: 9,
         active: true,
+        auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'distanceByAthletesByPeriods.title',
         description: 'distanceByAthletesByPeriods.description',
@@ -1378,9 +1684,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      10.Объемы по времени по ученикам
      */
     {
-
         order: 10,
         active: true,
+        auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'durationByAthletesByPeriods.title',
         description: 'durationByAthletesByPeriods.description',
@@ -1497,9 +1803,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      11.Пики по пульсу по времени
      */
     {
-
         order: 11,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'HRTimePeaks.title',
         description: 'HRTimePeaks.description',
@@ -1589,9 +1895,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      12.Пики по темпу по времени
      */
     {
-
         order: 12,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'PaceTimePeaks.title',
         description: 'PaceTimePeaks.description',
@@ -1682,9 +1988,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      13.Пики по скорости по времени
      */
     {
-
         order: 13,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'SpeedTimePeaks.title',
         description: 'SpeedTimePeaks.description',
@@ -1775,9 +2081,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      14.Пики по мощности по времени
      */
     {
-
         order: 14,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'PowerTimePeaks.title',
         description: 'PowerTimePeaks.description',
@@ -1871,6 +2177,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
         order: 15,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'DistanceByActivityTypeByPeriods.title',
         description: 'DistanceByActivityTypeByPeriods.description',
@@ -1994,6 +2301,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
         order: 16,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'DurationByActivityTypeByPeriods.title',
         description: 'DurationByActivityTypeByPeriods.description',
@@ -2112,9 +2420,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      17.Расстояние по видам спорта (piechart)
      */
     {
-
         order: 17,
         active: true,
+        auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'DistanceByActivityTypes.title',
         description: 'DistanceByActivityTypes.description',
