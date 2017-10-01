@@ -4,6 +4,7 @@ import {
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IChartMeasure, IChartParams, IChart} from "../../../../api/statistics/statistics.interface";
 import moment from 'moment/src/moment.js';
+import {IUserProfile} from "../../../../api/user/user.interface";
 
 export class AnalyticsChartLayout {
 
@@ -64,15 +65,46 @@ export class AnalyticsChart implements IAnalyticsChart{
     layout: AnalyticsChartLayout;
     charts: Array<IChart>;
 
-    constructor(params?: IAnalyticsChart) {
+    constructor(params?: IAnalyticsChart, user?: IUserProfile) {
         Object.assign(this, params);
         if(this.hasOwnProperty('layout') && this.layout) {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumnEnd, this.layout.gridRowEnd);
+        }
+
+        if(!this.globalParams && this.localParams) {
+            this.prepareLocalParams(user);
         }
     }
 
     hasMetrics(): boolean {
         return this.charts.some(c => c.hasOwnProperty('metrics'));
+    }
+
+    private prepareLocalParams(user: IUserProfile){
+
+        if(typeof this.localParams.users.model !== "string") {
+            return;
+        }
+
+        switch (this.localParams.users.model) {
+            case 'me': {
+                this.localParams.users.model = [user.userId];
+            }
+            case 'first5': {
+                this.localParams.users.model = user.connections.allAthletes.groupMembers.filter((a,i) => i < 5).map(a => a.userId);
+            }
+            default: {
+                this.localParams.users.options.push({
+                    userId: user.userId,
+                    public: user.public
+                });
+
+                this.localParams.users.options.push(...user.connections.allAthletes.groupMembers.map(a => ({
+                    userId: a.userId,
+                    public: a.public
+                })));
+            }
+        }
     }
 
     prepareMetrics(ind: number, metrics: Array<Array<any>>): void {

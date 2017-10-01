@@ -14,14 +14,15 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         title: 'distanceByAthletesByPeriods.title',
         context: [],
         description: 'distanceByAthletesByPeriods.description',
-        globalParams: true,
+        globalParams: false,
         localParams: {
             "users": {
                 "type": "checkbox",
                 "area": "params",
                 "name": "users",
                 "text": "users",
-                "model": "first5" //первые 5 спортсменов
+                "model": "first5", //первые 5 спортсменов
+                options: []
             },
             "activityTypes": {
                 "type": "checkbox",
@@ -187,7 +188,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "area": "params",
                 "name": "users",
                 "text": "users",
-                "model": "first5" //первые 5 спортсменов
+                "model": "first5", //первые 5 спортсменов
+                options: []
             },
             "activityTypes": {
                 "type": "checkbox",
@@ -357,8 +359,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }],
         description: 'actualMovingDuration.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
             {
                 ind: [0],
@@ -493,8 +493,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         context: [],
         description: 'actualDistance.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
             {
                 ind: [0],
@@ -630,7 +628,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "area": "params",
                 "name": "users",
                 "text": "users",
-                "model": "me"
+                "model": "me",
+                options: []
             },
             "activityTypes": {
                 "type": "checkbox",
@@ -978,8 +977,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         context: [],
         description: 'activityMeasuresTL.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
             {
                 ind: [0],
@@ -1120,8 +1117,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         context: [],
         description: 'timeInZonesHR.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
             {
                 ind: [0],
@@ -1246,8 +1241,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         title: 'timeInZonesSpeed.title',
         description: 'timeInZonesSpeed.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
             {
                 ind: [0],
@@ -1371,8 +1364,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         title: 'timeInZonesPower.title',
         description: 'timeInZonesPower.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
             {
                 ind: [0],
@@ -1496,8 +1487,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         title: 'HRTimePeaks.title',
         description: 'HRTimePeaks.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
         ],
         layout: new AnalyticsChartLayout(1, 1),
@@ -1568,8 +1557,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         title: 'PaceTimePeaks.title',
         description: 'PaceTimePeaks.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
             {
                 ind: [0],
@@ -1666,8 +1653,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         title: 'PowerTimePeaks.title',
         description: 'PowerTimePeaks.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
         ],
         layout: new AnalyticsChartLayout(1, 1),
@@ -1739,8 +1724,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         title: 'DistanceByActivityTypeByPeriods.title',
         description: 'DistanceByActivityTypeByPeriods.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
              {
                  ind: [0],
@@ -1900,8 +1883,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         title: 'DistanceByActivityTypes.title',
         description: 'DistanceByActivityTypes.description',
         globalParams: true,
-        localParams: {
-        },
         settings: [
             {
                 ind: [0],
@@ -1997,9 +1978,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         context: [],
         description: 'measurementsByPeriods.description',
         globalParams: true,
-        localParams: {
-
-        },
         settings: [
             {
                 ind: [0],
@@ -2187,9 +2165,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         context: [],
         description: 'weightAndTotalVolume.description',
         globalParams: true,
-        localParams: {
-
-        },
         settings: [
             {
                 ind: [0],
@@ -2338,9 +2313,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         context: [],
         description: 'completePercent.description',
         globalParams: true,
-        localParams: {
-
-        },
         settings: [
             {
                 ind: [0],

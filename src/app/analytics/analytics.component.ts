@@ -64,38 +64,20 @@ export class AnalyticsCtrl implements IComponentController {
                 private reference: ReferenceService,
                 private defaultSettings: Array<IAnalyticsChart>) {
 
-        let storageCharts: any = null;
-        let storageFilters: {
-            users: IAnalyticsChartFilterParam<IUserProfileShort>;
-            activityTypes: IAnalyticsChartFilterParam<IActivityType>;
-            activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
-            periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
-        } = null;
-
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
             .subscribe(userProfile => {
                 this.user = userProfile;
-                storageCharts = this.getSettings('charts') && this.getSettings('charts').map(c => new AnalyticsChart(c));
-                storageFilters = this.getSettings('filter');
-                this.prepareUsersFilter(userProfile, storageFilters && storageFilters.users.model);
+                this.prepareData();
             });
 
         reference.categoriesChanges
             .takeUntil(this.destroy)
             .subscribe(categories => {
-                this.prepareCategoriesFilter(categories, this.user, storageFilters && storageFilters.activityCategories.model);
+                this.prepareData();
                 this.$scope.$apply();
             });
-
-        this.prepareCharts(storageCharts || defaultSettings);
-        this.prepareSportTypesFilter(storageFilters && storageFilters.activityTypes.model);
-        this.prepareCategoriesFilter(reference.categories, this.user, storageFilters && storageFilters.activityCategories.model);
-        this.preparePeriodsFilter(storageFilters && storageFilters.periods.model);
-        this.saveSettings('charts');
-        this.saveSettings('filter');
-        this.prepareComplete = true;
     }
 
     $onInit() {
@@ -104,6 +86,33 @@ export class AnalyticsCtrl implements IComponentController {
     $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
+    }
+
+    private prepareData() {
+
+        if(this.prepareComplete) {
+            return;
+        }
+
+        let storageCharts: any = null;
+        let storageFilters: {
+            users: IAnalyticsChartFilterParam<IUserProfileShort>;
+            activityTypes: IAnalyticsChartFilterParam<IActivityType>;
+            activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
+            periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
+        } = null;
+
+        storageCharts = this.getSettings('charts'); //&& this.getSettings('charts').map(c => new AnalyticsChart(c, this.user));
+        storageFilters = this.getSettings('filter');
+
+        this.prepareCharts(storageCharts || this.defaultSettings);
+        this.prepareUsersFilter(this.user, storageFilters && storageFilters.users.model);
+        this.prepareSportTypesFilter(storageFilters && storageFilters.activityTypes.model);
+        this.prepareCategoriesFilter(this.reference.categories, this.user, storageFilters && storageFilters.activityCategories.model);
+        this.preparePeriodsFilter(storageFilters && storageFilters.periods.model);
+        this.saveSettings('charts');
+        this.saveSettings('filter');
+        this.prepareComplete = true;
     }
 
     changeGlobalFilter() {
@@ -148,7 +157,7 @@ export class AnalyticsCtrl implements IComponentController {
     }
 
     private prepareCharts(charts: Array<IAnalyticsChart>) {
-        this.charts = charts.map(c => new AnalyticsChart(c));
+        this.charts = charts.map(c => new AnalyticsChart(c, this.user));
     }
 
     private prepareUsersFilter(user: IUserProfile, restore?: any) {

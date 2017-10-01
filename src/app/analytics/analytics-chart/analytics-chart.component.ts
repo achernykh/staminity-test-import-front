@@ -178,7 +178,8 @@ class AnalyticsChartCtrl implements IComponentController {
         this.chart.charts.map((c,i) => c.params = {
             users:
                 (this.chart.globalParams && globalParams.users) ||
-                (c.params.users && c.params.users) || null,
+                (c.params.users && c.params.users) ||
+                (this.chart.localParams.users.model && this.chart.localParams.users.model) || null,
             activityTypes:
                 (this.chart.globalParams && globalParams.activityTypes) ||
                 (c.params.activityTypes && c.params.activityTypes) || null,
