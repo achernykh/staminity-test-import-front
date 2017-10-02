@@ -26,6 +26,7 @@ import ReferenceService from "../reference/reference.service";
 import {Owner, getOwner} from "../reference/reference.datamodel";
 import { pipe, orderBy, prop, groupBy } from "../share/util.js";
 import {IStorageService} from "../core/storage.service";
+import {IAuthService} from "../auth/auth.service";
 
 
 export class AnalyticsCtrl implements IComponentController {
@@ -55,14 +56,16 @@ export class AnalyticsCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ['$scope','SessionService','statistics', 'storage', 'ReferenceService', 'analyticsDefaultSettings'];
+    static $inject = ['$scope','SessionService','statistics', 'storage', 'ReferenceService', 'analyticsDefaultSettings',
+        'AuthService'];
 
     constructor(private $scope: IScope,
                 private session: ISessionService,
                 private statistics: StatisticsService,
                 private storage: IStorageService,
                 private reference: ReferenceService,
-                private defaultSettings: Array<IAnalyticsChart>) {
+                private defaultSettings: Array<IAnalyticsChart>,
+                private auth: IAuthService) {
 
         session.getObservable()
             .takeUntil(this.destroy)
@@ -157,7 +160,7 @@ export class AnalyticsCtrl implements IComponentController {
     }
 
     private prepareCharts(charts: Array<IAnalyticsChart>) {
-        this.charts = charts.map(c => new AnalyticsChart(c, this.user));
+        this.charts = charts.map(c => new AnalyticsChart(Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}), this.user));
     }
 
     private prepareUsersFilter(user: IUserProfile, restore?: any) {

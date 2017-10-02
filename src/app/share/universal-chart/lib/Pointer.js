@@ -40,7 +40,7 @@ class Pointer {
             view.getDataAt(seriesValue).forEach(function(d) {
                 if (d.y != null) {
                     values.push({
-                        position: view.getMeasureScale()(d.y),
+                        position: view.getMeasureScale()(d.y1 === undefined ? d.y : d.y1),
                         config: d
                     })
                 }

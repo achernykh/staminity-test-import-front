@@ -65,13 +65,15 @@ export class AnalyticsChart implements IAnalyticsChart{
     layout: AnalyticsChartLayout;
     charts: Array<IChart>;
 
+    isAuthorized: boolean; //результат проверки полномочий пользователя
+
     constructor(params?: IAnalyticsChart, user?: IUserProfile) {
         Object.assign(this, params);
         if(this.hasOwnProperty('layout') && this.layout) {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumnEnd, this.layout.gridRowEnd);
         }
 
-        if(!this.globalParams && this.localParams) {
+        if(!this.globalParams && this.localParams && this.isAuthorized) {
             this.prepareLocalParams(user);
         }
     }
@@ -89,11 +91,7 @@ export class AnalyticsChart implements IAnalyticsChart{
         switch (this.localParams.users.model) {
             case 'me': {
                 this.localParams.users.model = [user.userId];
-            }
-            case 'first5': {
-                this.localParams.users.model = user.connections.allAthletes.groupMembers.filter((a,i) => i < 5).map(a => a.userId);
-            }
-            default: {
+
                 this.localParams.users.options.push({
                     userId: user.userId,
                     public: user.public
@@ -103,6 +101,23 @@ export class AnalyticsChart implements IAnalyticsChart{
                     userId: a.userId,
                     public: a.public
                 })));
+
+                break;
+            }
+            case 'first5': {
+                this.localParams.users.model = user.connections.allAthletes.groupMembers.filter((a,i) => i < 5).map(a => a.userId);
+
+                this.localParams.users.options.push({
+                    userId: user.userId,
+                    public: user.public
+                });
+
+                this.localParams.users.options.push(...user.connections.allAthletes.groupMembers.map(a => ({
+                    userId: a.userId,
+                    public: a.public
+                })));
+
+                break;
             }
         }
     }
@@ -114,6 +129,8 @@ export class AnalyticsChart implements IAnalyticsChart{
             m.map((value,i) => {
                 let params: IChartMeasure = this.charts[ind].series.filter(s => s.idx === i)[0] ||
                     this.charts[ind].measures.filter(s => s.idx === i)[0];
+
+                value === "NaN" || value === "Infinity" ? value = null : value = value;
 
                 if(params) {
                     if(params.dataType === 'date') {
