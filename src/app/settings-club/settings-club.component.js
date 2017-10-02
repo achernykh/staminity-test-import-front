@@ -94,14 +94,14 @@ class SettingsClubCtrl {
 	uploadAvatar () {
 		this.dialogs.uploadPicture()
 		.then((picture) => this.GroupService.postProfileAvatar(this.club.groupId, picture))
-        .then(club => this.setClub(club), error => { this.message.toastError(error); throw error; })
+        .then(club => club && this.setClub(club), error => { this.message.toastError(error); throw error; })
 		.then(() => this.message.toastInfo('updateClubAvatar'))
 	}
 	
 	uploadBackground () {
 		this.dialogs.uploadPicture()
 		.then((picture) => this.GroupService.postProfileBackground(this.club.groupId, picture))
-		.then(club => this.setClub(club), error => { this.message.toastError(error); throw error; })
+		.then((club) => club && this.setClub(club), error => { this.message.toastError(error); throw error; })
 		.then(() => this.message.toastInfo('updateclubBackgroundImage'))
 	}
 

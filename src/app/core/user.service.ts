@@ -145,10 +145,10 @@ export default class UserService {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
             .then((response)=>{
                 let currentUser = this.SessionService.getUser();
-                if (response.data['userId'] === currentUser.userId){
-                    this.SessionService.setUser(<IUserProfile>response.data);
+                if (response['userId'] === currentUser.userId){
+                    this.SessionService.setUser(<IUserProfile>response);
                 }
-                return response.data;
+                return response;
             });
             //.then((response) => response.data);
     }
@@ -161,10 +161,10 @@ export default class UserService {
         return this.RESTService.postFile(new PostFile('/user/background',file))
             .then((response)=>{
                 let currentUser = this.SessionService.getUser();
-                if (response.data['userId'] === currentUser.userId){
-                    this.SessionService.setUser(<IUserProfile>response.data);
+                if (response['userId'] === currentUser.userId){
+                    this.SessionService.setUser(<IUserProfile>response);
                 }
-                return response.data;
+                return response;
             });
     }
 

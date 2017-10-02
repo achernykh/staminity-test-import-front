@@ -555,7 +555,7 @@ class SettingsUserCtrl {
     uploadAvatar () {
         this.dialogs.uploadPicture()
             .then(picture => this._UserService.postProfileAvatar(picture))
-            .then(user => this.setUser(user))
+            .then(user => user && this.setUser(user), error => { this.message.toastError(error); throw error; })
             .then(() => this.message.toastInfo('updateAvatar'))
             //.then(user => this.)
     }
@@ -563,7 +563,7 @@ class SettingsUserCtrl {
     uploadBackground () {
         this.dialogs.uploadPicture()
             .then((picture) => this._UserService.postProfileBackground(picture))
-            .then(user => this.setUser(user))
+            .then(user => user && this.setUser(user), error => { this.message.toastError(error); throw error; })
             .then(() => this.message.toastInfo('updateBackgroundImage'))
     }
 
