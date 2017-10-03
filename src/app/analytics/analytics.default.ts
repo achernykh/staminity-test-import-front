@@ -712,10 +712,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 options: [true, false],
                 change: {
                     'false': {
-                        visible: false
+                        visible: false,
+                        legend: false
                     },
                     'true': {
-                        visible: true
+                        visible: true,
+                        legend: true
                     }
                 }
             },
@@ -787,10 +789,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 {
                     "label": "Расстояние",
                     "unit": "км",
-                    "chartType": "bar",
-                    "stacked": false,
+                    chartType: "area",
+                    //"stacked": false,
                     "cumulative": false,
-                    "smoothSettings": "null",
+                    smoothSettings: 'curveStep',
                     "tooltipType": "icon",
                     "minValue": 0,
                     "legend": false,
@@ -798,20 +800,21 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#449999",
-                    "lineStyle": "dotted",
-                    "fillType": "gradient",
-                    "fillColor": "",
-                    "gradient": [{
-                        "offset": "0%",
-                        "color": "#449999"
+                    lineColor: "#BDBDBD", // grey-400
+                    lineStyle: "none",
+                    lineWidth: 0,
+                    fillType: "gradient",
+                    fillColor: "",
+                    gradient: [{
+                        "offset": "0%", // grey-50
+                        "color": "#FAFAFA"
                     }, {
                         "offset": "100%",
-                        "color": "rgba(175, 191, 255, 0)"
+                        "color": "#E0E0E0" // grey-300
                     }],
-                    "markerColor": "#449999",
-                    "avgValueLineColor": "green",
-                    "avgValueLineStyle": "dashed",
+                    "markerColor": "#9E9E9E", // grey-500
+                    //"avgValueLineColor": "green",
+                    //"avgValueLineStyle": "dashed",
                     "idx": 1,
                     "measureSource": "activity.actual.measure",
                     "measureName": "distance",
@@ -824,19 +827,28 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "heartRate",
                     "label": "Пульс",
                     "unit": "уд/м",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
-                    "lineColor": "lightblue",
-                    "lineStyle": "solid",
-                    "lineWidth": 2,
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "rgba(153, 190, 201, 1)",
+                    lineColor: "#F06292", // pink-300
+                    lineStyle: "solid",
+                    lineWidth: 2,
+                    fillType: "gradient",
+                    fillColor: "",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#FCE4EC", // pink-50
+                        opacity: 0.1
+                    }, {
+                        offset: "100%",
+                        color: "#F06292", // pink-300
+                        opacity: 0.4
+                    }],
+                    markerColor: "#F06292",
                     "idx": 2,
                     "measureSource": "activity.actual.measure",
                     "measureName": "heartRate",
@@ -849,21 +861,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "pace",
                     "label": "Скорость/темп",
                     "unit": "мин/км",
-                    "chartType": "line",
+                    chartType: "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    smoothSettings: "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#FF9999",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#FF9999",
+                    lineColor: "#64B5F6", // blue-300
+                    lineStyle: "solid",
+                    lineWidth: 2,
+                    fillType: "gradient",
+                    fillColor: "",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#BBDEFB", // blue-100
+                        opacity: 0.1
+                    }, {
+                        offset: "100%",
+                        color: "#64B5F6", // blue-300
+                        opacity: 0.4
+                    }],
+                    markerColor: "#64B5F6", // blue-300
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 3,
@@ -882,18 +904,19 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "line",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#e3ef83",
-                    "lineStyle": "solid",
+                    "lineColor": "#9E9E9E", // grey-500
+                    "lineStyle": "dashed",
+                    lineWidth: 2,
                     "fillType": "none",
                     "fillColor": "",
-                    "markerColor": "#e3ef83",
+                    "markerColor": "#9E9E9E", // grey-500
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 4,
@@ -908,21 +931,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "power",
                     "label": "Мощность",
                     "unit": "Вт",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#b060a4",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#b060a4",
+                    lineColor: "#BA68C8", // purple-300
+                    lineStyle: "solid",
+                    lineWidth: 2,
+                    fillType: "gradient",
+                    fillColor: "",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#F3E5F5", // purple-50
+                        opacity: 0.1
+                    }, {
+                        offset: "100%",
+                        color: "#BA68C8", // purple-300
+                        opacity: 0.4
+                    }],
+                    markerColor: "#BA68C8",
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 5,
@@ -940,18 +973,19 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "line",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#e3bf43",
-                    "lineStyle": "solid",
+                    "lineColor": "#3F51B5",
+                    "lineStyle": "dashed",
+                    lineWidth: 2,
                     "fillType": "none",
                     "fillColor": "",
-                    "markerColor": "#e3bf43",
+                    "markerColor": "#3F51B5",
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 6,
@@ -1044,10 +1078,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "TL",
                     "label": "TL",
                     "unit": "",
-                    "chartType": "bar",
+                    chartType: "area",
                     "stacked": false,
                     "cumulative": false,
-                    "smoothSettings": "null",
+                    smoothSettings: "curveBasis",
                     "tooltipType": "color",
                     "minValue": 0,
                     "radius": 3,
@@ -1056,12 +1090,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "avgValueLine": true,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#d96cbe",
-                    "lineStyle": "solid",
-                    "fillType": "solid",
-                    "fillColor": "#d96cbe",
-                    "markerColor": "#d96cbe",
-                    "avgValueLineColor": "#8c90c8",
+                    lineColor: "#673AB7", //  deep-purple-500
+                    lineStyle: "solid",
+                    lineWidth: 2,
+                    fillType: "gradient",
+                    fillColor: "",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#D1C4E9", //  deep-purple-100
+                        opacity: 0.2
+                    }, {
+                        offset: "100%",
+                        color: "#673AB7", // deep-purple-500
+                        opacity: 0.6
+                    }],
+                    markerColor: "#673AB7",
+                    "avgValueLineColor": "#4527A0", // deep-purple-800
                     "avgValueLineStyle": "dashed",
                     "idx": 1,
                     "measureSource": "activity.actual.measure",
@@ -1190,7 +1234,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "currentPositionLine": true,
                     "idx" : 1,
                     "measureSource": "activity.owner.zones",
-                    "fillColor": "#449999",
+                    fillColor: "#C2185B", //pink-700
                     "measureName" : "heartRate",
                     "dataType": "number",
                     "dateFormat": "",
@@ -1209,21 +1253,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "minValue" : 0,
                 "legend": false,
                 "visible" : true,
-                "avgValueLine": false,
                 "scaleVisible": true,
                 "calculateTotals": "",
-                "lineColor": "#449999",
-                "lineStyle": "dotted",
-                "fillType": "solid",
-                "fillColor": "#449999",
-                "markerColor": "#449999",
-                "avgValueLineColor": "green",
-                "avgValueLineStyle": "dashed",
+                lineColor: "",
+                lineStyle: "none",
+                lineWidth: 0,
+                fillType: "solid",
+                fillColor: "#C2185B", //pink-700
+                markerColor: "#C2185B", //pink-700
+                avgValueLine: false,
+                "avgValueLineColor": "",
+                "avgValueLineStyle": "",
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
                 "measureName" : "heartRateMPM",
                 "dataType": "time",
-                "dateFormat": "HH:mm:ss",
+                "dateFormat": "HH:mm",
                 "valueType" : "timeInZone",
                 "aggMethod" : "sum"
             }]
@@ -1313,7 +1358,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "currentPositionLine": true,
                     "idx" : 1,
                     "measureSource": "activity.owner.zones",
-                    "fillColor": "#449999",
+                    fillColor: "#1976D2", //blue-700
                     "measureName" : "speed",
                     "dataType": "number",
                     "dateFormat": "",
@@ -1332,21 +1377,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "minValue" : 0,
                 "legend": false,
                 "visible" : true,
-                "avgValueLine": false,
                 "scaleVisible": true,
                 "calculateTotals": "",
-                "lineColor": "#449999",
-                "lineStyle": "dotted",
-                "fillType": "solid",
-                "fillColor": "#449999",
-                "markerColor": "#449999",
+                lineColor: "",
+                lineStyle: "none",
+                lineWidth: 0,
+                fillType: "solid",
+                fillColor: "#1976D2", //blue-700
+                markerColor: "#1976D2", //blue-700
+                avgValueLine: false,
                 "avgValueLineColor": "green",
                 "avgValueLineStyle": "dashed",
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
                 "measureName" : "speedMPM",
                 "dataType": "time",
-                "dateFormat": "HH:mm:ss",
+                "dateFormat": "HH:mm",
                 "valueType" : "timeInZone",
                 "aggMethod" : "sum"
             }]
@@ -1436,7 +1482,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "currentPositionLine": true,
                     "idx" : 1,
                     "measureSource": "activity.owner.zones",
-                    "fillColor": "#449999",
+                    fillColor: "#7B1FA2", //purple-700
                     "measureName" : "power",
                     "dataType": "number",
                     "dateFormat": "",
@@ -1455,14 +1501,15 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "minValue" : 0,
                 "legend": false,
                 "visible" : true,
-                "avgValueLine": false,
                 "scaleVisible": true,
                 "calculateTotals": "",
-                "lineColor": "#449999",
-                "lineStyle": "dotted",
-                "fillType": "solid",
-                "fillColor": "#449999",
-                "markerColor": "#449999",
+                lineColor: "",
+                lineStyle: "none",
+                lineWidth: 0,
+                fillType: "solid",
+                fillColor: "#7B1FA2", //purple-700
+                markerColor: "#7B1FA2", //purple-700
+                avgValueLine: false,
                 "avgValueLineColor": "green",
                 "avgValueLineStyle": "dashed",
                 "idx" : 2,
@@ -1530,12 +1577,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
                 "legend": false,
-                "lineColor": "#449999",
-                "lineStyle": "dotted",
-                "fillType": "gradient",
-                "gradient": [{"offset": "0%","color": "rgba(0, 0, 0, 0.2)"},
-                    {"offset": "100%","color": "rgba(0, 156, 0, 0.8)" }],
-                "markerColor": "rgba(0, 156, 0, 0.8)",
+                lineColor: "#E91E63", //  pink-500
+                lineStyle: "solid",
+                lineWidth: 2,
+                fillType: "gradient",
+                fillColor: "",
+                gradient: [{
+                    offset: "0%",
+                    color: "#F8BBD0", //  pink-100
+                    opacity: 0.2
+                }, {
+                    offset: "100%",
+                    color: "#E91E63", // pink-500
+                    opacity: 0.6
+                }],
                 "idx" : 1,
                 "measureSource": "activity.actual.measure",
                 "measureName": "heartRateTimePeaks",
@@ -1624,12 +1679,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
                 "legend": true,
-                "lineColor": "#449999",
-                "lineStyle": "dotted",
-                "fillType": "gradient",
-                "gradient": [{"offset": "0%","color": "rgba(0, 0, 0, 0.2)"},
-                    {"offset": "100%","color": "rgba(0, 156, 0, 0.8)" }],
-                "markerColor": "rgba(0, 156, 0, 0.8)",
+                lineColor: "#2196F3", //  blue-500
+                lineStyle: "solid",
+                lineWidth: 2,
+                fillType: "gradient",
+                fillColor: "",
+                gradient: [{
+                    offset: "0%",
+                    color: "#BBDEFB", //  blue-100
+                    opacity: 0.2
+                }, {
+                    offset: "100%",
+                    color: "#2196F3", // blue-500
+                    opacity: 0.6
+                }],
                 "idx" : 1,
                 "measureSource": "activity.actual.measure",
                 "measureName": "speedTimePeaks",
@@ -1696,12 +1759,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
                 "legend": false,
-                "lineColor": "#449999",
-                "lineStyle": "dotted",
-                "fillType": "gradient",
-                "gradient": [{"offset": "0%","color": "rgba(0, 0, 0, 0.2)"},
-                    {"offset": "100%","color": "rgba(0, 156, 0, 0.8)" }],
-                "markerColor": "rgba(0, 156, 0, 0.8)",
+                lineColor: "#9C27B0", //  purple-500
+                lineStyle: "solid",
+                lineWidth: 2,
+                fillType: "gradient",
+                fillColor: "",
+                gradient: [{
+                    offset: "0%",
+                    color: "#E1BEE7", //  purple-100
+                    opacity: 0.2
+                }, {
+                    offset: "100%",
+                    color: "#9C27B0", // purple-500
+                    opacity: 0.6
+                }],
                 "idx" : 1,
                 "measureSource": "activity.actual.measure",
                 "measureName": "powerTimePeaks",
@@ -2188,6 +2259,26 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             {
                 ind: [0],
+                idx: [1],
+                type: 'radio',
+                area: 'measures',
+                name: 'smoothSettings',
+                text: 'volume',
+                model: 'curveBasis',
+                options: ['curveLinear', 'curveStep', 'curveStepBefore', 'curveStepAfter', 'curveBasis', 'curveCardinal', 'curveMonotoneX', 'curveCatmullRom'],
+                change: {
+                    curveLinear: { smoothSettings: 'curveLinear'},
+                    curveStep: { smoothSettings: 'curveStep'},
+                    curveStepBefore: { smoothSettings: 'curveStepBefore'},
+                    curveStepAfter: { smoothSettings: 'curveStepAfter'},
+                    curveBasis: { smoothSettings: 'curveBasis'},
+                    curveCardinal: { smoothSettings: 'curveCardinal'},
+                    curveMonotoneX: { smoothSettings: 'curveMonotoneX'},
+                    curveCatmullRom: { smoothSettings: 'curveCatmullRom'}
+                }
+            },
+            {
+                ind: [0],
                 idx: [2],
                 type: 'checkbox',
                 area: 'measures',
@@ -2241,17 +2332,17 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "date",
                 "dateFormat": "DD.MM",
                 "valueType": "value",
-                "seriesDateTrunc": "day",
+                "seriesDateTrunc": "week",
                 "groupByIntervalLength": 1
             }],
             measures: [
                 {
                     "label" : "Расстояние",
                     "unit" : "км",
-                    "chartType" : "bar",
+                    chartType: "area",
+                    smoothSettings: 'curveBasis',
                     "stacked" : false,
                     "cumulative": false,
-                    "smoothSettings" : "null",
                     "tooltipType" : "icon",
                     "minValue" : 0,
                     "legend": false,
@@ -2259,8 +2350,21 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    fillType: 'solid',
-                    fillColor: "#E0E0E0", // grey-300
+                    lineColor: "#455A64", // blue-grey-500
+                    lineStyle: "solid",
+                    lineWidth: 2,
+                    fillType: "gradient",
+                    fillColor: "",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#CFD8DC", //  blue-grey-100
+                        opacity: 0.2
+                    }, {
+                        offset: "100%",
+                        color: "#455A64", // blue-grey-500
+                        opacity: 0.8
+                    }],
+                    markerColor: "#455A64", // blue-grey-500
                     "idx" : 1,
                     "measureSource" : "activity.actual.measure",
                     "measureName" : "distance",
@@ -2283,11 +2387,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#FF9999",
+                    "lineColor": "#E53935", // red-600
                     "lineStyle": "solid",
                     "fillType": "none",
                     "fillColor": "none",
-                    "markerColor": "#FF9999",
+                    "markerColor": "#E53935", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 2,
@@ -2392,7 +2496,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "date",
                 "dateFormat": "DD.MM",
                 "valueType": "value",
-                "seriesDateTrunc": "day",
+                "seriesDateTrunc": "week",
                 "groupByIntervalLength": 1
             }],
             measures: [
@@ -2405,23 +2509,25 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     cumulative: false,
                     tooltipType: "icon",
                     minValue: 0,
-                    legend: false,
+                    legend: true,
                     visible: true,
                     avgValueLine: false,
                     scaleVisible: true,
                     calculateTotals: "",
-                    lineColor: "#4dd0e1", // cyan-300
+                    lineColor: "#455A64", // blue-grey-500
                     lineStyle: "solid",
                     fillType: "gradient",
                     fillColor: "",
                     gradient: [{
-                        "offset": "0%",
-                        "color": "rgba(255, 247, 250, 1)" // cyan-50
+                        offset: "0%",
+                        color: "#CFD8DC", //  deep-purple-100
+                        opacity: 0.2
                     }, {
-                        "offset": "100%",
-                        "color": "rgba(84, 208, 224, 1)" // cyan-300
+                        offset: "100%",
+                        color: "#455A64", // deep-purple-500
+                        opacity: 0.8
                     }],
-                    markerColor: "#00bcd4", // cyan-500
+                    markerColor: "#455A64", // blue-grey-500
                     idx : 1,
                     measureSource : "activity.actual.measure",
                     measureName: "distance",
@@ -2433,7 +2539,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 {
                     label: "Процент выполнения",
                     unit: "",
-                    chartType: "line",
+                    chartType: "area",
                     smoothSettings: 'curveStep',
                     stacked: false,
                     cumulative: false,
@@ -2444,12 +2550,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     avgValueLine: true,
                     scaleVisible: true,
                     calculateTotals: "",
-                    lineColor: "#004d40", // teal-900
+                    lineColor: "#FF5722", // blue-grey-500
                     lineStyle: "solid",
-                    fillType: "none",
+                    lineWidth: 3,
+                    fillType: "gradient",
                     fillColor: "",
-                    markerColor: "#004d40", // teal-900
-                    avgValueLineColor: "#D84315", // deep-orange-800
+                    gradient: [{
+                        offset: "0%",
+                        color: "#D1C4E9", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#FF5722", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    markerColor: "#FF5722", //  blue-grey-500
+                    avgValueLineColor: "#FF5722", //  blue-grey-500
                     avgValueLineStyle: "dashed",
                     idx : 2,
                     measureSource : "activity.plan.measure",

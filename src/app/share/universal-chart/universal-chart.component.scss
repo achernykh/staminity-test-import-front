@@ -33,11 +33,12 @@ div.universal-chart-tooltip table td:nth-child(2) {
 
 
 div.universal-chart-tooltip div.color-label {
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
+  margin-left: 16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
   border-width: 1px;
-  border-style: solid;
+  border-style: none;
 }
 
 svg.universal-chart {

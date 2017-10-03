@@ -141,6 +141,8 @@ export class AnalyticsChart implements IAnalyticsChart{
                         metric.push(value / 1000);
                     } else if (params.measureName === 'speed' && params.dataType === 'time') {
                         metric.push(!!value ? (60 * 60) / (value * 3.6) : null);
+                    } else if (['speedDecoupling','powerDecoupling'].indexOf(params.measureName) !== -1) {
+                        metric.push(value * 100);
                     } else {
                         metric.push(value);
                     }
