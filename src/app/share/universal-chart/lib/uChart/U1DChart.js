@@ -28,7 +28,7 @@ class U1DChart extends USvgChart {
 
         super.renderTo(container);
 
-        this._views.forEach(function(view) {
+        this.getViews().forEach(function(view) {
             view.render();
         }, this);
 
@@ -55,7 +55,7 @@ class U1DChart extends USvgChart {
 
         super.resize();
 
-        this._views.forEach(function(view) {
+        this.getViews().forEach(function(view) {
             view.resize();
         });
     }

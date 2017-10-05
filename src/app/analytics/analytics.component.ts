@@ -18,8 +18,8 @@ import {Subject} from "rxjs/Rx";
 import {activityTypes, getSportBasic} from "../activity/activity.constants";
 import {IActivityType} from "../../../api/activity/activity.interface";
 import {
-    IAnalyticsChartFilterParam, IReportPeriodOptions,
-    PeriodOptions
+    IAnalyticsChartSettings, IReportPeriodOptions,
+    PeriodOptions, AnalyticsChartFilter, IAnalyticsChartFilter
 } from "./analytics-chart-filter/analytics-chart-filter.model";
 import {IActivityCategory} from "../../../api/reference/reference.interface";
 import ReferenceService from "../reference/reference.service";
@@ -31,28 +31,20 @@ import {IAuthService} from "../auth/auth.service";
 
 export class AnalyticsCtrl implements IComponentController {
 
-    public data: any;
+    public user: IUserProfile;
+    public categories: Array<IActivityCategory>;
     public charts: Array<AnalyticsChart>;
     public onEvent: (response: Object) => IPromise<void>;
 
-    private filter: {
-        users: IAnalyticsChartFilterParam<IUserProfileShort>;
-        activityTypes: IAnalyticsChartFilterParam<IActivityType>;
-        activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
-        periods: IAnalyticsChartFilterParam<string>;
-    } = {
-        users: null,
-        activityTypes: null,
-        activityCategories: null,
-        periods: null
+    public filter: AnalyticsChartFilter;
+
+    private globalFilterChange: number = null;
+
+    private readonly storage = {
+        name: '#analytics',
+        charts: 'charts',
+        filter: 'filter'
     };
-
-    private filterChanges: number = null;
-
-    private prepareComplete: boolean = false;
-
-    public user: IUserProfile;
-    public categoriesByOwner: {[owner in Owner]: Array<IActivityCategory>};
 
     private destroy: Subject<any> = new Subject();
 
@@ -62,7 +54,7 @@ export class AnalyticsCtrl implements IComponentController {
     constructor(private $scope: IScope,
                 private session: ISessionService,
                 private statistics: StatisticsService,
-                private storage: IStorageService,
+                private storageService: IStorageService,
                 private reference: ReferenceService,
                 private defaultSettings: Array<IAnalyticsChart>,
                 private auth: IAuthService) {
@@ -71,19 +63,22 @@ export class AnalyticsCtrl implements IComponentController {
             .takeUntil(this.destroy)
             .map(getUser)
             .subscribe(userProfile => {
-                this.user = userProfile;
-                this.prepareData();
+                //this.user = userProfile;
+                //this.prepareData(); // change options for users
             });
 
         reference.categoriesChanges
             .takeUntil(this.destroy)
             .subscribe(categories => {
-                this.prepareData();
-                this.$scope.$apply();
+                //this.prepareData(); // change options for activityTypes
+                //this.$scope.$apply();
             });
     }
 
     $onInit() {
+
+        this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
+        this.filter = new AnalyticsChartFilter(this.user, this.categories, this.getSettings(this.storage.filter));
     }
 
     $onDestroy() {
@@ -91,154 +86,37 @@ export class AnalyticsCtrl implements IComponentController {
         this.destroy.complete();
     }
 
-    private prepareData() {
-
-        if(this.prepareComplete) {
-            return;
-        }
-
-        let storageCharts: any = null;
-        let storageFilters: {
-            users: IAnalyticsChartFilterParam<IUserProfileShort>;
-            activityTypes: IAnalyticsChartFilterParam<IActivityType>;
-            activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
-            periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
-        } = null;
-
-        storageCharts = this.getSettings('charts'); //&& this.getSettings('charts').map(c => new AnalyticsChart(c, this.user));
-        storageFilters = this.getSettings('filter');
-
-        this.prepareCharts(storageCharts || this.defaultSettings);
-        this.prepareUsersFilter(this.user, storageFilters && storageFilters.users.model);
-        this.prepareSportTypesFilter(storageFilters && storageFilters.activityTypes.model);
-        this.prepareCategoriesFilter(this.reference.categories, this.user, storageFilters && storageFilters.activityCategories.model);
-        this.preparePeriodsFilter(storageFilters && storageFilters.periods.model);
-        this.saveSettings('charts');
-        this.saveSettings('filter');
-        this.prepareComplete = true;
-    }
-
-    changeGlobalFilter() {
-        this.filterChanges++;
-    }
-
     restoreSettings() {
-        this.storage.remove(`${this.user.userId}#analytics_charts`);
-        this.storage.remove(`${this.user.userId}#analytics_filter`);
-        this.filter = {
-            users: null,
-            activityTypes: null,
-            activityCategories: null,
-            periods: null
-        };
-        this.prepareComplete = false;
+        this.storageService.remove(`${this.user.userId}#${this.storage.name}_${this.storage.charts}`);
+        this.storageService.remove(`${this.user.userId}#analytics_filter`);
+        //this.prepareComplete = false;
 
         let storageCharts: any = null;
-        let storageFilters: {
-            users: IAnalyticsChartFilterParam<IUserProfileShort>;
-            activityTypes: IAnalyticsChartFilterParam<IActivityType>;
-            activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
-            periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
-        } = null;
+        let storageFilters: IAnalyticsChartFilter;
 
         this.prepareCharts(this.defaultSettings);
-        this.prepareUsersFilter(this.user);
-        this.prepareSportTypesFilter();
-        this.prepareCategoriesFilter(this.reference.categories, this.user);
-        this.preparePeriodsFilter();
         this.saveSettings('charts');
-        this.saveSettings('filter');
-        this.prepareComplete = true;
+        this.saveSettings('filters');
+        //this.prepareComplete = true;
     }
 
     private getSettings(obj: string): any {
-        return this.storage.get(`${this.user.userId}#analytics_${obj}`);
+        return this.storageService.get(`${this.user.userId}#${this.storage.name}_${obj}`);
     }
 
     private saveSettings(obj: string) {
-        this.storage.set(`${this.user.userId}#analytics_${obj}`,this[obj]);
+        this.storageService.set(`${this.user.userId}#${this.storage.name}_${obj}`,this[obj]);
     }
 
     private prepareCharts(charts: Array<IAnalyticsChart>) {
         this.charts = charts.map(c => new AnalyticsChart(Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}), this.user));
     }
-
-    private prepareUsersFilter(user: IUserProfile, restore?: any) {
-        this.filter.users = {
-            type: 'checkbox',
-            area: 'params',
-            name: 'users',
-            text: 'users',
-            model: restore || null,
-            options: []
-        };
-
-        this.filter.users.options.push({
-            userId: user.userId,
-            public: user.public
-        });
-
-        if(user.public.isCoach && user.connections.hasOwnProperty('allAthletes')) {
-            this.filter.users.options.push(...user.connections.allAthletes.groupMembers.map(a => ({
-                    userId: a.userId,
-                    public: a.public
-                })));
-        }
-
-        if(!this.filter.users.model) {
-            this.filter.users.model = this.filter.users.options[0].userId;
-        }
-    }
-
-    private prepareSportTypesFilter(restore?: any) {
-        this.filter.activityTypes = {
-            type: 'checkbox',
-            area: 'params',
-            name: 'activityTypes',
-            text: 'activityTypes',
-            model: restore || null,
-            options: getSportBasic()
-        };
-        if(!this.filter.activityTypes.model){
-            this.filter.activityTypes.model = [this.filter.activityTypes.options[0].id];
-        }
-    }
-
-    private prepareCategoriesFilter(categoriesList: Array<IActivityCategory>, userProfile: IUserProfile, restore?: any) {
-
-        this.filter.activityCategories = {
-            type: 'checkbox',
-            area: 'params',
-            name: 'activityCategories',
-            text: 'activityCategories',
-            model: restore || [],
-            options: categoriesList
-        };
-
-        this.categoriesByOwner = pipe(
-            orderBy(prop('sortOrder')),
-            groupBy(getOwner(userProfile))
-        ) (categoriesList);
-    }
-
-    private preparePeriodsFilter(model?: any) {
-        this.filter.periods = {
-            type: 'date',
-            area: 'params',
-            name: 'periods',
-            text: 'periods',
-            model: model || null,
-            options: ['thisYear','thisMonth','thisWeek','customPeriod']
-        };
-        if(!this.filter.periods.model){
-            this.filter.periods.model = this.filter.periods.options[0];
-        }
-    }
 }
 
 const AnalyticsComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        user: '<',
+        categories: '<',
         onEvent: '&'
     },
     require: {

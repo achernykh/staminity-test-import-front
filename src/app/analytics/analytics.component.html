@@ -1,9 +1,11 @@
 <section layout-gt-sm="row" layout="column" class="analytics__application">
-    <analytics-management-panel charts="$ctrl.charts"
+    <analytics-management-panel user="$ctrl.user" ng-if="$ctrl.filter.prepareComplete"
+                                charts="$ctrl.charts"
                                 filter="$ctrl.filter"
-                                on-hide="$ctr.showPanel = false"
-                                on-change-filter="$ctrl.changeGlobalFilter()"
-                                on-change-charts="$ctrl.saveSettings('charts')">
+                                on-change-filter="$ctrl.globalFilterChange = $ctrl.globalFilterChange + 1"
+                                on-change-charts="$ctrl.saveSettings('charts')"
+                                on-change-panel-size="$ctrl.panelSizeChange = $ctrl.panelSizeChange + 1"
+    >
     </analytics-management-panel>
     <!--<nav class="analytics__navigator md-whiteframe-2dp bg-grey-100" layout="column"
          ng-class="{'hide': $ctrl.showPanel}">
@@ -19,13 +21,14 @@
         </md-button>
     </nav>-->
     <section flex="auto" class="analytics__chart-section">
-        <section class="analytics__chart-grid" ng-if="$ctrl.prepareComplete">
-            <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true }"
+        <section class="analytics__chart-grid" ng-if="$ctrl.filter.prepareComplete">
+            <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true, isAuthorized: true }"
                              ng-style="chart.layout.style"
                              ng-class="{'full-screen': chart.layout.fullScreen}"
                              chart="chart"
                              filter="$ctrl.filter"
-                             filter-changes="$ctrl.filterChanges"
+                             filter-changes="$ctrl.globalFilterChange"
+                             panel-changes="$ctrl.panelSizeChange"
                              on-change-filter="$ctrl.saveSettings('charts')"
                              mobile-view="">
             </analytics-chart>

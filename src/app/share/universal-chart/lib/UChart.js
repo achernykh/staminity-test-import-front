@@ -69,7 +69,10 @@ class UChart {
      */
     getViews() {
 
-        return this._views;
+        return this._views.filter(function(view) {
+            return view.getConfig().get('visible', true);
+        });
+
     }
 
 
@@ -187,7 +190,7 @@ class UChart {
      */
     getSeriesDomain() {
 
-        return _.uniq(this._views.reduce(function(domain, view) {
+        return _.uniq(this.getViews().reduce(function(domain, view) {
             return domain.concat(view.getX());
         }, []));
     }

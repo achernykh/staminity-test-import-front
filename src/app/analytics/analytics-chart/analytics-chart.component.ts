@@ -1,8 +1,8 @@
 import './analytics-chart.component.scss';
 import {IComponentOptions, IComponentController, IPromise, IScope, copy} from 'angular';
 import {
-    IAnalyticsChartFilterParam, IReportPeriodOptions,
-    periodByType
+    IAnalyticsChartSettings, IReportPeriodOptions,
+    periodByType, AnalyticsChartFilter
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IAnalyticsChart, AnalyticsChart} from "./analytics-chart.model";
 import {IReportRequestData, IChart} from "../../../../api/statistics/statistics.interface";
@@ -17,12 +17,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
     public analytics: AnalyticsCtrl;
     public chart: AnalyticsChart;
-    public filter: {
-        users: IAnalyticsChartFilterParam<IUserProfileShort>;
-        activityTypes: IAnalyticsChartFilterParam<IActivityType>;
-        activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
-        periods: IAnalyticsChartFilterParam<string>;
-    };
+    public filter: AnalyticsChartFilter;
 
     private context: Object = {};
 
@@ -47,7 +42,8 @@ class AnalyticsChartCtrl implements IComponentController {
 
     $onChanges(changes): void {
         if((changes.hasOwnProperty('chart') && changes.filterChanges.isFirstChange()) ||
-            (changes.hasOwnProperty('filterChanges') && !changes.filterChanges.isFirstChange())){
+            (changes.hasOwnProperty('filterChanges') && !changes.filterChanges.isFirstChange() && this.chart.globalParams)){
+            this.chart.clearMetrics();
             this.prepareTitleContext();
             this.prepareParams();
             this.prepareData();
@@ -80,7 +76,7 @@ class AnalyticsChartCtrl implements IComponentController {
             locals: {
                 chart: this.chart,
                 filter: this.filter,
-                categoriesByOwner: this.analytics.categoriesByOwner
+                categoriesByOwner: this.analytics.filter.categoriesByOwner
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -102,7 +98,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
     }
 
-    update(param: IAnalyticsChartFilterParam<any>, value, protectedOption: boolean) {
+    update(param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
         switch(param.area) {
             case 'series': {
                 param.ind.map(ind =>
@@ -185,7 +181,7 @@ class AnalyticsChartCtrl implements IComponentController {
                 (c.params.activityTypes && c.params.activityTypes) || null,
             activityCategories: this.filter.activityCategories.model,
             periods: (!this.chart.globalParams && c.params.periods && c.params.periods) ||
-                (angular.isArray(this.filter.periods.data) && this.filter.periods.data) ||
+                (typeof this.filter.periods.data === 'IPeriodCustom' && this.filter.periods.data) ||
                 periodByType(this.filter.periods.model) || this.chart.charts[i].params.periods
         });
     }
@@ -214,6 +210,7 @@ const AnalyticsChartComponent:IComponentOptions = {
         chart: '<',
         filter: '<',
         filterChanges: '<',
+        panelChanges: '<',
         onChangeFilter: '&',
         onExpand: '&',
         onCollapse: '&',

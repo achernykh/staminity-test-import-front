@@ -90,7 +90,7 @@ class U2DChart extends USvgChart {
 
     _getViewsByMeasureName(measureName) {
 
-        return this._views.filter(function(view) {
+        return this.getViews().filter(function(view) {
             return view.getConfig().get('measureName') == measureName;
         })
     }

@@ -5,6 +5,7 @@ import {ISessionService} from "../core/session.service";
 import GroupService from "../core/group.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {translateAnalytics} from "./analytics.translate";
+import ReferenceService from "../reference/reference.service";
 
 
 function configure($stateProvider:StateProvider,
@@ -19,6 +20,8 @@ function configure($stateProvider:StateProvider,
                 view: () => {
                     return new DisplayView('analytics');
                 },
+                user: ['SessionService', (session:ISessionService) => session.getUser()],
+                categories: ['ReferenceService', (reference: ReferenceService) => reference.categories]
                 /**coach: ['SessionService', (session:ISessionService) => session.getUser()],
                 groupId: ['coach', (coach:IUserProfile) => coach.connections['allAthletes'].groupId],
                 athletes: ['GroupService', 'groupId', (group:GroupService, groupId:number) =>

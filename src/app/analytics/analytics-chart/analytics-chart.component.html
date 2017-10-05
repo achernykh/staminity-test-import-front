@@ -37,7 +37,7 @@
     <div ng-switch-when="true" flex="auto" layout="column" class="analytics-chart__data">
         <universal-chart flex="auto"
                          data="$ctrl.chart.charts"
-                         update="$ctrl.updateCount">
+                         update="$ctrl.updateCount + $ctrl.panelChanges">
         </universal-chart>
     </div>
 </md-content>

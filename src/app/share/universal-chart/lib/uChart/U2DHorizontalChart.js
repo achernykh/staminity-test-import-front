@@ -73,7 +73,7 @@ class U2DHorizontalChart extends U2DChart {
               self._labelsMap[d.measureName] = this;
           });
 
-        this._views.forEach(function(view) {
+        this.getViews().forEach(function(view) {
             view.render()
                 .renderMeanLine();
         }, this);

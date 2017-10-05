@@ -6,8 +6,8 @@ import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
 import {IReportPeriod, IChartMeasure, IChart} from "../../../../api/statistics/statistics.interface";
 import {
-    IAnalyticsChartFilterParam, IReportPeriodOptions,
-    periodByType
+    IAnalyticsChartSettings, IReportPeriodOptions,
+    periodByType, AnalyticsChartFilter
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IAnalyticsChart} from "../analytics-chart/analytics-chart.model";
 import {activityTypes, getSportsByBasicId} from "../../activity/activity.constants";
@@ -16,14 +16,9 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     public chart: IAnalyticsChart;
 
-    private globalFilter: {
-        users: IAnalyticsChartFilterParam<IUserProfileShort>;
-        activityTypes: IAnalyticsChartFilterParam<IActivityType>;
-        activityCategories: IAnalyticsChartFilterParam<IActivityCategory>;
-        periods: IAnalyticsChartFilterParam<IReportPeriodOptions>;
-    };
+    private globalFilter: AnalyticsChartFilter;
 
-    private settings: Array<IAnalyticsChartFilterParam<any>>;
+    private settings: Array<IAnalyticsChartSettings<any>>;
 
     private update: boolean = false;
 
@@ -52,21 +47,21 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
     }
 
-    getGroupCheckboxStatus(param: IAnalyticsChartFilterParam<any>, idx: number): boolean {
+    getGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number): boolean {
         return param.model[param.idx.indexOf(idx)];
     }
 
-    setGroupCheckboxStatus(param: IAnalyticsChartFilterParam<any>, idx: number){
+    setGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number){
         param.model[param.idx.indexOf(idx)] = !param.model[param.idx.indexOf(idx)];
         this.change(Object.assign({},param,{idx: [idx]}), param.model[param.idx.indexOf(idx)]);
         this.settingsForm.$setDirty();
     }
 
-    getCheckboxLabel(param: IAnalyticsChartFilterParam<any>, idx: number): string {
+    getCheckboxLabel(param: IAnalyticsChartSettings<any>, idx: number): string {
         return this.chart.charts[param.ind[0]].measures.filter(a => a.idx === idx)[0][param.multiTextParam];
     }
 
-    change(param: IAnalyticsChartFilterParam<any>, value) {
+    change(param: IAnalyticsChartSettings<any>, value) {
         switch(param.area) {
             case 'series': {
                 param.ind.map(ind =>

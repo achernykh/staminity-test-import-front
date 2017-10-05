@@ -19,7 +19,7 @@
                            ng-model="$ctrl.chart.globalParams"
                            ng-change="$ctrl.changeParamsPoint()"></md-switch>
             </md-list-item>
-            <md-list-item ng-if="!$ctrl.chart.globalParams">
+            <md-list-item ng-show="!$ctrl.chart.globalParams">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.users.placeholder"></label>
                     <md-select flex="auto" name="sport" class="icon"
@@ -35,7 +35,7 @@
                     </md-select>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-if="!$ctrl.chart.globalParams">
+            <md-list-item ng-show="!$ctrl.chart.globalParams">
                 <md-input-container class="md-block no-message" md-no-float layout="row">
                     <!--<md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.filter.activityTypes.model}}"></md-icon>-->
                     <label translate="analytics.filter.activityTypes.placeholder"></label>
@@ -62,7 +62,7 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-if="$ctrl.chart.localParams.activityTypes.model.length === 1 && !$ctrl.chart.globalParams">
+            <md-list-item ng-show="$ctrl.chart.localParams.activityTypes.model.length === 1 && !$ctrl.chart.globalParams">
                 <md-input-container class="md-block no-message">
                     <label translate="analytics.filter.activityCategories.placeholder"></label>
                     <md-select
@@ -93,7 +93,7 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-if="!$ctrl.chart.globalParams">
+            <md-list-item ng-show="!$ctrl.chart.globalParams">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.placeholder"></label>
                     <md-select flex="auto" name="periods" class="icon"
@@ -132,6 +132,8 @@
                     </div>
                 </md-input-container>
             </md-list-item>
+        </md-list>
+        <md-list flex="auto" class="md-dense" ng-if="$ctrl.chart.settings.length > 0">
             <md-divider></md-divider>
             <md-subheader class="md-no-sticky">{{'analytics.settings.layout' | translate}}</md-subheader>
             <md-list-item ng-repeat="param in $ctrl.chart.settings" ng-switch="param.type">

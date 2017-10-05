@@ -36,7 +36,7 @@ class Pointer {
             .moveLinePointer(this._getLine(), position);
 
         var values = [];
-        this._uChart._views.forEach(function(view) {
+        this._uChart.getViews().forEach(function(view) {
             view.getDataAt(seriesValue).forEach(function(d) {
                 if (d.y != null) {
                     values.push({

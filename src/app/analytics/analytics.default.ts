@@ -1,6 +1,8 @@
 import {IAnalyticsChart, AnalyticsChartLayout} from "./analytics-chart/analytics-chart.model";
 import {PeriodOptions} from "./analytics-chart-filter/analytics-chart-filter.model";
 
+const paletteAll500 = ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63",'#3F51B5','#00BCD4','#8BC34A','#FFC107','#795548','#9C27B0','#2196F3','#009688','#CDDC39','#FF9800','#9E9E9E'];
+
 //noinspection TypeScriptValidateTypes,TypeScriptValidateTypes
 export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     /**
@@ -96,7 +98,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "bottom",
-                    "horizontal-align": "left",
+                    "horizontal-align": "center",
                     "type": "row"
                 },
                 "tooltip": {
@@ -105,7 +107,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": {
                     "enabled": false
                 },
-                "palette": ["#673ab7", "#3f51b5", "#03a9f4", "#00bcd4", "#009688", "#8bc34a", "#cddc39", "#ffeb3b"]
+                "palette": paletteAll500
             },
             series : [{
                 "label" : "Период",
@@ -263,7 +265,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "bottom",
-                    "horizontal-align": "left",
+                    "horizontal-align": "center",
                     "type": "row"
                 },
                 "tooltip": {
@@ -272,7 +274,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": {
                     "enabled": false
                 },
-                "palette": ["#673ab7", "#3f51b5", "#03a9f4", "#00bcd4", "#009688", "#8bc34a", "#cddc39", "#ffeb3b"]
+                "palette": paletteAll500
             },
             series : [{
                 "label" : "Период",
@@ -409,8 +411,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             options: {
                 "legend": {
-                    "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "vertical-align": "bottom",
+                    "horizontal-align": "center",
+                    "type": "row"
                 },
                 "tooltip": {
                     "combined": true
@@ -439,12 +442,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 groupByIntervalLength: 1
             }],
             measures : [{
-                label: "Обьем",
-                unit: "",
+                label: "Время",
+                unit: "ч",
                 chartType: 'area',
                 stacked: false,
                 cumulative: false,
-                smoothSettings: 'curveStep',
+                smoothSettings: 'curveCardinal',
                 tooltipType: "icon",
                 minValue: 0,
                 legend: false,
@@ -454,6 +457,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 calculateTotals: "",
                 lineColor: "#FF5722", // deep-orange-500
                 lineStyle: "solid",
+                lineWidth: 2,
                 fillType: "gradient",
                 fillColor: "",
                 gradient: [{
@@ -473,6 +477,75 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 dateFormat: "",
                 valueType: "value",
                 aggMethod: "sum"
+            },{
+                "id": "TL",
+                "label": "TL",
+                "unit": "",
+                chartType: "dot",
+                "stacked": false,
+                "cumulative": false,
+                smoothSettings: "curveCardinal",
+                "tooltipType": "label",
+                "minValue": 0,
+                "legend": false,
+                "visible": true,
+                "avgValueLine": false,
+                "scaleVisible": false,
+                "calculateTotals": "",
+                lineColor: "#673AB7", //  deep-purple-500
+                lineStyle: "solid",
+                radius: 3,
+                fillType: "gradient",
+                fillColor: "",
+                gradient: [{
+                    offset: "0%",
+                    color: "#D1C4E9", //  deep-purple-100
+                    opacity: 0.2
+                }, {
+                    offset: "100%",
+                    color: "#673AB7", // deep-purple-500
+                    opacity: 0.6
+                }],
+                markerColor: "#673AB7",
+                "avgValueLineColor": "#4527A0", // deep-purple-800
+                "avgValueLineStyle": "dashed",
+                "idx": 2,
+                "measureSource": "activity.actual.measure",
+                "measureName": "trainingLoad",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "value",
+                "aggMethod": "sum"
+            },{
+                "id": "IL",
+                "label": "IL",
+                "unit": "",
+                "chartType": "dot",
+                "stacked": null,
+                "cumulative": false,
+                "smoothSettings": "null",
+                "tooltipType": "label",
+                "legend": false,
+                "visible": true,
+                "radius": 3,
+                "avgValueLine": false,
+                "scaleVisible": false,
+                "calculateTotals": "",
+                "lineColor": "#2887c8",
+                "lineStyle": "solid",
+                "fillType": "solid",
+                "fillColor": "#2887c8",
+                "markerColor": "#2887c8",
+                "avgValueLineColor": "",
+                "avgValueLineStyle": "",
+                "idx": 3,
+                "measureSource": "activity.actual.measure",
+                "measureName": "intensityLevel",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "value",
+                "aggMethod": "avg",
+                "reverse": false
             }]
         }]
     },
@@ -543,8 +616,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             options: {
                 "legend": {
-                    "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "vertical-align": "bottom",
+                    "horizontal-align": "center",
+                    "type": "row"
                 },
                 "tooltip": {
                     "combined": true
@@ -576,7 +650,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 label: "Расстояние",
                 unit: "км",
                 chartType: "area",
-                smoothSettings: 'curveStep',
+                smoothSettings: 'curveCardinal',
                 stacked: false,
                 cumulative: false,
                 tooltipType: "icon",
@@ -588,17 +662,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 calculateTotals: "",
                 lineColor: "#607D8B", // blue-grey-500
                 lineStyle: "solid",
+                lineWidth: 2,
                 fillType: "gradient",
                 fillColor: "",
                 gradient: [{
-                    "offset": "0%",
-                    "color": "rgba(236, 239, 241, 1)" // blue-grey-50
+                    offset: "0%",
+                    color: "#CFD8DC", //  blue-grey-100
+                    opacity: 0.2
                 }, {
-                    "offset": "100%",
-                    "color": "rgba(144, 164, 174, 1)" // blue-grey-300
+                    offset: "100%",
+                    color: "#607D8B", // blue-grey-500
+                    opacity: 0.6
                 }],
                 markerColor: "#607D8B", // blue-grey-500
-                avgValueLineColor: "#D84315", // deep-orange-800
+                avgValueLineColor: "#607D8B", // blue-grey-800
                 avgValueLineStyle: "dashed",
                 idx: 1,
                 measureSource: "activity.actual.measure",
@@ -607,7 +684,79 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 dateFormat: "",
                 valueType: "value",
                 aggMethod: "sum"
-            }]
+            },{
+                "id": "TL",
+                "label": "TL",
+                "unit": "",
+                chartType: "dot",
+                "stacked": false,
+                "cumulative": false,
+                smoothSettings: "curveCardinal",
+                "tooltipType": "label",
+                "minValue": 0,
+                "legend": false,
+                "visible": true,
+                "avgValueLine": false,
+                "scaleVisible": false,
+                "calculateTotals": "",
+                lineColor: "#673AB7", //  deep-purple-500
+                lineStyle: "solid",
+                radius: 3,
+                fillType: "gradient",
+                fillColor: "",
+                gradient: [{
+                    offset: "0%",
+                    color: "#D1C4E9", //  deep-purple-100
+                    opacity: 0.2
+                }, {
+                    offset: "100%",
+                    color: "#673AB7", // deep-purple-500
+                    opacity: 0.6
+                }],
+                markerColor: "#673AB7",
+                "avgValueLineColor": "#4527A0", // deep-purple-800
+                "avgValueLineStyle": "dashed",
+                "idx": 2,
+                "measureSource": "activity.actual.measure",
+                "measureName": "trainingLoad",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "value",
+                "aggMethod": "sum"
+            },{
+                "id": "IL",
+                "label": "IL",
+                "unit": "",
+                "chartType": "dot",
+                "stacked": null,
+                "cumulative": false,
+                "smoothSettings": "null",
+                "tooltipType": "label",
+                "legend": false,
+                "visible": true,
+                "radius": 3,
+                "avgValueLine": false,
+                "scaleVisible": false,
+                "calculateTotals": "",
+                "lineColor": "#2887c8",
+                "lineStyle": "solid",
+                "fillType": "solid",
+                "fillColor": "#2887c8",
+                "markerColor": "#2887c8",
+                "avgValueLineColor": "",
+                "avgValueLineStyle": "",
+                "idx": 3,
+                "measureSource": "activity.actual.measure",
+                "measureName": "intensityLevel",
+                "dataType": "number",
+                "dateFormat": "",
+                "valueType": "value",
+                "aggMethod": "avg",
+                "reverse": false
+            }
+
+
+            ]
         }]
     },
      /**
@@ -1113,7 +1262,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType": "value",
-                    "aggMethod": "avg"
+                    "aggMethod": "sum"
                 },
                 {
                     "id": "IL",
@@ -1137,7 +1286,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "markerColor": "#2887c8",
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
-                    "idx": 3,
+                    "idx": 2,
                     "measureSource": "activity.actual.measure",
                     "measureName": "intensityLevel",
                     "dataType": "number",
@@ -1194,7 +1343,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             options: {
                 "legend": {
                     "vertical-align": "bottom",
-                    "horizontal-align": "left",
+                    "horizontal-align": "center",
                     "type": "row"
                 },
                 "tooltip": {
@@ -1229,7 +1378,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "xAxis" : true,
                     "tooltipType" : "none",
                     "tooltipLabel" : "Зона",
-                    "legend": true,
+                    "legend": false,
                     "colorPalette": false,
                     "currentPositionLine": true,
                     "idx" : 1,
@@ -1354,7 +1503,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "xAxis" : true,
                     "tooltipType" : "none",
                     "tooltipLabel" : "Зона",
-                    "legend": true,
+                    "legend": false,
                     "currentPositionLine": true,
                     "idx" : 1,
                     "measureSource": "activity.owner.zones",
@@ -1478,7 +1627,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "xAxis" : true,
                     "tooltipType" : "none",
                     "tooltipLabel" : "Зона",
-                    "legend": true,
+                    "legend": false,
                     "currentPositionLine": true,
                     "idx" : 1,
                     "measureSource": "activity.owner.zones",
@@ -1621,7 +1770,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 name: 'unit',
                 text: 'paceSpeedUnit',
                 model: 'мин/км',
-                options: ['мин/км', 'км/ч'],
+                options: ['мин/км', 'км/ч', 'мин/100м'],
                 change: {
                     'мин/км': {
                         unit: 'мин/км',
@@ -1629,12 +1778,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                         dateFormat: "mm:ss",
                         reverse: true
                     },
-                    'true': {
+                    'км/ч': {
                         unit: 'км/ч',
                         dataType: "number",
                         dateFormat: "",
                         reverse: false
-                    }
+                    },
+                    'мин/100м': {
+                        unit: 'мин/100м',
+                        dataType: "time",
+                        dateFormat: "mm:ss",
+                        reverse: true
+                    },
                 }
             }
         ],
@@ -1678,7 +1833,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "chartType" : "area",
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
-                "legend": true,
+                "legend": false,
                 lineColor: "#2196F3", //  blue-500
                 lineStyle: "solid",
                 lineWidth: 2,
@@ -1696,8 +1851,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "idx" : 1,
                 "measureSource": "activity.actual.measure",
                 "measureName": "speedTimePeaks",
-                "dataType": "number",
-                "dateFormat": "",
+                "dataType": "time",
+                "dateFormat": "mm:ss",
                 "valueType": "peak",
                 "aggMethod": "max",
                 "reverse": true
@@ -1985,8 +2140,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             options: {
                 "legend": {
-                    "vertical-align": "top",
-                    "horizontal-align": "right"
+                    "vertical-align": "bottom",
+                    "horizontal-align": "center",
+                    "type": "row"
                 },
                 "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
             },
@@ -2069,7 +2225,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 }
             }
         ],
-        layout: new AnalyticsChartLayout(2,1),
+        layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
@@ -2296,7 +2452,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 }
             }
         ],
-        layout: new AnalyticsChartLayout(2,1),
+        layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
@@ -2441,7 +2597,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             {
                 ind: [0],
-                idx: [1],
+                idx: [2],
                 type: 'radio',
                 area: 'measures',
                 name: 'measureName',
@@ -2460,7 +2616,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 }
             },
         ],
-        layout: new AnalyticsChartLayout(2,1),
+        layout: new AnalyticsChartLayout(1,1),
         charts: [{
             params: {
                 users: null,//[this.session.getUser().userId],
@@ -2501,50 +2657,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }],
             measures: [
                 {
-                    label: "Расстояние",
-                    unit: "км",
-                    chartType: "area",
-                    smoothSettings: 'curveStep',
-                    stacked: false,
-                    cumulative: false,
-                    tooltipType: "icon",
-                    minValue: 0,
-                    legend: true,
-                    visible: true,
-                    avgValueLine: false,
-                    scaleVisible: true,
-                    calculateTotals: "",
-                    lineColor: "#455A64", // blue-grey-500
-                    lineStyle: "solid",
-                    fillType: "gradient",
-                    fillColor: "",
-                    gradient: [{
-                        offset: "0%",
-                        color: "#CFD8DC", //  deep-purple-100
-                        opacity: 0.2
-                    }, {
-                        offset: "100%",
-                        color: "#455A64", // deep-purple-500
-                        opacity: 0.8
-                    }],
-                    markerColor: "#455A64", // blue-grey-500
-                    idx : 1,
-                    measureSource : "activity.actual.measure",
-                    measureName: "distance",
-                    dataType: "number",
-                    dateFormat: "",
-                    valueType : "value",
-                    aggMethod : "sum"
-                },
-                {
                     label: "Процент выполнения",
                     unit: "",
-                    chartType: "area",
-                    smoothSettings: 'curveStep',
+                    chartType: "dot",
+                    smoothSettings: 'curveBasis',
                     stacked: false,
                     cumulative: false,
                     tooltipType: "icon",
-                    minValue: 0,
+                    //minValue: 0,
                     legend: true,
                     visible: true,
                     avgValueLine: true,
@@ -2554,7 +2674,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     lineStyle: "solid",
                     lineWidth: 3,
                     fillType: "gradient",
-                    fillColor: "",
+                    fillColor: "#FF5722",
                     gradient: [{
                         offset: "0%",
                         color: "#D1C4E9", //   blue-grey-100
@@ -2567,13 +2687,50 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     markerColor: "#FF5722", //  blue-grey-500
                     avgValueLineColor: "#FF5722", //  blue-grey-500
                     avgValueLineStyle: "dashed",
-                    idx : 2,
+                    idx : 1,
                     measureSource : "activity.plan.measure",
                     measureName : "completePercent",
                     dataType: "value",
                     dateFormat: "",
                     valueType : "value",
                     aggMethod : "avg"
+                },
+                {
+                    label: "Расстояние",
+                    unit: "км",
+                    chartType: "area",
+                    smoothSettings: 'curveBasis',
+                    stacked: false,
+                    cumulative: false,
+                    tooltipType: "icon",
+                    minValue: 0,
+                    legend: true,
+                    visible: true,
+                    avgValueLine: false,
+                    scaleVisible: true,
+                    calculateTotals: "",
+                    lineColor: "#455A64", // blue-grey-500
+                    lineStyle: "solid",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#CFD8DC", //  deep-purple-100
+                        opacity: 0.2
+                    }, {
+                        offset: "100%",
+                        color: "#455A64", // deep-purple-500
+                        opacity: 0.8
+                    }],
+                    markerColor: "#455A64", // blue-grey-500
+                    idx : 2,
+                    measureSource : "activity.actual.measure",
+                    measureName: "distance",
+                    dataType: "number",
+                    dateFormat: "",
+                    valueType : "value",
+                    aggMethod : "sum"
                 }
             ]
         }]

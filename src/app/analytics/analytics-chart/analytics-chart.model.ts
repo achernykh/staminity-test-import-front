@@ -1,10 +1,12 @@
 import {
     IAnalyticsChartFilter,
-    IAnalyticsChartFilterParam
+    IAnalyticsChartSettings
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IChartMeasure, IChartParams, IChart} from "../../../../api/statistics/statistics.interface";
 import moment from 'moment/src/moment.js';
 import {IUserProfile} from "../../../../api/user/user.interface";
+import {peaksByTime} from "../../share/measure/measure.filter";
+import {_measurement_calculate} from "../../share/measure/measure.constants";
 
 export class AnalyticsChartLayout {
 
@@ -40,7 +42,7 @@ export interface IAnalyticsChart {
     title: string;
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
-    settings?: Array<IAnalyticsChartFilterParam<any>>;
+    settings?: Array<IAnalyticsChartSettings<any>>;
     //filter: IAnalyticsChartFilter;
     globalParams?: boolean;
     localParams?: any;
@@ -78,6 +80,10 @@ export class AnalyticsChart implements IAnalyticsChart{
         }
     }
 
+    clearMetrics() {
+        this.charts.map(c => c.hasOwnProperty('metrics') && delete c.metrics);
+    }
+
     hasMetrics(): boolean {
         return this.charts.some(c => c.hasOwnProperty('metrics'));
     }
@@ -97,10 +103,12 @@ export class AnalyticsChart implements IAnalyticsChart{
                     public: user.public
                 });
 
-                this.localParams.users.options.push(...user.connections.allAthletes.groupMembers.map(a => ({
-                    userId: a.userId,
-                    public: a.public
-                })));
+                if(user.connections.hasOwnProperty('allAthletes')) {
+                    this.localParams.users.options.push(...user.connections.allAthletes.groupMembers.map(a => ({
+                        userId: a.userId,
+                        public: a.public
+                    })));
+                }
 
                 break;
             }
@@ -112,10 +120,12 @@ export class AnalyticsChart implements IAnalyticsChart{
                     public: user.public
                 });
 
-                this.localParams.users.options.push(...user.connections.allAthletes.groupMembers.map(a => ({
-                    userId: a.userId,
-                    public: a.public
-                })));
+                if(user.connections.hasOwnProperty('allAthletes')) {
+                    this.localParams.users.options.push(...user.connections.allAthletes.groupMembers.map(a => ({
+                        userId: a.userId,
+                        public: a.public
+                    })));
+                }
 
                 break;
             }
@@ -138,12 +148,22 @@ export class AnalyticsChart implements IAnalyticsChart{
                     } else if(params.measureName === 'duration' ) {
                         metric.push(value / 60 / 60);
                     } else if(params.measureName === 'distance') {
-                        metric.push(value / 1000);
-                    } else if (params.measureName === 'speed' && params.dataType === 'time') {
-                        metric.push(!!value ? (60 * 60) / (value * 3.6) : null);
+                        metric.push(_measurement_calculate.meter.km(value));
+                    // Пересчет темпа мин/км
+                    } else if ((params.measureName === 'speed' && params.dataType === 'time') || params.unit === 'мин/км') {
+                        metric.push(_measurement_calculate.mps.minpkm(value));//moment().startOf('day').millisecond(_measurement_calculate.mps.minpkm(value)*1000).startOf('millisecond').format('mm:ss'));
+                    // Пересчет темпа мин/100м
+                    } else if ((params.measureName === 'speed' && params.dataType === 'time') || params.unit === 'мин/100м') {
+                        metric.push(_measurement_calculate.mps.minp100m(value));
+                    // Пересчет скорости км/ч
+                    } else if ((params.measureName === 'speed' && params.dataType !== 'time') || params.unit === 'мин/км') {
+                        metric.push(_measurement_calculate.mps.kmph(value));
                     } else if (['speedDecoupling','powerDecoupling'].indexOf(params.measureName) !== -1) {
                         metric.push(value * 100);
-                    } else {
+                    } else if(params.measureSource === 'peaksByTime') {
+                        metric.push(peaksByTime(value));
+                    }
+                    else{
                         metric.push(value);
                     }
 

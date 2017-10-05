@@ -66,17 +66,20 @@ class Legend extends View {
             }.bind(this))
             .value();
         } else if (config.series[1] && config.series[1].legend) {
-            return _(config.metrics).map(function(d) {
+
+            var seriesList = _(config.metrics).map(function(d) {
                 return d[config.series[1].idx];
             }.bind(this))
-            .uniq()
-            .map(function(d, i) {
+                .uniq()
+                .value();
+
+            return seriesList.map(function(d, i) {
                 return {
                     value: d,
-                    color: Color.getColor(i, domain.length, config.series[1], this._uChart)
+                    color: Color.getColor(i, seriesList.length, config.series[1], this._uChart)
                 }
-            }.bind(this))
-            .value();
+            }.bind(this));
+
         } else {
             return this._uChart.getViews()
                 .map(v => v.getConfig().getOptions())
