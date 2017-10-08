@@ -9,7 +9,7 @@ import { ISessionService, getUser } from "../../core/session.service";
 import RequestsService from "../../core/requests.service";
 import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
-import {StateService, LocationServices} from 'angular-ui-router';
+import {StateService, LocationServices} from "@uirouter/angular";
 import NotificationService from "../notification/notification.service";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";

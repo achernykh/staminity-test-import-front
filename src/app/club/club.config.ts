@@ -1,11 +1,11 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './club.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import {IAuthService} from "../auth/auth.service";
 import GroupService from "../core/group.service";
 
 function configure(
-    $stateProvider:StateProvider,
+    $stateProvider: any,
     $translateProvider: any) {
     $stateProvider
         .state('club', <StateDeclaration>{

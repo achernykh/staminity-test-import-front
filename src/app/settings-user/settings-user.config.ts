@@ -1,4 +1,4 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './settings-user.translate';
 import { DisplayView } from "../core/display.constants";
 import UserService from "../core/user.service";
@@ -9,7 +9,7 @@ import {IAuthService} from "../auth/auth.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 
 function configure(
-    $stateProvider:StateProvider,
+    $stateProvider: any,
     $translateProvider: any,
     $authProvider: any) {
 

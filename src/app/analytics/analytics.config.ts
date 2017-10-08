@@ -1,4 +1,4 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateDeclaration, StateService} from "@uirouter/angular";
 import {DisplayView, DefaultTemplate} from "../core/display.constants";
 import SessionService from "../core/session.service";
 import {ISessionService} from "../core/session.service";
@@ -8,7 +8,7 @@ import {translateAnalytics} from "./analytics.translate";
 import ReferenceService from "../reference/reference.service";
 
 
-function configure($stateProvider:StateProvider,
+function configure($stateProvider: any,
                    $translateProvider:any) {
 
     $stateProvider

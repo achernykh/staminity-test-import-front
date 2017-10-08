@@ -1,9 +1,9 @@
-import {StateProvider, StateDeclaration} from 'angular-ui-router';
+import {StateDeclaration} from "@uirouter/angular";
 import {_translateSearch} from './search.translate';
 import {DefaultTemplate, DisplayView} from "../core/display.constants";
 //import {ITranslateProvider} from "angular-translate";
 
-function configure($stateProvider:StateProvider,
+function configure($stateProvider: any,
                    $translateProvider:any) {
 
     $stateProvider

@@ -2,7 +2,7 @@ import './landing-tariffs.component.scss';
 import {IComponentOptions, IComponentController, IPromise,ILocationService,IScope} from 'angular';
 import {landingTariffsData} from "./landing-tariffs.constants";
 import moment from 'moment/min/moment-with-locales.js';
-import {StateService} from 'angular-ui-router';
+import {StateService} from '@uirouter/angular';
 
 interface TariffCalc {
     premium: boolean;

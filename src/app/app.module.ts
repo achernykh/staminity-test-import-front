@@ -1,4 +1,4 @@
-import {module, bootstrap} from 'angular';
+import * as angular from 'angular';
 import * as hmReedmore from "../../bower_components/angular-read-more";
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
 import 'angularjs-scroll-glue/src/scrollglue.js';
@@ -30,13 +30,14 @@ import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
 import Analytics from "./analytics/analytics.module";
 
-const root = module('staminity.application', [
+export const root = angular.module('staminity.application', [
 	'pascalprecht.translate', // translate
 	'ngMaterial',
 	'ngMessages',
 	'ngAnimate',
 	'ngAria',
 	'ui.router',
+	'ui.router.upgrade',
 	'md.data.table',
 	'nemLogging',
 	'ui-leaflet',
@@ -68,11 +69,8 @@ const root = module('staminity.application', [
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)
-	.run(run)
-	.name;
+	.run(run);
 
-bootstrap(document, ['staminity.application'], {
+/**bootstrap(document, ['staminity.application'], {
 	strictDi: true
-});
-
-export default root;
+});**/

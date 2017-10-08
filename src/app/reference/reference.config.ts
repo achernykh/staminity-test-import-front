@@ -1,5 +1,5 @@
 import { merge } from 'angular';
-import { StateProvider, StateDeclaration, StateService } from 'angular-ui-router';
+import { StateDeclaration, StateService } from "@uirouter/angular";
 
 import { IUserProfile } from "../../../api/user/user.interface";
 import { IGroupProfile } from "../../../api/group/group.interface";
@@ -15,7 +15,7 @@ import * as translate from './reference.translate';
 
 
 function configure (
-	$stateProvider: StateProvider, 
+	$stateProvider: any,
 	$translateProvider
 ) {
 	$stateProvider

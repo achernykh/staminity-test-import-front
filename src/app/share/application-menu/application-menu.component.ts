@@ -1,7 +1,7 @@
 import * as angular from 'angular';
 import { IComponentOptions, IComponentController, IScope} from 'angular';
 import { UserMenuSettings, AppMenuSettings } from './application-menu.constants';
-import {StateService} from "angular-ui-router";
+import {StateService} from "@uirouter/angular";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {Subject} from 'rxjs/Rx';
 import './application-menu.component.scss';

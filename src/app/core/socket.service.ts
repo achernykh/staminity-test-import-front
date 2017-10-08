@@ -1,10 +1,10 @@
 import * as _connection from './env.js';
 import { ISessionService } from './session.service';
-import {StateService} from 'angular-ui-router';
+import {StateService} from '@uirouter/angular';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import LoaderService from "../share/loader/loader.service";
 import {IMessageService} from "./message.service";
-import {IHttpService, noop} from 'angular';
+import {IHttpService, noop, IPromise} from 'angular';
 import {Ping} from "../../../api/core";
 
 
@@ -109,7 +109,7 @@ export class SocketService implements ISocketService {
      * @returns {Promise<T>}
      * @param token
      */
-    open(token:string = this.SessionService.getToken(), delay:number = 100):Promise<any> {
+    open(token:string = this.SessionService.getToken(), delay:number = 100): Promise<any> {
         return new Promise((resolve, reject) => {
             if (!this.socket || (this.socket.readyState !== SocketStatus.Open &&
                 this.socket.readyState !== SocketStatus.Connecting)) {
@@ -265,14 +265,14 @@ export class SocketService implements ISocketService {
      * @param request
      * @returns {Promise<T>}
      */
-    send(request:IWSRequest):Promise<any> {
+    send(request:IWSRequest): Promise<any> {
 
         if (!this.connectionStatus){ // если соединение не установлено
-            return Promise.reject('internetConnectionLost');
+            throw new Error('internetConnectionLost');
         }
 
         if(!this.SessionService.getToken()) { // если пользователь не авторизован
-            return Promise.reject('userNotAuthorized');
+            throw new Error('userNotAuthorized');
         }
 
         return this.open().then(() => {
@@ -293,6 +293,8 @@ export class SocketService implements ISocketService {
 
             return deferred.promise;
 
-        }, () => Promise.reject('internetConnectionLost'));
+        }, () => {
+            throw new Error('internetConnectionLost');
+        });
     }
 }

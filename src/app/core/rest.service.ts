@@ -1,6 +1,6 @@
 import * as _connection from './env.js';
 import {ISessionService} from './session.service';
-import { IHttpService, IHttpPromise } from 'angular';
+import { IHttpService, IHttpPromise, IPromise } from 'angular';
 import LoaderService from "../share/loader/loader.service";
 
 export interface IPostDataRequest {
@@ -101,8 +101,8 @@ export class PostFile implements IPostFileRequest {
 }
 
 export interface IRESTService {
-	postData(request:IPostDataRequest):IHttpPromise<{}>;
-	postFile(request:IPostFileRequest):IHttpPromise<{}>;
+	postData(request:IPostDataRequest):Promise<any>;
+	postFile(request:IPostFileRequest):Promise<any>;
 }
 
 export class RESTService implements IRESTService {
@@ -116,7 +116,7 @@ export class RESTService implements IRESTService {
 		//this.SessionService = SessionService;
 	}
 
-	postData(request:IPostDataRequest):IHttpPromise<{}> {
+	postData(request:IPostDataRequest):Promise<any> {
 		this.loader.show();
 
 		let token: string = this.SessionService.getToken();
@@ -127,36 +127,49 @@ export class RESTService implements IRESTService {
 			delete request.headers['Authorization'];
 		}
 
-		return this.$http(request)
-			.finally(()=>this.loader.hide())
-			.then((response:any)=> {
-				console.log('REST Service => postData success=', response);
-				if(response.data.hasOwnProperty('errorMessage')) {
-					throw response.data;
-				} else {
-					return response.data;
-				}
-			}, (response) => {
-				if (response.hasOwnProperty('status') && response.status === -1){
-                    throw 'internetConnectionLost';
-                } else if(response.hasOwnProperty('data') && response.data.hasOwnProperty('errorMessage')) {
-                    throw response.data.errorMessage;
-                } else {
-                    throw 'unknownErrorMessage';
-                }
-			});
+		return new Promise((resolve,reject) => {
+			this.$http(request)
+				.then((response:any)=> {
+					console.log('REST Service => postData success=', response);
+					if(response.data.hasOwnProperty('errorMessage')) {
+						return reject(response.data);
+					} else {
+						return resolve(response.data);
+					}
+				}, (response) => {
+					if (response.hasOwnProperty('status') && response.status === -1){
+						return reject('internetConnectionLost');
+					} else if(response.hasOwnProperty('data') && response.data.hasOwnProperty('errorMessage')) {
+						return reject(response.data.errorMessage);
+					} else {
+						return reject('unknownErrorMessage');
+					}
+				})
+				.then(() => this.loader.hide());
+		});
 	}
 
-	postFile(request:IPostFileRequest):IHttpPromise<{}> {
+	postFile(request:IPostFileRequest):Promise<any> {
 		this.loader.show();
 		request.headers['Authorization'] += this.SessionService.getToken();
-		return this.$http(request)
+
+		return new Promise((resolve, reject) => {
+			this.$http(request)
+				.then((result:any)=> {
+					return resolve(result);
+				}, (response) => {
+					return reject(response.data.data[0].value); // Предполагаем, что сервер ответил ошибкой в формате systemMessage
+				})
+				.then(() => this.loader.hide());
+		});
+
+		/**return this.$http(request)
 			.finally(()=>this.loader.hide())
 			.then((result:any)=> {
 				return result;
 			}, (response) => {
-				throw response.data.data[0].value; // Предполагаем, что сервер ответил ошибкой в формате systemMessage
-			});
+				return response.data.data[0].value; // Предполагаем, что сервер ответил ошибкой в формате systemMessage
+			});**/
 	}
 }
 

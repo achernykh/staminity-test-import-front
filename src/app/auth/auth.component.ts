@@ -1,6 +1,6 @@
 import { IComponentOptions, IComponentController,ILocationService,IHttpPromiseCallbackArg} from 'angular';
 import SessionService from "../core/session.service";
-import {StateService} from 'angular-ui-router';
+import {StateService} from '@uirouter/angular';
 import {IMessageService} from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 require('./auth.component.scss');
@@ -82,12 +82,9 @@ class AuthCtrl implements IComponentController {
 	signin(credentials) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.signIn({email: credentials.email, password: credentials.password})
-			.finally(() => this.enabled = true)
-			.then((profile: IUserProfile) => {
-				this.redirect('calendar', {uri: profile.public.uri});
-			}, (error) => {
-				this.message.systemError(error);
-			});
+			.then((profile: IUserProfile) => this.redirect('calendar', {uri: profile.public.uri}),
+				(error) => this.message.systemError(error))
+			.then(() => this.enabled = true);
 	}
 
 	/**
@@ -97,13 +94,12 @@ class AuthCtrl implements IComponentController {
 	signup(credentials) {
 		this.enabled = false; // форма ввода недоступна до получения ответа
 		this.AuthService.signUp(credentials)
-			.finally(() => this.enabled = true)
 			.then((message) => {
 				this.showConfirm = true;
 				this.message.systemSuccess(message.title);
 			}, (error) => {
 				this.message.systemWarning(error);
-			});
+			}).then(() => this.enabled = true);
 	}
 
 	/**
@@ -135,13 +131,12 @@ class AuthCtrl implements IComponentController {
 	putInvite(credentials) {
 		this.enabled = false;
 		this.AuthService.putInvite(Object.assign(credentials, {token: this.$location['$$search']['request']}))
-            .finally(() => this.enabled = true)
 			.then((sessionData) => {
 				this.AuthService.signedIn(sessionData);
 				this.redirect('calendar', {uri: sessionData.userProfile.public.uri});
 			}, (error) => {
 				this.message.systemWarning(error.errorMessage || error);
-			});
+			}).then(() => this.enabled = true);
 	}
 
 	OAuth(provider:string) {
@@ -154,7 +149,6 @@ class AuthCtrl implements IComponentController {
 				activatePremiumTrial: true
             }
 		})
-			.finally(()=>this.enabled = true)
 			.then((response: IHttpPromiseCallbackArg<{data:{userProfile: IUserProfile, systemFunctions: any}}>) => {
 				let sessionData = response.data.data;
 				this.AuthService.signedIn(sessionData);
@@ -163,9 +157,11 @@ class AuthCtrl implements IComponentController {
 				if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
 					this.message.toastInfo('userCancelOAuth');
 				} else {
-					this.message.systemWarning(error.data.errorMessage || error.errorMessage || error);
+					throw this.message.systemWarning(error.data.errorMessage || error.errorMessage || error);
 				}
-			}).catch(response => this.message.systemError(response));
+			})
+			.then(() => this.enabled = true);
+
 	}
 
 	redirect(state: string = 'calendar', params: Object):void {

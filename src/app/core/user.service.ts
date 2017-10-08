@@ -1,4 +1,4 @@
-import {merge} from "angular";
+import {merge, IPromise} from "angular";
 import {IUserProfile, IUserConnections, ITrainingZonesType} from '../../../api/user/user.interface';
 import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
 import {
@@ -119,11 +119,11 @@ export default class UserService {
      * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
+    getProfile(key: string|number, ws: boolean = true) : Promise<any> {
         return ws ?
             this.SocketService.send(new GetRequest(key)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
-                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
+                .then((response) => response.data);
     }
 
     /**
@@ -146,7 +146,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileAvatar(file:any) : IHttpPromise<any> {
+    postProfileAvatar(file:any) : Promise<any> {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
@@ -159,7 +159,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileBackground(file:any) : IHttpPromise<any> {
+    postProfileBackground(file:any) : Promise<any> {
         return this.RESTService.postFile(new PostFile('/user/background',file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);

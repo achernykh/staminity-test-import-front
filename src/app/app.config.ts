@@ -1,5 +1,5 @@
 import { ICompileProvider, ILocationProvider} from 'angular';
-import {StateProvider, StateDeclaration} from 'angular-ui-router';
+import { StateDeclaration} from '@uirouter/angular';
 import moment from 'moment/min/moment-with-locales.js';
 import {translateForm,translateGeneral} from "./app.translate";
 
@@ -8,7 +8,7 @@ function configure(
 	$locationProvider: ILocationProvider,
 	$urlRouterProvider: any,
 	$mdThemingProvider: ng.material.IThemingProvider,
-	$stateProvider:StateProvider,
+	$stateProvider: any,
 	$translateProvider: any,
 	$anchorScrollProvider: any,
 	$qProvider: any,

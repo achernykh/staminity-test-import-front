@@ -1,4 +1,4 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateDeclaration, StateService} from "@uirouter/angular";
 import {translateDashboard, translateDashboardClub} from "./dashboard.translate";
 import {DisplayView} from "../core/display.constants";
 import SessionService from "../core/session.service";
@@ -6,7 +6,7 @@ import {ISessionService} from "../core/session.service";
 import GroupService from "../core/group.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 
-function configure($stateProvider:StateProvider,
+function configure($stateProvider: any,
                    $translateProvider:any) {
 
     $stateProvider

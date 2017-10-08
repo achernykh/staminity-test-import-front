@@ -1,5 +1,5 @@
 import {translateSport, translateCategories, translateActivity} from "./activity.translate";
-import {StateProvider, Ng1StateDeclaration} from "angular-ui-router";
+import {StateDeclaration} from "@uirouter/angular";
 import {DisplayView, DefaultTemplate} from "../core/display.constants";
 import {CalendarService} from "../calendar/calendar.service";
 import MessageService from "../core/message.service";
@@ -7,10 +7,10 @@ import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import UserService from "../core/user.service";
 
 function configure($translateProvider:any,
-                   $stateProvider: StateProvider) {
+                   $stateProvider: any) {
 
     $stateProvider
-        .state('activity', <Ng1StateDeclaration> {
+        .state('activity', <StateDeclaration> {
             url: '/activity/:calendarItemId',
             loginRequired: true,
             authRequired: ['user'],
@@ -24,7 +24,7 @@ function configure($translateProvider:any,
                            throw error;
                        })],
                 athlete: ['item','UserService','message', (item:ICalendarItem, UserService: UserService, message:MessageService) =>
-                    UserService.getProfile(item.userProfileOwner.userId).catch(error => {
+                    UserService.getProfile(item.userProfileOwner.userId).then(user =>  user, error => {
                         message.systemWarning(error);
                         throw error;
                     })]

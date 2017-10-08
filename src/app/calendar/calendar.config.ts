@@ -1,4 +1,4 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './calendar.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import UserService from "../core/user.service";
@@ -7,7 +7,7 @@ import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service";
 import SessionService from "../core/session.service";
 
-function configure($stateProvider:StateProvider,
+function configure($stateProvider: any,
                    $translateProvider:any) {
 
     $stateProvider
@@ -31,7 +31,7 @@ function configure($stateProvider:StateProvider,
                 user: ['UserService', 'message', '$stateParams',
                     function (UserService:UserService, message:MessageService, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
-                            .catch((info)=> {
+                            .then(user => user, (info) => {
                                 message.systemWarning(info);
                                 // TODO перейти на страницу 404
                                 throw info;

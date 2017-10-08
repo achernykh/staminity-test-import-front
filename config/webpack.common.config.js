@@ -13,6 +13,10 @@ module.exports = {
     entry: {
         vendor: [
             'angular',
+            'zone.js',
+            '@angular/common',
+            '@angular/core',
+            '@angular/router',
             'angular-aria',
             'angular-animate',
             'angular-messages',
@@ -46,12 +50,17 @@ module.exports = {
             'angular-drag-and-drop-lists',
             'angularjs-scroll-glue',
             'drag-drop-webkit-mobile',
-            'angular-ui-router',
+            //'angular-ui-router',
+            '@uirouter/core',
+            '@uirouter/angular-hybrid',
+            '@uirouter/angularjs',
+            '@uirouter/angular',
+            '@uirouter/rx',
             'lodash'
             //'unichart/dist/uchart.min.js'
         ],
         // вход для приложения
-        app: './src/app/app.module.ts'
+        app: './src/app/main.ts'
     },
     module: {
         rules: [

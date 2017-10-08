@@ -1,4 +1,4 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './profile-user.translate';
 import { summaryStatisticsTranslate } from './summary-statistics.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
@@ -7,7 +7,7 @@ import AuthService from "../auth/auth.service";
 import {ILocationService} from 'angular';
 
 function configure(
-    $stateProvider:StateProvider,
+    $stateProvider: any,
     $translateProvider: any) {
     $stateProvider
         .state('profile', <StateDeclaration>{
@@ -35,7 +35,7 @@ function configure(
                 auth: ['AuthService', (AuthService: AuthService) => AuthService.isAuthenticated()],
                 userId: ['$stateParams', $stateParams =>  $stateParams.uri],
                 user: ['UserService','userId','auth','$location', function (UserService: UserService, userId, auth: boolean, $location: ILocationService) {
-                    return UserService.getProfile(userId, auth).catch(error => {
+                    return UserService.getProfile(userId, auth).then(user => user, error => {
                         if(error.hasOwnProperty('errorMessage') && error.errorMessage === 'userNotFound'){
                             $location.path('/404');
                         }

@@ -21,14 +21,14 @@ export interface IAuthService {
     isMyClub(uri: string):Promise<any>;
     isActivityPlan(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
-    signIn(request:Object):IPromise<void>;
-    signUp(request:Object):IHttpPromise<{}>;
+    signIn(request:Object):Promise<void>;
+    signUp(request:Object):Promise<{}>;
     signOut():void;
-    confirm(request:Object):IHttpPromise<{}>;
-    resetPassword(email: string):IHttpPromise<{}>;
-    setPassword(password:string,token:string):IHttpPromise<{}>;
+    confirm(request:Object):Promise<{}>;
+    resetPassword(email: string):Promise<{}>;
+    setPassword(password:string,token:string):Promise<{}>;
     inviteUsers(group: number, users: Array<Object>):Promise<any>;
-    putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any>;
+    putInvite(credentials: UserCredentials):Promise<any>;
 }
 
 export default class AuthService implements IAuthService {
@@ -114,7 +114,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    signUp(request) : IHttpPromise<{}> {
+    signUp(request) : Promise<{}> {
         return this.RESTService.postData(new PostData('/signup', request));
     }
 
@@ -123,7 +123,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>|Promise<TResult2|TResult1>|Promise<TResult>|*|Promise.<TResult>}
      */
-    signIn(request) : IPromise<void> {
+    signIn(request) : Promise<void> {
         return this.RESTService.postData(new PostData('/signin', request))
             .then((response: IHttpPromiseCallbackArg<any>) => {
                 if(response.data.hasOwnProperty('userProfile') && response.data.hasOwnProperty('token')) {
@@ -150,7 +150,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    confirm(request) : IHttpPromise<{}> {
+    confirm(request) : Promise<{}> {
         return this.RESTService.postData(new PostData('/confirm', request));
     }
 
@@ -159,7 +159,7 @@ export default class AuthService implements IAuthService {
      * @param email
      * @returns {IPromise<TResult>}
      */
-    resetPassword(email: string) : IHttpPromise<{}>{
+    resetPassword(email: string) : Promise<{}>{
         return this.RESTService.postData(new ResetPasswordRequest(email))
             .then(result => result['data']);
     }
@@ -168,7 +168,7 @@ export default class AuthService implements IAuthService {
      * @param password
      * @returns {Promise<any>}
      */
-    setPassword(password: string, token: string) : IHttpPromise<{}> {
+    setPassword(password: string, token: string) : Promise<{}> {
         return this.RESTService.postData(new SetPasswordRequest(token, password))
             .then((result) => result['data']); // Ожидаем system message
     }

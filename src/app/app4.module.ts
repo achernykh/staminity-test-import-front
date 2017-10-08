@@ -1,20 +1,24 @@
-import {NgModule} from '@angular/core';
+import {NgModule, Component} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import { UpgradeModule } from '@angular/upgrade/static';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { UIRouterUpgradeModule } from '@uirouter/angular-hybrid';
+import { UIRouterModule } from '@uirouter/angular';
+
+import 'core-js/es7/reflect';
+import 'zone.js/dist/zone';
 
 @NgModule({
     imports: [
         BrowserModule,
-        UpgradeModule
+        // Provide Angular upgrade capabilities
+        UpgradeModule,
+        // Provides the @uirouter/angular-hybrid directives
+        UIRouterUpgradeModule,
+        // Provides the @uirouter/angular directives
+        UIRouterModule,
     ]
-})
-
-export class AppModule {
-    constructor(private upgrade: UpgradeModule) { }
+}) export class RootModule {
     ngDoBootstrap() {
-        this.upgrade.bootstrap(document.body, ['heroApp'], { strictDi: true });
+        /* no body: this disables normal (non-hybrid) Angular bootstrapping */
     }
 }
-
-platformBrowserDynamic().bootstrapModule(AppModule);

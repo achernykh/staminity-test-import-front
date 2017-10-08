@@ -45,7 +45,7 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
     }
 
     // TODO надо продумать алгоритм перевода фактических итогов плановый интервал
-    toTemplate(): IActivityIntervalPW {
+    toTemplate(): IActivityIntervalW {
         return Object.assign(this.clear(), {
             type: 'pW'
         }, {

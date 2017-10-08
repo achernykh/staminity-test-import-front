@@ -1,10 +1,10 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './athletes.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import {_translateAthleteInvitation} from "./athlete-invitation/athlete-invitation.translate";
 
 function configure(
-    $stateProvider:StateProvider,
+    $stateProvider: any,
     $translateProvider: any) {
     $stateProvider
         .state('athletes', <StateDeclaration>{
