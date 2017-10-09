@@ -71,6 +71,13 @@ export const root = angular.module('staminity.application', [
 	.config(configure)
 	.run(run);
 
+// Enable tracing of each TRANSITION... (check the javascript console)
+
+// This syntax `$trace.enable(1)` is an alternative to `$trace.enable("TRANSITION")`.
+// Besides "TRANSITION", you can also enable tracing for : "RESOLVE", "HOOK", "INVOKE", "UIVIEW", "VIEWCONFIG"
+const traceRunBlock = ['$trace', $trace => { $trace.enable(1); }];
+root.run(traceRunBlock);
+
 /**bootstrap(document, ['staminity.application'], {
 	strictDi: true
 });**/

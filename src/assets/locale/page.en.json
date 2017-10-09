@@ -1,0 +1,6 @@
+{
+  "page": {
+    "HELLO": "Hello {{value}}",
+    "GOODBYE": "Goodbye"
+  }
+}

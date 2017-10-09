@@ -10,6 +10,10 @@ import { root } from './app.module';
 import { RootModule } from './app4.module';
 import { UrlService} from '@uirouter/core';
 
+// Using AngularJS config block, call `deferIntercept()`.
+// This tells UI-Router to delay the initial URL sync (until all bootstrapping is complete)
+root.config([ '$urlServiceProvider', ($urlService: UrlService) => $urlService.deferIntercept() ]);
+
 // Manually bootstrap the Angular app
 platformBrowserDynamic().bootstrapModule(RootModule).then(platformRef => {
     const injector = platformRef.injector;
