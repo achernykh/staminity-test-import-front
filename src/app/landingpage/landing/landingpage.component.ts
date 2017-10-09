@@ -5,6 +5,7 @@ import SessionService from "../../core/session.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import { Observable } from 'rxjs/Observable';
 import DisplayService from "../../core/display.service";
+import {NewPageDialogService} from "../../new-page/new-page.service";
 require('./landingpage.component.scss');
 
 class LandingPageCtrl implements IComponentController {
@@ -15,13 +16,18 @@ class LandingPageCtrl implements IComponentController {
 		club: ['lp-club-01.png']
 	};
 
-	static $inject = ['AuthService', '$state', 'SessionService', 'DisplayService'];
+	static $inject = ['AuthService', '$state', 'SessionService', 'DisplayService', 'NewPageDialogService'];
 
 	constructor(private AuthService: IAuthService,
 				private $state: StateService,
 				private SessionService: SessionService,
-				private display: DisplayService) {
+				private display: DisplayService,
+				private NewPageDialog: NewPageDialogService) {
 
+	}
+
+	$onInit() {
+		this.NewPageDialog.print('some text from landing page');
 	}
 
 	get user () : IUserProfile {

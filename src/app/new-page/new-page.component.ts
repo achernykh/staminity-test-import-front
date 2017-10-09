@@ -1,8 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {TranslateService} from "@ngx-translate/core";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TranslateService } from "@ngx-translate/core";
+import { NewPageDialogService } from "./new-page.service";
 
 @Component({
     selector: 'new-page',
+    providers: [ NewPageDialogService ],
     template: `
 
 <mat-toolbar color="primary">
@@ -28,7 +30,7 @@ export class NewPageComponent implements OnInit, OnDestroy{
 
     public param: Object = {value: ', World!'};
 
-    constructor(private translate: TranslateService) {
+    constructor(private translate: TranslateService, private newPageDialog: NewPageDialogService) {
         translate.addLangs(['en', 'ru']);
         translate.setDefaultLang('en');
         translate.use('en');
@@ -38,7 +40,7 @@ export class NewPageComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit() {
-
+        this.newPageDialog.print('some text');
     }
 
     ngOnDestroy() {
