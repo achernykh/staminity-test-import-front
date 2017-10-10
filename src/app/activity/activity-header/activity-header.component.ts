@@ -32,7 +32,6 @@ export class ActivityHeaderCtrl implements IComponentController {
     }
 
     updateComments(response):void {
-        debugger;
         this.comments = response && response.hasOwnProperty('count') && response.count || null;
     }
 }
