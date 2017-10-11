@@ -11,7 +11,7 @@ import { path } from '../share/utility';
 let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
 let getUnits = (session: ISession) : string => path([getUser, 'display', 'units']) (session) || 'metric';
 let getTimezone = (session: ISession) : string => path([getUser, 'display', 'timezone']) (session) || '+00:00';
-let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 1;
+let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 0;
 
 let setupMoment = (locale: string, firstDayOfWeek: number) => {
 	moment.locale(locale);
