@@ -217,8 +217,7 @@ class SettingsUserCtrl {
     }
 
     weekdays (day) {
-        let days = moment.weekdays();
-        return days[day];
+        return moment.weekdays(day);
     }
 
     syncEnabled (adaptor) {

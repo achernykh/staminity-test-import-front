@@ -14,7 +14,8 @@ let getTimezone = (session: ISession) : string => path([getUser, 'display', 'tim
 let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 1;
 
 let setupMoment = (locale: string, firstDayOfWeek: number) => {
-	moment.locale(locale, {
+	moment.locale(locale);
+	moment.updateLocale(locale, {
 		week: { dow: firstDayOfWeek },
 		invalidDate: ''
 	});
@@ -47,6 +48,7 @@ export default class DisplayService {
 		private tmhDynamicLocale: any,
 		private $mdDateLocale: any
 	) {
+		window['D'] = this;
 		SessionService.getObservable()
 		.map(getLocale)
 		.distinctUntilChanged()
