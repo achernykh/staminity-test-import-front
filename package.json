@@ -135,7 +135,7 @@
     "jsoneditor": "^5.5.11",
     "localforage": "^1.5.0",
     "material-design-icons": "^3.0.1",
-    "moment": "^2.17.1",
+    "moment": "^2.19.0",
     "moment-timezone": "^0.5.11",
     "ng-cache-loader": "0.0.22",
     "ng-jsoneditor": "^1.0.0",

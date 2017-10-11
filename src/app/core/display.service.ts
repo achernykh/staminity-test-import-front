@@ -13,17 +13,24 @@ let getUnits = (session: ISession) : string => path([getUser, 'display', 'units'
 let getTimezone = (session: ISession) : string => path([getUser, 'display', 'timezone']) (session) || '+00:00';
 let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 1;
 
+let setupMoment = (locale: string, firstDayOfWeek: number) => {
+	moment.locale(locale, {
+		week: { dow: firstDayOfWeek },
+		invalidDate: ''
+	});
+};
+
 export default class DisplayService {
 
 	private handleLocaleChange = (locale: string) => {
 		this.$translate.use(locale);
 		this.tmhDynamicLocale.set(locale);
-		moment.locale(locale);
-		console.log('DisplayService locale', locale);
+		setupMoment(locale, this.getFirstDayOfWeek());
 	}
 
 	private handleFirstDayOfWeekChange = (day: number) => {
 		this.$mdDateLocale.firstDayOfWeek = day;
+		setupMoment(this.getLocale(), day);
 	}
 
 	public locales = {
@@ -72,6 +79,10 @@ export default class DisplayService {
 	getTimezone () : string {
 		return getTimezone(this.SessionService.get());
 	}
+
+	getFirstDayOfWeek () : number {
+		return getFirstDayOfWeek(this.SessionService.get());
+	}
 }
 
 
@@ -84,8 +95,6 @@ export function configure (
 	
 	$mdDateLocaleProvider.parseDate = (s) => moment(s, 'L', true).toDate();
 	$mdDateLocaleProvider.formatDate = (date) => moment(date).format('L');
-
-	moment.updateLocale('*', { invalidDate: '' });
 }
 
 configure.$inject = ['$translateProvider', 'tmhDynamicLocaleProvider', '$mdDateLocaleProvider'];
