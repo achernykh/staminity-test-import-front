@@ -2288,19 +2288,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "pulse",
                     "label": "Пульс покоя",
                     "unit": "уд/м",
-                    "chartType": "dot",
+                    "chartType": "area",
                     "stacked": null,
-                    "smoothSettings": "curveMonotoneX",
+                    "cumulative": false,
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
-                    "lineColor": "lightblue",
-                    "lineStyle": "solid",
-                    "lineWidth": 2,
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "rgba(153, 190, 201, 1)",
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    lineColor: "#00838F", // 800
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#B2EBF2", //   100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#00ACC1", //  600
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#00838F", // 800
                     "idx": 1,
                     'measureSource': "measurement",
                     'measureName': "generalMeasures",
@@ -2313,21 +2325,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "weight",
                     "label": "Вес",
                     "unit": "кг",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#FF9999",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#FF9999",
+                    lineColor: "#C62828", // red-600
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#FFCDD2", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#E53935", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#C62828", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 2,
@@ -2342,21 +2364,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "muscleMass",
                     "label": "Мышечная масса",
                     "unit": "кг",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#e3ef83",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#e3ef83",
+                    lineColor: "#00695C", // red-600
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#B2DFDB", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#00897B", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#00695C", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 3,
@@ -2371,21 +2403,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "percentFat",
                     "label": "Процент жира",
                     "unit": "%",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#b060a4",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#b060a4",
+                    lineColor: "#FF8F00", // red-600
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#FFECB3", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#FFB300", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#FF8F00", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 4,
@@ -2430,26 +2472,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                         measureName: 'distance',
                         unit: 'км'
                     }
-                }
-            },
-            {
-                ind: [0],
-                idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'smoothSettings',
-                text: 'volume',
-                model: 'curveBasis',
-                options: ['curveLinear', 'curveStep', 'curveStepBefore', 'curveStepAfter', 'curveBasis', 'curveCardinal', 'curveMonotoneX', 'curveCatmullRom'],
-                change: {
-                    curveLinear: { smoothSettings: 'curveLinear'},
-                    curveStep: { smoothSettings: 'curveStep'},
-                    curveStepBefore: { smoothSettings: 'curveStepBefore'},
-                    curveStepAfter: { smoothSettings: 'curveStepAfter'},
-                    curveBasis: { smoothSettings: 'curveBasis'},
-                    curveCardinal: { smoothSettings: 'curveCardinal'},
-                    curveMonotoneX: { smoothSettings: 'curveMonotoneX'},
-                    curveCatmullRom: { smoothSettings: 'curveCatmullRom'}
                 }
             },
             {
@@ -2514,32 +2536,32 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 {
                     "label" : "Расстояние",
                     "unit" : "км",
-                    chartType: "area",
+                    chartType: "bar",
                     smoothSettings: 'curveBasis',
                     "stacked" : false,
                     "cumulative": false,
                     "tooltipType" : "icon",
                     "minValue" : 0,
-                    "legend": false,
+                    "legend": true,
                     "visible" : true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    lineColor: "#455A64", // blue-grey-500
+                    lineColor: "#607D8B", // deep-orange-300
                     lineStyle: "solid",
-                    lineWidth: 2,
+                    lineWidth: 0,
                     fillType: "gradient",
-                    fillColor: "",
+                    fillColor: "#CFD8DC", // deep-orange-200
                     gradient: [{
                         offset: "0%",
-                        color: "#CFD8DC", //  blue-grey-100
+                        color: "#CFD8DC", // deep-orange-50
                         opacity: 0.2
                     }, {
                         offset: "100%",
-                        color: "#455A64", // blue-grey-500
-                        opacity: 0.8
+                        color: "#607D8B", // deep-orange-300
+                        opacity: 0.6
                     }],
-                    markerColor: "#455A64", // blue-grey-500
+                    markerColor: "#455A64", // deep-orange-300
                     "idx" : 1,
                     "measureSource" : "activity.actual.measure",
                     "measureName" : "distance",
@@ -2552,21 +2574,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "weight",
                     "label": "Вес",
                     "unit": "кг",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#E53935", // red-600
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "none",
-                    "markerColor": "#E53935", // red-600
+                    lineColor: "#C62828", // red-600
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#FFCDD2", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#E53935", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#C62828", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 2,
@@ -2616,7 +2648,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             {
                 ind: [0],
-                idx: [2],
+                idx: [1],
                 type: 'radio',
                 area: 'measures',
                 name: 'measureName',
@@ -2676,14 +2708,51 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }],
             measures: [
                 {
-                    label: "Процент выполнения",
-                    unit: "",
-                    chartType: "dot",
+                    label: "Расстояние",
+                    unit: "км",
+                    chartType: "bar",
                     smoothSettings: 'curveBasis',
                     stacked: false,
                     cumulative: false,
                     tooltipType: "icon",
-                    //minValue: 0,
+                    minValue: 0,
+                    legend: true,
+                    visible: true,
+                    avgValueLine: false,
+                    scaleVisible: true,
+                    calculateTotals: "",
+                    lineColor: "#607D8B", // deep-orange-300
+                    lineStyle: "solid",
+                    lineWidth: 0,
+                    fillType: "gradient",
+                    fillColor: "#CFD8DC", // deep-orange-200
+                    gradient: [{
+                        offset: "0%",
+                        color: "#CFD8DC", // deep-orange-50
+                        opacity: 0.2
+                    }, {
+                        offset: "100%",
+                        color: "#607D8B", // deep-orange-300
+                        opacity: 0.6
+                    }],
+                    markerColor: "#455A64", // deep-orange-300
+                    idx : 1,
+                    measureSource : "activity.actual.measure",
+                    measureName: "distance",
+                    dataType: "number",
+                    dateFormat: "",
+                    valueType : "value",
+                    aggMethod : "sum"
+                },
+                {
+                    label: "Процент выполнения",
+                    unit: "",
+                    chartType: "area",
+                    smoothSettings: 'curveStep',
+                    stacked: false,
+                    cumulative: false,
+                    tooltipType: "icon",
+                    minValue: 0,
                     legend: true,
                     visible: true,
                     avgValueLine: true,
@@ -2701,55 +2770,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     }, {
                         offset: "100%",
                         color: "#FF5722", //  blue-grey-500
-                        opacity: 0.2
+                        opacity: 0.1
                     }],
                     markerColor: "#FF5722", //  blue-grey-500
                     avgValueLineColor: "#FF5722", //  blue-grey-500
                     avgValueLineStyle: "dashed",
-                    idx : 1,
+                    idx : 2,
                     measureSource : "activity.plan.measure",
                     measureName : "completePercent",
                     dataType: "value",
                     dateFormat: "",
                     valueType : "value",
                     aggMethod : "avg"
-                },
-                {
-                    label: "Расстояние",
-                    unit: "км",
-                    chartType: "area",
-                    smoothSettings: 'curveBasis',
-                    stacked: false,
-                    cumulative: false,
-                    tooltipType: "icon",
-                    minValue: 0,
-                    legend: true,
-                    visible: true,
-                    avgValueLine: false,
-                    scaleVisible: true,
-                    calculateTotals: "",
-                    lineColor: "#455A64", // blue-grey-500
-                    lineStyle: "solid",
-                    lineWidth: 3,
-                    fillType: "gradient",
-                    fillColor: "",
-                    gradient: [{
-                        offset: "0%",
-                        color: "#CFD8DC", //  deep-purple-100
-                        opacity: 0.2
-                    }, {
-                        offset: "100%",
-                        color: "#455A64", // deep-purple-500
-                        opacity: 0.8
-                    }],
-                    markerColor: "#455A64", // blue-grey-500
-                    idx : 2,
-                    measureSource : "activity.actual.measure",
-                    measureName: "distance",
-                    dataType: "number",
-                    dateFormat: "",
-                    valueType : "value",
-                    aggMethod : "sum"
                 }
             ]
         }]
