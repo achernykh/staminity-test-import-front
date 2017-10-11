@@ -32,7 +32,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 
     $onInit() {
-        if(!this.chart.globalParams && this.chart.hasOwnProperty('localParams') && !this.chart.localParams) {
+        if(this.chart.hasOwnProperty('localParams') && !this.chart.localParams) {
             this.chart.localParams = copy(this.globalFilter);
         }
     }
@@ -126,7 +126,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 
     usersSelectedText():string {
-        if(this.chart.localParams.users.model && this.chart.localParams.users.model.length > 0) {
+        if(this.chart.localParams && this.chart.localParams.users.model && this.chart.localParams.users.model.length > 0) {
             return `${this.$filter('username')(
                 this.chart.localParams.users.options.filter(u => u.userId === Number(this.chart.localParams.users.model[0]))[0])}      
                 ${this.chart.localParams.users.model.length > 1 ?
@@ -139,7 +139,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 
     activityTypesSelectedText():string {
-        if(this.chart.localParams.activityTypes.model && this.chart.localParams.activityTypes.model.length > 0) {
+        if(this.chart.localParams && this.chart.localParams.activityTypes.model && this.chart.localParams.activityTypes.model.length > 0) {
             return `${this.$filter('translate')('sport.' +
                 this.chart.localParams.activityTypes.options.filter(t => t.id === Number(this.chart.localParams.activityTypes.model[0]))[0].code)}
                 ${this.chart.localParams.activityTypes.model.length > 1 ?
@@ -150,7 +150,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 
     activityCategoriesSelectedText():string {
-        if(this.chart.localParams.activityCategories.model && this.chart.localParams.activityCategories.model.length > 0) {
+        if(this.chart.localParams && this.chart.localParams.activityCategories.model && this.chart.localParams.activityCategories.model.length > 0) {
             return `${this.$filter('categoryCode')(
                 this.chart.localParams.activityCategories.options.filter(c => c.id === this.chart.localParams.activityCategories.model[0])[0])}
                 ${this.chart.localParams.activityCategories.model.length > 1 ?
@@ -162,7 +162,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
 
     periodsSelectedText(): string {
-        if(this.chart.localParams.periods.model) {
+        if(this.chart.localParams && this.chart.localParams.periods.model) {
             return `${this.$filter('translate')('analytics.params.' + this.chart.localParams.periods.model)}`;
         } else {
             return this.$filter('translate')('analytics.filter.periods.empty');

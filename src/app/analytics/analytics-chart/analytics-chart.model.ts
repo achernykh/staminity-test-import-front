@@ -7,6 +7,7 @@ import moment from 'moment/src/moment.js';
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {peaksByTime} from "../../share/measure/measure.filter";
 import {_measurement_calculate} from "../../share/measure/measure.constants";
+import {activityTypes} from "../../activity/activity.constants";
 
 export class AnalyticsChartLayout {
 
@@ -90,6 +91,11 @@ export class AnalyticsChart implements IAnalyticsChart{
 
     private prepareLocalParams(user: IUserProfile){
 
+        if(this.localParams.activityTypes.model &&
+            (!this.localParams.activityTypes.hasOwnProperty('options') || !this.localParams.activityTypes.options)) {
+            this.localParams.activityTypes.options = activityTypes;
+        }
+
         if(typeof this.localParams.users.model !== "string") {
             return;
         }
@@ -156,7 +162,7 @@ export class AnalyticsChart implements IAnalyticsChart{
                     } else if ((params.measureName === 'speed' && params.dataType === 'time') || params.unit === 'мин/100м') {
                         metric.push(_measurement_calculate.mps.minp100m(value));
                     // Пересчет скорости км/ч
-                    } else if ((params.measureName === 'speed' && params.dataType !== 'time') || params.unit === 'мин/км') {
+                    } else if ((params.measureName === 'speed' && params.dataType !== 'time') || params.unit === 'км/ч') {
                         metric.push(_measurement_calculate.mps.kmph(value));
                     } else if (['speedDecoupling','powerDecoupling'].indexOf(params.measureName) !== -1) {
                         metric.push(value * 100);

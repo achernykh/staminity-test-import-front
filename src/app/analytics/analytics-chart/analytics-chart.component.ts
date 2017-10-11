@@ -128,7 +128,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
 
         if(param.area === 'params' || protectedOption ||
-            Object.keys(param.change[value]).some(change => ['seriesDateTrunc','cumulative','measureName'].indexOf(change) !== -1)) {
+            Object.keys(param.change[value]).some(change => ['seriesDateTrunc','measureName','unit'].indexOf(change) !== -1)) {
             this.prepareData();
         }
         this.prepareTitleContext();

@@ -67,11 +67,11 @@ export const translateAnalytics = {
         actualMovingDuration: {
             //  title: "Время тренировок {{'analytics.params.' + measureName | translate}}",
             title: 'Время тренировок',
-            description: 'Тренировочные объемы по периодам'
+            description: 'Нарастающий итог: {{cumulative | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
         },
         actualDistance: {
             title: 'Расстояние тренировок',
-            description: 'Тренировочные объемы по периодам'
+            description: 'Нарастающий итог: {{cumulative | translate | lowercase}}'
         },
         activityMeasuresSelected: {
             title: 'Показатели тренировок',

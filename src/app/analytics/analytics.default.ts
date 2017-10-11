@@ -2,7 +2,7 @@ import {IAnalyticsChart, AnalyticsChartLayout} from "./analytics-chart/analytics
 import {PeriodOptions} from "./analytics-chart-filter/analytics-chart-filter.model";
 
 const paletteAll500 = ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63",'#3F51B5','#00BCD4','#8BC34A','#FFC107','#795548','#9C27B0','#2196F3','#009688','#CDDC39','#FF9800','#9E9E9E'];
-
+const paletteSports = ["#2196F3", "#FFC107", "#009688", "#F44336", "#9C27B0", "#795548", "#E91E63", "#9E9E9E"];
 //noinspection TypeScriptValidateTypes,TypeScriptValidateTypes
 export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     /**
@@ -357,7 +357,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             ind: 0,
             idx: 1,
             area: 'measures',
-            param: 'measureName'
+            param: 'cumulative'
+        },{
+            ind: 0,
+            idx: 0,
+            area: 'series',
+            param: 'seriesDateTrunc'
         }],
         description: 'actualMovingDuration.description',
         globalParams: true,
@@ -394,10 +399,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 options: [false,true],
                 change: {
                     'false': {
-                        cumulative: false
+                        cumulative: false,
+                        chartType: 'bar',
+                        fillType: 'gradient',
+                        lineWidth: 0
                     },
                     'true': {
-                        cumulative: true
+                        cumulative: true,
+                        chartType: 'area',
+                        fillType: 'gradient',
+                        lineWidth: 3
                     }
                 }
             }
@@ -444,7 +455,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             measures : [{
                 label: "Время",
                 unit: "ч",
-                chartType: 'area',
+                chartType: 'bar',
                 stacked: false,
                 cumulative: false,
                 smoothSettings: 'curveCardinal',
@@ -455,20 +466,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 avgValueLine: true,
                 scaleVisible: true,
                 calculateTotals: "",
-                lineColor: "#FF5722", // deep-orange-500
+                lineColor: "#607D8B", // deep-orange-300
                 lineStyle: "solid",
-                lineWidth: 2,
+                lineWidth: 0,
                 fillType: "gradient",
-                fillColor: "",
+                fillColor: "#CFD8DC", // deep-orange-200
                 gradient: [{
                     offset: "0%",
-                    color: "rgba(251, 233, 231, 1)" // deep-orange-50
+                    color: "#CFD8DC", // deep-orange-50
+                    opacity: 0.2
                 }, {
                     offset: "100%",
-                    color: "rgba(255, 138, 101, 1)" // deep-orange-300
+                    color: "#607D8B", // deep-orange-300
+                    opacity: 0.6
                 }],
-                markerColor: "#FF5722", // deep-orange-500
-                avgValueLineColor: "#37474F", //
+                markerColor: "#455A64", // deep-orange-300
+                avgValueLineColor: "#455A64", //
                 avgValueLineStyle: "dashed",
                 idx: 1,
                 measureSource: "activity.actual.measure",
@@ -477,7 +490,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 dateFormat: "",
                 valueType: "value",
                 aggMethod: "sum"
-            },{
+            }/**,{
                 "id": "TL",
                 "label": "TL",
                 "unit": "",
@@ -546,7 +559,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "valueType": "value",
                 "aggMethod": "avg",
                 "reverse": false
-            }]
+            }*/]
         }]
     },
     /**
@@ -563,7 +576,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'actualDistance.title',
-        context: [],
+        context: [{
+            ind: 0,
+            idx: 1,
+            area: 'measures',
+            param: 'cumulative'
+        }],
         description: 'actualDistance.description',
         globalParams: true,
         settings: [
@@ -595,14 +613,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 area: 'measures',
                 name: 'cumulative',
                 text: 'cumulative',
-                model: false,
+                model: true,
                 options: [false,true],
                 change: {
                     'false': {
-                        cumulative: false
+                        cumulative: false,
+                        chartType: 'bar',
+                        fillType: 'gradient',
+                        lineWidth: 0
                     },
                     'true': {
-                        cumulative: true
+                        cumulative: true,
+                        chartType: 'area',
+                        fillType: 'gradient',
+                        lineWidth: 3
                     }
                 }
             }
@@ -652,7 +676,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 chartType: "area",
                 smoothSettings: 'curveCardinal',
                 stacked: false,
-                cumulative: false,
+                cumulative: true,
                 tooltipType: "icon",
                 minValue: 0,
                 legend: false,
@@ -660,22 +684,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 avgValueLine: true,
                 scaleVisible: true,
                 calculateTotals: "",
-                lineColor: "#607D8B", // blue-grey-500
+                lineColor: "#607D8B", // deep-orange-300
                 lineStyle: "solid",
                 lineWidth: 2,
                 fillType: "gradient",
-                fillColor: "",
+                fillColor: "#CFD8DC", // deep-orange-200
                 gradient: [{
                     offset: "0%",
-                    color: "#CFD8DC", //  blue-grey-100
+                    color: "#CFD8DC", // deep-orange-50
                     opacity: 0.2
                 }, {
                     offset: "100%",
-                    color: "#607D8B", // blue-grey-500
+                    color: "#607D8B", // deep-orange-300
                     opacity: 0.6
                 }],
-                markerColor: "#607D8B", // blue-grey-500
-                avgValueLineColor: "#607D8B", // blue-grey-800
+                markerColor: "#455A64", // deep-orange-300
+                avgValueLineColor: "#455A64", //
                 avgValueLineStyle: "dashed",
                 idx: 1,
                 measureSource: "activity.actual.measure",
@@ -684,7 +708,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 dateFormat: "",
                 valueType: "value",
                 aggMethod: "sum"
-            },{
+            }/*,{
                 "id": "TL",
                 "label": "TL",
                 "unit": "",
@@ -753,7 +777,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "valueType": "value",
                 "aggMethod": "avg",
                 "reverse": false
-            }
+            }*/
 
 
             ]
@@ -785,12 +809,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "area": "params",
                 "name": "activityTypes",
                 "text": "activityTypes",
-                "model": [
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6"]
+                "model": [2, 3, 4, 5, 6]
             },
             "periods": {
                 "type": "date",
@@ -1227,7 +1246,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "TL",
                     "label": "TL",
                     "unit": "",
-                    chartType: "area",
+                    chartType: "bar",
                     "stacked": false,
                     "cumulative": false,
                     smoothSettings: "curveBasis",
@@ -1241,7 +1260,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "calculateTotals": "",
                     lineColor: "#673AB7", //  deep-purple-500
                     lineStyle: "solid",
-                    lineWidth: 2,
+                    lineWidth: 0,
                     fillType: "gradient",
                     fillColor: "",
                     gradient: [{
@@ -2032,7 +2051,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "color": "rgba(0,0,0,0.5)"
 
                 },
-                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+                "palette": paletteSports
             },
             series : [{
                     "label" : "Период",
@@ -2144,7 +2163,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "horizontal-align": "center",
                     "type": "row"
                 },
-                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+                "palette": paletteSports
             },
             series: [
                 {
