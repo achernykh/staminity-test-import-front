@@ -156,13 +156,16 @@ export class AnalyticsChart implements IAnalyticsChart{
                     } else if(params.measureName === 'distance') {
                         metric.push(_measurement_calculate.meter.km(value));
                     // Пересчет темпа мин/км
-                    } else if ((params.measureName === 'speed' && params.dataType === 'time') || params.unit === 'мин/км') {
+                    } else if ((params.measureName === 'speed' && params.dataType === 'time' && params.measureSource === 'activity.actual.measure')
+                        || params.unit === 'мин/км') {
                         metric.push(_measurement_calculate.mps.minpkm(value));//moment().startOf('day').millisecond(_measurement_calculate.mps.minpkm(value)*1000).startOf('millisecond').format('mm:ss'));
                     // Пересчет темпа мин/100м
-                    } else if ((params.measureName === 'speed' && params.dataType === 'time') || params.unit === 'мин/100м') {
+                    } else if ((params.measureName === 'speed' && params.dataType === 'time' && params.measureSource === 'activity.actual.measure')
+                        || params.unit === 'мин/100м') {
                         metric.push(_measurement_calculate.mps.minp100m(value));
                     // Пересчет скорости км/ч
-                    } else if ((params.measureName === 'speed' && params.dataType !== 'time') || params.unit === 'км/ч') {
+                    } else if ((params.measureName === 'speed' && params.dataType !== 'time' && params.measureSource === 'activity.actual.measure')
+                        || params.unit === 'км/ч') {
                         metric.push(_measurement_calculate.mps.kmph(value));
                     } else if (['speedDecoupling','powerDecoupling'].indexOf(params.measureName) !== -1) {
                         metric.push(value * 100);

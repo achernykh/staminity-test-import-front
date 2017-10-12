@@ -93,9 +93,8 @@ class AnalyticsChartCtrl implements IComponentController {
         if(update){
             this.prepareParams();
             this.prepareData();
-        } else {
-            this.updateCount++;
         }
+        this.updateCount++;
     }
 
     update(param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {

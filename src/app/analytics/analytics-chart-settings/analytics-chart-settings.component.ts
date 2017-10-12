@@ -22,6 +22,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     private settings: Array<IAnalyticsChartSettings<any>>;
 
     private update: boolean = false;
+    private refresh: boolean = false;
 
     private settingsForm: INgModelController;
 
@@ -88,8 +89,9 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
 
         if(Object.keys(param.change[value]).some(change => ['seriesDateTrunc','unit','measureName'].indexOf(change) !== -1)) {
-            this.update = true;
+            this.refresh = true;
         }
+        this.update = true;
     }
 
 
@@ -99,7 +101,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     setGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number){
         param.model[param.idx.indexOf(idx)] = !param.model[param.idx.indexOf(idx)];
-        //this.change(Object.assign({},param,{idx: [idx]}), param.model[param.idx.indexOf(idx)]);
+        this.change(Object.assign({},param,{idx: [idx]}), param.model[param.idx.indexOf(idx)]);
         this.settingsForm.$setDirty();
     }
 
@@ -115,7 +117,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         if(this.update) {
             this.chart.settings = this.settings;
         }
-        this.onSave({chart: this.chart, update: this.update || this.localFilter.change > 0});
+        this.onSave({chart: this.chart, update: this.refresh || (this.localFilter && this.localFilter.change > 0)});
     }
 }
 

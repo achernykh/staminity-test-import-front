@@ -814,7 +814,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 param: 'measureName'
             }],
         description: 'activityMeasuresSelected.description',
-        globalParams: true,
+        globalParams: false,
         localParams: {
             "users": {
                 "type": "checkbox",
@@ -830,6 +830,13 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "name": "activityTypes",
                 "text": "activityTypes",
                 "model": [2, 3, 4, 5, 6]
+            },
+            activityCategories: {
+                type: "checkbox",
+                area: 'params',
+                name: 'activityCategories',
+                text: 'activityCategories',
+                model: []
             },
             "periods": {
                 "type": "date",
