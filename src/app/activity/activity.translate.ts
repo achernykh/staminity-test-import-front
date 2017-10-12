@@ -12,8 +12,12 @@ export const translateActivity = {
           singleIntensity: 'Можно задать лишь один параметр интенсивности',
           needPermissionForFeature: 'Не хватает полномочий для планирования в будущем'
       },
-      loading: 'Загрузка данных'
+      loading: 'Загрузка данных',
+      settings: {
+          close: 'Закрыть'
+      }
   }
+
 };
 
 export const translateSport = {
