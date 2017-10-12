@@ -17,6 +17,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     public chart: IAnalyticsChart;
 
     private globalFilter: AnalyticsChartFilter;
+    private localFilter: AnalyticsChartFilter;
 
     private settings: Array<IAnalyticsChartSettings<any>>;
 
@@ -33,17 +34,30 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     $onInit() {
         if(this.chart.hasOwnProperty('localParams') && !this.chart.localParams) {
-            this.chart.localParams = copy(this.globalFilter);
+            //this.chart.localParams = copy(this.globalFilter);
+            this.prepareLocalFilter();
+        }
+    }
+
+    private prepareLocalFilter(mode: 'fromSettings' | 'fromGlobal' = 'fromSettings') {
+        this.localFilter = new AnalyticsChartFilter(
+            this.globalFilter.user,
+            this.globalFilter.categories,
+            this.chart.localParams,
+            this.$filter);
+
+        if(mode === 'fromGlobal') {
+            this.localFilter.setUsersModel([this.globalFilter.users.model]);
+            this.localFilter.setActivityTypes(this.globalFilter.activityTypes.model, 'basic', true);
+            this.localFilter.setActivityTypesOptions(activityTypes);
+            this.localFilter.setActivityCategories(this.globalFilter.activityCategories.model);
+            this.localFilter.setPeriods(this.globalFilter.periods.model, this.globalFilter.periods.data);
         }
     }
 
     changeParamsPoint() {
         if(!this.chart.globalParams) {
-            this.chart.localParams = copy(this.globalFilter);
-            this.chart.localParams.users.model = [this.globalFilter.users.model];
-            this.globalFilter.activityTypes.model.map(id =>
-                this.chart.localParams.activityTypes.model.push(...getSportsByBasicId(id)));
-            this.chart.localParams.activityTypes.options = activityTypes;
+            this.prepareLocalFilter('fromGlobal');
         }
     }
 
@@ -155,7 +169,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     activityCategoriesSelectedText():string {
         if(this.chart.localParams && this.chart.localParams.activityCategories.model && this.chart.localParams.activityCategories.model.length > 0) {
             return `${this.$filter('categoryCode')(
-                this.chart.localParams.activityCategories.options.filter(c => c.id === this.chart.localParams.activityCategories.model[0])[0])}
+                this.globalFilter.activityCategories.options.filter(c => c.id === this.chart.localParams.activityCategories.model[0])[0])}
                 ${this.chart.localParams.activityCategories.model.length > 1 ?
                 this.$filter('translate')('analytics.filter.more',{num: this.chart.localParams.activityCategories.model.length - 1}) : ''}`;
         } else {

@@ -3,7 +3,7 @@ import {IReportPeriod} from "../../../../api/statistics/statistics.interface";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
-import {getSportBasic} from "../../activity/activity.constants";
+import {getSportBasic, getSportsByBasicId} from "../../activity/activity.constants";
 import { pipe, orderBy, prop, groupBy } from "../../share/util.js";
 import {getOwner, Owner} from "../../reference/reference.datamodel";
 
@@ -96,9 +96,10 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
     change: number = null;
 
     constructor(
-        private user: IUserProfile,
-        private categories: Array<IActivityCategory>,
-        private storage?: IAnalyticsChartFilter) {
+        public user: IUserProfile,
+        public categories: Array<IActivityCategory>,
+        public storage?: IAnalyticsChartFilter,
+        private $filter?: any) {
 
         this.prepareUsers();
         this.prepareActivityTypes();
@@ -129,6 +130,84 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
             }];
         }
     }
+
+    setCategoriesOption(options: Array<IActivityCategory>) {
+        this.categories = options;
+
+        this.categoriesByOwner = pipe(
+            orderBy(prop('sortOrder')),
+            groupBy(getOwner(this.user))
+        ) (this.categories);
+
+        this.activityCategories.options = this.categories;
+
+    }
+
+    setActivityTypesOptions(options: Array<IActivityType>) {
+        this.activityTypes.options = options;
+    }
+
+    setUsersModel(model: Array<string>) {
+        this.users.model = model;
+    }
+
+    setActivityTypes(model: Array<number>, mode: 'basic' | 'single', transform: boolean) {
+        if (mode === 'basic' && transform) {
+            model.map(id => this.activityTypes.model.push(...getSportsByBasicId(id)));
+        } else {
+            this.activityTypes.model = model;
+        }
+    }
+
+    setActivityCategories(model: Array<number>) {
+        this.activityCategories.model = model;
+    }
+
+    setPeriods(model: any, data?: any) {
+        [this.periods.model, this.periods.data] = [model, data];
+    }
+
+    usersSelectedText():string {
+        if (this.users.model && this.users.model.length > 0) {
+            return `${this.$filter('username')(
+                this.users.options.filter(u => u.userId === Number(this.users.model[0]))[0])}      
+                ${this.users.model.length > 1 ?
+                this.$filter('translate')('analytics.filter.more',{num: this.users.model.length - 1}) : ''}`;
+        } else {
+            return this.$filter('translate')('analytics.filter.users.empty');
+        }
+    }
+
+    activityTypesSelectedText():string {
+        if(this.activityTypes.model && this.activityTypes.model.length > 0) {
+            return `${this.$filter('translate')('sport.' +
+                this.activityTypes.options.filter(t => t.id === Number(this.activityTypes.model[0]))[0].code)}
+                ${this.activityTypes.model.length > 1 ?
+                this.$filter('translate')('analytics.filter.more',{num: this.activityTypes.model.length - 1}) : ''}`;
+        } else {
+            return this.$filter('translate')('analytics.filter.activityTypes.empty');
+        }
+    }
+
+    activityCategoriesSelectedText():string {
+        if(this.activityCategories.model && this.activityCategories.model.length > 0) {
+            return `${this.$filter('categoryCode')(
+                this.activityCategories.options.filter(c => c.id === this.activityCategories.model[0])[0])}
+                ${this.activityCategories.model.length > 1 ?
+                this.$filter('translate')('analytics.filter.more',{num: this.activityCategories.model.length - 1}) : ''}`;
+        } else {
+            return this.$filter('translate')('analytics.filter.activityCategories.empty');
+        }
+    }
+
+    periodsSelectedText(): string {
+        if(this.periods.model) {
+            return `${this.$filter('translate')('analytics.params.' + this.periods.model)}`;
+        } else {
+            return this.$filter('translate')('analytics.filter.periods.empty');
+        }
+    }
+
 
     private prepareUsers() {
         this.users = {

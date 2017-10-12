@@ -70,8 +70,8 @@ export class AnalyticsCtrl implements IComponentController {
         reference.categoriesChanges
             .takeUntil(this.destroy)
             .subscribe(categories => {
-                //this.prepareData(); // change options for activityTypes
-                //this.$scope.$apply();
+                this.filter.setCategoriesOption(categories);
+                this.$scope.$apply();
             });
     }
 

@@ -24,11 +24,11 @@
                     <label translate="analytics.filter.users.placeholder"></label>
                     <md-select flex="auto" name="sport" class="icon"
                                multiple="true"
-                               md-selected-text="$ctrl.usersSelectedText()"
-                               ng-model="$ctrl.chart.localParams.users.model"
-                               ng-change="$ctrl.change($ctrl.chart.localParams.users, $ctrl.chart.localParams.users.model)"
-                               ng-disabled="!$ctrl.chart.localParams.users.options || $ctrl.chart.localParams.users.options.length <= 1">
-                        <md-option ng-repeat="user in $ctrl.chart.localParams.users.options track by user.userId"
+                               md-selected-text="$ctrl.localFilter.usersSelectedText()"
+                               ng-model="$ctrl.localFilter.users.model"
+                               ng-change="$ctrl.localFilter.changeParam('users')"
+                               ng-disabled="!$ctrl.localFilter.users.options || $ctrl.localFilter.users.options.length <= 1">
+                        <md-option ng-repeat="user in $ctrl.localFilter.users.options track by user.userId"
                                    value="{{user.userId}}">
                             <span>{{user | username}}</span>
                         </md-option>
@@ -44,10 +44,10 @@
                                class="icon"
                                type="number"
                                multiple="true"
-                               md-selected-text="$ctrl.activityTypesSelectedText()"
-                               ng-model="$ctrl.chart.localParams.activityTypes.model"
-                               ng-change="$ctrl.change($ctrl.chart.localParams.activityTypes, $ctrl.chart.localParams.activityTypes.model)">
-                        <md-option ng-repeat="type in $ctrl.chart.localParams.activityTypes.options | filter:{enabled: true} track by type.id"
+                               md-selected-text="$ctrl.localFilter.activityTypesSelectedText()"
+                               ng-model="$ctrl.localFilter.activityTypes.model"
+                               ng-change="$ctrl.localFilter.changeParam('activityTypes')">
+                        <md-option ng-repeat="type in $ctrl.localFilter.activityTypes.options | filter:{enabled: true} track by type.id"
                                    value="{{type.id}}">
                             {{'sport.' + type.code | translate}}
                         </md-option>
@@ -62,25 +62,25 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-show="$ctrl.chart.localParams.activityTypes.model.length === 1 && !$ctrl.chart.globalParams">
+            <md-list-item ng-show="$ctrl.localFilter.activityTypes.model.length === 1 && !$ctrl.chart.globalParams">
                 <md-input-container class="md-block no-message">
                     <label translate="analytics.filter.activityCategories.placeholder"></label>
                     <md-select
                             multiple="true"
-                            md-selected-text="$ctrl.activityCategoriesSelectedText()"
-                            ng-model="$ctrl.chart.localParams.activityCategories.model"
+                            md-selected-text="$ctrl.localFilter.activityCategoriesSelectedText()"
+                            ng-model="$ctrl.localFilter.activityCategories.model"
                             ng-model-options="{ trackBy: '$value' }"
                             md-no-asterisk="false"
-                            ng-change="$ctrl.change1('activityCategories')"
+                            ng-change="$ctrl.localFilter.changeParam('activityCategories')"
                             type="number"
                             name="category"
                             class="icon">
                         <md-optgroup
                                 ng-repeat="owner in ['user', 'coach', 'club', 'system']"
-                                ng-if="$ctrl.analytics.categoriesByOwner[owner].length"
+                                ng-if="$ctrl.localFilter.categoriesByOwner[owner].length"
                                 label="{{ 'reference.categories.' + owner | translate }}">
                             <md-option
-                                    ng-repeat="category in $ctrl.analytics.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.chart.localParams.activityTypes.model[0], visible: true}:true track by category.id"
+                                    ng-repeat="category in $ctrl.localFilter.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.localFilter.activityTypes.model[0], visible: true}:true track by category.id"
                                     ng-value="category.id">
                                 {{ category | categoryCode }}
                             </md-option>
@@ -98,34 +98,34 @@
                     <label translate="analytics.filter.periods.placeholder"></label>
                     <md-select flex="auto" name="periods" class="icon"
                                multiple="false"
-                               md-selected-text="$ctrl.periodsSelectedText()"
-                               ng-model="$ctrl.chart.localParams.periods.model"
-                               ng-change="$ctrl.change($ctrl.chart.localParams.periods, $ctrl.chart.localParams.periods.model)">
-                        <md-option ng-repeat="type in $ctrl.chart.localParams.periods.options track by $index"
+                               md-selected-text="$ctrl.localFilter.periodsSelectedText()"
+                               ng-model="$ctrl.localFilter.periods.model"
+                               ng-change="$ctrl.localFilter('periods')">
+                        <md-option ng-repeat="type in $ctrl.localFilter.periods.options track by $index"
                                    value="{{type}}">
                             <span>{{'analytics.params.' + type | translate}}</span>
                         </md-option>
                     </md-select>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-if="$ctrl.chart.localParams.periods.model === 'customPeriod' && !$ctrl.chart.globalParams">
+            <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod' && !$ctrl.chart.globalParams">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.startDate"></label>
-                    <md-datepicker ng-model="$ctrl.chart.localParams.periods.startDate" flex="auto"
+                    <md-datepicker ng-model="$ctrl.localFilter.periods.startDate" flex="auto"
                                    md-hide-icons="calendar"
-                                   ng-change="$ctrl.change($ctrl.chart.localParams.periods, $ctrl.chart.localParams.periods.startDate)"
+                                   ng-change="$ctrl.change($ctrl.localFilter.periods, $ctrl.localFilter.periods.startDate)"
                                    name="startDate"></md-datepicker>
                     <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
                         <div ng-message="valid" translate="form.invalidDate"></div>
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-if="$ctrl.chart.localParams.periods.model === 'customPeriod' && !$ctrl.chart.globalParams">
+            <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod' && !$ctrl.chart.globalParams">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.endDate"></label>
-                    <md-datepicker ng-model="$ctrl.chart.localParams.periods.endDate" flex="auto"
+                    <md-datepicker ng-model="$ctrl.localFilter.periods.endDate" flex="auto"
                                    md-hide-icons="calendar"
-                                   ng-change="$ctrl.change($ctrl.chart.localParams.periods, $ctrl.chart.localParams.periods.endDate)"
+                                   ng-change="$ctrl.change($ctrl.localFilter.periods, $ctrl.localFilter.periods.endDate)"
                                    name="endDate"></md-datepicker>
                     <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
                         <div ng-message="valid" translate="form.invalidDate"></div>
