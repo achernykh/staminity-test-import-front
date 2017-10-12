@@ -3,6 +3,10 @@ import {PeriodOptions} from "./analytics-chart-filter/analytics-chart-filter.mod
 
 const paletteAll500 = ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63",'#3F51B5','#00BCD4','#8BC34A','#FFC107','#795548','#9C27B0','#2196F3','#009688','#CDDC39','#FF9800','#9E9E9E'];
 const paletteSports = ["#2196F3", "#FFC107", "#009688", "#F44336", "#9C27B0", "#795548", "#E91E63", "#9E9E9E"];
+const paletteBpm = ['#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F'];
+const palettePace = ['#BBDEFB','#90CAF9','#65B5F6','#42A5F5','#2196F3','#1E88E5','#1976D2','#1566C0','#0D47A1'];
+const palettePower = ['#D1C4E9','#B39DDB','#9575CD','#7E57C2','#673AB7','#5E35B1','#512DA8','#4527A0','#311B92'];
+
 //noinspection TypeScriptValidateTypes,TypeScriptValidateTypes
 export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     /**
@@ -1414,7 +1418,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": {
                     "enabled": true,
                     "color": "rgba(0,0,0,0.5)"
-                }
+                },
+                "palette": paletteBpm
             },
             series : [
                 {
@@ -1441,7 +1446,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "tooltipType" : "label",
                     "tooltipLabel" : "Зона",
                     "legend": false,
-                    "colorPalette": false,
+                    "colorPalette": true,
                     "currentPositionLine": true,
                     "idx" : 1,
                     "measureSource": "activity.owner.zones",
@@ -1546,7 +1551,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": {
                     "enabled": true,
                     "color": "rgba(0,0,0,0.5)"
-                }
+                },
+                "palette": palettePace
             },
             series : [
                 {
@@ -1575,6 +1581,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "legend": false,
                     "currentPositionLine": true,
                     "idx" : 1,
+                    colorPalette: true,
                     "measureSource": "activity.owner.zones",
                     fillColor: "#1976D2", //blue-700
                     "measureName" : "speed",
@@ -1677,7 +1684,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": {
                     "enabled": true,
                     "color": "rgba(0,0,0,0.5)"
-                }
+                },
+                "palette": palettePower
             },
             series : [
                 {
@@ -1706,6 +1714,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "legend": false,
                     "currentPositionLine": true,
                     "idx" : 1,
+                    colorPalette: true,
                     "measureSource": "activity.owner.zones",
                     fillColor: "#7B1FA2", //purple-700
                     "measureName" : "power",
