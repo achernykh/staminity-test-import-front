@@ -35,8 +35,8 @@
                                         <label translate="analytics.filter.users.placeholder"></label>
                                         <md-select flex="auto" name="sport" class="icon"
                                                    multiple="false"
-                                                   md-selected-text="$ctrl.usersSelectedText()"
-                                                   ng-model="$ctrl.filter.users.model"
+                                                   md-selected-text="$ctrl.filter.usersSelectedText()"
+                                                   ng-model="$ctrl.filter.users.model[0]"
                                                    ng-change="$ctrl.filter.changeParam('users')"
                                                    ng-disabled="!$ctrl.filter.users.options || $ctrl.filter.users.options.length <= 1">
                                             <md-option ng-repeat="user in $ctrl.filter.users.options track by user.userId"
@@ -54,7 +54,7 @@
                                                    class="icon"
                                                    type="number"
                                                    multiple="true"
-                                                   md-selected-text="$ctrl.activityTypesSelectedText()"
+                                                   md-selected-text="$ctrl.filter.activityTypesSelectedText()"
                                                    ng-model="$ctrl.filter.activityTypes.model"
                                                    ng-change="$ctrl.filter.changeParam('activityType')">
                                             <md-option ng-repeat="type in $ctrl.filter.activityTypes.options | filter:{enabled: true} track by type.id"
@@ -77,7 +77,7 @@
                                         <label translate="analytics.filter.activityCategories.placeholder"></label>
                                         <md-select
                                                 multiple="true"
-                                                md-selected-text="$ctrl.activityCategoriesSelectedText()"
+                                                md-selected-text="$ctrl.filter.activityCategoriesSelectedText()"
                                                 ng-model="$ctrl.filter.activityCategories.model"
                                                 ng-model-options="{ trackBy: '$value' }"
                                                 md-no-asterisk="false"
@@ -108,7 +108,7 @@
                                         <label translate="analytics.filter.periods.placeholder"></label>
                                         <md-select flex="auto" name="periods" class="icon"
                                                    multiple="false"
-                                                   md-selected-text="$ctrl.periodsSelectedText()"
+                                                   md-selected-text="$ctrl.filter.periodsSelectedText()"
                                                    ng-model="$ctrl.filter.periods.model"
                                                    ng-change="$ctrl.filter.changeParam('periods')">
                                             <md-option ng-repeat="type in $ctrl.filter.periods.options track by $index"

@@ -175,12 +175,15 @@ class AnalyticsChartCtrl implements IComponentController {
                 (this.chart.globalParams && globalParams.users) ||
                 (c.params.users && c.params.users) ||
                 (this.chart.localParams.users.model && this.chart.localParams.users.model) || null,
+
             activityTypes:
                 (this.chart.globalParams && globalParams.activityTypes) ||
                 (c.params.activityTypes && c.params.activityTypes) || null,
+
             activityCategories: this.filter.activityCategories.model,
+
             periods: (!this.chart.globalParams && c.params.periods && c.params.periods) ||
-                (typeof this.filter.periods.data === 'IPeriodCustom' && this.filter.periods.data) ||
+                (this.filter.periods.model === 'customPeriod' && this.filter.periods.data.model) ||
                 periodByType(this.filter.periods.model) || this.chart.charts[i].params.periods
         });
     }

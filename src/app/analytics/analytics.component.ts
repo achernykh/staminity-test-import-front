@@ -49,7 +49,7 @@ export class AnalyticsCtrl implements IComponentController {
     private destroy: Subject<any> = new Subject();
 
     static $inject = ['$scope','SessionService','statistics', 'storage', 'ReferenceService', 'analyticsDefaultSettings',
-        'AuthService'];
+        'AuthService', '$filter'];
 
     constructor(private $scope: IScope,
                 private session: ISessionService,
@@ -57,7 +57,8 @@ export class AnalyticsCtrl implements IComponentController {
                 private storageService: IStorageService,
                 private reference: ReferenceService,
                 private defaultSettings: Array<IAnalyticsChart>,
-                private auth: IAuthService) {
+                private auth: IAuthService,
+                private $filter: any) {
 
         session.getObservable()
             .takeUntil(this.destroy)
@@ -78,7 +79,11 @@ export class AnalyticsCtrl implements IComponentController {
     $onInit() {
 
         this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
-        this.filter = new AnalyticsChartFilter(this.user, this.categories, this.getSettings(this.storage.filter));
+        this.filter = new AnalyticsChartFilter(
+            this.user,
+            this.categories,
+            this.getSettings(this.storage.filter),
+            this.$filter);
     }
 
     $onDestroy() {

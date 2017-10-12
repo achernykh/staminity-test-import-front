@@ -111,24 +111,26 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
     changeParam(filter: string):void {
         switch (filter) {
             case 'users': {
-                this.users.model = angular.isArray(this.users.model) && this.users.model.map(v => Number(v)) || Number(this.users.model);
+                this.users.model = this.users.model.map(v => Number(v));
                 break;
             }
             case 'activityType':
                 this.activityTypes.model = this.activityTypes.model.map(v => Number(v));
                 break;
         }
+
         if(filter === 'periods' && this.periods.model === 'customPeriod'){
-            let period: Array<IReportPeriod>;
+
             if(!this.periods.data.startDate && !this.periods.data.endDate){
-                period = periodByType('thisYear');
                 [this.periods.data.startDate, this.periods.data.endDate] = [new Date(moment().startOf('year')), new Date()];
             }
+
             this.periods.data.model = [{
                 startDate: moment(this.periods.data.startDate).format('YYYYMMDD'),
                 endDate: moment(this.periods.data.endDate).format('YYYYMMDD')
             }];
         }
+
         this.change ++;
     }
 
@@ -249,7 +251,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
             area: 'params',
             name: 'users',
             text: 'users',
-            model: this.storage && this.storage.users.model || this.user.userId,
+            model: this.storage && this.storage.users.model || [this.user.userId],
             options: []
         };
 
@@ -300,7 +302,12 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
             name: 'periods',
             text: 'periods',
             options: ['thisYear','thisMonth','thisWeek','customPeriod'],
-            model: this.storage && this.storage.periods.model || null
+            model: this.storage && this.storage.periods.model || null,
+            data: this.storage && this.storage.periods.data || {
+                model: null,
+                startDate: null,
+                endDate: null
+            }
         };
         if(!this.periods.model){
             this.periods.model = this.periods.options[0];

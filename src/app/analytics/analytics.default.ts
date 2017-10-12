@@ -37,6 +37,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "text": "activityTypes",
                 "model": null //все
             },
+            activityCategories: {
+                type: 'checkbox',
+                area: 'params',
+                name: 'activityTypes',
+                text: 'activityTypes',
+                model: null
+
+            },
             "periods": {
                 "type": "date",
                 "area": "params",
@@ -203,6 +211,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "name": "activityTypes",
                 "text": "activityTypes",
                 "model": null //все
+            },
+            activityCategories: {
+                type: 'checkbox',
+                area: 'params',
+                name: 'activityTypes',
+                text: 'activityTypes',
+                model: null
+
             },
             "periods": {
                 "type": "date",
