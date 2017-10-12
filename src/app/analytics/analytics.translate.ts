@@ -134,7 +134,7 @@ export const translateAnalytics = {
         },
         PowerTimePeaks: {
             title: 'Пики мощности по времени',
-            description: 'Максимальные пики по мощности по времени',
+            shortDescription: 'Максимальные пики по мощности по времени',
             description: 'Общие параметры: да'
         },
         DistanceByActivityTypeByPeriods: {

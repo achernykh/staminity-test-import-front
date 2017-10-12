@@ -87,10 +87,10 @@
                                                 class="icon">
                                             <md-optgroup
                                                     ng-repeat="owner in ['user', 'coach', 'club', 'system']"
-                                                    ng-if="$ctrl.analytics.categoriesByOwner[owner].length"
+                                                    ng-if="$ctrl.filter.categoriesByOwner[owner].length"
                                                     label="{{ 'reference.categories.' + owner | translate }}">
                                                 <md-option
-                                                        ng-repeat="category in $ctrl.analytics.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.filter.activityTypes.model[0], visible: true}:true track by category.id"
+                                                        ng-repeat="category in $ctrl.filter.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.filter.activityTypes.model[0], visible: true}:true track by category.id"
                                                         ng-value="category.id">
                                                     {{ category | categoryCode }}
                                                 </md-option>
