@@ -13,7 +13,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'distanceByAthletesByPeriods.title',
+        code: 'distanceByAthletesByPeriods',
         context: [],
         description: 'distanceByAthletesByPeriods.description',
         globalParams: false,
@@ -180,7 +180,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'durationByAthletesByPeriods.title',
+        code: 'durationByAthletesByPeriods',
         context: [],
         description: 'durationByAthletesByPeriods.description',
         globalParams: false,
@@ -352,7 +352,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'actualMovingDuration.title',
+        code: 'actualMovingDuration',
         context: [{
             ind: 0,
             idx: 1,
@@ -577,7 +577,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'actualDistance.title',
+        code: 'actualDistance',
         context: [{
             ind: 0,
             idx: 1,
@@ -690,7 +690,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 minValue: 0,
                 legend: false,
                 visible: true,
-                avgValueLine: true,
+                avgValueLine: false,
                 scaleVisible: true,
                 calculateTotals: "",
                 lineColor: "#607D8B", // deep-orange-300
@@ -800,9 +800,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'activityMeasuresSelected.title',
-        context: [
-            {
+        code: 'activityMeasuresSelected',
+        context: [{
                 ind: 0,
                 idx: 0,
                 area: 'series',
@@ -813,8 +812,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 idx: 1,
                 area: 'measures',
                 param: 'measureName'
-            }
-        ],
+            }],
         description: 'activityMeasuresSelected.description',
         globalParams: true,
         localParams: {
@@ -1203,7 +1201,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'activityMeasuresTL.title',
+        code: 'activityMeasuresTL',
         context: [{
             ind: 0,
             idx: 0,
@@ -1358,7 +1356,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'timeInZonesHR.title',
+        code: 'timeInZonesHR',
         context: [{
             ind: 0,
             idx: 0,
@@ -1490,7 +1488,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'timeInZonesSpeed.title',
+        code: 'timeInZonesSpeed',
         description: 'timeInZonesSpeed.description',
         context: [{
             ind: 0,
@@ -1621,7 +1619,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'timeInZonesPower.title',
+        code: 'timeInZonesPower',
         description: 'timeInZonesPower.description',
         context: [{
             ind: 0,
@@ -1752,7 +1750,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'HRTimePeaks.title',
+        code: 'HRTimePeaks',
         description: 'HRTimePeaks.description',
         globalParams: true,
         settings: [
@@ -1830,7 +1828,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'PaceTimePeaks.title',
+        code: 'PaceTimePeaks',
         description: 'PaceTimePeaks.description',
         globalParams: true,
         settings: [
@@ -1940,7 +1938,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'PowerTimePeaks.title',
+        code: 'PowerTimePeaks',
         description: 'PowerTimePeaks.description',
         globalParams: true,
         settings: [
@@ -2019,7 +2017,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'DistanceByActivityTypeByPeriods.title',
+        code: 'DistanceByActivityTypeByPeriods',
         description: 'DistanceByActivityTypeByPeriods.description',
         context: [
             {
@@ -2174,7 +2172,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'DistanceByActivityTypes.title',
+        code: 'DistanceByActivityTypes',
         description: 'DistanceByActivityTypes.description',
         context: [
             {
@@ -2277,7 +2275,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'measurementsByPeriods.title',
+        code: 'measurementsByPeriods',
         context: [],
         description: 'measurementsByPeriods.description',
         globalParams: true,
@@ -2348,7 +2346,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveCatmullRom",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -2385,7 +2383,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveCatmullRom",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -2424,7 +2422,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveCatmullRom",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": false,
@@ -2463,7 +2461,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveCatmullRom",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": false,
@@ -2506,7 +2504,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'weightAndTotalVolume.title',
+        code: 'weightAndTotalVolume',
         context: [
             {
                 ind: 0,
@@ -2610,7 +2608,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Время",
                     "unit" : "ч",
                     chartType: "bar",
-                    smoothSettings: 'curveCatmullRom',
+                    smoothSettings: 'curveBasis',
                     "stacked" : false,
                     "cumulative": false,
                     "tooltipType" : "icon",
@@ -2650,7 +2648,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveCatmullRom",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -2693,7 +2691,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'completePercent.title',
+        code: 'completePercent',
         context: [
             {
                 ind: 0,

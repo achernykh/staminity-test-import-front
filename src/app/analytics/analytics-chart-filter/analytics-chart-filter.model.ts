@@ -1,5 +1,5 @@
 import moment from 'moment/src/moment.js';
-import {IReportPeriod} from "../../../../api/statistics/statistics.interface";
+import {IReportPeriod, IChartParams} from "../../../../api/statistics/statistics.interface";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
@@ -129,6 +129,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
                 endDate: moment(this.periods.data.endDate).format('YYYYMMDD')
             }];
         }
+        this.change ++;
     }
 
     setCategoriesOption(options: Array<IActivityCategory>) {
@@ -157,14 +158,17 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         } else {
             this.activityTypes.model = model;
         }
+        this.change ++;
     }
 
     setActivityCategories(model: Array<number>) {
         this.activityCategories.model = model;
+        this.change ++;
     }
 
     setPeriods(model: any, data?: any) {
         [this.periods.model, this.periods.data] = [model, data];
+        this.change ++;
     }
 
     usersSelectedText():string {
@@ -206,6 +210,36 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         } else {
             return this.$filter('translate')('analytics.filter.periods.empty');
         }
+    }
+
+    descriptions(): string {
+        return `
+            ${this.$filter('translate')('analytics.globalParams', { value: false })}, 
+            ${this.$filter('translate')('analytics.filter.periods.placeholder')}: 
+            ${this.periods.model !== 'customPeriod' ? 
+                this.$filter('translate')('analytics.params.' + this.periods.model) :
+                this.$filter('date')(moment(this.periods[0].startDate).toDate(),'shortDate') + '-' +
+            this.$filter('date')(moment(this.periods[0].endDate).toDate(),'shortDate')}, 
+            ${this.$filter('translate')('analytics.filter.activityTypes.placeholder')}: ${this.activityTypesSelectedText()}, 
+            ${this.$filter('translate')('analytics.filter.users.placeholder')}: ${this.usersSelectedText()}`;
+    }
+
+    chartParams(): IChartParams {
+        return {
+            users: this.users.model,
+            activityTypes: this.activityTypes.model.map(v => Number(v)) || [], // массив идентификаторов видов спорта
+            activityCategories: this.activityCategories.model.map(v => Number(v)) || [], // массив идентификаторов категорий тренировок
+            periods: periodByType(this.periods.model) // временные периоды, в рамках которых требуется отбирать данные
+        };
+    }
+
+    save(): IAnalyticsChartFilter {
+        return {
+            users: this.users,
+            activityTypes: this.activityTypes,
+            activityCategories: this.activityCategories,
+            periods: this.periods
+        };
     }
 
 
