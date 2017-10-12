@@ -201,7 +201,7 @@ class AnalyticsChartCtrl implements IComponentController {
             } else if(result['charts'].some(c => c.hasOwnProperty('errorMessage'))) {
                 this.errorStack = result['charts'].filter(c => c.hasOwnProperty('errorMessage')).map(c => c.errorMessage);
             }
-        }, error => { });
+        }, error => this.errorStack.push(error));
     }
 }
 

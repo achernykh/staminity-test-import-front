@@ -63,6 +63,7 @@ export const translateAnalytics = {
             authRoles: 'Роль'
 
         },
+        globalParams: 'Общие параметры: {{value | translate | lowercase}}',
         // Переводы преднастроенных отчетов
         actualMovingDuration: {
             //  title: "Время тренировок {{'analytics.params.' + measureName | translate}}",

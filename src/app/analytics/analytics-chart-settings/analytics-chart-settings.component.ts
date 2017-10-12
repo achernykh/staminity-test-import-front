@@ -109,7 +109,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
 
         if(param.area === 'params' ||
-            Object.keys(param.change[value]).some(change => ['seriesDateTrunc','cumulative','measureName'].indexOf(change) !== -1)) {
+            Object.keys(param.change[value]).some(change => ['seriesDateTrunc','unit','measureName'].indexOf(change) !== -1)) {
             this.update = true;
         }
         //this.prepareTitleContext();
@@ -117,12 +117,15 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     private prepareDescription() {
         this.chart.paramsDescription =
-            `${this.$filter('translate')('analytics.filter.periods.placeholder')}: 
+            `
+            ${this.$filter('translate')('analytics.globalParams', { value: false })}, 
+            ${this.$filter('translate')('analytics.filter.periods.placeholder')}: 
                 ${this.chart.localParams.periods.model !== 'customPeriod' ?
                 this.$filter('translate')('analytics.params.' + this.chart.localParams.periods.model) :
                 this.$filter('date')(moment(this.chart.charts[0].params.periods[0].startDate).toDate(),'shortDate') + '-' +
                 this.$filter('date')(moment(this.chart.charts[0].params.periods[0].endDate).toDate(),'shortDate')}, 
-            ${this.$filter('translate')('analytics.filter.activityTypes.placeholder')}: ${this.activityTypesSelectedText()}`;
+            ${this.$filter('translate')('analytics.filter.activityTypes.placeholder')}: ${this.activityTypesSelectedText()}, 
+            ${this.$filter('translate')('analytics.filter.users.placeholder')}: ${this.usersSelectedText()}`;
     }
 
     usersSelectedText():string {

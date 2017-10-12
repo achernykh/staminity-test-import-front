@@ -151,7 +151,7 @@ export class AnalyticsChart implements IAnalyticsChart{
                 if(params) {
                     if(params.dataType === 'date') {
                         metric.push(moment(value).format('MM-DD-YYYY'));
-                    } else if(params.measureName === 'duration' ) {
+                    } else if(['duration','heartRateMPM','powerMPM','speedMPM'].indexOf(params.measureName) !== -1) {
                         metric.push(value / 60 / 60);
                     } else if(params.measureName === 'distance') {
                         metric.push(_measurement_calculate.meter.km(value));
