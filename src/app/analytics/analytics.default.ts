@@ -1579,7 +1579,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 }],
             measures : [{
                 "label" : "Время в зонах",
-                "unit" : "",
+                "unit" : "ч",
                 "chartType" : "bar",
                 "stacked" : true,
                 "cumulative": false,
