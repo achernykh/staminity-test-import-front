@@ -1,13 +1,14 @@
 # Install
 
 `
-git submodule update --init --recursive
-git checkout develop
-cd api
-git checkout develop
-cd ..
-bower install
-npm install
+1. git clone -b develop https://gitlab.com/achernykh/staminity-frontend.git
+1. git submodule update --init --recursive
+1. git checkout develop
+1. cd api
+1. git checkout develop
+1. cd ..
+1. bower install
+1. npm install
 `
 check install by run command
 `
