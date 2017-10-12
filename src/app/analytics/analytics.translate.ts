@@ -75,19 +75,19 @@ export const translateAnalytics = {
         actualMovingDuration: {
             //  title: "Время тренировок {{'analytics.params.' + measureName | translate}}",
             title: 'Время тренировок',
-            description: 'Нарастающим итогом: {{cumulative | translate | lowercase}}. Группировка: {{seriesDateTrunc | translate | lowercase}}',
+            description: 'Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}',
             shortDescription: 'Тренировочные объемы (время)'
         },
         actualDistance: {
             title: 'Расстояние тренировок',
-            description: 'Нарастающим итогом: {{cumulative | translate | lowercase}}. Группировка: {{seriesDateTrunc | translate | lowercase}}',
+            description: 'Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}',
             shortDescription: 'Тренировочные объемы (расстояние)'
 
         },
         activityMeasuresSelected: {
             title: 'Показатели тренировок',
             shortDescription: 'История изменения показателей тренировок',
-            description: 'Объемы: {{measureName | translate | lowercase}}. Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            description: 'Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
         },
         activityMeasuresTL: {
             title: 'Тренировочная нагрузка (TL и IL)',
@@ -142,7 +142,7 @@ export const translateAnalytics = {
         DistanceByActivityTypeByPeriods: {
             title: 'Объемы по видам спорта',
             shortDescription: 'Тренировочные объемы по видам спорта',
-            description: 'Объемы: {{measureName | translate | lowercase}}. Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            description: 'Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
         },
         DistanceByActivityTypes: {
             title: 'Соотношение объемов тренировок',
@@ -157,12 +157,12 @@ export const translateAnalytics = {
         weightAndTotalVolume: {
             title: 'Тренировочные объемы и вес',
             shortDescription: 'Тренировочные объемы и вес',
-            description: 'Объемы: {{measureName | translate | lowercase}}. Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            description: 'Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
         },
         completePercent: {
             title: 'Выполнение плана',
             shortDescription: 'Процент выполнения плановых тренировок',
-            description: 'Объемы: {{measureName | translate | lowercase}}. Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            description: 'Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
         }
     },
 
