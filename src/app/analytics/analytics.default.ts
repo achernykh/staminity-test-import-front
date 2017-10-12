@@ -801,12 +801,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         title: 'activityMeasuresSelected.title',
-        context: [{
-            ind: 0,
-            idx: 0,
-            area: 'series',
-            param: 'seriesDateTrunc'
-        }],
+        context: [
+            {
+                ind: 0,
+                idx: 0,
+                area: 'series',
+                param: 'seriesDateTrunc'
+            },
+            {
+                ind: 0,
+                idx: 1,
+                area: 'measures',
+                param: 'measureName'
+            }
+        ],
         description: 'activityMeasuresSelected.description',
         globalParams: true,
         localParams: {
@@ -2174,7 +2182,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 idx: 1,
                 area: 'measures',
                 param: 'measureName'
-            },
+            }
         ],
         globalParams: true,
         settings: [
@@ -2340,7 +2348,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -2377,7 +2385,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -2416,7 +2424,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": false,
@@ -2455,7 +2463,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": false,
@@ -2602,7 +2610,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Время",
                     "unit" : "ч",
                     chartType: "bar",
-                    smoothSettings: 'curveBasis',
+                    smoothSettings: 'curveCatmullRom',
                     "stacked" : false,
                     "cumulative": false,
                     "tooltipType" : "icon",
@@ -2642,7 +2650,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
