@@ -802,11 +802,17 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'activityMeasuresSelected',
         context: [{
-            ind: 0,
-            idx: 0,
-            area: 'series',
-            param: 'seriesDateTrunc'
-        }],
+                ind: 0,
+                idx: 0,
+                area: 'series',
+                param: 'seriesDateTrunc'
+            },
+            {
+                ind: 0,
+                idx: 1,
+                area: 'measures',
+                param: 'measureName'
+            }],
         description: 'activityMeasuresSelected.description',
         globalParams: true,
         localParams: {
@@ -1017,7 +1023,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "unit": "уд/м",
                     "chartType": "area",
                     "stacked": null,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -1052,7 +1058,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     chartType: "area",
                     "stacked": null,
                     "cumulative": false,
-                    smoothSettings: "curveBasis",
+                    smoothSettings: "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -1092,10 +1098,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "line",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
-                    "legend": false,
-                    "visible": false,
+                    "legend": true,
+                    "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
@@ -1122,7 +1128,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": false,
                     "visible": false,
@@ -1161,7 +1167,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "line",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": false,
                     "visible": false,
@@ -2174,7 +2180,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 idx: 1,
                 area: 'measures',
                 param: 'measureName'
-            },
+            }
         ],
         globalParams: true,
         settings: [

@@ -86,7 +86,7 @@ export const translateAnalytics = {
         activityMeasuresSelected: {
             title: 'Показатели тренировок',
             shortDescription: 'История изменения показателей тренировок',
-            description: 'Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            description: 'Объемы: {{measureName | translate | lowercase}}. Группировка: {{seriesDateTrunc | translate | lowercase}}'
         },
         activityMeasuresTL: {
             title: 'Тренировочная нагрузка (TL и IL)',
