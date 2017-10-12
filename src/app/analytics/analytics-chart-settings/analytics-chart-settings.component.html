@@ -133,10 +133,10 @@
                 </md-input-container>
             </md-list-item>
         </md-list>
-        <md-list flex="auto" class="md-dense" ng-if="$ctrl.chart.settings.length > 0">
+        <md-list flex="auto" class="md-dense" ng-if="$ctrl.settings.length > 0">
             <md-divider></md-divider>
             <md-subheader class="md-no-sticky">{{'analytics.settings.layout' | translate}}</md-subheader>
-            <md-list-item ng-repeat="param in $ctrl.chart.settings" ng-switch="param.type">
+            <md-list-item ng-repeat="param in $ctrl.settings" ng-switch="param.type">
                 <div ng-switch-when="radio" layout="column">
                     <p class="md-body-2 md-dark md-active" flex="none" translate="analytics.params.{{param.text}}"></p>
                     <md-radio-group flex="none" name="param.text" class="md-primary"
@@ -163,7 +163,7 @@
     <span flex></span>
     <md-button ng-class="{'md-warn': !$ctrl.settingsForm.$valid}"
                ng-disabled="!$ctrl.settingsForm.$dirty"
-               ng-click="($ctrl.settingsForm.$valid) ? $ctrl.onSave({chart: $ctrl.chart, update: $ctrl.update}) : null">
+               ng-click="($ctrl.settingsForm.$valid) ? $ctrl.save() : null">
         {{::'analytics.settings.save' | translate}}
     </md-button>
 </md-dialog-actions>

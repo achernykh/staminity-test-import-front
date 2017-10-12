@@ -174,8 +174,10 @@
                                           ng-repeat="chart in $ctrl.charts">
                                 <md-icon class="material-icons md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">{{::chart.icon}}</md-icon>
                                 <div class="md-list-item-text">
-                                    <h3 class="md-dark" translate="analytics.{{chart.title}}" ng-class="{'md-inactive': !chart.isAuthorized}"></h3>
-                                    <p class="md-dark" translate="analytics.{{chart.shortDescription}}" ng-class="{'md-inactive': !chart.isAuthorized}"></p>
+                                    <h3 class="md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">
+                                        <span translate="analytics.{{chart.code}}.title"></span>
+                                    </h3>
+                                    <p class="md-dark" translate="analytics.{{chart.code}}.shortDescription" ng-class="{'md-inactive': !chart.isAuthorized}"></p>
                                     <md-switch class="md-secondary md-primary"
                                                ng-change="$ctrl.onChangeCharts()"
                                                ng-disabled="!chart.isAuthorized"

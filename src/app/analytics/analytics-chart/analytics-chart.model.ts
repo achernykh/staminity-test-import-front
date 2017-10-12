@@ -40,7 +40,7 @@ export interface IAnalyticsChart {
     auth: Array<string>;
     active: boolean;
     icon?: string;
-    title: string;
+    code: string;
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
     settings?: Array<IAnalyticsChartSettings<any>>;
@@ -58,7 +58,7 @@ export class AnalyticsChart implements IAnalyticsChart{
     auth: Array<string>;
     active: boolean;
     icon?: string;
-    title: string;
+    code: string;
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
     //filter: IAnalyticsChartFilter;

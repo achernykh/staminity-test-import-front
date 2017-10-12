@@ -34,9 +34,14 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     $onInit() {
         if(this.chart.hasOwnProperty('localParams') && !this.chart.localParams) {
-            //this.chart.localParams = copy(this.globalFilter);
             this.prepareLocalFilter();
         }
+
+        if(this.chart.hasOwnProperty('localParams') && this.chart.localParams) {
+            this.prepareLocalFilter('fromSettings');
+        }
+
+        this.settings = copy(this.chart.settings);
     }
 
     private prepareLocalFilter(mode: 'fromSettings' | 'fromGlobal' = 'fromSettings') {
@@ -61,20 +66,6 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
     }
 
-    getGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number): boolean {
-        return param.model[param.idx.indexOf(idx)];
-    }
-
-    setGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number){
-        param.model[param.idx.indexOf(idx)] = !param.model[param.idx.indexOf(idx)];
-        this.change(Object.assign({},param,{idx: [idx]}), param.model[param.idx.indexOf(idx)]);
-        this.settingsForm.$setDirty();
-    }
-
-    getCheckboxLabel(param: IAnalyticsChartSettings<any>, idx: number): string {
-        return this.chart.charts[param.ind[0]].measures.filter(a => a.idx === idx)[0][param.multiTextParam];
-    }
-
     change(param: IAnalyticsChartSettings<any>, value) {
         switch(param.area) {
             case 'series': {
@@ -94,98 +85,38 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
                 );
                 break;
             }
-            case 'params': {
-                switch (param.name) {
-                    case 'users': case 'activityTypes':
-                        value = value.map(v => Number(v));
-                        break;
-                    case 'periods': {
-                        if(this.chart.localParams.periods.model === 'customPeriod') {
-                            let period: Array<IReportPeriod>;
-                            if(!this.chart.localParams.periods.startDate && !this.chart.localParams.periods.endDate){
-                                period = periodByType('thisYear');
-                                [this.chart.localParams.periods.startDate, this.chart.localParams.periods.endDate] =
-                                    [new Date(moment().startOf('year')), new Date()];
-                            }
-                            value = [{
-                                startDate: moment(this.chart.localParams.periods.startDate).format('YYYYMMDD'),
-                                endDate: moment(this.chart.localParams.periods.endDate).format('YYYYMMDD')
-                            }];
-                        } else {
-                            value = periodByType(value);
-                        }
-                        break;
-                    }
-                }
-                this.chart.charts[0].params[param.name] = value;
-                this.prepareDescription();
-            }
         }
 
-        if(param.area === 'params' ||
-            Object.keys(param.change[value]).some(change => ['seriesDateTrunc','unit','measureName'].indexOf(change) !== -1)) {
+        if(Object.keys(param.change[value]).some(change => ['seriesDateTrunc','unit','measureName'].indexOf(change) !== -1)) {
             this.update = true;
         }
-        //this.prepareTitleContext();
     }
 
-    private prepareDescription() {
-        this.chart.paramsDescription =
-            `
-            ${this.$filter('translate')('analytics.globalParams', { value: false })}, 
-            ${this.$filter('translate')('analytics.filter.periods.placeholder')}: 
-                ${this.chart.localParams.periods.model !== 'customPeriod' ?
-                this.$filter('translate')('analytics.params.' + this.chart.localParams.periods.model) :
-                this.$filter('date')(moment(this.chart.charts[0].params.periods[0].startDate).toDate(),'shortDate') + '-' +
-                this.$filter('date')(moment(this.chart.charts[0].params.periods[0].endDate).toDate(),'shortDate')}, 
-            ${this.$filter('translate')('analytics.filter.activityTypes.placeholder')}: ${this.activityTypesSelectedText()}, 
-            ${this.$filter('translate')('analytics.filter.users.placeholder')}: ${this.usersSelectedText()}`;
+
+    getGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number): boolean {
+        return param.model[param.idx.indexOf(idx)];
     }
 
-    usersSelectedText():string {
-        if(this.chart.localParams && this.chart.localParams.users.model && this.chart.localParams.users.model.length > 0) {
-            return `${this.$filter('username')(
-                this.chart.localParams.users.options.filter(u => u.userId === Number(this.chart.localParams.users.model[0]))[0])}      
-                ${this.chart.localParams.users.model.length > 1 ?
-                this.$filter('translate')('analytics.filter.more',{num: this.chart.localParams.users.model.length - 1}) : ''}`;
+    setGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number){
+        param.model[param.idx.indexOf(idx)] = !param.model[param.idx.indexOf(idx)];
+        //this.change(Object.assign({},param,{idx: [idx]}), param.model[param.idx.indexOf(idx)]);
+        this.settingsForm.$setDirty();
+    }
 
-        } else {
-            return this.$filter('translate')('analytics.filter.users.empty');
+    getCheckboxLabel(param: IAnalyticsChartSettings<any>, idx: number): string {
+        return this.chart.charts[param.ind[0]].measures.filter(a => a.idx === idx)[0][param.multiTextParam];
+    }
+
+    save() {
+        if(!this.chart.globalParams) {
+            this.chart.charts[0].params = this.localFilter.chartParams();
+            this.chart.localParams = this.localFilter.save();
         }
-
-    }
-
-    activityTypesSelectedText():string {
-        if(this.chart.localParams && this.chart.localParams.activityTypes.model && this.chart.localParams.activityTypes.model.length > 0) {
-            return `${this.$filter('translate')('sport.' +
-                this.chart.localParams.activityTypes.options.filter(t => t.id === Number(this.chart.localParams.activityTypes.model[0]))[0].code)}
-                ${this.chart.localParams.activityTypes.model.length > 1 ?
-                this.$filter('translate')('analytics.filter.more',{num: this.chart.localParams.activityTypes.model.length - 1}) : ''}`;
-        } else {
-            return this.$filter('translate')('analytics.filter.activityTypes.empty');
+        if(this.update) {
+            this.chart.settings = this.settings;
         }
+        this.onSave({chart: this.chart, update: this.update || this.localFilter.change > 0});
     }
-
-    activityCategoriesSelectedText():string {
-        if(this.chart.localParams && this.chart.localParams.activityCategories.model && this.chart.localParams.activityCategories.model.length > 0) {
-            return `${this.$filter('categoryCode')(
-                this.globalFilter.activityCategories.options.filter(c => c.id === this.chart.localParams.activityCategories.model[0])[0])}
-                ${this.chart.localParams.activityCategories.model.length > 1 ?
-                this.$filter('translate')('analytics.filter.more',{num: this.chart.localParams.activityCategories.model.length - 1}) : ''}`;
-        } else {
-            return this.$filter('translate')('analytics.filter.activityCategories.empty');
-        }
-    }
-
-
-    periodsSelectedText(): string {
-        if(this.chart.localParams && this.chart.localParams.periods.model) {
-            return `${this.$filter('translate')('analytics.params.' + this.chart.localParams.periods.model)}`;
-        } else {
-            return this.$filter('translate')('analytics.filter.periods.empty');
-        }
-    }
-    
 }
 
 const AnalyticsChartSettingsComponent:IComponentOptions = {

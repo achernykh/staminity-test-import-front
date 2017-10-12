@@ -1,7 +1,9 @@
 <md-content class="analytics-chart md-whiteframe-2dp" ng-switch="$ctrl.chart.hasMetrics()" layout="column">
     <div flex="none" class="analytics-chart__header" layout="row" layout-align="start space-between">
-        <h1 class="md-body-2 md-dark title" flex="auto"
-            translate="analytics.{{$ctrl.chart.title}}" translate-values="{{$ctrl.context}}"></h1>
+        <h1 class="md-body-2 md-dark title" flex="auto">
+            <span translate="analytics.{{$ctrl.chart.code}}.title" translate-values="{{$ctrl.context}}"></span>
+            <span ng-if="!$ctrl.chart.globalParams" >&nbsp;({{'analytics.localFilter' | translate | lowercase}})</span>
+        </h1>
         <div flex="none" layout="row">
             <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
                 <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
@@ -23,7 +25,7 @@
             </md-button>
         </div>
     </div>
-    <p flex="none" class="md-caption md-dark analytics-chart__description">{{$ctrl.chart.paramsDescription || ('analytics.' + $ctrl.chart.description | translate:$ctrl.context)}}</p>
+    <p flex="none" class="md-caption md-dark analytics-chart__description">{{$ctrl.chart.paramsDescription || ('analytics.' + $ctrl.chart.code + '.description' | translate:$ctrl.context)}}</p>
 
     <div ng-switch-when="false" ng-if="$ctrl.errorStack.length === 0"
          flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
