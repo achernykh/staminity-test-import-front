@@ -109,7 +109,7 @@
     "webpack-merge": "2.0.0"
   },
   "dependencies": {
-    "@types/leaflet": "^1.0.50",
+    "@types/leaflet": "1.0.50",
     "@uirouter/angularjs": "^1.0.3",
     "angular": "^1.6.4",
     "angular-animate": "^1.6.4",
