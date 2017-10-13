@@ -113,7 +113,12 @@ export default class UserService {
         ) : (
             this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data)
-        );
+        )
+        .then((user) => {
+            if (this.SessionService.isCurrentUserId(user.userId)) {
+                this.SessionService.updateUser(user);
+            }
+        });
     }
 
     /**
@@ -126,7 +131,9 @@ export default class UserService {
         .then((result) => result.value)
         .then(({ revision }) => {
             let updatedUser = merge({}, userChanges, { revision });
-            this.SessionService.updateUser(updatedUser);
+            if (this.SessionService.isCurrentUserId(userChanges.userId)) {
+                this.SessionService.updateUser(updatedUser);
+            }
             return updatedUser;
         }, (error) => {
             if (error === 'expiredObject') {
