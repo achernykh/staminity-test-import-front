@@ -1,27 +1,16 @@
 import './analytics-management-panel.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {AnalyticsCtrl} from "../analytics.component";
-import {
-    IReportPeriodOptions,
-    periodByType, IAnalyticsChartFilter, AnalyticsChartFilter
-} from "../analytics-chart-filter/analytics-chart-filter.model";
-import {IUserProfileShort} from "../../../../api/user/user.interface";
-import {IActivityType} from "../../../../api/activity/activity.interface";
-import {IActivityCategory} from "../../../../api/reference/reference.interface";
-import {IReportPeriod} from "../../../../api/statistics/statistics.interface";
-import moment from 'moment/src/moment.js';
+import { AnalyticsChartFilter } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IStorageService} from "../../core/storage.service";
 
 class AnalyticsManagementPanelCtrl implements IComponentController {
 
     public data: any;
     private filter: AnalyticsChartFilter;
+    private analytics: AnalyticsCtrl;
 
     private panel: 'filters' | 'settings' | 'hide' = 'filters';
-    private startDate: Date;
-    private endDate: Date;
-
-    private analytics: AnalyticsCtrl;
     public onChangeFilter: () => IPromise<void>;
     public onChangeCharts: () => IPromise<void>;
     public onChangePanelSize: () => IPromise<void>;

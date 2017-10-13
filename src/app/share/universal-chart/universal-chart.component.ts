@@ -45,7 +45,7 @@ class UniversalChartCtrl implements IComponentController {
             setTimeout(() => {
                 this.chart.remove();
                 this.redraw();
-            }, 500);
+            }, 300);
         }
     }
 

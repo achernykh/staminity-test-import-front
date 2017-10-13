@@ -37,6 +37,7 @@ export interface IAnalyticsChartTitleContext {
 
 export interface IAnalyticsChart {
     order: number;
+    revision: number;
     auth: Array<string>;
     active: boolean;
     icon?: string;
@@ -55,6 +56,7 @@ export interface IAnalyticsChart {
 export class AnalyticsChart implements IAnalyticsChart{
 
     order: number;
+    revision: number;
     auth: Array<string>;
     active: boolean;
     icon?: string;
@@ -148,7 +150,7 @@ export class AnalyticsChart implements IAnalyticsChart{
 
                 value === "NaN" || value === "Infinity" ? value = null : value = value;
 
-                if(params) {
+                if(params && value !== null) {
                     if(params.dataType === 'date') {
                         metric.push(moment(value).format('MM-DD-YYYY'));
                     } else if(['duration','heartRateMPM','powerMPM','speedMPM'].indexOf(params.measureName) !== -1) {

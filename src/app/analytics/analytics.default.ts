@@ -15,6 +15,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 1,
         active: true,
+        revision: 1,
         auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'distanceByAthletesByPeriods',
@@ -190,6 +191,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 2,
         active: true,
+        revision: 1,
         auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'durationByAthletesByPeriods',
@@ -370,6 +372,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 3,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'actualMovingDuration',
@@ -595,6 +598,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 4,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'actualDistance',
@@ -818,6 +822,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 5,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'activityMeasuresSelected',
@@ -918,6 +923,26 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             {
                 ind: [0],
+                idx: [2,3,4],
+                type: 'checkbox',
+                area: 'measures',
+                text: 'measures',
+                multiTextParam: 'label',
+                model: [true,true,true],
+                options: [true, false],
+                change: {
+                    'false': {
+                        visible: false,
+                        legend: false
+                    },
+                    'true': {
+                        visible: true,
+                        legend: true
+                    }
+                }
+            },/*
+            {
+                ind: [0],
                 idx: [2,3,4,5,6],
                 type: 'checkbox',
                 area: 'measures',
@@ -935,7 +960,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                         legend: true
                     }
                 }
-            },
+            },*/
             {
                 ind: [0],
                 idx: [3],
@@ -1147,7 +1172,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType": "value",
                     "aggMethod": "avg"
-                },
+                }/*,
                 {
                     "id": "power",
                     "label": "Мощность",
@@ -1186,7 +1211,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType": "avgValue",
                     "aggMethod": "avg"
-                },
+                }*//*,
                 {
                     "id": "powerDecoupling",
                     "label": "Мощность:ЧСС",
@@ -1216,7 +1241,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType": "value",
                     "aggMethod": "avg"
-                }
+                }*/
             ]
         }]
     },
@@ -1226,6 +1251,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 6,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'activityMeasuresTL',
@@ -1381,6 +1407,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 7,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'timeInZonesHR',
@@ -1514,6 +1541,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 8,
+        revision: 1,
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
@@ -1648,6 +1676,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 9,
+        revision: 1,
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
@@ -1783,6 +1812,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 10,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'HRTimePeaks',
@@ -1860,6 +1890,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 11,
+        revision: 1,
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
@@ -1970,6 +2001,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 12,
+        revision: 1,
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
@@ -2050,6 +2082,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 13,
         active: false,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'DistanceByActivityTypeByPeriods',
@@ -2205,6 +2238,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 14,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'DistanceByActivityTypes',
@@ -2308,6 +2342,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 15,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'measurementsByPeriods',
@@ -2537,6 +2572,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 16,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'weightAndTotalVolume',
@@ -2724,6 +2760,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 17,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
         code: 'completePercent',
