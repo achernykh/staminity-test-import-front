@@ -29,9 +29,9 @@ class AnalyticsChartCtrl implements IComponentController {
 
     public updateCount: number = 0;
 
-    static $inject = ['$scope','statistics','$mdDialog'];
+    static $inject = ['$scope','statistics','$mdDialog','$filter'];
 
-    constructor(private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any) {
+    constructor(private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any, private $filter: any) {
 
     }
 
@@ -85,6 +85,14 @@ class AnalyticsChartCtrl implements IComponentController {
 
         }).then((response) => this.updateSettings(response.chart, response.update), () => {});
 
+    }
+
+    descriptions(): string {
+        if (this.chart.globalParams) {
+            return `${this.$filter('translate')('analytics.' + this.chart.code + '.description', this.context)}`;
+        } else {
+            return this.chart.localParams.descriptions();
+        }
     }
 
     private updateSettings(chart: AnalyticsChart, update: boolean) {

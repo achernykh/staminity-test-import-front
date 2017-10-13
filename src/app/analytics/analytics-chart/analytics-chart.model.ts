@@ -1,6 +1,6 @@
 import {
     IAnalyticsChartFilter,
-    IAnalyticsChartSettings
+    IAnalyticsChartSettings, AnalyticsChartFilter
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IChartMeasure, IChartParams, IChart} from "../../../../api/statistics/statistics.interface";
 import moment from 'moment/src/moment.js';
@@ -72,7 +72,12 @@ export class AnalyticsChart implements IAnalyticsChart{
 
     isAuthorized: boolean; //результат проверки полномочий пользователя
 
-    constructor(params?: IAnalyticsChart, user?: IUserProfile) {
+    constructor(
+        private params?: IAnalyticsChart,
+        private user?: IUserProfile,
+        private globalFilter?: AnalyticsChartFilter,
+        private $filter?: any) {
+
         Object.assign(this, params);
         if(this.hasOwnProperty('layout') && this.layout) {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumnEnd, this.layout.gridRowEnd);
@@ -80,6 +85,12 @@ export class AnalyticsChart implements IAnalyticsChart{
 
         if(!this.globalParams && this.localParams && this.isAuthorized) {
             this.prepareLocalParams(user);
+            this.localParams = new AnalyticsChartFilter(
+                this.globalFilter.user,
+                this.globalFilter.categories,
+                this.localParams,
+                this.$filter
+            );
         }
     }
 
@@ -150,8 +161,10 @@ export class AnalyticsChart implements IAnalyticsChart{
 
                 value === "NaN" || value === "Infinity" ? value = null : value = value;
 
-                if(params && value !== null) {
-                    if(params.dataType === 'date') {
+                if(params) {
+                    if (value === null) {
+                        metric.push(value);
+                    } else if(params.dataType === 'date') {
                         metric.push(moment(value).format('MM-DD-YYYY'));
                     } else if(['duration','heartRateMPM','powerMPM','speedMPM'].indexOf(params.measureName) !== -1) {
                         metric.push(value / 60 / 60);

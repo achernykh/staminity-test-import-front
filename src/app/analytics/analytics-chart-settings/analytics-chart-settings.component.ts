@@ -19,6 +19,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     private globalFilter: AnalyticsChartFilter;
     private localFilter: AnalyticsChartFilter;
 
+    private globalParams: boolean = null;
     private settings: Array<IAnalyticsChartSettings<any>>;
 
     private update: boolean = false;
@@ -42,6 +43,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             this.prepareLocalFilter('fromSettings');
         }
 
+        this.globalParams = copy(this.chart.globalParams);
         this.settings = copy(this.chart.settings);
     }
 
@@ -110,14 +112,17 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 
     save() {
-        if(!this.chart.globalParams) {
+        if(!this.globalParams) {
             this.chart.charts[0].params = this.localFilter.chartParams();
             this.chart.localParams = this.localFilter.save();
         }
         if(this.update) {
             this.chart.settings = this.settings;
         }
-        this.onSave({chart: this.chart, update: this.refresh || (this.localFilter && this.localFilter.change > 0)});
+        this.onSave({
+            chart: Object.assign(this.chart, { globalParams: this.globalParams }),
+            update: this.refresh || (this.localFilter && this.localFilter.change > 0)
+        });
     }
 }
 

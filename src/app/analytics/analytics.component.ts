@@ -78,12 +78,8 @@ export class AnalyticsCtrl implements IComponentController {
 
     $onInit() {
 
+        this.prepareFilter(this.user, this.categories);
         this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
-        this.filter = new AnalyticsChartFilter(
-            this.user,
-            this.categories,
-            this.getSettings(this.storage.filter),
-            this.$filter);
     }
 
     $onDestroy() {
@@ -113,8 +109,20 @@ export class AnalyticsCtrl implements IComponentController {
         this.storageService.set(`${this.user.userId}#${this.storage.name}_${obj}`,this[obj]);
     }
 
+    private prepareFilter(user: IUserProfile, categories: Array<IActivityCategory>) {
+        this.filter = new AnalyticsChartFilter(
+            user,
+            categories,
+            this.getSettings(this.storage.filter),
+            this.$filter);
+    }
+
     private prepareCharts(charts: Array<IAnalyticsChart>) {
-        this.charts = charts.map(c => new AnalyticsChart(Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}), this.user));
+        this.charts = charts.map(c => new AnalyticsChart(
+            Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
+            this.user,
+            this.filter,
+            this.$filter));
     }
 }
 
