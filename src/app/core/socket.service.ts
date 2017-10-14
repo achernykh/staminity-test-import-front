@@ -28,7 +28,7 @@ export class SocketService {
     private socketStarted: boolean = null;
 
     private socket: WebSocket;
-    private requests: Array<any> = [];
+    private buffer: Array<any> = [];
     private r: Array<Deferred<any>> = [];
     private requestId: number = 1;
     private internetStatus: boolean = true;
@@ -199,8 +199,8 @@ export class SocketService {
             }
         }, this.heartBitTimeout);
         
-        if (this.requests[response.requestId]) {
-            let callback:any = this.requests[response.requestId];
+        if (this.buffer[response.requestId]) {
+            let callback:any = this.buffer[response.requestId];
             this.lastHeartBit = Date.now();
 
             if (response['errorMessage']) {
@@ -208,7 +208,7 @@ export class SocketService {
             } else {
             	callback.resolve(response.data);
             }
-            delete this.requests[response.requestId];
+            delete this.buffer[response.requestId];
             this.loader.hide();
         } else {
             if (response.hasOwnProperty('errorMessage') && response.errorMessage === 'badToken') {
@@ -268,7 +268,7 @@ export class SocketService {
 
         switch (ev.reason) {
             case 'badToken': {
-                this.requests = [];
+                this.buffer = [];
                 this.message.toastInfo(ev.reason);
                 this.loader.hide();
                 this.$state.go('signin');
@@ -283,8 +283,6 @@ export class SocketService {
 
     // send
     public send(r: IWSRequest): Promise<IWSResponse> {
-
-        debugger;
 
         if (!this.socketStarted) { // если соединение не установлено
             //throw new Error('internetConnectionLost');
@@ -302,10 +300,11 @@ export class SocketService {
         this.loader.show();
 
         setTimeout(() => {
-
-            this.requests[r.requestId].reject('timeoutExceeded'); //TODO что делаем с этим?
-            delete this.requests[r.requestId];
-            this.loader.hide();
+            if(this.buffer[r.requestId]) {
+                this.buffer[r.requestId].reject('timeoutExceeded'); //TODO что делаем с этим?
+                delete this.buffer[r.requestId];
+                this.loader.hide();
+            }
 
         }, this.settings.delayExceptions[r.requestType] || this.settings.delayOnResponse);
 
@@ -335,13 +334,13 @@ export class SocketService {
             //console.log('socket send', request);
             this.socket.send(JSON.stringify(request));
             let deferred = this.$q.defer();
-            this.requests[request.requestId] = deferred;
+            this.buffer[request.requestId] = deferred;
             this.loader.show();
 
             setTimeout(() => {
-                if(this.requests[request.requestId]) {
-                    this.requests[request.requestId].reject('timeoutExceeded'); //TODO что делаем с этим?
-                    delete this.requests[request.requestId];
+                if(this.buffer[request.requestId]) {
+                    this.buffer[request.requestId].reject('timeoutExceeded'); //TODO что делаем с этим?
+                    delete this.buffer[request.requestId];
                     this.loader.hide();
                 }
             }, (this.responseLimit[request.requestType] || this.responseTimeout) * 1000);

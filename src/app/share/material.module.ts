@@ -30,6 +30,8 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     exports: [
@@ -65,6 +67,12 @@ import {
         MatToolbarModule,
         MatTooltipModule,
         MatNativeDateModule,
+
+        // Flex-layout
+        FlexLayoutModule,
+
+        // Animations
+        BrowserAnimationsModule,
     ]
 })
 export class MaterialModule {}

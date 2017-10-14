@@ -17,6 +17,9 @@ module.exports = {
             '@angular/common',
             '@angular/core',
             '@angular/router',
+            '@angular/flex-layout',
+            '@angular/animations',
+            
             'angular-aria',
             'angular-animate',
             'angular-messages',
