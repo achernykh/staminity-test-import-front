@@ -9,8 +9,8 @@ import {IUserProfile} from "../../../api/user/user.interface";
 import GroupService from "../core/group.service";
 import {GetRequest} from "../../../api/calendar/calendar.request";
 import {Observable} from "rxjs/Rx";
-import {toDay} from "../activity/activity.datamodel";
-import {SessionService} from "../core/session.service";
+import { toDay } from "../activity/activity.datamodel";
+import { ISessionService } from "../core/session.service-ajs";
 
 
 export interface IAuthService {
@@ -36,7 +36,7 @@ export default class AuthService implements IAuthService {
     static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService'];
 
     constructor(
-        private SessionService: SessionService,
+        private SessionService: ISessionService,
         private RESTService: IRESTService,
         private SocketService: ISocketService,
         private GroupService: GroupService

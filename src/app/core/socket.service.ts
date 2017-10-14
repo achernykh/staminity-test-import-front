@@ -7,7 +7,7 @@ import { Injectable, Inject } from '@angular/core';
 import { SessionService } from "./session.service";
 import { LoaderService } from "../share/loader/loader.service";
 import { SocketStatus, Deferred, IWSRequest, IWSResponse } from "./socket.interface";
-import { ConnectionSettingsConfig, IConnectionSettings } from "./socket.config";
+import {IConnectionSettings, ConnectionSettings, ConnectionSettingsConfig} from "./socket.config";
 import { WebSocketSubject } from "rxjs/observable/dom/WebSocketSubject";
 
 
@@ -40,9 +40,9 @@ export class SocketService {
     constructor (
         @Inject(ConnectionSettingsConfig) private settings: IConnectionSettings,
         private session: SessionService,
-        private loader: LoaderService,
-        private message: IMessageService,
-        private $state: StateService
+        private loader: LoaderService
+        //private message: IMessageService,
+        //private $state: StateService
         //private $http: IHttpService
     ) {
 
@@ -50,13 +50,17 @@ export class SocketService {
         this.connections.subscribe(status => this.connectionStatus = !!status);
         this.messages = new Subject();
 
+        this.o.subscribe((status: boolean) => this.socketStarted = status);
+
     }
 
     open(token:string = this.session.getToken()): void {
 
         this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
         this.s = this.ws.subscribe({
-            next: (data: MessageEvent) => {
+            next: (message: IWSResponse) => {
+                // Свзяь с сервером есть
+                this.o.next(true);
                 //
                 this.lastMessageTimestamp = Date.now();
 
@@ -69,7 +73,7 @@ export class SocketService {
                     }
                 }, this.settings.delayOnHeartBeat);
 
-                this._response(JSON.parse(data.data));
+                this.response(message);
             },
             error: () => {
                 this.s.unsubscribe();
@@ -79,6 +83,8 @@ export class SocketService {
 
             }
         });
+        // Свзяь с сервером есть
+        this.o.next(true);
     }
 
     /**
@@ -137,14 +143,14 @@ export class SocketService {
     }**/
 
 
-    _response (message: IWSResponse) {
+    response (message: IWSResponse) {
 
         if(message.hasOwnProperty('requestId') && this.r[message.requestId]) {
 
             let r: Deferred<any> = this.r[message.requestId];
 
             if(!message.hasOwnProperty('errorMessage')) {
-                r.resolve(message);
+                r.resolve(message.data);
             } else {
                 r.reject(message.errorMessage);
             }
@@ -260,18 +266,21 @@ export class SocketService {
     // send
     send(r: IWSRequest): Promise<IWSResponse> {
 
+        debugger;
+
         if (!this.socketStarted) { // если соединение не установлено
-            throw new Error('internetConnectionLost');
+            //throw new Error('internetConnectionLost');
+            return Promise.reject('internetConnectionLost');
         }
 
         if(!this.session.getToken()) { // если пользователь не авторизован
-            throw new Error('userNotAuthorized');
+            return Promise.reject('userNotAuthorized');
         }
 
         r.requestId = this.requestId ++;
         this.r[r.requestId] = new Deferred<boolean>();
 
-        this.ws.next(r);
+        this.ws.next(JSON.stringify(r));
         this.loader.show();
 
         setTimeout(() => {

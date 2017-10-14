@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from "@ngx-translate/core";
 import { NewPageDialogService } from "./new-page.service";
+import { UserService } from "../core/user.service";
+import {SocketService} from "../core/socket.service";
 
 @Component({
     selector: 'new-page',
-    providers: [ NewPageDialogService ],
+    providers: [],
     template: `
 
 <mat-toolbar color="primary">
@@ -30,7 +32,14 @@ export class NewPageComponent implements OnInit, OnDestroy{
 
     public param: Object = {value: ', World!'};
 
-    constructor(private translate: TranslateService, private newPageDialog: NewPageDialogService) {
+    constructor(
+        private translate: TranslateService,
+        private newPageDialog: NewPageDialogService,
+        private socket: SocketService,
+        private userService: UserService) {
+
+        this.socket.open();
+
         translate.addLangs(['en', 'ru']);
         translate.setDefaultLang('en');
         translate.use('en');
@@ -41,6 +50,7 @@ export class NewPageComponent implements OnInit, OnDestroy{
 
     ngOnInit() {
         this.newPageDialog.print('some text');
+        this.userService.getConnections().then( result => {debugger;}, error => {debugger;});
     }
 
     ngOnDestroy() {

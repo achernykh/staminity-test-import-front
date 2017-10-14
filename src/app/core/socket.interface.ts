@@ -8,7 +8,9 @@ export enum SocketStatus {
 export interface IWSResponse {
     requestId:number;
     errorMessage?: string;
+    arrayResult?: any;
     data:any;
+    value?: any;
 }
 
 export interface IWSRequest {

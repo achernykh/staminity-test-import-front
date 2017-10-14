@@ -1,7 +1,7 @@
 import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './calendar.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
-import UserService from "../core/user.service";
+import UserService from "../core/user.service-ajs";
 import MessageService from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service-ajs";

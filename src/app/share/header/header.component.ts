@@ -3,7 +3,7 @@ import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {Subject} from "rxjs/Rx";
 import {INotification, Notification} from "../../../../api/notification/notification.interface";
 import {IGroupMembershipRequest} from '../../../../api/group/group.interface';
-import UserService from "../../core/user.service";
+import UserService from "../../core/user.service-ajs";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import { ISessionService, getUser } from "../../core/session.service-ajs";
 import RequestsService from "../../core/requests.service";

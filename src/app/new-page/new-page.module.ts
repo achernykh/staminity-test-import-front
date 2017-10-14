@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { NewPageDialogService } from "./new-page.service";
+import {CoreModule} from "../core/core.module";
 
 
 /** The NgModule for the Preferences feature */
@@ -18,7 +19,8 @@ import { NewPageDialogService } from "./new-page.service";
         TranslateModule,
         UIRouterModule.forChild({ states: [ newPageState ] }),
         MatIconModule,
-        MatToolbarModule
+        MatToolbarModule,
+        CoreModule
     ],
     providers: [ NewPageDialogService ],
     declarations: [ NewPageComponent ],

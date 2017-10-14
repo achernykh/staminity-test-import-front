@@ -3,7 +3,7 @@ import './calendar-item-activity.component.scss';
 import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge, copy} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
-import UserService from "../../core/user.service";
+import UserService from "../../core/user.service-ajs";
 import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {

@@ -1,6 +1,6 @@
-import { OpaqueToken } from "@angular/core";
+import { InjectionToken } from "@angular/core";
 
-export let ConnectionSettingsConfig = new OpaqueToken("socket.config");
+export let ConnectionSettingsConfig = new InjectionToken<IConnectionSettings>("socket.config");
 
 export interface IConnectionSettings {
     delayOnHeartBeat: number;

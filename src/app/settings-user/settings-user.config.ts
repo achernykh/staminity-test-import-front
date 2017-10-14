@@ -1,7 +1,7 @@
 import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './settings-user.translate';
 import { DisplayView } from "../core/display.constants";
-import UserService from "../core/user.service";
+import UserService from "../core/user.service-ajs";
 import MessageService from "../core/message.service";
 import * as _connection from "../core/env.js";
 import SessionService from "../core/session.service-ajs";

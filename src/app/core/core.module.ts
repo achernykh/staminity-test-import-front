@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
+import {NgModule, Provider} from '@angular/core';
 import { StorageService } from "./storage.service";
 import { SessionService } from "./session.service";
 import { SocketService } from './socket.service';
-import { ConnectionSettingsConfig, ConnectionSettings } from './socket.config';
+import {ConnectionSettings, ConnectionSettingsConfig} from './socket.config';
+import { UserService } from "./user.service";
 
 
 @NgModule({
@@ -10,13 +11,11 @@ import { ConnectionSettingsConfig, ConnectionSettings } from './socket.config';
     exports: [],
     declarations: [],
     providers: [
-        {
-            provide: ConnectionSettingsConfig,
-            useValue: ConnectionSettings
-        },
         StorageService,
+        { provide: ConnectionSettingsConfig, useValue: ConnectionSettings },
         SessionService,
-        SocketService
+        SocketService,
+        UserService
     ]
 })
 export class CoreModule { }

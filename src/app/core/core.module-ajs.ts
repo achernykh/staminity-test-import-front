@@ -1,10 +1,10 @@
 import { module } from 'angular';
-import { SocketService } from './socket.service';
+import { SocketService } from './socket.service-ajs';
 import { RESTService } from './rest.service';
 import SystemMessageService from "./sysmessage.service.js";
 import SystemMessageComponent from './sysmessage.component.js';
 import { ActionMessageService } from "./actionmessage.service.js";
-import UserService from "./user.service";
+import UserService from "./user.service-ajs";
 import GroupService from "./group.service";
 import RequestsService from "./requests.service";
 import MessageService, { configure as messagesConf } from './message.service';

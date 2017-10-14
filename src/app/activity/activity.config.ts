@@ -4,7 +4,7 @@ import {DisplayView, DefaultTemplate} from "../core/display.constants";
 import {CalendarService} from "../calendar/calendar.service";
 import MessageService from "../core/message.service";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
-import UserService from "../core/user.service";
+import UserService from "../core/user.service-ajs";
 
 function configure($translateProvider:any,
                    $stateProvider: any) {
