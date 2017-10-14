@@ -1,9 +1,13 @@
-import {NgModule, Provider} from '@angular/core';
+import {NgModule, APP_INITIALIZER} from '@angular/core';
 import { StorageService } from "./storage.service";
 import { SessionService } from "./session.service";
 import { SocketService } from './socket.service';
 import {ConnectionSettings, ConnectionSettingsConfig} from './socket.config';
 import { UserService } from "./user.service";
+
+export function configFactory(socket: SocketService) {
+    return  () => socket.init();
+}
 
 
 @NgModule({
@@ -12,6 +16,7 @@ import { UserService } from "./user.service";
     declarations: [],
     providers: [
         StorageService,
+        { provide: APP_INITIALIZER, useFactory: configFactory, deps: [SocketService], multi: true },
         { provide: ConnectionSettingsConfig, useValue: ConnectionSettings },
         SessionService,
         SocketService,

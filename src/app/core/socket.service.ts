@@ -54,6 +54,21 @@ export class SocketService {
 
     }
 
+    init(): Promise<boolean> {
+
+        this.open();
+
+        return new Promise<boolean>((resolve, reject) => {
+            setTimeout(() => {
+                if(this.socketStarted) {
+                    return resolve(true);
+                } else {
+                    return reject(false);
+                }
+            }, this.settings.delayOnOpen);
+        });
+    }
+
     open(token:string = this.session.getToken()): void {
 
         this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);

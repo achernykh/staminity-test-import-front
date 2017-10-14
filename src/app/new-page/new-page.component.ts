@@ -35,10 +35,7 @@ export class NewPageComponent implements OnInit, OnDestroy{
     constructor(
         private translate: TranslateService,
         private newPageDialog: NewPageDialogService,
-        private socket: SocketService,
         private userService: UserService) {
-
-        this.socket.open();
 
         translate.addLangs(['en', 'ru']);
         translate.setDefaultLang('en');
