@@ -149,7 +149,11 @@ class SettingsUserCtrl {
         this.displayForm.$dirty = true;
     }
 
-    changeFirstDayOfWeek (number) {
+    getFirstDayOfWeek () {
+        return this.user.display.firstDayOfWeek || 0;
+    }
+
+    setFirstDayOfWeek (number) {
         this.user.display.firstDayOfWeek = number;
         this.displayForm.$dirty = true;
     }

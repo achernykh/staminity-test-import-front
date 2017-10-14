@@ -55,18 +55,18 @@
 
             <md-list-item class="mobile-select">
                 <span translate="settings.display.firstDayOfWeek"></span>
-                <span class="md-secondary"
-                     ng-bind="$ctrl.weekdays($ctrl.user.display.firstDayOfWeek)"
-                     style="text-transform: capitalize"></span>
+                <span class="md-secondary" style="text-transform: capitalize">
+                    {{$ctrl.weekdays($ctrl.getFirstDayOfWeek())}}
+                </span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon class="material-icons">arrow_drop_down</md-icon>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat="number in [0, 1]">
-                            <md-button ng-click="$ctrl.changeFirstDayOfWeek(number)"
-                                       ng-bind="$ctrl.weekdays(number)"
-                                       style="text-transform: capitalize"></md-button>
+                            <md-button ng-click="$ctrl.setFirstDayOfWeek(number)" style="text-transform: capitalize">
+                                {{$ctrl.weekdays(number)}}
+                            </md-button>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>

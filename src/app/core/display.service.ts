@@ -8,30 +8,29 @@ import UserService from './user.service';
 import { path } from '../share/utility';
 
 
+let getDisplay = (session: ISession) : string => path([getUser, 'display']) (session) || {};
 let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
 let getUnits = (session: ISession) : string => path([getUser, 'display', 'units']) (session) || 'metric';
 let getTimezone = (session: ISession) : string => path([getUser, 'display', 'timezone']) (session) || '+00:00';
 let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 0;
 
-let setupMoment = (locale: string, firstDayOfWeek: number) => {
-	moment.locale(locale);
-	moment.updateLocale(locale, {
-		week: { dow: firstDayOfWeek },
-		invalidDate: ''
-	});
-};
-
 export default class DisplayService {
 
-	private handleLocaleChange = (locale: string) => {
+	private handleChanges = () => {
+		let locale = this.getLocale();
+		let firstDayOfWeek = this.getFirstDayOfWeek();
+
 		this.$translate.use(locale);
 		this.tmhDynamicLocale.set(locale);
-		setupMoment(locale, this.getFirstDayOfWeek());
-	}
 
-	private handleFirstDayOfWeekChange = (day: number) => {
-		this.$mdDateLocale.firstDayOfWeek = day;
-		setupMoment(this.getLocale(), day);
+		moment.locale(locale);
+		moment.updateLocale(locale, {
+			week: { dow: firstDayOfWeek },
+			invalidDate: ''
+		});
+
+		this.$mdDateLocale.firstDayOfWeek = firstDayOfWeek;
+		this.$mdDateLocale.shortDays = moment.weekdaysMin();
 	}
 
 	public locales = {
@@ -48,16 +47,10 @@ export default class DisplayService {
 		private tmhDynamicLocale: any,
 		private $mdDateLocale: any
 	) {
-		window['D'] = this;
 		SessionService.getObservable()
-		.map(getLocale)
+		.map(getDisplay)
 		.distinctUntilChanged()
-		.subscribe(this.handleLocaleChange);
-
-		SessionService.getObservable()
-		.map(getFirstDayOfWeek)
-		.distinctUntilChanged()
-		.subscribe(this.handleFirstDayOfWeekChange);
+		.subscribe(this.handleChanges);
 	}
 
 	getLocale () : string {

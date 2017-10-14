@@ -3,45 +3,40 @@
     <section class="application-body">
 
         <section class="application-toolbar" hide-xs hide-sm>
-            <md-button class="md-icon-button" aria-label="Settings" style="margin: 0px"
-                       ng-click="$ctrl.toPrevWeek()">
+            <md-button  ng-click="$ctrl.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
             </md-button>
-            <md-button class="md-icon-button" aria-label="Settings" style="margin: 0px"
-                       ng-click="$ctrl.toNextWeek()">
+            <md-button ng-click="$ctrl.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons md-18" aria-label="Back">navigate_next</md-icon>
             </md-button>
 
-            <span class="md-body-2">{{$ctrl.currentWeek.toolbarDate}}</span>
+            <span class="md-body-2">
+                {{$ctrl.currentWeek.toolbarDate}}
+            </span>
 
-            <md-datepicker class="picker" ng-model="$ctrl.myDate"
-                           md-placeholder="Enter date" ng-change="$ctrl.toDate($ctrl.myDate)"></md-datepicker>
+            <md-datepicker ng-model="$ctrl.myDate" ng-change="$ctrl.toDate($ctrl.myDate)" class="picker">
+            </md-datepicker>
 
-            <span translate class="md-body-1">calendar.selectDate</span>
+            <span translate class="md-body-1">
+                calendar.selectDate
+            </span>
 
-            <md-button class="md-icon-button" aria-label="Settings"
-                       ng-init="today = 0"
-                       ng-click="$ctrl.toCurrentWeek()">
+            <md-button ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings" ng-init="today = 0">
                 <md-icon class="material-icons" aria-label="Back">today</md-icon>
             </md-button>
 
-            <span translate class="md-body-1">calendar.today</span>
-            <md-button class="md-icon-button" aria-label="Settings"
-                       ng-click="$ctrl.view.compact = !$ctrl.view.compact">
+            <span translate class="md-body-1">
+                calendar.today
+            </span>
+            <md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
                 <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
             </md-button>
-            <span class="md-body-1" translate>{{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details'}}</span>
-            <!--
-            <md-button class="md-icon-button" aria-label="File"
-                       ng-click="$ctrl.onFileUpload()">
-                <md-icon class="material-icons" aria-label="File">file_upload</md-icon>
-            </md-button>
-            <span translate class="md-body-1">calendar.file</span>-->
+            <span class="md-body-1" translate>
+                {{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details'}}
+            </span>
+
         </section>
-
-
         <section id="calendar" class="content animated zoomIn">
-
 
             <!-- weekdays panel: start -->
             <md-toolbar class=" calendar-header md-primary md-whiteframe-1dp" hide show-gt-sm>
