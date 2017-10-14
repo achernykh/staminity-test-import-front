@@ -1,7 +1,7 @@
 import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './club.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
-import {IAuthService} from "../auth/auth.service";
+import {IAuthService} from "../auth/auth.service-ajs";
 import GroupService from "../core/group.service";
 
 function configure(

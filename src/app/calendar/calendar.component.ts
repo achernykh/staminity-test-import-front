@@ -5,7 +5,7 @@ import { times } from '../share/util.js';
 import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService, IRootScopeService, copy} from 'angular';
 import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";
-import {ISessionService} from "../core/session.service";
+import {ISessionService} from "../core/session.service-ajs";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {IUserProfile} from "../../../api/user/user.interface";
 

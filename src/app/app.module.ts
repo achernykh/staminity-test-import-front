@@ -1,83 +1,40 @@
-import * as angular from 'angular';
-import * as hmReedmore from "../../bower_components/angular-read-more";
-import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
-import 'angularjs-scroll-glue/src/scrollglue.js';
-import 'drag-drop-webkit-mobile/ios-drag-drop.js';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.eot';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.woff2';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.woff';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.ttf';
+import { NgModule, Component} from '@angular/core';
+import { BrowserModule} from '@angular/platform-browser';
+import { UpgradeModule } from '@angular/upgrade/static';
+import { UIRouterUpgradeModule } from '@uirouter/angular-hybrid';
+import { UIRouterModule } from '@uirouter/angular';
+import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NewPage } from "./new-page/new-page.module";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { CoreModule } from './core/core.module';
+import { ShareModule } from './share/share.module';
 
-import run from './app.run';
-import configure from './app.config';
-import AppComponent from './app.component';
+@NgModule({
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        // Provide Angular upgrade capabilities
+        UpgradeModule,
+        // Provides the @uirouter/angular-hybrid directives
+        UIRouterUpgradeModule,
+        // Provides the @uirouter/angular directives
+        UIRouterModule,
 
-import Core from './core/core.module';
-import Share from './share/share.module';
-import Auth from './auth/auth.module';
-import Landing from './landingpage/landingpage.module';
-import SettingsUser from './settings-user/settings-user.module';
-import Calendar from './calendar/calendar.module';
-import CalendarItemMeasurement from './calendar-item/calendar-item.module';
-import Activity from './activity/activity.module';
-import Profile from './profile-user/profile-user.module';
-import SettingsClub from './settings-club/settings-club.module';
-import Management from "./management/managment.module";
-import Athletes from "./athletes/athletes.module";
-import Club from "./club/club.module";
-import Dashboard from './dashboard/dashboard.module';
-import Search from "./search/search.module";
-import Reference from "./reference/reference.module";
-import Analytics from "./analytics/analytics.module";
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (httpClient: HttpClient) => new TranslateHttpLoader(httpClient, "/assets/locale/page.", ".json"),
+                deps: [ HttpClient ]
+            }
+        }),
 
-export const root = angular.module('staminity.application', [
-	'pascalprecht.translate', // translate
-	'ngMaterial',
-	'ngMessages',
-	'ngAnimate',
-	'ngAria',
-	'ui.router',
-	'ui.router.upgrade',
-	'md.data.table',
-	'nemLogging',
-	'ui-leaflet',
-	hmReedmore,
-	'tmh.dynamicLocale',
-	'toaster',
-	//'ngTouch',
-	'angular-carousel',
-	'dndLists',
-	'luegg.directives',
-
-	Core,
-	Share,
-	Auth,
-	Landing,
-	SettingsUser,
-	Calendar,
-	CalendarItemMeasurement,
-	Activity,
-	Profile,
-	SettingsClub,
-	Management,
-	Athletes,
-	Club,
-	Dashboard,
-	Search,
-	Reference,
-	Analytics
-])
-	.component('staminityApplication', AppComponent)
-	.config(configure)
-	.run(run);
-
-// Enable tracing of each TRANSITION... (check the javascript console)
-
-// This syntax `$trace.enable(1)` is an alternative to `$trace.enable("TRANSITION")`.
-// Besides "TRANSITION", you can also enable tracing for : "RESOLVE", "HOOK", "INVOKE", "UIVIEW", "VIEWCONFIG"
-const traceRunBlock = ['$trace', $trace => { $trace.enable(1); }];
-root.run(traceRunBlock);
-
-/**bootstrap(document, ['staminity.application'], {
-	strictDi: true
-});**/
+        NewPage,
+        CoreModule,
+        ShareModule
+    ]
+}) export class RootModule {
+    ngDoBootstrap() {
+        /* no body: this disables normal (non-hybrid) Angular bootstrapping */
+    }
+}

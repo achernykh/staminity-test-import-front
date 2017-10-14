@@ -1,7 +1,7 @@
 import { IComponentOptions, IComponentController} from 'angular';
-import {IAuthService} from "../../auth/auth.service";
+import {IAuthService} from "../../auth/auth.service-ajs";
 import {StateService} from '@uirouter/angular';
-import SessionService from "../../core/session.service";
+import SessionService from "../../core/session.service-ajs";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import { Observable } from 'rxjs/Observable';
 import DisplayService from "../../core/display.service";

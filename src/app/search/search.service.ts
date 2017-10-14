@@ -1,4 +1,4 @@
-import {ISocketService} from "../core/socket.service";
+import {ISocketService} from "../core/socket.service-ajs";
 import {SearchMethod, SearchParams, SearchResultByUser, SearchResultByGroup} from "../../../api/search/search.interface";
 import {SearchGetResult} from "../../../api/search/search.request";
 

@@ -1,84 +1,107 @@
 import * as _connection from './env.js';
-import { StateService } from '@uirouter/angular';
-import { Observable, Subject, Subscription } from 'rxjs/Rx';
-import { IMessageService } from "./message.service";
-import { IHttpService } from 'angular';
-import { Injectable, Inject } from '@angular/core';
-import { SessionService } from "./session.service";
-import { LoaderService } from "../share/loader/loader.service";
-import { SocketStatus, Deferred, IWSRequest, IWSResponse } from "./socket.interface";
-import { ConnectionSettingsConfig, IConnectionSettings } from "./socket.config";
-import { WebSocketSubject } from "rxjs/observable/dom/WebSocketSubject";
+import { ISessionService } from './session.service-ajs';
+import {StateService} from '@uirouter/angular';
+import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import LoaderService from "../share/loader/loader.service-ajs";
+import {IMessageService} from "./message.service";
+import {IHttpService, noop, IPromise} from 'angular';
+import {Ping} from "../../../api/core";
 
 
-@Injectable()
-export class SocketService {
+export enum SocketStatus {
+    Connecting,
+    Open,
+    Closing,
+    Close
+}
 
-    // public
+export interface IWSResponse {
+    requestId:number;
+    errorMessage?: string;
+    data:any;
+}
 
-    connections: Subject<any> = new Subject();
-    messages: Subject<any> = new Subject();
-    o: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
-    m: Subject<Object> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
+export interface IWSRequest {
+    requestId?:number;
+    requestType?:string;
+    requestData?:any;
+}
 
-    // private
+export interface ISocketService {
+    open(token:string): Promise<number>;
+    response(event:any);
+    reopen(event:any);
+    close(ev: CloseEvent | {reason: string});
+    send(request:IWSRequest): Promise<any>;
+    messages: Subject<any>;
+    connections: Subject<any>;
+}
 
-    private ws: WebSocketSubject<Object>; // наблюдаемая переменная WebSocketSubject
-    private s: Subscription; // переменная для подписки на ws
-    private socketStarted: boolean = null;
+export interface ISocketAsyncMessage {
+    type: string;
+    action: string;
+    value: Object;
+}
+
+/**
+ * Класс для работы с websoсket сессией
+ */
+export class SocketService implements ISocketService {
 
     private socket: WebSocket;
     private requests: Array<any> = [];
-    private r: Array<Deferred<any>> = [];
     private requestId: number = 1;
+    private lastHeartBit: number = null; // timestamp последнего heart bit от сервера
+    private readonly heartBitTimeout: number = 30 * 1000; // 30 секунд
+    private readonly connectionTimeout: number = 300; // таймаут для завершения соедниения сессии (мс)
+    private reopenTimeout: number = 0.5; // в секундах
+    private responseTimeout: number = 10.0; // сек
+    private readonly responseLimit: {} = { // лимиты ожидания по отдельным запросам (сек)
+        getActivityIntervals: 10.0,
+        postUserExternalAccount: 60.0,
+        putUserExternalAccountSettingSuccess: 10.0,
+        getCalendarItem: 30.0,
+        calculateActivityRange: 15.0,
+        putCalendarItem: 15.0,
+        getActivityCategory: 10.0,
+        postCalendarItem: 10.0,
+        getGroupManagementProfile: 10.0
+    };
+
     private internetStatus: boolean = true;
     private connectionStatus: boolean = true;
-    private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
 
-    //static $inject = ['$q','SessionService', 'LoaderService','message','$state','$http'];
+    public connections: Subject<any>;
+    public messages: Subject<any>;
+
+    static $inject = ['$q','SessionService', 'LoaderService','message','$state','$http'];
 
     constructor (
-        @Inject(ConnectionSettingsConfig) private settings: IConnectionSettings,
-        private session: SessionService,
+        private $q: any,
+        private SessionService:ISessionService,
         private loader: LoaderService,
         private message: IMessageService,
-        private $state: StateService
-        //private $http: IHttpService
-    ) {
+        private $state: StateService, private $http: IHttpService) {
 
         this.connections = new Subject();
         this.connections.subscribe(status => this.connectionStatus = !!status);
         this.messages = new Subject();
 
-    }
-
-    open(token:string = this.session.getToken()): void {
-
-        this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
-        this.s = this.ws.subscribe({
-            next: (data: MessageEvent) => {
-                //
-                this.lastMessageTimestamp = Date.now();
-
-                // Через таймаут проверяем пришел ли hb/сообщение, если нет, то считаем сессию потерянной и пробуем переоткрыть
-                setTimeout(() => {
-                    let now = Date.now();
-                    if (this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat) {
-                        this.o.next(false);
-                        this.close({reason: 'lostHeartBit'}); // TODO reopen?
-                    }
-                }, this.settings.delayOnHeartBeat);
-
-                this._response(JSON.parse(data.data));
-            },
-            error: () => {
-                this.s.unsubscribe();
-                this.o.next(false);
-            },
-            complete: () => {
-
+        setInterval(()=>{
+            if(this.socket && this.socket.readyState === SocketStatus.Open){
+                //this.send(new Ping())
+                $http.get(`/favicon.ico?_=${new Date().getTime()}`)
+                    .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
+                        this.internetStatus = true;
+                        if(!this.connectionStatus) {
+                            this.open().then(() => this.connections.next(true), () => this.connections.next(false));
+                        }
+                    }, () => {
+                        this.internetStatus = false;
+                        this.connections.next(false);
+                    }); // подключение отсутствует
             }
-        });
+        }, 5000);
     }
 
     /**
@@ -86,7 +109,7 @@ export class SocketService {
      * @returns {Promise<T>}
      * @param token
      */
-    /**open(token:string = this.session.getToken()): Promise<any> {
+    open(token:string = this.SessionService.getToken(), delay:number = 100): Promise<any> {
         return new Promise((resolve, reject) => {
             if (!this.socket || (this.socket.readyState !== SocketStatus.Open &&
                 this.socket.readyState !== SocketStatus.Connecting)) {
@@ -123,7 +146,7 @@ export class SocketService {
                             } else {
                                 return reject(`connection ws error: status ${SocketStatus[this.socket.readyState]}`);
                             }
-                        }, this.settings.delayOnOpen);
+                        }, this.connectionTimeout);
                     }
                     default: {
                         return reject(`connection ws error: status ${SocketStatus[this.socket.readyState]}`);
@@ -134,26 +157,6 @@ export class SocketService {
             //onOpen();
             this.socket.readyState ? onOpen() : this.socket.addEventListener('open', onOpen);
         });
-    }**/
-
-
-    _response (message: IWSResponse) {
-
-        if(message.hasOwnProperty('requestId') && this.r[message.requestId]) {
-
-            let r: Deferred<any> = this.r[message.requestId];
-
-            if(!message.hasOwnProperty('errorMessage')) {
-                r.resolve(message);
-            } else {
-                r.reject(message.errorMessage);
-            }
-
-        } else if (message.hasOwnProperty('errorMessage') && message.errorMessage === 'badToken') {
-
-            this.close({reason: message.errorMessage});
-
-        }
     }
 
     /**
@@ -163,13 +166,14 @@ export class SocketService {
      * @param event
      * @param WS
      */
-    /**response (event: MessageEvent) {
-        let response: IWSResponse = JSON.parse(<string>event['data']);
+    response (event:any, WS:any = this) {
+        console.log('SocketService: new websocket message event', event);
+        let response:IWSResponse = JSON.parse(<string>event['data']);
 
         // Через таймаут проверяем пришел ли hb/сообщение, если нет, то считаем сессию потерянной и пробуем переоткрыть
-        setTimeout(() => {
-            let now = Date.now();
-            if (this.lastHeartBitTimestamp && (now - this.lastHeartBitTimestamp) >= this.settings.delayOnHeartBeat) {
+        setTimeout(()=>{
+            let timeStamp = Date.now();
+            if (this.lastHeartBit && (timeStamp - this.lastHeartBit) >= this.heartBitTimeout) {
                 this.connections.next(false);
                 this.close({reason: 'lostHeartBit'}); // TODO reopen?
             }
@@ -200,13 +204,13 @@ export class SocketService {
                 }
             }
         }
-    }**/
+    }
 
     /**
      * Переоткрываем сессию после события закрытия
      * @param event
      */
-    /**reopen(event:any){
+    reopen(event:any){
         console.log('SocketService: reopen ', event, this.internetStatus);
         if(event.type === 'error'){
             setTimeout(()=> this.SessionService.getToken() && this.internetStatus && this.open().then(() => this.connections.next(true),
@@ -217,15 +221,12 @@ export class SocketService {
                 this.open().then(() => this.connections.next(true),() => this.connections.next(false)),
                 this.reopenTimeout++ * 1000);
         }
-    }**/
-
-    close(ev: any) {
-
     }
+
     /**
      * Закрываем websocket сессию
      */
-    /**close (ev: CloseEvent | any) {
+    close (ev: CloseEvent | any) {
         console.log('SocketService: close ', new Date().toTimeString(), this.socket);
         if (typeof ev === 'CloseEvent') {
             return;
@@ -255,35 +256,6 @@ export class SocketService {
                 break;
             }
         }
-    }**/
-
-    // send
-    send(r: IWSRequest): Promise<IWSResponse> {
-
-        if (!this.socketStarted) { // если соединение не установлено
-            throw new Error('internetConnectionLost');
-        }
-
-        if(!this.session.getToken()) { // если пользователь не авторизован
-            throw new Error('userNotAuthorized');
-        }
-
-        r.requestId = this.requestId ++;
-        this.r[r.requestId] = new Deferred<boolean>();
-
-        this.ws.next(r);
-        this.loader.show();
-
-        setTimeout(() => {
-
-            this.requests[r.requestId].reject('timeoutExceeded'); //TODO что делаем с этим?
-            delete this.requests[r.requestId];
-            this.loader.hide();
-
-        }, this.settings.delayExceptions[r.requestType] || this.settings.delayOnResponse);
-
-        return this.r[r.requestId].promise;
-
     }
 
     /**
@@ -293,13 +265,13 @@ export class SocketService {
      * @param request
      * @returns {Promise<T>}
      */
-    /**send(request:IWSRequest): Promise<any> {
+    send(request:IWSRequest): Promise<any> {
 
         if (!this.connectionStatus){ // если соединение не установлено
             throw new Error('internetConnectionLost');
         }
 
-        if(!this.session.getToken()) { // если пользователь не авторизован
+        if(!this.SessionService.getToken()) { // если пользователь не авторизован
             throw new Error('userNotAuthorized');
         }
 
@@ -324,24 +296,5 @@ export class SocketService {
         }, () => {
             throw new Error('internetConnectionLost');
         });
-    }**/
-
-    /**private checkInternetConnection () {
-        setInterval(()=>{
-            if(this.socket && this.socket.readyState === SocketStatus.Open){
-                //this.send(new Ping())
-                this.$http.get(`${this.settings.internetResource}?_=${new Date().getTime()}`)
-                    .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
-                        this.internetStatus = true;
-                        if(!this.connectionStatus) {
-                            this.open().then(() => this.connections.next(true),
-                                () => this.connections.next(false));
-                        }
-                    }, () => {
-                        this.internetStatus = false;
-                        this.connections.next(false);
-                    }); // подключение отсутствует
-            }
-        }, this.settings.delayOnInternetConnectionCheck);
-    }**/
+    }
 }

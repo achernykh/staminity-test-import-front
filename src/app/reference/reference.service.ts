@@ -1,7 +1,7 @@
 import { Observable, Subject } from "rxjs/Rx";
 
-import { ISocketService } from '../core/socket.service';
-import { ISessionService } from '../core/session.service';
+import { ISocketService } from '../core/socket.service-ajs';
+import { ISessionService } from '../core/session.service-ajs';
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { 
 	GetActivityCategory, PostActivityCategory, PutActivityCategory, DeleteActivityCategory,

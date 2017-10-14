@@ -4,8 +4,8 @@ import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";
-import {IAuthService} from "../auth/auth.service";
-import SessionService from "../core/session.service";
+import {IAuthService} from "../auth/auth.service-ajs";
+import { SessionService } from "../core/session.service";
 
 function configure($stateProvider: any,
                    $translateProvider:any) {

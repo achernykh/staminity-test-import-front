@@ -10,7 +10,7 @@ import {chart_example_07} from '../share/universal-chart/data/16-Table-with-4-se
 import {chart_example_08} from '../share/universal-chart/data/donutChart.js';
 import {chart_example_09} from '../share/universal-chart/data/pieChart.js';
 import {IReportRequestData, IChart} from "../../../api/statistics/statistics.interface";
-import {ISessionService, getUser} from "../core/session.service";
+import {ISessionService, getUser} from "../core/session.service-ajs";
 import StatisticsService from "../core/statistics.service";
 import {IAnalyticsChart, AnalyticsChart} from "./analytics-chart/analytics-chart.model";
 import {IUserProfile, IUserProfilePublic, IUserProfileShort} from "../../../api/user/user.interface";
@@ -25,8 +25,8 @@ import {IActivityCategory} from "../../../api/reference/reference.interface";
 import ReferenceService from "../reference/reference.service";
 import {Owner, getOwner} from "../reference/reference.datamodel";
 import { pipe, orderBy, prop, groupBy } from "../share/util.js";
-import {IStorageService} from "../core/storage.service";
-import {IAuthService} from "../auth/auth.service";
+import {IStorageService} from "../core/storage.service-ajs";
+import {IAuthService} from "../auth/auth.service-ajs";
 
 
 export class AnalyticsCtrl implements IComponentController {

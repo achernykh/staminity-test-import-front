@@ -1,8 +1,8 @@
 import { TransitionService, StateDeclaration, StateService } from '@uirouter/angular';
 import { UrlService} from '@uirouter/core';
 
-import LoaderService from "./share/loader/loader.service";
-import {IAuthService} from "./auth/auth.service";
+import { LoaderService } from "./share/loader/loader.service";
+import { IAuthService } from "./auth/auth.service-ajs";
 import MessageService from "./core/message.service";
 import { path } from './share/utility';
 

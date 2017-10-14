@@ -1,7 +1,7 @@
 import * as _connection from './env.js';
-import {ISessionService} from './session.service';
+import {ISessionService} from './session.service-ajs';
 import { IHttpService, IHttpPromise, IPromise } from 'angular';
-import LoaderService from "../share/loader/loader.service";
+import { LoaderService } from "../share/loader/loader.service";
 
 export interface IPostDataRequest {
 	method:string;

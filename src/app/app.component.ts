@@ -1,7 +1,7 @@
 import { IComponentController, IComponentOptions } from 'angular';
 
 import './app.component.scss';
-import {IAuthService} from "./auth/auth.service";
+import {IAuthService} from "./auth/auth.service-ajs";
 
 class AppController implements IComponentController {
 	static $inject = ['$mdSidenav','AuthService'];

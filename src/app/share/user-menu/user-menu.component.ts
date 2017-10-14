@@ -1,7 +1,7 @@
 import { IComponentOptions, IComponentController, ILocationService} from 'angular';
 import { UserMenuSettings } from '../application-menu/application-menu.constants';
 import {IUserProfile} from "../../../../api/user/user.interface";
-import { ISessionService, getUser } from "../../core/session.service";
+import { ISessionService, getUser } from "../../core/session.service-ajs";
 import { Subject } from "rxjs/Rx";
 import {StateService} from "@uirouter/angular";
 import DisplayService from "../../core/display.service";

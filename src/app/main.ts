@@ -6,8 +6,8 @@ import 'zone.js/dist/zone';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import { UpgradeModule } from '@angular/upgrade/static';
 
-import { root } from './app.module';
-import { RootModule } from './app4.module';
+import { root } from './app.module-ajs';
+import { RootModule } from './app.module';
 import { UrlService} from '@uirouter/core';
 
 // Using AngularJS config block, call `deferIntercept()`.

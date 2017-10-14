@@ -11,14 +11,14 @@ import {
     IActivityMeasure, ICalcMeasures, IActivityType, IActivityIntervalW
 } from "../../../../api/activity/activity.interface";
 import { IActivityCategory, IActivityTemplate } from '../../../../api/reference/reference.interface';
-import SessionService from "../../core/session.service";
+import SessionService from "../../core/session.service-ajs";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
 import {IGroupProfileShort} from '../../../../api/group/group.interface';
 import {nameFromInterval} from "../../reference/reference.datamodel";
 import {Activity} from "../../activity/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
-import {IAuthService} from "../../auth/auth.service";
+import {IAuthService} from "../../auth/auth.service-ajs";
 import ReferenceService from "../../reference/reference.service";
 import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";

@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-@Injectable()
-export class LoaderService {
+class LoaderService {
 	private showRequestedSource = new Subject<string>();
 	private hideRequestedSource = new Subject<string>();
 
@@ -21,3 +19,5 @@ export class LoaderService {
 		this.hideRequestedSource.next(null);
 	}
 }
+
+export default LoaderService;

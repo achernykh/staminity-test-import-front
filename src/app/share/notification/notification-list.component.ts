@@ -7,7 +7,7 @@ import {INotification, Notification, Initiator} from "../../../../api/notificati
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
 import CommentService from "../../core/comment.service";
-import {ISessionService, getUser} from "../../core/session.service";
+import {ISessionService, getUser} from "../../core/session.service-ajs";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 

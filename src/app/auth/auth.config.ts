@@ -1,7 +1,7 @@
 import {StateDeclaration, StateService} from "@uirouter/angular";
 import {_translate} from './auth.translate';
 import {_display_view, DisplayView} from "../core/display.constants";
-import SessionService from "../core/session.service";
+import SessionService from "../core/session.service-ajs";
 
 function configure(
 	$stateProvider: any,

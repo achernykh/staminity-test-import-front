@@ -5,8 +5,8 @@ import {
     GetRequest, PutRequest, GetConnections, GetTrainingZones,
     IGetTrainigZonesResponse
 } from '../../../api/user/user.request';
-import {ISocketService} from './socket.service';
-import {ISessionService, getUser, getCurrentUserId} from './session.service';
+import {ISocketService} from './socket.service-ajs';
+import {ISessionService, getUser, getCurrentUserId} from './session.service-ajs';
 import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise, IHttpPromiseCallbackArg, copy } from 'angular';
 import {ISystemMessage} from "../../../api/core";

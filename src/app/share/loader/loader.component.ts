@@ -1,6 +1,6 @@
 import { IComponentController, IComponentOptions, IScope } from 'angular';
 
-import LoaderService from './loader.service';
+import { LoaderService } from './loader.service';
 import './loader.component.scss';
 
 class LoaderController implements IComponentController {

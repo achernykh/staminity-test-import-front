@@ -5,7 +5,7 @@ import {INotification, Notification} from "../../../../api/notification/notifica
 import {IGroupMembershipRequest} from '../../../../api/group/group.interface';
 import UserService from "../../core/user.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
-import { ISessionService, getUser } from "../../core/session.service";
+import { ISessionService, getUser } from "../../core/session.service-ajs";
 import RequestsService from "../../core/requests.service";
 import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
@@ -14,7 +14,7 @@ import NotificationService from "../notification/notification.service";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
 import DisplayService from "../../core/display.service";
-import {ISocketService, SocketService} from "../../core/socket.service";
+import {ISocketService, SocketService} from "../../core/socket.service-ajs";
 
 class HeaderCtrl implements IComponentController {
 	public requestsList: IGroupMembershipRequest[] = [];

@@ -1,7 +1,7 @@
 import './athlete-invitation.component.scss';
 import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
-import AuthService from "../../auth/auth.service";
-import {IAuthService} from "../../auth/auth.service";
+import AuthService from "../../auth/auth.service-ajs";
+import {IAuthService} from "../../auth/auth.service-ajs";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {UserCredentials} from "../../../../api/auth/auth.request";
 import MessageService from "../../core/message.service";

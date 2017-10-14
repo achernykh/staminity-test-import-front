@@ -1,6 +1,6 @@
 import './athlete-selector.component.scss';
 import {IComponentOptions, IComponentController, IPromise,IScope} from 'angular';
-import {ISessionService, getUser} from "../../core/session.service";
+import {ISessionService, getUser} from "../../core/session.service-ajs";
 import GroupService from "../../core/group.service";
 import MessageService from "../../core/message.service";
 import {IGroupManagementProfileMember} from "../../../../api/group/group.interface";

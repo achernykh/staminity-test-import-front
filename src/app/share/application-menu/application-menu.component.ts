@@ -5,9 +5,9 @@ import {StateService} from "@uirouter/angular";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {Subject} from 'rxjs/Rx';
 import './application-menu.component.scss';
-import { ISessionService, getUser, getPermissions } from "../../core/session.service";
+import { ISessionService, getUser, getPermissions } from "../../core/session.service-ajs";
 import * as env from '../../core/env.js';
-import {IAuthService} from "../../auth/auth.service";
+import {IAuthService} from "../../auth/auth.service-ajs";
 
 class ApplicationMenuCtrl implements IComponentController{
 
