@@ -9,6 +9,7 @@ import { NewPage } from "./new-page/new-page.module";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { CoreModule } from './core/core.module';
 import { ShareModule } from './share/share.module';
+import { MaterialModule } from "./share/material.module";
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { ShareModule } from './share/share.module';
 
         NewPage,
         CoreModule,
-        ShareModule
+        ShareModule,
+        MaterialModule
     ]
 }) export class RootModule {
     ngDoBootstrap() {

@@ -61,34 +61,25 @@ export class SocketService {
         return new Promise<boolean>((resolve, reject) => {
             setTimeout(() => {
                 if(this.socketStarted) {
+                    // Свзяь с сервером есть
+                    this.o.next(true);
                     return resolve(true);
                 } else {
+                    // Свзязи с сервером нет
+                    this.o.next(false);
                     return reject(false);
                 }
             }, this.settings.delayOnOpen);
         });
     }
 
-    open(token:string = this.session.getToken()): void {
+    private open(token:string = this.session.getToken()): void {
 
         this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
         this.s = this.ws.subscribe({
             next: (message: IWSResponse) => {
-                // Свзяь с сервером есть
-                this.o.next(true);
-                //
-                this.lastMessageTimestamp = Date.now();
-
-                // Через таймаут проверяем пришел ли hb/сообщение, если нет, то считаем сессию потерянной и пробуем переоткрыть
-                setTimeout(() => {
-                    let now = Date.now();
-                    if (this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat) {
-                        this.o.next(false);
-                        this.close({reason: 'lostHeartBit'}); // TODO reopen?
-                    }
-                }, this.settings.delayOnHeartBeat);
-
                 this.response(message);
+                this.check();
             },
             error: () => {
                 this.s.unsubscribe();
@@ -100,6 +91,18 @@ export class SocketService {
         });
         // Свзяь с сервером есть
         this.o.next(true);
+    }
+
+    private check() {
+        this.lastMessageTimestamp = Date.now();
+        // Через таймаут проверяем пришел ли hb/сообщение, если нет, то считаем сессию потерянной и пробуем переоткрыть
+        setTimeout(() => {
+            let now = Date.now();
+            if (this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat) {
+                this.o.next(false);
+                this.close({reason: 'lostHeartBit'}); // TODO reopen?
+            }
+        }, this.settings.delayOnHeartBeat);
     }
 
     /**
@@ -158,7 +161,7 @@ export class SocketService {
     }**/
 
 
-    response (message: IWSResponse) {
+    public response (message: IWSResponse) {
 
         if(message.hasOwnProperty('requestId') && this.r[message.requestId]) {
 
@@ -279,7 +282,7 @@ export class SocketService {
     }**/
 
     // send
-    send(r: IWSRequest): Promise<IWSResponse> {
+    public send(r: IWSRequest): Promise<IWSResponse> {
 
         debugger;
 
