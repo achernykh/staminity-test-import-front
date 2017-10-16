@@ -108,6 +108,8 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         this.prepareComplete = true;
     }
 
+
+
     changeParam(filter: string):void {
         switch (filter) {
             case 'users': {

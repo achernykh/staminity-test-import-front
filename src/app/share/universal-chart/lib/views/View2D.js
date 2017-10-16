@@ -86,7 +86,7 @@ class View2D extends SvgView {
         var config = this._scope.getMeasureConfig(this, replicaNumber);
 
         if (config.fillType == 'gradient') {
-            return 'url(#' + this.getGradientId(i, replicaNumber) + ')';
+            return 'url(' + window.location.href + '#' + this.getGradientId(i, replicaNumber) + ')';
         } else {
             return d.color;
         }

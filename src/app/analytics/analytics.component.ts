@@ -88,25 +88,25 @@ export class AnalyticsCtrl implements IComponentController {
     }
 
     restoreSettings() {
-        this.storageService.remove(`${this.user.userId}#${this.storage.name}_${this.storage.charts}`);
-        this.storageService.remove(`${this.user.userId}#analytics_filter`);
+        this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.charts}`);
+        this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.filter}`);
         //this.prepareComplete = false;
 
         let storageCharts: any = null;
         let storageFilters: IAnalyticsChartFilter;
 
         this.prepareCharts(this.defaultSettings);
-        this.saveSettings('charts');
-        this.saveSettings('filters');
+        this.saveSettings(this.storage.charts);
+        this.saveSettings(this.storage.filter);
         //this.prepareComplete = true;
     }
 
     private getSettings(obj: string): any {
-        return this.storageService.get(`${this.user.userId}#${this.storage.name}_${obj}`);
+        return this.storageService.get(`${this.user.userId}${this.storage.name}_${obj}`);
     }
 
     private saveSettings(obj: string) {
-        this.storageService.set(`${this.user.userId}#${this.storage.name}_${obj}`,this[obj]);
+        this.storageService.set(`${this.user.userId}${this.storage.name}_${obj}`,this[obj]);
     }
 
     private prepareFilter(user: IUserProfile, categories: Array<IActivityCategory>) {
