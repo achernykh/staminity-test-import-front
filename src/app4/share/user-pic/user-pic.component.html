@@ -1,0 +1,4 @@
+<div class="st-user-pic" [ngStyle] = "{'background-image': profile | avatar}" [ngClass] = "size">
+    <div class="st-user__badge" *ngIf="isPremium"></div>
+    <ng-content></ng-content>
+</div>

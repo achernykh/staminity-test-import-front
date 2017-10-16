@@ -70,7 +70,7 @@ export default class UserService {
             .flatMap(() => Observable.fromPromise(this.getConnections()))
             .share();
 
-        this.connections$.subscribe(connections => this.setConnections(connections));
+        //this.connections$.subscribe(connections => this.setConnections(connections));
     }
 
     /**

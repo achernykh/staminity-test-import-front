@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NewPageDialogService } from "./new-page.service";
 import { CoreModule } from "../core/core.module";
 import { MaterialModule } from "../share/material.module";
+import { ShareModule } from "../share/share.module";
 
 
 /** The NgModule for the Preferences feature */
@@ -18,7 +19,8 @@ import { MaterialModule } from "../share/material.module";
         TranslateModule,
         UIRouterModule.forChild({ states: [ newPageState ] }),
         MaterialModule,
-        CoreModule
+        CoreModule,
+        ShareModule
     ],
     providers: [ NewPageDialogService ],
     declarations: [ NewPageComponent ],

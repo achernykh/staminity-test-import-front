@@ -1,0 +1,14 @@
+<section>
+    <st-user-pic [profile]="user" [isPremium]="true"></st-user-pic>
+    <span class="mat-caption" >{{user | userName: 'short'}}</span>
+
+    <mat-menu #userMenu="matMenu">
+        <button mat-menu-item> Settings </button>
+        <button mat-menu-item> Help </button>
+    </mat-menu>
+
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+        <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+
+</section>

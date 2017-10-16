@@ -1,0 +1,6 @@
+<mat-toolbar [ngStyle] = "userBackground" color="primary">
+    <st-user-pic [profile]="user" [size]="'s36'"></st-user-pic>
+    <mat-toolbar-row>
+        <span class="mat-body-2 mat-light">{{ user | userName }}</span>
+    </mat-toolbar-row>
+</mat-toolbar>

@@ -12,6 +12,7 @@ import { UserService } from "../core/user.service";
 export class NewPageComponent implements OnInit, OnDestroy{
 
     public param: Object = {value: ', World!'};
+    public actions: string = 'some actions';
 
     constructor(
         private translate: TranslateService,
