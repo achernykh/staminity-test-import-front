@@ -8,20 +8,29 @@ import UserService from './user.service';
 import { path } from '../share/utility';
 
 
+let getDisplay = (session: ISession) : string => path([getUser, 'display']) (session) || {};
 let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
-let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 1;
+let getUnits = (session: ISession) : string => path([getUser, 'display', 'units']) (session) || 'metric';
+let getTimezone = (session: ISession) : string => path([getUser, 'display', 'timezone']) (session) || '+00:00';
+let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 0;
 
 export default class DisplayService {
 
-	private handleLocaleChange = (locale: string) => {
+	private handleChanges = () => {
+		let locale = this.getLocale();
+		let firstDayOfWeek = this.getFirstDayOfWeek();
+
 		this.$translate.use(locale);
 		this.tmhDynamicLocale.set(locale);
-		moment.locale(locale);
-		console.log('DisplayService locale', locale);
-	}
 
-	private handleFirstDayOfWeekChange = (day: number) => {
-		this.$mdDateLocale.firstDayOfWeek = day;
+		moment.locale(locale);
+		moment.updateLocale(locale, {
+			week: { dow: firstDayOfWeek },
+			invalidDate: ''
+		});
+
+		this.$mdDateLocale.firstDayOfWeek = firstDayOfWeek;
+		this.$mdDateLocale.shortDays = moment.weekdaysMin();
 	}
 
 	public locales = {
@@ -39,14 +48,9 @@ export default class DisplayService {
 		private $mdDateLocale: any
 	) {
 		SessionService.getObservable()
-		.map(getLocale)
+		.map(getDisplay)
 		.distinctUntilChanged()
-		.subscribe(this.handleLocaleChange);
-
-		SessionService.getObservable()
-		.map(getFirstDayOfWeek)
-		.distinctUntilChanged()
-		.subscribe(this.handleFirstDayOfWeekChange);
+		.subscribe(this.handleChanges);
 	}
 
 	getLocale () : string {
@@ -62,6 +66,18 @@ export default class DisplayService {
 			this.SessionService.updateUser(<any>userChanges);
 		}
 	}
+
+	getUnits () : string {
+		return getUnits(this.SessionService.get());
+	}
+	
+	getTimezone () : string {
+		return getTimezone(this.SessionService.get());
+	}
+
+	getFirstDayOfWeek () : number {
+		return getFirstDayOfWeek(this.SessionService.get());
+	}
 }
 
 
@@ -74,8 +90,6 @@ export function configure (
 	
 	$mdDateLocaleProvider.parseDate = (s) => moment(s, 'L', true).toDate();
 	$mdDateLocaleProvider.formatDate = (date) => moment(date).format('L');
-
-	moment.updateLocale('*', { invalidDate: '' });
 }
 
 configure.$inject = ['$translateProvider', 'tmhDynamicLocaleProvider', '$mdDateLocaleProvider'];
