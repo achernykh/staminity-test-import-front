@@ -4,6 +4,10 @@
              class="bg-circle-56 bg-blue-grey-A700">
             <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"
                      class="s36 light-active"></md-icon>
+            <md-icon ng-if="$ctrl.item.activity.structured && false"
+                     md-svg-src="assets/icon/{{$ctrl.item.activity.intervalPW.intensityMeasure}}.svg"
+                     style="margin-left: 2px; margin-right: 2px"
+                     class="s36 light-active"></md-icon>
         </div>
         <div class="summary-value md-headline font-black" flex="auto" layout="column">
             <div flex="none"><span>{{$ctrl.durationInfo}}</span>

@@ -378,8 +378,10 @@ export class Activity extends CalendarItem {
 	}
 
 	get bottomPanel() {
-		return ((this.status === 'coming' && ((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0) || this.intervalPW.intensityMeasure )) && 'plan') ||
-			(this.status === 'coming' && this.structured && 'segmentList') ||
+		return ((this.status === 'coming' &&
+			((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0) ||
+			(!this.structured && this.intervalPW.intensityMeasure) )) && 'plan') ||
+			//(this.status === 'coming' && this.structured && 'segmentList') ||
 			((this.completed && this.summaryAvg.length > 0) && 'data') || null;
 	}
 
@@ -460,10 +462,8 @@ export class Activity extends CalendarItem {
 
 	get movingDuration():number {
 		return this.intervalW.movingDuration() ||
-			(this.intervalPW.movingDurationApprox && this.intervalPW.movingDurationLength) ||
-			(!this.intervalPW.movingDurationApprox && this.intervalPW.movingDuration.durationValue) || null;
-		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.movingDuration();**/
+			(this.structured && this.intervalPW.movingDurationLength) ||
+			(this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
 	}
 
 	get movingDurationApprox():boolean {
@@ -472,19 +472,14 @@ export class Activity extends CalendarItem {
 
 	get duration() {
 		return this.intervalW.movingDuration() ||
-			(this.intervalPW.movingDurationApprox && this.intervalPW.movingDurationLength) ||
-			(!this.intervalPW.movingDurationApprox && this.intervalPW.movingDuration.durationValue) || null;
-		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'movingDuration')
-			&& this.intervalPW.durationValue) || this.intervalW.calcMeasures.duration.value;**/
+			(this.structured && this.intervalPW.movingDurationLength) ||
+			(this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
 	}
 
 	get distance() {
 		return this.intervalW.distance() ||
-			(this.intervalPW.distanceApprox && this.intervalPW.distanceLength) ||
-			(!this.intervalPW.distanceApprox && this.intervalPW.distance.durationValue) || null;
-		/**return (((this.status === 'coming' || this.status === 'dismiss') && this.intervalPW.durationMeasure === 'distance')
-            && this.intervalPW.durationValue) ||
-            (this.intervalW.calcMeasures.hasOwnProperty('distance') && this.intervalW.calcMeasures.distance.value) || null;**/
+			(this.structured && this.intervalPW.distanceLength) ||
+			(this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null;
 	}
 
 	get distanceApprox():boolean {

@@ -1,10 +1,12 @@
 import './structured-assignment.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
 import {IActivityIntervalP, IActivityIntervalG} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {times} from '../../../share/util.js';
 import {ActivityIntervals} from "../../activity-datamodel/activity.intervals";
 import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
+import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
+import {SegmentChangeReason} from "../../activity-segments/activity-segments.component";
 
 // Режим вывода Повтора для группы
 export enum LoopMode {
@@ -27,14 +29,18 @@ export interface Loop {
 class StructuredAssignmentCtrl implements IComponentController {
 
     public intervals: ActivityIntervals;
+    public segments: Array<ActivityIntervalP>;
     public item: CalendarItemActivityCtrl;
+    public viewPlan: boolean;
+    public viewActual: boolean;
+    public viewGroup: boolean;
 
     private mode: 'input' | 'colapse' | 'group' = 'group';
     private loops: Array<Loop>;
     private sequence: Loop;
 
     public onEvent: (response: Object) => IPromise<void>;
-    public onChange: () => IPromise<void>;
+    public onChange: (response: {reason: SegmentChangeReason}) => IPromise<void>;
     static $inject = [];
 
     constructor() {
@@ -46,19 +52,22 @@ class StructuredAssignmentCtrl implements IComponentController {
     }
 
     $onChanges(changes: any):void{
+        this.loops = this.loopsFromGroups;
     }
 
     onChangeValue(interval: ActivityIntervalP) {
         this.intervals.setValue(interval.type, interval.pos, interval.assignment());
         this.intervals.PW.calculate(this.intervals.P);
-        this.item.changeStructuredAssignment ++;
-        this.onChange();
+        if(this.item.activity.completed){
+            this.item.calculateActivityRange(false);
+        }
+        this.onChange({reason: SegmentChangeReason.changeValue});
     }
 
     onChangeSelection(interval: ActivityIntervalP):void {
         interval.isSelected ? this.intervals.deselect(interval.type, interval.pos) : this.intervals.select(interval.type, interval.pos);
         this.checkSequence();
-        this.onChange();
+        this.onChange({reason: SegmentChangeReason.selectInterval});
     }
 
     get loopsFromGroups():Array<Loop>{
@@ -73,10 +82,10 @@ class StructuredAssignmentCtrl implements IComponentController {
         }));
     }
 
-    calcPrevLoops(id: number):number {
+    calcPrevLoops(currLoop: Loop):number {
         let count: number = 0;
         this.loops.forEach(l => {
-            if(id > l.id) {
+            if(currLoop.start > l.start) {
                 count += (l.repeat - 1) * l.length;
                 count = l.mode === LoopMode.Input ? --count : count; // строка ввода дает +1 позицию в списке
             }
@@ -155,7 +164,7 @@ class StructuredAssignmentCtrl implements IComponentController {
             this.loops = this.loopsFromGroups;
             this.intervals.deselect();
             this.checkSequence();
-            this.onChange();
+            this.onChange({reason: SegmentChangeReason.changeGroupCount});
         }
 
     }
@@ -163,11 +172,20 @@ class StructuredAssignmentCtrl implements IComponentController {
     changeMode():string {
         return this.mode === 'group' ? 'input' : 'group';
     }
+
+    group(interval: ActivityIntervalP):ActivityIntervalG {
+        return ((this.viewGroup && interval.hasOwnProperty('parentGroupCode') && interval.parentGroupCode) &&
+            this.intervals.G.filter(i => i.code === interval.parentGroupCode)[0]) || null;
+    }
 }
 
 const StructuredAssignmentComponent:IComponentOptions = {
     bindings: {
         intervals: '<',
+        viewPlan: '<',
+        viewActual: '<',
+        viewGroup: '<',
+        change: '<',
         onEvent: '&',
         onChange: '&'
     },

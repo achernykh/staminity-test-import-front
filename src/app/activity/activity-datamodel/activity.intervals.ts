@@ -31,10 +31,17 @@ export class ActivityIntervals {
         if(!this.W) {
             this.add([ActivityIntervalFactory('W')]);
         }
+
+        this.prepare();
     }
 
     get P():Array<ActivityIntervalP> {
         return <Array<ActivityIntervalP>>this.stack.filter(i => i.type === 'P').sort(posOrder);
+    }
+
+    set P(intervals: Array<ActivityIntervalP>) {
+        this.P.map(i => this.splice('P',i.pos,'single'));
+        this.add([...intervals]);
     }
 
     get L():Array<ActivityIntervalL> {
@@ -53,22 +60,67 @@ export class ActivityIntervals {
         return <ActivityIntervalPW>this.stack.filter(i => i.type === 'pW')[0];
     }
 
+    set PW(interval: ActivityIntervalPW) {
+        this.splice('pW', null, 'single');
+        this.add([interval]);
+    }
+
     get W():ActivityIntervalW {
         return <ActivityIntervalW>this.stack.filter(i => i.type === 'W')[0];
     }
 
-    add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = []):void {
+    prepare() {
+        // 1. Перенеоис totalMeasures в первые позиции повторяющихся интревалов
+        this.G.map(group =>
+            group.hasOwnProperty('totalMeasures') && group.totalMeasures.map((total, ind) =>
+                this.setParams('P', group.fPos + ind, {totalMeasures: total})));
+    }
+
+    add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = [], mode: 'insert' | 'update' = 'insert'):void {
         intervals.forEach(i => {
-            if (typeof i === 'ActivityIntervalP' || 'ActivityIntervalG') {
-                this.stack.push(<ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW>i);
-            } else {
-                this.stack.push(ActivityIntervalFactory(i['type'], i));
+            if(mode === 'insert') { // режим добавления
+                if(typeof i === 'object') {
+                    this.stack.push(ActivityIntervalFactory(i['type'], i));
+                } else if (i instanceof ActivityIntervalP || ActivityIntervalG) {
+                    this.stack.push(<ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW>i);
+                }
+            } else { // режим обновления
+                if(typeof i === 'object') {
+                    switch (i['type']) {
+                        case 'P': {
+                            this.setParams(i['type'], i['pos'], {calcMeasures: i['calcMeasures']});
+                            break;
+                        }
+                        case 'G': {
+                            this.setParams(i['type'], i['code'], {totalMeasures: i['totalMeasures']});
+                            // 1. Перенеоис totalMeasures в первые позиции повторяющихся интревалов
+                            i['totalMeasures'].map((total, ind) => this.setParams('P', i['fPos'] + ind, {totalMeasures: total}));
+                            break;
+                        }
+                        case 'L': {
+                            this.stack.push(ActivityIntervalFactory(i['type'], i));
+                            break;
+                        }
+                        case 'pW': {
+                            Object.assign(this.PW, {calcMeasures: i['calcMeasures']});
+                            break;
+                        }
+                        case 'W': {
+                            Object.assign(this.W, {calcMeasures: i['calcMeasures']});
+                            break;
+                        }
+                    }
+                }
             }
         });
     }
 
     build(){
         return [...this.P.map(i => this.clear(i)), ...this.G.map(i => this.clear(i)), this.clear(this.W), this.clear(this.PW)];
+    }
+
+    buildTemplate() {
+        return [...this.P.map(i => i.toTemplate()), ...this.G, this.PW.toTemplate()];
     }
 
     clear(interval: ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW):IActivityIntervals{
@@ -108,24 +160,43 @@ export class ActivityIntervals {
      * @param type
      * @param id
      */
-    splice(type: string, id: string | number): void {
+    splice(type: string, id: string | number = null, mode: 'single' | 'multi' = 'multi'): void {
         let i: number = this.find(type, id);
         if(i !== -1){
             let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
             // Если интревал является повторяющимся
-            if (interval.hasOwnProperty('parentGroupCode') && interval.parentGroupCode) {
+            if (mode === 'multi' && interval.hasOwnProperty('parentGroupCode') && interval.parentGroupCode) {
+                debugger;
                 let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroupCode)[0];
-                this.P.filter(i => i.type === type && i.parentGroupCode === group.code && (i.pos - interval.pos) % group.grpLength === 0)
-                    .map(interval => {
-                        i = this.find(interval.type, interval.pos);
-                        // 1. удаляем интревал
-                        this.stack.splice(i,1);
-                        // 2. реорганизуем инетрвалы, сдвигаем на -1 позицию вверх
-                        this.reorganisation(interval.pos, -1);
-                    });
+
+                // Если после удаления в группе остается только один сегменты, то удалем группу и оставляем только
+                // один оставшийся сегмент без повторений
+                if(group.grpLength === 2) {
+                    // 1. Сбарсываем группу, остаются только первые сегменты
+                    this.spliceGroup(group.code, group.fPos, group.grpLength, group.repeatCount);
+                    // 2. Удаляем выделенный сегмент
+                    this.splice(type, id, 'single');
+                    // 3. Меняем нумерацию
+                    //this.reorganisation(<number>id, -1);
+                } else {
+
+                    this.P.filter(i => i.type === type && i.parentGroupCode === group.code && (i.pos - interval.pos) % group.grpLength === 0)
+                        .map(interval => {
+                            // 1. Удалеяем интервалы
+                            this.stack.splice(this.find(interval.type, interval.pos),1);
+                            // 2. реорганизуем инетрвалы, сдвигаем на -1 позицию вверх
+                            this.reorganisation(interval.pos, -1);
+                        });
+
+                    // 3. меняем количество сегментов в повторе
+                    group.grpLength --;
+                }
+
             } else { // одиночный интервал
                 this.stack.splice(i,1);
-                this.reorganisation(interval.pos, -1);
+                if(type === 'P'){
+                    this.reorganisation(interval.pos, -1);
+                }
             }
         }
     }
@@ -137,9 +208,18 @@ export class ActivityIntervals {
      * @param params - обновленный набор свойств интервала
      */
     setParams(type: string, id: string | number, params: Object): void {
+        if(!id) {return;}
         let i: number = this.find(type,id);
         if(i !== -1) {
             Object.assign(this.stack[i], params);
+        }
+        // Сохраняем полученные детали по интревала в свойстве params - начальное состояние интревала
+        // Далее будет использовано в методе reset() для приведения интервала в начальное состояние
+        if(i !== -1 && params && params.hasOwnProperty('calcMeasures') && !this.stack[i].params.hasOwnProperty('calcMeasures')){
+            Object.assign(this.stack[i].params, {calcMeasures: params['calcMeasures']});
+        }
+        if(i !== -1 && params && params.hasOwnProperty('totalMeasures') && !this.stack[i].params.hasOwnProperty('totalMeasures')){
+            Object.assign(this.stack[i].params, {totalMeasures: params['totalMeasures']});
         }
     }
 
@@ -228,7 +308,7 @@ export class ActivityIntervals {
         this.splice('G', code);
 
         // 2. Удаляем интервалы с repeatCount > 0
-        this.P.filter(i => i.parentGroupCode === code && i.repeatPos > 0).map(i => this.splice(i.type, i.pos));
+        this.P.filter(i => i.parentGroupCode === code && i.repeatPos > 0).map(i => this.splice(i.type, i.pos, 'single'));
 
         // 3. Удаляем ссылку на группу и идентификатор повторов в первом сегменте группы
         this.P.filter(i => i.parentGroupCode === code && i.repeatPos === 0)
@@ -303,7 +383,7 @@ export class ActivityIntervals {
         //4. Добавляем инетрвалы
         segment.forEach(i =>
             times(trgRepeat - srcRepeat).map(r => {
-                let params = {pos: i.pos + len * (srcRepeat + r),parentGroupCode: group.code, repeatPos: srcRepeat + r + 1};
+                let params = {pos: i.pos + len * (srcRepeat + r),parentGroupCode: group.code, repeatPos: srcRepeat + r};
                 this.stack.push(ActivityIntervalFactory('P', Object.assign({}, i, params)));
             }));
 
@@ -320,6 +400,7 @@ export class ActivityIntervals {
      * @returns {boolean}
      */
     decreaseGroup(segment: Array<ActivityIntervalP>, trgRepeat: number):boolean {
+        debugger;
         //1. Номер группы и начальное количество повторов
         let group: ActivityIntervalG = <ActivityIntervalG>this.stack
             .filter(i => i.type === 'G' && i['code'] === segment[0].parentGroupCode)[0];
@@ -332,7 +413,7 @@ export class ActivityIntervals {
 
         //3. Удаляем интервалы
         this.P.filter(i => i.parentGroupCode === group.code && i.repeatPos >= trgRepeat)
-            .map(i => this.splice(i.type, i.pos));
+            .map(i => this.splice(i.type, i.pos, 'single'));
 
         //4. Выстраиваем последовательность pos
         this.reorganisation(segment[0].pos + (srcRepeat * len), (trgRepeat - srcRepeat) * len);
@@ -360,6 +441,7 @@ export class ActivityIntervals {
      */
     reorganisation(start: number, shift: number):void {
         this.P.filter(i => i.pos >= start).forEach(i => this.setParams(i.type, i.pos, { pos: i.pos + shift}));
+        this.G.filter(g => g.fPos >= start).forEach(g => this.setParams(g.type, g.code, { fPos: g.fPos + shift}));
     }
 
     /**

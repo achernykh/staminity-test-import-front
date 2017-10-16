@@ -124,8 +124,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
      */
     postProfileAvatar(groupId:number, file:any):IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile(`/group/avatar/${groupId}`, file))
-            .then((response) => response.data);
+        return this.RESTService.postFile(new PostFile(`/group/avatar/${groupId}`, file));
     }
     
     /**
@@ -135,8 +134,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
      */
     postProfileBackground(groupId:number, file:any):IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile(`/group/background/${groupId}`,file))
-            .then((response) => response.data);
+        return this.RESTService.postFile(new PostFile(`/group/background/${groupId}`,file));
     }
 
 }

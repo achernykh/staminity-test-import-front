@@ -72,16 +72,16 @@ export class PlanChartDatamodel {
                 fact = {
                         movingDuration: {
                             start: currentFactTime,
-                            duration: segment.calcMeasures.movingDuration.value,
+                            duration: segment.calcMeasures.movingDuration.value || segment.movingDurationLength
                         },
                         distance: {
                             start: currentFactDistance,
-                            duration: segment.calcMeasures.distance.value
+                            duration: segment.calcMeasures.distance.value || segment.distanceLength
                         },
-                        intensityByFtp: segment.calcMeasures[intensityMeasure].intensityByFtp * 100,
+                        intensityByFtp: segment.calcMeasures[intensityMeasure].intensityByFtp * 100 || 0,
                 };
-                currentFactDistance = currentFactDistance + segment.calcMeasures.distance.value;
-                currentFactTime = currentFactTime + segment.calcMeasures.movingDuration.value;
+                currentFactDistance = currentFactDistance + (segment.calcMeasures.distance.value || segment.distanceLength);
+                currentFactTime = currentFactTime + (segment.calcMeasures.movingDuration.value || segment.movingDurationLength);
             }
             this.intervals.push({
                 originId: i,

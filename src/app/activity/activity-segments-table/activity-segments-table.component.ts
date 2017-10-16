@@ -31,7 +31,7 @@ class ActivitySegmentsTableCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.$scope['segments'] = this.segments;
+        this.prepareSegments();
         this.$scope['change'] = () => this.onSelect({
             initiator: 'splits',
             selection: {
@@ -40,12 +40,21 @@ class ActivitySegmentsTableCtrl implements IComponentController {
                 L: null}
         });
     }
+
+    prepareSegments(){
+        this.$scope['segments'] = this.segments;
+    }
+
+    $onChanges() {
+        this.prepareSegments();
+    }
 }
 
 const ActivitySegmentsTableComponent:IComponentOptions = {
     bindings: {
         segments: '<',
         sport: '<',
+        change: '<',
         onSelect: '&'
     },
     require: {
