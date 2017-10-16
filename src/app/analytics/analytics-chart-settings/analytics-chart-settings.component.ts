@@ -48,14 +48,19 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 
     private prepareLocalFilter(mode: 'fromSettings' | 'fromGlobal' = 'fromSettings') {
-        this.localFilter = new AnalyticsChartFilter(
-            this.globalFilter.user,
-            this.globalFilter.categories,
-            this.chart.localParams,
-            this.$filter);
+
+        if(mode === 'fromSettings' && this.chart.localParams) {
+            this.localFilter = this.chart.localParams;
+        }
 
         if(mode === 'fromGlobal') {
-            this.localFilter.setUsersModel([this.globalFilter.users.model]);
+            this.localFilter = new AnalyticsChartFilter(
+                this.globalFilter.user,
+                this.globalFilter.categories,
+                this.chart.localParams,
+                this.$filter);
+
+            this.localFilter.setUsersModel(this.globalFilter.users.model);
             this.localFilter.setActivityTypes(this.globalFilter.activityTypes.model, 'basic', true);
             this.localFilter.setActivityTypesOptions(activityTypes);
             this.localFilter.setActivityCategories(this.globalFilter.activityCategories.model);
@@ -64,7 +69,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 
     changeParamsPoint() {
-        if(!this.chart.globalParams) {
+        if(!this.globalParams) {
             this.prepareLocalFilter('fromGlobal');
         }
     }
@@ -114,7 +119,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     save() {
         if(!this.globalParams) {
             this.chart.charts[0].params = this.localFilter.chartParams();
-            this.chart.localParams = this.localFilter.save();
+            this.chart.localParams = this.localFilter;
         }
         if(this.update) {
             this.chart.settings = this.settings;

@@ -21,7 +21,11 @@ class UniversalChartCtrl implements IComponentController {
     }
 
     $onDestroy() {
-        this.chart.remove();
+
+        if(this.hasOwnProperty('chart') && this.chart) {
+            this.chart.remove();
+        }
+
     };
 
     $postLink():void {

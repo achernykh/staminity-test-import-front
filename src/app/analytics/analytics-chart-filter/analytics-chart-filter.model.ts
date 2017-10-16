@@ -1,4 +1,5 @@
 import moment from 'moment/src/moment.js';
+import { copy } from 'angular';
 import {IReportPeriod, IChartParams} from "../../../../api/statistics/statistics.interface";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
 import {IActivityType} from "../../../../api/activity/activity.interface";
@@ -89,11 +90,14 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
     activityTypes: IAnalyticsChartSettings<IActivityType>;
     activityCategories: IAnalyticsChartSettings<IActivityCategory>;
     periods: IAnalyticsChartSettings<string>;
-    prepareComplete: boolean = false;
-    categoriesByOwner: {[owner in Owner]: Array<IActivityCategory>};
 
-    private readonly defaultBasicActivityTypes: Array<number> = [2,7,10,13];
+    categoriesByOwner: {[owner in Owner]: Array<IActivityCategory>};
     change: number = null;
+
+    private prepareComplete: boolean = false;
+    private readonly defaultBasicActivityTypes: Array<number> = [2,7,10,13];
+    private keys: Array<string> = ['user','categories','storage','prepareComplete','categoriesByOwner',
+        'defaultBasicActivityTypes','change','keys'];
 
     constructor(
         public user: IUserProfile,
@@ -108,7 +112,11 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         this.prepareComplete = true;
     }
 
-
+    transfer(keys: Array<string> = this.keys): IAnalyticsChartFilter {
+        let obj: IAnalyticsChartFilter = copy(this);
+        keys.map(k => delete obj[k]);
+        return obj;
+    }
 
     changeParam(filter: string):void {
         switch (filter) {
@@ -218,7 +226,6 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
 
     descriptions(): string {
         return `
-            ${this.$filter('translate')('analytics.globalParams', { value: false })}, 
             ${this.$filter('translate')('analytics.filter.periods.placeholder')}: 
             ${this.periods.model !== 'customPeriod' ? 
                 this.$filter('translate')('analytics.params.' + this.periods.model) :
