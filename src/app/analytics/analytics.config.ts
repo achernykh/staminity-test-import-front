@@ -1,7 +1,7 @@
 import {StateDeclaration, StateService} from "@uirouter/angular";
 import {DisplayView, DefaultTemplate} from "../core/display.constants";
-import SessionService from "../core/session.service-ajs";
-import {ISessionService} from "../core/session.service-ajs";
+import SessionService from "../core/session.service";
+import {ISessionService} from "../core/session.service";
 import GroupService from "../core/group.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {translateAnalytics} from "./analytics.translate";

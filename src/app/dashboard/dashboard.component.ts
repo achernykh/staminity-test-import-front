@@ -2,14 +2,14 @@ import './dashboard.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import {IComponentOptions, IComponentController, IPromise,IScope, copy} from 'angular';
 import {CalendarService} from "../calendar/calendar.service";
-import {ISessionService} from "../core/session.service-ajs";
+import {ISessionService} from "../core/session.service";
 import {IMessageService} from "../core/message.service";
 import {IUserProfile, IUserProfileShort, ITrainingZonesType} from "../../../api/user/user.interface";
 import {IGroupManagementProfile, IUserManagementProfile} from "../../../api/group/group.interface";
 import { times } from '../share/util.js';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {Activity} from "../activity/activity.datamodel";
-import {IStorageService} from "../core/storage.service-ajs";
+import {IStorageService} from "../core/storage.service";
 import {shiftDate, clearActualDataActivity, updateIntensity, changeUserOwner} from "../activity/activity.function";
 
 

@@ -1,7 +1,7 @@
 import './calendar-item-events.component.scss';
 import {IPromise} from 'angular';
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
-import {ISessionService} from "../../core/session.service-ajs";
+import {ISessionService} from "../../core/session.service";
 import {CalendarItem} from "../calendar-item.datamodel";
 import {CalendarService} from "../../calendar/calendar.service";
 import {IMessageService} from "../../core/message.service";

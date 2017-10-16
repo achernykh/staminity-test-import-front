@@ -2,8 +2,8 @@ import moment from 'moment/src/moment.js';
 import { orderBy } from '../share/util.js';
 import { IGroupMembershipRequest } from '../../../api/group/group.interface';
 import { GetMembershipRequest, ProcessMembershipRequest } from '../../../api/group/group.request';
-import { ISessionService } from './session.service-ajs';
-import { ISocketService } from './socket.service-ajs';
+import { ISessionService } from './session.service';
+import { ISocketService } from './socket.service';
 import { Observable, Subject } from 'rxjs/Rx';
 import { memorize } from '../share/util.js';
 

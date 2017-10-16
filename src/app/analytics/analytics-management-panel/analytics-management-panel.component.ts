@@ -10,7 +10,7 @@ import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
 import {IReportPeriod} from "../../../../api/statistics/statistics.interface";
 import moment from 'moment/src/moment.js';
-import {IStorageService} from "../../core/storage.service-ajs";
+import {IStorageService} from "../../core/storage.service";
 
 class AnalyticsManagementPanelCtrl implements IComponentController {
 

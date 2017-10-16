@@ -6,7 +6,7 @@ import {Activity} from "../../activity.datamodel";
 import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import moment from 'moment/src/moment.js';
-import {IAuthService} from "../../../auth/auth.service-ajs";
+import {IAuthService} from "../../../auth/auth.service";
 
 const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 

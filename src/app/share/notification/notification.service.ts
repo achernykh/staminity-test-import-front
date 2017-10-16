@@ -1,6 +1,6 @@
 import moment from 'moment/src/moment.js';
 import {INotification, Notification} from "../../../../api/notification/notification.interface";
-import {ISocketService} from "../../core/socket.service-ajs";
+import {ISocketService} from "../../core/socket.service";
 import {GetNotification, PutNotification} from "../../../../api/notification/notification.request";
 import {Observable,BehaviorSubject,Subject} from "rxjs/Rx";
 import CommentService from "../../core/comment.service";

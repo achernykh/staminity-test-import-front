@@ -1,5 +1,5 @@
 import {IReportResponse, IReportRequestData} from "../../../api/statistics/statistics.interface";
-import {ISocketService} from "./socket.service-ajs";
+import {ISocketService} from "./socket.service";
 import {GetIChartMetrics} from "../../../api/statistics/statistics.request";
 
 /**

@@ -1,25 +1,37 @@
-import { Injectable } from '@angular/core';
+import { IWindowService, copy } from 'angular';
+import { ISessionService } from "./session.service";
+import { Observable } from "rxjs/Rx";
+import { IUserProfile } from "../../../api/user/user.interface";
 
-@Injectable()
-export class StorageService {
+export interface IStorageService {
+	get (key: string) : any;
+	set (key: string, data: any) : void;
+	remove (key: string): void;
+}
 
-    private readonly location: string = 'localStorage';
-    private storage: any;
+export default class StorageService implements IStorageService {
 
-    constructor() {
-        this.storage = window[this.location];
-    }
+	private readonly location: string = 'localStorage';
+	private storage: any;
 
-    get (key: string) : any {
-        return JSON.parse(this.storage.getItem(key)) || null;
-    }
+	static $inject = ['$window'];
 
-    set (key: string, data: any) : void {
-        this.storage.setItem(key, JSON.stringify(data));
-    }
+	constructor (
+		private $window: IWindowService
+	) {
+		this.storage = $window[this.location];
+	}
 
-    remove (key: string) {
-        this.storage.removeItem(key);
-    }
+	get (key: string) : any {
+		return JSON.parse(this.storage.getItem(key)) || null;
+	}
+
+	set (key: string, data: any) : void {
+		this.storage.setItem(key, JSON.stringify(data));
+	}
+
+	remove (key: string) {
+		this.storage.removeItem(key);
+	}
 
 }

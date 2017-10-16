@@ -1,6 +1,6 @@
 import { IComponentOptions, IComponentController} from 'angular';
-import {SocketService} from "../../core/socket.service-ajs";
-import {IAuthService} from "../../auth/auth.service-ajs";
+import {SocketService} from "../../core/socket.service";
+import {IAuthService} from "../../auth/auth.service";
 require('./background.template.scss');
 
 class BackgroundCtrl implements IComponentController {

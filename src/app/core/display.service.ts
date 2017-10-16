@@ -3,8 +3,8 @@ import moment from 'moment/min/moment-with-locales.js';
 import { merge } from 'angular';
 
 import { IUserProfile } from '../../../api/user/user.interface';
-import { ISessionService, ISession, getUser } from './session.service-ajs';
-import UserService from './user.service-ajs';
+import { ISessionService, ISession, getUser } from './session.service';
+import UserService from './user.service';
 import { path } from '../share/utility';
 
 

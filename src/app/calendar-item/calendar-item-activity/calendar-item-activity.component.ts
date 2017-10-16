@@ -3,7 +3,7 @@ import './calendar-item-activity.component.scss';
 import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge, copy} from 'angular';
 import moment from 'moment/src/moment.js';
 import {CalendarService} from "../../calendar/calendar.service";
-import UserService from "../../core/user.service-ajs";
+import UserService from "../../core/user.service";
 import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {
@@ -11,14 +11,14 @@ import {
     IActivityMeasure, ICalcMeasures, IActivityType, IActivityIntervalW
 } from "../../../../api/activity/activity.interface";
 import { IActivityCategory, IActivityTemplate } from '../../../../api/reference/reference.interface';
-import SessionService from "../../core/session.service-ajs";
+import SessionService from "../../core/session.service";
 import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
 import {IGroupProfileShort} from '../../../../api/group/group.interface';
 import {nameFromInterval} from "../../reference/reference.datamodel";
 import {Activity} from "../../activity/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
-import {IAuthService} from "../../auth/auth.service-ajs";
+import {IAuthService} from "../../auth/auth.service";
 import ReferenceService from "../../reference/reference.service";
 import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";

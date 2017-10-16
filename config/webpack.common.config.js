@@ -19,6 +19,9 @@ module.exports = {
             '@angular/router',
             '@angular/flex-layout',
             '@angular/animations',
+
+            '@angular/material',
+            '@angular/cdk/platform',
             
             'angular-aria',
             'angular-animate',
@@ -63,7 +66,7 @@ module.exports = {
             //'unichart/dist/uchart.min.js'
         ],
         // вход для приложения
-        app: './src/app/main.ts'
+        app: './src/main.ts'
     },
     module: {
         rules: [

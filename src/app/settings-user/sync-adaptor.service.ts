@@ -1,5 +1,5 @@
 import { PostUserExternalAccount, PutUserExternalAccount, DeleteUserExternalAccount } from '../../../api/sync/sync.request';
-import {ISocketService} from '../core/socket.service-ajs';
+import {ISocketService} from '../core/socket.service';
 
 export default class SyncAdaptorService {
 

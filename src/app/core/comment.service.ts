@@ -1,4 +1,4 @@
-import {ISocketService} from './socket.service-ajs';
+import {ISocketService} from './socket.service';
 import {
     GetComment, PostComment, PutComment,
     DeleteComment

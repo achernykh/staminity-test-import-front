@@ -14,7 +14,7 @@ import {
     GetGroupManagementProfileRequest,
     PutGroupMembershipBulkRequest } from '../../../api/group/group.request';
 
-import {ISocketService} from './socket.service-ajs';
+import {ISocketService} from './socket.service';
 import {PostFile, IRESTService, PostData} from './rest.service';
 import { IHttpPromise, IHttpPromiseCallbackArg } from 'angular';
 

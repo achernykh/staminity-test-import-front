@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from "rxjs/Rx";
+import { merge } from "angular";
+
 import { IUserProfile } from '../../../api/user/user.interface';
+import { IStorageService } from "./storage.service";
 import { path } from '../share/utility';
-import { StorageService } from "./storage.service";
 
 
 export interface ISession {
@@ -16,13 +17,30 @@ export const getCurrentUserId: (session: ISession) => number | string = path([ge
 export const getToken = (session: ISession) : string => session.token;
 export const getPermissions = (session: ISession) : Object => session.systemFunctions;
 
-@Injectable()
-export class SessionService {
+export interface ISessionService  {
+	set (session?: ISession);
+	change (changes: Object);
+	get () : ISession;
+	getObservable() : Observable<ISession>;
+
+	getUser () : IUserProfile;
+	getCurrentUserId () : number | string;
+	isCurrentUserId (userId: number | string) : boolean;
+	updateUser (userChanges: Object);
+	getToken () : string;
+	getPermissions () : Object;
+	setPermissions (permissions: Object);
+}
+
+export default class SessionService implements ISessionService {
 
 	private session: BehaviorSubject<ISession>;
 
+	static $inject = ['storage'];
+
 	constructor (
-		private storage: StorageService ) {
+		private storage: IStorageService
+	) {
 		let session = storage.get('session') || {};
 		this.session = new BehaviorSubject<ISession> (session);
 	}
@@ -34,7 +52,7 @@ export class SessionService {
 
 	change (changes: Object) {
 		let session = this.get();
-		this.set(Object.assign({}, session, changes));
+		this.set(merge({}, session, changes));
 	}
 
 	get () : ISession {

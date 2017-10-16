@@ -7,7 +7,7 @@ import {
     GetDetailsRequest, GetActivityGategory, GetActivityIntervals,
     CalculateActivityRange
 } from '../../../api/activity/activity.request';
-import {ISocketService} from '../core/socket.service-ajs';
+import {ISocketService} from '../core/socket.service';
 import {RESTService, PostData, GetData} from "../core/rest.service";
 
 export default class ActivityService {

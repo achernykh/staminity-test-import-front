@@ -1,4 +1,4 @@
-import {ISocketService} from '../core/socket.service-ajs';
+import {ISocketService} from '../core/socket.service';
 import {ICalendarItem} from '../../../api/calendar/calendar.interface';
 import {GetRequest, PostRequest, PutRequest, DeleteRequest} from '../../../api/calendar/calendar.request';
 import {Observable} from "rxjs/Rx";

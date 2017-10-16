@@ -1,5 +1,5 @@
 import { IComponentOptions, IComponentController,ILocationService,IHttpPromiseCallbackArg} from 'angular';
-import SessionService from "../core/session.service-ajs";
+import SessionService from "../core/session.service";
 import {StateService} from '@uirouter/angular';
 import {IMessageService} from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";

@@ -1,12 +1,12 @@
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { ISocketService } from './socket.service-ajs';
-import { ISessionService } from './session.service-ajs';
+import { ISocketService } from './socket.service';
+import { ISessionService } from './session.service';
 import { GetTariff, PostTariffSubscription, PutTariffSubscription, DeleteTariffSubscription, GetBill, GetBillDetails, PutProcessingCenter } from "../../../api/billing/billing.request";
 import { IBillingTariff, IBill } from "../../../api/billing/billing.interface";
 
 import moment from 'moment/min/moment-with-locales.js';
-import { parseYYYYMMDD } from '../share/share.module-ajs';
+import { parseYYYYMMDD } from '../share/share.module';
 import { maybe, prop } from "../share/util.js";
 
 

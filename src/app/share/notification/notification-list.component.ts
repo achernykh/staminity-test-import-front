@@ -5,9 +5,9 @@ import {Subject} from "rxjs/Rx";
 import NotificationService from "./notification.service";
 import {INotification, Notification, Initiator} from "../../../../api/notification/notification.interface";
 import {CalendarService} from "../../calendar/calendar.service";
-import UserService from "../../core/user.service-ajs";
+import UserService from "../../core/user.service";
 import CommentService from "../../core/comment.service";
-import {ISessionService, getUser} from "../../core/session.service-ajs";
+import {ISessionService, getUser} from "../../core/session.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 

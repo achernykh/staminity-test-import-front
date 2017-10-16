@@ -1,34 +1,34 @@
 import {merge, IPromise} from "angular";
-import { Injectable, Inject } from '@angular/core';
 import {IUserProfile, IUserConnections, ITrainingZonesType} from '../../../api/user/user.interface';
 import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
 import {
     GetRequest, PutRequest, GetConnections, GetTrainingZones,
     IGetTrainigZonesResponse
 } from '../../../api/user/user.request';
-import { SocketService } from './socket.service';
-import { getUser, getCurrentUserId, SessionService} from './session.service';
-import { PostData, PostFile, IRESTService} from './rest.service';
+import {ISocketService} from './socket.service';
+import {ISessionService, getUser, getCurrentUserId} from './session.service';
+import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise, IHttpPromiseCallbackArg, copy } from 'angular';
-import { ISystemMessage} from "../../../api/core";
-import { MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile} from "../../../api/group/group.interface";
-import { Observable} from "rxjs";
+import {ISystemMessage} from "../../../api/core";
+import {MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile} from "../../../api/group/group.interface";
+import {Observable} from "rxjs";
 import ReferenceService from "../reference/reference.service";
 
-@Injectable()
-export class UserService {
+
+export default class UserService {
 
     private connections$: Observable<any>;
     private message$: Observable<any>;
 
+    static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
+
     constructor(
-        private SessionService: SessionService,
-        private SocketService: SocketService//,
-        //private RESTService: IRESTService
-        //private ReferenceService: ReferenceService
+        private SessionService:ISessionService,
+        private SocketService:ISocketService,
+        private RESTService:IRESTService,
+        private ReferenceService: ReferenceService
     ) {
-        // TODO separate to service UserConnectionsService
-        /**this.SessionService.getObservable()
+        this.SessionService.getObservable()
             .map(getCurrentUserId)
             .distinctUntilChanged()
             .filter((userId) => userId && this.SessionService.isCurrentUserId(userId))
@@ -70,7 +70,7 @@ export class UserService {
             .flatMap(() => Observable.fromPromise(this.getConnections()))
             .share();
 
-        this.connections$.subscribe(connections => this.setConnections(connections));**/
+        this.connections$.subscribe(connections => this.setConnections(connections));
     }
 
     /**
@@ -119,12 +119,12 @@ export class UserService {
      * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    /*getProfile(key: string|number, ws: boolean = true) : Promise<any> {
+    getProfile(key: string|number, ws: boolean = true) : Promise<any> {
         return ws ?
             this.SocketService.send(new GetRequest(key)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
                 .then((response) => response.data);
-    }*/
+    }
 
     /**
      * Обновляем данные пользователя
@@ -146,26 +146,26 @@ export class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    /*postProfileAvatar(file:any) : Promise<any> {
+    postProfileAvatar(file:any) : Promise<any> {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
                 return response.data;
             });
             //.then((response) => response.data);
-    }*/
+    }
     /**
      * Аплоад фонового изоражения пользователя
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    /*postProfileBackground(file:any) : Promise<any> {
+    postProfileBackground(file:any) : Promise<any> {
         return this.RESTService.postFile(new PostFile('/user/background',file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
                 return response.data;
             });
-    }*/
+    }
 
     /**
      * Запрос итоговой ститистики по тренировкам
@@ -176,12 +176,12 @@ export class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    /*getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> {
+    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> {
         return ws ?
             this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetUserProfileSummaryStatistics(id, start, end, group, data)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
-    }*/
+    }
 
     /**
      * Обновление состава групп текущего пользователя
