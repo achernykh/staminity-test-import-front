@@ -13,6 +13,10 @@ export const landingTariffsData = [
                 ru: {
                     month: 0,
                     year: 0
+                },
+                en: {
+                    month: 0,
+                    year: 0
                 }
             },
             variable: null
@@ -35,6 +39,10 @@ export const landingTariffsData = [
         fee: {
             subscription: {
                 ru: {
+                    month: 300,
+                    year: 250
+                },
+                en: {
                     month: 300,
                     year: 250
                 }
@@ -61,10 +69,23 @@ export const landingTariffsData = [
                 ru: {
                     month: 300,
                     year: 250
+                },
+                en: {
+                    month: 300,
+                    year: 250
                 }
             },
             variable: {
                 ru: {
+                    rules: ['coachAthletes'],
+                    coachAthletes: {
+                        minAthletes: 1,
+                        maxAthletes: 10,
+                        athlete: 210,
+                        premium: 210
+                    }
+                },
+                en: {
                     rules: ['coachAthletes'],
                     coachAthletes: {
                         minAthletes: 1,
@@ -95,10 +116,27 @@ export const landingTariffsData = [
                 ru: {
                     month: 300,
                     year: 250
+                },
+                en: {
+                    month: 300,
+                    year: 250
                 }
             },
             variable: {
                 ru: {
+                    rules: ['clubAthletes','clubCoaches'],
+                    clubAthletes: {
+                        minAthletes: 1,
+                        maxAthletes: 10,
+                        athlete: 210,
+                        premium: 210
+                    },
+                    clubCoaches: {
+                        minCoaches: 1,
+                        coach: 300
+                    }
+                },
+                en: {
                     rules: ['clubAthletes','clubCoaches'],
                     clubAthletes: {
                         minAthletes: 1,
