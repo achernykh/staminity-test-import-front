@@ -167,7 +167,7 @@ export let _translate = {
 				link2: '<a flex href="#athletes" class="md-body md-light">Для спортсменов</a>',
 				link3: '<a flex href="#coaches" class="md-body md-light">Для тренеров</a>',
 				link4: '<a flex href="#clubs" class="md-body md-light">Для клубов</a>',
-				link5: '<a flex href="#" class="md-body md-light disable">Тарифы</a>',
+				link5: '<a flex href="https://staminity.com/tariffs" class="md-body md-light">Тарифы</a>',
 			},
 			block2 : {
 				title: 'Помощь и поддержка',
@@ -490,7 +490,6 @@ export let _translate = {
 				club: 'All for clubs with several coaches to work with athletes'
 			},
 			noCreditCard: '',
-
 			functions: {
 				func1: 'Workout log',
 				func2: 'Review completed workouts',
@@ -512,7 +511,7 @@ export let _translate = {
 				func18: '<strong>All Coach functions for club athletes +:</strong>',
 				func19: '+ Connect additional coaches',
 				func20: '+ Assign coaches to club athletes',
-				func21: '+ Manage club workout categories and templates',
+				func21: '+ Manage club categories and workout templates',
 				func22: '+ Club dashboard',
 				func23: '<i>+ (SOON) Reports and analytics for club</i>',
 				func24: '<i>+ (СКОРО) Manage training plans</i>'
