@@ -20,13 +20,10 @@
             </div>
         </md-toolbar>
         <md-content flex="auto" layout="column">
-            <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
+            <md-tabs flex="auto" layout-fill class="md-primary md-hue-2"
                      md-stretch-tabs="always" ng-cloak>
-                <md-tab id="overview" flex="auto" layout="column">
-                    <md-tab-label>
-                        <!--<md-icon class="material-icons">filter_list</md-icon>-->
-                        <span translate="analytics.panel.filter"></span>
-                    </md-tab-label>
+                <md-tab id="filter" flex="auto" layout="column">
+                    <md-tab-label><span translate="analytics.panel.filter"></span></md-tab-label>
                     <md-tab-body layout="column" layout-fill>
                         <form flex="auto" name="$ctrl.filterForm" layout="column" layout-fill>
                             <md-list class="md-dense" flex="auto">
@@ -161,7 +158,7 @@
                         </form>
                     </md-tab-body>
                 </md-tab>
-                <md-tab id="overview" flex="auto" layout="column">
+                <md-tab id="charts" flex="auto" layout="column">
                     <md-tab-label>
                         <!--<md-icon class="material-icons">settings</md-icon>-->
                         <span translate="analytics.panel.charts"></span>
