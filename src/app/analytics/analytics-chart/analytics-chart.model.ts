@@ -1,3 +1,4 @@
+import { copy } from 'angular';
 import {
     IAnalyticsChartFilter,
     IAnalyticsChartSettings, AnalyticsChartFilter
@@ -72,6 +73,8 @@ export class AnalyticsChart implements IAnalyticsChart{
 
     isAuthorized: boolean; //результат проверки полномочий пользователя
 
+    private keys: Array<string> = ['params','user','categories','isAuthorized','globalFilter','keys'];
+
     constructor(
         private params?: IAnalyticsChart,
         private user?: IUserProfile,
@@ -91,6 +94,7 @@ export class AnalyticsChart implements IAnalyticsChart{
                 this.localParams,
                 this.$filter
             );
+            this.localParams.activityTypes.options = activityTypes;
         }
     }
 
@@ -100,6 +104,17 @@ export class AnalyticsChart implements IAnalyticsChart{
 
     hasMetrics(): boolean {
         return this.charts.some(c => c.hasOwnProperty('metrics'));
+    }
+
+    transfer(keys: Array<string> = this.keys): IAnalyticsChart {
+
+        let obj: IAnalyticsChart = copy(this);
+        // удаляем вспомогательные данные
+        keys.map(k => delete obj[k]);
+        // удаляем данные графиков
+        obj.charts.map(c => c.hasOwnProperty('metrics') && delete c.metrics);
+        return obj;
+
     }
 
     private prepareLocalParams(user: IUserProfile){

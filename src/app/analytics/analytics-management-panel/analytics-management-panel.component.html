@@ -7,6 +7,10 @@
         <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panelChange('settings')">
             <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
         </md-button>
+        <md-divider style="margin: 8px"></md-divider>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.analytics.saveSettings()">
+            <md-icon class="md-secondary md-dark material-icons">save</md-icon>
+        </md-button>
     </section>
     <section class="open-panel" ng-switch-default layout="column" layout-fill flex="auto">
         <md-toolbar flex="none" class="md-primary md-hue-2">
@@ -141,7 +145,7 @@
                                 </md-list-item>
                                 <md-divider style="margin: 16px 0px"></md-divider>
                                 <p class="md-caption md-dark hint-text" translate="analytics.settings.aboutStorage"></p>
-                                <md-list-item ng-click="$ctrl.analytics.saveSettings('charts');$ctrl.analytics.saveSettings('filter')">
+                                <md-list-item ng-click="$ctrl.analytics.saveSettings()">
                                     <p translate="analytics.settings.saveContext"></p>
                                     <md-icon class="md-secondary md-dark material-icons">save</md-icon>
 
