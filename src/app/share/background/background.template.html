@@ -1,5 +1,7 @@
-<div flex="100" layout="column" class="{{$ctrl.view.style}}" ng-class="{'connection-lost': !$ctrl.internetStatus}">
+<div flex="100" layout="column" class="{{::$ctrl.view.style}}" ng-class="{'connection-lost': !$ctrl.internetStatus}">
     <md-toolbar class="animates slideInDown" ng-show="$ctrl.view.toolbar" layout="row"
+                style="height: {{::$ctrl.view.size}}px"
+                ng-class="::{'md-whiteframe-3dp': $ctrl.view.position === 'front'}"
                 layout-align="space-between start">
     </md-toolbar>
 </div>

@@ -29,11 +29,12 @@ const chartParams = {
 
 class SummaryStatisticsCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, UserService, GroupService, SystemMessageService) {
+    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
         this.dialogs = dialogs;
+        this.SessionService = SessionService;
         this.UserService = UserService;
         this.GroupService = GroupService;
         this.message = SystemMessageService;
@@ -66,7 +67,7 @@ class SummaryStatisticsCtrl {
     }
 
     $onInit(){
-        this.isMe = this.auth && this.user.userId === this.UserService.profile.userId;
+        this.isMe = this.auth && this.SessionService.isCurrentUserId(this.user.userId);
         this.updateStatistics();
     }
 
@@ -144,7 +145,7 @@ class SummaryStatisticsCtrl {
     }
 };
 
-SummaryStatisticsCtrl.$inject = ['$scope','$mdDialog','dialogs','UserService','GroupService','SystemMessageService'];
+SummaryStatisticsCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService','SystemMessageService'];
 
 export default {
     bindings: {

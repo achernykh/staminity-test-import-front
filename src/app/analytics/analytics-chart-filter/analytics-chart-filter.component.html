@@ -1,0 +1,53 @@
+<!--<md-button flex="none" class="md-icon-button open-button" ng-click="$ctrl.onOpen($event)"
+           ng-disabled="!$ctrl.filter.enabled">
+    <md-icon class="md-secondary material-icon md-dark"
+             ng-class="{'md-inactive': !$ctrl.filter.enabled}">settings</md-icon>
+</md-button>-->
+<md-menu-bar flex="none" class="analytics-chart-filter__menu-bar">
+    <md-menu>
+        <md-button flex="none" class="md-icon-button open-button" ng-click="$mdMenu.open()"
+                   ng-disabled="!$ctrl.filter.enabled">
+            <md-icon class="md-secondary material-icon md-dark"
+                     ng-class="{'md-inactive': !$ctrl.filter.enabled}">settings</md-icon>
+        </md-button>
+        <md-menu-content width="4">
+            <md-menu-item ng-repeat="param in $ctrl.filter.params track by $index"
+                          ng-switch="param.type">
+                <!-- тип 2: радио-выбор -->
+                <md-menu ng-switch-when="radio">
+                    <md-button ng-click="$mdMenu.open()" translate="analytics.params.{{param.text}}"></md-button>
+                    <md-menu-content  width="3">
+                        <md-menu-item ng-repeat="option in param.options"
+                                      type="radio"
+                                      ng-model="param.model"
+                                      ng-change="$ctrl.onChange({param: param, option: option})"
+                                      ng-value="option">{{'analytics.params.' + option | translate}}
+                        </md-menu-item>
+                        <md-menu-divider ng-if="param.hasOwnProperty('protected')"></md-menu-divider>
+                        <md-menu-item ng-if="param.hasOwnProperty('protected')"
+                                      type="checkbox"
+                                      ng-change="$ctrl.onChange({param: param, option: param.protected, protected: true})"
+                                      ng-model="param.protected">{{'analytics.params.protected' | translate}}</md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <!-- тип 3: множественный-выбор -->
+                <md-menu ng-switch-when="checkbox">
+                    <md-button ng-click="$mdMenu.open()" translate="analytics.params.{{param.text}}"></md-button>
+                    <md-menu-content  width="3">
+                        <md-menu-item ng-repeat="option in param.options"
+                                      type="checkbox"
+                                      ng-model="param.model"
+                                      value="{{option}}">{{option}}
+                        </md-menu-item>
+                        <md-menu-divider ng-if="param.hasOwnProperty('protected')"></md-menu-divider>
+                        <md-menu-item ng-if="param.hasOwnProperty('protected')"
+                                      type="checkbox"
+                                      ng-model="param.protected">{{'analytics.params.protected' | translate}}</md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+
+            </md-menu-item>
+
+        </md-menu-content>
+    </md-menu>
+</md-menu-bar>

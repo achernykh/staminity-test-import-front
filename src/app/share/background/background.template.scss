@@ -94,6 +94,9 @@ $header-bar-height: 160px;
         text-align: center;
         color: white;
         background: $blue-grey-800 !important;
-        -z-index: 20;
+
+        &.md-whiteframe-3dp {
+            z-index: 30;
+        }
     }
 }

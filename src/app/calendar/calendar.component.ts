@@ -8,6 +8,7 @@ import {CalendarService} from "./calendar.service";
 import {ISessionService} from "../core/session.service";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {IUserProfile} from "../../../api/user/user.interface";
+import DisplayService from "../core/display.service";
 
 
 const prepareItem = (item: ICalendarItem, shift: number) => {
@@ -71,10 +72,10 @@ export interface ICalendarDayData {
 
 export class CalendarCtrl implements IComponentController{
 
-    static $inject = ['$scope', '$mdDialog', '$rootScope', '$anchorScroll','$location','message',
-        'CalendarService','SessionService','dialogs'];
+    static $inject = ['$scope', '$mdDialog', '$rootScope', '$anchorScroll', '$location','message',
+        'CalendarService', 'SessionService', 'dialogs', 'DisplayService'];
     public user: IUserProfile; //
-    private weekdayNames: Array<string> = [];
+    private weekdayNames: Array<number> = [];
     private buffer: Array<ICalendarItem> = [];
     private firstSrcDay: string;
     private dateFormat: string = 'YYYY-MM-DD';
@@ -94,16 +95,14 @@ export class CalendarCtrl implements IComponentController{
         private message: IMessageService,
         private CalendarService: CalendarService,
         private session: ISessionService,
-        private dialogs: any)
-    {
+        private dialogs: any,
+        private display: DisplayService
+    ) {
 
     }
 
     $onInit() {
-        moment.locale('ru');
-
         let date = moment(this.$location.hash());
-        let firstDayOfWeek = this.session.getUser().display.firstDayOfWeek;
         this.currentUser = this.session.getUser();
         this.toDate(date.isValid()? date.toDate() : new Date());
 
@@ -134,16 +133,7 @@ export class CalendarCtrl implements IComponentController{
                 }
             });
 
-        //console.log('first day=', firstDayOfWeek, moment.localeData().firstDayOfWeek(),moment.locale());
-        if(moment.localeData().firstDayOfWeek() !== firstDayOfWeek){
-            moment.updateLocale(moment.locale(), {
-                week : {
-                    dow : firstDayOfWeek
-                }
-            });
-        }
-        console.log('new first day=', moment.localeData().firstDayOfWeek());
-        this.weekdayNames = times(7).map(i => moment().startOf('week').add(i,'d').format('dddd'));
+        this.weekdayNames = moment.weekdays(true);
     }
 
     takeWeek (date) {

@@ -1,0 +1,45 @@
+{
+    "options": {
+        "legend": {
+            "vertical-align": "top",
+            "horizontal-align": "right",
+            "type": "row"
+        }
+    },
+    "series" : [{
+        "label" : "Месяцы",
+        "unit" : "",
+        "xAxis" : false,
+        "tooltipType" : "label",
+        "legend": true,
+        "idx" : 0,
+        "measureName" : "month",
+        "fillColor": "steelblue"
+    }],
+    "measures" : [{
+        "label" : "Калории",
+        "unit" : "кКал",
+        "chartType" : "bar",
+        "stacked" : false,
+        "cumulative": false,
+        "tooltipType" : "color",
+        "legend": false,
+        "visible" : true,
+        "avgValueLine": true,
+        "scaleVisible": true,
+        "fillType": "solid",
+        "fillColor": "steelblue",
+        "markerColor": "#5677fc",
+        "avgValueLineColor": "red",
+        "avgValueLineStyle": "dashed",
+        "idx" : 1,
+        "measureName" : "calories",
+        "minValue" : 0
+    }],
+    "metrics" : [
+        ["Иванов Василий", 20],
+        ["Петров Сергей", 10],
+        ["Сидоров Петр", 17],
+        ["Васечкин Иван", 35]
+    ]
+}

@@ -60,8 +60,12 @@ export const translateActivity = {
           singleIntensity: 'Можно задать лишь один параметр интенсивности',
           needPermissionForFeature: 'Для планирования в будущем нужен тариф "Премиум"'
       },
-      loading: 'Загрузка данных'
+      loading: 'Загрузка данных',
+      settings: {
+          close: 'Закрыть'
+      }
   }
+
 };
 
 export const translateSport = {

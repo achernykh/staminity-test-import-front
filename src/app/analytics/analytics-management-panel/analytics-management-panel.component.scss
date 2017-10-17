@@ -1,0 +1,39 @@
+.analytics-management-panel {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+  width: 52px;
+  transition: all 0.5s;
+
+  &.panel {
+    width: 360px;
+    min-width: 360px;
+    transition: all 0.3s;
+  }
+
+  @media (max-width: 959px) {
+    width: 100%;
+    height: auto;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .hint-text {
+    padding: 0 16px;
+  }
+
+  md-tab-item span {
+    margin-left: 8px;
+  }
+
+  .md-datepicker-input-container {
+    width: 100%;
+  }
+
+  .md-datepicker-triangle-button {
+    right: 4px !important;
+  }
+
+}

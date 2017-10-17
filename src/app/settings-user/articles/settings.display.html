@@ -6,16 +6,15 @@
         <md-list class="md-dense">
             <md-list-item class="mobile-select">
                 <span translate="settings.display.language"></span>
-                <span class="md-secondary"
-                     ng-bind="$ctrl._LANGUAGE[$ctrl.user.display.language].text"></span>
+                <span class="md-secondary">{{ $ctrl.display.locales[$ctrl.user.display.language] }}</span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon class="material-icons">arrow_drop_down</md-icon>
                     </md-button>
                     <md-menu-content width="4">
-                        <md-menu-item ng-repeat='(id,language) in $ctrl._LANGUAGE'>
-                            <md-button ng-bind="language.text"
-                                       ng-click="$ctrl.changeLanguage(id)">
+                        <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
+                            <md-button ng-click="$ctrl.changeLocale(locale)">
+                                {{ localeName }}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -56,18 +55,18 @@
 
             <md-list-item class="mobile-select">
                 <span translate="settings.display.firstDayOfWeek"></span>
-                <span class="md-secondary"
-                     ng-bind="$ctrl.weekdays($ctrl.user.display.firstDayOfWeek)"
-                     style="text-transform: capitalize"></span>
+                <span class="md-secondary" style="text-transform: capitalize">
+                    {{$ctrl.weekdays($ctrl.getFirstDayOfWeek())}}
+                </span>
                 <md-menu class="md-secondary">
                     <md-button class="md-icon-button">
                         <md-icon class="material-icons">arrow_drop_down</md-icon>
                     </md-button>
                     <md-menu-content width="4">
-                        <md-menu-item ng-repeat="number in [1]">
-                            <md-button ng-click="$ctrl.changeFirstDayOfWeek(number)"
-                                       ng-bind="$ctrl.weekdays(number)"
-                                       style="text-transform: capitalize"></md-button>
+                        <md-menu-item ng-repeat="number in [0, 1]">
+                            <md-button ng-click="$ctrl.setFirstDayOfWeek(number)" style="text-transform: capitalize">
+                                {{$ctrl.weekdays(number)}}
+                            </md-button>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>

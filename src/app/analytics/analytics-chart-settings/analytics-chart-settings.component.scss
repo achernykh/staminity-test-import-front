@@ -1,0 +1,21 @@
+md-dialog#analytics-chart-settings{
+
+  @media (min-width: 960px) {
+    min-width: 320px;
+    max-width: 360px;
+    //min-height: 520px;
+  }
+
+}
+
+.analytics-chart-settings {
+
+  .md-datepicker-input-container {
+    width: 100%;
+  }
+
+  .md-datepicker-triangle-button {
+    right: 4px !important;
+  }
+
+}

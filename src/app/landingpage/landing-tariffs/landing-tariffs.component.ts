@@ -43,7 +43,6 @@ class LandingTariffsCtrl implements IComponentController {
     }
 
     $onInit() {
-        moment.locale('ru');
         this.selectedTab = this.$location.search().tab || 'month';
         /**if(this.selectedTab === 'calculator') {
             Object.assign(this.calc, this.$location.search());

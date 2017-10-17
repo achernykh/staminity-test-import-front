@@ -1,0 +1,169 @@
+<md-toolbar flex="none" style="background: white; color: black">
+    <div class="md-toolbar-tools">
+        <h2 class="md-dark">{{::'analytics.settings.title' | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content flex="auto" layout="column">
+    <form flex="auto" layout="column" name="$ctrl.settingsForm">
+        <md-list flex="auto" class="md-dense">
+            <md-subheader class="md-no-sticky">{{'analytics.settings.params' | translate}}</md-subheader>
+            <md-list-item>
+                <p translate="analytics.settings.globalParams"></p>
+                <md-switch class="md-secondary md-primary"
+                           name="globalParams"
+                           ng-model="$ctrl.globalParams"
+                           ng-change="$ctrl.changeParamsPoint()"></md-switch>
+            </md-list-item>
+            <md-list-item ng-show="!$ctrl.globalParams">
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="analytics.filter.users.placeholder"></label>
+                    <md-select flex="auto" name="sport" class="icon"
+                               multiple="true"
+                               md-selected-text="$ctrl.localFilter.usersSelectedText()"
+                               ng-model="$ctrl.localFilter.users.model"
+                               ng-change="$ctrl.localFilter.changeParam('users')"
+                               ng-disabled="!$ctrl.localFilter.users.options || $ctrl.localFilter.users.options.length <= 1">
+                        <md-option ng-repeat="user in $ctrl.localFilter.users.options track by user.userId"
+                                   value="{{user.userId}}">
+                            <span>{{user | username}}</span>
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item ng-show="!$ctrl.globalParams">
+                <md-input-container class="md-block no-message" md-no-float layout="row">
+                    <!--<md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.filter.activityTypes.model}}"></md-icon>-->
+                    <label translate="analytics.filter.activityTypes.placeholder"></label>
+                    <md-select flex
+                               name="sport"
+                               class="icon"
+                               type="number"
+                               multiple="true"
+                               md-selected-text="$ctrl.localFilter.activityTypesSelectedText()"
+                               ng-model="$ctrl.localFilter.activityTypes.model"
+                               ng-change="$ctrl.localFilter.changeParam('activityTypes')">
+                        <md-option ng-repeat="type in $ctrl.localFilter.activityTypes.options | filter:{enabled: true} track by type.id"
+                                   value="{{type.id}}">
+                            {{'sport.' + type.code | translate}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item ng-show="$ctrl.localFilter.activityTypes.model.length === 1 && !$ctrl.globalParams">
+                <md-input-container class="md-block no-message">
+                    <label translate="analytics.filter.activityCategories.placeholder"></label>
+                    <md-select
+                            multiple="true"
+                            md-selected-text="$ctrl.localFilter.activityCategoriesSelectedText()"
+                            ng-model="$ctrl.localFilter.activityCategories.model"
+                            ng-model-options="{ trackBy: '$value' }"
+                            md-no-asterisk="false"
+                            ng-change="$ctrl.localFilter.changeParam('activityCategories')"
+                            type="number"
+                            name="category"
+                            class="icon">
+                        <md-optgroup
+                                ng-repeat="owner in ['user', 'coach', 'club', 'system']"
+                                ng-if="$ctrl.localFilter.categoriesByOwner[owner].length"
+                                label="{{ 'reference.categories.' + owner | translate }}">
+                            <md-option
+                                    ng-repeat="category in $ctrl.localFilter.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.localFilter.activityTypes.model[0], visible: true}:true track by category.id"
+                                    ng-value="category.id">
+                                {{ category | categoryCode }}
+                            </md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="$ctrl.form.category.$error" role="alert">
+                        <div ng-message="required"
+                             translate="form.required">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item ng-show="!$ctrl.globalParams">
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="analytics.filter.periods.placeholder"></label>
+                    <md-select flex="auto" name="periods" class="icon"
+                               multiple="false"
+                               md-selected-text="$ctrl.localFilter.periodsSelectedText()"
+                               ng-model="$ctrl.localFilter.periods.model"
+                               ng-change="$ctrl.localFilter('periods')">
+                        <md-option ng-repeat="type in $ctrl.localFilter.periods.options track by $index"
+                                   value="{{type}}">
+                            <span>{{'analytics.params.' + type | translate}}</span>
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod' && !$ctrl.globalParams">
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="analytics.filter.periods.startDate"></label>
+                    <md-datepicker ng-model="$ctrl.localFilter.periods.startDate" flex="auto"
+                                   md-hide-icons="calendar"
+                                   ng-change="$ctrl.change($ctrl.localFilter.periods, $ctrl.localFilter.periods.startDate)"
+                                   name="startDate"></md-datepicker>
+                    <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                        <div ng-message="valid" translate="form.invalidDate"></div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod' && !$ctrl.globalParams">
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="analytics.filter.periods.endDate"></label>
+                    <md-datepicker ng-model="$ctrl.localFilter.periods.endDate" flex="auto"
+                                   md-hide-icons="calendar"
+                                   ng-change="$ctrl.change($ctrl.localFilter.periods, $ctrl.localFilter.periods.endDate)"
+                                   name="endDate"></md-datepicker>
+                    <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                        <div ng-message="valid" translate="form.invalidDate"></div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+        </md-list>
+        <md-list flex="auto" class="md-dense" ng-if="$ctrl.settings.length > 0">
+            <md-divider></md-divider>
+            <md-subheader class="md-no-sticky">{{'analytics.settings.layout' | translate}}</md-subheader>
+            <md-list-item ng-repeat="param in $ctrl.settings" ng-switch="param.type">
+                <div ng-switch-when="radio" layout="column">
+                    <p class="md-body-2 md-dark md-active" flex="none" translate="analytics.params.{{param.text}}"></p>
+                    <md-radio-group flex="none" name="param.text" class="md-primary"
+                                    ng-model="param.model"
+                                    ng-change="$ctrl.change(param, param.model)">
+                        <md-radio-button ng-repeat="option in param.options" ng-value="option">
+                            <span class="md-body-1">{{'analytics.params.' + option | translate}}</span>
+                        </md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div ng-switch-when="checkbox" ng-if="param.idx.length > 1" layout="column">
+                    <p class="md-body-2 md-dark md-active" flex="none" translate="analytics.params.{{param.text}}"></p>
+                    <md-checkbox ng-repeat="idx in param.idx" class="md-primary" name="{{param.text}}-{{idx}}"
+                                     ng-checked="$ctrl.getGroupCheckboxStatus(param, idx)"
+                                     ng-click="$ctrl.setGroupCheckboxStatus(param, idx)">
+                        <span>{{$ctrl.getCheckboxLabel(param, idx)}}</span>
+                    </md-checkbox>
+                </div>
+            </md-list-item>
+        </md-list>
+    </form>
+</md-content>
+<md-dialog-actions flex="none" layout="row" style="background: white">
+    <span flex></span>
+    <md-button ng-class="{'md-warn': !$ctrl.settingsForm.$valid}"
+               ng-disabled="!$ctrl.settingsForm.$dirty"
+               ng-click="($ctrl.settingsForm.$valid) ? $ctrl.save() : null">
+        {{::'analytics.settings.save' | translate}}
+    </md-button>
+</md-dialog-actions>

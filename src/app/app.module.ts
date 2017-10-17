@@ -3,10 +3,6 @@ import * as hmReedmore from "../../bower_components/angular-read-more";
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
 import 'angularjs-scroll-glue/src/scrollglue.js';
 import 'drag-drop-webkit-mobile/ios-drag-drop.js';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.eot';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.woff2';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.woff';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.ttf';
 
 import run from './app.run';
 import configure from './app.config';
@@ -28,6 +24,7 @@ import Club from "./club/club.module";
 import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
+import Analytics from "./analytics/analytics.module";
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
@@ -37,7 +34,6 @@ const root = module('staminity.application', [
 	'ngAria',
 	'ui.router',
 	'md.data.table',
-	'smDateTimeRangePicker',
 	'nemLogging',
 	'ui-leaflet',
 	hmReedmore,
@@ -63,7 +59,8 @@ const root = module('staminity.application', [
 	Club,
 	Dashboard,
 	Search,
-	Reference
+	Reference,
+	Analytics
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

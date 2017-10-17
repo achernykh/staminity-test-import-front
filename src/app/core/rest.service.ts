@@ -3,7 +3,7 @@ import {ISessionService} from './session.service';
 import { IHttpService, IHttpPromise } from 'angular';
 import LoaderService from "../share/loader/loader.service";
 
-interface IPostDataRequest {
+export interface IPostDataRequest {
 	method:string;
 	url:string;
 	headers:{

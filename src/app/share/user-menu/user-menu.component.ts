@@ -1,8 +1,8 @@
 import { IComponentOptions, IComponentController, ILocationService} from 'angular';
 import { UserMenuSettings } from '../application-menu/application-menu.constants';
 import {IUserProfile} from "../../../../api/user/user.interface";
-import SessionService from "../../core/session.service";
-import { Observable} from 'rxjs/Observable';
+import { ISessionService, getUser } from "../../core/session.service";
+import { Subject } from "rxjs/Rx";
 import {StateService} from "angular-ui-router";
 import DisplayService from "../../core/display.service";
 
@@ -10,20 +10,28 @@ class UserMenuCtrl implements IComponentController{
 
     private menu: Array<any> = UserMenuSettings;
     private user: IUserProfile;
-    private profile$: Observable<IUserProfile>;
+    private destroy = new Subject();
 
-    static $inject = ['$mdSidenav','$location','SessionService', '$state','display'];
+    static $inject = ['$mdSidenav','$location','SessionService', '$state', 'DisplayService'];
 
     constructor(
         private $mdSidenav: any,
         private $location: ILocationService,
-        private SessionService: SessionService,
+        private SessionService: ISessionService,
         private $state: StateService,
-        private display: DisplayService) {
-
-        this.profile$ = SessionService.profile.subscribe(profile=> {
-            this.user = angular.copy(profile);
+        private display: DisplayService
+    ) {
+        SessionService.getObservable()
+        .takeUntil(this.destroy)
+        .map(getUser)
+        .subscribe((userProfile) => {
+            this.user = userProfile;
         });
+    }
+
+    $onDestroy() {
+        this.destroy.next(); 
+        this.destroy.complete();
     }
 
     onUserMenu($mdOpenMenu, ev){
@@ -45,11 +53,9 @@ class UserMenuCtrl implements IComponentController{
             }
         }
     }
-
-
 }
 
-let UserMenuComponent:IComponentOptions = {
+let UserMenuComponent: IComponentOptions = {
     bindings: {
         id: '<'
     },

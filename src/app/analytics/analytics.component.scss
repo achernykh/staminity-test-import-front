@@ -1,0 +1,140 @@
+.analytics {
+
+  &__application {
+    width: 100%;
+    position: absolute;
+    top: 64px;
+    height: calc(100vh - 64px);
+
+    @media (max-width: 959px) {
+      width: auto;
+      margin: 8px;
+      height: calc(100vh - 86px);
+      overflow-y: auto;
+    }
+
+  }
+
+  &__navigator {
+    transition: all 0.3s;
+    &.hide {
+      display: none;
+    }
+  }
+
+  &__chart-section {
+    overflow-y: auto;
+
+    @media (max-width: 959px) {
+      overflow-y: initial;
+    }
+  }
+
+  &__chart-grid {
+    position: relative;
+    min-height: calc(100% - 24px);
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+    grid-auto-rows: 360px;
+    margin: 8px;
+    padding-bottom: 8px;
+
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    @media (max-width: 1279px) {
+      grid-template-columns: repeat(1, 1fr);
+      grid-auto-rows: 400px;
+    }
+
+    @media (max-width: 959px) {
+      margin: 8px 0px;
+    }
+
+    analytics-chart {
+      transition: all 0.3s;
+    }
+
+    analytics-chart.full-screen {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      max-height: calc(100vh - 86px);
+      z-index: 15;
+    }
+  }
+
+}
+
+analytics {
+  .app-layer, .application {
+    position: absolute;
+    top: 60px;
+    height: calc(100% - 60px);
+    width: 100%;
+    z-index: 60;
+  }
+
+  section.application-toolbar {
+    color: white;
+    max-width: 1440px;
+    margin: auto;
+
+    md-icon {
+      color: rgba(255,255,255,0.54);
+    }
+
+  }
+  section.content {
+    max-width: 1440px;
+    overflow: hidden;
+    height: calc(100% - 40px);
+    margin: auto;
+  }
+
+  div.margin-left {
+    position: absolute;
+    display: none;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+  section.application-body {
+    position: absolute;
+    //height: 100%;
+    //overflow: hidden;
+    left: 0%;
+    width: 100%;
+
+    @media (min-width: 1439px){
+      left: 2%;
+      width: 96%;
+      height: calc(100% - 10px);
+    }
+
+  }
+
+  div.margin-right {
+    position: absolute;
+    display: none;
+    right: 0;
+    @media (min-width: 1439px){
+      width: 2%;
+      min-width: 2%;
+    }
+  }
+
+  div.analytics-filter {
+    width: 100%;
+
+    @media (min-width: 1280px) {
+      width: 320px;
+    }
+  }
+}

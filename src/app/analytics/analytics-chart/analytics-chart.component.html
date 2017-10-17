@@ -1,0 +1,45 @@
+<md-content class="analytics-chart md-whiteframe-2dp" ng-switch="$ctrl.chart.hasMetrics()" layout="column">
+    <div flex="none" class="analytics-chart__header" layout="row" layout-align="start space-between">
+        <h1 class="md-body-2 md-dark title" flex="auto">
+            <span translate="analytics.{{$ctrl.chart.code}}.title" translate-values="{{$ctrl.context}}"></span>
+            <span ng-if="!$ctrl.chart.globalParams" >&nbsp;({{'analytics.localFilter' | translate | lowercase}})</span>
+        </h1>
+        <div flex="none" layout="row">
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
+                <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
+            </md-button><!--
+            <analytics-chart-filter flex="none"
+                                    filter="$ctrl.chart.filter"
+                                    change="$ctrl.filterChange"
+                                    on-change="$ctrl.update(param, option, protected)">
+            </analytics-chart-filter>-->
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.chart.active = false">
+                <md-icon class="md-secondary md-dark material-icons">visibility_off</md-icon>
+            </md-button>
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.grow()">
+                <md-icon class="md-secondary md-dark material-icons">settings_ethernet</md-icon>
+            </md-button>
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.fullScreen()">
+                <md-icon class="md-secondary material-icon md-dark"
+                         ng-bind="$ctrl.chart.layout.fullScreen ? 'fullscreen_exit' : 'fullscreen'"></md-icon>
+            </md-button>
+        </div>
+    </div>
+    <p flex="none" class="md-caption md-dark analytics-chart__description">{{$ctrl.descriptions()}}</p>
+
+    <div ng-switch-when="false" ng-if="$ctrl.errorStack.length === 0"
+         flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
+        <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+        <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
+    </div>
+    <div ng-switch-when="false" ng-if="$ctrl.errorStack.length > 0"
+         flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
+        <p flex="none" ng-repeat="error in $ctrl.errorStack track by $index">{{'analytics.error.'+error}}</p>
+    </div>
+    <div ng-switch-when="true" flex="auto" layout="column" class="analytics-chart__data">
+        <universal-chart flex="auto"
+                         data="$ctrl.chart.charts"
+                         update="$ctrl.updateCount + $ctrl.panelChanges">
+        </universal-chart>
+    </div>
+</md-content>

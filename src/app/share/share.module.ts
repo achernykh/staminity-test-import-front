@@ -42,6 +42,7 @@ import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
 import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
 import {_translate_PageNotFound} from "./404/404.translate";
+import UniversalChartComponent from "./universal-chart/universal-chart.component";
 import {translateHeader} from "./header/header.translate";
 import {compareTo} from "./directives/form.directive";
 
@@ -267,6 +268,7 @@ const Share = module('staminity.share', [])
     .component('athleteSelector', AthleteSelectorComponent)
     .component('notificationList', NotificationListComponent)
     .component('pageNotFound', PageNotFoundComponent)
+    .component('universalChart', UniversalChartComponent)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
