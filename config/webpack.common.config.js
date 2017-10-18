@@ -50,7 +50,8 @@ module.exports = {
             //'material-design-icons'
         ],
         // вход для приложения
-        app: './src/app/app.module.ts'
+        app: './src/app/app.module.ts',
+        loader: './src/app/index.ts',
     },
     module: {
         rules: [

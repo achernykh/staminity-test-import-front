@@ -29,8 +29,8 @@ import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
 
-const root = module('staminity.application', [
-	'pascalprecht.translate', // translate
+const deps = [
+	'pascalprecht.translate',
 	'ngMaterial',
 	'ngMessages',
 	'ngAnimate',
@@ -47,7 +47,6 @@ const root = module('staminity.application', [
 	'angular-carousel',
 	'dndLists',
 	'luegg.directives',
-
 	Core,
 	Share,
 	Auth,
@@ -64,14 +63,17 @@ const root = module('staminity.application', [
 	Dashboard,
 	Search,
 	Reference
-])
+];
+
+const app = () => {
+	module('staminity.application', deps)
 	.component('staminityApplication', AppComponent)
 	.config(configure)
-	.run(run)
-	.name;
+	.run(run);
 
-bootstrap(document, ['staminity.application'], {
-	strictDi: true
-});
+	bootstrap(document, ['staminity.application'], {
+		strictDi: true
+	});
+};
 
-export default root;
+export default app;

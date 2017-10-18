@@ -132,6 +132,7 @@
     "angularjs-toaster": "^2.1.0",
     "animate.css": "^3.5.2",
     "d3": "4.5.0",
+    "detect-browser": "^2.0.0",
     "drag-drop-webkit-mobile": "^1.4.1",
     "jsoneditor": "^5.5.11",
     "localforage": "^1.5.0",
