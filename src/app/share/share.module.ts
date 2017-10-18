@@ -45,6 +45,7 @@ import {_translate_PageNotFound} from "./404/404.translate";
 import UniversalChartComponent from "./universal-chart/universal-chart.component";
 import {translateHeader} from "./header/header.translate";
 import {compareTo} from "./directives/form.directive";
+import SessionService from "../core/session.service";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -209,7 +210,7 @@ const Share = module('staminity.share', [])
             }
         };
     }])
-    .filter('measureSave',['UserService',(UserService)=> {
+    .filter('measureSave',['SessionService',(session: SessionService)=> {
         return (measure, value,sport) => {
 
             let unit = measurementUnitDisplay(sport, measure);
@@ -221,7 +222,7 @@ const Share = module('staminity.share', [])
                     value = moment(value,['ss','mm:ss']).diff(moment().startOf('day'),'seconds');
                 }
                 // обратный пересчет по системе мер
-                if (UserService.profile.display.units !== 'metric'){
+                if (session.getUser().display.units !== 'metric'){
                     value = value / _measurement_system_calculate[unit].multiplier;
                 }
                 // пересчет от единиц представления в еденицы обмена данными
