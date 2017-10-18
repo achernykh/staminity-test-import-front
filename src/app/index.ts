@@ -18,7 +18,7 @@ if (
 	}
 
 	require.ensure(['./app.module'], () => {
-		const app = <Function>require('./app.module').default;
+		const app = <Function>require('./app.module')['default'];
 		app();
 	});
 }
