@@ -7,7 +7,7 @@ import {DefaultAnalyticsSettings} from "./analytics.default";
 import AnalyticsChartFilterComponent from "./analytics-chart-filter/analytics-chart-filter.component";
 import AnalyticsChartSettingsComponent from "./analytics-chart-settings/analytics-chart-settings.component";
 
-const Analytics = module('staminity.dashboard', [])
+const Analytics = module('staminity.analytics', [])
     .component('analytics', AnalyticsComponent)
     .component('analyticsManagementPanel', AnalyticsManagementPanelComponent)
     .component('analyticsChart', AnalyticsChartComponent)
