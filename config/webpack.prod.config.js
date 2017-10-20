@@ -34,32 +34,11 @@ module.exports = {
     output: {
         path: outputPath,
         publicPath: hostEndPoint[ENV],
-        filename: `assets/js/${fileName}.js`,
-        chunkFilename: `assets/js/${fileName}.js`
+        filename: 'assets/js/[name].[hash].js',
+        chunkFilename: 'assets/js/[name].[hash].js'
     },
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                use: [{
-                    loader: 'babel-loader?cacheDirectory=true',
-                    options: { presets: ['es2015'] }
-                }],
-                exclude: /(node_modules|bower_components)/
-            },
-            {
-                test: /\.scss$/,
-                loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader!sass-loader' })
-            },
-            {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract('css-loader')
-            },
-            {
-                test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$/,
-                loader: [`url-loader`,`file-loader?name=assets/images/[name].[hash].[ext]`]
-            }
-
         ]
     },
     plugins: [

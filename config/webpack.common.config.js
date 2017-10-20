@@ -98,6 +98,14 @@ module.exports = {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?sourceMap' })
             },
+            {
+                test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$/,
+                loader: 'file-loader?name=assets/images/[name].[ext]'
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file-loader?name=assets/fonts/[name].[ext]'
+            }
         ]
     },
 

@@ -7,20 +7,12 @@ console.log('env', process.env.HOST, process.env.PORT);
 module.exports = {
     output: {
         // publicPath: 'http://localhost:8080/',
-        filename: 'assets/js/[name].js',
-        chunkFilename: 'assets/js/[name].js'
+        filename: 'assets/js/[name].[hash].js',
+        chunkFilename: 'assets/js/[name].[hash].js'
     },
     devtool: 'source-map',
     module: {
         rules: [
-            {
-                test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$/,
-                loader: 'file-loader?name=assets/images/[name].[ext]'
-            },
-            {
-                test: /\.(eot|svg|ttf|woff|woff2)$/,
-                loader: 'file-loader?name=assets/fonts/[name].[ext]'
-            }
         ]
     },
     plugins: [
