@@ -17,8 +17,8 @@ if (
 		.catch((err) => console.error('Boo!', err));
 	}
 
-	require.ensure(['./app.module'], () => {
-		const app = <Function>require('./app.module')['default'];
+	require.ensure(['./app.module.ts'], () => {
+		const app = <Function>require('./app.module.ts')['default'];
 		app();
 	});
 }

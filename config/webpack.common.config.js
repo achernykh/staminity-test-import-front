@@ -6,6 +6,15 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
+const sortChunks = (orders) => (chunk1, chunk2) => {
+  const order1 = orders.indexOf(chunk1.names[0]);
+  const order2 = orders.indexOf(chunk2.names[0]);
+
+  return (order1 > order2 && 1)
+    || (order1 < order2 && -1)
+    || 0;
+}
+
 var ENV = process.env.npm_lifecycle_event;
 
 module.exports = {
@@ -50,8 +59,8 @@ module.exports = {
             //'material-design-icons'
         ],
         // вход для приложения
-        app: './src/app/app.module.ts',
         loader: './src/app/index.ts',
+        app: './src/app/app.module',
     },
     module: {
         rules: [
@@ -107,7 +116,8 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            inject: 'body'
+            inject: 'body',
+            chunksSortMode: sortChunks(['manifest', 'vendor', 'loader', 'app'])
         })/*,
         new ngAnnotatePlugin({
             add: true
