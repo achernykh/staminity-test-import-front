@@ -148,7 +148,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileAvatar(file:any) : IHttpPromise<any> {
+    postProfileAvatar(file:any) : Promise<any> {
         return this.RESTService.postFile(new PostFile('/user/avatar',file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
@@ -161,7 +161,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileBackground(file:any) : IHttpPromise<any> {
+    postProfileBackground(file:any) : Promise<any> {
         return this.RESTService.postFile(new PostFile('/user/background',file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);

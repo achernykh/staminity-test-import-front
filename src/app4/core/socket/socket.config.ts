@@ -19,15 +19,15 @@ export const ConnectionSettings = {
     delayOnOpen: 300, // таймаут для завершения соедниения сессии (мс)
     delayOnResponse: 10 * 1000, // 10 sec
     delayExceptions: {
-        getActivityIntervals: 10.0,
-        postUserExternalAccount: 60.0,
-        putUserExternalAccountSettingSuccess: 10.0,
-        getCalendarItem: 30.0,
-        calculateActivityRange: 15.0,
-        putCalendarItem: 15.0,
-        getActivityCategory: 10.0,
-        postCalendarItem: 10.0,
-        getGroupManagementProfile: 10.0
+        getActivityIntervals: 10.0 * 1000,
+        postUserExternalAccount: 60.0 * 1000,
+        putUserExternalAccountSettingSuccess: 10.0 * 1000,
+        getCalendarItem: 30.0 * 1000,
+        calculateActivityRange: 15.0 * 1000,
+        putCalendarItem: 15.0 * 1000,
+        getActivityCategory: 10.0 * 1000,
+        postCalendarItem: 10.0 * 1000,
+        getGroupManagementProfile: 10.0 * 1000
     },
     internetResource: '/favicon.ico',
     delayOnInternetConnectionCheck: 5 * 1000, // 5 sec задержка на опрос состояния интернета

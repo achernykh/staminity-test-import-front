@@ -1,10 +1,10 @@
 import * as _connection from './env.js';
 import { ISessionService } from './session.service';
-import {StateService} from 'angular-ui-router';
+import { StateService } from '@uirouter/angular';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
-import LoaderService from "../share/loader/loader.service";
+import { LoaderService } from "../share/loader/loader.service";
 import {IMessageService} from "./message.service";
-import {IHttpService, noop} from 'angular';
+import {IHttpService, noop, IPromise} from 'angular';
 import {Ping} from "../../../api/core";
 
 

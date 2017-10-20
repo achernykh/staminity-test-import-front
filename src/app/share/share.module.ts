@@ -13,7 +13,6 @@ import {_application_menu} from './application-menu/application-menu.translate';
 import {_user_menu} from "./user-menu/user-menu.tranlsate";
 import {_MEASURE_TRANSLATE} from './measure/measure.translate';
 import LoaderComponent from './loader/loader.component';
-import LoaderService from './loader/loader.service';
 import DialogsService from './dialogs/';
 import RequestsComponent from './requests/requests.component.js';
 import {
@@ -40,11 +39,13 @@ import {InitiatorType} from "../../../api/notification/notification.interface";
 import { memorize, maybe, prop } from "./util.js";
 import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
-import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
+import {StateDeclaration} from '@uirouter/angular';;
 import {_translate_PageNotFound} from "./404/404.translate";
 import UniversalChartComponent from "./universal-chart/universal-chart.component";
 import {translateHeader} from "./header/header.translate";
 import {compareTo} from "./directives/form.directive";
+import { downgradeInjectable } from "@angular/upgrade/static";
+import {LoaderService} from "./loader/loader.service";
 import SessionService from "../core/session.service";
 
 
@@ -278,7 +279,7 @@ const Share = module('staminity.share', [])
     .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
 
         $stateProvider
-            .state('404', <Ng1StateDeclaration>{
+            .state('404', <StateDeclaration>{
                 url: "/404",
                 views: {
                     "application": {
