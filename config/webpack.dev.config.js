@@ -33,8 +33,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin({ filename: "assets/css/[name].css", allChunks: false }),
-        new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'assets/js/[name].js' })
+        new ExtractTextPlugin({ filename: "assets/css/[name].css", allChunks: true }),
+        new webpack.optimize.CommonsChunkPlugin({ 
+            name: 'vendor', 
+            filename: 'assets/js/[name].js',
+            minChunks: Infinity,
+        })
     ],
     devServer: {
         host: process.env.HOST || '0.0.0.0',
