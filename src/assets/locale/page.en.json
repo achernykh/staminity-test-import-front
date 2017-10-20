@@ -1,5 +1,7 @@
 {
   "page": {
+    "fullTitle": "New page",
+    "shortTitle": "New",
     "HELLO": "Hello {{value}}",
     "GOODBYE": "Goodbye"
   }

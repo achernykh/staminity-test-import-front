@@ -1,11 +1,11 @@
-<mat-sidenav-container class="st-application-toolbar__wrapper">
-    <mat-toolbar color="primary" class="st-application-toolbar mat-elevation-z4">
+<mat-sidenav-container class="st-application__wrapper">
+    <mat-toolbar color="primary" class="st-application__toolbar mat-elevation-z4">
         <button mat-icon-button>
             <mat-icon class="" (click)="appMenu.toggle()">menu</mat-icon>
         </button>
-        <ng-content select=".st-application-toolbar__title">
+        <ng-content select=".st-application__title">
         </ng-content>
-        <ng-content select=".st-application-toolbar__actions"></ng-content>
+        <ng-content select=".st-application__toolbar-actions"></ng-content>
         <span fxFlex></span>
         <button mat-icon-button>
             <mat-icon class="" (click)="sidenav.toggle()">search</mat-icon>
@@ -28,17 +28,17 @@
         </mat-toolbar-row>
     </mat-toolbar>
 
-    <ng-content select=".st-application-toolbar__content">
+    <ng-content select=".st-application__content">
     </ng-content>
     <div>{{user | json}}</div>
 
     <mat-sidenav #appMenu mode="over" opened="false" align="start"
-                 class="st-application-toolbar__sidenav">
+                 class="st-application__sidenav">
         <st-application-menu [user]="user"></st-application-menu>
     </mat-sidenav>
 
     <mat-sidenav #sidenav mode="over" opened="false" align="end"
-                 class="st-application-toolbar__sidenav">
+                 class="st-application__sidenav">
         <button mat-mini-fab class="example-fab" (click)="sidenav.toggle()">
             <mat-icon>add</mat-icon>
         </button>
