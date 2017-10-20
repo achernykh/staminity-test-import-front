@@ -1,19 +1,71 @@
 export const translateActivity = {
   ru: {
+      save: 'Сохранить',
+      toTemplate: 'В Шаблон',
+      edit: 'Изменить',
+      reset: 'Отменить',
+      delete: 'Удалить',
+      plan: 'План',
+      actual: 'Факт',
+      measureUnitFull: 'Показатель(ед.изм)',
+      measureUnitShort: 'Ед.Изм',
+      completeShort: 'Вып',
+      percentFTP: '%ПАНО',
+      ftpMode: {
+          on: 'ВКЛ',
+          off: 'ВЫКЛ'
+      },
+      trainersPrescription: 'Установка тренера',
+      assignment: {
+          title: 'Задание',
+          needSport: 'Для ввода задания укажите вид спорта и тип тренировки',
+          categoryLabel: 'Укажите категорию',
+          structured: 'План по сегментам'
+      },
+      segments: {
+          total: 'Итоги:',
+          group: 'Группы',
+          key: 'Ключевой',
+          add: {
+              first: '',
+              default: '',
+              interval: 'Серия интервалов',
+              complexinterval: 'Разминка + Интервалы + Заминка',
+              complex: 'Разминка + Работа + Заминка',
+              warmUp: 'Разминка',
+              coolDown: 'Заминка',
+              active: 'Рабочий интервал',
+              recovery: 'Восстановление',
+              rampUp: 'Работа с возрастанием нагрузки',
+              rampDown: 'Работа с убыванием нагрузки'
+          }
+      },
       template: {
           title: 'Выберите шаблон',
           enable: 'Есть шаблоны',
-          empty: 'Шаблонов нет'
+          empty: 'Шаблонов нет',
+          favorite: 'Избранный',
+          namePlaceholder: 'Укажите название шаблона'
+      },
+      split: {
+          segment: 'Сегмент',
+          segmentGroup: 'Серия сегментов x{{count}}',
+          interval: 'Отрезок'
+
       },
       error: {
           required: 'Заполните обязательные поля',
           needDuration: 'Укажите время или расстояние',
           singleDuration: 'Можно указать или время, или расстояние',
           singleIntensity: 'Можно задать лишь один параметр интенсивности',
-          needPermissionForFeature: 'Не хватает полномочий для планирования в будущем'
+          needPermissionForFeature: 'Для планирования в будущем нужен тариф "Премиум"'
       },
-      loading: 'Загрузка данных'
+      loading: 'Загрузка данных',
+      settings: {
+          close: 'Закрыть'
+      }
   }
+
 };
 
 export const translateSport = {

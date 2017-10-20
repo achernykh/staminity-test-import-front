@@ -1,12 +1,14 @@
+import { copy } from 'angular';
 import {
     IAnalyticsChartFilter,
-    IAnalyticsChartSettings
+    IAnalyticsChartSettings, AnalyticsChartFilter
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IChartMeasure, IChartParams, IChart} from "../../../../api/statistics/statistics.interface";
 import moment from 'moment/src/moment.js';
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {peaksByTime} from "../../share/measure/measure.filter";
 import {_measurement_calculate} from "../../share/measure/measure.constants";
+import {activityTypes} from "../../activity/activity.constants";
 
 export class AnalyticsChartLayout {
 
@@ -36,10 +38,11 @@ export interface IAnalyticsChartTitleContext {
 
 export interface IAnalyticsChart {
     order: number;
+    revision: number;
     auth: Array<string>;
     active: boolean;
     icon?: string;
-    title: string;
+    code: string;
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
     settings?: Array<IAnalyticsChartSettings<any>>;
@@ -54,10 +57,11 @@ export interface IAnalyticsChart {
 export class AnalyticsChart implements IAnalyticsChart{
 
     order: number;
+    revision: number;
     auth: Array<string>;
     active: boolean;
     icon?: string;
-    title: string;
+    code: string;
     context?: Array<IAnalyticsChartTitleContext>; //Контекст переводов для заголовка отчета
     description?: string;
     //filter: IAnalyticsChartFilter;
@@ -69,7 +73,14 @@ export class AnalyticsChart implements IAnalyticsChart{
 
     isAuthorized: boolean; //результат проверки полномочий пользователя
 
-    constructor(params?: IAnalyticsChart, user?: IUserProfile) {
+    private keys: Array<string> = ['params','user','categories','isAuthorized','globalFilter','keys'];
+
+    constructor(
+        private params?: IAnalyticsChart,
+        private user?: IUserProfile,
+        private globalFilter?: AnalyticsChartFilter,
+        private $filter?: any) {
+
         Object.assign(this, params);
         if(this.hasOwnProperty('layout') && this.layout) {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumnEnd, this.layout.gridRowEnd);
@@ -77,6 +88,13 @@ export class AnalyticsChart implements IAnalyticsChart{
 
         if(!this.globalParams && this.localParams && this.isAuthorized) {
             this.prepareLocalParams(user);
+            this.localParams = new AnalyticsChartFilter(
+                this.globalFilter.user,
+                this.globalFilter.categories,
+                this.localParams,
+                this.$filter
+            );
+            this.localParams.activityTypes.options = activityTypes;
         }
     }
 
@@ -88,7 +106,23 @@ export class AnalyticsChart implements IAnalyticsChart{
         return this.charts.some(c => c.hasOwnProperty('metrics'));
     }
 
+    transfer(keys: Array<string> = this.keys): IAnalyticsChart {
+
+        let obj: IAnalyticsChart = copy(this);
+        // удаляем вспомогательные данные
+        keys.map(k => delete obj[k]);
+        // удаляем данные графиков
+        obj.charts.map(c => c.hasOwnProperty('metrics') && delete c.metrics);
+        return obj;
+
+    }
+
     private prepareLocalParams(user: IUserProfile){
+
+        if(this.localParams.activityTypes.model &&
+            (!this.localParams.activityTypes.hasOwnProperty('options') || !this.localParams.activityTypes.options)) {
+            this.localParams.activityTypes.options = activityTypes;
+        }
 
         if(typeof this.localParams.users.model !== "string") {
             return;
@@ -143,20 +177,25 @@ export class AnalyticsChart implements IAnalyticsChart{
                 value === "NaN" || value === "Infinity" ? value = null : value = value;
 
                 if(params) {
-                    if(params.dataType === 'date') {
+                    if (value === null) {
+                        metric.push(value);
+                    } else if(params.dataType === 'date') {
                         metric.push(moment(value).format('MM-DD-YYYY'));
-                    } else if(params.measureName === 'duration' ) {
+                    } else if(['duration','heartRateMPM','powerMPM','speedMPM'].indexOf(params.measureName) !== -1) {
                         metric.push(value / 60 / 60);
                     } else if(params.measureName === 'distance') {
                         metric.push(_measurement_calculate.meter.km(value));
                     // Пересчет темпа мин/км
-                    } else if ((params.measureName === 'speed' && params.dataType === 'time') || params.unit === 'мин/км') {
+                    } else if ((params.measureName === 'speed' && params.dataType === 'time' && params.measureSource === 'activity.actual.measure')
+                        || params.unit === 'мин/км') {
                         metric.push(_measurement_calculate.mps.minpkm(value));//moment().startOf('day').millisecond(_measurement_calculate.mps.minpkm(value)*1000).startOf('millisecond').format('mm:ss'));
                     // Пересчет темпа мин/100м
-                    } else if ((params.measureName === 'speed' && params.dataType === 'time') || params.unit === 'мин/100м') {
+                    } else if ((params.measureName === 'speed' && params.dataType === 'time' && params.measureSource === 'activity.actual.measure')
+                        || params.unit === 'мин/100м') {
                         metric.push(_measurement_calculate.mps.minp100m(value));
                     // Пересчет скорости км/ч
-                    } else if ((params.measureName === 'speed' && params.dataType !== 'time') || params.unit === 'мин/км') {
+                    } else if ((params.measureName === 'speed' && params.dataType !== 'time' && params.measureSource === 'activity.actual.measure')
+                        || params.unit === 'км/ч') {
                         metric.push(_measurement_calculate.mps.kmph(value));
                     } else if (['speedDecoupling','powerDecoupling'].indexOf(params.measureName) !== -1) {
                         metric.push(value * 100);

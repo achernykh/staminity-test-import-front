@@ -2,10 +2,10 @@ export let _translate = {
 	ru: {
 		// Стартовая страница
 
-		fullTitle: 'Стаминити',
-		shortTitle: 'Стаминити',
-		description: 'Приложение для удаленной работы тренеров и клубов с учениками в циклических видах спорта',
-		keywords: 'Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером',
+		fullTitle: 'Сервис для работы с тренером и календарь тренировок Staminity | Стаминити',
+		shortTitle: 'Сервис для работы с тренером и календарь тренировок Staminity | Стаминити',
+		description: 'Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов',
+		keywords: 'программа для работы с тренером, приложение для работы с тренером, приложение для тренера, программа для тренера, работа с тренером, занятия с тренером, бег, триатлон, плавание, календарь тренировок, тренировочный календарь, работа с учениками, Стаминити, Staminity, дистанционная работа с тренером',
 		nav: {
 			link1: 'Возможности',
 			link2: 'Блог',
@@ -17,7 +17,7 @@ export let _translate = {
 		},
 		welcome: {
 			promo: 'β-версия',
-			description: 'Удаленная работа с тренером и социальная сеть для спортсменов',
+			description: 'Приложение для работы с тренером и календарь тренировок',
 			title1: 'ПЛАН ТВОИХ ПОБЕД',
 			title2: 'ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ',
 			button: 'Старт',
@@ -167,7 +167,7 @@ export let _translate = {
 				link2: '<a flex href="#athletes" class="md-body md-light">Для спортсменов</a>',
 				link3: '<a flex href="#coaches" class="md-body md-light">Для тренеров</a>',
 				link4: '<a flex href="#clubs" class="md-body md-light">Для клубов</a>',
-				link5: '<a flex href="#" class="md-body md-light disable">Тарифы</a>',
+				link5: '<a flex href="https://staminity.com/tariffs" class="md-body md-light">Тарифы</a>',
 			},
 			block2 : {
 				title: 'Помощь и поддержка',
@@ -274,21 +274,21 @@ export let _translate = {
 	en: {
 		// Landing page
 
-		fullTitle: 'Staminity',
-		shortTitle: 'Staminity',
-		description: 'Application for remote interaction between coaches and athletes in cyclic kinds of sport',
-		keywords: 'Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером',
+		fullTitle: 'Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity',
+		shortTitle: 'Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity',
+		description: 'Application for online training in running, cycling, swimming and triathlon. Training plans, workout log, online training for athletes, coaches and clubs',
+		keywords: 'wokout log, online training running, online training cycling, online training swimming, online training triathlon, online training sport, training plan, training plans, online training program, online training application, application for coaches, application for coach, work with coach, train with coach, run, triathlon, cycling, swimming, workout diary, activity log, activity diary, work with athletes, Staminity, work with coach online',
 		nav: {
 			link1: 'Features',
 			link2: 'Blog (rus)',
-			link3: 'Tariffs',
+			link3: 'Pricing',
 			link4: 'Support',
 			signIn: 'Login',
 			signOut: 'Logout'
 		},
 		welcome: {
 			promo: 'β-version',
-			description: 'Train smart with coach, achieve your goals, connect with friends',
+			description: 'Workout log and online training application',
 			title1: 'ПЛАН ТВОИХ ПОБЕД',
 			title2: 'ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ',
 			button: 'Start',
@@ -344,13 +344,13 @@ export let _translate = {
 		features: {
 			athletes: {
 				title: 'For athletes',
-				subtitle: 'We help to train with coach and achieve your goals',
+				subtitle: 'Help to train online with coach and achieve your goals',
 				title1: 'Plan',
-				text1: 'Get plan from coach or create by yourself. You will be notified about new planned workout and your coach – about your performance',
+				text1: 'Get training plans from your coach or create them by yourself. You will be notified about new planned workout and your coach will be notified about your performance',
 				title2: 'Train',
-				text2: 'Complete workouts and analyze them. Your activity records will be automatically uploaded to Staminity and matched with plan',
+				text2: 'Complete workouts and analyze them. Your activity records will be automatically uploaded to Staminity and will be matched with plan',
 				title3: 'Communicate',
-				text3: 'Communicate with coach, discuss workouts details, write short workout review. Comments from your friends and subsrcibers coming soon',
+				text3: 'Chat with coach, discuss workouts details, write short workout review. Comments from your friends and subsrcibers are coming soon',
 				carousel1: {
 					title: 'Workout calendar',
 					description: 'Workout calendar shows training plan and completed workouts, events, measurements and races. <br/>' +
@@ -458,7 +458,7 @@ export let _translate = {
 				link4: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Blog (RUS)</a>',
 			},
 			block4 : {
-				title: 'О нас',
+				title: 'About us',
 				link1: '<a flex href="#" class="md-body md-light disable">Our team</a>',
 				link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">E-mail us</a>',
 			},
@@ -466,35 +466,81 @@ export let _translate = {
 			copyright2: '| © 2017 staminity.com All Rights Reserved'
 		},
 		tariffs: {
-			title: 'Сколько стоит Стаминити?',
-			connectFree: 'Попробовать бесплатно',
-			connectTrial: 'На 14 дней, привязка кредитной карты не требуется',
-			connect: 'Подключить',
-			month: 'Месяц',
-			year: 'Год',
-			calculator: 'Калькулятор',
+			title: 'Find a plan that’s right for you',
+			tryFreeBtn: 'TRY IT FREE',
+			tryFree: 'No credit card required',
+			connectFree: 'TRY IT FREE',
+			connectTrial: '14 day free trial',
+			connect: 'Get started',
+			connectTrialBtn: 'TRY IT FREE',
+			month: 'Month',
+			year: 'Year',
+			calculator: 'Tariff calculator',
+
 			name: {
-				basic: 'Базовый',
-				premium: 'Премиум',
-				coach: 'Тренер',
-				club: 'Клуб'
+				basic: 'Basic',
+				premium: 'Premium',
+				coach: 'Coach',
+				club: 'Club'
 			},
 			description: {
-				basic: 'Базовый...',
-				premium: 'Премиум....',
-				coach: 'Тренер....',
-				club: 'Клуб...'
+				basic: 'Workout log, train with coach, connect with friends',
+				premium: '"Basic" + Plan and analyze your workouts',
+				coach: 'All for coach to work with athletes',
+				club: 'All for clubs with several coaches to work with athletes'
 			},
 			noCreditCard: '',
 			functions: {
-				func1: 'Функция1',
-				func2: 'Функция2',
-				func3: 'Функция3',
-				func4: 'Функция4',
-				func5: 'Функция5',
+				func1: 'Workout log',
+				func2: 'Review completed workouts',
+				func3: 'Auto sync with actual data providers',
+				func4: 'Online training with coach',
+				func5: '<i>(SOON) Chat with friends, groups and leaderboards</i>',
+				func6: '<strong>All in "Basic" tariff +:</strong>',
+				func7: '+ Plan your workouts',
+				func8: '+ Analyze workouts in details',
+				func9: '+ Manage categories and workout templates',
+				func10: '<i>+ (SOON) Repors and analytics</i>',
+				func11: 'Workout log for every athlete',
+				func12: 'Plan workouts and chat with athletes',
+				func13: "Analyze athlete's workouts in details",
+				func14: 'Manage categories and workout templates',
+				func15: 'Coach dashboard',
+				func16: '<i>(SOON) Reports and analytics for coach</i>',
+				func17: '<i>(СКОРО) Manage training plans </i>',
+				func18: '<strong>All Coach functions for club athletes +:</strong>',
+				func19: '+ Connect additional coaches',
+				func20: '+ Assign coaches to club athletes',
+				func21: '+ Manage club categories and workout templates',
+				func22: '+ Club dashboard',
+				func23: '<i>+ (SOON) Reports and analytics for club</i>',
+				func24: '<i>+ (СКОРО) Manage training plans</i>'
 			},
-			byMonth: '/ месяц',
-			byYear: '/год'
+			byMonth: '/ month',
+			byYear: '/year',
+
+			coachAthletes: '{{athlete | currency}}/month per athlete. \n' +
+			'{{minAthletes}} athletes included in subscription fee. \n' +
+			'Pay maximum for {{maxAthletes}} athletes, {{maxAthletes + 1}}-th and above are free',
+
+			clubAthletes: '{{athlete | currency}}/month per club athlete.  \n' +
+			'{{minAthletes}} free athlete for every club coach included. \n' +
+			'Pay maximum for {{maxAthletes}} athletes for every club coach',
+
+			clubCoaches: '{{coach | currency}}/month per club coach.  \n' +
+			'{{minCoaches}} club coach included in subscription fee. \n',
+
+			calc: {
+				params: 'Params',
+				totals: 'Total per month',
+				subscription: 'Subscription fee:',
+				variable: 'For athletes:',
+				premium: 'Need PREMIUM tariff for yourself',
+				coaches: 'Coaches:',
+				athletes: 'Athletes:',
+				proAthletes: 'Athletes with PREMIUM tariff paid by you:',
+				freeAthletes: '{{athletes}}+ athletes are without payment'
+			}
 		}
 
 	}

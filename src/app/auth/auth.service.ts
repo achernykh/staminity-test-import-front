@@ -62,9 +62,7 @@ export default class AuthService implements IAuthService {
      */
     isAuthorized(authorizedRoles: Array<any> = []) : boolean {
         let userRoles = this.SessionService.getPermissions();
-        //console.log('auth', userRoles, authorizedRoles, new Date(userRoles[authorizedRoles[0]]), new Date());
-        return authorizedRoles.every(role => userRoles.hasOwnProperty(role) &&
-            toDay(new Date(userRoles[role])) >= toDay(new Date()));
+        return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
     }
 
     isCoach(role: string = 'Calendar_Athletes') : boolean {

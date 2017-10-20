@@ -2,6 +2,10 @@ import {IAnalyticsChart, AnalyticsChartLayout} from "./analytics-chart/analytics
 import {PeriodOptions} from "./analytics-chart-filter/analytics-chart-filter.model";
 
 const paletteAll500 = ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63",'#3F51B5','#00BCD4','#8BC34A','#FFC107','#795548','#9C27B0','#2196F3','#009688','#CDDC39','#FF9800','#9E9E9E'];
+const paletteSports = ["#2196F3", "#FFC107", "#009688", "#F44336", "#9C27B0", "#795548", "#E91E63", "#9E9E9E"];
+const paletteBpm = ['#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F'];
+const palettePace = ['#BBDEFB','#90CAF9','#65B5F6','#42A5F5','#2196F3','#1E88E5','#1976D2','#1566C0','#0D47A1'];
+const palettePower = ['#D1C4E9','#B39DDB','#9575CD','#7E57C2','#673AB7','#5E35B1','#512DA8','#4527A0','#311B92'];
 
 //noinspection TypeScriptValidateTypes,TypeScriptValidateTypes
 export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
@@ -11,9 +15,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 1,
         active: true,
+        revision: 1,
         auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'distanceByAthletesByPeriods.title',
+        code: 'distanceByAthletesByPeriods',
         context: [],
         description: 'distanceByAthletesByPeriods.description',
         globalParams: false,
@@ -32,6 +37,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "name": "activityTypes",
                 "text": "activityTypes",
                 "model": null //все
+            },
+            activityCategories: {
+                type: 'checkbox',
+                area: 'params',
+                name: 'activityTypes',
+                text: 'activityTypes',
+                model: null
+
             },
             "periods": {
                 "type": "date",
@@ -119,11 +132,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": false,
                 "idx" : 0,
                 "measureSource" : "activity.startDate",
-                "measureName" : "Weeks",
+                "measureName" : "Months",
                 "dataType": "date",
                 "dateFormat": "DD.MM",
                 "valueType" : "value",
-                "seriesDateTrunc" : "week",
+                "seriesDateTrunc" : "month",
                 "groupByIntervalLength" : 1
             },
                 {
@@ -178,12 +191,13 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 2,
         active: true,
+        revision: 1,
         auth: ["CoachDashboard"],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'durationByAthletesByPeriods.title',
+        code: 'durationByAthletesByPeriods',
         context: [],
         description: 'durationByAthletesByPeriods.description',
-        globalParams: true,
+        globalParams: false,
         localParams: {
             "users": {
                 "type": "checkbox",
@@ -199,6 +213,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "name": "activityTypes",
                 "text": "activityTypes",
                 "model": null //все
+            },
+            activityCategories: {
+                type: 'checkbox',
+                area: 'params',
+                name: 'activityTypes',
+                text: 'activityTypes',
+                model: null
+
             },
             "periods": {
                 "type": "date",
@@ -290,7 +312,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "date",
                 "dateFormat": "DD.MM",
                 "valueType" : "value",
-                "seriesDateTrunc" : "week",
+                "seriesDateTrunc" : "month",
                 "groupByIntervalLength" : 1
             },
                 {
@@ -350,14 +372,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 3,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'actualMovingDuration.title',
+        code: 'actualMovingDuration',
         context: [{
             ind: 0,
             idx: 1,
             area: 'measures',
-            param: 'measureName'
+            param: 'cumulative'
+        },{
+            ind: 0,
+            idx: 0,
+            area: 'series',
+            param: 'seriesDateTrunc'
         }],
         description: 'actualMovingDuration.description',
         globalParams: true,
@@ -394,10 +422,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 options: [false,true],
                 change: {
                     'false': {
-                        cumulative: false
+                        cumulative: false,
+                        chartType: 'bar',
+                        fillType: 'gradient',
+                        lineWidth: 0,
+                        avgValueLine: true
                     },
                     'true': {
-                        cumulative: true
+                        cumulative: true,
+                        chartType: 'area',
+                        fillType: 'gradient',
+                        lineWidth: 3,
+                        avgValueLine: false
                     }
                 }
             }
@@ -434,8 +470,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 currentPositionLine: true,
                 idx: 0,
                 measureSource: "activity.startDate",
-                seriesDateTrunc: 'week',
-                measureName: "Weeks",
+                seriesDateTrunc: 'month',
+                measureName: "Months",
                 dataType: "date",
                 dateFormat: "DD.MM",
                 valueType: "value",
@@ -444,7 +480,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             measures : [{
                 label: "Время",
                 unit: "ч",
-                chartType: 'area',
+                chartType: 'bar',
                 stacked: false,
                 cumulative: false,
                 smoothSettings: 'curveCardinal',
@@ -455,20 +491,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 avgValueLine: true,
                 scaleVisible: true,
                 calculateTotals: "",
-                lineColor: "#FF5722", // deep-orange-500
+                lineColor: "#607D8B", // deep-orange-300
                 lineStyle: "solid",
-                lineWidth: 2,
+                lineWidth: 0,
                 fillType: "gradient",
-                fillColor: "",
+                fillColor: "#CFD8DC", // deep-orange-200
                 gradient: [{
                     offset: "0%",
-                    color: "rgba(251, 233, 231, 1)" // deep-orange-50
+                    color: "#CFD8DC", // deep-orange-50
+                    opacity: 0.2
                 }, {
                     offset: "100%",
-                    color: "rgba(255, 138, 101, 1)" // deep-orange-300
+                    color: "#607D8B", // deep-orange-300
+                    opacity: 0.6
                 }],
-                markerColor: "#FF5722", // deep-orange-500
-                avgValueLineColor: "#37474F", //
+                markerColor: "#455A64", // deep-orange-300
+                avgValueLineColor: "#455A64", //
                 avgValueLineStyle: "dashed",
                 idx: 1,
                 measureSource: "activity.actual.measure",
@@ -477,7 +515,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 dateFormat: "",
                 valueType: "value",
                 aggMethod: "sum"
-            },{
+            }/**,{
                 "id": "TL",
                 "label": "TL",
                 "unit": "",
@@ -546,7 +584,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "valueType": "value",
                 "aggMethod": "avg",
                 "reverse": false
-            }]
+            }*/]
         }]
     },
     /**
@@ -560,10 +598,21 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 4,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'actualDistance.title',
-        context: [],
+        code: 'actualDistance',
+        context: [{
+            ind: 0,
+            idx: 1,
+            area: 'measures',
+            param: 'cumulative'
+        },{
+            ind: 0,
+            idx: 0,
+            area: 'series',
+            param: 'seriesDateTrunc'
+        }],
         description: 'actualDistance.description',
         globalParams: true,
         settings: [
@@ -595,14 +644,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 area: 'measures',
                 name: 'cumulative',
                 text: 'cumulative',
-                model: false,
+                model: true,
                 options: [false,true],
                 change: {
                     'false': {
-                        cumulative: false
+                        cumulative: false,
+                        chartType: 'bar',
+                        fillType: 'gradient',
+                        lineWidth: 0,
+                        avgValueLine: true
                     },
                     'true': {
-                        cumulative: true
+                        cumulative: true,
+                        chartType: 'area',
+                        fillType: 'gradient',
+                        lineWidth: 3,
+                        avgValueLine: false
                     }
                 }
             }
@@ -639,8 +696,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 currentPositionLine: true,
                 idx: 0,
                 measureSource: "activity.startDate",
-                seriesDateTrunc: 'week',
-                measureName: "Weeks",
+                seriesDateTrunc: 'month',
+                measureName: "Months",
                 dataType: "date",
                 dateFormat: "DD.MM",
                 valueType: "value",
@@ -652,30 +709,30 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 chartType: "area",
                 smoothSettings: 'curveCardinal',
                 stacked: false,
-                cumulative: false,
+                cumulative: true,
                 tooltipType: "icon",
                 minValue: 0,
                 legend: false,
                 visible: true,
-                avgValueLine: true,
+                avgValueLine: false,
                 scaleVisible: true,
                 calculateTotals: "",
-                lineColor: "#607D8B", // blue-grey-500
+                lineColor: "#607D8B", // deep-orange-300
                 lineStyle: "solid",
                 lineWidth: 2,
                 fillType: "gradient",
-                fillColor: "",
+                fillColor: "#CFD8DC", // deep-orange-200
                 gradient: [{
                     offset: "0%",
-                    color: "#CFD8DC", //  blue-grey-100
+                    color: "#CFD8DC", // deep-orange-50
                     opacity: 0.2
                 }, {
                     offset: "100%",
-                    color: "#607D8B", // blue-grey-500
+                    color: "#607D8B", // deep-orange-300
                     opacity: 0.6
                 }],
-                markerColor: "#607D8B", // blue-grey-500
-                avgValueLineColor: "#607D8B", // blue-grey-800
+                markerColor: "#455A64", // deep-orange-300
+                avgValueLineColor: "#455A64", //
                 avgValueLineStyle: "dashed",
                 idx: 1,
                 measureSource: "activity.actual.measure",
@@ -684,7 +741,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 dateFormat: "",
                 valueType: "value",
                 aggMethod: "sum"
-            },{
+            }/*,{
                 "id": "TL",
                 "label": "TL",
                 "unit": "",
@@ -753,7 +810,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "valueType": "value",
                 "aggMethod": "avg",
                 "reverse": false
-            }
+            }*/
 
 
             ]
@@ -765,10 +822,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 5,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'activityMeasuresSelected.title',
-        context: [],
+        code: 'activityMeasuresSelected',
+        context: [{
+                ind: 0,
+                idx: 0,
+                area: 'series',
+                param: 'seriesDateTrunc'
+            },
+            {
+                ind: 0,
+                idx: 1,
+                area: 'measures',
+                param: 'measureName'
+            }],
         description: 'activityMeasuresSelected.description',
         globalParams: false,
         localParams: {
@@ -785,12 +854,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "area": "params",
                 "name": "activityTypes",
                 "text": "activityTypes",
-                "model": [
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6"]
+                "model": [2, 3, 4, 5, 6]
+            },
+            activityCategories: {
+                type: "checkbox",
+                area: 'params',
+                name: 'activityCategories',
+                text: 'activityCategories',
+                model: []
             },
             "periods": {
                 "type": "date",
@@ -835,7 +906,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                  area: 'measures',
                  name: 'measureName',
                  text: 'volume',
-                 model: 'distance',
+                 model: 'duration',
                  options: ['duration','distance'],
                  change: {
                     duration: {
@@ -850,6 +921,26 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     }
                  }
             },
+            {
+                ind: [0],
+                idx: [2,3,4],
+                type: 'checkbox',
+                area: 'measures',
+                text: 'measures',
+                multiTextParam: 'label',
+                model: [true,true,true],
+                options: [true, false],
+                change: {
+                    'false': {
+                        visible: false,
+                        legend: false
+                    },
+                    'true': {
+                        visible: true,
+                        legend: true
+                    }
+                }
+            },/*
             {
                 ind: [0],
                 idx: [2,3,4,5,6],
@@ -869,7 +960,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                         legend: true
                     }
                 }
-            },
+            },*/
             {
                 ind: [0],
                 idx: [3],
@@ -878,7 +969,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 name: 'unit',
                 text: 'paceSpeedUnit',
                 model: 'мин/км',
-                options: ['мин/км', 'км/ч'],
+                options: ['мин/км', 'км/ч', 'мин/100м'],
                 change: {
                     'мин/км': {
                         unit: 'мин/км',
@@ -886,12 +977,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                         dateFormat: "mm:ss",
                         reverse: true
                     },
-                    'true': {
+                    'км/ч': {
                         unit: 'км/ч',
                         dataType: "number",
                         dateFormat: "",
                         reverse: false
-                    }
+                    },
+                    'мин/100м': {
+                        unit: 'мин/100м',
+                        dataType: "time",
+                        dateFormat: "mm:ss",
+                        reverse: true
+                    },
                 }
             }
         ],
@@ -936,8 +1033,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }],
             measures: [
                 {
-                    "label": "Расстояние",
-                    "unit": "км",
+                    "label": "Время",
+                    "unit": "ч",
                     chartType: "area",
                     //"stacked": false,
                     "cumulative": false,
@@ -966,7 +1063,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     //"avgValueLineStyle": "dashed",
                     "idx": 1,
                     "measureSource": "activity.actual.measure",
-                    "measureName": "distance",
+                    "measureName": "duration",
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType": "value",
@@ -978,7 +1075,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "unit": "уд/м",
                     "chartType": "area",
                     "stacked": null,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -1013,7 +1110,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     chartType: "area",
                     "stacked": null,
                     "cumulative": false,
-                    smoothSettings: "curveBasis",
+                    smoothSettings: "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -1049,11 +1146,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 {
                     "id": "speedDecoupling",
                     "label": "Темп:ЧСС",
-                    "unit": "",
+                    "unit": "%",
                     "chartType": "line",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -1075,7 +1172,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType": "value",
                     "aggMethod": "avg"
-                },
+                }/*,
                 {
                     "id": "power",
                     "label": "Мощность",
@@ -1083,7 +1180,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
@@ -1114,18 +1211,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType": "avgValue",
                     "aggMethod": "avg"
-                },
+                }*//*,
                 {
                     "id": "powerDecoupling",
                     "label": "Мощность:ЧСС",
-                    "unit": "",
+                    "unit": "%",
                     "chartType": "line",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveBasis",
+                    "smoothSettings": "curveCatmullRom",
                     "tooltipType": "color",
-                    "legend": true,
-                    "visible": true,
+                    "legend": false,
+                    "visible": false,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
@@ -1144,7 +1241,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType": "value",
                     "aggMethod": "avg"
-                }
+                }*/
             ]
         }]
     },
@@ -1154,10 +1251,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 6,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'activityMeasuresTL.title',
-        context: [],
+        code: 'activityMeasuresTL',
+        context: [{
+            ind: 0,
+            idx: 0,
+            area: 'series',
+            param: 'seriesDateTrunc'
+        }],
         description: 'activityMeasuresTL.description',
         globalParams: true,
         settings: [
@@ -1219,7 +1322,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "date",
                 "dateFormat": "DD.MM",
                 "valueType": "value",
-                "seriesDateTrunc": "week",
+                "seriesDateTrunc": "month",
                 "groupByIntervalLength": 1
             }],
             measures: [
@@ -1227,7 +1330,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "TL",
                     "label": "TL",
                     "unit": "",
-                    chartType: "area",
+                    chartType: "bar",
                     "stacked": false,
                     "cumulative": false,
                     smoothSettings: "curveBasis",
@@ -1241,7 +1344,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "calculateTotals": "",
                     lineColor: "#673AB7", //  deep-purple-500
                     lineStyle: "solid",
-                    lineWidth: 2,
+                    lineWidth: 0,
                     fillType: "gradient",
                     fillColor: "",
                     gradient: [{
@@ -1304,10 +1407,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 7,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'timeInZonesHR.title',
-        context: [],
+        code: 'timeInZonesHR',
+        context: [{
+            ind: 0,
+            idx: 0,
+            area: 'series',
+            param: 'seriesDateTrunc'
+        }],
         description: 'timeInZonesHR.description',
         globalParams: true,
         settings: [
@@ -1347,12 +1456,13 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "type": "row"
                 },
                 "tooltip": {
-                    "combined": true
+                    "combined": false
                 },
                 "currentPositionLine": {
                     "enabled": true,
                     "color": "rgba(0,0,0,0.5)"
-                }
+                },
+                "palette": paletteBpm
             },
             series : [
                 {
@@ -1376,7 +1486,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Зоны пульса",
                     "unit" : "",
                     "xAxis" : true,
-                    "tooltipType" : "none",
+                    "tooltipType" : "label",
                     "tooltipLabel" : "Зона",
                     "legend": false,
                     "colorPalette": false,
@@ -1393,14 +1503,16 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 }],
             measures : [{
                 "label" : "Время в зонах",
-                "unit" : "",
+                "unit" : "ч",
                 "chartType" : "bar",
                 "stacked" : true,
                 "cumulative": false,
                 "smoothSettings" : "null",
-                "tooltipType" : "color",
+                "tooltipType" : "label",
+                "tooltipLabel": "Время",
                 "minValue" : 0,
                 "legend": false,
+                "colorPalette": true,
                 "visible" : true,
                 "scaleVisible": true,
                 "calculateTotals": "",
@@ -1416,8 +1528,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
                 "measureName" : "heartRateMPM",
-                "dataType": "time",
-                "dateFormat": "HH:mm",
+                "dataType": "number",
+                "dateFormat": "",
                 "valueType" : "timeInZone",
                 "aggMethod" : "sum"
             }]
@@ -1429,11 +1541,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 8,
+        revision: 1,
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'timeInZonesSpeed.title',
+        code: 'timeInZonesSpeed',
         description: 'timeInZonesSpeed.description',
+        context: [{
+            ind: 0,
+            idx: 0,
+            area: 'series',
+            param: 'seriesDateTrunc'
+        }],
         globalParams: true,
         settings: [
             {
@@ -1472,12 +1591,13 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "type": "row"
                 },
                 "tooltip": {
-                    "combined": true
+                    "combined": false
                 },
                 "currentPositionLine": {
                     "enabled": true,
                     "color": "rgba(0,0,0,0.5)"
-                }
+                },
+                "palette": palettePace
             },
             series : [
                 {
@@ -1501,11 +1621,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Зоны",
                     "unit" : "",
                     "xAxis" : true,
-                    "tooltipType" : "none",
+                    "tooltipType" : "label",
                     "tooltipLabel" : "Зона",
                     "legend": false,
                     "currentPositionLine": true,
                     "idx" : 1,
+                    colorPalette: false,
                     "measureSource": "activity.owner.zones",
                     fillColor: "#1976D2", //blue-700
                     "measureName" : "speed",
@@ -1517,13 +1638,15 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 }],
             measures : [{
                 "label" : "Время в зонах",
-                "unit" : "",
+                "unit" : "ч",
                 "chartType" : "bar",
                 "stacked" : true,
                 "cumulative": false,
                 "smoothSettings" : "null",
-                "tooltipType" : "color",
+                "tooltipType" : "label",
+                "tooltipLabel": "Время",
                 "minValue" : 0,
+                "colorPalette": true,
                 "legend": false,
                 "visible" : true,
                 "scaleVisible": true,
@@ -1540,8 +1663,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
                 "measureName" : "speedMPM",
-                "dataType": "time",
-                "dateFormat": "HH:mm",
+                "dataType": "number",
+                "dateFormat": "",
                 "valueType" : "timeInZone",
                 "aggMethod" : "sum"
             }]
@@ -1553,11 +1676,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 9,
+        revision: 1,
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'timeInZonesPower.title',
+        code: 'timeInZonesPower',
         description: 'timeInZonesPower.description',
+        context: [{
+            ind: 0,
+            idx: 0,
+            area: 'series',
+            param: 'seriesDateTrunc'
+        }],
         globalParams: true,
         settings: [
             {
@@ -1596,12 +1726,13 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "type": "row"
                 },
                 "tooltip": {
-                    "combined": true
+                    "combined": false
                 },
                 "currentPositionLine": {
                     "enabled": true,
                     "color": "rgba(0,0,0,0.5)"
-                }
+                },
+                "palette": palettePower
             },
             series : [
                 {
@@ -1625,11 +1756,12 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "label" : "Зоны мощности",
                     "unit" : "",
                     "xAxis" : true,
-                    "tooltipType" : "none",
+                    "tooltipType" : "label",
                     "tooltipLabel" : "Зона",
                     "legend": false,
                     "currentPositionLine": true,
                     "idx" : 1,
+                    colorPalette: false,
                     "measureSource": "activity.owner.zones",
                     fillColor: "#7B1FA2", //purple-700
                     "measureName" : "power",
@@ -1646,12 +1778,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "stacked" : true,
                 "cumulative": false,
                 "smoothSettings" : "null",
-                "tooltipType" : "color",
+                "tooltipType" : "label",
+                "tooltipLabel": "Время",
                 "minValue" : 0,
                 "legend": false,
                 "visible" : true,
                 "scaleVisible": true,
                 "calculateTotals": "",
+                "colorPalette": true,
                 lineColor: "",
                 lineStyle: "none",
                 lineWidth: 0,
@@ -1664,8 +1798,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
                 "measureName" : "powerMPM",
-                "dataType": "time",
-                "dateFormat": "HH:mm:ss",
+                "dataType": "number",
+                "dateFormat": "",
                 "valueType" : "timeInZone",
                 "aggMethod" : "sum"
             }]
@@ -1678,9 +1812,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 10,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'HRTimePeaks.title',
+        code: 'HRTimePeaks',
         description: 'HRTimePeaks.description',
         globalParams: true,
         settings: [
@@ -1755,10 +1890,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 11,
+        revision: 1,
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'PaceTimePeaks.title',
+        code: 'PaceTimePeaks',
         description: 'PaceTimePeaks.description',
         globalParams: true,
         settings: [
@@ -1865,10 +2001,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
      */
     {
         order: 12,
+        revision: 1,
         active: false,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'PowerTimePeaks.title',
+        code: 'PowerTimePeaks',
         description: 'PowerTimePeaks.description',
         globalParams: true,
         settings: [
@@ -1945,10 +2082,25 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 13,
         active: false,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'DistanceByActivityTypeByPeriods.title',
+        code: 'DistanceByActivityTypeByPeriods',
         description: 'DistanceByActivityTypeByPeriods.description',
+        context: [
+            {
+                ind: 0,
+                idx: 0,
+                area: 'series',
+                param: 'seriesDateTrunc'
+            },
+            {
+                ind: 0,
+                idx: 2,
+                area: 'measures',
+                param: 'measureName'
+            },
+        ],
         globalParams: true,
         settings: [
              {
@@ -1991,24 +2143,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                         seriesDateTrunc: 'month'
                     }
                 }
-            },
-            {
-                ind: [0],
-                idx: [2],
-                type: 'radio',
-                area: 'measures',
-                name: 'cumulative',
-                text: 'cumulative',
-                model: false,
-                options: [false,true],
-                change: {
-                    'false': {
-                        cumulative: false
-                    },
-                    'true': {
-                        cumulative: true
-                    }
-                }
             }
         ],
         layout: new AnalyticsChartLayout(1, 1),
@@ -2032,7 +2166,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "color": "rgba(0,0,0,0.5)"
 
                 },
-                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+                "palette": paletteSports
             },
             series : [{
                     "label" : "Период",
@@ -2063,7 +2197,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "idx" : 1,
                     "fillColor": "#449999",
                     "measureSource": "activityTypeBasic",
-                    "measureName" : "",
+                    "measureName" : "activityType",
                     "dataType": "string",
                     "dateFormat": "",
                     "valueType" : "value",
@@ -2072,8 +2206,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
 
                 ],
             measures : [{
-                "label" : "Расстояние",
-                "unit" : "км",
+                "label" : "Время",
+                "unit" : "ч",
                 "chartType" : "bar",
                 "stacked" : true,
                 "cumulative": false,
@@ -2089,7 +2223,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "colorPalette": true,
                 "idx" : 2,
                 "measureSource" : "activity.actual.measure",
-                "measureName" : "distance",
+                "measureName" : "duration",
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType" : "value",
@@ -2099,15 +2233,24 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         }]
     },
     /**
-     14.Расстояние по видам спорта (piechart)
+     14.Объемы по видам спорта (piechart)
      */
     {
         order: 14,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'DistanceByActivityTypes.title',
+        code: 'DistanceByActivityTypes',
         description: 'DistanceByActivityTypes.description',
+        context: [
+            {
+                ind: 0,
+                idx: 1,
+                area: 'measures',
+                param: 'measureName'
+            }
+        ],
         globalParams: true,
         settings: [
             {
@@ -2144,7 +2287,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "horizontal-align": "center",
                     "type": "row"
                 },
-                "palette": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]
+                "palette": paletteSports
             },
             series: [
                 {
@@ -2159,7 +2302,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "idx" : 0,
                     "fillColor": "#449999",
                     "measureSource": "activityTypeBasic",
-                    "measureName" : "",
+                    "measureName" : "activityType",
                     "dataType": "string",
                     "dateFormat": "",
                     "valueType" : "value",
@@ -2168,8 +2311,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 ],
             measures: [
                 {
-                    "label" : "Расстояние",
-                    "unit" : "км",
+                    "label" : "Время",
+                    "unit" : "ч",
                     "chartType" : "donut",
                     "stacked" : false,
                     "cumulative": false,
@@ -2185,7 +2328,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "colorPalette": true,
                     "idx" : 1,
                     "measureSource" : "activity.actual.measure",
-                    "measureName" : "distance",
+                    "measureName" : "duration",
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType" : "value",
@@ -2199,9 +2342,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 15,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'measurementsByPeriods.title',
+        code: 'measurementsByPeriods',
         context: [],
         description: 'measurementsByPeriods.description',
         globalParams: true,
@@ -2269,19 +2413,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "pulse",
                     "label": "Пульс покоя",
                     "unit": "уд/м",
-                    "chartType": "dot",
+                    "chartType": "area",
                     "stacked": null,
-                    "smoothSettings": "curveMonotoneX",
+                    "cumulative": false,
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
-                    "lineColor": "lightblue",
-                    "lineStyle": "solid",
-                    "lineWidth": 2,
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "rgba(153, 190, 201, 1)",
+                    "scaleVisible": true,
+                    "calculateTotals": "",
+                    lineColor: "#00838F", // 800
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#B2EBF2", //   100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#00ACC1", //  600
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#00838F", // 800
                     "idx": 1,
                     'measureSource': "measurement",
                     'measureName': "generalMeasures",
@@ -2294,21 +2450,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "weight",
                     "label": "Вес",
                     "unit": "кг",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#FF9999",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#FF9999",
+                    lineColor: "#C62828", // red-600
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#FFCDD2", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#E53935", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#C62828", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 2,
@@ -2323,21 +2489,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "muscleMass",
                     "label": "Мышечная масса",
                     "unit": "кг",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
-                    "visible": true,
+                    "visible": false,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#e3ef83",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#e3ef83",
+                    lineColor: "#00695C", // red-600
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#B2DFDB", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#00897B", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#00695C", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 3,
@@ -2352,21 +2528,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "percentFat",
                     "label": "Процент жира",
                     "unit": "%",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
-                    "visible": true,
+                    "visible": false,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#b060a4",
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "",
-                    "markerColor": "#b060a4",
+                    lineColor: "#FF8F00", // red-600
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#FFECB3", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#FFB300", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#FF8F00", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 4,
@@ -2386,13 +2572,48 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 16,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'weightAndTotalVolume.title',
-        context: [],
+        code: 'weightAndTotalVolume',
+        context: [
+            {
+                ind: 0,
+                idx: 0,
+                area: 'series',
+                param: 'seriesDateTrunc'
+            },
+            {
+                ind: 0,
+                idx: 1,
+                area: 'measures',
+                param: 'measureName'
+            },
+        ],
         description: 'weightAndTotalVolume.description',
         globalParams: true,
         settings: [
+            {
+                ind: [0],
+                idx: [0],
+                type: 'radio',
+                area: 'series',
+                name: 'seriesDateTrunc',
+                text: 'seriesDateTrunc',
+                model: 'week',
+                options: ['day','week','month'],
+                change: {
+                    'day': {
+                        seriesDateTrunc: 'day'
+                    },
+                    'week': {
+                        seriesDateTrunc: 'week'
+                    },
+                    'month': {
+                        seriesDateTrunc: 'month'
+                    }
+                }
+            },
             {
                 ind: [0],
                 idx: [1],
@@ -2400,7 +2621,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 area: 'measures',
                 name: 'measureName',
                 text: 'volume',
-                model: 'distance',
+                model: 'duration',
                 options: ['duration','distance'],
                 change: {
                     duration: {
@@ -2410,44 +2631,6 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     distance: {
                         measureName: 'distance',
                         unit: 'км'
-                    }
-                }
-            },
-            {
-                ind: [0],
-                idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'smoothSettings',
-                text: 'volume',
-                model: 'curveBasis',
-                options: ['curveLinear', 'curveStep', 'curveStepBefore', 'curveStepAfter', 'curveBasis', 'curveCardinal', 'curveMonotoneX', 'curveCatmullRom'],
-                change: {
-                    curveLinear: { smoothSettings: 'curveLinear'},
-                    curveStep: { smoothSettings: 'curveStep'},
-                    curveStepBefore: { smoothSettings: 'curveStepBefore'},
-                    curveStepAfter: { smoothSettings: 'curveStepAfter'},
-                    curveBasis: { smoothSettings: 'curveBasis'},
-                    curveCardinal: { smoothSettings: 'curveCardinal'},
-                    curveMonotoneX: { smoothSettings: 'curveMonotoneX'},
-                    curveCatmullRom: { smoothSettings: 'curveCatmullRom'}
-                }
-            },
-            {
-                ind: [0],
-                idx: [2],
-                type: 'checkbox',
-                area: 'measures',
-                text: 'measures',
-                multiTextParam: 'label',
-                model: [true],
-                options: [true, false],
-                change: {
-                    'false': {
-                        visible: false
-                    },
-                    'true': {
-                        visible: true
                     }
                 }
             }
@@ -2493,37 +2676,37 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }],
             measures: [
                 {
-                    "label" : "Расстояние",
-                    "unit" : "км",
-                    chartType: "area",
+                    "label" : "Время",
+                    "unit" : "ч",
+                    chartType: "bar",
                     smoothSettings: 'curveBasis',
                     "stacked" : false,
                     "cumulative": false,
                     "tooltipType" : "icon",
                     "minValue" : 0,
-                    "legend": false,
+                    "legend": true,
                     "visible" : true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    lineColor: "#455A64", // blue-grey-500
+                    lineColor: "#607D8B", // deep-orange-300
                     lineStyle: "solid",
-                    lineWidth: 2,
+                    lineWidth: 0,
                     fillType: "gradient",
-                    fillColor: "",
+                    fillColor: "#CFD8DC", // deep-orange-200
                     gradient: [{
                         offset: "0%",
-                        color: "#CFD8DC", //  blue-grey-100
+                        color: "#CFD8DC", // deep-orange-50
                         opacity: 0.2
                     }, {
                         offset: "100%",
-                        color: "#455A64", // blue-grey-500
-                        opacity: 0.8
+                        color: "#607D8B", // deep-orange-300
+                        opacity: 0.6
                     }],
-                    markerColor: "#455A64", // blue-grey-500
+                    markerColor: "#455A64", // deep-orange-300
                     "idx" : 1,
                     "measureSource" : "activity.actual.measure",
-                    "measureName" : "distance",
+                    "measureName" : "duration",
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType" : "value",
@@ -2533,21 +2716,31 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "id": "weight",
                     "label": "Вес",
                     "unit": "кг",
-                    "chartType": "line",
+                    "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
-                    "smoothSettings": "curveMonotoneX",
+                    "smoothSettings": "curveBasis",
                     "tooltipType": "color",
                     "legend": true,
                     "visible": true,
                     "avgValueLine": false,
                     "scaleVisible": true,
                     "calculateTotals": "",
-                    "lineColor": "#E53935", // red-600
-                    "lineStyle": "solid",
-                    "fillType": "none",
-                    "fillColor": "none",
-                    "markerColor": "#E53935", // red-600
+                    lineColor: "#C62828", // red-600
+                    lineStyle: "dashed",
+                    lineWidth: 3,
+                    fillType: "gradient",
+                    fillColor: "#FF5722",
+                    gradient: [{
+                        offset: "0%",
+                        color: "#FFCDD2", //   blue-grey-100
+                        opacity: 0.0
+                    }, {
+                        offset: "100%",
+                        color: "#E53935", //  blue-grey-500
+                        opacity: 0.2
+                    }],
+                    "markerColor": "#C62828", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 2,
@@ -2567,10 +2760,24 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
     {
         order: 17,
         active: true,
+        revision: 1,
         auth: [],
         icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        title: 'completePercent.title',
-        context: [],
+        code: 'completePercent',
+        context: [
+            {
+                ind: 0,
+                idx: 0,
+                area: 'series',
+                param: 'seriesDateTrunc'
+            },
+            {
+                ind: 0,
+                idx: 1,
+                area: 'measures',
+                param: 'measureName'
+            },
+        ],
         description: 'completePercent.description',
         globalParams: true,
         settings: [
@@ -2597,7 +2804,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             },
             {
                 ind: [0],
-                idx: [2],
+                idx: [1],
                 type: 'radio',
                 area: 'measures',
                 name: 'measureName',
@@ -2648,7 +2855,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "currentPositionLine": true,
                 "idx": 0,
                 "measureSource": "activity.startDate",
-                "measureName": "Days",
+                "measureName": "Weeks",
                 "dataType": "date",
                 "dateFormat": "DD.MM",
                 "valueType": "value",
@@ -2657,14 +2864,51 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             }],
             measures: [
                 {
-                    label: "Процент выполнения",
-                    unit: "",
-                    chartType: "dot",
+                    label: "Время",
+                    unit: "ч",
+                    chartType: "bar",
                     smoothSettings: 'curveBasis',
                     stacked: false,
                     cumulative: false,
                     tooltipType: "icon",
-                    //minValue: 0,
+                    minValue: 0,
+                    legend: true,
+                    visible: true,
+                    avgValueLine: false,
+                    scaleVisible: true,
+                    calculateTotals: "",
+                    lineColor: "#607D8B", // deep-orange-300
+                    lineStyle: "solid",
+                    lineWidth: 0,
+                    fillType: "gradient",
+                    fillColor: "#CFD8DC", // deep-orange-200
+                    gradient: [{
+                        offset: "0%",
+                        color: "#CFD8DC", // deep-orange-50
+                        opacity: 0.2
+                    }, {
+                        offset: "100%",
+                        color: "#607D8B", // deep-orange-300
+                        opacity: 0.6
+                    }],
+                    markerColor: "#455A64", // deep-orange-300
+                    idx : 1,
+                    measureSource : "activity.actual.measure",
+                    measureName: "duration",
+                    dataType: "number",
+                    dateFormat: "",
+                    valueType : "value",
+                    aggMethod : "sum"
+                },
+                {
+                    label: "Процент выполнения",
+                    unit: "",
+                    chartType: "area",
+                    smoothSettings: 'curveStep',
+                    stacked: false,
+                    cumulative: false,
+                    tooltipType: "icon",
+                    minValue: 0,
                     legend: true,
                     visible: true,
                     avgValueLine: true,
@@ -2682,57 +2926,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     }, {
                         offset: "100%",
                         color: "#FF5722", //  blue-grey-500
-                        opacity: 0.2
+                        opacity: 0.1
                     }],
                     markerColor: "#FF5722", //  blue-grey-500
                     avgValueLineColor: "#FF5722", //  blue-grey-500
                     avgValueLineStyle: "dashed",
-                    idx : 1,
+                    idx : 2,
                     measureSource : "activity.plan.measure",
                     measureName : "completePercent",
                     dataType: "value",
                     dateFormat: "",
                     valueType : "value",
                     aggMethod : "avg"
-                },
-                {
-                    label: "Расстояние",
-                    unit: "км",
-                    chartType: "area",
-                    smoothSettings: 'curveBasis',
-                    stacked: false,
-                    cumulative: false,
-                    tooltipType: "icon",
-                    minValue: 0,
-                    legend: true,
-                    visible: true,
-                    avgValueLine: false,
-                    scaleVisible: true,
-                    calculateTotals: "",
-                    lineColor: "#455A64", // blue-grey-500
-                    lineStyle: "solid",
-                    lineWidth: 3,
-                    fillType: "gradient",
-                    fillColor: "",
-                    gradient: [{
-                        offset: "0%",
-                        color: "#CFD8DC", //  deep-purple-100
-                        opacity: 0.2
-                    }, {
-                        offset: "100%",
-                        color: "#455A64", // deep-purple-500
-                        opacity: 0.8
-                    }],
-                    markerColor: "#455A64", // blue-grey-500
-                    idx : 2,
-                    measureSource : "activity.actual.measure",
-                    measureName: "distance",
-                    dataType: "number",
-                    dateFormat: "",
-                    valueType : "value",
-                    aggMethod : "sum"
                 }
             ]
         }]
-    },
+    }
  ];

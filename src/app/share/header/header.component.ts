@@ -24,7 +24,7 @@ class HeaderCtrl implements IComponentController {
 	private profile$: Observable<IUserProfile>;
 	private internet$: Observable<boolean>;
 	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
-	private readonly athleteSelectorStates: Array<string> = ['calendar','settings/user'];
+	private readonly athleteSelectorStates: Array<string> = ['calendar','calendar-my','settings/user'];
 	private openChat: ChatSession;
 	private internetStatus: boolean = true;
 	private destroy: Subject<any> = new Subject();
@@ -141,7 +141,8 @@ class HeaderCtrl implements IComponentController {
 	setAthlete(response: {user: IUserProfile}) {
 		//this.athlete = response.user;
 		console.log('setAthlete', this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
-		this.$state.go(this.$state.current.name , {uri: response.user.public.uri});
+		// костыли ((
+		this.$state.go(this.$state.current.name === 'calendar-my' ? 'calendar' : this.$state.current.name , {uri: response.user.public.uri});
 	}
 
 	isEnableAthleteSelector() {

@@ -54,8 +54,8 @@ export default class NotificationService {
 
         this.comment.openChat$.subscribe(chat => this.openChat = chat); // следим за открытми чатами
 
-        this.resetNotifications();
-        this.socket.connections.subscribe(this.resetNotifications);
+        //this.resetNotifications();
+        this.socket.connections.subscribe(status => status && this.resetNotifications());
 
         this.socket.messages
         .filter(message => message.type === 'notification')

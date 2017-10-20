@@ -7,16 +7,33 @@ import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
 import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
 import {ActivityIntervals} from "../activity-datamodel/activity.intervals";
 import {FtpState} from "../components/assignment/assignment.component";
+import {getSegmentTemplates, getChanges} from "./activity-segments.constants";
+import {getFTP, getFtpBySport} from "../../core/user.function";
+import {IActivityInterval} from "../../../../api/activity/activity.interface";
+
+export enum SegmentChangeReason {
+    addInterval,
+    deleteInterval,
+    changeValue,
+    selectInterval,
+    keyInterval,
+    changeGroupCount
+}
 
 class ActivitySegmentsCtrl implements IComponentController {
 
     public item: CalendarItemActivityCtrl;
     public onEvent: (response: Object) => IPromise<void>;
 
+    public viewPlan: boolean = true;
+    public viewActual: boolean = false;
+    public viewGroup: boolean = true;
+
     private durationMeasure: string = 'movingDuration';
     private intensityMeasure: string = 'heartRate';
     private intervals: ActivityIntervals;
     private select: Array<number> = [];
+    private scenario: any = getSegmentTemplates();
 
     public ftpMode: number;
 
@@ -26,274 +43,52 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     }
 
-    $onInit() {
-
-        this.intervals = this.item.activity.intervals;
-
-        // Добавляем интервалы для теста
-        let interval: ActivityIntervalP;
-        let group: ActivityIntervalG;
-
-        /**group = <ActivityIntervalG>ActivityIntervalFactory('G');
-        group.repeatCount = 3;
-        this.item.activity.intervals.add([group]);
-
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 2000,
-            movingDurationLength: 540,
-            movingDurationApprox: true,
-            distanceLength: 1000,
-            distanceApprox: false,
-            intensityLevelFrom: 160,
-            intensityLevelTo: 165,
-            intensityByFtpFrom: 0.80,
-            intensityByFtpTo: 0.85,
-            parentGroup: group.code,
-            pos: 4,
-            repeatPos: 0
-        });
-        this.item.activity.intervals.add([interval]);
-
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'movingDuration',
-            intensityMeasure: 'heartRate',
-            durationValue: 120,
-            movingDurationLength: 120,
-            movingDurationApprox: false,
-            distanceLength: 300,
-            distanceApprox: true,
-            intensityLevelFrom: 140,
-            intensityLevelTo: 150,
-            intensityByFtpFrom: 0.70,
-            intensityByFtpTo: 0.75,
-            parentGroup: group.code,
-            pos: 5,
-            repeatPos: 0
-        });
-        this.item.activity.intervals.add([interval]);
-
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 2000,
-            movingDurationLength: 540,
-            movingDurationApprox: true,
-            distanceLength: 1000,
-            distanceApprox: false,
-            intensityLevelFrom: 160,
-            intensityLevelTo: 165,
-            intensityByFtpFrom: 0.80,
-            intensityByFtpTo: 0.85,
-            parentGroup: group.code,
-            pos: 6,
-            repeatPos: 1
-        });
-        this.item.activity.intervals.add([interval]);
-
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'movingDuration',
-            intensityMeasure: 'heartRate',
-            durationValue: 120,
-            movingDurationLength: 120,
-            movingDurationApprox: false,
-            distanceLength: 300,
-            distanceApprox: true,
-            intensityLevelFrom: 140,
-            intensityLevelTo: 150,
-            intensityByFtpFrom: 0.70,
-            intensityByFtpTo: 0.75,
-            parentGroup: group.code,
-            pos: 7,
-            repeatPos: 1
-        });
-        this.item.activity.intervals.add([interval]);
-
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 2000,
-            movingDurationLength: 540,
-            movingDurationApprox: true,
-            distanceLength: 1000,
-            distanceApprox: false,
-            intensityLevelFrom: 160,
-            intensityLevelTo: 165,
-            intensityByFtpFrom: 0.80,
-            intensityByFtpTo: 0.85,
-            parentGroup: group.code,
-            pos: 8,
-            repeatPos: 2
-        });
-        this.item.activity.intervals.add([interval]);
-
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'movingDuration',
-            intensityMeasure: 'heartRate',
-            durationValue: 120,
-            movingDurationLength: 120,
-            movingDurationApprox: false,
-            distanceLength: 300,
-            distanceApprox: true,
-            intensityLevelFrom: 140,
-            intensityLevelTo: 150,
-            intensityByFtpFrom: 0.70,
-            intensityByFtpTo: 0.75,
-            parentGroup: group.code,
-            pos: 9,
-            repeatPos: 2
-        });
-        this.item.activity.intervals.add([interval]);
-
-        // Отдых после первой группы
-
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'movingDuration',
-            intensityMeasure: 'heartRate',
-            durationValue: 600,
-            movingDurationLength: 600,
-            movingDurationApprox: false,
-            distanceLength: 2000,
-            distanceApprox: true,
-            intensityLevelFrom: 140,
-            intensityLevelTo: 150,
-            intensityByFtpFrom: 0.60,
-            intensityByFtpTo: 0.65,
-            pos: 10
-        });
-        this.item.activity.intervals.add([interval]);
-
-        // Вторая группа с ускорения по 400 метров + 800 метров, через 400 метров отдыха x 2
-
-        group = <ActivityIntervalG>ActivityIntervalFactory('G');
-        group.repeatCount = 2;
-        this.item.activity.intervals.add([group]);
-
-        //400м
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 400,
-            movingDurationLength: 90,
-            movingDurationApprox: true,
-            distanceLength: 400,
-            distanceApprox: false,
-            intensityLevelFrom: 190,
-            intensityLevelTo: 190,
-            intensityByFtpFrom: 1.05,
-            intensityByFtpTo: 1.05,
-            parentGroup: group.code,
-            pos: 11,
-            repeatPos: 0
-        });
-        this.item.activity.intervals.add([interval]);
-
-        //800м
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 800,
-            movingDurationLength: 190,
-            movingDurationApprox: true,
-            distanceLength: 800,
-            distanceApprox: false,
-            intensityLevelFrom: 185,
-            intensityLevelTo: 185,
-            intensityByFtpFrom: 1.00,
-            intensityByFtpTo: 1.00,
-            parentGroup: group.code,
-            pos: 12,
-            repeatPos: 0
-        });
-        this.item.activity.intervals.add([interval]);
-
-        //400м отдыха
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 400,
-            movingDurationLength: 160,
-            movingDurationApprox: true,
-            distanceLength: 400,
-            distanceApprox: false,
-            intensityLevelFrom: 140,
-            intensityLevelTo: 150,
-            intensityByFtpFrom: 0.60,
-            intensityByFtpTo: 0.70,
-            parentGroup: group.code,
-            pos: 13,
-            repeatPos: 0
-        });
-        this.item.activity.intervals.add([interval]);
-
-        //400м
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 400,
-            movingDurationLength: 90,
-            movingDurationApprox: true,
-            distanceLength: 400,
-            distanceApprox: false,
-            intensityLevelFrom: 190,
-            intensityLevelTo: 190,
-            intensityByFtpFrom: 1.05,
-            intensityByFtpTo: 1.05,
-            parentGroup: group.code,
-            pos: 14,
-            repeatPos: 1
-        });
-        this.item.activity.intervals.add([interval]);
-
-        //800м
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 800,
-            movingDurationLength: 190,
-            movingDurationApprox: true,
-            distanceLength: 800,
-            distanceApprox: false,
-            intensityLevelFrom: 185,
-            intensityLevelTo: 185,
-            intensityByFtpFrom: 1.00,
-            intensityByFtpTo: 1.00,
-            parentGroup: group.code,
-            pos: 15,
-            repeatPos: 1
-        });
-        this.item.activity.intervals.add([interval]);
-
-        //400м отдыха
-        interval = <ActivityIntervalP>ActivityIntervalFactory('P', {
-            durationMeasure: 'distance',
-            intensityMeasure: 'heartRate',
-            durationValue: 400,
-            movingDurationLength: 160,
-            movingDurationApprox: true,
-            distanceLength: 400,
-            distanceApprox: false,
-            intensityLevelFrom: 140,
-            intensityLevelTo: 150,
-            intensityByFtpFrom: 0.60,
-            intensityByFtpTo: 0.70,
-            parentGroup: group.code,
-            pos: 16,
-            repeatPos: 1
-        });
-
-        this.item.activity.intervals.add([interval]);
-        this.intervals = this.item.activity.intervals.intervalP; **/
-
+    /**
+     *
+     */
+    private firstSelectPosition(): number {
+        return this.intervals.P.some(i => i.isSelected) && this.intervals.P.filter(i => i.isSelected)[0]['pos'] || null;
     }
 
+    $onInit() {
+        this.valid();
+        this.prepareIntervals();
+        //this.addInterval();
+    }
+
+    $onChanges():void {
+        this.prepareIntervals();
+    }
+
+    prepareIntervals(): void {
+        this.intervals = this.item.activity.intervals;
+    }
+
+    valid():void {
+        this.item.assignmentForm.$setValidity('needInterval', this.intervals.P.length > 0);
+    }
     /**
      * @description Обновление модели данных
      */
-    update() {
+    update(reason: SegmentChangeReason):void {
         this.intervals = this.item.activity.intervals;
-        this.item.changeStructuredAssignment ++;
+        this.valid();
+        this.item.assignmentForm.$setDirty();
+
+        switch(reason) {
+            case SegmentChangeReason.addInterval:
+            case SegmentChangeReason.deleteInterval:
+            case SegmentChangeReason.changeGroupCount:
+            case SegmentChangeReason.keyInterval: {
+                if(this.item.activity.completed) {
+                    this.item.calculateActivityRange(false);
+                }
+                this.intervals.PW.calculate(this.intervals.P);
+            }
+            default: { // selectInterval
+                this.item.changeStructuredAssignment ++;
+            }
+        }
     }
 
     onChartSelection(id: number){
@@ -305,29 +100,44 @@ class ActivitySegmentsCtrl implements IComponentController {
     /**
      *
      */
-    addInterval() {
-        let params = {
-            pos: this.intervals.lastPos() + 1,
-            durationMeasure: this.durationMeasure,
-            intensityMeasure: this.intensityMeasure,
-            durationValue: 30*60,
-            movingDurationLength: 30*60,
-            intensityLevelFrom: 150,
-            intensityLevelTo: 150,
-            intensityByFtpFrom: 0.70,
-            intensityByFtpTo: 0.70
-        };
+    addInterval(scenarioType: string = 'default') {
+        let sport: string = this.item.activity.sportBasic;
+        let ftp:{[measure: string] : number} = getFtpBySport(this.item.user.trainingZones, sport);
+        let interval: ActivityIntervalP;
+        let pos: number = null;
+        let scenario: any = getSegmentTemplates();
 
-        this.intervals.add([ActivityIntervalFactory('P', params)]);
-        this.intervals.PW.calculate(this.intervals.P);
-        this.update();
+        if(this.selectedInterval().length > 0) {
+            pos = this.firstSelectPosition() + 1;
+            this.intervals.reorganisation(pos, 1);
+        } else {
+            pos = this.intervals.lastPos() + 1;
+        }
+
+        scenario[sport][scenarioType].forEach(template => {
+            switch (template.type) {
+                case 'P': {
+                    interval = new ActivityIntervalP('P', Object.assign(template, {pos: pos++}));
+                    this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
+                    break;
+                }
+                case 'G': {
+                    this.intervals.add([new ActivityIntervalG('G', Object.assign(template, {fPos: pos}))]);
+                    break;
+                }
+            }
+        });
+
+        this.update(SegmentChangeReason.addInterval);
     }
 
     delete() {
-        this.intervals.P.filter(interval => interval.isSelected)
+        this.intervals.P.filter(interval =>
+            interval.isSelected &&
+            (!interval.hasOwnProperty('repeatPos') || interval.repeatPos === null || interval.repeatPos === 0))
             .map(interval => this.intervals.splice(interval.type, interval.pos));
-        this.intervals.PW.calculate(this.intervals.P);
-        this.update();
+
+        this.update(SegmentChangeReason.deleteInterval);
     }
 
     isKey():boolean {
@@ -346,21 +156,15 @@ class ActivitySegmentsCtrl implements IComponentController {
         } else if(this.selectedKeyInterval().length === 0 || this.selectedKeyInterval().length > 0){
             this.intervals.P.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = true);
         }
-        this.update();
-        //this.updatePW();
+       this.update(SegmentChangeReason.keyInterval);
     }
 
     selectedInterval():Array<any> {
-        return this.intervals.P.filter(interval => interval.isSelected);
+        return this.intervals.P.filter(interval => interval.isSelected) || [];
     }
 
     selectedKeyInterval():Array<any> {
         return this.intervals.P.filter(interval => interval.isSelected && interval.keyInterval);
-    }
-
-    updatePW(){
-        this.item.activity.calculateInterval('pW');
-        this.item.changeStructuredAssignment ++;
     }
 
     ftpModeChange(mode: FtpState) {
@@ -373,6 +177,8 @@ class ActivitySegmentsCtrl implements IComponentController {
 const ActivitySegmentsComponent:IComponentOptions = {
     bindings: {
         data: '<',
+        hasImport: '<',
+        change: '<',
         onEvent: '&'
     },
     require: {

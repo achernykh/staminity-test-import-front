@@ -7,6 +7,10 @@
         <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panelChange('settings')">
             <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
         </md-button>
+        <md-divider style="margin: 8px"></md-divider>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.analytics.saveSettings()">
+            <md-icon class="md-secondary md-dark material-icons">save</md-icon>
+        </md-button>
     </section>
     <section class="open-panel" ng-switch-default layout="column" layout-fill flex="auto">
         <md-toolbar flex="none" class="md-primary md-hue-2">
@@ -20,13 +24,10 @@
             </div>
         </md-toolbar>
         <md-content flex="auto" layout="column">
-            <md-tabs flex="auto" layout-fill class="md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
+            <md-tabs flex="auto" layout-fill class="md-primary md-hue-2"
                      md-stretch-tabs="always" ng-cloak>
-                <md-tab id="overview" flex="auto" layout="column">
-                    <md-tab-label>
-                        <!--<md-icon class="material-icons">filter_list</md-icon>-->
-                        <span translate="analytics.panel.filter"></span>
-                    </md-tab-label>
+                <md-tab id="filter" flex="auto" layout="column">
+                    <md-tab-label><span translate="analytics.panel.filter"></span></md-tab-label>
                     <md-tab-body layout="column" layout-fill>
                         <form flex="auto" name="$ctrl.filterForm" layout="column" layout-fill>
                             <md-list class="md-dense" flex="auto">
@@ -35,8 +36,8 @@
                                         <label translate="analytics.filter.users.placeholder"></label>
                                         <md-select flex="auto" name="sport" class="icon"
                                                    multiple="false"
-                                                   md-selected-text="$ctrl.usersSelectedText()"
-                                                   ng-model="$ctrl.filter.users.model"
+                                                   md-selected-text="$ctrl.filter.usersSelectedText()"
+                                                   ng-model="$ctrl.filter.users.model[0]"
                                                    ng-change="$ctrl.filter.changeParam('users')"
                                                    ng-disabled="!$ctrl.filter.users.options || $ctrl.filter.users.options.length <= 1">
                                             <md-option ng-repeat="user in $ctrl.filter.users.options track by user.userId"
@@ -54,7 +55,7 @@
                                                    class="icon"
                                                    type="number"
                                                    multiple="true"
-                                                   md-selected-text="$ctrl.activityTypesSelectedText()"
+                                                   md-selected-text="$ctrl.filter.activityTypesSelectedText()"
                                                    ng-model="$ctrl.filter.activityTypes.model"
                                                    ng-change="$ctrl.filter.changeParam('activityType')">
                                             <md-option ng-repeat="type in $ctrl.filter.activityTypes.options | filter:{enabled: true} track by type.id"
@@ -77,7 +78,7 @@
                                         <label translate="analytics.filter.activityCategories.placeholder"></label>
                                         <md-select
                                                 multiple="true"
-                                                md-selected-text="$ctrl.activityCategoriesSelectedText()"
+                                                md-selected-text="$ctrl.filter.activityCategoriesSelectedText()"
                                                 ng-model="$ctrl.filter.activityCategories.model"
                                                 ng-model-options="{ trackBy: '$value' }"
                                                 md-no-asterisk="false"
@@ -87,10 +88,10 @@
                                                 class="icon">
                                             <md-optgroup
                                                     ng-repeat="owner in ['user', 'coach', 'club', 'system']"
-                                                    ng-if="$ctrl.analytics.categoriesByOwner[owner].length"
+                                                    ng-if="$ctrl.filter.categoriesByOwner[owner].length"
                                                     label="{{ 'reference.categories.' + owner | translate }}">
                                                 <md-option
-                                                        ng-repeat="category in $ctrl.analytics.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.filter.activityTypes.model[0], visible: true}:true track by category.id"
+                                                        ng-repeat="category in $ctrl.filter.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.filter.activityTypes.model[0], visible: true}:true track by category.id"
                                                         ng-value="category.id">
                                                     {{ category | categoryCode }}
                                                 </md-option>
@@ -108,7 +109,7 @@
                                         <label translate="analytics.filter.periods.placeholder"></label>
                                         <md-select flex="auto" name="periods" class="icon"
                                                    multiple="false"
-                                                   md-selected-text="$ctrl.periodsSelectedText()"
+                                                   md-selected-text="$ctrl.filter.periodsSelectedText()"
                                                    ng-model="$ctrl.filter.periods.model"
                                                    ng-change="$ctrl.filter.changeParam('periods')">
                                             <md-option ng-repeat="type in $ctrl.filter.periods.options track by $index"
@@ -144,7 +145,7 @@
                                 </md-list-item>
                                 <md-divider style="margin: 16px 0px"></md-divider>
                                 <p class="md-caption md-dark hint-text" translate="analytics.settings.aboutStorage"></p>
-                                <md-list-item ng-click="$ctrl.analytics.saveSettings('charts');$ctrl.analytics.saveSettings('filter')">
+                                <md-list-item ng-click="$ctrl.analytics.saveSettings()">
                                     <p translate="analytics.settings.saveContext"></p>
                                     <md-icon class="md-secondary md-dark material-icons">save</md-icon>
 
@@ -161,7 +162,7 @@
                         </form>
                     </md-tab-body>
                 </md-tab>
-                <md-tab id="overview" flex="auto" layout="column">
+                <md-tab id="charts" flex="auto" layout="column">
                     <md-tab-label>
                         <!--<md-icon class="material-icons">settings</md-icon>-->
                         <span translate="analytics.panel.charts"></span>
@@ -174,8 +175,10 @@
                                           ng-repeat="chart in $ctrl.charts">
                                 <md-icon class="material-icons md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">{{::chart.icon}}</md-icon>
                                 <div class="md-list-item-text">
-                                    <h3 class="md-dark" translate="analytics.{{chart.title}}" ng-class="{'md-inactive': !chart.isAuthorized}"></h3>
-                                    <p class="md-dark" translate="analytics.{{chart.description}}" ng-class="{'md-inactive': !chart.isAuthorized}"></p>
+                                    <h3 class="md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">
+                                        <span translate="analytics.{{chart.code}}.title"></span>
+                                    </h3>
+                                    <p class="md-dark" translate="analytics.{{chart.code}}.shortDescription" ng-class="{'md-inactive': !chart.isAuthorized}"></p>
                                     <md-switch class="md-secondary md-primary"
                                                ng-change="$ctrl.onChangeCharts()"
                                                ng-disabled="!chart.isAuthorized"

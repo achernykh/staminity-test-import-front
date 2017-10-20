@@ -54,9 +54,7 @@ export const templatesFilters = {
 
 
 export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string) : string => {
-	//let distance = path(['distance', 'durationValue']) (interval);
-	//let movingDuration = path(['movingDuration', 'durationValue']) (interval);
-
-	return (interval.durationValue &&
-		`${measureValue(interval.durationValue, sport, interval.durationMeasure)} ${$translate.instant(measureUnit(interval.durationMeasure, sport))}`) || '';
+	let durationMeasure: string = interval.hasOwnProperty('distanceLength') ? `${interval.durationMeasure}Length` : interval.durationMeasure;
+	return (interval[durationMeasure] &&
+		`${measureValue(interval[durationMeasure], sport, interval.durationMeasure)} ${$translate.instant(measureUnit(interval.durationMeasure, sport))}`) || '';
 };

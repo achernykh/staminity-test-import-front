@@ -3,10 +3,6 @@ import * as hmReedmore from "../../bower_components/angular-read-more";
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
 import 'angularjs-scroll-glue/src/scrollglue.js';
 import 'drag-drop-webkit-mobile/ios-drag-drop.js';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.eot';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.woff2';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.woff';
-//import 'material-design-icons/iconfont/MaterialIcons-Regular.ttf';
 
 import run from './app.run';
 import configure from './app.config';

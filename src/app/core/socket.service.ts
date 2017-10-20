@@ -1,10 +1,10 @@
 import * as _connection from './env.js';
 import { ISessionService } from './session.service';
-import {StateService} from '@uirouter/angular';
+import {StateService} from 'angular-ui-router';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
-import { LoaderService } from "../share/loader/loader.service";
+import LoaderService from "../share/loader/loader.service";
 import {IMessageService} from "./message.service";
-import {IHttpService, noop, IPromise} from 'angular';
+import {IHttpService, noop} from 'angular';
 import {Ping} from "../../../api/core";
 
 
@@ -65,7 +65,8 @@ export class SocketService implements ISocketService {
         putCalendarItem: 15.0,
         getActivityCategory: 10.0,
         postCalendarItem: 10.0,
-        getGroupManagementProfile: 10.0
+        getGroupManagementProfile: 10.0,
+        getIChartMetrics: 30.0
     };
 
     private internetStatus: boolean = true;
@@ -109,7 +110,7 @@ export class SocketService implements ISocketService {
      * @returns {Promise<T>}
      * @param token
      */
-    open(token:string = this.SessionService.getToken(), delay:number = 100): Promise<any> {
+    open(token:string = this.SessionService.getToken(), delay:number = 100):Promise<any> {
         return new Promise((resolve, reject) => {
             if (!this.socket || (this.socket.readyState !== SocketStatus.Open &&
                 this.socket.readyState !== SocketStatus.Connecting)) {
@@ -252,7 +253,9 @@ export class SocketService implements ISocketService {
                 break;
             }
             case 'lostHeartBit': {
-                this.reopen({type: 'lostHeartBit'});
+                if(this.SessionService.getToken()) {
+                    this.reopen({type: 'lostHeartBit'});
+                }
                 break;
             }
         }
@@ -265,14 +268,14 @@ export class SocketService implements ISocketService {
      * @param request
      * @returns {Promise<T>}
      */
-    send(request:IWSRequest): Promise<any> {
+    send(request:IWSRequest):Promise<any> {
 
-        if (!this.connectionStatus){ // если соединение не установлено
-            throw new Error('internetConnectionLost');
+        if (!this.connectionStatus && this.socket.readyState !== SocketStatus.Close){ // если соединение не установлено
+            return Promise.reject('internetConnectionLost');
         }
 
         if(!this.SessionService.getToken()) { // если пользователь не авторизован
-            throw new Error('userNotAuthorized');
+            return Promise.reject('userNotAuthorized');
         }
 
         return this.open().then(() => {
@@ -293,8 +296,6 @@ export class SocketService implements ISocketService {
 
             return deferred.promise;
 
-        }, () => {
-            throw new Error('internetConnectionLost');
-        });
+        }, () => {throw 'internetConnectionLost';});
     }
 }

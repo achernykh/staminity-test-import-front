@@ -13,6 +13,7 @@ import {_application_menu} from './application-menu/application-menu.translate';
 import {_user_menu} from "./user-menu/user-menu.tranlsate";
 import {_MEASURE_TRANSLATE} from './measure/measure.translate';
 import LoaderComponent from './loader/loader.component';
+import LoaderService from './loader/loader.service';
 import DialogsService from './dialogs/';
 import RequestsComponent from './requests/requests.component.js';
 import {
@@ -39,13 +40,12 @@ import {InitiatorType} from "../../../api/notification/notification.interface";
 import { memorize, maybe, prop } from "./util.js";
 import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
-import {StateDeclaration} from '@uirouter/angular';;
+import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
 import {_translate_PageNotFound} from "./404/404.translate";
 import UniversalChartComponent from "./universal-chart/universal-chart.component";
 import {translateHeader} from "./header/header.translate";
 import {compareTo} from "./directives/form.directive";
-import { downgradeInjectable } from "@angular/upgrade/static";
-import {LoaderService} from "./loader/loader.service";
+import SessionService from "../core/session.service";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -193,7 +193,7 @@ const Share = module('staminity.share', [])
     }])
     .filter('percent', ['$filter',($filter)=> {
         return (value, decimal = 0) => {
-            if (value) {
+            if (value >= 0) {
                 return $filter('number')(value*100,decimal)+'%';
             }
         };
@@ -210,7 +210,7 @@ const Share = module('staminity.share', [])
             }
         };
     }])
-    .filter('measureSave',['UserService',(UserService)=> {
+    .filter('measureSave',['SessionService',(session: SessionService)=> {
         return (measure, value,sport) => {
 
             let unit = measurementUnitDisplay(sport, measure);
@@ -222,7 +222,7 @@ const Share = module('staminity.share', [])
                     value = moment(value,['ss','mm:ss']).diff(moment().startOf('day'),'seconds');
                 }
                 // обратный пересчет по системе мер
-                if (UserService.profile.display.units !== 'metric'){
+                if (session.getUser().display.units !== 'metric'){
                     value = value / _measurement_system_calculate[unit].multiplier;
                 }
                 // пересчет от единиц представления в еденицы обмена данными
@@ -258,7 +258,6 @@ const Share = module('staminity.share', [])
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)
     .component('applicationMenu',ApplicationMenu)
-    //.service('LoaderService', downgradeInjectable(LoaderService))
     .service('LoaderService',LoaderService)
     .service('NotificationService', NotificationService)
     .service("dialogs", DialogsService)
@@ -279,7 +278,7 @@ const Share = module('staminity.share', [])
     .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
 
         $stateProvider
-            .state('404', <StateDeclaration>{
+            .state('404', <Ng1StateDeclaration>{
                 url: "/404",
                 views: {
                     "application": {

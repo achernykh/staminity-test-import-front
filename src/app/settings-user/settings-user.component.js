@@ -89,6 +89,8 @@ class SettingsUserCtrl {
             offset: momentTimezone.tz(z).offset
         }));
 
+        console.log('timezones', this.timeZones);
+
         this.prepareZones();
     }
 
@@ -147,7 +149,11 @@ class SettingsUserCtrl {
         this.displayForm.$dirty = true;
     }
 
-    changeFirstDayOfWeek (number) {
+    getFirstDayOfWeek () {
+        return this.user.display.firstDayOfWeek || 0;
+    }
+
+    setFirstDayOfWeek (number) {
         this.user.display.firstDayOfWeek = number;
         this.displayForm.$dirty = true;
     }
@@ -215,8 +221,7 @@ class SettingsUserCtrl {
     }
 
     weekdays (day) {
-        let days = moment.weekdays();
-        return days[day];
+        return moment.weekdays(day);
     }
 
     syncEnabled (adaptor) {
@@ -494,11 +499,11 @@ class SettingsUserCtrl {
             return this.user.billing.autoPayment;
         }
 
-        let userChanges = { 
-            billing: { autoPayment: isOn } 
+        let userChanges = {
+            billing: { autoPayment: isOn }
         };
 
-        this.UserService.putProfile(userChanges)
+        this.UserService.updateCurrentUser(userChanges)
         .then(this.successHandler('settingsSaveComplete'))
         .catch(this.errorHandler());
     }

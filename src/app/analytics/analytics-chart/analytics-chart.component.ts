@@ -29,9 +29,9 @@ class AnalyticsChartCtrl implements IComponentController {
 
     public updateCount: number = 0;
 
-    static $inject = ['$scope','statistics','$mdDialog'];
+    static $inject = ['$scope','statistics','$mdDialog','$filter'];
 
-    constructor(private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any) {
+    constructor(private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any, private $filter: any) {
 
     }
 
@@ -87,15 +87,22 @@ class AnalyticsChartCtrl implements IComponentController {
 
     }
 
+    descriptions(): string {
+        if (this.chart.globalParams) {
+            return `${this.$filter('translate')('analytics.' + this.chart.code + '.description', this.context)}`;
+        } else {
+            return this.chart.localParams.descriptions();
+        }
+    }
+
     private updateSettings(chart: AnalyticsChart, update: boolean) {
         this.chart = copy(chart);
         this.prepareTitleContext();
         if(update){
             this.prepareParams();
             this.prepareData();
-        } else {
-            this.updateCount++;
         }
+        this.updateCount++;
     }
 
     update(param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
@@ -128,7 +135,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
 
         if(param.area === 'params' || protectedOption ||
-            Object.keys(param.change[value]).some(change => ['seriesDateTrunc','cumulative','measureName'].indexOf(change) !== -1)) {
+            Object.keys(param.change[value]).some(change => ['seriesDateTrunc','measureName','unit'].indexOf(change) !== -1)) {
             this.prepareData();
         }
         this.prepareTitleContext();
@@ -176,12 +183,15 @@ class AnalyticsChartCtrl implements IComponentController {
                 (this.chart.globalParams && globalParams.users) ||
                 (c.params.users && c.params.users) ||
                 (this.chart.localParams.users.model && this.chart.localParams.users.model) || null,
+
             activityTypes:
                 (this.chart.globalParams && globalParams.activityTypes) ||
                 (c.params.activityTypes && c.params.activityTypes) || null,
+
             activityCategories: this.filter.activityCategories.model,
+
             periods: (!this.chart.globalParams && c.params.periods && c.params.periods) ||
-                (typeof this.filter.periods.data === 'IPeriodCustom' && this.filter.periods.data) ||
+                (this.filter.periods.model === 'customPeriod' && this.filter.periods.data.model) ||
                 periodByType(this.filter.periods.model) || this.chart.charts[i].params.periods
         });
     }
@@ -201,7 +211,7 @@ class AnalyticsChartCtrl implements IComponentController {
             } else if(result['charts'].some(c => c.hasOwnProperty('errorMessage'))) {
                 this.errorStack = result['charts'].filter(c => c.hasOwnProperty('errorMessage')).map(c => c.errorMessage);
             }
-        }, error => { });
+        }, error => this.errorStack.push(error));
     }
 }
 

@@ -31,6 +31,10 @@ structured-group {
       outline:none;
     }
 
+    &.block {
+      pointer-events: none;
+    }
+
   }
 
 }

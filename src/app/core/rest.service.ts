@@ -165,8 +165,12 @@ export class RESTService implements IRESTService {
 
 		/**return this.$http(request)
 			.finally(()=>this.loader.hide())
-			.then((result:any)=> {
-				return result;
+			.then((response:any) => {
+				if(response.data.hasOwnProperty('errorMessage')){
+					throw response.data.errorMessage;
+				} else {
+					return response.data;
+				}
 			}, (response) => {
 				return response.data.data[0].value; // Предполагаем, что сервер ответил ошибкой в формате systemMessage
 			});**/

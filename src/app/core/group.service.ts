@@ -16,7 +16,8 @@ import {
 
 import {ISocketService} from './socket.service';
 import {PostFile, IRESTService, PostData} from './rest.service';
-import { IHttpPromise, IHttpPromiseCallbackArg } from 'angular';
+import { IHttpPromise } from 'angular';
+import IHttpPromiseCallbackArg = angular.IHttpPromiseCallbackArg;
 
 export default class GroupService {
 
@@ -122,9 +123,8 @@ export default class GroupService {
      * @param file
      * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
      */
-    postProfileAvatar(groupId:number, file:any): Promise<any> {
-        return this.RESTService.postFile(new PostFile(`/group/avatar/${groupId}`, file))
-            .then((response) => response.data);
+    postProfileAvatar(groupId:number, file:any):IHttpPromise<any> {
+        return this.RESTService.postFile(new PostFile(`/group/avatar/${groupId}`, file));
     }
     
     /**
@@ -133,9 +133,8 @@ export default class GroupService {
      * @param file
      * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
      */
-    postProfileBackground(groupId:number, file:any): Promise<any> {
-        return this.RESTService.postFile(new PostFile(`/group/background/${groupId}`,file))
-            .then((response) => response.data);
+    postProfileBackground(groupId:number, file:any):IHttpPromise<any> {
+        return this.RESTService.postFile(new PostFile(`/group/background/${groupId}`,file));
     }
 
 }

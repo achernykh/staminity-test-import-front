@@ -7,7 +7,7 @@
         <div flex="none" layout="row" layout-align="space-between center" layout-align-gt-sm="space-between start">
             <section class="percent md-caption tight-07" flex="25" hide show-gt-sm>{{::$ctrl.data.printPercent()}}</section>
             <section class="icon" flex="none" flex-gt-sm="auto" layout="row" layout-align="center start">
-                <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-grey-600">
+                <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-grey-500">
                     <md-icon md-svg-src="{{::$ctrl.data.sportUrl}}"
                              style="margin-left: 4px"
                              class="s24 light-active"></md-icon>
@@ -32,7 +32,7 @@
 
                 <section flex layout="row" layout-align="start start"
                          class="md-title-small secondary center tight-10"
-                         ng-class="::{'dark' : ($ctrl.status == 'planned')}"
+                         ng-class="::{'md-dark' : ($ctrl.status == 'planned')}"
                          ng-if="::(!!$ctrl.data.movingDuration || $ctrl.data.distance)">
                     <div flex="none" ng-if="::$ctrl.data.movingDuration">
                         {{::$ctrl.data.movingDuration | measureCalc:$ctrl.data.sportBasic:'movingDuration'}}
@@ -75,12 +75,12 @@
 
         <div flex="none" layout="row" layout-align="center center" hide show-gt-sm
              class="md-caption secondary center data-category"
-             ng-class="::{'dark' : ($ctrl.status == 'planned')}">
+             ng-class="::{'md-dark' : $ctrl.data.status === 'coming'}">
             <div flex="none" class="line-14" ng-if="::$ctrl.data.category">{{::$ctrl.data.category | categoryCode}}</div>
         </div>
         <section flex="none" layout="row" layout-align="center center" hide show-gt-sm
              class="md-title-small secondary center tight-10"
-             ng-class="::{'dark' : ($ctrl.status == 'planned')}"
+             ng-class="::{'md-dark' : $ctrl.data.status === 'coming'}"
              ng-if="::(!!$ctrl.data.movingDuration || $ctrl.data.distance)">
             <div flex="none" ng-if="::$ctrl.data.movingDurationApprox">~</div>
             <div flex="none" ng-if="::$ctrl.data.movingDuration">
@@ -105,7 +105,7 @@
          ng-switch on="$ctrl.data.bottomPanel">
         <!-- Панель: Установка тренера -->
         <div flex="none" ng-switch-when="plan">
-            <div ng-if="::$ctrl.data.intensityMeasure" layout="row" class="md-caption secondary dark" style="margin-top: 2px">
+            <div ng-if="::($ctrl.data.intensityMeasure && !$ctrl.data.structured)" layout="row" class="md-caption secondary dark" style="margin-top: 2px">
                 <div flex="none">
                     {{::$ctrl.data.intervalPW | measureCalcInterval:$ctrl.data.sportBasic:$ctrl.data.intensityMeasure}}
                     <span flex="none" class="disable dark">&nbsp{{::$ctrl.data.intensityMeasure | measureUnit:$ctrl.data.sportBasic | translate}}</span>
@@ -143,7 +143,7 @@
             </div>
         </div>
         <!-- Панель: Перечень сегментов структурированной тренировки -->
-        <div flex="none" ng-switch-when="segmentList"
+        <div flex="none" ng-switch-when="segmentList" ng-if="false"
              flex layout="column"
              class="md-caption">
             <div ng-repeat="interval in $ctrl.segmentList | filter:$ctrl.collapse track by $index"
@@ -188,7 +188,7 @@
             </div>
 
         </div>
-        <div flex="none" ng-if="::($ctrl.segmentList.length > 4)"
+        <div flex="none" ng-if="::($ctrl.segmentList.length > 4) && false"
              flex layout="row" layout-align="center start"
              class="md-caption bt-more"
              ng-click="$ctrl.collapse.hasOwnProperty('show') ? $ctrl.collapse = {} : $ctrl.collapse = {show: true}">

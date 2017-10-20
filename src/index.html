@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title translate ng-cloak ng-bind="fullTitle | translate">Staminity | Стаминити</title>
+    <title>Приложение для работы с тренером и календарь тренировок</title>
     <base href="/index.html">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="description"
-          content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
-    <meta name="keywords"
-          content="Стаминити, Staminity, для спортсменов, для тренеров, для клубов, удаленная работа с тренером"/>
+    <meta name="description" content="Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов"/>
+    <meta name="keywords" content="программа для работы с тренером, приложение для работы с тренером, приложение для тренера, программа для тренера, работа с тренером, занятия с тренером, бег, триатлон, плавание, календарь тренировок, тренировочный календарь, работа с учениками, Стаминити, Staminity, дистанционная работа с тренером"/>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="google-site-verification" content="61lUeOvz-SVrqyZsNnLGrrw50m-u7OW8v6l5In5X1JU"/>
@@ -16,9 +14,8 @@
     <!-- Open graph -->
     <meta property="og:locale" content="ru_RU"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Стаминити | Staminity"/>
-    <meta property="og:description"
-          content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
+    <meta property="og:title" content="Приложение для работы с тренером и календарь тренировок"/>
+    <meta property="og:description" content="Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов"/>
     <meta property="og:url" content="https://staminity.com/"/>
     <meta property="og:site_name" content="Стаминити"/>
     <meta property="og:image" content="https://staminity.com/assets/picture/og-staminity-01.jpg"/>
@@ -32,10 +29,12 @@
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:site" content="@staminity"/>
     <meta name="twitter:creator" content="@staminity"/>
-    <meta name="twitter:title" content="Стаминити | Staminity"/>
-    <meta name="twitter:description"
-          content="Создаем приложение для удаленной работы с тренером и социальную сеть для спортсменов по циклическим видам спорта"/>
+    <meta name="twitter:title" content="Приложение для работы с тренером и календарь тренировок Staminity | Стаминити"/>
+    <meta name="twitter:description" content="Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов"/>
     <meta name="twitter:image" content="https://staminity.com/assets/picture/og-staminity-01.jpg"/>
+
+    <link rel="alternate" href="https://staminity.com?lang=ru" hreflang="ru" />
+    <link rel="alternate" href="https://staminity.com?lang=en" hreflang="en" />
 
     <script type="application/ld+json">
             {
@@ -105,10 +104,8 @@
     </noscript>
     <!-- Yandex.Metrika counter -->
 
-    <!-- Style sheets-->
-    <!--
-    <link rel="stylesheet" href="css/libs.css">
-    <link rel="stylesheet" href="css/app.css">-->
+    <!-- VK pixel -->
+    <script type="text/javascript">(window.Image ? (new Image()) : document.createElement('img')).src = 'https://vk.com/rtrg?p=VK-RTRG-163597-5h4bj';</script>
 
     <link rel="icon" type="image/png" href="/assets/icon/favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="/assets/icon/favicon-32x32.png" sizes="32x32">
@@ -194,8 +191,12 @@
 
 <script type="text/javascript">
     navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.info('SW registered!', reg))
-            .catch(err => console.error('Boo!', err));
+            .then(function(reg) {
+                console.info('SW registered!', reg);
+            })
+            .catch(function(err) {
+                console.error('Boo!', err)
+            });
 </script>
 
 <!-- Application Scripts (gulp compilation)

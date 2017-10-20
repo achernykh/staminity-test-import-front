@@ -21,7 +21,11 @@ class UniversalChartCtrl implements IComponentController {
     }
 
     $onDestroy() {
-        this.chart.remove();
+
+        if(this.hasOwnProperty('chart') && this.chart) {
+            this.chart.remove();
+        }
+
     };
 
     $postLink():void {
@@ -45,7 +49,7 @@ class UniversalChartCtrl implements IComponentController {
             setTimeout(() => {
                 this.chart.remove();
                 this.redraw();
-            }, 500);
+            }, 300);
         }
     }
 

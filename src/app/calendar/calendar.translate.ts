@@ -7,5 +7,12 @@ export const _translate = {
         compact: 'Показать детали',
         details: 'Скрыть детали'
     },
-    en: {}
+    en: {
+        fullTitle: 'Calendar',
+        shortTitle: 'Calendar',
+        today: 'Today',
+        selectDate: 'Select Date',
+        compact: 'Show Details',
+        details: 'Hide Details'
+    }
 };

@@ -30,12 +30,15 @@ export class ActivityIntervalCalcMeasure implements ICalcMeasures{
 }
 
 export class DurationMeasure implements IDurationMeasure{
-    durationValue: number = null;
+    constructor(
+        public durationValue: number = null){}
 }
 
 export class IntensityMeasure implements IIntensityMeasure{
-    intensityLevelFrom: number = null;
-    intensityLevelTo: number = null;
-    intensityByFtpFrom: number = null;
-    intensityByFtpTo: number = null;
+    constructor(
+        public intensityByFtpFrom: number = null,
+        public intensityByFtpTo: number = null,
+        public intensityLevelFrom: number = null,
+        public intensityLevelTo: number = null
+    ) {}
 }
