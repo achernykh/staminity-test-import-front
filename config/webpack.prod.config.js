@@ -77,11 +77,6 @@ module.exports = {
             }
         }),
         new webpack.NoErrorsPlugin(),
-        new ExtractTextPlugin({ filename: "assets/css/[name].css", allChunks: true }),
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ["vendor", "manifest"],
-            minChunks: Infinity 
-        }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false,

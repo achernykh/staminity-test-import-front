@@ -17,7 +17,7 @@ if (
 		.catch((err) => console.error('Boo!', err));
 	}
 
-	require.ensure(['./app.module.ts'], () => {
+	require.ensure(['./app.module.ts', 'angular'], () => {
 		const app = <Function>require('./app.module.ts')['default'];
 		app();
 	});
