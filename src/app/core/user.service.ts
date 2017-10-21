@@ -77,9 +77,9 @@ export default class UserService {
             }, (error) => {
                 throw `error in getTrainingZones => ${error}`;
             })
-            .then(connections => this.SessionService.updateUser({connections}));
+            .then(connections => this.SessionService.updateUser({connections: connections}));
         } else {
-            this.SessionService.updateUser({connections});
+            this.SessionService.updateUser({connections: connections});
         }
     }
 

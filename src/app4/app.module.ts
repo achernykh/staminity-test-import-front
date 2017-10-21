@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { CoreModule } from './core/core.module';
 import { ShareModule } from './share/share.module';
 import { MaterialModule } from "./share/material.module";
+import { Auth } from "./auth/auth.module";
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import { MaterialModule } from "./share/material.module";
         ShareModule,
         CoreModule,
         NewPage,
-        MaterialModule
+        MaterialModule,
+        Auth,
     ]
 }) export class RootModule {
     ngDoBootstrap() {

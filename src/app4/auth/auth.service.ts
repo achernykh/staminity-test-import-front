@@ -1,49 +1,26 @@
-import { PostData } from '../../app4/core/rest/rest.interface';
+import { Injectable } from "@angular/core";
+import { SessionService } from "../core/session/session.service";
+import { RestService } from "../core/rest/rest.service";
+import { SocketService } from "../core/socket/socket.service";
+import { IUserProfile } from "../../../api/user/user.interface";
+import { PostData } from "../core/rest/rest.interface";
 import {
-    SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest,
-    ResetPasswordRequest
-} from '../../../api/auth/auth.request';
-import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise, HttpHeaderType, copy} from 'angular';
-import {ISocketService} from "../core/socket.service";
-import {IUserProfile} from "../../../api/user/user.interface";
-import GroupService from "../core/group.service";
-import {GetRequest} from "../../../api/calendar/calendar.request";
-import {Observable} from "rxjs/Rx";
-import { toDay } from "../activity/activity.datamodel";
-import { ISessionService } from "../core/session.service";
-import { RestService } from "../../app4/core/rest/rest.service";
+    ResetPasswordRequest, SetPasswordRequest, InviteRequest,
+    PostInviteRequest, UserCredentials
+} from "../../../api/auth/auth.request";
+import { toDay } from "../share/utils/date";
+import { GroupService } from "../core/group/group.service";
 
-
-export interface IAuthService {
-    isAuthenticated():boolean;
-    isAuthorized(roles:Array<string>):boolean;
-    isCoach(role?: string):boolean;
-    isMyAthlete(user: IUserProfile):Promise<any>;
-    isMyClub(uri: string):Promise<any>;
-    isActivityPlan(role?: Array<string>):boolean;
-    isActivityPro(role?: Array<string>):boolean;
-    signIn(request:Object):Promise<void>;
-    signUp(request:Object):Promise<{}>;
-    signOut():void;
-    confirm(request:Object):Promise<{}>;
-    resetPassword(email: string):Promise<{}>;
-    setPassword(password:string,token:string):Promise<{}>;
-    inviteUsers(group: number, users: Array<Object>):Promise<any>;
-    putInvite(credentials: UserCredentials):Promise<any>;
-}
-
-export default class AuthService implements IAuthService {
-
-    static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService'];
+@Injectable()
+export class AuthService {
 
     constructor(
-        private SessionService: ISessionService,
-        private RESTService: RestService,
-        private SocketService: ISocketService,
-        private GroupService: GroupService
-    ) {
+        private session: SessionService,
+        private rest: RestService,
+        private socket: SocketService,
+        private group: GroupService,
 
-    }
+    ) { }
 
     /**
      * Проверка аутентификации пользователя. Если атрибут session определен, значит сессия пользователя установлена.
@@ -53,7 +30,7 @@ export default class AuthService implements IAuthService {
      * @returns {boolean} - true - авторизован, false - не авторизован
      */
     isAuthenticated() : boolean {
-        return !!this.SessionService.getToken();
+        return !!this.session.getToken();
     }
 
     /**
@@ -62,7 +39,7 @@ export default class AuthService implements IAuthService {
      * @returns {boolean}
      */
     isAuthorized(authorizedRoles: Array<any> = []) : boolean {
-        let userRoles = this.SessionService.getPermissions();
+        let userRoles = this.session.getPermissions();
         return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
     }
 
@@ -75,9 +52,9 @@ export default class AuthService implements IAuthService {
             throw 'userNotFound';
         }
 
-        let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
+        let groupId = this.session.getUser().connections['allAthletes'].groupId;
         if (groupId) {
-            return this.GroupService.getManagementProfile(groupId, 'coach')
+            return this.group.getManagementProfile(groupId, 'coach')
                 .then((result) => {
                     let athletes: Array<any> = result.members;
                     if (!athletes || !athletes.some(member => member.userProfile.userId === user.userId)) {
@@ -92,7 +69,7 @@ export default class AuthService implements IAuthService {
     }
 
     isMyClub(uri: string) : Promise<any> {
-        let userClubs = this.SessionService.getUser().connections['ControlledClubs'];
+        let userClubs = this.session.getUser().connections['ControlledClubs'];
         if (userClubs && userClubs.some(club => club.groupUri === uri)) {
             return Promise.resolve();
         } else {
@@ -114,7 +91,7 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     signUp(request) : Promise<{}> {
-        return this.RESTService.postData(new PostData('/signup', request));
+        return this.rest.postData(new PostData('/signup', request));
     }
 
     /**
@@ -123,25 +100,39 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>|Promise<TResult2|TResult1>|Promise<TResult>|*|Promise.<TResult>}
      */
     signIn(request) : Promise<void> {
-        return this.RESTService.postData(new PostData('/signin', request))
-            .then((response: IHttpPromiseCallbackArg<any>) => {
+        return this.rest.postData(new PostData('/signin', request))
+            .then(response => {
+                debugger;
+                return response.hasOwnProperty('userProfile') && this.session.set(response);
+            })
+            .then(() => {
+                debugger;
+                return this.session.getToken() && this.socket.init();
+            })
+            .then(() => {
+                return this.session.getUser();
+            })
+            .catch(error => {
+                throw new Error(error);
+            }); /*
+            .then((response: any) => {
                 if(response.data.hasOwnProperty('userProfile') && response.data.hasOwnProperty('token')) {
                     this.signedIn(response.data);
                     return response.data['userProfile'];
                 } else {
                     throw new Error('dataError');
                 }
-            });
+            });*/
     }
 
     signedIn(sessionData: any) {
-        this.SessionService.set(sessionData);
-        this.SocketService.open(sessionData['token']);
+        //this.session.set(sessionData);
+        //this.socket.open(sessionData['token']);
     }
 
     signOut() {
-        this.SessionService.set();
-        this.SocketService.close({reason: 'signOut'});
+        this.session.set();
+        this.socket.close({reason: 'signOut'});
     }
 
     /**
@@ -150,7 +141,7 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     confirm(request) : Promise<{}> {
-        return this.RESTService.postData(new PostData('/confirm', request));
+        return this.rest.postData(new PostData('/confirm', request));
     }
 
     /**
@@ -159,7 +150,7 @@ export default class AuthService implements IAuthService {
      * @returns {IPromise<TResult>}
      */
     resetPassword(email: string) : Promise<{}>{
-        return this.RESTService.postData(new ResetPasswordRequest(email))
+        return this.rest.postData(new ResetPasswordRequest(email))
             .then(result => result['data']);
     }
     /**
@@ -168,7 +159,7 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     setPassword(password: string, token: string) : Promise<{}> {
-        return this.RESTService.postData(new SetPasswordRequest(token, password))
+        return this.rest.putData(new SetPasswordRequest(token, password))
             .then((result) => result['data']); // Ожидаем system message
     }
 
@@ -179,12 +170,13 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     inviteUsers(group: number, users: Array<Object>) : Promise<any> {
-        return this.SocketService.send(new InviteRequest(group,users));
+        return this.socket.send(new InviteRequest(group,users));
     }
 
     putInvite(credentials: UserCredentials) : Promise<any> {
-        return this.RESTService.postData(new PostData('/api/wsgate', new PostInviteRequest(credentials)))
-            .then((response: IHttpPromiseCallbackArg<any>) => response.data);
+        return this.rest.postData(new PostData('/api/wsgate', new PostInviteRequest(credentials)))
+            .then((response: any) => response.data);
     }
-}
 
+
+}

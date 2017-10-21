@@ -48,6 +48,40 @@ export class RestService {
         });
     }
 
+    putData(request: IPostDataRequest):Promise<any> {
+        this.loader.show();
+
+        let token: string = this.session.getToken();
+        if (token){
+            request.headers.set('Authorization', `Bearer ${token}`);
+            request.data.token = token;
+        } else {
+            delete request.headers.delete('Authorization');
+        }
+
+        return new Promise((resolve,reject) => {
+            this.http.put(request.url, request.data, { headers: request.headers }).toPromise()
+                .then(
+                    (response:any) => {
+                        if(response.data.hasOwnProperty('errorMessage')) {
+                            return reject(response.data);
+                        } else {
+                            return resolve(response.data);
+                        }
+                    },
+                    (error) => {
+                        if (error.hasOwnProperty('status') && error.status === -1){
+                            return reject('internetConnectionLost');
+                        } else if(error.hasOwnProperty('data') && error.data.hasOwnProperty('errorMessage')) {
+                            return reject(error.data.errorMessage);
+                        } else {
+                            return reject('unknownErrorMessage');
+                        }
+                    })
+                .then(() => this.loader.hide());
+        });
+    }
+
     postFile(request: IPostFileRequest):Promise<any> {
         this.loader.show();
         request.headers.set('Authorization', `Bearer ${this.session.getToken()}`);

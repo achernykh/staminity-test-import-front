@@ -128,7 +128,7 @@ export class SocketService {
     }
 
     // send
-    public send(r: IWSRequest): Promise<IWSResponse> {
+    public send(r: IWSRequest): Promise<any> {
 
         if (!this.socketStarted) { // если соединение не установлено
             //throw new Error('internetConnectionLost');
