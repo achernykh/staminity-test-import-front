@@ -7,7 +7,8 @@ import { ActionMessageService } from "./actionmessage.service.js";
 import UserService from "./user.service";
 import GroupService from "./group.service";
 import RequestsService from "./requests.service";
-import MessageService, { configure as messagesConf } from './message.service';
+import { configure as messagesConf } from './message.service';
+import { MessageService } from '../../app4/share/message/message.service';
 import CommentService from "./comment.service";
 import DisplayService, { configure as displayConf } from "./display.service";
 import StatisticsService from "./statistics.service";
@@ -28,7 +29,8 @@ const Core = module('staminity.core', [])
 	.service('UserService',UserService)
 	.service('GroupService',GroupService)
 	.service('RequestsService', RequestsService)
-	.service('message', MessageService)
+	//.service('message', MessageService)
+	.service('message', downgradeInjectable(MessageService))
 	.service('CommentService', CommentService)
 	.service('DisplayService', DisplayService)
 	.service('BillingService', BillingService)

@@ -26,7 +26,7 @@ import { Auth } from "./auth/auth.module";
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
-                useFactory: (httpClient: HttpClient) => new TranslateHttpLoader(httpClient, "/assets/locale/page.", ".json"),
+                useFactory: (httpClient: HttpClient) => new TranslateHttpLoader(httpClient, "/assets/locale/", ".json"),
                 deps: [ HttpClient ]
             }
         }),
