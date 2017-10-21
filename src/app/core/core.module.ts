@@ -1,6 +1,6 @@
 import { module } from 'angular';
 import { SocketService } from '../../app4/core/socket/socket.service';
-import { RESTService } from './rest.service';
+import { RestService } from '../../app4/core/rest/rest.service';
 import SystemMessageService from "./sysmessage.service.js";
 import SystemMessageComponent from './sysmessage.component.js';
 import { ActionMessageService } from "./actionmessage.service.js";
@@ -19,7 +19,8 @@ import { SessionService } from "../../app4/core/session/session.service";
 const Core = module('staminity.core', [])
 	//.service('SocketService', SocketService)
 	.service('SocketService',  downgradeInjectable(SocketService))
-	.service('RESTService',RESTService)
+	//.service('RESTService',RESTService)
+    .service('RESTService', downgradeInjectable(RestService))
 	//.service('SessionService', SessionService)
 	.service('SessionService', downgradeInjectable(SessionService))
 	.service('SystemMessageService',SystemMessageService)

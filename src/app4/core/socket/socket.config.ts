@@ -17,6 +17,7 @@ export interface IConnectionSettings {
 export const ConnectionSettings = {
     delayOnHeartBeat: 30 * 1000, // 30 sec
     delayOnOpen: 300, // таймаут для завершения соедниения сессии (мс)
+    delayOnReopen: 5 * 1000, // 5 sec
     delayOnResponse: 10 * 1000, // 10 sec
     delayExceptions: {
         getActivityIntervals: 10.0 * 1000,

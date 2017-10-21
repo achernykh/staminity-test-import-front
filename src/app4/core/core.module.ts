@@ -4,6 +4,7 @@ import { SessionService } from "./session/session.service";
 import { SocketService } from './socket/socket.service';
 import {ConnectionSettings, ConnectionSettingsConfig} from './socket/socket.config';
 import { UserService } from "./user.service";
+import { RestService } from "./rest/rest.service";
 
 export function configFactory(socket: SocketService) {
     return  () => socket.init();
@@ -20,6 +21,7 @@ export function configFactory(socket: SocketService) {
         { provide: APP_INITIALIZER, useFactory: configFactory, deps: [SocketService], multi: true },
         { provide: ConnectionSettingsConfig, useValue: ConnectionSettings },
         SessionService,
+        RestService,
         UserService
     ]
 })

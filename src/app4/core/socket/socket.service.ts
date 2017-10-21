@@ -86,9 +86,20 @@ export class SocketService {
             let now = Date.now();
             if (this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat) {
                 this.connections.next(false);
-                this.close({reason: 'lostHeartBit'}); // TODO reopen?
+                this.socket.unsubscribe();
+                this.pendingSession();
+                //this.close({reason: 'lostHeartBit'}); // TODO reopen?
             }
         }, this.settings.delayOnHeartBeat);
+    }
+
+    private pendingSession(): void {
+
+        console.info('session stop');
+        let interval = setInterval(() => {
+            this.init().then(() => clearTimeout(interval), () => console.info('reopen session failed'));
+        }, this.settings.delayOnReopen);
+
     }
 
     public response (message: IWSResponse) {
