@@ -59,7 +59,7 @@ module.exports = {
             'angular-ui-router'//, 
             //'material-design-icons' +
         ], 
-        loader: './src/app/index.ts',
+        loader: './src/loader/index',
         app: './src/app/app.module',
     },
     module: {
@@ -68,9 +68,6 @@ module.exports = {
                 test: /\.jsx?$/,
                 loader: 'babel-loader?cacheDirectory=true',
                 exclude: [/node_modules/,/bower_components/],
-                query: {
-                    presets: ['es2015']
-                }
             },
             {
                 test: /\.ts$/,
@@ -129,11 +126,6 @@ module.exports = {
             format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds) on ' + moment().format('MMMM Do YYYY, h:mm a') +
                 ' ',
             clear: false
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/index.html',
-            inject: 'body',
-            chunksSortMode: sortChunks(['manifest', 'loader', 'vendor', 'app'])
         }),
         new webpack.optimize.CommonsChunkPlugin({ 
             names: "vendor",

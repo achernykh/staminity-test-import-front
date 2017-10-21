@@ -65,15 +65,11 @@ const deps = [
 	Reference
 ];
 
-const app = () => {
-	module('staminity.application', deps)
-	.component('staminityApplication', AppComponent)
-	.config(configure)
-	.run(run);
+module('staminity.application', deps)
+.component('staminityApplication', AppComponent)
+.config(configure)
+.run(run);
 
-	bootstrap(document, ['staminity.application'], {
-		strictDi: true
-	});
-};
-
-export default app;
+bootstrap(document, ['staminity.application'], {
+	strictDi: true
+});

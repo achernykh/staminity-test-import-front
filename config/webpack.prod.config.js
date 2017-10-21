@@ -34,8 +34,8 @@ module.exports = {
     output: {
         path: outputPath,
         publicPath: hostEndPoint[ENV],
-        filename: 'assets/js/[name].[hash].js',
-        chunkFilename: 'assets/js/[name].[hash].js'
+        filename: 'assets/js/[name].js',
+        chunkFilename: 'assets/js/[name].js'
     },
     module: {
         rules: [

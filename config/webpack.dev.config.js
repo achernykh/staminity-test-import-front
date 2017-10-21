@@ -7,8 +7,8 @@ console.log('env', process.env.HOST, process.env.PORT);
 module.exports = {
     output: {
         // publicPath: 'http://localhost:8080/',
-        filename: 'assets/js/[name].[hash].js',
-        chunkFilename: 'assets/js/[name].[hash].js'
+        filename: 'assets/js/[name].js',
+        chunkFilename: 'assets/js/[name].js'
     },
     devtool: 'source-map',
     module: {
