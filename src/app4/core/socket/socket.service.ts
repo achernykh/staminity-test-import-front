@@ -1,6 +1,6 @@
 import * as _connection from '../../../app/core/env.js';
 import { StateService } from '@uirouter/angular';
-import { Observable, Subject, Subscription } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs/Rx';
 import { IMessageService } from "../../../app/core/message.service";
 import { IHttpService } from 'angular';
 import { Injectable, Inject } from '@angular/core';
@@ -15,7 +15,7 @@ import { WebSocketSubject } from "rxjs/observable/dom/WebSocketSubject";
 export class SocketService {
 
     // public
-    connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
+    connections: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
     messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
    
     // private
@@ -44,6 +44,7 @@ export class SocketService {
         this.open();
 
         return new Promise<boolean>((resolve, reject) => {
+
             setTimeout(() => {
                 if(this.socketStarted) {
                     // Свзяь с сервером есть
@@ -55,6 +56,7 @@ export class SocketService {
                     return reject(false);
                 }
             }, this.settings.delayOnOpen);
+
         });
     }
 
@@ -75,8 +77,7 @@ export class SocketService {
 
             }
         });
-        // Свзяь с сервером есть
-        this.connections.next(true);
+
     }
 
     private check() {

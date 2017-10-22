@@ -1,10 +1,8 @@
 import moment from 'moment/src/moment.js';
 import { INotification, Notification } from "../../../api/notification/notification.interface";
-import { SocketService } from "../core/socket.service";
+import { SocketService, CommentService, ChatSession } from "../core";
 import { GetNotification, PutNotification } from "../../../api/notification/notification.request";
 import { Observable, BehaviorSubject, Subject} from "rxjs/Rx";
-import { CommentService } from "../core/comment/commnet.service";
-import { ChatSession } from "../core/comment/comment.interface";
 import { memorize } from "../share/utilities";
 import { Injectable } from "@angular/core";
 

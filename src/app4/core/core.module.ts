@@ -10,6 +10,7 @@ import { UserBillingService } from "./user/user-billing.service";
 import { UserDisplayService } from "./user/user-display.service";
 import { CommentService } from "./comment/commnet.service";
 import { StatisticsService } from "./statistics/statistics.service";
+import { UserConnectionsService } from "./user/user-connections.service";
 
 function configSocket(socket: SocketService) {
     return  () => socket.init();
@@ -36,6 +37,7 @@ function configDisplay(display: UserDisplayService) {
         UserDisplayService,
         { provide: APP_INITIALIZER, useFactory: configDisplay, deps: [UserDisplayService], multi: true },
         UserBillingService,
+        UserConnectionsService,
         CommentService,
         StatisticsService,
     ]

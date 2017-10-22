@@ -4,6 +4,7 @@ import { SessionService, ISession, getUser} from '../session/session.service';
 import { UserProfileService } from './user-profile.service';
 import { path } from '../../share/utilities/path';
 import { TranslateService } from "@ngx-translate/core";
+import { HttpClient } from '@angular/common/http';
 
 let getDisplay = (session: ISession) : string => path([getUser, 'display']) (session) || {};
 let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
@@ -38,10 +39,13 @@ export class UserDisplayService {
         en: 'English'
     };
 
+    private translateModules: Array<string> = ['app','page'];
+
     constructor (
         private session: SessionService,
         private userProfileService: UserProfileService,
         private translate: TranslateService,
+        private http: HttpClient
         //private tmhDynamicLocale: any,
         //private $mdDateLocale: any
     ) {
@@ -51,10 +55,23 @@ export class UserDisplayService {
             .subscribe(this.handleChanges);
     }
 
-    init() : void {
+    init() : Promise<any> {
         this.translate.addLangs(Object.keys(this.locales));
         this.translate.use(this.translate.getBrowserLang());
         this.translate.setDefaultLang(this.defaultTranslateLanguage);
+
+        let loader: Array<Promise<any>> = [];
+
+        this.translateModules.map(module =>
+            Object.keys(this.locales).map(lng =>
+                loader.push(this.http.get(`./assets/i18n/${module}/${lng}.json`).toPromise()
+                    .then(res => this.translate.setTranslation(lng, res, true)))));
+
+        //let p1 = this.http.get(`./assets/i18n/page/en.json`).toPromise().then(res => this.translate.setTranslation('en',res,true));
+        //let p2 = this.http.get(`./assets/i18n/page/ru.json`).toPromise().then(res => this.translate.setTranslation('ru',res,true));
+
+        return Promise.all(loader);
+
     }
 
     getLocale () : string {

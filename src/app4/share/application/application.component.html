@@ -3,8 +3,7 @@
         <button mat-icon-button>
             <mat-icon class="" (click)="appMenu.toggle()">menu</mat-icon>
         </button>
-        <ng-content select=".st-application__title">
-        </ng-content>
+        <ng-content select=".st-application__title"></ng-content>
         <ng-content select=".st-application__toolbar-actions"></ng-content>
         <span fxFlex></span>
         <button mat-icon-button>
@@ -28,9 +27,7 @@
         </mat-toolbar-row>
     </mat-toolbar>
 
-    <ng-content select=".st-application__content">
-    </ng-content>
-    <div>{{user | json}}</div>
+    <ng-content select=".st-application__content"></ng-content>
 
     <mat-sidenav #appMenu mode="over" opened="false" align="start"
                  class="st-application__sidenav">

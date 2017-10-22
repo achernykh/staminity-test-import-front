@@ -13,7 +13,9 @@
         </section>
         <section class="st-application__content ">
             <div mat-dialog-content>
-                <span>Content of current application</span>
+                <span [translate]="'page.fullTitle'"></span>
+                <span [translate]="'welcome'"></span>
+                <div>{{connections | json}}</div>
             </div>
         </section>
 </st-application>

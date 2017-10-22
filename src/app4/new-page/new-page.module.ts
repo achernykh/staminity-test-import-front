@@ -10,21 +10,18 @@ import { MaterialModule } from "../share/material.module";
 import { ShareModule } from "../share/share.module";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
+export function configTranslate(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient, "./assets/i18n/page/", ".json");
+}
 
-/** The NgModule for the Preferences feature */
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         TranslateModule.forChild({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (httpClient: HttpClient) =>
-                    new TranslateHttpLoader(httpClient, "/assets/locale/page.", ".json"),
-                deps: [ HttpClient ]
-            }
+            loader: { provide: TranslateLoader, useFactory: configTranslate, deps: [ HttpClient ] }
         }),
         UIRouterModule.forChild({ states: [ newPageState ] }),
         MaterialModule,

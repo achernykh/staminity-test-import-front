@@ -21,7 +21,7 @@ export class UserProfileService {
         private socket: SocketService,
         private rest: RestService
     ) {
-        this.session.getObservable()
+        /**this.session.getObservable()
             .map(getCurrentUserId)
             .distinctUntilChanged()
             .filter((userId) => userId && this.session.isCurrentUserId(userId))
@@ -30,7 +30,7 @@ export class UserProfileService {
                     .then((userProfile) => {
                         this.session.updateUser(userProfile);
                     });
-            });
+            });**/
 
         // Подписываемся на обновление  состава системных функций
         this.socket.messages

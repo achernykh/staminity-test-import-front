@@ -1,4 +1,4 @@
-import { NgModule, Component} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule} from '@angular/platform-browser';
 import { UpgradeModule } from '@angular/upgrade/static';
 import { UIRouterUpgradeModule } from '@uirouter/angular-hybrid';
@@ -13,6 +13,10 @@ import { MaterialModule } from "./share/material.module";
 import { Auth } from "./auth/auth.module";
 import { Requests } from "./requests/requests.module";
 
+export function configTranslate(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient, "./assets/i18n/app/", ".json");
+}
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -25,11 +29,7 @@ import { Requests } from "./requests/requests.module";
         UIRouterModule,
 
         TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (httpClient: HttpClient) => new TranslateHttpLoader(httpClient, "/assets/locale/", ".json"),
-                deps: [ HttpClient ]
-            }
+            loader: { provide: TranslateLoader, useFactory: (configTranslate), deps: [ HttpClient ] }
         }),
 
         ShareModule,
