@@ -66,7 +66,6 @@ export class SocketService implements ISocketService {
         getGroupManagementProfile: 10.0
     };
 
-    private internetStatus: boolean = true;
     private connectionStatus: boolean = true;
 
     public connections: Subject<any>;
@@ -84,19 +83,6 @@ export class SocketService implements ISocketService {
         this.connections = new Subject();
         this.connections.subscribe(status => this.connectionStatus = !!status);
         this.messages = new Subject();
-
-        // setInterval(()=>{
-        //     $http.get(`/favicon.ico?_=${new Date().getTime()}`)
-        //         .then(() => { // если интернет появился, а соединения не было, то пробуем подключить
-        //             this.internetStatus = true;
-        //             if(!this.connectionStatus) {
-        //                 this.open().then(() => this.connections.next(true), () => this.connections.next(false));
-        //             }
-        //         }, () => {
-        //             this.internetStatus = false;
-        //             this.connections.next(false);
-        //         }); // подключение отсутствует
-        // }, 5000);
     }
 
     /**
@@ -197,13 +183,13 @@ export class SocketService implements ISocketService {
      * @param event
      */
     reopen(event:any){
-        console.log('SocketService: reopen ', event, this.internetStatus);
+        console.log('SocketService: reopen ', event);
         if(event.type === 'error'){
-            setTimeout(()=> this.internetStatus && this.open().then(() => this.connections.next(true),
+            setTimeout(()=> this.open().then(() => this.connections.next(true),
                 () => this.connections.next(false)),
                 this.reopenTimeout++ * 1000);
         } else if (event.type === 'lostHeartBit') { // or !signout
-            setTimeout(()=> this.internetStatus && this.open().then(() => this.connections.next(true),
+            setTimeout(()=> this.open().then(() => this.connections.next(true),
                 () => this.connections.next(false)),
                 this.reopenTimeout++ * 1000);
         }
