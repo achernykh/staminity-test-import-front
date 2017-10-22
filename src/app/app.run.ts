@@ -4,7 +4,7 @@ import { UrlService} from '@uirouter/core';
 import { LoaderService } from "./share/loader/loader.service";
 import { IAuthService } from "./auth/auth.service";
 import MessageService from "./core/message.service";
-import { path } from './share/utility';
+import { path } from '../app4/share/utilities';
 
 interface IStaminityState extends StateDeclaration {
 	loginRequired: boolean;

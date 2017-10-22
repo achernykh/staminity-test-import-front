@@ -1,21 +1,28 @@
 import { module } from 'angular';
-import { SocketService } from '../../app4/core/socket/socket.service';
-import { RestService } from '../../app4/core/rest/rest.service';
+import {
+	SessionService,
+	SocketService,
+	RestService,
+	GroupService,
+	CommentService,
+	UserBillingService,
+	StorageService,
+	StatisticsService,
+	UserProfileService,
+	UserDisplayService,
+	UserConnectionsService
+
+} from '../../app4/core';
+import {
+	MessageService
+} from '../../app4/share';
 import SystemMessageService from "./sysmessage.service.js";
 import SystemMessageComponent from './sysmessage.component.js';
 import { ActionMessageService } from "./actionmessage.service.js";
-import UserService from "./user.service";
-import GroupService from "./group.service";
-import RequestsService from "./requests.service";
+import { RequestsService } from "../../app4/requests/requests.service";
 import { configure as messagesConf } from './message.service';
-import { MessageService } from '../../app4/share/message/message.service';
-import CommentService from "./comment.service";
-import DisplayService, { configure as displayConf } from "./display.service";
-import StatisticsService from "./statistics.service";
-import BillingService from "./billing.service";
 import { downgradeInjectable } from "@angular/upgrade/static";
-import { StorageService } from "../../app4/core/storage/storage.service";
-import { SessionService } from "../../app4/core/session/session.service";
+
 
 const Core = module('staminity.core', [])
 	//.service('SocketService', SocketService)
@@ -24,22 +31,29 @@ const Core = module('staminity.core', [])
     .service('RESTService', downgradeInjectable(RestService))
 	//.service('SessionService', SessionService)
 	.service('SessionService', downgradeInjectable(SessionService))
-	.service('SystemMessageService',SystemMessageService)
-	.service('ActionMessageService', ActionMessageService)
-	.service('UserService',UserService)
-	.service('GroupService',GroupService)
-	.service('RequestsService', RequestsService)
+	//.service('SystemMessageService',SystemMessageService)
+	//.service('ActionMessageService', ActionMessageService)
+	//.service('UserService',UserService)
+	.service('UserService', downgradeInjectable(UserProfileService))
+	//.service('GroupService',GroupService)
+	.service('GroupService', downgradeInjectable(GroupService))
+	//.service('RequestsService', RequestsService)
+	.service('RequestsService', downgradeInjectable(RequestsService))
 	//.service('message', MessageService)
 	.service('message', downgradeInjectable(MessageService))
-	.service('CommentService', CommentService)
-	.service('DisplayService', DisplayService)
-	.service('BillingService', BillingService)
+	//.service('CommentService', CommentService)
+	.service('CommentService', downgradeInjectable(CommentService))
+	//.service('DisplayService', DisplayService)
+    .service('DisplayService', downgradeInjectable(UserDisplayService))
+	//.service('BillingService', BillingService)
+	.service('BillingService', downgradeInjectable(UserBillingService))
 	//.service('storage', StorageService)
 	.service('storage', downgradeInjectable(StorageService))
-	.service('statistics', StatisticsService)
+	//.service('statistics', StatisticsService)
+	.service('statistics', downgradeInjectable(StatisticsService))
 	.component('systemMessage', SystemMessageComponent)
-	.config(messagesConf)
-	.config(displayConf)
+	//.config(messagesConf)
+	//.config(displayConf)
 	.name;
 
 export default Core;

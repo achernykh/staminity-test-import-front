@@ -47,14 +47,7 @@ import {compareTo} from "./directives/form.directive";
 import { downgradeInjectable } from "@angular/upgrade/static";
 import {LoaderService} from "./loader/loader.service";
 import SessionService from "../core/session.service";
-
-
-export const parseUtc = memorize(date => moment.utc(date));
-
-export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
-
-export const fromNow = () => (date) => moment.utc(date).fromNow(true);
-
+import { fromNow } from '../../app4/share/utilities';
 
 const image = () => (sub: string, url:string = 'default.jpg') : string => {
     return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;

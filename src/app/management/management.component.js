@@ -4,7 +4,7 @@ import './management.component.scss';
 
 class ManagementCtrl {
 
-    constructor ($scope, $mdDialog, $translate, GroupService, dialogs, $mdMedia, $mdBottomSheet, SystemMessageService) {
+    constructor ($scope, $mdDialog, $translate, GroupService, dialogs, $mdMedia, $mdBottomSheet, message) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
@@ -12,7 +12,7 @@ class ManagementCtrl {
         this.$mdBottomSheet = $mdBottomSheet;
         this.GroupService = GroupService;
         this.dialogs = dialogs;
-        this.SystemMessageService = SystemMessageService;
+        this.message = message;
         this.isScreenSmall = $mdMedia('max-width: 959px');
 
         this.orderings = {
@@ -41,7 +41,7 @@ class ManagementCtrl {
                 this.sortingHotfix();
                 this.$scope.$apply();
             }, (error) => { 
-                this.SystemMessageService.show(error);
+                this.message.systemError(error);
             });
     }
 
@@ -163,7 +163,7 @@ class ManagementCtrl {
             result && this.update();
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.message.systemError(error);
                 this.update(); 
             }
         });
@@ -208,7 +208,7 @@ class ManagementCtrl {
             result && this.update(); 
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.message.systemError(error);
                 this.update(); 
             }
         });
@@ -259,7 +259,7 @@ class ManagementCtrl {
             result && this.update(); 
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.message.systemError(error);
                 this.update(); 
             }
         });
@@ -329,7 +329,7 @@ class ManagementCtrl {
             result && this.update();
         }, (error) => {
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.message.systemError(error);
                 this.update(); 
             }
         });
@@ -343,7 +343,7 @@ class ManagementCtrl {
         .then((result) => { 
             result && this.update();
         }, (error) => { 
-            error && this.SystemMessageService.show(error); 
+            error && this.message.systemError(error);
         });
     }
     
@@ -417,7 +417,7 @@ class ManagementCtrl {
     }
 };
 
-ManagementCtrl.$inject = ['$scope','$mdDialog','$translate','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];
+ManagementCtrl.$inject = ['$scope','$mdDialog','$translate','GroupService','dialogs','$mdMedia','$mdBottomSheet','message'];
 
 
 let ManagementComponent = {

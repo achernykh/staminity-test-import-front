@@ -3,7 +3,6 @@ import { LoaderService } from "./loader/loader.service";
 import { ApplicationComponent } from './application/application.component';
 import { MaterialModule } from "./material.module";
 import { CommonModule } from "@angular/common";
-import { TranslateModule } from '@ngx-translate/core';
 import { ApplicationToolbarUserComponent } from "./application-toolbar-user/application-toolbar-user.component";
 import { ImagePipe } from "./pipes/image.pipe";
 import { UserPicComponent } from './user-pic/user-pic.component';
@@ -13,12 +12,23 @@ import { ApplicationMenuComponent } from "./application-menu/application-menu.co
 import { UserBackgroundPipe } from "./pipes/user-background.pipe";
 import { DialogService, DialogAlert, DialogConfirm } from "./dialog/dialog.service";
 import { MessageService } from "./message/message.service";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 @NgModule({
     imports: [
         CommonModule,
+        HttpClientModule,
         MaterialModule,
-        TranslateModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (httpClient: HttpClient) =>
+                    new TranslateHttpLoader(httpClient, "/assets/locale/message.", ".json"),
+                deps: [ HttpClient ]
+            }
+        }),
     ],
     declarations: [
         // general application frame

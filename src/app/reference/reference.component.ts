@@ -9,7 +9,7 @@ import { IGroupProfile } from "../../../api/group/group.interface";
 import IMessageService from "../core/message.service";
 import ReferenceService from "./reference.service";
 import { pipe, prop, pick, orderBy, groupBy } from '../share/util';
-import { filtersToPredicate } from "../share/utility";
+import { filtersToPredicate } from "../../app4/share/utilities";
 import { getType, activityTypes } from "../activity/activity.constants";
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "./reference.datamodel";
 import './reference.component.scss';

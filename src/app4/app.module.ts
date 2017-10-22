@@ -11,6 +11,7 @@ import { CoreModule } from './core/core.module';
 import { ShareModule } from './share/share.module';
 import { MaterialModule } from "./share/material.module";
 import { Auth } from "./auth/auth.module";
+import { Requests } from "./requests/requests.module";
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import { Auth } from "./auth/auth.module";
         NewPage,
         MaterialModule,
         Auth,
+        Requests,
     ]
 }) export class RootModule {
     ngDoBootstrap() {

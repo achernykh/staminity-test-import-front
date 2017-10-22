@@ -25,7 +25,7 @@ import {ActivityDetails} from "../../activity/activity-datamodel/activity.detail
 import {FtpState} from "../../activity/components/assignment/assignment.component";
 import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
 import {templatesFilters, ReferenceFilterParams, getOwner} from "../../reference/reference.datamodel";
-import {filtersToPredicate} from "../../share/utility/filtering";
+import {filtersToPredicate} from "../../../app4/share/utilities";
 import {ActivityIntervals} from "../../activity/activity-datamodel/activity.intervals";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {ActivityIntervalPW} from "../../activity/activity-datamodel/activity.interval-pw";

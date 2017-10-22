@@ -1,0 +1,8 @@
+{
+  "page": {
+    "fullTitle": "Новая страница",
+    "shortTitle": "Новая",
+    "HELLO": "Hello {{value}}",
+    "GOODBYE": "Goodbye"
+  }
+}

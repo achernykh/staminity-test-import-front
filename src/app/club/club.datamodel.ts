@@ -1,6 +1,6 @@
 import { IUserProfile } from "../../../api/user/user.interface";
 import { IGroupProfile } from "../../../api/group/group.interface";
-import { path } from "../share/utility";
+import { path } from "../../app4/share/utilities";
 
 
 export const isMember = (user: IUserProfile, club: IGroupProfile) : boolean => path([

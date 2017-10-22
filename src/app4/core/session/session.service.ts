@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from "rxjs/Rx";
 import { IUserProfile } from '../../../../api/user/user.interface';
-import { path } from '../../../app/share/utility';
+import { path } from '../../share/utilities';
 import { StorageService } from "../storage/storage.service";
 
 

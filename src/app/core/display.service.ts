@@ -5,7 +5,7 @@ import { merge } from 'angular';
 import { IUserProfile } from '../../../api/user/user.interface';
 import { ISessionService, ISession, getUser} from './session.service';
 import UserService from './user.service';
-import { path } from '../share/utility';
+import { path } from '../../app4/share/utilities/path';
 
 
 let getDisplay = (session: ISession) : string => path([getUser, 'display']) (session) || {};

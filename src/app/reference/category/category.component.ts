@@ -3,7 +3,7 @@ import { IActivityCategory } from "../../../../api/reference/reference.interface
 
 import IMessageService from '../../core/message.service';
 import ReferenceService from "../reference.service";
-import { path } from '../../share/utility';
+import { path } from '../../../app4/share/utilities';
 import { getType, activityTypes } from "../../activity/activity.constants";
 import './category.component.scss';
 

@@ -8,7 +8,7 @@ import {
     ResetPasswordRequest, SetPasswordRequest, InviteRequest,
     PostInviteRequest, UserCredentials
 } from "../../../api/auth/auth.request";
-import { toDay } from "../share/utils/date";
+import { toDay } from "../share/utilities/date";
 import { GroupService } from "../core/group/group.service";
 
 @Injectable()

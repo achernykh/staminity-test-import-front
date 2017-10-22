@@ -6,7 +6,7 @@ import './profile-user.component.scss';
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService, RequestsService) {
+    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, RequestsService) {
         'ngInject';
         this.$scope = Object.assign($scope, { Boolean });
         this.$mdDialog = $mdDialog;
@@ -14,7 +14,6 @@ class ProfileCtrl {
         this.SessionService = SessionService;
         this.UserService = UserService;
         this.GroupService = GroupService;
-        this.message = SystemMessageService;
         this.RequestsService = RequestsService;
     }
 
@@ -79,7 +78,7 @@ class ProfileCtrl {
     }
 };
 
-ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService','SystemMessageService','RequestsService'];
+ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService','RequestsService'];
 
 const ProfileComponent = {
     bindings: {

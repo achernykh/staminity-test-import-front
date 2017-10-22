@@ -3,7 +3,7 @@ import { merge } from "angular";
 
 import { IUserProfile } from '../../../api/user/user.interface';
 import { IStorageService } from "./storage.service";
-import { path } from '../share/utility';
+import { path } from '../../app4/share/utilities';
 
 
 export interface ISession {

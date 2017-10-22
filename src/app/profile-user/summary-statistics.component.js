@@ -29,7 +29,7 @@ const chartParams = {
 
 class SummaryStatisticsCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService) {
+    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService) {
         'ngInject';
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
@@ -37,7 +37,6 @@ class SummaryStatisticsCtrl {
         this.SessionService = SessionService;
         this.UserService = UserService;
         this.GroupService = GroupService;
-        this.message = SystemMessageService;
         this.chartParams = chartParams;
 
         this.ranges = [{
@@ -145,7 +144,7 @@ class SummaryStatisticsCtrl {
     }
 };
 
-SummaryStatisticsCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService','SystemMessageService'];
+SummaryStatisticsCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService'];
 
 export default {
     bindings: {

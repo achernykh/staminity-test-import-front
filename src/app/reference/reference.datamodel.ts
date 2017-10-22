@@ -4,7 +4,7 @@ import { IUserProfile } from "../../../api/user/user.interface";
 import { IGroupProfile } from "../../../api/group/group.interface";
 import { activityTypes, getType } from "../activity/activity.constants";
 import { measureValue, measureUnit } from "../share/measure/measure.constants";
-import { path, Filter } from "../share/utility";
+import { path, Filter } from "../../app4/share/utilities";
 
 
 type ActivityReference = IActivityCategory | IActivityTemplate;

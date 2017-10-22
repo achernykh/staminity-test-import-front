@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { IUserProfilePublic } from "../../../../api/user/user.interface";
-import { prop, maybe } from "../utils/common";
+import { prop, maybe } from "../utilities/common";
 
 @Pipe({ name: 'userName' })
 export class UserNamePipe implements PipeTransform {

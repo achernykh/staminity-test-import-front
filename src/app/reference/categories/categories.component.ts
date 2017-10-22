@@ -6,7 +6,7 @@ import { IGroupProfile } from "../../../../api/group/group.interface";
 
 import IMessageService from '../../core/message.service';
 import ReferenceService from "../reference.service";
-import { filtersToPredicate } from "../../share/utility";
+import { filtersToPredicate } from "../../../app4/share/utilities";
 import { ReferenceFilterParams, categoriesFilters, Owner, getOwner, isOwner } from "../reference.datamodel";
 import { CategoryDialogCtrl } from '../category-dialog/category-dialog.controller';
 import { getType, activityTypes } from "../../activity/activity.constants";
