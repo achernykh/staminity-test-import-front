@@ -15,6 +15,9 @@ import { MessageService } from "./message/message.service";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NotificationListComponent, NotificationService,
+    NotificationSettingsConfig, notificationsSettings } from "./notifications";
+
 
 @NgModule({
     imports: [
@@ -37,6 +40,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         ApplicationMenuComponent,
         UserPicComponent,
         UserBackgroundPipe,
+        NotificationListComponent,
 
         // pipes: images
         ImagePipe,
@@ -62,6 +66,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         LoaderService,
         MessageService,
         DialogService,
+        NotificationService,
+        { provide: NotificationSettingsConfig, useValue: notificationSettings },
 
         // use some pipes as service
         ImagePipe,

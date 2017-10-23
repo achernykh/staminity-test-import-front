@@ -12,6 +12,7 @@ import { ShareModule } from './share/share.module';
 import { MaterialModule } from "./share/material.module";
 import { Auth } from "./auth/auth.module";
 import { Requests } from "./requests/requests.module";
+import { Notifications } from "./notifications/notifications.module";
 
 export function configTranslate(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient, "./assets/i18n/app/", ".json");
@@ -38,6 +39,7 @@ export function configTranslate(httpClient: HttpClient) {
         MaterialModule,
         Auth,
         Requests,
+        Notifications
     ]
 }) export class RootModule {
     ngDoBootstrap() {

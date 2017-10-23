@@ -1,10 +1,11 @@
 import moment from 'moment/src/moment.js';
-import { INotification, Notification } from "../../../api/notification/notification.interface";
-import { SocketService, CommentService, ChatSession } from "../core";
-import { GetNotification, PutNotification } from "../../../api/notification/notification.request";
+import { INotification, Notification } from "../../../../api/notification/notification.interface";
+import { SocketService, CommentService, ChatSession } from "../../core";
+import { GetNotification, PutNotification } from "../../../../api/notification/notification.request";
 import { Observable, BehaviorSubject, Subject} from "rxjs/Rx";
-import { memorize } from "../share/utilities";
-import { Injectable } from "@angular/core";
+import { memorize } from "../utilities";
+import { Injectable, Inject } from "@angular/core";
+import { INotificationSettings } from './notifications.config';
 
 const parseDate = memorize(moment);
 const notificationsOrder = (a, b) => parseDate(a.ts) >= parseDate(b.ts) ? -1 : 1;
@@ -42,16 +43,19 @@ export class NotificationService {
 
     private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
 
-    private defaultSettings: INotificationSettings = {
+    /*private defaultSettings: INotificationSettings = {
         newestOnTop: false,
         timeOut: 7000,
         tapToDismiss: true,
         showDuration: 300,
         hideDuration: 300
-    };
+    };*/
 
     constructor(
-        private socket: SocketService, private toaster: any, private comment: CommentService){
+        @Inject() private settings: INotificationSettings,
+        private socket: SocketService,
+        //private toaster: any,
+        private comment: CommentService){
 
         this.comment.openChat$.subscribe(chat => this.openChat = chat); // следим за открытми чатами
 
@@ -104,11 +108,11 @@ export class NotificationService {
         return this.socket.send(new PutNotification(id, readUntil, isRead));
     }
 
-    show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {
+    show(notification: Notification, settings: INotificationSettings = this.settings) {
 
         this.timeouts[notification.index] = Date.now();
 
-        this.toaster.pop({
+        /**this.toaster.pop({
             onHideCallback: () => {
                 console.log(Date.now() - this.timeouts[notification.index]);
                 let userClick = (Date.now() - this.timeouts[notification.index]) < settings.timeOut;
@@ -125,7 +129,7 @@ export class NotificationService {
                 notification: notification
             }}),
             bodyOutputType: 'templateWithData'
-        });
+        });**/
     }
 
 }

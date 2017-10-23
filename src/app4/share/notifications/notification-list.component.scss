@@ -1,0 +1,26 @@
+@import "../../../sass/color";
+
+.notification-list {
+
+  md-list-item.read {
+    background-color: $grey-200;
+    a {
+      color: rgba(0,0,0,0.34);
+      text-decoration: none;
+    }
+    p {
+      color: rgba(0,0,0,0.34) !important;
+    }
+  }
+
+  a {
+    color: rgba(0,0,0,0.54);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: black;
+    text-decoration: none;
+  }
+
+}

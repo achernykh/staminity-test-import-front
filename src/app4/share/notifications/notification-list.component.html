@@ -1,0 +1,39 @@
+<mat-toolbar color="md-primary" class="notification-list__toolbar">
+    <span [translate]="'notifications'"></span>
+    <button mat-button-icon>
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-list class="notification-list__content">
+    <mat-list-item ngFor="let notification of notifications">
+        <mat-icon mat-list-icon></mat-icon>
+        <h4 mat-line>notification.name</h4>
+        <p mat-line>notification.template</p>
+    </mat-list-item>
+</mat-list>
+
+<!--<md-toolbar class="md-hue-3">
+    <div class="md-toolbar-tools">
+        <h2 flex>Уведомления</h2>
+        <md-button class="md-icon-button" aria-label="More" ng-click="$ctrl.close()">
+            <md-icon clas="material-icons">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-list class="md-dense" flex>
+    <md-list-item class="md-3-line" ng-class="{'read': notification.isRead}" ng-click="$ctrl.onClick($event, notification)"
+                  ng-repeat="notification in $ctrl.notifications | filter track by notification.index">
+        <avatar-pic type="notification.type"
+                    avatar="notification.avatar"
+                    sref="notification.state"
+                    is-premium="notification.isPremium"
+                    class="md-avatar size-36"></avatar-pic>
+        <div class="md-list-item-text" layout="column">
+            <div layout="row">
+                <h3 flex><a ui-sref="{{::notification.state}}">{{::notification.name | translate}}</a></h3>
+                <p flex="none">{{$ctrl.fromNow(notification.ts)}}</p>
+            </div>
+            <p>{{::notification.template | limitTo: 200 | translate:notification.params }}</p>
+        </div>
+    </md-list-item>
+</md-list>-->
