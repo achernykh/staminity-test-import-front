@@ -7,15 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const sortChunks = (orders) => (chunk1, chunk2) => {
-  const order1 = orders.indexOf(chunk1.names[0]);
-  const order2 = orders.indexOf(chunk2.names[0]);
-
-  return (order1 > order2 && 1)
-    || (order1 < order2 && -1)
-    || 0;
-}
-
 var ENV = process.env.npm_lifecycle_event;
 
 module.exports = {
@@ -107,7 +98,7 @@ module.exports = {
     },
 
     plugins: [
-
+        new webpack.NamedModulesPlugin(),
         new webpack.LoaderOptionsPlugin({
             options: {
                 tslint: {
@@ -127,18 +118,28 @@ module.exports = {
                 ' ',
             clear: false
         }),
-        new webpack.optimize.CommonsChunkPlugin({ 
-            names: "vendor",
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: "vendor",
+        //     chunks: ['app'],
+        //     filename: 'assets/js/[name].js',
+        //     minChunks: Infinity // (module) => module.context && module.context.indexOf("node_modules") !== -1
+        // }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "manifest",
+            chunks: ['loader'],
             filename: 'assets/js/[name].js',
-            chunks: ['app'],
-            minChunks: (module) => module.resource && /node_modules/.test(module.resource)
+            minChunks: Infinity
         }),
-        new webpack.optimize.CommonsChunkPlugin({ 
-            names: "manifest",
-            filename: 'assets/js/[name].js',
-            minChunks: Infinity,
+        new ExtractTextPlugin({
+            filename: "assets/css/[name].css",
+            allChunks: true
         }),
-        new ExtractTextPlugin({ filename: "assets/css/[name].css", allChunks: true }),/*,
+        new HtmlWebpackPlugin({ 
+            template: './src/index.html',
+            chunks: ['manifest', 'loader', 'vendor', 'app'],
+            inject: false
+        }),
+        /*,
         new ngAnnotatePlugin({
             add: true
             // other ng-annotate options here

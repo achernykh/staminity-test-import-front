@@ -164,7 +164,18 @@
             color: rgba(255, 255, 255, 0.87);
         }
     </style>
-    
+
+    <script>
+        var hash = '?cache=${new Date().getTime()}';
+        window['STAMINITY_SCRIPTS'] = [
+            '/assets/js/vendor.js' + hash, 
+            '/assets/js/app.js' + hash
+        ];
+        window['STAMINITY_STYLESHEETS'] = [
+            '/assets/css/vendor.css' + hash, 
+            '/assets/css/app.css' + hash
+        ];
+    </script>
 </head>
 <body>
 
@@ -224,8 +235,8 @@
     </div>
 </noscript>
 
-<script src="/assets/js/manifest.js" type="text/javascript" defer=""></script>
-<script src="/assets/js/loader.js" type="text/javascript" defer=""></script>
+<script src="/assets/js/manifest.js?cache=${new Date().getTime()}" type="text/javascript" defer=""></script>
+<script src="/assets/js/loader.js?cache=${new Date().getTime()}" type="text/javascript" defer=""></script>
 
 </body>
 </html>

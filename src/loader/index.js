@@ -4,7 +4,7 @@ const addScript = (url) => {
 	var script = document.createElement('script');
 	script.src = url;
 	script.setAttribute('type', 'text/javascript');
-	script.setAttribute('defer', '');
+	// script.setAttribute('defer', '');
 	document.body.appendChild(script);
 };
 
@@ -32,6 +32,6 @@ if (
 		.catch((err) => console.error('Boo!', err));
 	}
 
-	['/assets/js/vendor.js', '/assets/js/app.js'].forEach(addScript);
-	['/assets/css/vendor.js', '/assets/css/app.js'].forEach(addStylesheet);
+	window['STAMINITY_SCRIPTS'].forEach(addScript);
+	window['STAMINITY_STYLESHEETS'].forEach(addStylesheet);
 }
