@@ -79,12 +79,13 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     $onChanges(changes: any): void {
+
         if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
             this.prepareIntervals();
             this.selectedIntervals = this.calculateIndex(this.selectionIndex);
         }
         if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue && !this.completeDetails) {
-            this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);
+            this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.activity.details);
             this.completeDetails = true;
             this.prepareIntervals();
         }
