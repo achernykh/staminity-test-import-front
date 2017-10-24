@@ -36,7 +36,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     $onInit() {
         if(this.chart.hasOwnProperty('localParams') && !this.chart.localParams) {
-            this.prepareLocalFilter();
+            this.prepareLocalFilter('fromGlobal');
         }
 
         if(this.chart.hasOwnProperty('localParams') && this.chart.localParams) {

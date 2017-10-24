@@ -177,7 +177,7 @@ class AnalyticsChartCtrl implements IComponentController {
             activityTypes: [],
             periods: []
         };
-        this.filter.activityTypes.model.map(id => globalParams.activityTypes.push(...getSportsByBasicId(id)));
+        this.filter.activityTypes.model.map(id => globalParams.activityTypes.push(...getSportsByBasicId(Number(id))));
         globalParams.users = [Number(this.filter.users.model)];
         globalParams.periods = this.filter.periods.model !== 'customPeriod' ? periodByType(this.filter.periods.model) : this.filter.periods.model;
 
@@ -196,9 +196,6 @@ class AnalyticsChartCtrl implements IComponentController {
             periods: (this.chart.globalParams && globalParams.periods) ||
                 (c.params.periods && c.params.periods) || null
 
-            /**periods: (!this.chart.globalParams && c.params.periods && c.params.periods) ||
-                (this.filter.periods.model === 'customPeriod' && this.filter.periods.data.model) ||
-                periodByType(this.filter.periods.model) || this.chart.charts[i].params.periods**/
         });
     }
 
