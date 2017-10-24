@@ -3,20 +3,28 @@
         <h2 class="md-title" translate="settings.notification.header"></h2>
     </md-card-title>
     <form name="$ctrl.notificationsForm">
-        <md-list class="md-dense section">
-            <div flex="100" class="md-no-stiky md-subheader" ng-repeat-start="notification in $ctrl.notifications track by $index"
-                 ng-if="$first || $ctrl.notifications[$index-1].group !== notification.group">
-                <span class="md-subheader-inner" translate>{{::'notification.'+notification.group}}</span>
-            </div>
-            <md-list-item layout="row">
-                <span flex="none" translate="{{::notification.name}}"></span>
-                <div flex="auto" layout="row" layout-align="end center">
-                    <md-checkbox class="md-primary" ng-model="notification.email" aria-label="email" ng-change="$ctrl.onChange()">Email</md-checkbox>
-                    <md-checkbox class="md-primary" ng-model="notification.phone" aria-label="phone" ng-change="$ctrl.onChange()">Phone</md-checkbox>
-                    <md-checkbox class="md-primary" ng-model="notification.web" aria-label="web" ng-change="$ctrl.onChange()">Site</md-checkbox>
+        <div ng-repeat="group in $ctrl.listGroup track by $index">
+
+            <md-subheader class="md-no-sticky" ng-repeat-start="(subGroupName, subGroup) in group track by $index">
+                <div layout="row" layout-align="space-between center">
+                    <span flex="none" translate>{{::'settings.notification.' + subGroupName}}</span>
+                    <div flex="none" class="providers-icon">
+                        <md-icon class="material-icons">email</md-icon>
+                        <md-icon class="material-icons">smartphone</md-icon>
+                        <md-icon class="material-icons">laptop</md-icon>
+                    </div>
                 </div>
-            </md-list-item>
-            <md-divider ng-repeat-end ng-if="!$last && $ctrl.notifications[$index+1].group !== notification.group"></md-divider>
-        </md-list>
+            </md-subheader>
+            <md-list class="md-dense section">
+                <md-list-item layout="row" ng-repeat="(settingsName, settings) in subGroup track by $index">
+                    <p translate="{{::'settings.notification.' + settingsName}}"></p>
+                    <md-checkbox class="md-primary md-secondary" ng-model="settings[0]" aria-label="email" ng-change="$ctrl.change(settingsName, settings)"></md-checkbox>
+                    <md-checkbox class="md-primary md-secondary" ng-model="settings[1]" aria-label="phone" ng-change="$ctrl.change(settingsName, settings)"></md-checkbox>
+                    <md-checkbox class="md-primary md-secondary" ng-model="settings[2]" aria-label="web" ng-change="$ctrl.change(settingsName, settings)"></md-checkbox>
+                </md-list-item>
+            </md-list>
+            <md-divider ng-repeat-end></md-divider>
+
+        </div>
     </form>
 </md-card>

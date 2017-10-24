@@ -1,3 +1,19 @@
 .settings-notification {
+  md-list-item {
+    span {
+      padding-right: 4px;
+    }
+  }
+
+  .providers-icon {
+
+    md-icon {
+      margin-right: 18px;
+    }
+
+    md-icon:last-child {
+      margin-right: 2px;
+    }
+  }
 
 }

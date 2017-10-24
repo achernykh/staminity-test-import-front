@@ -1,10 +1,16 @@
 import './settings-notification.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import { IUserNotifications } from "../../../../api/user/user.interface";
+import { INotificationGroup, groupStructure } from './settings-notification.config';
 
 class SettingsNotificationCtrl implements IComponentController {
 
-    public notifications: any;
-    public onEvent: (response: Object) => IPromise<void>;
+    public notifications: IUserNotifications;
+    public onChange: () => IPromise<void>;
+
+    private list: IUserNotifications;
+    private listGroup: INotificationGroup = {};
+
     static $inject = [];
 
     constructor() {
@@ -12,8 +18,39 @@ class SettingsNotificationCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        this.list = Object.assign({}, this.notifications);
+        this.prepareNotificationGroup();
     }
+
+    private prepareNotificationGroup(): void {
+
+        if(!this.list) { return; }
+
+        Object.keys(this.list).map(settings => {
+                Object.keys(groupStructure).map(group => {
+                    Object.keys(groupStructure[group]).map(subGroup => {
+                        if (groupStructure[group][subGroup].indexOf(settings) !== -1) {
+                            if (!this.listGroup.hasOwnProperty(group)) {
+                                this.listGroup[group] = {};
+                            }
+                            if(!this.listGroup[group].hasOwnProperty(subGroup)) {
+                                this.listGroup[group][subGroup] = {};
+                            }
+                            this.listGroup[group][subGroup][settings] = this.list[settings];
+                        }
+                    });
+                });
+            }
+        );
+    }
+
+    private change(name, value): void {
+
+        this.list[name] = value;
+        this.notifications = Object.assign({}, this.list);
+        this.onChange();
+    }
+
 }
 
 const SettingsNotificationComponent:IComponentOptions = {

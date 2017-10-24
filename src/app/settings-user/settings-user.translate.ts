@@ -340,7 +340,11 @@ export const _translate = {
 
         },
         notification: {
-            header: 'Уведомления'
+            header: 'Уведомления',
+            user: 'Пользователь',
+            userActivities: 'Пользователь: события по тренировкам',
+            sync: 'Загрузка тренировок',
+            zones: 'Зоны и пороги',
         },
         templates: {
             header: 'Шаблоны тренировок'
