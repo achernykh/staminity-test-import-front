@@ -4,7 +4,7 @@ structured-interval {
 
   position: relative;
 
-  div.segment-point {
+  .segment-point {
     width: 10px;
     height: 10px;
     border-radius: 5px;
@@ -83,7 +83,7 @@ structured-interval {
   }
 
 
-  div.interval-data, div.interval-comment {
+  .interval-data, .interval-comment {
     padding: 2px 16px 2px 16px;
     transition: all 0.3s;
     min-height: 44px;

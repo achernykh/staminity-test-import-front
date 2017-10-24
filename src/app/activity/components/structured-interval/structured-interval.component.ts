@@ -1,5 +1,5 @@
 import './structured-interval.component.scss';
-import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
 import {IActivityIntervalP} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
@@ -57,6 +57,7 @@ class StructuredIntervalCtrl implements IComponentController {
     private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
 
     private ftp: {[measure: string] : number};
+    private segmentForm: INgModelController;
 
     static $inject = [];
 
@@ -136,6 +137,7 @@ class StructuredIntervalCtrl implements IComponentController {
         if (measure === 'distance') {
             this.interval.distanceLength = this.interval.durationValue;
         }
+        this.item.assignmentForm.$setValidity('segmentInput', this.segmentForm.$valid);
         this.onChange({interval: this.interval});
     }
 
