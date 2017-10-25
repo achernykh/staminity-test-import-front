@@ -43,7 +43,7 @@ export default class ActivityService {
      * @param types
      * @returns {Promise<any>}
      */
-    getIntervals(id:number, types: string = 'L'):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
+    getIntervals(id:number, types: Array<string> = ['L']):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
         return this.SocketService.send(new GetActivityIntervals(id, types))
             .then((response: {intervals: Array<any>}) => response.intervals);
     }
