@@ -13,7 +13,7 @@ export interface INotificationGroupStructure {
         coachWork: Array<string>;
     };
     club: {
-        coachManagement: Array<string>;
+        clubManagement: Array<string>;
     };
 };
 
@@ -38,15 +38,15 @@ export const groupStructure:INotificationGroupStructure = {
     user: {
         userActivities: ['sync', 'zones'],
         userClub: ['clubCoach', 'clubRequest', 'clubRoleAssignment'],
-        userCoach: ['coachActivities', 'coachComments', 'coachInvite', 'coachRequest'],
-        userSocial: ['comments','followActivities','friendActivities','friendRequests','groupRequests','group','messages'],
-        userStaminity: ['system'],
+        userCoach: ['coachActivities', 'coachComments', 'coachRequest', 'incomingRequesAthlete'],
+        userSocial: ['comments','followActivities','friendActivities','friendRequests','groupRequests','groups','messages'],
         userTariffs: ['billPayment','billRecurring','newBills','tariffActions','trial'],
+        userStaminity: ['system'],
     },
     coach: {
         coachWork: ['athleteActivities','athleteComments','athleteConnections','athleteRequest','incomingRequestCoach','zonesAthlete'],
     },
     club: {
-        coachManagement: ['assignClubCoach','clubRoleAssignment','clubTariffs','incomingRequestClub','membersInOut','membersRequest']
+        clubManagement: ['assignClubCoach','clubRoleAssignment','clubTariffs','incomingRequestClub','membersInOut','membersRequest']
     }
 };
