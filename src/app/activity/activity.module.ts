@@ -30,8 +30,10 @@ import ActivityAssignmentHeaderComponent from "./components/assignement-header/a
 import AssignmentSummaryNonStructuredComponent from "./components/assignment-summary-non-structured/assignment-summary-non-structured.component";
 import AssignmentSummaryStructuredComponent from "./components/assignment-summary-structured/assignment-summary-structured.component";
 import ActivityIntervalOverviewComponent from "./activity-interval-overview/activity-interval-overview.component";
+import { StateProvider } from "angular-ui-router/lib/index";
+import { activityState } from "./activity.state";
 
-const Activity = module('staminity.activity', [])
+export const ActivityModule = module('staminity.activity', [])
 	.service('ActivityService', ActivityService)
 	.component('activity', ActivityComponent)
 	.component('activityHeader', ActivityHeaderComponent)
@@ -62,14 +64,15 @@ const Activity = module('staminity.activity', [])
 	.component('assignmentSummaryNonStructured', AssignmentSummaryNonStructuredComponent)
 	.component('assignmentSummaryStructured', AssignmentSummaryStructuredComponent)
 	.component('activityIntervalOverview', ActivityIntervalOverviewComponent)
-	.run(['$timeout','leafletData',($timeout, leafletData)=> {
-		$timeout(()=> {
-			leafletData.getMap().then((map) => {
+	.config(['$stateProvider', ($stateProvider: StateProvider) => $stateProvider.state(activityState)])
+	.config(['$translateProvider', ($translate) =>
+		$translate.useStaticFilesLoader({prefix: '/assets/i18n/activity/', suffix: '.json'})])
+	.run(['$timeout','leafletData', ($timeout, leafletData) => {
+		$timeout(() => {
+			leafletData.getMap().then(map => {
 				map.invalidateSize();
 			});
 		});
 	}])
 	.config(configure)
 	.name;
-
-export default Activity;

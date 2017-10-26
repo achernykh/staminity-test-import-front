@@ -44,6 +44,7 @@ module.exports = {
             'angular-carousel/dist/angular-carousel.css',
             'angular-touch', // not supported when use angular-material, but need for angular-carousel
             'angular-drag-and-drop-lists',
+            'angular-read-more',
             'angularjs-scroll-glue',
             'drag-drop-webkit-mobile',
             'angular-ui-router',
