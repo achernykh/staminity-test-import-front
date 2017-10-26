@@ -158,6 +158,30 @@ class SettingsUserCtrl {
         this.displayForm.$dirty = true;
     }
 
+    countrySearch (query) {
+        let countries = this._country_list[this.display.getLocale()];
+        let regexp = new RegExp(query, 'i');
+
+        return query ? Object.keys(countries).filter((key) => ~countries[key].search(regexp)) : countries;
+    }
+
+    citySearch (query) {
+        let language = this.display.getLocale();
+        let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+        let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM'
+        let request = {
+            method: 'GET',
+            url: `${api}?input=${query}&types=(cities)&language=${language}&key=${key}`,
+            headers: {
+                'Access-Control-Allow-Headers': 'Content-Type, Content-Range, Content-Disposition, Content-Description',
+                'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+                'Access-Control-Allow-Origin': '*'
+            }
+        };
+
+        return this._$http(request).then((result) => result.predictions, (error) => []);
+    }
+
     isDirty () {
         return this.publicForm && this.publicForm.$dirty ||
             this.personalFirstForm && this.personalFirstForm.$dirty ||
