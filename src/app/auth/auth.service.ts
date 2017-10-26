@@ -103,8 +103,8 @@ export default class AuthService implements IAuthService {
         return this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
     }
 
-    isActivityPro(role: Array<string> = ['ActivitiesProView_User','ActivitiesProView_Athletes']) : boolean {
-        return this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
+    isActivityPro(role: Array<string> = ['ActivitiesProView_User', 'ActivitiesProView_Athletes']) : boolean {
+        return this.isCoach() && this.isAuthorized([role[1]]) ||  this.isAuthorized([role[0]]); //this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
     }
 
     /**
