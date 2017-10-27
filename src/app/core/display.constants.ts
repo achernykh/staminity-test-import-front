@@ -1,5 +1,7 @@
 import { merge } from 'angular';
 
+export const supportLng: Array<string> = ['en', 'ru'];
+
 export class DisplayView  {
 	constructor(private state: string){
 		merge(
@@ -507,6 +509,33 @@ export const _display_view = {
 	},
 	// Настройка страницы: Аналитика и отчеты
 	analytics: {
+		background: {
+			style: 'light-grey',
+			toolbar: true,
+			size: 60,
+			position: 'front', // | 'behind'
+		},
+		header: {
+			enabled: true,
+			title: true,
+			athletes: true,
+			leftPanel: {
+				url: 'header/appmenutoolbar.html',
+				size: 20
+			},
+			rightPanel: {
+				url: 'header/usertoolbar.html',
+				size: 20
+			}
+		},
+		application: {
+			style: 'app-page',
+			margin: 20,
+			size: 'grow'
+		}
+	},
+	// Настройка страницы: Аналитика и отчеты
+	trainingPlansSearch: {
 		background: {
 			style: 'light-grey',
 			toolbar: true,

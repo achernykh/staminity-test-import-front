@@ -23,6 +23,7 @@ import Club from "./club/club.module";
 import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
+import TrainingPlans from "./training-plans/training-plans.module";
 import Analytics from "./analytics/analytics.module";
 
 const root = module('staminity.application', [
@@ -59,7 +60,8 @@ const root = module('staminity.application', [
 	Dashboard,
 	Search,
 	Reference,
-	Analytics
+	Analytics,
+	TrainingPlans
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

@@ -8,6 +8,7 @@ import {CalendarService} from "./calendar.service";
 import {SessionService} from "../core";
 import {ICalendarItem, IUserProfile} from "../../../api";
 import DisplayService from "../core/display.service";
+import {TrainingPlan} from "../training-plans/training-plan/training-plan.datamodel";
 
 
 const prepareItem = (item: ICalendarItem, shift: number) => {
@@ -519,6 +520,36 @@ export class CalendarCtrl implements IComponentController{
                 .then(()=> this.clearBuffer());;
         }
 
+    }
+
+    onPostPlan(env: Event){
+        this.$mdDialog.show({
+            controller: ['$scope','$mdDialog', ($scope, $mdDialog) => {
+                $scope.hide = () => $mdDialog.hide();
+                $scope.cancel = () => $mdDialog.cancel();
+                $scope.answer = (chart,update) => $mdDialog.hide({chart: chart,update: update});
+            }],
+            controllerAs: '$ctrl',
+            template:
+                `<md-dialog id="training-plan-form" aria-label="Training Plan Form">
+                        <training-plan-form
+                                layout="column" layout-fill class="training-plan-form"
+                                mode="post"
+                                plan="$ctrl.plan"
+                                on-cancel="cancel()" on-save="answer(chart, update)">
+                        </training-plan-form>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: env,
+            locals: {
+                plan: new TrainingPlan({calendarItems: this.buffer})
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true
+
+        }).then((response) => {}, () => {});
     }
 
     onDelete(items:Array<ICalendarItem>) {
