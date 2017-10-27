@@ -12,7 +12,11 @@ function configure($stateProvider:StateProvider, $translateProvider){
             resolve: {
                 view: () => new DisplayView('trainingPlansSearch')
             },
-            views: DefaultTemplate('trainingPlansSearch')
+            views: {
+                "application": {
+                    component: 'trainingPlansSearch'
+                }
+            }
         });
 
     supportLng.map(lng => $translateProvider.translations(lng, { trainingPlans: _translateTrainingPlans[lng] }));
