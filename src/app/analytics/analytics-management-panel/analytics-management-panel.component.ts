@@ -2,7 +2,7 @@ import './analytics-management-panel.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {AnalyticsCtrl} from "../analytics.component";
 import { AnalyticsChartFilter } from "../analytics-chart-filter/analytics-chart-filter.model";
-import {IStorageService} from "../../core/storage.service";
+import { StorageService} from "../../core";
 
 class AnalyticsManagementPanelCtrl implements IComponentController {
 
@@ -17,7 +17,7 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
 
     static $inject = ['$filter','storage'];
 
-    constructor(private $filter: any, private storage: IStorageService) {
+    constructor(private $filter: any, private storage: StorageService) {
 
     }
 

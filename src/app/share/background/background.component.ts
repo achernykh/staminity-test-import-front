@@ -1,5 +1,5 @@
 import { IComponentOptions, IComponentController} from 'angular';
-import {SocketService} from "../../core/socket.service";
+import {SocketService} from "../../core";
 import {IAuthService} from "../../auth/auth.service";
 require('./background.template.scss');
 

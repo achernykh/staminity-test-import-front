@@ -1,6 +1,6 @@
 import {IReportResponse, IReportRequestData} from "../../../api/statistics/statistics.interface";
-import {ISocketService} from "./socket.service";
-import {GetIChartMetrics} from "../../../api/statistics/statistics.request";
+import {SocketService} from "./index";
+import {GetIChartMetricsRequest} from "../../../api/statistics/statistics.request";
 
 /**
  *
@@ -9,7 +9,7 @@ export default class StatisticsService {
 
     static $inject = ['SocketService'];
 
-    constructor(private socket: ISocketService) {
+    constructor(private socket: SocketService) {
 
     }
 
@@ -19,7 +19,7 @@ export default class StatisticsService {
      * @returns {Promise<any>}
      */
     getMetrics(request: IReportRequestData):Promise<IReportResponse> {
-        return this.socket.send(new GetIChartMetrics(request));
+        return this.socket.send(new GetIChartMetricsRequest(request));
     }
 
 }

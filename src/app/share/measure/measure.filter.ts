@@ -11,7 +11,7 @@ import {
 	measurementUnitView,
 	measurementUnitDisplay
 } from './measure.constants';
-import {ISessionService} from "../../core/session.service";
+import {SessionService} from "../../core";
 /*
 export const measureView = ['SessionService', (SessionService:ISessionService) => (data, sport, measure, chart = false, units = 'metric') => {
 	if (!!data) {

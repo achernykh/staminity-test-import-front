@@ -1,10 +1,9 @@
 import './athlete-selector.component.scss';
 import {IComponentOptions, IComponentController, IPromise,IScope} from 'angular';
-import {ISessionService, getUser} from "../../core/session.service";
+import { SessionService, getUser} from "../../core";
 import GroupService from "../../core/group.service";
 import MessageService from "../../core/message.service";
-import {IGroupManagementProfileMember} from "../../../../api/group/group.interface";
-import {IUserProfile} from "../../../../api/user/user.interface";
+import {IGroupManagementProfileMember} from "../../../../api";
 import {Subject} from 'rxjs/Rx';
 
 class AthleteSelectorCtrl implements IComponentController {
@@ -18,7 +17,7 @@ class AthleteSelectorCtrl implements IComponentController {
     static $inject = ['SessionService','GroupService','message','$scope'];
 
     constructor(
-        private SessionService: ISessionService,
+        private SessionService: SessionService,
         private GroupService: GroupService,
         private message: MessageService,
         private $scope: IScope

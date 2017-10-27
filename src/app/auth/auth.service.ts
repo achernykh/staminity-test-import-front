@@ -1,16 +1,14 @@
-import {PostData, IRESTService} from '../core/rest.service';
 import {
-    SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest,
-    ResetPasswordRequest
-} from '../../../api/auth/auth.request';
-import {ISessionService} from "../core/session.service";
-import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise, HttpHeaderType, copy} from 'angular';
-import {ISocketService} from "../core/socket.service";
-import {IUserProfile} from "../../../api/user/user.interface";
+    IUserProfile,
+    SetPasswordRequest, UserCredentials, InviteUserRequest,
+    ResetPasswordRequest, PutUserInviteRequest
+} from '../../../api/';
+import {SessionService, SocketService} from "../core";
+import {PostData, IRESTService} from '../core/rest.service';
+import {IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
 import GroupService from "../core/group.service";
-import {GetRequest} from "../../../api/calendar/calendar.request";
-import {Observable} from "rxjs/Rx";
 import {toDay} from "../activity/activity.datamodel";
+
 
 
 export interface IAuthService {
@@ -36,9 +34,9 @@ export default class AuthService implements IAuthService {
     static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService'];
 
     constructor(
-        private SessionService:ISessionService,
+        private SessionService: SessionService,
         private RESTService:IRESTService,
-        private SocketService:ISocketService,
+        private SocketService: SocketService,
         private GroupService:GroupService
     ) {
 
@@ -178,11 +176,11 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     inviteUsers(group: number, users: Array<Object>) : Promise<any> {
-        return this.SocketService.send(new InviteRequest(group,users));
+        return this.SocketService.send(new InviteUserRequest(group,users));
     }
 
     putInvite(credentials: UserCredentials) : Promise<any> {
-        return this.RESTService.postData(new PostData('/api/wsgate', new PostInviteRequest(credentials)))
+        return this.RESTService.postData(new PostData('/api/wsgate', new PutUserInviteRequest(credentials)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 }

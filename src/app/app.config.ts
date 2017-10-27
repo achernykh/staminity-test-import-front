@@ -14,6 +14,7 @@ function configure(
 	$qProvider: any,
 	$mdGestureProvider: any
 ) {
+	console.log('app: config start');
 	$mdGestureProvider.skipClickHijack(); //https://github.com/angular/angular.js/issues/6251
 	$qProvider.errorOnUnhandledRejections(false); // https://github.com/angular-ui/ui-router/issues/2889
 	$anchorScrollProvider.disableAutoScrolling();

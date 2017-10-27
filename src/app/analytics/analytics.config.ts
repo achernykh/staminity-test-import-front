@@ -1,7 +1,6 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {DisplayView, DefaultTemplate} from "../core/display.constants";
-import SessionService from "../core/session.service";
-import {ISessionService} from "../core/session.service";
+import {SessionService} from "../core";
 import GroupService from "../core/group.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {translateAnalytics} from "./analytics.translate";
@@ -20,7 +19,7 @@ function configure($stateProvider:StateProvider,
                 view: () => {
                     return new DisplayView('analytics');
                 },
-                user: ['SessionService', (session:ISessionService) => session.getUser()],
+                user: ['SessionService', (session: SessionService) => session.getUser()],
                 categories: ['ReferenceService', (reference: ReferenceService) => reference.categories]
                 /**coach: ['SessionService', (session:ISessionService) => session.getUser()],
                 groupId: ['coach', (coach:IUserProfile) => coach.connections['allAthletes'].groupId],

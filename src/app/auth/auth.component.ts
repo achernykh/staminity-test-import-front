@@ -1,5 +1,5 @@
 import { IComponentOptions, IComponentController,ILocationService,IHttpPromiseCallbackArg} from 'angular';
-import SessionService from "../core/session.service";
+import {SessionService} from "../core";
 import {StateService} from 'angular-ui-router';
 import {IMessageService} from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";

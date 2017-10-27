@@ -3,14 +3,10 @@ import * as moment from 'moment/min/moment-with-locales.js';
 import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
 import {Subject} from "rxjs/Rx";
 import NotificationService from "./notification.service";
-import {INotification, Notification, Initiator} from "../../../../api/notification/notification.interface";
 import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
-import CommentService from "../../core/comment.service";
-import {ISessionService, getUser} from "../../core/session.service";
-import {IUserProfile} from "../../../../api/user/user.interface";
-import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
-
+import { SessionService, getUser} from "../../core";
+import {IUserProfile, ICalendarItem, INotification, Notification, Initiator} from "../../../../api";
 
 class NotificationListCtrl implements IComponentController {
 
@@ -44,7 +40,7 @@ class NotificationListCtrl implements IComponentController {
         private NotificationService: NotificationService,
         private CalendarService: CalendarService,
         private UserService: UserService,
-        private session: ISessionService
+        private session: SessionService
     ) {
 
     }

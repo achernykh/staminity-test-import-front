@@ -1,8 +1,7 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {translateDashboard, translateDashboardClub} from "./dashboard.translate";
 import {DisplayView} from "../core/display.constants";
-import SessionService from "../core/session.service";
-import {ISessionService} from "../core/session.service";
+import {SessionService} from "../core";
 import GroupService from "../core/group.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 
@@ -16,7 +15,7 @@ function configure($stateProvider:StateProvider,
             authRequired: ['user'],
             resolve: {
                 view: () => {return new DisplayView('dashboard');},
-                coach: ['SessionService', (session:ISessionService) => session.getUser()],
+                coach: ['SessionService', (session: SessionService) => session.getUser()],
                 groupId: ['coach', (coach:IUserProfile) => coach.connections['allAthletes'].groupId],
                 athletes: ['GroupService', 'groupId', (group:GroupService, groupId:number) =>
                     group.getManagementProfile(groupId ,'coach')]
@@ -48,7 +47,7 @@ function configure($stateProvider:StateProvider,
             authRequired: ['user'],
             resolve: {
                 view: () => {return new DisplayView('dashboardClub');},
-                coach: ['SessionService', (session:ISessionService) => session.getUser()],
+                coach: ['SessionService', (session: SessionService) => session.getUser()],
                 groupId: ['coach','$stateParams', (coach:IUserProfile, $stateParams) =>
                     coach.connections['ControlledClubs'].filter(club => club.groupUri === $stateParams.uri)[0].groupId],
                 athletes: ['GroupService', 'groupId', (group:GroupService, groupId:number) =>

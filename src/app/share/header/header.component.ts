@@ -1,11 +1,9 @@
 import * as angular from 'angular';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {Subject} from "rxjs/Rx";
-import {INotification, Notification} from "../../../../api/notification/notification.interface";
-import {IGroupMembershipRequest} from '../../../../api/group/group.interface';
 import UserService from "../../core/user.service";
-import {IUserProfile} from "../../../../api/user/user.interface";
-import { ISessionService, getUser } from "../../core/session.service";
+import {IUserProfile, INotification, Notification, IGroupMembershipRequest} from "../../../../api";
+import { SessionService, getUser, SocketService } from "../../core";
 import RequestsService from "../../core/requests.service";
 import { Observable } from 'rxjs/Observable';
 import './header.component.scss';
@@ -14,7 +12,6 @@ import NotificationService from "../notification/notification.service";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
 import DisplayService from "../../core/display.service";
-import {ISocketService, SocketService} from "../../core/socket.service";
 
 class HeaderCtrl implements IComponentController {
 	public requestsList: IGroupMembershipRequest[] = [];
@@ -36,7 +33,7 @@ class HeaderCtrl implements IComponentController {
 		private $scope,
 		private $mdSidenav: any,
 		private AuthService: any,
-		private SessionService: ISessionService,
+		private SessionService: SessionService,
 		private RequestsService: RequestsService,
 		private	NotificationService: NotificationService,
 		private comment: CommentService,

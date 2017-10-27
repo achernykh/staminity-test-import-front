@@ -1,6 +1,5 @@
 import './analytics.component.scss';
 import {IComponentOptions, IComponentController, IPromise, IScope, copy} from 'angular';
-import {ISessionService, getUser} from "../core/session.service";
 import StatisticsService from "../core/statistics.service";
 import {IAnalyticsChart, AnalyticsChart} from "./analytics-chart/analytics-chart.model";
 import {IUserProfile, IUserProfilePublic, IUserProfileShort} from "../../../api/user/user.interface";
@@ -11,7 +10,7 @@ import {
 } from "./analytics-chart-filter/analytics-chart-filter.model";
 import {IActivityCategory} from "../../../api/reference/reference.interface";
 import ReferenceService from "../reference/reference.service";
-import {IStorageService} from "../core/storage.service";
+import {StorageService, SessionService, getUser} from "../core";
 import {IAuthService} from "../auth/auth.service";
 
 
@@ -38,9 +37,9 @@ export class AnalyticsCtrl implements IComponentController {
         'AuthService', '$filter'];
 
     constructor(private $scope: IScope,
-                private session: ISessionService,
+                private session: SessionService,
                 private statistics: StatisticsService,
-                private storageService: IStorageService,
+                private storageService: StorageService,
                 private reference: ReferenceService,
                 private defaultSettings: Array<IAnalyticsChart>,
                 private auth: IAuthService,

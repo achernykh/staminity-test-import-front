@@ -1,11 +1,11 @@
-import { Ng1StateDeclaration } from "angular-ui-router/lib/index";
+import { StateDeclaration } from "angular-ui-router";
 import { DisplayView } from "../core/display.constants";
 import { CalendarService } from "../calendar/calendar.service";
 import MessageService from "../core/message.service";
 import { ICalendarItem } from "../../../api/";
 import UserService from "../core/user.service";
 
-export const activityState: Ng1StateDeclaration = {
+export const activityState = {
 
     name: 'activity',
     url: '/activity/:calendarItemId',

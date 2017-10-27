@@ -1,7 +1,7 @@
 import { IComponentOptions, IComponentController, ILocationService} from 'angular';
 import { UserMenuSettings } from '../application-menu/application-menu.constants';
-import {IUserProfile} from "../../../../api/user/user.interface";
-import { ISessionService, getUser } from "../../core/session.service";
+import {IUserProfile} from "../../../../api";
+import { SessionService, getUser } from "../../core";
 import { Subject } from "rxjs/Rx";
 import {StateService} from "angular-ui-router";
 import DisplayService from "../../core/display.service";
@@ -17,7 +17,7 @@ class UserMenuCtrl implements IComponentController{
     constructor(
         private $mdSidenav: any,
         private $location: ILocationService,
-        private SessionService: ISessionService,
+        private SessionService: SessionService,
         private $state: StateService,
         private display: DisplayService
     ) {

@@ -5,7 +5,7 @@ import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service";
-import SessionService from "../core/session.service";
+import {SessionService} from "../core";
 
 function configure($stateProvider:StateProvider,
                    $translateProvider:any) {

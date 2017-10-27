@@ -1,5 +1,5 @@
 import * as _connection from './env.js';
-import {ISessionService} from './session.service';
+import { SessionService} from './index';
 import { IHttpService, IHttpPromise } from 'angular';
 import LoaderService from "../share/loader/loader.service";
 
@@ -111,7 +111,7 @@ export class RESTService implements IRESTService {
 
 	static $inject = ['$http', 'SessionService','LoaderService'];
 
-	constructor(private $http:IHttpService, private SessionService:ISessionService, private loader: LoaderService) {
+	constructor(private $http:IHttpService, private SessionService: SessionService, private loader: LoaderService) {
 		//this.$http = $http;
 		//this.SessionService = SessionService;
 	}

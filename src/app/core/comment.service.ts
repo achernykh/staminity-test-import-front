@@ -1,9 +1,9 @@
-import {ISocketService} from './socket.service';
+import {SocketService} from './index';
 import {
-    GetComment, PostComment, PutComment,
-    DeleteComment
-} from "../../../api/social/comment.request";
-import {IObjectComment} from "../../../api/social/comment.interface";
+    IObjectComment,
+    GetCommentRequest, PostCommentRequest, PutCommentRequest,
+    DeleteCommentRequest
+} from "../../../api";
 import {Observable, Subject} from "rxjs/Rx";
 
 export interface ChatSession {
@@ -18,7 +18,7 @@ export default class CommentService {
 
     static $inject = ['SocketService'];
 
-    constructor(private SocketService:ISocketService) {
+    constructor(private SocketService: SocketService) {
         this.comment$ = this.SocketService.messages.filter(message => message.type === 'objectComment').share();
         this.openChat$ = new Subject();
     }
@@ -32,7 +32,7 @@ export default class CommentService {
      * @returns {Promise<any>}
      */
     get(type: string, id: number, coach: boolean = false, limit?: number, offset?: number):Promise<Array<IObjectComment>> {
-        return this.SocketService.send(new GetComment(type,id,coach,limit,offset));
+        return this.SocketService.send(new GetCommentRequest(type,id,coach,limit,offset));
     }
 
     /**
@@ -43,7 +43,7 @@ export default class CommentService {
      * @returns {Promise<any>}
      */
     post(type: string, id: number, coach: boolean = false, text: string):Promise<any> {
-        return this.SocketService.send(new PostComment(type,id,coach,text));
+        return this.SocketService.send(new PostCommentRequest(type,id,coach,text));
     }
 
     /**
@@ -53,7 +53,7 @@ export default class CommentService {
      * @returns {Promise<any>}
      */
     put(id: number, text: string):Promise<any> {
-        return this.SocketService.send(new PutComment(id,text));
+        return this.SocketService.send(new PutCommentRequest(id,text));
     }
 
     /**
@@ -62,7 +62,7 @@ export default class CommentService {
      * @returns {Promise<any>}
      */
     delete(id: number):Promise<any> {
-        return this.SocketService.send(new DeleteComment(id));
+        return this.SocketService.send(new DeleteCommentRequest(id));
     }
 
 }

@@ -1,7 +1,7 @@
 import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
 import {_translate} from './auth.translate';
 import {_display_view, DisplayView} from "../core/display.constants";
-import SessionService from "../core/session.service";
+import {SessionService} from "../core";
 
 function configure(
 	$stateProvider:StateProvider,

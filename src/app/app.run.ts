@@ -20,6 +20,7 @@ function run(
 	DisplayService: any // not used, just force DisplayService being initialized
 ) {
 	//window.navigator['standalone'] = true;
+	console.log('app: run');
 
 	let workerController = path(['serviceWorker', 'controller']) (navigator);
 

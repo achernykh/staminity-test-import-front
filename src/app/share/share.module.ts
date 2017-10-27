@@ -45,7 +45,7 @@ import {_translate_PageNotFound} from "./404/404.translate";
 import UniversalChartComponent from "./universal-chart/universal-chart.component";
 import {translateHeader} from "./header/header.translate";
 import {compareTo} from "./directives/form.directive";
-import SessionService from "../core/session.service";
+import {SessionService} from "../core";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -152,7 +152,7 @@ function autoFocus() {
     };
 }
 
-const Share = module('staminity.share', [])
+const Share = module('staminity.share', ['ui.router','pascalprecht.translate'])
     .filter('calcTimezoneTime', calcTimezoneTime)
     .filter('fromNow', fromNow)
     .filter('avatar', avatar)

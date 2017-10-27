@@ -3,7 +3,7 @@ import moment from 'moment/min/moment-with-locales.js';
 import { merge } from 'angular';
 
 import { IUserProfile } from '../../../api/user/user.interface';
-import { ISessionService, ISession, getUser} from './session.service';
+import { SessionService, ISession, getUser} from './index';
 import UserService from './user.service';
 import { path } from '../share/utility';
 
@@ -41,7 +41,7 @@ export default class DisplayService {
 	static $inject = ['SessionService', 'UserService', '$translate', 'tmhDynamicLocale', '$mdDateLocale'];
 
 	constructor (
-		private SessionService: ISessionService,
+		private SessionService: SessionService,
 		private UserService: UserService,
 		private $translate: any, 
 		private tmhDynamicLocale: any,

@@ -4,9 +4,9 @@ import { DisplayView } from "../core/display.constants";
 import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
 import * as _connection from "../core/env.js";
-import SessionService from "../core/session.service";
+import {SessionService} from "../core";
 import {IAuthService} from "../auth/auth.service";
-import {IUserProfile} from "../../../api/user/user.interface";
+import {IUserProfile} from "../../../api";
 
 function configure(
     $stateProvider:StateProvider,

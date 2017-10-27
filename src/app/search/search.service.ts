@@ -1,11 +1,11 @@
-import {ISocketService} from "../core/socket.service";
-import {SearchMethod, SearchParams, SearchResultByUser, SearchResultByGroup} from "../../../api/search/search.interface";
-import {SearchGetResult} from "../../../api/search/search.request";
+import { SocketService} from "../core";
+import {
+    SearchMethod, SearchParams, SearchResultByUser, SearchResultByGroup, SearchUserAndGroupsRequest} from "../../../api";
 
 export class SearchService {
 
     static $inject = ['SocketService'];
-    constructor(private socket: ISocketService) {
+    constructor(private socket: SocketService) {
 
     }
 
@@ -17,7 +17,7 @@ export class SearchService {
      * @returns {Promise<TResult>}
      */
     request(method: SearchMethod, params: SearchParams): Promise<Array<SearchResultByUser | SearchResultByGroup>>{
-        return this.socket.send(new SearchGetResult(method,params))
+        return this.socket.send(new SearchUserAndGroupsRequest(method,params))
             .then(result => result.hasOwnProperty('arrayResult') &&
                 params.objectType === 'user' || params.objectType === 'coach' ?
                     result.arrayResult.map(r => new SearchResultByUser(r)) :

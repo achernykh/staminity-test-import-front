@@ -6,7 +6,7 @@ import { IGroupProfile } from "../../../api/group/group.interface";
 
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import { isMember } from "../club/club.datamodel";
-import SessionService from "../core/session.service";
+import {SessionService} from "../core";
 import UserService from "../core/user.service";
 import GroupService from "../core/group.service";
 import AuthService from "../auth/auth.service";

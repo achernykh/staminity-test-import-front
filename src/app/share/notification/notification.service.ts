@@ -1,7 +1,6 @@
 import moment from 'moment/src/moment.js';
-import {INotification, Notification} from "../../../../api/notification/notification.interface";
-import {ISocketService} from "../../core/socket.service";
-import {GetNotification, PutNotification} from "../../../../api/notification/notification.request";
+import {INotification, Notification, GetNotificationRequest, PutNotificationRequest} from "../../../../api";
+import {SocketService} from "../../core";
 import {Observable,BehaviorSubject,Subject} from "rxjs/Rx";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
@@ -50,7 +49,7 @@ export default class NotificationService {
     static $inject = ['SocketService','toaster','CommentService'];
 
     constructor(
-        private socket:ISocketService, private toaster: any, private comment: CommentService){
+        private socket: SocketService, private toaster: any, private comment: CommentService){
 
         this.comment.openChat$.subscribe(chat => this.openChat = chat); // следим за открытми чатами
 
@@ -89,7 +88,7 @@ export default class NotificationService {
      * @returns {Promise<Array<INotification>>}
      */
     get(limit:number = null, offset:number = null):Promise<Array<Notification>>{
-        return this.socket.send(new GetNotification(limit,offset))
+        return this.socket.send(new GetNotificationRequest(limit,offset))
             .then((result:{resultArray: Array<any>}) => {return result.resultArray.map(n => new Notification(n));});
     }
 
@@ -100,7 +99,7 @@ export default class NotificationService {
      * @returns {Promise<any>}
      */
     put(id: number, readUntil: string, isRead: boolean):Promise<any>{
-        return this.socket.send(new PutNotification(id, readUntil, isRead));
+        return this.socket.send(new PutNotificationRequest(id, readUntil, isRead));
     }
 
     show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {

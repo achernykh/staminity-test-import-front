@@ -38,7 +38,6 @@ module.exports = {
             'angularjs-toaster',
             'angularjs-toaster/toaster.css',
             'animate.css/animate.css',
-            //'angular-read-more'
             'animate.css',
             'angular-carousel',
             'angular-carousel/dist/angular-carousel.css',

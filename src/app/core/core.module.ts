@@ -1,7 +1,6 @@
 import { module } from 'angular';
-import { SocketService } from './socket.service';
+import { SocketService, SessionService, StorageService } from './index';
 import { RESTService } from './rest.service';
-import SessionService from "./session.service";
 import SystemMessageService from "./sysmessage.service.js";
 import SystemMessageComponent from './sysmessage.component.js';
 import { ActionMessageService } from "./actionmessage.service.js";
@@ -11,11 +10,12 @@ import RequestsService from "./requests.service";
 import MessageService, { configure as messagesConf } from './message.service';
 import CommentService from "./comment.service";
 import DisplayService, { configure as displayConf } from "./display.service";
-import StorageService from "./storage.service";
 import StatisticsService from "./statistics.service";
 import BillingService from "./billing.service";
+import { ConnectionSettings } from "./socket/socket.config";
 
-const Core = module('staminity.core', [])
+const Core = module('staminity.core', ['staminity.share','ui.router','pascalprecht.translate'])
+	.constant('ConnectionSettingsConfig', ConnectionSettings)
 	.service('SocketService', SocketService)
 	.service('RESTService',RESTService)
 	.service('SessionService', SessionService)
@@ -31,8 +31,8 @@ const Core = module('staminity.core', [])
 	.service('storage', StorageService)
 	.service('statistics', StatisticsService)
 	.component('systemMessage', SystemMessageComponent)
-	.config(messagesConf)
-	.config(displayConf)
+	//.config(messagesConf)
+	//.config(displayConf)
 	.name;
 
 export default Core;

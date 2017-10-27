@@ -5,7 +5,7 @@ import {StateService} from "angular-ui-router";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {Subject} from 'rxjs/Rx';
 import './application-menu.component.scss';
-import { ISessionService, getUser, getPermissions } from "../../core/session.service";
+import { SessionService, getUser, getPermissions } from "../../core";
 import * as env from '../../core/env.js';
 import {IAuthService} from "../../auth/auth.service";
 
@@ -25,7 +25,7 @@ class ApplicationMenuCtrl implements IComponentController{
         private $scope: IScope,
         private $mdSidenav: any,
         private AuthService: IAuthService,
-        private session: ISessionService,
+        private session: SessionService,
         private $state: StateService
     ) {
         session.getObservable()

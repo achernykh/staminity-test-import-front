@@ -1,4 +1,5 @@
 import {module, bootstrap} from 'angular';
+import deferredBootstrapper from 'angular-deferred-bootstrap/angular-deferred-bootstrap.js';
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
 import 'angularjs-scroll-glue/src/scrollglue.js';
 import 'drag-drop-webkit-mobile/ios-drag-drop.js';
@@ -24,6 +25,7 @@ import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
 import Analytics from "./analytics/analytics.module";
+import { SocketService } from "./core";
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
@@ -35,7 +37,7 @@ const root = module('staminity.application', [
 	'md.data.table',
 	'nemLogging',
 	'ui-leaflet',
-	'hmReedmore',
+	'hm.readmore',
 	'tmh.dynamicLocale',
 	'toaster',
 	//'ngTouch',
@@ -66,8 +68,24 @@ const root = module('staminity.application', [
 	.run(run)
 	.name;
 
-bootstrap(document, ['staminity.application'], {
+/*bootstrap(document, ['staminity.application'], {
 	strictDi: true
+});*/
+
+deferredBootstrapper.bootstrap({
+	element: document.body,
+	module: 'staminity.application',
+	bootstrapConfig: {
+		strictDi: true
+	},
+	injectorModules: ['staminity.core', 'staminity.share'],
+	moduleResolves: [{
+		module: 'staminity.core',
+		resolve: {
+			WS_INIT: ['SocketService', (socket: SocketService) => socket.init()]
+		}
+	}]
+
 });
 
 export default root;

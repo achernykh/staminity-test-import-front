@@ -1,6 +1,7 @@
 import {StateProvider, StateDeclaration} from 'angular-ui-router';
 import {_translate} from './landingpage.translate';
 import {DefaultTemplate, DisplayView} from "../core/display.constants";
+import { SocketService } from "../core/socket/socket.service";
 //import {ITranslateProvider} from "angular-translate";
 
 function configure($stateProvider:StateProvider,

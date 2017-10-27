@@ -7,13 +7,13 @@ import UserService from "../../core/user.service";
 import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {
+    IGroupProfileShort,
+    IUserProfileShort, IUserProfile,
+    IActivityCategory, IActivityTemplate,
     IActivityHeader, IActivityDetails, IActivityIntervalPW,
     IActivityMeasure, ICalcMeasures, IActivityType, IActivityIntervalW
-} from "../../../../api/activity/activity.interface";
-import { IActivityCategory, IActivityTemplate } from '../../../../api/reference/reference.interface';
-import SessionService from "../../core/session.service";
-import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
-import {IGroupProfileShort} from '../../../../api/group/group.interface';
+} from "../../../../api";
+import {SessionService} from "../../core";
 import {nameFromInterval} from "../../reference/reference.datamodel";
 import {Activity} from "../../activity/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";

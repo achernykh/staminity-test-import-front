@@ -1,8 +1,10 @@
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { ISocketService } from './socket.service';
-import { ISessionService } from './session.service';
-import { GetTariff, PostTariffSubscription, PutTariffSubscription, DeleteTariffSubscription, GetBill, GetBillDetails, PutProcessingCenter } from "../../../api/billing/billing.request";
+import { SocketService, SessionService } from './index';
+
+import {
+    GetTariffRequest, PostTariffSubscriptionRequest, PutTariffSubscriptionRequest, DeleteTariffSubscriptionRequest,
+    GetBillRequest, GetBillDetailsRequest, PutProcessingCenterRequest } from "../../../api";
 import { IBillingTariff, IBill } from "../../../api/billing/billing.interface";
 
 import moment from 'moment/min/moment-with-locales.js';
@@ -15,7 +17,7 @@ export default class BillingService {
 
     static $inject = ['SocketService', 'SessionService'];
 
-    constructor (private SocketService:ISocketService, private SessionService: ISessionService) {
+    constructor (private SocketService: SocketService, private SessionService: SessionService) {
         this.messages = this.SocketService.messages
             .filter((message) => message.type === 'bill')
             .share();
@@ -27,7 +29,7 @@ export default class BillingService {
      * @returns {Promise<IBillingTariff>}
      */
     getTariff (tariffId: number, promoCodeString: string) : Promise<IBillingTariff> {
-        return this.SocketService.send(new GetTariff(tariffId, promoCodeString));
+        return this.SocketService.send(new GetTariffRequest(tariffId, promoCodeString));
     }
 
     /**
@@ -49,7 +51,7 @@ export default class BillingService {
         promoCode: string,
         paymentSystem: string
     ) : Promise<any> {
-        return this.SocketService.send(new PostTariffSubscription(
+        return this.SocketService.send(new PostTariffSubscriptionRequest(
             tariffId, userIdReceiver, term, autoRenewal, trial, promoCode, paymentSystem
         ));
     }
@@ -65,7 +67,7 @@ export default class BillingService {
         autoRenewal: boolean,
         promoCode: string
     ) : Promise<any> {
-        return this.SocketService.send(new PutTariffSubscription(tariffId, autoRenewal, promoCode));
+        return this.SocketService.send(new PutTariffSubscriptionRequest(tariffId, autoRenewal, promoCode));
     }
 
     /**
@@ -74,14 +76,14 @@ export default class BillingService {
      * @returns {Promise<any>}
      */
     disableTariff (tariffId: number, userIdReceiver: number) : Promise<any> {
-        return this.SocketService.send(new DeleteTariffSubscription(tariffId, userIdReceiver));
+        return this.SocketService.send(new DeleteTariffSubscriptionRequest(tariffId, userIdReceiver));
     }
 
     /**
      * @returns {Promise<[IBill]]>}
      */
     getBillsList () : Promise<[IBill]> {
-        return this.SocketService.send(new GetBill(new Date(0), new Date()))
+        return this.SocketService.send(new GetBillRequest(new Date(0), new Date()))
             .then((data) => data.arrayResult);
     }
 
@@ -91,7 +93,7 @@ export default class BillingService {
      * @returns {Promise<any>}
      */
     getBillDetails (billId: number) : Promise<any> {
-        return this.SocketService.send(new GetBillDetails(billId, true));
+        return this.SocketService.send(new GetBillDetailsRequest(billId, true));
     }
 
     /**
@@ -100,7 +102,7 @@ export default class BillingService {
      * @returns {Promise<any>}
      */
     updatePaymentSystem (billId: number, paymentSystem: string) : Promise<any> {
-        return this.SocketService.send(new PutProcessingCenter(billId, paymentSystem));
+        return this.SocketService.send(new PutProcessingCenterRequest(billId, paymentSystem));
     }
 
     /**

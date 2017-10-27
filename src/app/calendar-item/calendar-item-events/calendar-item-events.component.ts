@@ -1,7 +1,7 @@
 import './calendar-item-events.component.scss';
 import {IPromise} from 'angular';
-import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
-import {ISessionService} from "../../core/session.service";
+import {IUserProfileShort, IUserProfile} from "../../../../api";
+import {SessionService} from "../../core";
 import {CalendarItem} from "../calendar-item.datamodel";
 import {CalendarService} from "../../calendar/calendar.service";
 import {IMessageService} from "../../core/message.service";
@@ -35,7 +35,7 @@ class CalendarItemEventsCtrl {
 
     constructor(
         private CalendarService: CalendarService,
-        private SessionService: ISessionService,
+        private SessionService: SessionService,
         private message: IMessageService) {
     }
 

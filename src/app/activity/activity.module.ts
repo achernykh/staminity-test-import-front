@@ -64,9 +64,9 @@ export const ActivityModule = module('staminity.activity', [])
 	.component('assignmentSummaryNonStructured', AssignmentSummaryNonStructuredComponent)
 	.component('assignmentSummaryStructured', AssignmentSummaryStructuredComponent)
 	.component('activityIntervalOverview', ActivityIntervalOverviewComponent)
-	.config(['$stateProvider', ($stateProvider: StateProvider) => $stateProvider.state(activityState)])
+	/*.config(['$stateProvider', ($stateProvider: StateProvider) => $stateProvider.state(activityState)])
 	.config(['$translateProvider', ($translate) =>
-		$translate.useStaticFilesLoader({prefix: '/assets/i18n/activity/', suffix: '.json'})])
+		$translate.useStaticFilesLoader({prefix: '/assets/i18n/activity/', suffix: '.json'})])*/
 	.run(['$timeout','leafletData', ($timeout, leafletData) => {
 		$timeout(() => {
 			leafletData.getMap().then(map => {

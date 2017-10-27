@@ -1,16 +1,15 @@
 import {merge} from "angular";
-import {IUserProfile, IUserConnections, ITrainingZonesType} from '../../../api/user/user.interface';
-import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
 import {
-    GetRequest, PutRequest, GetConnections, GetTrainingZones,
-    IGetTrainigZonesResponse
-} from '../../../api/user/user.request';
-import {ISocketService} from './socket.service';
-import {ISessionService, getUser, getCurrentUserId} from './session.service';
+    IUserProfile, IUserConnections, ITrainingZonesType,
+    GetSummaryStatisticsRequest,
+    GetUserRequest, PutUserRequest, GetUserConnectionsRequest, GetTrainingZonesRequest,
+    IGetTrainigZonesResponse,
+    MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile,
+    ISystemMessage
+} from '../../../api';
+import {SocketService, SessionService, getUser, getCurrentUserId} from './index';
 import {PostData, PostFile, IRESTService} from './rest.service';
 import { IHttpPromise, IHttpPromiseCallbackArg, copy } from 'angular';
-import {ISystemMessage} from "../../../api/core";
-import {MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile} from "../../../api/group/group.interface";
 import {Observable} from "rxjs";
 import ReferenceService from "../reference/reference.service";
 
@@ -27,8 +26,8 @@ export default class UserService {
     static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
 
     constructor(
-        private SessionService:ISessionService,
-        private SocketService:ISocketService,
+        private SessionService: SessionService,
+        private SocketService: SocketService,
         private RESTService:IRESTService,
         private ReferenceService: ReferenceService
     ) {
@@ -88,7 +87,7 @@ export default class UserService {
      * @returns {Promise<any>}
      */
     getConnections() : Promise<any> {
-        return this.SocketService.send(new GetConnections()).then(result => result);
+        return this.SocketService.send(new GetUserConnectionsRequest()).then(result => result);
     }
 
     /**
@@ -98,7 +97,7 @@ export default class UserService {
      * @returns {Promise<any>}
      */
     getTrainingZones(userId: number, groupId: number = null) : Promise<any> {
-        return this.SocketService.send(new GetTrainingZones(userId, groupId)).then(result => result.arrayResult);
+        return this.SocketService.send(new GetTrainingZonesRequest(userId, groupId)).then(result => result.arrayResult);
     }
 
     /**
@@ -109,9 +108,9 @@ export default class UserService {
      */
     getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
         return ws ? (
-            this.SocketService.send(new GetRequest(key))
+            this.SocketService.send(new GetUserRequest(key))
         ) : (
-            this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
+            this.RESTService.postData(new PostData('/api/wsgate', new GetUserRequest(key)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data)
         )
         .then((user) => {
@@ -127,7 +126,7 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
-        return this.SocketService.send(new PutRequest(userChanges))
+        return this.SocketService.send(new PutUserRequest(userChanges))
         .then((result) => result.value)
         .then(({ revision }) => {
             let updatedUser = merge({}, userChanges, { revision });
@@ -180,8 +179,8 @@ export default class UserService {
      */
     getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> {
         return ws ?
-            this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data)) :
-            this.RESTService.postData(new PostData('/api/wsgate', new GetUserProfileSummaryStatistics(id, start, end, group, data)))
+            this.SocketService.send(new GetSummaryStatisticsRequest(id, start, end, group, data)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetSummaryStatisticsRequest(id, start, end, group, data)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
