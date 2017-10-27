@@ -1,4 +1,5 @@
 import * as _connection from '../env.js';
+import { StateService } from 'angular-ui-router';
 import { SessionService, IConnectionSettings, Deferred } from '../index';
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs/Rx';
 import LoaderService from "../../share/loader/loader.service";
@@ -8,7 +9,7 @@ import { IWSResponse, IWSRequest } from '../../../../api';
 export class SocketService {
 
     // public
-    connections: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
+    connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
     messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
 
     // private
@@ -23,7 +24,8 @@ export class SocketService {
 
     constructor (private settings: IConnectionSettings,
                  private session: SessionService,
-                 private loader: LoaderService) {
+                 private loader: LoaderService,
+                 private $state: StateService) {
 
         this.connections.subscribe((status: boolean) => this.socketStarted = status);
     }
@@ -33,26 +35,30 @@ export class SocketService {
      * Выполняется при конфигурации root component app
      * @returns {Promise<boolean>}
      */
-    init (): Promise<any> {
+    init (): Promise<boolean> {
 
         console.log('socket: init');
 
+        if(this.socketStarted) {
+            return Promise.resolve(true);
+        }
+
         this.open();
 
-        return new Promise<any>((resolve, reject) => {
+        return new Promise<boolean>((resolve, reject) => {
 
             setTimeout(() => {
 
                 if (this.socketStarted) {
                     // Свзяь с сервером есть
-                    this.connections.next(true);
+                    //this.connections.next(true);
                     console.log('socket: resolve true');
-                    return resolve(this.ws);
+                    return resolve(true);
                 } else {
                     // Свзязи с сервером нет
-                    this.connections.next(false);
+                    //this.connections.next(false);
                     console.log('socket: reject false');
-                    return reject(this.ws);
+                    return reject(false);
                 }
 
             }, this.settings.delayOnOpen);
@@ -66,23 +72,25 @@ export class SocketService {
      */
     open (token: string = this.session.getToken()): void {
 
-        console.log('socket: open');
-        this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
-        this.socket = this.ws.subscribe({
-            next: (message: IWSResponse) => {
-                this.messages.next(message);
-                this.response(message);
-                this.check();
-            },
-            error: () => {
-                this.socket.unsubscribe();
+        if(this.socket && !this.socket.closed) { return; }
+
+        try {
+            this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
+            this.socket = this.ws.subscribe({
+                next: (message: IWSResponse) => {
+                    if (!this.socketStarted) { this.connections.next(true); }
+                    this.messages.next(message);
+                    this.response(message);
+                    this.check();
+                },
+                error: () => this.close(),
+                complete: () => this.close()
+            });
+        } catch ( e ) {
+            if (this.socketStarted) {
                 this.connections.next(false);
-            },
-            complete: () => {
-
             }
-        });
-
+        }
     }
 
     /**
@@ -97,7 +105,6 @@ export class SocketService {
                 this.connections.next(false);
                 this.socket.unsubscribe();
                 this.pendingSession();
-                //this.close({reason: 'lostHeartBit'}); // TODO reopen?
             }
         }, this.settings.delayOnHeartBeat);
     }
@@ -124,6 +131,7 @@ export class SocketService {
         if (message.hasOwnProperty('requestId') && this.requests[ message.requestId ]) {
 
             let request: Deferred<any> = this.requests[ message.requestId ];
+            this.loader.hide();
 
             if (!message.hasOwnProperty('errorMessage')) {
                 request.resolve(message.data);
@@ -135,17 +143,17 @@ export class SocketService {
 
         } else if (message.hasOwnProperty('errorMessage') && message.errorMessage === 'badToken') {
 
-            this.close({ reason: message.errorMessage });
+            this.close();
+            this.$state.go('signin');
 
         }
     }
 
     /**
      * Закрытие сессии
-     * @param ev
      */
-    close (ev: any) {
-
+    close () {
+        this.ws.complete();
     }
 
     /**
@@ -155,8 +163,11 @@ export class SocketService {
      */
     public send (request: IWSRequest): Promise<any> {
 
+        /**
+         * Можно будет раскоментировать после перехода на Angular 4
+         */
         if (!this.socketStarted) { // если соединение не установлено
-            return Promise.reject('internetConnectionLost');
+            //return Promise.reject('internetConnectionLost');
         }
 
         if (!this.session.getToken()) { // если пользователь не авторизован
@@ -166,19 +177,31 @@ export class SocketService {
         request.requestId = this.requestId++;
         this.requests[ request.requestId ] = new Deferred<boolean>();
 
-        this.ws.next(JSON.stringify(request));
-        this.loader.show();
+        /**
+         * После перехода на Angular 4 можно будет перенести инициализацию веб-сокета в конфигурацию модуля, а сейчас
+         * функция init() вернет сразу success, если сессия доступна, или асинхронно запустит ее создание и полученный
+         * результат вернет resolve | reject
+         */
+        return this.init().then(
+            () => {
+                this.ws.next(JSON.stringify(request));
+                this.loader.show();
 
-        setTimeout(() => {
+                setTimeout(() => {
 
-            if (this.requests[ request.requestId ]) {
-                this.requests[ request.requestId ].reject('timeoutExceeded'); //TODO что делаем с этим?
-                delete this.requests[ request.requestId ];
-                this.loader.hide();
+                    if (this.requests[ request.requestId ]) {
+                        this.requests[ request.requestId ].reject('timeoutExceeded'); //TODO что делаем с этим?
+                        delete this.requests[ request.requestId ];
+                        this.loader.hide();
+                    }
+
+                }, this.settings.delayExceptions[ request.requestType ] || this.settings.delayOnResponse);
+
+                return this.requests[ request.requestId ].promise;
+            },
+            () => {
+                throw new Error('internetConnectionLost');
             }
-
-        }, this.settings.delayExceptions[ request.requestType ] || this.settings.delayOnResponse);
-
-        return this.requests[ request.requestId ].promise;
+        );
     }
 }

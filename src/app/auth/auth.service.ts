@@ -138,7 +138,7 @@ export default class AuthService implements IAuthService {
 
     signOut() {
         this.SessionService.set();
-        this.SocketService.close({reason: 'signOut'});
+        this.SocketService.close();
     }
 
     /**

@@ -31,8 +31,8 @@ const Core = module('staminity.core', ['staminity.share','ui.router','pascalprec
 	.service('storage', StorageService)
 	.service('statistics', StatisticsService)
 	.component('systemMessage', SystemMessageComponent)
-	//.config(messagesConf)
-	//.config(displayConf)
+	.config(messagesConf)
+	.config(displayConf)
 	.name;
 
 export default Core;
