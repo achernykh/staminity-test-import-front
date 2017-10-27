@@ -109,3 +109,9 @@ section.margin {
 		margin: 0;
 	}
 }
+
+.md-dialog-container {
+	@media (max-width: 960px) {
+		height: 100% !important;
+	}
+}
