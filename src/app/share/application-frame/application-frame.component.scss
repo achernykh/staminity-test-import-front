@@ -1,0 +1,32 @@
+.st-application-frame {
+
+  &__toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 3;
+  }
+
+  &__wrapper {
+    width: 100vw;
+    min-height: 100vh;
+  }
+
+  &__title {
+    margin-left: 24px;
+  }
+
+  &__second-row {
+    margin-left: 50px;
+  }
+
+  &__content {
+    position: fixed;
+    top: 128px;
+  }
+
+  &__sidenav {
+    min-width: 320px !important;
+    max-width: 360px;
+  }
+
+}

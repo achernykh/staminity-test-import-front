@@ -32,13 +32,18 @@ function configure(
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
 	$mdThemingProvider.theme('default')
-		.primaryPalette('blue-grey', {
+		.primaryPalette('indigo')
+		.accentPalette('pink')
+		.warnPalette('red');
+
+	/*$mdThemingProvider.theme('default')
+		.primaryPalette('indigo', {
 			'default': '500',
 			'hue-1': '50',
 			'hue-2': '600',
 			'hue-3': '800'
 		})
-		.accentPalette('deep-orange', {
+		.accentPalette('pink', {
 			'default': 'A700',
 			'hue-1': '50',
 			'hue-2': '600',
@@ -46,7 +51,8 @@ function configure(
 		})
 		.warnPalette('red', {
 			'default': 'A700'
-		});
+		});*/
+
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
 	$mdThemingProvider.theme('coming')
 		.primaryPalette('grey', {

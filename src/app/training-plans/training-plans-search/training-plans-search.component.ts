@@ -8,7 +8,7 @@ import {
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {profileShort} from "../../core/user.function";
 import {timestamp} from "rxjs/operator/timestamp";
-import {ISessionService, getUser} from "../../core/session.service";
+import {SessionService, getUser} from "../../core";
 import {Subject} from "rxjs/Rx";
 
 class TrainingPlansSearchCtrl implements IComponentController {
@@ -22,7 +22,7 @@ class TrainingPlansSearchCtrl implements IComponentController {
     private destroy: Subject<any> = new Subject();
     static $inject = ['SessionService'];
 
-    constructor(private session: ISessionService) {
+    constructor(private session: SessionService) {
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
