@@ -1,10 +1,10 @@
-import * as _connection from '../env.js';
-import { StateService } from 'angular-ui-router';
-import { SessionService, IConnectionSettings, Deferred } from '../index';
-import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs/Rx';
+import * as _connection from "../env.js";
+import { StateService } from "angular-ui-router";
+import { SessionService, IConnectionSettings, Deferred } from "../index";
+import { Observable, Subject, Subscription } from "rxjs/Rx";
 import LoaderService from "../../share/loader/loader.service";
 import { WebSocketSubject } from "rxjs/observable/dom/WebSocketSubject";
-import { IWSResponse, IWSRequest } from '../../../../api';
+import { IWSResponse, IWSRequest } from "../../../../api";
 
 export class SocketService {
 
@@ -20,7 +20,7 @@ export class SocketService {
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
 
-    static $inject = [ 'ConnectionSettingsConfig', 'SessionService', 'LoaderService' ];
+    static $inject = ['ConnectionSettingsConfig', 'SessionService', 'LoaderService'];
 
     constructor (private settings: IConnectionSettings,
                  private session: SessionService,
@@ -39,7 +39,7 @@ export class SocketService {
 
         console.log('socket: init');
 
-        if(this.socketStarted) {
+        if ( this.socketStarted ) {
             return Promise.resolve(true);
         }
 
@@ -49,7 +49,7 @@ export class SocketService {
 
             setTimeout(() => {
 
-                if (this.socketStarted) {
+                if ( this.socketStarted ) {
                     // Свзяь с сервером есть
                     //this.connections.next(true);
                     console.log('socket: resolve true');
@@ -72,13 +72,13 @@ export class SocketService {
      */
     open (token: string = this.session.getToken()): void {
 
-        if(this.socket && !this.socket.closed) { return; }
+        if ( this.socket && !this.socket.closed ) { return; }
 
         try {
             this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
             this.socket = this.ws.subscribe({
                 next: (message: IWSResponse) => {
-                    if (!this.socketStarted) { this.connections.next(true); }
+                    if ( !this.socketStarted ) { this.connections.next(true); }
                     this.messages.next(message);
                     this.response(message);
                     this.check();
@@ -87,7 +87,7 @@ export class SocketService {
                 complete: () => this.close()
             });
         } catch ( e ) {
-            if (this.socketStarted) {
+            if ( this.socketStarted ) {
                 this.connections.next(false);
             }
         }
@@ -101,7 +101,7 @@ export class SocketService {
         // Через таймаут проверяем пришел ли hb/сообщение, если нет, то считаем сессию потерянной и пробуем переоткрыть
         setTimeout(() => {
             let now = Date.now();
-            if (this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat) {
+            if ( this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat ) {
                 this.connections.next(false);
                 this.socket.unsubscribe();
                 this.pendingSession();
@@ -128,20 +128,20 @@ export class SocketService {
      */
     public response (message: IWSResponse) {
 
-        if (message.hasOwnProperty('requestId') && this.requests[ message.requestId ]) {
+        if ( message.hasOwnProperty('requestId') && this.requests[message.requestId] ) {
 
-            let request: Deferred<any> = this.requests[ message.requestId ];
+            let request: Deferred<any> = this.requests[message.requestId];
             this.loader.hide();
 
-            if (!message.hasOwnProperty('errorMessage')) {
+            if ( !message.hasOwnProperty('errorMessage') ) {
                 request.resolve(message.data);
             } else {
                 request.reject(message.errorMessage);
             }
 
-            delete this.requests[ message.requestId ];
+            delete this.requests[message.requestId];
 
-        } else if (message.hasOwnProperty('errorMessage') && message.errorMessage === 'badToken') {
+        } else if ( message.hasOwnProperty('errorMessage') && message.errorMessage === 'badToken' ) {
 
             this.close();
             this.$state.go('signin');
@@ -166,16 +166,16 @@ export class SocketService {
         /**
          * Можно будет раскоментировать после перехода на Angular 4
          */
-        if (!this.socketStarted) { // если соединение не установлено
+        if ( !this.socketStarted ) { // если соединение не установлено
             //return Promise.reject('internetConnectionLost');
         }
 
-        if (!this.session.getToken()) { // если пользователь не авторизован
+        if ( !this.session.getToken() ) { // если пользователь не авторизован
             return Promise.reject('userNotAuthorized');
         }
 
         request.requestId = this.requestId++;
-        this.requests[ request.requestId ] = new Deferred<boolean>();
+        this.requests[request.requestId] = new Deferred<boolean>();
 
         /**
          * После перехода на Angular 4 можно будет перенести инициализацию веб-сокета в конфигурацию модуля, а сейчас
@@ -187,17 +187,18 @@ export class SocketService {
                 this.ws.next(JSON.stringify(request));
                 this.loader.show();
 
+                // если в отведенный лимит не будет получен ответ, то инициатор получит reject
                 setTimeout(() => {
 
-                    if (this.requests[ request.requestId ]) {
-                        this.requests[ request.requestId ].reject('timeoutExceeded'); //TODO что делаем с этим?
-                        delete this.requests[ request.requestId ];
+                    if ( this.requests[request.requestId] ) {
+                        this.requests[request.requestId].reject('timeoutExceeded'); //TODO что делаем с этим?
+                        delete this.requests[request.requestId];
                         this.loader.hide();
                     }
 
-                }, this.settings.delayExceptions[ request.requestType ] || this.settings.delayOnResponse);
+                }, this.settings.delayExceptions[request.requestType] || this.settings.delayOnResponse);
 
-                return this.requests[ request.requestId ].promise;
+                return this.requests[request.requestId].promise;
             },
             () => {
                 throw new Error('internetConnectionLost');
