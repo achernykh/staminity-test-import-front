@@ -32,6 +32,16 @@
 // 2) стили app-layer, section.content, section.margin описаны ниже
 //----------------------------------------------------------------------------------------------------------------------
 
+body {
+	@media (max-width: 960px) {
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
+}
+
 .app-layer {
 	position: absolute;
 	top: 0;
