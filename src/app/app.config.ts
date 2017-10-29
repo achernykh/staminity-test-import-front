@@ -36,6 +36,12 @@ function configure(
 		.accentPalette('pink')
 		.warnPalette('red');
 
+	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
+	$mdThemingProvider.theme('grey')
+        .primaryPalette('grey')
+        .accentPalette('pink')
+        .warnPalette('red');
+
 	/*$mdThemingProvider.theme('default')
 		.primaryPalette('indigo', {
 			'default': '500',

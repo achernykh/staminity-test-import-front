@@ -18,8 +18,9 @@ class ApplicationFrameCtrl implements IComponentController {
 
 const ApplicationFrameComponent:IComponentOptions = {
     transclude: {
-        toolbar: 'st-application-frame-toolbar',
-        content: 'st-application-frame-content'
+        title: '?stApplicationFrameTitle',
+        toolbar: '?stApplicationFrameToolbar',
+        content: 'stApplicationFrameContent'
     },
     bindings: {
         data: '<',

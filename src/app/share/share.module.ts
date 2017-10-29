@@ -47,6 +47,7 @@ import {translateHeader} from "./header/header.translate";
 import {compareTo} from "./directives/form.directive";
 import {SessionService} from "../core";
 import ApplicationFrameComponent from "./application-frame/application-frame.component";
+import ApplicationUserToolbarComponent from "./application-user-toolbar/application-user-toolbar.component";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -256,6 +257,7 @@ const Share = module('staminity.share', ['ui.router','pascalprecht.translate'])
         };
     })
     .component('stApplicationFrame', ApplicationFrameComponent)
+    .component('stApplicationUserToolbar', ApplicationUserToolbarComponent)
     .component('staminityBackground',BackgroundComponent)
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)

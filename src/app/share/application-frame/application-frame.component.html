@@ -1,4 +1,17 @@
-<div>Toolbar:</div>
-<div ng-transclude="toolbar"></div>
-<div>Content:</div>
-<div ng-transclude="content"></div>
+<md-toolbar class="st-application-frame__primary-toolbar md-whiteframe-4dp">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Application Menu"
+                   ng-click="$ctrl.toggleSlide('appmenu')">
+            <md-icon class="material-icons md-light">menu</md-icon>
+        </md-button>
+        <h2 class="md-title" ng-transclude="title"></h2>
+        <div ng-transclude="toolbar"></div>
+    </div>
+</md-toolbar>
+
+<md-toolbar md-theme="grey" class=" md-hue-1 st-application-frame__secondary-toolbar md-whiteframe-4dp">
+    <div class="md-toolbar-tools" ng-transclude="toolbar"></div>
+</md-toolbar>
+
+<md-content ng-transclude="content" class="st-application-frame__content"></md-content>
+

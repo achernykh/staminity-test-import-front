@@ -1,9 +1,15 @@
 .st-application-frame {
 
-  &__toolbar {
+  &__primary-toolbar {
     position: fixed;
     top: 0;
     z-index: 3;
+  }
+
+  &__secondary-toolbar {
+    position: fixed;
+    top: 64px;
+    z-index: 2;
   }
 
   &__wrapper {
@@ -20,8 +26,10 @@
   }
 
   &__content {
-    position: fixed;
-    top: 128px;
+    //position: fixed;
+    width: 100vw;
+    top: 64px;
+    //padding-top: 8px;
   }
 
   &__sidenav {
