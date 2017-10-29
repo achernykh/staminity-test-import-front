@@ -5,7 +5,7 @@ import {TrainingPlan} from "../training-plan/training-plan.datamodel";
 class TrainingPlansFilterCtrl implements IComponentController {
 
     public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
+    public onHide: () => IPromise<void>;
     static $inject = ['$scope', '$mdDialog'];
 
     private panel: 'plans' | 'events' | 'hide' = 'plans';
@@ -16,6 +16,10 @@ class TrainingPlansFilterCtrl implements IComponentController {
 
     $onInit() {
 
+    }
+
+    onChange() {
+        debugger;
     }
 
     onPost(env: Event) {
@@ -54,8 +58,8 @@ class TrainingPlansFilterCtrl implements IComponentController {
 
 const TrainingPlansFilterComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        onEvent: '&'
+        charts: '<',
+        onHide: '&'
     },
     require: {
         //component: '^component'

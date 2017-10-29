@@ -1,15 +1,40 @@
+$app-sidenav-desktop-width: 320px;
+$app-sidenav-desktop-width-collapsed: 52px;
+$app-toolbar-height: 64px;
+
 .st-application-frame {
 
   &__primary-toolbar {
     position: fixed;
     top: 0;
     z-index: 3;
+
+    .icon-bar {
+      margin-left: 64px;
+    }
+
   }
 
   &__secondary-toolbar {
     position: fixed;
     top: 64px;
     z-index: 2;
+  }
+
+  &__left-bar, &__right-bar {
+    top: $app-toolbar-height;
+    width: $app-sidenav-desktop-width;
+    position: fixed;
+    z-index: 2;
+    height: calc(100vh - 64px);
+  }
+
+  &__left-bar {
+    left: 0;
+  }
+
+  &__right-bar {
+    right: 0;
   }
 
   &__wrapper {
@@ -27,14 +52,28 @@
 
   &__content {
     //position: fixed;
-    width: 100vw;
-    top: 64px;
-    //padding-top: 8px;
+    width: auto;
+    top: $app-toolbar-height;
+    //margin-left: $app-sidenav-desktop-width-collapsed;
+
+    &.left-bar {
+
+      margin-left: $app-sidenav-desktop-width;
+
+      &.collapsed {
+        margin-left: $app-sidenav-desktop-width-collapsed;
+      }
+
+      &.hidden {
+        margin-left: 0;
+      }
+
+    }
   }
 
   &__sidenav {
-    min-width: 320px !important;
-    max-width: 360px;
+    min-width: $app-sidenav-desktop-width !important;
+    max-width: $app-sidenav-desktop-width;
   }
 
 }

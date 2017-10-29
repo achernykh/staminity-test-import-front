@@ -1,17 +1,25 @@
 <md-toolbar class="st-application-frame__primary-toolbar md-whiteframe-4dp">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Application Menu"
-                   ng-click="$ctrl.toggleSlide('appmenu')">
+                   ng-click="$ctrl.sideNav('appmenu')">
             <md-icon class="material-icons md-light">menu</md-icon>
         </md-button>
         <h2 class="md-title" ng-transclude="title"></h2>
-        <div ng-transclude="toolbar"></div>
+        <div flex ng-transclude="toolbar" class="icon-bar"></div>
+        <st-application-user-toolbar></st-application-user-toolbar>
     </div>
 </md-toolbar>
 
-<md-toolbar md-theme="grey" class=" md-hue-1 st-application-frame__secondary-toolbar md-whiteframe-4dp">
-    <div class="md-toolbar-tools" ng-transclude="toolbar"></div>
-</md-toolbar>
+<section class="st-application-frame__left-bar" ng-transclude="leftBar"></section>
 
-<md-content ng-transclude="content" class="st-application-frame__content"></md-content>
+<md-content ng-transclude="content"
+            class="st-application-frame__content"
+            ng-class="{'{{$ctrl.leftBarHideType}}': !$ctrl.leftBarShow, 'left-bar': $ctrl.leftBarHideType}"></md-content>
+
+<section class="st-application-frame__right-bar" ng-transclude="rightBar"></section>
+
+<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu"
+            ng-if="$ctrl.auth.isAuthenticated()">
+    <application-menu/>
+</md-sidenav>
 

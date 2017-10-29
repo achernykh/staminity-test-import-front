@@ -13,13 +13,21 @@ import {Subject} from "rxjs/Rx";
 
 class TrainingPlansSearchCtrl implements IComponentController {
 
-    public list: TrainingPlansList;
-    public onEvent: (response: Object) => IPromise<void>;
+    // bind
+    list: TrainingPlansList;
+    onEvent: (response: Object) => IPromise<void>;
 
+    // public
+    leftBarShow: boolean = true;
+    rightBarShow: boolean = false;
+    charts: Array<string> = ['one', 'two'];
+
+    // private
     private user: IUserProfile;
     private demoList: TrainingPlansList;
-
     private destroy: Subject<any> = new Subject();
+
+    // inject
     static $inject = ['SessionService'];
 
     constructor(private session: SessionService) {
@@ -33,6 +41,11 @@ class TrainingPlansSearchCtrl implements IComponentController {
     }
 
     $onInit() {
+
+    }
+
+    toggleLeftBar(): void {
+        this.leftBarShow = !this.leftBarShow;
     }
 
     private prepareDemoList() {

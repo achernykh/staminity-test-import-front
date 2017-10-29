@@ -1,13 +1,14 @@
 import './application-user-toolbar.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import AuthService from "../../auth/auth.service";
 
 class ApplicationUserToolbarCtrl implements IComponentController {
 
     public data: any;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    static $inject = ['AuthService'];
 
-    constructor() {
+    constructor(private AuthService: AuthService) {
 
     }
 
@@ -22,7 +23,7 @@ const ApplicationUserToolbarComponent:IComponentOptions = {
         onEvent: '&'
     },
     require: {
-        //component: '^component'
+        application: '^stApplicationFrame'
     },
     controller: ApplicationUserToolbarCtrl,
     template: require('./application-user-toolbar.component.html') as string

@@ -1,0 +1,39 @@
+<div ng-if="$ctrl.AuthService.isAuthenticated()"
+     layout="row" layout-align="end center" layout-fill
+     class="st-application-user-toolbar">
+
+    <md-button ng-if="!$ctrl.application.connectionStatus" flex="none">
+        <md-icon calss="material-icons animated fadeIn">signal_wifi_off</md-icon>
+    </md-button>
+    <md-button ng-if="$ctrl.application.notification > 0 && $ctrl.connectionStatus" flex="none"
+               class="md-icon-button badge1" aria-label="Notification"
+               ng-click="toggleRight()" data-badge="{{$ctrl.application.notification}}" style="min-width:40px">
+        <md-icon calss="material-icons">notification_active</md-icon>
+    </md-button>
+    <md-button ng-if="$ctrl.application.connectionStatus" class="md-icon-button" flex="none"
+               ng-click="$ctrl.application.sideNav('notifications')"
+               style="min-width:40px; overflow: visible;" aria-label="New Notification">
+        <md-icon calss="material-icons">notifications</md-icon>
+        <span class="badge superscript" ng-if="$ctrl.application.notifications > 0">{{$ctrl.application.notifications}}</span>
+    </md-button>
+
+    <md-button ng-if="$ctrl.application.connectionStatus" class="md-icon-button" flex="none"
+               ng-click="$ctrl.application.sideNav('requests')"
+               style="min-width:40px; overflow: visible;" aria-label="New Requests">
+        <md-icon md-font-set="material-icons">group</md-icon>
+        <span class="badge superscript" ng-if="$ctrl.application.requests > 0">{{$ctrl.application.requests}}</span>
+    </md-button>
+
+    <div hide show-gt-sm layout="row" class="user-frame">
+        <div flex="none"
+             class="avatar mini"
+             style="background-image: url({{'/user/avatar/' | image:$ctrl.application.user.public.avatar}})"></div>
+        <div flex class="user-name md-body-1">{{$ctrl.application.user | username: 'short'}}</div>
+        <user-menu id="$ctrl.application.user.public.uri || $ctrl.application.user.userId"></user-menu>
+    </div>
+
+</div>
+<div layout="row" layout-align="end center" layout-fill ng-if="!$ctrl.AuthService.isAuthenticated()">
+    <a ui-sref="signin({ nextState: '{{::$ctrl.$state.$current.name}}', nextParams: {{::$ctrl.$state.params}} })" class="button" translate>landing.nav.signIn</a>
+    <a ui-sref="signup" class="button" translate>landing.nav.signUp</a>
+</div>

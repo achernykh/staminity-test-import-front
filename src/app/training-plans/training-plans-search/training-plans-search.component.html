@@ -1,5 +1,12 @@
-<st-application-frame>
-    <st-application-frame-title><span>Тренировочные планы</span></st-application-frame-title>
+<st-application-frame
+        left-bar-hide-type="'collapsed'"
+        left-bar-show="$ctrl.leftBarShow"
+        right-bar-show="$ctrl.rightBarShow">
+
+    <st-application-frame-title>
+        <span>Тренировочные планы</span>
+    </st-application-frame-title>
+
     <st-application-frame-toolbar>
         <md-button ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings" ng-init="today = 0">
             <md-icon class="material-icons" aria-label="Back">today</md-icon>
@@ -14,29 +21,28 @@
     </st-application-frame-toolbar>
 
     <st-application-frame-content>
-
-        <section layout-gt-sm="row" layout="column" class="training-plans-search__application">
-            <training-plans-filter class="training-plans-search__filter"
-                                   charts="$ctrl.charts"
-                                   filter="$ctrl.filter"
-                                   on-hide="$ctr.showPanel = false"
-                                   on-change-filter="$ctrl.changeGlobalFilter()"
-                                   on-change-charts="$ctrl.saveSettings('charts')">
-            </training-plans-filter>
-            <section flex="auto" class="training-plans-search__plans-section">
-                <section class="training-plans-search__area">
-                    <training-plans-list
-                            plans="$ctrl.demoList"
-                            filter="$ctrl.filter"
-                            filter-changes="$ctrl.filterChanges"
-                            on-change-filter="$ctrl.saveSettings('charts')"
-                            mobile-view="">
-                    </training-plans-list>
-                </section>
+        <section flex="auto" class="training-plans-search__plans-section">
+            <section class="training-plans-search__area">
+                <training-plans-list
+                        plans="$ctrl.demoList"
+                        filter="$ctrl.filter"
+                        filter-changes="$ctrl.filterChanges"
+                        on-change-filter="$ctrl.saveSettings('charts')"
+                        mobile-view="">
+                </training-plans-list>
             </section>
-
         </section>
     </st-application-frame-content>
+
+    <st-application-frame-left-bar>
+        <training-plans-filter class="training-plans-search__filter"
+                               charts="$ctrl.charts"
+                               filter="$ctrl.filter"
+                               on-hide="$ctrl.toggleLeftBar()"
+                               on-change-filter="$ctrl.changeGlobalFilter()"
+                               on-change-charts="$ctrl.saveSettings('charts')">
+        </training-plans-filter>
+    </st-application-frame-left-bar>
 
 </st-application-frame>
 
