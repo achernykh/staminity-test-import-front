@@ -292,10 +292,16 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             }
         }
 
+        // Планировать в будущем может:
+        // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
         if (this.form['dateStart']) {
             this.form['dateStart'].$setValidity('needPermissionForFeature',
-                !this.item.isOwner || this.AuthService.isActivityPlan() ||
-                (this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+                !isFutureDay(this.form['dateStart'].$modelValue) ||
+                this.AuthService.isActivityPlan() ||
+                (!this.item.isOwner && this.AuthService.isActivityPlanAthletes()));
+
+                //!this.item.isOwner || this.AuthService.isActivityPlan() ||
+                //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
         }
 
     }
