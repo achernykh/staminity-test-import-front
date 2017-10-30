@@ -130,6 +130,8 @@ export class SocketService implements ISocketService {
     });
   }
 
+  private heartBeatTimeout: number = null;
+
   /**
    * Получаем запрос по websocket
    * Полученный запрос проверяем по requestId на наличие в массиве отправленных запросов. Если запрос присутствует,
@@ -150,7 +152,7 @@ export class SocketService implements ISocketService {
     }
 
     // Через таймаут проверяем пришел ли hb/сообщение, если нет, то считаем сессию потерянной и пробуем переоткрыть
-    setTimeout(() => {
+    this.heartBeatTimeout = setTimeout(() => {
       let timeStamp = Date.now();
       if (this.lastHeartBit && (timeStamp - this.lastHeartBit) >= this.heartBitTimeout) {
         this.connections.next(false);
@@ -210,6 +212,8 @@ export class SocketService implements ISocketService {
     if (typeof ev === 'CloseEvent') {
       return;
     }
+
+    clearTimeout(this.heartBeatTimeout);
 
     try {
       this.socket.removeEventListener('message', this.response.bind(this));
