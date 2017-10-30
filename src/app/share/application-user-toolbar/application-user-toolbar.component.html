@@ -24,7 +24,7 @@
         <span class="badge superscript" ng-if="$ctrl.application.requests > 0">{{$ctrl.application.requests}}</span>
     </md-button>
 
-    <div hide show-gt-sm layout="row" class="user-frame">
+    <div hide show-gt-sm layout="row" class="user-frame" md-colors="::{'backgroundColor': 'hue-3'}">
         <div flex="none"
              class="avatar mini"
              style="background-image: url({{'/user/avatar/' | image:$ctrl.application.user.public.avatar}})"></div>

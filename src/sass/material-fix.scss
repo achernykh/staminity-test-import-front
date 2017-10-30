@@ -1,0 +1,12 @@
+// https://github.com/angular/material/issues/1967
+.md-dialog-container {
+    position: fixed;
+    top: 0 !important;
+    overflow: hidden;
+}
+
+.md-dialog-is-showing {
+    position: fixed;
+    top: 0 !important;
+    overflow: hidden;
+}
