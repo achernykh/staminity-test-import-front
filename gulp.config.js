@@ -80,7 +80,7 @@ const backend = {
     dev3: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'app.staminity.com',
+        server: 'testapp.staminity.com:8080',
         content: 'https://app.staminity.com',
         frontend: 'http://dev3.staminity.com/'
     },

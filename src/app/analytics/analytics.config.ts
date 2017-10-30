@@ -21,7 +21,9 @@ function configure($stateProvider:StateProvider,
                     return new DisplayView('analytics');
                 },
                 user: ['SessionService', (session:ISessionService) => session.getUser()],
-                categories: ['ReferenceService', (reference: ReferenceService) => reference.categories]
+                categories: ['ReferenceService', (reference: ReferenceService) =>
+                    (reference.categories.length > 0 && reference.categories) ||
+                    reference.getActivityCategories(undefined, false, true)]
                 /**coach: ['SessionService', (session:ISessionService) => session.getUser()],
                 groupId: ['coach', (coach:IUserProfile) => coach.connections['allAthletes'].groupId],
                 athletes: ['GroupService', 'groupId', (group:GroupService, groupId:number) =>

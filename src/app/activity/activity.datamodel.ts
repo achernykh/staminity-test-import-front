@@ -192,7 +192,7 @@ export class Activity extends CalendarItem {
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 	}
 
-	hasImport():boolean {
+	hasImport(): boolean {
 		return this.intervals.L.length > 0;
 	}
 

@@ -1,5 +1,6 @@
-<div layout="row" layout-align="start center" name="$ctrl.form"
-     class="md-dense interval-data" ng-class="{'selected': $ctrl.interval.isSelected, 'key': $ctrl.interval.keyInterval}">
+<form layout="row" layout-align="start center" name="$ctrl.segmentForm"
+      class="md-dense md-caption interval-data"
+      ng-class="{'selected': $ctrl.interval.isSelected, 'key': $ctrl.interval.keyInterval}">
     <div class="segment-number md-body-1 bg-grey-200 md-dark"
          ng-class="{'{{::$ctrl.interval.status}}': $ctrl.viewActual, 'coming': $ctrl.viewPlan}"
          ng-click="$ctrl.select()">
@@ -18,7 +19,7 @@
         </md-button>
         <md-menu-content width="3">
             <md-menu-item ng-repeat="measure in $ctrl.durationMeasure track by $index">
-                <md-button ng-click="$ctrl.interval.durationMeasure = measure">
+                <md-button ng-click="$ctrl.changeDurationType(measure)">
                     <md-icon class="md-dark" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
                     <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
@@ -60,7 +61,7 @@
         </md-button>
         <md-menu-content width="3">
             <md-menu-item ng-repeat="measure in $ctrl.intensityMeasure[$ctrl.sport] track by $index">
-                <md-button ng-click="$ctrl.interval.intensityMeasure = measure">
+                <md-button ng-click="$ctrl.changeIntensityMeasure(measure)">
                     <md-icon class="md-dark" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
                     <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
@@ -71,6 +72,7 @@
                         flex="noshrink" class="intensity" ng-switch="$ctrl.interval.intensityMeasure">
         <span class="input-ftp" ng-if="$ctrl.isFTP()" ng-disabled="$ctrl.item.mode === 'view'">%</span>
         <input ng-switch-when="heartRate"
+               required
                measure-input
                ng-model="$ctrl.interval.heartRate"
                ng-model-options="{ debounce: 500 }"
@@ -81,6 +83,7 @@
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
                ng-disabled="$ctrl.item.mode === 'view'">
         <input ng-switch-when="speed"
+               required
                type="text"
                measure-input
                ng-model="$ctrl.interval.speed"
@@ -94,6 +97,7 @@
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
                ng-disabled="$ctrl.item.mode === 'view'">
         <input measure-input ng-switch-when="power"
+               required
                ng-model="$ctrl.interval.power"
                ng-model-options="{ debounce: 500 }"
                name="plan_power"
@@ -113,7 +117,7 @@
     <md-button class="md-icon-button" ng-click="$ctrl.splice()">
         <md-icon class="material-icons md-dark md-inactive">close</md-icon>
     </md-button>-->
-</div><!--
+</form><!--
 <div class="interval-comment md-dense" ng-if="showComment">
     <md-input-container flex class="md-block no-message">
         <textarea ng-model="$ctrl.interval.trainersPrescription"

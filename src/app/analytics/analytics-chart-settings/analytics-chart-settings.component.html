@@ -100,7 +100,7 @@
                                multiple="false"
                                md-selected-text="$ctrl.localFilter.periodsSelectedText()"
                                ng-model="$ctrl.localFilter.periods.model"
-                               ng-change="$ctrl.localFilter('periods')">
+                               ng-change="$ctrl.localFilter.changeParam('periods')">
                         <md-option ng-repeat="type in $ctrl.localFilter.periods.options track by $index"
                                    value="{{type}}">
                             <span>{{'analytics.params.' + type | translate}}</span>
@@ -111,9 +111,9 @@
             <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod' && !$ctrl.globalParams">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.startDate"></label>
-                    <md-datepicker ng-model="$ctrl.localFilter.periods.startDate" flex="auto"
+                    <md-datepicker ng-model="$ctrl.localFilter.periods.data.startDate" flex="auto"
                                    md-hide-icons="calendar"
-                                   ng-change="$ctrl.change($ctrl.localFilter.periods, $ctrl.localFilter.periods.startDate)"
+                                   ng-change="$ctrl.localFilter.changeParam('periods')"
                                    name="startDate"></md-datepicker>
                     <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
                         <div ng-message="valid" translate="form.invalidDate"></div>
@@ -123,9 +123,9 @@
             <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod' && !$ctrl.globalParams">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.endDate"></label>
-                    <md-datepicker ng-model="$ctrl.localFilter.periods.endDate" flex="auto"
+                    <md-datepicker ng-model="$ctrl.localFilter.periods.data.endDate" flex="auto"
                                    md-hide-icons="calendar"
-                                   ng-change="$ctrl.change($ctrl.localFilter.periods, $ctrl.localFilter.periods.endDate)"
+                                   ng-change="$ctrl.localFilter.changeParam('periods')"
                                    name="endDate"></md-datepicker>
                     <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
                         <div ng-message="valid" translate="form.invalidDate"></div>

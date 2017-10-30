@@ -1,5 +1,5 @@
 import './structured-interval.component.scss';
-import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
 import {IActivityIntervalP} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
@@ -10,7 +10,7 @@ import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
 import {getFtpBySport} from "../../../core/user.function";
 import {DurationMeasure, IntensityMeasure} from "../../activity-datamodel/activity.models";
 
-const approxZones = {
+/**const approxZones = {
     heartRate: [
         {from: 0.01, to: 0.85},{from: 0.86, to: 0.89},{from: 0.90, to: 0.94},{from: 0.95, to: 1.00},
         {from: 1.01, to: 1.03},{from: 1.04, to: 1.06},{from: 1.07, to: 3.00}
@@ -23,7 +23,7 @@ const approxZones = {
         {from: 0.01, to: 0.54},{from: 0.55, to: 0.74},{from: 0.75, to: 0.89},{from: 0.90, to: 1.04},
         {from: 1.05, to: 1.20},{from: 1.21, to: 1.50},{from: 1.51, to: 4.00}
     ]
-};
+};**/
 
 class StructuredIntervalCtrl implements IComponentController {
 
@@ -57,6 +57,7 @@ class StructuredIntervalCtrl implements IComponentController {
     private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
 
     private ftp: {[measure: string] : number};
+    private segmentForm: INgModelController;
 
     static $inject = [];
 
@@ -128,6 +129,35 @@ class StructuredIntervalCtrl implements IComponentController {
         });**/
     }
 
+    /**
+     * Передаем статус валидности формы ввода сегмента на уровнеь гавной формы ввода задания по тренировке
+     */
+    broadcastFormValidation(): void {
+        setTimeout(() => this.item.assignmentForm.$setValidity('segmentInput', this.segmentForm.$valid), 100);
+    }
+
+    /**
+     * Смена параметра длительности
+     * @param type
+     */
+    changeDurationType(type: string): void {
+        this.interval.durationMeasure = type;
+        this.broadcastFormValidation();
+    }
+
+    /**
+     * Смена парметра интенсивности
+     * @param type
+     */
+    changeIntensityMeasure(type: string): void {
+        this.interval.intensityMeasure = type;
+        this.broadcastFormValidation();
+    }
+
+    /**
+     * Смена значения параметра интенсивности
+     * @param measure
+     */
     changeValue(measure: string) {
         this.completeInterval(measure);
         if (measure === 'movingDuration') {
@@ -136,9 +166,14 @@ class StructuredIntervalCtrl implements IComponentController {
         if (measure === 'distance') {
             this.interval.distanceLength = this.interval.durationValue;
         }
+        this.broadcastFormValidation();
         this.onChange({interval: this.interval});
     }
 
+    /**
+     * Расчет производных показателей интервала по введенмоу значению
+     * @param measure
+     */
     completeInterval(measure: string) {
         let value:DurationMeasure | IntensityMeasure = this.interval[measure];
         this.interval.complete(this.ftp, this.ftpMode, [{ measure: measure, value: value}]);
@@ -164,7 +199,7 @@ class StructuredIntervalCtrl implements IComponentController {
 
     }
 
-    completeFtpMeasure(key: string = this.interval.intensityMeasure):Array<number> {
+    /**completeFtpMeasure(key: string = this.interval.intensityMeasure):Array<number> {
         return [
             this.interval[key][this.index[FtpState.On]['from']] = this.interval[key][this.index[FtpState.Off]['from']] / this.getFTP(key),
             this.interval[key][this.index[FtpState.On]['to']] = this.interval[key][this.index[FtpState.Off]['to']] / this.getFTP(key)
@@ -240,7 +275,7 @@ class StructuredIntervalCtrl implements IComponentController {
 
         console.log('approx', measure, FTP, zoneId, delta, approxFTP, this.getFTP('speed'));
         return approxFTP * this.getFTP('speed');
-    }
+    }**/
 
 }
 

@@ -102,7 +102,12 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         });
         this.prepareValues();
         this.ftpMode = this.item.template ? FtpState.On : FtpState.Off;
+        this.validateForm();
 
+    }
+
+    $onDestroy(): void {
+        this.validateForm();
     }
 
     $onChanges(changes: any): void {
@@ -113,7 +118,6 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
                 this.prepareData();
                 this.validateForm();
             }, 100);
-
         }
     }
 
@@ -254,6 +258,10 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     validateForm() {
 
+        this.form.$setValidity('needDuration', !this.item.activity.structured &&
+            (this.form.hasOwnProperty('plan_distance') || this.form.hasOwnProperty('plan_movingDuration') ||
+                this.form.hasOwnProperty('actual_distance') || this.form.hasOwnProperty('actual_movingDuration')));
+
         if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
@@ -284,10 +292,16 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             }
         }
 
+        // Планировать в будущем может:
+        // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
         if (this.form['dateStart']) {
             this.form['dateStart'].$setValidity('needPermissionForFeature',
-                !this.item.isOwner || this.AuthService.isActivityPlan() ||
-                (this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+                !isFutureDay(this.form['dateStart'].$modelValue) ||
+                this.AuthService.isActivityPlan() ||
+                (!this.item.isOwner && this.AuthService.isActivityPlanAthletes()));
+
+                //!this.item.isOwner || this.AuthService.isActivityPlan() ||
+                //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
         }
 
     }
