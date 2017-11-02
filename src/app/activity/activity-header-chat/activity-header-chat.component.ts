@@ -31,10 +31,15 @@ export class ActivityHeaderChatCtrl implements IComponentController {
             .subscribe((item) => this.comments.push(item.value));
     }
 
+    loadComments(): Promise<void> {
+      return this.comment.get(this.commentType, this.activityId, true, 50)
+        .then(result => this.comments = result, error => this.message.toastError(error))
+        .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
+    }
+
     $onInit() {
-        this.comment.get(this.commentType, this.activityId, true, 50)
-            .then(result => this.comments = result, error => this.message.toastError(error))
-    .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));}
+      this.loadComments();
+    }
 
     onPostComment(text) {
         this.inAction = true;
