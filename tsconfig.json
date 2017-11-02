@@ -19,7 +19,12 @@
         "sourceMap": false,
         "noUnusedParameters": false,
         "noUnusedLocals": false,
-        "allowJs": true
+        "allowJs": true,
+        "baseUrl": "src",
+        "paths": {
+            "@app/*": ["app/*"],
+            "@api/*": ["../api/*"]
+        }
     },
     "exclude": [
         "node_modules"
