@@ -147,7 +147,7 @@ export const translateNotification = {
 /* ---------- Принятие и отклонение запросов пользователей в группы --------**/
     /* Athletes **/
         /* Спортсмен получил приглашение (входящий запрос) от тренера. Получатель уведомления - получатель приглашения, отправитель - тренер**/
-        inviteAthletes: "Тренер отправил вам приглашение в Стаминити и предлагает подключиться к нему",
+        inviteJoinAthletes: "Тренер отправил вам приглашение в Стаминити и предлагает подключиться к нему",
 
         /* Тренер получил запрос от спортсмена. Получатель уведомления - тренер, отправитель - спортсмен**/
         requestJoinAthletes: "Спортсмен отправил вам запрос на подключение в Стаминити",
@@ -172,7 +172,7 @@ export const translateNotification = {
 
     /* ClubMembers **/
         /* Пользователь получил приглашение (входящий запрос) от клуба. Получатель уведомления - получатель приглашения, отправитель - клуб**/
-        inviteClubMembers: "Вы получили приглашение вступить в клуб в Стаминити",
+        inviteJoinClubMembers: "Вы получили приглашение вступить в клуб в Стаминити",
 
         /* Клуб получил запрос на вступление от пользователя. Получатель уведомления - администраторы, отправитель - пользователь**/
         requestJoinClubMembers: "Вы получили новый запрос от пользователя на вступление в клуб",
@@ -738,7 +738,7 @@ export const translateNotification = {
         /* Athletes **/
 
         /* Спортсмен получил приглашение (входящий запрос) от тренера. Получатель уведомления - получатель приглашения, отправитель - тренер**/
-        inviteAthletes: "Coach invites you to connect to him in Staminity",
+        inviteJoinAthletes: "Coach invites you to connect to him in Staminity",
 
         /* Тренер получил запрос от спортсмена. Получатель уведомления - тренер, отправитель - спортсмен**/
         requestJoinAthletes: "New request from athlete to connect to you in Staminity",
@@ -758,7 +758,7 @@ export const translateNotification = {
         /* ClubMembers **/
 
         /* Пользователь получил приглашение (входящий запрос) от клуба. Получатель уведомления - получатель приглашения, отправитель - клуб**/
-        inviteClubMembers: "Club invites you to become club member in Staminity",
+        inviteJoinClubMembers: "Club invites you to become club member in Staminity",
 
         /* Клуб получил запрос на вступление от пользователя. Получатель уведомления - администраторы, отправитель - пользователь**/
         requestJoinClubMembers: "You've received a new join club request",
