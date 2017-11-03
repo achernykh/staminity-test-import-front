@@ -233,7 +233,8 @@ class SettingsUserCtrl {
             (this.user.personal.city && this.user.personal.country) &&
             (this.user.personal.about && this.user.personal.about.length > 5) &&
             (this.user.personal.price && this.user.personal.price.length > 5) &&
-            (this.user.personal.contact && this.user.personal.contact.length > 5)) {
+            (this.user.personal.contact && this.user.personal.contact.length > 5) &&
+            (this.user.privacy.some(s => s.key === 'userProfile.personal' && s.setup === 10))) {
 
             this.user.public.profileComplete = true;
 
