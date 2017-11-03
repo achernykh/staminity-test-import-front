@@ -89,8 +89,6 @@ class SettingsUserCtrl {
             offset: momentTimezone.tz(z).offset
         }));
 
-        console.log('timezones', this.timeZones);
-
         this.prepareZones();
     }
 
@@ -103,6 +101,8 @@ class SettingsUserCtrl {
         if (user.userId === this.user.userId) {
             this.user = angular.copy(user);
         }
+
+        this.user = angular.merge(this.user, { personal: { activity: [] } });
     }
 
     successHandler (message) {
@@ -559,6 +559,12 @@ class SettingsUserCtrl {
 	isActivityChecked (activity) {
 		return this.user.personal.activity.includes(activity)
 	}
+
+	get iCalLink() {
+	    return this.user.display.language && this.user.private.iCal[this.user.display.language] &&
+            `https://app.staminity.com/ical/${this.user.private.iCal[this.user.display.language]}` ||
+            'settings.personalInfo.calendar.empty';
+    }
 };
 
 SettingsUserCtrl.$inject = [
