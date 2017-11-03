@@ -1,6 +1,6 @@
 <!-- weektotal header: start -->
 
-<section class="total-toolbar" flex-gt-sm="none" flex="none" layout="row" layout-align="space-between center"
+<section class="toolbar" flex-gt-sm="none" flex="none" layout="row" layout-align="space-between center"
          ng-mouseover="$ctrl.showMenu = true" ng-mouseleave="$ctrl.showMenu = false">
 
     <div flex="none" class="md-body-1" style="min-width: 24px">
@@ -8,11 +8,11 @@
     </div>
     <div flex="auto" layout="row" layout-align="end center">
 
-        <div flex="none" ng-if="$ctrl.data.hasSummary() && !$ctrl.showMenu"
+        <!--<div flex="none" ng-if="$ctrl.data.hasSummary()"
              class="md-body-1 summary-status {{$ctrl.data.summaryStatus()}}">
-            {{$ctrl.data.summaryPercent() |number:0}}%</div>
+            {{$ctrl.data.summaryPercent() |number:0}}%</div> -->
 
-        <md-menu flex="none" md-position-mode="target-right target" ng-if="$ctrl.showMenu">
+        <md-menu flex="none" md-position-mode="target-right target">
             <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
                 <md-icon class="material-icons md-18">more_vert</md-icon>
             </md-button>
@@ -45,7 +45,7 @@
 
 </section>
 
-<section flex="none" class="total-content">
+<section flex="none" class="summary">
 
     <div ng-if="$ctrl.data.hasSummary()">
         <section layout="row" class="sum">
@@ -105,4 +105,11 @@
         </div>
     </div>
 
+</section>
+
+<section flex="auto"></section>
+
+<section class="summary-bar" flex="none" layout="row" layout-align="end center" ng-if="$ctrl.data.hasSummary()">
+    <div flex="none" class="md-body-1 summary-status {{$ctrl.data.summaryStatus()}}">
+        {{$ctrl.data.summaryPercent() |number:0}}%</div>
 </section>

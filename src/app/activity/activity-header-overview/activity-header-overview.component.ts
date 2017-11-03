@@ -4,6 +4,7 @@ import {Activity} from "../activity.datamodel";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {ActivityIntervalPW} from "../activity-datamodel/activity.interval-pw";
 import {ActivityIntervalW} from "../activity-datamodel/activity.interval-w";
+import { IActivityIntervalPW, ICalcMeasures } from "../../../../api/activity/activity.interface";
 
 class ActivityHeaderOverviewCtrl implements IComponentController {
 
@@ -27,10 +28,8 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         this.intervalW = this.item.activity.intervals.W;
     }
 
-    onChangeForm(plan,actual,form: INgModelController) {
-        this.item.assignmentForm.$dirty = this.item.assignmentForm.$dirty || form.$dirty;
-        this.item.assignmentForm.$valid = this.item.assignmentForm.$valid || form.$valid;
-        this.item.updateAssignment(plan,actual);
+    onChangeForm( plan: IActivityIntervalPW ,actual: ICalcMeasures, form: INgModelController) {
+
     }
 }
 

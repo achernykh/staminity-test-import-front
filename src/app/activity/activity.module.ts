@@ -26,7 +26,7 @@ import StructuredIntervalComponent from "./components/structured-interval/struct
 import {StructuredGroupComponent} from "./components/structured-group/structured-group.component";
 import ActivitySegmentsTableComponent from "./activity-segments-table/activity-segments-table.component";
 import ActivityAssignmentButtonsComponent from "./components/assignment-buttons/activity-assignment-buttons.component";
-import ActivityAssignmentHeaderComponent from "./components/assignement-header/activity-assignment-header.component";
+import ActivityAssignmentHeaderComponent from "./components/assignment-header/activity-assignment-header.component";
 import AssignmentSummaryNonStructuredComponent from "./components/assignment-summary-non-structured/assignment-summary-non-structured.component";
 import AssignmentSummaryStructuredComponent from "./components/assignment-summary-structured/assignment-summary-structured.component";
 import ActivityIntervalOverviewComponent from "./activity-interval-overview/activity-interval-overview.component";

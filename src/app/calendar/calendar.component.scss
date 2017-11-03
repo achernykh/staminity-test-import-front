@@ -93,7 +93,7 @@ calendar {
 
   div.calendar-week {
     position: relative; //todo проверит производительность
-    display:block;
+    display: flex;
     min-height: 170px;
     border-bottom: 1px solid $grey-400;
 

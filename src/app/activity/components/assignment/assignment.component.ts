@@ -32,6 +32,36 @@ class ActivityAssignmentCtrl implements IComponentController {
     }
 
     $onInit() {
+
+    }
+
+    /**
+     * Проверки на уровне полей выполняется отдельно в компонентах assignment-summary-non-structured
+     * В данной функции делаются комплексные проверки
+     */
+    checkForm (form?: INgModelController) {
+
+        this.item.assignmentForm.$setValidity('needDuration',
+            this.item.activity.movingDuration > 0 || this.item.activity.distance > 0);/*
+            this.item.activity.structured ||
+            (!this.item.activity.structured &&
+            (plan.durationValue > 0) || //|| plan.movingDuration > 0) ||
+            (actual.distance.value > 0 || actual.movingDuration.value > 0)));*/
+    }
+
+    /**
+     * Обработка изменений в воде данных по неструктурированной тренировки
+     * @param plan - плановые данные
+     * @param actual - фактические данные (пользователь мог ввести факт руками)
+     * @param form - статус формы ввода
+     */
+    changeForm( form: INgModelController, plan: IActivityIntervalPW, actual: ICalcMeasures) {
+
+        this.item.assignmentForm.$dirty = this.item.assignmentForm.$dirty || form.$dirty;
+        this.item.assignmentForm.$valid = this.item.assignmentForm.$valid || form.$valid;
+        this.item.updateAssignment(plan,actual);
+        this.checkForm();
+
     }
 
 

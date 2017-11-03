@@ -9,7 +9,7 @@ import {FtpState} from "../assignment/assignment.component";
 class ActivityAssignmentHeaderCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    private onChange: (result: {form: INgModelController}) => IPromise<void>;
+    private onChange: (result: { form: INgModelController }) => IPromise<void>;
 
     private form: INgModelController;
     public ftpMode: number;
@@ -27,7 +27,6 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     private changeParam() {
         setTimeout(()=>{
             this.clearTemplate();
-            //this.validateForm();
             this.updateForm();
             this.item.updateFilterParams();
         }, 100);

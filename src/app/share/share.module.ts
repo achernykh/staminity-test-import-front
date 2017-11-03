@@ -69,7 +69,7 @@ const userName = () => (user, options) => maybe(user) (prop('public')) (
 
 const clubName = () => (club) => maybe(club) (prop('public')) (prop('name')) ();
 
-const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):string => {
+const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorType.user):string => {
     let url: string = '/assets/picture/default_avatar.png';
     switch (type) {
         case InitiatorType.user: {
@@ -81,7 +81,7 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
             break;
         }
         case InitiatorType.provider: {
-            url = `url(/assets/icon/${avatar}_on.png)`;
+            url = `url(/assets/icon/${avatar.toLowerCase()}_on.png)`;
             break;
         }
         case InitiatorType.staminity: {

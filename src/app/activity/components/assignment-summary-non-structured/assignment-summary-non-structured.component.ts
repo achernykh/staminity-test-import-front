@@ -117,6 +117,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             setTimeout(() => {
                 this.prepareData();
                 this.validateForm();
+                this.updateForm();
             }, 100);
         }
     }
@@ -185,7 +186,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.prepareDataForUpdate();
         this.percentComplete[key] = this.calcPercent(key); // обновляем view model
         this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
-        this.onChange({plan: this.plan, actual: this.actual, form: this.form});
+        this.updateForm();
     }
 
     completeAbsoluteMeasure(key) {
@@ -258,9 +259,11 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     validateForm() {
 
-        this.form.$setValidity('needDuration', !this.item.activity.structured &&
-            (this.form.hasOwnProperty('plan_distance') || this.form.hasOwnProperty('plan_movingDuration') ||
-                this.form.hasOwnProperty('actual_distance') || this.form.hasOwnProperty('actual_movingDuration')));
+        /**if (this.form.hasOwnProperty('plan_distance')) {
+            this.form.$setValidity('needDuration', this.item.activity.structured || (!this.item.activity.structured &&
+                (this.form.hasOwnProperty('plan_distance') || this.form.hasOwnProperty('plan_movingDuration') ||
+                this.form.hasOwnProperty('actual_distance') || this.form.hasOwnProperty('actual_movingDuration'))));
+        }**/
 
         if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',
@@ -328,7 +331,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.item.activity.header.template = null;
     }
 
-    updateForm() {
+    private updateForm() {
         this.onChange({plan: this.plan, actual: this.actual, form: this.form});
     }
 
