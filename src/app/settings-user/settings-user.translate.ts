@@ -340,7 +340,58 @@ export const _translate = {
 
         },
         notification: {
-            header: 'Уведомления'
+            header: 'Уведомления',
+
+            //notificationGroup
+            user: 'Для всех пользователей',
+            coach: 'Для тренера',
+            club: 'Для клуба',
+
+            //notificationGroupStructure
+            userActivities: 'Тренировки',
+            userSocial: 'Друзья, группы и подписчики',
+            userClub: 'Занятия в клубе',
+            userCoach: 'Занятия с тренером',
+            userStaminity: 'Сервисные сообщения',
+            userTariffs: 'Тарифы и оплата',
+            coachWork: 'Подготовка спортсменов',
+            clubManagement: 'Управление клубом',
+
+            //notificationSettings
+            sync: 'Загрузка тренировок',
+            zones: 'Зоны и пороги',
+            clubCoach: 'Назначение тренеров в клубе',
+            clubRequest: 'Членство в клубе',
+            clubRoleAssignment: 'Назначение ролей в клубе',
+            coachActivities: 'Тренировки от тренера',
+            coachComments: 'Комментарии тренера',
+            coachRequest: 'Подключение к тренеру',
+            incomingRequestAthlete: 'Новые запросы от тренера и клуба',
+            comments: 'Комментарии других пользователей',
+            followActivities: 'Тренировки подписчиков',
+            friendActivities: 'Тренировки друзей',
+            friendRequests: 'Запросы друзьям',
+            groupRequests: 'Запросы группам',
+            groups: 'Действия с вашей группой',
+            messages: 'Новое сообщение',
+            system: 'Уведомления от Стаминити',
+            billPayment: 'Счета: статус оплаты',
+            billRecurring: 'Счета: автоматическое списание',
+            newBills: 'Выставление счетов',
+            tariffActions: 'Операции с тарифами',
+            trial: 'Завершение пробного периода',
+            athleteActivities: 'Тренировки спортсмена',
+            athleteComments: 'Комментарии спортсмена',
+            athleteConnections: 'Подключение спортсменов в клубе',
+            athleteRequest: 'Запросы учеников',
+            incomingRequestCoach: 'Новые запросы от спортсменов',
+            zonesAthlete: 'Изменения зон и порогов учеников',
+            assignClubCoach: 'Назначение тренеров для спортсменов',
+            clubTariffs: 'Подключение тарифов за счет клуба',
+            incomingRequestClub: 'Новые запросы клубу',
+            membersInOut: 'Вход/выход из клуба',
+            membersRequest: 'Запросы клуба'
+
         },
         templates: {
             header: 'Шаблоны тренировок'
@@ -351,6 +402,402 @@ export const _translate = {
 
     },
     en: {
+        fullTitle: 'User settings',
+        shortTitle: 'settings',
+        personalInfo: {
+            header: 'Personal info',
+            hint: '',
+            main: {
+                header: 'About you',
+                firstName: 'First name',
+                lastName: 'Last name',
+                sex: 'Sex',
+                birthday: 'Birthday',
+                country: 'Country',
+                city: 'City',
+                uri: 'Your profile: staminity.com/user/'
+            },
+            sex: 'Sex:',
+            M: 'Male',
+            W: 'Female',
+            about: 'About you...',
+            price: 'Services and price',
+            priceFull: 'Describe your services to client and pricing options',
+            contact: 'Contacts',
+            contactFull: 'How new athletes may contact you',
+            athletes: 'Students',
+            athletesFull: 'Any information about your students: their achievements, records, etc',
+            isFree: 'Availability for new students:',
+            isFreeTrue: 'Yes, i am available',
+            isFreeFalse: 'No, i am not available',
+            contacts: {
+                header:'Personal contacts (only for you and your coach)',
+                extEmail: 'Personal email',
+                phone: 'Phone'
+            },
+            sportShape: {
+                header: 'Fitness',
+                weight: 'Weight (kg)',
+                weightErr: 'Weight should be between 10 and 500',
+                height: 'Height (sm)',
+                heightErr: 'Height should be between 10 and 300',
+                level: 'Avg hours/week for training',
+                activityTypes: {
+                    header: 'Sports:',
+                    code: []
+                }
+            }
+        },
+        privacy: {
+            header: 'Privacy',
+            hint: 'Your image, First and Last name are available for all. Your personal info (e-mail, phone, weight, height) are not available to anyone except you and your coach.',
+            groups: {
+                userProfile: {
+                    personal: "User profile: personal information",
+                    personalHint: "About yourself, sex, birthday, Country, City",
+                    summaryStatistics: "Profile: summary statistics",
+                    summaryStatisticsHint: "Total distance and time spent for training by periods"
+                },
+                calendarItem: {
+                    summary: "Activity: general information",
+                    summaryHint: "General actual data about your activities",
+                    actualData: "Activity: detailed actual data",
+                    actualDataHint: "Detailed actual data for every activity",
+                    plannedData: "Activity: plan and actual info",
+                    plannedDataHint: "Plan and actual data for every activity"
+                }
+            },
+            level: {
+                id50: 'Me and my coach',
+                id40: 'Me, my coach and friends',
+                id10: 'Everyone'
+            }
+        },
+        display: {
+            header: 'Display preferences',
+            hint: 'Display preferences',
+            language: 'Language',
+            timezone: 'Time zone',
+            units: 'Measurement units',
+            metric: {
+                short: 'KG/KM',
+                full: 'Metric (KG/KM)'
+            },
+            imperial: {
+                short: 'Pound/Mile',
+                full: 'Imperial (Pound/Mile)'
+            },
+            firstDayOfWeek: 'First day of week'
+        },
+        account: {
+            header: 'Account',
+            hint: 'Account',
+            email: 'E-mail',
+            password: 'Password'
+        },
+        billing: {
+            tariffsHeader: 'Tariffs',
+            enableTariff: 'Subscribe',
+            disableTariff: 'Unsubscribe',
+            confirmEnable: 'Subscribe',
+            confirmPay: 'Pay {{cost}} {{currency}}',
+            confirmTrial: 'Try it free',
+            confirmDisable: 'Unsubscribe',
+            confirmSave: 'Save',
+            close: 'Close',
+            cancel: 'Cancel',
+            open: 'Open',
+            monthly: 'Monthly',
+            yearly: 'Yearly',
+            periodically: {
+                1: 'Monthly',
+                12: 'Yearly'
+            },
+            term: {
+                1: 'month',
+                12: 'year'
+            },
+            dayly: 'day',
+            subscriptionFees: 'Subscription fee',
+            fixedFee: 'Subscription fee',
+            changeFee: 'Change tariff',
+            free: 'Free',
+            promo: 'Promo-code',
+            activePromo: 'Promo-code «{{promo}}» is activated from {{appliedFrom}} to {{appliedTo}}',
+            validPromo: 'Promo-code «{{promo}}» could be activated after save your changes',
+            rejectedPromo: "Promo-code is not found",
+            removePromo: 'Remove',
+            submitPromo: 'Submit',
+            payment: 'Payment',
+            card: 'Card',
+            paypal: 'Paypal',
+            saving: '{{saving}}% less',
+            autoRenewal: 'Auto renewal',
+            autoRenewalShort: 'Auto renewal',
+            isOn: 'On',
+            isOff: 'Off',
+            agreementMessage: "I have read and agree with ",
+            agreementLink: "tariff conditions",
+            conditions: 'Tariff conditions',
+            conditionsText: `
+Calculated tariff's fees for "{{tariff}}" tariff will be added to your existed bill.
+
+Next bill will be issued at [{{validThrough}}]. 
+
+You could control the calculated amount for every tariff in Bills`,
+            trialConditionsText: `
+Trial subscription is free. 
+
+Trial subscription is valid until [{{validThrough}}].`,
+            tariffDisconnectionUnavailable: `
+You can not disable the tariff. To disable tariff please disconnect: {{counts}}
+`,
+            tariffDisconnectNow: `
+Do you want to disable the tariff?
+
+From tomorrow you will lost your tariff functions and we will stop calculate the tariff fees"
+`,
+            tariffDisconnectLater: `
+Do you want to disable the tariff?
+
+You will lost your tariff functions from [{{validThrough}}], after the end of previously paid period`,
+            counts: {
+                "Athletes": '{{count}} athletes',
+                "ClubAthletes": '{{count}} club athletes',
+                "CoachByClub": "{{count}} coaches",
+                "PremiumByCoach": "{{count}} premium athlethes",
+                "PremiumByClub": "{{count}} premium by club athletes"
+            },
+            group: {
+                "Athletes": 'Athletes fees',
+                "ClubAthletes": 'Club athletes fees',
+                "CoachByClub": "Club coaches fees",
+                "PremiumByCoach": "Premium by coach fees",
+                "PremiumByClub": "Premium by club fees"
+            },
+            eachInGroup: {
+                "Athletes": 'For every athlete',
+                "ClubAthletes": 'For every club athlete',
+                "CoachByClub": "For every club coach",
+                "PremiumByCoach": "For every premium by coach",
+                "PremiumByClub": "For every premium by club"
+            },
+            eachInGroupBelow: '{{below}}',
+            eachInGroupBetween: 'From {{from}} to {{to}} per person',
+            eachInGroupAbove: 'Start from {{above}}',
+            tariff: 'Tariff',
+            tariffs: {
+                "Coach": "Coach",
+                "Premium": "Premium",
+                "Club": "Club"
+            },
+            status: "Status",
+            tariffStatuses: {
+                enabled: "Enabled till {{until}}",
+                enabledByCoach: "Enabled by coach {{coach}}",
+                enabledByClub: "Enabled by club {{club}}",
+                notEnabled: "Disabled",
+                isPaid: "Paid till {{until}}",
+                trial: "Trial term till {{until}}",
+                isBlocked: "Blocked. Waiting payment"
+            },
+            tariffStatusesIsEnabled: {
+                enabled: "Enabled",
+                enabledByClub: "Enabled by club",
+                enabledByCoach: "Enabled by coach",
+                notEnabled: "Disabled",
+                isPaid: "Paid",
+                trial: "Trial",
+                isBlocked: "Blocked. You have unpaid bills"
+            },
+            tariffStatusesEnablers: {
+                enabled: "By yourself",
+                enabledByCoach: "By coach {{coach}}",
+                enabledByClub: "By club {{club}}",
+                notEnabled: "By yourself",
+                isPaid: "By yourself",
+                trial: "By yourself",
+                isBlocked: "By yourself"
+            },
+            subscriptionDate: "Subscription date",
+            subscriptionEnds: "Valid through",
+            subscriptionConditions: "Subscription conditions",
+            subscriptionConditionsLink: "https://help.staminity.com/en/tariffs/{{tariffCode}}.html",
+            promoDiscount: 'Promo discount',
+            volumeDiscount: 'Volume discount',
+            connections: 'Connections',
+            bill: "Bill",
+            payTheBill: "Pay {{amount}}",
+            billIsPaid: "Paid {{date}}",
+            billEntry: 'Bill entry',
+            amount: 'Amount',
+            date: 'Date',
+            count: 'Count',
+            billTotal: 'Bill TOTAL',
+            total: 'Total amount',
+            billsList: 'All bills',
+            invoices: 'Bills',
+            invoiceAmount: 'Bill for',
+            period: 'Period',
+            billId: 'Bill number',
+            approvalCode: 'Approval code',
+            paymentProcessing: 'Payment processing',
+            billStatuses: {
+                new: 'Forming',
+                ready: 'Issued',
+                complete: 'Paid'
+            },
+            invoiceStatuses: {
+                new: 'Forming',
+                ready: 'Issued',
+                complete: 'Paid'
+            },
+            billDatesTitle: 'Terms',
+            billDates: {
+                start: 'Start date',
+                end: 'End date',
+                bill: 'Bill date',
+                payment: 'Payment date'
+            },
+            billTabs: {
+                overview: 'Overview',
+                fees: 'Fees',
+                payment: 'Payment'
+            },
+            feeDetails: 'Fee details',
+            autoPayment: 'Charge automatically'
+        },
+        sync: {
+            header: 'Syncronisation settings',
+            garmin: 'Garmin Connect',
+            strava: 'Strava',
+            polar: 'Polar Flow',
+            status: {
+                offSyncNeverEnabled: {
+                    button: 'Enable',
+                    title: 'Disabled',
+                    text: 'Enable auto sync your activities'},
+                offSyncEnabledEarly: {
+                    button: 'Enable',
+                    title: 'Disabled',
+                    text: "Last acitivity sync date: {{lastSync | date:'short' }}"},
+                onSyncing: {
+                    button: 'Change',
+                    title: 'Sync...',
+                    text: "Initial syncronisation"},
+                onSyncComplete: {
+                    button: 'Change',
+                    title: 'Synced',
+                    text: "Last acitivity sync date: {{lastSync | date:'short' }}"},
+                onSyncCreate: {
+                    button: 'Change',
+                    title: 'Please wait...',
+                    text: "Waiting confirmation"},
+                onSyncPendingRequest: {
+                    button: 'Change',
+                    title: 'Please wait...',
+                    text: "Waiting confirmation"},
+                оnSyncCheckRequisites: {
+                    button: 'Change',
+                    title: 'Check...',
+                    text: "Check your credentials"
+                }
+            }
+        },
+        zones: {
+            header: 'Training zones',
+            hint: 'Training zones',
+
+            addSport: 'Add activity type',
+            editZones: 'Change zones',
+            deleteZones: 'Delete zones',
+            zoneCaption: 'Name',
+            zoneFrom: 'From',
+            zoneTo: 'To',
+
+            calculation: {
+                method: 'Method',
+                choose: 'Choose available method',
+                lactateThreshold: 'FTP',
+                restingAndMax: 'Min and max',
+                max: 'Max',
+                powerThreshold: 'power FTP',
+                paceThreshold: 'speed/pace FTP',
+                custom: 'Manual',
+
+                JoeFrielHeartRateRunning7: 'Joe Friel, 7 HR zones for running',
+                JoeFrielHeartRateCycling7: 'Joe Friel, 7 HR zones for cycling',
+                Karvonen5: 'Karvonen, 5 HR zones',
+                Yansen6: 'Peter Janssen, 6 HR zones',
+                AndyCoggan6: 'Andy Coggan, 7 power zones',
+                JoeFrielSpeed7: 'Joe Friel, 7 pace/speed zones',
+                '5': '5 custom zones',
+                '7': '7 custom zones',
+                '9': '9 custom zones'
+
+            }
+
+        },
+        notification: {
+            header: 'Notifications',
+
+            //notificationGroup
+            user: 'For all users',
+            coach: 'For coaches',
+            club: 'For clubs',
+
+            //notificationGroupStructure
+            userActivities: 'Activities',
+            userSocial: 'Friends, groups and followers',
+            userClub: 'Work with club',
+            userCoach: 'Train with coach',
+            userStaminity: 'Staminity notifications',
+            userTariffs: 'Tariffs and payments',
+            coachWork: 'Work with athletes',
+            clubManagement: 'Club management',
+
+            //notificationSettings
+            sync: 'Upload activities',
+            zones: 'Zones and thresholds',
+            clubCoach: 'Club coach assignment',
+            clubRequest: 'Club membership',
+            clubRoleAssignment: 'Club role assignment',
+            coachActivities: 'Activity plan by coach',
+            coachComments: 'Coach comments',
+            coachRequest: 'Connect with coach status',
+            incomingRequestAthlete: 'New requests from coach and club',
+            comments: 'User comments',
+            followActivities: 'Followed users activities',
+            friendActivities: 'Friends activities',
+            friendRequests: 'Friend requests',
+            groupRequests: 'Group requests',
+            groups: 'Group actions',
+            messages: 'New messages',
+            system: 'System notifications',
+            billPayment: 'Bills payments',
+            billRecurring: 'Bills recurring',
+            newBills: 'New bills',
+            tariffActions: 'Tariff actions',
+            trial: 'End trial',
+            athleteActivities: "Athlete's activities",
+            athleteComments: 'Athlete comments',
+            athleteConnections: 'Club athletes assignment',
+            athleteRequest: 'Athlete request',
+            incomingRequestCoach: 'New requests from athletes',
+            zonesAthlete: "Athlete's zones changes",
+            assignClubCoach: 'Club coach assignment',
+            clubTariffs: 'Paid by club tariffs',
+            incomingRequestClub: 'New requests to club',
+            membersInOut: 'Club members in/out',
+            membersRequest: 'Club members requests',
+
+        },
+        templates: {
+            header: 'Templates'
+        },
+        favorites: {
+            header: 'Favorites'
+        }
 
     }
 };
