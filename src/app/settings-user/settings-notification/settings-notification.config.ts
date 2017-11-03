@@ -38,7 +38,7 @@ export const groupStructure:INotificationGroupStructure = {
     user: {
         userActivities: ['sync', 'zones'],
         userClub: ['clubCoach', 'clubRequest', 'clubRoleAssignment'],
-        userCoach: ['coachActivities', 'coachComments', 'coachRequest', 'incomingRequesAthlete'],
+        userCoach: ['coachActivities', 'coachComments', 'coachRequest', 'incomingRequestAthlete'],
         userSocial: ['comments','followActivities','friendActivities','friendRequests','groupRequests','groups','messages'],
         userTariffs: ['billPayment','billRecurring','newBills','tariffActions','trial'],
         userStaminity: ['system'],
