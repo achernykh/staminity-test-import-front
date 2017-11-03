@@ -89,8 +89,6 @@ class SettingsUserCtrl {
             offset: momentTimezone.tz(z).offset
         }));
 
-        console.log('timezones', this.timeZones);
-
         this.prepareZones();
     }
 
@@ -103,6 +101,8 @@ class SettingsUserCtrl {
         if (user.userId === this.user.userId) {
             this.user = angular.copy(user);
         }
+
+        this.user = angular.merge(this.user, { personal: { activity: [] } });
     }
 
     successHandler (message) {
@@ -205,6 +205,9 @@ class SettingsUserCtrl {
     }
 
     update (form) {
+        if(this.user.public.isCoach) {
+            this.checkProfileComplete();
+        }
         for (let name in form) {
             if (form[name]) {
                 if (name === "personal" || name === "private") {
@@ -218,6 +221,27 @@ class SettingsUserCtrl {
 
         this.UserService.putProfile(this.user)
         .then(this.successHandler('settingsSaveComplete'), this.errorHandler());
+    }
+
+    /**
+     * Проверка полноты заполнения профиля тренера
+     */
+    checkProfileComplete() {
+        debugger;
+        if ((this.user.public.avatar !== 'default.jpg') &&
+            (this.user.public.firstName && this.user.public.lastName) &&
+            (this.user.personal.city && this.user.personal.country) &&
+            (this.user.personal.about && this.user.personal.about.length > 5) &&
+            (this.user.personal.price && this.user.personal.price.length > 5) &&
+            (this.user.personal.contact && this.user.personal.contact.length > 5)) {
+
+            this.user.public.profileComplete = true;
+
+        } else { this.user.public.profileComplete = false; }
+    }
+
+    isProfileComplete() {
+
     }
 
     weekdays (day) {
@@ -535,6 +559,12 @@ class SettingsUserCtrl {
 	isActivityChecked (activity) {
 		return this.user.personal.activity.includes(activity)
 	}
+
+	get iCalLink() {
+	    return this.user.display.language && this.user.private.iCal[this.user.display.language] &&
+            `https://app.staminity.com/ical/${this.user.private.iCal[this.user.display.language]}` ||
+            'settings.personalInfo.calendar.empty';
+    }
 };
 
 SettingsUserCtrl.$inject = [
