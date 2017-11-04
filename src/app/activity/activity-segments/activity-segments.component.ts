@@ -66,6 +66,7 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     valid():void {
         this.item.assignmentForm.$setValidity('needInterval', this.intervals.P.length > 0);
+        this.item.assignmentForm.$setValidity('needDuration', this.intervals.P.length > 0);
     }
     /**
      * @description Обновление модели данных
