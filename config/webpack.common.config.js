@@ -47,7 +47,11 @@ module.exports = {
             'angularjs-scroll-glue',
             'drag-drop-webkit-mobile',
             'angular-ui-router',
-            'lodash'
+            'lodash',
+            'quill/dist/quill.js',
+            'quill/dist/quill.bubble.css',
+            'quill/dist/quill.snow.css',
+            'ng-quill/dist/ng-quill.js'
             //'unichart/dist/uchart.min.js'
         ],
         // вход для приложения

@@ -116,3 +116,36 @@ section.margin {
 	}
 }
 
+ng-quill-editor {
+	display: block;
+
+	&.hide-toolbar {
+		.ql-toolbar {
+			display: none;
+		}
+	}
+
+	.ql-container.ql-snow {
+		border: none;
+	}
+
+	.ql-toolbar.ql-snow {
+		border-bottom: 1px solid #ccc !important;
+		font-family: Roboto !important;
+	}
+
+	.ql-snow .ql-editor img {
+		//width: 100% !important;
+	}
+
+	.ql-editor .ql-video {
+		//width: 100% !important;
+	}
+
+	.ql-editor ol, .ql-editor ul {
+		padding-left: 0px !important;
+	}
+
+}
+
+

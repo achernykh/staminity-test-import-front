@@ -48,7 +48,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         } else {
             // Переключение со структурированной на не структурированную
             this.item.activity.intervals.stack
-                .filter(i => i.type === 'P')
+                .filter(i => i.type === 'P' || i.type === 'G')
                 .map(i => this.item.activity.intervals.splice(i.type, i.pos, 'single'));
 
             this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);

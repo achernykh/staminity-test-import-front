@@ -379,7 +379,7 @@ export class Activity extends CalendarItem {
 
 	get bottomPanel() {
 		return ((this.status === 'coming' &&
-			((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0) ||
+			((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0 && this.intervalPW.trainersPrescription.length < 10) ||
 			(!this.structured && this.intervalPW.intensityMeasure) )) && 'plan') ||
 			//(this.status === 'coming' && this.structured && 'segmentList') ||
 			((this.completed && this.summaryAvg.length > 0) && 'data') || null;
