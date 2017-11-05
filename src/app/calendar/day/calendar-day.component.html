@@ -196,6 +196,15 @@
                 </div>
 
             </calendar-competition>
+
+            <calendar-record ng-switch-when="record"
+                             ng-click="$ctrl.onOpen($event,item.calendarItemType, item)"
+                             layout="row" layout-align="start center" flex="auto">
+                <md-icon class="material-icons md-dark md-inactive md-18 icon"
+                         md-svg-src="/assets/icon/{{item.recordHeader.type}}.svg"></md-icon>
+                <div class="md-caption md-dark" translate>{{::'record.'+item.recordHeader.type}}</div>
+            </calendar-record>
+
             <calendar-activity ng-switch-when="activity"
                                layout="column" flex="auto"
                                item="item" selected="$ctrl.selected"
@@ -220,8 +229,8 @@
             <md-icon class="material-icon" aria-label="New">straighten</md-icon>
         </md-button>
         <md-button  class="md-icon-button" aria-label="More"
-                    ng-click="$ctrl.newEvent($event,$ctrl.data)">
-            <md-icon class="material-icon" aria-label="New">weekend</md-icon>
+                    ng-click="$ctrl.postRecord($event,$ctrl.data)">
+            <md-icon class="material-icon" aria-label="New">note_add</md-icon>
         </md-button>
     </section>
     <!-- add item: end -->

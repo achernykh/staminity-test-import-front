@@ -81,7 +81,7 @@ export class CalendarCtrl implements IComponentController{
     private dateFormat: string = 'YYYY-MM-DD';
     private date: Date;
     private range: Array<number> = [0, 1];
-    private calendar: Array<ICalendarWeek> = [];
+    public calendar: Array<ICalendarWeek> = [];
     private currentWeek: ICalendarWeek;
     private lockScroll: boolean;
     public currentUser: IUserProfile;
@@ -547,6 +547,17 @@ export class CalendarCtrl implements IComponentController{
                 d.selected = false;
             }
         }));
+    }
+
+    /**
+     * Диапазон дат от начала загруженного календаря до окончания
+     * @returns {any[]}
+     */
+    get calendarRange(): Array<string> {
+        return [
+            this.calendar[0].date.format(this.dateFormat),
+            this.calendar[this.calendar.length - 1].date.add('days', 6).format(this.dateFormat)
+        ];
     }
 
 }

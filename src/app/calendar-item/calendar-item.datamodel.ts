@@ -12,10 +12,6 @@ export class CalendarItem implements ICalendarItem {
 	public dateEnd: string;
 	public calendarItemType: string;
 	public measurementHeader:IMeasurementHeader;
-	public eventHeader:IEventHeader = {
-		eventType: null,
-		target: null
-	};
 	public activityHeader: IActivityHeader;
 	public userProfileOwner: IUserProfileShort;
 	public userProfileCreator: IUserProfileShort;
