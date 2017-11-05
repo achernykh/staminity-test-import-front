@@ -262,7 +262,7 @@ class SettingsUserCtrl {
         //1. Отключить синхронизацию через тумблер switch == off
         if(!toggle && adaptor.status.switch) {
 
-            var confirm = this._$mdDialog.confirm()
+            var confirm = this.$mdDialog.confirm()
                 .title('Вы хотите отключить синхронизацию?')
                 .textContent('После отключения данные из внешнего источника останутся доступными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации')
                 .ariaLabel('Lucky day')
@@ -270,7 +270,7 @@ class SettingsUserCtrl {
                 .ok('Продолжить')
                 .cancel('Отменить');
 
-            this._$mdDialog.show(confirm)
+            this.$mdDialog.show(confirm)
                 .then(() => this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
                     moment(adaptor.startDate).format('YYYY-MM-DD'), toggle ? "Enabled" : "Disabled")
                     .then(response => {
@@ -314,7 +314,7 @@ class SettingsUserCtrl {
             });
         } //3. Подключить user/pass синхронизацию или 4. Изменить настройки синхронизации
         else if(toggle) {
-            this._$mdDialog.show({
+            this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
                 template: require('./dialogs/provider.html'),
@@ -369,7 +369,7 @@ class SettingsUserCtrl {
             if(adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { // Если идет подключение по OAuth
 
             } else {  // Идет подключение или изменение синхронизации
-                this._$mdDialog.show({
+                this.$mdDialog.show({
                     controller: DialogController,
                     controllerAs: '$ctrl',
                     template: require('./dialogs/provider.html'),
@@ -409,7 +409,7 @@ class SettingsUserCtrl {
                 });
             }
         } else { // Выполняется отлкючение синхронизации
-            var confirm = this._$mdDialog.confirm()
+            var confirm = this.$mdDialog.confirm()
                 .title('Вы хотите отключить синхронизацию?')
                 .textContent('После отключения данные из внешнего источника останутся доступными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации')
                 .ariaLabel('Lucky day')
@@ -417,7 +417,7 @@ class SettingsUserCtrl {
                 .ok('Продолжить')
                 .cancel('Отменить');
 
-            this._$mdDialog.show(confirm)
+            this.$mdDialog.show(confirm)
                 .then(() => this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
                     moment(adaptor.startDate).format('YYYY-MM-DD'), adaptor.status.switch ? "Enabled" : "Disabled")
                     .then(response => {
@@ -441,7 +441,7 @@ class SettingsUserCtrl {
     }
 
     showPasswordChange (ev) {
-        this._$mdDialog.show({
+        this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
             template: require('./dialogs/changepassword.html'),
