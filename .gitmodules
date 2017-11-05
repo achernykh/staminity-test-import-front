@@ -1,4 +1,4 @@
 [submodule "api"]
 	path = api
-	url = https://gitlab.com/aborovsky/api.git
+	url = https://gitlab.com/achernykh/api
 	branch = develop
