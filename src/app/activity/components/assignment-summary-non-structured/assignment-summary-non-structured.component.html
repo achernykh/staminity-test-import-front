@@ -111,14 +111,7 @@
     <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
     <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
 </div>
-<md-subheader><span translate="activity.trainersPrescription"></span></md-subheader>
-<div flex="auto">
-    <ng-quill-editor ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
-                     ng-class="{'hide-toolbar': $ctrl.item.mode === 'view'}"
-                     read-only="$ctrl.item.mode === 'view'">
-    </ng-quill-editor>
-</div>
-<!--<md-list class="assignment-summary-non-structured md-dense slim-input bg-grey-100 ">
+<md-list class="assignment-summary-non-structured md-dense slim-input bg-grey-100 ">
     <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
         <md-input-container flex class="md-block no-message">
             <md-icon class="material-icons md-dark">event_note</md-icon>
