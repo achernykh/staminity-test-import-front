@@ -81,7 +81,7 @@ export class CalendarItemActivityCtrl implements IComponentController {
   private splitsSelectChangeCount: number = 0;
   private isLoadingRange: boolean = false; // индиактор загрузки результатов calculateActivityRange
 
-  private selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
+  protected selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
   public currentUser: IUserProfile = null;
   public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
   public isCreator: boolean;
