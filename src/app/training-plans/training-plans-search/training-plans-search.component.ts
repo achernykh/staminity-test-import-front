@@ -1,15 +1,14 @@
-import './training-plans-search.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
-import {TrainingPlansList} from "../training-plans-list/training-plans-list.datamodel";
+import "./training-plans-search.component.scss";
+import { IComponentOptions, IComponentController, IPromise } from "angular";
+import { TrainingPlansList } from "../training-plans-list/training-plans-list.datamodel";
 import {
     ITrainingPlanSearchRequest,
     ITrainingPlanSearchResult
 } from "../../../../api/trainingPlans/training-plans.interface";
-import {IUserProfile} from "../../../../api/user/user.interface";
-import {profileShort} from "../../core/user.function";
-import {timestamp} from "rxjs/operator/timestamp";
-import {ISessionService, getUser} from "../../core/session.service";
-import {Subject} from "rxjs/Rx";
+import { IUserProfile } from "../../../../api/user/user.interface";
+import { ISessionService, getUser } from "../../core/session.service";
+import { Subject } from "rxjs/Rx";
+import { TrainingPlansService } from "../training-plans.service";
 
 class TrainingPlansSearchCtrl implements IComponentController {
 
@@ -17,47 +16,43 @@ class TrainingPlansSearchCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
 
     private user: IUserProfile;
-    private demoList: TrainingPlansList;
+    private plans: TrainingPlansList;
 
+    private searchParams: ITrainingPlanSearchRequest;
     private destroy: Subject<any> = new Subject();
-    static $inject = ['SessionService'];
+    static $inject = ['SessionService', 'TrainingPlansService'];
 
-    constructor(private session: ISessionService) {
+    constructor (private session: ISessionService, private trainingPlansService: TrainingPlansService) {
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
-            .subscribe(userProfile => {
-                this.user = userProfile;
-                this.prepareDemoList();
-            });
+            .subscribe(userProfile => this.user = userProfile);
+
+        this.searchParams = {
+            ownerId: this.user.userId
+        };
+
+        this.trainingPlansService.search(this.searchParams)
+            .then(
+                this.prepareList.bind(this),
+                error => {debugger;}
+            );
+
+
     }
 
-    $onInit() {
+    $onInit () {
+
     }
 
-    private prepareDemoList() {
-        let searchResult: Array<ITrainingPlanSearchResult> = [];
-        Array.from(new Array(40)).map((p,i) => searchResult.push({
-            id: i + 1,
-            isPublic: i % 5 === 0 ? true : false,
-            name: `Марафон версия #${i}`,
-            author: profileShort(this.user),
-            weekCount: Math.random() * (30 - 4) + 4,
-            distance: (Math.random() * (120 - 20) + 20) * 1000,
-            icon: null,
-            rate: Math.random() * (5 - 1) + 1,
-            price: Math.random() * (6000 - 500) + 500,
-            currency: 'RUB',
-            priceIsApprox: i % 4 === 0 ? true : false,
-            isCommercial: i % 6 === 0 ? true : false,
-            totalFound: null
-        }));
+    prepareList (result: ITrainingPlanSearchResult) {
 
-        this.demoList = new TrainingPlansList(searchResult);
+        this.plans = new TrainingPlansList(result.items);
     }
+
 }
 
-const TrainingPlansSearchComponent:IComponentOptions = {
+const TrainingPlansSearchComponent: IComponentOptions = {
     bindings: {
         list: '<',
         onEvent: '&'
