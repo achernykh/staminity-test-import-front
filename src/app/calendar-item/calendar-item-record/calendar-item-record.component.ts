@@ -23,6 +23,22 @@ class CalendarItemRecordCtrl implements IComponentController {
 
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
+    private toolbarConfig: Object = { // https://github.com/KillerCodeMonkey/ng-quill
+        toolbar: [
+            [{ header: [3, 4, false] }],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            ['link', 'image', 'video']
+        ]
+    };
+    private toolbarFullConfig: Object = { // https://github.com/KillerCodeMonkey/ng-quill
+        toolbar: [
+            [{ header: [3, 4, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'color': [] }, { 'background': [] }],
+            ['link', 'image', 'video']
+        ]
+    };
 
     static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message'];
 
@@ -39,14 +55,8 @@ class CalendarItemRecordCtrl implements IComponentController {
     }
 
     toggle (item, list) {
-        debugger;
-        var idx = list.indexOf(item);
-        if ( idx > -1 ) {
-            list.splice(idx, 1);
-        }
-        else {
-            list.push(item);
-        }
+        let idx = list.indexOf(item);
+        idx > -1 ? list.splice(idx, 1) : list.push(item);
     }
 
     exists (item, list) {
@@ -54,12 +64,13 @@ class CalendarItemRecordCtrl implements IComponentController {
     }
 
     onSave () {
+
+
+        [this.record.recordHeader.editParams.asyncEventsDateFrom,
+            this.record.recordHeader.editParams.asyncEventsDateTo] = this.calendarRange;
+
         if ( this.mode === 'post' ) {
-            if ( this.record.isRepeated ) {
-                [this.record.editParams.asyncEventsDateFrom,
-                    this.record.editParams.asyncEventsDateTo] = this.calendarRange;
-            }
-            this.calendarService.postItem(this.record.build())
+            this.calendarService.postItem(this.record.build(this.mode))
                 .then(response => {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordCreated');
@@ -67,7 +78,7 @@ class CalendarItemRecordCtrl implements IComponentController {
                 }, error => this.message.toastError(error));
         }
         if ( this.mode === 'put' ) {
-            this.calendarService.putItem(this.record.build())
+            this.calendarService.putItem(this.record.build(this.mode))
                 .then((response)=> {
                     this.record.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('recordUpdated');
@@ -76,12 +87,16 @@ class CalendarItemRecordCtrl implements IComponentController {
         }
     }
 
-    onDelete() {
-        this.calendarService.deleteItem('F', [this.record.calendarItemId])
+    onDelete(rmParams: Object) {
+        this.calendarService.deleteItem('F', [this.record.calendarItemId], rmParams)
             .then(() => {
                 this.message.toastInfo('recordDeleted');
                 this.close();
             }, error => this.message.toastError(error));
+    }
+
+    private get isViewMode (): boolean {
+        return this.mode === 'view';
     }
 
     private close (): void {

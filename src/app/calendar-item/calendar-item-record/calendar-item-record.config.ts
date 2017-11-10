@@ -8,7 +8,7 @@ export interface ICalendarItemRecordConfig {
 }
 
 export const CalendarItemRecordConfig: ICalendarItemRecordConfig = {
-    types: ['restDay','sickness','travel','diet','bar','warning','female','vitamins'],
+    types: ['restDay','sickness','travel', 'note', 'diet','bar','warning','female','vitamins', 'video'],
     defaultType: 'restDay',
     periods: ['D','W','M','Y'],
     endTypes: ['D','C'],
