@@ -1,4 +1,7 @@
 <st-application-frame
+        class="st-application-frame"
+        has-nav-bar="true"
+
         left-bar-hide-type="'collapsed'"
         left-bar-show="$ctrl.leftBarShow"
         right-bar-show="$ctrl.rightBarShow">
@@ -19,6 +22,18 @@
                 {{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details'}}
         </span>
     </st-application-frame-toolbar>
+
+    <st-application-frame-navbar layout="row">
+        <md-nav-item md-nav-click="goto('page1')" name="page1">
+            Page One
+        </md-nav-item>
+        <md-nav-item md-nav-click="goto('page2')" name="page2">
+            Page Two
+        </md-nav-item>
+        <md-nav-item md-nav-click="goto('page3')" name="page3">
+            Page Three
+        </md-nav-item>
+    </st-application-frame-navbar>
 
     <st-application-frame-content>
         <section flex="auto" class="training-plans-search__plans-section">

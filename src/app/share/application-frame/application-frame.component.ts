@@ -96,11 +96,13 @@ const ApplicationFrameComponent:IComponentOptions = {
     transclude: {
         title: '?stApplicationFrameTitle',
         toolbar: '?stApplicationFrameToolbar',
+        navbar: '?stApplicationFrameNavbar',
         content: 'stApplicationFrameContent',
         leftBar: '?stApplicationFrameLeftBar',
         rightBar: '?stApplicationFrameRightBar'
     },
     bindings: {
+        navBar: '=', // наличие навигационной панели md-nav-bar
         leftBarShow: '<',
         /**
          * Тип скрытия панели - обязательный аттрибут

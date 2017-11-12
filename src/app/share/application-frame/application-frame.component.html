@@ -5,10 +5,16 @@
             <md-icon class="material-icons md-light">menu</md-icon>
         </md-button>
         <h2 class="md-title" ng-transclude="title"></h2>
-        <div flex ng-transclude="toolbar" class="icon-bar"></div>
+        <div flex ng-transclude="toolbar" class="icon-bar" md-colors="{background: 'primary-600'}"></div>
         <st-application-user-toolbar></st-application-user-toolbar>
     </div>
 </md-toolbar>
+<md-nav-bar class="st-application-frame__navbar"
+        md-no-ink-bar="false"
+        md-selected-nav-item="1"
+        nav-bar-aria-label="navigation links">
+    <div flex ng-transclude="navbar"></div>
+</md-nav-bar>
 
 <section class="st-application-frame__left-bar" ng-transclude="leftBar"></section>
 

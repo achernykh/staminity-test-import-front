@@ -32,14 +32,14 @@ function configure(
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
 	$mdThemingProvider.theme('default')
-		.primaryPalette('indigo')
-		.accentPalette('pink')
+		.primaryPalette('blue-grey')
+		.accentPalette('deep-orange')
 		.warnPalette('red');
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
 	$mdThemingProvider.theme('grey')
         .primaryPalette('grey')
-        .accentPalette('pink')
+        .accentPalette('deep-orange')
         .warnPalette('red');
 
 	/**$mdThemingProvider.theme('default')
