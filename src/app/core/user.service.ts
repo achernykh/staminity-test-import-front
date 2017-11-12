@@ -138,7 +138,10 @@ export default class UserService {
         }, (error) => {
             if (error === 'expiredObject') {
                 this.getProfile(userChanges.userId)
-                .then((user) => this.putProfile({ ...user, ...userChanges }));
+                .then((user) => {
+                    const {revision} = <any> user;
+                    this.putProfile({ ...user, ...userChanges, revision });
+                });
             }
         });
     }
