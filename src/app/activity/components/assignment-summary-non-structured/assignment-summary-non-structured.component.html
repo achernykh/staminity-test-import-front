@@ -104,16 +104,22 @@
         </md-table-container>
     </md-list-item>
 </md-list>
-<div class="assignment-summary-non-structured md-caption error-block" ng-messages="$ctrl.form.$error" ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
+<div class="assignment-summary-non-structured md-caption error-block"
+     ng-messages="$ctrl.form.$error"
+     ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
     <div ng-message="required">{{'activity.error.required' | translate}}</div>
     <div ng-message="needDuration">{{'activity.error.needDuration' | translate}}</div>
     <div ng-message="singleDuration">{{'activity.error.singleDuration' | translate}}</div>
     <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
     <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
 </div>
-<md-subheader><span translate="activity.trainersPrescription"></span></md-subheader>
-<div flex="auto">
+<md-subheader ng-if="$ctrl.item.activity.sport">
+    <span translate="activity.trainersPrescription"></span>
+</md-subheader>
+<div flex="auto" class="assignment-summary-non-structured__description" ng-if="$ctrl.item.activity.sport">
     <ng-quill-editor ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
+                     placeholder="{{'activity.descriptionPlaceholder' | translate}}"
+                     modules="$ctrl.quillConf.toolbar"
                      ng-class="{'hide-toolbar': $ctrl.item.mode === 'view'}"
                      read-only="$ctrl.item.mode === 'view'">
     </ng-quill-editor>

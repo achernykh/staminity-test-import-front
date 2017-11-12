@@ -8,6 +8,7 @@ import {
 import moment from 'moment/src/moment.js';
 import {FtpState} from "../assignment/assignment.component";
 import {IAuthService} from "../../../auth/auth.service";
+import { IQuillConfig } from "@app/share/quill/quill.config";
 
 const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 
@@ -62,9 +63,12 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         power: 'avgValue'
     };
 
-    static $inject = ['$scope', 'AuthService'];
+    static $inject = ['$scope', 'AuthService', 'quillConfig'];
 
-    constructor(private $scope: any, private AuthService: IAuthService) {
+    constructor(
+        private $scope: any,
+        private AuthService: IAuthService,
+        private quillConf: IQuillConfig) {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
         this.$scope.measure = {

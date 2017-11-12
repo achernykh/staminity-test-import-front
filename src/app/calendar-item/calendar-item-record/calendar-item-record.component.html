@@ -124,7 +124,10 @@
                 </md-list-item>
                 <md-list-item ng-if="$ctrl.record.isRepeated" class="margin-top-8">
                     <md-input-container class="md-block no-message" layout="row">
-                        <label translate="record.every.label"></label>
+                        <label>
+                            <span translate="record.every.label"></span>
+                            <span>({{'record.every.' + $ctrl.record.recordHeader.repeat.period | translate}})</span>
+                        </label>
                         <md-icon flex="none" class="md-dark" md-svg-src=""></md-icon>
                         <input type="number" step="1" min="1" name="every" class="icon"
                                ng-model="$ctrl.record.recordHeader.repeat.every"
@@ -200,18 +203,18 @@
             </md-list>
         </form>
         <md-subheader><span translate="record.description"></span></md-subheader>
-        <div flex="auto description">
+        <div flex="auto" class="description">
             <ng-quill-editor ng-if="$ctrl.fullScreenMode"
                              ng-model="$ctrl.record.recordHeader.description"
                              placeholder="{{'record.descriptionPlaceholder' | translate}}"
-                             modules="$ctrl.toolbarFullConfig"
+                             modules="$ctrl.quillConf.toolbarFull"
                              ng-class="{'hide-toolbar': $ctrl.isViewMode}"
                              read-only="$ctrl.isViewMode">
             </ng-quill-editor>
             <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
                              ng-model="$ctrl.record.recordHeader.description"
                              placeholder="{{'record.descriptionPlaceholder' | translate}}"
-                             modules="$ctrl.toolbarConfig"
+                             modules="$ctrl.quillConf.toolbar"
                              ng-class="{'hide-toolbar': $ctrl.isViewMode}"
                              read-only="$ctrl.isViewMode">
             </ng-quill-editor>

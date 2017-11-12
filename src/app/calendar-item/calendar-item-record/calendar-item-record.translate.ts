@@ -58,6 +58,7 @@ export const _translateRecord = {
             label: 'Количество повторов'
         },
         description: 'Описание',
+        descriptionPlaceholder: '...',
 
     },
     en: {

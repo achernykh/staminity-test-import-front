@@ -7,6 +7,7 @@ import SessionService from "../../core/session.service";
 import { CalendarService } from "../../calendar/calendar.service";
 import { ICalendarItemRecordConfig } from "./calendar-item-record.config";
 import MessageService from "../../core/message.service";
+import { IQuillConfig } from "@app/share/quill/quill.config";
 
 class CalendarItemRecordCtrl implements IComponentController {
 
@@ -23,29 +24,14 @@ class CalendarItemRecordCtrl implements IComponentController {
 
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
-    private toolbarConfig: Object = { // https://github.com/KillerCodeMonkey/ng-quill
-        toolbar: [
-            [{ header: [3, 4, false] }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            ['link', 'image', 'video']
-        ]
-    };
-    private toolbarFullConfig: Object = { // https://github.com/KillerCodeMonkey/ng-quill
-        toolbar: [
-            [{ header: [3, 4, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'color': [] }, { 'background': [] }],
-            ['link', 'image', 'video']
-        ]
-    };
 
-    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message'];
+    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message', 'quillConfig'];
 
     constructor (private config: ICalendarItemRecordConfig,
                  private session: SessionService,
                  private calendarService: CalendarService,
-                 private message: MessageService) {
+                 private message: MessageService,
+                 private quillConf: IQuillConfig) {
 
     }
 

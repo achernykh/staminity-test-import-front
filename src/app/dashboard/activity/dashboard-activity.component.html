@@ -48,7 +48,7 @@
             <div class="md-caption secondary dark" style="font-size: 12px"
                  ng-if="::(!!$ctrl.activity.intervalPW.trainersPrescription.length)"
                  hm-read-more
-                 hm-text="{{::$ctrl.activity.intervalPW.trainersPrescription}}"
+                 hm-text="{{::$ctrl.activity.intervalPW.trainersPrescription | htmlToPlainText}}"
                  hm-limit="100"
                  hm-more-text="more"
                  hm-less-text="less"
