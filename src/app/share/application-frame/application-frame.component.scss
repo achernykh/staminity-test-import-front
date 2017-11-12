@@ -69,6 +69,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
   &__right-bar {
     right: 0;
+    display: none;
   }
 
   &__wrapper {
