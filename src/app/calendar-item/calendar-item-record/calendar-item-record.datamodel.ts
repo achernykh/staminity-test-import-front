@@ -19,15 +19,17 @@ export class CalendarItemRecord extends CalendarItem {
     build (mode: string = 'post'): ICalendarItem {
         //super.package();
         let item: ICalendarItem = this;
+        let format: string = 'YYYY-MM-DD';
 
-        item.dateStart = moment(this.dateStart).format();
+        item.dateStart = moment(this.dateStart).format(format);
         item.dateEnd = this.dateStart;
 
         if (!this.isRepeated) {
             item.recordHeader.repeat = null;
         } else {
+            item.recordHeader.dateStart = item.dateStart;
             if (item.recordHeader.repeat.endType === 'D') {
-                item.recordHeader.repeat.endOnDate = moment(this.recordHeader.repeat.endOnDate).format();
+                item.recordHeader.repeat.endOnDate = moment(this.recordHeader.repeat.endOnDate).format(format);
                 item.recordHeader.repeat.endOnCount = null;
             } else {
                 item.recordHeader.repeat.endOnDate = null;

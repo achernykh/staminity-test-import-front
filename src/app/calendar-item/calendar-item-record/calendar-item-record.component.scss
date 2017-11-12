@@ -5,6 +5,7 @@ md-dialog#calendar-item-record {
   background: none;
   align-items: center;
   justify-content: center;
+  box-shadow: none !important;
 
   @media (min-width: 960px) {
     min-width: 100vw;

@@ -20,13 +20,13 @@
                             <span translate="record.toolbar.deleteFuture"></span>
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item>
+                    <md-menu-item ng-if="$ctrl.record.isRepeated">
                         <md-button ng-click="$ctrl.onDelete({rmPastItems: true, rmFutureItems: true})" ng-disabled="$ctrl.mode == 'post'">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="record.toolbar.deleteAll"></span>
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item>
+                    <md-menu-item ng-if="$ctrl.record.isRepeated">
                         <md-button ng-click="" ng-disabled="true">
                             <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
                             <span translate="activity.toolbar.settings"></span>
