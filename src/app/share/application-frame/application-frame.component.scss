@@ -40,6 +40,17 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
     }
 
+    .st-application-frame__content {
+      top: 30vh;
+      min-height: calc(100vh - 30vh);
+
+      @media (max-width: 959px) {
+        top: 20vh;
+        min-height: calc(100vh - 20vh);
+      }
+
+    }
+
   }
 
 

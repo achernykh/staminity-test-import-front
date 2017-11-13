@@ -22,4 +22,20 @@
     
   }
 
+  &__content {
+
+    max-width: 600px;
+    margin: auto;
+
+    p {
+      padding: 16px;
+      margin: 0px;
+    }
+
+    md-divider {
+      margin: 16px 16px;
+    }
+
+  }
+
 }
