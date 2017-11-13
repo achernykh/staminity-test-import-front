@@ -103,6 +103,7 @@ const ApplicationFrameComponent:IComponentOptions = {
     },
     bindings: {
         navBar: '=', // наличие навигационной панели md-nav-bar
+        navBarState: '<', // текущий стейт в панели md-nav-bar
         leftBarShow: '<',
         /**
          * Тип скрытия панели - обязательный аттрибут

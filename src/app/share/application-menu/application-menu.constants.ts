@@ -67,6 +67,12 @@ export const AppMenuSettings = [
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
+        icon: "methodology",
+        name: "appMenu.methodology",
+        link: "methodology"
+        //role: [_UserRoles.user, _UserRoles.coach]
+    },
+    {
         icon: "show_chart",
         name: "appMenu.season",
         link: "season",

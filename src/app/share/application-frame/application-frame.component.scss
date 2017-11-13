@@ -20,6 +20,11 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     .st-application-frame__navbar {
       display: inherit;
     }
+
+    .st-application-frame__content {
+      top: $app-max-bar-height;
+      min-height: calc(100vh - 64px - 48px);
+    }
     
   }
 
@@ -106,7 +111,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     //position: fixed;
     width: auto;
     top: $app-toolbar-height;
-    height: calc(100vh - 64px);
+    min-height: calc(100vh - 64px);
     //margin-left: $app-sidenav-desktop-width-collapsed;
 
     &.left-bar {

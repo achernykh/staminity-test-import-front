@@ -1,0 +1,59 @@
+<st-application-frame
+        class="st-application-frame"
+        has-nav-bar="true"
+        nav-bar-state="$ctrl.currentState"
+        left-bar-hide-type="'hidden'"
+        left-bar-show="$ctrl.leftBarShow"
+        right-bar-show="$ctrl.rightBarShow" ng-switch="$ctrl.currentState">
+
+    <st-application-frame-title>
+        <span translate="methodology.title"></span>
+    </st-application-frame-title>
+
+    <st-application-frame-navbar layout="row">
+        <md-nav-item  ng-repeat="state in $ctrl.navBarStates track by $index"
+                      md-nav-click="$ctrl.currentState = state" name="{{::state}}">
+            <span translate="methodology.{{::state}}"></span>
+        </md-nav-item>
+    </st-application-frame-navbar>
+
+    <!-- Категории -->
+    <st-application-frame-left-bar ng-switch-when="categories">
+        <section class="methodology__left-bar">
+            <md-list>
+                <md-list-item ng-repeat="activity in $ctrl.activityTypes | filter:{enabled: true} track by activity.id"
+                              ng-click="$ctrl.filterParams.activityType = activity; $ctrl.updateFilterParams()"
+                              ng-class="{'active': $ctrl.filterParams.activityType.id === activity.id}">
+                    <md-icon md-svg-src="assets/icon/{{activity.code}}.svg" class="md-dark md-active"></md-icon>
+                    <p class="md-body-2 md-dark md-active" translate="sport.{{::activity.code}}"></p>
+                </md-list-item>
+            </md-list>
+        </section>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="categories">
+
+        <categories
+                templates="$ctrl.templates"
+                categories="$ctrl.categories"
+                filter-params="$ctrl.filterParams"
+                user="$ctrl.user"
+                club="$ctrl.club">
+        </categories>
+        <!--<section flex="auto" class="methodology__plans-section">
+            <section class="methodology__area">
+                <training-plans-list
+                        plans="$ctrl.demoList"
+                        filter="$ctrl.filter"
+                        filter-changes="$ctrl.filterChanges"
+                        on-change-filter="$ctrl.saveSettings('charts')"
+                        mobile-view="">
+                </training-plans-list>
+            </section>
+        </section>-->
+    </st-application-frame-content>
+
+    <!-- Категории: конец -->
+
+</st-application-frame>
+

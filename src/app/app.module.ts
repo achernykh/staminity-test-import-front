@@ -25,6 +25,7 @@ import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
 import TrainingPlans from "./training-plans/training-plans.module";
 import Analytics from "./analytics/analytics.module";
+import { Methodology } from './methodology/methodology.module';
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
@@ -61,7 +62,8 @@ const root = module('staminity.application', [
 	Search,
 	Reference,
 	Analytics,
-	TrainingPlans
+	TrainingPlans,
+	Methodology
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)
