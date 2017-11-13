@@ -6,7 +6,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
 .st-application-frame {
 
-  &[has-nav-bar=true] {
+  &[template=nav-bar] {
     
     .st-application-frame__primary-toolbar {
       height: $app-max-bar-height;
@@ -27,6 +27,21 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     }
     
   }
+
+  &[template=profile] {
+
+    .st-application-frame__primary-toolbar {
+      box-shadow: none;
+      height: 30vh;
+
+      @media (max-width: 959px) {
+        height: 20vh;
+      }
+
+    }
+
+  }
+
 
   &__primary-toolbar {
     position: fixed;

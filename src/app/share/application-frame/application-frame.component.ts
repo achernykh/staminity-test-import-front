@@ -24,12 +24,13 @@ class ApplicationFrameCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ['$scope', '$mdSidenav', 'SessionService','SocketService','NotificationService','RequestsService',
+    static $inject = ['$scope', '$mdSidenav', '$mdMedia', 'SessionService','SocketService','NotificationService','RequestsService',
         'AuthService'];
 
     constructor(
         private $scope: IScope,
         private $mdSidenav: any,
+        private $mdMedia: any,
         private session: SessionService,
         private socket: SocketService,
         private NotificationService: NotificationService,
@@ -96,7 +97,8 @@ const ApplicationFrameComponent:IComponentOptions = {
     transclude: {
         title: '?stApplicationFrameTitle',
         toolbar: '?stApplicationFrameToolbar',
-        navbar: '?stApplicationFrameNavbar',
+        navBar: '?stApplicationFrameNavbar',
+        profile: '?stApplicationFrameProfile',
         content: 'stApplicationFrameContent',
         leftBar: '?stApplicationFrameLeftBar',
         rightBar: '?stApplicationFrameRightBar'

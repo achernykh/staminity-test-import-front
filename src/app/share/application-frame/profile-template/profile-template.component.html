@@ -1,0 +1,29 @@
+<st-application-frame
+        class="st-application-frame"
+        template="profile"
+        has-nav-bar="true"
+        nav-bar-state="$ctrl.currentState"
+        left-bar-hide-type="'hidden'"
+        left-bar-show="$ctrl.leftBarShow"
+        right-bar-show="$ctrl.rightBarShow" ng-switch="$ctrl.currentState">
+
+    <st-application-frame-profile>
+        <section class="st-profile-template__header" layout="column" layout-align="center center">
+            <userpic class="border-light"
+                     ng-class="{'size-60': $ctrl.$mdMedia('(max-width: 959px)'), 'size-114': $ctrl.$mdMedia('(min-width: 960px)')}"
+                     profile="$ctrl.user"></userpic>
+            <p class="title"
+               ng-class="{'md-display-1': $ctrl.$mdMedia('(max-width: 959px)'), 'md-display-3': $ctrl.$mdMedia('(min-width: 960px)')}">Alexander Chernykh</p>
+            <p class="description"
+               ng-class="{'md-caption': $ctrl.$mdMedia('(max-width: 959px)'), 'md-body-2': $ctrl.$mdMedia('(min-width: 960px)')}">Some text some text some text some text some text some text some text some text some text some text some text some text</p>
+        </section>
+    </st-application-frame-profile>
+
+    <st-application-frame-content>
+        <md-subheader></md-subheader>
+        <p>Профессиональный спортсмен
+            Персональный тренер
+            Участник трех Олимпийских Игр (Пекин-Лондон-Рио),лучшее место в истории России на Олимпийских Играх по триатлону 7 место. Чемпион Мира в Команде,многократный призер Мировых и Европейских первенств.</p>
+    </st-application-frame-content>
+
+</st-application-frame>

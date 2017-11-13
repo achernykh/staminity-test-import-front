@@ -1,6 +1,7 @@
 import './components.scss';
 import './notification/notification.scss';
 import { module, isObject } from 'angular';
+import { StateProvider } from "angular-ui-router";
 import moment from 'moment/min/moment-with-locales.js';
 import  { ageGroup } from '../../../api/user/user.interface';
 import  { requestType } from '../../../api/group/group.interface';
@@ -48,6 +49,8 @@ import {compareTo} from "./directives/form.directive";
 import {SessionService} from "../core";
 import ApplicationFrameComponent from "./application-frame/application-frame.component";
 import ApplicationUserToolbarComponent from "./application-user-toolbar/application-user-toolbar.component";
+import ApplicationProfileTemplateComponent from "./application-frame/profile-template/profile-template.component";
+import { shareStates } from "./share.states";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -279,17 +282,9 @@ const Share = module('staminity.share', ['ui.router','pascalprecht.translate'])
     .directive('measureInput', ['$filter',MeasurementInput])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
     .filter('truncate', truncate)
-    .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
-
-        $stateProvider
-            .state('404', <Ng1StateDeclaration>{
-                url: "/404",
-                views: {
-                    "application": {
-                        component: 'pageNotFound'
-                    }
-                }
-            });
+    .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)
+    .config(['$stateProvider', ($stateProvider: StateProvider) => shareStates.map(s => $stateProvider.state(s))])
+    .config(['$translateProvider',($translateProvider)=>{
 
         $translateProvider.translations('ru', {appMenu: _application_menu['ru']});
         $translateProvider.translations('en', {appMenu: _application_menu['en']});
