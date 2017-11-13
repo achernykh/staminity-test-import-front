@@ -39,7 +39,7 @@
         <section id="calendar" class="content animated zoomIn">
 
             <!-- weekdays panel: start -->
-            <md-toolbar class=" calendar-header md-primary md-whiteframe-1dp" hide show-gt-sm>
+            <md-toolbar class="calendar-days-header md-primary md-whiteframe-1dp" hide show-gt-sm>
                 <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day md-caption">{{::day}}</div>
                 <div hide show-gt-md class="total md-caption">Итоги</div>
             </md-toolbar>
@@ -47,11 +47,11 @@
             <!-- grid: start -->
             <section class="calendar-grid bg-grey-200"
                      scroll-container
-                     on-scroll-hit-top="$ctrl.up(1)"
-                     on-scroll-hit-bottom="$ctrl.down(1)"
+                     on-scroll-hit-top="$ctrl.calendar.up(1)"
+                     on-scroll-hit-bottom="$ctrl.calendar.down(1)"
                      scroll-keep-position="{{'#hotfix' + $ctrl.currentWeek.anchor}}">
                 <!-- grid-week: start -->
-                <div ng-repeat="week in $ctrl.calendar track by week.anchor"
+                <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
                      style=""
                      id="hotfix{{::week.anchor}}"
                      ng-mouseover="$ctrl.setCurrentWeek(week)"
@@ -67,6 +67,8 @@
                             selected="day.selected"
                             accent="accentDay"
                             data="day.data"
+                            owner="$ctrl.user"
+                            current-user="$ctr.currentUser"
                             on-select="day.selected = !day.selected">
                     </calendar-day>
 
@@ -80,6 +82,7 @@
                             accent="accentTotal"
                             update="week.changes"
                             week="week"
+                            user="$ctrl.user"
                             on-toggle="$ctrl.onToggleWeek(sid, value)">
                         <div class="md-body-1">Неделя {{$index}}</div>
                     </calendar-total>
@@ -91,11 +94,6 @@
 
             </section>
             <!-- grid-weekdays: end -->
-
-            <!-- Fab button -->
-            <md-button hide hide-gt-sm class="md-position-fab md-fab md-primary md-icon-button" aria-label="Add task">
-                <md-icon class="material-icons" aria-label="Add task">add_circle_outline</md-icon>
-            </md-button>
 
         </section>
 

@@ -4,7 +4,7 @@
          ng-mouseover="$ctrl.showMenu = true" ng-mouseleave="$ctrl.showMenu = false">
 
     <div flex="none" class="md-body-1" style="min-width: 24px">
-        Неделя {{$ctrl.title}}
+        Неделя {{$ctrl.trainingPlan ? $ctrl.week.sid + 1 : $ctrl.title}}
     </div>
     <div flex="auto" layout="row" layout-align="end center">
 

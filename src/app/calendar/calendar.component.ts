@@ -9,79 +9,23 @@ import {SessionService} from "../core";
 import {ICalendarItem, IUserProfile} from "../../../api";
 import DisplayService from "../core/display.service";
 import {TrainingPlan} from "../training-plans/training-plan/training-plan.datamodel";
-
-
-const prepareItem = (item: ICalendarItem, shift: number) => {
-    item.dateStart = moment(item.dateStart, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
-    item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
-    if(item.calendarItemType === 'activity') {
-        item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
-        delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
-    }
-    return item;
-};
-
-const getItemById = (calendar: Array<ICalendarWeek>, id: number):ICalendarItem => {
-
-    let findData: boolean = false;
-    let w,d,i: number;
-
-    for (w = 0; w < calendar.length; w++) {
-        for(d = 0; d < calendar[w].subItem.length; d++) {
-            i = calendar[w].subItem[d].data.calendarItems.findIndex(item => item.calendarItemId === id);
-            if (i !== -1) {
-                findData = true;
-                break;
-            }
-        }
-        if (findData) {
-            break;
-        }
-    }
-    //let data: any = calendar.find(week => !!week.subItem.find(day => !!day.data.calendarItems.find(item => item.calendarItemId === id)));
-    return findData && calendar[w].subItem[d].data.calendarItems[i] || null;
-};
-
-export interface ICalendarWeek {
-    sid: number; // номер недели, текущая неделя календаря = 0
-    date: any; // дата начала недели
-    anchor: string; // anchor просматриваемой недели добавляется в url
-    changes: number; // счетчик изменений внутри недели
-    toolbarDate: string; //дата недели в формате тулабара Год + Месяц date.format('YYYY MMMM'),
-    selected: boolean; // индикатор выделения недели
-    subItem: ICalendarDay[]; //дни недели
-    week: string; //индикатор недели для поиска
-    loading: Promise<any>;
-    height: number;
-};
-
-export interface ICalendarDay {
-    key: string; // формат дня в формате YYYY.MM.DD
-    selected: boolean; // индикатор выбора дня
-    date: string;// формат дня в формате GMT
-    data: ICalendarDayData;
-}
-
-export interface ICalendarDayData {
-    title: string; // день в формате DD
-    month: string; // месяц в формате MMM
-    day: string; // день в формате dd
-    date: string; // день в формате YYYY.MM.DD
-    calendarItems: Array<ICalendarItem>; // записи календаря
-}
+import { ICalendarWeek, ICalendarDay, ICalendarDayData } from './calendar.interface';
+import { prepareItem, getItemById } from './calendar.functions';
+import { Calendar } from "./calendar.datamodel";
 
 export class CalendarCtrl implements IComponentController{
 
     static $inject = ['$scope', '$mdDialog', '$rootScope', '$anchorScroll', '$location','message',
         'CalendarService', 'SessionService', 'dialogs', 'DisplayService'];
-    public user: IUserProfile; //
+    public user: IUserProfile; // calendar owner
     private weekdayNames: Array<number> = [];
     private buffer: Array<ICalendarItem> = [];
     private firstSrcDay: string;
     private dateFormat: string = 'YYYY-MM-DD';
     private date: Date;
     private range: Array<number> = [0, 1];
-    private calendar: Array<ICalendarWeek> = [];
+    //private calendar: Array<ICalendarWeek> = [];
+    private calendar: Calendar;
     private currentWeek: ICalendarWeek;
     private lockScroll: boolean;
     public currentUser: IUserProfile;
@@ -102,9 +46,11 @@ export class CalendarCtrl implements IComponentController{
     }
 
     $onInit() {
-        let date = moment(this.$location.hash());
+        this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.CalendarService, this.user);
+        this.calendar.toDate(new Date());
+        //let date = moment(this.$location.hash());
         this.currentUser = this.session.getUser();
-        this.toDate(date.isValid()? date.toDate() : new Date());
+        //this.toDate(date.isValid()? date.toDate() : new Date());
 
         this.CalendarService.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
@@ -125,7 +71,7 @@ export class CalendarCtrl implements IComponentController{
                         break;
                     }
                     case 'U': {
-                        this.onDeleteItem(getItemById(this.calendar, message.value.calendarItemId));
+                        this.onDeleteItem(getItemById(this.calendar.weeks, message.value.calendarItemId));
                         this.onPostItem(<ICalendarItem>message.value);
                         this.$scope.$apply();
                         break;
@@ -136,6 +82,7 @@ export class CalendarCtrl implements IComponentController{
         this.weekdayNames = moment.weekdays(true);
     }
 
+    /**
     takeWeek (date) {
         date = moment(date).startOf('week');
         let week = this.calendar.find(w => w.date.isSame(date, 'week'));
@@ -194,13 +141,13 @@ export class CalendarCtrl implements IComponentController{
         this.setCurrentWeek(week);
         let anchor = 'hotfix' + week.anchor;
         this.$anchorScroll('hotfix' + week.anchor);
-    }
+    } **/
 
     /**
      * DayItem view model
      * @param date
      * @param calendarItems
-     */
+     */ /**
     dayItem (date, calendarItems):ICalendarDay {
         //debugger;
         //console.log('dayItem',date.utc(),date.utc().add(moment().utcOffset(),'minutes').format());
@@ -216,14 +163,14 @@ export class CalendarCtrl implements IComponentController{
                 calendarItems: calendarItems
             }
         };
-    }
+    }**/
     
     /**
      * WeekItem view model
      * @param index 
      * @param date - дата начала недели
      * @param days : DayItem[]
-     */
+     */ /**
     weekItem (index, date, days, loading):ICalendarWeek {
         return {
             sid: index,
@@ -237,13 +184,13 @@ export class CalendarCtrl implements IComponentController{
             loading: loading,
             height: 180
         };
-    }
+    } **/
     
     /**
      * Предоставляет объекты WeekItem
      * @param date - любой Datetime недели
      * @param index - позиция в списке
-     */
+     */ /**
     getWeek (date, index) {
         let start = moment(date).startOf('week');
         let end = moment(start).add(6, 'd');
@@ -272,12 +219,12 @@ export class CalendarCtrl implements IComponentController{
         let week = this.weekItem(index, start, days([]), loading);
         
         return week;
-    }
+    } **/
     
     /**
      * Подгрузка n записей вверх
      * @param n
-     */
+     */ /**
     up (n = 1) {
         let i0 = this.range[0];
         this.range[0] -= n;
@@ -298,12 +245,12 @@ export class CalendarCtrl implements IComponentController{
             });
             
         return items;
-    }
+    }**/
     
     /**
      * Подгрузка n записей вниз
      * @param n
-     */
+     */ /**
     down (n = 1) {
         let i0 = this.range[1];
         this.range[1] += n;
@@ -324,7 +271,7 @@ export class CalendarCtrl implements IComponentController{
             });
             
         return items;
-    }
+    }**/
 
     onAddActivity($event){
         this.$mdDialog.show({
@@ -479,7 +426,7 @@ export class CalendarCtrl implements IComponentController{
      * @returns {number}
      */
     getDayIndex(w) {
-        return this.calendar.findIndex(item => item.week === w);
+        return this.calendar.weeks.findIndex(item => item.week === w);
     }
 
 
@@ -491,7 +438,7 @@ export class CalendarCtrl implements IComponentController{
             this.buffer.push(...copy(items));
             this.firstSrcDay = moment(items[0].dateStart).format('YYYY-MM-DD');
         } else {
-            this.calendar.forEach(w => w.subItem.forEach(d => {
+            this.calendar.weeks.forEach(w => w.subItem.forEach(d => {
                 if(d.selected) {
                     if(!this.firstSrcDay) {
                         this.firstSrcDay = d.data.date;
@@ -555,7 +502,7 @@ export class CalendarCtrl implements IComponentController{
     onDelete(items:Array<ICalendarItem>) {
         let selected: Array<ICalendarItem> = [];
 
-        this.calendar.forEach(w => w.subItem.forEach(d => {
+        this.calendar.weeks.forEach(w => w.subItem.forEach(d => {
             if(d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) {
                 selected.push(...d.data.calendarItems);
             }
@@ -572,7 +519,7 @@ export class CalendarCtrl implements IComponentController{
     clearBuffer() {
         this.buffer = [];
         this.firstSrcDay = null;
-        this.calendar.forEach(w => w.subItem.forEach(d => {
+        this.calendar.weeks.forEach(w => w.subItem.forEach(d => {
             if(d.selected) {
                 d.selected = false;
             }

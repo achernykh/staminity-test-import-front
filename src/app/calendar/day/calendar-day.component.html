@@ -7,8 +7,8 @@
                 {{::$ctrl.data.month | uppercase}}
             </div>-->
             <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px" hide show-gt-sm>
-                <span>{{::$ctrl.data.title}}</span>
-                <span ng-if="$ctrl.data.title == '01'" style="margin-left: 0.4em;">{{::$ctrl.data.month}}</span>
+                <span>{{::($ctrl.trainingPlan ? $ctrl.data.pos : $ctrl.data.title)}}</span>
+                <span ng-if="$ctrl.data.title == '01' && !$ctrl.trainingPlan" style="margin-left: 0.4em;">{{::$ctrl.data.month}}</span>
             </div>
             <div hide-gt-sm class="md-title day">{{::$ctrl.data.title}}</div>
             <div hide-gt-sm class="md-caption weekday">{{::$ctrl.data.day}}</div>
@@ -204,6 +204,8 @@
             <calendar-activity ng-switch-when="activity"
                                layout="column" flex="auto"
                                item="item" selected="$ctrl.selected"
+                               owner="$ctrl.owner"
+                               current-user="$ctrl.currentUser"
                                dnd-draggable="item"
                                dnd-disable-if="::!$ctrl.isSpecified(item)"
                                dnd-type="'itemType'"

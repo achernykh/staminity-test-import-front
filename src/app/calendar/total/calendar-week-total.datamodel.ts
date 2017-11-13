@@ -1,11 +1,7 @@
-import {ICalendarWeek, ICalendarDay} from "../calendar.component";
-import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
+import {ICalendarWeek, ICalendarDay} from "../calendar.interface";
+import {ICalendarItem} from "../../../../api/calendar";
 import {copy} from 'angular';
-import {IActivityIntervalPW} from "../../../../api/activity/activity.interface";
-import {ActivityIntervalPW} from "../../activity/activity-datamodel/activity.interval-pw";
-import {ActivityIntervalW} from "../../activity/activity-datamodel/activity.interval-w";
 import {toDay} from "../../activity/activity.datamodel";
-import moment from 'moment/src/moment.js';
 
 interface ICalendarWeekSummary {
     fact: {

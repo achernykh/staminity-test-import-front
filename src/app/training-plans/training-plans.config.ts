@@ -4,7 +4,7 @@ import {_translateTrainingPlans} from "./training-plans.translate";
 
 function configure($stateProvider:StateProvider, $translateProvider){
 
-    $stateProvider
+    /**$stateProvider
         .state('training-plans-search', <StateDeclaration>{
             url: '/training-plans/search',
             loginRequired: false,
@@ -17,7 +17,7 @@ function configure($stateProvider:StateProvider, $translateProvider){
                     component: 'trainingPlansSearch'
                 }
             }
-        });
+        });**/
 
     supportLng.map(lng => $translateProvider.translations(lng, { trainingPlans: _translateTrainingPlans[lng] }));
 

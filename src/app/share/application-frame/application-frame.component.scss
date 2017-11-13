@@ -7,13 +7,20 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 .st-application-frame {
 
   &[has-nav-bar=true] {
+    
     .st-application-frame__primary-toolbar {
       height: $app-max-bar-height;
     }
+    
     .st-application-frame__left-bar, .st-application-frame__right-bar {
       top: $app-max-bar-height;
       height: calc(100vh - 64px - 48px);
     }
+
+    .st-application-frame__navbar {
+      display: inherit;
+    }
+    
   }
 
   &__primary-toolbar {
@@ -29,11 +36,21 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
       margin-left: 64px;
       margin-right: 16px;
       border-radius: 5px;
+
+      .md-button.md-icon-button {
+        width: auto;
+      }
+
+      span {
+        margin-left: 8px;
+      }
+
     }
 
   }
 
   &__navbar {
+    display: none;
     position: fixed;
     top: $app-toolbar-height;
     width: 100%;
@@ -89,6 +106,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     //position: fixed;
     width: auto;
     top: $app-toolbar-height;
+    height: calc(100vh - 64px);
     //margin-left: $app-sidenav-desktop-width-collapsed;
 
     &.left-bar {

@@ -5,11 +5,13 @@ import {IMessageService} from "../../core/message.service";
 import ActivityService from "../../activity/activity.service";
 import {CalendarService} from "../calendar.service";
 import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
-import {CalendarCtrl, ICalendarDayData} from "../calendar.component";
+import {CalendarCtrl} from "../calendar.component";
+import { IUserProfile } from '@api/user';
 
 class CalendarActivityCtrl {
 
-    calendar: CalendarCtrl;
+    owner: IUserProfile;
+    currentUser: IUserProfile;
     item: any;
     selected: boolean;
     accent: boolean;
@@ -38,7 +40,7 @@ class CalendarActivityCtrl {
     $onInit() {
         this.data = new Activity(this.item);
         //this.data.prepare();
-        this.isCreator = this.data.userProfileCreator.userId === this.calendar.currentUser.userId;
+        this.isCreator = this.data.userProfileCreator.userId === this.currentUser.userId;
         //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
         if (this.data.bottomPanel === 'data') {
             this.bottomPanelData = this.data.summaryAvg;
@@ -282,7 +284,7 @@ class CalendarActivityCtrl {
             locals: {
                 data: this.data,
                 mode: mode,
-                user: this.calendar.user
+                user: this.owner
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -343,12 +345,14 @@ DialogController.$inject = ['$scope','$mdDialog'];
 const CalendarActivityComponent: IComponentOptions = {
     bindings: {
         item: '<',
+        owner: '<', //owner
+        currentUser: '<',
         selected: '<',
         accent: '<',
         onSelect: '&'
     },
     require: {
-        calendar: '^calendar'
+        //calendar: '^calendar'
     },
     controller: CalendarActivityCtrl,
     template: require('./calendar-activity.component.html') as string

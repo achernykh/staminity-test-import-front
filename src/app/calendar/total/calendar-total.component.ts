@@ -5,7 +5,7 @@ import {
     calculateCalendarTotals, calculateCalendarSummary,
     ICalendarWeekSummary, ICalendarWeekTotal
 } from './calendar-total.function';
-import {ICalendarWeek} from "../calendar.component";
+import {ICalendarWeek} from "../calendar.interface";
 import {CalendarWeekData} from "./calendar-week-total.datamodel";
 
 const searchMeasure = (point, interval) => {
@@ -76,11 +76,12 @@ const CalendarTotalComponent: IComponentOptions =  {
         week: '<',
         update: '<',
         selected: '<',
-        accent: '<'//,
+        accent: '<',//,
+        trainingPlan: '<',
         //onToggle: '&'
     },
     require: {
-        calendar: '^calendar'
+        //calendar: '^calendar'
     },
     controller: CalendarTotalCtrl,
     template: require('./calendar-total.component.html') as string

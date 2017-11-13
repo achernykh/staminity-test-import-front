@@ -1,6 +1,5 @@
-import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {copy} from 'angular';
-import {ICalendarDay} from "../calendar.component";
+import {ICalendarDay} from "../calendar.interface";
 
 export interface ICalendarWeekSummary {
     fact: {

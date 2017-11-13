@@ -5,17 +5,19 @@ import {IMessageService} from "../../core/message.service";
 import ActivityService from "../../activity/activity.service";
 import {CalendarService} from "../calendar.service";
 import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge, copy} from 'angular';
-import {CalendarCtrl, ICalendarDayData} from "../calendar.component";
+import { CalendarCtrl } from "../calendar.component";
+import { ICalendarDayData } from "../calendar.interface";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {isSpecifiedActivity, isCompletedActivity, clearActualDataActivity} from "../../activity/activity.function";
+import { IUserProfile } from "@api/user";
 
 class CalendarDayCtrl {
 
     today: any;
     data: ICalendarDayData;
+    owner: IUserProfile;
+    currentUser: IUserProfile;
     selected: boolean;
-    calendar: CalendarCtrl;
-
 
     static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs'];
 
@@ -97,7 +99,7 @@ class CalendarDayCtrl {
                 targetEvent: $event,
                 locals: {
                     data: data,
-                    user: this.calendar.user
+                    user: this.owner
                 },
                 bindToController: true,
                 clickOutsideToClose: false,
@@ -126,7 +128,7 @@ class CalendarDayCtrl {
             targetEvent: $event,
             locals: {
                 date: data.date,//new Date(data.date), // дата дня в формате ГГГГ-ММ-ДД Date.UTC(data.date) + Date().getTimezoneOffset() * 60 * 1000, //
-                user: this.calendar.user
+                user: this.owner
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -152,7 +154,7 @@ class CalendarDayCtrl {
                 data: {
                     date: data.date
                 },
-                user: this.calendar.user
+                user: this.owner
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -180,7 +182,7 @@ class CalendarDayCtrl {
                 data: {
                     date: data.date
                 },
-                user: this.calendar.user
+                user: this.owner
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -265,12 +267,15 @@ class CalendarDayCtrl {
 const CalendarDayComponent: IComponentOptions = {
     bindings: {
         data: '<',
+        owner: '<',
+        currentUser: '<',
         selected: '<',
         accent: '<',
+        trainingPlan: '<',
         onSelect: '&'
     },
     require: {
-        calendar: '^calendar'
+        //calendar: '^calendar'
     },
     controller: CalendarDayCtrl,
     template: require('./calendar-day.component.html') as string
