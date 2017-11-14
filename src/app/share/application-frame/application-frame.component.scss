@@ -6,7 +6,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
 .st-application-frame {
 
-  &[template=nav-bar] {
+  &[nav-bar=true] {
     
     .st-application-frame__primary-toolbar {
       height: $app-max-bar-height;
@@ -49,6 +49,18 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
         min-height: calc(100vh - 20vh);
       }
 
+    }
+
+    &[nav-bar=true] {
+      .st-application-frame__navbar {
+        top: calc(20vh - 48px);
+        display: inherit;
+
+        .md-nav-bar {
+          margin-left: 0px;
+        }
+
+      }
     }
 
   }
