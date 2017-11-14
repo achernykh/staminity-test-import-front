@@ -1,5 +1,5 @@
 import "./calendar-item-record.component.scss";
-import { IComponentOptions, IComponentController, IPromise } from "angular";
+import { IComponentOptions, IComponentController, IPromise, INgModelController } from "angular";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { CalendarItemRecord } from "./calendar-item-record.datamodel";
@@ -7,6 +7,7 @@ import SessionService from "../../core/session.service";
 import { CalendarService } from "../../calendar/calendar.service";
 import { ICalendarItemRecordConfig } from "./calendar-item-record.config";
 import MessageService from "../../core/message.service";
+import { IQuillConfig } from "@app/share/quill/quill.config";
 
 class CalendarItemRecordCtrl implements IComponentController {
 
@@ -23,13 +24,15 @@ class CalendarItemRecordCtrl implements IComponentController {
 
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
+    private recordForm: INgModelController;
 
-    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message'];
+    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message', 'quillConfig'];
 
     constructor (private config: ICalendarItemRecordConfig,
                  private session: SessionService,
                  private calendarService: CalendarService,
-                 private message: MessageService) {
+                 private message: MessageService,
+                 private quillConf: IQuillConfig) {
 
     }
 
@@ -39,27 +42,35 @@ class CalendarItemRecordCtrl implements IComponentController {
     }
 
     toggle (item, list) {
-        debugger;
-        var idx = list.indexOf(item);
-        if ( idx > -1 ) {
-            list.splice(idx, 1);
-        }
-        else {
-            list.push(item);
-        }
+        let idx = list.indexOf(item);
+        idx > -1 ? list.splice(idx, 1) : list.push(item);
+        this.changeForm();
     }
 
     exists (item, list) {
         return list.indexOf(item) > -1;
     }
 
+    changeRepeatMode (): void {
+        if (this.record.isRepeated) {
+
+        } else {
+            this.record.recordHeader.dateStart = this.record.dateStart;
+        }
+    }
+
+    changeForm (): void {
+        this.recordForm.$setDirty();
+    }
+
     onSave () {
+
+
+        [this.record.recordHeader.editParams.asyncEventsDateFrom,
+            this.record.recordHeader.editParams.asyncEventsDateTo] = this.calendarRange;
+
         if ( this.mode === 'post' ) {
-            if ( this.record.isRepeated ) {
-                [this.record.editParams.asyncEventsDateFrom,
-                    this.record.editParams.asyncEventsDateTo] = this.calendarRange;
-            }
-            this.calendarService.postItem(this.record.build())
+            this.calendarService.postItem(this.record.build(this.mode))
                 .then(response => {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordCreated');
@@ -67,7 +78,7 @@ class CalendarItemRecordCtrl implements IComponentController {
                 }, error => this.message.toastError(error));
         }
         if ( this.mode === 'put' ) {
-            this.calendarService.putItem(this.record.build())
+            this.calendarService.putItem(this.record.build(this.mode))
                 .then((response)=> {
                     this.record.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('recordUpdated');
@@ -76,12 +87,16 @@ class CalendarItemRecordCtrl implements IComponentController {
         }
     }
 
-    onDelete() {
-        this.calendarService.deleteItem('F', [this.record.calendarItemId])
+    onDelete(rmParams: Object) {
+        this.calendarService.deleteItem('F', [this.record.calendarItemId], rmParams)
             .then(() => {
                 this.message.toastInfo('recordDeleted');
                 this.close();
             }, error => this.message.toastError(error));
+    }
+
+    private get isViewMode (): boolean {
+        return this.mode === 'view';
     }
 
     private close (): void {

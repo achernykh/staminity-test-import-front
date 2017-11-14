@@ -15,6 +15,18 @@
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
+                        <md-button ng-click="$ctrl.onDelete({rmPastItems: false, rmFutureItems: true})" ng-disabled="$ctrl.mode == 'post'">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            <span translate="record.toolbar.deleteFuture"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-if="$ctrl.record.isRepeated">
+                        <md-button ng-click="$ctrl.onDelete({rmPastItems: true, rmFutureItems: true})" ng-disabled="$ctrl.mode == 'post'">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            <span translate="record.toolbar.deleteAll"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-if="$ctrl.record.isRepeated">
                         <md-button ng-click="" ng-disabled="true">
                             <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
                             <span translate="activity.toolbar.settings"></span>
@@ -30,7 +42,9 @@
             </md-menu>
             <h2 translate="record.toolbar.title"></h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="$ctrl.fullScreenMode = !$ctrl.fullScreenMode">
+            <md-button class="md-icon-button"
+                       ng-if="!$ctrl.isViewMode"
+                       ng-click="$ctrl.fullScreenMode = !$ctrl.fullScreenMode">
                 <md-icon class="material-icons">{{$ctrl.fullScreenMode ? 'fullscreen_exit':'fullscreen'}}</md-icon>
             </md-button>
             <!--<userpic class="border-light"
@@ -46,7 +60,19 @@
     </md-toolbar>
 
     <md-content flex="auto" layout="column">
-        <form flex="auto" layout="column" name="$ctrl.recordForm">
+        <!-- Режим просмотра -->
+        <md-list ng-if="$ctrl.isViewMode">
+            <md-list-item>
+                <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
+                <p flex class="md-caption" ng-if="$ctrl.isViewMode">{{::'record.' + $ctrl.record.recordHeader.type | translate}}</p>
+            </md-list-item>
+            <md-list-item>
+                <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
+                <p flex class="md-caption">{{::$ctrl.record.dateStart | date:'shortDate'}}</p>
+            </md-list-item>
+        </md-list>
+        <!-- Режим редактирования -->
+        <form flex="none" ng-if="!$ctrl.isViewMode" layout="column" name="$ctrl.recordForm">
             <md-list flex="none" class="md-dense slim-input bg-grey-050">
                 <md-list-item>
                     <md-input-container class="md-block no-message" md-no-float layout="row">
@@ -61,7 +87,7 @@
                 <md-list-item layout="row" layout-align="start center">
                     <md-input-container flex="auto" class="no-message" md-no-float>
                         <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
-                        <md-datepicker flex="auto" ng-model="$ctrl.record.dateStart"
+                        <md-datepicker flex="auto" ng-model="$ctrl.record.recordHeader.dateStart"
                                        ng-change="$ctrl.changeParam()"
                                        name="dateStart" md-hide-icons="calendar"
                                        ng-disabled="($ctrl.item.isCreator || $ctrl.item.isMyCoach)">
@@ -74,12 +100,12 @@
                         </div>
                     </md-input-container>
                 </md-list-item>
-                <md-list-item>
+                <md-list-item ng-if="!$ctrl.isViewMode">
                     <md-icon class="material-icons md-dark" style="margin-right: 20px">repeat</md-icon>
                     <p translate="record.isRepeated"></p>
                     <md-switch class="md-secondary md-primary"
                                ng-model="$ctrl.record.isRepeated"
-                               ng-change="$ctrl.changeRepeatedMode()"
+                               ng-change="$ctrl.changeRepeatMode()"
                                md-invert>
                 </md-list-item>
                 <md-list-item ng-if="$ctrl.record.isRepeated" class="margin-top-8">
@@ -87,8 +113,7 @@
                         <label translate="record.period.label"></label>
                         <md-icon flex="none" class="md-dark" md-svg-src=""></md-icon>
                         <md-select flex name="sport" class="icon"
-                                   ng-model="$ctrl.record.recordHeader.repeat.period"
-                                   ng-change="">
+                                   ng-model="$ctrl.record.recordHeader.repeat.period">
                             <md-option ng-repeat="period in $ctrl.config.periods"
                                        value="{{period}}">
                                 {{'record.period.'+ period | translate}}
@@ -98,7 +123,10 @@
                 </md-list-item>
                 <md-list-item ng-if="$ctrl.record.isRepeated" class="margin-top-8">
                     <md-input-container class="md-block no-message" layout="row">
-                        <label translate="record.every.label"></label>
+                        <label>
+                            <span translate="record.every.label"></span>
+                            <span>({{'record.every.' + $ctrl.record.recordHeader.repeat.period | translate}})</span>
+                        </label>
                         <md-icon flex="none" class="md-dark" md-svg-src=""></md-icon>
                         <input type="number" step="1" min="1" name="every" class="icon"
                                ng-model="$ctrl.record.recordHeader.repeat.every"
@@ -172,25 +200,35 @@
                     </md-input-container>
                 </md-list-item>
             </md-list>
-            <md-subheader><span translate="record.description"></span></md-subheader>
-            <div flex="auto">
-                <ng-quill-editor ng-model="$ctrl.record.recordHeader.description"
-                                 ng-class="{'hide-toolbar': $ctrl.mode === 'view'}"
-                                 read-only="$ctrl.mode === 'view'">
-
-                </ng-quill-editor>
-            </div>
         </form>
+        <md-subheader><span translate="record.description"></span></md-subheader>
+        <div flex="auto" class="description">
+            <ng-quill-editor ng-if="$ctrl.fullScreenMode"
+                             ng-model="$ctrl.record.recordHeader.description"
+                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbarFull"
+                             on-content-changed="$ctrl.changeForm()"
+                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
+                             read-only="$ctrl.isViewMode">
+            </ng-quill-editor>
+            <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
+                             ng-model="$ctrl.record.recordHeader.description"
+                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbar"
+                             on-content-changed="$ctrl.changeForm()"
+                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
+                             read-only="$ctrl.isViewMode">
+            </ng-quill-editor>
+        </div>
     </md-content>
 
     <md-dialog-actions flex="none" layout="row" style="background: white">
         <span flex></span>
-        <md-button ng-if="$ctrl.mode === 'view'" type="submit"
-                   ng-class="{'md-warn': !$ctrl.recordForm.$valid}"
+        <md-button ng-if="$ctrl.isViewMode" type="submit"
                    ng-click="$ctrl.mode = 'put'">
             <span translate="activity.edit"></span>
         </md-button>
-        <md-button ng-if="$ctrl.mode !== 'view'" type="submit"
+        <md-button ng-if="!$ctrl.isViewMode" type="submit"
                    ng-class="{'md-warn': !$ctrl.recordForm.$valid}"
                    ng-disabled="$ctrl.mode === 'put' && !$ctrl.recordForm.$dirty"
                    ng-click="($ctrl.recordForm.$valid) ? $ctrl.onSave() : null">

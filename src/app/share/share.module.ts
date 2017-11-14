@@ -46,6 +46,8 @@ import UniversalChartComponent from "./universal-chart/universal-chart.component
 import {translateHeader} from "./header/header.translate";
 import {compareTo} from "./directives/form.directive";
 import SessionService from "../core/session.service";
+import { htmlToPlainText } from "./text/plain-text.filter";
+import { quillConfig } from "./quill/quill.config";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -254,6 +256,7 @@ const Share = module('staminity.share', [])
             }
         };
     })
+    .filter('htmlToPlainText', htmlToPlainText)
     .component('staminityBackground',BackgroundComponent)
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)
@@ -275,6 +278,7 @@ const Share = module('staminity.share', [])
     .directive('measureInput', ['$filter',MeasurementInput])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
     .filter('truncate', truncate)
+    .constant('quillConfig', quillConfig)
     .config(['$translateProvider','$stateProvider',($translateProvider, $stateProvider)=>{
 
         $stateProvider
