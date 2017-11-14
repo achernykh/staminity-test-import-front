@@ -6,8 +6,6 @@ import {
     ITrainingPlanSearchResult
 } from "../../../../api/trainingPlans/training-plans.interface";
 import {IUserProfile} from "../../../../api/user/user.interface";
-import {profileShort} from "../../core/user.function";
-import {timestamp} from "rxjs/operator/timestamp";
 import {SessionService, getUser} from "../../core";
 import {Subject} from "rxjs/Rx";
 import { TrainingPlansService } from "../training-plans.service";
@@ -30,7 +28,7 @@ class TrainingPlansSearchCtrl implements IComponentController {
     private destroy: Subject<any> = new Subject();
     static $inject = ['SessionService', 'TrainingPlansService'];
 
-    constructor (private session: ISessionService, private trainingPlansService: TrainingPlansService) {
+    constructor (private session: SessionService, private trainingPlansService: TrainingPlansService) {
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)

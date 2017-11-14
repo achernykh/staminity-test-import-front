@@ -1,4 +1,4 @@
-import { ISocketService } from "../core/socket.service";
+import { SocketService } from "../core";
 import { PostTrainingPlan, SearchTrainingPlan } from "../../../api/trainingPlans/training-plans.request";
 import {
     ITrainingPlan,
@@ -11,7 +11,7 @@ export class TrainingPlansService {
 
     static $inject = ['SocketService'];
 
-    constructor (private socket: ISocketService) {
+    constructor (private socket: SocketService) {
 
     }
 
