@@ -489,7 +489,10 @@ export class CalendarCtrl implements IComponentController{
             parent: angular.element(document.body),
             targetEvent: env,
             locals: {
-                plan: new TrainingPlan({calendarItems: this.buffer})
+                plan: new TrainingPlan({
+                    isPublic: false,
+                    calendarItems: this.buffer
+                })
             },
             bindToController: true,
             clickOutsideToClose: false,
