@@ -27,7 +27,8 @@ export class CalendarItemRecord extends CalendarItem {
         if (!this.isRepeated) {
             item.recordHeader.repeat = null;
             // 1) смена повторяющееся на не повторяющееся
-            if (this.param.recordHeader.repeat !== item.recordHeader.repeat) {
+            if (this.param.hasOwnProperty('recordHeader') &&
+                this.param.recordHeader.repeat !== item.recordHeader.repeat) {
                 item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
                     regenPastEvents: true,
                     regenFutureEvents: true // изменить все будущие события
