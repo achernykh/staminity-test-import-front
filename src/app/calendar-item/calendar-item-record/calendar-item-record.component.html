@@ -87,7 +87,7 @@
                 <md-list-item layout="row" layout-align="start center">
                     <md-input-container flex="auto" class="no-message" md-no-float>
                         <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
-                        <md-datepicker flex="auto" ng-model="$ctrl.record.dateStart"
+                        <md-datepicker flex="auto" ng-model="$ctrl.record.recordHeader.dateStart"
                                        ng-change="$ctrl.changeParam()"
                                        name="dateStart" md-hide-icons="calendar"
                                        ng-disabled="($ctrl.item.isCreator || $ctrl.item.isMyCoach)">
@@ -105,7 +105,7 @@
                     <p translate="record.isRepeated"></p>
                     <md-switch class="md-secondary md-primary"
                                ng-model="$ctrl.record.isRepeated"
-                               ng-change="$ctrl.changeRepeatedMode()"
+                               ng-change="$ctrl.changeRepeatMode()"
                                md-invert>
                 </md-list-item>
                 <md-list-item ng-if="$ctrl.record.isRepeated" class="margin-top-8">
@@ -113,8 +113,7 @@
                         <label translate="record.period.label"></label>
                         <md-icon flex="none" class="md-dark" md-svg-src=""></md-icon>
                         <md-select flex name="sport" class="icon"
-                                   ng-model="$ctrl.record.recordHeader.repeat.period"
-                                   ng-change="">
+                                   ng-model="$ctrl.record.recordHeader.repeat.period">
                             <md-option ng-repeat="period in $ctrl.config.periods"
                                        value="{{period}}">
                                 {{'record.period.'+ period | translate}}
@@ -208,6 +207,7 @@
                              ng-model="$ctrl.record.recordHeader.description"
                              placeholder="{{'record.descriptionPlaceholder' | translate}}"
                              modules="$ctrl.quillConf.toolbarFull"
+                             on-content-changed="$ctrl.changeForm()"
                              ng-class="{'hide-toolbar': $ctrl.isViewMode}"
                              read-only="$ctrl.isViewMode">
             </ng-quill-editor>
@@ -215,6 +215,7 @@
                              ng-model="$ctrl.record.recordHeader.description"
                              placeholder="{{'record.descriptionPlaceholder' | translate}}"
                              modules="$ctrl.quillConf.toolbar"
+                             on-content-changed="$ctrl.changeForm()"
                              ng-class="{'hide-toolbar': $ctrl.isViewMode}"
                              read-only="$ctrl.isViewMode">
             </ng-quill-editor>

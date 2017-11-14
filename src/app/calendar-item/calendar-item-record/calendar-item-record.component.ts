@@ -1,5 +1,5 @@
 import "./calendar-item-record.component.scss";
-import { IComponentOptions, IComponentController, IPromise } from "angular";
+import { IComponentOptions, IComponentController, IPromise, INgModelController } from "angular";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { CalendarItemRecord } from "./calendar-item-record.datamodel";
@@ -24,6 +24,7 @@ class CalendarItemRecordCtrl implements IComponentController {
 
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
+    private recordForm: INgModelController;
 
     static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message', 'quillConfig'];
 
@@ -43,10 +44,23 @@ class CalendarItemRecordCtrl implements IComponentController {
     toggle (item, list) {
         let idx = list.indexOf(item);
         idx > -1 ? list.splice(idx, 1) : list.push(item);
+        this.changeForm();
     }
 
     exists (item, list) {
         return list.indexOf(item) > -1;
+    }
+
+    changeRepeatMode (): void {
+        if (this.record.isRepeated) {
+
+        } else {
+            this.record.recordHeader.dateStart = this.record.dateStart;
+        }
+    }
+
+    changeForm (): void {
+        this.recordForm.$setDirty();
     }
 
     onSave () {

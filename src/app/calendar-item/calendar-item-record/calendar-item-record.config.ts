@@ -15,7 +15,7 @@ export const CalendarItemRecordConfig: ICalendarItemRecordConfig = {
     defaultRepeat: {
         period: 'D',
         every: 1,
-        days: [0,1,2,3,4,5],
+        days: [0,1,2,3,4],
         position: null,
         endType: 'D',
         endOnDate: null,

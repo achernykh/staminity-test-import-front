@@ -11,8 +11,8 @@ export class CalendarItemRecord extends CalendarItem {
     recordHeader: IRecordHeader;
     isRepeated: boolean = false;
 
-    constructor (item: ICalendarItem, user?: IUserProfile) {
-        super(item);
+    constructor (private param: ICalendarItem, user?: IUserProfile) {
+        super(param);
         this.prepareDefaultType();
     }
 
@@ -21,11 +21,18 @@ export class CalendarItemRecord extends CalendarItem {
         let item: ICalendarItem = this;
         let format: string = 'YYYY-MM-DD';
 
-        item.dateStart = moment(this.dateStart).format(format);
+        item.dateStart = moment(this.recordHeader.dateStart).format(format);
         item.dateEnd = this.dateStart;
 
         if (!this.isRepeated) {
             item.recordHeader.repeat = null;
+            // 1) смена повторяющееся на не повторяющееся
+            if (this.param.recordHeader.repeat !== item.recordHeader.repeat) {
+                item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
+                    regenPastEvents: true,
+                    regenFutureEvents: true // изменить все будущие события
+                })  ;
+            }
         } else {
             item.recordHeader.dateStart = item.dateStart;
             if (item.recordHeader.repeat.endType === 'D') {
@@ -37,12 +44,14 @@ export class CalendarItemRecord extends CalendarItem {
 
             if (mode === 'put') {
                 item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
-                    regenPastEvents: false, // изменить все прошлые события
+                    // 2) меняется дата начала в повторе
+                    regenPastEvents: this.param.recordHeader.dateStart !== item.recordHeader.dateStart,
                     regenFutureEvents: true // изменить все будущие события
                 });
             }
         }
 
+        ['param', 'isRepeated', 'user'].map(k => delete item[k]);
         return item;
     }
 
