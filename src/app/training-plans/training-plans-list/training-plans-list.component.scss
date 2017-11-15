@@ -1,6 +1,25 @@
 @import "../../../sass/color";
+@import "../../../sass/animation";
+
+// animated.css
+#training-plans-list__fab {
+  @include animate(0.3s, 3s, 1);
+}
+
+#training-plans-list__table {
+  @include animate(0.5s, 0s, 1);
+}
 
 .training-plans-list {
+
+  padding: 16px;
+
+  &__create {
+    position: fixed;
+    bottom: 8px;
+    right: 8px;
+
+  }
 
   .name {
     margin-bottom: 0;

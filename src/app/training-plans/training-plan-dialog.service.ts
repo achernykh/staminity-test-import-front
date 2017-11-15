@@ -1,77 +1,42 @@
-import { IScope } from 'angular';
 import { TrainingPlan } from "./training-plan/training-plan.datamodel";
+import { FormMode } from "../application.interface";
 
 export class TrainingPlanDialogService {
 
     static $inject = ['$mdDialog'];
 
-    constructor (
-        private $mdDialog: any) {
+    constructor (private $mdDialog: any) {
 
     }
 
-    post (env: Event) {
+    open (env: Event, mode: FormMode, plan?: TrainingPlan): Promise<TrainingPlan> {
 
-        this.$mdDialog.show({
-            controller: [ '$scope', '$mdDialog', ($scope, $mdDialog) => {
+        return this.$mdDialog.show({
+            controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (chart, update) => $mdDialog.hide({ chart: chart, update: update });
-            } ],
+                $scope.answer = (plan) => $mdDialog.hide(plan);
+            }],
             controllerAs: '$ctrl',
             template: `<md-dialog id="training-plan-form" aria-label="Training Plan Form">
-                        <training-plan-form
-                                layout="column" layout-fill class="training-plan-form"
-                                mode="post"
-                                plan="$ctrl.plan"
-                                on-cancel="cancel()" on-save="answer(chart, update)">
-                        </training-plan-form>
-                   </md-dialog>`,
+                            <training-plan-form
+                                    layout="column" layout-fill class="training-plan-form"
+                                    mode="$ctrl.mode"
+                                    plan="$ctrl.plan"
+                                    on-cancel="cancel()" on-save="answer(plan)">
+                            </training-plan-form>
+                       </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: env,
             locals: {
-                plan: new TrainingPlan()
+                plan: plan || new TrainingPlan(),
+                mode: mode
             },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
-
-        }).then(() => {}, () => {});
-
-    }
-
-    view (plan: TrainingPlan, env: Event): void {
-
-        this.$mdDialog.show({
-            controller: [ '$scope', '$mdDialog', ($scope, $mdDialog) => {
-                $scope.hide = () => $mdDialog.hide();
-                $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (chart, update) => $mdDialog.hide({ chart: chart, update: update });
-            } ],
-            controllerAs: '$ctrl',
-            template: `<md-dialog id="training-plan-form" aria-label="Training Plan Form">
-                        <training-plan-form
-                                layout="column" layout-fill class="training-plan-form"
-                                mode="view"
-                                plan="$ctrl.plan"
-                                on-cancel="cancel()" on-save="answer(chart, update)">
-                        </training-plan-form>
-                   </md-dialog>`,
-            parent: angular.element(document.body),
-            targetEvent: env,
-            locals: {
-                plan: plan,
-                filter: null,
-                categoriesByOwner: null
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: true,
-            fullscreen: true
-
-        }).then(() => {}, () => {});
-
+        });
     }
 
 }

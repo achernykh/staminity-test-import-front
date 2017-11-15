@@ -129,9 +129,14 @@
 </md-dialog-content>
 <md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>
-    <md-button ng-class="{'md-warn': !$ctrl.planForm.$valid}"
+    <md-button ng-if="$ctrl.isViewMode"
+               ng-click="$ctrl.setChangeMode()">
+        <span translate="trainingPlans.form.edit"></span>
+    </md-button>
+    <md-button ng-if="!$ctrl.isViewMode"
+               ng-class="{'md-warn': !$ctrl.planForm.$valid}"
                ng-disabled="!$ctrl.planForm.$dirty"
                ng-click="($ctrl.planForm.$valid) ? $ctrl.save() : null">
-        <span>{{::'trainingPlans.form.save' | translate}}</span>
+        <span translate="trainingPlans.form.post"></span>
     </md-button>
 </md-dialog-actions>

@@ -4,6 +4,7 @@ import {
     ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest
 } from "../../../api/trainingPlans";
 import { IWSResponse } from "@api/core";
+import { IRevisionResponse } from "../../../api/core/core";
 
 export class TrainingPlansService {
 
@@ -17,11 +18,11 @@ export class TrainingPlansService {
         return this.socket.send(new SearchTrainingPlan(request));
     }
 
-    post (plan: ITrainingPlan): Promise<IWSResponse> {
+    post (plan: ITrainingPlan): Promise<IRevisionResponse> {
         return this.socket.send(new PostTrainingPlan(plan));
     }
 
-    put (plan: ITrainingPlan): Promise<IWSResponse> {
+    put (plan: ITrainingPlan): Promise<IRevisionResponse> {
         return this.socket.send(new PutTrainingPlan(plan));
     }
 

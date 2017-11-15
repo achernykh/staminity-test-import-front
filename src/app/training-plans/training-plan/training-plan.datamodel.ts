@@ -6,6 +6,7 @@ import {
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfileShort } from "../../../../api/user/user.interface";
+import { IRevisionResponse } from "../../../../api/core/core";
 
 export class TrainingPlan implements ITrainingPlan {
 
@@ -70,6 +71,26 @@ export class TrainingPlan implements ITrainingPlan {
         if ( this.isPublic === undefined ) {
             this.isPublic = false;
         }
+
+        this.prepareDefaultData();
+
+    }
+
+    get language (): string {
+        return this.lang;
+    }
+
+    applyRevision (revision: IRevisionResponse): TrainingPlan {
+
+        this.id = revision.value.id;
+        this.revision = revision.value.revision;
+
+        return this;
+
+    }
+
+    private prepareDefaultData (): void {
+        if (!this.lang) { this.lang = 'ru'; }
     }
 
     clear (keys: Array<string> = this.keys): ITrainingPlan {

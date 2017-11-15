@@ -27,7 +27,7 @@ class TrainingPlansFilterCtrl implements IComponentController {
     }
 
     onPost (env: Event) {
-        this.trainingPlanDialogService.post(env);
+        //this.trainingPlanDialogService.post(env);
     }
 
 }

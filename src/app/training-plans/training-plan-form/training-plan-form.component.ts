@@ -3,11 +3,16 @@ import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {TrainingPlan} from "../training-plan/training-plan.datamodel";
 import {TrainingPlansService} from "../training-plans.service";
 import {IMessageService} from "../../core/message.service";
+import { IRevisionResponse } from "@api/core";
+import { FormMode } from "../../application.interface";
+import { deepCopy } from "../../share/data/data.finctions";
 
 class TrainingPlanFormCtrl implements IComponentController {
 
-    public plan: TrainingPlan;
-    public onEvent: (response: Object) => IPromise<void>;
+    plan: TrainingPlan;
+    mode: FormMode;
+    onSave: (response: Object) => IPromise<void>;
+
     static $inject = ['TrainingPlansService', 'message'];
 
     constructor(private trainingPlanService: TrainingPlansService, private message: IMessageService) {
@@ -15,12 +20,31 @@ class TrainingPlanFormCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.plan = new TrainingPlan(this.plan); //Object.assign({}, this.plan);//deepCopy(this.plan);
     }
 
-    save() {
-        this.trainingPlanService
-            .post(this.plan.clear())
-            .then((response) => {debugger;}, error => this.message.toastInfo(error));
+    save () {
+        if (this.mode === FormMode.Post) {
+            this.trainingPlanService
+                .post(this.plan.clear())
+                .then((response: IRevisionResponse) => this.onSave({plan: this.plan.applyRevision(response)}),
+                    (error) => this.message.toastInfo(error));
+        }
+
+        if (this.mode === FormMode.Put) {
+            this.trainingPlanService
+                .put(this.plan.clear())
+                .then((response: IRevisionResponse) => this.onSave({plan: this.plan.applyRevision(response)}),
+                    (error) => this.message.toastInfo(error));
+        }
+    }
+
+    get isViewMode (): boolean {
+        return this.mode === FormMode.View;
+    }
+
+    setChangeMode (): void {
+        this.mode = FormMode.Put;
     }
 }
 
@@ -29,7 +53,7 @@ const TrainingPlanFormComponent:IComponentOptions = {
         plan: '<',
         mode: '<',
         onCancel: '&',
-        onAnswer: '&'
+        onSave: '&'
     },
     require: {
         //component: '^component'
