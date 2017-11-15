@@ -7,7 +7,7 @@ const methodology: any = {
     loginRequired: false,
     authRequired: [],
     resolve: {
-        user: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
+        currentUser: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
     },
     views: {
         "application": {

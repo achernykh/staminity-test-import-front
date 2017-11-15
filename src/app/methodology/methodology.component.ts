@@ -10,11 +10,12 @@ import { pipe, prop, pick, orderBy, groupBy } from "../share/util";
 import { IUserProfile } from "../../../api/user";
 import { IGroupProfile } from "../../../api/group";
 import { IActivityType } from "../../../api/activity/activity.interface";
+import { ITrainingPlanSearchRequest } from "@api/trainingPlans";
 
 class MethodologyCtrl implements IComponentController {
 
     // public
-    user: IUserProfile;
+    currentUser: IUserProfile;
     club: IGroupProfile;
     onEvent: (response: Object) => IPromise<void>;
     categories: Array<IActivityCategory> = [];
@@ -24,8 +25,9 @@ class MethodologyCtrl implements IComponentController {
     // private
     private leftBarShow: boolean = true;
     private navBarStates: Array<string> = ['trainingPlans', 'periodization', 'categories', 'templates'];
-    private currentState: string = 'categories';
+    private currentState: string = 'trainingPlans';
     private activityTypes: Array<IActivityType> = activityTypes;
+    private trainingPlansFilter: ITrainingPlanSearchRequest;
     private filterParams: ReferenceFilterParams = {
         club: null,
         activityType: activityTypes[0],
@@ -61,6 +63,7 @@ class MethodologyCtrl implements IComponentController {
                 this.$scope.$apply();
             });
 
+        this.prepareTrainingPlansFilter();
         this.updateFilterParams();
     }
 
@@ -71,6 +74,16 @@ class MethodologyCtrl implements IComponentController {
     $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
+    }
+
+    private prepareTrainingPlansFilter (): void {
+        this.trainingPlansFilter = {
+            ownerId: this.currentUser.userId
+        };
+    }
+
+    changeTrainingPlansFilter (filter: ITrainingPlanSearchRequest): void {
+        this.trainingPlansFilter = filter;
     }
 
     updateFilterParams () {
@@ -85,7 +98,7 @@ class MethodologyCtrl implements IComponentController {
 
         this.categoriesByOwner = pipe(
             orderBy(prop('sortOrder')),
-            groupBy(getOwner(this.user))
+            groupBy(getOwner(this.currentUser))
         )(categories);
     }
 
@@ -93,8 +106,7 @@ class MethodologyCtrl implements IComponentController {
 
 const MethodologyComponent: IComponentOptions = {
     bindings: {
-        data: '<',
-        user: '<',
+        currentUser: '<',
         club: '<',
         onEvent: '&'
     },

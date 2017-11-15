@@ -71,8 +71,9 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     top: 0;
     z-index: 3;
 
-    .md-toolbar-tools > .md-button:first-child {
+    .md-button.app-menu {
       margin-right: 32px;
+      margin-left: -8px;
     }
 
     .icon-bar {

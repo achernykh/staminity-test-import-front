@@ -1,15 +1,13 @@
 import { SocketService } from "../core";
-import { PostTrainingPlan, SearchTrainingPlan } from "../../../api/trainingPlans/training-plans.request";
 import {
-    ITrainingPlan,
-    ITrainingPlanSearchResult,
-    ITrainingPlanSearchRequest
-} from "../../../api/trainingPlans/training-plans.interface";
-import { IWSResponse } from "../../../api/core";
+    PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan,
+    ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest
+} from "../../../api/trainingPlans";
+import { IWSResponse } from "@api/core";
 
 export class TrainingPlansService {
 
-    static $inject = ['SocketService'];
+    static $inject = [ 'SocketService' ];
 
     constructor (private socket: SocketService) {
 
@@ -21,6 +19,10 @@ export class TrainingPlansService {
 
     post (plan: ITrainingPlan): Promise<IWSResponse> {
         return this.socket.send(new PostTrainingPlan(plan));
+    }
+
+    put (plan: ITrainingPlan): Promise<IWSResponse> {
+        return this.socket.send(new PutTrainingPlan(plan));
     }
 
 }

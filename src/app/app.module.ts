@@ -23,7 +23,7 @@ import Club from "./club/club.module";
 import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
-import TrainingPlans from "./training-plans/training-plans.module";
+import { TrainingPlans } from "./training-plans/training-plans.module";
 import Analytics from "./analytics/analytics.module";
 import { Methodology } from './methodology/methodology.module';
 

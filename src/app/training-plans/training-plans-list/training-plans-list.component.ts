@@ -1,60 +1,52 @@
 import './training-plans-list.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
-import {TrainingPlansList} from "./training-plans-list.datamodel";
-import {TrainingPlan} from "../training-plan/training-plan.datamodel";
+import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { TrainingPlansList } from "./training-plans-list.datamodel";
+import { TrainingPlan } from "../training-plan/training-plan.datamodel";
+import { ITrainingPlanSearchRequest, ITrainingPlanSearchResult } from "@api/trainingPlans";
+import { TrainingPlansService } from "@app/training-plans/training-plans.service";
+import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 
 class TrainingPlansListCtrl implements IComponentController {
 
-    public plans: TrainingPlansList;
-    public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['$scope', '$mdDialog'];
+    // bind
+    plans: TrainingPlansList;
+    filter: ITrainingPlanSearchRequest;
+    onEvent: (response: Object) => IPromise<void>;
 
-    constructor(private $scope: any, private $mdDialog: any) {
+    // private
+
+    // inject
+    static $inject = ['TrainingPlansService', 'TrainingPlanDialogService'];
+
+    constructor (
+        private trainingPlansService: TrainingPlansService,
+        private trainingPlanDialogService: TrainingPlanDialogService) {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
-    onView(plan: TrainingPlan, env: Event) {
+    $onChanges (changes): void {
+        if (this.filter && !changes[ 'filter' ].isFirstChanges) {
+            this.trainingPlansService.search(this.filter).then(this.updateList.bind(this));
+        }
+    }
 
-        this.$mdDialog.show({
-            controller: ['$scope','$mdDialog', ($scope, $mdDialog) => {
-                $scope.hide = () => $mdDialog.hide();
-                $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (chart,update) => $mdDialog.hide({chart: chart,update: update});
-            }],
-            controllerAs: '$ctrl',
-            template:
-                `<md-dialog id="training-plan-form" aria-label="Training Plan Form">
-                        <training-plan-form
-                                layout="column" layout-fill class="training-plan-form"
-                                mode="view"
-                                plan="$ctrl.plan"
-                                on-cancel="cancel()" on-save="answer(chart, update)">
-                        </training-plan-form>
-                   </md-dialog>`,
-            parent: angular.element(document.body),
-            targetEvent: env,
-            locals: {
-                plan: plan,
-                filter: null,
-                categoriesByOwner: null
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: true,
-            fullscreen: true
+    private updateList (list: ITrainingPlanSearchResult): void {
+        this.plans = new TrainingPlansList(list.items);
+    }
 
-        }).then((response) => {}, () => {});
-
+    onView (plan: TrainingPlan, env: Event) {
+        this.trainingPlanDialogService.view(plan, env);
     }
 }
 
-const TrainingPlansListComponent:IComponentOptions = {
+const TrainingPlansListComponent: IComponentOptions = {
     bindings: {
         plans: '<',
+        filter: '<',
         onEvent: '&'
     },
     require: {

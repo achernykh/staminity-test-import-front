@@ -8,16 +8,16 @@ import TrainingPlansListComponent from "./training-plans-list/training-plans-lis
 import TrainingPlanBuilderComponent from "./training-plan-builder/training-plan-builder.component";
 import { StateProvider } from "angular-ui-router";
 import { trainingPlansState } from "./training-plans.state";
+import { TrainingPlanDialogService } from "./training-plan-dialog.service";
 
-const TrainingPlans = module('staminity.training-plans', [])
+export const TrainingPlans = module('staminity.training-plans', [])
     .service('TrainingPlansService', TrainingPlansService)
+    .service('TrainingPlanDialogService', TrainingPlanDialogService)
     .component('trainingPlansSearch', TrainingPlansSearchComponent)
     .component('trainingPlansFilter', TrainingPlansFilterComponent)
     .component('trainingPlanForm', TrainingPlanFormComponent)
     .component('trainingPlansList', TrainingPlansListComponent)
     .component('stTrainingPlanBuilder', TrainingPlanBuilderComponent)
-    .config(['$stateProvider', ($stateProvider: StateProvider) => trainingPlansState.map(k => $stateProvider.state(k))])
+    .config(['$stateProvider', ($stateProvider: StateProvider) => trainingPlansState.map(s => $stateProvider.state(s))])
     .config(configure)
     .name;
-
-export default TrainingPlans;
