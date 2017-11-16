@@ -448,6 +448,10 @@ export class CalendarCtrl implements IComponentController{
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
+        if (!this.calendar[w]) {
+            return;
+        }
+
         if (w !== -1 && d >= 0) {
             this.calendar[w].subItem[d].data.calendarItems.push(item);
             this.calendar[w].changes++;
@@ -461,6 +465,11 @@ export class CalendarCtrl implements IComponentController{
     onDeleteItem(item) {
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
+
+        if (!this.calendar[w]) {
+            return;
+        }
+
         let p = this.calendar[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
 
         if (w !== -1 && d >= 0 && p !== -1) {
