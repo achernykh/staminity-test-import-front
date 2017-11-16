@@ -1,5 +1,5 @@
 <form layout="row" layout-align="start center" name="$ctrl.segmentForm"
-      class="md-dense md-body-1 interval-data"
+      class="md-dense md-caption interval-data"
       ng-class="{'selected': $ctrl.interval.isSelected, 'key': $ctrl.interval.keyInterval}">
     <div class="segment-number md-body-1 bg-grey-200 md-dark"
          ng-class="{'{{::$ctrl.interval.status}}': $ctrl.viewActual, 'coming': $ctrl.viewPlan}"
@@ -19,7 +19,7 @@
         </md-button>
         <md-menu-content width="3">
             <md-menu-item ng-repeat="measure in $ctrl.durationMeasure track by $index">
-                <md-button ng-click="$ctrl.interval.durationMeasure = measure">
+                <md-button ng-click="$ctrl.changeDurationType(measure)">
                     <md-icon class="md-dark" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
                     <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
@@ -61,7 +61,7 @@
         </md-button>
         <md-menu-content width="3">
             <md-menu-item ng-repeat="measure in $ctrl.intensityMeasure[$ctrl.sport] track by $index">
-                <md-button ng-click="$ctrl.interval.intensityMeasure = measure">
+                <md-button ng-click="$ctrl.changeIntensityMeasure(measure)">
                     <md-icon class="md-dark" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
                     <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>

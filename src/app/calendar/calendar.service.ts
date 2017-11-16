@@ -56,10 +56,11 @@ export class CalendarService {
      * Удаление записи календаря
      * @param mode
      * @param items
+     * @params rmParams
      * @returns {Promise<any>}
      */
-    deleteItem(mode: string, items: Array<number>):Promise<any> {
-        return this.SocketService.send(new DeleteCalendarItemRequest(mode,items));
+    deleteItem(mode: string, items: Array<number>, rmParams?: Object):Promise<any> {
+        return this.SocketService.send(new DeleteCalendarItemRequest(mode,items, rmParams));
     }
 
     postFile(file: any, activityId?:number):IHttpPromise<any> {

@@ -5,7 +5,7 @@ import {
     periodByType, AnalyticsChartFilter
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IAnalyticsChart, AnalyticsChart} from "./analytics-chart.model";
-import {IReportRequestData, IChart} from "../../../../api/statistics/statistics.interface";
+import { IReportRequestData, IChart, IReportPeriod } from "../../../../api/statistics/statistics.interface";
 import {IUserProfileShort} from "../../../../api/user/user.interface";
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
@@ -171,12 +171,15 @@ class AnalyticsChartCtrl implements IComponentController {
         let globalParams: {
             users: Array<number>;
             activityTypes: Array<number>;
+            periods: Array<IReportPeriod>;
         } = {
             users: [],
-            activityTypes: []
+            activityTypes: [],
+            periods: []
         };
-        this.filter.activityTypes.model.map(id => globalParams.activityTypes.push(...getSportsByBasicId(id)));
+        this.filter.activityTypes.model.map(id => globalParams.activityTypes.push(...getSportsByBasicId(Number(id))));
         globalParams.users = [Number(this.filter.users.model)];
+        globalParams.periods = this.filter.periods.model !== 'customPeriod' ? periodByType(this.filter.periods.model) : this.filter.periods.model;
 
         this.chart.charts.map((c,i) => c.params = {
             users:
@@ -190,9 +193,9 @@ class AnalyticsChartCtrl implements IComponentController {
 
             activityCategories: this.filter.activityCategories.model,
 
-            periods: (!this.chart.globalParams && c.params.periods && c.params.periods) ||
-                (this.filter.periods.model === 'customPeriod' && this.filter.periods.data.model) ||
-                periodByType(this.filter.periods.model) || this.chart.charts[i].params.periods
+            periods: (this.chart.globalParams && globalParams.periods) ||
+                (c.params.periods && c.params.periods) || null
+
         });
     }
 

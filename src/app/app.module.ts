@@ -33,6 +33,7 @@ const root = module('staminity.application', [
 	'ngMessages',
 	'ngAnimate',
 	'ngAria',
+	'ngSanitize',
 	'ui.router',
 	'md.data.table',
 	'nemLogging',
@@ -44,6 +45,7 @@ const root = module('staminity.application', [
 	'angular-carousel',
 	'dndLists',
 	'luegg.directives',
+	'ngQuill', // https://github.com/KillerCodeMonkey/ng-quill
 
 	Core,
 	Share,

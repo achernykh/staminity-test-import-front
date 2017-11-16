@@ -1,5 +1,8 @@
 <md-card flex="none" layout="column" id="personal" style="position: relative">
-
+    <section layout-padding ng-if="$ctrl.user.public.isCoach && !$ctrl.user.public.profileComplete"
+             class="profile-incomplete bg-red-500">
+        <p class="md-body-1 md-light" translate="settings.personalInfo.coachProfileIncomplete"></p>
+    </section>
     <md-list class="md-dense section">
         <form name="$ctrl.publicForm">
             <md-subheader>Основная информация</md-subheader>
@@ -260,6 +263,14 @@
                         </div>
                     </div>
                 </md-input-container>
+            </md-list-item>
+
+            <md-subheader>
+                <span translate="settings.personalInfo.calendar.title"></span>
+                <p class="hint dark secondary" translate="settings.personalInfo.calendar.hint">Hint</p>
+            </md-subheader>
+            <md-list-item>
+                <p class="md-body-1" translate>{{$ctrl.iCalLink}}</p>
             </md-list-item>
         </form>
     </md-list>

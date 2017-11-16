@@ -16,6 +16,7 @@ export const translateActivity = {
           off: 'ВЫКЛ'
       },
       trainersPrescription: 'Установка тренера',
+      descriptionPlaceholder: '...',
       assignment: {
           title: 'Задание',
           needSport: 'Для ввода задания укажите вид спорта и тип тренировки',

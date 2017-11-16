@@ -116,7 +116,7 @@
             <div class="md-caption secondary dark" style="font-size: 12px"
                  ng-if="::(!!$ctrl.data.intervalPW.trainersPrescription.length)"
                  hm-read-more
-                 hm-text="{{::$ctrl.data.intervalPW.trainersPrescription}}"
+                 hm-text="{{::$ctrl.data.intervalPW.trainersPrescription | htmlToPlainText}}"
                  hm-limit="50"
                  hm-more-text="more"
                  hm-less-text="less"

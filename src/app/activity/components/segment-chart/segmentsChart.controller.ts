@@ -255,7 +255,7 @@ class SegmentChartController implements IComponentController {
     }
 
     private drawPlanChart(): void {
-        if (!this.planFtp) {
+        if (!this.planFtp || this.intervals.length === 0) {
             return;
         }
         let mode: ChartMode = this.actualFtp ? "fact" : "plan";

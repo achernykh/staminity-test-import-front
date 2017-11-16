@@ -58,7 +58,7 @@ export const _NAVBAR = [
         icon: "notifications",
         name: 'settings.notification.header',
         link: '#notifications',
-        active: false
+        active: true
     }
     // UX для этих панелей не определен
     /*,

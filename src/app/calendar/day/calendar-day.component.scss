@@ -190,6 +190,25 @@ calendar-day {
     }
   }
 
+  calendar-record {
+    cursor: pointer;
+    padding: 12px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+
+    @extend .bg-grey-200;
+
+    &:hover {
+      @extend .md-whiteframe-1dp;
+    }
+
+    .icon {
+      margin-left: 0px;
+      margin-right: 8px;
+    }
+
+  }
+
   calendar-competition {
     padding: 10px 12px 12px 12px;
     @extend .bg-grey-400;

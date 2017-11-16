@@ -262,6 +262,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.updateFilterParams();
     }
 
+    /**
+     * Выбран шаблон тренировки
+     * @param template
+     */
     onSelectTemplate(template: IActivityTemplate){
         this.showSelectTemplate = false;
         this.activity.header.template = template;

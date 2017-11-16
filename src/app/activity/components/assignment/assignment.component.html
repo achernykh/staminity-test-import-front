@@ -3,7 +3,7 @@
 <fieldset flex="none" ng-disabled="$ctrl.item.mode === 'view'">
     <activity-assignment-header flex="none"
                                 form="$ctrl.item.assignmentForm"
-                                on-change="">
+                                on-change="$ctrl.checkForm(form)">
     </activity-assignment-header>
 
     <assignment-summary-non-structured ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.structured)"
@@ -13,14 +13,14 @@
                                        editable="$ctrl.item.mode !== 'view'"
                                        ftp-mode="$ctrl.item.ftpMode"
                                        change="$ctrl.item.templateChangeCount"
-                                       on-change="$ctrl.onChangeForm(plan,actual,form)">
+                                       on-change="$ctrl.changeForm(form, plan, actual)">
     </assignment-summary-non-structured>
 
     <assignment-summary-structured ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.structured"
                                    form="$ctrl.item.assignmentForm"
                                    editable="$ctrl.item.mode !== 'view'"
                                    change="$ctrl.item.templateChangeCount"
-                                   on-change="$ctrl.onChangeForm(plan,actual,form)">
+                                   on-change="$ctrl.checkForm()">
     </assignment-summary-structured>
 
     <!--

@@ -10,6 +10,7 @@ import { ICalendarDayData } from "../calendar.interface";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {isSpecifiedActivity, isCompletedActivity, clearActualDataActivity} from "../../activity/activity.function";
 import { IUserProfile } from "@api/user";
+import { getCalendarItem } from "../../calendar-item/calendar-item.function";
 
 class CalendarDayCtrl {
 
@@ -108,6 +109,31 @@ class CalendarDayCtrl {
 
             }).then(response => {}, ()=> {});
         }
+        if(type === 'record'){
+            this.$mdDialog.show({
+                controller: DialogController,
+                controllerAs: '$ctrl',
+                template: `<md-dialog id="calendar-item-record" aria-label="Record">
+                        <calendar-item-record 
+                                data="$ctrl.data"
+                                calendar-range="$ctrl.calendarRange"
+                                mode="view"
+                                on-cancel="cancel()">
+                        </calendar-item-record>
+                   </md-dialog>`,
+                parent: angular.element(document.body),
+                targetEvent: $event,
+                locals: {
+                    data: data,
+                    calendarRange: [null, null]//this.calendar.calendarRange
+                },
+                bindToController: true,
+                clickOutsideToClose: false,
+                escapeToClose: true,
+                fullscreen: true
+
+            }).then(response => {}, ()=> {});
+        }
     }
 
     newActivity($event, data){
@@ -183,6 +209,32 @@ class CalendarDayCtrl {
                     date: data.date
                 },
                 user: this.owner
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true
+
+        }).then(response => {}, () => {});
+    }
+
+    postRecord($event, data) {
+        this.$mdDialog.show({
+            controller: DialogController,
+            controllerAs: '$ctrl',
+            template: `<md-dialog id="calendar-item-record" aria-label="Record">
+                        <calendar-item-record 
+                                data="$ctrl.data"
+                                calendar-range="$ctrl.calendarRange"
+                                mode="post"
+                                on-cancel="cancel()">
+                        </calendar-item-record>
+                   </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            locals: {
+                data: getCalendarItem('record', data.date, this.calendar.user, this.calendar.currentUser ),
+                calendarRange: [null,null]//this.calendar.calendarRange
             },
             bindToController: true,
             clickOutsideToClose: false,

@@ -7,7 +7,7 @@
 <div class="application-header" ui-view="header"></div>
 <div ui-view="application"></div>
 
-<md-sidenav class="md-sidenav-right" md-component-id="requests" md-disable-backdrop md-whiteframe="4" ng-if="$ctrl.auth.isAuthenticated()">
+<md-sidenav class="md-sidenav-right" md-component-id="requests" md-whiteframe="4" ng-if="$ctrl.auth.isAuthenticated()">
     <requests/>
 </md-sidenav>
 

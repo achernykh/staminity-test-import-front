@@ -18,6 +18,7 @@ export interface IAuthService {
     isMyAthlete(user: IUserProfile):Promise<any>;
     isMyClub(uri: string):Promise<any>;
     isActivityPlan(role?: Array<string>):boolean;
+    isActivityPlanAthletes(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
     signIn(request:Object):IPromise<void>;
     signUp(request:Object):IHttpPromise<{}>;
@@ -97,12 +98,16 @@ export default class AuthService implements IAuthService {
         }
     }
 
-    isActivityPlan(role: Array<string> = ['ActivitiesPlan_User','ActivitiesPlan_Athletes']) : boolean {
-        return this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
+    isActivityPlan (role: Array<string> = ['ActivitiesPlan_User']) : boolean {
+        return this.isAuthorized([role[0]]);
     }
 
-    isActivityPro(role: Array<string> = ['ActivitiesProView_User','ActivitiesProView_Athletes']) : boolean {
-        return this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
+    isActivityPlanAthletes (role: Array<string> = ['ActivitiesPlan_Athletes']) : boolean {
+        return this.isAuthorized([role[0]]);
+    }
+
+    isActivityPro(role: Array<string> = ['ActivitiesProView_User', 'ActivitiesProView_Athletes']) : boolean {
+        return this.isCoach() && this.isAuthorized([role[1]]) ||  this.isAuthorized([role[0]]); //this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
     }
 
     /**

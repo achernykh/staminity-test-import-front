@@ -124,7 +124,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
                 this.users.model = this.users.model.map(v => Number(v));
                 break;
             }
-            case 'activityType':
+            case 'activityTypes':
                 this.activityTypes.model = this.activityTypes.model.map(v => Number(v));
                 break;
         }
@@ -166,7 +166,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
 
     setActivityTypes(model: Array<number>, mode: 'basic' | 'single', transform: boolean) {
         if (mode === 'basic' && transform) {
-            model.map(id => this.activityTypes.model.push(...getSportsByBasicId(id)));
+            model.map(id => this.activityTypes.model.push(...getSportsByBasicId(Number(id))));
         } else {
             this.activityTypes.model = model;
         }
@@ -229,8 +229,8 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
             ${this.$filter('translate')('analytics.filter.periods.placeholder')}: 
             ${this.periods.model !== 'customPeriod' ? 
                 this.$filter('translate')('analytics.params.' + this.periods.model) :
-                this.$filter('date')(moment(this.periods[0].startDate).toDate(),'shortDate') + '-' +
-            this.$filter('date')(moment(this.periods[0].endDate).toDate(),'shortDate')}, 
+                this.$filter('date')(moment(this.periods.model.startDate).toDate(),'shortDate') + '-' +
+            this.$filter('date')(moment(this.periods.model.endDate).toDate(),'shortDate')}, 
             ${this.$filter('translate')('analytics.filter.activityTypes.placeholder')}: ${this.activityTypesSelectedText()}, 
             ${this.$filter('translate')('analytics.filter.users.placeholder')}: ${this.usersSelectedText()}`;
     }
@@ -238,9 +238,9 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
     chartParams(): IChartParams {
         return {
             users: this.users.model,
-            activityTypes: this.activityTypes.model.map(v => Number(v)) || [], // массив идентификаторов видов спорта
-            activityCategories: this.activityCategories.model.map(v => Number(v)) || [], // массив идентификаторов категорий тренировок
-            periods: periodByType(this.periods.model) // временные периоды, в рамках которых требуется отбирать данные
+            activityTypes: this.activityTypes.model.map(v => Number(v)) || [],
+            activityCategories: this.activityCategories.model.map(v => Number(v)) || [],
+            periods: this.periods.model !== 'customPeriod' ? periodByType(this.periods.model) : this.periods.data.model // временные периоды, в рамках которых требуется отбирать данные
         };
     }
 

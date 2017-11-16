@@ -8,7 +8,7 @@ import {
 class AssignmentSummaryStructuredCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public onEvent: (response: Object) => IPromise<void>;
+    public onChange: () => IPromise<void>;
 
     private readonly structuredMeasure: any = {
         movingDuration: {
@@ -28,14 +28,14 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        this.onChange();
     }
 }
 
 const AssignmentSummaryStructuredComponent:IComponentOptions = {
     bindings: {
         data: '<',
-        onEvent: '&'
+        onChange: '&'
     },
     require: {
         item: '^calendarItemActivity'

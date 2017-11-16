@@ -54,26 +54,27 @@ export class CalendarCtrl implements IComponentController{
 
         this.CalendarService.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
-            message.value.userProfileOwner.userId === this.user.userId)
+                message.value.userProfileOwner.userId === this.user.userId)
             .map(message => {
+                console.log('new calendar message: ', message);
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
             .subscribe((message) => {
                 switch (message.action) {
                     case 'I': {
                         this.onPostItem(<ICalendarItem>message.value);
-                        this.$scope.$apply();
+                        this.$scope.$applyAsync();
                         break;
                     }
                     case 'D': {
                         this.onDeleteItem(<ICalendarItem>message.value);
-                        this.$scope.$apply();
+                        this.$scope.$applyAsync();
                         break;
                     }
                     case 'U': {
                         this.onDeleteItem(getItemById(this.calendar.weeks, message.value.calendarItemId));
                         this.onPostItem(<ICalendarItem>message.value);
-                        this.$scope.$apply();
+                        this.$scope.$applyAsync();
                         break;
                     }
                 }
@@ -393,9 +394,11 @@ export class CalendarCtrl implements IComponentController{
     onPostItem(item) {
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
-        console.log('onPostItem to',w,d,item,moment(item.dateStart).format('GGGG-WW'));
-        this.calendar[w].subItem[d].data.calendarItems.push(item);
-        this.calendar[w].changes++;
+
+        if (w !== -1 && d >= 0) {
+            this.calendar.weeks[w].subItem[d].data.calendarItems.push(item);
+            this.calendar.weeks[w].changes++;
+        }
     }
 
     /**
@@ -405,12 +408,11 @@ export class CalendarCtrl implements IComponentController{
     onDeleteItem(item) {
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
-        let p = this.calendar[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+        let p = this.calendar.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
 
-        console.log('onDeleteItem', w,d,p,item,this.calendar);
-        if (w && d >= 0 && p !== -1) {
-            this.calendar[w].subItem[d].data.calendarItems.splice(p,1);
-            this.calendar[w].changes++;
+        if (w !== -1 && d >= 0 && p !== -1) {
+            this.calendar.weeks[w].subItem[d].data.calendarItems.splice(p,1);
+            this.calendar.weeks[w].changes++;
         }
     }
 
@@ -527,6 +529,17 @@ export class CalendarCtrl implements IComponentController{
                 d.selected = false;
             }
         }));
+    }
+
+    /**
+     * Диапазон дат от начала загруженного календаря до окончания
+     * @returns {any[]}
+     */
+    get calendarRange(): Array<string> {
+        return [
+            this.calendar[0].date.format(this.dateFormat),
+            this.calendar[this.calendar.length - 1].date.add('days', 6).format(this.dateFormat)
+        ];
     }
 
 }

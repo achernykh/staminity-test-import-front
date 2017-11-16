@@ -1,56 +1,30 @@
 @import "../../../sass/color";
 
-calendar-total {
+.calendar-total {
+
+  position: relative;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-
-  display: inline-block;
+  top: 0;
+  right: 0;
+  min-height: 100%;
   width: 12.8%;
-  vertical-align: top;
-  //padding: 0px 6px 8px 6px;
+  border-left: 1px solid $grey-400;
+  transition: all 0s ease-in-out 0s;
 
-  section.total-toolbar {
+  .toolbar {
     padding: 0px 6px 0px 6px;
     height: 30px;
-    //border-left: 1px solid $grey-400;
 
     .md-menu {
       margin-right: -24px;
     }
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      width: 12.8%;
-      height: 30px;
-      z-index: 0;
-      border-left: 1px solid $grey-400;
-    }
   }
 
-  section.total-content {
+  .summary {
     padding: 0px 6px 8px 6px;
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 30px;
-      right: 0px;
-      width: 12.8%;
-      height: calc(100% - 30px);
-      z-index: 1;
-      border-left: 1px solid $grey-400;
-    }
   }
-
-  &:hover {
-    //@extend .bg-blue-grey-100;
-  }
-
-  transition: all 0s ease-in-out 0s;
 
   md-icon.md-18, md-icon.s18{
     min-height: 18px;
@@ -60,15 +34,19 @@ calendar-total {
     margin-right: 8px;
   }
 
-  section.sum {
+  .sum {
     padding: 12px 0px;
   }
 
-  section.sport-sum {
+  .sport-sum {
     padding: 12px 0px;
   }
 
-  div.summary-status {
+  .summary-bar {
+    min-height: 30px;
+  }
+
+  .summary-status {
     background: grey;
     color: white;
     border-radius: 10px;
@@ -91,17 +69,16 @@ calendar-total {
     &.coming {
       background-color: $grey-700 !important;
     }
-
   }
 
-  div.status-bar {
+  .status-bar {
     height: 2px;
     border-radius: 1px;
     background: #E0E0E0;
 
   }
 
-  div.progress {
+  .progress {
     max-width: 100%;
     height: 2px;
     border-radius: 1px;

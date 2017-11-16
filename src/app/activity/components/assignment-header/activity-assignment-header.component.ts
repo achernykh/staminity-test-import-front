@@ -9,7 +9,7 @@ import {FtpState} from "../assignment/assignment.component";
 class ActivityAssignmentHeaderCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    private onChange: (result: {form: INgModelController}) => IPromise<void>;
+    private onChange: (result: { form: INgModelController }) => IPromise<void>;
 
     private form: INgModelController;
     public ftpMode: number;
@@ -27,14 +27,33 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     private changeParam() {
         setTimeout(()=>{
             this.clearTemplate();
-            //this.validateForm();
             this.updateForm();
             this.item.updateFilterParams();
         }, 100);
     }
 
+    /**
+     * Смена типа задания тренировки: по сегментам или общее
+     * Смене из одного типа в другой предидущие данные полностью удаляются, на будущее возможен
+     * подтверждающий диалог для пользователя
+     */
     private changeStructuredMode(){
-        this.item.structuredMode ? this.item.selectedTab = HeaderStructuredTab.Segments : angular.noop();
+
+        if (this.item.structuredMode) {
+            // Переключение на структурированную
+            // Надоли удалять/очищать суммарный интервал? Скорее всего нет, при создании первого структурированного
+            // интервала сумарный интервал пересчитается
+            this.item.selectedTab = HeaderStructuredTab.Segments;
+            this.item.activity.updateIntervals();
+        } else {
+            // Переключение со структурированной на не структурированную
+            this.item.activity.intervals.stack
+                .filter(i => i.type === 'P' || i.type === 'G')
+                .map(i => this.item.activity.intervals.splice(i.type, i.pos, 'single'));
+
+            this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);
+            this.item.activity.updateIntervals();
+        }
     }
 
     private clearTemplate() {

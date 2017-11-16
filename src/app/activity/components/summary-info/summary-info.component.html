@@ -25,7 +25,8 @@
         <div flex="auto" layout="column" class="summary-info">
             <div flex="none" ng-if="$ctrl.item.activity.category">{{$ctrl.item.activity.category | categoryCode}}</div>
             <div flex="none">
-                <span>{{::$ctrl.item.activity.dateStart | calcTimezoneTime:$ctrl.item.user.display.timezone | date:'medium'}}&nbsp#</span>
+                <!-- | calcTimezoneTime:$ctrl.item.user.display.timezone -->
+                <span>{{::$ctrl.item.activity.dateStart | date:'medium'}}&nbsp#</span>
                 <span style="cursor: pointer" ng-click="$ctrl.view($ctrl.item.activity.calendarItemId)">{{::$ctrl.item.activity.calendarItemId}}</span>
             </div>
         </div>

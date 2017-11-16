@@ -8,6 +8,7 @@ import {
 import moment from 'moment/src/moment.js';
 import {FtpState} from "../assignment/assignment.component";
 import {IAuthService} from "../../../auth/auth.service";
+import { IQuillConfig } from "@app/share/quill/quill.config";
 
 const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 
@@ -62,9 +63,12 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         power: 'avgValue'
     };
 
-    static $inject = ['$scope', 'AuthService'];
+    static $inject = ['$scope', 'AuthService', 'quillConfig'];
 
-    constructor(private $scope: any, private AuthService: IAuthService) {
+    constructor(
+        private $scope: any,
+        private AuthService: IAuthService,
+        private quillConf: IQuillConfig) {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
         this.$scope.measure = {
@@ -102,7 +106,12 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         });
         this.prepareValues();
         this.ftpMode = this.item.template ? FtpState.On : FtpState.Off;
+        this.validateForm();
 
+    }
+
+    $onDestroy(): void {
+        this.validateForm();
     }
 
     $onChanges(changes: any): void {
@@ -112,8 +121,8 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             setTimeout(() => {
                 this.prepareData();
                 this.validateForm();
+                this.updateForm();
             }, 100);
-
         }
     }
 
@@ -181,7 +190,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.prepareDataForUpdate();
         this.percentComplete[key] = this.calcPercent(key); // обновляем view model
         this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
-        this.onChange({plan: this.plan, actual: this.actual, form: this.form});
+        this.updateForm();
     }
 
     completeAbsoluteMeasure(key) {
@@ -254,6 +263,12 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     validateForm() {
 
+        /**if (this.form.hasOwnProperty('plan_distance')) {
+            this.form.$setValidity('needDuration', this.item.activity.structured || (!this.item.activity.structured &&
+                (this.form.hasOwnProperty('plan_distance') || this.form.hasOwnProperty('plan_movingDuration') ||
+                this.form.hasOwnProperty('actual_distance') || this.form.hasOwnProperty('actual_movingDuration'))));
+        }**/
+
         if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
@@ -284,10 +299,16 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             }
         }
 
+        // Планировать в будущем может:
+        // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
         if (this.form['dateStart']) {
             this.form['dateStart'].$setValidity('needPermissionForFeature',
-                !this.item.isOwner || this.AuthService.isActivityPlan() ||
-                (this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+                !isFutureDay(this.form['dateStart'].$modelValue) ||
+                this.AuthService.isActivityPlan() ||
+                (!this.item.isOwner && this.AuthService.isActivityPlanAthletes()));
+
+                //!this.item.isOwner || this.AuthService.isActivityPlan() ||
+                //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
         }
 
     }
@@ -314,7 +335,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.item.activity.header.template = null;
     }
 
-    updateForm() {
+    private updateForm() {
         this.onChange({plan: this.plan, actual: this.actual, form: this.form});
     }
 

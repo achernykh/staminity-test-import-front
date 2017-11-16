@@ -51,6 +51,8 @@ import ApplicationFrameComponent from "./application-frame/application-frame.com
 import ApplicationUserToolbarComponent from "./application-user-toolbar/application-user-toolbar.component";
 import ApplicationProfileTemplateComponent from "./application-frame/profile-template/profile-template.component";
 import { shareStates } from "./share.states";
+import { htmlToPlainText } from "./text/plain-text.filter";
+import { quillConfig } from "./quill/quill.config";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -74,7 +76,7 @@ const userName = () => (user, options) => maybe(user) (prop('public')) (
 
 const clubName = () => (club) => maybe(club) (prop('public')) (prop('name')) ();
 
-const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):string => {
+const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorType.user):string => {
     let url: string = '/assets/picture/default_avatar.png';
     switch (type) {
         case InitiatorType.user: {
@@ -86,7 +88,7 @@ const avatarUrl = () => (avatar, type: InitiatorType = InitiatorType.user):strin
             break;
         }
         case InitiatorType.provider: {
-            url = `url(/assets/icon/${avatar}_on.png)`;
+            url = `url(/assets/icon/${avatar.toLowerCase()}_on.png)`;
             break;
         }
         case InitiatorType.staminity: {
@@ -261,6 +263,7 @@ const Share = module('staminity.share', ['ui.router','pascalprecht.translate'])
     })
     .component('stApplicationFrame', ApplicationFrameComponent)
     .component('stApplicationUserToolbar', ApplicationUserToolbarComponent)
+    .filter('htmlToPlainText', htmlToPlainText)
     .component('staminityBackground',BackgroundComponent)
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)
@@ -283,6 +286,7 @@ const Share = module('staminity.share', ['ui.router','pascalprecht.translate'])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
     .filter('truncate', truncate)
     .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)
+    .constant('quillConfig', quillConfig)
     .config(['$stateProvider', ($stateProvider: StateProvider) => shareStates.map(s => $stateProvider.state(s))])
     .config(['$translateProvider',($translateProvider)=>{
 
