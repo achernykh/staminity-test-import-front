@@ -47,6 +47,10 @@ class TrainingPlansListCtrl implements IComponentController {
         this.open(env, FormMode.Put, plan);
     }
 
+    delete (planId: number) {
+        this.trainingPlansService.delete(planId).then(response => {debugger;}, error => {debugger;});
+    }
+
     private updateList (list: ITrainingPlanSearchResult): void {
         this.plans = new TrainingPlansList(list.items);
     }

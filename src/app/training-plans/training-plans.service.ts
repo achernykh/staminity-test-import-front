@@ -5,6 +5,7 @@ import {
 } from "../../../api/trainingPlans";
 import { IWSResponse } from "@api/core";
 import { IRevisionResponse } from "../../../api/core/core";
+import { DeleteTrainingPlan } from "../../../api/trainingPlans/training-plans.request";
 
 export class TrainingPlansService {
 
@@ -24,6 +25,10 @@ export class TrainingPlansService {
 
     put (plan: ITrainingPlan): Promise<IRevisionResponse> {
         return this.socket.send(new PutTrainingPlan(plan));
+    }
+
+    delete (planId: number): Promise<IWSResponse> {
+        return this.socket.send(new DeleteTrainingPlan(planId));
     }
 
 }
