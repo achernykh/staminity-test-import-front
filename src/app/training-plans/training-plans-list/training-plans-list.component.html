@@ -8,6 +8,7 @@
             <tr md-row>
                 <th md-column><span>#</span></th>
                 <th md-column><span></span>Название/Автор</th>
+                <th md-column><span></span>Keywords</th>
                 <th md-column md-numeric><span>Рейтинг</span></th>
                 <th md-column md-numeric><span>Недели</span></th>
                 <th md-column md-numeric><span>Ср.Дистанция</span></th>
@@ -15,13 +16,13 @@
                 <th md-column md-numeric><span>Действия</span></th>
             </tr>
         </thead>
-        <tbody md-body class="md-whiteframe-2dp bg-grey-050">
+        <tbody md-body class="bg-grey-050">
             <tr md-row
                 md-select="segment"
                 md-on-select="change" md-on-deselect="change"
                 md-select-id="pos"
                 md-auto-select="false"
-                ng-click="$ctrl.view($event, plan)"
+                ng-click="$ctrl.edit($event, plan)"
                 ng-repeat="plan in $ctrl.plans.list track by $index">
 
                 <td md-cell>
@@ -29,7 +30,10 @@
                 </td>
                 <td md-cell>
                     <p class="md-body-2 md-dark name">{{plan.name}}</p>
-                    <p class="md-caption md-dark md-inactive author">{{plan.author | username}}</p>
+                    <p class="md-caption md-dark md-inactive">{{plan.description}}</p>
+                </td>
+                <td md-cell>
+                    <span class="keywords" ng-repeat="word in plan.keywords" ng-bind="word"></span>
                 </td>
                 <td md-cell><span>{{plan.rate | number:0}}</span></td>
                 <td md-cell><span>{{plan.weekCount | number:0}}</span></td>

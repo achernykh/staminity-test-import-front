@@ -22,13 +22,70 @@
                                        name="isPublic"
                                        ng-model="$ctrl.plan.isPublic"></md-switch>
                         </md-list-item>
+                        <!-- Вид -->
+                        <md-list-item>
+                            <md-input-container class="md-block no-message" md-no-float layout="row">
+                                <md-icon flex="none" class="md-dark" md-svg-src="/assets/icon/{{$ctrl.plan.type}}.svg">
+                                </md-icon>
+                                <md-select flex name="type" class="icon" required
+                                           placeholder="{{trainingPlans.name.placeholder}}"
+                                           ng-model="$ctrl.plan.type"
+                                           ng-change="$ctrl.changeParam()">
+                                    <md-option ng-repeat="type in $ctrl.config.types track by $index"
+                                               value="{{type}}">
+                                        {{'plan.types.' + type | translate}}
+                                    </md-option>
+                                </md-select>
+                                <div ng-messages="$ctrl.planForm.type.$error" role="alert">
+                                    <div ng-message-exp="['required']"
+                                         translate="form.required">
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </md-list-item>
+                        <!-- Тип дистанции -->
+                        <md-list-item>
+                            <md-input-container class="md-block no-message" md-no-float layout="row">
+                                <md-icon flex="none" class="md-dark" md-svg-src="/assets/icon/competition.svg"></md-icon>
+                                <md-select flex name="distanceType" class="icon" required="{{$ctrl.plan.isPublic}}"
+                                           ng-model="$ctrl.plan.distanceType"
+                                           placeholder="{{trainingPlans.distanceType.placeholder}}"
+                                           ng-change="$ctrl.changeParam()">
+                                    <md-option ng-repeat="type in $ctrl.config.distanceTypes[$ctrl.plan.type] track by $index"
+                                               value="{{type}}">
+                                        {{'plan.distanceType.' + type | translate}}
+                                    </md-option>
+                                </md-select>
+                                <div ng-messages="$ctrl.planForm.distanceType.$error" role="alert">
+                                    <div ng-message-exp="['required']"
+                                         translate="form.required">
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </md-list-item>
+                        <!-- Характеристики плана -->
+                        <md-list-item>
+                            <div layout="column">
+                                <p class="md-caption md-dark label" translate="trainingPlans.tags.label"></p>
+                                <div class="tags" layout="row" layout-wrap>
+                                    <md-checkbox flex="30"
+                                                 ng-repeat="tag in $ctrl.config.tags track by $index"
+                                                 class="md-primary" name="tag-{{tag}}"
+                                                 ng-checked="$ctrl.exists(tag, $ctrl.plan.tags)"
+                                                 ng-click="$ctrl.toggle(tag, $ctrl.plan.tags)">
+                                        <span translate="trainingPlans.tags.{{tag}}"></span>
+                                    </md-checkbox>
+                                </div>
+                            </div>
+                        </md-list-item>
+                        <!-- Название плана -->
                         <md-list-item>
                             <md-input-container class="md-block no-message" layout="row">
-                                <label translate="trainingPlans.form.name.label"></label>
+                                <label translate="trainingPlans.name.label"></label>
                                 <input flex="auto"
                                        name="name" required
                                        type="text"
-                                       placeholder="{{trainingPlans.form.name.placeholder}}"
+                                       placeholder="{{trainingPlans.name.placeholder}}"
                                        ng-model="$ctrl.plan.name">
                                 <div ng-messages="$ctrl.form.sport.$error" role="alert">
                                     <div ng-message-exp="['required']"
@@ -40,6 +97,7 @@
                                 </div>
                             </md-input-container>
                         </md-list-item>
+                        <!-- Описание плана -->
                         <md-list-item>
                             <md-input-container class="md-block no-message" layout="row">
                                 <label translate="trainingPlans.form.description.label"></label>
@@ -60,6 +118,7 @@
                                 </div>
                             </md-input-container>
                         </md-list-item>
+                        <!-- Ключевые слова -->
                         <md-list-item>
                             <md-input-container class="md-block no-message" layout="row">
                                 <label translate="trainingPlans.form.keywords.label"></label>

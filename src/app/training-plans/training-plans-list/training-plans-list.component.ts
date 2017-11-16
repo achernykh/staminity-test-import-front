@@ -17,12 +17,11 @@ class TrainingPlansListCtrl implements IComponentController {
     // private
 
     // inject
-    static $inject = ['$scope','TrainingPlansService', 'TrainingPlanDialogService'];
+    static $inject = ['$scope', 'TrainingPlansService', 'TrainingPlanDialogService'];
 
-    constructor (
-        private $scope: any,
-        private trainingPlansService: TrainingPlansService,
-        private trainingPlanDialogService: TrainingPlanDialogService) {
+    constructor (private $scope: any,
+                 private trainingPlansService: TrainingPlansService,
+                 private trainingPlanDialogService: TrainingPlanDialogService) {
 
     }
 
@@ -53,15 +52,20 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     private open (env: Event, mode: FormMode, plan?: TrainingPlan): void {
+
         this.trainingPlanDialogService.open(env, mode, plan)
-            .then(plan => this.update(mode, plan));
+            .then((response: {mode: FormMode, plan: TrainingPlan}) => {
+                if (response.mode === FormMode.Post) {
+                    this.plans.push(response.plan.prepareObjects());
+                } else if (response.mode === FormMode.Put) {
+                    debugger;
+                    this.plans.put(response.plan.prepareObjects()); //plan = response.plan;
+                }
+            })
+            .then(plan => this.update());
     }
 
-    private update (mode: FormMode, plan: TrainingPlan): void {
-
-        if (mode === FormMode.Post) { this.plans.push(plan); }
-        if (mode === FormMode.Put) { this.plans.put(plan); }
-
+    private update (): void {
         this.$scope.$applyAsync();
     }
 

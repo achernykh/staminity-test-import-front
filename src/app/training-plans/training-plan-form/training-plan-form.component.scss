@@ -3,11 +3,18 @@ md-dialog#training-plan-form{
   @media (min-width: 960px) {
     min-width: 640px;
     max-width: 640px;
+    min-height: 80vh;
     height: 100%;
   }
 
 }
 
 .training-plan-form {
+
+  .label {
+    transform: translate3d(0, 6px, 0) scale(0.75);
+    transform-origin: left top;
+  }
+
 
 }

@@ -1,25 +1,29 @@
 import './training-plan-form.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
-import {TrainingPlan} from "../training-plan/training-plan.datamodel";
-import {TrainingPlansService} from "../training-plans.service";
-import {IMessageService} from "../../core/message.service";
-import { IRevisionResponse } from "@api/core";
+import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import MessageService from "@app/core/message.service";
 import { FormMode } from "../../application.interface";
-import { deepCopy } from "../../share/data/data.finctions";
+import { IRevisionResponse } from "@api/core";
+import { TrainingPlan } from "../training-plan/training-plan.datamodel";
+import { TrainingPlansService } from "../training-plans.service";
+import { TrainingPlanConfig } from "../training-plan/training-plan.config";
 
 class TrainingPlanFormCtrl implements IComponentController {
 
+    // bind
     plan: TrainingPlan;
     mode: FormMode;
-    onSave: (response: Object) => IPromise<void>;
+    onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
 
-    static $inject = ['TrainingPlansService', 'message'];
+    //inject
+    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message' ];
 
-    constructor(private trainingPlanService: TrainingPlansService, private message: IMessageService) {
+    constructor (private trainingPlanService: TrainingPlansService,
+                 private config: TrainingPlanConfig,
+                 private message: MessageService) {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.plan = new TrainingPlan(this.plan); //Object.assign({}, this.plan);//deepCopy(this.plan);
     }
 
@@ -27,14 +31,20 @@ class TrainingPlanFormCtrl implements IComponentController {
         if (this.mode === FormMode.Post) {
             this.trainingPlanService
                 .post(this.plan.clear())
-                .then((response: IRevisionResponse) => this.onSave({plan: this.plan.applyRevision(response)}),
+                .then((response: IRevisionResponse) => this.onSave({
+                        mode: this.mode,
+                        plan: this.plan.applyRevision(response)
+                    }),
                     (error) => this.message.toastInfo(error));
         }
 
         if (this.mode === FormMode.Put) {
             this.trainingPlanService
                 .put(this.plan.clear())
-                .then((response: IRevisionResponse) => this.onSave({plan: this.plan.applyRevision(response)}),
+                .then((response: IRevisionResponse) => this.onSave({
+                        mode: this.mode,
+                        plan: this.plan.applyRevision(response)
+                    }),
                     (error) => this.message.toastInfo(error));
         }
     }
@@ -46,9 +56,23 @@ class TrainingPlanFormCtrl implements IComponentController {
     setChangeMode (): void {
         this.mode = FormMode.Put;
     }
+
+    private toggle (item, list): void {
+        let idx = list.indexOf(item);
+        if (idx > -1) {
+            list.splice(idx, 1);
+        }
+        else {
+            list.push(item);
+        }
+    }
+
+    private exists (item, list): boolean {
+        return list.indexOf(item) > -1;
+    }
 }
 
-const TrainingPlanFormComponent:IComponentOptions = {
+const TrainingPlanFormComponent: IComponentOptions = {
     bindings: {
         plan: '<',
         mode: '<',

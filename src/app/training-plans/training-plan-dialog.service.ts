@@ -9,13 +9,13 @@ export class TrainingPlanDialogService {
 
     }
 
-    open (env: Event, mode: FormMode, plan?: TrainingPlan): Promise<TrainingPlan> {
+    open (env: Event, mode: FormMode, plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
 
         return this.$mdDialog.show({
             controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (plan) => $mdDialog.hide(plan);
+                $scope.answer = (mode,plan) => $mdDialog.hide({mode: mode, plan: plan});
             }],
             controllerAs: '$ctrl',
             template: `<md-dialog id="training-plan-form" aria-label="Training Plan Form">
@@ -23,7 +23,7 @@ export class TrainingPlanDialogService {
                                     layout="column" layout-fill class="training-plan-form"
                                     mode="$ctrl.mode"
                                     plan="$ctrl.plan"
-                                    on-cancel="cancel()" on-save="answer(plan)">
+                                    on-cancel="cancel()" on-save="answer(mode,plan)">
                             </training-plan-form>
                        </md-dialog>`,
             parent: angular.element(document.body),

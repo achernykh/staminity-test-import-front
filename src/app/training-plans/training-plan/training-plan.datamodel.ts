@@ -41,28 +41,15 @@ export class TrainingPlan implements ITrainingPlan {
     startDate?: Date; // дата первой тренировки, если isFixedCalendarDates = true
     event: [string /*code*/, string /*date*/]; // план связан с конкретным спортивным событием
 
-    private authorProfile: IUserProfileShort = {
-        userId: null,
-        revision: null,
-        public: {}
-    };
-    private keys: Array<string> = ['keys','authorProfile'];
+
+    private authorProfile: IUserProfileShort;
+
+    private keys: Array<string> = ['keys', 'authorProfile'];
 
     constructor (params?: Object | ITrainingPlan | Array<any>) {
 
         if ( Array.isArray(params) ) {
             Object.keys(new TrainingPlanSearchResultItem()).map((k: string, i: number) => this[k] = params[i]);
-
-            if (this.author) {
-                Object.keys(new TrainingPlanSearchResultAuthor()).map((k: string, i: number) => {
-                    if (['userId','revision'].indexOf(k) !== -1) {
-                        this.authorProfile[k] = this.author[i];
-                    } else {
-                        this.authorProfile.public[k] = this.author[i];
-                    }
-                });
-            }
-
         } else {
             Object.assign(this, params);
         }
@@ -73,11 +60,8 @@ export class TrainingPlan implements ITrainingPlan {
         }
 
         this.prepareDefaultData();
+        this.prepareObjects();
 
-    }
-
-    get language (): string {
-        return this.lang;
     }
 
     applyRevision (revision: IRevisionResponse): TrainingPlan {
@@ -89,8 +73,32 @@ export class TrainingPlan implements ITrainingPlan {
 
     }
 
+    prepareObjects (): TrainingPlan {
+        this.prepareAuthorObject();
+        return this;
+    }
+
+    private prepareAuthorObject (): void {
+
+        this.authorProfile = {
+            userId: null,
+            revision: null,
+            public: {}
+        };
+
+        Object.keys(new TrainingPlanSearchResultAuthor()).map((k: string, i: number) => {
+            if (['userId','revision'].indexOf(k) !== -1) {
+                this.authorProfile[k] = this.author[i];
+            } else {
+                this.authorProfile.public[k] = this.author[i];
+            }
+        });
+    }
+
     private prepareDefaultData (): void {
         if (!this.lang) { this.lang = 'ru'; }
+        if (!this.tags) { this.tags = []; }
+        if (!this.keywords) {this.keywords = [];}
     }
 
     clear (keys: Array<string> = this.keys): ITrainingPlan {
