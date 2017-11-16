@@ -7,6 +7,15 @@
             <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
         </md-button>
     </div>
+    <div class="avatar-block" ng-if="false">
+        <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
+                 profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true">
+            <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
+        </userpic>
+        <div flex=none hide show-gt-xs>
+            <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+        </div>
+    </div>
 </md-toolbar>
 <md-dialog-content flex="auto" layout="column">
     <md-tabs flex="auto" layout-fill md-stretch-tabs="always" ng-cloak class="md-primary">

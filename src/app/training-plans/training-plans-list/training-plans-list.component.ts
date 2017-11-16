@@ -48,7 +48,9 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     delete (planId: number) {
-        this.trainingPlansService.delete(planId).then(response => {debugger;}, error => {debugger;});
+        this.trainingPlansService.delete(planId)
+            .then(() => this.plans.delete(planId), error => {debugger;})
+            .then(() => this.update());
     }
 
     private updateList (list: ITrainingPlanSearchResult): void {

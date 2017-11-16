@@ -5,57 +5,62 @@
            md-row-select="false"
            ng-model="$ctrl.selected">
         <thead md-head fix-head>
-            <tr md-row>
-                <th md-column><span>#</span></th>
-                <th md-column><span></span>Название/Автор</th>
-                <th md-column><span></span>Keywords</th>
-                <th md-column md-numeric><span>Рейтинг</span></th>
-                <th md-column md-numeric><span>Недели</span></th>
-                <th md-column md-numeric><span>Ср.Дистанция</span></th>
-                <th md-column md-numeric><span>Стоимость</span></th>
-                <th md-column md-numeric><span>Действия</span></th>
-            </tr>
+        <tr md-row>
+            <th md-column><span>#</span></th>
+            <th md-column><span></span>Название/Автор</th>
+            <th md-column><span></span>Keywords</th>
+            <th md-column md-numeric><span>Рейтинг</span></th>
+            <th md-column md-numeric><span>Недели</span></th>
+            <th md-column md-numeric><span>Ср.Дистанция</span></th>
+            <th md-column md-numeric><span>Стоимость</span></th>
+            <th md-column md-numeric><span>Действия</span></th>
+        </tr>
         </thead>
         <tbody md-body class="bg-grey-050">
-            <tr md-row
-                md-select="segment"
-                md-on-select="change" md-on-deselect="change"
-                md-select-id="pos"
-                md-auto-select="false"
-                ng-click="$ctrl.edit($event, plan)"
-                ng-repeat="plan in $ctrl.plans.list track by $index">
-
-                <td md-cell>
-                    <userpic profile="plan.authorProfile" class="size-36 border-light"></userpic>
-                </td>
-                <td md-cell>
-                    <p class="md-body-2 md-dark name">{{plan.name}}</p>
-                    <p class="md-caption md-dark md-inactive">{{plan.description}}</p>
-                </td>
-                <td md-cell>
-                    <span class="keywords" ng-repeat="word in plan.keywords" ng-bind="word"></span>
-                </td>
-                <td md-cell><span>{{plan.rate | number:0}}</span></td>
-                <td md-cell><span>{{plan.weekCount | number:0}}</span></td>
-                <td md-cell><span>{{plan.distance / 1000 | number:0}}</span></td>
-                <td md-cell><span>{{plan.priceIsApprox ? '~' : ''}}{{plan.price | currency:plan.currency}}</span></td>
-                <td md-cell>
-                    <md-menu>
-                        <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
-                            <md-icon class="material-icons md-18"
-                                     aria-label="More">more_vert</md-icon>
-                        </md-button>
-                        <md-menu-content>
-                            <md-menu-item>
-                                <md-button ng-click="$ctrl.delete(plan.id)">
-                                    <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                                    <span translate="trainingPlans.actions.delete"></span>
-                                </md-button>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
-                </td>
-            </tr>
+        <tr md-row
+            md-select="segment"
+            md-on-select="change" md-on-deselect="change"
+            md-select-id="pos"
+            md-auto-select="false"
+            ng-click="$ctrl.edit($event, plan)"
+            ng-repeat="plan in $ctrl.plans.list track by $index">
+            <td md-cell>
+                <div class="type-icon" md-colors="{background: 'primary-700'}" layout="row" layout-align="center center">
+                    <md-icon class="s24 md-light"
+                             md-svg-src="/assets/icon/{{plan.type}}.svg">
+                    </md-icon>
+                    <div class="public"></div>
+                </div>
+            </td>
+            <td md-cell>
+                <p class="md-body-2 md-dark name">{{plan.name}}</p>
+                <p class="md-caption md-dark md-inactive">{{plan.description}}</p>
+            </td>
+            <td md-cell>
+                <span class="keywords" ng-repeat="word in plan.keywords" ng-bind="word"></span>
+            </td>
+            <td md-cell><span>{{plan.rate | number:0}}</span></td>
+            <td md-cell><span>{{plan.weekCount | number:0}}</span></td>
+            <td md-cell><span>{{plan.distance / 1000 | number:0}}</span></td>
+            <td md-cell><span>{{plan.priceIsApprox ? '~' : ''}}{{plan.price | currency:plan.currency}}</span></td>
+            <td md-cell>
+                <md-menu>
+                    <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
+                        <md-icon class="material-icons md-18"
+                                 aria-label="More">more_vert
+                        </md-icon>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.delete(plan.id)">
+                                <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                                <span translate="trainingPlans.actions.delete"></span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </td>
+        </tr>
         </tbody>
     </table>
 </md-table-container>

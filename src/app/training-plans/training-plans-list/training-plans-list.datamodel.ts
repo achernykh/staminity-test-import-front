@@ -26,8 +26,8 @@ export class TrainingPlansList implements ITrainingPlans{
         }
     }
 
-    delete (plan: TrainingPlan): void {
-        let id: number = this.list.findIndex(p => p.id === plan.id);
+    delete (planId: number): void {
+        let id: number = this.list.findIndex(p => p.id === planId);
 
         if (id !== -1) {
             this.list.splice(id, 1);
