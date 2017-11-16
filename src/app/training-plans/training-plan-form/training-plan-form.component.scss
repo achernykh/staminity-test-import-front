@@ -3,7 +3,7 @@ md-dialog#training-plan-form{
   @media (min-width: 960px) {
     min-width: 640px;
     max-width: 640px;
-    min-height: 80vh;
+    min-height: 90vh;
     height: 100%;
   }
 
@@ -14,6 +14,36 @@ md-dialog#training-plan-form{
   .label {
     transform: translate3d(0, 6px, 0) scale(0.75);
     transform-origin: left top;
+  }
+
+  md-icon.dense {
+    margin-right: 20px !important;
+  }
+
+  .tags-wrapper {
+    .md-list-item-inner {
+      align-items: flex-start !important;
+    }
+    md-icon {
+      margin-top: 42px !important;
+    }
+  }
+
+  .keywords-wrapper {
+
+    label {
+      margin-left: 50px;
+    };
+
+    md-chips {
+      margin-left: 50px;
+      display: flex;
+
+      .md-chips {
+        width: 100%;
+      }
+
+    }
   }
 
 

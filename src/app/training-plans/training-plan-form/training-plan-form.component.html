@@ -17,14 +17,36 @@
                     <md-list flex="auto" class="md-dense">
                         <!--<md-subheader class="md-no-sticky">{{'analytics.settings.params' | translate}}</md-subheader>-->
                         <md-list-item>
+                            <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
                             <p translate="trainingPlans.form.isPublic.label"></p>
                             <md-switch class="md-primary"
                                        name="isPublic"
                                        ng-model="$ctrl.plan.isPublic"></md-switch>
                         </md-list-item>
+                        <!-- Название плана -->
+                        <md-list-item>
+                            <md-input-container class="md-block no-message" layout="row">
+                                <label translate="trainingPlans.name.label"></label>
+                                <md-icon flex="none" class="material-icons md-dark">timeline</md-icon>
+                                <input flex="auto"
+                                       name="name" required
+                                       type="text"
+                                       placeholder="{{trainingPlans.name.placeholder}}"
+                                       ng-model="$ctrl.plan.name">
+                                <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                                    <div ng-message-exp="['required']"
+                                         translate="form.required">
+                                    </div>
+                                    <div ng-message-exp="['minlength', 'maxlength']"
+                                         translate="form.rangeStr" translate-values="{min:2, max:100}">
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </md-list-item>
                         <!-- Вид -->
                         <md-list-item>
                             <md-input-container class="md-block no-message" md-no-float layout="row">
+                                <label translate="trainingPlans.type.label"></label>
                                 <md-icon flex="none" class="md-dark" md-svg-src="/assets/icon/{{$ctrl.plan.type}}.svg">
                                 </md-icon>
                                 <md-select flex name="type" class="icon" required
@@ -46,13 +68,16 @@
                         <!-- Тип дистанции -->
                         <md-list-item>
                             <md-input-container class="md-block no-message" md-no-float layout="row">
-                                <md-icon flex="none" class="md-dark" md-svg-src="/assets/icon/competition.svg"></md-icon>
+                                <label translate="trainingPlans.distanceType.label"></label>
+                                <md-icon flex="none" class="md-dark"
+                                         md-svg-src="/assets/icon/competition.svg"></md-icon>
                                 <md-select flex name="distanceType" class="icon" required="{{$ctrl.plan.isPublic}}"
                                            ng-model="$ctrl.plan.distanceType"
                                            placeholder="{{trainingPlans.distanceType.placeholder}}"
                                            ng-change="$ctrl.changeParam()">
-                                    <md-option ng-repeat="type in $ctrl.config.distanceTypes[$ctrl.plan.type] track by $index"
-                                               value="{{type}}">
+                                    <md-option
+                                            ng-repeat="type in $ctrl.config.distanceTypes[$ctrl.plan.type] track by $index"
+                                            value="{{type}}">
                                         {{'plan.distanceType.' + type | translate}}
                                     </md-option>
                                 </md-select>
@@ -64,7 +89,8 @@
                             </md-input-container>
                         </md-list-item>
                         <!-- Характеристики плана -->
-                        <md-list-item>
+                        <md-list-item class="tags-wrapper">
+                            <md-icon flex="none" class="md-dark dense" md-svg-src="/assets/icon/tags.svg"></md-icon>
                             <div layout="column">
                                 <p class="md-caption md-dark label" translate="trainingPlans.tags.label"></p>
                                 <div class="tags" layout="row" layout-wrap>
@@ -78,27 +104,9 @@
                                 </div>
                             </div>
                         </md-list-item>
-                        <!-- Название плана -->
-                        <md-list-item>
-                            <md-input-container class="md-block no-message" layout="row">
-                                <label translate="trainingPlans.name.label"></label>
-                                <input flex="auto"
-                                       name="name" required
-                                       type="text"
-                                       placeholder="{{trainingPlans.name.placeholder}}"
-                                       ng-model="$ctrl.plan.name">
-                                <div ng-messages="$ctrl.form.sport.$error" role="alert">
-                                    <div ng-message-exp="['required']"
-                                         translate="form.required">
-                                    </div>
-                                    <div ng-message-exp="['minlength', 'maxlength']"
-                                         translate="form.rangeStr" translate-values="{min:2, max:100}">
-                                    </div>
-                                </div>
-                            </md-input-container>
-                        </md-list-item>
                         <!-- Описание плана -->
                         <md-list-item>
+                            <md-icon flex="none" class="md-dark material-icons">subject</md-icon>
                             <md-input-container class="md-block no-message" layout="row">
                                 <label translate="trainingPlans.form.description.label"></label>
                                 <textarea flex="auto"
@@ -119,17 +127,18 @@
                             </md-input-container>
                         </md-list-item>
                         <!-- Ключевые слова -->
-                        <md-list-item>
+                        <md-list-item class="keywords-wrapper">
                             <md-input-container class="md-block no-message" layout="row">
+                                <md-icon flex="none" class="md-dark material-icons">vpn_key</md-icon>
                                 <label translate="trainingPlans.form.keywords.label"></label>
-                                <md-chips
-                                        ng-model="$ctrl.plan.keywords"
-                                        readonly="$ctrl.readonly"
-                                        md-removable="$ctrl.removable"
-                                        placeholder="{{trainingPlans.form.keywords.placeholder}}"
-                                        delete-button-label="Remove Tag"
-                                        delete-hint="Press delete to remove tag"
-                                        secondary-placeholder="{{trainingPlans.form.keywords.secondaryPlaceholder}}"></md-chips>
+                                <md-chips flex="auto"
+                                          ng-model="$ctrl.plan.keywords"
+                                          readonly="$ctrl.readonly"
+                                          md-removable="$ctrl.removable"
+                                          placeholder="{{trainingPlans.form.keywords.placeholder}}"
+                                          delete-button-label="Remove Tag"
+                                          delete-hint="Press delete to remove tag"
+                                          secondary-placeholder="{{trainingPlans.form.keywords.secondaryPlaceholder}}"></md-chips>
                             </md-input-container>
                         </md-list-item>
                         <md-list-item ng-if="$ctrl.plan.isPublic">
@@ -173,7 +182,8 @@
                     </md-list>
                     <md-divider></md-divider>
                     <md-list-item>
-                        <p class="md-caption md-dark md-inactive">План содержит {{$ctrl.plan.calendarItems.length}} записей</p>
+                        <p class="md-caption md-dark md-inactive">План содержит {{$ctrl.plan.calendarItems.length}}
+                            записей</p>
                     </md-list-item>
                 </form>
             </md-tab-body>
