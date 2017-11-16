@@ -233,7 +233,7 @@ class CalendarDayCtrl {
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: getCalendarItem('record', data.date, this.calendar.user, this.calendar.currentUser ),
+                data: getCalendarItem('record', data.date, this.owner, this.currentUser ),
                 calendarRange: [null,null]//this.calendar.calendarRange
             },
             bindToController: true,

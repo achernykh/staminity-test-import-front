@@ -537,8 +537,8 @@ export class CalendarCtrl implements IComponentController{
      */
     get calendarRange(): Array<string> {
         return [
-            this.calendar[0].date.format(this.dateFormat),
-            this.calendar[this.calendar.length - 1].date.add('days', 6).format(this.dateFormat)
+            this.calendar.weeks[0].date.format(this.dateFormat),
+            this.calendar.weeks[this.calendar.weeks.length - 1].date.add('days', 6).format(this.dateFormat)
         ];
     }
 

@@ -3,7 +3,7 @@ import { IComponentOptions, IComponentController, IPromise, INgModelController }
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { CalendarItemRecord } from "./calendar-item-record.datamodel";
-import SessionService from "../../core/session.service";
+import { SessionService } from "../../core";
 import { CalendarService } from "../../calendar/calendar.service";
 import { ICalendarItemRecordConfig } from "./calendar-item-record.config";
 import MessageService from "../../core/message.service";
