@@ -3,7 +3,7 @@
 
 // animated.css
 #training-plans-list__fab {
-  @include animate(0.3s, 3s, 1);
+  @include animate(0.3s, 1s, 1);
 }
 
 #training-plans-list__table {
@@ -52,6 +52,11 @@
     background: $grey-300;
     border-radius: 10px;
     margin: 2px 4px 2px 0px;
+
+    &.distance-type {
+
+    }
+
   }
 
   tbody tr {

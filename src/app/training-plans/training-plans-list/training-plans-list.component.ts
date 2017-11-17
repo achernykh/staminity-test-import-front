@@ -1,5 +1,6 @@
 import './training-plans-list.component.scss';
 import { IComponentOptions, IComponentController, IPromise, IScope } from 'angular';
+import { StateService } from 'angular-ui-router';
 import { TrainingPlansList } from "./training-plans-list.datamodel";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { ITrainingPlanSearchRequest, ITrainingPlanSearchResult } from "@api/trainingPlans";
@@ -18,9 +19,10 @@ class TrainingPlansListCtrl implements IComponentController {
     private totalFound: number = null;
 
     // inject
-    static $inject = ['$scope', 'TrainingPlansService', 'TrainingPlanDialogService'];
+    static $inject = ['$scope', '$state', 'TrainingPlansService', 'TrainingPlanDialogService'];
 
     constructor (private $scope: any,
+                 private $state: StateService,
                  private trainingPlansService: TrainingPlansService,
                  private trainingPlanDialogService: TrainingPlanDialogService) {
 
@@ -71,6 +73,14 @@ class TrainingPlansListCtrl implements IComponentController {
         this.trainingPlansService.delete(planId)
             .then(() => this.plans.delete(planId), error => {debugger;})
             .then(() => this.update());
+    }
+
+    calendar (planId: number) {
+        this.$state.go('training-plan-builder-id', {planId: planId});
+    }
+
+    plan (planId: number) {
+        this.$state.go('training-plan-id', {planId: planId});
     }
 
     private updateList (list: ITrainingPlanSearchResult): void {

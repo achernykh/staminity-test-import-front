@@ -27,7 +27,7 @@
                 <!-- Платный план -->
                 <md-list-item>
                     <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
-                    <p translate="trainingPlans.form.isPublic.label"></p>
+                    <p translate="trainingPlans.isPublic.label"></p>
                     <md-switch class="md-primary"
                                name="isPublic"
                                ng-change="$ctrl.change()"
@@ -87,7 +87,7 @@
                     <div layout="column">
                         <p class="md-caption md-dark label" translate="trainingPlans.tags.label"></p>
                         <div class="tags" layout="row" layout-wrap>
-                            <md-checkbox flex="auto"
+                            <md-checkbox flex="100"
                                          ng-repeat="tag in $ctrl.config.tags track by $index"
                                          class="md-primary" name="tag-{{tag}}"
                                          ng-checked="$ctrl.exists(tag, $ctrl.filter.tags)"

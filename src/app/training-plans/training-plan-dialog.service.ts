@@ -22,7 +22,7 @@ export class TrainingPlanDialogService {
                             <training-plan-form
                                     layout="column" layout-fill class="training-plan-form"
                                     mode="$ctrl.mode"
-                                    plan="$ctrl.plan"
+                                    data="$ctrl.plan"
                                     on-cancel="cancel()" on-save="answer(mode,plan)">
                             </training-plan-form>
                        </md-dialog>`,

@@ -1,30 +1,36 @@
 import './training-plan-form.component.scss';
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IComponentOptions, IComponentController, IPromise, INgModelController, copy} from 'angular';
 import MessageService from "@app/core/message.service";
 import { FormMode } from "../../application.interface";
 import { IRevisionResponse } from "@api/core";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
 import { TrainingPlanConfig } from "../training-plan/training-plan.config";
+import { IQuillConfig } from "../../share/quill/quill.config";
 
 class TrainingPlanFormCtrl implements IComponentController {
 
     // bind
-    plan: TrainingPlan;
+    data: TrainingPlan;
     mode: FormMode;
     onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
 
+    // private
+    private plan: TrainingPlan;
+    private planForm: INgModelController;
+
     //inject
-    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message' ];
+    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig'];
 
     constructor (private trainingPlanService: TrainingPlansService,
                  private config: TrainingPlanConfig,
-                 private message: MessageService) {
+                 private message: MessageService,
+                 private quillConf: IQuillConfig) {
 
     }
 
     $onInit () {
-        this.plan = new TrainingPlan(this.plan); //Object.assign({}, this.plan);//deepCopy(this.plan);
+        this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
     }
 
     save () {
@@ -65,6 +71,7 @@ class TrainingPlanFormCtrl implements IComponentController {
         else {
             list.push(item);
         }
+        this.planForm.$setDirty();
     }
 
     private exists (item, list): boolean {
@@ -74,7 +81,7 @@ class TrainingPlanFormCtrl implements IComponentController {
 
 const TrainingPlanFormComponent: IComponentOptions = {
     bindings: {
-        plan: '<',
+        data: '<',
         mode: '<',
         onCancel: '&',
         onSave: '&'

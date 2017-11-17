@@ -10,6 +10,7 @@ import { StateProvider } from "angular-ui-router";
 import { trainingPlansState } from "./training-plans.state";
 import { TrainingPlanDialogService } from "./training-plan-dialog.service";
 import { trainingPlanConfig } from "./training-plan/training-plan.config";
+import TrainingPlanComponent from "./training-plan/training-plan.component";
 
 export const TrainingPlans = module('staminity.training-plans', [])
     .service('TrainingPlansService', TrainingPlansService)
@@ -19,6 +20,7 @@ export const TrainingPlans = module('staminity.training-plans', [])
     .component('trainingPlanForm', TrainingPlanFormComponent)
     .component('trainingPlansList', TrainingPlansListComponent)
     .component('stTrainingPlanBuilder', TrainingPlanBuilderComponent)
+    .component('stTrainingPlan', TrainingPlanComponent)
     .constant('trainingPlanConfig', trainingPlanConfig)
     .config(['$stateProvider', ($stateProvider: StateProvider) => trainingPlansState.map(s => $stateProvider.state(s))])
     .config(configure)
