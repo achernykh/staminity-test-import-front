@@ -31,6 +31,8 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     $onInit () {
         this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
+        this.trainingPlanService.get(this.plan.id)
+            .then(result => this.plan = new TrainingPlan(result), error => {debugger;});
     }
 
     save () {

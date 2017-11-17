@@ -5,10 +5,11 @@ import { Calendar } from "../../calendar/calendar.datamodel";
 import { CalendarService } from "../../calendar/calendar.service";
 import { SessionService } from "../../core";
 import { IUserProfile } from "../../../../api/user/user.interface";
+import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 
 class TrainingPlanBuilderCtrl implements IComponentController {
 
-    data: any;
+    plan: TrainingPlan;
     onEvent: (response: Object) => IPromise<void>;
     currentUser: IUserProfile;
 
@@ -36,7 +37,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
 
 const TrainingPlanBuilderComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        plan: '<',
         onEvent: '&'
     },
     require: {

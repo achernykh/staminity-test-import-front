@@ -1,5 +1,6 @@
 import { StateDeclaration } from "angular-ui-router";
 import { SessionService } from "../core";
+import { TrainingPlansService } from "./training-plans.service";
 
 const trainingPlanSearch: any = {
     name: 'training-plans-search',
@@ -31,7 +32,8 @@ const trainingPlanBuilderId: any = {
     loginRequired: false,
     authRequired: [],
     resolve: {
-        planId: ['$stateParams', ($stateParams) => $stateParams.planId]
+        plan: ['$stateParams', 'TrainingPlansService', ($stateParams, trainingPlansService: TrainingPlansService) =>
+            trainingPlansService.get($stateParams.planId)]
     },
     views: {
         "application": {
@@ -47,7 +49,8 @@ const trainingPlanId: any = {
     authRequired: [],
     resolve: {
         user: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
-        planId: ['$stateParams', ($stateParams) => $stateParams.planId]
+        plan: ['$stateParams', 'TrainingPlansService', ($stateParams, trainingPlansService: TrainingPlansService) =>
+            trainingPlansService.get($stateParams.planId)]
     },
     views: {
         "application": {
