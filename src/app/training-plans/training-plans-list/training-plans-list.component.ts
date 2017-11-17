@@ -15,6 +15,7 @@ class TrainingPlansListCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
 
     // private
+    private totalFound: number = null;
 
     // inject
     static $inject = ['$scope', 'TrainingPlansService', 'TrainingPlanDialogService'];
@@ -30,9 +31,28 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     $onChanges (changes): void {
-        if (this.filter && !changes[ 'filter' ].isFirstChanges) {
+        if (this.filter && changes.hasOwnProperty('filter') && !changes['filter'].isFirstChanges) {
             this.trainingPlansService.search(this.filter).then(this.updateList.bind(this));
+
         }
+        if (this.filter && changes.hasOwnProperty('update') && !changes['update'].isFirstChanges) {
+            let query = {
+                name: this.filter['name'] || '',
+                type: this.filter.type || '',
+                distanceType: this.filter.distanceType || '',//,
+                keywords: this.filter.keywords || [],
+                tags: this.filter.tags || []
+            };
+        }
+    }
+
+    getTrainingPlanList(): Array<TrainingPlan> {
+        return this.plans.list
+            .filter(p =>
+                (!this.filter['name'] || (this.filter['name'] && p.name.indexOf(this.filter['name']) !== -1)) &&
+                (!this.filter.type || (this.filter.type && p.name.indexOf(this.filter.type) !== -1)) &&
+                (!this.filter.tags || (this.filter.tags && this.filter.tags.every(t => p.tags.indexOf(t) !== -1))) &&
+                (!this.filter.keywords || (this.filter.keywords && this.filter.keywords.every(t => p.keywords.indexOf(t) !== -1))));
     }
 
     post (env: Event) {
@@ -54,6 +74,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     private updateList (list: ITrainingPlanSearchResult): void {
+        this.totalFound = list.totalFound;
         this.plans = new TrainingPlansList(list.items);
     }
 
@@ -80,6 +101,7 @@ class TrainingPlansListCtrl implements IComponentController {
 const TrainingPlansListComponent: IComponentOptions = {
     bindings: {
         plans: '<',
+        update: '<',
         filter: '<',
         onEvent: '&'
     },

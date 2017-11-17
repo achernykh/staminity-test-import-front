@@ -1,4 +1,5 @@
 .training-plans-filter {
+
   overflow-x: hidden;
   overflow-y: auto;
   height: 100%;
@@ -31,5 +32,42 @@
     padding: 0 16px;
     width: calc(100% - 16px);
   }
+
+  .label {
+    transform: translate3d(0, 6px, 0) scale(0.75);
+    transform-origin: left top;
+  }
+
+  md-icon.dense {
+    margin-right: 20px !important;
+  }
+
+  .tags-wrapper {
+    .md-list-item-inner {
+      align-items: flex-start !important;
+    }
+    md-icon {
+      margin-top: 42px !important;
+    }
+  }
+
+  .keywords-wrapper {
+
+    label {
+      margin-left: 50px;
+    };
+
+    md-chips {
+      margin-left: 50px;
+      display: flex;
+
+      .md-chips {
+        width: 100%;
+      }
+
+    }
+  }
+
+
 
 }

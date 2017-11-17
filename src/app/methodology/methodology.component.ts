@@ -28,6 +28,7 @@ class MethodologyCtrl implements IComponentController {
     private currentState: string = 'trainingPlans';
     private activityTypes: Array<IActivityType> = activityTypes;
     private trainingPlansFilter: ITrainingPlanSearchRequest;
+    private trainingPlansFilterChange: number = 0;
     private filterParams: ReferenceFilterParams = {
         club: null,
         activityType: activityTypes[0],
@@ -83,6 +84,7 @@ class MethodologyCtrl implements IComponentController {
     }
 
     changeTrainingPlansFilter (filter: ITrainingPlanSearchRequest): void {
+        this.trainingPlansFilterChange++;
         this.trainingPlansFilter = filter;
     }
 

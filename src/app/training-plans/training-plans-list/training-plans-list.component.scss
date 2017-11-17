@@ -42,10 +42,16 @@
   }
 
   .keywords {
+    font-weight: 400 !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .keyword {
     padding: 2px 8px;
     background: $grey-300;
     border-radius: 10px;
-    margin: 2px 4px;
+    margin: 2px 4px 2px 0px;
   }
 
   tbody tr {
