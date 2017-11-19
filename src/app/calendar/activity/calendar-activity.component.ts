@@ -1,6 +1,6 @@
 import './calendar-activity.component.scss';
 import moment from 'moment/src/moment.js';
-import {Activity} from '../../activity/activity.datamodel';
+import {Activity} from '../../activity/activity-datamodel/activity.datamodel';
 import {IMessageService} from "../../core/message.service";
 import ActivityService from "../../activity/activity.service";
 import {CalendarService} from "../calendar.service";
@@ -67,7 +67,7 @@ class CalendarActivityCtrl {
         //this.planned = moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'), 'd') < 1;
 
 
-        if (this.data.structured) {
+        if (this.data.isStructured()) {
             let comulativeDuration = 0;
             for (let interval of this.data.activityHeader.intervals) {
                 // Собираем лист сегментов

@@ -143,7 +143,7 @@ export let toDay = (date):Date => {
 /**
  *
  */
-export class Activity extends CalendarItem {
+export class ActivityOld extends CalendarItem {
 
 	public activityHeader: IActivityHeader;
 	public header: ActivityHeader;
@@ -185,18 +185,20 @@ export class Activity extends CalendarItem {
 		this.prepare();
 	}
 
-	completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
+	// TODO delete -> never used
+	/*completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...intervals, this.intervalW);
 		this.intervalL = <Array<ActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
-	}
+	}*/
 
-	hasImport(): boolean {
+	hasIntervalDetails(): boolean {
 		return this.intervals.L.length > 0;
 	}
 
-	completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG | ActivityIntervalU) {
+	// TODO delete -> never used
+	/*completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG | ActivityIntervalU) {
 		//this.header.intervals.push(interval);
 		switch (interval.type) {
 			case 'U': {
@@ -213,11 +215,12 @@ export class Activity extends CalendarItem {
 				break;
 			}
 		}
-	}
+	}*/
 
-	calculateInterval(type: string) {
+	// TODO delete
+	/*calculateInterval(type: string) {
 		switch (type) {
-			/**case 'pW': {
+			case 'pW': {
 				let intervalPW:Interval = new Interval('pW');
 				this.intervalP.forEach(i => {
 
@@ -236,11 +239,12 @@ export class Activity extends CalendarItem {
 				this.intervalPW.movingDurationApprox = this.intervalP.some(i => i.movingDurationApprox);
 				this.intervalPW.distanceApprox = this.intervalP.some(i => i.distanceApprox);
 				break;
-			}**/
+			}
 		}
-	}
+	}*/
 
-	spliceInterval(type: string, id: number) {
+	// TODO перенос в ActivityIntervals
+	/*spliceInterval(type: string, id: number) {
 		switch (type) {
 			case 'P': {
 				this.intervalP.splice(id,1);
@@ -249,7 +253,7 @@ export class Activity extends CalendarItem {
 				break;
 			}
 		}
-	}
+	}*/
 
 	// Подготовка данных для модели отображения
 	prepare() {
@@ -261,9 +265,10 @@ export class Activity extends CalendarItem {
 		// Детали тренировки
 		this.details = new ActivityDetails();
 
-		this.updateIntervals();
+		//this.updateIntervals();
 	}
 
+	// TODO перейти на использование ссылок вида this.intervals.XX
 	updateIntervals(){
 		// Ссылки на интервалы для быстрого доступа
 		this.intervalPW = <ActivityIntervalPW>this.intervals.PW;
@@ -274,7 +279,7 @@ export class Activity extends CalendarItem {
 		this.intervalU = <Array<ActivityIntervalU>>this.intervals.U;
 	}
 
-	get actualDataIsImported(){
+	get hasActualData(){
 		return this.intervalW.actualDataIsImported || false;
 	}
 
@@ -302,6 +307,7 @@ export class Activity extends CalendarItem {
 		};
 	}
 
+	// TODO перенести в ActivityHeader
 	/**
 	 * Вид спорта
 	 * @returns {String}
@@ -401,6 +407,7 @@ export class Activity extends CalendarItem {
 		return ((this.percent && this.completed) && `${this.percent.toFixed(0)}%`);
 	}
 
+	// TODO перенеси в ActivityHeader
 	get id(){
 		return this.header.activityId;
 	}
@@ -547,4 +554,4 @@ export class Activity extends CalendarItem {
 	}
 }
 
-export default Activity;
+export default ActivityOld;

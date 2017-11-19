@@ -1,7 +1,7 @@
 import './dashboard-activity.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
-import {Activity} from "../../activity/activity.datamodel";
+import {Activity} from "../../activity/activity-datamodel/activity.datamodel";
 import {DashboardCtrl} from "../dashboard.component";
 import MessageService from "../../core/message.service";
 import {IUserProfile} from "../../../../api/user/user.interface";

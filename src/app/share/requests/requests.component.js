@@ -51,7 +51,7 @@ class RequestsCtrl {
             this.$scope.$applyAsync();
         });
         
-        this.refreshing = setInterval(() => { this.$scope.$digest() }, 2000);
+        //this.refreshing = setInterval(() => { this.$scope.$digest() }, 2000);
     }
 
     $onDestroy () {

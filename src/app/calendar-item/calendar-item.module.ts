@@ -12,6 +12,7 @@ import CalendarItemTemplateSelectorComponent from "./calendar-item-template-sele
 import { CalendarItemRecordComponent } from "./calendar-item-record/calendar-item-record.component";
 import { CalendarItemRecordConfig } from "./calendar-item-record/calendar-item-record.config";
 import { _translateRecord } from "./calendar-item-record/calendar-item-record.translate";
+import { CalendarItemDialogService } from "./calendar-item-dialog.service";
 
 const CalendarItemMeasurement = module('staminity.calendar-item-measurement', [])
     .component('calendarItemActivity', CalendarItemActivityComponent)
@@ -21,6 +22,7 @@ const CalendarItemMeasurement = module('staminity.calendar-item-measurement', []
     .component('calendarItemAthleteSelector', CalendarItemAthleteSelectorComponent)
     .component('calendarItemTemplateSelector', CalendarItemTemplateSelectorComponent)
     .component('calendarItemRecord', CalendarItemRecordComponent)
+    .service('CalendarItemDialogService', CalendarItemDialogService)
     .constant('calendarItemRecordConfig', CalendarItemRecordConfig)
     .config(['ngQuillConfigProvider', (quill) => quill.set({ modules: {}, theme: 'snow'})])
     .config(['$translateProvider',($translateProvider) => {

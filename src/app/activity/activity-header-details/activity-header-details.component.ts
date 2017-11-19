@@ -73,8 +73,6 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
-        /**this.chartData = new MeasureChartData(
-            this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);**/
         this.prepareIntervals();
     }
 
@@ -85,7 +83,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
             this.selectedIntervals = this.calculateIndex(this.selectionIndex);
         }
         if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue && !this.completeDetails) {
-            this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.activity.details);
+            this.chartData = new MeasureChartData(this.item.activity.header.sportBasic, this.item.activity.intervals.W.calcMeasures, this.item.activity.details);
             this.completeDetails = true;
             this.prepareIntervals();
         }
@@ -112,7 +110,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
 
     getCalcMeasure(selection: Array<string>):ICalcMeasures {
         if (selection.length === 0) {
-            return this.item.activity.intervalW.calcMeasures;
+            return this.item.activity.intervals.W.calcMeasures;
         }
         if (this.item.multiSelection) {
             return this.item.multiSelectionInterval.calcMeasures;

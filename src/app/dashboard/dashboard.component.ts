@@ -10,7 +10,7 @@ import {
     IUserProfile, IUserProfileShort, ITrainingZonesType
 } from "../../../api";
 import { times } from '../share/util.js';
-import {Activity} from "../activity/activity.datamodel";
+import {Activity} from "../activity/activity-datamodel/activity.datamodel";
 import {shiftDate, clearActualDataActivity, updateIntensity, changeUserOwner} from "../activity/activity.function";
 
 

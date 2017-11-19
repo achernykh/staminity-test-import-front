@@ -6,9 +6,9 @@
                                 on-change="$ctrl.checkForm(form)">
     </activity-assignment-header>
 
-    <assignment-summary-non-structured ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.structured)"
+    <assignment-summary-non-structured ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured())"
                                        flex="auto"
-                                       sport="$ctrl.item.activity.sportBasic"
+                                       sport="$ctrl.item.activity.header.sportBasic"
                                        form="$ctrl.item.assignmentForm"
                                        editable="$ctrl.item.mode !== 'view'"
                                        ftp-mode="$ctrl.item.ftpMode"
@@ -16,170 +16,12 @@
                                        on-change="$ctrl.changeForm(form, plan, actual)">
     </assignment-summary-non-structured>
 
-    <assignment-summary-structured ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.structured"
+    <assignment-summary-structured ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.isStructured()"
                                    form="$ctrl.item.assignmentForm"
                                    editable="$ctrl.item.mode !== 'view'"
                                    change="$ctrl.item.templateChangeCount"
                                    on-change="$ctrl.checkForm()">
     </assignment-summary-structured>
-
-    <!--
-    <md-list class="md-dense slim-input bg-grey-100">
-        <md-list-item>
-            <p class="md-caption" style="color: #455A64" translate="activity.assignment.title"></p>
-            <p ng-if="!$ctrl.item.activity.structured"
-               class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
-               style="text-align: right; margin-right: 8px">%ПАНО: {{$ctrl.ftpMode ? 'ВЫКЛ ' : 'ВКЛ'}}</p>
-            <md-switch ng-if="!$ctrl.item.activity.structured"
-                       class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.template"
-                       ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
-            </md-switch>
-        </md-list-item>
-        <md-list-item ng-if="!$ctrl.item.activity.sport">
-            <p class="md-body-1" translate="activity.assignment.needSport"></p>
-        </md-list-item>
-        <md-list-item class="bg-grey-100" ng-if="($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
-            <table md-table
-                   md-row-select="$ctrl.options.rowSelection"
-                   multiple="{{$ctrl.options.multiSelect}}"
-                   ng-model="$ctrl.selected">
-                <thead ng-if="!$ctrl.options.decapitate" md-head>
-                <tr md-row>
-                    <th md-column><span></span></th>
-                    <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
-                    <th md-column md-numeric style="min-width: 80px"><span>План</span></th>
-                    <th md-column md-numeric style="min-width: 55px"><span>Факт</span></th>
-                    <th md-column md-numeric style="min-width: 50px"><span>Вып</span></th>
-                </tr>
-                </thead>
-                <tbody md-body>
-                <tr md-row ng-repeat="measure in ['movingDuration','distance'] track by $index">
-                    <td md-cell>
-                        <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
-                    </td>
-                    <td md-cell><span>{{measure | measureUnit:$ctrl.sport | translate}}</span></td>
-                    <td md-cell>
-                        <span ng-if="$ctrl.item.activity.intervalPW[$ctrl.structuredMeasure[measure].approx]">~</span>
-                        <span>{{$ctrl.item.activity.intervalPW[$ctrl.structuredMeasure[measure].length] | measureCalc:$ctrl.sport:measure}}</span>
-                    </td>
-                    <td md-cell></td>
-                    <td md-cell></td>
-                </tr>
-                </tbody>
-            </table>
-        </md-list-item>
-        <md-list-item class="bg-grey-100" ng-if="($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
-            <md-icon class="material-icons" style="margin-right: 20px">format_list_numbered</md-icon>
-            <p>{{$ctrl.item.activity.intervalP.length}} сегм</p>
-            <md-icon ng-click="$ctrl.item.changeTab('Segments')"
-                     class="md-secondary material-icons">keyboard_arrow_right</md-icon>
-        </md-list-item>
-        <md-list-item class="bg-grey-100" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.structured) && $ctrl.item.activity.sport">
-            <md-table-container>
-                <table md-table
-                       md-row-select="$ctrl.options.rowSelection"
-                       multiple="{{$ctrl.options.multiSelect}}"
-                       ng-model="$ctrl.selected">
-                    <thead ng-if="!$ctrl.options.decapitate" md-head>
-                    <tr md-row>
-                        <th md-column><span></span></th>
-                        <th md-column hide><span>Показатель(ед.изм)</span></th>
-                        <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
-                        <th md-column md-numeric style="min-width: 65px"><span>План</span></th>
-                        <th md-column md-numeric ng-if="!$ctrl.item.template" style="min-width: 50px"><span>Факт</span></th>
-                        <th md-column md-numeric ng-if="!$ctrl.item.template" style="-min-width: 50px"><span>Вып</span></th>
-                    </tr>
-                    </thead>
-                    <tbody md-body>
-                    <tr md-row ng-if="$ctrl.showRow(measure.$key)"
-                        ng-repeat="measure in $ctrl.plan | toArray | filter:search | orderBy:order track by measure.$key">
-                        <td md-cell>
-                            <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="md-dark"></md-icon>
-                        </td>
-                        <td md-cell show>
-                            <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure.$key)">{{'%ПАНО' | translate}}</span>
-                            <span ng-if="!($ctrl.isFTP() && $ctrl.isInterval(measure.$key))">{{measure.$key | measureUnit:$ctrl.sport | translate}}</span>
-                        </td>
-
-                        <td md-cell>
-                            <md-input-container>
-                                <input ng-if="$ctrl.isInterval(measure.$key)" measure-input
-                                       ng-model="measure"
-                                       name="plan_{{::measure.$key}}"
-                                       measure="measure.$key"
-                                       ng-attr-sport={{$ctrl.sport}} interval="true"
-                                       ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                       ng-change="$ctrl.changeValue(measure.$key)"
-                                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
-                                <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
-                                       name="plan_{{::measure.$key}}"
-                                       ng-model="measure.durationValue"
-                                       change="$ctrl.change"
-                                       measure="measure.$key"
-                                       ng-attr-sport={{$ctrl.sport}} interval="false"
-                                       ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                       ng-change="$ctrl.changeValue(measure.$key)"
-                                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
-                            </md-input-container>
-                        </td>
-                        <td md-cell ng-if="!$ctrl.isFTP() && !$ctrl.item.template">
-                            <md-input-container>
-                                <input ng-model="$ctrl.actual[measure.$key][$ctrl.valueType[measure.$key]]"
-                                       name="actual_{{::measure.$key}}" measure-input
-                                       measure="measure.$key"
-                                       ng-attr-sport={{$ctrl.sport}} interval="false"
-                                       ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                       ng-change="$ctrl.changeValue(measure.$key)"
-                                       ng-disabled="$ctrl.item.activity.actualDataIsImported">
-                            </md-input-container>
-                        </td>
-                        <td md-cell ng-if="$ctrl.isFTP() && !$ctrl.item.template">
-                            <md-input-container>
-                                <input ng-if="$ctrl.isInterval(measure.$key)" measure-input
-                                       ng-model="$ctrl.actual[measure.$key]['intensityByFtp']"
-                                       name="actual_{{::measure.$key}}"
-                                       measure="measure.$key"
-                                       ng-attr-sport={{$ctrl.sport}} interval="false"
-                                       ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                       ng-change="$ctrl.changeValue(measure.$key)"
-                                       ng-disabled="$ctrl.item.activity.actualDataIsImported">
-                                <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
-                                       ng-model="$ctrl.actual[measure.$key]['value']"
-                                       name="actual_{{::measure.$key}}"
-                                       measure="measure.$key"
-                                       ng-attr-sport={{$ctrl.sport}} interval="false"
-                                       ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                       ng-change="$ctrl.changeValue(measure.$key)"
-                                       ng-disabled="$ctrl.item.activity.actualDataIsImported">
-                            </md-input-container>
-                        </td>
-                        <td md-cell ng-if="!$ctrl.item.template">
-                            {{$ctrl.percentComplete[measure.$key] | percent}}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </md-table-container>
-        </md-list-item>
-        <div class="md-caption error-block" ng-messages="$ctrl.form.$error" ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
-            <div ng-message="required">{{'activity.error.required' | translate}}</div>
-            <div ng-message="needDuration">{{'activity.error.needDuration' | translate}}</div>
-            <div ng-message="singleDuration">{{'activity.error.singleDuration' | translate}}</div>
-            <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
-            <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
-        </div>
-        <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
-            <md-input-container flex class="md-block no-message">
-                <md-icon class="material-icons md-dark">event_note</md-icon>
-                <label translate="Установка тренера" class="icon"></label>
-                <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
-                          ng-change="$ctrl.changeParam()"
-                          ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
-                          class="icon" name="trainersPrescription"
-                          rows="1"></textarea>
-            </md-input-container>
-        </md-list-item>
-    </md-list>-->
 </fieldset>
 
 <div flex="auto" class="bg-grey-100"></div>

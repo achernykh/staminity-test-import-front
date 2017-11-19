@@ -13,11 +13,11 @@
 
 <activity-metrics-details flex="auto" layout="column" hide show-gt-sm layout="column"
                           has-details="!$ctrl.activity.details.isEmpty"
-                          ng-if="$ctrl.mode !== 'post' && ($ctrl.activity.actualDataIsImported)">
+                          ng-if="$ctrl.mode !== 'post' && ($ctrl.activity.hasActualData())">
 
 </activity-metrics-details>
 <md-button flex="none" class="md-fab md-mini md-accent" aria-label="Use Android" hide show-gt-sm
-           ng-if="$ctrl.popup && $ctrl.mode !== 'post' && ($ctrl.activity.actualDataIsImported)"
+           ng-if="$ctrl.popup && $ctrl.mode !== 'post' && ($ctrl.activity.hasActualData())"
            ng-click="$ctrl.onCancel()">
     <md-icon class="material-icons">close</md-icon>
 </md-button>

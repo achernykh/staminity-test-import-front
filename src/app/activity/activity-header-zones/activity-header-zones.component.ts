@@ -1,6 +1,6 @@
 import './activity-header-zones.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
-import {Activity} from "../activity.datamodel";
+import {Activity} from "../activity-datamodel/activity.datamodel";
 import {ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 
@@ -53,7 +53,7 @@ class ActivityHeaderZonesCtrl implements IComponentController {
 
     $onInit() {
         this.movingDuration = this.item.activity.movingDuration;
-        this.calcMeasures = this.item.activity.intervalW.calcMeasures;
+        this.calcMeasures = this.item.activity.intervals.W.calcMeasures;
         this.factor = this.prepareFactor();
     }
 

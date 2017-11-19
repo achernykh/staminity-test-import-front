@@ -95,13 +95,13 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.$scope.measureOrder.hasOwnProperty(measure.$key) && this.$scope.measureOrder[measure.$key] || 300;
 
         this.$scope.search = (measure) =>
-        this.$scope.measure[this.item.activity.sportBasic || 'default'].indexOf(measure.$key) !== -1;
+        this.$scope.measure[this.item.activity.header.sportBasic || 'default'].indexOf(measure.$key) !== -1;
     }
 
     $onInit() {
         // расчет процента по позициям планогово задания в тренировке
         this.prepareData();
-        this.$scope.measure[this.item.activity.sportBasic || 'default'].forEach(key => {
+        this.$scope.measure[this.item.activity.header.sportBasic || 'default'].forEach(key => {
             this.percentComplete[key] = this.calcPercent(key) || null;
         });
         this.prepareValues();
@@ -144,8 +144,8 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     prepareData(): void {
-        this.plan = this.item.activity.intervalPW;
-        this.actual = this.item.activity.intervalW.calcMeasures;
+        this.plan = this.item.activity.intervals.PW;
+        this.actual = this.item.activity.intervals.W.calcMeasures;
         this.$scope.$evalAsync();
     }
 
@@ -262,12 +262,6 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     validateForm() {
-
-        /**if (this.form.hasOwnProperty('plan_distance')) {
-            this.form.$setValidity('needDuration', this.item.activity.structured || (!this.item.activity.structured &&
-                (this.form.hasOwnProperty('plan_distance') || this.form.hasOwnProperty('plan_movingDuration') ||
-                this.form.hasOwnProperty('actual_distance') || this.form.hasOwnProperty('actual_movingDuration'))));
-        }**/
 
         if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',

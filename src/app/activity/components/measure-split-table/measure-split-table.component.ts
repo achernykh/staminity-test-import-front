@@ -41,7 +41,7 @@ class MeasureSplitTableCtrl implements IComponentController {
     $onInit() {
         //this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
         //this.$scope.selected = [];
-        this.$scope.splits = this.splits.map( (d,i) => {
+        this.$scope.splits = this.splits.filter(i => i.type === 'L').map( (d,i) => {
             d['ind'] = i;
             return d;
         });

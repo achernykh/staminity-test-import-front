@@ -2,10 +2,10 @@
     <md-list-item>
         <p class="md-caption" style="color: #455A64" translate="activity.assignment.title"></p>
     </md-list-item>
-    <md-list-item ng-if="!$ctrl.item.activity.sport">
+    <md-list-item ng-if="!$ctrl.item.activity.header.sport">
         <p class="md-body-1" translate="activity.assignment.needSport"></p>
     </md-list-item>
-    <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.sport">
+    <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.header.sport">
         <table md-table
                md-row-select="$ctrl.options.rowSelection"
                multiple="{{$ctrl.options.multiSelect}}"
@@ -23,19 +23,19 @@
                 <td md-cell>
                     <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
                 </td>
-                <td md-cell><span>{{measure | measureUnit:$ctrl.$ctrl.item.activity.sportBasic | translate}}</span></td>
+                <td md-cell><span>{{measure | measureUnit:$ctrl.$ctrl.item.activity.header.sportBasic | translate}}</span></td>
                 <td md-cell>
-                    <span ng-if="$ctrl.item.activity.intervalPW[$ctrl.structuredMeasure[measure].approx]">~</span>
-                    <span>{{$ctrl.item.activity.intervalPW[$ctrl.structuredMeasure[measure].length] | measureCalc:$ctrl.item.activity.sportBasic:measure}}</span>
+                    <span ng-if="$ctrl.item.activity.intervals.PW[$ctrl.structuredMeasure[measure].approx]">~</span>
+                    <span>{{$ctrl.item.activity.intervals.PW[$ctrl.structuredMeasure[measure].length] | measureCalc:$ctrl.item.activity.header.sportBasic:measure}}</span>
                 </td>
                 <td md-cell>
-                    <span>{{$ctrl.item.activity.intervalW.calcMeasures[measure].value | measureCalc:$ctrl.item.activity.sportBasic:measure}}</span>
+                    <span>{{$ctrl.item.activity.intervals.W.calcMeasures[measure].value | measureCalc:$ctrl.item.activity.header.sportBasic:measure}}</span>
                 </td>
             </tr>
             </tbody>
         </table>
     </md-list-item>
-    <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.sport">
+    <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.header.sport">
         <md-icon class="material-icons" style="margin-right: 20px">format_list_numbered</md-icon>
         <p>{{$ctrl.item.activity.intervals.P.length}} сегм</p>
         <md-icon ng-click="$ctrl.item.changeTab('Segments')"
@@ -48,11 +48,11 @@
         <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
         <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
     </div>
-    <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.sport">
+    <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.header.sport">
         <md-input-container flex class="md-block no-message">
             <md-icon class="material-icons md-dark">event_note</md-icon>
             <label translate="Установка тренера" class="icon"></label>
-            <textarea ng-model="$ctrl.item.activity.intervalPW.trainersPrescription"
+            <textarea ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
                       ng-change="$ctrl.changeParam()"
                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
                       class="icon" name="trainersPrescription"

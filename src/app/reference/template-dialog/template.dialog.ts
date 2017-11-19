@@ -1,6 +1,6 @@
 import { IComponentController, IPromise, element } from 'angular';
 
-import { Activity } from "../../activity/activity.datamodel";
+import { Activity } from "../../activity/activity-datamodel/activity.datamodel";
 import { IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { getType, activityTypes } from "../../activity/activity.constants";

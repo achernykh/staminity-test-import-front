@@ -2,10 +2,10 @@
     <div layout="row">
         <div flex="none" layout="row" layout-align="center center"
              class="bg-circle-56 bg-blue-grey-A700">
-            <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.sportUrl}}"
+            <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}"
                      class="s36 light-active"></md-icon>
-            <md-icon ng-if="$ctrl.item.activity.structured && false"
-                     md-svg-src="assets/icon/{{$ctrl.item.activity.intervalPW.intensityMeasure}}.svg"
+            <md-icon ng-if="$ctrl.item.activity.isStructured() && false"
+                     md-svg-src="assets/icon/{{$ctrl.item.activity.intervals.PW.intensityMeasure}}.svg"
                      style="margin-left: 2px; margin-right: 2px"
                      class="s36 light-active"></md-icon>
         </div>
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div flex="auto" layout="column" class="summary-info">
-            <div flex="none" ng-if="$ctrl.item.activity.category">{{$ctrl.item.activity.category | categoryCode}}</div>
+            <div flex="none" ng-if="$ctrl.item.activity.header.category">{{$ctrl.item.activity.header.category | categoryCode}}</div>
             <div flex="none">
                 <!-- | calcTimezoneTime:$ctrl.item.user.display.timezone -->
                 <span>{{::$ctrl.item.activity.dateStart | date:'medium'}}&nbsp#</span>

@@ -1,9 +1,9 @@
 <md-list class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view' || $ctrl.item.template">
     <md-list-item>
         <md-input-container class="md-block no-message" md-no-float layout="row">
-            <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
+            <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}"></md-icon>
             <md-select flex name="sport" class="icon" required
-                       ng-model="$ctrl.item.activity.sport"
+                       ng-model="$ctrl.item.activity.header.sport"
                        ng-model-options="{ getterSetter: true }"
                        ng-change="$ctrl.changeParam()"
                        ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
@@ -40,7 +40,7 @@
                         ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
                         label="{{ 'reference.categories.' + owner | translate }}">
                     <md-option
-                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.sport, visible: true}:true track by category.id"
+                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.header.sport, visible: true}:true track by category.id"
                             ng-value="category">
                         {{ category | categoryCode }}
                     </md-option>
@@ -60,7 +60,7 @@
         <p translate>{{$ctrl.templateSelectorText}}</p>
         <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>
     </md-list-item>
-    <md-list-item ng-if="$ctrl.item.activity.sport">
+    <md-list-item ng-if="$ctrl.item.activity.header.sport">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">format_list_numbered</md-icon>
         <p translate="activity.assignment.structured"></p>
         <md-switch class="md-secondary md-primary"

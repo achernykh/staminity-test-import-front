@@ -44,7 +44,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
             // Надоли удалять/очищать суммарный интервал? Скорее всего нет, при создании первого структурированного
             // интервала сумарный интервал пересчитается
             this.item.selectedTab = HeaderStructuredTab.Segments;
-            this.item.activity.updateIntervals();
+            //this.item.activity.updateIntervals();
         } else {
             // Переключение со структурированной на не структурированную
             this.item.activity.intervals.stack
@@ -52,7 +52,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
                 .map(i => this.item.activity.intervals.splice(i.type, i.pos, 'single'));
 
             this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);
-            this.item.activity.updateIntervals();
+            //this.item.activity.updateIntervals();
         }
     }
 
