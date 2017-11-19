@@ -22,11 +22,12 @@
     <md-icon class="material-icons">close</md-icon>
 </md-button>
 
-<calendar-item-athlete-selector ng-if="$ctrl.mode === 'post' && $ctrl.showSelectAthletes" ng-cloak
+<calendar-item-athlete-selector ng-if="$ctrl.mode === 'post' && $ctrl.showSelectAthletes"
+                                ng-cloak
                                 coach="$ctrl.currentUser"
-                                athletes="$ctrl.forAthletes"
-                                recalculate-mode="$ctrl.recalculateMode"
-                                on-select="$ctrl.selectAthletes(result, recalculate)">
+                                list="$ctrl.forAthletes"
+                                mode="$ctrl.recalculateMode"
+                                on-select="$ctrl.onSelectAthletes(list,mode)">
 </calendar-item-athlete-selector>
 
 <calendar-item-template-selector ng-if="$ctrl.showSelectTemplate"

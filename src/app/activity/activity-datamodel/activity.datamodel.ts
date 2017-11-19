@@ -12,6 +12,9 @@ import { IGroupProfileShort } from "../../../../api/group/group.interface";
 import { IActivityCategory } from "../../../../api/reference/reference.interface";
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../../reference/reference.datamodel";
 import { pipe, orderBy, prop, groupBy } from "../../share/util.js";
+import { ActivityAuth } from "./activity.auth";
+import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
+import { ActivityAthletes } from "./activity.athletes";
 
 export class Activity extends CalendarItem {
 
@@ -22,6 +25,9 @@ export class Activity extends CalendarItem {
     header: ActivityHeader; // класс для работы с заголовком тренировки
     intervals: ActivityIntervals; // класс для работы с интрвалами тренировки
     details: ActivityDetails; // класс для работы с деталями тренировки (маршрут, показатели..)
+    athletes: ActivityAthletes; // класс для работы с переченем пользователей для планирования
+    auth: ActivityAuth; // класс для работы с полномочиями
+
     // new ActivityAuth
     categoriesList: Array<IActivityCategory> = [];
     categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
@@ -46,14 +52,8 @@ export class Activity extends CalendarItem {
      * @param options - опции
      * @param service - сервис работы с данными
      */
-    constructor (private item: ICalendarItem, options?: any, service?: any) {
+    constructor (private item: ICalendarItem, private options?: ICalendarItemDialogOptions, private service?: any) {
         super(item);
-        // Запоминаем, чтобы парсить только один раз
-        this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
-
-        this.header = new ActivityHeader(item.activityHeader);
-        this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
-        this.details = new ActivityDetails();
     }
 
     // Загружены детали по интервалам L
@@ -249,7 +249,12 @@ export class Activity extends CalendarItem {
 
     // подготовка данных класса
     private prepareData (): void {
-
+        // Запоминаем, чтобы парсить только один раз
+        this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
+        this.header = new ActivityHeader(this.item.activityHeader);
+        this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
+        this.details = new ActivityDetails();
+        this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
     }
 
 }

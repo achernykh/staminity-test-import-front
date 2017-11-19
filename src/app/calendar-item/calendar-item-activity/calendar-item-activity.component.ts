@@ -342,10 +342,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param response
      * @param mode
      */
-    selectAthletes(response, mode: boolean){
+    onSelectAthletes(list, mode: boolean){
         this.showSelectAthletes = false;
         this.recalculateMode = mode;
-        this.forAthletes = response;
+        this.forAthletes = list;
     }
 
     /**
