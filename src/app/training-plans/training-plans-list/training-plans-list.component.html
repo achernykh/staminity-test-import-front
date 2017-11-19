@@ -1,8 +1,8 @@
 <md-list id="training-plans-list__table" class="training-plans-list md-dense" ng-if="$ctrl.totalFound > 0">
-    <md-subheader ng-if="$ctrl.totalFound > 0">
+    <!--<md-subheader ng-if="$ctrl.totalFound > 0">
         <span translate="trainingPlans.filterResult"></span>
         <span ng-bind="$ctrl.totalFound"></span>
-    </md-subheader>
+    </md-subheader>-->
     <md-list-item class="md-2-line"
                   ng-click="$ctrl.edit($event, plan)"
                   ng-repeat-start="plan in $ctrl.getTrainingPlanList() track by plan.id">

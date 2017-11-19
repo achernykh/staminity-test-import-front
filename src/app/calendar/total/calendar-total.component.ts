@@ -27,6 +27,7 @@ class CalendarTotalCtrl implements IComponentController {
 
     public week: ICalendarWeek;
     public selected: boolean;
+    dynamicDates: boolean;
 
     private data: CalendarWeekData;
     private title: string;
@@ -77,7 +78,7 @@ const CalendarTotalComponent: IComponentOptions =  {
         update: '<',
         selected: '<',
         accent: '<',//,
-        trainingPlan: '<',
+        dynamicDates: '<',
         //onToggle: '&'
     },
     require: {

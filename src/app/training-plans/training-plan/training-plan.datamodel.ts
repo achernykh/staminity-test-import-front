@@ -1,7 +1,8 @@
 import {
     ITrainingPlan,
     ITrainingPlanReview,
-    TrainingPlanSearchResultItem, TrainingPlanSearchResultAuthor
+    TrainingPlanSearchResultItem,
+    TrainingPlanSearchResultAuthor
 } from "../../../../api/trainingPlans/training-plans.interface";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
@@ -41,7 +42,6 @@ export class TrainingPlan implements ITrainingPlan {
     startDate?: Date; // дата первой тренировки, если isFixedCalendarDates = true
     event: [string /*code*/, string /*date*/]; // план связан с конкретным спортивным событием
 
-
     private authorProfile: IUserProfileShort;
 
     private keys: Array<string> = ['keys', 'authorProfile'];
@@ -80,6 +80,8 @@ export class TrainingPlan implements ITrainingPlan {
 
     private prepareAuthorObject (): void {
 
+        if ( !this.author ) {return;}
+
         this.authorProfile = {
             userId: null,
             revision: null,
@@ -87,7 +89,7 @@ export class TrainingPlan implements ITrainingPlan {
         };
 
         Object.keys(new TrainingPlanSearchResultAuthor()).map((k: string, i: number) => {
-            if (['userId','revision'].indexOf(k) !== -1) {
+            if ( ['userId', 'revision'].indexOf(k) !== -1 ) {
                 this.authorProfile[k] = this.author[i];
             } else {
                 this.authorProfile.public[k] = this.author[i];
@@ -96,9 +98,10 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     private prepareDefaultData (): void {
-        if (!this.lang) { this.lang = 'ru'; }
-        if (!this.tags) { this.tags = []; }
-        if (!this.keywords) {this.keywords = [];}
+        if ( !this.lang ) { this.lang = 'ru'; }
+        if ( !this.tags ) { this.tags = []; }
+        if ( !this.keywords ) {this.keywords = [];}
+        if ( !this.isFixedCalendarDates ) { this.isFixedCalendarDates = false; }
     }
 
     clear (keys: Array<string> = this.keys): ITrainingPlan {

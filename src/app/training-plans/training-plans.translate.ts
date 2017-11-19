@@ -7,7 +7,9 @@ export const _translateTrainingPlans = {
 
         // табс
         tabs: {
-
+            general: 'Основные параметры',
+            description: 'Описание',
+            commerce: 'Коммерция'
         },
 
         form: {
@@ -37,6 +39,17 @@ export const _translateTrainingPlans = {
         distanceType: {
             label: 'Вид соревнований'
         },
+        isFixedCalendarDates: {
+            label: 'Фиксированные календарные даты',
+            hint: 'Пояснение к фиксированным и гибким календарным датам. Пояснение, что может и так и так и на что это повлияет.'
+        },
+        propagateMods: {
+            label: 'Транслировать изменения плана',
+            hint: 'Пояснения к свойству Трансляции, на что это повлияет'
+        },
+        startDate: {
+            label: 'Начальная дата плана'
+        },
         tags: {
             label: 'Характеристики плана',
             beginner: 'Новичек',
@@ -45,7 +58,7 @@ export const _translateTrainingPlans = {
             powerMeter: 'По мощности',
             hrBelt: 'По пульсу',
             weightLoss: 'Потеря веса',
-            fitness: 'Привести себя в форму',
+            fitness: 'Привести в форму',
             health: 'Здоровье',
         },
         description: {

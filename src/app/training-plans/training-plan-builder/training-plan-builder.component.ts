@@ -14,6 +14,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     currentUser: IUserProfile;
 
     // private
+    private dynamicDates: boolean;
     private weekdayNames: Array<number> = [];
     private calendar: Calendar;
     static $inject = ['$scope', '$anchorScroll', 'CalendarService', 'SessionService'];
@@ -31,7 +32,8 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         this.weekdayNames = moment.weekdays(true);
         this.currentUser = this.session.getUser();
         this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.currentUser);
-        this.calendar.toDate(new Date());
+        this.dynamicDates = !this.plan.isFixedCalendarDates;
+        this.calendar.toDate(this.dynamicDates ? new Date() : this.plan.startDate);
     }
 }
 

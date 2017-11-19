@@ -19,7 +19,7 @@ export const trainingPlanConfig: TrainingPlanConfig = {
         bike: ['multiDays'],
         swim: ['10km','other']
     },
-    tags: ['beginner', 'advanced', 'pro', 'powerMeter', 'hrBelt', 'weightLoss', 'fitness'],
+    tags: ['beginner', 'advanced', 'pro', 'powerMeter', 'hrBelt', 'weightLoss', 'fitness', 'health'],
     defaultSettings: {
         type: 'triathlon',
         distanceType: null,

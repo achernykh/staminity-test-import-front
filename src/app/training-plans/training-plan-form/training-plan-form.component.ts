@@ -31,8 +31,7 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     $onInit () {
         this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
-        this.trainingPlanService.get(this.plan.id)
-            .then(result => this.plan = new TrainingPlan(result), error => {debugger;});
+        this.getPlanDetails();
     }
 
     save () {
@@ -63,6 +62,12 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     setChangeMode (): void {
         this.mode = FormMode.Put;
+    }
+
+    private getPlanDetails (): void {
+        if ( this.mode === FormMode.Post ) { return; }
+        this.trainingPlanService.get(this.plan.id)
+            .then(result => this.plan = new TrainingPlan(result), error => {debugger;});
     }
 
     private toggle (item, list): void {

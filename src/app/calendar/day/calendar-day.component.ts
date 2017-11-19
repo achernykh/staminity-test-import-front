@@ -19,6 +19,7 @@ class CalendarDayCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
     selected: boolean;
+    dynamicDates: boolean;
 
     static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs'];
 
@@ -323,7 +324,7 @@ const CalendarDayComponent: IComponentOptions = {
         currentUser: '<',
         selected: '<',
         accent: '<',
-        trainingPlan: '<',
+        dynamicDates: '<',
         onSelect: '&'
     },
     require: {

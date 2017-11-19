@@ -10,7 +10,9 @@
     <div class="avatar-block" ng-if="false">
         <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
                  profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true">
-            <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
+            <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">
+                Edit
+            </button>
         </userpic>
         <div flex=none hide show-gt-xs>
             <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
@@ -18,20 +20,12 @@
     </div>
 </md-toolbar>
 <md-dialog-content flex="auto" layout="column">
-    <md-tabs flex="auto" layout-fill md-stretch-tabs="always" ng-cloak class="md-primary">
-        <md-tab id="general" flex="auto" layout="column">
-            <md-tab-label><span translate="trainingPlans.tabs.general"></span></md-tab-label>
-            <md-tab-body layout="column" layout-fill>
-                <form flex="auto" layout="column" name="$ctrl.planForm">
+    <form flex="auto" layout="column" name="$ctrl.planForm">
+        <md-tabs flex="auto" layout-fill md-stretch-tabs="always" ng-cloak class="md-primary">
+            <md-tab id="general" flex="auto" layout="column">
+                <md-tab-label><span translate="trainingPlans.tabs.general"></span></md-tab-label>
+                <md-tab-body layout="column" layout-fill>
                     <md-list flex="auto" class="md-dense">
-                        <!--<md-subheader class="md-no-sticky">{{'analytics.settings.params' | translate}}</md-subheader>-->
-                        <md-list-item>
-                            <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
-                            <p translate="trainingPlans.isPublic.label"></p>
-                            <md-switch class="md-primary"
-                                       name="isPublic"
-                                       ng-model="$ctrl.plan.isPublic"></md-switch>
-                        </md-list-item>
                         <!-- Название плана -->
                         <md-list-item>
                             <md-input-container class="md-block no-message" layout="row">
@@ -97,6 +91,47 @@
                                 </div>
                             </md-input-container>
                         </md-list-item>
+                        <!-- Комерческий план -->
+                        <md-list-item>
+                            <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
+                            <p translate="trainingPlans.isPublic.label"></p>
+                            <md-switch class="md-primary"
+                                       name="isPublic"
+                                       ng-model="$ctrl.plan.isPublic"></md-switch>
+                        </md-list-item>
+                        <!-- Тип каледарной сетки: динамичский или с фиксированными датами -->
+                        <md-list-item class="md-2-line">
+                            <md-icon flex="none" class="material-icons md-dark dense">schedule</md-icon>
+                            <div class="md-list-item-text">
+                                <h3 translate="trainingPlans.isFixedCalendarDates.label"></h3>
+                                <p translate="trainingPlans.isFixedCalendarDates.hint"></p>
+                            </div>
+                            <md-switch class="md-primary"
+                                       name="isFixedCalendarDates"
+                                       ng-model="$ctrl.plan.isFixedCalendarDates"></md-switch>
+                        </md-list-item>
+                        <!-- Начальная дата плана -->
+                        <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.plan.isFixedCalendarDates">
+                            <md-input-container flex="auto" class="no-message">
+                                <label translate="trainingPlans.startDate.label"></label>
+                                <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
+                                <md-datepicker flex="auto"
+                                               ng-model="$ctrl.plan.startDate"
+                                               name="startDate" md-hide-icons="calendar">
+                                </md-datepicker>
+                            </md-input-container>
+                        </md-list-item>
+                        <!-- Транслирование изменений плана -->
+                        <md-list-item class="md-2-line" ng-if="$ctrl.plan.isFixedCalendarDates">
+                            <md-icon flex="none" class="material-icons md-dark dense">sync</md-icon>
+                            <div class="md-list-item-text">
+                                <h3 translate="trainingPlans.propagateMods.label"></h3>
+                                <p translate="trainingPlans.propagateMods.hint"></p>
+                            </div>
+                            <md-switch class="md-primary"
+                                       name="propagateMods"
+                                       ng-model="$ctrl.plan.propagateMods"></md-switch>
+                        </md-list-item>
                         <!-- Характеристики плана -->
                         <md-list-item class="tags-wrapper">
                             <md-icon flex="none" class="md-dark dense" md-svg-src="/assets/icon/tags.svg"></md-icon>
@@ -114,17 +149,10 @@
                             </div>
                         </md-list-item>
                         <!-- Описание плана -->
-                        <md-list-item layout="row" layout-align="start start">
+                        <!--<md-list-item layout="row" layout-align="start start">
                             <md-icon flex="none" class="md-dark material-icons dense">subject</md-icon>
-                            <ng-quill-editor ng-if="true" flex="auto"
-                                             ng-model="$ctrl.plan.description"
-                                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
-                                             modules="$ctrl.quillConf.toolbarFull"
-                                             on-content-changed="$ctrl.changeForm()"
-                                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                                             read-only="$ctrl.isViewMode">
-                            </ng-quill-editor>
-                            <!--<md-input-container class="md-block no-message" layout="row">
+
+                            <md-input-container class="md-block no-message" layout="row">
                                 <label translate="trainingPlans.description.label"></label>
                                 <textarea flex="auto"
                                           name="description"
@@ -141,8 +169,8 @@
                                          translate="form.rangeStr" translate-values="{min:2, max:100}">
                                     </div>
                                 </div>
-                            </md-input-container>-->
-                        </md-list-item>
+                            </md-input-container>
+                        </md-list-item>-->
                         <!-- Ключевые слова -->
                         <md-list-item class="keywords-wrapper">
                             <md-input-container class="md-block no-message" layout="row">
@@ -196,22 +224,30 @@
                                 </div>
                             </md-input-container>
                         </md-list-item>
-                    </md-list><!--
-                    <md-divider></md-divider>
-                    <md-list-item>
-                        <p class="md-caption md-dark md-inactive">План содержит {{$ctrl.plan.calendarItems.length}}
-                            записей</p>
-                    </md-list-item>-->
-                </form>
-            </md-tab-body>
-        </md-tab>
-        <md-tab id="info" flex="auto" layout="column" ng-if="$ctrl.plan.isPublic">
-            <md-tab-label><span translate="trainingPlans.tabs.info"></span></md-tab-label>
-            <md-tab-body layout="column" layout-fill>
-                <p>second</p>
-            </md-tab-body>
-        </md-tab>
-    </md-tabs>
+                    </md-list>
+                </md-tab-body>
+            </md-tab>
+            <md-tab id="description" flex="auto" layout="column">
+                <md-tab-label><span translate="trainingPlans.tabs.description"></span></md-tab-label>
+                <md-tab-body layout="column" layout-fill>
+                    <ng-quill-editor ng-if="true" flex="auto"
+                                     ng-model="$ctrl.plan.description"
+                                     placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                                     modules="$ctrl.quillConf.toolbarFull"
+                                     on-content-changed="$ctrl.changeForm()"
+                                     ng-class="{'hide-toolbar': $ctrl.isViewMode}"
+                                     read-only="$ctrl.isViewMode">
+                    </ng-quill-editor>
+                </md-tab-body>
+            </md-tab>
+            <md-tab id="commerce" flex="auto" layout="column" ng-if="$ctrl.plan.isPublic">
+                <md-tab-label><span translate="trainingPlans.tabs.commerce"></span></md-tab-label>
+                <md-tab-body layout="column" layout-fill>
+                    <p>second</p>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </form>
 </md-dialog-content>
 <md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>

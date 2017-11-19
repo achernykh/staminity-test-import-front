@@ -46,6 +46,13 @@ md-dialog#training-plan-form{
     }
   }
 
+  md-input-container._md-datepicker-floating-label {
+    label {  transform: translate3d(42px, 6px, 0) scale(0.75); }
+    md-datepicker {  margin-left: 41px;  }
+    .md-datepicker-input-container {  width: calc(100% - 43px);  }
+    input {  max-width: 100%;  }
+  }
+
   .ql-editor {
     padding: 16px 0px;
   }

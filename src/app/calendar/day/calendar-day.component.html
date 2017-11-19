@@ -7,8 +7,8 @@
                 {{::$ctrl.data.month | uppercase}}
             </div>-->
             <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px" hide show-gt-sm>
-                <span>{{::($ctrl.trainingPlan ? $ctrl.data.pos : $ctrl.data.title)}}</span>
-                <span ng-if="$ctrl.data.title == '01' && !$ctrl.trainingPlan" style="margin-left: 0.4em;">{{::$ctrl.data.month}}</span>
+                <span>{{::($ctrl.dynamicDates ? $ctrl.data.pos : $ctrl.data.title)}}</span>
+                <span ng-if="$ctrl.data.title == '01' && !$ctrl.dynamicDates" style="margin-left: 0.4em;">{{::$ctrl.data.month}}</span>
             </div>
             <div hide-gt-sm class="md-title day">{{::$ctrl.data.title}}</div>
             <div hide-gt-sm class="md-caption weekday">{{::$ctrl.data.day}}</div>

@@ -195,13 +195,7 @@ export class Calendar {
             let date = moment(start).add(i, 'd');
             let calendarItems = items
                 .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
-                .map(item => {
-                    //if(item.calendarItemType === 'activity') {
-                    item['index'] = Number(`${item.calendarItemId}${item.revision}`);
-                    //}
-                    return item;
-                });
-
+                .map(item => Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)}));
             return this.dayItem(date, calendarItems);
         });
 

@@ -62,7 +62,7 @@
                         data="day.data"
                         owner="$ctrl.user"
                         current-user="$ctr.user"
-                        training-plan="true"
+                        dynamic-day="true"
                         on-select="day.selected = !day.selected">
                 </calendar-day>
 
@@ -77,7 +77,7 @@
                         update="week.changes"
                         week="week"
                         user="$ctrl.user"
-                        training-plan="true"
+                        dynamic-dates="$ctrl.dynamicDates"
                         on-toggle="$ctrl.onToggleWeek(sid, value)">
                     <div class="md-body-1">Неделя {{$index}}</div>
                 </calendar-total>
