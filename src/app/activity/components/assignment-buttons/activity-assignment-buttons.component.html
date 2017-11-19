@@ -14,7 +14,7 @@
                ng-click="$ctrl.item.onReset($ctrl.item.activity.view.isPost ? 'post' : 'view' )"
                translate="activity.reset">
     </md-button>
-    <md-button ng-if="$ctrl.item.activity.view.isView"
+    <md-button ng-if="!$ctrl.item.activity.view.isView"
                type="submit"
                ng-disabled="!$ctrl.item.assignmentForm.$valid || $ctrl.item.inAction"
                ng-class="{'md-warn': !$ctrl.item.assignmentForm.$valid}"
@@ -35,11 +35,15 @@
                translate="activity.save"
                ng-click="$ctrl.item.onSaveTemplate()">
     </md-button>
-
 </md-dialog-actions>
 <!-- Панель для Тренировки в Долгосрочном плане -->
 <md-dialog-actions ng-if="$ctrl.item.activity.view.isTrainingPlan"
                    flex="none" layout="row" style="background: white">
     <span flex></span>
-
+    <md-button ng-if="!$ctrl.item.activity.view.isView"
+               type="submit"
+               ng-disabled="!$ctrl.item.assignmentForm.$dirty || !$ctrl.item.assignmentForm.$valid"
+               translate="activity.save"
+               ng-click="$ctrl.item.onSaveTrainingPlanActivity()">
+    </md-button>
 </md-dialog-actions>

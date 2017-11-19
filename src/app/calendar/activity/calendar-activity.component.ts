@@ -17,6 +17,8 @@ class CalendarActivityCtrl {
     accent: boolean;
 
     data: Activity;
+    trainingPlanMode: boolean;
+
     isCreator: boolean = false;
     structured: boolean;
     segmentList: Array<any> = [];
@@ -38,7 +40,11 @@ class CalendarActivityCtrl {
     }
 
     $onInit() {
-        this.data = new Activity(this.item);
+        this.data = new Activity(this.item, {
+            currentUser: this.currentUser,
+            owner: this.owner,
+            trainingPlanMode: this.trainingPlanMode
+        });
         //this.data.prepare();
         this.isCreator = this.data.userProfileCreator.userId === this.currentUser.userId;
         //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
@@ -349,6 +355,7 @@ const CalendarActivityComponent: IComponentOptions = {
         currentUser: '<',
         selected: '<',
         accent: '<',
+        trainingPlanMode: '<',
         onSelect: '&'
     },
     require: {

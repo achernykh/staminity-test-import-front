@@ -32,6 +32,7 @@ import {ActivityIntervalPW} from "../../activity/activity-datamodel/activity.int
 import {ActivityIntervalL} from "../../activity/activity-datamodel/activity.interval-l";
 import {ActivityIntervalP} from "../../activity/activity-datamodel/activity.interval-p";
 import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
+import { TrainingPlansService } from "@app/training-plans/training-plans.service";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -133,7 +134,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private types: Array<IActivityType> = [];
 
     static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
-        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService'];
+        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService'];
 
     constructor(
         private $scope: IScope,
@@ -147,7 +148,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private $mdMedia: any,
         private $mdDialog: any,
         private dialogs: any,
-        private ReferenceService: ReferenceService) {
+        private ReferenceService: ReferenceService,
+        private trainingPlansService: TrainingPlansService) {
 
     }
 
@@ -567,6 +569,20 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 this.message.toastError(error);
             }
         });
+    }
+
+    onSaveTrainingPlanActivity(): void {
+        this.inAction = true;
+        if (this.activity.view.isPost) {
+            debugger;
+            this.trainingPlansService.postItem(this.options.planId, this.activity.build(), true)
+                .then((response)=> {
+                    this.activity.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('activityCreated');
+                    this.onAnswer({response: {type:'post', item:this.activity}});
+                }, error => this.message.toastError(error))
+                .then(() => this.inAction = false);
+        }
     }
 
     onSaveTemplate() {

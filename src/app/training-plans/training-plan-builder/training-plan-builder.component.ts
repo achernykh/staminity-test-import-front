@@ -31,7 +31,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     $onInit() {
         this.weekdayNames = moment.weekdays(true);
         this.currentUser = this.session.getUser();
-        this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.currentUser);
+        this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.currentUser, this.plan.calendarItems);
         this.dynamicDates = !this.plan.isFixedCalendarDates;
         this.calendar.toDate(this.dynamicDates ? new Date() : this.plan.startDate);
     }

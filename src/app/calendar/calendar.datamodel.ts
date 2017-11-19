@@ -1,9 +1,11 @@
 import moment from 'moment/min/moment-with-locales.js';
+import { Moment } from 'moment';
 import { times } from '../share/util.js';
 import { IScope, IAnchorScrollService } from 'angular';
 import { ICalendarWeek, ICalendarDay } from "./calendar.interface";
 import { CalendarService } from "./calendar.service";
 import { IUserProfile } from "../../../api/user/user.interface";
+import { ICalendarItem } from "@api/calendar";
 
 export class Calendar {
 
@@ -21,7 +23,8 @@ export class Calendar {
         private $scope: IScope,
         private $anchorScroll: IAnchorScrollService,
         private calendarService: CalendarService,
-        private owner: IUserProfile) {
+        private owner: IUserProfile,
+        private cache?: Array<ICalendarItem>) {
 
     }
 
@@ -199,16 +202,38 @@ export class Calendar {
             return this.dayItem(date, calendarItems);
         });
 
-        let loading = this.calendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.owner.userId)
-            .then(items => {
-                week.subItem = days(items);
-                week.changes++;
-                return week;
-            });
+        let loading = this.hasCache ?
+
+            this.getItemsFromCache(this.cache, start, end)
+                .then(items => {
+                    week.subItem = days(items);
+                    week.changes++;
+                    return week;
+                }) :
+
+            this.calendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.owner.userId)
+                .then(items => {
+                    week.subItem = days(items);
+                    week.changes++;
+                    return week;
+                });
 
         let week = this.weekItem(index, start, days([]), loading);
 
         return week;
+    }
+
+    private get hasCache (): boolean {
+        return !!this.cache;
+    }
+
+    private getItemsFromCache (cache: Array<ICalendarItem>, dateStart: Moment, dateFinish: Moment): Promise<Array<ICalendarItem>> {
+
+        return new Promise(resolve => {
+            return resolve(cache.filter(item =>
+                moment(item.dateStart).isSameOrAfter(dateStart, 'day') &&
+                moment(item.dateStart).isSameOrBefore(dateFinish, 'day')));
+        });
     }
 
 }

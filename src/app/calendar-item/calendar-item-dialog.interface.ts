@@ -22,4 +22,5 @@ export interface ICalendarItemDialogOptions {
     // Образы создания
     templateMode?: boolean;
     trainingPlanMode?: boolean;
+    planId?: number;
 }

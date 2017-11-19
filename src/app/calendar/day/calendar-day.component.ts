@@ -24,7 +24,8 @@ class CalendarDayCtrl {
     currentUser: IUserProfile;
     selected: boolean;
     dynamicDates: boolean;
-    trainingPlan: boolean;
+    trainingPlanMode: boolean;
+    planId: number;
 
     static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs', 'CalendarItemDialogService'];
 
@@ -149,7 +150,8 @@ class CalendarDayCtrl {
             owner: this.owner,
             popupMode: true,
             formMode: FormMode.Post,
-            trainingPlanMode: this.trainingPlan
+            trainingPlanMode: this.trainingPlanMode,
+            planId: this.planId
         };
 
         this.calendarItemDialog.activity(e, FormMode.Post, options)
@@ -345,7 +347,8 @@ const CalendarDayComponent: IComponentOptions = {
         selected: '<',
         accent: '<',
         dynamicDates: '<',
-        trainingPlan: '<',
+        trainingPlanMode: '<',
+        planId: '<',
         onSelect: '&'
     },
     require: {

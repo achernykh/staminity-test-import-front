@@ -75,8 +75,10 @@ export class Activity extends CalendarItem {
     // Тренировка сегодя
     isToday (): boolean { return this._startDate.getTime() === toDay(new Date()).getTime(); }
 
-    // Трениовка в будущем
-    isComing (): boolean { return this._startDate.getTime() >= toDay(new Date()).getTime(); }
+    // Тренировка в будущем
+    isComing (): boolean { return (this.options && this.options.hasOwnProperty('trainingPlanMode') && this.options.trainingPlanMode) ||
+        (this.options && this.options.hasOwnProperty('templateMode') && this.options.templateMode) ||
+        this._startDate.getTime() >= toDay(new Date()).getTime(); }
 
     // Тренировка пропущена
     isDismissed (): boolean { return this.status === 'dismiss'; }
@@ -255,7 +257,7 @@ export class Activity extends CalendarItem {
         this.header = new ActivityHeader(this.item.activityHeader);
         this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
         this.details = new ActivityDetails();
-        this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
+        //this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
 
     }
 

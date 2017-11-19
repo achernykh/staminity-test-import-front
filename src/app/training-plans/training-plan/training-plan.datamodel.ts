@@ -44,7 +44,7 @@ export class TrainingPlan implements ITrainingPlan {
 
     private authorProfile: IUserProfileShort;
 
-    private keys: Array<string> = ['keys', 'authorProfile'];
+    private keys: Array<string> = ['keys', 'revision', 'authorProfile'];
 
     constructor (params?: Object | ITrainingPlan | Array<any>) {
 
