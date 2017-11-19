@@ -53,7 +53,8 @@ export class Activity extends CalendarItem {
      * @param service - сервис работы с данными
      */
     constructor (private item: ICalendarItem, private options?: ICalendarItemDialogOptions, private service?: any) {
-        super(item);
+        super(item, options);
+        this.prepareData();
     }
 
     // Загружены детали по интервалам L
@@ -255,6 +256,7 @@ export class Activity extends CalendarItem {
         this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
         this.details = new ActivityDetails();
         this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
+
     }
 
 }

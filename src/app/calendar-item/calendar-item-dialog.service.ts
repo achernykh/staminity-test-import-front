@@ -22,7 +22,7 @@ export class CalendarItemDialogService {
     activity (env: Event,
               mode: FormMode,
               options: ICalendarItemDialogOptions,
-              activity: Activity = this.activityFromOptions(options)): Promise<any> {
+              activity: Activity | ICalendarItem = this.activityFromOptions(options)): Promise<any> {
 
         return this.$mdDialog.show({
             controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
@@ -34,12 +34,8 @@ export class CalendarItemDialogService {
             template: `<md-dialog id="post-activity" aria-label="Activity">
                             <calendar-item-activity
                                 layout="row" class="calendar-item-activity"
-                                date="$ctrl.activity"
-                                mode="$ctrl.mode"
-                                user="$ctrl.user"
-                                popup="$ctrl.options.popup"
-                                template="$ctrl.options.template"
-                                training-plan="$ctrl.options.trainingPlan"
+                                data="$ctrl.activity"
+                                options="$ctrl.options"
                                 on-cancel="cancel()" on-answer="answer(mode,response)">
                             </calendar-item-activity>
                         </md-dialog>`,
@@ -62,8 +58,8 @@ export class CalendarItemDialogService {
      * @param options
      * @returns {Activity}
      */
-    private activityFromOptions (options: ICalendarItemDialogOptions): Activity {
-        let item: ICalendarItem = {
+    private activityFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+        return {
             calendarItemId: null,
             calendarItemType: 'activity',
             revision: null,
@@ -78,10 +74,6 @@ export class CalendarItemDialogService {
             userProfileCreator: profileShort(options.currentUser),
             groupProfile: options.groupCreator
         };
-        let params: any = {
-            isTemplate: options.template || false
-        };
-        return new Activity(item);
     }
 
 }

@@ -1,6 +1,6 @@
 <md-toolbar flex="none" class="{{$ctrl.item.activity.status}}">
     <div class="md-toolbar-tools" ng-cloak>
-        <md-menu flex-order="{{$ctrl.item.popup ? 1 : 6}}"
+        <md-menu flex-order="{{$ctrl.item.activity.view.isPopup ? 1 : 6}}"
                  md-position-mode="target-right target" md-offset="0 60">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
                        aria-label="User">
@@ -9,7 +9,7 @@
             <md-menu-content width="4">
                 <md-menu-item>
                     <md-button ng-click="$ctrl.item.onDelete()"
-                               ng-disabled="!($ctrl.item.mode !== 'post' && $ctrl.item.isCreator)">
+                               ng-disabled="!(!$ctrl.item.activity.view.isPost && $ctrl.item.isCreator)">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                         <span translate="measurement.toolbar.delete"></span>
                     </md-button>
@@ -42,7 +42,7 @@
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
         </md-button>
-        <md-button flex-order="{{$ctrl.item.popup ? 6 : 1}}" class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
+        <md-button flex-order="{{$ctrl.item.activity.view.isPopup ? 6 : 1}}" class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
@@ -96,7 +96,7 @@
                 </activity-header-splits>
             </md-tab-body>
         </md-tab>
-        <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post' && !$ctrl.item.template"
+        <md-tab id="chat" flex layout="column" ng-if="!($ctrl.item.activity.view.isPost || $ctrl.item.view.isTemplate)"
                 md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
             <md-tab-label>
                 <md-icon class="material-icons">chat</md-icon>

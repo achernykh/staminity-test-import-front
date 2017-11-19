@@ -3,6 +3,39 @@ import moment from 'moment/src/moment.js';
 import {IMeasurementHeader, ICalendarItem, IEventHeader} from "../../../api/calendar/calendar.interface";
 import {IUserProfileShort} from "../../../api/user/user.interface";
 import {IActivityHeader} from "../../../api/activity/activity.interface";
+import { ICalendarItemDialogOptions } from "./calendar-item-dialog.interface";
+import { FormMode } from "../application.interface";
+
+export class CalendarItemView {
+
+	constructor(private options: ICalendarItemDialogOptions) {
+
+	}
+
+	get isPopup (): boolean {
+		return !!this.options.popupMode;
+	}
+
+	get isTemplate (): boolean {
+		return !!this.options.templateMode;
+	}
+
+	get isTrainingPlan (): boolean {
+		return !!this.options.trainingPlanMode;
+	}
+
+	get isPost (): boolean {
+		return this.options.formMode === FormMode.Post;
+	}
+
+	get isPut (): boolean {
+		return this.options.formMode === FormMode.Put;
+	}
+
+	get isView (): boolean {
+		return this.options.formMode === FormMode.View;
+	}
+}
 
 export class CalendarItem implements ICalendarItem {
 
@@ -19,8 +52,11 @@ export class CalendarItem implements ICalendarItem {
 	public _dateEnd: Date;
 	public index: number; // index for ng-repeat in calendar-day component
 
-	constructor(item: ICalendarItem) {
+	view: CalendarItemView;
+
+	constructor(item: ICalendarItem, options?: ICalendarItemDialogOptions) {
 		merge(this,item); // deep copy
+		this.view = new CalendarItemView(options);
 	}
 
 	// Подготовка данных для модели отображения

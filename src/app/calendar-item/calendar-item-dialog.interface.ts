@@ -2,6 +2,7 @@ import { IUserProfile } from "@api/user";
 import { IActivityType } from "@api/activity";
 import { IActivityCategory } from "@api/reference";
 import { IGroupProfileShort } from "@api/group";
+import { FormMode } from "../application.interface";
 
 enum CalendarItemTabs {
 
@@ -15,9 +16,10 @@ export interface ICalendarItemDialogOptions {
     owner: IUserProfile;
     groupCreator?: IGroupProfileShort;
     currentTab?: CalendarItemTabs;
+    formMode?: FormMode;
     // вид
-    popup?: boolean;
+    popupMode?: boolean;
     // Образы создания
-    template?: boolean;
-    trainingPlan?: boolean;
+    templateMode?: boolean;
+    trainingPlanMode?: boolean;
 }

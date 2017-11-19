@@ -31,6 +31,7 @@ import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {ActivityIntervalPW} from "../../activity/activity-datamodel/activity.interval-pw";
 import {ActivityIntervalL} from "../../activity/activity-datamodel/activity.interval-l";
 import {ActivityIntervalP} from "../../activity/activity-datamodel/activity.interval-p";
+import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -66,6 +67,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     date: Date;
     data: any;
+    options: ICalendarItemDialogOptions;
     activityType: IActivityType;
     activityCategory: IActivityCategory;
     details: IActivityDetails;
@@ -156,9 +158,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-        this.currentUser = this.SessionService.getUser();
+        //this.currentUser = this.SessionService.getUser();
 
-        if (this.mode === 'post' && !this.template) {
+        if ( this.options ) {
+            ///this.mode = this.options.formMode;
+            this.popup = this.options.popupMode;
+            this.currentUser = this.options.currentUser;
+            this.user = this.options.owner;
+        }
+
+        /**if (this.mode === 'post' && !this.template) {
             this.data = {
                 isTemplate: this.template,
                 calendarItemType: 'activity',
@@ -172,9 +181,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 userProfileCreator: profileShort(this.currentUser),
                 groupProfile: this.club
             };
-        }
+        }**/
 
-        this.activity = new Activity(this.data);
+        this.activity = new Activity(this.data, this.options);
 
         this.types = activityTypes; // Список видов спорта
         this.structuredMode = this.activity.isStructured();
@@ -189,9 +198,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareDetails(){
-        if (!this.template) {
+        if (!this.activity.view.isTemplate) {
             //Получаем детали по тренировке загруженной из внешнего источника
-            if (this.mode !== 'post' && this.activity.hasActualData()) {
+            if (!this.activity.view.isPost && this.activity.hasActualData()) {
                 let intervalsType: Array<string> = this.activity.isStructured() ? ['L','P','G'] : ['L'];
                 this.ActivityService.getIntervals(this.activity.activityHeader.activityId, intervalsType)
                     .then(response => this.activity.intervals.add(response, 'update'),
@@ -517,7 +526,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     // могут вызваны из любого другого представления
     onSave() {
         this.inAction = true;
-        if (this.mode === 'post') {
+        if (this.activity.view.isPost) {
             let athletes: Array<{profile: IUserProfile, active: boolean}> = [];
             athletes.push(...this.forAthletes.filter(athlete => athlete.active));
             athletes.forEach(athlete => {
@@ -536,7 +545,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then(() => this.inAction = false);
             });
         }
-        if (this.mode === 'put') {
+        if (this.activity.view.isPut) {
             this.CalendarService.putItem(this.activity.build())
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
@@ -662,6 +671,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
         activityCategory: '<',
         club: '<',
         data: '<', // в режиме просмотр/изменение передает данные по тренировке из календаря
+        options: '<',
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию

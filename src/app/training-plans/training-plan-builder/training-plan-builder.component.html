@@ -60,9 +60,10 @@
                         selected="day.selected"
                         accent="accentDay"
                         data="day.data"
-                        owner="$ctrl.user"
-                        current-user="$ctr.user"
+                        owner="$ctrl.currentUser"
+                        current-user="$ctrl.currentUser"
                         dynamic-day="true"
+                        training-plan="true"
                         on-select="day.selected = !day.selected">
                 </calendar-day>
 
@@ -76,7 +77,7 @@
                         accent="accentTotal"
                         update="week.changes"
                         week="week"
-                        user="$ctrl.user"
+                        user="$ctrl.currentUser"
                         dynamic-dates="$ctrl.dynamicDates"
                         on-toggle="$ctrl.onToggleWeek(sid, value)">
                     <div class="md-body-1">Неделя {{$index}}</div>

@@ -1,29 +1,45 @@
-<md-dialog-actions flex="none" layout="row" style="background: white">
+<!-- Панель для Тренировки -->
+<md-dialog-actions ng-if="!($ctrl.item.activity.view.isTrainingPlan || $ctrl.item.activity.view.isTemplate)"
+                   flex="none" layout="row" style="background: white">
     <span flex></span>
-    <md-button ng-if="$ctrl.item.mode === 'view' && $ctrl.item.template"
-               ng-click="$ctrl.item.onCancel()"
-               translate="activity.close">
-    </md-button>
-    <md-button ng-if="$ctrl.item.mode === 'view' && $ctrl.item.template" type="submit"
-               ng-disabled="!$ctrl.item.assignmentForm.$dirty || !$ctrl.item.assignmentForm.$valid"
-               ng-click="$ctrl.item.onSaveTemplate()"
-               translate="activity.save">
-    </md-button>
-    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template && $ctrl.item.activity.specified"
+    <md-button ng-if="$ctrl.item.activity.view.isView && !$ctrl.item.template && $ctrl.item.activity.specified"
                ng-click="$ctrl.item.toTemplate()"
                translate="activity.toTemplate">
     </md-button>
-    <md-button ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template"
+    <md-button ng-if="$ctrl.item.activity.view.isView"
                ng-click="$ctrl.item.changeMode('put')"
                translate="activity.edit">
     </md-button>
-    <md-button ng-if="$ctrl.item.mode !== 'view'"
-               ng-click="$ctrl.item.onReset($ctrl.item.mode === 'post' ? 'post' : 'view' )"
+    <md-button ng-if="!$ctrl.item.activity.view.isView"
+               ng-click="$ctrl.item.onReset($ctrl.item.activity.view.isPost ? 'post' : 'view' )"
                translate="activity.reset">
     </md-button>
-    <md-button ng-if="$ctrl.item.mode !== 'view'" type="submit"
+    <md-button ng-if="$ctrl.item.activity.view.isView"
+               type="submit"
                ng-disabled="!$ctrl.item.assignmentForm.$valid || $ctrl.item.inAction"
                ng-class="{'md-warn': !$ctrl.item.assignmentForm.$valid}"
                ng-click="$ctrl.onSave()" translate="activity.save">
     </md-button>
+</md-dialog-actions>
+<!-- Панель для Шаблона тренировки -->
+<md-dialog-actions ng-if="$ctrl.item.activity.view.isTemplate"
+                   flex="none" layout="row" style="background: white">
+    <span flex></span>
+    <md-button ng-if="$ctrl.item.activity.view.isView"
+               translate="activity.close"
+               ng-click="$ctrl.item.onCancel()">
+    </md-button>
+    <md-button ng-if="$ctrl.item.activity.view.isView"
+               type="submit"
+               ng-disabled="!$ctrl.item.assignmentForm.$dirty || !$ctrl.item.assignmentForm.$valid"
+               translate="activity.save"
+               ng-click="$ctrl.item.onSaveTemplate()">
+    </md-button>
+
+</md-dialog-actions>
+<!-- Панель для Тренировки в Долгосрочном плане -->
+<md-dialog-actions ng-if="$ctrl.item.activity.view.isTrainingPlan"
+                   flex="none" layout="row" style="background: white">
+    <span flex></span>
+
 </md-dialog-actions>

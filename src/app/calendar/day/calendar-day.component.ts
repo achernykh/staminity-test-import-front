@@ -11,17 +11,22 @@ import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {isSpecifiedActivity, isCompletedActivity, clearActualDataActivity} from "../../activity/activity.function";
 import { IUserProfile } from "@api/user";
 import { getCalendarItem } from "../../calendar-item/calendar-item.function";
+import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
+import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
+import { FormMode } from "../../application.interface";
 
 class CalendarDayCtrl {
 
+    // bind
     today: any;
     data: ICalendarDayData;
     owner: IUserProfile;
     currentUser: IUserProfile;
     selected: boolean;
     dynamicDates: boolean;
+    trainingPlan: boolean;
 
-    static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs'];
+    static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs', 'CalendarItemDialogService'];
 
     constructor(
         private $mdDialog: any,
@@ -29,7 +34,7 @@ class CalendarDayCtrl {
         private ActivityService: ActivityService,
         private CalendarService: CalendarService,
         private $scope: IScope,
-        private dialogs: any){
+        private dialogs: any, private calendarItemDialog: CalendarItemDialogService){
 
     }
 
@@ -135,6 +140,21 @@ class CalendarDayCtrl {
 
             }).then(response => {}, ()=> {});
         }
+    }
+
+    postActivity (e: Event, data: ICalendarDayData): void {
+        let options: ICalendarItemDialogOptions = {
+            dateStart: data.date,
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: FormMode.Post,
+            trainingPlanMode: this.trainingPlan
+        };
+
+        this.calendarItemDialog.activity(e, FormMode.Post, options)
+            .then(() => {}, () => {});
+
     }
 
     newActivity($event, data){
@@ -325,6 +345,7 @@ const CalendarDayComponent: IComponentOptions = {
         selected: '<',
         accent: '<',
         dynamicDates: '<',
+        trainingPlan: '<',
         onSelect: '&'
     },
     require: {
