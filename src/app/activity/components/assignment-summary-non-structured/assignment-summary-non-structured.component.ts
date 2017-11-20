@@ -132,7 +132,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     showRow(measure: string) {
 
-        if (this.item.mode !== 'view') {
+        if (!this.item.activity.view.isView) {
             return true;
         }
 

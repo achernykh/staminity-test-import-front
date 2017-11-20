@@ -69,6 +69,7 @@
                             data="day.data"
                             owner="$ctrl.user"
                             current-user="$ctrl.currentUser"
+                            on-save="$ctrl.save(formMode, item)"
                             on-select="day.selected = !day.selected">
                     </calendar-day>
 

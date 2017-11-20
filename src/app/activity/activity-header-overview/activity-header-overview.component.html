@@ -5,7 +5,7 @@
                      actual="$ctrl.item.activity.intervals.W.calcMeasures"
                      sport="$ctrl.item.activity.header.sportBasic"
                      form="$ctrl.item.assignmentForm"
-                     editable="$ctrl.item.mode !== 'view'"
+                     editable="!$ctrl.item.activity.view.isView"
                      ftp-mode="$ctrl.item.ftpMode"
                      change="$ctrl.item.templateChangeCount"
                      on-change="$ctrl.onChangeForm(plan,actual,form)">

@@ -150,7 +150,7 @@ export class Calendar {
                 week.loading
                     .then(() => {
                         week.loading = null;
-                        this.$scope.$apply();
+                        this.$scope.$applyAsync();
                     })
                     .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
@@ -176,7 +176,7 @@ export class Calendar {
                 week.loading
                     .then(() => {
                         week.loading = null;
-                        this.$scope.$apply();
+                        this.$scope.$applyAsync();
                     })
                     .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
@@ -223,6 +223,48 @@ export class Calendar {
         return week;
     }
 
+    /**
+     * Создание записи календаря
+     * @param item<ICalendarItem>
+     */
+    postItem(item: ICalendarItem) {
+        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
+        let d = moment(item.dateStart).weekday();
+
+        if (w !== -1 && d >= 0) {
+            Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)});
+            this.weeks[w].subItem[d].data.calendarItems.push(item);
+            this.weeks[w].changes++;
+            this.$scope.$applyAsync();
+        }
+    }
+
+    /**
+     * Удаление записи календаря
+     * @param item
+     */
+    deleteItem(item) {
+        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
+        let d = moment(item.dateStart).weekday();
+        let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+
+        if (w !== -1 && d >= 0 && p !== -1) {
+            this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
+            this.weeks[w].changes++;
+            this.$scope.$applyAsync();
+        }
+    }
+
+    /**
+     * Получение индекса недели в массиве календаря
+     * @param w - неделя в формате GGGG-WW
+     * @returns {number}
+     */
+    private getDayIndex( w: string ): number {
+        return this.weeks.findIndex(item => item.week === w);
+    }
+
+
     private get hasCache (): boolean {
         return !!this.cache;
     }
@@ -230,9 +272,13 @@ export class Calendar {
     private getItemsFromCache (cache: Array<ICalendarItem>, dateStart: Moment, dateFinish: Moment): Promise<Array<ICalendarItem>> {
 
         return new Promise(resolve => {
-            return resolve(cache.filter(item =>
-                moment(item.dateStart).isSameOrAfter(dateStart, 'day') &&
-                moment(item.dateStart).isSameOrBefore(dateFinish, 'day')));
+            return resolve(cache
+                .filter(item =>
+                    item && item.hasOwnProperty('dateStart') &&
+                    moment(item.dateStart).isSameOrAfter(dateStart, 'day') &&
+                    moment(item.dateStart).isSameOrBefore(dateFinish, 'day'))
+                .map(item => Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)}))
+            );
         });
     }
 

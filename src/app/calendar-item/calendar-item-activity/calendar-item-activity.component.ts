@@ -33,6 +33,7 @@ import {ActivityIntervalL} from "../../activity/activity-datamodel/activity.inte
 import {ActivityIntervalP} from "../../activity/activity-datamodel/activity.interval-p";
 import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
 import { TrainingPlansService } from "@app/training-plans/training-plans.service";
+import { FormMode } from "../../application.interface";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -79,7 +80,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     popup: boolean;
     template: boolean = false; // режим создания, изменения шаблона
     club: IGroupProfileShort;
-    onAnswer: (response: Object) => IPromise<void>;
+    onAnswer: (response: ICalendarItemDialogOptions | any) => IPromise<void>;
     onCancel: () => IPromise<void>;
 
     public assignmentForm: INgModelController; // форма ввода задания структурированного / не структурированного
@@ -188,7 +189,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity = new Activity(this.data, this.options);
 
         this.types = activityTypes; // Список видов спорта
-        this.structuredMode = this.activity.isStructured();
+        this.structuredMode = this.activity.isStructured;
         this.ftpMode = this.template ? FtpState.On : FtpState.Off;
 
         this.prepareDetails();
@@ -202,8 +203,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     prepareDetails(){
         if (!this.activity.view.isTemplate) {
             //Получаем детали по тренировке загруженной из внешнего источника
-            if (!this.activity.view.isPost && this.activity.hasActualData()) {
-                let intervalsType: Array<string> = this.activity.isStructured() ? ['L','P','G'] : ['L'];
+            if (!this.activity.view.isPost && this.activity.hasActualData) {
+                let intervalsType: Array<string> = this.activity.isStructured ? ['L','P','G'] : ['L'];
                 this.ActivityService.getIntervals(this.activity.activityHeader.activityId, intervalsType)
                     .then(response => this.activity.intervals.add(response, 'update'),
                         error => this.message.toastError('errorCompleteIntervals'))
@@ -221,8 +222,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareTabPosition(){
-        this.selectedTab = (this.tab === 'chat' && this.activity.hasActualData() && 3) ||
-            (this.tab === 'chat' && !this.activity.hasActualData() && 2) || 0;
+        this.selectedTab = (this.tab === 'chat' && this.activity.hasActualData && 3) ||
+            (this.tab === 'chat' && !this.activity.hasActualData && 2) || 0;
     }
 
     changeTab(tab: string):void {
@@ -284,7 +285,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity.intervals.PW.completeAbsoluteValue(this.user.trainingZones, this.activity.header.sportBasic);
         this.activity.intervals.P.map(i => i.completeAbsoluteValue(this.user.trainingZones, this.activity.header.sportBasic));
         //this.activity.updateIntervals();
-        this.structuredMode = this.activity.isStructured();
+        this.structuredMode = this.activity.isStructured;
         this.templateChangeCount ++;
     }
 
@@ -483,10 +484,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
 
-        if(this.activity.isStructured() && this.selectedTab !== HeaderStructuredTab.Details && this.isPro) {
+        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details && this.isPro) {
             this.selectedTab = HeaderStructuredTab.Details;
         }
-        if(!this.activity.isStructured() && this.selectedTab !== HeaderTab.Details && this.isPro) {
+        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details && this.isPro) {
             this.selectedTab = HeaderTab.Details;
         }
 
@@ -504,7 +505,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(mode === 'post') {
             this.onCancel();
         } else {
-            if(this.activity.isStructured() && this.activity.activityHeader.intervals.some(i => i.type === 'P')) {
+            if(this.activity.isStructured && this.activity.activityHeader.intervals.some(i => i.type === 'P')) {
                 this.onCancel();
             } else {
                 let tempDetails: ActivityDetails = this.activity.details || null;
@@ -519,7 +520,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     this.activity.intervals.add(tempIntervalDetails);
                 }
 
-                this.structuredMode = this.activity.isStructured();
+                this.structuredMode = this.activity.isStructured;
             }
         }
     }
@@ -559,7 +560,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onDelete() {
-        this.dialogs.confirm({ text: this.activity.hasIntervalDetails() ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
+        this.dialogs.confirm({ text: this.activity.hasIntervalDetails ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
         .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId]))
         .then((response)=> {
             this.onAnswer({response: {type:'delete',item:this.activity.build()}});
@@ -573,16 +574,30 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     onSaveTrainingPlanActivity(): void {
         this.inAction = true;
+
         if (this.activity.view.isPost) {
-            debugger;
             this.trainingPlansService.postItem(this.options.planId, this.activity.build(), true)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityCreated');
-                    this.onAnswer({response: {type:'post', item:this.activity}});
+                    this.onAnswer({formMode: FormMode.Post, item: this.activity.build()});
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
         }
+
+        if (this.activity.view.isPut) {
+            this.trainingPlansService.putItem(this.options.planId, this.activity.build(), true)
+                .then((response)=> {
+                    this.activity.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('activityUpdated');
+                    this.onAnswer({formMode: FormMode.Put, item: this.activity.build()});
+                }, error => this.message.toastError(error))
+                .then(() => this.inAction = false);
+        }
+    }
+
+    onDeleteTrainingPlanActivity (): void {
+
     }
 
     onSaveTemplate() {

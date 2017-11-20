@@ -1,24 +1,24 @@
-<activity-summary-info flex="none" ng-if="$ctrl.item.mode === 'view' && !$ctrl.item.template" class="{{$ctrl.item.activity.status}}">
+<activity-summary-info flex="none" ng-if="$ctrl.item.activity.view.isView && !$ctrl.item.template" class="{{$ctrl.item.activity.status}}">
 </activity-summary-info>
-<fieldset flex="none" ng-disabled="$ctrl.item.mode === 'view'">
+<fieldset flex="none" ng-disabled="$ctrl.item.activity.view.isView">
     <activity-assignment-header flex="none"
                                 form="$ctrl.item.assignmentForm"
                                 on-change="$ctrl.checkForm(form)">
     </activity-assignment-header>
 
-    <assignment-summary-non-structured ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured())"
+    <assignment-summary-non-structured ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured)"
                                        flex="auto"
                                        sport="$ctrl.item.activity.header.sportBasic"
                                        form="$ctrl.item.assignmentForm"
-                                       editable="$ctrl.item.mode !== 'view'"
+                                       editable="!$ctrl.item.activity.view.isView"
                                        ftp-mode="$ctrl.item.ftpMode"
                                        change="$ctrl.item.templateChangeCount"
                                        on-change="$ctrl.changeForm(form, plan, actual)">
     </assignment-summary-non-structured>
 
-    <assignment-summary-structured ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.isStructured()"
+    <assignment-summary-structured ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.isStructured"
                                    form="$ctrl.item.assignmentForm"
-                                   editable="$ctrl.item.mode !== 'view'"
+                                   editable="!$ctrl.item.activity.view.isView"
                                    change="$ctrl.item.templateChangeCount"
                                    on-change="$ctrl.checkForm()">
     </assignment-summary-structured>

@@ -34,7 +34,6 @@ export class Activity extends CalendarItem {
 
     // private
     private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
-    private _startDate: Date;
 
     // TODO refactoring to ActivityTemplate class extends Activity
     // Дополнительные поля для использования в шаблонах тренировки
@@ -58,42 +57,42 @@ export class Activity extends CalendarItem {
     }
 
     // Загружены детали по интервалам L
-    hasIntervalDetails (): boolean { return this.intervals.L && this.intervals.L.length > 0; }
+    get hasIntervalDetails (): boolean { return this.intervals.L && this.intervals.L.length > 0; }
 
     // Фактические данные импортированы, не введены руками
-    hasActualData (): boolean { return this.intervals.W.actualDataIsImported || false; }
+    get hasActualData (): boolean { return this.intervals.W.actualDataIsImported || false; }
 
     // Имеет панель с дополнительной информацией в тренировке для календаря
-    hasBottomData() { return !!this.bottomPanel;}
+    get hasBottomData () { return !!this.bottomPanel;}
 
     // Тренировка выполнена
-    isCompleted (): boolean { return this.intervals.W && this.intervals.W.completed(); }
+    get isCompleted (): boolean { return this.intervals.W && this.intervals.W.isCompleted; }
 
     // Тренирвками имеет структурированное задание
-    isStructured (): boolean { return this.intervals.P && this.intervals.P.length > 0; }
+    get isStructured (): boolean { return this.intervals.P && this.intervals.P.length > 0; }
 
     // Тренировка сегодя
-    isToday (): boolean { return this._startDate.getTime() === toDay(new Date()).getTime(); }
+    get isToday (): boolean { return this._dateStart.getTime() === toDay(new Date()).getTime(); }
 
     // Тренировка в будущем
-    isComing (): boolean { return (this.options && this.options.hasOwnProperty('trainingPlanMode') && this.options.trainingPlanMode) ||
+    get isComing (): boolean { return (this.options && this.options.hasOwnProperty('trainingPlanMode') && this.options.trainingPlanMode) ||
         (this.options && this.options.hasOwnProperty('templateMode') && this.options.templateMode) ||
-        this._startDate.getTime() >= toDay(new Date()).getTime(); }
+        this._dateStart.getTime() >= toDay(new Date()).getTime(); }
 
     // Тренировка пропущена
-    isDismissed (): boolean { return this.status === 'dismiss'; }
+    get isDismissed (): boolean { return this.status === 'dismiss'; }
 
     // Тренировка имеет плановое задание
-    isSpecified (): boolean { return this.intervals.PW && this.intervals.PW.specified(); }
+    get isSpecified (): boolean { return this.intervals.PW && this.intervals.PW.specified(); }
 
     // Статус выполнения тренировки
     get status() {
         return this.isTemplate? 'template' : (
-            !this.isToday() ?
+            !this.isToday ?
                 // приоритет статусов, если запись не сегодня
-            (this.isComing() && 'coming')
-            || (!this.isSpecified() && 'not-specified')
-            || (!this.isCompleted() && 'dismiss')
+            (this.isComing && 'coming')
+            || (!this.isSpecified && 'not-specified')
+            || (!this.isCompleted && 'dismiss')
             || ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
             || ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && 'complete-warn')
             || ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') :
@@ -101,8 +100,8 @@ export class Activity extends CalendarItem {
             ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
             || ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
             || ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
-            || (!this.isSpecified() && 'not-specified')
-            || (this.isComing() && 'coming')
+            || (!this.isSpecified && 'not-specified')
+            || (this.isComing && 'coming')
         );
     }
 
@@ -110,13 +109,13 @@ export class Activity extends CalendarItem {
     get bottomPanel() {
         return (this.status === 'coming' &&
             ((this.intervals.PW.trainersPrescription && this.intervals.PW.trainersPrescription.length > 0 ) ||
-            (!this.isStructured() && this.intervals.PW.intensityMeasure)) && 'plan') ||
+            (!this.isStructured && this.intervals.PW.intensityMeasure)) && 'plan') ||
             //(this.status === 'coming' && this.structured && 'segmentList') ||
-            ((this.isCompleted() && this.summaryAvg.length > 0) && 'data') || null;
+            ((this.isCompleted && this.summaryAvg.length > 0) && 'data') || null;
     }
 
     // информация
-    printPercent() { return ((this.percent && this.isCompleted()) && `${this.percent.toFixed(0)}%`);}
+    printPercent() { return ((this.percent && this.isCompleted) && `${this.percent.toFixed(0)}%`);}
 
     get percent () { return this.intervals.PW && this.intervals.PW.percent(); }
 
@@ -252,8 +251,7 @@ export class Activity extends CalendarItem {
 
     // подготовка данных класса
     private prepareData (): void {
-        // Запоминаем, чтобы парсить только один раз
-        this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
+        super.prepare();
         this.header = new ActivityHeader(this.item.activityHeader);
         this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
         this.details = new ActivityDetails();

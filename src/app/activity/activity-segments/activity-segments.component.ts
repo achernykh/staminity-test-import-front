@@ -81,7 +81,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             case SegmentChangeReason.deleteInterval:
             case SegmentChangeReason.changeGroupCount:
             case SegmentChangeReason.keyInterval: {
-                if(this.item.activity.isCompleted()) {
+                if(this.item.activity.isCompleted) {
                     this.item.calculateActivityRange(false);
                 }
                 this.intervals.PW.calculate(this.intervals.P);

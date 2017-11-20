@@ -3,7 +3,7 @@
     <header flex="none" layout="column"
          class="activity-header {{::$ctrl.data.status}}"
          ng-class="{selected: $ctrl.selected}"
-         ng-click="$ctrl.onOpen($env,'view')">
+         ng-click="$ctrl.open($env, $ctrl.data)">
         <div flex="none" layout="row" layout-align="space-between center" layout-align-gt-sm="space-between start">
             <section class="percent md-caption tight-07" flex="25" hide show-gt-sm>{{::$ctrl.data.printPercent()}}</section>
             <section class="icon" flex="none" flex-gt-sm="auto" layout="row" layout-align="center start">
@@ -11,11 +11,11 @@
                     <md-icon md-svg-src="{{::$ctrl.data.header.sportUrl}}"
                              style="margin-left: 4px"
                              class="s24 light-active"></md-icon>
-                    <md-icon ng-if="::$ctrl.data.isStructured()" hide show-gt-sm
+                    <md-icon ng-if="::$ctrl.data.isStructured" hide show-gt-sm
                              md-svg-src="assets/icon/{{::$ctrl.data.intervals.PW.intensityMeasure}}.svg"
                              style="margin-left: 2px; margin-right: 2px"
                              class="s18 light-active"></md-icon>
-                    <div ng-if="::$ctrl.data.isStructured()" hide show-gt-sm
+                    <div ng-if="::$ctrl.data.isStructured" hide show-gt-sm
                          style="margin-right: 8px; margin-left: -3px; margin-bottom: -14px; font-size: 12px;">
                         {{::$ctrl.data.intervals.PW.intensityFtpMax}}
                     </div>
@@ -99,13 +99,13 @@
 
     </header>
     <!-- Заголовок тренировки (нижняя часть): начало -->
-    <footer flex="none" layout="column" ng-if="(!$ctrl.calendar.view.compact && $ctrl.data.hasBottomData())"
+    <footer flex="none" layout="column" ng-if="(!$ctrl.calendar.view.compact && $ctrl.data.hasBottomData)"
          hide show-gt-md
          class="activity-footer line-12"
          ng-switch on="$ctrl.data.bottomPanel">
         <!-- Панель: Установка тренера -->
         <div flex="none" ng-switch-when="plan">
-            <div ng-if="::($ctrl.data.intensityMeasure && !$ctrl.data.isStructured())" layout="row" class="md-caption secondary dark" style="margin-top: 2px">
+            <div ng-if="::($ctrl.data.intensityMeasure && !$ctrl.data.isStructured)" layout="row" class="md-caption secondary dark" style="margin-top: 2px">
                 <div flex="none">
                     {{::$ctrl.data.intervals.PW | measureCalcInterval:$ctrl.data.header.sportBasic:$ctrl.data.intensityMeasure}}
                     <span flex="none" class="disable dark">&nbsp{{::$ctrl.data.intensityMeasure | measureUnit:$ctrl.data.header.sportBasic | translate}}</span>

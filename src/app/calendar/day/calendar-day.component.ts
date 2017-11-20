@@ -11,7 +11,10 @@ import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {isSpecifiedActivity, isCompletedActivity, clearActualDataActivity} from "../../activity/activity.function";
 import { IUserProfile } from "@api/user";
 import { getCalendarItem } from "../../calendar-item/calendar-item.function";
-import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
+import {
+    ICalendarItemDialogOptions,
+    ICalendarItemDialogResponse
+} from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
 import { FormMode } from "../../application.interface";
 
@@ -27,6 +30,8 @@ class CalendarDayCtrl {
     trainingPlanMode: boolean;
     planId: number;
 
+    onSave: (response: ICalendarItemDialogResponse) => Promise<any>;
+
     static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs', 'CalendarItemDialogService'];
 
     constructor(
@@ -35,7 +40,8 @@ class CalendarDayCtrl {
         private ActivityService: ActivityService,
         private CalendarService: CalendarService,
         private $scope: IScope,
-        private dialogs: any, private calendarItemDialog: CalendarItemDialogService){
+        private dialogs: any,
+        private calendarItemDialog: CalendarItemDialogService){
 
     }
 
@@ -154,8 +160,8 @@ class CalendarDayCtrl {
             planId: this.planId
         };
 
-        this.calendarItemDialog.activity(e, FormMode.Post, options)
-            .then(() => {}, () => {});
+        this.calendarItemDialog.activity(e, options)
+            .then((response) => this.onSave(response), () => {});
 
     }
 
@@ -349,6 +355,7 @@ const CalendarDayComponent: IComponentOptions = {
         dynamicDates: '<',
         trainingPlanMode: '<',
         planId: '<',
+        onSave: '&',
         onSelect: '&'
     },
     require: {

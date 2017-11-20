@@ -7,6 +7,13 @@ import {CalendarService} from "../calendar.service";
 import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
 import {CalendarCtrl} from "../calendar.component";
 import { IUserProfile } from '@api/user';
+import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
+import {
+    ICalendarItemDialogOptions,
+    ICalendarItemDialogResponse
+} from "../../calendar-item/calendar-item-dialog.interface";
+import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
+import { FormMode } from "../../application.interface";
 
 class CalendarActivityCtrl {
 
@@ -18,6 +25,7 @@ class CalendarActivityCtrl {
 
     data: Activity;
     trainingPlanMode: boolean;
+    onSave: (response: ICalendarItemDialogResponse) => Promise<any>;
 
     isCreator: boolean = false;
     structured: boolean;
@@ -27,7 +35,8 @@ class CalendarActivityCtrl {
     collapse: {show:boolean} = {show: true};
     bottomPanelData: any = null;
 
-    static $inject = ['$scope','$mdDialog','ActivityService', 'message', 'CalendarService','dialogs'];
+    static $inject = ['$scope','$mdDialog','ActivityService', 'message', 'CalendarService','dialogs',
+        'CalendarItemDialogService'];
 
     constructor(
         private $scope: IScope,
@@ -35,7 +44,8 @@ class CalendarActivityCtrl {
         private ActivityService: ActivityService,
         private message: IMessageService,
         private CalendarService: CalendarService,
-        private dialogs: any){
+        private dialogs: any,
+        private calendarItemDialog: CalendarItemDialogService){
 
     }
 
@@ -73,7 +83,7 @@ class CalendarActivityCtrl {
         //this.planned = moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'), 'd') < 1;
 
 
-        if (this.data.isStructured()) {
+        if (this.data.isStructured) {
             let comulativeDuration = 0;
             for (let interval of this.data.activityHeader.intervals) {
                 // Собираем лист сегментов
@@ -270,6 +280,21 @@ class CalendarActivityCtrl {
         return icon;
     }
 
+    open (e: Event, item: ICalendarItem): void {
+        let options: ICalendarItemDialogOptions = {
+            //dateStart: data.date,
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: this.trainingPlanMode ? FormMode.Put : FormMode.View,
+            trainingPlanMode: this.trainingPlanMode,
+            //planId: this.planId
+        };
+
+        this.calendarItemDialog.activity(e, options, item)
+            .then((response) => this.onSave(response), () => {});
+    }
+
     onOpen($event, mode) {
         this.$mdDialog.show({
             controller: DialogController,
@@ -356,6 +381,7 @@ const CalendarActivityComponent: IComponentOptions = {
         selected: '<',
         accent: '<',
         trainingPlanMode: '<',
+        onSave: '&',
         onSelect: '&'
     },
     require: {

@@ -65,12 +65,14 @@
                         dynamic-day="true"
                         training-plan-mode="true"
                         plan-id="$ctrl.plan.id"
+                        on-save="$ctrl.saveItem(formMode, item)"
                         on-select="day.selected = !day.selected">
                 </calendar-day>
 
                 <calendar-total
                         hide show-gt-md
-                        class="md-caption summary"
+                        layout="column"
+                        class="calendar-total md-caption summary"
                         ng-mouseover="accentTotal=true" ng-mouseleave="accentTotal=false"
                         ng-init="accent=false"
                         ng-class="{select: day.selected}"

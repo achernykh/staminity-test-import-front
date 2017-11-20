@@ -53,7 +53,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         switch (this.item.activity.status) {
             case 'coming': case 'dismiss': { // показываем плановые значения
 
-                if(this.item.activity.isStructured()) { // для структурированных тренировок
+                if(this.item.activity.isStructured) { // для структурированных тренировок
                     this.durationInfo =
                         `${this.item.activity.movingDurationApprox ? '~' : ''}` +
                         `${this.$filter('measureCalc')(this.item.activity.movingDuration, sportBasic, 'movingDuration')}` +

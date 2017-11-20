@@ -16,8 +16,8 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
         Object.assign(this, params);
     }
 
-    clear():IActivityIntervalW{
-        let params: Array<string> = ['params', ...Object.keys(this.calcMeasures)];
+    clear(keys?: Array<string>):IActivityIntervalW{
+        let params: Array<string> = keys || ['params', ...Object.keys(this.calcMeasures)];
         //Object.keys(this).map(k => api.indexOf(k) === -1 && delete this[k]);
         params.map(p => delete this[p]);
         return <IActivityIntervalW>this;
@@ -39,7 +39,7 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
      * @description Проверка тренировки на выполнение
      * @returns {boolean}
      */
-    completed():boolean {
+    get isCompleted ():boolean {
         let measure: Array<string> = ['duration','movingDuration','distance'];
         return measure.some(m => this.calcMeasures[m].hasOwnProperty('value') && this.calcMeasures[m].value);
     }

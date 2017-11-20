@@ -6,6 +6,9 @@ import { CalendarService } from "../../calendar/calendar.service";
 import { SessionService } from "../../core";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
+import { FormMode } from "../../application.interface";
+import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
+import { getItemById } from "../../calendar/calendar.functions";
 
 class TrainingPlanBuilderCtrl implements IComponentController {
 
@@ -34,6 +37,30 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.currentUser, this.plan.calendarItems);
         this.dynamicDates = !this.plan.isFixedCalendarDates;
         this.calendar.toDate(this.dynamicDates ? new Date() : this.plan.startDate);
+    }
+
+    /**
+     * Обновление записей календаря по событий пользователя
+     * @param formMode
+     * @param item
+     */
+    saveItem (formMode: FormMode, item: ICalendarItem): void {
+        debugger;
+        switch (formMode) {
+            case FormMode.Post: {
+                this.calendar.postItem(item);
+                break;
+            }
+            case FormMode.Put: {
+                this.calendar.deleteItem(getItemById(this.calendar.weeks, item.calendarItemId));
+                this.calendar.postItem(item);
+                break;
+            }
+            case FormMode.Delete: {
+                this.calendar.deleteItem(getItemById(this.calendar.weeks, item.calendarItemId));
+                break;
+            }
+        }
     }
 }
 

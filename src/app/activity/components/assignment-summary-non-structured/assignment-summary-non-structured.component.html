@@ -13,7 +13,7 @@
     <md-list-item ng-if="!$ctrl.item.activity.header.sport">
         <p class="md-body-1" translate="activity.assignment.needSport"></p>
     </md-list-item>
-    <md-list-item class="bg-grey-100" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured()) && $ctrl.item.activity.header.sport">
+    <md-list-item class="bg-grey-100" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured) && $ctrl.item.activity.header.sport">
         <md-table-container>
             <table md-table
                    md-row-select="$ctrl.options.rowSelection"
@@ -52,7 +52,7 @@
                                    ftp-mode="$ctrl.isFTP()"
                                    ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure.$key)"
-                                   ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
+                                   ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.activity.view.isView">
                             <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
                                    name="plan_{{::measure.$key}}"
                                    ng-model="measure.durationValue"
@@ -61,7 +61,7 @@
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure.$key)"
-                                   ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
+                                   ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="!$ctrl.isFTP() && !$ctrl.item.template">
@@ -72,7 +72,7 @@
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure.$key)"
-                                   ng-disabled="$ctrl.item.activity.hasActualData()">
+                                   ng-disabled="$ctrl.item.activity.hasActualData">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="$ctrl.isFTP() && !$ctrl.item.template">
@@ -84,7 +84,7 @@
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure.$key)"
-                                   ng-disabled="$ctrl.item.activity.hasActualData()">
+                                   ng-disabled="$ctrl.item.activity.hasActualData">
                             <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
                                    ng-model="$ctrl.actual[measure.$key]['value']"
                                    name="actual_{{::measure.$key}}"
@@ -92,7 +92,7 @@
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure.$key)"
-                                   ng-disabled="$ctrl.item.activity.hasActualData()">
+                                   ng-disabled="$ctrl.item.activity.hasActualData">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="!$ctrl.item.template">
@@ -131,7 +131,7 @@
             <label translate="activity.trainersPrescription" class="icon"></label>
             <textarea ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
                       ng-change="$ctrl.changeParam()"
-                      ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
+                      ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.activity.view.isView"
                       class="icon" name="trainersPrescription"
                       rows="1"></textarea>
         </md-input-container>

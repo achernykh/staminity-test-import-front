@@ -1,6 +1,6 @@
 import { FormMode } from "../application.interface";
 import { Activity } from "../activity/activity-datamodel/activity.datamodel";
-import { ICalendarItemDialogOptions } from "./calendar-item-dialog.interface";
+import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "./calendar-item-dialog.interface";
 import { profileShort } from "../core/user.function";
 import { ICalendarItem } from "../../../api/calendar/calendar.interface";
 
@@ -14,21 +14,19 @@ export class CalendarItemDialogService {
     /**
      * Диалог ведения Тренировки
      * @param env - элемент от куда вызван диалог
-     * @param mode - режим формы: создание, изменение или просмотр
      * @param options - опции ведения тренировки
      * @param activity - объект тренировки
      * @returns {any}
      */
     activity (env: Event,
-              mode: FormMode,
               options: ICalendarItemDialogOptions,
-              activity: Activity | ICalendarItem = this.activityFromOptions(options)): Promise<any> {
+              activity: Activity | ICalendarItem = this.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
         return this.$mdDialog.show({
             controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (mode, activity) => $mdDialog.hide({ mode: mode, activity: activity });
+                $scope.answer = (formMode, item) => $mdDialog.hide({ formMode: formMode, item: item });
             }],
             controllerAs: '$ctrl',
             template: `<md-dialog id="post-activity" aria-label="Activity">
@@ -36,14 +34,13 @@ export class CalendarItemDialogService {
                                 layout="row" class="calendar-item-activity"
                                 data="$ctrl.activity"
                                 options="$ctrl.options"
-                                on-cancel="cancel()" on-answer="answer(mode,response)">
+                                on-cancel="cancel()" on-answer="answer(formMode, item)">
                             </calendar-item-activity>
                         </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: env,
             locals: {
                 activity: activity,
-                mode: mode,
                 options: options,
             },
             bindToController: true,

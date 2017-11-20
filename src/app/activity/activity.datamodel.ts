@@ -355,7 +355,7 @@ export class ActivityOld extends CalendarItem {
 	 * @returns {boolean}
      */
 	get completed() {
-		return this.intervalW && this.intervalW.completed();
+		return this.intervalW && this.intervalW.isCompleted;
 	}
 
 	get structured() {

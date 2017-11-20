@@ -216,6 +216,7 @@
                                owner="$ctrl.owner"
                                current-user="$ctrl.currentUser"
                                training-plan-mode="$ctrl.trainingPlanMode"
+                               on-save="$ctrl.onSave(formMode, item)"
                                dnd-draggable="item"
                                dnd-disable-if="::!$ctrl.isSpecified(item)"
                                dnd-type="'itemType'"

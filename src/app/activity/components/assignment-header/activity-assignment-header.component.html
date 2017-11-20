@@ -1,4 +1,4 @@
-<md-list class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view' || $ctrl.item.template">
+<md-list class="md-dense slim-input bg-grey-200" ng-if="!$ctrl.item.activity.view.isView || $ctrl.item.template">
     <md-list-item>
         <md-input-container class="md-block no-message" md-no-float layout="row">
             <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}"></md-icon>
@@ -6,7 +6,7 @@
                        ng-model="$ctrl.item.activity.header.sport"
                        ng-model-options="{ getterSetter: true }"
                        ng-change="$ctrl.changeParam()"
-                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
+                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.activity.view.isView">
                 <md-option ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
                            value="{{type.id}}">
                     {{'sport.'+type.code | translate}}
@@ -32,7 +32,7 @@
                     md-no-asterisk="false"
                     placeholder="{{::'activity.assignment.categoryLabel' | translate}}"
                     ng-change="$ctrl.changeParam()"
-                    ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
+                    ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.activity.view.isView
                     name="category"
                     class="icon">
                 <md-optgroup
