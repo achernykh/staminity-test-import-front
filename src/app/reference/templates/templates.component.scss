@@ -23,13 +23,16 @@ templates {
 
 .templates {
 	&__content {
-		min-height: 500px;
-		max-height: none;
-		width: 930px;
-		margin: 4px auto;
-		border-radius: 3px;
-		@extend .md-whiteframe-2dp;
-		background-color: $grey-050;
+		// restyle with /methodology
+		width: auto;
+		padding-bottom: 80px; // margin for fab button
+		//min-height: 500px;
+		//max-height: none;
+		//width: 930px;
+		//margin: 4px auto;
+		//border-radius: 3px;
+		//@extend .md-whiteframe-2dp;
+		//background-color: $grey-050;
 		
 		@media (max-width: $maxMobileWidth) {
 			margin: 0;
@@ -83,8 +86,11 @@ templates {
 
 	&__create {
 		position: absolute;
-		top: 65px;
-		right: calc(25% - 310px);
+		bottom: 16px;
+		right: 16px;
+		z-index: 100;
+		//top: 65px;
+		//right: calc(25% - 310px);
 		text-align: center;
 	
 		@media (max-width: $maxMobileWidth) {

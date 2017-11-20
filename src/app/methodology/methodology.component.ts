@@ -104,6 +104,10 @@ class MethodologyCtrl implements IComponentController {
         )(categories);
     }
 
+    templatesCountByCategory (category: IActivityCategory): number {
+        return this.templates.filter(t => t.activityCategory.id === category.id).length;
+    }
+
 }
 
 const MethodologyComponent: IComponentOptions = {

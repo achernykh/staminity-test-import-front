@@ -1,5 +1,5 @@
 <st-application-frame
-        class="st-application-frame"
+        class="methodology st-application-frame"
         nav-bar="true"
         nav-bar-state="$ctrl.currentState"
         left-bar-hide-type="'hidden'"
@@ -39,12 +39,10 @@
         </training-plans-list>
     </st-application-frame-content>
 
-    <!-- Тренировочные планы: конец -->
-
     <!-- Категории -->
     <st-application-frame-left-bar ng-switch-when="categories">
         <section class="methodology__left-bar">
-            <md-list>
+            <md-list class="md-dense">
                 <md-list-item ng-repeat="activity in $ctrl.activityTypes | filter:{enabled: true} track by activity.id"
                               ng-click="$ctrl.filterParams.activityType = activity; $ctrl.updateFilterParams()"
                               ng-class="{'active': $ctrl.filterParams.activityType.id === activity.id}">
@@ -64,7 +62,61 @@
                 club="$ctrl.club">
         </categories>
     </st-application-frame-content>
-    <!-- Категории: конец -->
+
+    <!-- Шаблоны тренировок -->
+    <st-application-frame-left-bar ng-switch-when="templates">
+        <section class="methodology__left-bar">
+            <md-list class="md-dense">
+                <md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">
+                    <md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.filterParams.activityType.code || 'run' }}.svg"></md-icon>
+                    <md-select
+                            placeholder="{{ 'reference.sport' | translate }}"
+                            flex name="activity-type" class="icon"
+                            ng-model="$ctrl.filterParams.activityType"
+                            ng-change="$ctrl.updateFilterParams()">
+                        <md-option
+                                ng-repeat="activityType in $ctrl.activityTypes | filter:{isBasic: true} track by activityType.id"
+                                ng-value="activityType">
+                            {{ 'sport.' + activityType.code | translate }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list>
+            <md-list class="md-dense">
+                <md-subheader ng-repeat-start="owner in ['user', 'coach', 'club', 'system']"
+                              ng-if="$ctrl.categoriesByOwner[owner].length">
+                    <span translate="reference.categories.{{::owner}}"></span>
+                </md-subheader>
+                <md-list-item ng-repeat="category in $ctrl.categoriesByOwner[owner]"
+                              ng-click="$ctrl.filterParams.category = category; $ctrl.updateFilterParams()">
+                    <p class="md-caption">{{ category | categoryCode }}</p>
+                    <span class="md-secondary template-count"
+                          ng-if="$ctrl.templatesCountByCategory(category) > 0">
+                        {{$ctrl.templatesCountByCategory(category)}}
+                    </span>
+                </md-list-item>
+                <md-divider ng-repeat-end
+                            ng-if="$ctrl.categoriesByOwner[owner].length"></md-divider>
+
+                <!--<md-list-item ng-repeat="activity in $ctrl.activityTypes | filter:{enabled: true} track by activity.id"
+                              ng-click="$ctrl.filterParams.activityType = activity; $ctrl.updateFilterParams()"
+                              ng-class="{'active': $ctrl.filterParams.activityType.id === activity.id}">
+                    <md-icon md-svg-src="assets/icon/{{activity.code}}.svg" class="md-dark md-active"></md-icon>
+                    <p class="md-body-2 md-dark md-active" translate="sport.{{::activity.code}}"></p>
+                </md-list-item>-->
+            </md-list>
+        </section>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="templates">
+        <templates
+                templates="$ctrl.templates"
+                categories="$ctrl.categories"
+                filter-params="$ctrl.filterParams"
+                user="$ctrl.currentUser"
+                club="$ctrl.club">
+        </templates>
+    </st-application-frame-content>
 
 </st-application-frame>
 
