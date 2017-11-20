@@ -112,7 +112,7 @@
                             dnd-type="'itemType'"
                             dnd-effect-allowed="copyMove"
                             dnd-callback="$ctrl.onDropEvent(item, operation, $index, date, index)">
-                <header ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
+                <header ng-click="$ctrl.open($event,item.calendarItemType, item)">
                     <div layout="row" layout-align="space-between center">
                         <div flex="25" hide show-gt-sm></div>
                         <section flex="none" layout="row" layout-align="center center" class="icon bg-circle-32 bg-grey-500">
@@ -127,7 +127,7 @@
                             </md-button>
                             <md-menu-content>
                                 <md-menu-item>
-                                    <md-button ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
+                                    <md-button ng-click="$ctrl.open($event,item.calendarItemType, item)">
                                         <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
                                         Изменить
                                     </md-button>
@@ -203,7 +203,7 @@
             </calendar-competition>
 
             <calendar-record ng-switch-when="record"
-                             ng-click="$ctrl.onOpen($event,item.calendarItemType, item)"
+                             ng-click="$ctrl.open($event,item.calendarItemType, item)"
                              layout="row" layout-align="start center" flex="auto">
                 <md-icon class="material-icons md-dark md-inactive md-18 icon"
                          md-svg-src="/assets/icon/{{item.recordHeader.type}}.svg"></md-icon>
@@ -230,15 +230,15 @@
     <!-- add item: start -->
     <section class="actions" layout="row" layout-align="center center" flex="none" hide show-gt-sm>
         <md-button  class="md-icon-button" aria-label="More"
-                    ng-click="$ctrl.postActivity($event,$ctrl.data)">
+                    ng-click="$ctrl.post($event, 'activity', $ctrl.data)">
             <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
         </md-button>
         <md-button  class="md-icon-button" aria-label="More"
-                    ng-click="$ctrl.newMeasurement($event,$ctrl.data)">
+                    ng-click="$ctrl.post($event, 'measurement', $ctrl.data)">
             <md-icon class="material-icon" aria-label="New">straighten</md-icon>
         </md-button>
         <md-button  class="md-icon-button" aria-label="More"
-                    ng-click="$ctrl.postRecord($event,$ctrl.data)">
+                    ng-click="$ctrl.post($event, 'record', $ctrl.data)">
             <md-icon class="material-icon" aria-label="New">note_add</md-icon>
         </md-button>
     </section>

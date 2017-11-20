@@ -1,10 +1,24 @@
-import { FormMode } from "../application.interface";
 import { Activity } from "../activity/activity-datamodel/activity.datamodel";
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "./calendar-item-dialog.interface";
 import { profileShort } from "../core/user.function";
 import { ICalendarItem } from "../../../api/calendar/calendar.interface";
 
 export class CalendarItemDialogService {
+
+    // private
+    private readonly defaultDialogOptions = {
+        controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
+            $scope.hide = () => $mdDialog.hide();
+            $scope.cancel = () => $mdDialog.cancel();
+            $scope.answer = (formMode, item) => $mdDialog.hide({ formMode: formMode, item: item });
+        }],
+        controllerAs: '$ctrl',
+        parent: angular.element(document.body),
+        bindToController: true,
+        clickOutsideToClose: false,
+        escapeToClose: true,
+        fullscreen: true
+    };
 
     // inject
     static $inject = ['$mdDialog'];
@@ -20,40 +34,84 @@ export class CalendarItemDialogService {
      */
     activity (env: Event,
               options: ICalendarItemDialogOptions,
-              activity: Activity | ICalendarItem = this.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+              activity: ICalendarItem = this.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
-        return this.$mdDialog.show({
-            controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
-                $scope.hide = () => $mdDialog.hide();
-                $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (formMode, item) => $mdDialog.hide({ formMode: formMode, item: item });
-            }],
-            controllerAs: '$ctrl',
+        return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="post-activity" aria-label="Activity">
-                            <calendar-item-activity
-                                layout="row" class="calendar-item-activity"
-                                data="$ctrl.activity"
-                                options="$ctrl.options"
-                                on-cancel="cancel()" on-answer="answer(formMode, item)">
+                            <calendar-item-activity layout="row" class="calendar-item-activity"
+                                    data="$ctrl.activity"
+                                    options="$ctrl.options"
+                                    on-cancel="cancel()" on-answer="answer(formMode, item)">
                             </calendar-item-activity>
-                        </md-dialog>`,
-            parent: angular.element(document.body),
+                       </md-dialog>`,
             targetEvent: env,
             locals: {
                 activity: activity,
                 options: options,
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: true,
-            fullscreen: true
-        });
+            }
+        }));
+    }
+
+    /**
+     * Диалог ведения Измерения
+     * @param env
+     * @param options
+     * @param item
+     * @returns {any}
+     */
+    measurement (env: Event,
+                 options: ICalendarItemDialogOptions,
+                 item: ICalendarItem = this.measurementFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+
+        return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
+                template: `<calendar-item-measurement
+                            class="calendar-item-measurement"
+                            data="$ctrl.item"
+                            mode="post"
+                            user="$ctrl.user"
+                            on-cancel="cancel()" on-answer="answer(response)">
+                          </calendar-item-measurement>`,
+                targetEvent: env,
+                locals: {
+                    item: item,
+                    options: options,
+                }
+            })
+        );
+    }
+
+    /**
+     * Диалог ведения Записи
+     * @param env
+     * @param options
+     * @param item
+     * @returns {any}
+     */
+    record (env: Event,
+            options: ICalendarItemDialogOptions,
+            item: ICalendarItem = this.recordFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+
+        return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
+            template: `<md-dialog id="calendar-item-record" aria-label="Record">
+                        <calendar-item-record 
+                                data="$ctrl.item"
+                                calendar-range="$ctrl.calendarRange"
+                                mode="post"
+                                on-cancel="cancel()">
+                        </calendar-item-record>
+                   </md-dialog>`,
+            targetEvent: env,
+            locals: {
+                item: item,
+                calendarRange: [null,null]//this.calendar.calendarRange
+            }
+        }));
     }
 
     /**
      * Пустая тренировка на основе параметров
      * @param options
-     * @returns {Activity}
+     * @returns {ICalendarItem}
      */
     private activityFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
         return {
@@ -67,6 +125,44 @@ export class CalendarItemDialogService {
                 activityCategory: options.activityCategory || null,
                 intervals: []
             },
+            userProfileOwner: profileShort(options.owner),
+            userProfileCreator: profileShort(options.currentUser),
+            groupProfile: options.groupCreator
+        };
+    }
+
+    /**
+     * Пустая запись Измерения на основе параметров
+     * @param options
+     * @returns {ICalendarItem}
+     */
+    private measurementFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+        return {
+            calendarItemId: null,
+            calendarItemType: 'measurement',
+            revision: null,
+            dateStart: options.dateStart,
+            dateEnd: options.dateStart,
+            measurementHeader: {},
+            userProfileOwner: profileShort(options.owner),
+            userProfileCreator: profileShort(options.currentUser),
+            groupProfile: options.groupCreator
+        };
+    }
+
+    /**
+     * Пустая запись События на основе параметров
+     * @param options
+     * @returns {ICalendarItem}
+     */
+    private recordFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+        return {
+            calendarItemId: null,
+            calendarItemType: 'record',
+            revision: null,
+            dateStart: options.dateStart,
+            dateEnd: options.dateStart,
+            recordHeader: {},
             userProfileOwner: profileShort(options.owner),
             userProfileCreator: profileShort(options.currentUser),
             groupProfile: options.groupCreator

@@ -149,18 +149,26 @@ class CalendarDayCtrl {
         }
     }
 
-    postActivity (e: Event, data: ICalendarDayData): void {
-        let options: ICalendarItemDialogOptions = {
-            dateStart: data.date,
-            currentUser: this.currentUser,
-            owner: this.owner,
-            popupMode: true,
-            formMode: FormMode.Post,
-            trainingPlanMode: this.trainingPlanMode,
-            planId: this.planId
-        };
+    /**
+     * Создание записи календаря
+     * @param e
+     * @param data
+     */
+    post (e: Event, type: 'activity' | 'measurement' | 'record', data: ICalendarDayData): void {
 
-        this.calendarItemDialog.activity(e, options)
+        this.calendarItemDialog[type](e, this.getOptions(FormMode.Post, data.date))
+            .then((response) => this.onSave(response), () => {});
+
+    }
+
+    /**
+     * Создание записи календаря
+     * @param e
+     * @param data
+     */
+    open (e: Event, type: 'activity' | 'measurement' | 'record' ,data: ICalendarDayData): void {
+
+        this.calendarItemDialog[type](e, this.getOptions(this.trainingPlanMode ? FormMode.Put : FormMode.View, data.date))
             .then((response) => this.onSave(response), () => {});
 
     }
@@ -247,7 +255,7 @@ class CalendarDayCtrl {
         }).then(response => {}, () => {});
     }
 
-    postRecord($event, data) {
+    postRecord2($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -341,6 +349,24 @@ class CalendarDayCtrl {
         //debugger;
         console.info('dnd moved event', item);
 
+    }
+
+    /**
+     * Набор опций для запуска диалога CalendarItem*
+     * @param mode
+     * @param date
+     * @returns {ICalendarItemDialogOptions}
+     */
+    private getOptions (mode: FormMode, date: string): ICalendarItemDialogOptions {
+        return {
+            dateStart: date,
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: mode,
+            trainingPlanMode: this.trainingPlanMode,
+            planId: this.planId
+        };
     }
 
 }
