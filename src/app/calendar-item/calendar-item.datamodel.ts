@@ -3,8 +3,9 @@ import moment from 'moment/src/moment.js';
 import {IMeasurementHeader, ICalendarItem, IEventHeader} from "../../../api/calendar/calendar.interface";
 import {IUserProfileShort} from "../../../api/user/user.interface";
 import {IActivityHeader} from "../../../api/activity/activity.interface";
-import { ICalendarItemDialogOptions } from "./calendar-item-dialog.interface";
+import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "./calendar-item-dialog.interface";
 import { FormMode } from "../application.interface";
+import { IRevisionResponse } from "../../../api/core/core";
 
 export class CalendarItemView {
 
@@ -35,11 +36,16 @@ export class CalendarItemView {
 	get isView (): boolean {
 		return this.options.formMode === FormMode.View;
 	}
+
+	set isView (value: boolean) {
+		value ? this.options.formMode = FormMode.View : this.options.formMode = FormMode.Put;
+	}
 }
 
 export class CalendarItem implements ICalendarItem {
 
 	public revision: any;
+	public parentId: number;
 	public calendarItemId: any;
 	public dateStart: string;
 	public dateEnd: string;
@@ -77,8 +83,8 @@ export class CalendarItem implements ICalendarItem {
 	}
 
 	// Обновление данных, после сохранения
-	compile(response) {
-		console.log('response',response);
+	compile(response: IRevisionResponse) {
+		debugger;
 		this.revision = response.value.revision;
 		this.calendarItemId = response.value.id;
 		this.index = Number(`${this.calendarItemId}${this.revision}`);

@@ -5,7 +5,7 @@ export interface TrainingPlanConfig {
     };
     tags: Array<string>;
     defaultSettings: {
-       type: string,
+        type: string,
         distanceType: string,
         tags: Array<string>
     };
@@ -17,7 +17,7 @@ export const trainingPlanConfig: TrainingPlanConfig = {
         triathlon: ['olympic', 'fullDistance', 'halfDistance', 'sprint', 'superSprint', 'other'],
         run: ['marathon', 'halfMarathon', '10km', '5km', 'other'],
         bike: ['multiDays'],
-        swim: ['10km','other']
+        swim: ['10km', 'other']
     },
     tags: ['beginner', 'advanced', 'pro', 'powerMeter', 'hrBelt', 'weightLoss', 'fitness', 'health'],
     defaultSettings: {

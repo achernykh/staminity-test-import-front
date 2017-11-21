@@ -109,6 +109,35 @@ export class CalendarItemDialogService {
     }
 
     /**
+     * Диалог ведения Соревнования
+     * @param env
+     * @param options
+     * @param item
+     * @returns {any}
+     */
+    competition (
+        env: Event,
+        options: ICalendarItemDialogOptions,
+        item: ICalendarItem = this.competitionFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+
+        return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
+            template: `<md-dialog id="calendar-item-competition" aria-label="Competition">
+                        <st-calendar-item-competition 
+                                item="$ctrl.item"
+                                options="$ctrl.options"
+                                on-cancel="cancel()"
+                                on-answer="answer(formMode, item)">
+                        </st-calendar-item-competition>
+                   </md-dialog>`,
+            targetEvent: env,
+            locals: {
+                item: item,
+                options: options
+            }
+        }));
+    }
+
+    /**
      * Пустая тренировка на основе параметров
      * @param options
      * @returns {ICalendarItem}
@@ -163,6 +192,29 @@ export class CalendarItemDialogService {
             dateStart: options.dateStart,
             dateEnd: options.dateStart,
             recordHeader: {},
+            userProfileOwner: profileShort(options.owner),
+            userProfileCreator: profileShort(options.currentUser),
+            groupProfile: options.groupCreator
+        };
+    }
+
+    /**
+     * Пустая запись Соревнования на основе параметров
+     * @param options
+     * @returns {ICalendarItem}
+     */
+    private competitionFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+        return {
+            calendarItemId: null,
+            calendarItemType: 'competition',
+            revision: null,
+            dateStart: options.dateStart,
+            dateEnd: options.dateStart,
+            competitionHeader: {
+                type: 'run',
+                distanceType: 'marathon',
+                priority: 'C'
+            },
             userProfileOwner: profileShort(options.owner),
             userProfileCreator: profileShort(options.currentUser),
             groupProfile: options.groupCreator

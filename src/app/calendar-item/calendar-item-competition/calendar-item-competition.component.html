@@ -1,0 +1,210 @@
+<div flex class="calendar-item-competition md-whiteframe-8dp" layout="column">
+    <!-- Заголовок с контекстным меню Соревнования -->
+    <md-toolbar flex="none" class="md-primary">
+        <div class="md-toolbar-tools">
+            <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
+                           aria-label="User">
+                    <md-icon class="material-icons">menu</md-icon>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.delete()" ng-disabled="$ctrl.competition.view.isPost">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            <span translate="activity.toolbar.delete"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-if="::$ctrl.currentUser.connections.hasOwnProperty('allAthletes')">
+                        <md-button ng-click="$ctrl.showSelectAthletes = true">
+                            <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
+                            <span translate="activity.toolbar.multiAthletes"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <h2 translate="competition.title"></h2>
+            <span flex></span>
+            <userpic class="border-light"
+                     profile="$ctrl.owner"
+                     is-premium="$ctrl.owner.isPremium"
+                     unlink="true">
+            </userpic>
+            <md-button class="md-icon-button" ng-click="$ctrl.close()">
+                <md-tooltip md-direction="left">{{'activity.toolbar.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <!-- Форма -->
+    <md-content flex="auto" layout="column">
+        <!-- Режим просмотра -->
+        <md-list ng-if="$ctrl.isViewMode">
+            <md-list-item>
+                <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.record.competitionHeader.type}}.svg"></md-icon>
+                <p flex class="md-caption" ng-if="$ctrl.isViewMode">{{::'competition.' + $ctrl.competition.competitionHeader.type | translate}}</p>
+            </md-list-item>
+            <md-list-item>
+                <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
+                <p flex class="md-caption">{{::$ctrl.competition.dateStart | date:'shortDate'}}</p>
+            </md-list-item>
+        </md-list>
+        <!-- Режим редактирования -->
+        <form flex="none" ng-if="!$ctrl.isViewMode" layout="column" name="$ctrl.form">
+            <md-list flex="none" class="md-dense bg-grey-050">
+                <md-subheader><span translate="competition.about"></span></md-subheader>
+                <!-- Название соревнования -->
+                <md-list-item>
+                    <md-input-container class="md-block no-message" layout="row">
+                        <label translate="competition.name.label"></label>
+                        <md-icon flex="none" class="material-icons md-dark">timeline</md-icon>
+                        <input flex="auto"
+                               name="name" required
+                               type="text"
+                               placeholder="{{competition.name.placeholder}}"
+                               ng-model="$ctrl.competition.competitionHeader.name">
+                        <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                            <div ng-message-exp="['required']"
+                                 translate="form.required">
+                            </div>
+                            <div ng-message-exp="['minlength', 'maxlength']"
+                                 translate="form.rangeStr" translate-values="{min:2, max:100}">
+                            </div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+                <!-- Вид соревнования -->
+                <md-list-item>
+                    <md-input-container class="md-block no-message" md-no-float layout="row">
+                        <label translate="competition.type.label"></label>
+                        <md-icon flex="none" class="md-dark"
+                                 md-svg-src="/assets/icon/{{$ctrl.competition.competitionHeader.type}}.svg">
+                        </md-icon>
+                        <md-select flex name="type" class="icon" required
+                                   placeholder="{{competition.type.placeholder}}"
+                                   ng-model="$ctrl.competition.competitionHeader.type"
+                                   ng-change="$ctrl.changeParam()">
+                            <md-option ng-repeat="type in $ctrl.config.getTypes() track by $index"
+                                       value="{{type}}">
+                                {{'competition.types.' + type | translate}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="$ctrl.form.type.$error" role="alert">
+                            <div ng-message-exp="['required']"
+                                 translate="form.required">
+                            </div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+                <!-- Тип дистанции -->
+                <md-list-item>
+                    <md-input-container class="md-block no-message" md-no-float layout="row">
+                        <label translate="competition.distanceType.label"></label>
+                        <md-icon flex="none" class="md-dark"
+                                 md-svg-src="/assets/icon/competition.svg"></md-icon>
+                        <md-select flex name="distanceType" class="icon" required"
+                                   ng-model="$ctrl.competition.competitionHeader.distanceType"
+                                   placeholder="{{competition.distanceType.placeholder}}"
+                                   ng-change="$ctrl.setDistanceType()">
+                            <md-option
+                                    ng-repeat="type in $ctrl.config.getDistance($ctrl.competition.competitionHeader.type) track by $index"
+                                    value="{{type}}">
+                                {{'competition.distanceType.' + type | translate}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="$ctrl.form.distanceType.$error" role="alert">
+                            <div ng-message-exp="['required']"
+                                 translate="form.required">
+                            </div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+                <!-- Приоритет соревнования -->
+                <md-list-item>
+                    <md-input-container class="md-block no-message" md-no-float layout="row">
+                        <label translate="competition.type.label"></label>
+                        <md-icon flex="none" class="material-icons md-dark">format_list_numbered</md-icon>
+                        <md-select flex name="priority" class="icon" required
+                                   placeholder="{{competition.priority.placeholder}}"
+                                   ng-model="$ctrl.competition.competitionHeader.priority"
+                                   ng-change="$ctrl.changeParam()">
+                            <md-option ng-repeat="rang in $ctrl.config.priorities track by $index"
+                                       value="{{rang}}">
+                                {{'competition.priorities.' + rang | translate}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="$ctrl.form.priority.$error" role="alert">
+                            <div ng-message-exp="['required']"
+                                 translate="form.required">
+                            </div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+                <!-- Дата -->
+                <md-list-item layout="row" layout-align="start center">
+                    <md-input-container flex="auto" class="no-message">
+                        <label translate="competition.startDate.label"></label>
+                        <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
+                        <md-datepicker flex="auto"
+                                       ng-model="$ctrl.competition._dateStart"
+                                       name="dateStart" md-hide-icons="calendar">
+                        </md-datepicker>
+                    </md-input-container>
+                </md-list-item>
+            </md-list>
+        </form>
+        <!-- Задание -->
+        <md-list flex="none" class="md-dense"
+                 ng-switch="$ctrl.config.types[$ctrl.competition.competitionHeader.type][$ctrl.competition.competitionHeader.distanceType].length === 1">
+            <md-subheader><span translate="competition.target"></span></md-subheader>
+            <p class="md-body-1" ng-if="!$ctrl.competition.competitionHeader.type || !$ctrl.competition.competitionHeader.distanceType"
+               translate="competition.needDistanceType"></p>
+            <st-competition-single-stage
+                    ng-switch-when="true"
+                    ng-if="$ctrl.competition.competitionHeader.distanceType"
+                    activity="$ctrl.competition.items[0].item">
+
+            </st-competition-single-stage>
+            <st-competition-multi-stage ng-switch-when="false" ng-if="$ctrl.competition.competitionHeader.distanceType">
+
+            </st-competition-multi-stage>
+        </md-list>
+        <!-- Описание -->
+        <md-list flex="none" class="md-dense description">
+            <md-subheader><span translate="competition.trainersPrescription"></span></md-subheader>
+            <ng-quill-editor ng-if="$ctrl.fullScreenMode"
+                             ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
+                             placeholder="{{'competition.trainersPrescriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbarFull"
+                             on-content-changed="$ctrl.changeForm()"
+                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
+                             read-only="$ctrl.isViewMode">
+            </ng-quill-editor>
+            <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
+                             ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
+                             placeholder="{{'competition.trainersPrescriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbar"
+                             on-content-changed="$ctrl.changeForm()"
+                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
+                             read-only="$ctrl.isViewMode">
+            </ng-quill-editor>
+        </md-list>
+    </md-content>
+
+    <!-- Кнопки -->
+
+    <md-dialog-actions flex="none" layout="row" style="background: white">
+        <span flex></span>
+        <md-button ng-if="$ctrl.isViewMode" type="submit"
+                   ng-click="$ctrl.mode = 'put'">
+            <span translate="activity.edit"></span>
+        </md-button>
+        <md-button ng-if="!$ctrl.isViewMode" type="submit"
+                   ng-class="{'md-warn': !$ctrl.form.$valid}"
+                   ng-disabled="$ctrl.mode === 'put' && !$ctrl.form.$dirty"
+                   ng-click="($ctrl.form.$valid) ? $ctrl.save() : null">
+            <span translate="activity.save"></span>
+        </md-button>
+    </md-dialog-actions>
+
+
+</div>

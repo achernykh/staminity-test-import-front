@@ -238,6 +238,7 @@ export class Activity extends CalendarItem {
             calendarItemId: this.calendarItemId,
             calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
             revision: this.revision,
+            parentId: this.parentId,
             dateStart: this.dateStart, // timestamp даты и времени начала
             dateEnd: this.dateEnd, // timestamp даты и времени окончания
             userProfileOwner: userProfile || this.userProfileOwner,

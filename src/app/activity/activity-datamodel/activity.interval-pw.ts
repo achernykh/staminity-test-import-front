@@ -13,14 +13,22 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
     distanceApprox: boolean; // дистанция рассчитана приблизительно
 
     // Дополнительные поля для ввода неструктурированной тренировке
-    movingDuration: IDurationMeasure = new DurationMeasure();
-    distance: IDurationMeasure = new DurationMeasure();
-    heartRate: IIntensityMeasure = new IntensityMeasure();
-    speed: IIntensityMeasure = new IntensityMeasure();
-    power: IIntensityMeasure = new IntensityMeasure();
+    distance: IDurationMeasure;
+    movingDuration: IDurationMeasure;
+    heartRate: IIntensityMeasure;
+    power: IIntensityMeasure;
+    speed: IIntensityMeasure;
 
     constructor(type: string, params: any) {
         super(type, params);
+
+        this.distance = this.distance || new DurationMeasure();
+        this.movingDuration = this.movingDuration || new DurationMeasure();
+
+        this.heartRate = this.heartRate || new IntensityMeasure();
+        this.speed = this.speed || new IntensityMeasure();
+        this.power = this.power || new IntensityMeasure();
+
         this.prepareData();
     }
 

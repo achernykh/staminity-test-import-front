@@ -166,9 +166,9 @@ class CalendarDayCtrl {
      * @param e
      * @param data
      */
-    open (e: Event, type: 'activity' | 'measurement' | 'record' ,data: ICalendarDayData): void {
-
-        this.calendarItemDialog[type](e, this.getOptions(this.trainingPlanMode ? FormMode.Put : FormMode.View, data.date))
+    open (e: Event, type: 'activity' | 'measurement' | 'record' , item: ICalendarItem): void {
+        debugger;
+        this.calendarItemDialog[type](e, this.getOptions(this.trainingPlanMode ? FormMode.Put : FormMode.View, item.dateStart), item)
             .then((response) => this.onSave(response), () => {});
 
     }

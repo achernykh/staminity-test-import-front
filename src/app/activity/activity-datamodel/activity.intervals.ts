@@ -124,7 +124,7 @@ export class ActivityIntervals {
     }
 
     clear(interval: ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW):IActivityIntervals{
-        return interval.clear(interval['keys']);
+        return interval.clear();
     }
 
     /**
