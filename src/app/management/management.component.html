@@ -14,23 +14,23 @@
                     <md-menu-item style="color: #455a64; padding-left: 15px; line-height: 48px;">
                         Роль
                     </md-menu-item>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubCoaches'}">
+                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filterParams.clubRole === 'ClubCoaches'}">
                         <md-button ng-click="$ctrl.filterRole('ClubCoaches')"> Тренеры </md-button>
                     </md-menu-item>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubAthletes'}">
+                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filterParams.clubRole === 'ClubAthletes'}">
                         <md-button ng-click="$ctrl.filterRole('ClubAthletes')"> Спортсмены </md-button>
                     </md-menu-item>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubManagement'}">
+                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filterParams.clubRole === 'ClubManagement'}">
                         <md-button ng-click="$ctrl.filterRole('ClubManagement')"> Управление </md-button>
                     </md-menu-item>
                     <md-menu-item style="color: #455a64; padding-left: 15px; line-height: 48px;">
                         Тренер
                     </md-menu-item>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.noCoach}">
+                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filterParams.noCoach}">
                         <md-button ng-click="$ctrl.filterNoCoach()"> Без тренера </md-button>
                     </md-menu-item>
-                    <md-menu-item ng-repeat="coach in $ctrl.coaches"  ng-class="{'filter-item-active': $ctrl.filter.coach === coach}">
-                        <md-button ng-click="$ctrl.filterCoach(coach)">{{ coach.userProfile | username }}</md-button>
+                    <md-menu-item ng-repeat="coach in $ctrl.coaches"  ng-class="{'filter-item-active': $ctrl.filterParams.coachUserId === coach.userProfile.userId}">
+                        <md-button ng-click="$ctrl.filterCoach(coach.userProfile.userId)">{{ coach.userProfile | username }}</md-button>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
@@ -71,27 +71,27 @@
             <table md-table md-row-select multiple ng-model="$ctrl.checked">
                 <thead md-head md-order="$ctrl.orderBy">
                     <tr md-row>
-                        <th md-column md-order-by="sort.username"><span>Член клуба</span></th>
-                        <th md-column md-order-by="sort.roles"><span>Роль</span></th>
-                        <th md-column md-order-by="sort.coaches"><span>Тренер</span></th>
-                        <th md-column md-order-by="sort.tariff"><span>Тариф</span></th>
-                        <th md-column md-order-by="sort.athletes"><span>Спортсмены</span></th>
-                        <th md-column md-order-by="sort.city"><span>Город</span></th>
-                        <th md-column md-order-by="sort.ageGroup"><span>Возрастная группа</span></th>
+                        <th md-column md-order-by="username"><span>Член клуба</span></th>
+                        <th md-column md-order-by="roles"><span>Роль</span></th>
+                        <th md-column md-order-by="coaches"><span>Тренер</span></th>
+                        <th md-column md-order-by="tariff"><span>Тариф</span></th>
+                        <th md-column md-order-by="athletes"><span>Спортсмены</span></th>
+                        <th md-column md-order-by="city"><span>Город</span></th>
+                        <th md-column md-order-by="ageGroup"><span>Возрастная группа</span></th>
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.filter.pred | orderBy:$ctrl.orderBy)">
+                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.rows">
                         <td md-cell>
                             <md-button style="text-transform: none; font-size: 13px; margin: 0;" ui-sref="user({uri: member.userProfile.public.uri})">
-                                <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
+                                <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
                                 {{ member.userProfile | username }}
                             </md-button>
                         </td>
-                        <td md-cell>{{ $ctrl.roleMembership(member.roleMembership) }}</td>
+                        <td md-cell>{{ member.roleMembership | clubRoleMembership }}</td>
                         <td md-cell>
                             <span ng-if="member.coaches && member.coaches.length">
-                                {{ $ctrl.member(member.coaches[0]).userProfile | username }}
+                                {{ $ctrl.getMember(member.coaches[0]).userProfile | username }}
                                 <span ng-if="member.coaches.length > 1">, +{{ member.coaches.length - 1 }}</span>
                             </span>
                             <span ng-if="!member.coaches || !member.coaches.length">-</span>
@@ -157,8 +157,8 @@
                     </md-menu-content>
                 </md-menu>
             </md-list-item>
-            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.filter.pred)" ng-click="$ctrl.showActions(member)" layout="row" layout-align="center center">
-                <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
+            <md-list-item ng-repeat="member in $ctrl.rows = $ctrl.members" layout="row" layout-align="center center">
+                <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
                 <span flex ui-sref="user({uri: member.userProfile.public.uri})">{{ member.userProfile | username }}</span>
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
             </md-list-item>

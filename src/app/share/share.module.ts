@@ -99,6 +99,8 @@ const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorType.use
     return url;
 };
 
+const isPremium = () => (userProfile) => userProfile && userProfile.billing.find((tariff) => tariff.tariffCode === 'Premium');
+
 const truncate = () => (s, max = 140) => s && (s.length <= max? s : s.slice(0, max - 1) + '…');
 
 const userpic = {
@@ -167,7 +169,8 @@ const Share = module('staminity.share', ['ui.router','pascalprecht.translate'])
     .filter('image', image)
     .filter('userBackground', userBackground)
     .filter('username', userName)
-    .filter('userName', userName)
+    .filter('username', userName)
+    .filter('isPremium', isPremium)
     .filter('clubName', clubName)
     .filter('ageGroup', () => ageGroup)
     .filter('requestType', () => (request) => requestType(request) + '.action')
