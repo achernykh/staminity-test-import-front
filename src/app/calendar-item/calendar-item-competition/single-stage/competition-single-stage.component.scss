@@ -2,6 +2,29 @@
 
   width: 100%;
 
+  .stage.md-column {
+    width: 45px;
+  }
+
+  .stage.md-cell {
+    md-icon {
+      margin-right: 18px;
+    }
+  }
+
+  .plan.md-column {
+    min-width: 55px;
+  }
+
+  .actual.md-column {
+    min-width: 55px;
+  }
+
+  .percent {
+
+  }
+
+
   table {
     padding: 16px;
   }

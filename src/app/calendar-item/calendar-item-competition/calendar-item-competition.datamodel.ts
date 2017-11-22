@@ -80,13 +80,13 @@ export class CalendarItemCompetition extends CalendarItem {
 
     get movingDuration (): number {
         let sum: number = 0;
-        this.items.map(i => sum += i.item.movingDuration);
+        this.items.map(i => sum = sum + i.item.movingDuration);
         return sum;
     }
 
     get distance  (): number {
         let sum: number = 0;
-        this.items.map(i => sum += i.item.movingDuration);
+        this.items.map(i => sum = sum + i.item.distance);
         return sum;
     }
 }
