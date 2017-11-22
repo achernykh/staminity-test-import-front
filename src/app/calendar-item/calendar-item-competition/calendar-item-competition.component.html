@@ -154,19 +154,16 @@
         </form>
         <!-- Задание -->
         <md-list flex="none" class="md-dense"
-                 ng-switch="$ctrl.config.types[$ctrl.competition.competitionHeader.type][$ctrl.competition.competitionHeader.distanceType].length === 1">
+                 ng-switch="$ctrl.competition.items.length > 0">
             <md-subheader><span translate="competition.target"></span></md-subheader>
-            <p class="md-body-1" ng-if="!$ctrl.competition.competitionHeader.type || !$ctrl.competition.competitionHeader.distanceType"
+            <p class="md-body-1"
+               ng-switch-when="false"
                translate="competition.needDistanceType"></p>
             <st-competition-single-stage
                     ng-switch-when="true"
-                    ng-if="$ctrl.competition.competitionHeader.distanceType"
-                    activity="$ctrl.competition.items[0].item">
+                    items="$ctrl.competition.items">
 
             </st-competition-single-stage>
-            <st-competition-multi-stage ng-switch-when="false" ng-if="$ctrl.competition.competitionHeader.distanceType">
-
-            </st-competition-multi-stage>
         </md-list>
         <!-- Описание -->
         <md-list flex="none" class="md-dense description">

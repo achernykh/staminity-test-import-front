@@ -1,13 +1,13 @@
 import './competition-single-stage.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import { Activity } from "../../../activity/activity-datamodel/activity.datamodel";
+import { CompetitionItems } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.datamodel";
 
 class CompetitionSingleStageCtrl implements IComponentController {
 
     // bind
-    activity: Activity;
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
+    items: Array<CompetitionItems>;
+
     static $inject = [];
 
     constructor() {
@@ -21,7 +21,7 @@ class CompetitionSingleStageCtrl implements IComponentController {
 
 export const CompetitionSingleStageComponent:IComponentOptions = {
     bindings: {
-        activity: '<',
+        items: '<',
         onChange: '&'
     },
     require: {

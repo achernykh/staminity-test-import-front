@@ -9,7 +9,7 @@ import { ActivityInterval } from "../../activity/activity-datamodel/activity.int
 import { ActivityIntervalPW } from "../../activity/activity-datamodel/activity.interval-pw";
 import { FormMode } from "../../application.interface";
 
-interface CompetitionItems {
+export interface CompetitionItems {
     mode: FormMode;
     item: Activity;
 }
@@ -72,5 +72,21 @@ export class CalendarItemCompetition extends CalendarItem {
         let item: ICalendarItem = Object.assign({}, this);
         ['item', 'items', 'options'].map(k => delete item[k]);
         return this;
+    }
+
+    get sportBasic (): string {
+        return this.competitionHeader.type;
+    }
+
+    get movingDuration (): number {
+        let sum: number = 0;
+        this.items.map(i => sum += i.item.movingDuration);
+        return sum;
+    }
+
+    get distance  (): number {
+        let sum: number = 0;
+        this.items.map(i => sum += i.item.movingDuration);
+        return sum;
     }
 }

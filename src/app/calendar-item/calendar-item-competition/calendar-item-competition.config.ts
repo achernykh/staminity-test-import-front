@@ -28,7 +28,7 @@ export class CompetitionConfig implements CompetitionConfig {
         run: {
             marathon: [
                 {
-                    activityTypeId: 10,
+                    activityTypeId: 2,
                     durationMeasure: 'distance',
                     durationValue: 42.125*1000,
                     intensityMeasure: 'speed',
@@ -36,42 +36,47 @@ export class CompetitionConfig implements CompetitionConfig {
             ],
             halfMarathon: [
                 {
-                    activityTypeId: 10,
+                    activityTypeId: 2,
                     durationMeasure: 'distance',
                     durationValue: 21.075*1000,
                     intensityMeasure: 'speed',
                 }
             ]
-        }/*,
+        },
         triathlon: {
             olympic: [
                 {
                     activityTypeId: 7,
-                    distance: 1500,
-                    movingDuration: null
+                    durationMeasure: 'distance',
+                    durationValue: 1.5*1000,
+                    intensityMeasure: 'speed',
                 },
                 {
                     activityTypeId: 15,
-                    distance: null,
-                    movingDuration: null
+                    durationMeasure: 'movingDuration',
+                    durationValue: 5*60,
+                    intensityMeasure: 'speed',
                 },
                 {
                     activityTypeId: 10,
-                    distance: 40*1000,
-                    movingDuration: null
+                    durationMeasure: 'distance',
+                    durationValue: 40*1000,
+                    intensityMeasure: 'speed',
                 },
                 {
                     activityTypeId: 16,
-                    distance: null,
-                    movingDuration: null
+                    durationMeasure: 'movingDuration',
+                    durationValue: 5*60,
+                    intensityMeasure: 'speed',
                 },
                 {
                     activityTypeId: 2,
-                    distance: 10*1000,
-                    movingDuration: null
+                    durationMeasure: 'distance',
+                    durationValue: 10*1000,
+                    intensityMeasure: 'speed',
                 }
             ]
-        }*/
+        }
     };
 
     getTypes (): Array<string> {

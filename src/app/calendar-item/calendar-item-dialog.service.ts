@@ -211,8 +211,8 @@ export class CalendarItemDialogService {
             dateStart: options.dateStart,
             dateEnd: options.dateStart,
             competitionHeader: {
-                type: 'run',
-                distanceType: 'marathon',
+                type: 'triathlon',
+                distanceType: 'olympic',
                 priority: 'C'
             },
             userProfileOwner: profileShort(options.owner),

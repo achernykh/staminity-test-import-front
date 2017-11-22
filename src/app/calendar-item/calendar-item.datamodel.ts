@@ -33,6 +33,10 @@ export class CalendarItemView {
 		return this.options.formMode === FormMode.Put;
 	}
 
+	set isPut (value: boolean) {
+		value ? this.options.formMode = FormMode.Put : this.options.formMode = FormMode.View;
+	}
+
 	get isView (): boolean {
 		return this.options.formMode === FormMode.View;
 	}

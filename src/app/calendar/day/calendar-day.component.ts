@@ -1,14 +1,14 @@
 import './calendar-day.component.scss';
 import moment from 'moment/src/moment.js';
 import * as angular from 'angular';
-import {IMessageService} from "../../core/message.service";
+import { IMessageService } from "../../core/message.service";
 import ActivityService from "../../activity/activity.service";
-import {CalendarService} from "../calendar.service";
-import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge, copy} from 'angular';
+import { CalendarService } from "../calendar.service";
+import { IComponentOptions, IComponentController, IFormController, IPromise, IScope, merge, copy } from 'angular';
 import { CalendarCtrl } from "../calendar.component";
 import { ICalendarDayData } from "../calendar.interface";
-import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
-import {isSpecifiedActivity, isCompletedActivity, clearActualDataActivity} from "../../activity/activity.function";
+import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
+import { isSpecifiedActivity, isCompletedActivity, clearActualDataActivity } from "../../activity/activity.function";
 import { IUserProfile } from "@api/user";
 import { getCalendarItem } from "../../calendar-item/calendar-item.function";
 import {
@@ -30,54 +30,65 @@ class CalendarDayCtrl {
     trainingPlanMode: boolean;
     planId: number;
 
+    // private
+    private itemOptions: ICalendarItemDialogOptions;
+
     onSave: (response: ICalendarItemDialogResponse) => Promise<any>;
 
-    static $inject = ['$mdDialog','message','ActivityService','CalendarService','$scope','dialogs', 'CalendarItemDialogService'];
+    static $inject = [ '$mdDialog', 'message', 'ActivityService', 'CalendarService', '$scope', 'dialogs', 'CalendarItemDialogService' ];
 
-    constructor(
-        private $mdDialog: any,
-        private message: IMessageService,
-        private ActivityService: ActivityService,
-        private CalendarService: CalendarService,
-        private $scope: IScope,
-        private dialogs: any,
-        private calendarItemDialog: CalendarItemDialogService){
+    constructor (private $mdDialog: any,
+                 private message: IMessageService,
+                 private ActivityService: ActivityService,
+                 private CalendarService: CalendarService,
+                 private $scope: IScope,
+                 private dialogs: any,
+                 private calendarItemDialog: CalendarItemDialogService) {
 
     }
 
-    isSpecified(item: ICalendarItem):boolean {
+    isSpecified (item: ICalendarItem): boolean {
         return isSpecifiedActivity(item);
     }
 
 
-    $onInit(){
-	    let diff = moment().diff(moment(this.data.date),'days',true);
+    $onInit () {
+        let diff = moment().diff(moment(this.data.date), 'days', true);
         this.today = diff >= 0 && diff < 1;
+        this.itemOptions = {
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: this.trainingPlanMode ? FormMode.Put : FormMode.View,
+            trainingPlanMode: this.trainingPlanMode,
+            planId: this.planId
+        };
     }
 
-    onSelect() {
+    onSelect () {
         this.selected = !this.selected;
     }
 
-    onDelete(){
+    onDelete () {
         //this.dialogs.confirm({ text: 'deletePlanActivity' })
-         //   .then(()=>this.calendar.onDelete(this.data.calendarItems));
+        //   .then(()=>this.calendar.onDelete(this.data.calendarItems));
     }
-    onPaste(){
+
+    onPaste () {
         //this.calendar.onPasteDay(this.data.date)
     }
-    onCopy(){
+
+    onCopy () {
         //this.calendar.onCopyItem(this.data.calendarItems)
     }
 
-    onOpen($event, type, data) {
+    onOpen ($event, type, data) {
 
-        if(type === 'measurement'){
+        if (type === 'measurement') {
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
-                template:
-                    `<md-dialog id="measurement" aria-label="Measurement">
+                template: `<md-dialog id="measurement" aria-label="Measurement">
                         <calendar-item-measurement
                                 flex layout="column" class="calendar-item-measurement"
                                 data="$ctrl.data" mode="put"
@@ -94,9 +105,11 @@ class CalendarDayCtrl {
                 escapeToClose: true,
                 fullscreen: true
 
-            }).then(response => {}, ()=> {});
+            }).then(response => {
+            }, () => {
+            });
         }
-        if(type === 'event'){
+        if (type === 'event') {
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
@@ -120,9 +133,11 @@ class CalendarDayCtrl {
                 escapeToClose: true,
                 fullscreen: true
 
-            }).then(response => {}, ()=> {});
+            }).then(response => {
+            }, () => {
+            });
         }
-        if(type === 'record'){
+        if (type === 'record') {
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: '$ctrl',
@@ -138,14 +153,16 @@ class CalendarDayCtrl {
                 targetEvent: $event,
                 locals: {
                     data: data,
-                    calendarRange: [null, null]//this.calendar.calendarRange
+                    calendarRange: [ null, null ]//this.calendar.calendarRange
                 },
                 bindToController: true,
                 clickOutsideToClose: false,
                 escapeToClose: true,
                 fullscreen: true
 
-            }).then(response => {}, ()=> {});
+            }).then(response => {
+            }, () => {
+            });
         }
     }
 
@@ -156,8 +173,9 @@ class CalendarDayCtrl {
      */
     post (e: Event, type: 'activity' | 'measurement' | 'record', data: ICalendarDayData): void {
 
-        this.calendarItemDialog[type](e, this.getOptions(FormMode.Post, data.date))
-            .then((response) => this.onSave(response), () => {});
+        this.calendarItemDialog[ type ](e, this.getOptions(FormMode.Post, data.date))
+            .then((response) => this.onSave(response), () => {
+            });
 
     }
 
@@ -166,19 +184,19 @@ class CalendarDayCtrl {
      * @param e
      * @param data
      */
-    open (e: Event, type: 'activity' | 'measurement' | 'record' , item: ICalendarItem): void {
+    open (e: Event, type: 'activity' | 'measurement' | 'record', item: ICalendarItem): void {
         debugger;
-        this.calendarItemDialog[type](e, this.getOptions(this.trainingPlanMode ? FormMode.Put : FormMode.View, item.dateStart), item)
-            .then((response) => this.onSave(response), () => {});
+        this.calendarItemDialog[ type ](e, this.getOptions(this.trainingPlanMode ? FormMode.Put : FormMode.View, item.dateStart), item)
+            .then((response) => this.onSave(response), () => {
+            });
 
     }
 
-    newActivity($event, data){
+    newActivity ($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
-            template:
-                `<md-dialog id="post-activity" aria-label="Activity">
+            template: `<md-dialog id="post-activity" aria-label="Activity">
                         <calendar-item-activity
                                 layout="row" class="calendar-item-activity"
                                 date="$ctrl.date"
@@ -197,10 +215,12 @@ class CalendarDayCtrl {
             clickOutsideToClose: false,
             escapeToClose: false,
             fullscreen: true
-        }).then(response => {}, ()=>{});
+        }).then(response => {
+        }, () => {
+        });
     }
 
-    newMeasurement($event, data){
+    newMeasurement ($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -223,10 +243,12 @@ class CalendarDayCtrl {
             clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
-        }).then(response => {}, ()=> {});
+        }).then(response => {
+        }, () => {
+        });
     }
 
-    newEvent($event, data) {
+    newEvent ($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -252,10 +274,12 @@ class CalendarDayCtrl {
             escapeToClose: true,
             fullscreen: true
 
-        }).then(response => {}, () => {});
+        }).then(response => {
+        }, () => {
+        });
     }
 
-    postRecord2($event, data) {
+    postRecord2 ($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -270,39 +294,41 @@ class CalendarDayCtrl {
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                data: getCalendarItem('record', data.date, this.owner, this.currentUser ),
-                calendarRange: [null,null]//this.calendar.calendarRange
+                data: getCalendarItem('record', data.date, this.owner, this.currentUser),
+                calendarRange: [ null, null ]//this.calendar.calendarRange
             },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true
 
-        }).then(response => {}, () => {});
+        }).then(response => {
+        }, () => {
+        });
     }
 
 
-    onDropActivity(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number) {
+    onDropActivity (srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number) {
 
         let item: ICalendarItem = copy(srcItem);
-        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
-        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
 
-        switch (operation) {
+        switch ( operation ) {
             case 'move': {
-                if(isCompletedActivity(item)){
+                if (isCompletedActivity(item)) {
                     this.dialogs.confirm({ text: 'dialogs.moveActualActivity' })
-                    .then(() => this.CalendarService.postItem(clearActualDataActivity(item)))
-                    .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
+                        .then(() => this.CalendarService.postItem(clearActualDataActivity(item)))
+                        .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
                 } else {
                     this.CalendarService.putItem(item)
-                    .then(() => this.message.toastInfo('activityMoved'))
-                    .catch(error => this.message.toastError(error));
+                        .then(() => this.message.toastInfo('activityMoved'))
+                        .catch(error => this.message.toastError(error));
                 }
                 break;
             }
             case 'copy': {
-                this.CalendarService.postItem(isCompletedActivity(item)? clearActualDataActivity(item) : item)
+                this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
                     .then(() => this.message.toastInfo('activityCopied'))
                     .catch(error => this.message.toastError(error));
                 break;
@@ -311,12 +337,12 @@ class CalendarDayCtrl {
         return true;
     }
 
-    onDropEvent(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number):boolean {
+    onDropEvent (srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number): boolean {
         let item: ICalendarItem = copy(srcItem);
-        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
-        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(),'minutes').format();//new Date(date);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
 
-        switch (operation) {
+        switch ( operation ) {
             case 'move': {
                 this.CalendarService.putItem(item)
                     .then(() => this.message.toastInfo('eventMoved'))
@@ -334,18 +360,18 @@ class CalendarDayCtrl {
         return true;
     }
 
-    onDrag(event) {
-        console.info('dnd drag event',event);
+    onDrag (event) {
+        console.info('dnd drag event', event);
     }
 
-    onCopied(item) {
+    onCopied (item) {
         //debugger;
         //this.message.toastInfo('activityCopied');
-        console.info('dnd copied event',item);
+        console.info('dnd copied event', item);
 
     }
 
-    onMoved(item) {
+    onMoved (item) {
         //debugger;
         console.info('dnd moved event', item);
 
@@ -357,7 +383,7 @@ class CalendarDayCtrl {
      * @param date
      * @returns {ICalendarItemDialogOptions}
      */
-    private getOptions (mode: FormMode, date: string): ICalendarItemDialogOptions {
+    private getOptions (mode: FormMode, date?: string): ICalendarItemDialogOptions {
         return {
             dateStart: date,
             currentUser: this.currentUser,
@@ -368,6 +394,7 @@ class CalendarDayCtrl {
             planId: this.planId
         };
     }
+
 
 }
 
@@ -393,18 +420,18 @@ const CalendarDayComponent: IComponentOptions = {
 
 export default CalendarDayComponent;
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log('cancel');
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ['$scope','$mdDialog'];
+DialogController.$inject = [ '$scope', '$mdDialog' ];

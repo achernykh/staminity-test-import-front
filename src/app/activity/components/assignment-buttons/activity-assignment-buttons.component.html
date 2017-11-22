@@ -7,7 +7,7 @@
                translate="activity.toTemplate">
     </md-button>
     <md-button ng-if="$ctrl.item.activity.view.isView"
-               ng-click="$ctrl.item.changeMode('put')"
+               ng-click="$ctrl.item.activity.view.isPut = true"
                translate="activity.edit">
     </md-button>
     <md-button ng-if="!$ctrl.item.activity.view.isView"
