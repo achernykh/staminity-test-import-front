@@ -200,7 +200,7 @@ const Share = module('staminity.share', ['ui.router','pascalprecht.translate'])
     }])
     .filter('percent', ['$filter',($filter)=> {
         return (value, decimal = 0) => {
-            if (value >= 0) {
+            if (value) {
                 return $filter('number')(value*100,decimal)+'%';
             }
         };

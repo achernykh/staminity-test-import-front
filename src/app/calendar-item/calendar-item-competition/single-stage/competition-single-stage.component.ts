@@ -35,7 +35,8 @@ class CompetitionSingleStageCtrl implements IComponentController {
         item.intervals.PW.durationValue = item.intervals.PW[this.durationMeasure(item)].durationValue;
         // процент выполнения
         if (item.intervals.W.calcMeasures[this.durationMeasure(item)].value) {
-            item.intervals.W.calcMeasures.completePercent.value = item.intervals.PW.durationValue / item.intervals.W.calcMeasures[this.durationMeasure(item)].value;
+            item.intervals.PW.calcMeasures.completePercent.value =
+                item.intervals.W.calcMeasures[this.durationMeasure(item)].value / item.intervals.PW.durationValue;
         }
     }
 

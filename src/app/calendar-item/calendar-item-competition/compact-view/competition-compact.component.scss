@@ -18,6 +18,30 @@
     background-color: $grey-500;
   }
 
+  // Статусная схема
+  .complete {
+
+    color: white;
+    @extend .bg-teal-gradient-800-500;
+
+    .bg-circle-32 {
+      background: $teal-800 !important;
+    }
+
+    &:hover, &.selected {
+      @extend .bg-teal-gradient-900-800;
+
+      .bg-circle-32 {
+        background: $teal-900 !important;
+      }
+    }
+
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $teal-500 !important;
+    }
+  }
+
 
   &__list {
 
@@ -36,6 +60,7 @@
 
     header {
       padding: 10px 12px 12px 12px;
+
     }
 
   }

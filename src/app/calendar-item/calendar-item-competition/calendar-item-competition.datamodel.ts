@@ -74,6 +74,21 @@ export class CalendarItemCompetition extends CalendarItem {
         return this;
     }
 
+    get status (): string {
+        return 'complete';
+    }
+
+    get isCompleted (): boolean {
+        return this.items.some(i => i.item.isCompleted);
+    }
+
+    get percent (): number {
+        let percent: number = null;
+        this.items.map(i => percent = percent + i.item.percent);
+        return this.isCompleted && percent / this.items.length / 100 || null;
+
+    }
+
     get sportBasic (): string {
         return this.competitionHeader.type;
     }
