@@ -2,11 +2,14 @@ import './competition-single-stage.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import { Activity } from "../../../activity/activity-datamodel/activity.datamodel";
 import { CompetitionItems } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.datamodel";
+import { CalendarItemDialogService } from "../../calendar-item-dialog.service";
+import { ICalendarItemDialogOptions } from "../../calendar-item-dialog.interface";
 
 class CompetitionSingleStageCtrl implements IComponentController {
 
     // bind
     items: Array<CompetitionItems>;
+    options: ICalendarItemDialogOptions;
 
     // private
     private readonly opposite = {
@@ -20,14 +23,20 @@ class CompetitionSingleStageCtrl implements IComponentController {
         }
     };
 
-    static $inject = [];
+    static $inject = ['CalendarItemDialogService'];
 
-    constructor() {
+    constructor(
+        private calendarItemDialog: CalendarItemDialogService) {
 
     }
 
     $onInit() {
 
+    }
+
+    open (e: Event, item: Activity): void {
+        this.calendarItemDialog.activity(e, this.options, item)
+            .then(() => {}, () => {});
     }
 
     changeValue (item: Activity): void {
@@ -56,6 +65,7 @@ class CompetitionSingleStageCtrl implements IComponentController {
 export const CompetitionSingleStageComponent:IComponentOptions = {
     bindings: {
         items: '<',
+        options: '<',
         onChange: '&'
     },
     require: {

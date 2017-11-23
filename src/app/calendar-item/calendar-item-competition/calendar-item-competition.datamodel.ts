@@ -8,6 +8,7 @@ import { getType } from "../../activity/activity.constants";
 import { ActivityInterval } from "../../activity/activity-datamodel/activity.interval";
 import { ActivityIntervalPW } from "../../activity/activity-datamodel/activity.interval-pw";
 import { FormMode } from "../../application.interface";
+import { toDay } from "../../activity/activity.datamodel";
 
 export interface CompetitionItems {
     mode: FormMode;
@@ -19,6 +20,9 @@ export class CalendarItemCompetition extends CalendarItem {
     competitionHeader: ICompetitionHeader;
     items: Array<CompetitionItems>;
     calendarItems: Array<ICalendarItem>; // массив вложенных тренировок
+
+    //private
+    private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
 
     constructor (private item: ICalendarItem, private options: ICalendarItemDialogOptions) {
         super(item, options);
@@ -70,12 +74,39 @@ export class CalendarItemCompetition extends CalendarItem {
 
     build (): ICalendarItem {
         let item: ICalendarItem = Object.assign({}, this);
-        ['item', 'items', 'options'].map(k => delete item[k]);
+        ['item', 'items', 'options','statusLimit'].map(k => delete item[k]);
         return this;
     }
 
     get status (): string {
-        return 'complete';
+        return !this.isToday ?
+            // приоритетов статусов для дыты = сегодня;
+            (this.isComing && 'coming') ||
+            (!this.isSpecified && 'not-specified') ||
+            (!this.isCompleted && 'dismiss') ||
+            ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete') ||
+            ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && 'complete-warn') ||
+            ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') :
+            // приоритетов статусов дада != сегодня
+            ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
+            || ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
+            || ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
+            || (!this.isSpecified && 'not-specified')
+            || (this.isComing && 'coming');
+    }
+
+    get isSpecified (): boolean {
+        return this.items.some(i => i.item.intervals.PW && i.item.intervals.PW.specified());
+    }
+
+    get isToday (): boolean {
+        return this._dateStart.getTime() === toDay(new Date()).getTime();
+    }
+
+    get isComing (): boolean {
+        return (this.options && this.options.hasOwnProperty('trainingPlanMode') && this.options.trainingPlanMode) ||
+            (this.options && this.options.hasOwnProperty('templateMode') && this.options.templateMode) ||
+            this._dateStart.getTime() >= toDay(new Date()).getTime();
     }
 
     get isCompleted (): boolean {
@@ -85,7 +116,7 @@ export class CalendarItemCompetition extends CalendarItem {
     get percent (): number {
         let percent: number = null;
         this.items.map(i => percent = percent + i.item.percent);
-        return this.isCompleted && percent / this.items.length / 100 || null;
+        return this.isCompleted && percent / this.items.length || null;
 
     }
 

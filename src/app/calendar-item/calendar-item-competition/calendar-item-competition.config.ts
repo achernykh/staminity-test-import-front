@@ -52,8 +52,8 @@ export class CompetitionConfig implements CompetitionConfig {
                 },
                 {
                     activityTypeId: 15,
-                    durationMeasure: 'distance',
-                    movingDurationLength: 5*60
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
                 },
                 {
                     activityTypeId: 10,
@@ -62,8 +62,8 @@ export class CompetitionConfig implements CompetitionConfig {
                 },
                 {
                     activityTypeId: 16,
-                    durationMeasure: 'distance',
-                    movingDurationLength: 5*60
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
                 },
                 {
                     activityTypeId: 2,

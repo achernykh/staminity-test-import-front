@@ -11,8 +11,12 @@
         <tbody md-body>
         <tr md-row ng-repeat="stage in $ctrl.items track by $index">
             <!-- Этап соревнования: иконка со статусом + основная величина этапа -->
-            <td md-cell class="stage">
-                <md-icon md-svg-src="assets/icon/{{stage.item.header.sportBasic}}.svg" class="md-dark md-secondary"></md-icon>
+            <td md-cell class="stage" layout="row" layout-align="start center">
+                <div flex="none" layout="row" layout-align="center center"
+                     class="calendar-item-activity-icon bg-circle-32 {{stage.item.status}}"
+                     ng-class="{color: !stage.item.isCompleted || !stage.item.isSpecified}">
+                    <md-icon md-svg-src="assets/icon/{{stage.item.header.sportBasic}}.svg" class="md-dark md-light md-18"></md-icon>
+                </div>
                 <span>{{$ctrl.oppositeValue(stage.item) | measureCalc:stage.item.header.sportBasic:$ctrl.oppositeMeasure(stage.item)}}</span>
                 <span>{{$ctrl.oppositeMeasure(stage.item) | measureUnit:stage.item.header.sportBasic | translate}}</span>
             </td>
@@ -29,7 +33,7 @@
                            ftp-mode="false"
                            ftp="null"
                            ng-change="$ctrl.changeValue(stage.item)"
-                           ng-disabled="stage.item.view.isView">
+                           ng-disabled="stage.item.hasActualData">
                 </md-input-container>
             </td>
             <!-- Факт по величине второстипенной величине этапа -->
@@ -48,12 +52,12 @@
                 </md-input-container>
             </td>
             <!-- Процент выполнения -->
-            <td md-cell ng-if="!stage.item.view.isView">
+            <td md-cell ng-if="!stage.item.hasActualData">
                 <span>{{stage.item.intervals.PW.calcMeasures.completePercent.value | percent}}</span>
             </td>
             <!-- Кнопка перехода к тренировке -->
-            <td md-cell ng-if="stage.item.view.isView">
-                <md-button class="md-icon-button">
+            <td md-cell ng-if="stage.item.hasActualData">
+                <md-button class="md-icon-button" ng-click="$ctrl.open($event, stage.item)">
                     <md-icon class="material-icons md-dark">keyboard_arrow_right</md-icon>
                 </md-button>
             </td>

@@ -11,17 +11,18 @@
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
             <section layout="row" layout-align="space-between center">
                 <div flex="25" class="percent md-caption tight-07">
-                    <span>{{$ctrl.competition.percent | percent}}</span>
+                    <span>{{$ctrl.competition.percent / 100 | percent}}</span>
                 </div>
                 <div flex="none" layout="row"
                      layout-align="center center"
-                     class="competition-icon bg-circle-32">
+                     class="competition-icon bg-circle-32"
+                     ng-class="{color: !$ctrl.competition.isCompleted || !$ctrl.competition.isSpecified}">
                     <md-icon class="material-icons md-light md-18" md-svg-src="/assets/icon/competition.svg"></md-icon>
                 </div>
 
                 <div flex="25">
                     <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px">
-                        <md-icon class="material-icons">more_vert</md-icon>
+                        <md-icon class="material-icons md-18">more_vert</md-icon>
                     </md-button>
                 </div>
             </section>

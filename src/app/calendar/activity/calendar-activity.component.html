@@ -7,7 +7,9 @@
         <div flex="none" layout="row" layout-align="space-between center" layout-align-gt-sm="space-between start">
             <section class="percent md-caption tight-07" flex="25" hide show-gt-sm>{{::$ctrl.data.printPercent()}}</section>
             <section class="icon" flex="none" flex-gt-sm="auto" layout="row" layout-align="center start">
-                <div flex="none" layout="row" layout-align="center center" class="bg-circle-32 bg-grey-500">
+                <div flex="none" layout="row" layout-align="center center"
+                     class="calendar-item-activity-icon bg-circle-32"
+                     ng-class="::{'color-{{::$ctrl.data.header.sportBasic}}': !$ctrl.data.isCompleted || !$ctrl.data.isSpecified}">
                     <md-icon md-svg-src="{{::$ctrl.data.header.sportUrl}}"
                              style="margin-left: 4px"
                              class="s24 light-active"></md-icon>

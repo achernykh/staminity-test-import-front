@@ -249,8 +249,43 @@ md-pagination-wrapper {
 
 
 // Статусная схема
-.competition-header.complete {
-  // Задание выполнено без отклонений
+
+.competition-icon {
+  background-color: $grey-500;
+  &.color {
+    background-color: $competition-color !important;
+  }
+}
+
+.calendar-item-activity-icon {
+  background-color: $grey-500;
+  transition: background-color 0.3s 0.1s;
+
+  &.color-run {
+    background-color: $activity-color-run !important;
+  }
+  &.color-bike {
+    background-color: $activity-color-bike !important;
+  }
+  &.color-swim {
+    background-color: $activity-color-swim !important;
+  }
+  &.color-other {
+    background-color: $activity-color-other !important;
+  }
+  &.complete {
+    background-color: $teal-800;
+  }
+  &.complete-warn {
+    background-color: $orange-800;
+  }
+  &.complete-error {
+    background-color: $red-800;
+  }
+}
+
+// Задание выполнено без отклонений
+.activity-header.complete, .competition-header.complete {
 
   color: white;
   background-image: $bg-teal-gradient-800-500;
@@ -271,49 +306,45 @@ md-pagination-wrapper {
     background: $teal-500 !important;
   }
 
-  // Задание выполнено с отклонениями
-  &-warn {
-    color: white;
-    @extend .bg-orange-gradient-800-500;
-    .bg-circle-32 {
-      background-color: $orange-800 !important;
-    }
+}
+// Задание выполнено с отклонениями
+.activity-header.complete-warn, .competition-header.complete-warn {
 
-    &:hover, &.selected {
-      @extend .bg-orange-gradient-900-800;
-
-      .bg-circle-32 {
-        background-color: $orange-900 !important;
-      }
-    }
-
-    // xs & sm size
-    @media (min-width: 0px) and (max-width: 959px) {
-      background: $orange-500 !important;
-    }
-
+  color: white;
+  background-image: $bg-orange-gradient-800-500;
+  .bg-circle-32 {
+    background-color: $orange-800 !important;
   }
 
-  // Задание выполнено с существенными отклонениями
-  &-error {
-    color: white;
-    @extend .bg-red-gradient-800-500;
+  &:hover, &.selected {
+    background-image: $bg-orange-gradient-900-800;
+
     .bg-circle-32 {
-      background-color: $red-800 !important;
+      background-color: $orange-900 !important;
     }
+  }
+  // xs & sm size
+  @media (min-width: 0px) and (max-width: 959px) {
+    background: $orange-500 !important;
+  }
+}
 
-    &:hover, &.selected {
-      @extend .bg-red-gradient-900-800;
+// Задание выполнено с существенным отклонением
+.activity-header.complete-error, .competition-header.complete-error {
+  color: white;
+  background-image: $bg-red-gradient-900-800;
+  .bg-circle-32 {
+    background-color: $red-800 !important;
+  }
 
-      .bg-circle-32 {
-        background-color: $red-900 !important;
-      }
+  &:hover, &.selected {
+    background-image: $bg-red-gradient-900-800;
+    .bg-circle-32 {
+      background-color: $red-900 !important;
     }
-
-    // xs & sm size
-    @media (min-width: 0px) and (max-width: 959px) {
-      background: $red-500 !important;
-    }
-
+  }
+  // xs & sm size
+  @media (min-width: 0px) and (max-width: 959px) {
+    background: $red-500 !important;
   }
 }
