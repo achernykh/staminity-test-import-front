@@ -1,7 +1,8 @@
-import { Activity } from "../activity/activity-datamodel/activity.datamodel";
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "./calendar-item-dialog.interface";
 import { profileShort } from "../core/user.function";
 import { ICalendarItem } from "../../../api/calendar/calendar.interface";
+import AuthService from "../auth/auth.service";
+import { IUserProfile } from "../../../api/user/user.interface";
 
 export class CalendarItemDialogService {
 
@@ -21,9 +22,10 @@ export class CalendarItemDialogService {
     };
 
     // inject
-    static $inject = ['$mdDialog'];
+    static $inject = ['$mdDialog', 'AuthService'];
 
-    constructor (private $mdDialog: any) {}
+    constructor (private $mdDialog: any,
+                 private auth: AuthService) {}
 
     /**
      * Диалог ведения Тренировки
@@ -47,7 +49,10 @@ export class CalendarItemDialogService {
             targetEvent: env,
             locals: {
                 activity: activity,
-                options: options,
+                options: Object.assign(options, {
+                    isPro: this.isPro,
+                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                })
             }
         }));
     }
@@ -103,7 +108,7 @@ export class CalendarItemDialogService {
             targetEvent: env,
             locals: {
                 item: item,
-                calendarRange: [null,null]//this.calendar.calendarRange
+                calendarRange: [null, null]//this.calendar.calendarRange
             }
         }));
     }
@@ -115,10 +120,9 @@ export class CalendarItemDialogService {
      * @param item
      * @returns {any}
      */
-    competition (
-        env: Event,
-        options: ICalendarItemDialogOptions,
-        item: ICalendarItem = this.competitionFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+    competition (env: Event,
+                 options: ICalendarItemDialogOptions,
+                 item: ICalendarItem = this.competitionFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="calendar-item-competition" aria-label="Competition">
@@ -132,7 +136,10 @@ export class CalendarItemDialogService {
             targetEvent: env,
             locals: {
                 item: item,
-                options: options
+                options: Object.assign(options, {
+                    isPro: this.isPro,
+                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                })
             }
         }));
     }
@@ -219,6 +226,28 @@ export class CalendarItemDialogService {
             userProfileCreator: profileShort(options.currentUser),
             groupProfile: options.groupCreator
         };
+    }
+
+    private get isPro (): boolean {
+        return this.auth.isActivityPro();
+    }
+
+    private getAthleteList (currentUser: IUserProfile, owner: IUserProfile): Array<{profile: IUserProfile, active: boolean}> {
+        let athleteList: Array<{profile: IUserProfile, active: boolean}> = [];
+
+        //
+        if ( currentUser.connections.hasOwnProperty('allAthletes') && currentUser.connections.allAthletes ) {
+            athleteList = currentUser.connections.allAthletes.groupMembers
+                .filter(user => user.hasOwnProperty('trainingZones'))
+                .map(user => ({profile: user, active: user.userId === owner.userId}));
+        }
+        //
+        if(athleteList.length === 0 || !athleteList.some(athlete => athlete.active)) {
+            athleteList.push({profile: owner, active: true});
+        }
+
+        return athleteList;
+
     }
 
 }
