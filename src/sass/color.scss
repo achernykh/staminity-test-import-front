@@ -90,6 +90,19 @@ $warning-color-hover:	$orange-900;
 $success-color:			$teal-700;
 $success-color-hover:	$teal-900;
 
+// Виды спорта
+$activity-color-run: #3F51B5;
+$activity-color-bike: #673AB7;
+$activity-color-swim: #03A9F4;
+$activity-color-strength: #795548;
+$activity-color-ski: #009688;
+$activity-color-other: #757575;
+$activity-color-brick: #F4511E;
+$competition-color: #E91E63;
+
+// Градиенты для фона CalendarItems
+$bg-teal-gradient-800-500: linear-gradient(to bottom, $teal-800, rgba($teal-500, 1));
+$bg-teal-gradient-900-800: linear-gradient(to bottom, $teal-900, rgba($teal-800, 1));
 
 .bg-orange {
 	&-600 {

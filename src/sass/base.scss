@@ -246,3 +246,74 @@ md-pagination-wrapper {
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
+
+
+// Статусная схема
+.competition-header.complete {
+  // Задание выполнено без отклонений
+
+  color: white;
+  background-image: $bg-teal-gradient-800-500;
+
+  .bg-circle-32 {
+    background: $teal-800 !important;
+  }
+
+  &:hover, &.selected {
+    background-image: $bg-teal-gradient-900-800;
+    .bg-circle-32 {
+      background: $teal-900 !important;
+    }
+  }
+
+  // xs & sm size
+  @media (min-width: 0px) and (max-width: 959px) {
+    background: $teal-500 !important;
+  }
+
+  // Задание выполнено с отклонениями
+  &-warn {
+    color: white;
+    @extend .bg-orange-gradient-800-500;
+    .bg-circle-32 {
+      background-color: $orange-800 !important;
+    }
+
+    &:hover, &.selected {
+      @extend .bg-orange-gradient-900-800;
+
+      .bg-circle-32 {
+        background-color: $orange-900 !important;
+      }
+    }
+
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $orange-500 !important;
+    }
+
+  }
+
+  // Задание выполнено с существенными отклонениями
+  &-error {
+    color: white;
+    @extend .bg-red-gradient-800-500;
+    .bg-circle-32 {
+      background-color: $red-800 !important;
+    }
+
+    &:hover, &.selected {
+      @extend .bg-red-gradient-900-800;
+
+      .bg-circle-32 {
+        background-color: $red-900 !important;
+      }
+    }
+
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $red-500 !important;
+    }
+
+  }
+}

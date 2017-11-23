@@ -169,6 +169,7 @@ class CalendarDayCtrl {
     /**
      * Создание записи календаря
      * @param e
+     * @param type
      * @param data
      */
     post (e: Event, type: 'activity' | 'measurement' | 'record', data: ICalendarDayData): void {
@@ -182,7 +183,8 @@ class CalendarDayCtrl {
     /**
      * Создание записи календаря
      * @param e
-     * @param data
+     * @param type
+     * @param item
      */
     open (e: Event, type: 'activity' | 'measurement' | 'record', item: ICalendarItem): void {
         debugger;

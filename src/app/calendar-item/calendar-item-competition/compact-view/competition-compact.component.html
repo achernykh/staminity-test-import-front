@@ -6,7 +6,7 @@
     <!-- Элемент дня календаря -->
     <section ng-switch-when="calendar" class="competition-compact__calendar md-whiteframe-1dp">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
-        <header class="{{::$ctrl.competition.status}}"
+        <header class="competition-header {{::$ctrl.competition.status}}"
                 ng-class="{selected: $ctrl.selected}">
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
             <section layout="row" layout-align="space-between center">
