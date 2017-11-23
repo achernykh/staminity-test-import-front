@@ -161,7 +161,7 @@ class ManagementCtrl {
     editCoaches () {
         let checked = this.getCheckedRows();
         let checkedCoaches = getMemberCoaches(checked[0]);
-        this.dialogs.selectUsers(getClubCoaches(this.management), checkedCoaches, 'coaches')
+        this.dialogs.selectUsers(this.getCoaches(), checkedCoaches, 'coaches')
         .then((nextCheckedCoaches) => {
             if (checkedCoaches) {
                 let members = this.checked.map(getMemberId);
