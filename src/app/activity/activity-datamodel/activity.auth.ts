@@ -1,23 +1,29 @@
+import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
+import { IUserProfileShort } from "@api/user";
 export class ActivityAuth {
 
-    constructor() {
+    constructor (
+        private owner: IUserProfileShort,
+        private creator: IUserProfileShort,
+        private options: ICalendarItemDialogOptions) {
 
     }
 
-    isOwner (): boolean {
-       return true;
+    get isOwner (): boolean {
+       return this.owner.userId === this.options.currentUser.userId;
     }
 
-    isCreator (): boolean {
-        return true;
+    get isCreator (): boolean {
+        return this.creator.userId === this.options.currentUser.userId;
     }
 
-    isPro (): boolean {
-        return true;
+    get isPro (): boolean {
+        return this.options.isPro;
     }
 
-    isMyCoach (): boolean {
-        return true;
+    // TODO не корректная логика определения тренера
+    get isMyCoach (): boolean {
+        return this.creator.userId === this.options.currentUser.userId;
     }
 
 }

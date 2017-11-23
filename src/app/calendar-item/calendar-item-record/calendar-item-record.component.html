@@ -90,7 +90,7 @@
                         <md-datepicker flex="auto" ng-model="$ctrl.record.recordHeader.dateStart"
                                        ng-change="$ctrl.changeParam()"
                                        name="dateStart" md-hide-icons="calendar"
-                                       ng-disabled="($ctrl.item.isCreator || $ctrl.item.isMyCoach)">
+                                       ng-disabled="($ctrl.item.activity.auth.isCreator || $ctrl.item.activity.auth.isMyCoach)">
 
                         </md-datepicker>
                         <div ng-messages="$ctrl.form.dateStart.$error" role="alert">

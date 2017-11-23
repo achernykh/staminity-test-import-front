@@ -54,7 +54,7 @@
                     <md-datepicker flex="auto" ng-model="$ctrl.item._dateStart"
                                    ng-change="$ctrl.changeParam()"
                                    name="dateStart" md-hide-icons="calendar"
-                                   ng-disabled="($ctrl.item.isCreator || $ctrl.item.isMyCoach)"
+                                   ng-disabled="($ctrl.item.activity.auth.isCreator || $ctrl.item.activity.auth.isMyCoach)"
                                    style="margin-left: 42px"></md-datepicker>
                     <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
                         <div ng-message="needPermissionForFeature"
@@ -68,7 +68,7 @@
                     <md-icon class="material-icons">event_note</md-icon>
                     <textarea ng-model="$ctrl.item.eventHeader.target"
                               ng-change="$ctrl.changeParam()" placeholder="Установка тренера"
-                              ng-disabled="($ctrl.item.isCreator || $ctrl.item.isMyCoach)"
+                              ng-disabled="($ctrl.item.activity.auth.isCreator || $ctrl.item.activity.auth.isMyCoach)"
                               class="icon" name="target"
                               rows="1"></textarea>
                 </md-input-container>

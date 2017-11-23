@@ -27,7 +27,7 @@ class CalendarActivityCtrl {
     trainingPlanMode: boolean;
     onSave: (response: ICalendarItemDialogResponse) => Promise<any>;
 
-    isCreator: boolean = false;
+    //isCreator: boolean = false;
     structured: boolean;
     segmentList: Array<any> = [];
     segmentListSize: number = null;
@@ -56,7 +56,7 @@ class CalendarActivityCtrl {
             trainingPlanMode: this.trainingPlanMode
         });
         //this.data.prepare();
-        this.isCreator = this.data.userProfileCreator.userId === this.currentUser.userId;
+        //this.isCreator = this.data.userProfileCreator.userId === this.currentUser.userId;
         //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
         if (this.data.bottomPanel === 'data') {
             this.bottomPanelData = this.data.summaryAvg;

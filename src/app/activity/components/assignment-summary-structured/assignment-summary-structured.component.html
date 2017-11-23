@@ -54,7 +54,7 @@
             <label translate="Установка тренера" class="icon"></label>
             <textarea ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
                       ng-change="$ctrl.changeParam()"
-                      ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.activity.view.isView"
+                      ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView"
                       class="icon" name="trainersPrescription"
                       rows="1"></textarea>
         </md-input-container>
