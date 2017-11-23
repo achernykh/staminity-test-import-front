@@ -15,7 +15,7 @@ import {_user_menu} from "./user-menu/user-menu.tranlsate";
 import {_MEASURE_TRANSLATE} from './measure/measure.translate';
 import LoaderComponent from './loader/loader.component';
 import LoaderService from './loader/loader.service';
-import DialogsService from './dialogs/';
+import DialogsService from './dialogs';
 import RequestsComponent from './requests/requests.component.js';
 import {
     _measurement,

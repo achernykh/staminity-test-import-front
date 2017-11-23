@@ -2,7 +2,7 @@
 
     <md-card ng-if="!$ctrl.isScreenSmall">
         <div layout="row" layout-align="center center" style="padding: 16px 26px;">
-            <span flex class="md-title">{{ $ctrl.filter.label }} ({{ $ctrl.rows.length }})</span>
+            <span flex class="md-title">{{ $ctrl.filter.label }} ({{ $ctrl.getRows().length }})</span>
             <md-menu>
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons">filter_list</md-icon> 
@@ -46,19 +46,19 @@
         </div>
         <md-toolbar class="md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center" style="background-color: #cfd8dc; color: #607d8b; padding: 16px 26px;">
             <span flex>{{ $ctrl.checked.length }} items selected</span>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.editCoaches()"> 
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditCoachesAvailable()" ng-click="$ctrl.editCoaches()"> 
                 <md-tooltip md-direction="bottom">Тренеры</md-tooltip>
                 <md-icon class="material-icons">supervisor_account</md-icon> 
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.athletesAvailable" ng-click="$ctrl.editAthletes()"> 
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditAthletesAvailable()" ng-click="$ctrl.editAthletes()"> 
                 <md-tooltip md-direction="bottom">Атлеты</md-tooltip>
                 <md-icon class="material-icons">person_add</md-icon> 
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditTariffsAvailable()" ng-click="$ctrl.editTariffs()"> 
                 <md-tooltip md-direction="bottom">Тарифы</md-tooltip>
                 <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.editRoles()"> 
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditRolesAvailable()" ng-click="$ctrl.editRoles()"> 
                 <md-tooltip md-direction="bottom">Роли</md-tooltip>
                 <md-icon class="material-icons">select_all</md-icon> 
             </md-button>
@@ -81,7 +81,7 @@
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.rows">
+                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.getRows()">
                         <td md-cell>
                             <md-button style="text-transform: none; font-size: 13px; margin: 0;" ui-sref="user({uri: member.userProfile.public.uri})">
                                 <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
@@ -110,8 +110,7 @@
                 </tbody>
             </table>
         </md-table-container>
-    </md-card>
-    
+    </md-card>    
     
     <div ng-if="$ctrl.isScreenSmall">
         <md-list>
@@ -157,7 +156,7 @@
                     </md-menu-content>
                 </md-menu>
             </md-list-item>
-            <md-list-item ng-repeat="member in $ctrl.rows = $ctrl.members" layout="row" layout-align="center center">
+            <md-list-item ng-repeat="member in $ctrl.getRows()" layout="row" layout-align="center center">
                 <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
                 <span flex ui-sref="user({uri: member.userProfile.public.uri})">{{ member.userProfile | username }}</span>
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>

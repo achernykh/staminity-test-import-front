@@ -1,6 +1,6 @@
 import { IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile, IBillingTariff, IBulkGroupMembership } from '../../../api';
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
-import { filtersToPredicate, not } from "../share/utility";
+import { filtersToPredicate, not, memorize } from "../share/utility";
 import { 
     ClubTariff, ClubRole, 
     getClubCoaches, getClubTariffGroup, getClubRoleGroup, 
@@ -50,6 +50,12 @@ class ManagementCtrl {
         .filter(not(this.isClubBill))
         .map((bill) => bill.tariffCode);
 
+    public rowsSelector = memorize((management: IGroupManagementProfile, filterParams: MembersFilterParams, order: string) : Array<IGroupManagementProfileMember> => {
+        let filtered = management.members.filter(filtersToPredicate(membersFilters, filterParams));
+        let sorted = orderBy(membersOrderings[order]) (filtered);
+        return sorted;        
+    });
+
     constructor (
         private $scope: any, 
         private $mdDialog: any, 
@@ -74,11 +80,8 @@ class ManagementCtrl {
         });
     }
 
-    getRows () : Array<IGroupManagementProfileMember> {
-        let all = this.management.members;
-        let filtered = all.filter(filtersToPredicate(membersFilters, this.filterParams));
-        let sorted = orderBy(membersOrderings[this.orderBy]) (filtered);
-        return sorted;
+    getRows () {
+        return this.rowsSelector(this.management, this.filterParams, this.orderBy);
     }
     
     isEditTariffsAvailable () {
@@ -244,6 +247,8 @@ class ManagementCtrl {
     }
     
     showActions (member: IGroupManagementProfileMember) {
+        this.checked = [member];
+
         this.$mdBottomSheet.show({
             template: require('./member-actions.html'),
             scope: this.$scope
