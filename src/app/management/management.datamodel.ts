@@ -47,24 +47,24 @@ export const getEditRolesMessage = ($translate) => (addRoles: Array<ClubRole>, r
     let translateRole = (role) => $translate.instant(`dialogs.${role}`);
     let translateRoles = (roles) => roles.map(translateRole).join(', ');
 
-    return (
-        addRoles.length && removeRoles.length && $translate.instant('users.editRoles.confirm.text.addAndRemove', { addRoles: translateRoles(addRoles), removeRoles: translateRoles(removeRoles) })
-    ) || (
-        addRoles.length && !removeRoles.length &&  $translate.instant(`users.editRoles.confirm.text.${addRoles.length > 1 ? 'addMany' : 'addOne'}`, { roles: translateRoles(addRoles) })
-    ) || (
-        !addRoles.length && removeRoles.length && $translate.instant(`users.editRoles.confirm.text.${removeRoles.length > 1 ? 'removeMany' : 'removeOne'}`, { roles: translateRoles(removeRoles) })
-    );
+    if (addRoles.length && removeRoles.length) {
+        return $translate.instant('users.editRoles.confirm.text.addAndRemove', { addRoles: translateRoles(addRoles), removeRoles: translateRoles(removeRoles) });
+    } else if (addRoles.length && !removeRoles.length) {
+        return $translate.instant(`users.editRoles.confirm.text.${addRoles.length > 1 ? 'addMany' : 'addOne'}`, { roles: translateRoles(addRoles) });
+    } else if (!addRoles.length && removeRoles.length) {
+        return $translate.instant(`users.editRoles.confirm.text.${removeRoles.length > 1 ? 'removeMany' : 'removeOne'}`, { roles: translateRoles(removeRoles) });
+    }
 };
 
 export const getEditTariffsMessage = ($translate) => (addTariffs: Array<ClubTariff>, removeTariffs: Array<ClubTariff>) : string => {
     let translateTariffCode = (tariffCode) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
     let translateTariffCodes = (tariffCodes) => tariffCodes.map(translateTariffCode).join(', ');
 
-    return (
-        addTariffs.length && removeTariffs.length && $translate.instant('users.editTariffs.confirm.text.addAndRemove', { addTariffCodes: translateTariffCodes(addTariffs), removeTariffCodes: translateTariffCodes(removeTariffs) })
-    ) || (
-        addTariffs.length && !removeTariffs.length && $translate.instant(`users.editTariffs.confirm.text.${addTariffs.length > 1 ? 'addMany' : 'addOne'}`, { tariffCodes: translateTariffCodes(addTariffs) })
-    ) || (
-        !addTariffs.length && removeTariffs.length && $translate.instant(`users.editTariffs.confirm.text.${removeTariffs.length > 1 ? 'removeMany' : 'removeOne'}`, { tariffCodes: translateTariffCodes(addTariffs) })
-    );
+    if (addTariffs.length && removeTariffs.length) {
+        return $translate.instant('users.editTariffs.confirm.text.addAndRemove', { addTariffCodes: translateTariffCodes(addTariffs), removeTariffCodes: translateTariffCodes(removeTariffs) });
+    } else if (addTariffs.length && !removeTariffs.length) {
+        return $translate.instant(`users.editTariffs.confirm.text.${addTariffs.length > 1 ? 'addMany' : 'addOne'}`, { tariffCodes: translateTariffCodes(addTariffs) });
+    } else if (!addTariffs.length && removeTariffs.length) {
+        return $translate.instant(`users.editTariffs.confirm.text.${removeTariffs.length > 1 ? 'removeMany' : 'removeOne'}`, { tariffCodes: translateTariffCodes(addTariffs) });
+    }
 };
