@@ -220,7 +220,6 @@ export default class DialogsService {
             escapeToClose: true,
             fullscreen: !this.$mdMedia('gt-sm')
         });
-
     }
 }
 
@@ -364,10 +363,11 @@ function SelectUsersController ($scope, $mdDialog, users, selectedUsers, message
     $scope.users = users;
     $scope.selectedUsers = selectedUsers.slice();
     $scope.isChecked = isChecked($scope.selectedUsers);
-    $scope.checked = () => $scope.users.filter((user) => $scope.selectedUsers.includes(user));
-    $scope.unchecked = () => $scope.users.filter((user) => !$scope.selectedUsers.includes(user));
+    $scope.checked = () => $scope.users.filter((user) => $scope.selectedUsers.includes(user.userProfile.public.userId));
+    $scope.unchecked = () => $scope.users.filter((user) => !$scope.selectedUsers.includes(user.userProfile.public.userId));
     $scope.commit = () => { $mdDialog.hide($scope.selectedUsers) };
     $scope.cancel = () => { $mdDialog.hide() };
+    console.log('SelectUsersController', $scope);
 }
 
 SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'selectedUsers', 'message'];

@@ -17,6 +17,7 @@ export const _translate = {
             athletes: 'Спортсмены',
             coaches: 'Тренеры',
             tariffs: 'Тарифы',
+            roles: 'Роли',
             remove: 'Удалить',
         },
         filters: {
@@ -24,6 +25,7 @@ export const _translate = {
             search: 'Поиск',
             coach: 'Тренер',
             noCoach: 'Без тренера',
+            role: 'Роль',
         },
         cols: {
             username: 'Член клуба',

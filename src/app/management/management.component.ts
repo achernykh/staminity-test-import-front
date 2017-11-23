@@ -40,7 +40,8 @@ class ManagementCtrl {
         .find((m) => m.userProfile.userId === id);
 
     public getAthletesByCoachId = (userId: number) => this.management.members
-        .filter((member) => includes(getMemberCoaches(member), userId));
+        .filter((member) => includes(getMemberCoaches(member), userId))
+        .map(getMemberId);
 
     public getTariffsByClub = (member: IGroupManagementProfileMember) : Array<string> => member.userProfile.billing
         .filter(this.isClubBill)
@@ -51,10 +52,16 @@ class ManagementCtrl {
         .map((bill) => bill.tariffCode);
 
     public rowsSelector = memorize((management: IGroupManagementProfile, filterParams: MembersFilterParams, order: string) : Array<IGroupManagementProfileMember> => {
-        let filtered = management.members.filter(filtersToPredicate(membersFilters, filterParams));
-        let sorted = orderBy(membersOrderings[order]) (filtered);
-        return sorted;        
+        let rows = management.members.filter(filtersToPredicate(membersFilters, filterParams));
+
+        if (order.startsWith('-')) {
+            return (orderBy(membersOrderings[order.slice(1)]) (rows)).reverse();
+        } else {
+            return orderBy(membersOrderings[order]) (rows);
+        }
     });
+
+    public coachesSelector = memorize(getClubCoaches);
 
     constructor (
         private $scope: any, 
@@ -86,6 +93,10 @@ class ManagementCtrl {
 
     getCheckedRows () : Array<IGroupManagementProfileMember> {
         return this.getRows().filter((member) => includes(this.checked, member));
+    }
+
+    getCoaches () : Array<IGroupManagementProfileMember> {
+        return this.coachesSelector(this.management);
     }
     
     isEditTariffsAvailable () : boolean {
@@ -208,7 +219,7 @@ class ManagementCtrl {
         let checkedRoles = getMemberRoles(checked[0]);
         let roles = ['ClubAthletes', 'ClubCoaches', 'ClubManagement'];
 
-        this.dialogs.roles(roles)
+        this.dialogs.roles(roles, checkedRoles)
         .then((roles) => {
             let addRoles = difference(roles, checkedRoles);
             let removeRoles = difference(checkedRoles, roles);

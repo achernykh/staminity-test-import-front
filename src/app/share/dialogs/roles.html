@@ -11,7 +11,7 @@
 
             <md-list-item ng-repeat="role in roles" layout="row" layout-align="center center">
                 <span flex>{{ 'dialogs.' + role | translate }}</span>
-                <md-switch ng-model="isChecked(role)" ng-model-options="{geterSetter: true}" aria-label="role checked"></md-switch >
+                <md-switch ng-model="isChecked(role)" ng-model-options="{getterSetter: true}" aria-label="role checked"></md-switch >
             </md-list-item>
 
             <md-list-item layout="row" layout-align="center center" style="padding: 0">

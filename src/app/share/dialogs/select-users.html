@@ -10,9 +10,9 @@
             </md-list-item>
 
             <md-list-item ng-repeat="user in checked()" layout="row" layout-align="center center">
-                <userpic profile="user" is-premium="user.isPremium"></userpic>
-                <span flex>{{ user | username }}</span>
-                <md-switch ng-model="isChecked(user)" ng-model-options="{geterSetter: true}" style="margin-left: 10px;"></md-switch>
+                <userpic profile="user.userProfile" is-premium="user.userProfile.isPremium"></userpic>
+                <span flex>{{ user.userProfile | username }}</span>
+                <md-switch ng-model="isChecked(user.userProfile)" ng-model-options="{getterSetter: true}" style="margin-left: 10px;"></md-switch>
             </md-list-item>
 
             <md-list-item layout="row" layout-align="center center">
@@ -25,8 +25,8 @@
                     <md-menu-content>
                         <md-menu-item ng-repeat="user in unchecked()">
                             <md-button ng-click="isChecked(user)(true)">
-                                <userpic profile="user" is-premium="user.isPremium"></userpic>
-                                {{ user | username }}
+                                <userpic profile="user.userProfile" is-premium="user.userProfile.isPremium"></userpic>
+                                {{ user.userProfile | username }}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
