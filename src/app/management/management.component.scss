@@ -24,9 +24,31 @@
     table.md-table.md-row-select td.md-cell:nth-child(n+3):nth-last-child(n+2), table.md-table.md-row-select th.md-column:nth-child(n+3):nth-last-child(n+2) {
         padding: 0 28px 0 0 !important;
     }
-}       
-        
-.filter-item-active {
-    font-weight: bold;
-    background-color: rgba(150,150,150,0.5);
-}
+
+    &-filters {
+        padding: 16px 26px;
+    }
+
+    &-toolbar {
+        background-color: #cfd8dc !important; 
+        color: #607d8b; 
+        padding: 16px 26px;
+    }
+
+    &-filters-subtitile {
+        color: #455a64; 
+        padding-left: 15px; 
+        line-height: 48px;
+    }
+
+    &-filter-active {
+        font-weight: bold;
+        background-color: rgba(150,150,150,0.5);
+    }
+
+    &-username {
+        text-transform: none; 
+        font-size: 13px; 
+        margin: 0;
+    }
+}    

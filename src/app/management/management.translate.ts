@@ -6,6 +6,34 @@ export const _translate = {
         Premium: 'Премиум',
         Coach: 'Тренер',
         Club: 'Клуб',
+        role: 'Роль',
+        roles: 'Роли',
+        clubRoles: {
+            ClubCoaches: 'Тренеры',
+            ClubAthletes: 'Спортсмены',
+            ClubManagement: 'Менеджмент',
+        },
+        toolbar: {
+            athletes: 'Спортсмены',
+            coaches: 'Тренеры',
+            tariffs: 'Тарифы',
+            remove: 'Удалить',
+        },
+        filters: {
+            all: 'Все',
+            search: 'Поиск',
+            coach: 'Тренер',
+            noCoach: 'Без тренера',
+        },
+        cols: {
+            username: 'Член клуба',
+            roles: 'Роль',
+            coaches: 'Тренер',
+            tariff: 'Тариф',
+            athletes: 'Спортсмены',
+            city: 'Город',
+            ageGroup: 'Возрастная группа',
+        },
         editTariffs: {
             confirm: {
                 title: 'Изменить тарифы',

@@ -80,32 +80,39 @@ class ManagementCtrl {
         });
     }
 
-    getRows () {
+    getRows () : Array<IGroupManagementProfileMember> {
         return this.rowsSelector(this.management, this.filterParams, this.orderBy);
     }
-    
-    isEditTariffsAvailable () {
-        return allEqual(this.checked.map(this.getTariffsByClub), angular.equals)
-            && allEqual(this.checked.map(this.getTariffsNotByClub), angular.equals);
+
+    getCheckedRows () : Array<IGroupManagementProfileMember> {
+        return this.getRows().filter((member) => includes(this.checked, member));
     }
     
-    isEditCoachesAvailable () {
-        return allEqual(this.checked.map(getMemberCoaches), angular.equals)
-            && this.checked.every(hasClubRole('ClubAthletes'));
+    isEditTariffsAvailable () : boolean {
+        let checkedRows = this.getCheckedRows();
+        return allEqual(checkedRows.map(this.getTariffsByClub), angular.equals) 
+            && allEqual(checkedRows.map(this.getTariffsNotByClub), angular.equals);
     }
     
-    isEditAthletesAvailable () {
-        return allEqual(this.getRows().map(getMemberId).map(this.getAthletesByCoachId), angular.equals)
-            && this.checked.every(hasClubRole('ClubCoaches'));
+    isEditCoachesAvailable () : boolean {
+        let checkedRows = this.getCheckedRows();
+        return allEqual(checkedRows.map(getMemberCoaches), angular.equals)
+            && checkedRows.every(hasClubRole('ClubAthletes'));
     }
     
-    isEditRolesAvailable() {
-        return allEqual(this.checked.map(getMemberRoles), angular.equals);
+    isEditAthletesAvailable () : boolean {
+        let checkedRows = this.getCheckedRows();
+        return allEqual(checkedRows.map(getMemberId).map(this.getAthletesByCoachId), angular.equals)
+            && checkedRows.every(hasClubRole('ClubCoaches'));
+    }
+    
+    isEditRolesAvailable () : boolean {
+        return allEqual(this.getCheckedRows().map(getMemberRoles), angular.equals);
     }
     
     editTariffs () {
         let tariffs = ['Coach', 'Premium'];
-        let checked = this.checked;
+        let checked = this.getCheckedRows();
         let byClub = this.getTariffsByClub(checked[0]);
         let bySelf = this.getTariffsNotByClub(checked[0]);
 
@@ -141,7 +148,8 @@ class ManagementCtrl {
     }
     
     editCoaches () {
-        let checkedCoaches = getMemberCoaches(this.checked[0]);
+        let checked = this.getCheckedRows();
+        let checkedCoaches = getMemberCoaches(checked[0]);
         this.dialogs.selectUsers(getClubCoaches(this.management), checkedCoaches, 'coaches')
         .then((nextCheckedCoaches) => {
             if (checkedCoaches) {
@@ -166,7 +174,7 @@ class ManagementCtrl {
     }
     
     editAthletes () {
-        let checked = this.checked;
+        let checked = this.getCheckedRows();
         let checkedAthletes = this.getAthletesByCoachId(getMemberId(checked[0]));
         let athletes = this.management.members.filter(hasClubRole('ClubAthletes'));
 
@@ -196,7 +204,7 @@ class ManagementCtrl {
     }
     
     editRoles () {
-        let checked = this.checked;
+        let checked = this.getCheckedRows();
         let checkedRoles = getMemberRoles(checked[0]);
         let roles = ['ClubAthletes', 'ClubCoaches', 'ClubManagement'];
 
@@ -300,6 +308,11 @@ class ManagementCtrl {
             ...this.filterParams,
             search,
         };
+    }
+
+    isFilterEmpty () : boolean {
+        let { clubRole, coachUserId, noCoach } = this.filterParams;
+        return !clubRole && !coachUserId && !noCoach;
     }
 };
 
