@@ -130,21 +130,25 @@ class ManagementCtrl {
         this.dialogs.tariffs(tariffs, byClub, bySelf, 'dialogs.byClub')
         .then((selectedTariffs) => {
             let addTariffs = difference(selectedTariffs, byClub);
-            let removeTariffs = difference(selectedTariffs, byClub);
-            return this.dialogs.confirm({
-                title: this.$translate.instant(`users.editTariffs.confirm.title`),
-                text: getEditTariffsMessage(this.$translate) (addTariffs, removeTariffs),
-                confirm: this.$translate.instant(`users.editTariffs.confirm.confirm`),
-                cancel: this.$translate.instant(`users.editTariffs.confirm.cancel`)
-            }, [addTariffs, removeTariffs]);
+            let removeTariffs = difference(byClub, selectedTariffs);
+            if (addTariffs.length || removeTariffs.length) {
+                return this.dialogs.confirm({
+                    title: this.$translate.instant(`users.editTariffs.confirm.title`),
+                    text: getEditTariffsMessage(this.$translate) (addTariffs, removeTariffs),
+                    confirm: this.$translate.instant(`users.editTariffs.confirm.confirm`),
+                    cancel: this.$translate.instant(`users.editTariffs.confirm.cancel`)
+                }, selectedTariffs);
+            }
         })
-        .then(([addTariffs, removeTariffs]) => {
-            let members = checked.map(getMemberId);
-            let memberships = [
-                ...addTariffs.map(getClubTariffGroup(this.management)).map(addToGroup),
-                ...removeTariffs.map(getClubTariffGroup(this.management)).map(removeFromGroup)
-            ];
-            return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+        .then((selectedTariffs) => {
+            if (selectedTariffs) {
+                let members = checked.map(getMemberId);
+                let memberships = [
+                    ...difference(selectedTariffs, byClub).map(getClubTariffGroup(this.management)).map(addToGroup),
+                    ...difference(selectedTariffs, byClub).map(getClubTariffGroup(this.management)).map(removeFromGroup)
+                ];
+                return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+            }
         })
         .then((result) => { 
             if (result) {
@@ -192,13 +196,11 @@ class ManagementCtrl {
         this.dialogs.selectUsers(athletes, checkedAthletes, 'athletes')
         .then((athletes) => {
             if (athletes) {
-                let athletesToAdd = difference(athletes, checkedAthletes);
-                let athletesToRemove = difference(checkedAthletes, athletes);
                 let groupIds = checked.map(getClubAthletesGroupId);
                 // нельзя выполнить все действия одним батч-запросом, но можно двумя
                 return Promise.all([
-                    this.GroupService.putGroupMembershipBulk(this.club.groupId, groupIds.map(addToGroup), athletesToAdd),
-                    this.GroupService.putGroupMembershipBulk(this.club.groupId, groupIds.map(removeFromGroup), athletesToRemove)
+                    this.GroupService.putGroupMembershipBulk(this.club.groupId, groupIds.map(addToGroup), difference(athletes, checkedAthletes)),
+                    this.GroupService.putGroupMembershipBulk(this.club.groupId, groupIds.map(removeFromGroup), difference(checkedAthletes, athletes))
                 ]);
             }
         })
@@ -220,23 +222,27 @@ class ManagementCtrl {
         let roles = ['ClubAthletes', 'ClubCoaches', 'ClubManagement'];
 
         this.dialogs.roles(roles, checkedRoles)
-        .then((roles) => {
+        .then((roles: Array<ClubRole>) => {
             let addRoles = difference(roles, checkedRoles);
             let removeRoles = difference(checkedRoles, roles);
-            return this.dialogs.confirm({
-                title: this.$translate.instant(`users.editRoles.confirm.title`),
-                text: getEditRolesMessage(this.$translate) (addRoles, removeRoles),
-                confirm: this.$translate.instant(`users.editRoles.confirm.confirm`),
-                cancel: this.$translate.instant(`users.editRoles.confirm.cancel`)
-            }, [addRoles, removeRoles]);
+            if (addRoles.length || removeRoles.length) {
+                return this.dialogs.confirm({
+                    title: this.$translate.instant(`users.editRoles.confirm.title`),
+                    text: getEditRolesMessage(this.$translate) (addRoles, removeRoles),
+                    confirm: this.$translate.instant(`users.editRoles.confirm.confirm`),
+                    cancel: this.$translate.instant(`users.editRoles.confirm.cancel`)
+                }, roles);
+            }
         })
-        .then(([addRoles, removeRoles]: Array<Array<ClubRole>>) => {
-            let members = checked.map(getMemberId);
-            let memberships = [
-                ...addRoles.map(getClubRoleGroup(this.management)).map(addToGroup),
-                ...removeRoles.map(getClubRoleGroup(this.management)).map(removeFromGroup)
-            ];
-            return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+        .then((roles: Array<ClubRole>) => {
+            if (roles) {
+                let members = checked.map(getMemberId);
+                let memberships = [
+                    ...difference(roles, checkedRoles).map(getClubRoleGroup(this.management)).map(addToGroup),
+                    ...difference(checkedRoles, roles).map(getClubRoleGroup(this.management)).map(removeFromGroup)
+                ];
+                return this.GroupService.putGroupMembershipBulk(this.club.groupId, memberships, members);
+            }
         })
         .then((result) => { 
             if (result) {
