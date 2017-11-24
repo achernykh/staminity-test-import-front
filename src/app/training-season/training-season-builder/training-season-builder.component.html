@@ -1,0 +1,56 @@
+<st-application-frame
+        class="st-application-frame training-season"
+        has-nav-bar="false"
+        left-bar-hide-type="'hidden'"
+        left-bar-show="$ctrl.leftBarShow"
+        right-bar-show="$ctrl.rightBarShow">
+
+    <st-application-frame-title>
+        <span>План на сезон</span>
+        <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
+        <userpic profile="$ctrl.owner"></userpic>
+        <span>{{$ctrl.owner | userName:'short'}}</span>
+        <md-menu>
+            <md-button class="md-icon-button">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+
+            </md-menu-content>
+        </md-menu>
+        <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
+        <span>2018 сезон</span>
+        <md-menu>
+            <md-button class="md-icon-button">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+
+            </md-menu-content>
+        </md-menu>
+    </st-application-frame-title>
+
+    <st-application-frame-toolbar layout="row">
+        <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
+            <md-icon class="material-icons" aria-label="Back">settings</md-icon>
+            <span>settings</span>
+        </md-button>
+        <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings" ng-init="today = 0">
+            <md-icon class="material-icons" aria-label="Back">group_add</md-icon>
+            <span>appoint</span>
+        </md-button>
+    </st-application-frame-toolbar>
+
+    <st-application-frame-content>
+
+        <md-toolbar class="training-plan-builder__calendar-days-header bg-grey-300 md-whiteframe-1dp md-caption md-dark"
+                    hide show-gt-sm>
+        </md-toolbar>
+
+        <section>
+
+        </section>
+
+    </st-application-frame-content>
+
+</st-application-frame>

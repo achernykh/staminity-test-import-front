@@ -1,4 +1,5 @@
 import { StateDeclaration } from "angular-ui-router";
+import { SessionService } from "../core/session/session.service";
 
 // План на сезон
 // Тренер переходит на стейт с ведением перечня сезонов для последнего открытого атлета
@@ -31,7 +32,10 @@ const trainingSeasonBuilder: any = {
     url: '/training-season-builder/:seasonId',
     loginRequired: false,
     authRequired: [],
-    resolve: {},
+    resolve: {
+        currentUser: ['SessionService', (session: SessionService) => session.getUser()],
+        owner: ['SessionService', (session: SessionService) => session.getUser()]
+    },
     views: {
         "application": {
             component: 'stTrainingSeasonBuilder'
