@@ -217,14 +217,15 @@ class ManagementCtrl {
     }
     
     editRoles () {
-        let checked = this.getCheckedRows();
-        let checkedRoles = getMemberRoles(checked[0]);
         let roles = ['ClubAthletes', 'ClubCoaches', 'ClubManagement'];
+        let checked = this.getCheckedRows();
+        let checkedRoles = getMemberRoles(checked[0]).filter((role) => roles.indexOf(role) !== -1);
 
         this.dialogs.roles(roles, checkedRoles)
         .then((roles: Array<ClubRole>) => {
             let addRoles = difference(roles, checkedRoles);
             let removeRoles = difference(checkedRoles, roles);
+            debugger;
             if (addRoles.length || removeRoles.length) {
                 return this.dialogs.confirm({
                     title: this.$translate.instant(`users.editRoles.confirm.title`),

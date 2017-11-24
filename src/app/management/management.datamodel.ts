@@ -49,10 +49,14 @@ export const getEditRolesMessage = ($translate) => (addRoles: Array<ClubRole>, r
 
     if (addRoles.length && removeRoles.length) {
         return $translate.instant('users.editRoles.confirm.text.addAndRemove', { addRoles: translateRoles(addRoles), removeRoles: translateRoles(removeRoles) });
-    } else if (addRoles.length && !removeRoles.length) {
-        return $translate.instant(`users.editRoles.confirm.text.${addRoles.length > 1 ? 'addMany' : 'addOne'}`, { roles: translateRoles(addRoles) });
-    } else if (!addRoles.length && removeRoles.length) {
-        return $translate.instant(`users.editRoles.confirm.text.${removeRoles.length > 1 ? 'removeMany' : 'removeOne'}`, { roles: translateRoles(removeRoles) });
+    } else if (addRoles.length === 1 && !removeRoles.length) {
+        return $translate.instant(`users.editRoles.confirm.text.addOne.${addRoles[0]}`);
+    } else if (addRoles.length > 1 && !removeRoles.length) {
+        return $translate.instant(`users.editRoles.confirm.text.addMany`, { roles: translateRoles(addRoles) });
+    } else if (!addRoles.length && removeRoles.length === 1) {
+        return $translate.instant(`users.editRoles.confirm.text.removeOne.${removeRoles[0]}`);
+    } else if (!addRoles.length && removeRoles.length > 1) {
+        return $translate.instant(`users.editRoles.confirm.text.removeMany`, { roles: translateRoles(removeRoles) });
     }
 };
 

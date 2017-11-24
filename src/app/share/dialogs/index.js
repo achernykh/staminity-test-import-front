@@ -336,7 +336,7 @@ const isChecked = (list) => (item) => (isChecked) => {
 
 function RolesController ($scope, $mdDialog, roles, selectedRoles) {
     $scope.roles = roles;
-    $scope.selectedRoles = selectedRoles;
+    $scope.selectedRoles = selectedRoles.slice();
     $scope.isChecked = isChecked($scope.selectedRoles);    
     $scope.commit = () => { $mdDialog.hide($scope.selectedRoles) };
     $scope.cancel = () => { $mdDialog.hide() };
@@ -367,7 +367,6 @@ function SelectUsersController ($scope, $mdDialog, users, selectedUsers, message
     $scope.unchecked = () => $scope.users.filter((user) => !$scope.selectedUsers.includes(user.userProfile.userId));
     $scope.commit = () => { $mdDialog.hide($scope.selectedUsers) };
     $scope.cancel = () => { $mdDialog.hide() };
-    console.log('SelectUsersController', $scope);
 }
 
 SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'selectedUsers', 'message'];
