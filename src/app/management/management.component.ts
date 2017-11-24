@@ -225,7 +225,6 @@ class ManagementCtrl {
         .then((roles: Array<ClubRole>) => {
             let addRoles = difference(roles, checkedRoles);
             let removeRoles = difference(checkedRoles, roles);
-            debugger;
             if (addRoles.length || removeRoles.length) {
                 return this.dialogs.confirm({
                     title: this.$translate.instant(`users.editRoles.confirm.title`),
