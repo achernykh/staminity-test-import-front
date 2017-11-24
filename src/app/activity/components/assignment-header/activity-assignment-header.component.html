@@ -1,4 +1,4 @@
-<md-list class="md-dense slim-input bg-grey-200" ng-if="$ctrl.item.mode !== 'view' || $ctrl.item.template">
+<md-list class="md-dense slim-input bg-grey-200 activity-assignment-header" ng-if="$ctrl.item.mode !== 'view' || $ctrl.item.template">
     <md-list-item>
         <md-input-container class="md-block no-message" md-no-float layout="row">
             <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
@@ -23,7 +23,7 @@
         </md-input-container>
     </md-list-item>
     <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0 || $ctrl.item.template">
-        <md-input-container class="md-block no-message" md-no-float>
+        <md-input-container class="md-block no-message" md-no-float layout="row">
             <md-icon class="material-icons md-dark" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
             <md-select
                     ng-model="$ctrl.item.activity.header.activityCategory"
