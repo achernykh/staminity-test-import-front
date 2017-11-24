@@ -42,7 +42,7 @@
                 <md-icon class="material-icons">group_add</md-icon>
             </md-button>
             <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}}; padding:0; margin: 0;" class="animated"> 
-                <input ng-model="$ctrl.filterParams.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.filterParams.search && ($ctrl.showSearch = false)"/> 
+                <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.filterParams.search && ($ctrl.showSearch = false)"/> 
             </md-input-container>
             <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch"> 
                 <md-icon class="material-icons">search</md-icon> 
@@ -121,7 +121,7 @@
             <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons">search</md-icon>
                 <md-input-container flex> 
-                    <input ng-model="$ctrl.filterParams.search"/> 
+                    <input ng-model="$ctrl.search"/> 
                 </md-input-container>
             </md-list-item>
             <md-list-item layout="row" layout-align="center center">

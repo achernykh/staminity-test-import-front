@@ -52,6 +52,7 @@ class ManagementCtrl {
         .map((bill) => bill.tariffCode);
 
     public rowsSelector = memorize((management: IGroupManagementProfile, filterParams: MembersFilterParams, order: string) : Array<IGroupManagementProfileMember> => {
+        console.log('ManagementCtrl', filterParams);
         let rows = management.members.filter(filtersToPredicate(membersFilters, filterParams));
 
         if (order.startsWith('-')) {
@@ -319,8 +320,12 @@ class ManagementCtrl {
             clubRole,
         };
     }
+
+    get search () : string {
+        return this.filterParams.search;
+    }
     
-    search (search: string) {
+    set search (search: string) {
         this.filterParams = {
             ...this.filterParams,
             search,
