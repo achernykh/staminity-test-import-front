@@ -138,7 +138,10 @@ export default class UserService {
         }, (error) => {
             if (error === 'expiredObject') {
                 this.getProfile(userChanges.userId)
-                .then((user) => this.putProfile({ ...user, ...userChanges }));
+                .then((user) => {
+                    const {revision} = <any> user;
+                    this.putProfile({ ...user, ...userChanges, revision });
+                });
             }
         });
     }
@@ -149,7 +152,9 @@ export default class UserService {
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
     postProfileAvatar(file:any) : IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile('/user/avatar',file))
+        const userId = this.SessionService.getCurrentUserId();
+        const url = `/user/avatar/${userId}`;
+        return this.RESTService.postFile(new PostFile(url, file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
                 return response.data;
@@ -162,7 +167,9 @@ export default class UserService {
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
     postProfileBackground(file:any) : IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile('/user/background',file))
+        const userId = this.SessionService.getCurrentUserId();
+        const url = `/user/background/${userId}`;
+        return this.RESTService.postFile(new PostFile(url, file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
                 return response.data;

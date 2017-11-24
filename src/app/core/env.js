@@ -6,7 +6,7 @@ var protocol = {
 };
 var server = 'testapp.staminity.com:8080';
 var content = 'https://app.staminity.com';
-var frontend = 'http://dev2.staminity.com/';
+var frontend = 'https://staminity.com/';
 
 
 module.exports = {
