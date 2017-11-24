@@ -8,6 +8,7 @@ import {
     MembersFilterParams, membersFilters, membersOrderings,
     getEditRolesMessage, getEditTariffsMessage,
     addToGroup, removeFromGroup, 
+    Management, Member,
 } from "./management.datamodel";
 import { id, flatMap, unique, keys, entries, pipe, object, allEqual, capitalize, orderBy } from '../share/util.js';
 import { inviteDialogConf } from './invite/invite.dialog';
@@ -22,46 +23,9 @@ class ManagementCtrl {
 
     static $inject = ['$scope','$mdDialog','$translate','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];
 
-    public club: IGroupProfile;
-    public management: IGroupManagementProfile;
+    public management: Management;
     public checked: Array<IGroupManagementProfileMember> = [];    
-    public filterParams: MembersFilterParams = {
-        clubRole: null,
-        coachUserId: null,
-        noCoach: false,
-        search: '',
-    };
-    public orderBy: string = 'username';
     public isScreenSmall: boolean;
-
-    public isClubBill = (bill: IBillingTariff) : boolean => bill && bill.clubProfile && bill.clubProfile.groupId === this.club.groupId;
-    
-    public getMember = (id: number) : IGroupManagementProfileMember => this.management.members
-        .find((m) => m.userProfile.userId === id);
-
-    public getAthletesByCoachId = (userId: number) => this.management.members
-        .filter((member) => includes(getMemberCoaches(member), userId))
-        .map(getMemberId);
-
-    public getTariffsByClub = (member: IGroupManagementProfileMember) : Array<string> => member.userProfile.billing
-        .filter(this.isClubBill)
-        .map((bill) => bill.tariffCode);
-
-    public getTariffsNotByClub = (member: IGroupManagementProfileMember) : Array<string> => member.userProfile.billing
-        .filter(not(this.isClubBill))
-        .map((bill) => bill.tariffCode);
-
-    public rowsSelector = memorize((management: IGroupManagementProfile, filterParams: MembersFilterParams, order: string) : Array<IGroupManagementProfileMember> => {
-        console.log('ManagementCtrl', filterParams);
-        let rows = management.members.filter(filtersToPredicate(membersFilters, filterParams));
-
-        if (order.startsWith('-')) {
-            return (orderBy(membersOrderings[order.slice(1)]) (rows)).reverse();
-        } else {
-            return orderBy(membersOrderings[order]) (rows);
-        }
-    });
-
     public coachesSelector = memorize(getClubCoaches);
 
     constructor (
@@ -76,6 +40,10 @@ class ManagementCtrl {
     ) {
         this.isScreenSmall = $mdMedia('max-width: 959px');
     }
+
+    set management (management: IGroupManagementProfile) {
+        this.management = new Management(management);
+    }
     
     update () {
         this.GroupService.getManagementProfile(this.club.groupId, 'club')
@@ -88,7 +56,7 @@ class ManagementCtrl {
         });
     }
 
-    getRows () : Array<IGroupManagementProfileMember> {
+    getRows () : Array<Member> {
         return this.rowsSelector(this.management, this.filterParams, this.orderBy);
     }
 
