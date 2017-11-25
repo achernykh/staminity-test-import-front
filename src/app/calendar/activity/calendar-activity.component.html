@@ -27,7 +27,7 @@
                 <div flex layout="row" layout-align="start start"
                      class="md-caption secondary data-category"
                      ng-class="::{'dark' : ($ctrl.status == 'planned')}">
-                    <div flex="none" class="line-14" ng-if="::$ctrl.data.categoryCode" translate>{{::'category.'+$ctrl.data.categoryCode}}</div>
+                    <span flex="auto" class="line-14" ng-if="::$ctrl.data.category" translate>{{::$ctrl.data.category | categoryCode}}</span>
                 </div>
 
                 <section flex layout="row" layout-align="start start"

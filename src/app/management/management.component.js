@@ -348,7 +348,7 @@ class ManagementCtrl {
     }
     
     showActions (member) {
-        this.management.members.forEach((m) => { m.checked = m === member })
+        this.checked = [member];//this.management.members.forEach((m) => { m.checked = m === member })
         
         this.$mdBottomSheet.show({
             template: require('./member-actions.html'),

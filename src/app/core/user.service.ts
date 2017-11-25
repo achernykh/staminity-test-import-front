@@ -156,8 +156,8 @@ export default class UserService {
         const url = `/user/avatar/${userId}`;
         return this.RESTService.postFile(new PostFile(url, file))
             .then((response) => {
-                this.SessionService.updateUser(response.data);
-                return response.data;
+                this.SessionService.updateUser(response);
+                return response;
             });
             //.then((response) => response.data);
     }
@@ -171,8 +171,8 @@ export default class UserService {
         const url = `/user/background/${userId}`;
         return this.RESTService.postFile(new PostFile(url, file))
             .then((response) => {
-                this.SessionService.updateUser(response.data);
-                return response.data;
+                this.SessionService.updateUser(response);
+                return response;
             });
     }
 

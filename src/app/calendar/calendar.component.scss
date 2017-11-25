@@ -98,6 +98,7 @@ calendar {
     border-bottom: 1px solid $grey-400;
 
     @media(max-width: 959px){
+      width: 100%;
       padding: 0;
       border-bottom: none;
       display: inline-block;
