@@ -405,7 +405,7 @@ export const measureValue = (input: number, sport: string, measure: string, char
         }
 
         // Необходим пересчет системы мер
-        if (units && units !== 'metric'){
+        if (units && units === 'imperial'){
             input = input * _measurement_system_calculate[unit].multiplier;
         }
 

@@ -1,19 +1,22 @@
 .club-profile {
     position: absolute;
-    left: calc(50% - 250px);
+    left: calc(50% - 480px);
+    height: calc(100vh - 90px);
     right: auto;
     top: 60px;
-    width: 500px;
+    width: 960px;
     z-index: 10;
     
     @media (max-width: 959px) {
         left: 0 !important;
         width: 100% !important;
+        height: calc(100vh - 60px);
     }
 
     .profile-header {
         position: relative;
-        height: 227px;
+        height: 35vh;
+        min-height: 240px;
         color: white;
         background-color: rgb(96,125,139);
         background-size: cover;
@@ -46,6 +49,7 @@
 
     .profile-content {
         margin: 0;
+        overflow-y: auto;
         width: 100%;
         color: rgba(0, 0, 0, 0.54);
         

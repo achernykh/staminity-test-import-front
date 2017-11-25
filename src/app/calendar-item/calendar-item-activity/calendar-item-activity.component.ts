@@ -210,8 +210,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareTabPosition(){
-        this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 3) ||
-            (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 2) || 0;
+        this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 2) ||
+            (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 1) || 0;
     }
 
     changeTab(tab: string):void {

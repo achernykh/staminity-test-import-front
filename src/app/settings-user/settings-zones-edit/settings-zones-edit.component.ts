@@ -47,6 +47,7 @@ class SettingsZonesEditCtrl implements IComponentController {
             maxValue: this.settings['maxValue']}, factor);
 
         this.viewMode = this.settings.calculateMethod === 'custom';
+        this.checkForm();
     }
 
     changeZone(i: number, value: number, factor: string) {
