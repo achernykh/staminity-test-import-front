@@ -352,7 +352,8 @@ class ManagementCtrl {
         
         this.$mdBottomSheet.show({
             template: require('./member-actions.html'),
-            scope: this.$scope
+            scope: this.$scope,
+            preserveScope: true,
         })
     }
 
