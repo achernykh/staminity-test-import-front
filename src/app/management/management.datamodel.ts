@@ -73,58 +73,12 @@ export const getEditTariffsMessage = ($translate) => (addTariffs: Array<ClubTari
     }
 };
 
-export class Member {
-    constructor (
-        public member: IGroupManagementProfileMember,
-    ) {
-
-    }
-}
-
-export class Management {
-
-    public filterParams: MembersFilterParams = {
-        clubRole: null,
-        coachUserId: null,
-        noCoach: false,
-        search: '',
-    };
-
-    public orderBy: string = 'username';
-
-    public checked: Array<IGroupManagementProfileMember> = [];
-
-    public isClubBill = (bill: IBillingTariff) : boolean => bill && bill.clubProfile && bill.clubProfile.groupId === this.club.groupId;
-    
-    public getMember = (id: number) : IGroupManagementProfileMember => this.management.members
-        .find((m) => m.userProfile.userId === id);
-
-    public getAthletesByCoachId = (userId: number) => this.management.members
-        .filter((member) => includes(getMemberCoaches(member), userId))
-        .map(getMemberId);
-
-    public getTariffsByClub = (member: IGroupManagementProfileMember) : Array<string> => member.userProfile.billing
-        .filter(this.isClubBill)
-        .map((bill) => bill.tariffCode);
-
-    public getTariffsNotByClub = (member: IGroupManagementProfileMember) : Array<string> => member.userProfile.billing
-        .filter(not(this.isClubBill))
-        .map((bill) => bill.tariffCode);
-
-    public rowsSelector = memorize((management: IGroupManagementProfile, filterParams: MembersFilterParams, order: string) : Array<IGroupManagementProfileMember> => {
-        console.log('ManagementCtrl', filterParams);
-        let rows = management.members.filter(filtersToPredicate(membersFilters, filterParams));
-
-        if (order.startsWith('-')) {
-            return (orderBy(membersOrderings[order.slice(1)]) (rows)).reverse();
-        } else {
-            return orderBy(membersOrderings[order]) (rows);
-        }
-    });
-
-    constructor (
-        public management: IGroupManagementProfile,
-    ) {
-
-    }
-}
+// (
+//                     $ctrl.isFilterEmpty() && ('users.filters.all' | translate)
+//                 ) || (
+//                     $ctrl.filterParams.clubRole && (('users.filters.role' | translate) + ': ' + ('users.clubRoles.' + $ctrl.filterParams.clubRole | translate))
+//                 ) || (
+//                     $ctrl.filterParams.noCoach && ('users.filters.noCoach' | translate)
+//                 ) || (
+//                     $ctrl.filterParams.coachUserId && ('users.filters.coach' | translate) + ': ' + ($ctrl.getMember($ctrl.filterParams.coachUserId) | username)
+//                 )
