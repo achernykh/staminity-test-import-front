@@ -24,7 +24,7 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item ng-repeat="user in unchecked()">
-                            <md-button ng-click="isChecked(user.userProfile.userId)(true)">
+                            <md-button ng-click="isChecked(user)(true)">
                                 <userpic profile="user.userProfile" is-premium="user.userProfile.isPremium"></userpic>
                                 {{ user.userProfile | username }}
                             </md-button>
