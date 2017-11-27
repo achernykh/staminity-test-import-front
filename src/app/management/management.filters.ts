@@ -20,6 +20,8 @@ export const getEditRolesMessage = ($translate) => (addRoles: Array<ClubRole>, r
     }
 };
 
+getEditRolesMessage.$inject = ['$translate'];
+
 export const getEditTariffsMessage = ($translate) => (addTariffs: Array<ClubTariff>, removeTariffs: Array<ClubTariff>) : string => {
     let translateTariffCode = (tariffCode) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
     let translateTariffCodes = (tariffCodes) => tariffCodes.map(translateTariffCode).join(', ');
@@ -33,7 +35,9 @@ export const getEditTariffsMessage = ($translate) => (addTariffs: Array<ClubTari
     }
 };
 
-export const getFiltersMessage = ($translate) => (filterParams: MembersFilterParams, membersList: MembersList) : string => {
+getEditTariffsMessage.$inject = ['$translate'];
+
+export const membersFiltersFilter = ($translate) => (filterParams: MembersFilterParams, membersList: MembersList) : string => {
     return (
         filterParams.noCoach && $translate.instant('users.filters.noCoach')
     ) || (
@@ -45,3 +49,18 @@ export const getFiltersMessage = ($translate) => (filterParams: MembersFilterPar
     );
 };
 
+membersFiltersFilter.$inject = ['$translate'];
+
+export const roleMembershipFilter = ($translate) => (roleMemberships) => {
+    roleMemberships = ['ClubManagement', 'ClubCoaches', 'ClubAthletes'].filter((m) => roleMemberships.indexOf(m) !== -1);
+
+    if (!roleMemberships || !roleMemberships.length) {
+        return;
+    } else if (roleMemberships.length === 1) {
+        return $translate.instant('users.clubRoles.' + roleMemberships[0]);
+    } else if (roleMemberships.length > 1) {
+        return `${$translate.instant('users.clubRoles.' + roleMemberships[0])}, +${roleMemberships.length - 1}`;
+    } 
+};
+
+roleMembershipFilter.$inject = ['$translate'];

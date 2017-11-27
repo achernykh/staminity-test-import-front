@@ -3,7 +3,7 @@
     <md-card ng-if="!$ctrl.isMobileLayout()">
         <div layout="row" layout-align="center center" class="management-filters">
             <span flex class="md-title">
-                {{ $ctrl.getFiltersMessage() }} ({{ $ctrl.getRows().length }})
+                {{ $ctrl.filterParams | clubMembersFilters:$ctrl.membersList }} ({{ $ctrl.getRows().length }})
             </span>
             <md-menu>
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -129,7 +129,7 @@
                 <md-icon class="material-icons management-tune-icon">tune</md-icon>
                 <md-menu flex>
                     <md-button ng-click="$mdOpenMenu($event)">
-                        {{ $ctrl.getFiltersMessage() }} ({{ $ctrl.getRows().length }})
+                        {{ $ctrl.filterParams | clubMembersFilters:$ctrl.membersList }} ({{ $ctrl.getRows().length }})
                     </md-button>
                     <md-menu-content>
                         <md-menu-item ng-class="{'filter-item-active': $ctrl.isFilterEmpty()}">

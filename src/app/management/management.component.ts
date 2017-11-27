@@ -5,7 +5,7 @@ import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.const
 import { Member } from "./Member.datamodel";
 import { MembersList } from "./MembersList.datamodel";
 import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./MembersFilter.datamodel";
-import { getEditRolesMessage, getEditTariffsMessage, getFiltersMessage } from "./management.functions";
+import { getEditRolesMessage, getEditTariffsMessage } from "./management.filters";
 import { allEqual, orderBy } from '../share/util.js';
 import { inviteDialogConf } from './invite/invite.dialog';
 import './management.component.scss';
@@ -53,12 +53,11 @@ class ManagementCtrl {
         private $mdBottomSheet: any, 
         private SystemMessageService: any,
     ) {
-
+        
     }
 
     set management (management: IGroupManagementProfile) {
         this.membersList = new MembersList(management);
-        console.log('management', management);
     }
     
     update () {
@@ -336,10 +335,6 @@ class ManagementCtrl {
         return !!this.filterParams.search;
     }
 
-    getFiltersMessage () {
-        return getFiltersMessage(this.$translate) (this.filterParams, this.membersList);
-    }
-
     isMobileLayout () : boolean {
         return this.$mdMedia('max-width: 959px');
     }
@@ -357,7 +352,6 @@ let ManagementComponent: IComponentOptions = <any> {
     },
     controller: ManagementCtrl,
     template: require('./management.component.html'),
-
 };
 
 export default ManagementComponent;
