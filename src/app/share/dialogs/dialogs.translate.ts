@@ -24,8 +24,6 @@ export let translateDialogs = {
         tariffs: 'Тарифы',
         Premium: 'Премиум',
         Coach: 'Тренер',
-        PremiumByClub: 'Премиум',
-        CoachByClub: 'Тренер',
         Club: 'Клуб',
         ClubAthletes: 'Спортсмен',
         ClubCoach: 'Тренер',

@@ -22,7 +22,7 @@ export class MembersList implements IGroupManagementProfile {
     }
 
     public getTariffGroupId = (tariffCode: ClubTariff) : number => {
-        return this.management['tariffGroups'][tariffCode];
+        return this.management['tariffGroups'][tariffCode + 'ByClub'];
     }
 
     public getRoleGroupId = (role: ClubRole) : number => {
