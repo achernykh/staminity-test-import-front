@@ -1,4 +1,4 @@
-export const _translate = {
+export const translateManagement = {
     ru: {
         fullTitle: 'Управление клубом',
         shortTitle: 'Клуб',

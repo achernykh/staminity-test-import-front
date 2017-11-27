@@ -1,8 +1,15 @@
 import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.constants";
-import { Member } from "./Member.datamodel";
-import { MembersList } from "./MembersList.datamodel";
-import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./MembersFilter.datamodel";
+import { Member } from "./member.datamodel";
+import { MembersList } from "./members-list.datamodel";
+import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./members-filter.datamodel";
 
+/**
+ * Сообщение об изменении набора клубных ролей выбранных членов
+ * @param $translate
+ * @param addRoles: Array<ClubRole>
+ * @param removeRoles: Array<ClubRole>
+ * @returns {string}
+*/  
 export const getEditRolesMessage = ($translate) => (addRoles: Array<ClubRole>, removeRoles: Array<ClubRole>) : string => {
     let translateRole = (role) => $translate.instant(`dialogs.${role}`);
     let translateRoles = (roles) => roles.map(translateRole).join(', ');
@@ -22,6 +29,13 @@ export const getEditRolesMessage = ($translate) => (addRoles: Array<ClubRole>, r
 
 getEditRolesMessage.$inject = ['$translate'];
 
+/**
+ * Сообщение об изменении набора тарифов, подключенных выбранным членам за счёт клуба
+ * @param $translate
+ * @param addTariffs: Array<ClubTariff>
+ * @param removeTariffs: Array<ClubTariff>
+ * @returns {string}
+*/  
 export const getEditTariffsMessage = ($translate) => (addTariffs: Array<ClubTariff>, removeTariffs: Array<ClubTariff>) : string => {
     let translateTariffCode = (tariffCode) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
     let translateTariffCodes = (tariffCodes) => tariffCodes.map(translateTariffCode).join(', ');
@@ -37,6 +51,13 @@ export const getEditTariffsMessage = ($translate) => (addTariffs: Array<ClubTari
 
 getEditTariffsMessage.$inject = ['$translate'];
 
+/**
+ * Текстовое представление выбранных фильтров списка членов клуба
+ * @param $translate
+ * @param filterParams: MembersFilterParams
+ * @param membersList: MembersList
+ * @returns {string}
+*/  
 export const membersFiltersFilter = ($translate) => (filterParams: MembersFilterParams, membersList: MembersList) : string => {
     return (
         filterParams.noCoach && $translate.instant('users.filters.noCoach')
@@ -51,6 +72,13 @@ export const membersFiltersFilter = ($translate) => (filterParams: MembersFilter
 
 membersFiltersFilter.$inject = ['$translate'];
 
+/**
+ * Текстовое представление списка ролей члена клуба
+ * @param $translate
+ * @param filterParams: MembersFilterParams
+ * @param membersList: MembersList
+ * @returns {string}
+*/  
 export const roleMembershipFilter = ($translate) => (roleMemberships) => {
     roleMemberships = ['ClubManagement', 'ClubCoaches', 'ClubAthletes'].filter((m) => roleMemberships.indexOf(m) !== -1);
 

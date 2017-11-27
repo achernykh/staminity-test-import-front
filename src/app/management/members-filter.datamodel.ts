@@ -2,8 +2,8 @@ import { IGroupManagementProfileMember, IBulkGroupMembership, IGroupManagementPr
 import { Filter, filtersToPredicate } from "../share/utility";
 import { orderBy } from '../share/util.js';
 import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.constants";
-import { Member } from "./Member.datamodel";
-import { MembersList } from "./MembersList.datamodel";
+import { Member } from "./member.datamodel";
+import { MembersList } from "./members-list.datamodel";
 
 export type MembersFilterParams = {
     clubRole: ClubRole;
@@ -31,8 +31,14 @@ export const membersOrderings: {
     athletes: (member) => this.athletes(member).map(a => a.userProfile.userId).join(','),
 };
 
-
-export const getRows = (management: MembersList, filterParams: MembersFilterParams, order: string) : Array<IGroupManagementProfileMember> => {
+/**
+ * Отфильтрованный и отсортированный список членов клуба
+ * @param management: MembersList
+ * @param filterParams: MembersFilterParams
+ * @param order: string
+ * @returns {Array<Member>}
+*/  
+export const getRows = (management: MembersList, filterParams: MembersFilterParams, order: string) : Array<Member> => {
     let rows = management.members.filter(filtersToPredicate(membersFilters, filterParams));
 
     if (order.startsWith('-')) {

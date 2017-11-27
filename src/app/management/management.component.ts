@@ -2,64 +2,64 @@ import { IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile, 
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { filtersToPredicate, createSelector } from "../share/utility";
 import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.constants";
-import { Member } from "./Member.datamodel";
-import { MembersList } from "./MembersList.datamodel";
-import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./MembersFilter.datamodel";
-import { getEditRolesMessage, getEditTariffsMessage } from "./management.filters";
+import { Member } from "./member.datamodel";
+import { MembersList } from "./members-list.datamodel";
+import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./members-filter.datamodel";
+import { ManagementService } from "./management.service";
 import { allEqual, orderBy } from '../share/util.js';
 import { inviteDialogConf } from './invite/invite.dialog';
 import './management.component.scss';
 
-const difference = (xs: Array<any>, ys: Array<any>) : Array<any> => xs.filter((x) => ys.indexOf(x) === -1);
-
-const addToGroup = (groupId: number) : IBulkGroupMembership => ({ groupId, direction: 'I' });
-
-const removeFromGroup = (groupId: number) : IBulkGroupMembership => ({ groupId, direction: 'O' });
 
 class ManagementCtrl {
 
-    static $inject = ['$scope','$mdDialog','$translate','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];
+    /**
+     * Обработчик биндинга management
+     * @param management: IGroupManagementProfile
+     */  
+    set management (management: IGroupManagementProfile) {
+        this.membersList = new MembersList(management);
+    }
 
-    public clubRoles = clubRoles;
-
-    public clubTariffs = clubTariffs;
-
-    public membersList: MembersList;
-
-    public filterParams: MembersFilterParams = {
+    clubRoles = clubRoles;
+    clubTariffs = clubTariffs;
+    membersList: MembersList;
+    filterParams: MembersFilterParams = {
         clubRole: null,
         coachUserId: null,
         noCoach: false,
         search: '',
     };
+    orderBy: string = 'username';
+    checked: Array<Member> = [];
 
-    public orderBy: string = 'username';
-
-    public checked: Array<Member> = [];
-
-    public getRows: () => Array<Member> = createSelector([
+    /**
+     * Отфильтрованный и отсортированный список членов
+     * @returns {Array<Member>}
+     */  
+    getRows: () => Array<Member> = createSelector([
         () => this.membersList,
         () => this.filterParams,
         () => this.orderBy,
     ], getRows);
 
+    static $inject = ['$scope', '$mdDialog', '$mdMedia', '$mdBottomSheet', 'SystemMessageService', 'GroupService', 'ManagementService'];
+
     constructor (
         private $scope: any, 
         private $mdDialog: any, 
-        private $translate: any, 
-        private GroupService: any, 
-        private dialogs: any, 
         private $mdMedia: any, 
         private $mdBottomSheet: any, 
         private SystemMessageService: any,
+        private GroupService: any,
+        private ManagementService: ManagementService,
     ) {
         
     }
-
-    set management (management: IGroupManagementProfile) {
-        this.membersList = new MembersList(management);
-    }
     
+    /**
+     * Обновить
+     */  
     update () {
         this.GroupService.getManagementProfile(this.membersList.groupId, 'club')
         .then((management) => { 
@@ -71,66 +71,68 @@ class ManagementCtrl {
         });
     }
 
+    /**
+     * Выделение строчек таблицы, согласованное с фильтрами
+     * @returns {Array<Member>}
+     */  
     getChecked () : Array<Member> {
         return this.getRows().filter((member) => this.checked.indexOf(member) !== -1);
     }
 
+    /**
+     * Список всех тренеров (для меню фильтров)
+     * @returns {Array<Member>}
+     */  
     getCoaches () : Array<Member> {
         return this.membersList.getCoaches();
     }
 
+    /**
+     * Оплачен ли счёт по тарифу клубом
+     * @param bill: IBillingTariff
+     * @returns {boolean}
+     */  
     isBillByClub (bill: IBillingTariff) : boolean {
         return this.membersList.isClubBill(bill);
     }
     
+    /**
+     * Доступна ли при выбранных строчках кнопка "Тарифы"
+     * @returns {boolean}
+     */  
     isEditTariffsAvailable () : boolean {
-        let checkedRows = this.getChecked();
-        return allEqual(checkedRows.map(this.membersList.getTariffsByClub), angular.equals) 
-            && allEqual(checkedRows.map(this.membersList.getTariffsNotByClub), angular.equals);
+        return this.ManagementService.isEditTariffsAvailable(this.membersList, this.getChecked());
     }
     
+    /**
+     * Доступна ли при выбранных строчках кнопка "Тренеры"
+     * @returns {boolean}
+     */  
     isEditCoachesAvailable () : boolean {
-        return allEqual(this.getChecked().map((member) => member.coaches), angular.equals)
-            && this.getChecked().every((member) => member.hasClubRole('ClubAthletes'));
+        return this.ManagementService.isEditCoachesAvailable(this.membersList, this.getChecked());
     }
     
+    /**
+     * Доступна ли при выбранных строчках кнопка "Спортсмены"
+     * @returns {boolean}
+     */  
     isEditAthletesAvailable () : boolean {
-        return allEqual(this.getChecked().map((member) => member.getAthletes()), angular.equals)
-            && this.getChecked().every((member) => member.hasClubRole('ClubCoaches'));
+        return this.ManagementService.isEditAthletesAvailable(this.membersList, this.getChecked());
     }
     
+    /**
+     * Доступна ли при выбранных строчках кнопка "Роли"
+     * @returns {boolean}
+     */  
     isEditRolesAvailable () : boolean {
-        return allEqual(this.getChecked().map((member) => member.roleMembership), angular.equals);
+        return this.ManagementService.isEditRolesAvailable(this.membersList, this.getChecked());
     }
     
+    /**
+     * Действие над выбранными строчками по кнопке "Тарифы"
+     */  
     editTariffs () {
-        let checked = this.getChecked();
-        let byClub = this.membersList.getTariffsByClub(checked[0]);
-        let bySelf = this.membersList.getTariffsNotByClub(checked[0]);
-
-        this.dialogs.tariffs(this.clubTariffs, byClub, bySelf, 'dialogs.byClub')
-        .then((selectedTariffs) => {
-            let addTariffs = difference(selectedTariffs, byClub);
-            let removeTariffs = difference(byClub, selectedTariffs);
-            if (addTariffs.length || removeTariffs.length) {
-                return this.dialogs.confirm({
-                    title: this.$translate.instant(`users.editTariffs.confirm.title`),
-                    text: getEditTariffsMessage(this.$translate) (addTariffs, removeTariffs),
-                    confirm: this.$translate.instant(`users.editTariffs.confirm.confirm`),
-                    cancel: this.$translate.instant(`users.editTariffs.confirm.cancel`)
-                }, selectedTariffs);
-            }
-        })
-        .then((selectedTariffs) => {
-            if (selectedTariffs) {
-                let members = checked.map((member) => member.getUserId());
-                let memberships = [
-                    ...difference(selectedTariffs, byClub).map(this.membersList.getTariffGroupId).map(addToGroup),
-                    ...difference(selectedTariffs, byClub).map(this.membersList.getTariffGroupId).map(removeFromGroup)
-                ];
-                return this.GroupService.putGroupMembershipBulk(this.membersList.groupId, memberships, members);
-            }
-        })
+        this.ManagementService.editTariffs(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
@@ -142,24 +144,12 @@ class ManagementCtrl {
             }
         });
     }
-    
+
+    /**
+     * Действие над выбранными строчками по кнопке "Тренеры"
+     */  
     editCoaches () {
-        let checked = this.getChecked();
-        let checkedCoaches = checked[0].getCoaches();
-
-        console.log('checkedCoaches', checkedCoaches);
-
-        this.dialogs.selectUsers(this.membersList.getCoaches(), checkedCoaches, 'coaches')
-        .then((nextCheckedCoaches) => {
-            if (checkedCoaches) {
-                let members = this.checked.map((member) => member.getUserId());
-                let memberships = [
-                    ...difference(nextCheckedCoaches, checkedCoaches).map((member) => member.getAthletesGroupId()).map(addToGroup),
-                    ...difference(checkedCoaches, nextCheckedCoaches).map((member) => member.getAthletesGroupId()).map(removeFromGroup),
-                ];
-                return this.GroupService.putGroupMembershipBulk(this.membersList.groupId, memberships, members);
-            }
-        })
+        this.ManagementService.editCoaches(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
@@ -172,21 +162,11 @@ class ManagementCtrl {
         });
     }
     
+    /**
+     * Действие над выбранными строчками по кнопке "Спортсмены"
+     */  
     editAthletes () {
-        let checked = this.getChecked();
-        let checkedAthletes = checked[0].getAthletes();
-
-        this.dialogs.selectUsers(this.membersList.getAthletes(), checkedAthletes, 'athletes')
-        .then((athletes) => {
-            if (athletes) {
-                let groupIds = checked.map((member) => member.getAthletesGroupId());
-                // нельзя выполнить все действия одним батч-запросом, но можно двумя
-                return Promise.all([
-                    this.GroupService.putGroupMembershipBulk(this.membersList.groupId, groupIds.map(addToGroup), difference(athletes, checkedAthletes)),
-                    this.GroupService.putGroupMembershipBulk(this.membersList.groupId, groupIds.map(removeFromGroup), difference(checkedAthletes, athletes))
-                ]);
-            }
-        })
+        this.ManagementService.editAthletes(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
@@ -199,33 +179,11 @@ class ManagementCtrl {
         });
     }
     
+    /**
+     * Действие над выбранными строчками по кнопке "Роли"
+     */  
     editRoles () {
-        let checked = this.getChecked();
-        let checkedRoles = checked[0].roleMembership.filter((role) => this.clubRoles.indexOf(role) !== -1);
-
-        this.dialogs.roles(this.clubRoles, checkedRoles)
-        .then((roles: Array<ClubRole>) => {
-            let addRoles = difference(roles, checkedRoles);
-            let removeRoles = difference(checkedRoles, roles);
-            if (addRoles.length || removeRoles.length) {
-                return this.dialogs.confirm({
-                    title: this.$translate.instant(`users.editRoles.confirm.title`),
-                    text: getEditRolesMessage(this.$translate) (addRoles, removeRoles),
-                    confirm: this.$translate.instant(`users.editRoles.confirm.confirm`),
-                    cancel: this.$translate.instant(`users.editRoles.confirm.cancel`)
-                }, roles);
-            }
-        })
-        .then((roles: Array<ClubRole>) => {
-            if (roles) {
-                let members = checked.map((member) => member.getUserId());
-                let memberships = [
-                    ...difference(roles, checkedRoles).map(this.membersList.getRoleGroupId).map(addToGroup),
-                    ...difference(checkedRoles, roles).map(this.membersList.getRoleGroupId).map(removeFromGroup)
-                ];
-                return this.GroupService.putGroupMembershipBulk(this.membersList.groupId, memberships, members);
-            }
-        })
+        this.ManagementService.editRoles(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
@@ -238,10 +196,11 @@ class ManagementCtrl {
         });
     }
     
+    /**
+     * Действие над выбранными строчками по кнопке "Удалить"
+     */  
     remove () {
-        this.dialogs.confirm({ text: 'dialogs.excludeClub' })
-        .then(() => this.checked.map((member) => this.GroupService.leave(this.membersList.groupId, member.userProfile.userId)))
-        .then((promises) => Promise.all(promises))
+        this.ManagementService.remove(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
@@ -253,6 +212,9 @@ class ManagementCtrl {
         });
     }
     
+    /**
+     * Действие по кнопке "Меню" члена клуба в мобильной версии
+     */  
     showActions (member: Member) {
         this.checked = [member];
 
@@ -263,10 +225,17 @@ class ManagementCtrl {
         });
     }
 
+    /**
+     * Действие по кнопке "Пригласить в клуб"
+     * @param management: IGroupManagementProfile
+     */  
     invite ($event) {
         this.$mdDialog.show(inviteDialogConf(this.membersList.groupId, $event));
     }
     
+    /**
+     * Настройка фильтров членов клуба "Все"
+     */  
     clearFilter () {
         this.filterParams = {
             ...this.filterParams,
@@ -276,11 +245,18 @@ class ManagementCtrl {
         };
     }
 
+    /**
+     * Выбрана ли настройка фильтров членов клуба "Все"
+     * @returns {boolean}
+     */  
     isFilterEmpty () : boolean {
         let { clubRole, coachUserId, noCoach } = this.filterParams;
         return !clubRole && !coachUserId && !noCoach;
     }
     
+    /**
+     * Настройка фильтров членов клуба "Без тренера"
+     */  
     setFilterNoCoach () {
         this.filterParams = {
             ...this.filterParams,
@@ -289,12 +265,20 @@ class ManagementCtrl {
             noCoach: true
         };
     }
-    
-    isFilterNoCoach () {
+
+    /**
+     * Выбрана ли настройка фильтров членов клуба "Без тренера"
+     * @returns {boolean}
+     */  
+    isFilterNoCoach () : boolean {
         return this.filterParams.noCoach;
     }
 
-    setFilterCoach (coach: IGroupManagementProfileMember) {
+    /**
+     * Настройка фильтров членов клуба "Тренер"
+     * @param coach: Member
+     */  
+    setFilterCoach (coach: Member) {
         this.filterParams = {
             ...this.filterParams,
             clubRole: null,
@@ -303,10 +287,19 @@ class ManagementCtrl {
         };
     }
 
-    isFilterCoach (coach: IGroupManagementProfileMember) {
+    /**
+     * Выбрана ли настройка фильтров членов клуба "Тренер"
+     * @param coach: Member
+     * @returns {boolean}
+     */  
+    isFilterCoach (coach: Member) {
         return this.filterParams.coachUserId === coach.userProfile.userId;
     }
     
+    /**
+     * Настройка фильтров членов клуба "Роль"
+     * @param clubRole: ClubRole
+     */  
     setFilterRole (clubRole: ClubRole) {
         this.filterParams = {
             ...this.filterParams,
@@ -316,14 +309,27 @@ class ManagementCtrl {
         };
     }
 
-    isFilterRole (role: string)  : boolean {
-        return this.filterParams.clubRole === role;
+    /**
+     * Выбрана ли настройка фильтров членов клуба "Роль"
+     * @param clubRole: ClubRole
+     * @returns {boolean}
+     */  
+    isFilterRole (clubRole: ClubRole) : boolean {
+        return this.filterParams.clubRole === clubRole;
     }
 
+    /**
+     * Геттер фильтра-поиска
+     * @returns {string}
+    */  
     get search () : string {
         return this.filterParams.search;
     }
     
+    /**
+     * Сеттер фильтра-поиска
+     * @param search: string
+    */  
     set search (search: string) {
         this.filterParams = {
             ...this.filterParams,
@@ -331,10 +337,18 @@ class ManagementCtrl {
         };
     }
 
+    /**
+     * Активен ли фильтр-поиск
+     * @returns {boolean}
+    */  
     isFilterSearch () : boolean {
         return !!this.filterParams.search;
     }
 
+    /**
+     * Использовать ли мобильную вёрстку
+     * @returns {boolean}
+    */  
     isMobileLayout () : boolean {
         return this.$mdMedia('max-width: 959px');
     }
