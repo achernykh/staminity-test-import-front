@@ -57,6 +57,7 @@ class ManagementCtrl {
 
     set management (management: IGroupManagementProfile) {
         this.membersList = new MembersList(management);
+        console.log('management', management);
     }
     
     update () {
@@ -76,6 +77,10 @@ class ManagementCtrl {
 
     getCoaches () : Array<Member> {
         return this.membersList.getCoaches();
+    }
+
+    isTariffByBill (bill: IBillingTariff) : boolean {
+        return this.membersList.isClubBill(bill);
     }
     
     isEditTariffsAvailable () : boolean {
@@ -143,6 +148,8 @@ class ManagementCtrl {
         let checked = this.getChecked();
         let checkedCoaches = checked[0].getCoaches();
 
+        console.log('checkedCoaches', checkedCoaches);
+
         this.dialogs.selectUsers(this.membersList.getCoaches(), checkedCoaches, 'coaches')
         .then((nextCheckedCoaches) => {
             if (checkedCoaches) {
@@ -169,6 +176,8 @@ class ManagementCtrl {
     editAthletes () {
         let checked = this.getChecked();
         let checkedAthletes = checked[0].getAthletes();
+
+        console.log('checkedAthletes', checkedAthletes);
 
         this.dialogs.selectUsers(this.membersList.getAthletes(), checkedAthletes, 'athletes')
         .then((athletes) => {
