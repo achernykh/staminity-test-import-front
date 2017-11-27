@@ -1,21 +1,103 @@
-import { IGroupManagementProfileMember, IBulkGroupMembership, IGroupManagementProfile } from "../../../api";
-import { path, Filter } from "../share/utility";
+import { IGroupManagementProfileMember, IBulkGroupMembership, IGroupManagementProfile, IGroupProfileShort, IUserProfileShort, IBillingTariff } from "../../../api";
+import { Filter, filtersToPredicate } from "../share/utility";
+import { orderBy } from '../share/util.js';
 
 export type ClubTariff = 'Coach' | 'Premium';
 export type ClubRole = 'ClubCoaches' | 'ClubAthletes' | 'ClubManagement';
 
-export const getClubCoaches = (management: IGroupManagementProfile) => management.members.filter(hasClubRole('ClubCoaches'));
-export const getClubTariffGroup = (management: IGroupManagementProfile) => (tariffCode: ClubTariff) : number => management['tariffGroups'][tariffCode + 'ByClub'];
-export const getClubRoleGroup = (management: IGroupManagementProfile) => (role: ClubRole) : number => management.availableGroups[role];
 
-export const getMemberCoaches = (member: IGroupManagementProfileMember) => member && member.coaches || [];
-export const getMemberRoles = (member: IGroupManagementProfileMember) => member && member.roleMembership || [];
-export const hasClubRole = (role: ClubRole) => (member: IGroupManagementProfileMember) => getMemberRoles(member).indexOf(role) !== -1;
-export const getMemberId = (member: IGroupManagementProfileMember) => member.userProfile.userId;
-export const getClubAthletesGroupId = (coach: any) : number => coach['ClubAthletesGroupId'];
+export class Member implements IGroupManagementProfileMember {
 
-export const addToGroup = (groupId: number) : IBulkGroupMembership => ({ groupId, direction: 'I' });
-export const removeFromGroup = (groupId: number) : IBulkGroupMembership => ({ groupId, direction: 'O' });
+    public getUserId = () : number => {
+        return this.userProfile.userId;
+    }
+
+    public hasClubRole = (role: ClubRole) => {
+        return this.roleMembership.indexOf(role) !== -1;
+    }
+
+    public getAthletes = () : Array<Member> => {
+        return this.membersList.getAthletesByCoachId(this.getUserId());
+    }
+
+    public getCoaches = () : Array<Member> => {
+        return this.coaches.map(this.membersList.getMember);
+    }
+
+    public getAthletesGroupId = () : number => {
+        return this.member['ClubAthletesGroupId'];
+    }
+
+    public userProfile: IUserProfileShort;
+    public roleMembership: Array<string>;
+    public coaches: Array<number>;
+
+    constructor (
+        public membersList: MembersList,
+        public member: IGroupManagementProfileMember,
+    ) {
+        this.userProfile = member.userProfile;
+        this.roleMembership = member.roleMembership;
+        this.coaches = member.coaches;
+    }
+}
+
+
+export class MembersList implements IGroupManagementProfile {
+        
+    public getMember = (id: number) : Member => {
+        return this.members.find((member) => member.getUserId() === id);
+    }
+
+    public getCoaches = () => {
+        return this.members.filter((member) => member.hasClubRole('ClubCoaches'));
+    }
+
+    public getAthletes = () => {
+        return this.members.filter((member) => member.hasClubRole('ClubAthletes'));
+    }
+
+    public getAthletesByCoachId = (userId: number) : Array<Member> => {
+        return this.members.filter((member) => member.coaches.indexOf(userId) !== -1);
+    }
+
+    public getTariffGroupId = (tariffCode: ClubTariff) : number => {
+        return this.management['tariffGroups'][tariffCode + 'ByClub'];
+    }
+
+    public getRoleGroupId = (role: ClubRole) : number => {
+        return this.availableGroups[role];
+    }
+
+    public isClubBill = (bill: IBillingTariff) : boolean => {
+        return bill && bill.clubProfile && bill.clubProfile.groupId === this.groupId;
+    }
+
+    public getTariffsByClub = (member: IGroupManagementProfileMember) : Array<string> => {
+        return member.userProfile.billing
+            .filter(this.isClubBill)
+            .map((bill) => bill.tariffCode);
+    }
+
+    public getTariffsNotByClub = (member: IGroupManagementProfileMember) : Array<string> => {
+        return member.userProfile.billing
+            .filter((bill) => !this.isClubBill(bill))
+            .map((bill) => bill.tariffCode);
+    }
+
+    public groupId: number;
+    public availableGroups: Array<IGroupProfileShort>;
+    public members: Array<Member>;
+
+    constructor (
+        public management: IGroupManagementProfile
+    ) {
+        this.groupId = management.groupId;
+        this.availableGroups = management.availableGroups;
+        this.members = management.members.map((member) => new Member(this, member));
+    }
+}
+
 
 export type MembersFilterParams = {
     clubRole: ClubRole;
@@ -25,9 +107,9 @@ export type MembersFilterParams = {
 };
 
 export const membersFilters: Array<Filter<MembersFilterParams, IGroupManagementProfileMember>> = [
-	({ clubRole }) => (member) => !clubRole || getMemberRoles(member).indexOf(clubRole) !== -1,
-	({ coachUserId }) => (member) => !coachUserId || getMemberCoaches(member).indexOf(coachUserId) !== -1,
-	({ noCoach }) => (member) => !noCoach || !getMemberCoaches(member).length,
+	({ clubRole }) => (member) => !clubRole || member.roleMembership.indexOf(clubRole) !== -1,
+	({ coachUserId }) => (member) => !coachUserId || member.coaches.indexOf(coachUserId) !== -1,
+	({ noCoach }) => (member) => !noCoach || !member.coaches.length,
     ({ search }) => ({ userProfile }) => !search || `${userProfile.public.firstName} ${userProfile.public.lastName}`.includes(search),
 ];
 
@@ -41,6 +123,17 @@ export const membersOrderings: {
     roles: (member) => member.roleMembership.join(' '),
     coaches: (member) => member.coaches.join(','),
     athletes: (member) => this.athletes(member).map(a => a.userProfile.userId).join(','),
+};
+
+
+export const getRows = (management: MembersList, filterParams: MembersFilterParams, order: string) : Array<IGroupManagementProfileMember> => {
+    let rows = management.members.filter(filtersToPredicate(membersFilters, filterParams));
+
+    if (order.startsWith('-')) {
+        return (orderBy(membersOrderings[order.slice(1)]) (rows)).reverse();
+    } else {
+        return orderBy(membersOrderings[order]) (rows);
+    }
 };
 
 export const getEditRolesMessage = ($translate) => (addRoles: Array<ClubRole>, removeRoles: Array<ClubRole>) : string => {
@@ -73,12 +166,15 @@ export const getEditTariffsMessage = ($translate) => (addTariffs: Array<ClubTari
     }
 };
 
-// (
-//                     $ctrl.isFilterEmpty() && ('users.filters.all' | translate)
-//                 ) || (
-//                     $ctrl.filterParams.clubRole && (('users.filters.role' | translate) + ': ' + ('users.clubRoles.' + $ctrl.filterParams.clubRole | translate))
-//                 ) || (
-//                     $ctrl.filterParams.noCoach && ('users.filters.noCoach' | translate)
-//                 ) || (
-//                     $ctrl.filterParams.coachUserId && ('users.filters.coach' | translate) + ': ' + ($ctrl.getMember($ctrl.filterParams.coachUserId) | username)
-//                 )
+export const getFiltersMessage = ($translate) => (filterParams: MembersFilterParams, membersList: MembersList) : string => {
+    return (
+        filterParams.noCoach && $translate.instant('users.filters.noCoach')
+    ) || (
+        filterParams.coachUserId && $translate.instant('users.filters.coach') + ': ' + (({ firstName, lastName }) => firstName + ' ' + lastName) (membersList.getMember(filterParams.coachUserId).userProfile.public)
+    ) || (
+        filterParams.clubRole && $translate.instant('users.filters.all') + ': ' + $translate.instant('users.clubRoles.' + filterParams.clubRole)
+    ) || (
+        $translate.instant('users.filters.all')
+    );
+};
+

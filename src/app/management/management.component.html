@@ -18,7 +18,7 @@
                     <md-menu-item class="management-filters-subtitile">
                         {{'users.role' | translate}}
                     </md-menu-item>
-                    <md-menu-item ng-repeat="role in $ctrl.clubRoles" ng-class="{'management-filter-active': $ctrl.isFilterRole(role}">
+                    <md-menu-item ng-repeat="role in $ctrl.clubRoles" ng-class="{'management-filter-active': $ctrl.isFilterRole(role)}">
                         <md-button ng-click="$ctrl.setFilterRole(role)">
                             {{ 'users.clubRoles.' + role | translate }}
                         </md-button>
@@ -29,7 +29,7 @@
                     <md-menu-item ng-class="{'management-filter-active': $ctrl.isFilterNoCoach()}">
                         <md-button ng-click="$ctrl.setFilterNoCoach()">{{ 'users.filters.noCoach' | translate }}</md-button>
                     </md-menu-item>
-                    <md-menu-item ng-repeat="coach in $ctrl.getCoaches()" ng-class="{'management-filter-active': $ctrl.isFilterCoach(coach)">
+                    <md-menu-item ng-repeat="coach in $ctrl.getCoaches()" ng-class="{'management-filter-active': $ctrl.isFilterCoach(coach)}">
                         <md-button ng-click="$ctrl.setFilterCoach(coach)">{{ coach.userProfile | username }}</md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -95,8 +95,8 @@
                         </td>
                         <td md-cell>{{ member.roleMembership | clubRoleMembership }}</td>
                         <td md-cell>
-                            <span ng-if="member.coaches && member.coaches.length">
-                                {{ $ctrl.getMember(member.coaches[0]).userProfile | username }}
+                            <span ng-if="member.coaches.length">
+                                {{ member.getCoaches()[0].userProfile | username }}
                                 <span ng-if="member.coaches.length > 1">, +{{ member.coaches.length - 1 }}</span>
                             </span>
                             <span ng-if="!member.coaches || !member.coaches.length">-</span>
@@ -104,11 +104,11 @@
                         <td md-cell>
                             <span ng-repeat="tariff in member.userProfile.billing" class="management-row-tariffs">
                                 {{ 'users.' + tariff.tariffCode | translate}}
-                                <span ng-if="tariff.clubProfile.groupId === $ctrl.club.groupId" class="badge">{{'users.byClub' | translate}}</span>
+                                <span ng-if="tariff.clubProfile.groupId === $ctrl.management.groupId" class="badge">{{'users.byClub' | translate}}</span>
                             </span>
                             <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
                         </td>
-                        <td md-cell>{{ $ctrl.getAthletesByCoachId(member.userProfile.userId).length || '-' }}</td>
+                        <td md-cell>{{ member.getAthletes().length || '-' }}</td>
                         <td md-cell>{{ member.userProfile.city }}</td>
                         <td md-cell>{{ member.userProfile | ageGroup }}</td>
                     </tr>
@@ -140,7 +140,7 @@
                         <md-menu-item class="management-filters-subtitile">
                             {{'users.role' | translate}}
                         </md-menu-item>
-                        <md-menu-item ng-repeat="role in $ctrl.clubRoles" ng-class="{'management-filter-active': $ctrl.isFilterRole(role}">
+                        <md-menu-item ng-repeat="role in $ctrl.clubRoles" ng-class="{'management-filter-active': $ctrl.isFilterRole(role)}">
                             <md-button ng-click="$ctrl.setFilterRole(role)">
                                 {{ 'users.clubRoles.' + role | translate }}
                             </md-button>
@@ -151,7 +151,7 @@
                         <md-menu-item ng-class="{'management-filter-active': $ctrl.isFilterNoCoach()}">
                             <md-button ng-click="$ctrl.setFilterNoCoach()">{{ 'users.filters.noCoach' | translate }}</md-button>
                         </md-menu-item>
-                        <md-menu-item ng-repeat="coach in $ctrl.getCoaches()" ng-class="{'management-filter-active': $ctrl.isFilterCoach(coach)">
+                        <md-menu-item ng-repeat="coach in $ctrl.getCoaches()" ng-class="{'management-filter-active': $ctrl.isFilterCoach(coach)}">
                             <md-button ng-click="$ctrl.setFilterCoach(coach)">{{ coach.userProfile | username }}</md-button>
                         </md-menu-item>
                     </md-menu-content>
