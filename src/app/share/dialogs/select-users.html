@@ -12,7 +12,7 @@
             <md-list-item ng-repeat="user in checked()" layout="row" layout-align="center center">
                 <userpic profile="user.userProfile" is-premium="user.userProfile.isPremium"></userpic>
                 <span flex>{{ user.userProfile | username }}</span>
-                <md-switch ng-model="isChecked(user.userProfile.userId)" ng-model-options="{getterSetter: true}" style="margin-left: 10px;"></md-switch>
+                <md-switch ng-model="isChecked(user)" ng-model-options="{getterSetter: true}" style="margin-left: 10px;"></md-switch>
             </md-list-item>
 
             <md-list-item layout="row" layout-align="center center">

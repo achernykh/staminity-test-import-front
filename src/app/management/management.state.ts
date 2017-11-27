@@ -6,7 +6,7 @@ import MessageService from "../core/message.service";
 
 const management = <StateDeclaration> {
     name: 'management',
-    url: 'management/:uri',
+    url: '/management/:uri',
     loginRequired: true,
     authRequired: ['func1'],
     resolve: {
