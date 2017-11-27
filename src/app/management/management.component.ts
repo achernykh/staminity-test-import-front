@@ -1,12 +1,11 @@
 import { IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile, IBillingTariff, IBulkGroupMembership } from '../../../api';
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { filtersToPredicate, createSelector } from "../share/utility";
-import { 
-    ClubTariff, ClubRole, 
-    MembersList, Member,
-    MembersFilterParams, membersFilters, membersOrderings, getRows,
-    getEditRolesMessage, getEditTariffsMessage, getFiltersMessage
-} from "./management.datamodel";
+import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.constants";
+import { Member } from "./Member.datamodel";
+import { MembersList } from "./MembersList.datamodel";
+import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./MembersFilter.datamodel";
+import { getEditRolesMessage, getEditTariffsMessage, getFiltersMessage } from "./management.functions";
 import { allEqual, orderBy } from '../share/util.js';
 import { inviteDialogConf } from './invite/invite.dialog';
 import './management.component.scss';
@@ -21,7 +20,9 @@ class ManagementCtrl {
 
     static $inject = ['$scope','$mdDialog','$translate','GroupService','dialogs','$mdMedia','$mdBottomSheet','SystemMessageService'];
 
-    public clubRoles = ['ClubCoaches', 'ClubAthletes', 'ClubManagement'];
+    public clubRoles = clubRoles;
+
+    public clubTariffs = clubTariffs;
 
     public membersList: MembersList;
 
@@ -79,7 +80,7 @@ class ManagementCtrl {
         return this.membersList.getCoaches();
     }
 
-    isTariffByBill (bill: IBillingTariff) : boolean {
+    isBillByClub (bill: IBillingTariff) : boolean {
         return this.membersList.isClubBill(bill);
     }
     
@@ -104,12 +105,11 @@ class ManagementCtrl {
     }
     
     editTariffs () {
-        let tariffs = ['Coach', 'Premium'];
         let checked = this.getChecked();
         let byClub = this.membersList.getTariffsByClub(checked[0]);
         let bySelf = this.membersList.getTariffsNotByClub(checked[0]);
 
-        this.dialogs.tariffs(tariffs, byClub, bySelf, 'dialogs.byClub')
+        this.dialogs.tariffs(this.clubTariffs, byClub, bySelf, 'dialogs.byClub')
         .then((selectedTariffs) => {
             let addTariffs = difference(selectedTariffs, byClub);
             let removeTariffs = difference(byClub, selectedTariffs);
@@ -177,8 +177,6 @@ class ManagementCtrl {
         let checked = this.getChecked();
         let checkedAthletes = checked[0].getAthletes();
 
-        console.log('checkedAthletes', checkedAthletes);
-
         this.dialogs.selectUsers(this.membersList.getAthletes(), checkedAthletes, 'athletes')
         .then((athletes) => {
             if (athletes) {
@@ -203,11 +201,10 @@ class ManagementCtrl {
     }
     
     editRoles () {
-        let roles = ['ClubAthletes', 'ClubCoaches', 'ClubManagement'];
         let checked = this.getChecked();
-        let checkedRoles = checked[0].roleMembership.filter((role) => roles.indexOf(role) !== -1);
+        let checkedRoles = checked[0].roleMembership.filter((role) => this.clubRoles.indexOf(role) !== -1);
 
-        this.dialogs.roles(roles, checkedRoles)
+        this.dialogs.roles(this.clubRoles, checkedRoles)
         .then((roles: Array<ClubRole>) => {
             let addRoles = difference(roles, checkedRoles);
             let removeRoles = difference(checkedRoles, roles);

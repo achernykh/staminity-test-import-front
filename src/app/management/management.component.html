@@ -104,7 +104,7 @@
                         <td md-cell>
                             <span ng-repeat="tariff in member.userProfile.billing" class="management-row-tariffs">
                                 {{ 'users.' + tariff.tariffCode | translate}}
-                                <span ng-if="$ctrl.isTariffByBill(tariff)" class="badge">{{'users.byClub' | translate}}</span>
+                                <span ng-if="$ctrl.isBillByClub(tariff)" class="badge">{{'users.byClub' | translate}}</span>
                             </span>
                             <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
                         </td>
