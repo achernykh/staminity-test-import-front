@@ -75,7 +75,14 @@ export const _translate = {
                 confirm: 'Да',
                 cancel: 'Нет'
             }
-        }
+        },
+        bottomSheet: {
+            athletes: 'Спортсмены',
+            coaches: 'Тренеры',
+            tariffs: 'Тарифы',
+            roles: 'Роли',
+            remove: 'Удалить',
+        },
     },
     en: {
     }
