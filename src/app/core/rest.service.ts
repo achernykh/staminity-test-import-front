@@ -50,6 +50,29 @@ export class PostData implements IPostDataRequest {
 	}
 }
 
+export class GetData implements IPostDataRequest {
+
+	method:string;
+	url:string;
+	headers:{
+		'Authorization':string
+	};
+	data:{
+		//requestType:string;
+		requestData:any;
+		token?:string; // указывается в момент отправки запроса
+	};
+
+	constructor(type:string, data:any) {
+		this.method = 'GET';
+		this.url = _connection.protocol.rest + _connection.server + type;
+		this.headers = {
+			'Authorization': 'Bearer '
+		};
+		this.data = data && data.hasOwnProperty('requestData') && data || {requestData: data};
+	}
+}
+
 export class PostFile implements IPostFileRequest {
 
 	method:string;
@@ -129,8 +152,12 @@ export class RESTService implements IRESTService {
 		request.headers['Authorization'] += this.SessionService.getToken();
 		return this.$http(request)
 			.finally(()=>this.loader.hide())
-			.then((result:any)=> {
-				return result;
+			.then((response:any) => {
+				if(response.data.hasOwnProperty('errorMessage')){
+					throw response.data.errorMessage;
+				} else {
+					return response.data;
+				}
 			}, (response) => {
 				throw response.data.data[0].value; // Предполагаем, что сервер ответил ошибкой в формате systemMessage
 			});
