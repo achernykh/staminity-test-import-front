@@ -26,7 +26,7 @@
                         </md-menu-item>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.deleteSport(intensityFactor, sportName, sport)"
-                                       disabled="{{sportName === 'default' ? 'disabled' : ''}}">
+                                       ng-disabled="sportName === 'default'">
                                 <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                                 {{'settings.zones.deleteZones' | translate}}
                             </md-button>
@@ -59,7 +59,7 @@
                     <md-menu-content width="4">
                         <md-menu-item ng-repeat="sport in $ctrl.sportBasic track by sport.id">
                             <md-button ng-click="$ctrl.addSport(intensityFactor, sport.code)"
-                                       ng-disabled="{{$ctrl.zones[intensityFactor].hasOwnProperty(sport.code)}}">
+                                       ng-disabled="$ctrl.zones[intensityFactor].hasOwnProperty(sport.code)">
                                 {{'sport.' + sport.code | translate}}</md-button>
                         </md-menu-item>
                     </md-menu-content>

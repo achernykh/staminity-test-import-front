@@ -127,12 +127,17 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
+
+        let needRefresh: boolean = userChanges.hasOwnProperty('trainingZones') || userChanges.hasOwnProperty('public');
+
         return this.SocketService.send(new PutRequest(userChanges))
         .then((result) => result.value)
         .then(({ revision }) => {
             let updatedUser = merge({}, userChanges, { revision });
             if (this.SessionService.isCurrentUserId(userChanges.userId)) {
-                this.SessionService.updateUser(updatedUser);
+                needRefresh ?
+                    this.SessionService.setUser(updatedUser):
+                    this.SessionService.updateUser(updatedUser);
             }
             return updatedUser;
         }, (error) => {

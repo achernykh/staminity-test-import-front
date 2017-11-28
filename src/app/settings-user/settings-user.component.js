@@ -61,15 +61,16 @@ class SettingsUserCtrl {
     }
 
     $onInit () {
-        this.SessionService.getObservable()
-        .takeUntil(this.destroy)
-        .map((session) => session.userProfile)
-        .distinctUntilChanged()
-        .subscribe(this.setUser.bind(this));
+
+        /**this.SessionService.getObservable()
+            .takeUntil(this.destroy)
+            .map((session) => session.userProfile)
+            .distinctUntilChanged()
+            .subscribe(this.setUser.bind(this));**/
 
         this.BillingService.messages
-        .takeUntil(this.destroy)
-        .subscribe(this.reload.bind(this));
+            .takeUntil(this.destroy)
+            .subscribe(this.reload.bind(this));
 
         /**
          *

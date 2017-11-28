@@ -27,6 +27,7 @@ export interface ISessionService  {
 	getCurrentUserId () : number | string;
 	isCurrentUserId (userId: number | string) : boolean;
 	updateUser (userChanges: Object);
+	setUser (userChanges: Object);
 	getToken () : string;
 	getPermissions () : Object;
 	setPermissions (permissions: Object);
@@ -55,6 +56,11 @@ export default class SessionService implements ISessionService {
 		this.set(merge({}, session, changes));
 	}
 
+	refresh (changes: Object) {
+		let session = this.get();
+		this.set(Object.assign(session, changes));
+	}
+
 	get () : ISession {
 		return this.session.getValue();
 	}
@@ -78,6 +84,12 @@ export default class SessionService implements ISessionService {
 	updateUser (userProfile: Object) {
 		if (!userProfile['userId'] || this.isCurrentUserId(userProfile['userId'])) {
 			this.change({ userProfile: { ...userProfile } });
+		}
+	}
+
+	setUser (userProfile: Object) {
+		if (!userProfile['userId'] || this.isCurrentUserId(userProfile['userId'])) {
+			this.refresh({ userProfile: { ...userProfile } });
 		}
 	}
 
