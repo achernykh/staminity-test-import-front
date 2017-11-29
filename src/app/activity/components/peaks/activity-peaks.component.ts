@@ -1,48 +1,48 @@
-import './activity-peaks.component.scss';
-import { IComponentOptions, IComponentController} from 'angular';
+import { IComponentController, IComponentOptions} from "angular";
 import {IActivityMeasure, ICalcMeasures} from "../../../../../api/activity/activity.interface";
+import "./activity-peaks.component.scss";
 
 class ActivityPeaksCtrl implements IComponentController{
 
-	private peaks: Array<any>;
+	private peaks: any[];
 	private calcMeasures: ICalcMeasures;
-	private measures: Array<string>;
+	private measures: string[];
 	private sport: string;
-	private readonly peaksMeasure = ['heartRateTimePeaks', 'heartRateDistancePeaks',
-		'speedTimePeaks', 'speedDistancePeaks',
-		'powerTimePeaks', 'powerDistancePeaks',
-		'cadenceTimePeaks', 'cadenceDistancePeaks'];
+	private readonly peaksMeasure = ["heartRateTimePeaks", "heartRateDistancePeaks",
+		"speedTimePeaks", "speedDistancePeaks",
+		"powerTimePeaks", "powerDistancePeaks",
+		"cadenceTimePeaks", "cadenceDistancePeaks"];
 
 
 	//private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain','elevationLoss'];
-	static $inject = ['$scope'];
+	static $inject = ["$scope"];
 
 	constructor(private $scope: any) {
 
 	}
 
 	$onChanges(change: any): void {
-		if(change.hasOwnProperty('calcMeasures') && !change.calcMeasures.isFirstChange()) {
+		if(change.hasOwnProperty("calcMeasures") && !change.calcMeasures.isFirstChange()) {
 			this.$onInit();
 		}
 	}
 
 	$onInit(){
 		this.peaks = this.peaksMeasure
-			.filter(m => this.calcMeasures.hasOwnProperty(m) &&
-				this.calcMeasures[m].hasOwnProperty('peaks') &&
+			.filter((m) => this.calcMeasures.hasOwnProperty(m) &&
+				this.calcMeasures[m].hasOwnProperty("peaks") &&
 				this.calcMeasures[m].peaks.length > 0 &&
 				this.calcMeasures[m].peaks[0].value !== 0)
-			.map(m => ({
+			.map((m) => ({
 				measure: /*this.calcMeasures[m].sourceMeasure,*/ this.getMeasure(m),
-				type: (m.includes('Time') && 'duration') || 'distance',
-				value: this.calcMeasures[m].peaks
+				type: (m.includes("Time") && "duration") || "distance",
+				value: this.calcMeasures[m].peaks,
 			}));
 
 		// Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
 		// this, а значит и нет доступа к массиву для фильтрации
-		this.measures = Array.from(new Set(this.peaks.map(m => m.measure)));
-		this.$scope.filter = (this.measures.length > 0 && { measure: this.measures[0] }) || '';
+		this.measures = Array.from(new Set(this.peaks.map((m) => m.measure)));
+		this.$scope.filter = (this.measures.length > 0 && { measure: this.measures[0] }) || "";
 	}
 
 	setFilter(code) {
@@ -51,16 +51,16 @@ class ActivityPeaksCtrl implements IComponentController{
 
 	private getMeasure(name: string):string {
 		return name.substr(0,
-			(name.includes('Time') && name.indexOf('Time')) ||
-			(name.includes('Distance') && name.indexOf('Distance')) || null);
+			(name.includes("Time") && name.indexOf("Time")) ||
+			(name.includes("Distance") && name.indexOf("Distance")) || null);
 	}
 }
 
 const ActivityPeaksComponent: IComponentOptions = {
 	bindings: {
-		calcMeasures: '<',
-		sport: '<',
-		changes: '<'
+		calcMeasures: "<",
+		sport: "<",
+		changes: "<",
 	},
 	controller: ActivityPeaksCtrl,
 	template: `
@@ -81,7 +81,7 @@ const ActivityPeaksComponent: IComponentOptions = {
 				</div>			
 			</md-list-item>
 			<md-divider ng-repeat-end ng-if="!$last"></md-divider>
-		</md-list>`
+		</md-list>`,
 
 };
 

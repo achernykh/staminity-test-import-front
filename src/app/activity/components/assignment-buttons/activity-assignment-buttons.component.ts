@@ -1,6 +1,6 @@
-import './activity-assignment-buttons.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import "./activity-assignment-buttons.component.scss";
 
 class ActivityAssignmentButtonsCtrl implements IComponentController {
 
@@ -23,14 +23,14 @@ class ActivityAssignmentButtonsCtrl implements IComponentController {
 
 const ActivityAssignmentButtonsComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        onEvent: '&'
+        data: "<",
+        onEvent: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivityAssignmentButtonsCtrl,
-    template: require('./activity-assignment-buttons.component.html') as string
+    template: require("./activity-assignment-buttons.component.html") as string,
 };
 
 export default ActivityAssignmentButtonsComponent;

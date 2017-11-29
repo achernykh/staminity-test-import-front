@@ -1,4 +1,4 @@
-﻿import {IInputPlanSegment } from './segmentsChart.input';
+﻿import {IInputPlanSegment } from "./segmentsChart.input";
 
 const posOrder = (a:IInputPlanSegment,b:IInputPlanSegment) => a.pos < b.pos ? -1: 1;
 
@@ -6,7 +6,7 @@ export enum IntervalStatus {
     unknown,
     success,
     warn,
-    failed
+    failed,
 }
 
 export interface IInterval {
@@ -35,22 +35,22 @@ export class PlanChartDatamodel {
 
     private static SUCCESS = 5;
     private static WARN = 25;
-    private static DEFAULT_MEASURE = 'heartRate';
+    private static DEFAULT_MEASURE = "heartRate";
 
-    private intervals: Array<IPlanInterval>;
+    private intervals: IPlanInterval[];
 
-    constructor(activityHeader: Array<IInputPlanSegment>) {
+    constructor(activityHeader: IInputPlanSegment[]) {
         this.intervals = [];
         let currentPlanDistance = 0;
         let currentPlanTime = 0;
         let currentFactDistance = 0;
         let currentFactTime = 0;
 
-        activityHeader = activityHeader.filter(i => i.type === 'P');
+        activityHeader = activityHeader.filter((i) => i.type === "P");
         activityHeader.sort(posOrder);
-        console.log('header sort', activityHeader.map(i => i.pos));
+        console.log("header sort", activityHeader.map((i) => i.pos));
 
-        for (var i = 0; i < activityHeader.length; i++) {
+        for (let i = 0; i < activityHeader.length; i++) {
             let segment = activityHeader[i];
             let intensityMeasure = segment.intensityMeasure || PlanChartDatamodel.DEFAULT_MEASURE;
             if (segment.type !== "P") {
@@ -63,7 +63,7 @@ export class PlanChartDatamodel {
                 },
                 distance: {
                     start: currentPlanDistance,
-                    duration: segment.distanceLength
+                    duration: segment.distanceLength,
                 },
                 intensityByFtp: this.getIntervalPlanFTP(segment),
             };
@@ -72,11 +72,11 @@ export class PlanChartDatamodel {
                 fact = {
                         movingDuration: {
                             start: currentFactTime,
-                            duration: segment.calcMeasures.movingDuration.value || segment.movingDurationLength
+                            duration: segment.calcMeasures.movingDuration.value || segment.movingDurationLength,
                         },
                         distance: {
                             start: currentFactDistance,
-                            duration: segment.calcMeasures.distance.value || segment.distanceLength
+                            duration: segment.calcMeasures.distance.value || segment.distanceLength,
                         },
                         intensityByFtp: segment.calcMeasures[intensityMeasure].intensityByFtp * 100 || 0,
                 };
@@ -91,19 +91,19 @@ export class PlanChartDatamodel {
                 intensityMeasure: intensityMeasure,
                 durationMeasure: segment.durationMeasure,
                 plan: plan,
-                fact: fact
+                fact: fact,
             });
             currentPlanTime = currentPlanTime + segment.movingDurationLength;
             currentPlanDistance = currentPlanDistance + segment.distanceLength;
         }
     };
 
-    public getIntervals(): Array<IPlanInterval> {
+    public getIntervals(): IPlanInterval[] {
         return this.intervals || [];
     }
 
-    public getSelect(): Array<number> {
-        let select: Array<number> = [];
+    public getSelect(): number[] {
+        let select: number[] = [];
         this.intervals.forEach((interval,i) => interval.isSelected && select.push(i));
         return select || [];
     }

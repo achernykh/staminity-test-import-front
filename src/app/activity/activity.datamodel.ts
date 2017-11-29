@@ -1,34 +1,34 @@
+import {copy, merge} from "angular";
+import moment from "moment/src/moment.js";
 import {
-	IActivityHeader,
 	IActivityDetails,
-	IActivityIntervalW,
+	IActivityHeader,
+	IActivityInterval,
+	IActivityIntervalG,
 	IActivityIntervalL,
 	IActivityIntervalP,
-	IActivityMeasure,
-	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityType, IActivityIntervalG, IDurationMeasure,
-	IIntensityMeasure, IActivityIntervalU
+	IActivityIntervalPW, IActivityIntervalU, IActivityIntervalW, IActivityMeasure, IActivityType, ICalcMeasures,
+	IDurationMeasure, IIntensityMeasure,
 } from "../../../api/activity/activity.interface";
-import {IActivityCategory} from '../../../api/reference/reference.interface';
-import moment from 'moment/src/moment.js';
-import {copy, merge} from 'angular';
-import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
-import {activityTypes, getType} from "./activity.constants";
-import {ActivityIntervalCalcMeasure} from "./activity-datamodel/activity.models";
-import {ActivityIntervals} from "./activity-datamodel/activity.intervals";
-import {ActivityIntervalFactory} from "./activity-datamodel/activity.functions";
-import {IUserProfileShort, IUserProfile} from "../../../api/user/user.interface";
-import {IGroupProfileShort} from '../../../api/group/group.interface';
-import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../reference/reference.datamodel";
-import { pipe, orderBy, prop, groupBy } from "../share/util.js";
-import {ActivityHeader} from "./activity-datamodel/activity.header";
-import {ActivityIntervalPW} from "./activity-datamodel/activity.interval-pw";
-import {ActivityIntervalW} from "./activity-datamodel/activity.interval-w";
-import {ActivityIntervalP} from "./activity-datamodel/activity.interval-p";
+import {IGroupProfileShort} from "../../../api/group/group.interface";
+import {IActivityCategory} from "../../../api/reference/reference.interface";
+import {IUserProfile, IUserProfileShort} from "../../../api/user/user.interface";
+import {CalendarItem} from "../calendar-item/calendar-item.datamodel";
+import { categoriesFilters, getOwner, Owner, ReferenceFilterParams } from "../reference/reference.datamodel";
+import { groupBy, orderBy, pipe, prop } from "../share/util.js";
 import {ActivityDetails, IRoute} from "./activity-datamodel/activity.details";
-import {ActivityIntervalL} from "./activity-datamodel/activity.interval-l";
-import {ActivityIntervalU} from "./activity-datamodel/activity.interval-u";
+import {ActivityIntervalFactory} from "./activity-datamodel/activity.functions";
+import {ActivityHeader} from "./activity-datamodel/activity.header";
 import {ActivityIntervalG} from "./activity-datamodel/activity.interval-g";
+import {ActivityIntervalL} from "./activity-datamodel/activity.interval-l";
+import {ActivityIntervalP} from "./activity-datamodel/activity.interval-p";
+import {ActivityIntervalPW} from "./activity-datamodel/activity.interval-pw";
+import {ActivityIntervalU} from "./activity-datamodel/activity.interval-u";
+import {ActivityIntervalW} from "./activity-datamodel/activity.interval-w";
+import {ActivityIntervals} from "./activity-datamodel/activity.intervals";
+import {ActivityIntervalCalcMeasure} from "./activity-datamodel/activity.models";
+import {activityTypes, getType} from "./activity.constants";
 
 export enum ActivityStatus {
 
@@ -104,13 +104,13 @@ export class Interval implements IActivityInterval {
 		};**/
 
 		switch (type) {
-			case 'pW': {
+			case "pW": {
 				this.calcMeasures = new ActivityIntervalCalcMeasure();
 				break;
 			}
 		}
 
-		if (type === 'P' || type === 'pW') {
+		if (type === "P" || type === "pW") {
 			this.durationMeasure = null;
 			this.intensityMeasure = null;
 			this.intensityLevelFrom = null;
@@ -123,7 +123,7 @@ export class Interval implements IActivityInterval {
 			this.distanceLength = null;
 			this.movingDurationApprox = null;
 			this.distanceApprox = null;
-		} else if(type === 'G') {
+		} else if(type === "G") {
 			this.code = Math.random().toString(36).substr(2, 5);
 			this.repeatCount = 0;
 		}
@@ -147,22 +147,22 @@ export class Activity extends CalendarItem {
 
 	public activityHeader: IActivityHeader;
 	public header: ActivityHeader;
-	public categoriesList: Array<IActivityCategory> = [];
+	public categoriesList: IActivityCategory[] = [];
 
 	public intervals: ActivityIntervals;
-	public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
+	public categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
 	public intervalPW: ActivityIntervalPW;
 	public intervalW: ActivityIntervalW;
-	public intervalL: Array<ActivityIntervalL> = [];
-	public intervalP: Array<ActivityIntervalP> = [];
-	public intervalG: Array<ActivityIntervalG> = [];
-	public intervalU: Array<ActivityIntervalU> = [];
+	public intervalL: ActivityIntervalL[] = [];
+	public intervalP: ActivityIntervalP[] = [];
+	public intervalG: ActivityIntervalG[] = [];
+	public intervalU: ActivityIntervalU[] = [];
 
-	private route: Array<IRoute>;
+	private route: IRoute[];
 	private isRouteExist: boolean = true; // ставим начально значени true, чтобы отобразить процесс загрузки данных, далее значение будет переопределно наличем координат
 	private hasDetails: boolean = false;
 	public hasImportedData: boolean = false;
-	private peaks: Array<any>;
+	private peaks: any[];
 	private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
 	//public actualDataIsImported: boolean = false;
     private _startDate: Date;
@@ -180,7 +180,7 @@ export class Activity extends CalendarItem {
 	constructor(private item: ICalendarItem){
 		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
 		// Запоминаем, чтобы парсить только один раз
-		this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
+		this._startDate = toDay(moment(this.dateStart, "YYYY-MM-DD").toDate());
 
 		this.prepare();
 	}
@@ -188,8 +188,8 @@ export class Activity extends CalendarItem {
 	completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...intervals, this.intervalW);
-		this.intervalL = <Array<ActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
-		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
+		this.intervalL = <ActivityIntervalL[]>this.header.intervals.filter((i) => i.type === "L");
+		this.hasImportedData = this.intervalL.hasOwnProperty("length") && this.intervalL.length > 0;
 	}
 
 	hasImport(): boolean {
@@ -199,16 +199,16 @@ export class Activity extends CalendarItem {
 	completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG | ActivityIntervalU) {
 		//this.header.intervals.push(interval);
 		switch (interval.type) {
-			case 'U': {
+			case "U": {
 				this.intervalU.push(<ActivityIntervalU>interval); //= <Array<IActivityIntervalL>>this.header.intervals.filter(i => i.type === "U");
 				break;
 			}
-			case 'P': {
+			case "P": {
 				//this.intervalP.push(<IActivityIntervalP>interval);// = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === "P");
-				this.calculateInterval('pW');
+				this.calculateInterval("pW");
 				break;
 			}
-			case 'G': {
+			case "G": {
 				this.intervalG.push(<ActivityIntervalG>interval);
 				break;
 			}
@@ -242,10 +242,10 @@ export class Activity extends CalendarItem {
 
 	spliceInterval(type: string, id: number) {
 		switch (type) {
-			case 'P': {
+			case "P": {
 				this.intervalP.splice(id,1);
 				//this.intervalP = <Array<IActivityIntervalP>>this.header.intervals.filter(i => i.type === type);
-				this.calculateInterval('pW');
+				this.calculateInterval("pW");
 				break;
 			}
 		}
@@ -268,10 +268,10 @@ export class Activity extends CalendarItem {
 		// Ссылки на интервалы для быстрого доступа
 		this.intervalPW = <ActivityIntervalPW>this.intervals.PW;
 		this.intervalW = <ActivityIntervalW>this.intervals.W;
-		this.intervalP = <Array<ActivityIntervalP>>this.intervals.P;
-		this.intervalG = <Array<ActivityIntervalG>>this.intervals.G;
-		this.intervalL = <Array<ActivityIntervalL>>this.intervals.L;
-		this.intervalU = <Array<ActivityIntervalU>>this.intervals.U;
+		this.intervalP = <ActivityIntervalP[]>this.intervals.P;
+		this.intervalG = <ActivityIntervalG[]>this.intervals.G;
+		this.intervalL = <ActivityIntervalL[]>this.intervals.L;
+		this.intervalU = <ActivityIntervalU[]>this.intervals.U;
 	}
 
 	get actualDataIsImported(){
@@ -298,7 +298,7 @@ export class Activity extends CalendarItem {
 			userProfileOwner: userProfile || this.userProfileOwner,
 			userProfileCreator: this.userProfileCreator,
 			//userProfileCreator: IUserProfileShort,
-			activityHeader: Object.assign(this.header.build(), {intervals: this.intervals.build()})
+			activityHeader: Object.assign(this.header.build(), {intervals: this.intervals.build()}),
 		};
 	}
 
@@ -327,11 +327,11 @@ export class Activity extends CalendarItem {
 	 * @returns {string}
 	 */
 	get sportUrl() {
-		return `assets/icon/${this.header.activityType.code || 'default_sport'}.svg`;
+		return `assets/icon/${this.header.activityType.code || "default_sport"}.svg`;
 	}
 
 	get category():IActivityCategory {
-		return this.header.hasOwnProperty('activityCategory') && this.header.activityCategory;
+		return this.header.hasOwnProperty("activityCategory") && this.header.activityCategory;
 	}
 
 	set category(c: IActivityCategory) {
@@ -339,7 +339,7 @@ export class Activity extends CalendarItem {
 	}
 
 	get categoryCode():string {
-		return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('code'))
+		return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty("code"))
 			&& this.header.activityCategory.code;
 	}
 
@@ -365,7 +365,7 @@ export class Activity extends CalendarItem {
 	}
 
 	get dismiss() {
-		return this.status === 'dismiss';
+		return this.status === "dismiss";
 	}
 
 	/**
@@ -378,11 +378,11 @@ export class Activity extends CalendarItem {
 	}
 
 	get bottomPanel() {
-		return (this.status === 'coming' &&
+		return (this.status === "coming" &&
 			((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0 ) ||
-			(!this.structured && this.intervalPW.intensityMeasure)) && 'plan') ||
+			(!this.structured && this.intervalPW.intensityMeasure)) && "plan") ||
 			//(this.status === 'coming' && this.structured && 'segmentList') ||
-			((this.completed && this.summaryAvg.length > 0) && 'data') || null;
+			((this.completed && this.summaryAvg.length > 0) && "data") || null;
 	}
 
 	/**
@@ -417,21 +417,21 @@ export class Activity extends CalendarItem {
 	 * @returns {string}
 	 */
 	get status() {
-		return this.isTemplate? 'template' : (
+		return this.isTemplate? "template" : (
 			!this.isToday ?
 			// приоритет статусов, если запись не сегодня
-			(this.coming && 'coming')
-				|| (!this.specified && 'not-specified')
-				|| (!this.completed && 'dismiss')
-				|| ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
-				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && 'complete-warn')
-				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') :
+			(this.coming && "coming")
+				|| (!this.specified && "not-specified")
+				|| (!this.completed && "dismiss")
+				|| ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && "complete")
+				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && "complete-warn")
+				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && "complete-error") :
 			//приоритет статусов, если запись сегодня
-			((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
-				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
-				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
-				|| (!this.specified && 'not-specified')
-				|| (this.coming && 'coming')
+			((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && "complete")
+				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && "complete-warn")
+				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && "complete-error")
+				|| (!this.specified && "not-specified")
+				|| (this.coming && "coming")
 		);
 	}
 
@@ -441,12 +441,12 @@ export class Activity extends CalendarItem {
 
 	get durationMeasure() {
 		return (this.intervalPW && this.intervalPW.durationMeasure)
-			|| (!!this.intervalW.calcMeasures.duration.maxValue && 'duration')
-			|| (!!this.intervalW.calcMeasures.distance.maxValue && 'distance') || null;
+			|| (!!this.intervalW.calcMeasures.duration.maxValue && "duration")
+			|| (!!this.intervalW.calcMeasures.distance.maxValue && "distance") || null;
 	}
 
 	get intensityValue() {
-		return ((this.status === 'coming' || this.status === 'dismiss') && {from: this.intervalPW.intensityLevelFrom, to: this.intervalPW.intensityLevelTo}) ||
+		return ((this.status === "coming" || this.status === "dismiss") && {from: this.intervalPW.intensityLevelFrom, to: this.intervalPW.intensityLevelTo}) ||
 			(this.intensityMeasure &&  this.intervalW.calcMeasures.hasOwnProperty(this.intensityMeasure) && this.intervalW.calcMeasures[this.intensityMeasure].avgValue) || null;
 	}
 
@@ -455,15 +455,15 @@ export class Activity extends CalendarItem {
 	}
 
 	get defaultIntensityMeasure() {
-		return (this.intervalW.calcMeasures.hasOwnProperty('speed') &&  this.intervalW.calcMeasures.speed.hasOwnProperty('avgValue')  && this.intervalW.calcMeasures.speed.avgValue && 'speed')
-			|| (this.intervalW.calcMeasures.hasOwnProperty('heartRate') &&  this.intervalW.calcMeasures.heartRate.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.heartRate.avgValue && 'heartRate')
-			|| (this.intervalW.calcMeasures.hasOwnProperty('power') &&  this.intervalW.calcMeasures.power.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.power.avgValue && 'power') || null;
+		return (this.intervalW.calcMeasures.hasOwnProperty("speed") &&  this.intervalW.calcMeasures.speed.hasOwnProperty("avgValue")  && this.intervalW.calcMeasures.speed.avgValue && "speed")
+			|| (this.intervalW.calcMeasures.hasOwnProperty("heartRate") &&  this.intervalW.calcMeasures.heartRate.hasOwnProperty("avgValue") && this.intervalW.calcMeasures.heartRate.avgValue && "heartRate")
+			|| (this.intervalW.calcMeasures.hasOwnProperty("power") &&  this.intervalW.calcMeasures.power.hasOwnProperty("avgValue") && this.intervalW.calcMeasures.power.avgValue && "power") || null;
 	}
 
 	get movingDuration():number {
 		return this.intervalW.movingDuration() ||
 			(this.structured && this.intervalPW.movingDurationLength) ||
-			(this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
+			(this.intervalPW.durationMeasure === "movingDuration" && this.intervalPW.durationValue) || null;
 	}
 
 	get movingDurationApprox():boolean {
@@ -473,13 +473,13 @@ export class Activity extends CalendarItem {
 	get duration() {
 		return this.intervalW.movingDuration() ||
 			(this.structured && this.intervalPW.movingDurationLength) ||
-			(this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
+			(this.intervalPW.durationMeasure === "movingDuration" && this.intervalPW.durationValue) || null;
 	}
 
 	get distance() {
 		return this.intervalW.distance() ||
 			(this.structured && this.intervalPW.distanceLength) ||
-			(this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null;
+			(this.intervalPW.durationMeasure === "distance" && this.intervalPW.durationValue) || null;
 	}
 
 	get distanceApprox():boolean {
@@ -488,34 +488,34 @@ export class Activity extends CalendarItem {
 
 	// Формируем перечень показателей для панели data (bottomPanel)
 	get summaryAvg() {
-		let measures = ['speed','heartRate','power'];
+		let measures = ["speed","heartRate","power"];
 		let calc = this.intervalW.calcMeasures;
 
 		return measures
 			.map((measure)=>{
 				if(calc.hasOwnProperty(measure)){
-					return ((calc[measure].hasOwnProperty('avgValue')) &&
+					return ((calc[measure].hasOwnProperty("avgValue")) &&
 						{ measure : measure, value: Number(calc[measure].avgValue)}) || {[measure]: null, value: null};
 				}})
-			.filter(measure => !!measure && !!measure.value);
+			.filter((measure) => !!measure && !!measure.value);
 	}
 
 	prepareSegmentList(){
 
-		let segmentList: Array<any> = [];
+		let segmentList: any[] = [];
 		let segment: any = {};
 
 		if(this.structured && this.intervalP.length > 0) {
-			this.intervalP.forEach(interval => {
+			this.intervalP.forEach((interval) => {
 				segment = interval;
-				segment['show'] = true;
-				segment['group'] = interval.type === 'G';
-				if (segment['group']) { //если группа
+				segment["show"] = true;
+				segment["group"] = interval.type === "G";
+				if (segment["group"]) { //если группа
 					segment.subItem = []; // для записи членов группы
 					segmentList.push(segment);
 				} else { // отдельный интервал
-					if (segment.hasOwnProperty('parentGroupCode') && segment['parentGroupCode']) { // входит в группу
-						let gId = segmentList.findIndex(s => s['code'] === segment['parentGroupCode']);
+					if (segment.hasOwnProperty("parentGroupCode") && segment["parentGroupCode"]) { // входит в группу
+						let gId = segmentList.findIndex((s) => s["code"] === segment["parentGroupCode"]);
 						if (gId !== -1) {
 							segmentList[gId].subItem.push(segment);
 						}
@@ -534,15 +534,15 @@ export class Activity extends CalendarItem {
 	 * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
 	 * @returns {any[]}
      */
-	formChart():Array<Array<number>>{
+	formChart():number[][]{
 		return this.intervalP && this.intervals.chart() || null;
 	}
 
-	setCategoriesList (categoriesList: Array<IActivityCategory>, userProfile: IUserProfile) {
+	setCategoriesList (categoriesList: IActivityCategory[], userProfile: IUserProfile) {
 		this.categoriesList = categoriesList;
 		this.categoriesByOwner = pipe(
-			orderBy(prop('sortOrder')),
-			groupBy(getOwner(userProfile))
+			orderBy(prop("sortOrder")),
+			groupBy(getOwner(userProfile)),
 		) (categoriesList);
 	}
 }

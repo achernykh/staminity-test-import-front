@@ -1,8 +1,8 @@
-import {merge} from 'angular';
-import moment from 'moment/src/moment.js';
-import {IMeasurementHeader, ICalendarItem, IEventHeader} from "../../../api/calendar/calendar.interface";
-import {IUserProfileShort} from "../../../api/user/user.interface";
+import {merge} from "angular";
+import moment from "moment/src/moment.js";
 import {IActivityHeader} from "../../../api/activity/activity.interface";
+import {ICalendarItem, IEventHeader, IMeasurementHeader} from "../../../api/calendar/calendar.interface";
+import {IUserProfileShort} from "../../../api/user/user.interface";
 
 export class CalendarItem implements ICalendarItem {
 
@@ -34,15 +34,15 @@ export class CalendarItem implements ICalendarItem {
 
 	// Подготовка данных для передачи в API
 	package(userProfile?: IUserProfileShort) {
-		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
-		this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
+		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),"minutes").format();
+		this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),"minutes").format();
 		this.userProfileOwner = userProfile || this.userProfileOwner;
 		return this;
 	}
 
 	// Обновление данных, после сохранения
 	compile(response) {
-		console.log('response',response);
+		console.log("response",response);
 		this.revision = response.value.revision;
 		this.calendarItemId = response.value.id;
 		this.index = Number(`${this.calendarItemId}${this.revision}`);

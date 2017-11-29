@@ -1,23 +1,23 @@
-﻿import { IComponentOptions } from 'angular';
+﻿import { IComponentOptions } from "angular";
+import "./chart.component.scss";
 import ActivityChartController from "./chart.controller";
-import './chart.component.scss';
 
 const ActivityChartComponent: IComponentOptions = {
     controller: ActivityChartController,
-    template: require('./chart.component.html') as string,
+    template: require("./chart.component.html") as string,
     bindings: {
-        measures: '<',
-        data: '<',
-        x: '<',
-        select: '<',
-        change: '<',
-        changeMeasure: '<',
-        sport: '<',
-        autoZoom: '<',
-        zoomInClick: '<',
-        zoomOutClick: '<',
-        onSelected: '&'
-    }
+        measures: "<",
+        data: "<",
+        x: "<",
+        select: "<",
+        change: "<",
+        changeMeasure: "<",
+        sport: "<",
+        autoZoom: "<",
+        zoomInClick: "<",
+        zoomOutClick: "<",
+        onSelected: "&",
+    },
 };
 
 export default ActivityChartComponent;

@@ -17,14 +17,14 @@ export class ActivityMeasure implements IActivityMeasure{
 
 export class ActivityIntervalCalcMeasure implements ICalcMeasures{
 
-    params: Array<string> = [
-        'heartRate', 'heartRateDistancePeaks', 'speed', 'speedDistancePeaks', 'duration', 'movingDuration',
-        'distance', 'cadence', 'strideLength', 'swolf', 'calories', 'power', 'powerDistancePeaks', 'adjustedPower',
-        'altitude', 'elevationGain', 'elevationLoss', 'grade', 'vam', 'vamPowerKg', 'temperature', 'intensityLevel',
-        'variabilityIndex', 'efficiencyFactor', 'decouplingPower', 'decouplingPace', 'trainingLoad', 'completePercent'];
+    params: string[] = [
+        "heartRate", "heartRateDistancePeaks", "speed", "speedDistancePeaks", "duration", "movingDuration",
+        "distance", "cadence", "strideLength", "swolf", "calories", "power", "powerDistancePeaks", "adjustedPower",
+        "altitude", "elevationGain", "elevationLoss", "grade", "vam", "vamPowerKg", "temperature", "intensityLevel",
+        "variabilityIndex", "efficiencyFactor", "decouplingPower", "decouplingPace", "trainingLoad", "completePercent"];
 
     constructor() {
-        this.params.map(p => Object.assign(this, { [p]: new ActivityMeasure(p)}));
+        this.params.map((p) => Object.assign(this, { [p]: new ActivityMeasure(p)}));
         //Object.assign(this,...this.params.map(p => new ActivityMeasure(p)));
     }
 }
@@ -39,6 +39,6 @@ export class IntensityMeasure implements IIntensityMeasure{
         public intensityByFtpFrom: number = null,
         public intensityByFtpTo: number = null,
         public intensityLevelFrom: number = null,
-        public intensityLevelTo: number = null
+        public intensityLevelTo: number = null,
     ) {}
 }

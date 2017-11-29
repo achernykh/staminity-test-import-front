@@ -1,9 +1,9 @@
+import {copy} from "angular";
 import {
-    IActivityDetails, IActivityDetailsSocial, IActivityDetailsMeasure,
-    ICalcMeasures
+    IActivityDetails, IActivityDetailsMeasure, IActivityDetailsSocial,
+    ICalcMeasures,
 } from "../../../../api/activity/activity.interface";
-import {copy} from 'angular';
-import {Measure, getSportLimit} from "../../share/measure/measure.constants";
+import {getSportLimit, Measure} from "../../share/measure/measure.constants";
 
 export interface IRoute {
     lat:number;
@@ -14,8 +14,8 @@ export interface IChartMeasureData {
     measures: {}; // Перечень показателей, которые будут показаны на графике
     data: Array<{}>; // Массив данных для показа на графике
     max: any;
-    measuresX: Array<string>;
-    measuresY: Array<string>;
+    measuresX: string[];
+    measuresY: string[];
 }
 
 export class ActivityDetails implements IActivityDetails {
@@ -25,12 +25,12 @@ export class ActivityDetails implements IActivityDetails {
     social: IActivityDetailsSocial;
     // значения показателей. Порядок значений соответствует порядку idx ключей объекта $.measures.<measureCode>.idx
     measures: IActivityDetailsMeasure;
-    metrics: Array<Array<number>> = [];
+    metrics: number[][] = [];
 
     isEmpty: boolean = true;
     isRouteExist: boolean = false;
 
-    private _route: Array<IRoute> = [];
+    private _route: IRoute[] = [];
 
     constructor(params?: any){
         Object.assign(this, params || {});
@@ -39,7 +39,7 @@ export class ActivityDetails implements IActivityDetails {
         this.isRouteExist = this._route.length > 0;
     }
 
-    get route():Array<IRoute> {
+    get route():IRoute[] {
         return this._route;
     }
 
@@ -48,23 +48,23 @@ export class ActivityDetails implements IActivityDetails {
         let data: Array<{}> = []; // Массив данных для показа на графике
         let maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
 
-        let measuresX: Array<string> = ['distance', 'elapsedDuration'];
-        let measuresY: Array<string> = ['heartRate', 'speed', 'power','altitude'];
-        let measuresSecondary: Array<string> = ['timestamp','duration'];
+        let measuresX: string[] = ["distance", "elapsedDuration"];
+        let measuresY: string[] = ["heartRate", "speed", "power","altitude"];
+        let measuresSecondary: string[] = ["timestamp","duration"];
 
-        let array: Array<string>;
+        let array: string[];
 
         // 1) Расчет показателей интенсиновсти - Y шкала
         array = copy(measuresY);
-        array.forEach(key => {
+        array.forEach((key) => {
             if (this.measures.hasOwnProperty(key) &&
                 (calcMeasure.hasOwnProperty(key) && calcMeasure[key].value > 0)) {
                 measures[key] = this.measures[key];
-                measures[key]['show'] = true;
-                if(calcMeasure[key] && calcMeasure[key].hasOwnProperty('minValue')) {
+                measures[key]["show"] = true;
+                if(calcMeasure[key] && calcMeasure[key].hasOwnProperty("minValue")) {
                     maxValue[key] = {
                         max: calcMeasure[key].maxValue,
-                        min: calcMeasure[key].minValue
+                        min: calcMeasure[key].minValue,
                     };
                 }
             } else {
@@ -74,30 +74,30 @@ export class ActivityDetails implements IActivityDetails {
 
         // 2) Расчет показателей длительности - X шкала
         array = copy(measuresX);
-        array.forEach(key => {
+        array.forEach((key) => {
             if (this.measures.hasOwnProperty(key) &&
                 (!calcMeasure.hasOwnProperty(key) || (calcMeasure.hasOwnProperty(key) && calcMeasure[key].value > 0))) {
                 measures[key] = this.measures[key];
-                measures[key]['show'] = true;
+                measures[key]["show"] = true;
             } else {
                 measuresX.splice(measuresX.indexOf(key), 1);
             }
         });
 
         // 3) Дополнительные показатели
-        measuresSecondary.forEach(key => {
+        measuresSecondary.forEach((key) => {
             measures[key] = this.measures[key];
-            measures[key]['show'] = true;
+            measures[key]["show"] = true;
         });
 
         // 4) Подготовка детальных данных для графика
-        this.metrics.forEach(info => {
+        this.metrics.forEach((info) => {
             let cleaned = {};
             for (let key in measures) {
                 let measure: Measure = new Measure(key,sportBasic);
                 cleaned[key] = measure.isPace() ?
-                    Math.max(info[measures[key]['idx']], getSportLimit(sportBasic,key)['min']) :
-                    info[measures[key]['idx']];
+                    Math.max(info[measures[key]["idx"]], getSportLimit(sportBasic,key)["min"]) :
+                    info[measures[key]["idx"]];
             }
             data.push(cleaned);
         });
@@ -107,7 +107,7 @@ export class ActivityDetails implements IActivityDetails {
             data: data,
             max: maxValue,
             measuresX: measuresX,
-            measuresY: measuresY
+            measuresY: measuresY,
         };
     }
 
@@ -115,20 +115,20 @@ export class ActivityDetails implements IActivityDetails {
      * @description Маршрут в формате постронения карты leaflet
      * @returns {{lng: number, lat: number, timestamp: number}[]}
      */
-    private calculateRoute():Array<IRoute> {
+    private calculateRoute():IRoute[] {
         if(!this.measures || (
             this.measures &&
-            !this.measures.hasOwnProperty('longitude') &&
-            !this.measures.hasOwnProperty('latitude'))){
+            !this.measures.hasOwnProperty("longitude") &&
+            !this.measures.hasOwnProperty("latitude"))){
             return [];
         }
-        let lng = this.measures['longitude'].idx; // lng index in array
-        let lat = this.measures['latitude'].idx; // lat index in array
-        let timestamp = this.measures['timestamp'].idx; // timestamp index in array
+        let lng = this.measures["longitude"].idx; // lng index in array
+        let lat = this.measures["latitude"].idx; // lat index in array
+        let timestamp = this.measures["timestamp"].idx; // timestamp index in array
 
         return this.metrics
-            .filter(m => m[lng] > 0 || m[lat] > 0)
-            .map(m => ({lng: m[lng],lat: m[lat], timestamp: m[timestamp]}));
+            .filter((m) => m[lng] > 0 || m[lat] > 0)
+            .map((m) => ({lng: m[lng],lat: m[lat], timestamp: m[timestamp]}));
     }
 
 }

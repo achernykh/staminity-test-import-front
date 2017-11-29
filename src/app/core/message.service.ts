@@ -1,7 +1,7 @@
-import * as angular from 'angular';
-import {IRootScopeService,ICompileService,ITimeoutService} from 'angular';
+import * as angular from "angular";
+import {ICompileService,IRootScopeService,ITimeoutService} from "angular";
 
-import {_translateMessage} from './message.translate';
+import {_translateMessage} from "./message.translate";
 
 
 export interface IMessageService {
@@ -53,7 +53,7 @@ export default class MessageService implements IMessageService{
 			<md-button ng-click="hide()">Close</md-button>
 		</md-toast>`;
 
-	static $inject = ['$rootScope','$compile','$timeout','$mdToast'];
+	static $inject = ["$rootScope","$compile","$timeout","$mdToast"];
 
 	constructor(
 		private $rootScope: IRootScopeService,
@@ -71,16 +71,16 @@ export default class MessageService implements IMessageService{
 	 * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
 	 * @delay {number} delay Задержка в с показа сообщения на экране
 	 */
-	system(code: string, status: string = 'error', context: {} = null, delay: number = 10) {
+	system(code: string, status: string = "error", context: {} = null, delay: number = 10) {
 		let id = "system-message#" + ++this.id;
 
 		angular
-			.element(document.getElementsByTagName('staminity-application'))
+			.element(document.getElementsByTagName("staminity-application"))
 			.append(this.$compile(
-				'<system-message id='+id+' show="true" status="\'' + status +
+				"<system-message id="+id+' show="true" status="\'' + status +
 				'\'" code="\'' + code +
 				'\'" delay="\'' + delay +
-				'\'"/>'
+				'\'"/>',
 			)(this.$rootScope));
 
 		if(!this.$rootScope.$$phase){
@@ -92,15 +92,15 @@ export default class MessageService implements IMessageService{
 	}
 
 	systemError(code: string, context?: {}, delay?: number) {
-		this.system(code,'error',context,delay);
+		this.system(code,"error",context,delay);
 	}
 
 	systemWarning(code: string, context?: {}, delay?: number) {
-		this.system(code,'warning',context,delay);
+		this.system(code,"warning",context,delay);
 	}
 
 	systemSuccess(code: string, context?: {}, delay?: number) {
-		this.system(code,'success',context,delay);
+		this.system(code,"success",context,delay);
 	}
 
 	/**
@@ -112,32 +112,32 @@ export default class MessageService implements IMessageService{
 	 * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
 	 * @delay {number} delay Задержка в с показа сообщения на экране
 	 */
-	toast(code: string, status: string = 'error', context: {} = null, delay: number = 10) {
+	toast(code: string, status: string = "error", context: {} = null, delay: number = 10) {
 		this.$mdToast.show({
 			hideDelay: delay * 1000,
-			position: 'bottom center',
+			position: "bottom center",
 			bindToController: true,
-			controllerAs: '$ctrl',
+			controllerAs: "$ctrl",
 			controller: ToastCtrl,
 			locals: {
 				code: code,
-				context: context
+				context: context,
 			},
 			toastClass: status,
-			template: this.toastTemplate
+			template: this.toastTemplate,
 		});
 	}
 
 	toastError(code: string, context?: {}, delay?: number) {
-		this.toast(code,'error',context,delay);
+		this.toast(code,"error",context,delay);
 	}
 
 	toastWarning(code: string, context?: {}, delay?: number) {
-		this.toast(code,'warning',context,delay);
+		this.toast(code,"warning",context,delay);
 	}
 
 	toastInfo(code: string, context?: {}, delay?: number) {
-		this.toast(code,'info',context,delay);
+		this.toast(code,"info",context,delay);
 	}
 
 }
@@ -149,12 +149,12 @@ function ToastCtrl($scope, $mdToast) {
 	};
 }
 
-ToastCtrl.$inject = ['$scope','$mdToast'];
+ToastCtrl.$inject = ["$scope","$mdToast"];
 
 
 export function configure ($translateProvider) {
-	$translateProvider.translations('ru', _translateMessage['ru']);
-	$translateProvider.translations('en', _translateMessage['en']);
+	$translateProvider.translations("ru", _translateMessage["ru"]);
+	$translateProvider.translations("en", _translateMessage["en"]);
 }
 
-configure.$inject = ['$translateProvider'];
+configure.$inject = ["$translateProvider"];

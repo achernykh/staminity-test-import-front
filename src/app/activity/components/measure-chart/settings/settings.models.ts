@@ -2,14 +2,14 @@
     elapsedDuration,
     duration,
     movingDuration,
-    distance
+    distance,
 }
 
 // Uses to specify chart's area fill mode
 export enum FillType {
     None,
     Solid,
-    Gradient
+    Gradient,
 }
 
 export interface IGradientPoint {
@@ -21,7 +21,7 @@ export interface IGradientPoint {
 export interface IAreaSettings {
     heightRatio: number;
     fillType: FillType;
-    gradient?: Array<IGradientPoint>;
+    gradient?: IGradientPoint[];
     solidColor?: string;
 }
 

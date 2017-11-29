@@ -1,9 +1,9 @@
-import './activity-header.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {Activity} from "../activity.datamodel";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
+import {Activity} from "../activity.datamodel";
+import "./activity-header.component.scss";
 
 export class ActivityHeaderCtrl implements IComponentController {
 
@@ -14,7 +14,7 @@ export class ActivityHeaderCtrl implements IComponentController {
 
     private comments: number = null;
 
-    static $inject = ['$mdMedia','CommentService'];
+    static $inject = ["$mdMedia","CommentService"];
 
     constructor(private $mdMedia: any, private comment: CommentService) {
     }
@@ -23,7 +23,7 @@ export class ActivityHeaderCtrl implements IComponentController {
     }
 
     openChat():void {
-        let chat: ChatSession = {type: 'activity', id: this.item.activity.calendarItemId};
+        let chat: ChatSession = {type: "activity", id: this.item.activity.calendarItemId};
         this.comment.openChat$.next(chat);
     }
 
@@ -32,7 +32,7 @@ export class ActivityHeaderCtrl implements IComponentController {
     }
 
     updateComments(response):void {
-        this.comments = response && response.hasOwnProperty('count') && response.count || null;
+        this.comments = response && response.hasOwnProperty("count") && response.count || null;
     }
 
     toggleStrucuredMode() {
@@ -42,10 +42,10 @@ export class ActivityHeaderCtrl implements IComponentController {
 
 const ActivityHeaderComponent:IComponentOptions = {
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivityHeaderCtrl,
-    template: require('./activity-header.component.html') as string
+    template: require("./activity-header.component.html") as string,
 };
 
 export default ActivityHeaderComponent;

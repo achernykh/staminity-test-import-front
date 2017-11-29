@@ -1,21 +1,21 @@
-import "./calendar-item-record.component.scss";
-import { IComponentOptions, IComponentController, IPromise, INgModelController } from "angular";
+import { IQuillConfig } from "@app/share/quill/quill.config";
+import { IComponentController, IComponentOptions, INgModelController, IPromise } from "angular";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
-import { CalendarItemRecord } from "./calendar-item-record.datamodel";
-import { SessionService } from "../../core";
 import { CalendarService } from "../../calendar/calendar.service";
-import { ICalendarItemRecordConfig } from "./calendar-item-record.config";
+import { SessionService } from "../../core";
 import MessageService from "../../core/message.service";
-import { IQuillConfig } from "@app/share/quill/quill.config";
+import "./calendar-item-record.component.scss";
+import { ICalendarItemRecordConfig } from "./calendar-item-record.config";
+import { CalendarItemRecord } from "./calendar-item-record.datamodel";
 
 class CalendarItemRecordCtrl implements IComponentController {
 
     // bind
     data: ICalendarItem;
-    mode: 'put' | 'view' | 'post';
+    mode: "put" | "view" | "post";
     owner: IUserProfile;
-    calendarRange: Array<string>;
+    calendarRange: string[];
     onCancel: () => IPromise<void>;
 
     // public
@@ -26,7 +26,7 @@ class CalendarItemRecordCtrl implements IComponentController {
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
 
-    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message', 'quillConfig'];
+    static $inject = ["calendarItemRecordConfig", "SessionService", "CalendarService", "message", "quillConfig"];
 
     constructor (private config: ICalendarItemRecordConfig,
                  private session: SessionService,
@@ -69,34 +69,34 @@ class CalendarItemRecordCtrl implements IComponentController {
         [this.record.recordHeader.editParams.asyncEventsDateFrom,
             this.record.recordHeader.editParams.asyncEventsDateTo] = this.calendarRange;
 
-        if ( this.mode === 'post' ) {
+        if ( this.mode === "post" ) {
             this.calendarService.postItem(this.record.build(this.mode))
-                .then(response => {
+                .then((response) => {
                     this.record.compile(response);// сохраняем id, revision в обьекте
-                    this.message.toastInfo('recordCreated');
+                    this.message.toastInfo("recordCreated");
                     this.close();
-                }, error => this.message.toastError(error));
+                }, (error) => this.message.toastError(error));
         }
-        if ( this.mode === 'put' ) {
+        if ( this.mode === "put" ) {
             this.calendarService.putItem(this.record.build(this.mode))
                 .then((response)=> {
                     this.record.compile(response); // сохраняем id, revision в обьекте
-                    this.message.toastInfo('recordUpdated');
+                    this.message.toastInfo("recordUpdated");
                     this.close();
-                }, error => this.message.toastError(error));
+                }, (error) => this.message.toastError(error));
         }
     }
 
     onDelete(rmParams: Object) {
-        this.calendarService.deleteItem('F', [this.record.calendarItemId], rmParams)
+        this.calendarService.deleteItem("F", [this.record.calendarItemId], rmParams)
             .then(() => {
-                this.message.toastInfo('recordDeleted');
+                this.message.toastInfo("recordDeleted");
                 this.close();
-            }, error => this.message.toastError(error));
+            }, (error) => this.message.toastError(error));
     }
 
     private get isViewMode (): boolean {
-        return this.mode === 'view';
+        return this.mode === "view";
     }
 
     private close (): void {
@@ -107,15 +107,15 @@ class CalendarItemRecordCtrl implements IComponentController {
 
 export const CalendarItemRecordComponent: IComponentOptions = {
     bindings: {
-        data: '=', // CalendarItem
-        mode: '@', // Режим открытия: 'put' изменить | 'view' просмотр | 'post' создание
-        user: '<', // UserProfile для userProfileOwner,
-        calendarRange: '=', // Загруженный календарь [начало, окончание]
-        onCancel: '&', // отмена открытия
+        data: "=", // CalendarItem
+        mode: "@", // Режим открытия: 'put' изменить | 'view' просмотр | 'post' создание
+        user: "<", // UserProfile для userProfileOwner,
+        calendarRange: "=", // Загруженный календарь [начало, окончание]
+        onCancel: "&", // отмена открытия
     },
     require: {
         //calendar: '^calendar'
     },
     controller: CalendarItemRecordCtrl,
-    template: require('./calendar-item-record.component.html') as string
+    template: require("./calendar-item-record.component.html") as string,
 };

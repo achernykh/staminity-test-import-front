@@ -1,6 +1,6 @@
-import './structured-group.component.scss';
-import {IComponentController, IComponentOptions} from 'angular';
+import {IComponentController, IComponentOptions} from "angular";
 import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
+import "./structured-group.component.scss";
 
 class StructuredGroupCtrl implements IComponentController {
 
@@ -33,14 +33,14 @@ class StructuredGroupCtrl implements IComponentController {
 
 export const StructuredGroupComponent:IComponentOptions = {
     bindings: {
-        loop: '<',
-        hiddenPos: '<',
-        onInput: '&'
+        loop: "<",
+        hiddenPos: "<",
+        onInput: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: StructuredGroupCtrl,
-    template: require('./structured-group.component.html') as string
+    template: require("./structured-group.component.html") as string,
 
 };

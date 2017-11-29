@@ -1,10 +1,10 @@
-import './activity-assignment-header.component.scss';
-import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
+import {IComponentController, IComponentOptions, INgModelController, IPromise} from "angular";
 import {
     CalendarItemActivityCtrl,
-    HeaderStructuredTab
+    HeaderStructuredTab,
 } from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
+import "./activity-assignment-header.component.scss";
 
 class ActivityAssignmentHeaderCtrl implements IComponentController {
 
@@ -48,8 +48,8 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         } else {
             // Переключение со структурированной на не структурированную
             this.item.activity.intervals.stack
-                .filter(i => i.type === 'P' || i.type === 'G')
-                .map(i => this.item.activity.intervals.splice(i.type, i.pos, 'single'));
+                .filter((i) => i.type === "P" || i.type === "G")
+                .map((i) => this.item.activity.intervals.splice(i.type, i.pos, "single"));
 
             this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);
             this.item.activity.updateIntervals();
@@ -76,20 +76,20 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
 
     get templateSelectorText(): string {
         return this.item.activity.header.template && `Шаблон: ${this.item.activity.header.template.code}` ||
-            this.item.templateByFilter && 'activity.template.enable' || 'activity.template.empty';
+            this.item.templateByFilter && "activity.template.enable" || "activity.template.empty";
     }
 }
 
 const ActivityAssignmentHeaderComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        onChange: '&'
+        data: "<",
+        onChange: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivityAssignmentHeaderCtrl,
-    template: require('./activity-assignment-header.component.html') as string
+    template: require("./activity-assignment-header.component.html") as string,
 };
 
 export default ActivityAssignmentHeaderComponent;

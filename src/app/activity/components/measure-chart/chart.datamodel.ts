@@ -1,8 +1,8 @@
-﻿import { IComponentController } from 'angular';
+﻿import { IComponentController } from "angular";
 
 enum ChartMode {
     Duration,
-    Distance
+    Distance,
 }
 
 interface IMeasureInfo {
@@ -27,7 +27,7 @@ export class ActivityChartDatamodel implements IComponentController {
 
     private measures: IActivityMetrics<IMeasureInfo>;
     private data: Array<IActivityMetrics<number>>;
-    private selectIntervals: Array<ITimestampInterval>;
+    private selectIntervals: ITimestampInterval[];
 
     constructor(measures, data, x, select = []) {
         this.measures = measures;
@@ -39,7 +39,7 @@ export class ActivityChartDatamodel implements IComponentController {
         return ind ? this.data[ind]: this.data;
     };
 
-    public getSelect(): Array<ITimestampInterval> {
+    public getSelect(): ITimestampInterval[] {
         return this.selectIntervals;
     };
 
@@ -51,14 +51,14 @@ export class ActivityChartDatamodel implements IComponentController {
         return this.measures;
     }
 
-    public getBaseMetrics(except: Array<string> = []): Array<string> {
-        let baseMetrics = ['timestamp','distance','elapsedDuration','duration'];
-        return Object.keys(this.measures).filter(m => baseMetrics.indexOf(m) > -1 && except.indexOf(m) === -1);
+    public getBaseMetrics(except: string[] = []): string[] {
+        let baseMetrics = ["timestamp","distance","elapsedDuration","duration"];
+        return Object.keys(this.measures).filter((m) => baseMetrics.indexOf(m) > -1 && except.indexOf(m) === -1);
     }
 
-    public supportedMetrics(): Array<string> {
-        let except = ['timestamp','distance','elapsedDuration','duration'];
-        return Object.keys(this.measures).filter(m => except.indexOf(m) === -1);
+    public supportedMetrics(): string[] {
+        let except = ["timestamp","distance","elapsedDuration","duration"];
+        return Object.keys(this.measures).filter((m) => except.indexOf(m) === -1);
     }
 
     private getPace(speed: number) {

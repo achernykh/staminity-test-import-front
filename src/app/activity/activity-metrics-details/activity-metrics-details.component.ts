@@ -1,10 +1,10 @@
-import './activity-metrics-details.component.scss';
-import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
+import {copy, IComponentController, IComponentOptions, IPromise} from "angular";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {Activity} from "../activity.datamodel";
-import {isPace, getSportLimit} from "../../share/measure/measure.constants";
-import {MeasureChartData} from "../activity.function";
+import {getSportLimit, isPace} from "../../share/measure/measure.constants";
 import {IChartMeasureData} from "../activity-datamodel/activity.details";
+import {Activity} from "../activity.datamodel";
+import {MeasureChartData} from "../activity.function";
+import "./activity-metrics-details.component.scss";
 
 class ActivityMetricsDetailsCtrl implements IComponentController {
 
@@ -22,18 +22,18 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private zoomOut: number = 0;
     private autoZoom: boolean = true;
 
-    private chartOptions: Array<string> = ['measures','segments'];
-    private chartOption: 'measures' | 'segments';
+    private chartOptions: string[] = ["measures","segments"];
+    private chartOption: "measures" | "segments";
 
-    private tableOptions: Array<string> = ['laps','segments'];
-    private tableOption: 'laps' | 'segments';
+    private tableOptions: string[] = ["laps","segments"];
+    private tableOption: "laps" | "segments";
 
     private chartData: IChartMeasureData; // класс для расчета данных для графика
 
-    private chartX: string = 'elapsedDuration';
+    private chartX: string = "elapsedDuration";
     private change: number = 0;
     private changeMeasure: string = null;
-    static $inject = ['$mdMedia','$filter'];
+    static $inject = ["$mdMedia","$filter"];
 
 
     constructor(private $mdMedia: any, private $filter: any) {
@@ -41,7 +41,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     $onChanges(changes){
-        if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue) {
+        if(changes.hasOwnProperty("hasDetails") && changes.hasDetails.currentValue) {
             this.chartData = this.item.activity.details.chartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures);
             //this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.activity.details);
             this.completeDetails = true;
@@ -50,8 +50,8 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 
     $onInit() {
 
-        this.item.activity.structured ? this.tableOption = 'segments' : this.tableOption = 'laps';
-        this.item.activity.structured ? this.chartOption = 'segments' : this.chartOption = 'measures';
+        this.item.activity.structured ? this.tableOption = "segments" : this.tableOption = "laps";
+        this.item.activity.structured ? this.chartOption = "segments" : this.chartOption = "measures";
 
         //debugger;
         /*
@@ -127,7 +127,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     changeChartMetrics(measure) {
-        this.chartData.measures[measure]['show'] = !this.chartData.measures[measure]['show'];
+        this.chartData.measures[measure]["show"] = !this.chartData.measures[measure]["show"];
         this.changeMeasure = measure;
         this.change++;
     }
@@ -137,7 +137,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
             this.item.clearUserInterval();
         } else {
             if (!select[0].startTimestamp) {
-                let index = this.chartData.measures['timestamp']['idx'];
+                let index = this.chartData.measures["timestamp"]["idx"];
                 select[0].startTimestamp = this.item.activity.details.metrics[0][index];
             }
             this.item.addUserInterval(select[0]);
@@ -145,19 +145,19 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     onChartSelect(segmentId){
-        console.log('chart select interval=', segmentId);
+        console.log("chart select interval=", segmentId);
     }
 }
 
 const ActivityMetricsDetailsComponent: IComponentOptions = {
     bindings: {
-        hasDetails: '<',
+        hasDetails: "<",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivityMetricsDetailsCtrl,
-    template: require('./activity-metrics-details.component.html') as string
+    template: require("./activity-metrics-details.component.html") as string,
 };
 
 export default ActivityMetricsDetailsComponent;

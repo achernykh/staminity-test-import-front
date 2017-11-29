@@ -1,6 +1,6 @@
-import './calendar-item-athlete-selector.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {IUserProfile} from "../../../../api/user/user.interface";
+import "./calendar-item-athlete-selector.component.scss";
 
 class CalendarItemAthleteSelectorCtrl implements IComponentController {
 
@@ -24,16 +24,16 @@ class CalendarItemAthleteSelectorCtrl implements IComponentController {
 
 const CalendarItemAthleteSelectorComponent:IComponentOptions = {
     bindings: {
-        coach: '<',
-        athletes: '<',
-        recalculateMode: '<',
-        onSelect: '&'
+        coach: "<",
+        athletes: "<",
+        recalculateMode: "<",
+        onSelect: "&",
     },
     require: {
         //component: '^component'
     },
     controller: CalendarItemAthleteSelectorCtrl,
-    template: require('./calendar-item-athlete-selector.component.html') as string
+    template: require("./calendar-item-athlete-selector.component.html") as string,
 };
 
 export default CalendarItemAthleteSelectorComponent;

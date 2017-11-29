@@ -1,8 +1,8 @@
-import './calendar-item-wizard.component.scss';
-import {IComponentOptions, IComponentController, IPromise, element} from 'angular';
+import {element, IComponentController, IComponentOptions, IPromise} from "angular";
 import {IActivityType} from "../../../../api/activity/activity.interface";
-import {activityTypes} from "../../activity/activity.constants";
 import {IUserProfile} from "../../../../api/user/user.interface";
+import {activityTypes} from "../../activity/activity.constants";
+import "./calendar-item-wizard.component.scss";
 
 class CalendarItemWizardCtrl implements IComponentController {
 
@@ -13,7 +13,7 @@ class CalendarItemWizardCtrl implements IComponentController {
     public onSelect: (result: {itemType: string, activityType: IActivityType}) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
 
-    private activityTypes: Array<IActivityType> = activityTypes.filter(t=>t.enabled && t.isBasic);
+    private activityTypes: IActivityType[] = activityTypes.filter((t)=>t.enabled && t.isBasic);
 
     static $inject = [];
 
@@ -32,7 +32,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
     public date: Date;
     public event: any;
 
-    static $inject = ['$scope','$mdDialog'];
+    static $inject = ["$scope","$mdDialog"];
 
     constructor(private $scope, private $mdDialog){
         $scope.hide = () => $mdDialog.hide();
@@ -43,15 +43,15 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
         this.$mdDialog.hide(itemType);
 
         switch (itemType) {
-            case 'activity': {
+            case "activity": {
                 this.postActivity(activityType);
                 break;
             }
-            case 'measurement': {
+            case "measurement": {
                 this.postMeasurement();
                 break;
             }
-            case 'event': {
+            case "event": {
                 this.postEvent();
                 break;
             }
@@ -61,7 +61,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
     postActivity(activityType: IActivityType){
         this.$mdDialog.show({
             controller: DialogCtrl,
-            controllerAs: '$ctrl',
+            controllerAs: "$ctrl",
             template:
                 `<md-dialog id="post-activity" aria-label="Activity">
                         <calendar-item-activity
@@ -79,28 +79,28 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             locals: {
                 date: this.date, // дата дня в формате ГГГГ-ММ-ДД
                 user: this.user,
-                activityType: activityType
+                activityType: activityType,
             },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: false,
-            fullscreen: true
+            fullscreen: true,
         })
-            .then(response => {
-                if(response.type === 'post') {
-                    console.log('save activity', response);
+            .then((response) => {
+                if(response.type === "post") {
+                    console.log("save activity", response);
                     //this.dashboard.onPostItem(response.item);
                     //this.message.toastInfo('Создана новая запись');
                 }
             }, ()=> {
-                console.log('user cancel dialog');
+                console.log("user cancel dialog");
             });
     }
 
     postMeasurement(){
         this.$mdDialog.show({
             controller: DialogCtrl,
-            controllerAs: '$ctrl',
+            controllerAs: "$ctrl",
             template: `<calendar-item-measurement
                             class="calendar-item-measurement"
                             data="$ctrl.data"
@@ -112,21 +112,21 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             targetEvent: this.event,
             locals: {
                 data: {
-                    date: this.date // дата дня в формате ГГГГ-ММ-ДД,
+                    date: this.date, // дата дня в формате ГГГГ-ММ-ДД,
                 },
-                user: this.user
+                user: this.user,
             },
             bindToController: true,
             clickOutsideToClose: true,
             escapeToClose: true,
-            fullscreen: true
+            fullscreen: true,
         }).then(() => {}, ()=> {});
     }
 
     postEvent(){
         this.$mdDialog.show({
             controller: DialogCtrl,
-            controllerAs: '$ctrl',
+            controllerAs: "$ctrl",
             template: `<md-dialog id="events" aria-label="Events">
                         <calendar-item-events 
                                 flex layout="column" class="calendar-item-events"
@@ -140,14 +140,14 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             targetEvent: this.event,
             locals: {
                 data: {
-                    date: this.date // дата дня в формате ГГГГ-ММ-ДД,
+                    date: this.date, // дата дня в формате ГГГГ-ММ-ДД,
                 },
-                user: this.user
+                user: this.user,
             },
             bindToController: true,
             clickOutsideToClose: true,
             escapeToClose: true,
-            fullscreen: true
+            fullscreen: true,
 
         }).then(() => {}, () => {});
     }
@@ -156,24 +156,24 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
 
 const CalendarItemWizardComponent:IComponentOptions = {
     bindings: {
-        user: '<',
-        date: '<',
-        event: '<',
-        onCancel: '&',
-        onSelect: '&'
+        user: "<",
+        date: "<",
+        event: "<",
+        onCancel: "&",
+        onSelect: "&",
     },
     require: {
         //component: '^component'
     },
     controller: CalendarItemWizardCtrl,
-    template: require('./calendar-item-wizard.component.html') as string
+    template: require("./calendar-item-wizard.component.html") as string,
 };
 
 export default CalendarItemWizardComponent;
 
 class DialogCtrl implements IComponentController {
 
-    static $inject = ['$scope','$mdDialog'];
+    static $inject = ["$scope","$mdDialog"];
 
     constructor(private $scope, private $mdDialog){
         $scope.hide = () => $mdDialog.hide();

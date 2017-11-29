@@ -1,20 +1,20 @@
-import moment from 'moment/min/moment-with-locales.js';
-import { times } from '../share/util.js';
-import { IScope, IAnchorScrollService } from 'angular';
-import { ICalendarWeek, ICalendarDay } from "./calendar.interface";
-import { CalendarService } from "./calendar.service";
+import { IAnchorScrollService, IScope } from "angular";
+import moment from "moment/min/moment-with-locales.js";
 import { IUserProfile } from "../../../api/user/user.interface";
+import { times } from "../share/util.js";
+import { ICalendarDay, ICalendarWeek } from "./calendar.interface";
+import { CalendarService } from "./calendar.service";
 
 export class Calendar {
 
-    weeks: Array<ICalendarWeek> = []; //todo rename to weeks
+    weeks: ICalendarWeek[] = []; //todo rename to weeks
     pos: number = 0;
 
     // private
     // todo need comment
     private date: Date;
-    private readonly dateFormat: string = 'YYYY-MM-DD';
-    private range: Array<number> = [0, 1];
+    private readonly dateFormat: string = "YYYY-MM-DD";
+    private range: number[] = [0, 1];
     private currentWeek: ICalendarWeek;
 
     constructor(
@@ -30,7 +30,7 @@ export class Calendar {
         this.scrollToWeek(week);
 
         (week.loading || Promise.resolve(week))
-            .then(week => setTimeout(() => {
+            .then((week) => setTimeout(() => {
                 this.scrollToWeek(week);
             }, 1));
     }
@@ -51,34 +51,34 @@ export class Calendar {
     }
 
     toPrevWeek () {
-        this.toDate(moment(this.currentWeek.date).add(-1, 'week'));
+        this.toDate(moment(this.currentWeek.date).add(-1, "week"));
     }
 
     toNextWeek () {
-        this.toDate(moment(this.currentWeek.date).add(1, 'week'));
+        this.toDate(moment(this.currentWeek.date).add(1, "week"));
     }
 
     toCurrentWeek () {
-        this.toDate(moment().startOf('week'));
+        this.toDate(moment().startOf("week"));
     }
 
     scrollToWeek (week) {
         this.setCurrentWeek(week);
-        let anchor = 'hotfix' + week.anchor;
-        this.$anchorScroll('hotfix' + week.anchor); //todo this is used?
+        let anchor = "hotfix" + week.anchor;
+        this.$anchorScroll("hotfix" + week.anchor); //todo this is used?
     }
 
     takeWeek (date) {
-        date = moment(date).startOf('week');
-        let week = this.weeks.find(w => w.date.isSame(date, 'week'));
+        date = moment(date).startOf("week");
+        let week = this.weeks.find((w) => w.date.isSame(date, "week"));
         let calendarFirst = this.weeks[0] && moment(this.weeks[0].date);
         let calendarLast = this.weeks[0] && moment(this.weeks[this.weeks.length - 1].date);
 
         if (week) {
             return Promise.resolve(week);
-        } else if (calendarFirst && calendarFirst.add(- 1, 'w').isSame(date, 'date')) {
+        } else if (calendarFirst && calendarFirst.add(- 1, "w").isSame(date, "date")) {
             return this.up() [0];
-        } else if (calendarLast && calendarLast.add(1, 'w').isSame(date, 'date')) {
+        } else if (calendarLast && calendarLast.add(1, "w").isSame(date, "date")) {
             return this.down() [0];
         } else {
             return this.reset(date) [0];
@@ -99,12 +99,12 @@ export class Calendar {
             date: date.format(this.dateFormat),
             data: {
                 pos: ++this.pos,
-                title: date.format('DD'),
-                month: date.format('MMM'),
-                day: date.format('dd'),
+                title: date.format("DD"),
+                month: date.format("MMM"),
+                day: date.format("dd"),
                 date: date.format(),//date.utc().add(moment().utcOffset(),'minutes').format(),
-                calendarItems: calendarItems
-            }
+                calendarItems: calendarItems,
+            },
         };
     }
 
@@ -118,14 +118,14 @@ export class Calendar {
         return {
             sid: index,
             date: date,
-            anchor: date.format('YYYY-MM-DD'),
+            anchor: date.format("YYYY-MM-DD"),
             changes: 0,
-            toolbarDate: date.format('YYYY MMMM'),
+            toolbarDate: date.format("YYYY MMMM"),
             selected: false,
             subItem: days,
-            week: date.format('GGGG-WW'),
+            week: date.format("GGGG-WW"),
             loading: loading,
-            height: 180
+            height: 180,
         };
     }
 
@@ -139,17 +139,17 @@ export class Calendar {
 
         let items = times(n)
             .map((i) => i0 - i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
+            .map((i) => this.getWeek(moment(this.date).add(i, "w"), i));
 
         items
-            .map(week => {
+            .map((week) => {
                 this.weeks.unshift(week);
                 week.loading
                     .then(() => {
                         week.loading = null;
                         this.$scope.$apply();
                     })
-                    .catch((exc) => { console.log('Calendar loading fail', exc); });
+                    .catch((exc) => { console.log("Calendar loading fail", exc); });
             });
 
         return items;
@@ -165,17 +165,17 @@ export class Calendar {
 
         let items = times(n)
             .map((i) => i0 + i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
+            .map((i) => this.getWeek(moment(this.date).add(i, "w"), i));
 
         items
-            .forEach(week => {
+            .forEach((week) => {
                 this.weeks.push(week);
                 week.loading
                     .then(() => {
                         week.loading = null;
                         this.$scope.$apply();
                     })
-                    .catch((exc) => { console.log('Calendar loading fail', exc); });
+                    .catch((exc) => { console.log("Calendar loading fail", exc); });
             });
 
         return items;
@@ -188,16 +188,16 @@ export class Calendar {
      * @param index - позиция в списке
      */
     getWeek (date, index) {
-        let start = moment(date).startOf('week');
-        let end = moment(start).add(6, 'd');
+        let start = moment(date).startOf("week");
+        let end = moment(start).add(6, "d");
 
         let days = (items) => times(7).map((i) => {
-            let date = moment(start).add(i, 'd');
+            let date = moment(start).add(i, "d");
             let calendarItems = items
-                .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
-                .map(item => {
+                .filter((item) => moment(item.dateStart, this.dateFormat).weekday() === i)
+                .map((item) => {
                     //if(item.calendarItemType === 'activity') {
-                    item['index'] = Number(`${item.calendarItemId}${item.revision}`);
+                    item["index"] = Number(`${item.calendarItemId}${item.revision}`);
                     //}
                     return item;
                 });
@@ -206,7 +206,7 @@ export class Calendar {
         });
 
         let loading = this.calendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.owner.userId)
-            .then(items => {
+            .then((items) => {
                 week.subItem = days(items);
                 week.changes++;
                 return week;

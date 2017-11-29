@@ -26,5 +26,5 @@ export interface ICalendarDayData {
     month: string; // месяц в формате MMM
     day: string; // день в формате dd
     date: string; // день в формате YYYY.MM.DD
-    calendarItems: Array<ICalendarItem>; // записи календаря
+    calendarItems: ICalendarItem[]; // записи календаря
 }

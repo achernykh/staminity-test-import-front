@@ -1,14 +1,14 @@
-import './structured-interval.component.scss';
-import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
+import {IComponentController, IComponentOptions, INgModelController, IPromise} from "angular";
 import {IActivityIntervalP} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {FtpState} from "../assignment/assignment.component";
-import {Interval} from "../../activity.datamodel";
-import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
-import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
-import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
 import {getFtpBySport} from "../../../core/user.function";
+import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
+import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
 import {DurationMeasure, IntensityMeasure} from "../../activity-datamodel/activity.models";
+import {Interval} from "../../activity.datamodel";
+import {FtpState} from "../assignment/assignment.component";
+import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
+import "./structured-interval.component.scss";
 
 /**const approxZones = {
     heartRate: [
@@ -41,20 +41,20 @@ class StructuredIntervalCtrl implements IComponentController {
     public onChange: (response: {interval: IActivityIntervalP}) => IPromise<void>;
     public onDelete: (response: {id: number}) => IPromise<void>;
 
-    private readonly durationMeasure: Array<string> = ['movingDuration', 'distance'];
+    private readonly durationMeasure: string[] = ["movingDuration", "distance"];
     private readonly intensityMeasure: any = {
-        swim: ['heartRate','speed'],
-        bike: ['heartRate', 'speed','power'],
-        run: ['heartRate', 'speed'],
-        strength: ['heartRate'],
-        transition: ['heartRate', 'speed'],
-        ski: ['heartRate', 'speed'],
-        other: ['heartRate', 'speed'],
-        default: ['heartRate', 'speed'],
+        swim: ["heartRate","speed"],
+        bike: ["heartRate", "speed","power"],
+        run: ["heartRate", "speed"],
+        strength: ["heartRate"],
+        transition: ["heartRate", "speed"],
+        ski: ["heartRate", "speed"],
+        other: ["heartRate", "speed"],
+        default: ["heartRate", "speed"],
     };
-    private duration: string = 'movingDuration';
-    private intensity: string = 'heartRate';
-    private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
+    private duration: string = "movingDuration";
+    private intensity: string = "heartRate";
+    private readonly index: any = [{from: "intensityByFtpFrom", to: "intensityByFtpTo"},{from: "intensityLevelFrom", to: "intensityLevelTo"}];
 
     private ftp: {[measure: string] : number};
     private segmentForm: INgModelController;
@@ -85,7 +85,7 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     select(){
-        if(this.item.mode === 'view') {
+        if(this.item.mode === "view") {
             //this.item.showIntervalOverview = true;
             //this.item.intervalOverview = this.interval;
         } else {
@@ -133,7 +133,7 @@ class StructuredIntervalCtrl implements IComponentController {
      * Передаем статус валидности формы ввода сегмента на уровнеь гавной формы ввода задания по тренировке
      */
     broadcastFormValidation(): void {
-        setTimeout(() => this.item.assignmentForm.$setValidity('segmentInput', this.segmentForm.$valid), 100);
+        setTimeout(() => this.item.assignmentForm.$setValidity("segmentInput", this.segmentForm.$valid), 100);
     }
 
     /**
@@ -160,10 +160,10 @@ class StructuredIntervalCtrl implements IComponentController {
      */
     changeValue(measure: string) {
         this.completeInterval(measure);
-        if (measure === 'movingDuration') {
+        if (measure === "movingDuration") {
             this.interval.movingDurationLength = this.interval.durationValue;
         }
-        if (measure === 'distance') {
+        if (measure === "distance") {
             this.interval.distanceLength = this.interval.durationValue;
         }
         this.broadcastFormValidation();
@@ -281,27 +281,27 @@ class StructuredIntervalCtrl implements IComponentController {
 
 const StructuredIntervalComponent:IComponentOptions = {
     bindings: {
-        interval: '<',
-        viewPlan: '<',
-        viewActual: '<',
-        viewGroup: '<',
-        sport: '<',
-        group: '<',
-        groupCount: '<',
-        count: '<',
-        loop: '<',
-        ftpMode: '<',
-        change: '<',
-        onChange: '&',
-        onDelete: '&',
-        onSelect: '&',
-        onSetRepeat: '&'
+        interval: "<",
+        viewPlan: "<",
+        viewActual: "<",
+        viewGroup: "<",
+        sport: "<",
+        group: "<",
+        groupCount: "<",
+        count: "<",
+        loop: "<",
+        ftpMode: "<",
+        change: "<",
+        onChange: "&",
+        onDelete: "&",
+        onSelect: "&",
+        onSetRepeat: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: StructuredIntervalCtrl,
-    template: require('./structured-interval.component.html') as string
+    template: require("./structured-interval.component.html") as string,
 };
 
 export default StructuredIntervalComponent;

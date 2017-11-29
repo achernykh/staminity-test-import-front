@@ -1,15 +1,15 @@
-import './activity-segments.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
-import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {Interval} from "../activity.datamodel";
-import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
-import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
-import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
-import {ActivityIntervals} from "../activity-datamodel/activity.intervals";
-import {FtpState} from "../components/assignment/assignment.component";
-import {getSegmentTemplates, getChanges} from "./activity-segments.constants";
-import {getFTP, getFtpBySport} from "../../core/user.function";
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {IActivityInterval} from "../../../../api/activity/activity.interface";
+import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import {getFTP, getFtpBySport} from "../../core/user.function";
+import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
+import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
+import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
+import {ActivityIntervals} from "../activity-datamodel/activity.intervals";
+import {Interval} from "../activity.datamodel";
+import {FtpState} from "../components/assignment/assignment.component";
+import "./activity-segments.component.scss";
+import {getChanges, getSegmentTemplates} from "./activity-segments.constants";
 
 export enum SegmentChangeReason {
     addInterval,
@@ -17,7 +17,7 @@ export enum SegmentChangeReason {
     changeValue,
     selectInterval,
     keyInterval,
-    changeGroupCount
+    changeGroupCount,
 }
 
 class ActivitySegmentsCtrl implements IComponentController {
@@ -29,10 +29,10 @@ class ActivitySegmentsCtrl implements IComponentController {
     public viewActual: boolean = false;
     public viewGroup: boolean = true;
 
-    private durationMeasure: string = 'movingDuration';
-    private intensityMeasure: string = 'heartRate';
+    private durationMeasure: string = "movingDuration";
+    private intensityMeasure: string = "heartRate";
     private intervals: ActivityIntervals;
-    private select: Array<number> = [];
+    private select: number[] = [];
     private scenario: any = getSegmentTemplates();
 
     public ftpMode: number;
@@ -47,7 +47,7 @@ class ActivitySegmentsCtrl implements IComponentController {
      *
      */
     private firstSelectPosition(): number {
-        return this.intervals.P.some(i => i.isSelected) && this.intervals.P.filter(i => i.isSelected)[0]['pos'] || null;
+        return this.intervals.P.some((i) => i.isSelected) && this.intervals.P.filter((i) => i.isSelected)[0]["pos"] || null;
     }
 
     $onInit() {
@@ -65,8 +65,8 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     valid():void {
-        this.item.assignmentForm.$setValidity('needInterval', this.intervals.P.length > 0);
-        this.item.assignmentForm.$setValidity('needDuration', this.intervals.P.length > 0);
+        this.item.assignmentForm.$setValidity("needInterval", this.intervals.P.length > 0);
+        this.item.assignmentForm.$setValidity("needDuration", this.intervals.P.length > 0);
     }
     /**
      * @description Обновление модели данных
@@ -101,7 +101,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     /**
      *
      */
-    addInterval(scenarioType: string = 'default') {
+    addInterval(scenarioType: string = "default") {
         let sport: string = this.item.activity.sportBasic;
         let ftp:{[measure: string] : number} = getFtpBySport(this.item.user.trainingZones, sport);
         let interval: ActivityIntervalP;
@@ -115,15 +115,15 @@ class ActivitySegmentsCtrl implements IComponentController {
             pos = this.intervals.lastPos() + 1;
         }
 
-        scenario[sport][scenarioType].forEach(template => {
+        scenario[sport][scenarioType].forEach((template) => {
             switch (template.type) {
-                case 'P': {
-                    interval = new ActivityIntervalP('P', Object.assign(template, {pos: pos++}));
+                case "P": {
+                    interval = new ActivityIntervalP("P", Object.assign(template, {pos: pos++}));
                     this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
                     break;
                 }
-                case 'G': {
-                    this.intervals.add([new ActivityIntervalG('G', Object.assign(template, {fPos: pos}))]);
+                case "G": {
+                    this.intervals.add([new ActivityIntervalG("G", Object.assign(template, {fPos: pos}))]);
                     break;
                 }
             }
@@ -133,10 +133,10 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     delete() {
-        this.intervals.P.filter(interval =>
+        this.intervals.P.filter((interval) =>
             interval.isSelected &&
-            (!interval.hasOwnProperty('repeatPos') || interval.repeatPos === null || interval.repeatPos === 0))
-            .map(interval => this.intervals.splice(interval.type, interval.pos));
+            (!interval.hasOwnProperty("repeatPos") || interval.repeatPos === null || interval.repeatPos === 0))
+            .map((interval) => this.intervals.splice(interval.type, interval.pos));
 
         this.update(SegmentChangeReason.deleteInterval);
     }
@@ -153,19 +153,19 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     toggleKey(){
         if(this.selectedInterval().length === this.selectedKeyInterval().length){
-            this.intervals.P.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = false);
+            this.intervals.P.filter((interval) => interval.isSelected).forEach((interval) => interval.keyInterval = false);
         } else if(this.selectedKeyInterval().length === 0 || this.selectedKeyInterval().length > 0){
-            this.intervals.P.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = true);
+            this.intervals.P.filter((interval) => interval.isSelected).forEach((interval) => interval.keyInterval = true);
         }
        this.update(SegmentChangeReason.keyInterval);
     }
 
-    selectedInterval():Array<any> {
-        return this.intervals.P.filter(interval => interval.isSelected) || [];
+    selectedInterval():any[] {
+        return this.intervals.P.filter((interval) => interval.isSelected) || [];
     }
 
-    selectedKeyInterval():Array<any> {
-        return this.intervals.P.filter(interval => interval.isSelected && interval.keyInterval);
+    selectedKeyInterval():any[] {
+        return this.intervals.P.filter((interval) => interval.isSelected && interval.keyInterval);
     }
 
     ftpModeChange(mode: FtpState) {
@@ -177,16 +177,16 @@ class ActivitySegmentsCtrl implements IComponentController {
 
 const ActivitySegmentsComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        hasImport: '<',
-        change: '<',
-        onEvent: '&'
+        data: "<",
+        hasImport: "<",
+        change: "<",
+        onEvent: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivitySegmentsCtrl,
-    template: require('./activity-segments.component.html') as string
+    template: require("./activity-segments.component.html") as string,
 };
 
 export default ActivitySegmentsComponent;

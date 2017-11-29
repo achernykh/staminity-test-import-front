@@ -1,5 +1,5 @@
-import {ActivityInterval} from "./activity.interval";
 import {IActivityIntervalU, ICalcMeasures} from "../../../../api/activity/activity.interface";
+import {ActivityInterval} from "./activity.interval";
 import {ActivityIntervalCalcMeasure} from "./activity.models";
 
 export class ActivityIntervalU extends ActivityInterval implements IActivityIntervalU {

@@ -2,7 +2,7 @@
 {
     SUCCESS,
     WARN,
-    FAILED
+    FAILED,
 }
 
 export interface ICalcMeasure {

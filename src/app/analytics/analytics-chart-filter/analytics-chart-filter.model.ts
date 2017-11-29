@@ -1,48 +1,48 @@
-import moment from 'moment/src/moment.js';
-import { copy } from 'angular';
-import {IReportPeriod, IChartParams} from "../../../../api/statistics/statistics.interface";
-import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
+import { copy } from "angular";
+import moment from "moment/src/moment.js";
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
+import {IChartParams, IReportPeriod} from "../../../../api/statistics/statistics.interface";
+import {IUserProfile, IUserProfileShort} from "../../../../api/user/user.interface";
 import {getSportBasic, getSportsByBasicId} from "../../activity/activity.constants";
-import { pipe, orderBy, prop, groupBy } from "../../share/util.js";
 import {getOwner, Owner} from "../../reference/reference.datamodel";
+import { groupBy, orderBy, pipe, prop } from "../../share/util.js";
 
-export const periodByType = (type: string): Array<IReportPeriod> => {
-    let format: string = 'YYYYMMDD';
+export const periodByType = (type: string): IReportPeriod[] => {
+    let format: string = "YYYYMMDD";
     switch (type) {
-        case 'thisYear': {
+        case "thisYear": {
             return [{
-                startDate: moment().startOf('year').format(format),
-                endDate: moment().format(format)
+                startDate: moment().startOf("year").format(format),
+                endDate: moment().format(format),
             }];
         }
-        case 'thisMonth': {
+        case "thisMonth": {
             return [{
-                startDate: moment().startOf('month').format(format),
-                endDate: moment().format(format)
+                startDate: moment().startOf("month").format(format),
+                endDate: moment().format(format),
             }];
         }
-        case 'thisWeek': {
+        case "thisWeek": {
             return [{
-                startDate: moment().startOf('week').format(format),
-                endDate: moment().endOf('week').format(format)
+                startDate: moment().startOf("week").format(format),
+                endDate: moment().endOf("week").format(format),
             }];
         }
-        case 'customPeriod': {
+        case "customPeriod": {
             return [{
-                startDate: moment().startOf('year').format(format),
-                endDate: moment().format(format)
+                startDate: moment().startOf("year").format(format),
+                endDate: moment().format(format),
             }];
         }
     }
 };
 
-export const PeriodOptions = (options: Array<string> = ['thisYear','thisMonth','thisWeek','customPeriod']):
-    Array<IReportPeriodOptions> => {
-    return options.map(o => ({
+export const PeriodOptions = (options: string[] = ["thisYear","thisMonth","thisWeek","customPeriod"]):
+    IReportPeriodOptions[] => {
+    return options.map((o) => ({
         name: o,
-        period: null//periodByType(o)
+        period: null,//periodByType(o)
     }));
 };
 
@@ -53,16 +53,16 @@ interface IReportCustomPeriod {
 }
 
 export interface IAnalyticsChartSettings<T> {
-    type: 'date' | 'text' | 'select' | 'checkbox' | 'radio';
-    area: 'params' | 'series' | 'measures';
-    ind?: Array<number>; // индекс в массиве chart
-    idx?: Array<number>; // индекс в массиве series/measures
+    type: "date" | "text" | "select" | "checkbox" | "radio";
+    area: "params" | "series" | "measures";
+    ind?: number[]; // индекс в массиве chart
+    idx?: number[]; // индекс в массиве series/measures
     name?: string;
     text: string; // название показателя для вывода на экран analytics.params... | translate
     multiTextParam?: string; // ссылка на показатель, в котором будет задан текст в случае мултипеременных
     model: any;
     data?: any | IReportCustomPeriod; // расчетные данные для формирования model (используется для customPeriod)
-    options: Array<T>;
+    options: T[];
     change?: any; // объект содержащий перечень изменения для структуры series/measures
     protected?: boolean;
 }
@@ -91,17 +91,17 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
     activityCategories: IAnalyticsChartSettings<IActivityCategory>;
     periods: IAnalyticsChartSettings<string>;
 
-    categoriesByOwner: {[owner in Owner]: Array<IActivityCategory>};
+    categoriesByOwner: {[owner in Owner]: IActivityCategory[]};
     change: number = null;
 
     private prepareComplete: boolean = false;
-    private readonly defaultBasicActivityTypes: Array<number> = [2,7,10,13];
-    private keys: Array<string> = ['user','categories','storage','prepareComplete','categoriesByOwner',
-        'defaultBasicActivityTypes','change','keys'];
+    private readonly defaultBasicActivityTypes: number[] = [2,7,10,13];
+    private keys: string[] = ["user","categories","storage","prepareComplete","categoriesByOwner",
+        "defaultBasicActivityTypes","change","keys"];
 
     constructor(
         public user: IUserProfile,
-        public categories: Array<IActivityCategory>,
+        public categories: IActivityCategory[],
         public storage?: IAnalyticsChartFilter,
         private $filter?: any) {
 
@@ -112,68 +112,68 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         this.prepareComplete = true;
     }
 
-    transfer(keys: Array<string> = this.keys): IAnalyticsChartFilter {
+    transfer(keys: string[] = this.keys): IAnalyticsChartFilter {
         let obj: IAnalyticsChartFilter = copy(this);
-        keys.map(k => delete obj[k]);
+        keys.map((k) => delete obj[k]);
         return obj;
     }
 
     changeParam(filter: string):void {
         switch (filter) {
-            case 'users': {
-                this.users.model = this.users.model.map(v => Number(v));
+            case "users": {
+                this.users.model = this.users.model.map((v) => Number(v));
                 break;
             }
-            case 'activityTypes':
-                this.activityTypes.model = this.activityTypes.model.map(v => Number(v));
+            case "activityTypes":
+                this.activityTypes.model = this.activityTypes.model.map((v) => Number(v));
                 break;
         }
 
-        if(filter === 'periods' && this.periods.model === 'customPeriod'){
+        if(filter === "periods" && this.periods.model === "customPeriod"){
 
             if(!this.periods.data.startDate && !this.periods.data.endDate){
-                [this.periods.data.startDate, this.periods.data.endDate] = [new Date(moment().startOf('year')), new Date()];
+                [this.periods.data.startDate, this.periods.data.endDate] = [new Date(moment().startOf("year")), new Date()];
             }
 
             this.periods.data.model = [{
-                startDate: moment(this.periods.data.startDate).format('YYYYMMDD'),
-                endDate: moment(this.periods.data.endDate).format('YYYYMMDD')
+                startDate: moment(this.periods.data.startDate).format("YYYYMMDD"),
+                endDate: moment(this.periods.data.endDate).format("YYYYMMDD"),
             }];
         }
 
         this.change ++;
     }
 
-    setCategoriesOption(options: Array<IActivityCategory>) {
+    setCategoriesOption(options: IActivityCategory[]) {
         this.categories = options;
 
         this.categoriesByOwner = pipe(
-            orderBy(prop('sortOrder')),
-            groupBy(getOwner(this.user))
+            orderBy(prop("sortOrder")),
+            groupBy(getOwner(this.user)),
         ) (this.categories);
 
         this.activityCategories.options = this.categories;
 
     }
 
-    setActivityTypesOptions(options: Array<IActivityType>) {
+    setActivityTypesOptions(options: IActivityType[]) {
         this.activityTypes.options = options;
     }
 
-    setUsersModel(model: Array<string>) {
+    setUsersModel(model: string[]) {
         this.users.model = model;
     }
 
-    setActivityTypes(model: Array<number>, mode: 'basic' | 'single', transform: boolean) {
-        if (mode === 'basic' && transform) {
-            model.map(id => this.activityTypes.model.push(...getSportsByBasicId(Number(id))));
+    setActivityTypes(model: number[], mode: "basic" | "single", transform: boolean) {
+        if (mode === "basic" && transform) {
+            model.map((id) => this.activityTypes.model.push(...getSportsByBasicId(Number(id))));
         } else {
             this.activityTypes.model = model;
         }
         this.change ++;
     }
 
-    setActivityCategories(model: Array<number>) {
+    setActivityCategories(model: number[]) {
         this.activityCategories.model = model;
         this.change ++;
     }
@@ -185,62 +185,62 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
 
     usersSelectedText():string {
         if (this.users.model && this.users.model.length > 0) {
-            return `${this.$filter('username')(
-                this.users.options.filter(u => u.userId === Number(this.users.model[0]))[0])}      
+            return `${this.$filter("username")(
+                this.users.options.filter((u) => u.userId === Number(this.users.model[0]))[0])}      
                 ${this.users.model.length > 1 ?
-                this.$filter('translate')('analytics.filter.more',{num: this.users.model.length - 1}) : ''}`;
+                this.$filter("translate")("analytics.filter.more",{num: this.users.model.length - 1}) : ""}`;
         } else {
-            return this.$filter('translate')('analytics.filter.users.empty');
+            return this.$filter("translate")("analytics.filter.users.empty");
         }
     }
 
     activityTypesSelectedText():string {
         if(this.activityTypes.model && this.activityTypes.model.length > 0) {
-            return `${this.$filter('translate')('sport.' +
-                this.activityTypes.options.filter(t => t.id === Number(this.activityTypes.model[0]))[0].code)}
+            return `${this.$filter("translate")("sport." +
+                this.activityTypes.options.filter((t) => t.id === Number(this.activityTypes.model[0]))[0].code)}
                 ${this.activityTypes.model.length > 1 ?
-                this.$filter('translate')('analytics.filter.more',{num: this.activityTypes.model.length - 1}) : ''}`;
+                this.$filter("translate")("analytics.filter.more",{num: this.activityTypes.model.length - 1}) : ""}`;
         } else {
-            return this.$filter('translate')('analytics.filter.activityTypes.empty');
+            return this.$filter("translate")("analytics.filter.activityTypes.empty");
         }
     }
 
     activityCategoriesSelectedText():string {
         if(this.activityCategories.model && this.activityCategories.model.length > 0) {
-            return `${this.$filter('categoryCode')(
-                this.activityCategories.options.filter(c => c.id === this.activityCategories.model[0])[0])}
+            return `${this.$filter("categoryCode")(
+                this.activityCategories.options.filter((c) => c.id === this.activityCategories.model[0])[0])}
                 ${this.activityCategories.model.length > 1 ?
-                this.$filter('translate')('analytics.filter.more',{num: this.activityCategories.model.length - 1}) : ''}`;
+                this.$filter("translate")("analytics.filter.more",{num: this.activityCategories.model.length - 1}) : ""}`;
         } else {
-            return this.$filter('translate')('analytics.filter.activityCategories.empty');
+            return this.$filter("translate")("analytics.filter.activityCategories.empty");
         }
     }
 
     periodsSelectedText(): string {
         if(this.periods.model) {
-            return `${this.$filter('translate')('analytics.params.' + this.periods.model)}`;
+            return `${this.$filter("translate")("analytics.params." + this.periods.model)}`;
         } else {
-            return this.$filter('translate')('analytics.filter.periods.empty');
+            return this.$filter("translate")("analytics.filter.periods.empty");
         }
     }
 
     descriptions(): string {
         return `
-            ${this.$filter('translate')('analytics.filter.periods.placeholder')}: 
-            ${this.periods.model !== 'customPeriod' ? 
-                this.$filter('translate')('analytics.params.' + this.periods.model) :
-                this.$filter('date')(moment(this.periods.model.startDate).toDate(),'shortDate') + '-' +
-            this.$filter('date')(moment(this.periods.model.endDate).toDate(),'shortDate')}, 
-            ${this.$filter('translate')('analytics.filter.activityTypes.placeholder')}: ${this.activityTypesSelectedText()}, 
-            ${this.$filter('translate')('analytics.filter.users.placeholder')}: ${this.usersSelectedText()}`;
+            ${this.$filter("translate")("analytics.filter.periods.placeholder")}: 
+            ${this.periods.model !== "customPeriod" ? 
+                this.$filter("translate")("analytics.params." + this.periods.model) :
+                this.$filter("date")(moment(this.periods.model.startDate).toDate(),"shortDate") + "-" +
+            this.$filter("date")(moment(this.periods.model.endDate).toDate(),"shortDate")}, 
+            ${this.$filter("translate")("analytics.filter.activityTypes.placeholder")}: ${this.activityTypesSelectedText()}, 
+            ${this.$filter("translate")("analytics.filter.users.placeholder")}: ${this.usersSelectedText()}`;
     }
 
     chartParams(): IChartParams {
         return {
             users: this.users.model,
-            activityTypes: this.activityTypes.model.map(v => Number(v)) || [],
-            activityCategories: this.activityCategories.model.map(v => Number(v)) || [],
-            periods: this.periods.model !== 'customPeriod' ? periodByType(this.periods.model) : this.periods.data.model // временные периоды, в рамках которых требуется отбирать данные
+            activityTypes: this.activityTypes.model.map((v) => Number(v)) || [],
+            activityCategories: this.activityCategories.model.map((v) => Number(v)) || [],
+            periods: this.periods.model !== "customPeriod" ? periodByType(this.periods.model) : this.periods.data.model, // временные периоды, в рамках которых требуется отбирать данные
         };
     }
 
@@ -249,74 +249,74 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
             users: this.users,
             activityTypes: this.activityTypes,
             activityCategories: this.activityCategories,
-            periods: this.periods
+            periods: this.periods,
         };
     }
 
 
     private prepareUsers() {
         this.users = {
-            type: 'checkbox',
-            area: 'params',
-            name: 'users',
-            text: 'users',
+            type: "checkbox",
+            area: "params",
+            name: "users",
+            text: "users",
             model: this.storage && this.storage.users.model || [this.user.userId],
-            options: []
+            options: [],
         };
 
         this.users.options.push({
             userId: this.user.userId,
-            public: this.user.public
+            public: this.user.public,
         });
 
-        if(this.user.public.isCoach && this.user.connections.hasOwnProperty('allAthletes')) {
-            this.users.options.push(...this.user.connections.allAthletes.groupMembers.map(a => ({
+        if(this.user.public.isCoach && this.user.connections.hasOwnProperty("allAthletes")) {
+            this.users.options.push(...this.user.connections.allAthletes.groupMembers.map((a) => ({
                 userId: a.userId,
-                public: a.public
+                public: a.public,
             })));
         }
     }
 
     private prepareActivityTypes(){
         this.activityTypes = {
-            type: 'checkbox',
-            area: 'params',
-            name: 'activityTypes',
-            text: 'activityTypes',
+            type: "checkbox",
+            area: "params",
+            name: "activityTypes",
+            text: "activityTypes",
             model: this.storage && this.storage.activityTypes.model || this.defaultBasicActivityTypes,
-            options: getSportBasic()
+            options: getSportBasic(),
         };
     }
 
     private prepareCategories() {
         this.activityCategories = {
-            type: 'checkbox',
-            area: 'params',
-            name: 'activityCategories',
-            text: 'activityCategories',
+            type: "checkbox",
+            area: "params",
+            name: "activityCategories",
+            text: "activityCategories",
             model: this.storage && this.storage.activityCategories.model || [],
-            options: this.categories
+            options: this.categories,
         };
 
         this.categoriesByOwner = pipe(
-            orderBy(prop('sortOrder')),
-            groupBy(getOwner(this.user))
+            orderBy(prop("sortOrder")),
+            groupBy(getOwner(this.user)),
         ) (this.categories);
     }
 
     private preparePeriods() {
         this.periods = {
-            type: 'date',
-            area: 'params',
-            name: 'periods',
-            text: 'periods',
-            options: ['thisYear','thisMonth','thisWeek','customPeriod'],
+            type: "date",
+            area: "params",
+            name: "periods",
+            text: "periods",
+            options: ["thisYear","thisMonth","thisWeek","customPeriod"],
             model: this.storage && this.storage.periods.model || null,
             data: this.storage && this.storage.periods.data || {
                 model: null,
                 startDate: null,
-                endDate: null
-            }
+                endDate: null,
+            },
         };
         if(!this.periods.model){
             this.periods.model = this.periods.options[0];

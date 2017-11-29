@@ -1,16 +1,16 @@
-import './analytics-chart-settings.component.scss';
-import moment from 'moment/src/moment.js';
-import {IComponentOptions, IComponentController, IPromise, copy, INgModelController} from 'angular';
-import {IUserProfileShort} from "../../../../api/user/user.interface";
+import {copy, IComponentController, IComponentOptions, INgModelController, IPromise} from "angular";
+import moment from "moment/src/moment.js";
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
-import {IReportPeriod, IChartMeasure, IChart} from "../../../../api/statistics/statistics.interface";
+import {IChart, IChartMeasure, IReportPeriod} from "../../../../api/statistics/statistics.interface";
+import {IUserProfileShort} from "../../../../api/user/user.interface";
+import {activityTypes, getSportsByBasicId} from "../../activity/activity.constants";
 import {
-    IAnalyticsChartSettings, IReportPeriodOptions,
-    periodByType, AnalyticsChartFilter
+    AnalyticsChartFilter, IAnalyticsChartSettings,
+    IReportPeriodOptions, periodByType,
 } from "../analytics-chart-filter/analytics-chart-filter.model";
 import {IAnalyticsChart} from "../analytics-chart/analytics-chart.model";
-import {activityTypes, getSportsByBasicId} from "../../activity/activity.constants";
+import "./analytics-chart-settings.component.scss";
 
 class AnalyticsChartSettingsCtrl implements IComponentController {
 
@@ -28,32 +28,32 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     private settingsForm: INgModelController;
 
     public onSave: (response: {chart: IAnalyticsChart, update: boolean}) => IPromise<void>;
-    static $inject = ['$filter'];
+    static $inject = ["$filter"];
 
     constructor(private $filter: any) {
 
     }
 
     $onInit() {
-        if(this.chart.hasOwnProperty('localParams') && !this.chart.localParams) {
-            this.prepareLocalFilter('fromGlobal');
+        if(this.chart.hasOwnProperty("localParams") && !this.chart.localParams) {
+            this.prepareLocalFilter("fromGlobal");
         }
 
-        if(this.chart.hasOwnProperty('localParams') && this.chart.localParams) {
-            this.prepareLocalFilter('fromSettings');
+        if(this.chart.hasOwnProperty("localParams") && this.chart.localParams) {
+            this.prepareLocalFilter("fromSettings");
         }
 
         this.globalParams = copy(this.chart.globalParams);
         this.settings = copy(this.chart.settings);
     }
 
-    private prepareLocalFilter(mode: 'fromSettings' | 'fromGlobal' = 'fromSettings') {
+    private prepareLocalFilter(mode: "fromSettings" | "fromGlobal" = "fromSettings") {
 
-        if(mode === 'fromSettings' && this.chart.localParams) {
+        if(mode === "fromSettings" && this.chart.localParams) {
             this.localFilter = this.chart.localParams;
         }
 
-        if(mode === 'fromGlobal') {
+        if(mode === "fromGlobal") {
             this.localFilter = new AnalyticsChartFilter(
                 this.globalFilter.user,
                 this.globalFilter.categories,
@@ -61,7 +61,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
                 this.$filter);
 
             this.localFilter.setUsersModel(this.globalFilter.users.model);
-            this.localFilter.setActivityTypes(this.globalFilter.activityTypes.model, 'basic', true);
+            this.localFilter.setActivityTypes(this.globalFilter.activityTypes.model, "basic", true);
             this.localFilter.setActivityTypesOptions(activityTypes);
             this.localFilter.setActivityCategories(this.globalFilter.activityCategories.model);
             this.localFilter.setPeriods(this.globalFilter.periods.model, this.globalFilter.periods.data);
@@ -70,32 +70,32 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     changeParamsPoint() {
         if(!this.globalParams) {
-            this.prepareLocalFilter('fromGlobal');
+            this.prepareLocalFilter("fromGlobal");
         }
     }
 
     change(param: IAnalyticsChartSettings<any>, value) {
         switch(param.area) {
-            case 'series': {
-                param.ind.map(ind =>
+            case "series": {
+                param.ind.map((ind) =>
                     this.chart.charts[ind].series
-                        .filter(s => param.idx.indexOf(s.idx) !== -1)
-                        .map(s => s[param.name] = value)
+                        .filter((s) => param.idx.indexOf(s.idx) !== -1)
+                        .map((s) => s[param.name] = value),
                 );
                 break;
             }
-            case 'measures': {
-                param.ind.map(ind =>
+            case "measures": {
+                param.ind.map((ind) =>
                         this.chart.charts[ind].measures
-                            .filter(m => param.idx.indexOf(m.idx) !== -1)
-                            .map(m => Object.keys(param.change[value]).map(k => m[k] = param.change[value][k]))
+                            .filter((m) => param.idx.indexOf(m.idx) !== -1)
+                            .map((m) => Object.keys(param.change[value]).map((k) => m[k] = param.change[value][k])),
                     //.map(s => s[param.name] = value)
                 );
                 break;
             }
         }
 
-        if(Object.keys(param.change[value]).some(change => ['seriesDateTrunc','unit','measureName'].indexOf(change) !== -1)) {
+        if(Object.keys(param.change[value]).some((change) => ["seriesDateTrunc","unit","measureName"].indexOf(change) !== -1)) {
             this.refresh = true;
         }
         this.update = true;
@@ -113,7 +113,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 
     getCheckboxLabel(param: IAnalyticsChartSettings<any>, idx: number): string {
-        return this.chart.charts[param.ind[0]].measures.filter(a => a.idx === idx)[0][param.multiTextParam];
+        return this.chart.charts[param.ind[0]].measures.filter((a) => a.idx === idx)[0][param.multiTextParam];
     }
 
     save() {
@@ -126,24 +126,24 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
         this.onSave({
             chart: Object.assign(this.chart, { globalParams: this.globalParams }),
-            update: this.refresh || (this.localFilter && this.localFilter.change > 0)
+            update: this.refresh || (this.localFilter && this.localFilter.change > 0),
         });
     }
 }
 
 const AnalyticsChartSettingsComponent:IComponentOptions = {
     bindings: {
-        chart: '<',
-        globalFilter: '<',
-        categoriesByOwner: '<',
-        onCancel: '&',
-        onSave: '&'
+        chart: "<",
+        globalFilter: "<",
+        categoriesByOwner: "<",
+        onCancel: "&",
+        onSave: "&",
     },
     require: {
         //analytics: '^analytics'
     },
     controller: AnalyticsChartSettingsCtrl,
-    template: require('./analytics-chart-settings.component.html') as string
+    template: require("./analytics-chart-settings.component.html") as string,
 };
 
 export default AnalyticsChartSettingsComponent;

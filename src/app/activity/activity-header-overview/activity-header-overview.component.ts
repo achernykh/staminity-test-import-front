@@ -1,10 +1,10 @@
-import './activity-header-overview.component.scss';
-import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
-import {Activity} from "../activity.datamodel";
+import {IComponentController, IComponentOptions, INgModelController, IPromise} from "angular";
+import { IActivityIntervalPW, ICalcMeasures } from "../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {ActivityIntervalPW} from "../activity-datamodel/activity.interval-pw";
 import {ActivityIntervalW} from "../activity-datamodel/activity.interval-w";
-import { IActivityIntervalPW, ICalcMeasures } from "../../../../api/activity/activity.interface";
+import {Activity} from "../activity.datamodel";
+import "./activity-header-overview.component.scss";
 
 class ActivityHeaderOverviewCtrl implements IComponentController {
 
@@ -35,10 +35,10 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
 
 const ActivityHeaderOverviewComponent:IComponentOptions = {
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivityHeaderOverviewCtrl,
-    template: require('./activity-header-overview.component.html') as string
+    template: require("./activity-header-overview.component.html") as string,
 };
 
 export default ActivityHeaderOverviewComponent;

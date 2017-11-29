@@ -1,7 +1,7 @@
-import {IComponentController, IComponentOptions} from 'angular';
-import {MapOptions} from 'leaflet';
-import './activity-route.component.scss';
-import ActivityRouteDatamodel from './activity-route.datamodel';
+import {IComponentController, IComponentOptions} from "angular";
+import {MapOptions} from "leaflet";
+import "./activity-route.component.scss";
+import ActivityRouteDatamodel from "./activity-route.datamodel";
 
 class ActivityRouteCtrl implements IComponentController {
     private data: Array<{lat:number, lng: number}>;
@@ -10,7 +10,7 @@ class ActivityRouteCtrl implements IComponentController {
     private zoomEnabled: boolean;
     private map;
 
-    static $inject = ['leafletData'];
+    static $inject = ["leafletData"];
     constructor(private leafletData: any) {
 
     }
@@ -27,10 +27,10 @@ class ActivityRouteCtrl implements IComponentController {
         this.options.zoomControl = this.zoomEnabled;
         // центрирую карту по основному маршруту
         this.leafletData.getMap()
-            .then(map => {
+            .then((map) => {
                 map.fitBounds(this.select.length === 0 ?
-                    this.map.route.map(e => L.GeoJSON.coordsToLatLng([e.lng,e.lat])) :
-                    this.map.selectCoordinates.map(e => L.GeoJSON.coordsToLatLng([e.lng,e.lat])));
+                    this.map.route.map((e) => L.GeoJSON.coordsToLatLng([e.lng,e.lat])) :
+                    this.map.selectCoordinates.map((e) => L.GeoJSON.coordsToLatLng([e.lng,e.lat])));
                 map.invalidateSize();
             });
     }
@@ -46,11 +46,11 @@ const ActivityRouteComponent:IComponentOptions = {
                         markers="$ctrl.map.markers"
                         defaults="$ctrl.options"></leaflet>`,
     bindings: {
-        data: '<',
-        select: '<',
-        zoomEnabled: '<',
-        layerEnabled: '<'
-    }
+        data: "<",
+        select: "<",
+        zoomEnabled: "<",
+        layerEnabled: "<",
+    },
 };
 
 export default ActivityRouteComponent;

@@ -1,13 +1,13 @@
-import './activity-header-details.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
+import {ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {
     CalendarItemActivityCtrl,
-    ISelectionIndex, SelectInitiator
+    ISelectionIndex, SelectInitiator,
 } from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {Measure} from "../../share/measure/measure.constants";
-import {MeasureChartData} from "../activity.function";
 import {ActivityIntervalL} from "../activity-datamodel/activity.interval-l";
+import {MeasureChartData} from "../activity.function";
+import "./activity-header-details.component.scss";
 
 interface Select {
     type: string;
@@ -32,10 +32,10 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
     private chartData: MeasureChartData; // класс для расчета данных для графика
 
-    private readonly intervalTypes = ['P','L','U'];
+    private readonly intervalTypes = ["P","L","U"];
     private intervals: SelectionOptions<Select> = {};
     private changes: number = 0;
-    private selectedIntervals: Array<string> = [];
+    private selectedIntervals: string[] = [];
 
     static $inject = [];
 
@@ -44,27 +44,27 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     }
 
     prepareIntervals() {
-        this.intervalTypes.forEach(type =>
+        this.intervalTypes.forEach((type) =>
             this.item.activity.intervals.stack
-                .filter(interval => interval.type === type && interval.hasOwnProperty('calcMeasures'))
+                .filter((interval) => interval.type === type && interval.hasOwnProperty("calcMeasures"))
                 .forEach((interval,i) =>
                     this.intervals[interval.type+(i+1)] = {
                         type: type,
                         startTimestamp: interval.startTimestamp,
                         endTimestamp: interval.endTimestamp,
-                        duration: interval.calcMeasures.hasOwnProperty('duration') && interval.calcMeasures['duration'].value || '-',
-                        distance: interval.calcMeasures.hasOwnProperty('distance') && interval.calcMeasures['distance'].value || '-'
-                    })
+                        duration: interval.calcMeasures.hasOwnProperty("duration") && interval.calcMeasures["duration"].value || "-",
+                        distance: interval.calcMeasures.hasOwnProperty("distance") && interval.calcMeasures["distance"].value || "-",
+                    }),
         );
     }
 
     calculateIndex(selection: ISelectionIndex) {
         let type = Object.keys(selection);
-        let selectionIndex: Array<string> = [];
+        let selectionIndex: string[] = [];
 
-        type.forEach(type => {
+        type.forEach((type) => {
             if(selection[type]){
-                selection[type].forEach(i => selectionIndex.push(type+(i+1)));
+                selection[type].forEach((i) => selectionIndex.push(type+(i+1)));
             }
         });
 
@@ -80,16 +80,16 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
 
     $onChanges(changes: any): void {
 
-        if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
+        if(changes.hasOwnProperty("change") && !changes.change.isFirstChange()) {
             this.prepareIntervals();
             this.selectedIntervals = this.calculateIndex(this.selectionIndex);
         }
-        if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue && !this.completeDetails) {
+        if(changes.hasOwnProperty("hasDetails") && changes.hasDetails.currentValue && !this.completeDetails) {
             this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.activity.details);
             this.completeDetails = true;
             this.prepareIntervals();
         }
-        if(changes.hasOwnProperty('hasImport') && changes.hasImport.currentValue) {
+        if(changes.hasOwnProperty("hasImport") && changes.hasImport.currentValue) {
             this.prepareIntervals();
         }
     }
@@ -99,18 +99,18 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         this.changes++;
         let selection: ISelectionIndex = { L: [], P: [], U: []};
 
-        this.intervalTypes.forEach(type =>
-            this.selectedIntervals.filter(i => i.substr(0,1) === type)
-                .forEach(i => selection[type].push(Number(i.substr(1))-1)));
+        this.intervalTypes.forEach((type) =>
+            this.selectedIntervals.filter((i) => i.substr(0,1) === type)
+                .forEach((i) => selection[type].push(Number(i.substr(1))-1)));
 
-        console.log('changeSelect', this.selectedIntervals);
+        console.log("changeSelect", this.selectedIntervals);
         this.onSelected({
-            initiator: 'header',
-            selection: selection
+            initiator: "header",
+            selection: selection,
         });
     }
 
-    getCalcMeasure(selection: Array<string>):ICalcMeasures {
+    getCalcMeasure(selection: string[]):ICalcMeasures {
         if (selection.length === 0) {
             return this.item.activity.intervalW.calcMeasures;
         }
@@ -118,32 +118,32 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
             return this.item.multiSelectionInterval.calcMeasures;
         }
 
-        let type: string = 'interval' + selection[0].substr(0,1);
+        let type: string = "interval" + selection[0].substr(0,1);
         let index: number = Number(selection[0].substr(1))-1;
 
         return this.item.activity[type][index].calcMeasures;
     }
 
-    lapIndex(index: Array<string>):number {
-        console.log('lapIndex', Number(index[0].substr(1))-1);
+    lapIndex(index: string[]):number {
+        console.log("lapIndex", Number(index[0].substr(1))-1);
         return index ? Number(index[0].substr(1))-1 : null;
     }
 }
 
 const ActivityHeaderDetailsComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        selectionIndex: '<',
-        hasDetails: '<',
-        hasImport: '<',
-        change: '<',
-        onSelected: '&'
+        data: "<",
+        selectionIndex: "<",
+        hasDetails: "<",
+        hasImport: "<",
+        change: "<",
+        onSelected: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivityHeaderDetailsCtrl,
-    template: require('./activity-header-details.component.html') as string
+    template: require("./activity-header-details.component.html") as string,
 };
 
 export default ActivityHeaderDetailsComponent;

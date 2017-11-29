@@ -1,25 +1,25 @@
 import {
-    IGroupProfile,
-    IGroupManagementProfile,
-    IBulkGroupMembership,
+    GetGroupManagementProfileRequest,
+    GetGroupMembershipRequest,
     GetGroupProfileRequest,
-    PutGroupProfileRequest,
+    IBulkGroupMembership,
+    IGroupManagementProfile,
+    IGroupProfile,
     JoinGroupRequest,
     LeaveGroupRequest,
     ProcessGroupMembershipRequest,
-    GetGroupMembershipRequest,
-    GetGroupManagementProfileRequest,
-    PutGroupMembershipBulkRequest } from '../../../api';
+    PutGroupMembershipBulkRequest,
+    PutGroupProfileRequest } from "../../../api";
 
-import {SocketService} from './index';
-import {PostFile, IRESTService, PostData} from './rest.service';
-import { IHttpPromise } from 'angular';
+import { IHttpPromise } from "angular";
+import {SocketService} from "./index";
+import {IRESTService, PostData, PostFile} from "./rest.service";
 import IHttpPromiseCallbackArg = angular.IHttpPromiseCallbackArg;
 import { GetGroupMembersListRequest } from "../../../api/group/group.request";
 
 export default class GroupService {
 
-    static $inject = ['SocketService','RESTService'];
+    static $inject = ["SocketService","RESTService"];
 
     constructor(
         private SocketService: SocketService,
@@ -35,7 +35,7 @@ export default class GroupService {
     getProfile(id:string|number, type?:string, ws: boolean = true):Promise<IGroupProfile> {
         return ws ?
             this.SocketService.send(new GetGroupProfileRequest(id,type)) :
-            this.RESTService.postData(new PostData('/api/wsgate', new GetGroupProfileRequest(id,type)))
+            this.RESTService.postData(new PostData("/api/wsgate", new GetGroupProfileRequest(id,type)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
@@ -82,7 +82,7 @@ export default class GroupService {
      * @param requestId - номер запроса
      * @returns {Promise<IGroupProfile>}
      */
-    processMembership(action:string, groupId?:number, requestId?:number, ):Promise<IGroupProfile> {
+    processMembership(action:string, groupId?:number, requestId?:number ):Promise<IGroupProfile> {
         return this.SocketService.send(new ProcessGroupMembershipRequest(action, groupId,requestId));
     }
 
@@ -111,7 +111,7 @@ export default class GroupService {
      * @param users
      * @returns {Promise<any>}
      */
-    putGroupMembershipBulk(groupId: number, membership: Array<IBulkGroupMembership>, users: Array<number>):Promise<any> {
+    putGroupMembershipBulk(groupId: number, membership: IBulkGroupMembership[], users: number[]):Promise<any> {
         return this.SocketService.send(new PutGroupMembershipBulkRequest(groupId, membership, users));
     }
 

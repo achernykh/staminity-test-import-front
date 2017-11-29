@@ -1,6 +1,6 @@
-import { merge } from 'angular';
+import { merge } from "angular";
 
-export const supportLng: Array<string> = ['en', 'ru'];
+export const supportLng: string[] = ["en", "ru"];
 
 export class DisplayView  {
 	constructor(private state: string){
@@ -9,10 +9,10 @@ export class DisplayView  {
 			_display_view[this.state],
 			{
 				header: {
-					fullTitle: state+'.fullTitle',
-					shortTitle: state+'.shortTitle'
-				}
-			}
+					fullTitle: state+".fullTitle",
+					shortTitle: state+".shortTitle",
+				},
+			},
 		);
 	}
 }
@@ -22,21 +22,21 @@ export const DefaultTemplate = (component) => {
 		"background": {
 			component: "staminityBackground",
 				bindings: {
-				view: 'view.background'
-			}
+				view: "view.background",
+			},
 		},
 		"header": {
-			component: 'staminityHeader',
+			component: "staminityHeader",
 				bindings: {
-				view: 'view.header'
-			}
+				view: "view.header",
+			},
 		},
 		"application": {
 			component: component,
 				bindings: {
-				view: 'view.application'
-			}
-		}
+				view: "view.application",
+			},
+		},
 	};
 };
 
@@ -44,10 +44,10 @@ export const _display_view = {
 	// Настройка страницы: Стартовая страница ../welcome
 	landingPage: {
 		background: {
-			style: 'application-light', //'landing-background',
+			style: "application-light", //'landing-background',
 			toolbar: false,
 			position: null, //'front' | 'behind'
-			size: 160
+			size: 160,
 		},
 		header: {
 			enabled: true,
@@ -55,510 +55,510 @@ export const _display_view = {
 			athletes: false,
 			leftPanel: {
 				url: null,
-				size: 20
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/welcome.links.html',
-				size: 80
-			}
+				url: "header/welcome.links.html",
+				size: 80,
+			},
 		},
 		application: {
-			style: 'welcome-page',
-			margin: 'auto',
-			size: 80
-		}
+			style: "welcome-page",
+			margin: "auto",
+			size: 80,
+		},
 	},
 	landingTariffs: {
 		background: {
-			style: 'application-light', //'landing-background',
+			style: "application-light", //'landing-background',
 			toolbar: false,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: false,
 			athletes: false,
 			leftPanel: {
-				url: 'header/backbar.html',
-				size: 30
+				url: "header/backbar.html",
+				size: 30,
 			},
 			rightPanel: {
-				url: 'header/welcome.links.html',
-				size: 70
-			}
+				url: "header/welcome.links.html",
+				size: 70,
+			},
 		},
 		application: {
-			style: 'welcome-page',
-			margin: 'auto',
-			size: 80
-		}
+			style: "welcome-page",
+			margin: "auto",
+			size: 80,
+		},
 	},
 	signup: {
 		//style: 'welcome-page',
 		//background: 'landing-background blur',
 		background: {
-			style: 'dark-blue-grey',
+			style: "dark-blue-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: false,
 			athletes: false,
 			leftPanel: {
-				url: 'header/backbar.html',
-				size: 30
+				url: "header/backbar.html",
+				size: 30,
 			},
 			rightPanel: {
 				url: null,
-				size: 30
-			}
+				size: 30,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	signin: {
 		background: {
-			style: 'dark-blue-grey',
+			style: "dark-blue-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: false,
 			athletes: false,
 			leftPanel: {
-				url: 'header/backbar.html',
-				size: 30
+				url: "header/backbar.html",
+				size: 30,
 			},
 			rightPanel: {
 				url: null,
-				size: 30
-			}
+				size: 30,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	reset: {
 		background: {
-			style: 'dark-blue-grey',
+			style: "dark-blue-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: false,
 			athletes: false,
 			leftPanel: {
-				url: 'header/backbar.html',
-				size: 30
+				url: "header/backbar.html",
+				size: 30,
 			},
 			rightPanel: {
 				url: null,
-				size: 30
-			}
+				size: 30,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	api: {
 		background: {
-			style: 'dark-blue-grey',
+			style: "dark-blue-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: false,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 30
+				url: "header/appmenutoolbar.html",
+				size: 30,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 30
-			}
+				url: "header/usertoolbar.html",
+				size: 30,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Календарь ../calendar
 	calendar: {
 		background: {
-			style: 'application-light',
+			style: "application-light",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 2,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Настройки пользователя ../settings
 	settings: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Настройки клуба ../settings/club
 	settingsClub: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Настройки пользователя ../dashboard
 	dashboard: {
 		background: {
-			style: 'application-light', //'landing-background',
+			style: "application-light", //'landing-background',
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Настройки пользователя ../dashboard/club
 	dashboardClub: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Профиль пользователя /user
 	user: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Профиль тренрского клуба /club
 	club: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Список пользователей /users
 	users: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},	
 	// Настройка страницы: Список пользователей /athletes
 	athletes: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Поиск /search
 	search: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Поиск /search
 	activity: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Шаблоны и категории /reference
 	"reference": {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
-			size: '160'
+			size: "160",
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Аналитика и отчеты
 	analytics: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
 			size: 60,
-			position: 'front', // | 'behind'
+			position: "front", // | 'behind'
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 	// Настройка страницы: Аналитика и отчеты
 	trainingPlansSearch: {
 		background: {
-			style: 'light-grey',
+			style: "light-grey",
 			toolbar: true,
 			size: 60,
-			position: 'front', // | 'behind'
+			position: "front", // | 'behind'
 		},
 		header: {
 			enabled: true,
 			title: true,
 			athletes: true,
 			leftPanel: {
-				url: 'header/appmenutoolbar.html',
-				size: 20
+				url: "header/appmenutoolbar.html",
+				size: 20,
 			},
 			rightPanel: {
-				url: 'header/usertoolbar.html',
-				size: 20
-			}
+				url: "header/usertoolbar.html",
+				size: 20,
+			},
 		},
 		application: {
-			style: 'app-page',
+			style: "app-page",
 			margin: 20,
-			size: 'grow'
-		}
+			size: "grow",
+		},
 	},
 };

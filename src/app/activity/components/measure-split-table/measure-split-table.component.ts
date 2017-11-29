@@ -1,17 +1,17 @@
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
-import './measure-split-table.component.scss';
-import {IActivityMeasure, IActivityIntervalL} from "../../../../../api/activity/activity.interface";
+import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
+import {IActivityIntervalL, IActivityMeasure} from "../../../../../api/activity/activity.interface";
 import {
+    ISelectionIndex,
     SelectInitiator,
-    ISelectionIndex
 } from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import "./measure-split-table.component.scss";
 
 class MeasureSplitTableCtrl implements IComponentController {
 
-    public splits:Array<IActivityIntervalL>;
+    public splits:IActivityIntervalL[];
     public sport: string;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
-    public selected:Array<any> = [];
+    public selected:any[] = [];
     public max: {};
     public zones: any;
 
@@ -23,17 +23,17 @@ class MeasureSplitTableCtrl implements IComponentController {
         largeEditDialog: false,
         boundaryLinks: false,
         limitSelect: false,
-        pageSelect: false
+        pageSelect: false,
     };
     private query:Object = {
-        order: 'code',
+        order: "code",
         limit: 5,
-        page: 1
+        page: 1,
     };
 
     //private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain'];
 
-    static $inject = ['$scope'];
+    static $inject = ["$scope"];
 
     constructor(private $scope: any) {
     }
@@ -42,23 +42,23 @@ class MeasureSplitTableCtrl implements IComponentController {
         //this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
         //this.$scope.selected = [];
         this.$scope.splits = this.splits.map( (d,i) => {
-            d['ind'] = i;
+            d["ind"] = i;
             return d;
         });
         this.$scope.change = () => this.onSelected({
-            initiator: 'splits',
+            initiator: "splits",
             selection: {
                 U: null,
                 P: null,
-                L: this.selected.map(i => i.ind)}
+                L: this.selected.map((i) => i.ind)},
         });
         //this.$scope.change = () => console.log('change $scope', this.selected);
 
     }
 
     getFTP(factor: string, sport: string = this.sport):number {
-        return (this.zones[factor].hasOwnProperty(sport) && this.zones[factor][sport]['FTP']) ||
-            this.zones[factor]['default']['FTP'];
+        return (this.zones[factor].hasOwnProperty(sport) && this.zones[factor][sport]["FTP"]) ||
+            this.zones[factor]["default"]["FTP"];
     }
 
     change(){
@@ -69,14 +69,14 @@ class MeasureSplitTableCtrl implements IComponentController {
 
 const MeasureSplitTableComponent:IComponentOptions = {
     bindings: {
-        splits: '<',
-        sport: '<',
-        max: '<',
-        zones: '<',
-        onSelected: '&'
+        splits: "<",
+        sport: "<",
+        max: "<",
+        zones: "<",
+        onSelected: "&",
     },
     controller: MeasureSplitTableCtrl,
-    template: require('./measure-split-table.component.html') as string
+    template: require("./measure-split-table.component.html") as string,
 };
 
 export default MeasureSplitTableComponent;

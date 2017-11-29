@@ -1,34 +1,34 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
-import {_translate} from './calendar.translate';
-import { DisplayView, DefaultTemplate } from "../core/display.constants";
-import UserService from "../core/user.service";
-import MessageService from "../core/message.service";
+import {StateDeclaration, StateProvider, StateService} from "angular-ui-router";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service";
 import {SessionService} from "../core";
+import { DefaultTemplate, DisplayView } from "../core/display.constants";
+import MessageService from "../core/message.service";
+import UserService from "../core/user.service";
+import {_translate} from "./calendar.translate";
 
 function configure($stateProvider:StateProvider,
                    $translateProvider:any) {
 
     $stateProvider
-        .state('calendar-my', <StateDeclaration>{
+        .state("calendar-my", <StateDeclaration>{
             url: "/calendar",
             loginRequired: true,
-            authRequired: ['user'],
+            authRequired: ["user"],
             resolve: {
-                view: () => {return new DisplayView('calendar');},
-                user: ['SessionService', 'message',
-                    (SessionService:SessionService, message:MessageService, $stateParams) => SessionService.getUser()]
+                view: () => {return new DisplayView("calendar");},
+                user: ["SessionService", "message",
+                    (SessionService:SessionService, message:MessageService, $stateParams) => SessionService.getUser()],
             },
-            views: DefaultTemplate('calendar')
+            views: DefaultTemplate("calendar"),
         })
-        .state('calendar', <StateDeclaration>{
+        .state("calendar", <StateDeclaration>{
             url: "/calendar/:uri",
             loginRequired: true,
-            authRequired: ['user'],
+            authRequired: ["user"],
             resolve: {
-                view: () => {return new DisplayView('calendar');},
-                user: ['UserService', 'message', '$stateParams',
+                view: () => {return new DisplayView("calendar");},
+                user: ["UserService", "message", "$stateParams",
                     function (UserService:UserService, message:MessageService, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
                             .catch((info)=> {
@@ -37,9 +37,9 @@ function configure($stateProvider:StateProvider,
                                 throw info;
                             });
                     }],
-                athlete: ['SessionService','user', (SessionService: SessionService, user:IUserProfile) =>
+                athlete: ["SessionService","user", (SessionService: SessionService, user:IUserProfile) =>
                     SessionService.getUser().userId !== user.userId ? user : null],
-                checkPermissions: ['AuthService', 'SessionService', 'message','athlete',
+                checkPermissions: ["AuthService", "SessionService", "message","athlete",
                     (AuthService:IAuthService, SessionService: SessionService, message:MessageService, athlete:IUserProfile) => {
                         if(athlete) {
                             if (AuthService.isCoach()) {
@@ -51,41 +51,41 @@ function configure($stateProvider:StateProvider,
                                     });
                             } else {
                                 athlete = null;
-                                message.systemWarning('forbidden_InsufficientRights');
-                                throw 'need permissions';
+                                message.systemWarning("forbidden_InsufficientRights");
+                                throw "need permissions";
                             }
                         }
-                }]
+                }],
             },
             views: {
                 "background": {
                     component: "staminityBackground",
                     bindings: {
-                        view: 'view.background'
-                    }
+                        view: "view.background",
+                    },
                 },
                 "header": {
-                    component: 'staminityHeader',
+                    component: "staminityHeader",
                     bindings: {
-                        view: 'view.header',
-                        athlete: 'athlete'
-                    }
+                        view: "view.header",
+                        athlete: "athlete",
+                    },
                 },
                 "application": {
                     component: "calendar",
                     bindings: {
-                        view: 'view.application'
-                    }
-                }
-            }
+                        view: "view.application",
+                    },
+                },
+            },
         });
 
     // Текст представлений
-    $translateProvider.translations('en', {calendar: _translate['en']});
-    $translateProvider.translations('ru', {calendar: _translate['ru']});
+    $translateProvider.translations("en", {calendar: _translate["en"]});
+    $translateProvider.translations("ru", {calendar: _translate["ru"]});
 
 }
 
-configure.$inject = ['$stateProvider', '$translateProvider'];
+configure.$inject = ["$stateProvider", "$translateProvider"];
 
 export default configure;

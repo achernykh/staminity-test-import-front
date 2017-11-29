@@ -1,17 +1,17 @@
-import {SocketService} from '../core';
-import {
-    ICalendarItem,
-    GetCalendarItemRequest, PostCalendarItemRequest,
-    PutCalendarItemRequest, DeleteCalendarItemRequest} from '../../../api';
+import {copy, IHttpPromise} from "angular";
 import {Observable} from "rxjs/Rx";
+import {
+    DeleteCalendarItemRequest,
+    GetCalendarItemRequest, ICalendarItem,
+    PostCalendarItemRequest, PutCalendarItemRequest} from "../../../api";
+import {SocketService} from "../core";
 import {IRESTService, PostFile} from "../core/rest.service";
-import {IHttpPromise, copy} from 'angular';
 
 export class CalendarService {
     item$: Observable<any>;
 
     constructor(private SocketService: SocketService, private RESTService: IRESTService) {
-        this.item$ = this.SocketService.messages.filter(message => message.type === 'calendarItem').share();
+        this.item$ = this.SocketService.messages.filter((message) => message.type === "calendarItem").share();
     }
 
     /**
@@ -22,7 +22,7 @@ export class CalendarService {
      * @param end
      * @returns {Promise<TResult>}
      */
-    getCalendarItem(start:Date, end:Date, userId?:number, groupId?:number, itemId?:number):Promise<Array<ICalendarItem>> {
+    getCalendarItem(start:Date, end:Date, userId?:number, groupId?:number, itemId?:number):Promise<ICalendarItem[]> {
         return this.SocketService.send(new GetCalendarItemRequest(start, end, userId, groupId, itemId));
             /*.then((result) => {
                 console.log('getCalendarItem=', result)
@@ -59,7 +59,7 @@ export class CalendarService {
      * @params rmParams
      * @returns {Promise<any>}
      */
-    deleteItem(mode: string, items: Array<number>, rmParams?: Object):Promise<any> {
+    deleteItem(mode: string, items: number[], rmParams?: Object):Promise<any> {
         return this.SocketService.send(new DeleteCalendarItemRequest(mode,items, rmParams));
     }
 

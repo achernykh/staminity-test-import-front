@@ -1,25 +1,25 @@
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from "rxjs/Rx";
 
-import { SocketService, SessionService } from './index';
+import { SessionService, SocketService } from "./index";
 
 import {
-    GetTariffRequest, PostTariffSubscriptionRequest, PutTariffSubscriptionRequest, DeleteTariffSubscriptionRequest,
-    GetBillRequest, GetBillDetailsRequest, PutProcessingCenterRequest } from "../../../api";
-import { IBillingTariff, IBill } from "../../../api/billing/billing.interface";
+    DeleteTariffSubscriptionRequest, GetBillDetailsRequest, GetBillRequest, GetTariffRequest,
+    PostTariffSubscriptionRequest, PutProcessingCenterRequest, PutTariffSubscriptionRequest } from "../../../api";
+import { IBill, IBillingTariff } from "../../../api/billing/billing.interface";
 
-import moment from 'moment/min/moment-with-locales.js';
-import { parseYYYYMMDD } from '../share/share.module';
+import moment from "moment/min/moment-with-locales.js";
+import { parseYYYYMMDD } from "../share/share.module";
 import { maybe, prop } from "../share/util.js";
 
 
 export default class BillingService {
     public messages: Observable<any>;
 
-    static $inject = ['SocketService', 'SessionService'];
+    static $inject = ["SocketService", "SessionService"];
 
     constructor (private SocketService: SocketService, private SessionService: SessionService) {
         this.messages = this.SocketService.messages
-            .filter((message) => message.type === 'bill')
+            .filter((message) => message.type === "bill")
             .share();
     }
 
@@ -49,10 +49,10 @@ export default class BillingService {
         autoRenewal: boolean,
         trial: boolean,
         promoCode: string,
-        paymentSystem: string
+        paymentSystem: string,
     ) : Promise<any> {
         return this.SocketService.send(new PostTariffSubscriptionRequest(
-            tariffId, userIdReceiver, term, autoRenewal, trial, promoCode, paymentSystem
+            tariffId, userIdReceiver, term, autoRenewal, trial, promoCode, paymentSystem,
         ));
     }
 
@@ -65,7 +65,7 @@ export default class BillingService {
     updateTariff (
         tariffId: number,
         autoRenewal: boolean,
-        promoCode: string
+        promoCode: string,
     ) : Promise<any> {
         return this.SocketService.send(new PutTariffSubscriptionRequest(tariffId, autoRenewal, promoCode));
     }
@@ -113,7 +113,7 @@ export default class BillingService {
         let [width, height] = [500, 500];
         let left = (screen.width - width) / 2;
         let top = (screen.height - height) / 2;
-        window.open(checkoutUrl, '_blank', `width=${width},height=${height},left=${left},top=${top}`);
+        window.open(checkoutUrl, "_blank", `width=${width},height=${height},left=${left},top=${top}`);
         return Promise.resolve();
     }
 
@@ -131,8 +131,8 @@ export default class BillingService {
      */
     tariffEnablerCoach (tariff) : any {
         return (
-            maybe(tariff.userProfilePayer) (prop('userId')) () !== 
-            maybe(this.SessionService.getUser()) (prop('userId')) () 
+            maybe(tariff.userProfilePayer) (prop("userId")) () !== 
+            maybe(this.SessionService.getUser()) (prop("userId")) () 
         ) && tariff.userProfilePayer;
     }
 
@@ -145,13 +145,13 @@ export default class BillingService {
         let tariffEnablerCoach = this.tariffEnablerCoach(tariff);
 
         return (
-            tariff.isTrial && tariff.expireDate && 'trial' ||
-            tariffEnablerClub && 'enabledByClub' ||
-            tariffEnablerCoach && 'enabledByCoach' ||
-            tariff.isBlocked && 'isBlocked' ||
-            tariff.unpaidBill && 'isBlocked' ||
-            tariff.isOn && 'enabled' ||
-            !tariff.isOn && 'notEnabled' 
+            tariff.isTrial && tariff.expireDate && "trial" ||
+            tariffEnablerClub && "enabledByClub" ||
+            tariffEnablerCoach && "enabledByCoach" ||
+            tariff.isBlocked && "isBlocked" ||
+            tariff.unpaidBill && "isBlocked" ||
+            tariff.isOn && "enabled" ||
+            !tariff.isOn && "notEnabled" 
         );
     }
 
@@ -165,9 +165,9 @@ export default class BillingService {
         let endPeriod = parseYYYYMMDD(bill.endPeriod);
         let billDate = parseYYYYMMDD(bill.billDate);
 
-        return bill.receiptDate && 'complete' ||
-            now > billDate && 'ready' ||
-            startPeriod < now && now < endPeriod && billDate > endPeriod && 'new';
+        return bill.receiptDate && "complete" ||
+            now > billDate && "ready" ||
+            startPeriod < now && now < endPeriod && billDate > endPeriod && "new";
     }
 
 }

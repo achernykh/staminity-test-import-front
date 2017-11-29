@@ -1,21 +1,21 @@
-import {IComponentOptions, IComponentController, IQService, IFilterService, IPromise, INgModelController, copy} from 'angular';
-import './assignment.component.scss';
-import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../../api/activity/activity.interface";
-import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../../share/measure/measure.constants";
-import {Activity} from "../../activity.datamodel";
-import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
+import {copy, IComponentController, IComponentOptions, IFilterService, INgModelController, IPromise, IQService} from "angular";
+import moment from "moment/src/moment.js";
+import {IActivityIntervalPW, IActivityMeasure, ICalcMeasures} from "../../../../../api/activity/activity.interface";
+import {IAuthService} from "../../../auth/auth.service";
 import {
     CalendarItemActivityCtrl,
-    HeaderStructuredTab
+    HeaderStructuredTab,
 } from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import moment from 'moment/src/moment.js';
-import {IAuthService} from "../../../auth/auth.service";
+import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../../share/measure/measure.constants";
+import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
+import {Activity} from "../../activity.datamodel";
+import "./assignment.component.scss";
 
 
 
 export enum FtpState {
     On,
-    Off
+    Off,
 }
 
 class ActivityAssignmentCtrl implements IComponentController {
@@ -23,7 +23,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
 
-    private selected:Array<number> = [];
+    private selected:number[] = [];
     private percentComplete: Object = {};
 
     static $inject = [];
@@ -41,7 +41,7 @@ class ActivityAssignmentCtrl implements IComponentController {
      */
     checkForm (form?: INgModelController) {
 
-        this.item.assignmentForm.$setValidity('needDuration',
+        this.item.assignmentForm.$setValidity("needDuration",
             this.item.activity.movingDuration > 0 || this.item.activity.distance > 0);/*
             this.item.activity.structured ||
             (!this.item.activity.structured &&
@@ -69,18 +69,18 @@ class ActivityAssignmentCtrl implements IComponentController {
 
 const ActivityAssignmentComponent:IComponentOptions = {
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     bindings: {
-        sport: '<',
-        form: '<',
-        editable: '<',
-        ftpMode: '<',
-        change: '<',
-        onChange: '&'
+        sport: "<",
+        form: "<",
+        editable: "<",
+        ftpMode: "<",
+        change: "<",
+        onChange: "&",
     },
     controller: ActivityAssignmentCtrl,
-    template: require('./assignment.component.html') as string
+    template: require("./assignment.component.html") as string,
 };
 
 export default ActivityAssignmentComponent;

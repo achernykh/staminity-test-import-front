@@ -1,13 +1,13 @@
-import {Measure, getSportLimit} from "../share/measure/measure.constants";
+import {copy} from "angular";
+import moment from "moment/min/moment-with-locales.js";
 import {
-    ICalcMeasures, IActivityDetails, IActivityIntervalP,
-    IActivityIntervalPW, IActivityMeasure
+    IActivityDetails, IActivityIntervalP, IActivityIntervalPW,
+    IActivityMeasure, ICalcMeasures,
 } from "../../../api/activity/activity.interface";
-import {copy} from 'angular';
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
-import {ITrainingZonesType, IUserProfile, ITrainingZones} from "../../../api/user/user.interface";
+import {ITrainingZones, ITrainingZonesType, IUserProfile} from "../../../api/user/user.interface";
 import {getFTP, profileShort} from "../core/user.function";
-import moment from 'moment/min/moment-with-locales.js';
+import {getSportLimit, Measure} from "../share/measure/measure.constants";
 
 export class MeasureChartData {
 
@@ -15,9 +15,9 @@ export class MeasureChartData {
     public data: Array<{}> = []; // Массив данных для показа на графике
     public maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
 
-    public measuresX: Array<string> = ['distance', 'elapsedDuration'];
-    public measuresY: Array<string> = ['heartRate', 'speed', 'power','altitude'];
-    private measuresSecondary: Array<string> = ['timestamp','duration'];
+    public measuresX: string[] = ["distance", "elapsedDuration"];
+    public measuresY: string[] = ["heartRate", "speed", "power","altitude"];
+    private measuresSecondary: string[] = ["timestamp","duration"];
 
     /**
      *
@@ -27,18 +27,18 @@ export class MeasureChartData {
      */
     constructor(private sportBasic: string, private calcMeasure: ICalcMeasures, private details: IActivityDetails) {
 
-        let array: Array<string>;
+        let array: string[];
 
         array = copy(this.measuresY);
-        array.forEach(key => {
+        array.forEach((key) => {
             if (this.details.measures.hasOwnProperty(key) &&
                 (this.calcMeasure.hasOwnProperty(key) && this.calcMeasure[key].value > 0)) {
                 this.measures[key] = this.details.measures[key];
-                this.measures[key]['show'] = true;
-                if(this.calcMeasure[key] && this.calcMeasure[key].hasOwnProperty('minValue')) {
+                this.measures[key]["show"] = true;
+                if(this.calcMeasure[key] && this.calcMeasure[key].hasOwnProperty("minValue")) {
                     this.maxValue[key] = {
                         max: this.calcMeasure[key].maxValue,
-                        min: this.calcMeasure[key].minValue
+                        min: this.calcMeasure[key].minValue,
                     };
                 }
             } else {
@@ -47,28 +47,28 @@ export class MeasureChartData {
         });
 
         array = copy(this.measuresX);
-        array.forEach(key => {
+        array.forEach((key) => {
             if (this.details.measures.hasOwnProperty(key) &&
                 (!this.calcMeasure.hasOwnProperty(key) || (this.calcMeasure.hasOwnProperty(key) && this.calcMeasure[key].value > 0))) {
                 this.measures[key] = this.details.measures[key];
-                this.measures[key]['show'] = true;
+                this.measures[key]["show"] = true;
             } else {
                 this.measuresX.splice(this.measuresX.indexOf(key), 1);
             }
         });
 
-        this.measuresSecondary.forEach(key => {
+        this.measuresSecondary.forEach((key) => {
             this.measures[key] = this.details.measures[key];
-            this.measures[key]['show'] = true;
+            this.measures[key]["show"] = true;
         });
 
-        this.details.metrics.forEach(info => {
+        this.details.metrics.forEach((info) => {
             let cleaned = {};
             for (let key in this.measures) {
                 let measure: Measure = new Measure(key,this.sportBasic);
                 cleaned[key] = measure.isPace() ?
-                    Math.max(info[this.measures[key]['idx']], getSportLimit(this.sportBasic,key)['min']) :
-                    info[this.measures[key]['idx']];
+                    Math.max(info[this.measures[key]["idx"]], getSportLimit(this.sportBasic,key)["min"]) :
+                    info[this.measures[key]["idx"]];
             }
             this.data.push(cleaned);
         });
@@ -81,8 +81,8 @@ export class MeasureChartData {
  * @param item
  */
 export const isSpecifiedActivity = (item: ICalendarItem):boolean => {
-    let intervalP: Array<IActivityIntervalP> = <Array<IActivityIntervalP>>item.activityHeader.intervals.filter(i => i.type === 'P');
-    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
+    let intervalP: IActivityIntervalP[] = <IActivityIntervalP[]>item.activityHeader.intervals.filter((i) => i.type === "P");
+    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter((i) => i.type === "pW")[0];
     return (!!intervalP && intervalP.length > 0) ||
         (!!intervalPW && (intervalPW.durationValue > 0 || intervalPW.intensityLevelFrom > 0));
 };
@@ -93,10 +93,10 @@ export const isSpecifiedActivity = (item: ICalendarItem):boolean => {
  * @returns {boolean}
  */
 export const isCompletedActivity = (item: ICalendarItem):boolean => {
-    let intervalW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'W')[0];
+    let intervalW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter((i) => i.type === "W")[0];
     return (!!intervalW && Object.keys(intervalW.calcMeasures)
-            .filter(m => intervalW.calcMeasures[m]['value'] || intervalW.calcMeasures[m]['minValue'] ||
-                intervalW.calcMeasures[m]['maxValue'] || intervalW.calcMeasures[m]['avgValue']).length > 0);
+            .filter((m) => intervalW.calcMeasures[m]["value"] || intervalW.calcMeasures[m]["minValue"] ||
+                intervalW.calcMeasures[m]["maxValue"] || intervalW.calcMeasures[m]["avgValue"]).length > 0);
 };
 
 /**
@@ -105,17 +105,17 @@ export const isCompletedActivity = (item: ICalendarItem):boolean => {
  * @returns {ICalendarItem}
  */
 export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
-    if(item.calendarItemType !== 'activity') {
+    if(item.calendarItemType !== "activity") {
         return item;
     }
-    item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
-    delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    item.activityHeader.intervals = item.activityHeader.intervals.filter((i) => i.type === "pW" || i.type === "P");
+    delete item.activityHeader.intervals.filter((i) => i.type === "pW")[0].calcMeasures.completePercent.value;
     return item;
 };
 
 export const updateIntensity = (item: ICalendarItem, trgZones: ITrainingZones): ICalendarItem => {
     // TODO for interval P
-    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
+    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter((i) => i.type === "pW")[0];
     let sport: string = item.activityHeader.activityType.code;
     let measure: string = intervalPW.intensityMeasure;
     let ftp: number = getFTP(trgZones,measure,sport);
@@ -134,8 +134,8 @@ export const changeUserOwner = (item: ICalendarItem, user: IUserProfile): ICalen
 };
 
 export const shiftDate = (item: ICalendarItem, shift: number) => {
-    item.dateStart = moment(item.dateStart, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
-    item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
+    item.dateStart = moment(item.dateStart, "YYYY-MM-DD").add(shift,"d").format("YYYY-MM-DD");
+    item.dateEnd = moment(item.dateEnd, "YYYY-MM-DD").add(shift,"d").format("YYYY-MM-DD");
     return item;
 };
 

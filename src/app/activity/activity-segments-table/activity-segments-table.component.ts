@@ -1,12 +1,12 @@
-import './activity-segments-table.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
+import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
 import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
+import "./activity-segments-table.component.scss";
 
 class ActivitySegmentsTableCtrl implements IComponentController {
 
-    public segments: Array<ActivityIntervalP>;
+    public segments: ActivityIntervalP[];
     public onSelect: (response: Object) => IPromise<void>;
-    public selected:Array<any> = [];
+    public selected:any[] = [];
 
     private options:Object = {
         rowSelection: true,
@@ -16,15 +16,15 @@ class ActivitySegmentsTableCtrl implements IComponentController {
         largeEditDialog: false,
         boundaryLinks: false,
         limitSelect: false,
-        pageSelect: false
+        pageSelect: false,
     };
     private query:Object = {
-        order: 'code',
+        order: "code",
         limit: 5,
-        page: 1
+        page: 1,
     };
 
-    static $inject = ['$scope'];
+    static $inject = ["$scope"];
 
     constructor(private $scope: IScope) {
 
@@ -32,17 +32,17 @@ class ActivitySegmentsTableCtrl implements IComponentController {
 
     $onInit() {
         this.prepareSegments();
-        this.$scope['change'] = () => this.onSelect({
-            initiator: 'splits',
+        this.$scope["change"] = () => this.onSelect({
+            initiator: "splits",
             selection: {
                 U: null,
-                P: this.selected.map(i => i.pos - 1),
-                L: null}
+                P: this.selected.map((i) => i.pos - 1),
+                L: null},
         });
     }
 
     prepareSegments(){
-        this.$scope['segments'] = this.segments;
+        this.$scope["segments"] = this.segments;
     }
 
     $onChanges() {
@@ -52,16 +52,16 @@ class ActivitySegmentsTableCtrl implements IComponentController {
 
 const ActivitySegmentsTableComponent:IComponentOptions = {
     bindings: {
-        segments: '<',
-        sport: '<',
-        change: '<',
-        onSelect: '&'
+        segments: "<",
+        sport: "<",
+        change: "<",
+        onSelect: "&",
     },
     require: {
         //component: '^component'
     },
     controller: ActivitySegmentsTableCtrl,
-    template: require('./activity-segments-table.component.html') as string
+    template: require("./activity-segments-table.component.html") as string,
 };
 
 export default ActivitySegmentsTableComponent;

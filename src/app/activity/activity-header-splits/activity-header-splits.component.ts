@@ -1,10 +1,10 @@
-import './activity-header-splits.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {IActivityIntervalL} from "../../../../api/activity/activity.interface";
+import "./activity-header-splits.component.scss";
 
 class ActivityHeaderSplitsCtrl implements IComponentController {
 
-    public splits: Array<IActivityIntervalL>;
+    public splits: IActivityIntervalL[];
     public sport: string;
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
@@ -20,14 +20,14 @@ class ActivityHeaderSplitsCtrl implements IComponentController {
 
 const ActivityHeaderSplitsComponent:IComponentOptions = {
     bindings: {
-        splits: '<',
-        sport: '<'
+        splits: "<",
+        sport: "<",
     },
     require: {
         //component: '^component'
     },
     controller: ActivityHeaderSplitsCtrl,
-    template: require('./activity-header-splits.component.html') as string
+    template: require("./activity-header-splits.component.html") as string,
 };
 
 export default ActivityHeaderSplitsComponent;

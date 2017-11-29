@@ -1,12 +1,12 @@
-import './calendar-activity.component.scss';
-import moment from 'moment/src/moment.js';
-import {Activity} from '../../activity/activity.datamodel';
-import {IMessageService} from "../../core/message.service";
+import { IUserProfile } from "@api/user";
+import { IComponentController, IComponentOptions, IFormController,IPromise, IScope, merge} from "angular";
+import moment from "moment/src/moment.js";
+import {Activity} from "../../activity/activity.datamodel";
 import ActivityService from "../../activity/activity.service";
-import {CalendarService} from "../calendar.service";
-import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
+import {IMessageService} from "../../core/message.service";
 import {CalendarCtrl} from "../calendar.component";
-import { IUserProfile } from '@api/user';
+import {CalendarService} from "../calendar.service";
+import "./calendar-activity.component.scss";
 
 class CalendarActivityCtrl {
 
@@ -19,13 +19,13 @@ class CalendarActivityCtrl {
     data: Activity;
     isCreator: boolean = false;
     structured: boolean;
-    segmentList: Array<any> = [];
+    segmentList: any[] = [];
     segmentListSize: number = null;
-    segmentChart: Array<any> = [];
+    segmentChart: any[] = [];
     collapse: {show:boolean} = {show: true};
     bottomPanelData: any = null;
 
-    static $inject = ['$scope','$mdDialog','ActivityService', 'message', 'CalendarService','dialogs'];
+    static $inject = ["$scope","$mdDialog","ActivityService", "message", "CalendarService","dialogs"];
 
     constructor(
         private $scope: IScope,
@@ -42,7 +42,7 @@ class CalendarActivityCtrl {
         //this.data.prepare();
         this.isCreator = this.data.userProfileCreator.userId === this.currentUser.userId;
         //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
-        if (this.data.bottomPanel === 'data') {
+        if (this.data.bottomPanel === "data") {
             this.bottomPanelData = this.data.summaryAvg;
         }
 
@@ -72,15 +72,15 @@ class CalendarActivityCtrl {
             for (let interval of this.data.activityHeader.intervals) {
                 // Собираем лист сегментов
                 // Если интервал является плановым сегментов или группой, то формируем лист сегментов
-                if (interval.type === 'P' || interval.type === 'G') {
+                if (interval.type === "P" || interval.type === "G") {
                     //this.prepareSegmentList((interval.type == 'G'), interval);
 
                 }
                 // Собираем график сегментов
-                if (interval.type === 'P') {
+                if (interval.type === "P") {
                     comulativeDuration = this.prepareSegmentChart(interval, comulativeDuration);
                 }
-                if (interval.type === 'pW') {
+                if (interval.type === "pW") {
                     // TODO Добавить функцию вычисления номера зоны по значению показателя
                     //this.intensityMeasure = interval.intensityMeasure;
                     //this.intensityFtpMax = (interval.intensityFtpMax / 10).toFixed(0);
@@ -161,10 +161,10 @@ class CalendarActivityCtrl {
     }
 
     $onChanges(changes) {
-        if (changes.hasOwnProperty('selected') && !changes.selected) {
-            console.log('CalendarActivityCtrl: onChange, selected=', changes.selected);
+        if (changes.hasOwnProperty("selected") && !changes.selected) {
+            console.log("CalendarActivityCtrl: onChange, selected=", changes.selected);
         }
-        if(changes.hasOwnProperty('item') && !changes.item.isFirstChange()) {
+        if(changes.hasOwnProperty("item") && !changes.item.isFirstChange()) {
             this.$onInit();
         }
     }
@@ -181,7 +181,7 @@ class CalendarActivityCtrl {
         // Если интервал одиночный
         if (!group) {
             // Если в интервале есть ссылка на вышестоящую группу, то добавлем сегмент в группу
-            if (interval.hasOwnProperty('parentGroupCode')) {
+            if (interval.hasOwnProperty("parentGroupCode")) {
                 // Если значение не null
                 if (!!interval.parentGroupCode) {
                     if (interval.repeatOrderIdx !== 0) {
@@ -267,7 +267,7 @@ class CalendarActivityCtrl {
     onOpen($event, mode) {
         this.$mdDialog.show({
             controller: DialogController,
-            controllerAs: '$ctrl',
+            controllerAs: "$ctrl",
             template:
                 `<md-dialog id="activity" aria-label="Activity">
                         <calendar-item-activity
@@ -284,12 +284,12 @@ class CalendarActivityCtrl {
             locals: {
                 data: this.data,
                 mode: mode,
-                user: this.owner
+                user: this.owner,
             },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: true,
-            fullscreen: true
+            fullscreen: true,
 
         }).then(() => {}, ()=> {});
     }
@@ -305,10 +305,10 @@ class CalendarActivityCtrl {
      * Удалить запись
      */
     onDelete() {
-        this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
-        .then(() => this.CalendarService.deleteItem('F', [this.item.calendarItemId]))
+        this.dialogs.confirm({ text: "dialogs.deletePlanActivity" })
+        .then(() => this.CalendarService.deleteItem("F", [this.item.calendarItemId]))
         .then(() => {
-            this.message.toastInfo('activityDeleted');
+            this.message.toastInfo("activityDeleted");
         }, (error) => {
             if (error) {
                 this.message.toastError(error);
@@ -332,7 +332,7 @@ function DialogController($scope, $mdDialog) {
     };
 
     $scope.cancel = function() {
-        console.log('cancel');
+        console.log("cancel");
         $mdDialog.cancel();
     };
 
@@ -340,22 +340,22 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ['$scope','$mdDialog'];
+DialogController.$inject = ["$scope","$mdDialog"];
 
 const CalendarActivityComponent: IComponentOptions = {
     bindings: {
-        item: '<',
-        owner: '<', //owner
-        currentUser: '<',
-        selected: '<',
-        accent: '<',
-        onSelect: '&'
+        item: "<",
+        owner: "<", //owner
+        currentUser: "<",
+        selected: "<",
+        accent: "<",
+        onSelect: "&",
     },
     require: {
         //calendar: '^calendar'
     },
     controller: CalendarActivityCtrl,
-    template: require('./calendar-activity.component.html') as string
+    template: require("./calendar-activity.component.html") as string,
 };
 
 export default CalendarActivityComponent;

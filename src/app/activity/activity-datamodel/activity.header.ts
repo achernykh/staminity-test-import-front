@@ -1,6 +1,6 @@
-import {IActivityHeader, IActivityType, IActivityIntervals} from "../../../../api/activity/activity.interface";
+import {copy} from "angular";
+import {IActivityHeader, IActivityIntervals, IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory, IActivityTemplate} from "../../../../api/reference/reference.interface";
-import {copy} from 'angular';
 
 export class ActivityHeader implements IActivityHeader {
 
@@ -11,14 +11,14 @@ export class ActivityHeader implements IActivityHeader {
         revision: null,
         code: null,
         activityTypeId: null,
-        sortOrder: null
+        sortOrder: null,
     };
     public activityType: IActivityType = { //вид спорта
         id: null,
         code: null,
-        typeBasic: null
+        typeBasic: null,
     };
-    public intervals: Array<IActivityIntervals> = [];
+    public intervals: IActivityIntervals[] = [];
     public templateId: number;
 
     // Вспомогательные поля фронт-енд
@@ -35,8 +35,8 @@ export class ActivityHeader implements IActivityHeader {
     }
 
     clear():IActivityHeader {
-        let params: Array<string> = ['template'];
-        params.map(p => delete this[p]);
+        let params: string[] = ["template"];
+        params.map((p) => delete this[p]);
         return <IActivityHeader>this;
     }
 }

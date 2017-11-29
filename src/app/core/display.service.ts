@@ -1,18 +1,18 @@
+import { merge } from "angular";
+import moment from "moment/min/moment-with-locales.js";
 import { Observable, Subject } from "rxjs/Rx";
-import moment from 'moment/min/moment-with-locales.js';
-import { merge } from 'angular';
 
-import { IUserProfile } from '../../../api/user/user.interface';
-import { SessionService, ISession, getUser} from './index';
-import UserService from './user.service';
-import { path } from '../share/utility';
+import { IUserProfile } from "../../../api/user/user.interface";
+import { path } from "../share/utility";
+import { getUser, ISession, SessionService} from "./index";
+import UserService from "./user.service";
 
 
-let getDisplay = (session: ISession) : string => path([getUser, 'display']) (session) || {};
-let getLocale = (session: ISession) : string => path([getUser, 'display', 'language']) (session) || 'ru';
-let getUnits = (session: ISession) : string => path([getUser, 'display', 'units']) (session) || 'metric';
-let getTimezone = (session: ISession) : string => path([getUser, 'display', 'timezone']) (session) || '+00:00';
-let getFirstDayOfWeek = (session: ISession) : number => path([getUser, 'display', 'firstDayOfWeek']) (session) || 0;
+let getDisplay = (session: ISession) : string => path([getUser, "display"]) (session) || {};
+let getLocale = (session: ISession) : string => path([getUser, "display", "language"]) (session) || "ru";
+let getUnits = (session: ISession) : string => path([getUser, "display", "units"]) (session) || "metric";
+let getTimezone = (session: ISession) : string => path([getUser, "display", "timezone"]) (session) || "+00:00";
+let getFirstDayOfWeek = (session: ISession) : number => path([getUser, "display", "firstDayOfWeek"]) (session) || 0;
 
 export default class DisplayService {
 
@@ -26,7 +26,7 @@ export default class DisplayService {
 		moment.locale(locale);
 		moment.updateLocale(locale, {
 			week: { dow: firstDayOfWeek },
-			invalidDate: ''
+			invalidDate: "",
 		});
 
 		this.$mdDateLocale.firstDayOfWeek = firstDayOfWeek;
@@ -34,18 +34,18 @@ export default class DisplayService {
 	}
 
 	public locales = {
-		ru: 'Русский',
-		en: 'English'
+		ru: "Русский",
+		en: "English",
 	};
 
-	static $inject = ['SessionService', 'UserService', '$translate', 'tmhDynamicLocale', '$mdDateLocale'];
+	static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
 
 	constructor (
 		private SessionService: SessionService,
 		private UserService: UserService,
 		private $translate: any, 
 		private tmhDynamicLocale: any,
-		private $mdDateLocale: any
+		private $mdDateLocale: any,
 	) {
 		SessionService.getObservable()
 		.map(getDisplay)
@@ -84,12 +84,12 @@ export default class DisplayService {
 export function configure (
 	$translateProvider: any, 
 	tmhDynamicLocaleProvider: any, 
-	$mdDateLocaleProvider: any
+	$mdDateLocaleProvider: any,
 ) {
-	tmhDynamicLocaleProvider.localeLocationPattern('/assets/locale/angular-locale_{{locale}}.js');
+	tmhDynamicLocaleProvider.localeLocationPattern("/assets/locale/angular-locale_{{locale}}.js");
 	
-	$mdDateLocaleProvider.parseDate = (s) => moment(s, 'L', true).toDate();
-	$mdDateLocaleProvider.formatDate = (date) => moment(date).format('L');
+	$mdDateLocaleProvider.parseDate = (s) => moment(s, "L", true).toDate();
+	$mdDateLocaleProvider.formatDate = (date) => moment(date).format("L");
 }
 
-configure.$inject = ['$translateProvider', 'tmhDynamicLocaleProvider', '$mdDateLocaleProvider'];
+configure.$inject = ["$translateProvider", "tmhDynamicLocaleProvider", "$mdDateLocaleProvider"];

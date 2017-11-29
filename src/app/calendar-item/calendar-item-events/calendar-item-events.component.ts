@@ -1,10 +1,10 @@
-import './calendar-item-events.component.scss';
-import {IPromise} from 'angular';
-import {IUserProfileShort, IUserProfile} from "../../../../api";
-import {SessionService} from "../../core";
-import {CalendarItem} from "../calendar-item.datamodel";
+import {IPromise} from "angular";
+import {IUserProfile, IUserProfileShort} from "../../../../api";
 import {CalendarService} from "../../calendar/calendar.service";
+import {SessionService} from "../../core";
 import {IMessageService} from "../../core/message.service";
+import {CalendarItem} from "../calendar-item.datamodel";
+import "./calendar-item-events.component.scss";
 import {_eventsType} from "./calendar-items-events.constants";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
@@ -18,7 +18,7 @@ class CalendarItemEventsCtrl {
 
     private item: CalendarItem;
 
-    private types: Array<string> = _eventsType;
+    private types: string[] = _eventsType;
     public onAnswer: (response: Object) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
 
@@ -31,7 +31,7 @@ class CalendarItemEventsCtrl {
     public isPro: boolean;
     public isMyCoach: boolean;
 
-    static $inject = ['CalendarService','SessionService', 'message'];
+    static $inject = ["CalendarService","SessionService", "message"];
 
     constructor(
         private CalendarService: CalendarService,
@@ -41,16 +41,16 @@ class CalendarItemEventsCtrl {
 
     $onInit() {
         this.currentUser = this.SessionService.getUser();
-        if (this.mode === 'post') {
+        if (this.mode === "post") {
             this.data = {
-                calendarItemType: 'event',
+                calendarItemType: "event",
                 eventHeader: {
-                    eventType: 'restDay'
+                    eventType: "restDay",
                 },
                 dateStart: this.data.date,
                 dateEnd: this.data.date,
                 userProfileOwner: profileShort(this.user),
-                userProfileCreator: profileShort(this.SessionService.getUser())
+                userProfileCreator: profileShort(this.SessionService.getUser()),
             };
         }
 
@@ -61,12 +61,12 @@ class CalendarItemEventsCtrl {
         this.isMyCoach = this.item.userProfileCreator.userId !== this.user.userId;
 
         // Перечень атлетов тренера доступных для планирования
-        if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
+        if(this.currentUser.connections.hasOwnProperty("allAthletes") && this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
-                .map(user => ({profile: user, active: user.userId === this.user.userId}));
+                .map((user) => ({profile: user, active: user.userId === this.user.userId}));
 
         }
-        if(this.forAthletes.length === 0 || !this.forAthletes.some(athlete => athlete.active)) {
+        if(this.forAthletes.length === 0 || !this.forAthletes.some((athlete) => athlete.active)) {
             this.forAthletes.push({profile: profileShort(this.user), active: true});
         }
 
@@ -87,7 +87,7 @@ class CalendarItemEventsCtrl {
      * @returns {IUserProfileShort}
      */
     firstAthlete(pos: number){
-        return this.forAthletes.filter(athlete => athlete.active)[pos].profile;
+        return this.forAthletes.filter((athlete) => athlete.active)[pos].profile;
     }
 
     /**
@@ -95,53 +95,53 @@ class CalendarItemEventsCtrl {
      * @returns {boolean}
      */
     multiAthlete(){
-        return this.forAthletes.filter(athlete => athlete.active).length > 1;
+        return this.forAthletes.filter((athlete) => athlete.active).length > 1;
     }
 
 
     onSave() {
-        if (this.mode === 'post') {
+        if (this.mode === "post") {
             let athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
-            athletes.push(...this.forAthletes.filter(athlete => athlete.active));
-            athletes.forEach(athlete =>
+            athletes.push(...this.forAthletes.filter((athlete) => athlete.active));
+            athletes.forEach((athlete) =>
                 this.CalendarService.postItem(this.item.package(athlete.profile))
                     .then((response)=> {
                         this.item.compile(response);// сохраняем id, revision в обьекте
-                        this.message.toastInfo('eventCreated');
+                        this.message.toastInfo("eventCreated");
                         this.onAnswer({response: null});
-                    }, error => this.message.toastError(error))
+                    }, (error) => this.message.toastError(error)),
             );
         }
-        if (this.mode === 'put') {
+        if (this.mode === "put") {
             this.CalendarService.putItem(this.item.package())
                 .then((response)=> {
                     this.item.compile(response); // сохраняем id, revision в обьекте
-                    this.message.toastInfo('eventUpdated');
-                    this.onAnswer({response: {type:'put',item:this.item.package()}});
-                }, error => this.message.toastError(error));
+                    this.message.toastInfo("eventUpdated");
+                    this.onAnswer({response: {type:"put",item:this.item.package()}});
+                }, (error) => this.message.toastError(error));
         }
     }
 
     onDelete() {
-        this.CalendarService.deleteItem('F', [this.item.calendarItemId])
+        this.CalendarService.deleteItem("F", [this.item.calendarItemId])
             .then(() => {
-                this.message.toastInfo('eventDeleted');
-                this.onAnswer({response: {type:'delete',item:this.item}});
-            }, error => this.message.toastError(error));
+                this.message.toastInfo("eventDeleted");
+                this.onAnswer({response: {type:"delete",item:this.item}});
+            }, (error) => this.message.toastError(error));
     }
 }
 
 export let CalendarItemEventsComponent = {
     bindings: {
-        data: '=',
-        mode: '@',
-        user: '<',
-        onCancel: '&',
-        onAnswer: '&'
+        data: "=",
+        mode: "@",
+        user: "<",
+        onCancel: "&",
+        onAnswer: "&",
     },
     transclude: true,
     controller: CalendarItemEventsCtrl,
-    template: require('./calendar-item-events.component.html') as string
+    template: require("./calendar-item-events.component.html") as string,
 };
 
 export default CalendarItemEventsComponent;

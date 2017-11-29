@@ -1,11 +1,11 @@
 import {
-    IActivityDetails, IActivityIntervalW, IActivityIntervalP, IActivityIntervalG, IActivityIntervalPW,
-    IActivityIntervalL, IActivityInterval,
-    GetActivityDetailsRequest, GetActivityGategoryRequest, GetActivityIntervalsRequest,
-    CalculateActivityRangeRequest
-} from '../../../api';
-import {SocketService} from '../core';
-import {RESTService, PostData, GetData} from "../core/rest.service";
+    CalculateActivityRangeRequest, GetActivityDetailsRequest, GetActivityGategoryRequest, GetActivityIntervalsRequest, IActivityDetails,
+    IActivityInterval, IActivityIntervalG,
+    IActivityIntervalL, IActivityIntervalP, IActivityIntervalPW,
+    IActivityIntervalW,
+} from "../../../api";
+import {SocketService} from "../core";
+import {GetData, PostData, RESTService} from "../core/rest.service";
 
 export default class ActivityService {
 
@@ -13,7 +13,7 @@ export default class ActivityService {
     //private _permissions:Array<Object>;
     //private _displaySettings:Object;
 
-    static $inject = ['SocketService','RESTService'];
+    static $inject = ["SocketService","RESTService"];
 
     constructor(//private StorageService:any,
                 //private SessionService:ISessionService,
@@ -43,9 +43,9 @@ export default class ActivityService {
      * @param types
      * @returns {Promise<any>}
      */
-    getIntervals(id:number, types: Array<string> = ['L']):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
+    getIntervals(id:number, types: string[] = ["L"]):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
         return this.SocketService.send(new GetActivityIntervalsRequest(id, types))
-            .then((response: {intervals: Array<any>}) => response.intervals);
+            .then((response: {intervals: any[]}) => response.intervals);
     }
 
     /**
@@ -62,7 +62,7 @@ export default class ActivityService {
         activityId: number,
         start: number,
         end: number,
-        type: Array<IActivityInterval>,
+        type: IActivityInterval[],
         nonContiguousMode: boolean = true):Promise<any> {
         return this.SocketService.send(new CalculateActivityRangeRequest(activityId, start,end, type, nonContiguousMode));
     }
