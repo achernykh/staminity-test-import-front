@@ -2,7 +2,26 @@ export const translateAthletes = {
 	ru: {
 		fullTitle: "Управление спортсменами",
 		shortTitle: "Спортсмены",
+		filters: {
+			all: "Все",
+			search: "Поиск: '{{search}}'"
+		},
+		columns: {
+			username: "Cпортсмен",
+			club: "Клуб",
+			tariff: "Тариф",
+			city: "Город",
+			ageGroup: "Возрастная группа"
+		},
+		buttons: {
+			tariffs: "Тарифы",
+			remove: "Удалить"
+		},
 		selected: "Выбрано {{count}} спортсменов",
+		tariffs: {
+			Coach: 'Тренер',
+		},
+		byCoach: 'Т',
 		editTariffs: {
 			confirm: {
 				title: "Изменить тарифы",

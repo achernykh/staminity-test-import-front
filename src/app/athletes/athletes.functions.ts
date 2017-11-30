@@ -20,6 +20,16 @@ export const getMemberUsername = (member: IGroupManagementProfileMember) : strin
 };
 
 /**
+ * Оплачен ли счёт по тарифу данным пользователем
+ * @param userId: number
+ * @param bill: IBillingTariff
+ * @returns {boolean}
+*/  
+export const isBillByUser = (userId: number, bill: IBillingTariff) : boolean => {
+    return bill.userProfilePayer && bill.userProfilePayer.userId === userId;
+};
+
+/**
  * Список тарифов, подключенных за счёт пользователя (как тренера)
  * @param userId: number
  * @param member: IGroupManagementProfileMember
@@ -27,7 +37,7 @@ export const getMemberUsername = (member: IGroupManagementProfileMember) : strin
  */   
 export const tariffsByUser = (userId: number) => (member: IGroupManagementProfileMember) => {
     return member.userProfile.billing
-        .filter((bill) => bill.userProfilePayer && bill.userProfilePayer.userId === userId)
+        .filter((bill) => isBillByUser(userId, bill))
         .map((bill) => bill.tariffCode);
 };
 
@@ -39,7 +49,7 @@ export const tariffsByUser = (userId: number) => (member: IGroupManagementProfil
  */  
 export const tariffsNotByUser = (userId: number) => (member: IGroupManagementProfileMember) => {
     return member.userProfile.billing
-        .filter((bill) => !bill.userProfilePayer || bill.userProfilePayer.userId !== userId)
+        .filter((bill) => !isBillByUser(userId, bill))
         .map((bill) => bill.tariffCode);
 };
 

@@ -3,7 +3,7 @@ import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { createSelector } from "../share/utility";
 import { inviteDialogConf } from '../management/invite/invite.dialog';
 import { AthletesService } from './athletes.service';
-import { getMemberUsername, athletesOrderings } from './athletes.functions';
+import { getMemberUsername, isBillByUser, athletesOrderings } from './athletes.functions';
 import { arrays, functions } from '../share/utility';
 import './athletes.component.scss';
 
@@ -11,7 +11,7 @@ class AthletesCtrl {
 
     user: IUserProfile;
     management: IGroupManagementProfile;
-    search: string;
+    search: string = '';
     orderBy: string = 'username';
     checked: Array<IGroupManagementProfileMember> = [];    
 
@@ -126,8 +126,13 @@ class AthletesCtrl {
         });
     }
 
-    isPremium (member: IGroupManagementProfileMember) {
-        return member.userProfile.billing.find(tariff => tariff.tariffCode === 'Premium');
+    /**
+     * Оплачен ли счёт по тарифу текущим пользователем
+     * @param bill: IBillingTariff
+     * @returns {boolean}
+     */  
+    isBillByUser (bill: IBillingTariff) : boolean {
+        return isBillByUser(this.user.userId, bill);
     }
 
     /**
