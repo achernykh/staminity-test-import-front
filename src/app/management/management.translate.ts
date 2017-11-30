@@ -8,6 +8,7 @@ export const translateManagement = {
         Club: 'Клуб',
         role: 'Роль',
         roles: 'Роли',
+        selected: "Выбрано {{count}} членов клуба",
         clubRoles: {
             ClubCoaches: 'Тренеры',
             ClubAthletes: 'Спортсмены',

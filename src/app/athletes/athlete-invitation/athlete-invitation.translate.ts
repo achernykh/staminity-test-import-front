@@ -1,4 +1,4 @@
-export const _translateAthleteInvitation = {
+export const translateAthleteInvitation = {
     ru: {
         header: "Пригласить атлeтов",
         go: "Пригласить",

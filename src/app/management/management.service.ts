@@ -1,33 +1,10 @@
 import { IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile, IBillingTariff, IBulkGroupMembership } from '../../../api';
+import { arrays } from '../share/utility';
+import { addToGroup, removeFromGroup } from '../core/group.datamodel';
 import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.constants";
 import { Member } from "./member.datamodel";
 import { MembersList } from "./members-list.datamodel";
 import { getEditRolesMessage, getEditTariffsMessage } from "./management.filters";
-import { allEqual } from '../share/util.js';
-
-
-/**
- * Разница множеств
- * @param xs: Array<any>
- * @param ys: Array<any>
- * @returns {Array<any>}
- */  
-const difference = (xs: Array<any>, ys: Array<any>) : Array<any> => xs.filter((x) => ys.indexOf(x) === -1);
-
-/**
- * Объект, представляющий действие подключения к группе
- * @param groupId: number
- * @returns {IBulkGroupMembership}
- */  
-const addToGroup = (groupId: number) : IBulkGroupMembership => ({ groupId, direction: 'I' });
-
-/**
- * Объект, представляющий действие отключения от группы
- * @param groupId: number
- * @returns {IBulkGroupMembership}
- */  
-const removeFromGroup = (groupId: number) : IBulkGroupMembership => ({ groupId, direction: 'O' });
-
 
 export class ManagementService {
 
@@ -49,8 +26,8 @@ export class ManagementService {
      * @returns {boolean}
      */  
     isEditTariffsAvailable (membersList: MembersList, members: Array<Member>) : boolean {
-        return allEqual(members.map(membersList.getTariffsByClub), angular.equals) 
-            && allEqual(members.map(membersList.getTariffsNotByClub), angular.equals);
+        return arrays.allEqual(members.map(membersList.getTariffsByClub), angular.equals) 
+            && arrays.allEqual(members.map(membersList.getTariffsNotByClub), angular.equals);
     }
     
     /**
@@ -60,7 +37,7 @@ export class ManagementService {
      * @returns {boolean}
      */  
     isEditCoachesAvailable (membersList: MembersList, members: Array<Member>) : boolean {
-        return allEqual(members.map((member) => member.coaches), angular.equals)
+        return arrays.allEqual(members.map((member) => member.coaches), angular.equals)
             && members.every((member) => member.hasClubRole('ClubAthletes'));
     }
     
@@ -71,7 +48,7 @@ export class ManagementService {
      * @returns {boolean}
      */  
     isEditAthletesAvailable (membersList: MembersList, members: Array<Member>) : boolean {
-        return allEqual(members.map((member) => member.getAthletes()), angular.equals)
+        return arrays.allEqual(members.map((member) => member.getAthletes()), angular.equals)
             && members.every((member) => member.hasClubRole('ClubCoaches'));
     }
     
@@ -82,7 +59,7 @@ export class ManagementService {
      * @returns {boolean}
      */  
     isEditRolesAvailable (membersList: MembersList, members: Array<Member>) : boolean {
-        return allEqual(members.map((member) => member.roleMembership), angular.equals);
+        return arrays.allEqual(members.map((member) => member.roleMembership), angular.equals);
     }
 
     /**
@@ -97,8 +74,8 @@ export class ManagementService {
 
         return this.dialogs.tariffs(clubTariffs, byClub, bySelf, 'dialogs.byClub')
             .then((selectedTariffs) => {
-                let addTariffs = difference(selectedTariffs, byClub);
-                let removeTariffs = difference(byClub, selectedTariffs);
+                let addTariffs = arrays.difference(selectedTariffs, byClub);
+                let removeTariffs = arrays.difference(byClub, selectedTariffs);
                 if (addTariffs.length || removeTariffs.length) {
                     return this.dialogs.confirm({
                         title: this.$translate.instant(`users.editTariffs.confirm.title`),
@@ -111,8 +88,8 @@ export class ManagementService {
             .then((selectedTariffs) => {
                 if (selectedTariffs) {
                     let memberships = [
-                        ...difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(addToGroup),
-                        ...difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(removeFromGroup)
+                        ...arrays.difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(addToGroup),
+                        ...arrays.difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(removeFromGroup)
                     ];
                     return this.GroupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
                 }
@@ -132,8 +109,8 @@ export class ManagementService {
             .then((nextCheckedCoaches) => {
                 if (checkedCoaches) {
                     let memberships = [
-                        ...difference(nextCheckedCoaches, checkedCoaches).map((member) => member.getAthletesGroupId()).map(addToGroup),
-                        ...difference(checkedCoaches, nextCheckedCoaches).map((member) => member.getAthletesGroupId()).map(removeFromGroup),
+                        ...arrays.difference(nextCheckedCoaches, checkedCoaches).map((member) => member.getAthletesGroupId()).map(addToGroup),
+                        ...arrays.difference(checkedCoaches, nextCheckedCoaches).map((member) => member.getAthletesGroupId()).map(removeFromGroup),
                     ];
                     return this.GroupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
                 }
@@ -155,8 +132,8 @@ export class ManagementService {
                     let groupIds = members.map((member) => member.getAthletesGroupId());
                     // нельзя выполнить все действия одним батч-запросом, но можно двумя
                     return Promise.all([
-                        this.GroupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(addToGroup), difference(athletes, checkedAthletes)),
-                        this.GroupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(removeFromGroup), difference(checkedAthletes, athletes))
+                        this.GroupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(addToGroup), arrays.difference(athletes, checkedAthletes)),
+                        this.GroupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(removeFromGroup), arrays.difference(checkedAthletes, athletes))
                     ]);
                 }
             });
@@ -173,8 +150,8 @@ export class ManagementService {
 
         return this.dialogs.roles(clubRoles, checkedRoles)
             .then((roles: Array<ClubRole>) => {
-                let addRoles = difference(roles, checkedRoles);
-                let removeRoles = difference(checkedRoles, roles);
+                let addRoles = arrays.difference(roles, checkedRoles);
+                let removeRoles = arrays.difference(checkedRoles, roles);
                 if (addRoles.length || removeRoles.length) {
                     return this.dialogs.confirm({
                         title: this.$translate.instant(`users.editRoles.confirm.title`),
@@ -187,8 +164,8 @@ export class ManagementService {
             .then((roles: Array<ClubRole>) => {
                 if (roles) {
                     let memberships = [
-                        ...difference(roles, checkedRoles).map(membersList.getRoleGroupId).map(addToGroup),
-                        ...difference(checkedRoles, roles).map(membersList.getRoleGroupId).map(removeFromGroup)
+                        ...arrays.difference(roles, checkedRoles).map(membersList.getRoleGroupId).map(addToGroup),
+                        ...arrays.difference(checkedRoles, roles).map(membersList.getRoleGroupId).map(removeFromGroup)
                     ];
                     return this.GroupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
                 }

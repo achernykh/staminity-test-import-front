@@ -6,7 +6,6 @@ import { Member } from "./member.datamodel";
 import { MembersList } from "./members-list.datamodel";
 import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./members-filter.datamodel";
 import { ManagementService } from "./management.service";
-import { allEqual, orderBy } from '../share/util.js';
 import { inviteDialogConf } from './invite/invite.dialog';
 import './management.component.scss';
 
@@ -214,6 +213,7 @@ class ManagementCtrl {
     
     /**
      * Действие по кнопке "Меню" члена клуба в мобильной версии
+     * @param member: Member
      */  
     showActions (member: Member) {
         this.checked = [member];
@@ -227,7 +227,7 @@ class ManagementCtrl {
 
     /**
      * Действие по кнопке "Пригласить в клуб"
-     * @param management: IGroupManagementProfile
+     * @param $event
      */  
     invite ($event) {
         this.$mdDialog.show(inviteDialogConf(this.membersList.groupId, $event));

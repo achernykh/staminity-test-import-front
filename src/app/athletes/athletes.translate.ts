@@ -1,7 +1,8 @@
-export const _translate = {
+export const translateAthletes = {
 	ru: {
 		fullTitle: "Управление спортсменами",
 		shortTitle: "Спортсмены",
+		selected: "Выбрано {{count}} спортсменов",
 		editTariffs: {
 			confirm: {
 				title: "Изменить тарифы",
@@ -13,6 +14,10 @@ export const _translate = {
 				cancel: "Нет",
 			},
 		},
+		bottomSheet: {
+			tariffs: 'Тарифы',
+			remove: "Удалить"
+		}
 	},
 	en: {
 	},

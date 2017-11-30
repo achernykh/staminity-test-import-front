@@ -1,6 +1,6 @@
 import { IGroupManagementProfileMember, IBulkGroupMembership, IGroupManagementProfile, IGroupProfileShort, IUserProfileShort, IBillingTariff } from "../../../api";
 import { Filter, filtersToPredicate } from "../share/utility";
-import { orderBy } from '../share/util.js';
+import { arrays } from '../share/utility';
 import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.constants";
 import { Member } from "./member.datamodel";
 import { MembersList } from "./members-list.datamodel";
@@ -42,8 +42,8 @@ export const getRows = (management: MembersList, filterParams: MembersFilterPara
     let rows = management.members.filter(filtersToPredicate(membersFilters, filterParams));
 
     if (order.startsWith('-')) {
-        return (orderBy(membersOrderings[order.slice(1)]) (rows)).reverse();
+        return (arrays.orderBy(membersOrderings[order.slice(1)]) (rows)).reverse();
     } else {
-        return orderBy(membersOrderings[order]) (rows);
+        return arrays.orderBy(membersOrderings[order]) (rows);
     }
 };
