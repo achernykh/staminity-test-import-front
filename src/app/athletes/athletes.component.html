@@ -3,7 +3,7 @@
     <md-card ng-if="!$ctrl.isMobileLayout()">
         <div layout="row" layout-align="center center" class="athletes-actions">
                 <span flex>
-                    {{ 'athletes.filters.' + $ctrl.search ? 'all' : 'search' | translate:{search:$ctrl.search} }} 
+                    {{ 'athletes.filters.' + ($ctrl.search ? 'search' : 'all') | translate:{search:$ctrl.search} }} 
                     ({{$ctrl.getRows().length}})
                 </span>
             <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}}; padding:0; margin: 0;" class="animated"> 
@@ -20,11 +20,11 @@
         <md-toolbar class="athletes-toolbar md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center">
             <span flex>{{ 'athletes.selected' | translate:{count:$ctrl.checked.length} }}</span>
             <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditTariffsAvailable()" ng-click="$ctrl.editTariffs()">
-                <md-tooltip md-direction="bottom" translate>athletes.buttons.tariffs</md-tooltip>
-                <md-icon class="material-icons" translate>account_balance_wallet</md-icon>
+                <md-tooltip md-direction="bottom">{{ 'athletes.buttons.tariffs' | translate }}</md-tooltip>
+                <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
             <md-button class="md-primary md-icon-button" ng-if="$ctrl.isRemoveAvailable()" ng-click="$ctrl.remove()"> 
-                <md-tooltip md-direction="bottom">athletes.buttons.remove</md-tooltip>
+                <md-tooltip md-direction="bottom">{{ 'athletes.buttons.remove' | translate }}</md-tooltip>
                 <md-icon class="material-icons">delete</md-icon> 
             </md-button>
         </md-toolbar>
@@ -82,7 +82,7 @@
             <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons" class="athletes-tune-icon">tune</md-icon>
                 <span flex>
-                    {{ 'athletes.filters.' + $ctrl.search ? 'all' : 'search' | translate:{search:$ctrl.search} }} 
+                    {{ 'athletes.filters.' + ($ctrl.search ? 'search' : 'all') | translate:{search:$ctrl.search} }} 
                     ({{$ctrl.getRows().length}})
                 </span>
             </md-list-item>
