@@ -1,5 +1,5 @@
-import { IGroupManagementProfile, IGroupManagementProfileMember, IBillingTariff, IBulkGroupMembership, IUserProfile } from '../../../api';
-import { arrays } from '../share/utility';
+import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IUserProfile } from "../../../api";
+import { arrays } from "../share/utility";
 
 /**
  * UserId члена группы
@@ -62,7 +62,7 @@ export const tariffsNotByUser = (userId: number) => (member: IGroupManagementPro
 export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProfileMember) : boolean => {
     return arrays.intersection(
         coach.connections.Clubs.map((club) => club.groupId),
-        athlete['clubs'].map((club) => club.groupId)
+        athlete["clubs"].map((club) => club.groupId),
     ).length > 0;
 };
 
@@ -73,7 +73,7 @@ export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProf
  * @returns {number}
  */  
 export const getTariffGroupId = (management: IGroupManagementProfile) => (tariffCode: string) => {
-    return management['tariffGroups'][tariffCode + 'ByCoach'];
+    return management["tariffGroups"][tariffCode + "ByCoach"];
 };
    
 /**
@@ -83,8 +83,8 @@ export const athletesOrderings: {
     [key: string]: (IGroupManagementProfileMember) => number | string;
 } = {
     username: getMemberUsername,
-    club: (member) => '-',
-    tariff: (member) => member.billing && member.billing.map(t => t.tariffCode).join(', '),
+    club: (member) => "-",
+    tariff: (member) => member.billing && member.billing.map((t) => t.tariffCode).join(", "),
     city: (member) => member.userProfile.public.city,
-    ageGroup: (member) => member.userProfile.public.sex
+    ageGroup: (member) => member.userProfile.public.sex,
 };

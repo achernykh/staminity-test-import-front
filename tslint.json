@@ -1,10 +1,13 @@
 {
+	"extends": ["tslint:recommended"],
     "rules": {
+    	"object-literal-key-quotes": false,
         "no-unused-expression": true,
         "no-duplicate-variable": true,
         "curly": true,
         "class-name": true,
         "semicolon": ["always"],
-        "triple-equals": true
+        "triple-equals": true,
+        "indent": [true, "spaces", 4]
     }
 }

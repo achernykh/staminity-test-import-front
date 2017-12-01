@@ -1,13 +1,13 @@
-import { IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile, IBillingTariff, IBulkGroupMembership } from '../../../api';
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
-import { filtersToPredicate, createSelector } from "../share/utility";
-import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.constants";
-import { Member } from "./member.datamodel";
-import { MembersList } from "./members-list.datamodel";
-import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./members-filter.datamodel";
+import { IComponentController, IComponentOptions, IPromise } from "angular";
+import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile } from "../../../api";
+import { createSelector, filtersToPredicate } from "../share/utility";
+import { inviteDialogConf } from "./invite/invite.dialog";
+import "./management.component.scss";
+import { ClubRole, clubRoles, ClubTariff, clubTariffs } from "./management.constants";
 import { ManagementService } from "./management.service";
-import { inviteDialogConf } from './invite/invite.dialog';
-import './management.component.scss';
+import { Member } from "./member.datamodel";
+import { getRows, MembersFilterParams, membersFilters, membersOrderings } from "./members-filter.datamodel";
+import { MembersList } from "./members-list.datamodel";
 
 
 class ManagementCtrl {
@@ -27,22 +27,22 @@ class ManagementCtrl {
         clubRole: null,
         coachUserId: null,
         noCoach: false,
-        search: '',
+        search: "",
     };
-    orderBy: string = 'username';
-    checked: Array<Member> = [];
+    orderBy: string = "username";
+    checked: Member[] = [];
 
     /**
      * Отфильтрованный и отсортированный список членов
      * @returns {Array<Member>}
      */  
-    getRows: () => Array<Member> = createSelector([
+    getRows: () => Member[] = createSelector([
         () => this.membersList,
         () => this.filterParams,
         () => this.orderBy,
     ], getRows);
 
-    static $inject = ['$scope', '$mdDialog', '$mdMedia', '$mdBottomSheet', 'SystemMessageService', 'GroupService', 'ManagementService'];
+    static $inject = ["$scope", "$mdDialog", "$mdMedia", "$mdBottomSheet", "SystemMessageService", "GroupService", "ManagementService"];
 
     constructor (
         private $scope: any, 
@@ -60,7 +60,7 @@ class ManagementCtrl {
      * Обновить
      */  
     update () {
-        this.GroupService.getManagementProfile(this.membersList.groupId, 'club')
+        this.GroupService.getManagementProfile(this.membersList.groupId, "club")
         .then((management) => { 
             this.management = management;
             this.checked = [];
@@ -74,7 +74,7 @@ class ManagementCtrl {
      * Выделение строчек таблицы, согласованное с фильтрами
      * @returns {Array<Member>}
      */  
-    getChecked () : Array<Member> {
+    getChecked () : Member[] {
         return this.getRows().filter((member) => this.checked.indexOf(member) !== -1);
     }
 
@@ -82,7 +82,7 @@ class ManagementCtrl {
      * Список всех тренеров (для меню фильтров)
      * @returns {Array<Member>}
      */  
-    getCoaches () : Array<Member> {
+    getCoaches () : Member[] {
         return this.membersList.getCoaches();
     }
 
@@ -219,9 +219,9 @@ class ManagementCtrl {
         this.checked = [member];
 
         this.$mdBottomSheet.show({
-            template: require('./member-actions.html'),
+            template: require("./member-actions.html"),
             scope: this.$scope,
-            preserveScope: true
+            preserveScope: true,
         });
     }
 
@@ -241,7 +241,7 @@ class ManagementCtrl {
             ...this.filterParams,
             clubRole: null,
             coachUserId: null,
-            noCoach: false
+            noCoach: false,
         };
     }
 
@@ -262,7 +262,7 @@ class ManagementCtrl {
             ...this.filterParams,
             clubRole: null,
             coachUserId: null,
-            noCoach: true
+            noCoach: true,
         };
     }
 
@@ -350,22 +350,22 @@ class ManagementCtrl {
      * @returns {boolean}
     */  
     isMobileLayout () : boolean {
-        return this.$mdMedia('max-width: 959px');
+        return this.$mdMedia("max-width: 959px");
     }
 };
 
 
 let ManagementComponent: IComponentOptions = <any> {
     bindings: {
-        view: '<',
-        club: '<',
-        management: '<'
+        view: "<",
+        club: "<",
+        management: "<",
     },
     require: {
-        app: '^staminityApplication'
+        app: "^staminityApplication",
     },
     controller: ManagementCtrl,
-    template: require('./management.component.html'),
+    template: require("./management.component.html"),
 };
 
 export default ManagementComponent;

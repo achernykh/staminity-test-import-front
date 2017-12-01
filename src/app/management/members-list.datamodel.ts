@@ -1,4 +1,4 @@
-import { IGroupManagementProfileMember, IBulkGroupMembership, IGroupManagementProfile, IGroupProfileShort, IUserProfileShort, IBillingTariff } from "../../../api";
+import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfileShort, IUserProfileShort } from "../../../api";
 import { ClubRole, ClubTariff } from "./management.constants";
 import { Member } from "./member.datamodel";
 
@@ -6,11 +6,11 @@ import { Member } from "./member.datamodel";
 export class MembersList implements IGroupManagementProfile {
 
     groupId: number;
-    availableGroups: Array<IGroupProfileShort>;
-    members: Array<Member>;
+    availableGroups: IGroupProfileShort[];
+    members: Member[];
 
     constructor (
-        public management: IGroupManagementProfile
+        public management: IGroupManagementProfile,
     ) {
         this.groupId = management.groupId;
         this.availableGroups = management.availableGroups;
@@ -30,16 +30,16 @@ export class MembersList implements IGroupManagementProfile {
      * Члены клуба с клубной ролью "Тренер"
      * @returns {Array<Member>}
     */  
-    getCoaches = () : Array<Member> => {
-        return this.members.filter((member) => member.hasClubRole('ClubCoaches'));
+    getCoaches = () : Member[] => {
+        return this.members.filter((member) => member.hasClubRole("ClubCoaches"));
     }
 
     /**
      * Члены клуба с клубной ролью "Спортсмен"
      * @returns {Array<Member>}
     */  
-    getAthletes = () : Array<Member> => {
-        return this.members.filter((member) => member.hasClubRole('ClubAthletes'));
+    getAthletes = () : Member[] => {
+        return this.members.filter((member) => member.hasClubRole("ClubAthletes"));
     }
 
     /**
@@ -47,7 +47,7 @@ export class MembersList implements IGroupManagementProfile {
      * @param userId: number
      * @returns {Array<Member>}
     */  
-    getAthletesByCoachId = (userId: number) : Array<Member> => {
+    getAthletesByCoachId = (userId: number) : Member[] => {
         return this.members.filter((member) => member.coaches.indexOf(userId) !== -1);
     }
 
@@ -57,7 +57,7 @@ export class MembersList implements IGroupManagementProfile {
      * @returns {Array<Member>}
     */  
     getTariffGroupId = (tariffCode: ClubTariff) : number => {
-        return this.management['tariffGroups'][tariffCode + 'ByClub'];
+        return this.management["tariffGroups"][tariffCode + "ByClub"];
     }
 
     /**
@@ -83,7 +83,7 @@ export class MembersList implements IGroupManagementProfile {
      * @param member: Member
      * @returns {Array<string>}
     */  
-    getTariffsByClub = (member: Member) : Array<string> => {
+    getTariffsByClub = (member: Member) : string[] => {
         return member.userProfile.billing
             .filter(this.isClubBill)
             .map((bill) => bill.tariffCode);
@@ -94,7 +94,7 @@ export class MembersList implements IGroupManagementProfile {
      * @param member: Member
      * @returns {Array<string>}
     */  
-    getTariffsNotByClub = (member: Member) : Array<string> => {
+    getTariffsNotByClub = (member: Member) : string[] => {
         return member.userProfile.billing
             .filter((bill) => !this.isClubBill(bill))
             .map((bill) => bill.tariffCode);

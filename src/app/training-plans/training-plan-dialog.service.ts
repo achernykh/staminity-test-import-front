@@ -1,9 +1,9 @@
-import { TrainingPlan } from "./training-plan/training-plan.datamodel";
 import { FormMode } from "../application.interface";
+import { TrainingPlan } from "./training-plan/training-plan.datamodel";
 
 export class TrainingPlanDialogService {
 
-    static $inject = ['$mdDialog'];
+    static $inject = ["$mdDialog"];
 
     constructor (private $mdDialog: any) {
 
@@ -12,12 +12,12 @@ export class TrainingPlanDialogService {
     open (env: Event, mode: FormMode, plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
 
         return this.$mdDialog.show({
-            controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
+            controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
                 $scope.answer = (mode,plan) => $mdDialog.hide({mode: mode, plan: plan});
             }],
-            controllerAs: '$ctrl',
+            controllerAs: "$ctrl",
             template: `<md-dialog id="training-plan-form" aria-label="Training Plan Form">
                             <training-plan-form
                                     layout="column" layout-fill class="training-plan-form"
@@ -30,12 +30,12 @@ export class TrainingPlanDialogService {
             targetEvent: env,
             locals: {
                 plan: plan || new TrainingPlan(),
-                mode: mode
+                mode: mode,
             },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: true,
-            fullscreen: true
+            fullscreen: true,
         });
     }
 

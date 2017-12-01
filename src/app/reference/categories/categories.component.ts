@@ -1,40 +1,40 @@
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IComponentController, IComponentOptions, IPromise } from "angular";
 import { IActivityType } from "../../../../api/activity/activity.interface";
+import { IGroupProfile } from "../../../../api/group/group.interface";
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
-import { IGroupProfile } from "../../../../api/group/group.interface";
 
-import IMessageService from '../../core/message.service';
-import ReferenceService from "../reference.service";
-import { filtersToPredicate } from "../../share/utility";
-import { ReferenceFilterParams, categoriesFilters, Owner, getOwner, isOwner } from "../reference.datamodel";
-import { CategoryDialogCtrl } from '../category-dialog/category-dialog.controller';
-import { getType, activityTypes } from "../../activity/activity.constants";
+import { activityTypes, getType } from "../../activity/activity.constants";
 import { isManager } from "../../club/club.datamodel";
-import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined } from '../../share/util';
+import IMessageService from "../../core/message.service";
+import { entries, filter, fold, groupBy, isUndefined, keys, last, orderBy, pick, pipe, prop } from "../../share/util";
+import { filtersToPredicate } from "../../share/utility";
+import { CategoryDialogCtrl } from "../category-dialog/category-dialog.controller";
+import { categoriesFilters, getOwner, isOwner, Owner, ReferenceFilterParams } from "../reference.datamodel";
+import ReferenceService from "../reference.service";
 
-import './categories.component.scss';
+import "./categories.component.scss";
 
 
 class CategoriesCtrl implements IComponentController {
 
 	public user: IUserProfile;
-	public categories: Array<IActivityCategory>;
-	public templates: Array<IActivityTemplate>;
+	public categories: IActivityCategory[];
+	public templates: IActivityTemplate[];
 	public club: IGroupProfile;
 	public filterParams: ReferenceFilterParams;
 	
-	private categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
-	private activityTypes: Array<IActivityType> = activityTypes;
+	private categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
+	private activityTypes: IActivityType[] = activityTypes;
 	private getType: (id: number) => IActivityType = getType;
 
-	static $inject = ['$scope', '$mdDialog', 'message', 'ReferenceService'];
+	static $inject = ["$scope", "$mdDialog", "message", "ReferenceService"];
 
 	constructor (
 		private $scope, 
 		private $mdDialog, 
 		private message: IMessageService,
-		private ReferenceService: ReferenceService
+		private ReferenceService: ReferenceService,
 	) {
 		
 	}
@@ -44,12 +44,12 @@ class CategoriesCtrl implements IComponentController {
 	}
 
 	handleChanges () {
-		let filters = pick(['club', 'activityType']) (categoriesFilters);
+		let filters = pick(["club", "activityType"]) (categoriesFilters);
 		
 		this.categoriesByOwner = pipe(
 			filter(filtersToPredicate(filters, this.filterParams)),
-			orderBy(prop('sortOrder')),
-			groupBy(getOwner(this.user))
+			orderBy(prop("sortOrder")),
+			groupBy(getOwner(this.user)),
 		) (this.categories);
 	}
 
@@ -70,14 +70,14 @@ class CategoriesCtrl implements IComponentController {
 	createCategory () {
 		let data = { 
 			activityTypeId: this.filterParams.activityType.id,
-			groupProfile: this.club
+			groupProfile: this.club,
 		};
 		
-		this.categoryDialog(data, 'create');
+		this.categoryDialog(data, "create");
 	}
 
 	selectCategory (category: IActivityCategory) {
-		let mode: CategoryDialogCtrl.Mode  = isOwner(this.user, category) || isManager(this.user, this.club)? 'edit' : 'view';
+		let mode: CategoryDialogCtrl.Mode  = isOwner(this.user, category) || isManager(this.user, this.club)? "edit" : "view";
 		this.categoryDialog(category, mode);
 	}
 
@@ -85,28 +85,28 @@ class CategoriesCtrl implements IComponentController {
 		let locals = {
 			mode,
 			category: { ...category },
-			user: this.user
+			user: this.user,
 		};
 		
 		return this.$mdDialog.show({
-			template: require('../category-dialog/category-dialog.template.html') as string,
+			template: require("../category-dialog/category-dialog.template.html") as string,
 			controller: CategoryDialogCtrl,
 			locals: locals,
-			controllerAs: '$ctrl',
-			clickOutsideToClose: true
+			controllerAs: "$ctrl",
+			clickOutsideToClose: true,
 		});
 	}
 }
 
 const CategoriesComponent: IComponentOptions = {
 	bindings: {
-		user: '<',
-		categories: '<',
-		filterParams: '<',
-		club: '<'
+		user: "<",
+		categories: "<",
+		filterParams: "<",
+		club: "<",
 	},
 	controller: CategoriesCtrl,
-	template: require('./categories.component.html') as string
+	template: require("./categories.component.html") as string,
 };
 
 

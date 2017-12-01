@@ -4,24 +4,24 @@ export const translateAthletes = {
 		shortTitle: "Спортсмены",
 		filters: {
 			all: "Все",
-			search: "Поиск: '{{search}}'"
+			search: "Поиск: '{{search}}'",
 		},
 		columns: {
 			username: "Cпортсмен",
 			club: "Клуб",
 			tariff: "Тариф",
 			city: "Город",
-			ageGroup: "Возрастная группа"
+			ageGroup: "Возрастная группа",
 		},
 		buttons: {
 			tariffs: "Тарифы",
-			remove: "Удалить"
+			remove: "Удалить",
 		},
 		selected: "Выбрано {{count}} спортсменов",
 		tariffs: {
-			Coach: 'Тренер',
+			Coach: "Тренер",
 		},
-		byCoach: 'Т',
+		byCoach: "Т",
 		editTariffs: {
 			confirm: {
 				title: "Изменить тарифы",
@@ -34,9 +34,9 @@ export const translateAthletes = {
 			},
 		},
 		bottomSheet: {
-			tariffs: 'Тарифы',
-			remove: "Удалить"
-		}
+			tariffs: "Тарифы",
+			remove: "Удалить",
+		},
 	},
 	en: {
 	},

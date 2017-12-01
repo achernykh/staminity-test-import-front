@@ -18,4 +18,4 @@ export const constant = (x: any) => () => x;
  * @param x0: any
  * @returns {any}
  */  
-export const pipe = (fs: Array<Function>) => (x0: any) => fs.reduce((x, f) => f(x), x0);
+export const pipe = (fs: Function[]) => (x0: any) => fs.reduce((x, f) => f(x), x0);

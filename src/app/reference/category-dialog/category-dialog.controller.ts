@@ -1,32 +1,32 @@
-import { IComponentController } from 'angular';
-import { IUserProfile } from "../../../../api/user/user.interface";
+import { IComponentController } from "angular";
 import { IActivityType } from "../../../../api/activity/activity.interface";
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
+import { IUserProfile } from "../../../../api/user/user.interface";
 
-import IMessageService from '../../core/message.service';
-import ReferenceService from '../reference.service';
-import { isSystem } from '../reference.datamodel';
-import { getType, activityTypes } from "../../activity/activity.constants";
-import './category-dialog.scss';
+import { activityTypes, getType } from "../../activity/activity.constants";
+import IMessageService from "../../core/message.service";
+import { isSystem } from "../reference.datamodel";
+import ReferenceService from "../reference.service";
+import "./category-dialog.scss";
 
 
 export namespace CategoryDialogCtrl {
-	export type Mode = 'create' | 'view' | 'edit';
+	export type Mode = "create" | "view" | "edit";
 }
 
 
 export class CategoryDialogCtrl implements IComponentController {
 
-	private activityTypes: Array<IActivityType> = activityTypes;
-	private activityTypeSelection: Array<IActivityType>;
+	private activityTypes: IActivityType[] = activityTypes;
+	private activityTypeSelection: IActivityType[];
 	
 	private submit = { 
 		create: this.create.bind(this),
 		edit: this.update.bind(this),
-		view: this.close.bind(this)
+		view: this.close.bind(this),
 	};
 	
-	static $inject = ['$scope', '$mdDialog', '$translate', 'message', 'ReferenceService', 'mode', 'category', 'user'];
+	static $inject = ["$scope", "$mdDialog", "$translate", "message", "ReferenceService", "mode", "category", "user"];
 
 	constructor (
 		private $scope, 
@@ -36,7 +36,7 @@ export class CategoryDialogCtrl implements IComponentController {
 		private ReferenceService: ReferenceService,
 		private mode: CategoryDialogCtrl.Mode,
 		private category: IActivityCategory,
-		private user: IUserProfile
+		private user: IUserProfile,
 	) {
 		let activityType = getType(category.activityTypeId);
 		this.activityTypeSelection = [activityType];
@@ -44,7 +44,7 @@ export class CategoryDialogCtrl implements IComponentController {
 	
 	get categoryCode () {
 		let { $translate, category } = this;
-		return isSystem(category)? $translate.instant('category.' + category.code) : category.code;
+		return isSystem(category)? $translate.instant("category." + category.code) : category.code;
 	}
 	
 	set categoryCode (value) {
@@ -69,7 +69,7 @@ export class CategoryDialogCtrl implements IComponentController {
 		let groupId = groupProfile && groupProfile.groupId;
 		
 		let requests = this.activityTypeSelection.map((activityType) => this.ReferenceService.postActivityCategory(
-			activityType.id, code, description, groupId
+			activityType.id, code, description, groupId,
 		));
 
 		Promise.all(requests)
@@ -85,7 +85,7 @@ export class CategoryDialogCtrl implements IComponentController {
 		let groupId = groupProfile && groupProfile.groupId;
 
 		this.ReferenceService.putActivityCategory(
-			id, code, description, groupId, sortOrder, visible
+			id, code, description, groupId, sortOrder, visible,
 		)
 		.then((info) => this.$mdDialog.hide())
 		.catch((info) => { 

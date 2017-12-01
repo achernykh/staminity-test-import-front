@@ -1,15 +1,15 @@
-import { SocketService } from "../core";
-import {
-    PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan,
-    ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest
-} from "../../../api/trainingPlans";
 import { IWSResponse } from "@api/core";
 import { IRevisionResponse } from "../../../api/core/core";
+import {
+    ITrainingPlan, ITrainingPlanSearchRequest, ITrainingPlanSearchResult,
+    PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan,
+} from "../../../api/trainingPlans";
 import { DeleteTrainingPlan } from "../../../api/trainingPlans/training-plans.request";
+import { SocketService } from "../core";
 
 export class TrainingPlansService {
 
-    static $inject = [ 'SocketService' ];
+    static $inject = [ "SocketService" ];
 
     constructor (private socket: SocketService) {
 

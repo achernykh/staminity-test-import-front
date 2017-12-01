@@ -1,11 +1,11 @@
-import './application-frame.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
-import { SessionService, getUser, SocketService } from "../../core";
+import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
 import { Subject } from "rxjs/Rx";
-import { IUserProfile, IGroupMembershipRequest, Notification } from "../../../../api";
-import NotificationService from "../notification/notification.service";
-import RequestsService from "../../core/requests.service";
+import { IGroupMembershipRequest, IUserProfile, Notification } from "../../../../api";
 import AuthService from "../../auth/auth.service";
+import { getUser, SessionService, SocketService } from "../../core";
+import RequestsService from "../../core/requests.service";
+import NotificationService from "../notification/notification.service";
+import "./application-frame.component.scss";
 
 class ApplicationFrameCtrl implements IComponentController {
 
@@ -18,14 +18,14 @@ class ApplicationFrameCtrl implements IComponentController {
     connectionStatus: boolean = true;
 
     //private
-    private notificationsList: Array<Notification> = [];
+    private notificationsList: Notification[] = [];
     private requestsList: IGroupMembershipRequest[] = [];
 
 
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ['$scope', '$mdSidenav', '$mdMedia', 'SessionService','SocketService','NotificationService','RequestsService',
-        'AuthService'];
+    static $inject = ["$scope", "$mdSidenav", "$mdMedia", "SessionService","SocketService","NotificationService","RequestsService",
+        "AuthService"];
 
     constructor(
         private $scope: IScope,
@@ -44,7 +44,7 @@ class ApplicationFrameCtrl implements IComponentController {
 
         socket.connections
             .takeUntil(this.destroy)
-            .subscribe(status => this.connectionStatus = !!status);
+            .subscribe((status) => this.connectionStatus = !!status);
 
     }
 
@@ -95,32 +95,32 @@ class ApplicationFrameCtrl implements IComponentController {
 
 const ApplicationFrameComponent:IComponentOptions = {
     transclude: {
-        title: '?stApplicationFrameTitle',
-        toolbar: '?stApplicationFrameToolbar',
-        navBar: '?stApplicationFrameNavbar',
-        profile: '?stApplicationFrameProfile',
-        content: 'stApplicationFrameContent',
-        leftBar: '?stApplicationFrameLeftBar',
-        rightBar: '?stApplicationFrameRightBar'
+        title: "?stApplicationFrameTitle",
+        toolbar: "?stApplicationFrameToolbar",
+        navBar: "?stApplicationFrameNavbar",
+        profile: "?stApplicationFrameProfile",
+        content: "stApplicationFrameContent",
+        leftBar: "?stApplicationFrameLeftBar",
+        rightBar: "?stApplicationFrameRightBar",
     },
     bindings: {
-        navBar: '=', // наличие навигационной панели md-nav-bar
-        navBarState: '<', // текущий стейт в панели md-nav-bar
-        leftBarShow: '<',
+        navBar: "=", // наличие навигационной панели md-nav-bar
+        navBarState: "<", // текущий стейт в панели md-nav-bar
+        leftBarShow: "<",
         /**
          * Тип скрытия панели - обязательный аттрибут
          * collapsed - сворачиваемая/разворазиваемая панель
          * hidden - скрываемая / показываемая панель
          */
-        leftBarHideType: '=',
-        rightBarShow: '<',
-        onEvent: '&'
+        leftBarHideType: "=",
+        rightBarShow: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: ApplicationFrameCtrl,
-    template: require('./application-frame.component.html') as string
+    template: require("./application-frame.component.html") as string,
 };
 
 export default ApplicationFrameComponent;

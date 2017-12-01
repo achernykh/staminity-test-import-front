@@ -6,8 +6,8 @@ const equals = (xs, ys) => {
  * Сохранять последний вычисленный функцией результат и возвращать его, если не изменились аргументы
  */  
 export const memorize = (f) => {
-	var prevArgs = [];
-	var prevResult;
+	let prevArgs = [];
+	let prevResult;
 
 	return (...args) => {
 		if (!equals(prevArgs, args)) {

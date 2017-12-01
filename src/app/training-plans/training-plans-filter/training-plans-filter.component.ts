@@ -1,8 +1,8 @@
-import './training-plans-filter.component.scss';
-import { IComponentOptions, IComponentController, IPromise, IScope } from 'angular';
-import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { ITrainingPlanSearchRequest } from "@api/trainingPlans";
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
+import { IComponentController, IComponentOptions, IPromise, IScope } from "angular";
+import { TrainingPlan } from "../training-plan/training-plan.datamodel";
+import "./training-plans-filter.component.scss";
 
 class TrainingPlansFilterCtrl implements IComponentController {
 
@@ -12,10 +12,10 @@ class TrainingPlansFilterCtrl implements IComponentController {
 
     // public
     // private
-    private panel: 'plans' | 'events' | 'hide' = 'plans';
+    private panel: "plans" | "events" | "hide" = "plans";
 
     // inject
-    static $inject = ['TrainingPlanDialogService'];
+    static $inject = ["TrainingPlanDialogService"];
 
     constructor (
         private trainingPlanDialogService: TrainingPlanDialogService) {
@@ -34,15 +34,15 @@ class TrainingPlansFilterCtrl implements IComponentController {
 
 const TrainingPlansFilterComponent: IComponentOptions = {
     bindings: {
-        filter: '<',
-        onHide: '&',
-        onChangeFilter: '&'
+        filter: "<",
+        onHide: "&",
+        onChangeFilter: "&",
     },
     require: {
         //component: '^component'
     },
     controller: TrainingPlansFilterCtrl,
-    template: require('./training-plans-filter.component.html') as string
+    template: require("./training-plans-filter.component.html") as string,
 };
 
 export default TrainingPlansFilterComponent;

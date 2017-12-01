@@ -1,12 +1,12 @@
-import { BehaviorSubject, Observable } from "rxjs/Rx";
 import { merge } from "angular";
-import { IUserProfile } from '../../../../api';
+import { BehaviorSubject, Observable } from "rxjs/Rx";
+import { IUserProfile } from "../../../../api";
+import { path } from "../../share/utility";
 import { ISession, StorageService } from "../index";
-import { path } from '../../share/utility';
 
 
 export const getUser = (session: ISession): IUserProfile => session.userProfile;
-export const getCurrentUserId: (session: ISession) => number | string = path([ getUser, 'userId' ]);
+export const getCurrentUserId: (session: ISession) => number | string = path([ getUser, "userId" ]);
 export const getToken = (session: ISession): string => session.token;
 export const getPermissions = (session: ISession): Object => session.systemFunctions;
 
@@ -14,15 +14,15 @@ export class SessionService {
 
     private session: BehaviorSubject<ISession>;
 
-    static $inject = [ 'storage' ];
+    static $inject = [ "storage" ];
 
     constructor (private storage: StorageService) {
-        let session = storage.get('session') || {};
+        let session = storage.get("session") || {};
         this.session = new BehaviorSubject<ISession>(session);
     }
 
     set (session: ISession = {}) {
-        this.storage.set('session', session);
+        this.storage.set("session", session);
         this.session.next(session);
     }
 
@@ -52,7 +52,7 @@ export class SessionService {
     }
 
     updateUser (userProfile: Object) {
-        if (!userProfile[ 'userId' ] || this.isCurrentUserId(userProfile[ 'userId' ])) {
+        if (!userProfile[ "userId" ] || this.isCurrentUserId(userProfile[ "userId" ])) {
             this.change({ userProfile: { ...userProfile } });
         }
     }

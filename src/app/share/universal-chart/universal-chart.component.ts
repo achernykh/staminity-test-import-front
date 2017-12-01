@@ -1,6 +1,6 @@
-import './universal-chart.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IWindowService} from 'angular';
-import {UChartFactory} from './lib/UChart/UChartFactory.js';
+import {IComponentController, IComponentOptions, IPromise, IWindowService} from "angular";
+import {UChartFactory} from "./lib/UChart/UChartFactory.js";
+import "./universal-chart.component.scss";
 
 class UniversalChartCtrl implements IComponentController {
 
@@ -11,7 +11,7 @@ class UniversalChartCtrl implements IComponentController {
     private container: any;
     private onResize: Function;
 
-    static $inject = ['$element','$window'];
+    static $inject = ["$element","$window"];
 
     constructor(private $element: any, private $window: IWindowService) {
 
@@ -22,7 +22,7 @@ class UniversalChartCtrl implements IComponentController {
 
     $onDestroy() {
 
-        if(this.hasOwnProperty('chart') && this.chart) {
+        if(this.hasOwnProperty("chart") && this.chart) {
             this.chart.remove();
         }
 
@@ -36,13 +36,13 @@ class UniversalChartCtrl implements IComponentController {
             this.chart.remove();
             this.redraw();
         };
-        angular.element(this.$element).on('resize', this.onResize);
+        angular.element(this.$element).on("resize", this.onResize);
         //angular.element(this.$window).on('resize', this.onResize);
     }
 
 
     $onChanges(changes: any) {
-        if(changes.hasOwnProperty('update') && !changes.update.isFirstChange()){
+        if(changes.hasOwnProperty("update") && !changes.update.isFirstChange()){
             if(!this.chart){
                 return;
             }
@@ -61,15 +61,15 @@ class UniversalChartCtrl implements IComponentController {
 
 const UniversalChartComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        update: '<',
-        onEvent: '&'
+        data: "<",
+        update: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: UniversalChartCtrl,
-    template: require('./universal-chart.component.html') as string
+    template: require("./universal-chart.component.html") as string,
 };
 
 export default UniversalChartComponent;

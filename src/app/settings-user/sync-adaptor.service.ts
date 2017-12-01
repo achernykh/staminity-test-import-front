@@ -1,11 +1,11 @@
 import {
-    PostUserExternalAccountRequest, PutUserExternalAccountRequest,
-    DeleteUserExternalAccountRequest } from '../../../api';
-import { SocketService} from '../core';
+    DeleteUserExternalAccountRequest, PostUserExternalAccountRequest,
+    PutUserExternalAccountRequest } from "../../../api";
+import { SocketService} from "../core";
 
 export default class SyncAdaptorService {
 
-    static $inject = ['SocketService'];
+    static $inject = ["SocketService"];
 
     constructor(private SocketService: SocketService) {
 

@@ -1,39 +1,39 @@
-import { IGroupManagementProfile, IGroupManagementProfileMember, IUserProfile, IBillingTariff, IBulkGroupMembership } from '../../../api';
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IComponentController, IComponentOptions, IPromise } from "angular";
+import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IUserProfile } from "../../../api";
+import { inviteDialogConf } from "../management/invite/invite.dialog";
 import { createSelector } from "../share/utility";
-import { inviteDialogConf } from '../management/invite/invite.dialog';
-import { AthletesService } from './athletes.service';
-import { getMemberUsername, isBillByUser, athletesOrderings } from './athletes.functions';
-import { arrays, functions } from '../share/utility';
-import './athletes.component.scss';
+import { arrays, functions } from "../share/utility";
+import "./athletes.component.scss";
+import { athletesOrderings, getMemberUsername, isBillByUser } from "./athletes.functions";
+import { AthletesService } from "./athletes.service";
 
 class AthletesCtrl {
 
     user: IUserProfile;
     management: IGroupManagementProfile;
-    search: string = '';
-    orderBy: string = 'username';
-    checked: Array<IGroupManagementProfileMember> = [];    
+    search: string = "";
+    orderBy: string = "username";
+    checked: IGroupManagementProfileMember[] = [];    
 
     /**
      * Отфильтрованный и отсортированный список членов
      * @returns {Array<Member>}
      */  
-    getRows: () => Array<IGroupManagementProfileMember> = createSelector([
+    getRows: () => IGroupManagementProfileMember[] = createSelector([
         () => this.management,
         () => this.search,
         () => this.orderBy,
     ], (management: IGroupManagementProfile, search: string, orderString: string) => {
-        let isReverseOrder = orderString.startsWith('-');
+        let isReverseOrder = orderString.startsWith("-");
         let order = athletesOrderings[isReverseOrder ? orderString.slice(1) : orderString];
         return functions.pipe([
             arrays.filter((member) => getMemberUsername(member).includes(search)),
             arrays.orderBy(order),
-            isReverseOrder ? arrays.reverse : functions.id
+            isReverseOrder ? arrays.reverse : functions.id,
         ]) (management.members);
     });
 
-    static $inject = ['$scope', '$mdDialog', '$translate', 'GroupService', 'AthletesService', 'dialogs', '$mdMedia', '$mdBottomSheet', 'SystemMessageService', 'GroupService'];
+    static $inject = ["$scope", "$mdDialog", "$translate", "GroupService", "AthletesService", "dialogs", "$mdMedia", "$mdBottomSheet", "SystemMessageService", "GroupService"];
  
     constructor (
         private $scope: any, 
@@ -44,7 +44,7 @@ class AthletesCtrl {
         private dialogs: any, 
         private $mdMedia: any, 
         private $mdBottomSheet: any, 
-        private SystemMessageService: any
+        private SystemMessageService: any,
     ) {     
 
     }
@@ -53,7 +53,7 @@ class AthletesCtrl {
      * Обновить
      */ 
     update () {
-        return this.GroupService.getManagementProfile(this.management.groupId, 'coach')
+        return this.GroupService.getManagementProfile(this.management.groupId, "coach")
             .then((management) => { 
                 this.management = management;
                 this.checked = [];
@@ -120,9 +120,9 @@ class AthletesCtrl {
         this.checked = [member];
         
         this.$mdBottomSheet.show({
-            template: require('./member-actions.html'),
+            template: require("./member-actions.html"),
             scope: this.$scope,
-            preserveScope: true
+            preserveScope: true,
         });
     }
 
@@ -148,7 +148,7 @@ class AthletesCtrl {
      * @returns {boolean}
     */  
     isMobileLayout () : boolean {
-        return this.$mdMedia('max-width: 959px');
+        return this.$mdMedia("max-width: 959px");
     }
 };
 
@@ -156,18 +156,18 @@ class AthletesCtrl {
 const AthletesComponent: IComponentOptions = <any> {
 
     bindings: {
-        view: '<',
-        user: '<',
-        management: '<'
+        view: "<",
+        user: "<",
+        management: "<",
     },
 
     require: {
-        app: '^staminityApplication'
+        app: "^staminityApplication",
     },
 
     controller: AthletesCtrl,
 
-    template: require('./athletes.component.html'),
+    template: require("./athletes.component.html"),
 
 };
 

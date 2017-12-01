@@ -1,7 +1,7 @@
-import { ClubRole, ClubTariff, clubTariffs, clubRoles } from "./management.constants";
+import { ClubRole, clubRoles, ClubTariff, clubTariffs } from "./management.constants";
 import { Member } from "./member.datamodel";
+import { getRows, MembersFilterParams, membersFilters, membersOrderings } from "./members-filter.datamodel";
 import { MembersList } from "./members-list.datamodel";
-import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "./members-filter.datamodel";
 
 /**
  * Сообщение об изменении набора клубных ролей выбранных членов
@@ -10,12 +10,12 @@ import { MembersFilterParams, membersFilters, membersOrderings, getRows } from "
  * @param removeRoles: Array<ClubRole>
  * @returns {string}
 */  
-export const getEditRolesMessage = ($translate) => (addRoles: Array<ClubRole>, removeRoles: Array<ClubRole>) : string => {
+export const getEditRolesMessage = ($translate) => (addRoles: ClubRole[], removeRoles: ClubRole[]) : string => {
     let translateRole = (role) => $translate.instant(`dialogs.${role}`);
-    let translateRoles = (roles) => roles.map(translateRole).join(', ');
+    let translateRoles = (roles) => roles.map(translateRole).join(", ");
 
     if (addRoles.length && removeRoles.length) {
-        return $translate.instant('users.editRoles.confirm.text.addAndRemove', { addRoles: translateRoles(addRoles), removeRoles: translateRoles(removeRoles) });
+        return $translate.instant("users.editRoles.confirm.text.addAndRemove", { addRoles: translateRoles(addRoles), removeRoles: translateRoles(removeRoles) });
     } else if (addRoles.length === 1 && !removeRoles.length) {
         return $translate.instant(`users.editRoles.confirm.text.addOne.${addRoles[0]}`);
     } else if (addRoles.length > 1 && !removeRoles.length) {
@@ -27,7 +27,7 @@ export const getEditRolesMessage = ($translate) => (addRoles: Array<ClubRole>, r
     }
 };
 
-getEditRolesMessage.$inject = ['$translate'];
+getEditRolesMessage.$inject = ["$translate"];
 
 /**
  * Сообщение об изменении набора тарифов, подключенных выбранным членам за счёт клуба
@@ -36,20 +36,20 @@ getEditRolesMessage.$inject = ['$translate'];
  * @param removeTariffs: Array<ClubTariff>
  * @returns {string}
 */  
-export const getEditTariffsMessage = ($translate) => (addTariffs: Array<ClubTariff>, removeTariffs: Array<ClubTariff>) : string => {
-    let translateTariffCode = (tariffCode) => '«' + this.$translate.instant(`dialogs.${tariffCode}`) + '»';
-    let translateTariffCodes = (tariffCodes) => tariffCodes.map(translateTariffCode).join(', ');
+export const getEditTariffsMessage = ($translate) => (addTariffs: ClubTariff[], removeTariffs: ClubTariff[]) : string => {
+    let translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
+    let translateTariffCodes = (tariffCodes) => tariffCodes.map(translateTariffCode).join(", ");
 
     if (addTariffs.length && removeTariffs.length) {
-        return $translate.instant('users.editTariffs.confirm.text.addAndRemove', { addTariffCodes: translateTariffCodes(addTariffs), removeTariffCodes: translateTariffCodes(removeTariffs) });
+        return $translate.instant("users.editTariffs.confirm.text.addAndRemove", { addTariffCodes: translateTariffCodes(addTariffs), removeTariffCodes: translateTariffCodes(removeTariffs) });
     } else if (addTariffs.length && !removeTariffs.length) {
-        return $translate.instant(`users.editTariffs.confirm.text.${addTariffs.length > 1 ? 'addMany' : 'addOne'}`, { tariffCodes: translateTariffCodes(addTariffs) });
+        return $translate.instant(`users.editTariffs.confirm.text.${addTariffs.length > 1 ? "addMany" : "addOne"}`, { tariffCodes: translateTariffCodes(addTariffs) });
     } else if (!addTariffs.length && removeTariffs.length) {
-        return $translate.instant(`users.editTariffs.confirm.text.${removeTariffs.length > 1 ? 'removeMany' : 'removeOne'}`, { tariffCodes: translateTariffCodes(addTariffs) });
+        return $translate.instant(`users.editTariffs.confirm.text.${removeTariffs.length > 1 ? "removeMany" : "removeOne"}`, { tariffCodes: translateTariffCodes(addTariffs) });
     }
 };
 
-getEditTariffsMessage.$inject = ['$translate'];
+getEditTariffsMessage.$inject = ["$translate"];
 
 /**
  * Текстовое представление выбранных фильтров списка членов клуба
@@ -60,17 +60,17 @@ getEditTariffsMessage.$inject = ['$translate'];
 */  
 export const membersFiltersFilter = ($translate) => (filterParams: MembersFilterParams, membersList: MembersList) : string => {
     return (
-        filterParams.noCoach && $translate.instant('users.filters.noCoach')
+        filterParams.noCoach && $translate.instant("users.filters.noCoach")
     ) || (
-        filterParams.coachUserId && $translate.instant('users.filters.coach') + ': ' + (({ firstName, lastName }) => firstName + ' ' + lastName) (membersList.getMember(filterParams.coachUserId).userProfile.public)
+        filterParams.coachUserId && $translate.instant("users.filters.coach") + ": " + (({ firstName, lastName }) => firstName + " " + lastName) (membersList.getMember(filterParams.coachUserId).userProfile.public)
     ) || (
-        filterParams.clubRole && $translate.instant('users.filters.all') + ': ' + $translate.instant('users.clubRoles.' + filterParams.clubRole)
+        filterParams.clubRole && $translate.instant("users.filters.all") + ": " + $translate.instant("users.clubRoles." + filterParams.clubRole)
     ) || (
-        $translate.instant('users.filters.all')
+        $translate.instant("users.filters.all")
     );
 };
 
-membersFiltersFilter.$inject = ['$translate'];
+membersFiltersFilter.$inject = ["$translate"];
 
 /**
  * Текстовое представление списка ролей члена клуба
@@ -80,15 +80,15 @@ membersFiltersFilter.$inject = ['$translate'];
  * @returns {string}
 */  
 export const roleMembershipFilter = ($translate) => (roleMemberships) => {
-    roleMemberships = ['ClubManagement', 'ClubCoaches', 'ClubAthletes'].filter((m) => roleMemberships.indexOf(m) !== -1);
+    roleMemberships = ["ClubManagement", "ClubCoaches", "ClubAthletes"].filter((m) => roleMemberships.indexOf(m) !== -1);
 
     if (!roleMemberships || !roleMemberships.length) {
         return;
     } else if (roleMemberships.length === 1) {
-        return $translate.instant('users.clubRoles.' + roleMemberships[0]);
+        return $translate.instant("users.clubRoles." + roleMemberships[0]);
     } else if (roleMemberships.length > 1) {
-        return `${$translate.instant('users.clubRoles.' + roleMemberships[0])}, +${roleMemberships.length - 1}`;
+        return `${$translate.instant("users.clubRoles." + roleMemberships[0])}, +${roleMemberships.length - 1}`;
     } 
 };
 
-roleMembershipFilter.$inject = ['$translate'];
+roleMembershipFilter.$inject = ["$translate"];

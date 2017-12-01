@@ -1,4 +1,4 @@
-import { memorize } from './memorize';
+import { memorize } from "./memorize";
 
 /**
  * Обёртка для удобства меморизации метода класса (в духе https://github.com/reactjs/reselect)
@@ -6,7 +6,7 @@ import { memorize } from './memorize';
  * @param f: Function
  * @returns {(...any) => any}
  */  
-export function createSelector (argSelectors: Array<Function>, f: Function) : any {
+export function createSelector (argSelectors: Function[], f: Function) : any {
 	const selector = memorize(f);
 	return (...args) => selector(...argSelectors.map((argSelector) => argSelector(...args)));
 };

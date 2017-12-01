@@ -2,18 +2,18 @@ import { StateDeclaration } from "angular-ui-router";
 import { SessionService } from "../core/session/session.service";
 
 const methodology: any = {
-    name: 'methodology',
-    url: '/methodology',
+    name: "methodology",
+    url: "/methodology",
     loginRequired: false,
     authRequired: [],
     resolve: {
-        currentUser: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
+        currentUser: ["SessionService", (SessionService: SessionService) => SessionService.getUser()],
     },
     views: {
         "application": {
-            component: 'stMethodology'
-        }
-    }
+            component: "stMethodology",
+        },
+    },
 };
 
-export const methodologyState: Array<StateDeclaration> = [methodology];
+export const methodologyState: StateDeclaration[] = [methodology];

@@ -1,16 +1,16 @@
-import "./methodology.component.scss";
-import { IComponentOptions, IComponentController, IPromise } from "angular";
-import { Subject } from "rxjs/Rx";
-import ReferenceService from "../reference/reference.service";
-import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
-import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../reference/reference.datamodel";
-import { activityTypes } from "../activity/activity.constants";
-import { filtersToPredicate } from "../share/utility";
-import { pipe, prop, pick, orderBy, groupBy } from "../share/util";
-import { IUserProfile } from "../../../api/user";
-import { IGroupProfile } from "../../../api/group";
-import { IActivityType } from "../../../api/activity/activity.interface";
 import { ITrainingPlanSearchRequest } from "@api/trainingPlans";
+import { IComponentController, IComponentOptions, IPromise } from "angular";
+import { Subject } from "rxjs/Rx";
+import { IActivityType } from "../../../api/activity/activity.interface";
+import { IGroupProfile } from "../../../api/group";
+import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
+import { IUserProfile } from "../../../api/user";
+import { activityTypes } from "../activity/activity.constants";
+import { categoriesFilters, getOwner, Owner, ReferenceFilterParams } from "../reference/reference.datamodel";
+import ReferenceService from "../reference/reference.service";
+import { groupBy, orderBy, pick, pipe, prop } from "../share/util";
+import { filtersToPredicate } from "../share/utility";
+import "./methodology.component.scss";
 
 class MethodologyCtrl implements IComponentController {
 
@@ -18,24 +18,24 @@ class MethodologyCtrl implements IComponentController {
     currentUser: IUserProfile;
     club: IGroupProfile;
     onEvent: (response: Object) => IPromise<void>;
-    categories: Array<IActivityCategory> = [];
-    categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
-    templates: Array<IActivityTemplate> = [];
+    categories: IActivityCategory[] = [];
+    categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
+    templates: IActivityTemplate[] = [];
 
     // private
     private leftBarShow: boolean = true;
-    private navBarStates: Array<string> = ['trainingPlans', 'periodization', 'categories', 'templates'];
-    private currentState: string = 'trainingPlans';
-    private activityTypes: Array<IActivityType> = activityTypes;
+    private navBarStates: string[] = ["trainingPlans", "periodization", "categories", "templates"];
+    private currentState: string = "trainingPlans";
+    private activityTypes: IActivityType[] = activityTypes;
     private trainingPlansFilter: ITrainingPlanSearchRequest;
     private filterParams: ReferenceFilterParams = {
         club: null,
         activityType: activityTypes[0],
-        category: null
+        category: null,
     };
     private destroy: Subject<void> = new Subject<void>();
 
-    static $inject = ['$scope', 'ReferenceService'];
+    static $inject = ["$scope", "ReferenceService"];
 
     constructor (private $scope,
                  private referenceService: ReferenceService) {
@@ -78,7 +78,7 @@ class MethodologyCtrl implements IComponentController {
 
     private prepareTrainingPlansFilter (): void {
         this.trainingPlansFilter = {
-            ownerId: this.currentUser.userId
+            ownerId: this.currentUser.userId,
         };
     }
 
@@ -87,18 +87,18 @@ class MethodologyCtrl implements IComponentController {
     }
 
     updateFilterParams () {
-        let filters = pick(['club', 'activityType', 'isActive'])(categoriesFilters);
+        let filters = pick(["club", "activityType", "isActive"])(categoriesFilters);
         let categories = this.categories.filter(filtersToPredicate(filters, this.filterParams));
         let category = this.filterParams.category;
 
         this.filterParams = {
             ...this.filterParams,
-            category: category && categories.find(({ id }) => category.id === id) ? category : categories[0]
+            category: category && categories.find(({ id }) => category.id === id) ? category : categories[0],
         };
 
         this.categoriesByOwner = pipe(
-            orderBy(prop('sortOrder')),
-            groupBy(getOwner(this.currentUser))
+            orderBy(prop("sortOrder")),
+            groupBy(getOwner(this.currentUser)),
         )(categories);
     }
 
@@ -106,15 +106,15 @@ class MethodologyCtrl implements IComponentController {
 
 const MethodologyComponent: IComponentOptions = {
     bindings: {
-        currentUser: '<',
-        club: '<',
-        onEvent: '&'
+        currentUser: "<",
+        club: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: MethodologyCtrl,
-    template: require('./methodology.component.html') as string
+    template: require("./methodology.component.html") as string,
 };
 
 export default MethodologyComponent;

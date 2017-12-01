@@ -1,10 +1,10 @@
-import './dashboard-activity.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
-import {Activity} from "../../activity/activity.datamodel";
-import {DashboardCtrl} from "../dashboard.component";
-import MessageService from "../../core/message.service";
 import {IUserProfile} from "../../../../api/user/user.interface";
+import {Activity} from "../../activity/activity.datamodel";
+import MessageService from "../../core/message.service";
+import {DashboardCtrl} from "../dashboard.component";
+import "./dashboard-activity.component.scss";
 
 class DashboardActivityCtrl implements IComponentController {
 
@@ -14,14 +14,14 @@ class DashboardActivityCtrl implements IComponentController {
     private athlete: IUserProfile;
     private dashboard: DashboardCtrl;
 
-    private segmentChart: Array<any> = [];
+    private segmentChart: any[] = [];
 
     private isOwner: boolean = false;
     private isCreator: boolean = false;
     private bottomPanelData: any = null;
 
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['$mdDialog','message'];
+    static $inject = ["$mdDialog","message"];
 
     constructor(private $mdDialog: any, private message: MessageService) {
 
@@ -34,7 +34,7 @@ class DashboardActivityCtrl implements IComponentController {
         this.isOwner = this.activity.userProfileOwner.userId === this.dashboard.coach.userId;
         this.isCreator = this.activity.userProfileCreator.userId === this.dashboard.coach.userId;
 
-        if (this.activity.bottomPanel === 'data') {
+        if (this.activity.bottomPanel === "data") {
             this.bottomPanelData = this.activity.summaryAvg;
         }
 
@@ -45,7 +45,7 @@ class DashboardActivityCtrl implements IComponentController {
     onOpen($event, mode: string) {
         this.$mdDialog.show({
             controller: DialogController,
-            controllerAs: '$ctrl',
+            controllerAs: "$ctrl",
             template:
                 `<md-dialog id="activity" aria-label="Activity">
                         <calendar-item-activity
@@ -61,16 +61,16 @@ class DashboardActivityCtrl implements IComponentController {
             locals: {
                 data: this.activity,
                 mode: mode,
-                user: this.athlete
+                user: this.athlete,
             },
             bindToController: true,
             clickOutsideToClose: true,
             escapeToClose: true,
-            fullscreen: true
+            fullscreen: true,
 
         })
-            .then(response => {
-                console.log('user close dialog with =', response);
+            .then((response) => {
+                console.log("user close dialog with =", response);
                 // При изменение записи сначала удаляем старую, потом создаем новую
                 /**if(response.type === 'put'){
                     this.dashboard.onDeleteItem(this.activity);
@@ -85,7 +85,7 @@ class DashboardActivityCtrl implements IComponentController {
 
 
             }, ()=> {
-                console.log('user cancel dialog, data=');
+                console.log("user cancel dialog, data=");
             });
     }
 
@@ -97,16 +97,16 @@ class DashboardActivityCtrl implements IComponentController {
 
 const DashboardActivityComponent:IComponentOptions = {
     bindings: {
-        item: '<',
-        athlete: '<',
-        selected: '<',
-        onEvent: '&'
+        item: "<",
+        athlete: "<",
+        selected: "<",
+        onEvent: "&",
     },
     require: {
-        dashboard: '^dashboard'
+        dashboard: "^dashboard",
     },
     controller: DashboardActivityCtrl,
-    template: require('./dashboard-activity.component.html') as string
+    template: require("./dashboard-activity.component.html") as string,
 };
 
 export default DashboardActivityComponent;
@@ -117,7 +117,7 @@ function DialogController($scope, $mdDialog) {
     };
 
     $scope.cancel = function() {
-        console.log('cancel');
+        console.log("cancel");
         $mdDialog.cancel();
     };
 
@@ -125,4 +125,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ['$scope','$mdDialog'];
+DialogController.$inject = ["$scope","$mdDialog"];

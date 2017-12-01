@@ -1,16 +1,16 @@
-import { IComponentController, IPromise, element } from 'angular';
+import { element, IComponentController, IPromise } from "angular";
 
-import { Activity } from "../../activity/activity.datamodel";
 import { IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
-import { getType, activityTypes } from "../../activity/activity.constants";
+import { activityTypes, getType } from "../../activity/activity.constants";
+import { Activity } from "../../activity/activity.datamodel";
 
 
-export type TemplateDialogMode = 'post' | 'put' | 'view';
+export type TemplateDialogMode = "post" | "put" | "view";
 
 class TemplateDialogCtrl implements IComponentController {
 
-	static $inject = ['$scope','$mdDialog'];
+	static $inject = ["$scope","$mdDialog"];
 
 	constructor (private $scope, private $mdDialog) {
 		$scope.hide = () => $mdDialog.hide();
@@ -21,13 +21,13 @@ class TemplateDialogCtrl implements IComponentController {
 
 const defaultParams = {
 	controller: TemplateDialogCtrl,
-	controllerAs: '$ctrl',
-	template: require('./template.dialog.html') as string,
+	controllerAs: "$ctrl",
+	template: require("./template.dialog.html") as string,
 	parent: element(document.body),
 	bindToController: true,
 	clickOutsideToClose: false,
 	escapeToClose: false,
-	fullscreen: true
+	fullscreen: true,
 };
 
 function templateToActivity (template: IActivityTemplate) : Activity {
@@ -42,8 +42,8 @@ function templateToActivity (template: IActivityTemplate) : Activity {
 		activityHeader: {
 			id, activityCategory,
 			activityType: getType(activityTypeId) || activityTypes[0],
-			intervals: content || []
-		}
+			intervals: content || [],
+		},
 	});
 }
 
@@ -54,7 +54,7 @@ export function templateDialog (mode: TemplateDialogMode, template: IActivityTem
 		locals: {
 			mode, user,
 			item: templateToActivity(template),
-			date: new Date()
-		}
+			date: new Date(),
+		},
 	};
 }

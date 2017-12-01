@@ -1,33 +1,33 @@
-import * as angular from 'angular';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import * as angular from "angular";
+import {IComponentController, IComponentOptions, IPromise} from "angular";
+import {LocationServices, StateService} from "angular-ui-router";
+import { Observable } from "rxjs/Observable";
 import {Subject} from "rxjs/Rx";
-import UserService from "../../core/user.service";
-import {IUserProfile, INotification, Notification, IGroupMembershipRequest} from "../../../../api";
-import { SessionService, getUser, SocketService } from "../../core";
-import RequestsService from "../../core/requests.service";
-import { Observable } from 'rxjs/Observable';
-import './header.component.scss';
-import {StateService, LocationServices} from 'angular-ui-router';
-import NotificationService from "../notification/notification.service";
+import {IGroupMembershipRequest, INotification, IUserProfile, Notification} from "../../../../api";
+import { getUser, SessionService, SocketService } from "../../core";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
 import DisplayService from "../../core/display.service";
+import RequestsService from "../../core/requests.service";
+import UserService from "../../core/user.service";
+import NotificationService from "../notification/notification.service";
+import "./header.component.scss";
 
 class HeaderCtrl implements IComponentController {
 	public requestsList: IGroupMembershipRequest[] = [];
-	private notificationsList: Array<Notification> = [];
+	private notificationsList: Notification[] = [];
 	private user: IUserProfile;
 	private athlete: IUserProfile;
 	private profile$: Observable<IUserProfile>;
 	private internet$: Observable<boolean>;
-	private readonly routeUri: string = '.uri'; //константа для формирования пути в роутере для атлета
-	private readonly athleteSelectorStates: Array<string> = ['calendar','calendar-my','settings/user'];
+	private readonly routeUri: string = ".uri"; //константа для формирования пути в роутере для атлета
+	private readonly athleteSelectorStates: string[] = ["calendar","calendar-my","settings/user"];
 	private openChat: ChatSession;
 	private internetStatus: boolean = true;
 	private destroy: Subject<any> = new Subject();
 
-	static $inject = ['$scope', '$mdSidenav', 'AuthService', 'SessionService', 'RequestsService', 'NotificationService',
-		'CommentService','$mdDialog', '$state','toaster', 'DisplayService', 'SocketService'];
+	static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "RequestsService", "NotificationService",
+		"CommentService","$mdDialog", "$state","toaster", "DisplayService", "SocketService"];
 
 	constructor(
 		private $scope,
@@ -41,7 +41,7 @@ class HeaderCtrl implements IComponentController {
 		private $state: StateService,
 		private toaster: any,
 		private display: DisplayService,
-		private socket: SocketService
+		private socket: SocketService,
 	) {
 		SessionService.getObservable()
 		.takeUntil(this.destroy)
@@ -50,11 +50,11 @@ class HeaderCtrl implements IComponentController {
 
 		this.socket.connections
 		.takeUntil(this.destroy)
-		.subscribe(status => this.internetStatus = !!status);
+		.subscribe((status) => this.internetStatus = !!status);
 		
 		this.comment.openChat$
 		.takeUntil(this.destroy)
-		.subscribe(chat => this.openChat = chat);
+		.subscribe((chat) => this.openChat = chat);
 	}
 
 	$onInit() {
@@ -111,7 +111,7 @@ class HeaderCtrl implements IComponentController {
 	showAthleteSelector($event){
 		this.$mdDialog.show({
 			controller: DialogController,
-			controllerAs: '$ctrl',
+			controllerAs: "$ctrl",
 			template:
 				`<md-dialog id="athlete-selector" aria-label="AthleteSelector">
 					<athlete-selector layout="column"
@@ -129,17 +129,17 @@ class HeaderCtrl implements IComponentController {
 			bindToController: true,
 			clickOutsideToClose: true,
 			escapeToClose: true,
-			fullscreen: true
+			fullscreen: true,
 		})
-			.then(response => this.setAthlete(response),
-				console.log('cancel athlete selector'));
+			.then((response) => this.setAthlete(response),
+				console.log("cancel athlete selector"));
 	}
 
 	setAthlete(response: {user: IUserProfile}) {
 		//this.athlete = response.user;
-		console.log('setAthlete', this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
+		console.log("setAthlete", this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
 		// костыли ((
-		this.$state.go(this.$state.current.name === 'calendar-my' ? 'calendar' : this.$state.current.name , {uri: response.user.public.uri});
+		this.$state.go(this.$state.current.name === "calendar-my" ? "calendar" : this.$state.current.name , {uri: response.user.public.uri});
 	}
 
 	isEnableAthleteSelector() {
@@ -149,14 +149,14 @@ class HeaderCtrl implements IComponentController {
 
 const HeaderComponent: IComponentOptions = {
 	bindings: {
-		leftPanel: '<',
-		rightPanel: '<',
-		view: '<',
-		athlete: '<'
+		leftPanel: "<",
+		rightPanel: "<",
+		view: "<",
+		athlete: "<",
 	},
 	transclude: false,
 	controller: HeaderCtrl,
-	template: require('./header.component.html') as string
+	template: require("./header.component.html") as string,
 };
 export default HeaderComponent;
 
@@ -174,4 +174,4 @@ function DialogController($scope, $mdDialog) {
 		$mdDialog.hide(answer);
 	};
 }
-DialogController.$inject = ['$scope','$mdDialog'];
+DialogController.$inject = ["$scope","$mdDialog"];

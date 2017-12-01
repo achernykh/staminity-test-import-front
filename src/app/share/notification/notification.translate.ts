@@ -439,8 +439,8 @@ export const translateNotification = {
         "тариф будет подключен на платной основе с ежедневными начислениями",
         trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[2] | date:'shortDate'}} " +
         "тариф будет подключен на платной основе с ежедневными начислениями",
-        trialExpiredAfterOldTariff: 'Закончился пробный период по тарифу {{data[0] | translate}}. ' +
-        'С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ',
+        trialExpiredAfterOldTariff: "Закончился пробный период по тарифу {{data[0] | translate}}. " +
+        "С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ",
 
         /* ------ Оплата счетов + нулевые счета
              header (push): Успешная оплата
@@ -461,36 +461,36 @@ export const translateNotification = {
 
         //  ------ Оплата счетов не прошла из-за ошибки
         //     header (push): Ошибка оплаты
-        billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[3]}} {{data[4]}}. Попробуйте еще раз',
+        billPayment_Failure_singleTariff: "Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[3]}} {{data[4]}}. Попробуйте еще раз",
         //  data[0] - Сумма счета
         //  data[1] - Валюта счета
         //
-        billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[3]}} {{data[4]}}. Попробуйте еще раз',
+        billPayment_Failure_multiTariff: "Не удалось оплатить счет по вашим тарифам на {{data[3]}} {{data[4]}}. Попробуйте еще раз",
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
         //     header (push): Успешная оплата
         //  data[0] - Сумма счета
         //  data[1] - Валюта счета
         //
-        billExpiredPaymentReceived: 'Спасибо! Ваш платеж по счету на {{data[0]}} {{data[1]}} получен',
+        billExpiredPaymentReceived: "Спасибо! Ваш платеж по счету на {{data[0]}} {{data[1]}} получен",
 
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
          header (push): Функции заблокированы
          **/
-        disabledPremiumByCoach: 'Вам временно отключен тариф Премиум, подключенный тренером. Ожидается оплата от тренера',
-        disabledPremiumByClub: 'Вам временно отключен тариф Премиум, подключенный клубом. Ожидается оплата от клуба',
-        disabledCoachByClub: 'Вам временно отключен тариф Тренер, подключенный клубом. Ожидается оплата от клуба',
+        disabledPremiumByCoach: "Вам временно отключен тариф Премиум, подключенный тренером. Ожидается оплата от тренера",
+        disabledPremiumByClub: "Вам временно отключен тариф Премиум, подключенный клубом. Ожидается оплата от клуба",
+        disabledCoachByClub: "Вам временно отключен тариф Тренер, подключенный клубом. Ожидается оплата от клуба",
 
         /* ----------- Снятие ограничений функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
          header (push): Функции разблокированы
          **/
-        enabledPremiumByCoach: 'Вам снова доступны функции по тарифу Премиум, подключенному тренером',
-        enabledPremiumByClub: 'Вам снова доступны функции по тарифу Премиум, подключенному клубом',
-        enabledCoachByClub: 'Вам снова доступны функции по тарифу Тренер, подключенному клубом',
+        enabledPremiumByCoach: "Вам снова доступны функции по тарифу Премиум, подключенному тренером",
+        enabledPremiumByClub: "Вам снова доступны функции по тарифу Премиум, подключенному клубом",
+        enabledCoachByClub: "Вам снова доступны функции по тарифу Тренер, подключенному клубом",
 
         /* ----------- Рекарринг --------**
 
@@ -524,26 +524,26 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        recurring_Failure_singleTariff: 'Оплату по тарифу {{data[0] | translate}} по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
-        recurring_Failure_multiTariff: 'Оплату по вашим тарифам по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
+        recurring_Failure_singleTariff: "Оплату по тарифу {{data[0] | translate}} по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную",
+        recurring_Failure_multiTariff: "Оплату по вашим тарифам по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную",
 
         /* ----------- Создание окружения клуба при подключении тарифа--------**
          Отправитель: Стаминити
          header (push): Клуб создан
          data[0] - Название клуба
           **/
-        clubEnvCreate: 'Для вас создан клуб {{data[0]}}. Клубный раздел доступен в левом меню',
+        clubEnvCreate: "Для вас создан клуб {{data[0]}}. Клубный раздел доступен в левом меню",
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
          header (push): Удаление клуба     **/
-        clubEnvDeleteInSomeDays: 'Ваш клуб будет удален через 5 дней. Подключите тариф, чтобы этого избежать',
-        clubEnvDeleted: 'Ваш клуб удален, спортсмены и тренеры клуба отключены от клуба',
+        clubEnvDeleteInSomeDays: "Ваш клуб будет удален через 5 дней. Подключите тариф, чтобы этого избежать",
+        clubEnvDeleted: "Ваш клуб удален, спортсмены и тренеры клуба отключены от клуба",
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
          header (push): Удаление спортсменов     **/
-        coachEnvDeleteInSomeDays: 'Связь с вашими не клубными спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать',
-        coachEnvDeleted: 'Связь с вашими не клубными спортсменами удалена',
+        coachEnvDeleteInSomeDays: "Связь с вашими не клубными спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать",
+        coachEnvDeleted: "Связь с вашими не клубными спортсменами удалена",
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити
@@ -552,8 +552,8 @@ export const translateNotification = {
          data[1] - paidTill date
          **/
         expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'shortDate'}}",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня',
-        expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
+        expireTariffPurchaseToday: "Срок действия тарифа {{data[0] | translate}} истекает сегодня",
+        expireTariffPurchaseYesterday: "Тариф {{data[0] | translate}} отключен",
 
         /* ----------- Уведомления по счетам  --------**
          Отправитель: Стаминити
@@ -563,9 +563,9 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        singleBBill: 'Выставлен счет #{{data[1]}} на {{data[2]}} {{data[3]}}. Просьба оплатить',
-        multipleBBill: 'Задолженность по неоплаченным счетам составляет {{data[2]}} {{data[3]}}. Просьба оплатить',
-        singleFBill: 'Для продолжения использования тарифа {{data[0] | translate}} оплатите счет #{{data[1]}} на {{data[2]}} {{data[3]}}',
+        singleBBill: "Выставлен счет #{{data[1]}} на {{data[2]}} {{data[3]}}. Просьба оплатить",
+        multipleBBill: "Задолженность по неоплаченным счетам составляет {{data[2]}} {{data[3]}}. Просьба оплатить",
+        singleFBill: "Для продолжения использования тарифа {{data[0] | translate}} оплатите счет #{{data[1]}} на {{data[2]}} {{data[3]}}",
 
 
 /* ----------Зоны и пороги --------**/
@@ -600,7 +600,7 @@ export const translateNotification = {
     /* Уведомление для пользователей сервиса. Отправитель - Стаминити.
         * data[0] - текст сообщения RUS*
         * data[1] - текст сообщения ENG **/
-        staminityNotification: "{{data[0]}}"
+        staminityNotification: "{{data[0]}}",
     },
 
 //    ----------------- ENGLISH ---------------------
@@ -1026,30 +1026,30 @@ export const translateNotification = {
 
         //  ------ Оплата счетов не прошла из-за ошибки
         //     header (push): Payment failure
-        billPayment_Failure_singleTariff: 'Something went wrong with your {{data[3]}} {{data[4]}} payment for {{data[0] | translate}} tariff. Please try again',
-        billPayment_Failure_multiTariff: 'Something went wrong with your {{data[3]}} {{data[4]}} payment for your tariffs. Please try again',
+        billPayment_Failure_singleTariff: "Something went wrong with your {{data[3]}} {{data[4]}} payment for {{data[0] | translate}} tariff. Please try again",
+        billPayment_Failure_multiTariff: "Something went wrong with your {{data[3]}} {{data[4]}} payment for your tariffs. Please try again",
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
         //     header (push): Successful payment
-        billExpiredPaymentReceived: 'Thank you. Your {{data[3]}} {{data[4]}} payment was processed',
+        billExpiredPaymentReceived: "Thank you. Your {{data[3]}} {{data[4]}} payment was processed",
 
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
          header (push): Tariff blocked
          **/
-        disabledPremiumByCoach: 'Your Premium by coach tariff was blocked',
-        disabledPremiumByClub: 'Your Premium by club tariff was blocked',
-        disabledCoachByClub: 'Your Coach by club tariff was blocked',
+        disabledPremiumByCoach: "Your Premium by coach tariff was blocked",
+        disabledPremiumByClub: "Your Premium by club tariff was blocked",
+        disabledCoachByClub: "Your Coach by club tariff was blocked",
 
         /* ----------- Снятие ограничений функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
          header (push): Tariff enabled
          **/
-        enabledPremiumByCoach: 'Your Premium by coach tariff was enabled',
-        enabledPremiumByClub: 'Your Premium by club tariff was enabled',
-        enabledCoachByClub: 'Your Coach by club tariff was enabled',
+        enabledPremiumByCoach: "Your Premium by coach tariff was enabled",
+        enabledPremiumByClub: "Your Premium by club tariff was enabled",
+        enabledCoachByClub: "Your Coach by club tariff was enabled",
 
         /* ----------- Рекарринг --------**
 
@@ -1083,26 +1083,26 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        recurring_Failure_singleTariff: 'We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using the tariff {{data[0] | translate}} please check and pay unpaid bills',
-        recurring_Failure_multiTariff: 'We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using your tariffs please check and pay unpaid bills',
+        recurring_Failure_singleTariff: "We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using the tariff {{data[0] | translate}} please check and pay unpaid bills",
+        recurring_Failure_multiTariff: "We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using your tariffs please check and pay unpaid bills",
 
         /* ----------- Создание окружения клуба при подключении тарифа--------**
          Отправитель: Стаминити
          header (push): Клуб создан
          data[0] - Название клуба
          **/
-        clubEnvCreate: 'Club {{data[0]}} created',
+        clubEnvCreate: "Club {{data[0]}} created",
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
          header (push): Delete club     **/
         clubEnvDeleteInSomeDays: 'Your club will be deleted in 5 days. To continue using it please purchase "Club" tariff',
-        clubEnvDeleted: 'Your club was deleted. All club members have been disconnected from club',
+        clubEnvDeleted: "Your club was deleted. All club members have been disconnected from club",
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
          header (push): Remove athletes     **/
         coachEnvDeleteInSomeDays: 'Your non-club athletes will be disconnected from you in 5 days. To continue work with them please purchase "Coach" tariff',
-        coachEnvDeleted: 'You have been disconnected from your non-club athletes',
+        coachEnvDeleted: "You have been disconnected from your non-club athletes",
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити
@@ -1113,7 +1113,7 @@ export const translateNotification = {
          **/
         expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'shortDate'}}",
         expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today",
-        expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
+        expireTariffPurchaseYesterday: "Your tariff {{data[0] | translate}} was expired yesterday",
 
         /* ----------- Уведомления по счетам  --------**
          Отправитель: Стаминити
@@ -1123,9 +1123,9 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        singleBBill: 'Please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}. See details in Settings - Bills',
-        multipleBBill: 'You have unpaid bills on {{data[2]}} {{data[3]}}. Please make a payment',
-        singleFBill: 'To continue using {{data[0] | translate}} tariff please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}',
+        singleBBill: "Please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}. See details in Settings - Bills",
+        multipleBBill: "You have unpaid bills on {{data[2]}} {{data[3]}}. Please make a payment",
+        singleFBill: "To continue using {{data[0] | translate}} tariff please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}",
 
 
         /* ----------Зоны и пороги --------**/
@@ -1160,6 +1160,6 @@ export const translateNotification = {
         /* Уведомление для пользователей сервиса. Отправитель - Стаминити.
          * data[0] - текст сообщения RUS*
          * data[1] - текст сообщения ENG **/
-        staminityNotification: "{{data[1]}}"
-    }
+        staminityNotification: "{{data[1]}}",
+    },
 };

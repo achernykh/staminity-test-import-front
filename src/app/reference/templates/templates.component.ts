@@ -1,31 +1,31 @@
-import { IComponentOptions, IComponentController, IPromise, element } from 'angular';
+import { element, IComponentController, IComponentOptions, IPromise } from "angular";
+import { IGroupProfile } from "../../../../api/group/group.interface";
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
-import { IGroupProfile } from "../../../../api/group/group.interface";
 
-import IMessageService from "../../core/message.service";
-import ReferenceService from "../reference.service";
-import DialogsService from '../../share/dialogs';
 import { getType } from "../../activity/activity.constants";
-import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
-import { ReferenceFilterParams, templatesFilters, Owner, isSystem, getOwner, isOwner } from "../reference.datamodel";
-import { filtersToPredicate } from "../../share/utility";
-import { templateDialog, TemplateDialogMode } from "../template-dialog/template.dialog";
 import { isManager } from "../../club/club.datamodel";
+import IMessageService from "../../core/message.service";
+import DialogsService from "../../share/dialogs";
+import { entries, filter, fold, groupBy, isUndefined, keys, last, log, orderBy, pick, pipe, prop } from "../../share/util.js";
+import { filtersToPredicate } from "../../share/utility";
+import { getOwner, isOwner, isSystem, Owner, ReferenceFilterParams, templatesFilters } from "../reference.datamodel";
+import ReferenceService from "../reference.service";
+import { templateDialog, TemplateDialogMode } from "../template-dialog/template.dialog";
 import "./templates.component.scss";
 
 
 class TemplatesCtrl implements IComponentController {
 
 	public user: IUserProfile;
-	public categories: Array<IActivityCategory>;
-	public templates: Array<IActivityTemplate>;
+	public categories: IActivityCategory[];
+	public templates: IActivityTemplate[];
 	public club: IGroupProfile;
 	public filterParams: ReferenceFilterParams;
 	
-	private templatesByOwner: { [owner in Owner]: Array<IActivityTemplate> };
+	private templatesByOwner: { [owner in Owner]: IActivityTemplate[] };
 
-	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'dialogs', 'ReferenceService'];
+	static $inject = ["$scope", "$mdDialog", "$mdMedia", "message", "dialogs", "ReferenceService"];
 
 	constructor (
 		private $scope, 
@@ -33,7 +33,7 @@ class TemplatesCtrl implements IComponentController {
 		private $mdMedia, 
 		private message: IMessageService,
 		private dialogs: DialogsService,
-		private ReferenceService: ReferenceService
+		private ReferenceService: ReferenceService,
 	) {
 
 	}
@@ -43,11 +43,11 @@ class TemplatesCtrl implements IComponentController {
 	}
 
 	handleChanges () {
-		let filters = pick(['club', 'activityType', 'category']) (templatesFilters);
+		let filters = pick(["club", "activityType", "category"]) (templatesFilters);
 		
 		this.templatesByOwner = pipe(
 			filter(filtersToPredicate(filters, this.filterParams)),
-			orderBy(prop('sortOrder')),
+			orderBy(prop("sortOrder")),
 			groupBy(getOwner(this.user)),
 		) (this.templates);
 	}
@@ -75,10 +75,10 @@ class TemplatesCtrl implements IComponentController {
 			activityType: getType(activityTypeId),
 			activityCategory: category,
 			userProfileCreator: this.user,
-			groupProfile: this.club
+			groupProfile: this.club,
 		};
 		
-		return this.$mdDialog.show(templateDialog('post', template, this.user, { targetEvent }));
+		return this.$mdDialog.show(templateDialog("post", template, this.user, { targetEvent }));
 	}
 
 	copyTemplate (template: IActivityTemplate) {
@@ -87,7 +87,7 @@ class TemplatesCtrl implements IComponentController {
 		let activityCategoryId = activityCategory && activityCategory.id;
 
 		this.ReferenceService.postActivityTemplate(
-			null, activityCategoryId, groupId, code, description, favourite, content
+			null, activityCategoryId, groupId, code, description, favourite, content,
 		)
 		.catch((info) => { 
 			this.message.systemWarning(info);
@@ -96,13 +96,13 @@ class TemplatesCtrl implements IComponentController {
 	}
 
 	openTemplate (template: IActivityTemplate, targetEvent: MouseEvent) {
-		let mode: TemplateDialogMode = isOwner(this.user, template) || isManager(this.user, this.club)? 'put' : 'view';
+		let mode: TemplateDialogMode = isOwner(this.user, template) || isManager(this.user, this.club)? "put" : "view";
 		return this.$mdDialog.show(templateDialog(mode, template, this.user, { targetEvent }));
 	}
 
 	deleteTemplate (template: IActivityTemplate) {
 		let { id } = template;
-		return this.dialogs.confirm({ text: 'reference.templates.confirmDelete' })
+		return this.dialogs.confirm({ text: "reference.templates.confirmDelete" })
 			.then(() => this.ReferenceService.deleteActivityTemplate(id))
 			.catch((error) => { 
 				if (error) {
@@ -115,17 +115,17 @@ class TemplatesCtrl implements IComponentController {
 
 const TemplatesComponent: IComponentOptions = {
 	require: {
-		reference: '^'
+		reference: "^",
 	},
 	bindings: {
-		user: '<',
-		categories: '<',
-		templates: '<',
-		filterParams: '<',
-		club: '<'
+		user: "<",
+		categories: "<",
+		templates: "<",
+		filterParams: "<",
+		club: "<",
 	},
 	controller: TemplatesCtrl,
-	template: require('./templates.component.html') as string
+	template: require("./templates.component.html") as string,
 };
 
 

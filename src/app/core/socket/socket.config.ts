@@ -5,7 +5,7 @@ export interface IConnectionSettings {
     delayOnReopen: number; // начальная задержка на переоткрытие
     delayOnResponse: number; // лимит ожидания ответа
     delayExceptions: {
-        [responseType: string]: number // исключения delayOnResponse по типам запросов сессии
+        [responseType: string]: number, // исключения delayOnResponse по типам запросов сессии
     };
     internetResource: string; // ресурс на сервер для проверки интернета
     delayOnInternetConnectionCheck: number;
@@ -27,9 +27,9 @@ export const ConnectionSettings: IConnectionSettings = {
         putCalendarItem: 15.0 * 1000,
         getActivityCategory: 10.0 * 1000,
         postCalendarItem: 10.0 * 1000,
-        getGroupManagementProfile: 10.0 * 1000
+        getGroupManagementProfile: 10.0 * 1000,
     },
-    internetResource: '/favicon.ico',
+    internetResource: "/favicon.ico",
     delayOnInternetConnectionCheck: 5 * 1000, // 5 sec задержка на опрос состояния интернета
 
 };

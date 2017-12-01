@@ -6,8 +6,8 @@ import { MembersList } from "./members-list.datamodel";
 export class Member implements IGroupManagementProfileMember {
 
     userProfile: IUserManagementProfile;
-    roleMembership: Array<string>;
-    coaches: Array<number>;
+    roleMembership: string[];
+    coaches: number[];
 
     constructor (
         public membersList: MembersList,
@@ -39,7 +39,7 @@ export class Member implements IGroupManagementProfileMember {
      * Список спортсменов, тренируемых членом клуба
      * @returns {Array<Member>}
     */  
-    getAthletes = () : Array<Member> => {
+    getAthletes = () : Member[] => {
         return this.membersList.getAthletesByCoachId(this.getUserId());
     }
 
@@ -48,7 +48,7 @@ export class Member implements IGroupManagementProfileMember {
      * @param bill: IBillingTariff
      * @returns {boolean}
     */  
-    getCoaches = () : Array<Member> => {
+    getCoaches = () : Member[] => {
         return this.coaches.map(this.membersList.getMember);
     }
 
@@ -58,6 +58,6 @@ export class Member implements IGroupManagementProfileMember {
      * @returns {boolean}
     */  
     getAthletesGroupId = () : number => {
-        return this.member['ClubAthletesGroupId'];
+        return this.member["ClubAthletesGroupId"];
     }
 }

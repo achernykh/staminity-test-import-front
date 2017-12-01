@@ -1,24 +1,24 @@
 import { Observable, Subject } from "rxjs/Rx";
 
-import { SocketService, SessionService } from '../core';
-import {  } from '../core/session.service';
-import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { 
-	GetActivityCategoryRequest, PostActivityCategoryRequest, PutActivityCategoryRequest,
-	DeleteActivityCategoryRequest, GetActivityTemplateRequest, PostActivityTemplateRequest,
-	PutActivityTemplateRequest, DeleteActivityTemplateRequest
+	DeleteActivityCategoryRequest, DeleteActivityTemplateRequest, GetActivityCategoryRequest,
+	GetActivityTemplateRequest, PostActivityCategoryRequest, PostActivityTemplateRequest,
+	PutActivityCategoryRequest, PutActivityTemplateRequest,
 } from "../../../api";
+import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
+import { SessionService, SocketService } from "../core";
+import {  } from "../core/session.service";
 
 
 export default class ReferenceService {
 
-	public categories: Array<IActivityCategory> = [];
+	public categories: IActivityCategory[] = [];
 	public categoriesChanges = new Subject<IActivityCategory[]>();
 
 	private categoriesReducers = {
 		"I": (category: IActivityCategory) => [...this.categories, category],
 		"U": (category: IActivityCategory) => this.categories.map((c) => c.id === category.id? category : c),
-		"D": (category: IActivityCategory) => this.categories.filter((c) => c.id !== category.id)
+		"D": (category: IActivityCategory) => this.categories.filter((c) => c.id !== category.id),
 	};
 
 	private resetCategories = () => {
@@ -29,12 +29,12 @@ export default class ReferenceService {
 			});
 	}
 
-	public templates: Array<IActivityTemplate> = [];
+	public templates: IActivityTemplate[] = [];
 	public templatesChanges = new Subject<IActivityTemplate[]> ();
 	private templatesReducers = {
 		"I": (template: IActivityTemplate) => [...this.templates, template],
 		"U": (template: IActivityTemplate) => this.templates.map((t) => t.id === template.id? template : t),
-		"D": (template: IActivityTemplate) => this.templates.filter((t) => t.id !== template.id)
+		"D": (template: IActivityTemplate) => this.templates.filter((t) => t.id !== template.id),
 	};
 
 	private resetTemplates = () => {
@@ -45,16 +45,16 @@ export default class ReferenceService {
 			});
 	}
 
-	static $inject = ['SocketService', 'SessionService'];
+	static $inject = ["SocketService", "SessionService"];
 
 	constructor (
 		private SocketService: SocketService,
-		private SessionService: SessionService
+		private SessionService: SessionService,
 	) {
 		//this.resetCategories();
-		this.SocketService.connections.subscribe(status => status && this.resetCategories());
+		this.SocketService.connections.subscribe((status) => status && this.resetCategories());
 		this.SocketService.messages
-			.filter(message => message.type === 'activityCategory')
+			.filter((message) => message.type === "activityCategory")
 			.subscribe((message) => {
 				let reducer = this.categoriesReducers[message.action];
 				if (reducer) {
@@ -64,9 +64,9 @@ export default class ReferenceService {
 			});
 
 		//this.resetTemplates();
-		this.SocketService.connections.subscribe(status => status && this.resetTemplates());
+		this.SocketService.connections.subscribe((status) => status && this.resetTemplates());
 		this.SocketService.messages
-			.filter(message => message.type === 'activityTemplate')
+			.filter((message) => message.type === "activityTemplate")
 			.subscribe((message) => {
 				let reducer = this.templatesReducers[message.action];
 				if (reducer) {
@@ -79,10 +79,10 @@ export default class ReferenceService {
 	getActivityCategories (
 		activityTypeId: number, 
 		onlyMine: boolean, 
-		showInvisible: boolean
+		showInvisible: boolean,
 	) : Promise<[IActivityCategory]> {
 		return this.SocketService.send(new GetActivityCategoryRequest(
-			activityTypeId, onlyMine, showInvisible
+			activityTypeId, onlyMine, showInvisible,
 		));
 	}
 
@@ -90,10 +90,10 @@ export default class ReferenceService {
 		activityTypeId: number, 
 		code: string, 
 		description: string, 
-		groupId: number
+		groupId: number,
 	) : Promise<any> {
 		return this.SocketService.send(new PostActivityCategoryRequest(
-			activityTypeId, code, description, groupId
+			activityTypeId, code, description, groupId,
 		));
 	}
 
@@ -103,10 +103,10 @@ export default class ReferenceService {
 		description: string, 
 		groupId: number, 
 		sortOrder: number, 
-		visible: boolean
+		visible: boolean,
 	) : Promise<any> {
 		return this.SocketService.send(new PutActivityCategoryRequest(
-			activityCategoryId, code, description, groupId, sortOrder, visible
+			activityCategoryId, code, description, groupId, sortOrder, visible,
 		));
 	}
 
@@ -118,10 +118,10 @@ export default class ReferenceService {
 		activityCategoryId: number, 
 		activityTypeId: number,
 		onlyVisible: boolean,
-		onlyFavourites: boolean
+		onlyFavourites: boolean,
 	) : Promise<[IActivityTemplate]> {
 		return this.SocketService.send(new GetActivityTemplateRequest(
-			activityCategoryId, activityTypeId, onlyVisible, onlyFavourites
+			activityCategoryId, activityTypeId, onlyVisible, onlyFavourites,
 		))
 		.then((response) => response.arrayResult);
 	}
@@ -133,10 +133,10 @@ export default class ReferenceService {
 		code: string, 
 		description: string, 
 		favourite: boolean, 
-		content: any 
+		content: any, 
 	) : Promise<any> { 
 		return this.SocketService.send(new PostActivityTemplateRequest(
-			id, activityCategoryId, groupId, code, description, favourite, content 
+			id, activityCategoryId, groupId, code, description, favourite, content, 
 		)); 
 	}
 
@@ -149,10 +149,10 @@ export default class ReferenceService {
 		description: string,
 		favourite: boolean,
 		visible: boolean,
-		content: any
+		content: any,
 	) : Promise<any> {
 		return this.SocketService.send(new PutActivityTemplateRequest(
-			id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible, content
+			id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible, content,
 		));
 	}
 

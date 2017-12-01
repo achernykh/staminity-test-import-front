@@ -1,10 +1,10 @@
-import './training-plan-builder.component.scss';
-import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise,IScope,IAnchorScrollService} from 'angular';
+import {IAnchorScrollService, IComponentController, IComponentOptions,IPromise,IScope} from "angular";
+import moment from "moment/min/moment-with-locales.js";
+import { IUserProfile } from "../../../../api/user/user.interface";
 import { Calendar } from "../../calendar/calendar.datamodel";
 import { CalendarService } from "../../calendar/calendar.service";
 import { SessionService } from "../../core";
-import { IUserProfile } from "../../../../api/user/user.interface";
+import "./training-plan-builder.component.scss";
 
 class TrainingPlanBuilderCtrl implements IComponentController {
 
@@ -13,15 +13,15 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     currentUser: IUserProfile;
 
     // private
-    private weekdayNames: Array<number> = [];
+    private weekdayNames: number[] = [];
     private calendar: Calendar;
-    static $inject = ['$scope', '$anchorScroll', 'CalendarService', 'SessionService'];
+    static $inject = ["$scope", "$anchorScroll", "CalendarService", "SessionService"];
 
     constructor(
         private $scope: IScope,
         private $anchorScroll: IAnchorScrollService,
         private calendarService: CalendarService,
-        private session: SessionService
+        private session: SessionService,
     ) {
 
     }
@@ -36,14 +36,14 @@ class TrainingPlanBuilderCtrl implements IComponentController {
 
 const TrainingPlanBuilderComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        onEvent: '&'
+        data: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: TrainingPlanBuilderCtrl,
-    template: require('./training-plan-builder.component.html') as string
+    template: require("./training-plan-builder.component.html") as string,
 };
 
 export default TrainingPlanBuilderComponent;

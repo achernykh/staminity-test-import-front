@@ -1,49 +1,49 @@
-import {StateProvider, StateDeclaration} from 'angular-ui-router';
-import {_translateSearch} from './search.translate';
+import {StateDeclaration, StateProvider} from "angular-ui-router";
 import {DefaultTemplate, DisplayView} from "../core/display.constants";
+import {_translateSearch} from "./search.translate";
 //import {ITranslateProvider} from "angular-translate";
 
 function configure($stateProvider:StateProvider,
                    $translateProvider:any) {
 
     $stateProvider
-        .state('search', <StateDeclaration>{
-            url: '/search',
+        .state("search", <StateDeclaration>{
+            url: "/search",
             loginRequired: true,
             authRequired: null,
             resolve: {
-                view: () => new DisplayView('search')
+                view: () => new DisplayView("search"),
             },
             views: {
                 "background": {
                     component: "staminityBackground",
                     bindings: {
-                        view: 'view.background'
-                    }
+                        view: "view.background",
+                    },
                 },
                 "header": {
-                    component: 'staminityHeader',
+                    component: "staminityHeader",
                     bindings: {
-                        view: 'view.header',
-                        athlete: 'athlete'
-                    }
+                        view: "view.header",
+                        athlete: "athlete",
+                    },
                 },
                 "application": {
                     component: "search",
                     bindings: {
-                        view: 'view.application'
-                    }
-                }
-            }
+                        view: "view.application",
+                    },
+                },
+            },
         });
 
     // Текст представлений
-    $translateProvider.translations('en', {search: _translateSearch['en']});
-    $translateProvider.translations('ru', {search: _translateSearch['ru']});
+    $translateProvider.translations("en", {search: _translateSearch["en"]});
+    $translateProvider.translations("ru", {search: _translateSearch["ru"]});
 
 
 }
 
-configure.$inject = ['$stateProvider', '$translateProvider'];
+configure.$inject = ["$stateProvider", "$translateProvider"];
 
 export default configure;

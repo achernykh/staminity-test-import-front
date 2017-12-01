@@ -1,11 +1,11 @@
-import './training-plans-list.component.scss';
-import { IComponentOptions, IComponentController, IPromise, IScope } from 'angular';
-import { TrainingPlansList } from "./training-plans-list.datamodel";
-import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { ITrainingPlanSearchRequest, ITrainingPlanSearchResult } from "@api/trainingPlans";
-import { TrainingPlansService } from "@app/training-plans/training-plans.service";
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
+import { TrainingPlansService } from "@app/training-plans/training-plans.service";
+import { IComponentController, IComponentOptions, IPromise, IScope } from "angular";
 import { FormMode } from "../../application.interface";
+import { TrainingPlan } from "../training-plan/training-plan.datamodel";
+import "./training-plans-list.component.scss";
+import { TrainingPlansList } from "./training-plans-list.datamodel";
 
 class TrainingPlansListCtrl implements IComponentController {
 
@@ -17,7 +17,7 @@ class TrainingPlansListCtrl implements IComponentController {
     // private
 
     // inject
-    static $inject = ['$scope', 'TrainingPlansService', 'TrainingPlanDialogService'];
+    static $inject = ["$scope", "TrainingPlansService", "TrainingPlanDialogService"];
 
     constructor (private $scope: any,
                  private trainingPlansService: TrainingPlansService,
@@ -30,7 +30,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     $onChanges (changes): void {
-        if (this.filter && !changes[ 'filter' ].isFirstChanges) {
+        if (this.filter && !changes[ "filter" ].isFirstChanges) {
             this.trainingPlansService.search(this.filter).then(this.updateList.bind(this));
         }
     }
@@ -49,7 +49,7 @@ class TrainingPlansListCtrl implements IComponentController {
 
     delete (planId: number) {
         this.trainingPlansService.delete(planId)
-            .then(() => this.plans.delete(planId), error => {debugger;})
+            .then(() => this.plans.delete(planId), (error) => {debugger;})
             .then(() => this.update());
     }
 
@@ -68,7 +68,7 @@ class TrainingPlansListCtrl implements IComponentController {
                     this.plans.put(response.plan.prepareObjects()); //plan = response.plan;
                 }
             })
-            .then(plan => this.update());
+            .then((plan) => this.update());
     }
 
     private update (): void {
@@ -79,15 +79,15 @@ class TrainingPlansListCtrl implements IComponentController {
 
 const TrainingPlansListComponent: IComponentOptions = {
     bindings: {
-        plans: '<',
-        filter: '<',
-        onEvent: '&'
+        plans: "<",
+        filter: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: TrainingPlansListCtrl,
-    template: require('./training-plans-list.component.html') as string
+    template: require("./training-plans-list.component.html") as string,
 };
 
 export default TrainingPlansListComponent;

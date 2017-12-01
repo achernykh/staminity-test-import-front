@@ -1,18 +1,18 @@
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IComponentController, IComponentOptions, IPromise } from "angular";
 import { IActivityCategory } from "../../../../api/reference/reference.interface";
 
-import IMessageService from '../../core/message.service';
+import { activityTypes, getType } from "../../activity/activity.constants";
+import IMessageService from "../../core/message.service";
+import { path } from "../../share/utility";
 import ReferenceService from "../reference.service";
-import { path } from '../../share/utility';
-import { getType, activityTypes } from "../../activity/activity.constants";
-import './category.component.scss';
+import "./category.component.scss";
 
 
 class CategoryCtrl implements IComponentController {
 
 	public category: IActivityCategory;
 
-	static $inject = ['$scope', '$filter', '$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
+	static $inject = ["$scope", "$filter", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
 
 	constructor (
 		private $scope, 
@@ -20,7 +20,7 @@ class CategoryCtrl implements IComponentController {
 		private $mdDialog,
 		private $mdMedia,
 		private message: IMessageService,
-		private ReferenceService: ReferenceService
+		private ReferenceService: ReferenceService,
 	) {
 		
 	}
@@ -48,10 +48,10 @@ class CategoryCtrl implements IComponentController {
 
 const CategoryComponent: IComponentOptions = {
 	bindings: {
-		category: '<'
+		category: "<",
 	},
 	controller: CategoryCtrl,
-	template: require('./category.component.html') as string
+	template: require("./category.component.html") as string,
 };
 
 

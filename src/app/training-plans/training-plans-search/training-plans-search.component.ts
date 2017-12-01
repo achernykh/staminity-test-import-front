@@ -1,14 +1,14 @@
-import "./training-plans-search.component.scss";
-import { IComponentOptions, IComponentController, IPromise } from "angular";
-import { TrainingPlansList } from "../training-plans-list/training-plans-list.datamodel";
+import { IComponentController, IComponentOptions, IPromise } from "angular";
+import {Subject} from "rxjs/Rx";
 import {
     ITrainingPlanSearchRequest,
-    ITrainingPlanSearchResult
+    ITrainingPlanSearchResult,
 } from "../../../../api/trainingPlans/training-plans.interface";
 import {IUserProfile} from "../../../../api/user/user.interface";
-import {SessionService, getUser} from "../../core";
-import {Subject} from "rxjs/Rx";
+import {getUser, SessionService} from "../../core";
+import { TrainingPlansList } from "../training-plans-list/training-plans-list.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
+import "./training-plans-search.component.scss";
 
 class TrainingPlansSearchCtrl implements IComponentController {
 
@@ -26,22 +26,22 @@ class TrainingPlansSearchCtrl implements IComponentController {
 
     private searchParams: ITrainingPlanSearchRequest;
     private destroy: Subject<any> = new Subject();
-    static $inject = ['SessionService', 'TrainingPlansService'];
+    static $inject = ["SessionService", "TrainingPlansService"];
 
     constructor (private session: SessionService, private trainingPlansService: TrainingPlansService) {
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
-            .subscribe(userProfile => this.user = userProfile);
+            .subscribe((userProfile) => this.user = userProfile);
 
         this.searchParams = {
-            ownerId: this.user.userId
+            ownerId: this.user.userId,
         };
 
         this.trainingPlansService.search(this.searchParams)
             .then(
                 this.prepareList.bind(this),
-                error => {debugger;}
+                (error) => {debugger;},
             );
 
 
@@ -60,14 +60,14 @@ class TrainingPlansSearchCtrl implements IComponentController {
 
 const TrainingPlansSearchComponent: IComponentOptions = {
     bindings: {
-        list: '<',
-        onEvent: '&'
+        list: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: TrainingPlansSearchCtrl,
-    template: require('./training-plans-search.component.html') as string
+    template: require("./training-plans-search.component.html") as string,
 };
 
 export default TrainingPlansSearchComponent;

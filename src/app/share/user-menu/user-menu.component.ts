@@ -1,25 +1,25 @@
-import { IComponentOptions, IComponentController, ILocationService} from 'angular';
-import { UserMenuSettings } from '../application-menu/application-menu.constants';
-import {IUserProfile} from "../../../../api";
-import { SessionService, getUser } from "../../core";
-import { Subject } from "rxjs/Rx";
+import { IComponentController, IComponentOptions, ILocationService} from "angular";
 import {StateService} from "angular-ui-router";
+import { Subject } from "rxjs/Rx";
+import {IUserProfile} from "../../../../api";
+import { getUser, SessionService } from "../../core";
 import DisplayService from "../../core/display.service";
+import { UserMenuSettings } from "../application-menu/application-menu.constants";
 
 class UserMenuCtrl implements IComponentController{
 
-    private menu: Array<any> = UserMenuSettings;
+    private menu: any[] = UserMenuSettings;
     private user: IUserProfile;
     private destroy = new Subject();
 
-    static $inject = ['$mdSidenav','$location','SessionService', '$state', 'DisplayService'];
+    static $inject = ["$mdSidenav","$location","SessionService", "$state", "DisplayService"];
 
     constructor(
         private $mdSidenav: any,
         private $location: ILocationService,
         private SessionService: SessionService,
         private $state: StateService,
-        private display: DisplayService
+        private display: DisplayService,
     ) {
         SessionService.getObservable()
         .takeUntil(this.destroy)
@@ -43,10 +43,10 @@ class UserMenuCtrl implements IComponentController{
         if (this.$state.current.name === url) {
             return;
         }
-        if(url.includes('http')) {
+        if(url.includes("http")) {
             window.open(url);
         } else {
-            if (url !== 'user' && url !== 'settings/user') {
+            if (url !== "user" && url !== "settings/user") {
                 this.$state.go(url);
             } else {
                 this.$state.go(url,{uri: this.user.public.uri});
@@ -57,10 +57,10 @@ class UserMenuCtrl implements IComponentController{
 
 let UserMenuComponent: IComponentOptions = {
     bindings: {
-        id: '<'
+        id: "<",
     },
     transclude: false,
     controller: UserMenuCtrl,
-    template: require('./user-menu.template.html') as string
+    template: require("./user-menu.template.html") as string,
 };
 export default UserMenuComponent;

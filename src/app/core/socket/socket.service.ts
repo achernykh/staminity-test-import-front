@@ -1,10 +1,10 @@
-import * as _connection from "../env.js";
 import { StateService } from "angular-ui-router";
-import { SessionService, IConnectionSettings, Deferred } from "../index";
-import { Observable, Subject, Subscription } from "rxjs/Rx";
-import LoaderService from "../../share/loader/loader.service";
 import { WebSocketSubject } from "rxjs/observable/dom/WebSocketSubject";
-import { IWSResponse, IWSRequest } from "../../../../api";
+import { Observable, Subject, Subscription } from "rxjs/Rx";
+import { IWSRequest, IWSResponse } from "../../../../api";
+import LoaderService from "../../share/loader/loader.service";
+import * as _connection from "../env.js";
+import { Deferred, IConnectionSettings, SessionService } from "../index";
 
 export class SocketService {
 
@@ -20,7 +20,7 @@ export class SocketService {
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
 
-    static $inject = ['ConnectionSettingsConfig', 'SessionService', 'LoaderService'];
+    static $inject = ["ConnectionSettingsConfig", "SessionService", "LoaderService"];
 
     constructor (private settings: IConnectionSettings,
                  private session: SessionService,
@@ -37,7 +37,7 @@ export class SocketService {
      */
     init (): Promise<boolean> {
 
-        console.log('socket: init');
+        console.log("socket: init");
 
         if ( this.socketStarted ) {
             return Promise.resolve(true);
@@ -52,12 +52,12 @@ export class SocketService {
                 if ( this.socketStarted ) {
                     // Свзяь с сервером есть
                     //this.connections.next(true);
-                    console.log('socket: resolve true');
+                    console.log("socket: resolve true");
                     return resolve(true);
                 } else {
                     // Свзязи с сервером нет
                     //this.connections.next(false);
-                    console.log('socket: reject false');
+                    console.log("socket: reject false");
                     return reject(false);
                 }
 
@@ -75,7 +75,7 @@ export class SocketService {
         if ( this.socket && !this.socket.closed ) { return; }
 
         try {
-            this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
+            this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + "/" + token);
             this.socket = this.ws.subscribe({
                 next: (message: IWSResponse) => {
                     if ( !this.socketStarted ) { this.connections.next(true); }
@@ -84,7 +84,7 @@ export class SocketService {
                     this.check();
                 },
                 error: () => this.close(),
-                complete: () => this.close()
+                complete: () => this.close(),
             });
         } catch ( e ) {
             if ( this.socketStarted ) {
@@ -116,7 +116,7 @@ export class SocketService {
 
         let interval = setInterval(() => {
 
-            this.init().then(() => clearTimeout(interval), () => console.info('reopen session failed'));
+            this.init().then(() => clearTimeout(interval), () => console.info("reopen session failed"));
 
         }, this.settings.delayOnReopen);
 
@@ -128,12 +128,12 @@ export class SocketService {
      */
     public response (message: IWSResponse) {
 
-        if ( message.hasOwnProperty('requestId') && this.requests[message.requestId] ) {
+        if ( message.hasOwnProperty("requestId") && this.requests[message.requestId] ) {
 
             let request: Deferred<any> = this.requests[message.requestId];
             this.loader.hide();
 
-            if ( !message.hasOwnProperty('errorMessage') ) {
+            if ( !message.hasOwnProperty("errorMessage") ) {
                 request.resolve(message.data);
             } else {
                 request.reject(message.errorMessage);
@@ -141,10 +141,10 @@ export class SocketService {
 
             delete this.requests[message.requestId];
 
-        } else if ( message.hasOwnProperty('errorMessage') && message.errorMessage === 'badToken' ) {
+        } else if ( message.hasOwnProperty("errorMessage") && message.errorMessage === "badToken" ) {
 
             this.close();
-            this.$state.go('signin');
+            this.$state.go("signin");
 
         }
     }
@@ -171,7 +171,7 @@ export class SocketService {
         }
 
         if ( !this.session.getToken() ) { // если пользователь не авторизован
-            return Promise.reject('userNotAuthorized');
+            return Promise.reject("userNotAuthorized");
         }
 
         request.requestId = this.requestId++;
@@ -191,7 +191,7 @@ export class SocketService {
                 setTimeout(() => {
 
                     if ( this.requests[request.requestId] ) {
-                        this.requests[request.requestId].reject('timeoutExceeded'); //TODO что делаем с этим?
+                        this.requests[request.requestId].reject("timeoutExceeded"); //TODO что делаем с этим?
                         delete this.requests[request.requestId];
                         this.loader.hide();
                     }
@@ -201,8 +201,8 @@ export class SocketService {
                 return this.requests[request.requestId].promise;
             },
             () => {
-                throw new Error('internetConnectionLost');
-            }
+                throw new Error("internetConnectionLost");
+            },
         );
     }
 }

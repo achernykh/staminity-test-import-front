@@ -1,13 +1,13 @@
-import {IReportResponse, IReportRequestData} from "../../../api/statistics/statistics.interface";
-import {SocketService} from "./index";
+import {IReportRequestData, IReportResponse} from "../../../api/statistics/statistics.interface";
 import {GetIChartMetricsRequest} from "../../../api/statistics/statistics.request";
+import {SocketService} from "./index";
 
 /**
  *
  */
 export default class StatisticsService {
 
-    static $inject = ['SocketService'];
+    static $inject = ["SocketService"];
 
     constructor(private socket: SocketService) {
 

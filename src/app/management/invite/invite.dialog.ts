@@ -1,22 +1,22 @@
 export const inviteDialogConf = (groupId, $event) => {
     return {
         controller: InviteDialogController,
-        controllerAs: '$ctrl',
-        template: require('./invite.dialog.html'),
+        controllerAs: "$ctrl",
+        template: require("./invite.dialog.html"),
         parent: angular.element(document.body),
         targetEvent: $event,
         locals: { groupId },
         bindToController: true,
         clickOutsideToClose: false,
         escapeToClose: true,
-        fullscreen: true
+        fullscreen: true,
 
     };
 };
         
 class InviteDialogController {
 
-    static $inject = ['$scope','$mdDialog'];
+    static $inject = ["$scope","$mdDialog"];
 
     hide = () => {
         this.$mdDialog.hide();

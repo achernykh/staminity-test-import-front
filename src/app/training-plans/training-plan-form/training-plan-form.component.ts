@@ -1,11 +1,11 @@
-import './training-plan-form.component.scss';
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
-import MessageService from "@app/core/message.service";
-import { FormMode } from "../../application.interface";
 import { IRevisionResponse } from "@api/core";
+import MessageService from "@app/core/message.service";
+import { IComponentController, IComponentOptions, IPromise } from "angular";
+import { FormMode } from "../../application.interface";
+import { TrainingPlanConfig } from "../training-plan/training-plan.config";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
-import { TrainingPlanConfig } from "../training-plan/training-plan.config";
+import "./training-plan-form.component.scss";
 
 class TrainingPlanFormCtrl implements IComponentController {
 
@@ -15,7 +15,7 @@ class TrainingPlanFormCtrl implements IComponentController {
     onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
 
     //inject
-    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message' ];
+    static $inject = [ "TrainingPlansService", "trainingPlanConfig", "message" ];
 
     constructor (private trainingPlanService: TrainingPlansService,
                  private config: TrainingPlanConfig,
@@ -33,7 +33,7 @@ class TrainingPlanFormCtrl implements IComponentController {
                 .post(this.plan.clear())
                 .then((response: IRevisionResponse) => this.onSave({
                         mode: this.mode,
-                        plan: this.plan.applyRevision(response)
+                        plan: this.plan.applyRevision(response),
                     }),
                     (error) => this.message.toastInfo(error));
         }
@@ -43,7 +43,7 @@ class TrainingPlanFormCtrl implements IComponentController {
                 .put(this.plan.clear())
                 .then((response: IRevisionResponse) => this.onSave({
                         mode: this.mode,
-                        plan: this.plan.applyRevision(response)
+                        plan: this.plan.applyRevision(response),
                     }),
                     (error) => this.message.toastInfo(error));
         }
@@ -74,16 +74,16 @@ class TrainingPlanFormCtrl implements IComponentController {
 
 const TrainingPlanFormComponent: IComponentOptions = {
     bindings: {
-        plan: '<',
-        mode: '<',
-        onCancel: '&',
-        onSave: '&'
+        plan: "<",
+        mode: "<",
+        onCancel: "&",
+        onSave: "&",
     },
     require: {
         //component: '^component'
     },
     controller: TrainingPlanFormCtrl,
-    template: require('./training-plan-form.component.html') as string
+    template: require("./training-plan-form.component.html") as string,
 };
 
 export default TrainingPlanFormComponent;

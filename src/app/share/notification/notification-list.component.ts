@@ -1,17 +1,17 @@
-import './notification-list.component.scss';
-import * as moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
+import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
+import * as moment from "moment/min/moment-with-locales.js";
 import {Subject} from "rxjs/Rx";
-import NotificationService from "./notification.service";
+import {ICalendarItem, Initiator, INotification, IUserProfile, Notification} from "../../../../api";
 import {CalendarService} from "../../calendar/calendar.service";
+import { getUser, SessionService} from "../../core";
 import UserService from "../../core/user.service";
-import { SessionService, getUser} from "../../core";
-import {IUserProfile, ICalendarItem, INotification, Notification, Initiator} from "../../../../api";
+import "./notification-list.component.scss";
+import NotificationService from "./notification.service";
 
 class NotificationListCtrl implements IComponentController {
 
     public isOpen: boolean;
-    public notifications: Array<Notification>;
+    public notifications: Notification[];
     public data: any;
     public onEvent: (response: Object) => IPromise<void>;
     public readonly readTime: 5000;
@@ -24,14 +24,14 @@ class NotificationListCtrl implements IComponentController {
         activityCreatedByAthlete: 3,
         activityFactModifiedByAthlete: 3,
         newCoachComment: 3,
-        newAthleteComment: 3
+        newAthleteComment: 3,
     };
-    private readonly commentTemplates: Array<string> = ['newCoachComment','newAthleteComment'];
+    private readonly commentTemplates: string[] = ["newCoachComment","newAthleteComment"];
     private currentUser: IUserProfile;
 	private destroy: Subject<any> = new Subject();
 
-    static $inject = ['$scope','$mdDialog','$mdSidenav','NotificationService','CalendarService', 'UserService',
-        'SessionService'];
+    static $inject = ["$scope","$mdDialog","$mdSidenav","NotificationService","CalendarService", "UserService",
+        "SessionService"];
 
     constructor(
         private $scope: IScope,
@@ -40,7 +40,7 @@ class NotificationListCtrl implements IComponentController {
         private NotificationService: NotificationService,
         private CalendarService: CalendarService,
         private UserService: UserService,
-        private session: SessionService
+        private session: SessionService,
     ) {
 
     }
@@ -79,7 +79,7 @@ class NotificationListCtrl implements IComponentController {
 
     close () {
         //clearTimeout(this.timer);
-        this.$mdSidenav('notifications').toggle();
+        this.$mdSidenav("notifications").toggle();
         this.NotificationService.put(null, moment().utc() ,true);
         /*setTimeout(() => {
             if(this.notifications) {
@@ -89,14 +89,14 @@ class NotificationListCtrl implements IComponentController {
     }
 
     onClick($event, notification: Notification):void {
-        if(Object.keys(this.activityTemplates).some(k => k === notification.template)) {
+        if(Object.keys(this.activityTemplates).some((k) => k === notification.template)) {
 
             this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
-                .then(response => {
+                .then((response) => {
                     let activity: ICalendarItem = response[0];
                     this.$mdDialog.show({
                         controller: DialogController,
-                        controllerAs: '$ctrl',
+                        controllerAs: "$ctrl",
                         template:
                             `<md-dialog id="activity" aria-label="Activity">
                                 <calendar-item-activity
@@ -112,23 +112,23 @@ class NotificationListCtrl implements IComponentController {
                         targetEvent: $event,
                         locals: {
                             data: activity,
-                            mode: 'view',
-                            tab: (this.commentTemplates.some(t => t === notification.template) && 'chat') || null
+                            mode: "view",
+                            tab: (this.commentTemplates.some((t) => t === notification.template) && "chat") || null,
                         },
                         resolve: {
                             user: () => {
                                 return this.currentUser.userId === activity.userProfileOwner.userId ? Promise.resolve(this.currentUser) :
-                                    this.UserService.getProfile(activity.userProfileOwner.userId).catch(error => console.error(error));
-                            }
+                                    this.UserService.getProfile(activity.userProfileOwner.userId).catch((error) => console.error(error));
+                            },
                         },
                         bindToController: true,
                         clickOutsideToClose: true,
                         escapeToClose: true,
-                        fullscreen: true
+                        fullscreen: true,
 
-                    }).then(response => console.log(response), error => console.log(error));
+                    }).then((response) => console.log(response), (error) => console.log(error));
 
-                }, error => {throw new Error(error);});
+                }, (error) => {throw new Error(error);});
 
             this.NotificationService.put(notification.id, null, true).catch();
 
@@ -139,15 +139,15 @@ class NotificationListCtrl implements IComponentController {
 
 const NotificationListComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        isOpen: '<',
-        onEvent: '&'
+        data: "<",
+        isOpen: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: NotificationListCtrl,
-    template: require('./notification-list.component.html') as string
+    template: require("./notification-list.component.html") as string,
 };
 
 export default NotificationListComponent;
@@ -158,7 +158,7 @@ function DialogController($scope, $mdDialog) {
     };
 
     $scope.cancel = function() {
-        console.log('cancel');
+        console.log("cancel");
         $mdDialog.cancel();
     };
 
@@ -166,4 +166,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ['$scope','$mdDialog'];
+DialogController.$inject = ["$scope","$mdDialog"];

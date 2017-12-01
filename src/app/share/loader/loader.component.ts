@@ -1,11 +1,11 @@
-import { IComponentController, IComponentOptions, IScope } from 'angular';
+import { IComponentController, IComponentOptions, IScope } from "angular";
 
-import LoaderService from './loader.service';
-import './loader.component.scss';
+import "./loader.component.scss";
+import LoaderService from "./loader.service";
 
 class LoaderController implements IComponentController {
 
-	static $inject = ['LoaderService','$scope'];
+	static $inject = ["LoaderService","$scope"];
 
 	private isVisible: boolean;
 
@@ -33,7 +33,7 @@ class LoaderController implements IComponentController {
 const LoaderComponent: IComponentOptions = {
 
 	controller: LoaderController,
-	template: require('./loader.component.html') as string
+	template: require("./loader.component.html") as string,
 
 };
 

@@ -1,9 +1,9 @@
-import './dashboard-total.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {
-    calculateCalendarTotals, calculateCalendarSummary,
-    ICalendarWeekSummary, ICalendarWeekTotal
-} from '../../calendar/total/calendar-total.function';
+    calculateCalendarSummary, calculateCalendarTotals,
+    ICalendarWeekSummary, ICalendarWeekTotal,
+} from "../../calendar/total/calendar-total.function";
+import "./dashboard-total.component.scss";
 
 class DashboardTotalCtrl implements IComponentController {
 
@@ -31,15 +31,15 @@ class DashboardTotalCtrl implements IComponentController {
 
 const DashboardTotalComponent:IComponentOptions = {
     bindings: {
-        week: '<',
-        update: '<',
-        onEvent: '&'
+        week: "<",
+        update: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: DashboardTotalCtrl,
-    template: require('./dashboard-total.component.html') as string
+    template: require("./dashboard-total.component.html") as string,
 };
 
 export default DashboardTotalComponent;

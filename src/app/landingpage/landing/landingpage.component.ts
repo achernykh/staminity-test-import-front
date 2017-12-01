@@ -1,21 +1,21 @@
-import { IComponentOptions, IComponentController} from 'angular';
-import {IAuthService} from "../../auth/auth.service";
-import {StateService} from 'angular-ui-router';
-import {SessionService} from "../../core";
+import { IComponentController, IComponentOptions} from "angular";
+import {StateService} from "angular-ui-router";
+import { Observable } from "rxjs/Observable";
 import {IUserProfile} from "../../../../api";
-import { Observable } from 'rxjs/Observable';
+import {IAuthService} from "../../auth/auth.service";
+import {SessionService} from "../../core";
 import DisplayService from "../../core/display.service";
-require('./landingpage.component.scss');
+require("./landingpage.component.scss");
 
 class LandingPageCtrl implements IComponentController {
 
 	private readonly slides: any = {
-		athlete: ['lp-user-01.png','lp-user-02.png','lp-user-03.png'],
-		coach: ['lp-coach-01.png'],
-		club: ['lp-club-01.png']
+		athlete: ["lp-user-01.png","lp-user-02.png","lp-user-03.png"],
+		coach: ["lp-coach-01.png"],
+		club: ["lp-club-01.png"],
 	};
 
-	static $inject = ['AuthService', '$state', 'SessionService', 'DisplayService'];
+	static $inject = ["AuthService", "$state", "SessionService", "DisplayService"];
 
 	constructor(private AuthService: IAuthService,
 				private $state: StateService,
@@ -30,9 +30,9 @@ class LandingPageCtrl implements IComponentController {
 
 	go() {
 		if(this.AuthService.isAuthenticated()) {
-			this.$state.go('calendar', {uri: this.user.public.uri});
+			this.$state.go("calendar", {uri: this.user.public.uri});
 		} else {
-			this.$state.go('signup');
+			this.$state.go("signup");
 		}
 	}
 
@@ -40,10 +40,10 @@ class LandingPageCtrl implements IComponentController {
 
 const LandingPageComponent: IComponentOptions = {
 	bindings: {
-		view: '<'
+		view: "<",
 	},
 	controller: LandingPageCtrl,
-	template: require('./landingpage.component.html') as string
+	template: require("./landingpage.component.html") as string,
 };
 
 export default LandingPageComponent;

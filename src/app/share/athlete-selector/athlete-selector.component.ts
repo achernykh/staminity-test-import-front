@@ -1,26 +1,26 @@
-import './athlete-selector.component.scss';
-import {IComponentOptions, IComponentController, IPromise,IScope} from 'angular';
-import { SessionService, getUser} from "../../core";
+import {IComponentController, IComponentOptions, IPromise,IScope} from "angular";
+import {Subject} from "rxjs/Rx";
+import {IGroupManagementProfileMember} from "../../../../api";
+import { getUser, SessionService} from "../../core";
 import GroupService from "../../core/group.service";
 import MessageService from "../../core/message.service";
-import {IGroupManagementProfileMember} from "../../../../api";
-import {Subject} from 'rxjs/Rx';
+import "./athlete-selector.component.scss";
 
 class AthleteSelectorCtrl implements IComponentController {
 
     public data: any;
     onAnswer: (response: {uri: string}) => IPromise<void>;
     onCancel: (response: Object) => IPromise<void>;
-    private athletes: Array<IGroupManagementProfileMember>;
+    private athletes: IGroupManagementProfileMember[];
     private destroy = new Subject();
 
-    static $inject = ['SessionService','GroupService','message','$scope'];
+    static $inject = ["SessionService","GroupService","message","$scope"];
 
     constructor(
         private SessionService: SessionService,
         private GroupService: GroupService,
         private message: MessageService,
-        private $scope: IScope
+        private $scope: IScope,
     ) {
         SessionService.getObservable()
         .takeUntil(this.destroy)
@@ -49,12 +49,12 @@ class AthleteSelectorCtrl implements IComponentController {
 
 const AthleteSelectorComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        onCancel: '&',
-        onAnswer: '&'
+        data: "<",
+        onCancel: "&",
+        onAnswer: "&",
     },
     controller: AthleteSelectorCtrl,
-    template: require('./athlete-selector.component.html') as string
+    template: require("./athlete-selector.component.html") as string,
 };
 
 export default AthleteSelectorComponent;

@@ -1,17 +1,17 @@
-import moment from 'moment/src/moment.js';
+import moment from "moment/src/moment.js";
+import {SessionService} from "../../core";
 import {
-	_measurement,
 	_activity_measurement_view,
+	_measurement,
 	_measurement_calculate,
-	_measurement_system_calculate,
 	_measurement_pace_unit,
+	_measurement_system_calculate,
 	isDuration,
 	isPace,
 	measurementUnit,
+	measurementUnitDisplay,
 	measurementUnitView,
-	measurementUnitDisplay
-} from './measure.constants';
-import {SessionService} from "../../core";
+} from "./measure.constants";
 /*
 export const measureView = ['SessionService', (SessionService:ISessionService) => (data, sport, measure, chart = false, units = 'metric') => {
 	if (!!data) {
@@ -44,20 +44,20 @@ export const measureUnit = ['SessionService', (SessionService:ISessionService) =
 	return (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
 }];*/
 
-export const duration = () => (second = 0, round: string = 'second') => {
-	let time = moment().startOf('day').millisecond(second*1000);
-	if (round === 'millisecond'){
-		return time.format('HH:mm:ss.S');
+export const duration = () => (second = 0, round: string = "second") => {
+	let time = moment().startOf("day").millisecond(second*1000);
+	if (round === "millisecond"){
+		return time.format("HH:mm:ss.S");
 	} else {
-		return time.format('HH:mm:ss');
+		return time.format("HH:mm:ss");
 	}
 };
 
 export function peaksByTime(second: number):string {
 	if(second < 60){
-		return `${moment().startOf('day').millisecond(second * 1000).format('ss')} с`;
+		return `${moment().startOf("day").millisecond(second * 1000).format("ss")} с`;
 	} else if (second < 60 * 60) {
-		return `${moment().startOf('day').millisecond(second * 1000).format('mm')} мин`;
+		return `${moment().startOf("day").millisecond(second * 1000).format("mm")} мин`;
 	} else {
 		return `${Number(second / 60 / 60).toFixed(1)} ч`;
 	}

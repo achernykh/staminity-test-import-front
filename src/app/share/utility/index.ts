@@ -1,10 +1,10 @@
-export * from './path';
-export * from './filtering';
-export * from './memorize';
-export * from './createSelector';
+export * from "./path";
+export * from "./filtering";
+export * from "./memorize";
+export * from "./createSelector";
 
-import * as arrays from './arrays';
+import * as arrays from "./arrays";
 export { arrays };
 
-import * as functions from './functions';
+import * as functions from "./functions";
 export { functions };

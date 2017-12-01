@@ -1,35 +1,35 @@
 import {merge} from "angular";
-import {
-    IUserProfile, IUserConnections, ITrainingZonesType,
-    GetSummaryStatisticsRequest,
-    GetUserRequest, PutUserRequest, GetUserConnectionsRequest, GetTrainingZonesRequest,
-    IGetTrainigZonesResponse,
-    MessageGroupMembership, ProtocolGroupUpdate, IGroupProfile,
-    ISystemMessage
-} from '../../../api';
-import {SocketService, SessionService, getUser, getCurrentUserId} from './index';
-import {PostData, PostFile, IRESTService} from './rest.service';
-import { IHttpPromise, IHttpPromiseCallbackArg, copy } from 'angular';
+import { copy, IHttpPromise, IHttpPromiseCallbackArg } from "angular";
 import {Observable} from "rxjs";
+import {
+    GetSummaryStatisticsRequest, GetTrainingZonesRequest, GetUserConnectionsRequest,
+    GetUserRequest,
+    IGetTrainigZonesResponse, IGroupProfile, ISystemMessage, ITrainingZonesType,
+    IUserConnections,
+    IUserProfile, MessageGroupMembership, ProtocolGroupUpdate,
+    PutUserRequest,
+} from "../../../api";
 import ReferenceService from "../reference/reference.service";
+import {getCurrentUserId, getUser, SessionService, SocketService} from "./index";
+import {IRESTService, PostData, PostFile} from "./rest.service";
 
 
 export default class UserService {
 
     messageHandlers = {
-        'systemFunctions': ({ value }) => this.SessionService.setPermissions(value),
-        'systemFunction': (message) => this.updatePermissions(message),
-        'groupMembership': (message) => this.updateGroup(new ProtocolGroupUpdate(message)),
-        'controlledClub': (message) => this.updateClubs(new ProtocolGroupUpdate(message))
+        "systemFunctions": ({ value }) => this.SessionService.setPermissions(value),
+        "systemFunction": (message) => this.updatePermissions(message),
+        "groupMembership": (message) => this.updateGroup(new ProtocolGroupUpdate(message)),
+        "controlledClub": (message) => this.updateClubs(new ProtocolGroupUpdate(message)),
     };
 
-    static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
+    static $inject = ["SessionService", "SocketService", "RESTService", "ReferenceService"];
 
     constructor(
         private SessionService: SessionService,
         private SocketService: SocketService,
         private RESTService:IRESTService,
-        private ReferenceService: ReferenceService
+        private ReferenceService: ReferenceService,
     ) {
         this.SessionService.getObservable()
         .map(getCurrentUserId)
@@ -67,16 +67,16 @@ export default class UserService {
     setConnections(connections: IUserConnections) {
         if (connections && connections.allAthletes) {
             this.getTrainingZones(null, connections.allAthletes.groupId)
-            .then((result:Array<IGetTrainigZonesResponse>) => {
+            .then((result:IGetTrainigZonesResponse[]) => {
                 connections.allAthletes.groupMembers =
-                    connections.allAthletes.groupMembers.map(athlete =>
+                    connections.allAthletes.groupMembers.map((athlete) =>
                         Object.assign(athlete,
-                            {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
+                            {trainingZones: result.filter((r) => r.userId === athlete.userId)[0].trainingZones}));
                 return connections;
             }, (error) => {
                 throw `error in getTrainingZones => ${error}`;
             })
-            .then(connections => this.SessionService.updateUser({connections}));
+            .then((connections) => this.SessionService.updateUser({connections}));
         } else {
             this.SessionService.updateUser({connections});
         }
@@ -87,7 +87,7 @@ export default class UserService {
      * @returns {Promise<any>}
      */
     getConnections() : Promise<any> {
-        return this.SocketService.send(new GetUserConnectionsRequest()).then(result => result);
+        return this.SocketService.send(new GetUserConnectionsRequest()).then((result) => result);
     }
 
     /**
@@ -97,7 +97,7 @@ export default class UserService {
      * @returns {Promise<any>}
      */
     getTrainingZones(userId: number, groupId: number = null) : Promise<any> {
-        return this.SocketService.send(new GetTrainingZonesRequest(userId, groupId)).then(result => result.arrayResult);
+        return this.SocketService.send(new GetTrainingZonesRequest(userId, groupId)).then((result) => result.arrayResult);
     }
 
     /**
@@ -110,7 +110,7 @@ export default class UserService {
         return ws ? (
             this.SocketService.send(new GetUserRequest(key))
         ) : (
-            this.RESTService.postData(new PostData('/api/wsgate', new GetUserRequest(key)))
+            this.RESTService.postData(new PostData("/api/wsgate", new GetUserRequest(key)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data)
         )
         .then((user) => {
@@ -135,7 +135,7 @@ export default class UserService {
             }
             return updatedUser;
         }, (error) => {
-            if (error === 'expiredObject') {
+            if (error === "expiredObject") {
                 this.getProfile(userChanges.userId)
                 .then((user) => this.putProfile({ ...user, ...userChanges }));
             }
@@ -148,7 +148,7 @@ export default class UserService {
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
     postProfileAvatar(file:any) : IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile('/user/avatar',file))
+        return this.RESTService.postFile(new PostFile("/user/avatar",file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
                 return response.data;
@@ -161,7 +161,7 @@ export default class UserService {
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
     postProfileBackground(file:any) : IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile('/user/background',file))
+        return this.RESTService.postFile(new PostFile("/user/background",file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
                 return response.data;
@@ -177,10 +177,10 @@ export default class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> {
+    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: string[], ws:boolean = true) : Promise<any> {
         return ws ?
             this.SocketService.send(new GetSummaryStatisticsRequest(id, start, end, group, data)) :
-            this.RESTService.postData(new PostData('/api/wsgate', new GetSummaryStatisticsRequest(id, start, end, group, data)))
+            this.RESTService.postData(new PostData("/api/wsgate", new GetSummaryStatisticsRequest(id, start, end, group, data)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
@@ -195,11 +195,11 @@ export default class UserService {
         if(!group) {
             return;
         }
-        if(message.action === 'I' && group.hasOwnProperty('groupMembers')){
-            if(message.groupCode === 'allAthletes'){
+        if(message.action === "I" && group.hasOwnProperty("groupMembers")){
+            if(message.groupCode === "allAthletes"){
                 this.getTrainingZones(message.userProfile.userId)
-                    .then(result => Object.assign(message.userProfile, {trainingZones: result[0]}))
-                    .then(profile => {
+                    .then((result) => Object.assign(message.userProfile, {trainingZones: result[0]}))
+                    .then((profile) => {
                         group.groupMembers.push(profile);
                         connections[message.groupCode] = group;
                         return this.SessionService.updateUser({connections});
@@ -207,8 +207,8 @@ export default class UserService {
             } else {
                 group.groupMembers.push(message.userProfile);
             }
-        } else if(message.action === 'D'){
-            let index: number = group.groupMembers.findIndex(m => m.userId === message.userProfile.userId);
+        } else if(message.action === "D"){
+            let index: number = group.groupMembers.findIndex((m) => m.userId === message.userProfile.userId);
             if(index !== -1){
                 group.groupMembers.splice(index,1);
             }
@@ -219,22 +219,22 @@ export default class UserService {
 
     private updateClubs(message: ProtocolGroupUpdate): void {
         let connections = copy(this.SessionService.getUser().connections) || null;
-        let clubs:Array<IGroupProfile> = connections && connections.ControlledClubs || null;
+        let clubs:IGroupProfile[] = connections && connections.ControlledClubs || null;
 
         if(!clubs) {
             return;
         }
 
-        if(message.action === 'I'){
+        if(message.action === "I"){
             clubs.push(<IGroupProfile>message.groupProfile);
             //controlledClub.groupMembers.push(message.userProfile);
-        } else if(message.action === 'D'){
-            let index:number = clubs.findIndex(g => g.groupId === message.groupProfile.groupId);
+        } else if(message.action === "D"){
+            let index:number = clubs.findIndex((g) => g.groupId === message.groupProfile.groupId);
             if(index !== -1){
                 clubs.splice(index,1);
             }
-        } else if(message.action === 'U'){
-            let index:number = clubs.findIndex(g => g.groupId === message.groupProfile.groupId);
+        } else if(message.action === "U"){
+            let index:number = clubs.findIndex((g) => g.groupId === message.groupProfile.groupId);
             if(index !== -1){
                 clubs[index] = <IGroupProfile>message.groupProfile;
             }

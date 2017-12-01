@@ -6,11 +6,11 @@ interface ITrainingPlans {
 
 export class TrainingPlansList implements ITrainingPlans{
 
-    list: Array<TrainingPlan> = [];
+    list: TrainingPlan[] = [];
 
-    constructor(list?: Array<Array<any>>) {
+    constructor(list?: any[][]) {
         if(list) {
-           list.map(r => this.list.push(new TrainingPlan(r)));
+           list.map((r) => this.list.push(new TrainingPlan(r)));
         }
     }
 
@@ -19,7 +19,7 @@ export class TrainingPlansList implements ITrainingPlans{
     }
 
     put (plan: TrainingPlan): void {
-        let id: number = this.list.findIndex(p => p.id === plan.id);
+        let id: number = this.list.findIndex((p) => p.id === plan.id);
 
         if(id !== -1) {
             this.list[id] = plan;
@@ -27,7 +27,7 @@ export class TrainingPlansList implements ITrainingPlans{
     }
 
     delete (planId: number): void {
-        let id: number = this.list.findIndex(p => p.id === planId);
+        let id: number = this.list.findIndex((p) => p.id === planId);
 
         if (id !== -1) {
             this.list.splice(id, 1);

@@ -1,6 +1,6 @@
 export class StorageService {
 
-    private readonly location: string = 'localStorage';
+    private readonly location: string = "localStorage";
     private storage: any;
 
     constructor () {

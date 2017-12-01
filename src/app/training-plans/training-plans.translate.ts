@@ -1,19 +1,19 @@
 export const _translateTrainingPlans = {
     ru: {
-        fullTitle: 'Поиск плана подготовкото',
-        shortTitle: 'Поиск плана',
+        fullTitle: "Поиск плана подготовкото",
+        shortTitle: "Поиск плана",
         filter: {
-            create: 'Создать'
+            create: "Создать",
         },
         form: {
-            title: 'Тренировочный план',
+            title: "Тренировочный план",
             tabs: {
-                general: 'Основное',
-                info: 'Информация'
-            }
-        }
+                general: "Основное",
+                info: "Информация",
+            },
+        },
     },
     en: {
 
-    }
+    },
 };

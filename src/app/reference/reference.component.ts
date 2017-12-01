@@ -1,47 +1,47 @@
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IComponentController, IComponentOptions, IPromise } from "angular";
 import { Subject } from "rxjs/Rx";
 
-import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { IActivityType } from "../../../api/activity/activity.interface";
-import { IUserProfile } from "../../../api/user/user.interface";
 import { IGroupProfile } from "../../../api/group/group.interface";
+import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
+import { IUserProfile } from "../../../api/user/user.interface";
 
+import { activityTypes, getType } from "../activity/activity.constants";
 import IMessageService from "../core/message.service";
-import ReferenceService from "./reference.service";
-import { pipe, prop, pick, orderBy, groupBy } from '../share/util';
+import { groupBy, orderBy, pick, pipe, prop } from "../share/util";
 import { filtersToPredicate } from "../share/utility";
-import { getType, activityTypes } from "../activity/activity.constants";
-import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "./reference.datamodel";
-import './reference.component.scss';
+import "./reference.component.scss";
+import { categoriesFilters, getOwner, Owner, ReferenceFilterParams } from "./reference.datamodel";
+import ReferenceService from "./reference.service";
 
 
 export class ReferenceCtrl implements IComponentController {
 
 	public user: IUserProfile;
-	public categories: Array<IActivityCategory> = [];
-	public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
-	public templates: Array<IActivityTemplate> = [];
+	public categories: IActivityCategory[] = [];
+	public categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
+	public templates: IActivityTemplate[] = [];
 	public clubUri: string;
 	public club: IGroupProfile;
 	
 	private filterParams: ReferenceFilterParams = { 
 		club: null,
 		activityType: activityTypes[0],
-		category: null
+		category: null,
 	};
 	
-	private tab: 'templates' | 'categories' = 'templates';
-	private activityTypes: Array<IActivityType> = activityTypes;
+	private tab: "templates" | "categories" = "templates";
+	private activityTypes: IActivityType[] = activityTypes;
 	private destroy: Subject<void> = new Subject<void>();
 
-	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'ReferenceService'];
+	static $inject = ["$scope", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
 
 	constructor (
 		private $scope, 
 		private $mdDialog, 
 		private $mdMedia,
 		private message: IMessageService,
-		private ReferenceService: ReferenceService
+		private ReferenceService: ReferenceService,
 	) {
 		
 	}
@@ -80,25 +80,25 @@ export class ReferenceCtrl implements IComponentController {
 	}
 
 	updateFilterParams () {
-		let filters = pick(['club', 'activityType', 'isActive']) (categoriesFilters);
+		let filters = pick(["club", "activityType", "isActive"]) (categoriesFilters);
 		let categories = this.categories.filter(filtersToPredicate(filters, this.filterParams));
 		let category = this.filterParams.category;
 			
 		this.filterParams = { 
 			...this.filterParams, 
-			category: category && categories.find(({ id }) => category.id === id)? category : categories[0]
+			category: category && categories.find(({ id }) => category.id === id)? category : categories[0],
 		};
 		
 		this.categoriesByOwner = pipe(
-			orderBy(prop('sortOrder')),
-			groupBy(getOwner(this.user))
+			orderBy(prop("sortOrder")),
+			groupBy(getOwner(this.user)),
 		) (categories);
 	}
 	
 	get isMobileLayout () : boolean {
 		let maxWidth = {
-			templates: '1200px',
-			categories: '960px'
+			templates: "1200px",
+			categories: "960px",
 		} [this.tab];
 		
 		return this.$mdMedia(`(max-width: ${maxWidth})`);
@@ -107,12 +107,12 @@ export class ReferenceCtrl implements IComponentController {
 
 const ReferenceComponent: IComponentOptions = {
 	bindings: {
-		user: '<',
-		clubUri: '<',
-		club: '<'
+		user: "<",
+		clubUri: "<",
+		club: "<",
 	},
 	controller: ReferenceCtrl,
-	template: require('./reference.component.html') as string
+	template: require("./reference.component.html") as string,
 };
 
 

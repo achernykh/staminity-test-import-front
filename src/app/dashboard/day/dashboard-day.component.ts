@@ -1,16 +1,16 @@
-import './dashboard-day.component.scss';
-import {IComponentOptions, IComponentController, IPromise, element, copy} from 'angular';
-import moment from 'moment/src/moment.js';
-import {IDashboardDay, DashboardCtrl} from "../dashboard.component";
-import {IUserProfile, IUserProfileShort} from "../../../../api/user/user.interface";
+import {copy, element, IComponentController, IComponentOptions, IPromise} from "angular";
+import moment from "moment/src/moment.js";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
-import {CalendarItemWizardSelectCtrl} from "../../calendar-item/calendar-item-wizard/calendar-item-wizard.component";
+import {IUserProfile, IUserProfileShort} from "../../../../api/user/user.interface";
 import {
-    isSpecifiedActivity, isCompletedActivity, clearActualDataActivity,
-    updateIntensity
+    clearActualDataActivity, isCompletedActivity, isSpecifiedActivity,
+    updateIntensity,
 } from "../../activity/activity.function";
+import {CalendarItemWizardSelectCtrl} from "../../calendar-item/calendar-item-wizard/calendar-item-wizard.component";
 import {CalendarService} from "../../calendar/calendar.service";
 import {profileShort} from "../../core/user.function";
+import {DashboardCtrl, IDashboardDay} from "../dashboard.component";
+import "./dashboard-day.component.scss";
 
 
 class DashboardDayCtrl implements IComponentController {
@@ -21,7 +21,7 @@ class DashboardDayCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     private dashboard: DashboardCtrl;
 
-    static $inject = ['$mdDialog','message','dialogs','CalendarService'];
+    static $inject = ["$mdDialog","message","dialogs","CalendarService"];
 
     constructor(private $mdDialog: any,
                 private message: any,
@@ -43,15 +43,15 @@ class DashboardDayCtrl implements IComponentController {
 
 
         let item:ICalendarItem = copy(srcItem);
-        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
-        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format();//new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format();//new Date(date);
         if (srcAthlete.userId !== this.athlete.userId) {
             item.userProfileOwner = profileShort(srcAthlete);
             //operation = 'copy';
-            this.dialogs.confirm({ text: 'dialogs.updateIntensity' })
+            this.dialogs.confirm({ text: "dialogs.updateIntensity" })
                 .then(() => {item = updateIntensity(item, srcAthlete.trainingZones);})
                 .then(() => this.onProcess(item, operation, true))
-                .then(() => operation === 'move' && this.CalendarService.deleteItem('F',[item.calendarItemId]));
+                .then(() => operation === "move" && this.CalendarService.deleteItem("F",[item.calendarItemId]));
         } else {
             this.onProcess(item, operation);
         }
@@ -60,26 +60,26 @@ class DashboardDayCtrl implements IComponentController {
 
     onProcess(item: ICalendarItem, operation: string, post: boolean = false) {
         switch (operation) {
-            case 'move': {
+            case "move": {
                 if (!post && isCompletedActivity(item)) {
-                    this.dialogs.confirm({ text: 'dialogs.moveActualActivity' })
+                    this.dialogs.confirm({ text: "dialogs.moveActualActivity" })
                         .then(() =>this.CalendarService.postItem(clearActualDataActivity(item)))
-                        .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
+                        .then(() => this.message.toastInfo("activityCopied"), (error) => error && this.message.toastError(error));
                 } else if(!post) {
                     this.CalendarService.putItem(item)
-                        .then(() => this.message.toastInfo('activityMoved'))
-                        .catch(error => this.message.toastError(error));
+                        .then(() => this.message.toastInfo("activityMoved"))
+                        .catch((error) => this.message.toastError(error));
                 } else {
                     this.CalendarService.postItem(item)
-                        .then(() => this.message.toastInfo('activityMoved'))
-                        .catch(error => this.message.toastError(error));
+                        .then(() => this.message.toastInfo("activityMoved"))
+                        .catch((error) => this.message.toastError(error));
                 }
                 break;
             }
-            case 'copy': {
+            case "copy": {
                 this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
-                    .then(() => this.message.toastInfo('activityCopied'))
-                    .catch(error => this.message.toastError(error));
+                    .then(() => this.message.toastInfo("activityCopied"))
+                    .catch((error) => this.message.toastError(error));
                 break;
             }
         }
@@ -96,7 +96,7 @@ class DashboardDayCtrl implements IComponentController {
     postItem($event, date){
         this.$mdDialog.show({
             controller: CalendarItemWizardSelectCtrl,
-            controllerAs: '$ctrl',
+            controllerAs: "$ctrl",
             template:
                 `<md-dialog id="wizard" aria-label="Activity">
                         <calendar-item-wizard
@@ -112,7 +112,7 @@ class DashboardDayCtrl implements IComponentController {
             locals: {
                 date: new Date(date), // дата дня в формате ГГГГ-ММ-ДД
                 user: this.athlete,
-                event: $event
+                event: $event,
             },
             //resolve: {
             //    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
@@ -121,23 +121,23 @@ class DashboardDayCtrl implements IComponentController {
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: false,
-            fullscreen: true
+            fullscreen: true,
         }).then(() => {}, ()=> {});
     }
 }
 
 const DashboardDayComponent:IComponentOptions = {
     bindings: {
-        day: '<',
-        athlete: '<',
-        selected: '<',
-        onSelect: '&'
+        day: "<",
+        athlete: "<",
+        selected: "<",
+        onSelect: "&",
     },
     require: {
-        dashboard: '^dashboard'
+        dashboard: "^dashboard",
     },
     controller: DashboardDayCtrl,
-    template: require('./dashboard-day.component.html') as string
+    template: require("./dashboard-day.component.html") as string,
 };
 
 export default DashboardDayComponent;
