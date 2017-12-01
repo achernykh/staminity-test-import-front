@@ -59,5 +59,5 @@ export const difference = (xs: any[], ys: any[]) : any[] => xs.filter((x) => !in
  * @returns {boolean}
  */  
 export const allEqual = (xs: any[], isEqual: (x: any, y: any) => boolean) : boolean => {
-	return !xs.length || xs.every((x) => isEqual(x, xs[0]));
+    return !xs.length || xs.every((x) => isEqual(x, xs[0]));
 };

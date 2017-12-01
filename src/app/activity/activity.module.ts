@@ -34,45 +34,45 @@ import MeasureMainButtonComponent from "./measure-main-button/measure-main-butto
 import MeasuresAvgTableComponent from "./measures-avg-table/measures-avg-table.component";
 
 export const ActivityModule = module("staminity.activity", [])
-	.service("ActivityService", ActivityService)
-	.component("activity", ActivityComponent)
-	.component("activityHeader", ActivityHeaderComponent)
-	.component("activityHeaderOverview", ActivityHeaderOverviewComponent)
-	.component("activityHeaderDetails", ActivityHeaderDetailsComponent)
-	.component("activityHeaderSplits", ActivityHeaderSplitsComponent)
-	.component("activityHeaderZones",ActivityHeaderZonesComponent)
-	.component("activityHeaderChat", ActivityHeaderChatComponent)
-	.component("activityMetricsDetails", ActivityMetricsDetailsComponent)
-	.component("activitySummaryInfo", ActivitySummaryInfoComponent)
-	.component("activitySegments", ActivitySegmentsComponent)
-	.component("structuredInterval", StructuredIntervalComponent)
-	.component("structuredAssignment", StructuredAssignmentComponent)
-	.component("structuredGroup", StructuredGroupComponent)
-	.component("measureMainButton",MeasureMainButtonComponent)
-	.component("measuresAvgTable",MeasuresAvgTableComponent)
-	.component("measureSplitTable", MeasureSplitTableComponent)
-	.component("activityRoute",ActivityRouteComponent)
-	.component("activityAssignment", ActivityAssignmentComponent)
-	.component("activityPeaks", ActivityPeaksComponent)
-	.constant("activityChartSettings", chartSettings)
-	.component("activityMetricsChar", chartComponent)
-	.constant("segmentChartSettings", DefaultPlanChartSettings)
-	.component("activitySegmentChart", PlanChartComponent)
-	.component("activitySegmentsTable", ActivitySegmentsTableComponent)
-	.component("activityAssignmentButtons", ActivityAssignmentButtonsComponent)
-	.component("activityAssignmentHeader", ActivityAssignmentHeaderComponent)
-	.component("assignmentSummaryNonStructured", AssignmentSummaryNonStructuredComponent)
-	.component("assignmentSummaryStructured", AssignmentSummaryStructuredComponent)
-	.component("activityIntervalOverview", ActivityIntervalOverviewComponent)
-	/*.config(['$stateProvider', ($stateProvider: StateProvider) => $stateProvider.state(activityState)])
-	.config(['$translateProvider', ($translate) =>
-		$translate.useStaticFilesLoader({prefix: '/assets/i18n/activity/', suffix: '.json'})])*/
-	.run(["$timeout","leafletData", ($timeout, leafletData) => {
-		$timeout(() => {
-			leafletData.getMap().then((map) => {
-				map.invalidateSize();
-			});
-		});
-	}])
-	.config(configure)
-	.name;
+    .service("ActivityService", ActivityService)
+    .component("activity", ActivityComponent)
+    .component("activityHeader", ActivityHeaderComponent)
+    .component("activityHeaderOverview", ActivityHeaderOverviewComponent)
+    .component("activityHeaderDetails", ActivityHeaderDetailsComponent)
+    .component("activityHeaderSplits", ActivityHeaderSplitsComponent)
+    .component("activityHeaderZones",ActivityHeaderZonesComponent)
+    .component("activityHeaderChat", ActivityHeaderChatComponent)
+    .component("activityMetricsDetails", ActivityMetricsDetailsComponent)
+    .component("activitySummaryInfo", ActivitySummaryInfoComponent)
+    .component("activitySegments", ActivitySegmentsComponent)
+    .component("structuredInterval", StructuredIntervalComponent)
+    .component("structuredAssignment", StructuredAssignmentComponent)
+    .component("structuredGroup", StructuredGroupComponent)
+    .component("measureMainButton",MeasureMainButtonComponent)
+    .component("measuresAvgTable",MeasuresAvgTableComponent)
+    .component("measureSplitTable", MeasureSplitTableComponent)
+    .component("activityRoute",ActivityRouteComponent)
+    .component("activityAssignment", ActivityAssignmentComponent)
+    .component("activityPeaks", ActivityPeaksComponent)
+    .constant("activityChartSettings", chartSettings)
+    .component("activityMetricsChar", chartComponent)
+    .constant("segmentChartSettings", DefaultPlanChartSettings)
+    .component("activitySegmentChart", PlanChartComponent)
+    .component("activitySegmentsTable", ActivitySegmentsTableComponent)
+    .component("activityAssignmentButtons", ActivityAssignmentButtonsComponent)
+    .component("activityAssignmentHeader", ActivityAssignmentHeaderComponent)
+    .component("assignmentSummaryNonStructured", AssignmentSummaryNonStructuredComponent)
+    .component("assignmentSummaryStructured", AssignmentSummaryStructuredComponent)
+    .component("activityIntervalOverview", ActivityIntervalOverviewComponent)
+    /*.config(['$stateProvider', ($stateProvider: StateProvider) => $stateProvider.state(activityState)])
+    .config(['$translateProvider', ($translate) =>
+        $translate.useStaticFilesLoader({prefix: '/assets/i18n/activity/', suffix: '.json'})])*/
+    .run(["$timeout","leafletData", ($timeout, leafletData) => {
+        $timeout(() => {
+            leafletData.getMap().then((map) => {
+                map.invalidateSize();
+            });
+        });
+    }])
+    .config(configure)
+    .name;

@@ -13,13 +13,13 @@ const Athletes = module("staminity.athletes", ["ngMaterial", "staminity.share"])
     .component("athletes", AthletesComponent)
     .component("athleteInvitation", AthleteInvitationComponent)
     .config(["$stateProvider", ($stateProvider: StateProvider) => {
-    	athletesStates.forEach($stateProvider.state);
+        athletesStates.forEach($stateProvider.state);
     }])
     .config(["$translateProvider", ($translate) => {
-    	supportLng.forEach((lng) => {
-    		$translate.translations(lng, { "athletes": translateAthletes[lng] });
-    		$translate.translations(lng, { "athlete-invitation": translateAthleteInvitation[lng] });
-    	});
+        supportLng.forEach((lng) => {
+            $translate.translations(lng, { "athletes": translateAthletes[lng] });
+            $translate.translations(lng, { "athlete-invitation": translateAthleteInvitation[lng] });
+        });
     }])
     .name;
 

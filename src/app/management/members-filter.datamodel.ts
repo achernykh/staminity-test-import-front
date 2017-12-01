@@ -13,14 +13,14 @@ export type MembersFilterParams = {
 };
 
 export const membersFilters: Array<Filter<MembersFilterParams, IGroupManagementProfileMember>> = [
-	({ clubRole }) => (member) => !clubRole || member.roleMembership.indexOf(clubRole) !== -1,
-	({ coachUserId }) => (member) => !coachUserId || member.coaches.indexOf(coachUserId) !== -1,
-	({ noCoach }) => (member) => !noCoach || !member.coaches.length,
+    ({ clubRole }) => (member) => !clubRole || member.roleMembership.indexOf(clubRole) !== -1,
+    ({ coachUserId }) => (member) => !coachUserId || member.coaches.indexOf(coachUserId) !== -1,
+    ({ noCoach }) => (member) => !noCoach || !member.coaches.length,
     ({ search }) => ({ userProfile }) => !search || `${userProfile.public.firstName} ${userProfile.public.lastName}`.includes(search),
 ];
 
 export const membersOrderings: { 
-	[key: string]:  (member: IGroupManagementProfileMember) => string | number;
+    [key: string]:  (member: IGroupManagementProfileMember) => string | number;
 } = {
     username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
     tariff: (member) => member["billing"] && member["billing"].map((t) => t.tariffCode).join(","),

@@ -13,10 +13,10 @@ const Management = module("staminity.management", ["ngMaterial", "staminity.shar
     .filter("clubMembersFilters", membersFiltersFilter)
     .component("management", ManagementComponent)
     .config(["$stateProvider", ($stateProvider: StateProvider) => {
-    	managementStates.forEach($stateProvider.state);
+        managementStates.forEach($stateProvider.state);
     }])
     .config(["$translateProvider", ($translate) => {
-    	supportLng.forEach((lng) => $translate.translations(lng, { users: translateManagement[lng] }));
+        supportLng.forEach((lng) => $translate.translations(lng, { users: translateManagement[lng] }));
     }])
     .name;
 

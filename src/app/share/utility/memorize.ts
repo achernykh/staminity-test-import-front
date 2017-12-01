@@ -1,20 +1,20 @@
 const equals = (xs, ys) => {
-	return xs.length === ys.length && xs.every((x, i) => x === ys[i]);
+    return xs.length === ys.length && xs.every((x, i) => x === ys[i]);
 };
 
 /**
  * Сохранять последний вычисленный функцией результат и возвращать его, если не изменились аргументы
  */  
 export const memorize = (f) => {
-	let prevArgs = [];
-	let prevResult;
+    let prevArgs = [];
+    let prevResult;
 
-	return (...args) => {
-		if (!equals(prevArgs, args)) {
-			prevArgs = args;
-			prevResult = f(...args);
-		}
+    return (...args) => {
+        if (!equals(prevArgs, args)) {
+            prevArgs = args;
+            prevResult = f(...args);
+        }
 
-		return prevResult;
-	};
+        return prevResult;
+    };
 };

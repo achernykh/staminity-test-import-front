@@ -18,95 +18,95 @@ import "./categories.component.scss";
 
 class CategoriesCtrl implements IComponentController {
 
-	public user: IUserProfile;
-	public categories: IActivityCategory[];
-	public templates: IActivityTemplate[];
-	public club: IGroupProfile;
-	public filterParams: ReferenceFilterParams;
-	
-	private categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
-	private activityTypes: IActivityType[] = activityTypes;
-	private getType: (id: number) => IActivityType = getType;
+    public user: IUserProfile;
+    public categories: IActivityCategory[];
+    public templates: IActivityTemplate[];
+    public club: IGroupProfile;
+    public filterParams: ReferenceFilterParams;
+    
+    private categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
+    private activityTypes: IActivityType[] = activityTypes;
+    private getType: (id: number) => IActivityType = getType;
 
-	static $inject = ["$scope", "$mdDialog", "message", "ReferenceService"];
+    static $inject = ["$scope", "$mdDialog", "message", "ReferenceService"];
 
-	constructor (
-		private $scope, 
-		private $mdDialog, 
-		private message: IMessageService,
-		private ReferenceService: ReferenceService,
-	) {
-		
-	}
+    constructor (
+        private $scope, 
+        private $mdDialog, 
+        private message: IMessageService,
+        private ReferenceService: ReferenceService,
+    ) {
+        
+    }
 
-	$onChanges (changes) {
-		this.handleChanges();
-	}
+    $onChanges (changes) {
+        this.handleChanges();
+    }
 
-	handleChanges () {
-		let filters = pick(["club", "activityType"]) (categoriesFilters);
-		
-		this.categoriesByOwner = pipe(
-			filter(filtersToPredicate(filters, this.filterParams)),
-			orderBy(prop("sortOrder")),
-			groupBy(getOwner(this.user)),
-		) (this.categories);
-	}
+    handleChanges () {
+        let filters = pick(["club", "activityType"]) (categoriesFilters);
+        
+        this.categoriesByOwner = pipe(
+            filter(filtersToPredicate(filters, this.filterParams)),
+            orderBy(prop("sortOrder")),
+            groupBy(getOwner(this.user)),
+        ) (this.categories);
+    }
 
-	categoryReorder (index: number, category: IActivityCategory) {
-		let { id, code, description, groupProfile, visible } = category;
-		let owner = getOwner(this.user)(category);
-		let groupId = groupProfile && groupProfile.groupId;
-		let targetCategory = this.categoriesByOwner[owner][index];
-		let sortOrder = targetCategory? targetCategory.sortOrder : 999999;
+    categoryReorder (index: number, category: IActivityCategory) {
+        let { id, code, description, groupProfile, visible } = category;
+        let owner = getOwner(this.user)(category);
+        let groupId = groupProfile && groupProfile.groupId;
+        let targetCategory = this.categoriesByOwner[owner][index];
+        let sortOrder = targetCategory? targetCategory.sortOrder : 999999;
 
-		this.ReferenceService.putActivityCategory(id, code, description, groupId, sortOrder, visible)
-		.catch((info) => { 
-			this.message.systemWarning(info);
-			throw info;
-		});
-	}
+        this.ReferenceService.putActivityCategory(id, code, description, groupId, sortOrder, visible)
+        .catch((info) => { 
+            this.message.systemWarning(info);
+            throw info;
+        });
+    }
 
-	createCategory () {
-		let data = { 
-			activityTypeId: this.filterParams.activityType.id,
-			groupProfile: this.club,
-		};
-		
-		this.categoryDialog(data, "create");
-	}
+    createCategory () {
+        let data = { 
+            activityTypeId: this.filterParams.activityType.id,
+            groupProfile: this.club,
+        };
+        
+        this.categoryDialog(data, "create");
+    }
 
-	selectCategory (category: IActivityCategory) {
-		let mode: CategoryDialogCtrl.Mode  = isOwner(this.user, category) || isManager(this.user, this.club)? "edit" : "view";
-		this.categoryDialog(category, mode);
-	}
+    selectCategory (category: IActivityCategory) {
+        let mode: CategoryDialogCtrl.Mode  = isOwner(this.user, category) || isManager(this.user, this.club)? "edit" : "view";
+        this.categoryDialog(category, mode);
+    }
 
-	categoryDialog (category: any, mode: CategoryDialogCtrl.Mode) {
-		let locals = {
-			mode,
-			category: { ...category },
-			user: this.user,
-		};
-		
-		return this.$mdDialog.show({
-			template: require("../category-dialog/category-dialog.template.html") as string,
-			controller: CategoryDialogCtrl,
-			locals: locals,
-			controllerAs: "$ctrl",
-			clickOutsideToClose: true,
-		});
-	}
+    categoryDialog (category: any, mode: CategoryDialogCtrl.Mode) {
+        let locals = {
+            mode,
+            category: { ...category },
+            user: this.user,
+        };
+        
+        return this.$mdDialog.show({
+            template: require("../category-dialog/category-dialog.template.html") as string,
+            controller: CategoryDialogCtrl,
+            locals: locals,
+            controllerAs: "$ctrl",
+            clickOutsideToClose: true,
+        });
+    }
 }
 
 const CategoriesComponent: IComponentOptions = {
-	bindings: {
-		user: "<",
-		categories: "<",
-		filterParams: "<",
-		club: "<",
-	},
-	controller: CategoriesCtrl,
-	template: require("./categories.component.html") as string,
+    bindings: {
+        user: "<",
+        categories: "<",
+        filterParams: "<",
+        club: "<",
+    },
+    controller: CategoriesCtrl,
+    template: require("./categories.component.html") as string,
 };
 
 

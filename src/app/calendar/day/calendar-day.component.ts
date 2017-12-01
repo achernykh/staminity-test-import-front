@@ -38,7 +38,7 @@ class CalendarDayCtrl {
 
 
     $onInit(){
-	    let diff = moment().diff(moment(this.data.date),"days",true);
+        let diff = moment().diff(moment(this.data.date),"days",true);
         this.today = diff >= 0 && diff < 1;
     }
 

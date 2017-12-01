@@ -7,29 +7,29 @@ import {_translate} from "./landingpage.translate";
 function configure($stateProvider:StateProvider,
                    $translateProvider:any) {
 
-	$stateProvider
-		.state("welcome", <StateDeclaration>{
-			url: "/",
-			loginRequired: false,
-			authRequired: null,
-			resolve: {
-				view: () => new DisplayView("landingPage"),
-			},
-			views: DefaultTemplate("landingPage"),
-		})
-		.state("tariffs", <StateDeclaration>{
-			url: "/tariffs",
-			loginRequired: false,
-			authRequired: null,
-			resolve: {
-				view: () => new DisplayView("landingTariffs"),
-			},
-			views: DefaultTemplate("landingTariffs"),
-		});
+    $stateProvider
+        .state("welcome", <StateDeclaration>{
+            url: "/",
+            loginRequired: false,
+            authRequired: null,
+            resolve: {
+                view: () => new DisplayView("landingPage"),
+            },
+            views: DefaultTemplate("landingPage"),
+        })
+        .state("tariffs", <StateDeclaration>{
+            url: "/tariffs",
+            loginRequired: false,
+            authRequired: null,
+            resolve: {
+                view: () => new DisplayView("landingTariffs"),
+            },
+            views: DefaultTemplate("landingTariffs"),
+        });
 
-	// Текст представлений
-	$translateProvider.translations("en", {landing: _translate["en"]});
-	$translateProvider.translations("ru", {landing: _translate["ru"]});
+    // Текст представлений
+    $translateProvider.translations("en", {landing: _translate["en"]});
+    $translateProvider.translations("ru", {landing: _translate["ru"]});
 
 
 }

@@ -9,46 +9,46 @@ import "./template.component.scss";
 
 class TemplateCtrl implements IComponentController {
 
-	private template: IActivityTemplate;
-	private onDelete: () => any;
-	private onSelect: () => any;
-	private onCopy: () => any;
-	private reference: ReferenceCtrl;
+    private template: IActivityTemplate;
+    private onDelete: () => any;
+    private onSelect: () => any;
+    private onCopy: () => any;
+    private reference: ReferenceCtrl;
 
-	static $inject = ["$scope", "$filter", "$mdDialog"];
+    static $inject = ["$scope", "$filter", "$mdDialog"];
 
-	constructor (
-		private $scope, 
-		private $filter, 
-		private $mdDialog,
-	) {
-	}
+    constructor (
+        private $scope, 
+        private $filter, 
+        private $mdDialog,
+    ) {
+    }
 
-	get activityType () {
-		let { activityTypeId } = this.template.activityCategory;
-		return getType(activityTypeId);
-	}
+    get activityType () {
+        let { activityTypeId } = this.template.activityCategory;
+        return getType(activityTypeId);
+    }
 
-	get description () {
-		return path(["content", 0, "trainerPrescription"])(this.template) || this.template.description;
-	}
+    get description () {
+        return path(["content", 0, "trainerPrescription"])(this.template) || this.template.description;
+    }
 
-	get name () {
-		return this.template.code;
-	}
+    get name () {
+        return this.template.code;
+    }
 }
 
 
 const TemplateComponent: IComponentOptions = {
-	bindings: {
-		template: "<",
+    bindings: {
+        template: "<",
         isMobileLayout: "<",
-		onDelete: "&",
-		onSelect: "&",
-		onCopy: "&",
-	},
-	controller: TemplateCtrl,
-	template: require("./template.component.html") as string,
+        onDelete: "&",
+        onSelect: "&",
+        onCopy: "&",
+    },
+    controller: TemplateCtrl,
+    template: require("./template.component.html") as string,
 };
 
 

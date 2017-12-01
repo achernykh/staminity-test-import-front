@@ -28,52 +28,52 @@ import Share from "./share/share.module";
 import { TrainingPlans } from "./training-plans/training-plans.module";
 
 const root = module("staminity.application", [
-	"pascalprecht.translate", // translate
-	"ngMaterial",
-	"ngMessages",
-	"ngAnimate",
-	"ngAria",
-	"ngSanitize",
-	"ui.router",
-	"md.data.table",
-	"nemLogging",
-	"ui-leaflet",
-	"hm.readmore",
-	"tmh.dynamicLocale",
-	"toaster",
-	//'ngTouch',
-	"angular-carousel",
-	"dndLists",
-	"luegg.directives",
-	"ngQuill", // https://github.com/KillerCodeMonkey/ng-quill
+    "pascalprecht.translate", // translate
+    "ngMaterial",
+    "ngMessages",
+    "ngAnimate",
+    "ngAria",
+    "ngSanitize",
+    "ui.router",
+    "md.data.table",
+    "nemLogging",
+    "ui-leaflet",
+    "hm.readmore",
+    "tmh.dynamicLocale",
+    "toaster",
+    //'ngTouch',
+    "angular-carousel",
+    "dndLists",
+    "luegg.directives",
+    "ngQuill", // https://github.com/KillerCodeMonkey/ng-quill
 
-	Core,
-	Share,
-	Auth,
-	Landing,
-	SettingsUser,
-	Calendar,
-	CalendarItemMeasurement,
-	ActivityModule,
-	Profile,
-	SettingsClub,
-	Management,
-	Athletes,
-	Club,
-	Dashboard,
-	Search,
-	Reference,
-	Analytics,
-	TrainingPlans,
-	Methodology,
+    Core,
+    Share,
+    Auth,
+    Landing,
+    SettingsUser,
+    Calendar,
+    CalendarItemMeasurement,
+    ActivityModule,
+    Profile,
+    SettingsClub,
+    Management,
+    Athletes,
+    Club,
+    Dashboard,
+    Search,
+    Reference,
+    Analytics,
+    TrainingPlans,
+    Methodology,
 ])
-	.component("staminityApplication", AppComponent)
-	.config(configure)
-	.run(run)
-	.name;
+    .component("staminityApplication", AppComponent)
+    .config(configure)
+    .run(run)
+    .name;
 
 bootstrap(document, ["staminity.application"], {
-	strictDi: true,
+    strictDi: true,
 });
 
 export default root;

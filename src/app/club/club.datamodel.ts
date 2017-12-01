@@ -4,9 +4,9 @@ import { path } from "../share/utility";
 
 
 export const isMember = (user: IUserProfile, club: IGroupProfile) : boolean => path([
-	"groupMembers", (members) => members.find((member) => member.userId === user.userId),
+    "groupMembers", (members) => members.find((member) => member.userId === user.userId),
 ]) (club);
 
 export const isManager = (user: IUserProfile, club: IGroupProfile) : boolean => path([
-	"innerGroups", "ClubManagement", "groupMembers", (managers) => managers.find((manager) => manager.userId === user.userId),
+    "innerGroups", "ClubManagement", "groupMembers", (managers) => managers.find((manager) => manager.userId === user.userId),
 ]) (club);

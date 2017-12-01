@@ -25,36 +25,36 @@ const systemUserId = 1;
 export const isSystem = (item: ActivityReference) : boolean => getUserId(item) === systemUserId;
 
 export const getOwner = (user: IUserProfile) => (item: ActivityReference) : Owner => {
-	let userId = getUserId(item);
-	return (item.groupProfile && "club")
-		|| (userId === systemUserId && "system")
-		|| (userId === user.userId && "user")
-		|| "coach";
+    let userId = getUserId(item);
+    return (item.groupProfile && "club")
+        || (userId === systemUserId && "system")
+        || (userId === user.userId && "user")
+        || "coach";
 };
 
 
 export type ReferenceFilterParams = {
-	club?: IGroupProfile;
-	activityType: IActivityType;
-	category?: IActivityCategory;
+    club?: IGroupProfile;
+    activityType: IActivityType;
+    category?: IActivityCategory;
 };
 
 export const categoriesFilters = {
-	club: ({ club }: ReferenceFilterParams) => (category: IActivityCategory) => !club || getGroupId(category) === club.groupId || isSystem(category),
-	activityType: ({ activityType }: ReferenceFilterParams) => (category: IActivityCategory) => !activityType || getCategoryActivityTypeId(category) === activityType.id,
-	isActive: ({ }: ReferenceFilterParams) =>  (category: IActivityCategory) => category.visible,
+    club: ({ club }: ReferenceFilterParams) => (category: IActivityCategory) => !club || getGroupId(category) === club.groupId || isSystem(category),
+    activityType: ({ activityType }: ReferenceFilterParams) => (category: IActivityCategory) => !activityType || getCategoryActivityTypeId(category) === activityType.id,
+    isActive: ({ }: ReferenceFilterParams) =>  (category: IActivityCategory) => category.visible,
 };
 
 export const templatesFilters = {
-	club: ({ club }: ReferenceFilterParams) => (template: IActivityTemplate) => !club || getGroupId(template) === club.groupId || isSystem(template),
-	activityType: ({ activityType }: ReferenceFilterParams) => (template: IActivityTemplate) => !activityType || getTemplateActivityTypeId(template) === activityType.id,
-	category: ({ category }: ReferenceFilterParams) => (template: IActivityTemplate) => !category || getTemplateActivityCategoryId(template) === category.id,
-	isActive: ({ }: ReferenceFilterParams) =>  (template: IActivityTemplate) => template.visible,
+    club: ({ club }: ReferenceFilterParams) => (template: IActivityTemplate) => !club || getGroupId(template) === club.groupId || isSystem(template),
+    activityType: ({ activityType }: ReferenceFilterParams) => (template: IActivityTemplate) => !activityType || getTemplateActivityTypeId(template) === activityType.id,
+    category: ({ category }: ReferenceFilterParams) => (template: IActivityTemplate) => !category || getTemplateActivityCategoryId(template) === category.id,
+    isActive: ({ }: ReferenceFilterParams) =>  (template: IActivityTemplate) => template.visible,
 };
 
 
 export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string) : string => {
-	let durationMeasure: string = interval.hasOwnProperty("distanceLength") ? `${interval.durationMeasure}Length` : interval.durationMeasure;
-	return (interval[durationMeasure] &&
-		`${measureValue(interval[durationMeasure], sport, interval.durationMeasure)} ${$translate.instant(measureUnit(interval.durationMeasure, sport))}`) || "";
+    let durationMeasure: string = interval.hasOwnProperty("distanceLength") ? `${interval.durationMeasure}Length` : interval.durationMeasure;
+    return (interval[durationMeasure] &&
+        `${measureValue(interval[durationMeasure], sport, interval.durationMeasure)} ${$translate.instant(measureUnit(interval.durationMeasure, sport))}`) || "";
 };

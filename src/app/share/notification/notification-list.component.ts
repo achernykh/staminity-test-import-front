@@ -28,7 +28,7 @@ class NotificationListCtrl implements IComponentController {
     };
     private readonly commentTemplates: string[] = ["newCoachComment","newAthleteComment"];
     private currentUser: IUserProfile;
-	private destroy: Subject<any> = new Subject();
+    private destroy: Subject<any> = new Subject();
 
     static $inject = ["$scope","$mdDialog","$mdSidenav","NotificationService","CalendarService", "UserService",
         "SessionService"];

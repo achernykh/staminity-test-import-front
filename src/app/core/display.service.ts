@@ -16,80 +16,80 @@ let getFirstDayOfWeek = (session: ISession) : number => path([getUser, "display"
 
 export default class DisplayService {
 
-	private handleChanges = () => {
-		let locale = this.getLocale();
-		let firstDayOfWeek = this.getFirstDayOfWeek();
+    private handleChanges = () => {
+        let locale = this.getLocale();
+        let firstDayOfWeek = this.getFirstDayOfWeek();
 
-		this.$translate.use(locale);
-		this.tmhDynamicLocale.set(locale);
+        this.$translate.use(locale);
+        this.tmhDynamicLocale.set(locale);
 
-		moment.locale(locale);
-		moment.updateLocale(locale, {
-			week: { dow: firstDayOfWeek },
-			invalidDate: "",
-		});
+        moment.locale(locale);
+        moment.updateLocale(locale, {
+            week: { dow: firstDayOfWeek },
+            invalidDate: "",
+        });
 
-		this.$mdDateLocale.firstDayOfWeek = firstDayOfWeek;
-		this.$mdDateLocale.shortDays = moment.weekdaysMin();
-	}
+        this.$mdDateLocale.firstDayOfWeek = firstDayOfWeek;
+        this.$mdDateLocale.shortDays = moment.weekdaysMin();
+    }
 
-	public locales = {
-		ru: "Русский",
-		en: "English",
-	};
+    public locales = {
+        ru: "Русский",
+        en: "English",
+    };
 
-	static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
+    static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
 
-	constructor (
-		private SessionService: SessionService,
-		private UserService: UserService,
-		private $translate: any, 
-		private tmhDynamicLocale: any,
-		private $mdDateLocale: any,
-	) {
-		SessionService.getObservable()
-		.map(getDisplay)
-		.distinctUntilChanged()
-		.subscribe(this.handleChanges);
-	}
+    constructor (
+        private SessionService: SessionService,
+        private UserService: UserService,
+        private $translate: any, 
+        private tmhDynamicLocale: any,
+        private $mdDateLocale: any,
+    ) {
+        SessionService.getObservable()
+        .map(getDisplay)
+        .distinctUntilChanged()
+        .subscribe(this.handleChanges);
+    }
 
-	getLocale () : string {
-		return getLocale(this.SessionService.get());
-	}
+    getLocale () : string {
+        return getLocale(this.SessionService.get());
+    }
 
-	setLocale (locale: string) {
-		let userChanges = { display: { language: locale } };
+    setLocale (locale: string) {
+        let userChanges = { display: { language: locale } };
 
-		if (this.SessionService.getToken()) {
-			this.UserService.putProfile(<any>userChanges);
-		} else {
-			this.SessionService.updateUser(<any>userChanges);
-		}
-	}
+        if (this.SessionService.getToken()) {
+            this.UserService.putProfile(<any>userChanges);
+        } else {
+            this.SessionService.updateUser(<any>userChanges);
+        }
+    }
 
-	getUnits () : string {
-		return getUnits(this.SessionService.get());
-	}
+    getUnits () : string {
+        return getUnits(this.SessionService.get());
+    }
 
-	getTimezone () : string {
-		return getTimezone(this.SessionService.get());
-	}
+    getTimezone () : string {
+        return getTimezone(this.SessionService.get());
+    }
 
-	getFirstDayOfWeek () : number {
-		return getFirstDayOfWeek(this.SessionService.get());
-	}
+    getFirstDayOfWeek () : number {
+        return getFirstDayOfWeek(this.SessionService.get());
+    }
 }
 
 
 export function configure (
-	$translateProvider: any, 
-	tmhDynamicLocaleProvider: any, 
-	$mdDateLocaleProvider: any,
+    $translateProvider: any, 
+    tmhDynamicLocaleProvider: any, 
+    $mdDateLocaleProvider: any,
 ) {
-	tmhDynamicLocaleProvider.localeLocationPattern("/assets/locale/angular-locale_{{locale}}.js");
-	
-	$mdDateLocaleProvider.parseDate = (s) => moment(s, "L", true).toDate();
-	$mdDateLocaleProvider.formatDate = (date) => moment(date).format("L");
+    tmhDynamicLocaleProvider.localeLocationPattern("/assets/locale/angular-locale_{{locale}}.js");
+    
+    $mdDateLocaleProvider.parseDate = (s) => moment(s, "L", true).toDate();
+    $mdDateLocaleProvider.formatDate = (date) => moment(date).format("L");
 }
 
 configure.$inject = ["$translateProvider", "tmhDynamicLocaleProvider", "$mdDateLocaleProvider"];
