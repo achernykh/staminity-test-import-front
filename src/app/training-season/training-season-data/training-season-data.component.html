@@ -1,36 +1,91 @@
-<md-table-container class="training-season-data">
-    <table md-table md-row-select="false" multiple="false" ng-model="$ctrl.data">
-        <thead md-head>
-        <tr md-row>
-            <th md-column class="stage"><span translate="trainingSeason.period"></span></th>
-            <th md-column class="plan" md-numeric><span translate="trainingSeason.plan"></span></th>
-            <th md-column class="actual" md-numeric><span translate="trainingSeason.actual"></span></th>
-            <th md-column class="percent" md-numeric><span translate="trainingSeason.completeShort"></span></th>
-        </tr>
-        </thead>
-        <tr md-row Пр ng-repeat="cycle in $ctrl.data.grid track by $index">
-            <!-- Период -->
-            <td md-cell class="period" layout="row" layout-align="start center">
-                <span>{{cycle.title}}</span>
-            </td>
-            <!-- Перечень соревнований периода -->
+<md-card>
+    <!-- Заголовок таблицы -->
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="$ctrl.selected.length">
+        <div class="md-toolbar-tools">
+            <span>Nutrition</span>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="loadStuff()">
+                <md-icon>refresh</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
 
-            <td md-cell>
+    <!-- Заголовок таблицы: веделены строки -->
+    <md-toolbar class="md-table-toolbar alternate" ng-show="$ctrl.selected.length">
+        <div class="md-toolbar-tools">
+            <span>{{$ctrl.selected.length}} {{$ctrl.selected.length > 1 ? 'items' : 'item'}} selected</span>
+        </div>
+    </md-toolbar>
 
-            </td>
+    <!-- Таблица периодизации -->
+    <md-table-container class="training-season-data">
+        <table md-table md-row-select multiple ng-model="$ctrl.selected" class="md-primary">
+            <thead md-head>
+            <tr md-row>
+                <th md-column class="period"><span translate="trainingSeason.period"></span></th>
+                <th md-column class="competition"><span translate="trainingSeason.competition"></span></th>
+                <th md-column class="mesocycle"><span translate="trainingSeason.mesocycle"></span></th>
+                <th md-column class="week"><span translate="trainingSeason.week"></span></th>
+                <th md-column class="duration" md-numeric><span translate="TSS"></span></th>
+                <th md-column class="weekPlan" md-numeric><span translate="trainingSeason.calendar.TSS"></span></th>
+                <th md-column class="weekActual" md-numeric><span translate="trainingSeason.actual.TSS"></span></th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row md-select="cycle"
+                ng-repeat="cycle in $ctrl.data.grid track by $index">
+                <!-- Период -->
+                <td md-cell class="period">
+                    <div>{{cycle.title}}</div>
+                </td>
+                <!-- Перечень соревнований периода -->
+                <td md-cell class="competition">
+                    <div ng-if="cycle.competition"
+                         layout="row" layout-align="center center">
+                        <div flex="none"
+                             layout="row" layout-align="center center"
+                             class="competition-icon bg-circle-32"
+                             ng-class="{color: !$ctrl.competition.isCompleted || !$ctrl.competition.isSpecified}">
+                            <md-icon class="material-icons md-light md-18"
+                                     md-svg-src="/assets/icon/competition.svg"></md-icon>
+                        </div>
+                        <span flex="auto">{{cycle.competition.name}}</span>
+                    </div>
+                </td>
+                <!-- Мезоцикл -->
+                <td md-cell class="mesocycle">
+                    <div class="block">
+                        <md-select flex="auto" ng-model="cycle.mesocycle" placeholder="Other">
+                            <md-option ng-value="cycle.code" ng-repeat="cycle in $ctrl.mesocycles">{{cycle.code}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </td>
+                <!-- Номер недели -->
+                <td md-cell class="week">
+                    Week {{$ctrl.getWeekCount($index)}}
+                </td>
+                <!-- Обьем -->
+                <td md-cell
+                    ng-click="$ctrl.editDurationValue($event, cycle)"
+                    ng-class="{'md-placeholder': !cycle.durationValue}">{{cycle.durationValue || 'TSS'}}
+                </td>
+                <!--<td md-cell class="duration">
+                    <md-input-container class="no-message">
+                        <input name="volume" type="number"
+                               ng-model="cycle.durationValue">
+                    </md-input-container>
+                </td>-->
+                <!-- План по неделе -->
+                <td md-cell>
 
-            <td md-cell>
+                </td>
+                <!-- Факт по неделе -->
+                <td md-cell>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
 
-            </td>
-            <!-- Процент выполнения -->
-            <td md-cell>
-                <span></span>
-            </td>
-            <!-- Кнопка перехода к тренировке -->
-            <td md-cell>
-
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</md-table-container>
+</md-card>

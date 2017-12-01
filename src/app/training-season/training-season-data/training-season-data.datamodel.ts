@@ -23,9 +23,12 @@ export class TrainingSeasonData {
             .map(i => ({
                 dateStart: moment(start).add(i,'week'),
                 dateEnd: moment(start).add(i,'week').endOf('week'),
-                mesocylce: {
-                    code: 'Base'
-                },
+                mesocylce: null,
+                competition: Math.floor(Math.random() * (10 - 1)) + 1 === 7 ?
+                    {
+                        name: `Соревнования ${i}`,
+                        priority: 'A'
+                    } : null,
                 durationMeasure: 'TSS',
                 durationValue: null
             }))

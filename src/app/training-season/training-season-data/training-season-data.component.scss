@@ -1,0 +1,48 @@
+.training-season-data {
+
+  .mesocycle-icon {
+    height: 16px;
+    width: 16px;
+    border-radius: 8px;
+    background: rebeccapurple;
+  }
+
+  .period {
+    width: 100px;
+    max-width: 100px;
+  }
+
+  .competition {
+    width: 250px;
+    max-width: 250px;
+  }
+
+  .mesocycle {
+    width: 150px;
+    max-width: 150px;
+
+    .md-text {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+  }
+
+  .week {
+    width: 50px;
+    max-width: 50px;
+  }
+
+  .mesocycle .block {
+    background: darkorange;
+    color: white;
+    height: 24px;
+    line-height: 24px;
+    padding: 4px 16px;
+    border-radius: 24px;
+  }
+
+  .md-table {
+
+  }
+}
