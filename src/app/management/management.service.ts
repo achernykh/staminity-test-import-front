@@ -13,7 +13,7 @@ export class ManagementService {
     constructor (
         private $mdDialog: any, 
         private $translate: any, 
-        private GroupService: GroupService, 
+        private groupService: GroupService, 
         private dialogs: any, 
     ) {
         
@@ -91,7 +91,7 @@ export class ManagementService {
                         ...arrays.difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(addToGroup),
                         ...arrays.difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(removeFromGroup),
                     ];
-                    return this.GroupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
+                    return this.groupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
                 }
             });
     }
@@ -112,7 +112,7 @@ export class ManagementService {
                         ...arrays.difference(nextCheckedCoaches, checkedCoaches).map((member) => member.getAthletesGroupId()).map(addToGroup),
                         ...arrays.difference(checkedCoaches, nextCheckedCoaches).map((member) => member.getAthletesGroupId()).map(removeFromGroup),
                     ];
-                    return this.GroupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
+                    return this.groupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
                 }
             });
     }
@@ -132,8 +132,8 @@ export class ManagementService {
                     let groupIds = members.map((member) => member.getAthletesGroupId());
                     // нельзя выполнить все действия одним батч-запросом, но можно двумя
                     return Promise.all([
-                        this.GroupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(addToGroup), arrays.difference(athletes, checkedAthletes)),
-                        this.GroupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(removeFromGroup), arrays.difference(checkedAthletes, athletes)),
+                        this.groupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(addToGroup), arrays.difference(athletes, checkedAthletes)),
+                        this.groupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(removeFromGroup), arrays.difference(checkedAthletes, athletes)),
                     ]);
                 }
             });
@@ -167,7 +167,7 @@ export class ManagementService {
                         ...arrays.difference(roles, checkedRoles).map(membersList.getRoleGroupId).map(addToGroup),
                         ...arrays.difference(checkedRoles, roles).map(membersList.getRoleGroupId).map(removeFromGroup),
                     ];
-                    return this.GroupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
+                    return this.groupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
                 }
             });
     }
@@ -180,7 +180,7 @@ export class ManagementService {
      */  
     remove (membersList: MembersList, members: Member[]) : Promise<any> {
         return this.dialogs.confirm({ text: "dialogs.excludeClub" })
-            .then(() => members.map((member) => this.GroupService.leave(membersList.groupId, member.userProfile.userId)))
+            .then(() => members.map((member) => this.groupService.leave(membersList.groupId, member.userProfile.userId)))
             .then((promises) => Promise.all(promises));
     }
     

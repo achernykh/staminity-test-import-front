@@ -13,7 +13,7 @@ export class AthletesService {
     constructor (
         private $mdDialog: any, 
         private $translate: any, 
-        private GroupService: GroupService, 
+        private groupService: GroupService, 
         private dialogs: any, 
     ) {
         
@@ -68,7 +68,7 @@ export class AthletesService {
                         ...arrays.difference(selectedTariffs, byUs).map(getTariffGroupId(management)).map(addToGroup),
                         ...arrays.difference(byUs, selectedTariffs).map(getTariffGroupId(management)).map(removeFromGroup),
                     ];
-                    return this.GroupService.putGroupMembershipBulk(user.connections.Athletes.groupId, memberships, members.map(getMemberId));
+                    return this.groupService.putGroupMembershipBulk(user.connections.Athletes.groupId, memberships, members.map(getMemberId));
                 }
             });
     }
@@ -81,7 +81,7 @@ export class AthletesService {
      */  
     remove (management: IGroupManagementProfile, members: IGroupManagementProfileMember[]) : Promise<any> {
         return this.dialogs.confirm({ text: "dialogs.excludeClub" })
-            .then(() => members.map((member) => this.GroupService.leave(management.groupId, member.userProfile.userId)))
+            .then(() => members.map((member) => this.groupService.leave(management.groupId, member.userProfile.userId)))
             .then((promises) => Promise.all(promises));
     }
 

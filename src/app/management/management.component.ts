@@ -50,9 +50,9 @@ class ManagementCtrl implements IComponentController {
         private $mdDialog: any, 
         private $mdMedia: any, 
         private $mdBottomSheet: any, 
-        private SystemMessageService: any,
-        private GroupService: GroupService,
-        private ManagementService: ManagementService,
+        private systemMessageService: any,
+        private groupService: GroupService,
+        private managementService: ManagementService,
     ) {
         
     }
@@ -61,13 +61,13 @@ class ManagementCtrl implements IComponentController {
      * Обновить
      */  
     update () {
-        this.GroupService.getManagementProfile(this.membersList.groupId, "club")
+        this.groupService.getManagementProfile(this.membersList.groupId, "club")
         .then((management) => { 
             this.management = management;
             this.checked = [];
             this.$scope.$asyncApply();
         }, (error) => { 
-            this.SystemMessageService.show(error);
+            this.systemMessageService.show(error);
         });
     }
 
@@ -101,7 +101,7 @@ class ManagementCtrl implements IComponentController {
      * @returns {boolean}
      */  
     isEditTariffsAvailable () : boolean {
-        return this.ManagementService.isEditTariffsAvailable(this.membersList, this.getChecked());
+        return this.managementService.isEditTariffsAvailable(this.membersList, this.getChecked());
     }
     
     /**
@@ -109,7 +109,7 @@ class ManagementCtrl implements IComponentController {
      * @returns {boolean}
      */  
     isEditCoachesAvailable () : boolean {
-        return this.ManagementService.isEditCoachesAvailable(this.membersList, this.getChecked());
+        return this.managementService.isEditCoachesAvailable(this.membersList, this.getChecked());
     }
     
     /**
@@ -117,7 +117,7 @@ class ManagementCtrl implements IComponentController {
      * @returns {boolean}
      */  
     isEditAthletesAvailable () : boolean {
-        return this.ManagementService.isEditAthletesAvailable(this.membersList, this.getChecked());
+        return this.managementService.isEditAthletesAvailable(this.membersList, this.getChecked());
     }
     
     /**
@@ -125,21 +125,21 @@ class ManagementCtrl implements IComponentController {
      * @returns {boolean}
      */  
     isEditRolesAvailable () : boolean {
-        return this.ManagementService.isEditRolesAvailable(this.membersList, this.getChecked());
+        return this.managementService.isEditRolesAvailable(this.membersList, this.getChecked());
     }
     
     /**
      * Действие над выбранными строчками по кнопке "Тарифы"
      */  
     editTariffs () {
-        this.ManagementService.editTariffs(this.membersList, this.getChecked())
+        this.managementService.editTariffs(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
             }
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.systemMessageService.show(error); 
                 this.update(); 
             }
         });
@@ -149,14 +149,14 @@ class ManagementCtrl implements IComponentController {
      * Действие над выбранными строчками по кнопке "Тренеры"
      */  
     editCoaches () {
-        this.ManagementService.editCoaches(this.membersList, this.getChecked())
+        this.managementService.editCoaches(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
             }
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.systemMessageService.show(error); 
                 this.update(); 
             }
         });
@@ -166,14 +166,14 @@ class ManagementCtrl implements IComponentController {
      * Действие над выбранными строчками по кнопке "Спортсмены"
      */  
     editAthletes () {
-        this.ManagementService.editAthletes(this.membersList, this.getChecked())
+        this.managementService.editAthletes(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
             }
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.systemMessageService.show(error); 
                 this.update(); 
             }
         });
@@ -183,14 +183,14 @@ class ManagementCtrl implements IComponentController {
      * Действие над выбранными строчками по кнопке "Роли"
      */  
     editRoles () {
-        this.ManagementService.editRoles(this.membersList, this.getChecked())
+        this.managementService.editRoles(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
             }
         }, (error) => {
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.systemMessageService.show(error); 
                 this.update(); 
             }
         });
@@ -200,14 +200,14 @@ class ManagementCtrl implements IComponentController {
      * Действие над выбранными строчками по кнопке "Удалить"
      */  
     remove () {
-        this.ManagementService.remove(this.membersList, this.getChecked())
+        this.managementService.remove(this.membersList, this.getChecked())
         .then((result) => { 
             if (result) {
                 this.update();
             }
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.systemMessageService.show(error); 
             }
         });
     }

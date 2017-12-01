@@ -44,12 +44,12 @@ class AthletesCtrl implements IComponentController {
         private $scope: any, 
         private $mdDialog: any, 
         private $translate: any, 
-        private GroupService: GroupService, 
-        private AthletesService: AthletesService, 
+        private groupService: GroupService, 
+        private athletesService: AthletesService, 
         private dialogs: any, 
         private $mdMedia: any, 
         private $mdBottomSheet: any, 
-        private SystemMessageService: any,
+        private systemMessageService: any,
     ) {     
 
     }
@@ -58,13 +58,13 @@ class AthletesCtrl implements IComponentController {
      * Обновить
      */ 
     update () {
-        return this.GroupService.getManagementProfile(this.management.groupId, "coach")
+        return this.groupService.getManagementProfile(this.management.groupId, "coach")
             .then((management) => { 
                 this.management = management;
                 this.checked = [];
                 this.$scope.$asyncApply();
             }, (error) => { 
-                this.SystemMessageService.show(error); 
+                this.systemMessageService.show(error); 
             });
     }
 
@@ -73,7 +73,7 @@ class AthletesCtrl implements IComponentController {
      * @returns {boolean}
      */  
     isRemoveAvailable () : boolean {
-        return this.AthletesService.isRemoveAvailable(this.user, this.checked);
+        return this.athletesService.isRemoveAvailable(this.user, this.checked);
     }
     
     /**
@@ -81,21 +81,21 @@ class AthletesCtrl implements IComponentController {
      * @returns {boolean}
      */  
     isEditTariffsAvailable () : boolean {
-        return this.AthletesService.isEditTariffsAvailable(this.user, this.checked);
+        return this.athletesService.isEditTariffsAvailable(this.user, this.checked);
     }
     
     /**
      * Действие над выбранными строчками по кнопке "Тарифы"
      */  
     editTariffs () {
-        this.AthletesService.editTariffs(this.user, this.management, this.checked)
+        this.athletesService.editTariffs(this.user, this.management, this.checked)
         .then((result) => { 
             if (result) {
                 this.update();
             }
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error); 
+                this.systemMessageService.show(error); 
                 this.update(); 
             }
         });
@@ -105,14 +105,14 @@ class AthletesCtrl implements IComponentController {
      * Действие над выбранными строчками по кнопке "Удалить"
      */  
     remove () {
-        this.AthletesService.remove(this.management, this.checked)
+        this.athletesService.remove(this.management, this.checked)
         .then((result) => { 
             if (result) {
                 this.update();
             }
         }, (error) => { 
             if (error) {
-                this.SystemMessageService.show(error);
+                this.systemMessageService.show(error);
             }
         });
     }
