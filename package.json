@@ -20,7 +20,8 @@
     "analyseBuild": "webpack --json > status.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cleanjs": "rimraf src/app/*.js, src/app/**/*.js, src/app/**/**/*.js",
-    "lint": "tslint -c tslint.json 'src/**/*.ts' --fix"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "lint-fix": "tslint --fix -c tslint.json 'src/**/*.ts'"
   },
   "keywords": [
     "staminity",

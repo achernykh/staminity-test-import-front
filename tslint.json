@@ -1,5 +1,5 @@
 {
-	"extends": ["tslint:recommended"],
+	// "extends": ["tslint:recommended"],
     "rules": {
     	"object-literal-key-quotes": false,
         "no-unused-expression": true,
@@ -7,7 +7,7 @@
         "curly": true,
         "class-name": true,
         "semicolon": ["always"],
-        "triple-equals": true,
-        "indent": [true, "spaces", 4]
+        "triple-equals": true
+        // "indent": [true, "spaces", 4]
     }
 }

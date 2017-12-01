@@ -1,6 +1,7 @@
 import { equals } from "angular";
-import { IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile, IUserProfile } from "../../../api";
+import { IGroupManagementProfile, IGroupManagementProfileMember, IUserProfile } from "../../../api";
 import { addToGroup, removeFromGroup } from "../core/group.datamodel";
+import GroupService from "../core/group.service";
 import { arrays } from "../share/utility";
 import { getMemberId, getTariffGroupId, isClubAthlete, tariffsByUser, tariffsNotByUser } from "./athletes.functions";
 
@@ -12,7 +13,7 @@ export class AthletesService {
     constructor (
         private $mdDialog: any, 
         private $translate: any, 
-        private GroupService: any, 
+        private GroupService: GroupService, 
         private dialogs: any, 
     ) {
         

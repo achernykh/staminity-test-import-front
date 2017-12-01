@@ -1,16 +1,17 @@
-import { IComponentController, IComponentOptions, IPromise } from "angular";
-import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile } from "../../../api";
+import { IComponentController, IComponentOptions } from "angular";
+import { IBillingTariff, IGroupManagementProfile } from "../../../api";
 import { createSelector, filtersToPredicate } from "../share/utility";
 import { inviteDialogConf } from "./invite/invite.dialog";
 import "./management.component.scss";
 import { ClubRole, clubRoles, ClubTariff, clubTariffs } from "./management.constants";
 import { ManagementService } from "./management.service";
+import GroupService from "../core/group.service";
 import { Member } from "./member.datamodel";
 import { getRows, MembersFilterParams, membersFilters, membersOrderings } from "./members-filter.datamodel";
 import { MembersList } from "./members-list.datamodel";
 
 
-class ManagementCtrl {
+class ManagementCtrl implements IComponentController {
 
     /**
      * Обработчик биндинга management
@@ -50,7 +51,7 @@ class ManagementCtrl {
         private $mdMedia: any, 
         private $mdBottomSheet: any, 
         private SystemMessageService: any,
-        private GroupService: any,
+        private GroupService: GroupService,
         private ManagementService: ManagementService,
     ) {
         
@@ -64,7 +65,7 @@ class ManagementCtrl {
         .then((management) => { 
             this.management = management;
             this.checked = [];
-            this.$scope.$apply();
+            this.$scope.$asyncApply();
         }, (error) => { 
             this.SystemMessageService.show(error);
         });

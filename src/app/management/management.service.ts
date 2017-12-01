@@ -1,10 +1,10 @@
-import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfile } from "../../../api";
 import { addToGroup, removeFromGroup } from "../core/group.datamodel";
 import { arrays } from "../share/utility";
 import { ClubRole, clubRoles, ClubTariff, clubTariffs } from "./management.constants";
 import { getEditRolesMessage, getEditTariffsMessage } from "./management.filters";
 import { Member } from "./member.datamodel";
 import { MembersList } from "./members-list.datamodel";
+import GroupService from "../core/group.service";
 
 export class ManagementService {
 
@@ -13,7 +13,7 @@ export class ManagementService {
     constructor (
         private $mdDialog: any, 
         private $translate: any, 
-        private GroupService: any, 
+        private GroupService: GroupService, 
         private dialogs: any, 
     ) {
         

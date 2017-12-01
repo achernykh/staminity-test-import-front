@@ -1,16 +1,21 @@
-import { IComponentController, IComponentOptions, IPromise } from "angular";
-import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IUserProfile } from "../../../api";
+import { IComponentController, IComponentOptions } from "angular";
+import { IBillingTariff, IGroupManagementProfile, IGroupManagementProfileMember, IUserProfile } from "../../../api";
+import { AthletesService } from "./athletes.service";
+import GroupService from "../core/group.service";
 import { inviteDialogConf } from "../management/invite/invite.dialog";
 import { createSelector } from "../share/utility";
 import { arrays, functions } from "../share/utility";
-import "./athletes.component.scss";
 import { athletesOrderings, getMemberUsername, isBillByUser } from "./athletes.functions";
-import { AthletesService } from "./athletes.service";
+import "./athletes.component.scss";
 
-class AthletesCtrl {
+class AthletesCtrl implements IComponentController {
 
+    /*
+     * bind
+     */
     user: IUserProfile;
     management: IGroupManagementProfile;
+
     search: string = "";
     orderBy: string = "username";
     checked: IGroupManagementProfileMember[] = [];    
@@ -39,7 +44,7 @@ class AthletesCtrl {
         private $scope: any, 
         private $mdDialog: any, 
         private $translate: any, 
-        private GroupService: any, 
+        private GroupService: GroupService, 
         private AthletesService: AthletesService, 
         private dialogs: any, 
         private $mdMedia: any, 
@@ -57,7 +62,7 @@ class AthletesCtrl {
             .then((management) => { 
                 this.management = management;
                 this.checked = [];
-                this.$scope.$apply();
+                this.$scope.$asyncApply();
             }, (error) => { 
                 this.SystemMessageService.show(error); 
             });
@@ -151,7 +156,6 @@ class AthletesCtrl {
         return this.$mdMedia("max-width: 959px");
     }
 };
-
 
 const AthletesComponent: IComponentOptions = <any> {
 
