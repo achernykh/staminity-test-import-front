@@ -6,7 +6,6 @@ import { path } from "../../share/utility";
 import { ReferenceCtrl } from "../reference.component";
 import "./template.component.scss";
 
-
 class TemplateCtrl implements IComponentController {
 
     private template: IActivityTemplate;
@@ -15,29 +14,28 @@ class TemplateCtrl implements IComponentController {
     private onCopy: () => any;
     private reference: ReferenceCtrl;
 
-    static $inject = ["$scope", "$filter", "$mdDialog"];
+    public static $inject = ["$scope", "$filter", "$mdDialog"];
 
-    constructor (
-        private $scope, 
-        private $filter, 
+    constructor(
+        private $scope,
+        private $filter,
         private $mdDialog,
     ) {
     }
 
-    get activityType () {
-        let { activityTypeId } = this.template.activityCategory;
+    get activityType() {
+        const { activityTypeId } = this.template.activityCategory;
         return getType(activityTypeId);
     }
 
-    get description () {
+    get description() {
         return path(["content", 0, "trainerPrescription"])(this.template) || this.template.description;
     }
 
-    get name () {
+    get name() {
         return this.template.code;
     }
 }
-
 
 const TemplateComponent: IComponentOptions = {
     bindings: {
@@ -50,6 +48,5 @@ const TemplateComponent: IComponentOptions = {
     controller: TemplateCtrl,
     template: require("./template.component.html") as string,
 };
-
 
 export default TemplateComponent;

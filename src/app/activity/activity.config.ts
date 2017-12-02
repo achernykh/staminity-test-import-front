@@ -6,24 +6,24 @@ import MessageService from "../core/message.service";
 import UserService from "../core/user.service";
 import {translateActivity, translateCategories, translateSport} from "./activity.translate";
 
-function configure($translateProvider:any,
+function configure($translateProvider: any,
                    $stateProvider: StateProvider) {
 
     $stateProvider
-        .state("activity", <Ng1StateDeclaration> {
+        .state("activity", {
             url: "/activity/:calendarItemId",
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
                 view: () => new DisplayView("activity"),
-                item: ["CalendarService", "message","$stateParams", (CalendarService: CalendarService, message:MessageService, $stateParams) =>
-                   CalendarService.getCalendarItem(null,null,null,null, $stateParams.calendarItemId)
+                item: ["CalendarService", "message", "$stateParams", (CalendarService: CalendarService, message: MessageService, $stateParams) =>
+                   CalendarService.getCalendarItem(null, null, null, null, $stateParams.calendarItemId)
                        .then((response) => response && response[0])
                        .catch((error) => {
                            message.systemWarning(error);
                            throw error;
                        })],
-                athlete: ["item","UserService","message", (item:ICalendarItem, UserService: UserService, message:MessageService) =>
+                athlete: ["item", "UserService", "message", (item: ICalendarItem, UserService: UserService, message: MessageService) =>
                     UserService.getProfile(item.userProfileOwner.userId).catch((error) => {
                         message.systemWarning(error);
                         throw error;
@@ -37,17 +37,17 @@ function configure($translateProvider:any,
                     },
                 },
             },
-        });
+        } as Ng1StateDeclaration);
 
     // Текст представлений
-    $translateProvider.translations("en", {activity: translateActivity["en"]});
-    $translateProvider.translations("ru", {activity: translateActivity["ru"]});
-    $translateProvider.translations("en", {sport: translateSport["en"]});
-    $translateProvider.translations("ru", {sport: translateSport["ru"]});
-    $translateProvider.translations("en", {category: translateCategories["en"]});
-    $translateProvider.translations("ru", {category: translateCategories["ru"]});
+    $translateProvider.translations("en", {activity: translateActivity.en});
+    $translateProvider.translations("ru", {activity: translateActivity.ru});
+    $translateProvider.translations("en", {sport: translateSport.en});
+    $translateProvider.translations("ru", {sport: translateSport.ru});
+    $translateProvider.translations("en", {category: translateCategories.en});
+    $translateProvider.translations("ru", {category: translateCategories.ru});
 }
 
-configure.$inject = ["$translateProvider","$stateProvider"];
+configure.$inject = ["$translateProvider", "$stateProvider"];
 
 export default configure;

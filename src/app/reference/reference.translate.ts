@@ -35,12 +35,12 @@ export const ru = {
             name: "Название",
             description: "Описание",
             codes: {
-                
+
             },
         },
     },
 };
 
 export const en = {
-    
+
 };

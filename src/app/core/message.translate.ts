@@ -187,7 +187,6 @@ export const _translateMessage = {
             text: "Вы успешно вышли из системы",
         },
 
-
         // ------------- CORE SYSTEM --------
 
         unknownRequestType: { // оповещение о некорректном типе запроса через websocket-сессию
@@ -268,15 +267,15 @@ export const _translateMessage = {
             title: "",
             text: "Фактические данные в тренировке удалены",
         },
-        itemsDeleted:{
+        itemsDeleted: {
             title: "",
             text: "Записи удалены",
         },
-        itemsCopied:{
+        itemsCopied: {
             title: "",
             text: "Записи скопированы",
         },
-        itemsPasted:{
+        itemsPasted: {
             title: "",
             text: "Скопированные записи вставлены",
         },
@@ -333,7 +332,6 @@ export const _translateMessage = {
             title: "",
             text: "Шаблон сохранен",
         },
-
 
         // -------- Запросы и групповые операции ---------
         requestSent: { // отправить запрос из профиля пользователя, из профиля клуба
@@ -675,7 +673,6 @@ export const _translateMessage = {
             text: "You have successfully signed out",
         },
 
-
         // ------------- CORE SYSTEM --------
 
         unknownRequestType: { // оповещение о некорректном типе запроса через websocket-сессию
@@ -756,15 +753,15 @@ export const _translateMessage = {
             title: "",
             text: "Activity actual data has been deleted",
         },
-        itemsDeleted:{
+        itemsDeleted: {
             title: "",
             text: "Calendar items have been deleted",
         },
-        itemsCopied:{
+        itemsCopied: {
             title: "",
             text: "Calendar items have been copied",
         },
-        itemsPasted:{
+        itemsPasted: {
             title: "",
             text: "Calendar items have been pasted",
         },
@@ -821,7 +818,6 @@ export const _translateMessage = {
             title: "",
             text: "New template have been created",
         },
-
 
         // -------- Запросы и групповые операции ---------
         requestSent: { // отправить запрос из профиля пользователя, из профиля клуба

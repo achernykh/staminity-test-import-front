@@ -1,72 +1,71 @@
 import { IComponentController, IComponentOptions } from "angular";
 import { IBillingTariff, IGroupManagementProfile } from "../../../api";
+import GroupService from "../core/group.service";
 import { createSelector, filtersToPredicate } from "../share/utility";
 import { inviteDialogConf } from "./invite/invite.dialog";
 import "./management.component.scss";
 import { ClubRole, clubRoles, ClubTariff, clubTariffs } from "./management.constants";
 import { ManagementService } from "./management.service";
-import GroupService from "../core/group.service";
 import { Member } from "./member.datamodel";
 import { getRows, MembersFilterParams, membersFilters, membersOrderings } from "./members-filter.datamodel";
 import { MembersList } from "./members-list.datamodel";
-
 
 class ManagementCtrl implements IComponentController {
 
     /**
      * Обработчик биндинга management
      * @param management: IGroupManagementProfile
-     */  
-    set management (management: IGroupManagementProfile) {
+     */
+    set management(management: IGroupManagementProfile) {
         this.membersList = new MembersList(management);
     }
 
-    clubRoles = clubRoles;
-    clubTariffs = clubTariffs;
-    membersList: MembersList;
-    filterParams: MembersFilterParams = {
+    public clubRoles = clubRoles;
+    public clubTariffs = clubTariffs;
+    public membersList: MembersList;
+    public filterParams: MembersFilterParams = {
         clubRole: null,
         coachUserId: null,
         noCoach: false,
         search: "",
     };
-    orderBy: string = "username";
-    checked: Member[] = [];
+    public orderBy: string = "username";
+    public checked: Member[] = [];
 
     /**
      * Отфильтрованный и отсортированный список членов
      * @returns {Array<Member>}
-     */  
-    getRows: () => Member[] = createSelector([
+     */
+    public getRows: () => Member[] = createSelector([
         () => this.membersList,
         () => this.filterParams,
         () => this.orderBy,
     ], getRows);
 
-    static $inject = ["$scope", "$mdDialog", "$mdMedia", "$mdBottomSheet", "SystemMessageService", "GroupService", "ManagementService"];
+    public static $inject = ["$scope", "$mdDialog", "$mdMedia", "$mdBottomSheet", "SystemMessageService", "GroupService", "ManagementService"];
 
-    constructor (
-        private $scope: any, 
-        private $mdDialog: any, 
-        private $mdMedia: any, 
-        private $mdBottomSheet: any, 
+    constructor(
+        private $scope: any,
+        private $mdDialog: any,
+        private $mdMedia: any,
+        private $mdBottomSheet: any,
         private systemMessageService: any,
         private groupService: GroupService,
         private managementService: ManagementService,
     ) {
-        
+
     }
-    
+
     /**
      * Обновить
-     */  
-    update () {
+     */
+    public update() {
         this.groupService.getManagementProfile(this.membersList.groupId, "club")
-        .then((management) => { 
+        .then((management) => {
             this.management = management;
             this.checked = [];
             this.$scope.$asyncApply();
-        }, (error) => { 
+        }, (error) => {
             this.systemMessageService.show(error);
         });
     }
@@ -74,16 +73,16 @@ class ManagementCtrl implements IComponentController {
     /**
      * Выделение строчек таблицы, согласованное с фильтрами
      * @returns {Array<Member>}
-     */  
-    getChecked () : Member[] {
+     */
+    public getChecked(): Member[] {
         return this.getRows().filter((member) => this.checked.indexOf(member) !== -1);
     }
 
     /**
      * Список всех тренеров (для меню фильтров)
      * @returns {Array<Member>}
-     */  
-    getCoaches () : Member[] {
+     */
+    public getCoaches(): Member[] {
         return this.membersList.getCoaches();
     }
 
@@ -91,132 +90,132 @@ class ManagementCtrl implements IComponentController {
      * Оплачен ли счёт по тарифу клубом
      * @param bill: IBillingTariff
      * @returns {boolean}
-     */  
-    isBillByClub (bill: IBillingTariff) : boolean {
+     */
+    public isBillByClub(bill: IBillingTariff): boolean {
         return this.membersList.isClubBill(bill);
     }
-    
+
     /**
      * Доступна ли при выбранных строчках кнопка "Тарифы"
      * @returns {boolean}
-     */  
-    isEditTariffsAvailable () : boolean {
+     */
+    public isEditTariffsAvailable(): boolean {
         return this.managementService.isEditTariffsAvailable(this.membersList, this.getChecked());
     }
-    
+
     /**
      * Доступна ли при выбранных строчках кнопка "Тренеры"
      * @returns {boolean}
-     */  
-    isEditCoachesAvailable () : boolean {
+     */
+    public isEditCoachesAvailable(): boolean {
         return this.managementService.isEditCoachesAvailable(this.membersList, this.getChecked());
     }
-    
+
     /**
      * Доступна ли при выбранных строчках кнопка "Спортсмены"
      * @returns {boolean}
-     */  
-    isEditAthletesAvailable () : boolean {
+     */
+    public isEditAthletesAvailable(): boolean {
         return this.managementService.isEditAthletesAvailable(this.membersList, this.getChecked());
     }
-    
+
     /**
      * Доступна ли при выбранных строчках кнопка "Роли"
      * @returns {boolean}
-     */  
-    isEditRolesAvailable () : boolean {
+     */
+    public isEditRolesAvailable(): boolean {
         return this.managementService.isEditRolesAvailable(this.membersList, this.getChecked());
     }
-    
+
     /**
      * Действие над выбранными строчками по кнопке "Тарифы"
-     */  
-    editTariffs () {
+     */
+    public editTariffs() {
         this.managementService.editTariffs(this.membersList, this.getChecked())
-        .then((result) => { 
+        .then((result) => {
             if (result) {
                 this.update();
             }
-        }, (error) => { 
+        }, (error) => {
             if (error) {
-                this.systemMessageService.show(error); 
-                this.update(); 
+                this.systemMessageService.show(error);
+                this.update();
             }
         });
     }
 
     /**
      * Действие над выбранными строчками по кнопке "Тренеры"
-     */  
-    editCoaches () {
+     */
+    public editCoaches() {
         this.managementService.editCoaches(this.membersList, this.getChecked())
-        .then((result) => { 
-            if (result) {
-                this.update();
-            }
-        }, (error) => { 
-            if (error) {
-                this.systemMessageService.show(error); 
-                this.update(); 
-            }
-        });
-    }
-    
-    /**
-     * Действие над выбранными строчками по кнопке "Спортсмены"
-     */  
-    editAthletes () {
-        this.managementService.editAthletes(this.membersList, this.getChecked())
-        .then((result) => { 
-            if (result) {
-                this.update();
-            }
-        }, (error) => { 
-            if (error) {
-                this.systemMessageService.show(error); 
-                this.update(); 
-            }
-        });
-    }
-    
-    /**
-     * Действие над выбранными строчками по кнопке "Роли"
-     */  
-    editRoles () {
-        this.managementService.editRoles(this.membersList, this.getChecked())
-        .then((result) => { 
+        .then((result) => {
             if (result) {
                 this.update();
             }
         }, (error) => {
             if (error) {
-                this.systemMessageService.show(error); 
-                this.update(); 
+                this.systemMessageService.show(error);
+                this.update();
             }
         });
     }
-    
+
     /**
-     * Действие над выбранными строчками по кнопке "Удалить"
-     */  
-    remove () {
-        this.managementService.remove(this.membersList, this.getChecked())
-        .then((result) => { 
+     * Действие над выбранными строчками по кнопке "Спортсмены"
+     */
+    public editAthletes() {
+        this.managementService.editAthletes(this.membersList, this.getChecked())
+        .then((result) => {
             if (result) {
                 this.update();
             }
-        }, (error) => { 
+        }, (error) => {
             if (error) {
-                this.systemMessageService.show(error); 
+                this.systemMessageService.show(error);
+                this.update();
             }
         });
     }
-    
+
+    /**
+     * Действие над выбранными строчками по кнопке "Роли"
+     */
+    public editRoles() {
+        this.managementService.editRoles(this.membersList, this.getChecked())
+        .then((result) => {
+            if (result) {
+                this.update();
+            }
+        }, (error) => {
+            if (error) {
+                this.systemMessageService.show(error);
+                this.update();
+            }
+        });
+    }
+
+    /**
+     * Действие над выбранными строчками по кнопке "Удалить"
+     */
+    public remove() {
+        this.managementService.remove(this.membersList, this.getChecked())
+        .then((result) => {
+            if (result) {
+                this.update();
+            }
+        }, (error) => {
+            if (error) {
+                this.systemMessageService.show(error);
+            }
+        });
+    }
+
     /**
      * Действие по кнопке "Меню" члена клуба в мобильной версии
      * @param member: Member
-     */  
-    showActions (member: Member) {
+     */
+    public showActions(member: Member) {
         this.checked = [member];
 
         this.$mdBottomSheet.show({
@@ -229,15 +228,15 @@ class ManagementCtrl implements IComponentController {
     /**
      * Действие по кнопке "Пригласить в клуб"
      * @param $event
-     */  
-    invite ($event) {
+     */
+    public invite($event) {
         this.$mdDialog.show(inviteDialogConf(this.membersList.groupId, $event));
     }
-    
+
     /**
      * Настройка фильтров членов клуба "Все"
-     */  
-    clearFilter () {
+     */
+    public clearFilter() {
         this.filterParams = {
             ...this.filterParams,
             clubRole: null,
@@ -249,16 +248,16 @@ class ManagementCtrl implements IComponentController {
     /**
      * Выбрана ли настройка фильтров членов клуба "Все"
      * @returns {boolean}
-     */  
-    isFilterEmpty () : boolean {
-        let { clubRole, coachUserId, noCoach } = this.filterParams;
+     */
+    public isFilterEmpty(): boolean {
+        const { clubRole, coachUserId, noCoach } = this.filterParams;
         return !clubRole && !coachUserId && !noCoach;
     }
-    
+
     /**
      * Настройка фильтров членов клуба "Без тренера"
-     */  
-    setFilterNoCoach () {
+     */
+    public setFilterNoCoach() {
         this.filterParams = {
             ...this.filterParams,
             clubRole: null,
@@ -270,16 +269,16 @@ class ManagementCtrl implements IComponentController {
     /**
      * Выбрана ли настройка фильтров членов клуба "Без тренера"
      * @returns {boolean}
-     */  
-    isFilterNoCoach () : boolean {
+     */
+    public isFilterNoCoach(): boolean {
         return this.filterParams.noCoach;
     }
 
     /**
      * Настройка фильтров членов клуба "Тренер"
      * @param coach: Member
-     */  
-    setFilterCoach (coach: Member) {
+     */
+    public setFilterCoach(coach: Member) {
         this.filterParams = {
             ...this.filterParams,
             clubRole: null,
@@ -292,16 +291,16 @@ class ManagementCtrl implements IComponentController {
      * Выбрана ли настройка фильтров членов клуба "Тренер"
      * @param coach: Member
      * @returns {boolean}
-     */  
-    isFilterCoach (coach: Member) {
+     */
+    public isFilterCoach(coach: Member) {
         return this.filterParams.coachUserId === coach.userProfile.userId;
     }
-    
+
     /**
      * Настройка фильтров членов клуба "Роль"
      * @param clubRole: ClubRole
-     */  
-    setFilterRole (clubRole: ClubRole) {
+     */
+    public setFilterRole(clubRole: ClubRole) {
         this.filterParams = {
             ...this.filterParams,
             coachUserId: null,
@@ -314,24 +313,24 @@ class ManagementCtrl implements IComponentController {
      * Выбрана ли настройка фильтров членов клуба "Роль"
      * @param clubRole: ClubRole
      * @returns {boolean}
-     */  
-    isFilterRole (clubRole: ClubRole) : boolean {
+     */
+    public isFilterRole(clubRole: ClubRole): boolean {
         return this.filterParams.clubRole === clubRole;
     }
 
     /**
      * Геттер фильтра-поиска
      * @returns {string}
-    */  
-    get search () : string {
+    */
+    get search(): string {
         return this.filterParams.search;
     }
-    
+
     /**
      * Сеттер фильтра-поиска
      * @param search: string
-    */  
-    set search (search: string) {
+    */
+    set search(search: string) {
         this.filterParams = {
             ...this.filterParams,
             search,
@@ -341,22 +340,21 @@ class ManagementCtrl implements IComponentController {
     /**
      * Активен ли фильтр-поиск
      * @returns {boolean}
-    */  
-    isFilterSearch () : boolean {
+    */
+    public isFilterSearch(): boolean {
         return !!this.filterParams.search;
     }
 
     /**
      * Использовать ли мобильную вёрстку
      * @returns {boolean}
-    */  
-    isMobileLayout () : boolean {
+    */
+    public isMobileLayout(): boolean {
         return this.$mdMedia("max-width: 959px");
     }
 };
 
-
-let ManagementComponent: IComponentOptions = <any> {
+const ManagementComponent: IComponentOptions = {
     bindings: {
         view: "<",
         club: "<",
@@ -367,6 +365,6 @@ let ManagementComponent: IComponentOptions = <any> {
     },
     controller: ManagementCtrl,
     template: require("./management.component.html"),
-};
+} as any;
 
 export default ManagementComponent;

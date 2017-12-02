@@ -18,7 +18,7 @@ class ActivityRouteDatamodel implements IComponentController {
 
     constructor(data: any[], selection: any[] = []) {
 
-        this.route = data.map((d) => ({lng: d["lng"],lat: d["lat"]}));
+        this.route = data.map((d) => ({lng: d.lng, lat: d.lat}));
         this.startTimestamp = (selection.length > 0 && selection[0].startTimestamp) || null;
         this.endTimestamp = (selection.length > 0 && selection[0].endTimestamp) || null;
 
@@ -34,8 +34,8 @@ class ActivityRouteDatamodel implements IComponentController {
             },
             markers: {
                 m1: {
-                    lat: data[0]["lat"],
-                    lng: data[0]["lng"],
+                    lat: data[0].lat,
+                    lng: data[0].lng,
                     message: "Начало маршрута",
                     focus: false,
                     icon: {
@@ -46,8 +46,8 @@ class ActivityRouteDatamodel implements IComponentController {
                     },
                 },
                 m2: {
-                    lat: data[data.length - 1]["lat"],
-                    lng: data[data.length - 1]["lng"],
+                    lat: data[data.length - 1].lat,
+                    lng: data[data.length - 1].lng,
                     message: "Конец маршрута",
                     focus: false,
                     icon: {
@@ -64,7 +64,7 @@ class ActivityRouteDatamodel implements IComponentController {
                     "weight": 4,
                     "latlngs": this.route,
                     "message": "<h3>Основной маршрут</h3>",
-                },/*,
+                }, /*,
                 // формирую выбранный отрезок на карте
                 selectedPath: {
                     "color": "#bb39db",
@@ -75,10 +75,10 @@ class ActivityRouteDatamodel implements IComponentController {
             },
         });
 
-        selection.forEach((s,i) => {
+        selection.forEach((s, i) => {
             this.intervalCoordinates.push(...data
                 .filter((d) => d.timestamp >= s.startTimestamp && d.timestamp <= s.endTimestamp));
-            this.paths["selection #"+i] = {
+            this.paths["selection #" + i] = {
                 "color": "#bb39db",
                 "weight": 4,
                 "latlngs": this.intervalCoordinates,

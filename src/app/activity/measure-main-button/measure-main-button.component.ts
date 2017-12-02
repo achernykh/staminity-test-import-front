@@ -2,27 +2,27 @@ import { IComponentController, IComponentOptions} from "angular";
 import {IActivityMeasure, ICalcMeasures} from "../../../../api/activity/activity.interface";
 import "./measure-main-button.component.scss";
 
-class MeasureMainButtonCtrl implements IComponentController{
+class MeasureMainButtonCtrl implements IComponentController {
 
     private calcMeasures: ICalcMeasures;
     private sport: string;
-    private filter: string[] = ["calories","adjustedPower"];
-    static $inject = ["$scope"];
+    private filter: string[] = ["calories", "adjustedPower"];
+    public static $inject = ["$scope"];
 
     constructor(private $scope: any) {
 
     }
 
-    $onChanges(change: any): void {
-        if(change.hasOwnProperty("changes") && !change.changes.isFirstChange()) {
+    public $onChanges(change: any): void {
+        if (change.hasOwnProperty("changes") && !change.changes.isFirstChange()) {
             this.$onInit();
         }
     }
 
-    $onInit(){
+    public $onInit() {
 
         if (this.calcMeasures.hasOwnProperty("elevationGain") || this.calcMeasures.hasOwnProperty("elevationLoss")) {
-            this.calcMeasures["elevation"] = {
+            this.calcMeasures.elevation = {
                 value: Number(this.calcMeasures.elevationGain.value) - Number(this.calcMeasures.elevationLoss.value),
             };
         }
@@ -30,13 +30,13 @@ class MeasureMainButtonCtrl implements IComponentController{
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
         this.$scope.measure = {
-            run: ["duration","movingDuration","distance","calories","elevationGain","elevationLoss","grade","vamPowerKg","intensityLevel","efficiencyFactor","speedDecoupling"],
-            bike: ["duration","movingDuration","distance","calories","trainingLoad","adjustedPower","vamPowerKg","variabilityIndex","efficiencyFactor","elevationGain","elevationLoss","grade","intensityLevel","powerDecoupling"],
-            swim: ["duration","movingDuration","distance","calories","intensityLevel"],
-            strength: ["duration","movingDuration","distance","calories","intensityLevel"],
-            transition: ["duration","movingDuration","distance","calories","elevationGain","elevationLoss","grade","intensityLevel","speedDecoupling"],
-            ski: ["duration","movingDuration","distance","calories","elevationGain","elevationLoss","grade","vamPowerKg","intensityLevel","efficiencyFactor","speedDecoupling"],
-            other: ["duration","movingDuration","distance","calories","elevationGain","elevationLoss","grade","vamPowerKg","intensityLevel","efficiencyFactor","speedDecoupling"],
+            run: ["duration", "movingDuration", "distance", "calories", "elevationGain", "elevationLoss", "grade", "vamPowerKg", "intensityLevel", "efficiencyFactor", "speedDecoupling"],
+            bike: ["duration", "movingDuration", "distance", "calories", "trainingLoad", "adjustedPower", "vamPowerKg", "variabilityIndex", "efficiencyFactor", "elevationGain", "elevationLoss", "grade", "intensityLevel", "powerDecoupling"],
+            swim: ["duration", "movingDuration", "distance", "calories", "intensityLevel"],
+            strength: ["duration", "movingDuration", "distance", "calories", "intensityLevel"],
+            transition: ["duration", "movingDuration", "distance", "calories", "elevationGain", "elevationLoss", "grade", "intensityLevel", "speedDecoupling"],
+            ski: ["duration", "movingDuration", "distance", "calories", "elevationGain", "elevationLoss", "grade", "vamPowerKg", "intensityLevel", "efficiencyFactor", "speedDecoupling"],
+            other: ["duration", "movingDuration", "distance", "calories", "elevationGain", "elevationLoss", "grade", "vamPowerKg", "intensityLevel", "efficiencyFactor", "speedDecoupling"],
         };
 
         this.$scope.data = [
@@ -46,12 +46,12 @@ class MeasureMainButtonCtrl implements IComponentController{
             },
             {
                 needParam: false,
-                measure: ["calories","intensityLevel","trainingLoad"],
+                measure: ["calories", "intensityLevel", "trainingLoad"],
             },
             {
                 needParam: true,
                 param: ["elevationGain"],
-                measure: ["elevation","elevationGain","elevationLoss"],
+                measure: ["elevation", "elevationGain", "elevationLoss"],
             },
             {
                 needParam: true,
@@ -61,23 +61,23 @@ class MeasureMainButtonCtrl implements IComponentController{
             {
                 needParam: true,
                 param: ["power"],
-                measure: ["adjustedPower","powerDecoupling","variabilityIndex"],
+                measure: ["adjustedPower", "powerDecoupling", "variabilityIndex"],
             },
             {
                 needParam: true,
-                param: ["speed","heartRate"],
-                measure: ["adjustedSpeed","speedDecoupling","efficiencyFactor"],
+                param: ["speed", "heartRate"],
+                measure: ["adjustedSpeed", "speedDecoupling", "efficiencyFactor"],
             },
         ];
 
         this.$scope.search = (m) => this.$scope.measure[this.sport].indexOf(m.$key) !== -1;
     }
 
-    link(url) {
+    public link(url) {
         window.open(url);
     }
 
-    check(data: any): boolean {
+    public check(data: any): boolean {
         return !data.needParam || (data.needParam && data.param.every((p) => this.calcMeasures.hasOwnProperty(p)));
     }
 }
@@ -105,12 +105,12 @@ const MeasureMainButtonComponent: IComponentOptions = {
             </div>
             <md-divider ng-repeat-end ng-if="!$last && $ctrl.check(data)" style="margin: 0px 16px"></md-divider>
             <!--
-            <md-list-item layout="row" layout-wrap>             
+            <md-list-item layout="row" layout-wrap>
                 <md-button class="md-exclude"
                             ng-repeat="measure in $ctrl.calcMeasures | toArray | filter:search track by measure.$key">
                     {{measure.$key | translate}}:&nbsp{{measure.value | measureCalc:$ctrl.sport:measure.$key}}&nbsp
-                    <span>{{measure.$key | measureUnit:$ctrl.sport | translate}}</span> 
-                </md-button>            
+                    <span>{{measure.$key | measureUnit:$ctrl.sport | translate}}</span>
+                </md-button>
             </md-list-item>-->
         </md-list>`,
 

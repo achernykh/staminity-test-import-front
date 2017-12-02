@@ -2,14 +2,13 @@ import { IGroupManagementProfileMember, IUserManagementProfile } from "../../../
 import { ClubRole } from "./management.constants";
 import { MembersList } from "./members-list.datamodel";
 
-
 export class Member implements IGroupManagementProfileMember {
 
-    userProfile: IUserManagementProfile;
-    roleMembership: string[];
-    coaches: number[];
+    public userProfile: IUserManagementProfile;
+    public roleMembership: string[];
+    public coaches: number[];
 
-    constructor (
+    constructor(
         public membersList: MembersList,
         public member: IGroupManagementProfileMember,
     ) {
@@ -21,8 +20,8 @@ export class Member implements IGroupManagementProfileMember {
     /**
      * UserId члена клуба
      * @returns {number}
-    */  
-    getUserId = () : number => {
+    */
+    public getUserId = (): number => {
         return this.userProfile.userId;
     }
 
@@ -30,16 +29,16 @@ export class Member implements IGroupManagementProfileMember {
      * Назначена ли члену клуба данная роль
      * @param role: ClubRole
      * @returns {boolean}
-    */  
-    hasClubRole = (role: ClubRole) : boolean => {
+    */
+    public hasClubRole = (role: ClubRole): boolean => {
         return this.roleMembership.indexOf(role) !== -1;
     }
 
     /**
      * Список спортсменов, тренируемых членом клуба
      * @returns {Array<Member>}
-    */  
-    getAthletes = () : Member[] => {
+    */
+    public getAthletes = (): Member[] => {
         return this.membersList.getAthletesByCoachId(this.getUserId());
     }
 
@@ -47,8 +46,8 @@ export class Member implements IGroupManagementProfileMember {
      * Список тренеров члена клуба
      * @param bill: IBillingTariff
      * @returns {boolean}
-    */  
-    getCoaches = () : Member[] => {
+    */
+    public getCoaches = (): Member[] => {
         return this.coaches.map(this.membersList.getMember);
     }
 
@@ -56,8 +55,8 @@ export class Member implements IGroupManagementProfileMember {
      * GroupId группы спортсменов, тренируемых членом клуба
      * @param bill: IBillingTariff
      * @returns {boolean}
-    */  
-    getAthletesGroupId = () : number => {
-        return this.member["ClubAthletesGroupId"];
+    */
+    public getAthletesGroupId = (): number => {
+        return this.member.ClubAthletesGroupId;
     }
 }

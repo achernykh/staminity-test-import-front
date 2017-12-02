@@ -14,15 +14,15 @@ import SystemMessageComponent from "./sysmessage.component.js";
 import SystemMessageService from "./sysmessage.service.js";
 import UserService from "./user.service";
 
-const Core = module("staminity.core", ["staminity.share","ui.router","pascalprecht.translate"])
+const Core = module("staminity.core", ["staminity.share", "ui.router", "pascalprecht.translate"])
     .constant("ConnectionSettingsConfig", ConnectionSettings)
     .service("SocketService", SocketService)
-    .service("RESTService",RESTService)
+    .service("RESTService", RESTService)
     .service("SessionService", SessionService)
-    .service("SystemMessageService",SystemMessageService)
+    .service("SystemMessageService", SystemMessageService)
     .service("ActionMessageService", ActionMessageService)
-    .service("UserService",UserService)
-    .service("GroupService",GroupService)
+    .service("UserService", UserService)
+    .service("GroupService", GroupService)
     .service("RequestsService", RequestsService)
     .service("message", MessageService)
     .service("CommentService", CommentService)

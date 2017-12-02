@@ -9,7 +9,7 @@ import * as env from "../../core/env.js";
 import "./application-menu.component.scss";
 import { AppMenuSettings, UserMenuSettings } from "./application-menu.constants";
 
-class ApplicationMenuCtrl implements IComponentController{
+class ApplicationMenuCtrl implements IComponentController {
 
     private appmenu: any[] = AppMenuSettings;
     private usermenu: any[] = UserMenuSettings;
@@ -19,7 +19,7 @@ class ApplicationMenuCtrl implements IComponentController{
     private env: Object = env;
     private destroy = new Subject();
 
-    static $inject = ["$scope","$mdSidenav","AuthService","SessionService","$state"];
+    public static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "$state"];
 
     constructor(
         private $scope: IScope,
@@ -32,7 +32,7 @@ class ApplicationMenuCtrl implements IComponentController{
         .takeUntil(this.destroy)
         .map(getUser)
 
-        .subscribe((profile)=> this.user = angular.copy(profile));
+        .subscribe((profile) => this.user = angular.copy(profile));
 
         session.getObservable()
         .takeUntil(this.destroy)
@@ -41,44 +41,44 @@ class ApplicationMenuCtrl implements IComponentController{
         .subscribe(() => $scope.$evalAsync());
     }
 
-    $onDestroy() {
-        this.destroy.next(); 
+    public $onDestroy() {
+        this.destroy.next();
         this.destroy.complete();
     }
 
-    toggleSlide(){
+    public toggleSlide() {
         this.$mdSidenav("appmenu").toggle().then(() => angular.noop);
     }
 
-    checkAuth(role) {
+    public checkAuth(role) {
         return this.AuthService.isAuthorized(role);
     }
 
-    transitionToState(url, param) {
-        if (this.$state.current.name === url && param === this.$state.params["uri"]) {
+    public transitionToState(url, param) {
+        if (this.$state.current.name === url && param === this.$state.params.uri) {
             return;
         }
-        if(url.includes("http")) {
+        if (url.includes("http")) {
             window.open(url);
-        } else if (!param){
+        } else if (!param) {
             if (url !== "user" && url !== "settings/user" && url !== "calendar") {
                 this.$state.go(url);
             } else {
-                this.$state.go(url,{uri: this.user.public.uri});
+                this.$state.go(url, {uri: this.user.public.uri});
             }
         } else {
-            this.$state.go(url,{uri: param});
+            this.$state.go(url, {uri: param});
         }
         this.toggleSlide();
     }
 
-    close () {
+    public close() {
         this.$mdSidenav("appmenu").toggle();
     }
 
 }
 
-let ApplicationMenuComponent: IComponentOptions = {
+const ApplicationMenuComponent: IComponentOptions = {
     transclude: false,
     controller: ApplicationMenuCtrl,
     template: require("./application-menu.component.html") as string,

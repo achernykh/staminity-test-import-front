@@ -5,18 +5,18 @@ class PageNotFoundCtrl implements IComponentController {
 
     public data: any;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 }
 
-const PageNotFoundComponent:IComponentOptions = {
+const PageNotFoundComponent: IComponentOptions = {
     bindings: {
         data: "<",
         onEvent: "&",

@@ -8,18 +8,18 @@ class ActivityCtrl implements IComponentController {
     public item: ICalendarItem;
     public athlete: IUserProfile;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 }
 
-const ActivityComponent:IComponentOptions = {
+const ActivityComponent: IComponentOptions = {
     bindings: {
         item: "<",
         athlete: "<",

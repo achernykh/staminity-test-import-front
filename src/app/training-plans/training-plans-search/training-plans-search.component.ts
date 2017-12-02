@@ -13,12 +13,12 @@ import "./training-plans-search.component.scss";
 class TrainingPlansSearchCtrl implements IComponentController {
 
     // bind
-    list: TrainingPlansList;
-    onEvent: (response: Object) => IPromise<void>;
+    public list: TrainingPlansList;
+    public onEvent: (response: Object) => IPromise<void>;
 
     // public
-    leftBarShow: boolean = true;
-    rightBarShow: boolean = false;
+    public leftBarShow: boolean = true;
+    public rightBarShow: boolean = false;
 
     // private
     private user: IUserProfile;
@@ -26,9 +26,9 @@ class TrainingPlansSearchCtrl implements IComponentController {
 
     private searchParams: ITrainingPlanSearchRequest;
     private destroy: Subject<any> = new Subject();
-    static $inject = ["SessionService", "TrainingPlansService"];
+    public static $inject = ["SessionService", "TrainingPlansService"];
 
-    constructor (private session: SessionService, private trainingPlansService: TrainingPlansService) {
+    constructor(private session: SessionService, private trainingPlansService: TrainingPlansService) {
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
@@ -41,17 +41,16 @@ class TrainingPlansSearchCtrl implements IComponentController {
         this.trainingPlansService.search(this.searchParams)
             .then(
                 this.prepareList.bind(this),
-                (error) => {debugger;},
+                (error) => {debugger; },
             );
 
+    }
+
+    public $onInit() {
 
     }
 
-    $onInit () {
-
-    }
-
-    prepareList (result: ITrainingPlanSearchResult) {
+    public prepareList(result: ITrainingPlanSearchResult) {
 
         this.plans = new TrainingPlansList(result.items);
     }

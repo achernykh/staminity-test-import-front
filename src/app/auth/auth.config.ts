@@ -1,14 +1,14 @@
  import {StateDeclaration, StateProvider, StateService} from "angular-ui-router";
-import {SessionService} from "../core";
-import {_display_view, DisplayView} from "../core/display.constants";
-import {_translate} from "./auth.translate";
+ import {SessionService} from "../core";
+ import {_display_view, DisplayView} from "../core/display.constants";
+ import {_translate} from "./auth.translate";
 
-function configure(
-    $stateProvider:StateProvider,
+ function configure(
+    $stateProvider: StateProvider,
     $translateProvider: any) {
 
     $stateProvider
-        .state("signin", <StateDeclaration>{
+        .state("signin", {
             url: "/signin",
             loginRequired: false,
             resolve: {
@@ -39,9 +39,9 @@ function configure(
                     template: require("./view/signin.html"),
                 },
             },
-        })
+        } as StateDeclaration)
         // Представление Auth: SignUp
-        .state("signup", <StateDeclaration>{
+        .state("signup", {
             url: "/signup",
             loginRequired: false,
             params: {
@@ -73,9 +73,9 @@ function configure(
                     template: require("./view/signup.html"),
                 },
             },
-        })
+        } as StateDeclaration)
         // Представление Auth: SignOut
-        .state("signout", <StateDeclaration>{
+        .state("signout", {
             url: "/signout",
             loginRequired: true,
             //authRequired: ['func1'],
@@ -91,9 +91,9 @@ function configure(
                 },
             },
 
-        })
+        } as StateDeclaration)
         // Представление Auth: Confirm
-        .state("confirm", <StateDeclaration>{
+        .state("confirm", {
             url: "/confirm",
             loginRequired: false,
             //authRequired: ['func1']
@@ -107,9 +107,9 @@ function configure(
                 },
             },
 
-        })
+        } as StateDeclaration)
         // Представление Auth: Confirm
-        .state("invite", <StateDeclaration>{
+        .state("invite", {
             url: "/invite",
             loginRequired: false,
             views: {
@@ -128,9 +128,9 @@ function configure(
                 },
             },
 
-        })
+        } as StateDeclaration)
         // Представление Auth: SetPassword
-        .state("setpass", <StateDeclaration>{
+        .state("setpass", {
             url: "/setpass",
             loginRequired: false,
             views: {
@@ -143,9 +143,9 @@ function configure(
                 },
             },
 
-        })
+        } as StateDeclaration)
         // Представление Auth: Confirm
-        .state("reset", <StateDeclaration>{
+        .state("reset", {
             url: "/reset",
             loginRequired: false,
             resolve: {
@@ -170,14 +170,14 @@ function configure(
                 },
             },
 
-        });
+        } as StateDeclaration);
 
     // Текст представлений
-    $translateProvider.translations("en", {auth: _translate["en"]});
-    $translateProvider.translations("ru", {auth: _translate["ru"]});
+    $translateProvider.translations("en", {auth: _translate.en});
+    $translateProvider.translations("ru", {auth: _translate.ru});
 
 }
 
-configure.$inject = ["$stateProvider","$translateProvider"];
+ configure.$inject = ["$stateProvider", "$translateProvider"];
 
-export default configure;
+ export default configure;

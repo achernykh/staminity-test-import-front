@@ -6,9 +6,9 @@ class ActivitySegmentsTableCtrl implements IComponentController {
 
     public segments: ActivityIntervalP[];
     public onSelect: (response: Object) => IPromise<void>;
-    public selected:any[] = [];
+    public selected: any[] = [];
 
-    private options:Object = {
+    private options: Object = {
         rowSelection: true,
         multiSelect: true,
         autoSelect: true,
@@ -18,21 +18,21 @@ class ActivitySegmentsTableCtrl implements IComponentController {
         limitSelect: false,
         pageSelect: false,
     };
-    private query:Object = {
+    private query: Object = {
         order: "code",
         limit: 5,
         page: 1,
     };
 
-    static $inject = ["$scope"];
+    public static $inject = ["$scope"];
 
     constructor(private $scope: IScope) {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.prepareSegments();
-        this.$scope["change"] = () => this.onSelect({
+        this.$scope.change = () => this.onSelect({
             initiator: "splits",
             selection: {
                 U: null,
@@ -41,16 +41,16 @@ class ActivitySegmentsTableCtrl implements IComponentController {
         });
     }
 
-    prepareSegments(){
-        this.$scope["segments"] = this.segments;
+    public prepareSegments() {
+        this.$scope.segments = this.segments;
     }
 
-    $onChanges() {
+    public $onChanges() {
         this.prepareSegments();
     }
 }
 
-const ActivitySegmentsTableComponent:IComponentOptions = {
+const ActivitySegmentsTableComponent: IComponentOptions = {
     bindings: {
         segments: "<",
         sport: "<",

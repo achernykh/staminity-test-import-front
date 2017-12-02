@@ -16,7 +16,7 @@ export default class CommentService {
     public comment$: Observable<any>;
     public openChat$: Subject<ChatSession>;
 
-    static $inject = ["SocketService"];
+    public static $inject = ["SocketService"];
 
     constructor(private SocketService: SocketService) {
         this.comment$ = this.SocketService.messages.filter((message) => message.type === "objectComment").share();
@@ -31,8 +31,8 @@ export default class CommentService {
      * @param offset
      * @returns {Promise<any>}
      */
-    get(type: string, id: number, coach: boolean = false, limit?: number, offset?: number):Promise<IObjectComment[]> {
-        return this.SocketService.send(new GetCommentRequest(type,id,coach,limit,offset));
+    public get(type: string, id: number, coach: boolean = false, limit?: number, offset?: number): Promise<IObjectComment[]> {
+        return this.SocketService.send(new GetCommentRequest(type, id, coach, limit, offset));
     }
 
     /**
@@ -42,8 +42,8 @@ export default class CommentService {
      * @param text
      * @returns {Promise<any>}
      */
-    post(type: string, id: number, coach: boolean = false, text: string):Promise<any> {
-        return this.SocketService.send(new PostCommentRequest(type,id,coach,text));
+    public post(type: string, id: number, coach: boolean = false, text: string): Promise<any> {
+        return this.SocketService.send(new PostCommentRequest(type, id, coach, text));
     }
 
     /**
@@ -52,8 +52,8 @@ export default class CommentService {
      * @param text
      * @returns {Promise<any>}
      */
-    put(id: number, text: string):Promise<any> {
-        return this.SocketService.send(new PutCommentRequest(id,text));
+    public put(id: number, text: string): Promise<any> {
+        return this.SocketService.send(new PutCommentRequest(id, text));
     }
 
     /**
@@ -61,7 +61,7 @@ export default class CommentService {
      * @param id
      * @returns {Promise<any>}
      */
-    delete(id: number):Promise<any> {
+    public delete(id: number): Promise<any> {
         return this.SocketService.send(new DeleteCommentRequest(id));
     }
 

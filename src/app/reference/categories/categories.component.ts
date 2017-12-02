@@ -15,7 +15,6 @@ import ReferenceService from "../reference.service";
 
 import "./categories.component.scss";
 
-
 class CategoriesCtrl implements IComponentController {
 
     public user: IUserProfile;
@@ -23,29 +22,29 @@ class CategoriesCtrl implements IComponentController {
     public templates: IActivityTemplate[];
     public club: IGroupProfile;
     public filterParams: ReferenceFilterParams;
-    
+
     private categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
     private activityTypes: IActivityType[] = activityTypes;
     private getType: (id: number) => IActivityType = getType;
 
-    static $inject = ["$scope", "$mdDialog", "message", "ReferenceService"];
+    public static $inject = ["$scope", "$mdDialog", "message", "ReferenceService"];
 
-    constructor (
-        private $scope, 
-        private $mdDialog, 
+    constructor(
+        private $scope,
+        private $mdDialog,
         private message: IMessageService,
         private ReferenceService: ReferenceService,
     ) {
-        
+
     }
 
-    $onChanges (changes) {
+    public $onChanges(changes) {
         this.handleChanges();
     }
 
-    handleChanges () {
-        let filters = pick(["club", "activityType"]) (categoriesFilters);
-        
+    public handleChanges() {
+        const filters = pick(["club", "activityType"]) (categoriesFilters);
+
         this.categoriesByOwner = pipe(
             filter(filtersToPredicate(filters, this.filterParams)),
             orderBy(prop("sortOrder")),
@@ -53,45 +52,45 @@ class CategoriesCtrl implements IComponentController {
         ) (this.categories);
     }
 
-    categoryReorder (index: number, category: IActivityCategory) {
-        let { id, code, description, groupProfile, visible } = category;
-        let owner = getOwner(this.user)(category);
-        let groupId = groupProfile && groupProfile.groupId;
-        let targetCategory = this.categoriesByOwner[owner][index];
-        let sortOrder = targetCategory? targetCategory.sortOrder : 999999;
+    public categoryReorder(index: number, category: IActivityCategory) {
+        const { id, code, description, groupProfile, visible } = category;
+        const owner = getOwner(this.user)(category);
+        const groupId = groupProfile && groupProfile.groupId;
+        const targetCategory = this.categoriesByOwner[owner][index];
+        const sortOrder = targetCategory ? targetCategory.sortOrder : 999999;
 
         this.ReferenceService.putActivityCategory(id, code, description, groupId, sortOrder, visible)
-        .catch((info) => { 
+        .catch((info) => {
             this.message.systemWarning(info);
             throw info;
         });
     }
 
-    createCategory () {
-        let data = { 
+    public createCategory() {
+        const data = {
             activityTypeId: this.filterParams.activityType.id,
             groupProfile: this.club,
         };
-        
+
         this.categoryDialog(data, "create");
     }
 
-    selectCategory (category: IActivityCategory) {
-        let mode: CategoryDialogCtrl.Mode  = isOwner(this.user, category) || isManager(this.user, this.club)? "edit" : "view";
+    public selectCategory(category: IActivityCategory) {
+        const mode: CategoryDialogCtrl.Mode  = isOwner(this.user, category) || isManager(this.user, this.club) ? "edit" : "view";
         this.categoryDialog(category, mode);
     }
 
-    categoryDialog (category: any, mode: CategoryDialogCtrl.Mode) {
-        let locals = {
+    public categoryDialog(category: any, mode: CategoryDialogCtrl.Mode) {
+        const locals = {
             mode,
             category: { ...category },
             user: this.user,
         };
-        
+
         return this.$mdDialog.show({
             template: require("../category-dialog/category-dialog.template.html") as string,
             controller: CategoryDialogCtrl,
-            locals: locals,
+            locals,
             controllerAs: "$ctrl",
             clickOutsideToClose: true,
         });
@@ -108,6 +107,5 @@ const CategoriesComponent: IComponentOptions = {
     controller: CategoriesCtrl,
     template: require("./categories.component.html") as string,
 };
-
 
 export default CategoriesComponent;

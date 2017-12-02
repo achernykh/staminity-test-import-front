@@ -11,18 +11,18 @@ class DashboardAthleteCtrl implements IComponentController {
 
     private selected: boolean = null;
 
-    static $inject = ["$state"];
+    public static $inject = ["$state"];
 
     constructor(private $state: any, private $mdDialog: any) {
 
     }
 
-    $onInit() {
+    public $onInit() {
         //this.selected = this.dashboard.selectedAthletes.indexOf(this.profile.userId) !== -1;
     }
 }
 
-const DashboardAthleteComponent:IComponentOptions = {
+const DashboardAthleteComponent: IComponentOptions = {
     bindings: {
         profile: "<",
         selected: "<",

@@ -7,27 +7,27 @@ import "./dashboard-event.component.scss";
 
 class DashboardEventCtrl implements IComponentController {
 
-    public event:ICalendarItem;
-    public athlete:IUserProfile;
+    public event: ICalendarItem;
+    public athlete: IUserProfile;
 
     private dashboard: DashboardCtrl;
-    public onEvent:(response:Object) => IPromise<void>;
-    static $inject = ["$mdDialog", "message"];
+    public onEvent: (response: Object) => IPromise<void>;
+    public static $inject = ["$mdDialog", "message"];
 
-    constructor(private $mdDialog:any, private message:MessageService) {
-
-    }
-
-    $onInit() {
+    constructor(private $mdDialog: any, private message: MessageService) {
 
     }
 
-    onOpen($event, mode:string) {
+    public $onInit() {
+
+    }
+
+    public onOpen($event, mode: string) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
             template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events 
+                        <calendar-item-events
                                 flex layout="column" class="calendar-item-events"
                                 data="$ctrl.data"
                                 mode="put"
@@ -46,11 +46,11 @@ class DashboardEventCtrl implements IComponentController {
             escapeToClose: true,
             fullscreen: true,
 
-        }).then(() => {}, ()=> {});
+        }).then(() => {}, () => {});
     }
 }
 
-const DashboardEventComponent:IComponentOptions = {
+const DashboardEventComponent: IComponentOptions = {
     bindings: {
         event: "<",
         athlete: "<",
@@ -80,4 +80,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ["$scope","$mdDialog"];
+DialogController.$inject = ["$scope", "$mdDialog"];

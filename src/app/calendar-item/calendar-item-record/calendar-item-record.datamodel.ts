@@ -8,18 +8,18 @@ const template: string = "<img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAS
 
 export class CalendarItemRecord extends CalendarItem {
 
-    recordHeader: IRecordHeader;
-    isRepeated: boolean = false;
+    public recordHeader: IRecordHeader;
+    public isRepeated: boolean = false;
 
-    constructor (private param: ICalendarItem, user?: IUserProfile) {
+    constructor(private param: ICalendarItem, user?: IUserProfile) {
         super(param);
         this.prepareDefaultType();
     }
 
-    build (mode: string = "post"): ICalendarItem {
+    public build(mode: string = "post"): ICalendarItem {
         //super.package();
-        let item: ICalendarItem = this;
-        let format: string = "YYYY-MM-DD";
+        const item: ICalendarItem = this;
+        const format: string = "YYYY-MM-DD";
 
         item.dateStart = moment(this.recordHeader.dateStart).format(format);
         item.dateEnd = this.dateStart;
@@ -56,7 +56,7 @@ export class CalendarItemRecord extends CalendarItem {
         return item;
     }
 
-    private prepareDefaultType () {
+    private prepareDefaultType() {
         if ( !this.recordHeader ) {
             this.recordHeader = {
                 type: CalendarItemRecordConfig.defaultType,
@@ -75,7 +75,6 @@ export class CalendarItemRecord extends CalendarItem {
             regenPastEvents: null, // изменить все прошлые события
             regenFutureEvents: null, // изменить все будущие события
         };
-
 
     }
 }

@@ -1,7 +1,7 @@
-﻿let timeFormatter = function(d) {
-    let hours = ~~(d / 3600);
-    let minutes = ~~((d % 3600) / 60);
-    let seconds = ~~(d % 60);
+﻿const timeFormatter = function(d) {
+    const hours = ~~(d / 3600);
+    const minutes = ~~((d % 3600) / 60);
+    const seconds = ~~(d % 60);
     let res = ((minutes < 10) ? "0" : "") + minutes + ":" + ((seconds < 10) ? "0" : "") + seconds;
     if (hours > 0) {
         res = hours + ":" + res;
@@ -17,14 +17,14 @@ const LabelFormatters = {
     },
     distance:
     {
-        formatter: function (d) {
-            let kms = d / 1000;
+        formatter(d) {
+            const kms = d / 1000;
             return kms.toFixed(2);
         },
-        label: " км", 
+        label: " км",
     },
     ftp: {
-        formatter: function (d) { return d.toFixed(0); },
+        formatter(d) { return d.toFixed(0); },
         label: " %",
     },
 };

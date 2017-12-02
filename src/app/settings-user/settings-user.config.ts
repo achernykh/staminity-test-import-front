@@ -9,14 +9,14 @@ import UserService from "../core/user.service";
 import {_translate} from "./settings-user.translate";
 
 function configure(
-    $stateProvider:StateProvider,
+    $stateProvider: StateProvider,
     $translateProvider: any,
     $authProvider: any) {
 
     $authProvider.httpInterceptor = function() { return true; };
     $authProvider.withCredentials = false;
     $authProvider.tokenRoot = null;
-    $authProvider.baseUrl =  _connection.protocol.rest + _connection.server;//null;//_connection.server + '/oauth/';
+    $authProvider.baseUrl =  _connection.protocol.rest + _connection.server; //null;//_connection.server + '/oauth/';
     $authProvider.loginUrl = "/login";
     $authProvider.signupUrl = "/signup";
     $authProvider.unlinkUrl = "/unlink/";
@@ -35,7 +35,7 @@ function configure(
         scope: ["email"],
         scopeDelimiter: ",",
         display: "popup",
-        oauthType: "2.0",//,
+        oauthType: "2.0", //,
         //popupOptions: { width: 580, height: 400 }
     });
 
@@ -50,10 +50,9 @@ function configure(
         scopePrefix: "openid",
         scopeDelimiter: " ",
         display: "popup",
-        oauthType: "2.0",//,
+        oauthType: "2.0", //,
         //popupOptions: { width: 452, height: 633 }
     });
-
 
     // VKontakte
     $authProvider.oauth2({
@@ -74,13 +73,13 @@ function configure(
     // Generic OAuth 2.0
     $authProvider.oauth2({
         name: "strava",
-        url: "/oauth",//'http:/' + _connection.server + '/oauth/',
-        clientId: 17981,//17981 - prd,//15712 - test,
+        url: "/oauth", //'http:/' + _connection.server + '/oauth/',
+        clientId: 17981, //17981 - prd,//15712 - test,
         redirectUri: window.location.origin,
         authorizationEndpoint: "https://www.strava.com/oauth/authorize",
-        defaultUrlParams: ["client_id","response_type", "redirect_uri"],
+        defaultUrlParams: ["client_id", "response_type", "redirect_uri"],
         //requiredUrlParams: ['response_type','client_id'],
-        optionalUrlParams: ["approval_prompt","scope","state"],
+        optionalUrlParams: ["approval_prompt", "scope", "state"],
         approvalPrompt: "force",
         scope: "view_private",
         state: "mystate",
@@ -94,29 +93,29 @@ function configure(
     });
 
     $stateProvider
-        .state("settings/user", <StateDeclaration>{
+        .state("settings/user", {
             url: "/settings/user/:uri",
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
-                view: () => {return new DisplayView("settings");},
+                view: () => new DisplayView("settings"),
                 user: ["UserService", "message", "$stateParams",
-                    function (UserService:UserService, message:MessageService, $stateParams) {
+                    function(UserService: UserService, message: MessageService, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
-                            .catch((info)=> {
+                            .catch((info) => {
                                 message.systemWarning(info);
                                 // TODO перейти на страницу 404
                                 throw info;
                             });
                     }],
-                athlete: ["SessionService","user", (SessionService: SessionService, user:IUserProfile) =>
+                athlete: ["SessionService", "user", (SessionService: SessionService, user: IUserProfile) =>
                     SessionService.getUser().userId !== user.userId ? user : null],
-                checkPermissions: ["AuthService", "SessionService", "message","athlete",
-                    (AuthService:IAuthService, SessionService: SessionService, message:MessageService, athlete:IUserProfile) => {
-                        if(athlete) {
+                checkPermissions: ["AuthService", "SessionService", "message", "athlete",
+                    (AuthService: IAuthService, SessionService: SessionService, message: MessageService, athlete: IUserProfile) => {
+                        if (athlete) {
                             if (AuthService.isCoach()) {
                                 return AuthService.isMyAthlete(athlete)
-                                    .catch((error)=>{
+                                    .catch((error) => {
                                         athlete = null;
                                         message.systemWarning(error);
                                         throw error;
@@ -124,7 +123,7 @@ function configure(
                             } else {
                                 athlete = null;
                                 message.systemWarning("forbidden_InsufficientRights");
-                                throw "forbidden_InsufficientRights";
+                                throw new Error("forbidden_InsufficientRights");
                             }
                         }
                     }],
@@ -150,14 +149,14 @@ function configure(
                     },
                 },
             },
-        });
+        } as StateDeclaration);
 
     // Текст представлений
-    $translateProvider.translations("en", {"settings": _translate["en"]});
-    $translateProvider.translations("ru", {"settings": _translate["ru"]});
+    $translateProvider.translations("en", {"settings": _translate.en});
+    $translateProvider.translations("ru", {"settings": _translate.ru});
 
 }
 
-configure.$inject = ["$stateProvider","$translateProvider","$authProvider"];
+configure.$inject = ["$stateProvider", "$translateProvider", "$authProvider"];
 
 export default configure;

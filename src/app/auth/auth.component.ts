@@ -1,9 +1,9 @@
-import { IComponentController, IComponentOptions,IHttpPromiseCallbackArg,ILocationService} from "angular";
+import { IComponentController, IComponentOptions, IHttpPromiseCallbackArg, ILocationService} from "angular";
 import {StateService} from "angular-ui-router";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {SessionService} from "../core";
 import {IMessageService} from "../core/message.service";
-require("./auth.component.scss");
+import "./auth.component.scss";
 
 class AuthCtrl implements IComponentController {
 
@@ -12,7 +12,7 @@ class AuthCtrl implements IComponentController {
     private credentials: Object = null;
     private passwordStrength: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-    static $inject = ["AuthService","SessionService","$state", "$stateParams", "$location", "message", "$auth"];
+    public static $inject = ["AuthService", "SessionService", "$state", "$stateParams", "$location", "message", "$auth"];
 
     constructor(
         private AuthService: any,
@@ -23,12 +23,12 @@ class AuthCtrl implements IComponentController {
         private message: IMessageService, private $auth: any) {
     }
 
-    $onInit() {
+    public $onInit() {
         /**
          * Переход в компонент по ссылке /signout
          * Сбрасываем данные в localStorage и переходим на экран входа пользователя
          */
-        if(this.$state.$current.name === "signout") {
+        if (this.$state.$current.name === "signout") {
             this.AuthService.signOut();
             this.$state.go("signin");
         }
@@ -36,9 +36,9 @@ class AuthCtrl implements IComponentController {
          * Переход в компонент по ссылке /confirm?request={request}
          * В AuthService отправляем POST - подтверждение, что пользователь активировал свою учетную запись
          */
-        if(this.$state.$current.name === "confirm") {
-            if(this.$location["$$search"].hasOwnProperty("request")) {
-                this.AuthService.confirm({request: this.$location["$$search"]["request"]})
+        if (this.$state.$current.name === "confirm") {
+            if (this.$location.$$search.hasOwnProperty("request")) {
+                this.AuthService.confirm({request: this.$location.$$search.request})
                     .then((message) => {
                         this.message.systemSuccess(message.title);
                         this.$state.go("signin");
@@ -50,8 +50,6 @@ class AuthCtrl implements IComponentController {
                 this.$state.go("signup");
             }
         }
-
-
 
         // Типовая структура для создания нового пользователя
         this.credentials = {
@@ -79,7 +77,7 @@ class AuthCtrl implements IComponentController {
      * Вход пользователя
      * @param credentials
      */
-    signin(credentials) {
+    public signin(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.AuthService.signIn({email: credentials.email, password: credentials.password})
             .finally(() => this.enabled = true)
@@ -94,7 +92,7 @@ class AuthCtrl implements IComponentController {
      * Регистрация/создание нового пользователя
      * @param credentials
      */
-    signup(credentials) {
+    public signup(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.AuthService.signUp(credentials)
             .finally(() => this.enabled = true)
@@ -110,7 +108,7 @@ class AuthCtrl implements IComponentController {
      * Сброс пароля
      * @param credentials
      */
-    reset(credentials) {
+    public reset(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.AuthService.resetPassword(credentials.email)
             .then((message) => this.message.systemSuccess(message.title), (error) => this.message.systemWarning(error))
@@ -121,9 +119,9 @@ class AuthCtrl implements IComponentController {
      * Установка пароля
      * @param credentials
      */
-    setpass(credentials){
+    public setpass(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
-        this.AuthService.setPassword(credentials.password, this.$location["$$search"]["request"])
+        this.AuthService.setPassword(credentials.password, this.$location.$$search.request)
             .then((message) => this.message.systemSuccess(message.title), (error) => this.message.systemWarning(error))
             .then(() => this.enabled = true)
             .then(() => this.$state.go("signin"));
@@ -132,9 +130,9 @@ class AuthCtrl implements IComponentController {
     /**
      *
      */
-    putInvite(credentials) {
+    public putInvite(credentials) {
         this.enabled = false;
-        this.AuthService.putInvite(Object.assign(credentials, {token: this.$location["$$search"]["request"]}))
+        this.AuthService.putInvite(Object.assign(credentials, {token: this.$location.$$search.request}))
             .finally(() => this.enabled = true)
             .then((sessionData) => {
                 this.AuthService.signedIn(sessionData);
@@ -144,19 +142,19 @@ class AuthCtrl implements IComponentController {
             });
     }
 
-    OAuth(provider:string) {
+    public OAuth(provider: string) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.$auth.link(provider, {
             internalData: {
                 postAsExternalProvider: false,
-                provider: provider,
-                activateCoachTrial: this.credentials["activateCoachTrial"],
+                provider,
+                activateCoachTrial: this.credentials.activateCoachTrial,
                 activatePremiumTrial: true,
             },
         })
-            .finally(()=>this.enabled = true)
-            .then((response: IHttpPromiseCallbackArg<{data:{userProfile: IUserProfile, systemFunctions: any}}>) => {
-                let sessionData = response.data.data;
+            .finally(() => this.enabled = true)
+            .then((response: IHttpPromiseCallbackArg<{data: {userProfile: IUserProfile, systemFunctions: any}}>) => {
+                const sessionData = response.data.data;
                 this.AuthService.signedIn(sessionData);
                 this.redirect("calendar", {uri: sessionData.userProfile.public.uri});
             }, (error) => {
@@ -168,15 +166,15 @@ class AuthCtrl implements IComponentController {
             }).catch((response) => this.message.systemError(response));
     }
 
-    redirect(state: string = "calendar", params: Object):void {
-        let redirectState = this.$stateParams.hasOwnProperty("nextState") && this.$stateParams["nextState"] || state;
-        let redirectParams = this.$stateParams.hasOwnProperty("nextParams") && this.$stateParams["nextParams"] || params;
+    public redirect(state: string = "calendar", params: Object): void {
+        const redirectState = this.$stateParams.hasOwnProperty("nextState") && this.$stateParams.nextState || state;
+        const redirectParams = this.$stateParams.hasOwnProperty("nextParams") && this.$stateParams.nextParams || params;
 
-        if(redirectState === "calendar" && redirectParams.hasOwnProperty("#") && redirectParams["#"]) {
+        if (redirectState === "calendar" && redirectParams.hasOwnProperty("#") && redirectParams["#"]) {
             redirectParams["#"] = null;
         }
         //  Устанавливаем таймаут на случай выхода/входа пользователя. Без тайм-аута вход без выхода не успевает
-        setTimeout(() => this.$state.go(redirectState,redirectParams), 1000);
+        setTimeout(() => this.$state.go(redirectState, redirectParams), 1000);
     }
 
 }

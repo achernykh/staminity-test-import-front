@@ -4,7 +4,7 @@ const equals = (xs, ys) => {
 
 /**
  * Сохранять последний вычисленный функцией результат и возвращать его, если не изменились аргументы
- */  
+ */
 export const memorize = (f) => {
     let prevArgs = [];
     let prevResult;

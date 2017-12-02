@@ -1,6 +1,6 @@
 ﻿import {IInputPlanSegment } from "./segmentsChart.input";
 
-const posOrder = (a:IInputPlanSegment,b:IInputPlanSegment) => a.pos < b.pos ? -1: 1;
+const posOrder = (a: IInputPlanSegment, b: IInputPlanSegment) => a.pos < b.pos ? -1 : 1;
 
 export enum IntervalStatus {
     unknown,
@@ -51,12 +51,12 @@ export class PlanChartDatamodel {
         console.log("header sort", activityHeader.map((i) => i.pos));
 
         for (let i = 0; i < activityHeader.length; i++) {
-            let segment = activityHeader[i];
-            let intensityMeasure = segment.intensityMeasure || PlanChartDatamodel.DEFAULT_MEASURE;
+            const segment = activityHeader[i];
+            const intensityMeasure = segment.intensityMeasure || PlanChartDatamodel.DEFAULT_MEASURE;
             if (segment.type !== "P") {
                 continue;
             }
-            let plan = {
+            const plan = {
                 movingDuration: {
                     start: currentPlanTime,
                     duration: segment.movingDurationLength,
@@ -88,10 +88,10 @@ export class PlanChartDatamodel {
                 isKey: segment.keyInterval,
                 isSelected: segment.isSelected,
                 status: this.getStatus(segment),
-                intensityMeasure: intensityMeasure,
+                intensityMeasure,
                 durationMeasure: segment.durationMeasure,
-                plan: plan,
-                fact: fact,
+                plan,
+                fact,
             });
             currentPlanTime = currentPlanTime + segment.movingDurationLength;
             currentPlanDistance = currentPlanDistance + segment.distanceLength;
@@ -103,8 +103,8 @@ export class PlanChartDatamodel {
     }
 
     public getSelect(): number[] {
-        let select: number[] = [];
-        this.intervals.forEach((interval,i) => interval.isSelected && select.push(i));
+        const select: number[] = [];
+        this.intervals.forEach((interval, i) => interval.isSelected && select.push(i));
         return select || [];
     }
 
@@ -119,10 +119,10 @@ export class PlanChartDatamodel {
             !segment.durationValue) {
             return IntervalStatus.unknown;
         }
-        let delta = Math.abs(100 - segment.calcMeasures.completePercent.value * 100);
+        const delta = Math.abs(100 - segment.calcMeasures.completePercent.value * 100);
         if (delta <= PlanChartDatamodel.SUCCESS) {
             return IntervalStatus.success;
-        } 
+        }
         if (delta <= PlanChartDatamodel.WARN) {
             return IntervalStatus.warn;
         }

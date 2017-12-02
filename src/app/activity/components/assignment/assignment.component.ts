@@ -11,8 +11,6 @@ import {ActivityHeaderCtrl} from "../../activity-header/activity-header.componen
 import {Activity} from "../../activity.datamodel";
 import "./assignment.component.scss";
 
-
-
 export enum FtpState {
     On,
     Off,
@@ -23,15 +21,15 @@ class ActivityAssignmentCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
 
-    private selected:number[] = [];
+    private selected: number[] = [];
     private percentComplete: Object = {};
 
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 
@@ -39,10 +37,10 @@ class ActivityAssignmentCtrl implements IComponentController {
      * Проверки на уровне полей выполняется отдельно в компонентах assignment-summary-non-structured
      * В данной функции делаются комплексные проверки
      */
-    checkForm (form?: INgModelController) {
+    public checkForm(form?: INgModelController) {
 
         this.item.assignmentForm.$setValidity("needDuration",
-            this.item.activity.movingDuration > 0 || this.item.activity.distance > 0);/*
+            this.item.activity.movingDuration > 0 || this.item.activity.distance > 0); /*
             this.item.activity.structured ||
             (!this.item.activity.structured &&
             (plan.durationValue > 0) || //|| plan.movingDuration > 0) ||
@@ -55,19 +53,18 @@ class ActivityAssignmentCtrl implements IComponentController {
      * @param actual - фактические данные (пользователь мог ввести факт руками)
      * @param form - статус формы ввода
      */
-    changeForm( form: INgModelController, plan: IActivityIntervalPW, actual: ICalcMeasures) {
+    public changeForm( form: INgModelController, plan: IActivityIntervalPW, actual: ICalcMeasures) {
 
         this.item.assignmentForm.$dirty = this.item.assignmentForm.$dirty || form.$dirty;
         this.item.assignmentForm.$valid = this.item.assignmentForm.$valid || form.$valid;
-        this.item.updateAssignment(plan,actual);
+        this.item.updateAssignment(plan, actual);
         this.checkForm();
 
     }
 
-
 }
 
-const ActivityAssignmentComponent:IComponentOptions = {
+const ActivityAssignmentComponent: IComponentOptions = {
     require: {
         item: "^calendarItemActivity",
     },

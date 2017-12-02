@@ -3,19 +3,19 @@ import { TrainingPlan } from "./training-plan/training-plan.datamodel";
 
 export class TrainingPlanDialogService {
 
-    static $inject = ["$mdDialog"];
+    public static $inject = ["$mdDialog"];
 
-    constructor (private $mdDialog: any) {
+    constructor(private $mdDialog: any) {
 
     }
 
-    open (env: Event, mode: FormMode, plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
+    public open(env: Event, mode: FormMode, plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
 
         return this.$mdDialog.show({
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (mode,plan) => $mdDialog.hide({mode: mode, plan: plan});
+                $scope.answer = (mode, plan) => $mdDialog.hide({mode, plan});
             }],
             controllerAs: "$ctrl",
             template: `<md-dialog id="training-plan-form" aria-label="Training Plan Form">
@@ -30,7 +30,7 @@ export class TrainingPlanDialogService {
             targetEvent: env,
             locals: {
                 plan: plan || new TrainingPlan(),
-                mode: mode,
+                mode,
             },
             bindToController: true,
             clickOutsideToClose: false,

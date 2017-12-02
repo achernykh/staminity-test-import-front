@@ -21,18 +21,18 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
         },
     };
 
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.onChange();
     }
 }
 
-const AssignmentSummaryStructuredComponent:IComponentOptions = {
+const AssignmentSummaryStructuredComponent: IComponentOptions = {
     bindings: {
         data: "<",
         onChange: "&",

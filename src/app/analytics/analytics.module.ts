@@ -17,5 +17,4 @@ const Analytics = module("staminity.analytics", [])
     .config(configure)
     .name;
 
-
 export default Analytics;

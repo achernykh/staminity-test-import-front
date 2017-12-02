@@ -9,25 +9,25 @@ import { SocketService } from "../core";
 
 export class TrainingPlansService {
 
-    static $inject = [ "SocketService" ];
+    public static $inject = [ "SocketService" ];
 
-    constructor (private socket: SocketService) {
+    constructor(private socket: SocketService) {
 
     }
 
-    search (request: ITrainingPlanSearchRequest): Promise<ITrainingPlanSearchResult> {
+    public search(request: ITrainingPlanSearchRequest): Promise<ITrainingPlanSearchResult> {
         return this.socket.send(new SearchTrainingPlan(request));
     }
 
-    post (plan: ITrainingPlan): Promise<IRevisionResponse> {
+    public post(plan: ITrainingPlan): Promise<IRevisionResponse> {
         return this.socket.send(new PostTrainingPlan(plan));
     }
 
-    put (plan: ITrainingPlan): Promise<IRevisionResponse> {
+    public put(plan: ITrainingPlan): Promise<IRevisionResponse> {
         return this.socket.send(new PutTrainingPlan(plan));
     }
 
-    delete (planId: number): Promise<IWSResponse> {
+    public delete(planId: number): Promise<IWSResponse> {
         return this.socket.send(new DeleteTrainingPlan(planId));
     }
 

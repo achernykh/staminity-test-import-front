@@ -27,7 +27,7 @@ interface ICalendarWeekSummary {
     };
 }
 
-class CalendarWeekSummary implements ICalendarWeekSummary{
+class CalendarWeekSummary implements ICalendarWeekSummary {
     public fact: {
         distance: number;
         movingDuration: number;
@@ -69,7 +69,6 @@ class CalendarWeekSummary implements ICalendarWeekSummary{
 
 }
 
-
 interface ICalendarWeekTotal {
     [sport: string]: ICalendarWeekSummary;
 };
@@ -84,7 +83,7 @@ const getSummaryFromInterval = (point: string, interval, itemDate: string): numb
     let completePercent: number = 0;
     let completedOnToday: number = 0;
     let completePercentOnToday: number = 0;
-    let coming:boolean = toDay(new Date(itemDate)).getTime() > toDay(new Date().setDate(new Date().getDate() - 1)).getTime();
+    const coming: boolean = toDay(new Date(itemDate)).getTime() > toDay(new Date().setDate(new Date().getDate() - 1)).getTime();
 
     //console.log(itemDate, toDay(new Date(itemDate)).getTime(), toDay(new Date()).getTime());
 
@@ -123,10 +122,10 @@ const getSummaryFromInterval = (point: string, interval, itemDate: string): numb
 
 const searchMeasure = (point, interval) => {
     if (point === "plan") {
-        if (interval.durationMeasure === "movingDuration"){
-            return [0,interval.durationValue];
+        if (interval.durationMeasure === "movingDuration") {
+            return [0, interval.durationValue];
         } else {
-            return [interval.durationValue,0];
+            return [interval.durationValue, 0];
         }
     } else {
         return [
@@ -161,15 +160,15 @@ export class CalendarWeekData {
         return this._total;
     }
 
-    getItems(days: ICalendarDay[]):ICalendarItem[]{
-        let items: ICalendarItem[] = [];
+    public getItems(days: ICalendarDay[]): ICalendarItem[] {
+        const items: ICalendarItem[] = [];
         days.map((d) =>
             d.data.calendarItems && d.data.calendarItems.length > 0 && items.push(...d.data.calendarItems));
         return items;
     }
 
-    calcSummary(): ICalendarWeekSummary {
-        let summary: ICalendarWeekSummary = new CalendarWeekSummary();
+    public calcSummary(): ICalendarWeekSummary {
+        const summary: ICalendarWeekSummary = new CalendarWeekSummary();
 
         Object.keys(this._total).forEach((sport) => {
             Object.keys(this._total[sport]).forEach((point) => {
@@ -183,19 +182,19 @@ export class CalendarWeekData {
 
     }
 
-    calcTotal(): ICalendarWeekTotal {
-        let total: ICalendarWeekTotal = {};
+    public calcTotal(): ICalendarWeekTotal {
+        const total: ICalendarWeekTotal = {};
         let sport = null;
         let distance = 0, movingDuration = 0, completed = 0, completePercent = 0, specified = 0, specifiedOnToday = 0,
             completedOnToday = 0, completePercentOnToday = 0;
-        let totalTemplate: ICalendarWeekSummary = new CalendarWeekSummary();
+        const totalTemplate: ICalendarWeekSummary = new CalendarWeekSummary();
 
         this._items.forEach((item) => {
             sport = item.activityHeader.activityType.typeBasic;
             sport = (this.primarySport.indexOf(sport) !== -1 && sport) || "other";
             item.activityHeader.intervals.filter((interval) => interval.type === "W" || interval.type === "pW")
                 .forEach((interval) => {
-                    let point = interval.type === "W" ? "fact" : "plan";
+                    const point = interval.type === "W" ? "fact" : "plan";
                     if (!total.hasOwnProperty(sport)) {
                         total[sport] = copy(totalTemplate);
                     }
@@ -220,49 +219,49 @@ export class CalendarWeekData {
         return total;
     }
 
-    hasSummary():boolean {
+    public hasSummary(): boolean {
         return this._summary &&
             (this._summary.plan.specified > 0 || this._summary.fact.completed > 0) || false;
     }
 
-    hasTotalBySport(sport: string): boolean {
+    public hasTotalBySport(sport: string): boolean {
         return this._total && this._total.hasOwnProperty(sport) &&
             (this._total[sport].plan.specified > 0 || this._total[sport].fact.completed > 0) || false;
     }
 
-    totalStatus(sport: string):string {
-        let percent: number = this.totalPercent(sport);
+    public totalStatus(sport: string): string {
+        const percent: number = this.totalPercent(sport);
         return this._total && this._total.hasOwnProperty(sport) && percent &&
-            ((Math.abs(100-percent) <= this.statusLimit.warn && percent > 0) && "complete") ||
-            ((Math.abs(100-percent) <= this.statusLimit.error && percent > 0) && "complete-warn") ||
-            ((Math.abs(100-percent) > this.statusLimit.error && percent > 0)  && "complete-error") || "coming";
+            ((Math.abs(100 - percent) <= this.statusLimit.warn && percent > 0) && "complete") ||
+            ((Math.abs(100 - percent) <= this.statusLimit.error && percent > 0) && "complete-warn") ||
+            ((Math.abs(100 - percent) > this.statusLimit.error && percent > 0)  && "complete-error") || "coming";
 
     }
 
-    totalPercent(sport: string):number {
+    public totalPercent(sport: string): number {
         return this._total && this._total.hasOwnProperty(sport) &&
                 100 * this._total[sport].plan.completePercentOnToday / this._total[sport].plan.specifiedOnToday;
     }
 
-    totalPercentByCount(sport: string):number {
+    public totalPercentByCount(sport: string): number {
         return this._total && this._total.hasOwnProperty(sport) &&
                 100 * this._total[sport].plan.completedOnToday / this._total[sport].plan.specified;
     }
 
-    summaryStatus():string {
-        let percent: number = this.summaryPercent();
+    public summaryStatus(): string {
+        const percent: number = this.summaryPercent();
         return this._summary && percent &&
-            ((Math.abs(100-percent) <= this.statusLimit.warn && percent > 0) && "complete") ||
-            ((Math.abs(100-percent) <= this.statusLimit.error && percent > 0) && "complete-warn") ||
-            ((Math.abs(100-percent) > this.statusLimit.error && percent > 0)  && "complete-error") || "coming";
+            ((Math.abs(100 - percent) <= this.statusLimit.warn && percent > 0) && "complete") ||
+            ((Math.abs(100 - percent) <= this.statusLimit.error && percent > 0) && "complete-warn") ||
+            ((Math.abs(100 - percent) > this.statusLimit.error && percent > 0)  && "complete-error") || "coming";
     }
 
-    summaryPercent():number {
+    public summaryPercent(): number {
         return this._summary &&
             100 * this._summary.plan.completePercentOnToday / this._summary.plan.specifiedOnToday;
     }
 
-    summaryPercentByCount():number {
+    public summaryPercentByCount(): number {
         return this._summary &&
             100 * this._summary.plan.completedOnToday / this._summary.plan.specified;
     }

@@ -1,5 +1,5 @@
 import moment from "moment/src/moment.js";
-import {BehaviorSubject,Observable,Subject} from "rxjs/Rx";
+import {BehaviorSubject, Observable, Subject} from "rxjs/Rx";
 import {GetNotificationRequest, INotification, Notification, PutNotificationRequest} from "../../../../api";
 import {SocketService} from "../../core";
 import CommentService from "../../core/comment.service";
@@ -19,26 +19,26 @@ export interface INotificationSettings {
 }
 
 export default class NotificationService {
-    timeouts: { [index: string]: number } = {};
+    public timeouts: { [index: string]: number } = {};
 
-    notifications: Notification[] = [];
-    notificationsChanges = new Subject<Notification[]>();
-    notificationsReducers = {
+    public notifications: Notification[] = [];
+    public notificationsChanges = new Subject<Notification[]>();
+    public notificationsReducers = {
         "I": (notification: Notification) => [...this.notifications, notification].sort(notificationsOrder),
-        "U": (notification: Notification) => this.notifications.map((n) => n.id === notification.id && notification.revision > n.revision? notification : n).sort(notificationsOrder),
+        "U": (notification: Notification) => this.notifications.map((n) => n.id === notification.id && notification.revision > n.revision ? notification : n).sort(notificationsOrder),
     };
-    resetNotifications = () => {
+    public resetNotifications = () => {
         this.get(100, 0)
-        .then((notifications) => { 
-            this.notifications = notifications.sort(notificationsOrder); 
+        .then((notifications) => {
+            this.notifications = notifications.sort(notificationsOrder);
             this.notificationsChanges.next(this.notifications);
         });
     }
 
-    openChat: ChatSession;
-    private readonly commentTemplates: string[] = ["newCoachComment","newAthleteComment"];
+    public openChat: ChatSession;
+    private readonly commentTemplates: string[] = ["newCoachComment", "newAthleteComment"];
 
-    defaultSettings: INotificationSettings = {
+    public defaultSettings: INotificationSettings = {
         newestOnTop: false,
         timeOut: 7000,
         tapToDismiss: true,
@@ -46,10 +46,10 @@ export default class NotificationService {
         hideDuration: 300,
     };
 
-    static $inject = ["SocketService","toaster","CommentService"];
+    public static $inject = ["SocketService", "toaster", "CommentService"];
 
     constructor(
-        private socket: SocketService, private toaster: any, private comment: CommentService){
+        private socket: SocketService, private toaster: any, private comment: CommentService) {
 
         this.comment.openChat$.subscribe((chat) => this.openChat = chat); // следим за открытми чатами
 
@@ -59,8 +59,8 @@ export default class NotificationService {
         this.socket.messages
         .filter((message) => message.type === "notification")
         .subscribe((message) => {
-            let notification = new Notification(message.value);
-            let reducer = this.notificationsReducers[message.action || "I"];
+            const notification = new Notification(message.value);
+            const reducer = this.notificationsReducers[message.action || "I"];
 
             if (reducer) {
                 this.notifications = reducer(notification);
@@ -87,9 +87,9 @@ export default class NotificationService {
      * @param offset - отступ от начального элемента, попадающего под условия фильтрации
      * @returns {Promise<Array<INotification>>}
      */
-    get(limit:number = null, offset:number = null):Promise<Notification[]>{
-        return this.socket.send(new GetNotificationRequest(limit,offset))
-            .then((result:{resultArray: any[]}) => {return result.resultArray.map((n) => new Notification(n));});
+    public get(limit: number = null, offset: number = null): Promise<Notification[]> {
+        return this.socket.send(new GetNotificationRequest(limit, offset))
+            .then((result: {resultArray: any[]}) => result.resultArray.map((n) => new Notification(n)));
     }
 
     /**
@@ -98,28 +98,28 @@ export default class NotificationService {
      * @param isRead
      * @returns {Promise<any>}
      */
-    put(id: number, readUntil: string, isRead: boolean):Promise<any>{
+    public put(id: number, readUntil: string, isRead: boolean): Promise<any> {
         return this.socket.send(new PutNotificationRequest(id, readUntil, isRead));
     }
 
-    show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {
+    public show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {
         this.timeouts[notification.index] = Date.now();
 
         this.toaster.pop({
             onHideCallback: () => {
                 console.log(Date.now() - this.timeouts[notification.index]);
-                let userClick = (Date.now() - this.timeouts[notification.index]) < settings.timeOut;
-                if(userClick) {
+                const userClick = (Date.now() - this.timeouts[notification.index]) < settings.timeOut;
+                if (userClick) {
                     console.log("user click", notification);
                     this.put(notification.id, null, true)
-                        .then((success)=>console.log(success), (error) => console.error(error));
+                        .then((success) => console.log(success), (error) => console.error(error));
                 }
             },
             tapToDismiss: true,
             timeout: settings.timeOut,
             newestOnTop: settings.newestOnTop,
             body: JSON.stringify({template: "notification/notification.html", data: {
-                notification: notification,
+                notification,
             }}),
             bodyOutputType: "templateWithData",
         });

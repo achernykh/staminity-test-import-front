@@ -13,7 +13,6 @@ import {
 import {AnalyticsChart, IAnalyticsChart} from "./analytics-chart/analytics-chart.model";
 import "./analytics.component.scss";
 
-
 export class AnalyticsCtrl implements IComponentController {
 
     public user: IUserProfile;
@@ -33,7 +32,7 @@ export class AnalyticsCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ["$scope","SessionService","statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
+    public static $inject = ["$scope", "SessionService", "statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
         "AuthService", "$filter"];
 
     constructor(private $scope: IScope,
@@ -61,11 +60,11 @@ export class AnalyticsCtrl implements IComponentController {
             });
     }
 
-    $onInit() {
+    public $onInit() {
         this.prepareData();
     }
 
-    $onDestroy() {
+    public $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
@@ -75,8 +74,7 @@ export class AnalyticsCtrl implements IComponentController {
         this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
     }
 
-
-    restoreSettings() {
+    public restoreSettings() {
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.charts}`);
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.filter}`);
         this.prepareCharts(this.defaultSettings);
@@ -87,8 +85,8 @@ export class AnalyticsCtrl implements IComponentController {
     }
 
     private saveSettings() {
-        this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.charts}`,this.charts.map((c) => c.transfer()));
-        this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`,this.filter.transfer());
+        this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.charts}`, this.charts.map((c) => c.transfer()));
+        this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`, this.filter.transfer());
     }
 
     private prepareFilter(user: IUserProfile, categories: IActivityCategory[]) {
@@ -108,7 +106,7 @@ export class AnalyticsCtrl implements IComponentController {
     }
 }
 
-const AnalyticsComponent:IComponentOptions = {
+const AnalyticsComponent: IComponentOptions = {
     bindings: {
         user: "<",
         categories: "<",

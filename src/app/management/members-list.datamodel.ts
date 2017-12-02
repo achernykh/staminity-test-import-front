@@ -2,14 +2,13 @@ import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupMa
 import { ClubRole, ClubTariff } from "./management.constants";
 import { Member } from "./member.datamodel";
 
-
 export class MembersList implements IGroupManagementProfile {
 
-    groupId: number;
-    availableGroups: IGroupProfileShort[];
-    members: Member[];
+    public groupId: number;
+    public availableGroups: IGroupProfileShort[];
+    public members: Member[];
 
-    constructor (
+    constructor(
         public management: IGroupManagementProfile,
     ) {
         this.groupId = management.groupId;
@@ -21,24 +20,24 @@ export class MembersList implements IGroupManagementProfile {
      * Член клуба по его userId
      * @param userId: number
      * @returns {Member}
-    */  
-    getMember = (userId: number) : Member => {
+    */
+    public getMember = (userId: number): Member => {
         return this.members.find((member) => member.getUserId() === userId);
     }
 
     /**
      * Члены клуба с клубной ролью "Тренер"
      * @returns {Array<Member>}
-    */  
-    getCoaches = () : Member[] => {
+    */
+    public getCoaches = (): Member[] => {
         return this.members.filter((member) => member.hasClubRole("ClubCoaches"));
     }
 
     /**
      * Члены клуба с клубной ролью "Спортсмен"
      * @returns {Array<Member>}
-    */  
-    getAthletes = () : Member[] => {
+    */
+    public getAthletes = (): Member[] => {
         return this.members.filter((member) => member.hasClubRole("ClubAthletes"));
     }
 
@@ -46,8 +45,8 @@ export class MembersList implements IGroupManagementProfile {
      * Спортсмены данного тренера (по userId тренера)
      * @param userId: number
      * @returns {Array<Member>}
-    */  
-    getAthletesByCoachId = (userId: number) : Member[] => {
+    */
+    public getAthletesByCoachId = (userId: number): Member[] => {
         return this.members.filter((member) => member.coaches.indexOf(userId) !== -1);
     }
 
@@ -55,17 +54,17 @@ export class MembersList implements IGroupManagementProfile {
      * Спортсмены данного тренера (по userId тренера)
      * @param userId: number
      * @returns {Array<Member>}
-    */  
-    getTariffGroupId = (tariffCode: ClubTariff) : number => {
-        return this.management["tariffGroups"][tariffCode + "ByClub"];
+    */
+    public getTariffGroupId = (tariffCode: ClubTariff): number => {
+        return this.management.tariffGroups[tariffCode + "ByClub"];
     }
 
     /**
      * Спортсмены данного тренера (по userId тренера)
      * @param userId: number
      * @returns {Array<Member>}
-    */  
-    getRoleGroupId = (role: ClubRole) : number => {
+    */
+    public getRoleGroupId = (role: ClubRole): number => {
         return this.availableGroups[role];
     }
 
@@ -73,8 +72,8 @@ export class MembersList implements IGroupManagementProfile {
      * Оплачен ли счёт по тарифу текущим клубом
      * @param bill: IBillingTariff
      * @returns {boolean}
-    */  
-    isClubBill = (bill: IBillingTariff) : boolean => {
+    */
+    public isClubBill = (bill: IBillingTariff): boolean => {
         return bill && bill.clubProfile && bill.clubProfile.groupId === this.groupId;
     }
 
@@ -82,8 +81,8 @@ export class MembersList implements IGroupManagementProfile {
      * Коды тарифов, подключенных члену за счёт клуба
      * @param member: Member
      * @returns {Array<string>}
-    */  
-    getTariffsByClub = (member: Member) : string[] => {
+    */
+    public getTariffsByClub = (member: Member): string[] => {
         return member.userProfile.billing
             .filter(this.isClubBill)
             .map((bill) => bill.tariffCode);
@@ -93,11 +92,10 @@ export class MembersList implements IGroupManagementProfile {
      * Коды тарифов, подключенных у члена не за счёт клуба
      * @param member: Member
      * @returns {Array<string>}
-    */  
-    getTariffsNotByClub = (member: Member) : string[] => {
+    */
+    public getTariffsNotByClub = (member: Member): string[] => {
         return member.userProfile.billing
             .filter((bill) => !this.isClubBill(bill))
             .map((bill) => bill.tariffCode);
     }
 }
-

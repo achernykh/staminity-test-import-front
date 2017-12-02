@@ -1,14 +1,14 @@
 import { ICompileProvider, ILocationProvider} from "angular";
 import {StateDeclaration, StateProvider} from "angular-ui-router";
 import moment from "moment/min/moment-with-locales.js";
-import {translateForm,translateGeneral} from "./app.translate";
+import {translateForm, translateGeneral} from "./app.translate";
 
 function configure(
     $compileProvider: ICompileProvider,
     $locationProvider: ILocationProvider,
     $urlRouterProvider: any,
     $mdThemingProvider: ng.material.IThemingProvider,
-    $stateProvider:StateProvider,
+    $stateProvider: StateProvider,
     $translateProvider: any,
     $anchorScrollProvider: any,
     $qProvider: any,
@@ -18,7 +18,7 @@ function configure(
     $mdGestureProvider.skipClickHijack(); //https://github.com/angular/angular.js/issues/6251
     $qProvider.errorOnUnhandledRejections(false); // https://github.com/angular-ui/ui-router/issues/2889
     $anchorScrollProvider.disableAutoScrolling();
-    let isProductionBuild: boolean = __ENV !== "build";
+    const isProductionBuild: boolean = __ENV !== "build";
 
     /**$locationProvider.html5Mode({
         enabled: false,
@@ -115,17 +115,17 @@ function configure(
         .dark();
 
     // Текст переводов, которые относятся ко всем представлениям
-    $translateProvider.translations("en", {form: translateForm["en"]});
-    $translateProvider.translations("ru", {form: translateForm["ru"]});
-    $translateProvider.translations("en", translateGeneral["en"]);
-    $translateProvider.translations("ru", translateGeneral["ru"]);
+    $translateProvider.translations("en", {form: translateForm.en});
+    $translateProvider.translations("ru", {form: translateForm.ru});
+    $translateProvider.translations("en", translateGeneral.en);
+    $translateProvider.translations("ru", translateGeneral.ru);
 
     console.log("config complete");
 }
 
 configure.$inject = [
-    "$compileProvider", "$locationProvider", "$urlRouterProvider","$mdThemingProvider", 
-    "$stateProvider", "$translateProvider", "$anchorScrollProvider","$qProvider", "$mdGestureProvider",
+    "$compileProvider", "$locationProvider", "$urlRouterProvider", "$mdThemingProvider",
+    "$stateProvider", "$translateProvider", "$anchorScrollProvider", "$qProvider", "$mdGestureProvider",
 ];
 
 export default configure;

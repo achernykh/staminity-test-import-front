@@ -4,7 +4,7 @@ import { DefaultTemplate, DisplayView } from "../core/display.constants";
 import GroupService from "../core/group.service";
 import MessageService from "../core/message.service";
 
-const management = <StateDeclaration> {
+const management = {
     name: "management",
     url: "/management/:uri",
     loginRequired: true,
@@ -12,7 +12,7 @@ const management = <StateDeclaration> {
     resolve: {
         view: () => new DisplayView("users"),
         checkPermissions: [
-            "AuthService", "$stateParams", "message", 
+            "AuthService", "$stateParams", "message",
             (AuthService: IAuthService, $stateParams, message: MessageService) => {
                 return AuthService.isMyClub($stateParams.uri)
                     .catch((error) => {
@@ -31,6 +31,6 @@ const management = <StateDeclaration> {
         ],
     },
     views: DefaultTemplate("management"),
-};
+} as StateDeclaration;
 
 export const managementStates: StateDeclaration[] = [management];

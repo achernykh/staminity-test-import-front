@@ -5,20 +5,20 @@ import {DisplayView} from "../core/display.constants";
 import GroupService from "../core/group.service";
 import {translateDashboard, translateDashboardClub} from "./dashboard.translate";
 
-function configure($stateProvider:StateProvider,
-                   $translateProvider:any) {
+function configure($stateProvider: StateProvider,
+                   $translateProvider: any) {
 
     $stateProvider
-        .state("dashboard", <StateDeclaration>{
+        .state("dashboard", {
             url: "/dashboard",
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
-                view: () => {return new DisplayView("dashboard");},
+                view: () => new DisplayView("dashboard"),
                 coach: ["SessionService", (session: SessionService) => session.getUser()],
-                groupId: ["coach", (coach:IUserProfile) => coach.connections["allAthletes"].groupId],
-                athletes: ["GroupService", "groupId", (group:GroupService, groupId:number) =>
-                    group.getManagementProfile(groupId ,"coach")],
+                groupId: ["coach", (coach: IUserProfile) => coach.connections.allAthletes.groupId],
+                athletes: ["GroupService", "groupId", (group: GroupService, groupId: number) =>
+                    group.getManagementProfile(groupId , "coach")],
             },
             views: {
                 "background": {
@@ -40,19 +40,19 @@ function configure($stateProvider:StateProvider,
                     },
                 },
             },
-        })
-        .state("dashboard/club", <StateDeclaration>{
+        } as StateDeclaration)
+        .state("dashboard/club", {
             url: "/dashboard/club/:uri",
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
-                view: () => {return new DisplayView("dashboardClub");},
+                view: () => new DisplayView("dashboardClub"),
                 coach: ["SessionService", (session: SessionService) => session.getUser()],
-                groupId: ["coach","$stateParams", (coach:IUserProfile, $stateParams) =>
-                    coach.connections["ControlledClubs"].filter((club) => club.groupUri === $stateParams.uri)[0].groupId],
-                athletes: ["GroupService", "groupId", (group:GroupService, groupId:number) =>
-                    group.getManagementProfile(groupId ,"club").then((profile) => {
-                        profile.members = profile.members.filter((member) =>member.roleMembership.some((role) => role === "ClubAthletes"));
+                groupId: ["coach", "$stateParams", (coach: IUserProfile, $stateParams) =>
+                    coach.connections.ControlledClubs.filter((club) => club.groupUri === $stateParams.uri)[0].groupId],
+                athletes: ["GroupService", "groupId", (group: GroupService, groupId: number) =>
+                    group.getManagementProfile(groupId , "club").then((profile) => {
+                        profile.members = profile.members.filter((member) => member.roleMembership.some((role) => role === "ClubAthletes"));
                         return profile;
                     })],
             },
@@ -76,14 +76,13 @@ function configure($stateProvider:StateProvider,
                     },
                 },
             },
-        });
-
+        } as StateDeclaration);
 
     // Текст представлений
-    $translateProvider.translations("en", {dashboard: translateDashboard["en"]});
-    $translateProvider.translations("ru", {dashboard: translateDashboard["ru"]});
-    $translateProvider.translations("en", {dashboardClub: translateDashboardClub["en"]});
-    $translateProvider.translations("ru", {dashboardClub: translateDashboardClub["ru"]});
+    $translateProvider.translations("en", {dashboard: translateDashboard.en});
+    $translateProvider.translations("ru", {dashboard: translateDashboard.ru});
+    $translateProvider.translations("en", {dashboardClub: translateDashboardClub.en});
+    $translateProvider.translations("ru", {dashboardClub: translateDashboardClub.ru});
 }
 
 configure.$inject = ["$stateProvider", "$translateProvider"];

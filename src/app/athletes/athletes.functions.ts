@@ -5,8 +5,8 @@ import { arrays } from "../share/utility";
  * UserId члена группы
  * @param member: IGroupManagementProfileMember
  * @returns {number}
- */      
-export const getMemberId = (member: IGroupManagementProfileMember) : number => {
+ */
+export const getMemberId = (member: IGroupManagementProfileMember): number => {
     return member.userProfile.userId;
 };
 
@@ -14,8 +14,8 @@ export const getMemberId = (member: IGroupManagementProfileMember) : number => {
  * Отображаемое имя члена группы
  * @param member: IGroupManagementProfileMember
  * @returns {string}
- */  
-export const getMemberUsername = (member: IGroupManagementProfileMember) : string => {
+ */
+export const getMemberUsername = (member: IGroupManagementProfileMember): string => {
     return `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`;
 };
 
@@ -24,8 +24,8 @@ export const getMemberUsername = (member: IGroupManagementProfileMember) : strin
  * @param userId: number
  * @param bill: IBillingTariff
  * @returns {boolean}
-*/  
-export const isBillByUser = (userId: number, bill: IBillingTariff) : boolean => {
+*/
+export const isBillByUser = (userId: number, bill: IBillingTariff): boolean => {
     return bill.userProfilePayer && bill.userProfilePayer.userId === userId;
 };
 
@@ -34,7 +34,7 @@ export const isBillByUser = (userId: number, bill: IBillingTariff) : boolean => 
  * @param userId: number
  * @param member: IGroupManagementProfileMember
  * @returns {Array<string>}
- */   
+ */
 export const tariffsByUser = (userId: number) => (member: IGroupManagementProfileMember) => {
     return member.userProfile.billing
         .filter((bill) => isBillByUser(userId, bill))
@@ -46,7 +46,7 @@ export const tariffsByUser = (userId: number) => (member: IGroupManagementProfil
  * @param userId: number
  * @param member: IGroupManagementProfileMember
  * @returns {Array<string>}
- */  
+ */
 export const tariffsNotByUser = (userId: number) => (member: IGroupManagementProfileMember) => {
     return member.userProfile.billing
         .filter((bill) => !isBillByUser(userId, bill))
@@ -58,11 +58,11 @@ export const tariffsNotByUser = (userId: number) => (member: IGroupManagementPro
  * @param user: IUserProfile
  * @param member: IGroupManagementProfileMember
  * @returns {boolean}
- */  
-export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProfileMember) : boolean => {
+ */
+export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProfileMember): boolean => {
     return arrays.intersection(
         coach.connections.Clubs.map((club) => club.groupId),
-        athlete["clubs"].map((club) => club.groupId),
+        athlete.clubs.map((club) => club.groupId),
     ).length > 0;
 };
 
@@ -71,14 +71,14 @@ export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProf
  * @param userId: number
  * @param member: IGroupManagementProfileMember
  * @returns {number}
- */  
+ */
 export const getTariffGroupId = (management: IGroupManagementProfile) => (tariffCode: string) => {
-    return management["tariffGroups"][tariffCode + "ByCoach"];
+    return management.tariffGroups[tariffCode + "ByCoach"];
 };
-   
+
 /**
  * Сортировки списка спортсменов
- */  
+ */
 export const athletesOrderings: {
     [key: string]: (IGroupManagementProfileMember) => number | string;
 } = {

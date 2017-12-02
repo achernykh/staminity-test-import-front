@@ -3,11 +3,11 @@ import {DefaultTemplate, DisplayView} from "../core/display.constants";
 import {_translateSearch} from "./search.translate";
 //import {ITranslateProvider} from "angular-translate";
 
-function configure($stateProvider:StateProvider,
-                   $translateProvider:any) {
+function configure($stateProvider: StateProvider,
+                   $translateProvider: any) {
 
     $stateProvider
-        .state("search", <StateDeclaration>{
+        .state("search", {
             url: "/search",
             loginRequired: true,
             authRequired: null,
@@ -35,12 +35,11 @@ function configure($stateProvider:StateProvider,
                     },
                 },
             },
-        });
+        } as StateDeclaration);
 
     // Текст представлений
-    $translateProvider.translations("en", {search: _translateSearch["en"]});
-    $translateProvider.translations("ru", {search: _translateSearch["ru"]});
-
+    $translateProvider.translations("en", {search: _translateSearch.en});
+    $translateProvider.translations("ru", {search: _translateSearch.ru});
 
 }
 

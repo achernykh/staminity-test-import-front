@@ -1,4 +1,4 @@
-import { copy, IComponentController, IComponentOptions,IFormController, IPromise, IScope} from "angular";
+import { copy, IComponentController, IComponentOptions, IFormController, IPromise, IScope} from "angular";
 import moment from "moment/src/moment.js";
 import {ICalendarWeek} from "../calendar.interface";
 import "./calendar-total.component.scss";
@@ -10,10 +10,10 @@ import {CalendarWeekData} from "./calendar-week-total.datamodel";
 
 const searchMeasure = (point, interval) => {
     if (point === "plan") {
-        if (interval.durationMeasure === "movingDuration"){
-            return [0,interval.durationValue];
+        if (interval.durationMeasure === "movingDuration") {
+            return [0, interval.durationValue];
         } else {
-            return [interval.durationValue,0];
+            return [interval.durationValue, 0];
         }
     } else {
         return [
@@ -40,26 +40,26 @@ class CalendarTotalCtrl implements IComponentController {
 
     private readonly primarySport: [string] = ["run", "bike", "swim"];
 
-    static $inject = ["$mdDialog"];
+    public static $inject = ["$mdDialog"];
 
-    constructor(private $mdDialog: any){
+    constructor(private $mdDialog: any) {
     }
 
-    $onInit(){
-        this.title = moment(this.week.week,"YYYY-WW").week();
+    public $onInit() {
+        this.title = moment(this.week.week, "YYYY-WW").week();
     }
 
-    onToggle() {
+    public onToggle() {
         this.selected = !this.selected;
         this.week.subItem.forEach((day) => day.selected = !day.selected);
     }
 
-    $onChanges(changes){
+    public $onChanges(changes) {
 
-        if(changes.update){
+        if (changes.update) {
             this.data = new CalendarWeekData(this.week);
             this.items = [];
-            if(this.week.hasOwnProperty("subItem") && this.week.subItem && this.week.subItem.length > 0) {
+            if (this.week.hasOwnProperty("subItem") && this.week.subItem && this.week.subItem.length > 0) {
                 this.week.subItem.forEach((day) => day.data.calendarItems && day.data.calendarItems.length > 0 && this.items.push(...day.data.calendarItems));
             }
             this.total = calculateCalendarTotals(this.week.subItem);
@@ -70,13 +70,12 @@ class CalendarTotalCtrl implements IComponentController {
     }
 }
 
-
 const CalendarTotalComponent: IComponentOptions =  {
     bindings: {
         week: "<",
         update: "<",
         selected: "<",
-        accent: "<",//,
+        accent: "<", //,
         trainingPlan: "<",
         //onToggle: '&'
     },

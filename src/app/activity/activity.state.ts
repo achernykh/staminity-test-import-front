@@ -13,15 +13,15 @@ export const activityState = {
     authRequired: ["user"],
     resolve: {
         view: () => new DisplayView("activity"),
-        item: ["CalendarService", "message","$stateParams",
+        item: ["CalendarService", "message", "$stateParams",
             (CalendarService: CalendarService, message: MessageService, $stateParams) =>
-            CalendarService.getCalendarItem(null,null,null,null, $stateParams.calendarItemId)
+            CalendarService.getCalendarItem(null, null, null, null, $stateParams.calendarItemId)
                 .then((response) => response && response[0])
                 .catch((error) => {
                     message.systemWarning(error);
                     throw error;
                 })],
-        athlete: ["item","UserService","message", (item: ICalendarItem, UserService: UserService, message:MessageService) =>
+        athlete: ["item", "UserService", "message", (item: ICalendarItem, UserService: UserService, message: MessageService) =>
             UserService.getProfile(item.userProfileOwner.userId).catch((error) => {
                 message.systemWarning(error);
                 throw error;

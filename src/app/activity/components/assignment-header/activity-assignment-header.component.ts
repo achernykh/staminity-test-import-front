@@ -14,18 +14,18 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     private form: INgModelController;
     public ftpMode: number;
 
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 
     private changeParam() {
-        setTimeout(()=>{
+        setTimeout(() => {
             this.clearTemplate();
             this.updateForm();
             this.item.updateFilterParams();
@@ -37,7 +37,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
      * Смене из одного типа в другой предидущие данные полностью удаляются, на будущее возможен
      * подтверждающий диалог для пользователя
      */
-    private changeStructuredMode(){
+    private changeStructuredMode() {
 
         if (this.item.structuredMode) {
             // Переключение на структурированную
@@ -60,7 +60,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         this.item.activity.header.template = null;
     }
 
-    private onTemplateOpen(){
+    private onTemplateOpen() {
         this.item.showSelectTemplate = true;
     }
 
@@ -70,7 +70,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         //this.prepareValues();
     }
 
-    private updateForm(){
+    private updateForm() {
         this.onChange({form: this.form});
     }
 
@@ -80,7 +80,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     }
 }
 
-const ActivityAssignmentHeaderComponent:IComponentOptions = {
+const ActivityAssignmentHeaderComponent: IComponentOptions = {
     bindings: {
         data: "<",
         onChange: "&",

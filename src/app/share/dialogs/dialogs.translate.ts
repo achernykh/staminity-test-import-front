@@ -51,7 +51,6 @@ export let translateDialogs = {
         choose: "Выбрать...",
         uploadFile: "Загрузка файлов",
 
-
     },
     en: {
 

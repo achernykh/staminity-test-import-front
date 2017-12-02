@@ -1,8 +1,7 @@
 import * as angular from "angular";
-import {ICompileService,IRootScopeService,ITimeoutService} from "angular";
+import {ICompileService, IRootScopeService, ITimeoutService} from "angular";
 
 import {_translateMessage} from "./message.translate";
-
 
 export interface IMessageService {
 
@@ -42,10 +41,10 @@ export interface IMessageService {
  *     this.message.system('userUndefined',{name: 'Илья Муромец'});
  * </hljs>
  */
-export default class MessageService implements IMessageService{
+export default class MessageService implements IMessageService {
 
-    id: number = 1;
-    toastTemplate =
+    public id: number = 1;
+    public toastTemplate =
         `<md-toast>
             <md-icon class="material-icons" style="color: darkred"></md-icon>
             <span class="md-toast-text" flex>{{$ctrl.code + '.text' | translate:$ctrl.context}}</span>
@@ -53,13 +52,13 @@ export default class MessageService implements IMessageService{
             <md-button ng-click="hide()">Close</md-button>
         </md-toast>`;
 
-    static $inject = ["$rootScope","$compile","$timeout","$mdToast"];
+    public static $inject = ["$rootScope", "$compile", "$timeout", "$mdToast"];
 
     constructor(
         private $rootScope: IRootScopeService,
         private $compile: ICompileService,
         private $timeout: ITimeoutService,
-        private $mdToast:any) {
+        private $mdToast: any) {
     }
 
     /**
@@ -71,19 +70,19 @@ export default class MessageService implements IMessageService{
      * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
      * @delay {number} delay Задержка в с показа сообщения на экране
      */
-    system(code: string, status: string = "error", context: {} = null, delay: number = 10) {
-        let id = "system-message#" + ++this.id;
+    public system(code: string, status: string = "error", context: {} = null, delay: number = 10) {
+        const id = "system-message#" + ++this.id;
 
         angular
             .element(document.getElementsByTagName("staminity-application"))
             .append(this.$compile(
-                "<system-message id="+id+' show="true" status="\'' + status +
+                "<system-message id=" + id + ' show="true" status="\'' + status +
                 '\'" code="\'' + code +
                 '\'" delay="\'' + delay +
                 '\'"/>',
             )(this.$rootScope));
 
-        if(!this.$rootScope.$$phase){
+        if (!this.$rootScope.$$phase) {
             this.$rootScope.$apply();
         }
 
@@ -91,16 +90,16 @@ export default class MessageService implements IMessageService{
 
     }
 
-    systemError(code: string, context?: {}, delay?: number) {
-        this.system(code,"error",context,delay);
+    public systemError(code: string, context?: {}, delay?: number) {
+        this.system(code, "error", context, delay);
     }
 
-    systemWarning(code: string, context?: {}, delay?: number) {
-        this.system(code,"warning",context,delay);
+    public systemWarning(code: string, context?: {}, delay?: number) {
+        this.system(code, "warning", context, delay);
     }
 
-    systemSuccess(code: string, context?: {}, delay?: number) {
-        this.system(code,"success",context,delay);
+    public systemSuccess(code: string, context?: {}, delay?: number) {
+        this.system(code, "success", context, delay);
     }
 
     /**
@@ -112,7 +111,7 @@ export default class MessageService implements IMessageService{
      * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
      * @delay {number} delay Задержка в с показа сообщения на экране
      */
-    toast(code: string, status: string = "error", context: {} = null, delay: number = 10) {
+    public toast(code: string, status: string = "error", context: {} = null, delay: number = 10) {
         this.$mdToast.show({
             hideDelay: delay * 1000,
             position: "bottom center",
@@ -120,24 +119,24 @@ export default class MessageService implements IMessageService{
             controllerAs: "$ctrl",
             controller: ToastCtrl,
             locals: {
-                code: code,
-                context: context,
+                code,
+                context,
             },
             toastClass: status,
             template: this.toastTemplate,
         });
     }
 
-    toastError(code: string, context?: {}, delay?: number) {
-        this.toast(code,"error",context,delay);
+    public toastError(code: string, context?: {}, delay?: number) {
+        this.toast(code, "error", context, delay);
     }
 
-    toastWarning(code: string, context?: {}, delay?: number) {
-        this.toast(code,"warning",context,delay);
+    public toastWarning(code: string, context?: {}, delay?: number) {
+        this.toast(code, "warning", context, delay);
     }
 
-    toastInfo(code: string, context?: {}, delay?: number) {
-        this.toast(code,"info",context,delay);
+    public toastInfo(code: string, context?: {}, delay?: number) {
+        this.toast(code, "info", context, delay);
     }
 
 }
@@ -149,12 +148,11 @@ function ToastCtrl($scope, $mdToast) {
     };
 }
 
-ToastCtrl.$inject = ["$scope","$mdToast"];
+ToastCtrl.$inject = ["$scope", "$mdToast"];
 
-
-export function configure ($translateProvider) {
-    $translateProvider.translations("ru", _translateMessage["ru"]);
-    $translateProvider.translations("en", _translateMessage["en"]);
+export function configure($translateProvider) {
+    $translateProvider.translations("ru", _translateMessage.ru);
+    $translateProvider.translations("en", _translateMessage.en);
 }
 
 configure.$inject = ["$translateProvider"];

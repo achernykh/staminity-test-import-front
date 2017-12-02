@@ -5,14 +5,13 @@ import { IUserProfile } from "../../../../api/user/user.interface";
 import { activityTypes, getType } from "../../activity/activity.constants";
 import { Activity } from "../../activity/activity.datamodel";
 
-
 export type TemplateDialogMode = "post" | "put" | "view";
 
 class TemplateDialogCtrl implements IComponentController {
 
-    static $inject = ["$scope","$mdDialog"];
+    public static $inject = ["$scope", "$mdDialog"];
 
-    constructor (private $scope, private $mdDialog) {
+    constructor(private $scope, private $mdDialog) {
         $scope.hide = () => $mdDialog.hide();
         $scope.cancel = () => $mdDialog.cancel();
         $scope.answer = (answer) => $mdDialog.hide(answer);
@@ -30,11 +29,11 @@ const defaultParams = {
     fullscreen: true,
 };
 
-function templateToActivity (template: IActivityTemplate) : Activity {
-    let { id, code, description, favourite, visible, userProfileCreator, groupProfile, activityCategory, content } = template;
-    let activityTypeId = activityCategory && activityCategory.activityTypeId;
-    
-    return new Activity(<any> { 
+function templateToActivity(template: IActivityTemplate): Activity {
+    const { id, code, description, favourite, visible, userProfileCreator, groupProfile, activityCategory, content } = template;
+    const activityTypeId = activityCategory && activityCategory.activityTypeId;
+
+    return new Activity({
         code, description, favourite, visible, userProfileCreator, groupProfile,
         isTemplate: true,
         templateId: id,
@@ -44,10 +43,10 @@ function templateToActivity (template: IActivityTemplate) : Activity {
             activityType: getType(activityTypeId) || activityTypes[0],
             intervals: content || [],
         },
-    });
+    } as any);
 }
 
-export function templateDialog (mode: TemplateDialogMode, template: IActivityTemplate, user: IUserProfile, params?: any) {
+export function templateDialog(mode: TemplateDialogMode, template: IActivityTemplate, user: IUserProfile, params?: any) {
     return {
         ...defaultParams,
         ...params,

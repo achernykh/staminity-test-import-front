@@ -11,17 +11,17 @@ class DashboardTotalCtrl implements IComponentController {
     public total: ICalendarWeekTotal;
     public summary: ICalendarWeekSummary;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 
-    $onChanges(changes) {
+    public $onChanges(changes) {
         if (changes.update) {
             this.total = calculateCalendarTotals(this.week.subItem);
             this.summary = calculateCalendarSummary(this.total);
@@ -29,7 +29,7 @@ class DashboardTotalCtrl implements IComponentController {
     }
 }
 
-const DashboardTotalComponent:IComponentOptions = {
+const DashboardTotalComponent: IComponentOptions = {
     bindings: {
         week: "<",
         update: "<",

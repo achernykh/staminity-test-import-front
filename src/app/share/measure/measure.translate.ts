@@ -63,7 +63,6 @@ export const _MEASURE_TRANSLATE = {
         sleepHours: "Часов сна",
         overallFeeling: "Общее состояние",
 
-
     },
     en: {
         /*calendar: 'Calendar',

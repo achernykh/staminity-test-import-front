@@ -45,16 +45,16 @@ export const measureUnit = ['SessionService', (SessionService:ISessionService) =
 }];*/
 
 export const duration = () => (second = 0, round: string = "second") => {
-    let time = moment().startOf("day").millisecond(second*1000);
-    if (round === "millisecond"){
+    const time = moment().startOf("day").millisecond(second * 1000);
+    if (round === "millisecond") {
         return time.format("HH:mm:ss.S");
     } else {
         return time.format("HH:mm:ss");
     }
 };
 
-export function peaksByTime(second: number):string {
-    if(second < 60){
+export function peaksByTime(second: number): string {
+    if (second < 60) {
         return `${moment().startOf("day").millisecond(second * 1000).format("ss")} с`;
     } else if (second < 60 * 60) {
         return `${moment().startOf("day").millisecond(second * 1000).format("mm")} мин`;
@@ -62,4 +62,3 @@ export function peaksByTime(second: number):string {
         return `${Number(second / 60 / 60).toFixed(1)} ч`;
     }
 };
-

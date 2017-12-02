@@ -15,17 +15,17 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
     public onChangeCharts: () => IPromise<void>;
     public onChangePanelSize: () => IPromise<void>;
 
-    static $inject = ["$filter","storage"];
+    public static $inject = ["$filter", "storage"];
 
     constructor(private $filter: any, private storage: StorageService) {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.panel = this.storage.get(`${this.analytics.user.userId}#panelStatus`) || "filters";
     }
 
-    panelChange(value) {
+    public panelChange(value) {
         if ((this.panel !== "hide" && value === "hide") || (this.panel === "hide" && value !== "hide")) {
             this.onChangePanelSize();
         }
@@ -35,7 +35,7 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
 
 }
 
-const AnalyticsManagementPanelComponent:IComponentOptions = {
+const AnalyticsManagementPanelComponent: IComponentOptions = {
     bindings: {
         user: "<",
         charts: "<",

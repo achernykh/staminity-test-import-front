@@ -1,4 +1,4 @@
-import {IComponentController, IComponentOptions, IPromise,IScope} from "angular";
+import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
 import {Subject} from "rxjs/Rx";
 import {IGroupManagementProfileMember} from "../../../../api";
 import { getUser, SessionService} from "../../core";
@@ -9,12 +9,12 @@ import "./athlete-selector.component.scss";
 class AthleteSelectorCtrl implements IComponentController {
 
     public data: any;
-    onAnswer: (response: {uri: string}) => IPromise<void>;
-    onCancel: (response: Object) => IPromise<void>;
+    public onAnswer: (response: {uri: string}) => IPromise<void>;
+    public onCancel: (response: Object) => IPromise<void>;
     private athletes: IGroupManagementProfileMember[];
     private destroy = new Subject();
 
-    static $inject = ["SessionService","GroupService","message","$scope"];
+    public static $inject = ["SessionService", "GroupService", "message", "$scope"];
 
     constructor(
         private SessionService: SessionService,
@@ -30,7 +30,7 @@ class AthleteSelectorCtrl implements IComponentController {
         });
     }
 
-    $onInit() {
+    public $onInit() {
         /**let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
         if (groupId) {
             this.GroupService.getManagementProfile(groupId,'coach')
@@ -41,13 +41,13 @@ class AthleteSelectorCtrl implements IComponentController {
         }**/
     }
 
-    $onDestroy() {
+    public $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
 }
 
-const AthleteSelectorComponent:IComponentOptions = {
+const AthleteSelectorComponent: IComponentOptions = {
     bindings: {
         data: "<",
         onCancel: "&",

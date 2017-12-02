@@ -6,7 +6,7 @@ class ApplicationProfileTemplateCtrl implements IComponentController {
 
     public user: IUserProfile;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ["$mdMedia"];
+    public static $inject = ["$mdMedia"];
 
     constructor(
         private $mdMedia: any,
@@ -14,12 +14,12 @@ class ApplicationProfileTemplateCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 }
 
-const ApplicationProfileTemplateComponent:IComponentOptions = {
+const ApplicationProfileTemplateComponent: IComponentOptions = {
     bindings: {
         user: "<",
         onEvent: "&",

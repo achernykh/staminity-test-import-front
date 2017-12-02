@@ -6,7 +6,6 @@ import { activityTypes, getType } from "../activity/activity.constants";
 import { measureUnit, measureValue } from "../share/measure/measure.constants";
 import { Filter, path } from "../share/utility";
 
-
 type ActivityReference = IActivityCategory | IActivityTemplate;
 
 export const getUserId = path(["userProfileCreator", "userId"]);
@@ -15,29 +14,27 @@ export const getCategoryActivityTypeId = path(["activityTypeId"]);
 export const getTemplateActivityTypeId = path(["activityCategory", "activityTypeId"]);
 export const getTemplateActivityCategoryId = path(["activityCategory", "id"]);
 
-
 export type Owner = "user" | "system" | "club" | "coach";
 
-export const isOwner = (user: IUserProfile, item: ActivityReference) : boolean => getUserId(item) === user.userId;
+export const isOwner = (user: IUserProfile, item: ActivityReference): boolean => getUserId(item) === user.userId;
 
 const systemUserId = 1;
 
-export const isSystem = (item: ActivityReference) : boolean => getUserId(item) === systemUserId;
+export const isSystem = (item: ActivityReference): boolean => getUserId(item) === systemUserId;
 
-export const getOwner = (user: IUserProfile) => (item: ActivityReference) : Owner => {
-    let userId = getUserId(item);
+export const getOwner = (user: IUserProfile) => (item: ActivityReference): Owner => {
+    const userId = getUserId(item);
     return (item.groupProfile && "club")
         || (userId === systemUserId && "system")
         || (userId === user.userId && "user")
         || "coach";
 };
 
-
-export type ReferenceFilterParams = {
+export interface ReferenceFilterParams {
     club?: IGroupProfile;
     activityType: IActivityType;
     category?: IActivityCategory;
-};
+}
 
 export const categoriesFilters = {
     club: ({ club }: ReferenceFilterParams) => (category: IActivityCategory) => !club || getGroupId(category) === club.groupId || isSystem(category),
@@ -52,9 +49,8 @@ export const templatesFilters = {
     isActive: ({ }: ReferenceFilterParams) =>  (template: IActivityTemplate) => template.visible,
 };
 
-
-export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string) : string => {
-    let durationMeasure: string = interval.hasOwnProperty("distanceLength") ? `${interval.durationMeasure}Length` : interval.durationMeasure;
+export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string): string => {
+    const durationMeasure: string = interval.hasOwnProperty("distanceLength") ? `${interval.durationMeasure}Length` : interval.durationMeasure;
     return (interval[durationMeasure] &&
         `${measureValue(interval[durationMeasure], sport, interval.durationMeasure)} ${$translate.instant(measureUnit(interval.durationMeasure, sport))}`) || "";
 };

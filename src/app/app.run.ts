@@ -22,13 +22,13 @@ function run(
     //window.navigator['standalone'] = true;
     console.log("app: run");
 
-    let workerController = path(["serviceWorker", "controller"]) (navigator);
+    const workerController = path(["serviceWorker", "controller"]) (navigator);
 
     if (workerController) {
-        let checkWorkerState = () => {
+        const checkWorkerState = () => {
             console.log("checkWorkerState", workerController);
             if (workerController.state === "redundant") {
-                let toast = $mdToast.simple({ hideDelay: 0 })
+                const toast = $mdToast.simple({ hideDelay: 0 })
                     .textContent($translate.instant("updateToast.message"))
                     .action($translate.instant("updateToast.action"))
                     .highlightAction(true)
@@ -46,32 +46,32 @@ function run(
         checkWorkerState();
         workerController.onstatechange = checkWorkerState;
     }
-    
+
     $transitions.onBefore({to: "*", from: "*"}, (state) => {
-        let routeTo:IStaminityState = Object.assign(state.$to());
-        
-        if(routeTo.loginRequired && !AuthService.isAuthenticated()) {
+        const routeTo: IStaminityState = Object.assign(state.$to());
+
+        if (routeTo.loginRequired && !AuthService.isAuthenticated()) {
             message.systemWarning("forbidden_InsufficientAction");
             return $state.target("signin", {nextState: routeTo.name, nextParams: state.params()});
             //return false;
         }
-        
-        if(!!routeTo.authRequired && !AuthService.isAuthorized(routeTo.authRequired)) {
+
+        if (!!routeTo.authRequired && !AuthService.isAuthorized(routeTo.authRequired)) {
             //message.systemWarning('forbiddenAction');
             return true; // TODO после настройки state в предсталвениях поменять на false
         }
-        
+
         LoaderService.show();
     });
-    
-    $transitions.onSuccess({ to:"*",from:"*" }, (state) => LoaderService.hide());
-    
+
+    $transitions.onSuccess({ to: "*", from: "*" }, (state) => LoaderService.hide());
+
     $state.defaultErrorHandler((error) => {
         console.error(error);
         //message.systemWarning(error.detail);
     });
 }
 
-run.$inject = ["$transitions","$state","$translate","$mdToast","LoaderService","AuthService","message","DisplayService"];
+run.$inject = ["$transitions", "$state", "$translate", "$mdToast", "LoaderService", "AuthService", "message", "DisplayService"];
 
 export default run;

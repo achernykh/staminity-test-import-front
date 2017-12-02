@@ -15,7 +15,7 @@ interface IActivityMetrics<T> {
     distance: T;
     speed: T;
     heartRate: T;
-    altitude: T; 
+    altitude: T;
 }
 
 export interface ITimestampInterval {
@@ -36,7 +36,7 @@ export class ActivityChartDatamodel implements IComponentController {
     };
 
     public getData(ind: number = null): Array<IActivityMetrics<number>> | any {
-        return ind ? this.data[ind]: this.data;
+        return ind ? this.data[ind] : this.data;
     };
 
     public getSelect(): ITimestampInterval[] {
@@ -52,12 +52,12 @@ export class ActivityChartDatamodel implements IComponentController {
     }
 
     public getBaseMetrics(except: string[] = []): string[] {
-        let baseMetrics = ["timestamp","distance","elapsedDuration","duration"];
+        const baseMetrics = ["timestamp", "distance", "elapsedDuration", "duration"];
         return Object.keys(this.measures).filter((m) => baseMetrics.indexOf(m) > -1 && except.indexOf(m) === -1);
     }
 
     public supportedMetrics(): string[] {
-        let except = ["timestamp","distance","elapsedDuration","duration"];
+        const except = ["timestamp", "distance", "elapsedDuration", "duration"];
         return Object.keys(this.measures).filter((m) => except.indexOf(m) === -1);
     }
 

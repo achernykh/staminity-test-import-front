@@ -4,32 +4,32 @@ import {ActivityIntervalCalcMeasure} from "./activity.models";
 
 export class ActivityIntervalW extends ActivityInterval implements IActivityIntervalW {
 
-    actualDataIsImported: boolean; // признак загрузки фактических данных с устройства
-    calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
+    public actualDataIsImported: boolean; // признак загрузки фактических данных с устройства
+    public calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
 
     constructor(type: string, params: any) {
         super(type, params);
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
     }
 
-    update(params: Object) {
+    public update(params: Object) {
         Object.assign(this, params);
     }
 
-    clear():IActivityIntervalW{
-        let params: string[] = ["params", ...Object.keys(this.calcMeasures)];
+    public clear(): IActivityIntervalW {
+        const params: string[] = ["params", ...Object.keys(this.calcMeasures)];
         //Object.keys(this).map(k => api.indexOf(k) === -1 && delete this[k]);
         params.map((p) => delete this[p]);
-        return <IActivityIntervalW>this;
+        return this as IActivityIntervalW;
     }
 
-    movingDuration():number {
+    public movingDuration(): number {
         return this.calcMeasures.hasOwnProperty("movingDuration") &&
             this.calcMeasures.movingDuration.hasOwnProperty("value") &&
             this.calcMeasures.movingDuration.value;
     }
 
-    distance():number {
+    public distance(): number {
         return this.calcMeasures.hasOwnProperty("distance") &&
             this.calcMeasures.distance.hasOwnProperty("value") &&
             this.calcMeasures.distance.value;
@@ -39,13 +39,13 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
      * @description Проверка тренировки на выполнение
      * @returns {boolean}
      */
-    completed():boolean {
-        let measure: string[] = ["duration","movingDuration","distance"];
+    public completed(): boolean {
+        const measure: string[] = ["duration", "movingDuration", "distance"];
         return measure.some((m) => this.calcMeasures[m].hasOwnProperty("value") && this.calcMeasures[m].value);
     }
 
     // TODO надо продумать алгоритм перевода фактических итогов плановый интервал
-    toTemplate(): IActivityIntervalPW {
+    public toTemplate(): IActivityIntervalPW {
         return Object.assign(this.clear(), {
             type: "pW",
         }, {

@@ -43,8 +43,8 @@ class StructuredIntervalCtrl implements IComponentController {
 
     private readonly durationMeasure: string[] = ["movingDuration", "distance"];
     private readonly intensityMeasure: any = {
-        swim: ["heartRate","speed"],
-        bike: ["heartRate", "speed","power"],
+        swim: ["heartRate", "speed"],
+        bike: ["heartRate", "speed", "power"],
         run: ["heartRate", "speed"],
         strength: ["heartRate"],
         transition: ["heartRate", "speed"],
@@ -54,38 +54,38 @@ class StructuredIntervalCtrl implements IComponentController {
     };
     private duration: string = "movingDuration";
     private intensity: string = "heartRate";
-    private readonly index: any = [{from: "intensityByFtpFrom", to: "intensityByFtpTo"},{from: "intensityLevelFrom", to: "intensityLevelTo"}];
+    private readonly index: any = [{from: "intensityByFtpFrom", to: "intensityByFtpTo"}, {from: "intensityLevelFrom", to: "intensityLevelTo"}];
 
-    private ftp: {[measure: string] : number};
+    private ftp: {[measure: string]: number};
     private segmentForm: INgModelController;
 
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.ftp = getFtpBySport(this.item.user.trainingZones, this.sport);
         this.prepareInterval();
     }
 
-    $onChanges(changes: any): void {
+    public $onChanges(changes: any): void {
         this.prepareInterval();
     }
 
-    splice() {
+    public splice() {
         this.onDelete({id: 0});
     }
 
-    isInputMode():boolean {
+    public isInputMode(): boolean {
         return this.loop &&
             this.loop.mode === LoopMode.Input &&
             this.interval.pos === (this.loop.start + this.loop.length - 1);
     }
 
-    select(){
-        if(this.item.mode === "view") {
+    public select() {
+        if (this.item.mode === "view") {
             //this.item.showIntervalOverview = true;
             //this.item.intervalOverview = this.interval;
         } else {
@@ -93,12 +93,11 @@ class StructuredIntervalCtrl implements IComponentController {
         }
     }
 
-    isFTP():boolean {
+    public isFTP(): boolean {
         return this.ftpMode === FtpState.On;
     }
 
-
-    prepareInterval(){
+    public prepareInterval() {
         //this.interval = copy(this.interval); // срабатывает обновление модели (мешает работе с вводом скорости)
         Object.assign(this.interval, this.interval);
 
@@ -132,7 +131,7 @@ class StructuredIntervalCtrl implements IComponentController {
     /**
      * Передаем статус валидности формы ввода сегмента на уровнеь гавной формы ввода задания по тренировке
      */
-    broadcastFormValidation(): void {
+    public broadcastFormValidation(): void {
         setTimeout(() => this.item.assignmentForm.$setValidity("segmentInput", this.segmentForm.$valid), 100);
     }
 
@@ -140,7 +139,7 @@ class StructuredIntervalCtrl implements IComponentController {
      * Смена параметра длительности
      * @param type
      */
-    changeDurationType(type: string): void {
+    public changeDurationType(type: string): void {
         this.interval.durationMeasure = type;
         this.broadcastFormValidation();
     }
@@ -149,7 +148,7 @@ class StructuredIntervalCtrl implements IComponentController {
      * Смена парметра интенсивности
      * @param type
      */
-    changeIntensityMeasure(type: string): void {
+    public changeIntensityMeasure(type: string): void {
         this.interval.intensityMeasure = type;
         this.broadcastFormValidation();
     }
@@ -158,7 +157,7 @@ class StructuredIntervalCtrl implements IComponentController {
      * Смена значения параметра интенсивности
      * @param measure
      */
-    changeValue(measure: string) {
+    public changeValue(measure: string) {
         this.completeInterval(measure);
         if (measure === "movingDuration") {
             this.interval.movingDurationLength = this.interval.durationValue;
@@ -174,9 +173,9 @@ class StructuredIntervalCtrl implements IComponentController {
      * Расчет производных показателей интервала по введенмоу значению
      * @param measure
      */
-    completeInterval(measure: string) {
-        let value:DurationMeasure | IntensityMeasure = this.interval[measure];
-        this.interval.complete(this.ftp, this.ftpMode, [{ measure: measure, value: value}]);
+    public completeInterval(measure: string) {
+        const value: DurationMeasure | IntensityMeasure = this.interval[measure];
+        this.interval.complete(this.ftp, this.ftpMode, [{ measure, value}]);
         /**measure = this.durationMeasure.indexOf(measure) === -1 ? this.interval.intensityMeasure : measure;
 
         if (this.durationMeasure.indexOf(measure) !== -1) {
@@ -279,7 +278,7 @@ class StructuredIntervalCtrl implements IComponentController {
 
 }
 
-const StructuredIntervalComponent:IComponentOptions = {
+const StructuredIntervalComponent: IComponentOptions = {
     bindings: {
         interval: "<",
         viewPlan: "<",

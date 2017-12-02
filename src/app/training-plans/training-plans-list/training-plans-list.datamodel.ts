@@ -4,30 +4,30 @@ interface ITrainingPlans {
 
 };
 
-export class TrainingPlansList implements ITrainingPlans{
+export class TrainingPlansList implements ITrainingPlans {
 
-    list: TrainingPlan[] = [];
+    public list: TrainingPlan[] = [];
 
     constructor(list?: any[][]) {
-        if(list) {
+        if (list) {
            list.map((r) => this.list.push(new TrainingPlan(r)));
         }
     }
 
-    push (plan: TrainingPlan): void {
+    public push(plan: TrainingPlan): void {
         this.list.push(plan);
     }
 
-    put (plan: TrainingPlan): void {
-        let id: number = this.list.findIndex((p) => p.id === plan.id);
+    public put(plan: TrainingPlan): void {
+        const id: number = this.list.findIndex((p) => p.id === plan.id);
 
-        if(id !== -1) {
+        if (id !== -1) {
             this.list[id] = plan;
         }
     }
 
-    delete (planId: number): void {
-        let id: number = this.list.findIndex((p) => p.id === planId);
+    public delete(planId: number): void {
+        const id: number = this.list.findIndex((p) => p.id === planId);
 
         if (id !== -1) {
             this.list.splice(id, 1);

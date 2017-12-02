@@ -11,20 +11,20 @@ class SettingsNotificationCtrl implements IComponentController {
     private list: IUserNotifications;
     private listGroup: INotificationGroup = {};
 
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.list = Object.assign({}, this.notifications);
         this.prepareNotificationGroup();
     }
 
     private prepareNotificationGroup(): void {
 
-        if(!this.list) { return; }
+        if (!this.list) { return; }
 
         Object.keys(this.list).map((settings) => {
                 Object.keys(groupStructure).map((group) => {
@@ -33,7 +33,7 @@ class SettingsNotificationCtrl implements IComponentController {
                             if (!this.listGroup.hasOwnProperty(group)) {
                                 this.listGroup[group] = {};
                             }
-                            if(!this.listGroup[group].hasOwnProperty(subGroup)) {
+                            if (!this.listGroup[group].hasOwnProperty(subGroup)) {
                                 this.listGroup[group][subGroup] = {};
                             }
                             this.listGroup[group][subGroup][settings] = this.list[settings];
@@ -53,7 +53,7 @@ class SettingsNotificationCtrl implements IComponentController {
 
 }
 
-const SettingsNotificationComponent:IComponentOptions = {
+const SettingsNotificationComponent: IComponentOptions = {
     bindings: {
         notifications: "<",
         onChange: "&",

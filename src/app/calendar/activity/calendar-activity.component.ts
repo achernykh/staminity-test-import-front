@@ -1,5 +1,5 @@
 import { IUserProfile } from "@api/user";
-import { IComponentController, IComponentOptions, IFormController,IPromise, IScope, merge} from "angular";
+import { IComponentController, IComponentOptions, IFormController, IPromise, IScope, merge} from "angular";
 import moment from "moment/src/moment.js";
 import {Activity} from "../../activity/activity.datamodel";
 import ActivityService from "../../activity/activity.service";
@@ -10,22 +10,22 @@ import "./calendar-activity.component.scss";
 
 class CalendarActivityCtrl {
 
-    owner: IUserProfile;
-    currentUser: IUserProfile;
-    item: any;
-    selected: boolean;
-    accent: boolean;
+    public owner: IUserProfile;
+    public currentUser: IUserProfile;
+    public item: any;
+    public selected: boolean;
+    public accent: boolean;
 
-    data: Activity;
-    isCreator: boolean = false;
-    structured: boolean;
-    segmentList: any[] = [];
-    segmentListSize: number = null;
-    segmentChart: any[] = [];
-    collapse: {show:boolean} = {show: true};
-    bottomPanelData: any = null;
+    public data: Activity;
+    public isCreator: boolean = false;
+    public structured: boolean;
+    public segmentList: any[] = [];
+    public segmentListSize: number = null;
+    public segmentChart: any[] = [];
+    public collapse: {show: boolean} = {show: true};
+    public bottomPanelData: any = null;
 
-    static $inject = ["$scope","$mdDialog","ActivityService", "message", "CalendarService","dialogs"];
+    public static $inject = ["$scope", "$mdDialog", "ActivityService", "message", "CalendarService", "dialogs"];
 
     constructor(
         private $scope: IScope,
@@ -33,11 +33,11 @@ class CalendarActivityCtrl {
         private ActivityService: ActivityService,
         private message: IMessageService,
         private CalendarService: CalendarService,
-        private dialogs: any){
+        private dialogs: any) {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.data = new Activity(this.item);
         //this.data.prepare();
         this.isCreator = this.data.userProfileCreator.userId === this.currentUser.userId;
@@ -66,10 +66,9 @@ class CalendarActivityCtrl {
         // Задание в прошлом или будущем
         //this.planned = moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'), 'd') < 1;
 
-
         if (this.data.structured) {
             let comulativeDuration = 0;
-            for (let interval of this.data.activityHeader.intervals) {
+            for (const interval of this.data.activityHeader.intervals) {
                 // Собираем лист сегментов
                 // Если интервал является плановым сегментов или группой, то формируем лист сегментов
                 if (interval.type === "P" || interval.type === "G") {
@@ -154,17 +153,17 @@ class CalendarActivityCtrl {
             }
         }
 
-         if (this.structured) {
+        if (this.structured) {
             //this.bottomPanel = 'segmentList';
             //console.info('segmentChart', JSON.stringify(this.segmentChart));
         }
     }
 
-    $onChanges(changes) {
+    public $onChanges(changes) {
         if (changes.hasOwnProperty("selected") && !changes.selected) {
             console.log("CalendarActivityCtrl: onChange, selected=", changes.selected);
         }
-        if(changes.hasOwnProperty("item") && !changes.item.isFirstChange()) {
+        if (changes.hasOwnProperty("item") && !changes.item.isFirstChange()) {
             this.$onInit();
         }
     }
@@ -174,7 +173,7 @@ class CalendarActivityCtrl {
      * @param group - true если интервал является группой, false если интервал является сегментом
      * @param interval - описание интервала
      */
-    prepareSegmentList(group, interval) {
+    public prepareSegmentList(group, interval) {
         // В верстке будет использоваться данный признак для разного отображения
         interval.group = group;
         interval.show = true;
@@ -188,7 +187,7 @@ class CalendarActivityCtrl {
                         return;
                     }
                     // Ищем запись группы
-                    let code = this.segmentList.map((int) => int.code || null).indexOf(interval.parentGroupCode);
+                    const code = this.segmentList.map((int) => int.code || null).indexOf(interval.parentGroupCode);
                     // Если группа найдена
                     if (code !== -1) {
                         this.segmentList[code].subItem.push(interval);
@@ -197,27 +196,25 @@ class CalendarActivityCtrl {
                     // Если значение null, то одиночный интервал без группы
                     this.segmentList.push(interval);
                 }
-            } else{
+            } else {
                 // если одиночный интервал, без группы
                 this.segmentList.push(interval);
             }
 
-        }
-        // Если интервал является группой
-        else {
+        } else {
             // Добавляем массив для запися членов группы
             interval.subItem = [];
             this.segmentList.push(interval);
         }
     }
 
-    prepareSegmentChart(interval, duration) {
+    public prepareSegmentChart(interval, duration) {
         /**
          * Для каждого интервала создается две точки на графике: начало и окончание.
          * Начало рассчитывается как время окончания предидущих интервалов и значение intensityByFtpFrom
          * Окончание рассчитывается как сумма предидущих интервалов +movingDurationLength и значение intensityByFtpTo
          */
-        let comulativeDuration = duration + interval.movingDurationLength;
+        const comulativeDuration = duration + interval.movingDurationLength;
         /**this.segmentChart.push(
             [
                 duration,
@@ -236,10 +233,10 @@ class CalendarActivityCtrl {
      * @param list
      * @returns {number}
      */
-    calculateSegmentListSize(list) {
+    public calculateSegmentListSize(list) {
         "use strict";
         let size = 0;
-        for (let item of list) {
+        for (const item of list) {
 
             if (item.group) {
                 size += item.subItem.length;
@@ -250,7 +247,7 @@ class CalendarActivityCtrl {
         return size;
     }
 
-    getBullet(first, middle, last) {
+    public getBullet(first, middle, last) {
         let icon;
         if (first) {
             icon = `assets/icon/bullet_first.svg`;
@@ -264,7 +261,7 @@ class CalendarActivityCtrl {
         return icon;
     }
 
-    onOpen($event, mode) {
+    public onOpen($event, mode) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -283,7 +280,7 @@ class CalendarActivityCtrl {
             targetEvent: $event,
             locals: {
                 data: this.data,
-                mode: mode,
+                mode,
                 user: this.owner,
             },
             bindToController: true,
@@ -291,20 +288,20 @@ class CalendarActivityCtrl {
             escapeToClose: true,
             fullscreen: true,
 
-        }).then(() => {}, ()=> {});
+        }).then(() => {}, () => {});
     }
 
     /**
      * Копировать запись календаря
      */
-    onCopy() {
+    public onCopy() {
         //this.calendar.onCopyItem([this.item]);
     }
 
     /**
      * Удалить запись
      */
-    onDelete() {
+    public onDelete() {
         this.dialogs.confirm({ text: "dialogs.deletePlanActivity" })
         .then(() => this.CalendarService.deleteItem("F", [this.item.calendarItemId]))
         .then(() => {
@@ -320,11 +317,10 @@ class CalendarActivityCtrl {
      *
      * @param value
      */
-    onToggleCollapse(value) {
+    public onToggleCollapse(value) {
         !!value ? this.collapse = null : this.collapse = {show: false};
     }
 }
-
 
 function DialogController($scope, $mdDialog) {
     $scope.hide = function() {
@@ -340,7 +336,7 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ["$scope","$mdDialog"];
+DialogController.$inject = ["$scope", "$mdDialog"];
 
 const CalendarActivityComponent: IComponentOptions = {
     bindings: {

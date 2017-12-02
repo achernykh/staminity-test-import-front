@@ -3,8 +3,6 @@ import {AnalyticsChartFilterPanelCtrl} from "./analytics-chart-filter-panel.cont
 import "./analytics-chart-filter.component.scss";
 import {IAnalyticsChartFilter} from "./analytics-chart-filter.model";
 
-
-
 class AnalyticsChartFilterCtrl implements IComponentController {
 
     public filter: IAnalyticsChartFilter;
@@ -13,7 +11,7 @@ class AnalyticsChartFilterCtrl implements IComponentController {
     private position;
     private config;
 
-    static $inject = ["$mdPanel","$mdDialog"];
+    public static $inject = ["$mdPanel", "$mdDialog"];
 
     constructor(private $mdPanel: any, private $mdDialog: any) {
 
@@ -40,11 +38,11 @@ class AnalyticsChartFilterCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 
-    onOpen(env: Event) {
+    public onOpen(env: Event) {
         //this.config.openFrom = env;
         //this.$mdPanel.open(this.config);
         this.$mdDialog.show({
@@ -74,16 +72,16 @@ class AnalyticsChartFilterCtrl implements IComponentController {
             escapeToClose: true,
             fullscreen: true,
 
-        }).then(() => {}, ()=> {});
+        }).then(() => {}, () => {});
 
     }
 
-    change(param, option) {
+    public change(param, option) {
         debugger;
     }
 }
 
-const AnalyticsChartFilterComponent:IComponentOptions = {
+const AnalyticsChartFilterComponent: IComponentOptions = {
     bindings: {
         filter: "<",
         change: "<",

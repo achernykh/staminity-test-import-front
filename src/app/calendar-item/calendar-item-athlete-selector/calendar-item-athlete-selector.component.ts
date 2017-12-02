@@ -8,21 +8,21 @@ class CalendarItemAthleteSelectorCtrl implements IComponentController {
     private athletes: Array<{profile: IUserProfile, active: boolean}> = [];
     private recalculateMode: boolean;
     public onSelect: (response: {result: Array<{profile: IUserProfile, active: boolean}>, recalculate: boolean}) => IPromise<void>;
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
     }
 
-    onBack() {
+    public onBack() {
         this.onSelect({result: this.athletes, recalculate: this.recalculateMode});
     }
 }
 
-const CalendarItemAthleteSelectorComponent:IComponentOptions = {
+const CalendarItemAthleteSelectorComponent: IComponentOptions = {
     bindings: {
         coach: "<",
         athletes: "<",

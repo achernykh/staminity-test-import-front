@@ -6,18 +6,18 @@ class ApplicationUserToolbarCtrl implements IComponentController {
 
     public data: any;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ["AuthService"];
+    public static $inject = ["AuthService"];
 
     constructor(private AuthService: AuthService) {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 }
 
-const ApplicationUserToolbarComponent:IComponentOptions = {
+const ApplicationUserToolbarComponent: IComponentOptions = {
     bindings: {
         data: "<",
         onEvent: "&",

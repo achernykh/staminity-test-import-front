@@ -11,13 +11,12 @@ import moment from "moment/min/moment-with-locales.js";
 import { parseYYYYMMDD } from "../share/share.module";
 import { maybe, prop } from "../share/util.js";
 
-
 export default class BillingService {
     public messages: Observable<any>;
 
-    static $inject = ["SocketService", "SessionService"];
+    public static $inject = ["SocketService", "SessionService"];
 
-    constructor (private SocketService: SocketService, private SessionService: SessionService) {
+    constructor(private SocketService: SocketService, private SessionService: SessionService) {
         this.messages = this.SocketService.messages
             .filter((message) => message.type === "bill")
             .share();
@@ -28,7 +27,7 @@ export default class BillingService {
      * @param promoCodeString
      * @returns {Promise<IBillingTariff>}
      */
-    getTariff (tariffId: number, promoCodeString: string) : Promise<IBillingTariff> {
+    public getTariff(tariffId: number, promoCodeString: string): Promise<IBillingTariff> {
         return this.SocketService.send(new GetTariffRequest(tariffId, promoCodeString));
     }
 
@@ -42,7 +41,7 @@ export default class BillingService {
      * @param paymentSystem
      * @returns {Promise<any>}
      */
-    enableTariff (
+    public enableTariff(
         tariffId: number,
         userIdReceiver: number,
         term: number,
@@ -50,7 +49,7 @@ export default class BillingService {
         trial: boolean,
         promoCode: string,
         paymentSystem: string,
-    ) : Promise<any> {
+    ): Promise<any> {
         return this.SocketService.send(new PostTariffSubscriptionRequest(
             tariffId, userIdReceiver, term, autoRenewal, trial, promoCode, paymentSystem,
         ));
@@ -62,11 +61,11 @@ export default class BillingService {
      * @param promoCode
      * @returns {Promise<any>}
      */
-    updateTariff (
+    public updateTariff(
         tariffId: number,
         autoRenewal: boolean,
         promoCode: string,
-    ) : Promise<any> {
+    ): Promise<any> {
         return this.SocketService.send(new PutTariffSubscriptionRequest(tariffId, autoRenewal, promoCode));
     }
 
@@ -75,14 +74,14 @@ export default class BillingService {
      * @param userIdReceiver
      * @returns {Promise<any>}
      */
-    disableTariff (tariffId: number, userIdReceiver: number) : Promise<any> {
+    public disableTariff(tariffId: number, userIdReceiver: number): Promise<any> {
         return this.SocketService.send(new DeleteTariffSubscriptionRequest(tariffId, userIdReceiver));
     }
 
     /**
      * @returns {Promise<[IBill]]>}
      */
-    getBillsList () : Promise<[IBill]> {
+    public getBillsList(): Promise<[IBill]> {
         return this.SocketService.send(new GetBillRequest(new Date(0), new Date()))
             .then((data) => data.arrayResult);
     }
@@ -92,7 +91,7 @@ export default class BillingService {
      * @param userIdReceiver
      * @returns {Promise<any>}
      */
-    getBillDetails (billId: number) : Promise<any> {
+    public getBillDetails(billId: number): Promise<any> {
         return this.SocketService.send(new GetBillDetailsRequest(billId, true));
     }
 
@@ -101,7 +100,7 @@ export default class BillingService {
      * @param paymentSystem
      * @returns {Promise<any>}
      */
-    updatePaymentSystem (billId: number, paymentSystem: string) : Promise<any> {
+    public updatePaymentSystem(billId: number, paymentSystem: string): Promise<any> {
         return this.SocketService.send(new PutProcessingCenterRequest(billId, paymentSystem));
     }
 
@@ -109,10 +108,10 @@ export default class BillingService {
      * @param checkoutUrl
      * @returns {Promise<any>}
      */
-    checkout (checkoutUrl: string) : Promise<any> {
-        let [width, height] = [500, 500];
-        let left = (screen.width - width) / 2;
-        let top = (screen.height - height) / 2;
+    public checkout(checkoutUrl: string): Promise<any> {
+        const [width, height] = [500, 500];
+        const left = (screen.width - width) / 2;
+        const top = (screen.height - height) / 2;
         window.open(checkoutUrl, "_blank", `width=${width},height=${height},left=${left},top=${top}`);
         return Promise.resolve();
     }
@@ -121,7 +120,7 @@ export default class BillingService {
      * @param tariff
      * @returns IClubProfile?
      */
-    tariffEnablerClub (tariff) : any {
+    public tariffEnablerClub(tariff): any {
         return tariff.clubProfile;
     }
 
@@ -129,10 +128,10 @@ export default class BillingService {
      * @param tariff
      * @returns IUserProfile?
      */
-    tariffEnablerCoach (tariff) : any {
+    public tariffEnablerCoach(tariff): any {
         return (
-            maybe(tariff.userProfilePayer) (prop("userId")) () !== 
-            maybe(this.SessionService.getUser()) (prop("userId")) () 
+            maybe(tariff.userProfilePayer) (prop("userId")) () !==
+            maybe(this.SessionService.getUser()) (prop("userId")) ()
         ) && tariff.userProfilePayer;
     }
 
@@ -140,9 +139,9 @@ export default class BillingService {
      * @param tariff
      * @returns 'enabled' | enabledByCoach' | 'enabledByClub' | 'notEnabled' | trial' | 'isPaid' | 'isBlocked' | undefined
      */
-    tariffStatus (tariff) : string {
-        let tariffEnablerClub = this.tariffEnablerClub(tariff);
-        let tariffEnablerCoach = this.tariffEnablerCoach(tariff);
+    public tariffStatus(tariff): string {
+        const tariffEnablerClub = this.tariffEnablerClub(tariff);
+        const tariffEnablerCoach = this.tariffEnablerCoach(tariff);
 
         return (
             tariff.isTrial && tariff.expireDate && "trial" ||
@@ -151,7 +150,7 @@ export default class BillingService {
             tariff.isBlocked && "isBlocked" ||
             tariff.unpaidBill && "isBlocked" ||
             tariff.isOn && "enabled" ||
-            !tariff.isOn && "notEnabled" 
+            !tariff.isOn && "notEnabled"
         );
     }
 
@@ -159,11 +158,11 @@ export default class BillingService {
      * @param bill
      * @returns 'complete' | ready' | 'new'
      */
-    billStatus (bill: IBill) : string {
-        let now = moment();
-        let startPeriod = parseYYYYMMDD(bill.startPeriod);
-        let endPeriod = parseYYYYMMDD(bill.endPeriod);
-        let billDate = parseYYYYMMDD(bill.billDate);
+    public billStatus(bill: IBill): string {
+        const now = moment();
+        const startPeriod = parseYYYYMMDD(bill.startPeriod);
+        const endPeriod = parseYYYYMMDD(bill.endPeriod);
+        const billDate = parseYYYYMMDD(bill.billDate);
 
         return bill.receiptDate && "complete" ||
             now > billDate && "ready" ||

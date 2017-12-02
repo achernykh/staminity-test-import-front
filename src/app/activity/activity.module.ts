@@ -40,7 +40,7 @@ export const ActivityModule = module("staminity.activity", [])
     .component("activityHeaderOverview", ActivityHeaderOverviewComponent)
     .component("activityHeaderDetails", ActivityHeaderDetailsComponent)
     .component("activityHeaderSplits", ActivityHeaderSplitsComponent)
-    .component("activityHeaderZones",ActivityHeaderZonesComponent)
+    .component("activityHeaderZones", ActivityHeaderZonesComponent)
     .component("activityHeaderChat", ActivityHeaderChatComponent)
     .component("activityMetricsDetails", ActivityMetricsDetailsComponent)
     .component("activitySummaryInfo", ActivitySummaryInfoComponent)
@@ -48,10 +48,10 @@ export const ActivityModule = module("staminity.activity", [])
     .component("structuredInterval", StructuredIntervalComponent)
     .component("structuredAssignment", StructuredAssignmentComponent)
     .component("structuredGroup", StructuredGroupComponent)
-    .component("measureMainButton",MeasureMainButtonComponent)
-    .component("measuresAvgTable",MeasuresAvgTableComponent)
+    .component("measureMainButton", MeasureMainButtonComponent)
+    .component("measuresAvgTable", MeasuresAvgTableComponent)
     .component("measureSplitTable", MeasureSplitTableComponent)
-    .component("activityRoute",ActivityRouteComponent)
+    .component("activityRoute", ActivityRouteComponent)
     .component("activityAssignment", ActivityAssignmentComponent)
     .component("activityPeaks", ActivityPeaksComponent)
     .constant("activityChartSettings", chartSettings)
@@ -67,7 +67,7 @@ export const ActivityModule = module("staminity.activity", [])
     /*.config(['$stateProvider', ($stateProvider: StateProvider) => $stateProvider.state(activityState)])
     .config(['$translateProvider', ($translate) =>
         $translate.useStaticFilesLoader({prefix: '/assets/i18n/activity/', suffix: '.json'})])*/
-    .run(["$timeout","leafletData", ($timeout, leafletData) => {
+    .run(["$timeout", "leafletData", ($timeout, leafletData) => {
         $timeout(() => {
             leafletData.getMap().then((map) => {
                 map.invalidateSize();

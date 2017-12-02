@@ -1,12 +1,12 @@
 import { IComponentController, IComponentOptions} from "angular";
 import {IAuthService} from "../../auth/auth.service";
 import {SocketService} from "../../core";
-require("./background.template.scss");
+import "./background.template.scss";
 
 class BackgroundCtrl implements IComponentController {
 
     private internetStatus: boolean = true;
-    static $inject = ["SocketService","AuthService"];
+    public static $inject = ["SocketService", "AuthService"];
 
     constructor(private socket: SocketService, private auth: IAuthService) {
         this.socket.connections.subscribe((status) => this.internetStatus = !!status || !this.auth.isAuthenticated());

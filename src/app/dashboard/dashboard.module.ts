@@ -17,5 +17,4 @@ const Dashboard = module("staminity.dashboard", [])
     .config(configure)
     .name;
 
-
 export default Dashboard;

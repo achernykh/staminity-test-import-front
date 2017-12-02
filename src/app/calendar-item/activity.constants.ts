@@ -99,7 +99,7 @@ export const _measurement = {
 };
 
 // Перечень показателей релевантных для пересчета скорости в темп (10км/ч = 6:00 мин/км)
-export const _measurement_pace_unit = ["minpkm","minp100m"];
+export const _measurement_pace_unit = ["minpkm", "minp100m"];
 
 // Справочник пересчета показателей
 export const _measurement_calculate = {
@@ -140,5 +140,3 @@ export const _measurement_system_calculate = {
         multiplier: (x) => x * 0.621371,
     },
 };
-
-

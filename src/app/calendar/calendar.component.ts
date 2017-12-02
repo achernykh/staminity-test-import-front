@@ -13,9 +13,9 @@ import { getItemById, prepareItem } from "./calendar.functions";
 import { ICalendarDay, ICalendarDayData, ICalendarWeek } from "./calendar.interface";
 import {CalendarService} from "./calendar.service";
 
-export class CalendarCtrl implements IComponentController{
+export class CalendarCtrl implements IComponentController {
 
-    static $inject = ["$scope", "$mdDialog", "$rootScope", "$anchorScroll", "$location","message",
+    public static $inject = ["$scope", "$mdDialog", "$rootScope", "$anchorScroll", "$location", "message",
         "CalendarService", "SessionService", "dialogs", "DisplayService"];
     public user: IUserProfile; // calendar owner
     private weekdayNames: number[] = [];
@@ -45,7 +45,7 @@ export class CalendarCtrl implements IComponentController{
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.CalendarService, this.user);
         this.calendar.toDate(new Date());
         //let date = moment(this.$location.hash());
@@ -57,23 +57,23 @@ export class CalendarCtrl implements IComponentController{
                 message.value.userProfileOwner.userId === this.user.userId)
             .map((message) => {
                 console.log("new calendar message: ", message);
-                message.value["index"] = Number(`${message.value.calendarItemId}${message.value.revision}`);
-                return message;})
+                message.value.index = Number(`${message.value.calendarItemId}${message.value.revision}`);
+                return message; })
             .subscribe((message) => {
                 switch (message.action) {
                     case "I": {
-                        this.onPostItem(<ICalendarItem>message.value);
+                        this.onPostItem(message.value as ICalendarItem);
                         this.$scope.$applyAsync();
                         break;
                     }
                     case "D": {
-                        this.onDeleteItem(<ICalendarItem>message.value);
+                        this.onDeleteItem(message.value as ICalendarItem);
                         this.$scope.$applyAsync();
                         break;
                     }
                     case "U": {
                         this.onDeleteItem(getItemById(this.calendar.weeks, message.value.calendarItemId));
-                        this.onPostItem(<ICalendarItem>message.value);
+                        this.onPostItem(message.value as ICalendarItem);
                         this.$scope.$applyAsync();
                         break;
                     }
@@ -108,30 +108,30 @@ export class CalendarCtrl implements IComponentController{
         this.currentWeek = <ICalendarWeek> {};
         return this.up();
     }
-    
+
     setCurrentWeek (week) {
         if (this.currentWeek !== week) {
             this.currentWeek = week;
             //this.$location.hash(week.anchor).replace();
         }
     }
-    
+
     toPrevWeek () {
         this.toDate(moment(this.currentWeek.date).add(-1, 'week'));
     }
-    
+
     toNextWeek () {
         this.toDate(moment(this.currentWeek.date).add(1, 'week'));
     }
-    
+
     toCurrentWeek () {
         this.toDate(moment().startOf('week'));
     }
-    
-    toDate (date) {        
+
+    toDate (date) {
         let week = this.takeWeek(date);
         this.scrollToWeek(week);
-        
+
         (week.loading || Promise.resolve(week))
         .then(week => setTimeout(() => {
             this.scrollToWeek(week);
@@ -165,10 +165,10 @@ export class CalendarCtrl implements IComponentController{
             }
         };
     }**/
-    
+
     /**
      * WeekItem view model
-     * @param index 
+     * @param index
      * @param date - дата начала недели
      * @param days : DayItem[]
      */ /**
@@ -186,7 +186,7 @@ export class CalendarCtrl implements IComponentController{
             height: 180
         };
     } **/
-    
+
     /**
      * Предоставляет объекты WeekItem
      * @param date - любой Datetime недели
@@ -195,7 +195,7 @@ export class CalendarCtrl implements IComponentController{
     getWeek (date, index) {
         let start = moment(date).startOf('week');
         let end = moment(start).add(6, 'd');
-        
+
         let days = (items) => times(7).map((i) => {
             let date = moment(start).add(i, 'd');
             let calendarItems = items
@@ -206,22 +206,22 @@ export class CalendarCtrl implements IComponentController{
                     //}
                     return item;
                 });
-            
+
             return this.dayItem(date, calendarItems);
         });
-        
+
         let loading = this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.user.userId)
-        .then(items => { 
-            week.subItem = days(items); 
+        .then(items => {
+            week.subItem = days(items);
             week.changes++;
             return week;
         });
-        
+
         let week = this.weekItem(index, start, days([]), loading);
-        
+
         return week;
     } **/
-    
+
     /**
      * Подгрузка n записей вверх
      * @param n
@@ -229,7 +229,7 @@ export class CalendarCtrl implements IComponentController{
     up (n = 1) {
         let i0 = this.range[0];
         this.range[0] -= n;
-        
+
         let items = times(n)
             .map((i) => i0 - i)
             .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
@@ -238,16 +238,16 @@ export class CalendarCtrl implements IComponentController{
             .map(week => {
                 this.calendar.unshift(week);
                 week.loading
-                .then(() => { 
+                .then(() => {
                     week.loading = null;
                     this.$scope.$apply();
                 })
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
-            
+
         return items;
     }**/
-    
+
     /**
      * Подгрузка n записей вниз
      * @param n
@@ -255,7 +255,7 @@ export class CalendarCtrl implements IComponentController{
     down (n = 1) {
         let i0 = this.range[1];
         this.range[1] += n;
-        
+
         let items = times(n)
             .map((i) => i0 + i)
             .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
@@ -264,17 +264,17 @@ export class CalendarCtrl implements IComponentController{
             .forEach(week => {
                 this.calendar.push(week);
                 week.loading
-                .then(() => { 
+                .then(() => {
                     week.loading = null;
                     this.$scope.$apply();
                 })
                 .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
-            
+
         return items;
     }**/
 
-    onAddActivity($event){
+    public onAddActivity($event) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -304,17 +304,17 @@ export class CalendarCtrl implements IComponentController{
             fullscreen: true,
         })
             .then((response) => {
-                if(response.type === "post") {
+                if (response.type === "post") {
                     console.log("save activity", response);
                     //this.calendar.onPostItem(response.item);
                     //this.message.toastInfo('Создана новая запись');
                 }
-            }, ()=> {
+            }, () => {
                 console.log("user cancel dialog");
             });
     }
 
-    onAddMeasurement($event){
+    public onAddMeasurement($event) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -340,17 +340,17 @@ export class CalendarCtrl implements IComponentController{
 
         })
             .then((response) => {
-                if(response.type === "post") {
+                if (response.type === "post") {
                     //this.calendar.onPostItem(response.item)
                     //this.message.toastInfo('Создана новая запись');
                 }
 
-            }, ()=> {
+            }, () => {
                 console.log("user cancel dialog");
             });
     }
 
-    onAddEvent($event, data) {
+    public onAddEvent($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -385,15 +385,13 @@ export class CalendarCtrl implements IComponentController{
             });
     }
 
-
-
     /**
      * Создание записи календаря
      * @param item<ICalendarItem>
      */
-    onPostItem(item) {
-        let w = this.getDayIndex(moment(item.dateStart).format("GGGG-WW"));
-        let d = moment(item.dateStart).weekday();
+    public onPostItem(item) {
+        const w = this.getDayIndex(moment(item.dateStart).format("GGGG-WW"));
+        const d = moment(item.dateStart).weekday();
 
         if (w !== -1 && d >= 0) {
             this.calendar.weeks[w].subItem[d].data.calendarItems.push(item);
@@ -405,20 +403,20 @@ export class CalendarCtrl implements IComponentController{
      * Удаление записи календаря
      * @param item
      */
-    onDeleteItem(item) {
-        let w = this.getDayIndex(moment(item.dateStart).format("GGGG-WW"));
-        let d = moment(item.dateStart).weekday();
-        let p = this.calendar.weeks[w].subItem[d].data.calendarItems.findIndex((i) => i.calendarItemId === item.calendarItemId);
+    public onDeleteItem(item) {
+        const w = this.getDayIndex(moment(item.dateStart).format("GGGG-WW"));
+        const d = moment(item.dateStart).weekday();
+        const p = this.calendar.weeks[w].subItem[d].data.calendarItems.findIndex((i) => i.calendarItemId === item.calendarItemId);
 
         if (w !== -1 && d >= 0 && p !== -1) {
-            this.calendar.weeks[w].subItem[d].data.calendarItems.splice(p,1);
+            this.calendar.weeks[w].subItem[d].data.calendarItems.splice(p, 1);
             this.calendar.weeks[w].changes++;
         }
     }
 
-    onFileUpload(){
+    public onFileUpload() {
         this.dialogs.uploadFile()
-            .then((file) => this.CalendarService.postFile(file,null))
+            .then((file) => this.CalendarService.postFile(file, null))
             .then((response) => this.message.toastInfo(response), (error) => this.message.toastInfo(error));
     }
 
@@ -427,22 +425,21 @@ export class CalendarCtrl implements IComponentController{
      * @param w - неделя в формате GGGG-WW
      * @returns {number}
      */
-    getDayIndex(w) {
+    public getDayIndex(w) {
         return this.calendar.weeks.findIndex((item) => item.week === w);
     }
 
-
-    onCopy(items: ICalendarItem[]){
+    public onCopy(items: ICalendarItem[]) {
         this.buffer = [];
         this.firstSrcDay = null;
 
-        if(items){
+        if (items) {
             this.buffer.push(...copy(items));
             this.firstSrcDay = moment(items[0].dateStart).format("YYYY-MM-DD");
         } else {
             this.calendar.weeks.forEach((w) => w.subItem.forEach((d) => {
-                if(d.selected) {
-                    if(!this.firstSrcDay) {
+                if (d.selected) {
+                    if (!this.firstSrcDay) {
                         this.firstSrcDay = d.data.date;
                     }
                     if (d.data.calendarItems && d.data.calendarItems.length > 0) {
@@ -451,32 +448,32 @@ export class CalendarCtrl implements IComponentController{
                 }
             }));
         }
-        if(this.buffer && this.buffer.length > 0) {
+        if (this.buffer && this.buffer.length > 0) {
             this.message.toastInfo("itemsCopied");
         }
     }
 
-    onPaste(firstTrgDay: string){
-        let shift = moment(firstTrgDay, "YYYY-MM-DD").diff(moment(this.firstSrcDay,"YYYY-MM-DD"), "days");
-        let task:Array<Promise<any>> = [];
+    public onPaste(firstTrgDay: string) {
+        const shift = moment(firstTrgDay, "YYYY-MM-DD").diff(moment(this.firstSrcDay, "YYYY-MM-DD"), "days");
+        let task: Array<Promise<any>> = [];
 
         if (shift && this.buffer && this.buffer.length > 0) {
             task = this.buffer
                 .filter((item) => item.calendarItemType === "activity" && item.activityHeader.intervals.some((interval) => interval.type === "pW"))
                 .map((item) => this.CalendarService.postItem(prepareItem(item, shift)));
             Promise.all(task)
-                .then(()=> this.message.toastInfo("itemsPasted"), (error)=> this.message.toastError(error))
-                .then(()=> this.clearBuffer());;
+                .then(() => this.message.toastInfo("itemsPasted"), (error) => this.message.toastError(error))
+                .then(() => this.clearBuffer()); ;
         }
 
     }
 
-    onPostPlan(env: Event){
+    public onPostPlan(env: Event) {
         this.$mdDialog.show({
-            controller: ["$scope","$mdDialog", ($scope, $mdDialog) => {
+            controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (chart,update) => $mdDialog.hide({chart: chart,update: update});
+                $scope.answer = (chart, update) => $mdDialog.hide({chart, update});
             }],
             controllerAs: "$ctrl",
             template:
@@ -504,16 +501,16 @@ export class CalendarCtrl implements IComponentController{
         }).then((response) => {}, () => {});
     }
 
-    onDelete(items:ICalendarItem[]) {
-        let selected: ICalendarItem[] = [];
+    public onDelete(items: ICalendarItem[]) {
+        const selected: ICalendarItem[] = [];
 
         this.calendar.weeks.forEach((w) => w.subItem.forEach((d) => {
-            if(d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) {
+            if (d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) {
                 selected.push(...d.data.calendarItems);
             }
         }));
 
-        let inSelection: boolean = (selected && selected.length > 0) && selected.some((s) => items.some((i) => i.calendarItemId === s.calendarItemId));
+        const inSelection: boolean = (selected && selected.length > 0) && selected.some((s) => items.some((i) => i.calendarItemId === s.calendarItemId));
 
         this.dialogs.confirm({ text: "dialogs.deletePlanActivity" })
         .then(() => this.CalendarService.deleteItem("F", inSelection ? selected.map((item) => item.calendarItemId) : items.map((item) => item.calendarItemId)))
@@ -521,11 +518,11 @@ export class CalendarCtrl implements IComponentController{
         .then(() => inSelection && this.clearBuffer());
     }
 
-    clearBuffer() {
+    public clearBuffer() {
         this.buffer = [];
         this.firstSrcDay = null;
         this.calendar.weeks.forEach((w) => w.subItem.forEach((d) => {
-            if(d.selected) {
+            if (d.selected) {
                 d.selected = false;
             }
         }));
@@ -569,4 +566,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ["$scope","$mdDialog"];
+DialogController.$inject = ["$scope", "$mdDialog"];

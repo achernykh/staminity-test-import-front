@@ -1,11 +1,11 @@
 import {PeriodOptions} from "./analytics-chart-filter/analytics-chart-filter.model";
 import {AnalyticsChartLayout, IAnalyticsChart} from "./analytics-chart/analytics-chart.model";
 
-const paletteAll500 = ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63","#3F51B5","#00BCD4","#8BC34A","#FFC107","#795548","#9C27B0","#2196F3","#009688","#CDDC39","#FF9800","#9E9E9E"];
+const paletteAll500 = ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63", "#3F51B5", "#00BCD4", "#8BC34A", "#FFC107", "#795548", "#9C27B0", "#2196F3", "#009688", "#CDDC39", "#FF9800", "#9E9E9E"];
 const paletteSports = ["#2196F3", "#FFC107", "#009688", "#F44336", "#9C27B0", "#795548", "#E91E63", "#9E9E9E"];
-const paletteBpm = ["#F8BBD0","#F48FB1","#F06292","#EC407A","#E91E63","#D81B60","#C2185B","#AD1457","#880E4F"];
-const palettePace = ["#BBDEFB","#90CAF9","#65B5F6","#42A5F5","#2196F3","#1E88E5","#1976D2","#1566C0","#0D47A1"];
-const palettePower = ["#D1C4E9","#B39DDB","#9575CD","#7E57C2","#673AB7","#5E35B1","#512DA8","#4527A0","#311B92"];
+const paletteBpm = ["#F8BBD0", "#F48FB1", "#F06292", "#EC407A", "#E91E63", "#D81B60", "#C2185B", "#AD1457", "#880E4F"];
+const palettePace = ["#BBDEFB", "#90CAF9", "#65B5F6", "#42A5F5", "#2196F3", "#1E88E5", "#1976D2", "#1566C0", "#0D47A1"];
+const palettePower = ["#D1C4E9", "#B39DDB", "#9575CD", "#7E57C2", "#673AB7", "#5E35B1", "#512DA8", "#4527A0", "#311B92"];
 
 //noinspection TypeScriptValidateTypes,TypeScriptValidateTypes
 export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
@@ -69,7 +69,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "month",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -90,7 +90,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "cumulative",
                 text: "cumulative",
                 model: false,
-                options: [false,true],
+                options: [false, true],
                 change: {
                     "false": {
                         cumulative: false,
@@ -104,8 +104,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -245,7 +245,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "month",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -266,7 +266,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "cumulative",
                 text: "cumulative",
                 model: false,
-                options: [false,true],
+                options: [false, true],
                 change: {
                     "false": {
                         cumulative: false,
@@ -280,8 +280,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -381,7 +381,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             idx: 1,
             area: "measures",
             param: "cumulative",
-        },{
+        }, {
             ind: 0,
             idx: 0,
             area: "series",
@@ -398,7 +398,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "month",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -419,7 +419,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "cumulative",
                 text: "cumulative",
                 model: false,
-                options: [false,true],
+                options: [false, true],
                 change: {
                     "false": {
                         cumulative: false,
@@ -438,11 +438,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -515,7 +515,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 dateFormat: "",
                 valueType: "value",
                 aggMethod: "sum",
-            },/**,{
+            }, /**,{
                 "id": "TL",
                 "label": "TL",
                 "unit": "",
@@ -607,7 +607,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             idx: 1,
             area: "measures",
             param: "cumulative",
-        },{
+        }, {
             ind: 0,
             idx: 0,
             area: "series",
@@ -624,7 +624,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "month",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -645,7 +645,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "cumulative",
                 text: "cumulative",
                 model: true,
-                options: [false,true],
+                options: [false, true],
                 change: {
                     "false": {
                         cumulative: false,
@@ -664,11 +664,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -741,7 +741,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 dateFormat: "",
                 valueType: "value",
                 aggMethod: "sum",
-            },/*,{
+            }, /*,{
                 "id": "TL",
                 "label": "TL",
                 "unit": "",
@@ -811,7 +811,6 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 "aggMethod": "avg",
                 "reverse": false
             }*/
-
 
             ],
         }],
@@ -886,7 +885,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "week",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -907,7 +906,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                  name: "measureName",
                  text: "volume",
                  model: "duration",
-                 options: ["duration","distance"],
+                 options: ["duration", "distance"],
                  change: {
                     duration: {
                         measureName: "duration",
@@ -923,12 +922,12 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             },
             {
                 ind: [0],
-                idx: [2,3,4],
+                idx: [2, 3, 4],
                 type: "checkbox",
                 area: "measures",
                 text: "measures",
                 multiTextParam: "label",
-                model: [true,true,true],
+                model: [true, true, true],
                 options: [true, false],
                 change: {
                     "false": {
@@ -940,7 +939,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                         legend: true,
                     },
                 },
-            },/*
+            }, /*
             {
                 ind: [0],
                 idx: [2,3,4,5,6],
@@ -992,11 +991,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
         ],
-        layout: new AnalyticsChartLayout(2,1),
+        layout: new AnalyticsChartLayout(2, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -1172,7 +1171,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                     "dateFormat": "",
                     "valueType": "value",
                     "aggMethod": "avg",
-                },/*,
+                }, /*,
                 {
                     "id": "power",
                     "label": "Мощность",
@@ -1272,7 +1271,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "month",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -1286,11 +1285,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -1428,7 +1427,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "week",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -1442,11 +1441,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -1563,7 +1562,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "week",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -1580,8 +1579,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -1698,7 +1697,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "week",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -1715,8 +1714,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -1823,8 +1822,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -1932,8 +1931,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -2013,8 +2012,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -2111,7 +2110,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                  name: "measureName",
                  text: "volume",
                  model: "duration",
-                 options: ["duration","distance"],
+                 options: ["duration", "distance"],
                  change: {
                      duration: {
                          measureName: "duration",
@@ -2131,7 +2130,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "month",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -2148,8 +2147,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -2261,7 +2260,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "measureName",
                 text: "volume",
                 model: "duration",
-                options: ["duration","distance"],
+                options: ["duration", "distance"],
                 change: {
                     duration: {
                         measureName: "duration",
@@ -2277,8 +2276,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -2352,12 +2351,12 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         settings: [
             {
                 ind: [0],
-                idx: [1,2,3,4],
+                idx: [1, 2, 3, 4],
                 type: "checkbox",
                 area: "measures",
                 text: "measures",
                 multiTextParam: "label",
-                model: [true,true,false,false],
+                model: [true, true, false, false],
                 options: [true, false],
                 change: {
                     "false": {
@@ -2369,11 +2368,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -2601,7 +2600,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "week",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -2622,7 +2621,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "measureName",
                 text: "volume",
                 model: "duration",
-                options: ["duration","distance"],
+                options: ["duration", "distance"],
                 change: {
                     duration: {
                         measureName: "duration",
@@ -2635,11 +2634,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {
@@ -2789,7 +2788,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "seriesDateTrunc",
                 text: "seriesDateTrunc",
                 model: "week",
-                options: ["day","week","month"],
+                options: ["day", "week", "month"],
                 change: {
                     "day": {
                         seriesDateTrunc: "day",
@@ -2810,7 +2809,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 name: "measureName",
                 text: "volume",
                 model: "duration",
-                options: ["duration","distance"],
+                options: ["duration", "distance"],
                 change: {
                     duration: {
                         measureName: "duration",
@@ -2823,11 +2822,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
                 periods: null,
             },
             options: {

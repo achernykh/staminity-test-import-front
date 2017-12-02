@@ -5,7 +5,7 @@ import GroupService from "../core/group.service";
 import MessageService from "../core/message.service";
 import UserService from "../core/user.service";
 
-const athletes = <StateDeclaration> {
+const athletes = {
     name: "athletes",
     url: "/athletes",
     loginRequired: true,
@@ -15,11 +15,11 @@ const athletes = <StateDeclaration> {
         user: ["UserService", "SessionService", (UserService: UserService, SessionService) => {
             return UserService.getProfile(SessionService.getUser().userId);
         }],
-        management: ["GroupService","user", (GroupService: GroupService, user) => {
+        management: ["GroupService", "user", (GroupService: GroupService, user) => {
             return GroupService.getManagementProfile(user.connections.allAthletes.groupId, "coach");
         }],
     },
     views: DefaultTemplate("athletes"),
-};
+} as StateDeclaration;
 
 export const athletesStates: StateDeclaration[] = [athletes];

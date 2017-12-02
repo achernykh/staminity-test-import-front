@@ -21,43 +21,43 @@ class ActivityHeaderZonesCtrl implements IComponentController {
         powerTimeInZone: "power",
     };
     private readonly colors: {} = {heartRate: 0xE91E63, speed: 0x2196F3, power: 0x9C27B0};
-    static $inject = ["$scope"];
+    public static $inject = ["$scope"];
 
     constructor(private $scope: any) {
 
     }
 
-    $onChanges(changes) {
-        if(changes["sport"] && !changes.sport.isFirstChange()){
-            console.log("sport change",this.sport);
+    public $onChanges(changes) {
+        if (changes.sport && !changes.sport.isFirstChange()) {
+            console.log("sport change", this.sport);
         }
-        if(changes["hasDetails"] && !changes.hasDetails.isFirstChange()){
+        if (changes.hasDetails && !changes.hasDetails.isFirstChange()) {
             this.factor = this.prepareFactor();
         }
     }
 
-    changeFactor(factor: string){
+    public changeFactor(factor: string) {
         this.factor = factor;
         //this.$scope.$apply();
     }
 
-    getZone(factor:string = this.factor, sport: string = this.sport):any[] {
-        if(this.hasDetails){
+    public getZone(factor: string = this.factor, sport: string = this.sport): any[] {
+        if (this.hasDetails) {
             return this.calcMeasures.hasOwnProperty(factor) && this.calcMeasures[factor].zones;
         } else {
             return (this.zones[this.filter[factor]].hasOwnProperty(sport) && this.zones[this.filter[factor]][sport].zones) ||
-                this.zones[this.filter[factor]]["default"].zones;
+                this.zones[this.filter[factor]].default.zones;
         }
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.movingDuration = this.item.activity.movingDuration;
         this.calcMeasures = this.item.activity.intervalW.calcMeasures;
         this.factor = this.prepareFactor();
     }
 
-    prepareFactor():string {
+    public prepareFactor(): string {
         return (!this.hasDetails && "heartRateTimeInZone") ||
             (this.hasDetails && this.calcMeasures.hasOwnProperty("heartRateTimeInZone") && "heartRateTimeInZone") ||
             (this.hasDetails && this.calcMeasures.hasOwnProperty("speedTimeInZone") && "speedTimeInZone") ||
@@ -65,7 +65,7 @@ class ActivityHeaderZonesCtrl implements IComponentController {
     }
 }
 
-const ActivityHeaderZonesComponent:IComponentOptions = {
+const ActivityHeaderZonesComponent: IComponentOptions = {
     bindings: {
         zones: "<",
         sport: "<",

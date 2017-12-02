@@ -166,7 +166,6 @@ export const translateAnalytics = {
         },
     },
 
-
     en: {
 
     },

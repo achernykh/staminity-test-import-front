@@ -7,8 +7,7 @@ import {CalendarItem} from "../calendar-item.datamodel";
 import "./calendar-item-events.component.scss";
 import {_eventsType} from "./calendar-items-events.constants";
 
-const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
-
+const profileShort = (user: IUserProfile): IUserProfileShort => ({userId: user.userId, public: user.public});
 
 class CalendarItemEventsCtrl {
 
@@ -31,7 +30,7 @@ class CalendarItemEventsCtrl {
     public isPro: boolean;
     public isMyCoach: boolean;
 
-    static $inject = ["CalendarService","SessionService", "message"];
+    public static $inject = ["CalendarService", "SessionService", "message"];
 
     constructor(
         private CalendarService: CalendarService,
@@ -39,7 +38,7 @@ class CalendarItemEventsCtrl {
         private message: IMessageService) {
     }
 
-    $onInit() {
+    public $onInit() {
         this.currentUser = this.SessionService.getUser();
         if (this.mode === "post") {
             this.data = {
@@ -61,12 +60,12 @@ class CalendarItemEventsCtrl {
         this.isMyCoach = this.item.userProfileCreator.userId !== this.user.userId;
 
         // Перечень атлетов тренера доступных для планирования
-        if(this.currentUser.connections.hasOwnProperty("allAthletes") && this.currentUser.connections.allAthletes){
+        if (this.currentUser.connections.hasOwnProperty("allAthletes") && this.currentUser.connections.allAthletes) {
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .map((user) => ({profile: user, active: user.userId === this.user.userId}));
 
         }
-        if(this.forAthletes.length === 0 || !this.forAthletes.some((athlete) => athlete.active)) {
+        if (this.forAthletes.length === 0 || !this.forAthletes.some((athlete) => athlete.active)) {
             this.forAthletes.push({profile: profileShort(this.user), active: true});
         }
 
@@ -76,7 +75,7 @@ class CalendarItemEventsCtrl {
      * Функция получает выделенных атлетов для планирования трениовки
      * @param response
      */
-    selectAthletes(response){
+    public selectAthletes(response) {
         this.showSelectAthletes = false;
         this.forAthletes = response;
     }
@@ -86,7 +85,7 @@ class CalendarItemEventsCtrl {
      * @param pos
      * @returns {IUserProfileShort}
      */
-    firstAthlete(pos: number){
+    public firstAthlete(pos: number) {
         return this.forAthletes.filter((athlete) => athlete.active)[pos].profile;
     }
 
@@ -94,19 +93,18 @@ class CalendarItemEventsCtrl {
      * Указывает, что тренировка планируется для более чем одного атлета
      * @returns {boolean}
      */
-    multiAthlete(){
+    public multiAthlete() {
         return this.forAthletes.filter((athlete) => athlete.active).length > 1;
     }
 
-
-    onSave() {
+    public onSave() {
         if (this.mode === "post") {
-            let athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
+            const athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
             athletes.push(...this.forAthletes.filter((athlete) => athlete.active));
             athletes.forEach((athlete) =>
                 this.CalendarService.postItem(this.item.package(athlete.profile))
-                    .then((response)=> {
-                        this.item.compile(response);// сохраняем id, revision в обьекте
+                    .then((response) => {
+                        this.item.compile(response); // сохраняем id, revision в обьекте
                         this.message.toastInfo("eventCreated");
                         this.onAnswer({response: null});
                     }, (error) => this.message.toastError(error)),
@@ -114,19 +112,19 @@ class CalendarItemEventsCtrl {
         }
         if (this.mode === "put") {
             this.CalendarService.putItem(this.item.package())
-                .then((response)=> {
+                .then((response) => {
                     this.item.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo("eventUpdated");
-                    this.onAnswer({response: {type:"put",item:this.item.package()}});
+                    this.onAnswer({response: {type: "put", item: this.item.package()}});
                 }, (error) => this.message.toastError(error));
         }
     }
 
-    onDelete() {
+    public onDelete() {
         this.CalendarService.deleteItem("F", [this.item.calendarItemId])
             .then(() => {
                 this.message.toastInfo("eventDeleted");
-                this.onAnswer({response: {type:"delete",item:this.item}});
+                this.onAnswer({response: {type: "delete", item: this.item}});
             }, (error) => this.message.toastError(error));
     }
 }

@@ -7,17 +7,17 @@ import {ActivityIntervalCalcMeasure, DurationMeasure, IntensityMeasure} from "./
 
 export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIntervalPW {
 
-    trainersPrescription: string;
-    calcMeasures: ICalcMeasures;
-    movingDurationApprox: boolean; // временя рассчитано приблизительно
-    distanceApprox: boolean; // дистанция рассчитана приблизительно
+    public trainersPrescription: string;
+    public calcMeasures: ICalcMeasures;
+    public movingDurationApprox: boolean; // временя рассчитано приблизительно
+    public distanceApprox: boolean; // дистанция рассчитана приблизительно
 
     // Дополнительные поля для ввода неструктурированной тренировке
-    movingDuration: IDurationMeasure = new DurationMeasure();
-    distance: IDurationMeasure = new DurationMeasure();
-    heartRate: IIntensityMeasure = new IntensityMeasure();
-    speed: IIntensityMeasure = new IntensityMeasure();
-    power: IIntensityMeasure = new IntensityMeasure();
+    public movingDuration: IDurationMeasure = new DurationMeasure();
+    public distance: IDurationMeasure = new DurationMeasure();
+    public heartRate: IIntensityMeasure = new IntensityMeasure();
+    public speed: IIntensityMeasure = new IntensityMeasure();
+    public power: IIntensityMeasure = new IntensityMeasure();
 
     constructor(type: string, params: any) {
         super(type, params);
@@ -27,7 +27,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
     /**
      * @description Подготовка данных модели
      */
-    prepareData():void{
+    public prepareData(): void {
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
         this.durationValue = this.durationValue || 0;
         this.movingDurationLength = this.movingDurationLength || 0;
@@ -69,7 +69,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
         }
     }
 
-    update(params: Object) {
+    public update(params: Object) {
         Object.assign(this, params);
     }
 
@@ -78,16 +78,16 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @param keys
      * @returns {IActivityIntervalPW}
      */
-    clear(keys: string[] = ["params", "distance","movingDuration","heartRate","power","speed"]):IActivityIntervalPW{
+    public clear(keys: string[] = ["params", "distance", "movingDuration", "heartRate", "power", "speed"]): IActivityIntervalPW {
         keys.map((p) => delete this[p]);
-        return <IActivityIntervalPW>this;
+        return this as IActivityIntervalPW;
     }
 
     /**
      * @description Тренировка имеет плановые данные?
      * @returns {boolean}
      */
-    specified():boolean{
+    public specified(): boolean {
         return this.durationValue > 0;
     }
 
@@ -95,8 +95,8 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * Пересчет значений инетрвала на основе массива отдельных интервалов
      * @param intervals = массив интревалов с типом P
      */
-    calculate(intervals: ActivityIntervalP[]) {
-        let update: {
+    public calculate(intervals: ActivityIntervalP[]) {
+        const update: {
             durationMeasure: string,
             intensityMeasure: string,
             durationValue: number,
@@ -131,7 +131,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
             update.distanceLength += i.distanceLength || 0;
             update.intensityLevelFrom = Math.min(update.intensityLevelFrom || i.intensityLevelFrom, i.intensityLevelFrom); //(update.intensityLevelFrom >= i.intensityLevelFrom || update.intensityLevelFrom === null) ? i.intensityLevelFrom: update.intensityLevelFrom;
             update.intensityLevelTo = Math.max(update.intensityLevelTo || i.intensityLevelTo, i.intensityLevelTo); //(update.intensityLevelTo <= i.intensityLevelTo || update.intensityLevelTo === null) ? i.intensityLevelTo: update.intensityLevelTo;
-            update.intensityByFtpFrom = Math.min(update.intensityByFtpFrom || i.intensityByFtpFrom, i.intensityByFtpFrom);//(update.intensityByFtpFrom >= i.intensityByFtpFrom || update.intensityByFtpFrom === null) ? i.intensityByFtpFrom: update.intensityByFtpFrom;
+            update.intensityByFtpFrom = Math.min(update.intensityByFtpFrom || i.intensityByFtpFrom, i.intensityByFtpFrom); //(update.intensityByFtpFrom >= i.intensityByFtpFrom || update.intensityByFtpFrom === null) ? i.intensityByFtpFrom: update.intensityByFtpFrom;
             update.intensityByFtpTo = Math.max(update.intensityByFtpTo || i.intensityByFtpTo, i.intensityByFtpTo); //(update.intensityByFtpTo <= i.intensityByFtpTo || update.intensityByFtpTo === null) ? i.intensityByFtpTo: update.intensityByFtpTo;
 
         });
@@ -146,12 +146,12 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
             update.movingDurationLength || update.distanceLength;
 
         // Округляем дистанцию в м до 100м/1км, по времени до 1/5 минут
-        if(update.movingDurationApprox){
-            let step: number = update.movingDurationLength > 60 * 60 ? 5 : 1;
+        if (update.movingDurationApprox) {
+            const step: number = update.movingDurationLength > 60 * 60 ? 5 : 1;
             update.movingDurationLength = Math.ceil(update.movingDurationLength / (60 * step)) * 60 * step;
         }
-        if(update.distanceApprox){
-            let step: number = update.distanceLength > 100 * 100 ? 10 : 1;
+        if (update.distanceApprox) {
+            const step: number = update.distanceLength > 100 * 100 ? 10 : 1;
             update.distanceLength = Math.ceil(update.distanceLength / (100 * step)) * 100 * step;
         }
 

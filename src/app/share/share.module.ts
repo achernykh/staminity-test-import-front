@@ -2,9 +2,9 @@ import { isObject, module } from "angular";
 import { StateProvider } from "angular-ui-router";
 import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
 import moment from "moment/min/moment-with-locales.js";
-import  { requestType } from "../../../api/group/group.interface";
+import { requestType } from "../../../api/group/group.interface";
 import {InitiatorType} from "../../../api/notification/notification.interface";
-import  { ageGroup } from "../../../api/user/user.interface";
+import { ageGroup } from "../../../api/user/user.interface";
 import {SessionService} from "../core";
 import * as _connection from "../core/env.js";
 import PageNotFoundComponent from "./404/404.component";
@@ -54,29 +54,27 @@ import UserMenuComponent from "./user-menu/user-menu.component";
 import {_user_menu} from "./user-menu/user-menu.tranlsate";
 import { maybe, memorize, prop } from "./util.js";
 
-
 export const parseUtc = memorize((date) => moment.utc(date));
 
 export const parseYYYYMMDD = memorize((date) => moment(date, "YYYY-MM-DD"));
 
 export const fromNow = () => (date) => moment.utc(date).fromNow(true);
 
-
-const image = () => (sub: string, url:string = "default.jpg") : string => {
+const image = () => (sub: string, url: string = "default.jpg"): string => {
     return url.indexOf("http") !== -1 ? url : _connection.content + "/content" + sub + url;
 };
 
-const userBackground = () => (url:string) => url && url !== "default.jpg" ? _connection.content + "/content/user/background/" + url : "/assets/picture/default_background.jpg";
+const userBackground = () => (url: string) => url && url !== "default.jpg" ? _connection.content + "/content/user/background/" + url : "/assets/picture/default_background.jpg";
 
-const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty("avatar") && user.public.avatar !== "default.jpg" ? image() ("/user/avatar/",user.public.avatar) : "/assets/picture/default_avatar.png"})`;
+const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty("avatar") && user.public.avatar !== "default.jpg" ? image() ("/user/avatar/", user.public.avatar) : "/assets/picture/default_avatar.png"})`;
 
 const userName = () => (user, options) => maybe(user) (prop("public")) (
-    options === "short"? prop("firstName") : ({ firstName, lastName }) => `${firstName} ${lastName}`,
+    options === "short" ? prop("firstName") : ({ firstName, lastName }) => `${firstName} ${lastName}`,
 ) ();
 
 const clubName = () => (club) => maybe(club) (prop("public")) (prop("name")) ();
 
-const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorType.user):string => {
+const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorType.user): string => {
     let url: string = "/assets/picture/default_avatar.png";
     switch (type) {
         case InitiatorType.user: {
@@ -84,7 +82,7 @@ const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorType.use
             break;
         }
         case InitiatorType.group: case InitiatorType.club: {
-            url = `url(${avatar ? image() ("/group/avatar/",avatar) : image() (null,"/assets/picture/default_avatar.png")})`;
+            url = `url(${avatar ? image() ("/group/avatar/", avatar) : image() (null, "/assets/picture/default_avatar.png")})`;
             break;
         }
         case InitiatorType.provider: {
@@ -101,7 +99,7 @@ const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorType.use
 
 const isPremium = () => (userProfile) => userProfile && userProfile.billing.find((tariff) => tariff.tariffCode === "Premium");
 
-const truncate = () => (s, max = 140) => s && (s.length <= max? s : s.slice(0, max - 1) + "…");
+const truncate = () => (s, max = 140) => s && (s.length <= max ? s : s.slice(0, max - 1) + "…");
 
 const userpic = {
     bindings: {
@@ -111,7 +109,7 @@ const userpic = {
     },
     transclude: true,
     controller: ["$scope", class UserpicController {
-        constructor ($scope) {
+        constructor($scope) {
         }
     }],
     template: require("./userpic.component.html") as string,
@@ -125,7 +123,7 @@ const AvatarPicComponent = {
         isPremium: "<",
     },
     controller: ["$scope", class AvatarPicCtrl {
-        constructor ($scope) {
+        constructor($scope) {
         }
     }],
     template: require("./avatar-pic.component.html") as string,
@@ -144,8 +142,8 @@ function onFiles() {
             onFiles: "<",
         },
 
-        link (scope, element, attributes) {
-            let onFiles = (event) => (scope) => scope.onFiles(event.target.files);
+        link(scope, element, attributes) {
+            const onFiles = (event) => (scope) => scope.onFiles(event.target.files);
             element.bind("change", (event) => scope.$apply(onFiles(event)));
         },
     };
@@ -154,14 +152,14 @@ function onFiles() {
 function autoFocus() {
     return {
         link: {
-            post (scope, element, attr) {
+            post(scope, element, attr) {
                 element[0].focus();
             },
         },
     };
 }
 
-const Share = module("staminity.share", ["ui.router","pascalprecht.translate"])
+const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .filter("calcTimezoneTime", calcTimezoneTime)
     .filter("fromNow", fromNow)
     .filter("avatar", avatar)
@@ -175,64 +173,64 @@ const Share = module("staminity.share", ["ui.router","pascalprecht.translate"])
     .filter("ageGroup", () => ageGroup)
     .filter("requestType", () => (request) => requestType(request) + ".action")
     .filter("measureCalc", () => measureValue)
-    .filter("measureCalcInterval", ["$filter",($filter) => {
-        return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart:boolean = false, units:string = "metric") => {
+    .filter("measureCalcInterval", ["$filter", ($filter) => {
+        return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart: boolean = false, units: string = "metric") => {
             if (!input.hasOwnProperty("intensityLevelFrom") || !input.hasOwnProperty("intensityLevelTo")) {
                 return null;
             }
 
-            let measure: Measure = new Measure(name,sport,input.intensityLevelFrom);
+            const measure: Measure = new Measure(name, sport, input.intensityLevelFrom);
 
-            if(input.intensityLevelFrom === input.intensityLevelTo){
-                return $filter("measureCalc")(input.intensityLevelFrom,sport,name,chart,units);
+            if (input.intensityLevelFrom === input.intensityLevelTo) {
+                return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units);
             } else if (measure.isPace()) {
-                return $filter("measureCalc")(input.intensityLevelTo,sport,name,chart,units)+"-"+$filter("measureCalc")(input.intensityLevelFrom,sport,name,chart,units);
+                return $filter("measureCalc")(input.intensityLevelTo, sport, name, chart, units) + "-" + $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units);
             } else {
-                return $filter("measureCalc")(input.intensityLevelFrom,sport,name,chart,units)+"-"+$filter("measureCalc")(input.intensityLevelTo,sport,name,chart,units);
+                return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units) + "-" + $filter("measureCalc")(input.intensityLevelTo, sport, name, chart, units);
             }
         };
     }])
     .filter("measureUnit", () => measureUnit)
     .filter("duration", duration)
-    .filter("percentByTotal", ["$filter",($filter)=> {
+    .filter("percentByTotal", ["$filter", ($filter) => {
         return (value, total, decimal = 0) => {
             if (value && total) {
-                return $filter("number")((value/total)*100,decimal)+"%";
+                return $filter("number")((value / total) * 100, decimal) + "%";
             }
         };
     }])
-    .filter("percent", ["$filter",($filter)=> {
+    .filter("percent", ["$filter", ($filter) => {
         return (value, decimal = 0) => {
             if (value >= 0) {
-                return $filter("number")(value*100,decimal)+"%";
+                return $filter("number")(value * 100, decimal) + "%";
             }
         };
     }])
-    .filter("measureEdit",["$filter",($filter)=>{
+    .filter("measureEdit", ["$filter", ($filter) => {
         return (measure, value, sport) => {
-            let unit = measurementUnitDisplay(sport, measure);
-            if(isDuration(unit)) {
+            const unit = measurementUnitDisplay(sport, measure);
+            if (isDuration(unit)) {
                 return new Date(moment().startOf("day").seconds(value));
-            } else if(isPace(unit)){
-                return new Date(moment($filter("measureCalc")(value,sport,measure),"mm:ss"));
+            } else if (isPace(unit)) {
+                return new Date(moment($filter("measureCalc")(value, sport, measure), "mm:ss"));
             } else {
-                return Number($filter("measureCalc")(value,sport,measure));
+                return Number($filter("measureCalc")(value, sport, measure));
             }
         };
     }])
-    .filter("measureSave",["SessionService",(session: SessionService)=> {
-        return (measure, value,sport) => {
+    .filter("measureSave", ["SessionService", (session: SessionService) => {
+        return (measure, value, sport) => {
 
-            let unit = measurementUnitDisplay(sport, measure);
+            const unit = measurementUnitDisplay(sport, measure);
 
-            if(isDuration(unit)) {
-                return moment(value, ["ss","mm:ss","hh:mm:ss"]).diff(moment().startOf("day"),"seconds");
+            if (isDuration(unit)) {
+                return moment(value, ["ss", "mm:ss", "hh:mm:ss"]).diff(moment().startOf("day"), "seconds");
             } else {
                 if (isPace(unit)) {
-                    value = moment(value,["ss","mm:ss"]).diff(moment().startOf("day"),"seconds");
+                    value = moment(value, ["ss", "mm:ss"]).diff(moment().startOf("day"), "seconds");
                 }
                 // обратный пересчет по системе мер
-                if (session.getUser().display.units !== "metric"){
+                if (session.getUser().display.units !== "metric") {
                     value = value / _measurement_system_calculate[unit].multiplier;
                 }
                 // пересчет от единиц представления в еденицы обмена данными
@@ -245,9 +243,9 @@ const Share = module("staminity.share", ["ui.router","pascalprecht.translate"])
         };
     }])
     //https://github.com/petebacondarwin/angular-toArrayFilter
-    .filter("toArray", function () {
-        return function (obj, addKey) {
-            if (!isObject(obj)){
+    .filter("toArray", function() {
+        return function(obj, addKey) {
+            if (!isObject(obj)) {
                 return obj;
             }
             if ( addKey === false ) {
@@ -255,8 +253,8 @@ const Share = module("staminity.share", ["ui.router","pascalprecht.translate"])
                     return obj[key];
                 });
             } else {
-                return Object.keys(obj).map(function (key) {
-                    let value = obj[key];
+                return Object.keys(obj).map(function(key) {
+                    const value = obj[key];
                     return isObject(value) ?
                         Object.defineProperty(value, "$key", { enumerable: false, value: key}) :
                     { $key: key, $value: value };
@@ -267,11 +265,11 @@ const Share = module("staminity.share", ["ui.router","pascalprecht.translate"])
     .component("stApplicationFrame", ApplicationFrameComponent)
     .component("stApplicationUserToolbar", ApplicationUserToolbarComponent)
     .filter("htmlToPlainText", htmlToPlainText)
-    .component("staminityBackground",BackgroundComponent)
-    .component("staminityHeader",HeaderComponent)
-    .component("userMenu",UserMenuComponent)
-    .component("applicationMenu",ApplicationMenu)
-    .service("LoaderService",LoaderService)
+    .component("staminityBackground", BackgroundComponent)
+    .component("staminityHeader", HeaderComponent)
+    .component("userMenu", UserMenuComponent)
+    .component("applicationMenu", ApplicationMenu)
+    .service("LoaderService", LoaderService)
     .service("NotificationService", NotificationService)
     .service("dialogs", DialogsService)
     .component("loader", LoaderComponent)
@@ -285,34 +283,34 @@ const Share = module("staminity.share", ["ui.router","pascalprecht.translate"])
     .component("universalChart", UniversalChartComponent)
     .directive("onFiles", onFiles)
     .directive("autoFocus", autoFocus)
-    .directive("measureInput", ["$filter",MeasurementInput])
+    .directive("measureInput", ["$filter", MeasurementInput])
     .directive("compareTo", compareTo) // сравниваем значение в поля ввода (пароли)
     .filter("truncate", truncate)
     .component("stApplicationProfileTemplate", ApplicationProfileTemplateComponent)
     .constant("quillConfig", quillConfig)
     .config(["$stateProvider", ($stateProvider: StateProvider) => shareStates.map((s) => $stateProvider.state(s))])
-    .config(["$translateProvider",($translateProvider)=>{
+    .config(["$translateProvider", ($translateProvider) => {
 
-        $translateProvider.translations("ru", {appMenu: _application_menu["ru"]});
-        $translateProvider.translations("en", {appMenu: _application_menu["en"]});
-        $translateProvider.translations("ru", {userMenu: _user_menu["ru"]});
-        $translateProvider.translations("en", {userMenu: _user_menu["en"]});
-        $translateProvider.translations("ru",_MEASURE_TRANSLATE.ru);
-        $translateProvider.translations("en",_MEASURE_TRANSLATE.en);
-        $translateProvider.translations("ru", {request: translateRequestPanel["ru"]});
-        $translateProvider.translations("en", {request: translateRequestPanel["en"]});
-        $translateProvider.translations("ru", {dialogs: translateDialogs["ru"]});
-        $translateProvider.translations("en", {dialogs: translateDialogs["en"]});
-        $translateProvider.translations("ru", translateNotification["ru"]);
-        $translateProvider.translations("en", translateNotification["en"]);
-        $translateProvider.translations("ru", {"404": _translate_PageNotFound["ru"]});
-        $translateProvider.translations("en", {"404": _translate_PageNotFound["en"]});
-        $translateProvider.translations("ru", {header: translateHeader["ru"]});
-        $translateProvider.translations("en", {header: translateHeader["en"]});
+        $translateProvider.translations("ru", {appMenu: _application_menu.ru});
+        $translateProvider.translations("en", {appMenu: _application_menu.en});
+        $translateProvider.translations("ru", {userMenu: _user_menu.ru});
+        $translateProvider.translations("en", {userMenu: _user_menu.en});
+        $translateProvider.translations("ru", _MEASURE_TRANSLATE.ru);
+        $translateProvider.translations("en", _MEASURE_TRANSLATE.en);
+        $translateProvider.translations("ru", {request: translateRequestPanel.ru});
+        $translateProvider.translations("en", {request: translateRequestPanel.en});
+        $translateProvider.translations("ru", {dialogs: translateDialogs.ru});
+        $translateProvider.translations("en", {dialogs: translateDialogs.en});
+        $translateProvider.translations("ru", translateNotification.ru);
+        $translateProvider.translations("en", translateNotification.en);
+        $translateProvider.translations("ru", {"404": _translate_PageNotFound.ru});
+        $translateProvider.translations("en", {"404": _translate_PageNotFound.en});
+        $translateProvider.translations("ru", {header: translateHeader.ru});
+        $translateProvider.translations("en", {header: translateHeader.en});
     }])
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал
-    .run(["$templateCache",($templateCache)=>{
+    .run(["$templateCache", ($templateCache) => {
         $templateCache.put("header/appmenutoolbar.html", require("./header/panels/appmenutoolbar.html") as string);
         $templateCache.put("header/backbar.html", require("./header/panels/backbar.html") as string);
         $templateCache.put("header/logo.html", require("./header/panels/logo.html") as string);

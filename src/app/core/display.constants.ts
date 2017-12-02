@@ -3,14 +3,14 @@ import { merge } from "angular";
 export const supportLng: string[] = ["en", "ru"];
 
 export class DisplayView  {
-    constructor(private state: string){
+    constructor(private state: string) {
         merge(
             this,
             _display_view[this.state],
             {
                 header: {
-                    fullTitle: state+".fullTitle",
-                    shortTitle: state+".shortTitle",
+                    fullTitle: state + ".fullTitle",
+                    shortTitle: state + ".shortTitle",
                 },
             },
         );
@@ -32,7 +32,7 @@ export const DefaultTemplate = (component) => {
             },
         },
         "application": {
-            component: component,
+            component,
                 bindings: {
                 view: "view.application",
             },
@@ -402,7 +402,7 @@ export const _display_view = {
             margin: 20,
             size: "grow",
         },
-    },  
+    },
     // Настройка страницы: Список пользователей /athletes
     athletes: {
         background: {

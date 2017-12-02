@@ -9,7 +9,7 @@ import {getOwner, Owner} from "../../reference/reference.datamodel";
 import { groupBy, orderBy, pipe, prop } from "../../share/util.js";
 
 export const periodByType = (type: string): IReportPeriod[] => {
-    let format: string = "YYYYMMDD";
+    const format: string = "YYYYMMDD";
     switch (type) {
         case "thisYear": {
             return [{
@@ -38,11 +38,11 @@ export const periodByType = (type: string): IReportPeriod[] => {
     }
 };
 
-export const PeriodOptions = (options: string[] = ["thisYear","thisMonth","thisWeek","customPeriod"]):
+export const PeriodOptions = (options: string[] = ["thisYear", "thisMonth", "thisWeek", "customPeriod"]):
     IReportPeriodOptions[] => {
     return options.map((o) => ({
         name: o,
-        period: null,//periodByType(o)
+        period: null, //periodByType(o)
     }));
 };
 
@@ -84,20 +84,20 @@ export interface IAnalyticsChartFilter {
     periods: IAnalyticsChartSettings<string>;
 }
 
-export class AnalyticsChartFilter implements IAnalyticsChartFilter{
+export class AnalyticsChartFilter implements IAnalyticsChartFilter {
 
-    users: IAnalyticsChartSettings<IUserProfileShort>;
-    activityTypes: IAnalyticsChartSettings<IActivityType>;
-    activityCategories: IAnalyticsChartSettings<IActivityCategory>;
-    periods: IAnalyticsChartSettings<string>;
+    public users: IAnalyticsChartSettings<IUserProfileShort>;
+    public activityTypes: IAnalyticsChartSettings<IActivityType>;
+    public activityCategories: IAnalyticsChartSettings<IActivityCategory>;
+    public periods: IAnalyticsChartSettings<string>;
 
-    categoriesByOwner: {[owner in Owner]: IActivityCategory[]};
-    change: number = null;
+    public categoriesByOwner: {[owner in Owner]: IActivityCategory[]};
+    public change: number = null;
 
     private prepareComplete: boolean = false;
-    private readonly defaultBasicActivityTypes: number[] = [2,7,10,13];
-    private keys: string[] = ["user","categories","storage","prepareComplete","categoriesByOwner",
-        "defaultBasicActivityTypes","change","keys"];
+    private readonly defaultBasicActivityTypes: number[] = [2, 7, 10, 13];
+    private keys: string[] = ["user", "categories", "storage", "prepareComplete", "categoriesByOwner",
+        "defaultBasicActivityTypes", "change", "keys"];
 
     constructor(
         public user: IUserProfile,
@@ -112,13 +112,13 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         this.prepareComplete = true;
     }
 
-    transfer(keys: string[] = this.keys): IAnalyticsChartFilter {
-        let obj: IAnalyticsChartFilter = copy(this);
+    public transfer(keys: string[] = this.keys): IAnalyticsChartFilter {
+        const obj: IAnalyticsChartFilter = copy(this);
         keys.map((k) => delete obj[k]);
         return obj;
     }
 
-    changeParam(filter: string):void {
+    public changeParam(filter: string): void {
         switch (filter) {
             case "users": {
                 this.users.model = this.users.model.map((v) => Number(v));
@@ -129,9 +129,9 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
                 break;
         }
 
-        if(filter === "periods" && this.periods.model === "customPeriod"){
+        if (filter === "periods" && this.periods.model === "customPeriod") {
 
-            if(!this.periods.data.startDate && !this.periods.data.endDate){
+            if (!this.periods.data.startDate && !this.periods.data.endDate) {
                 [this.periods.data.startDate, this.periods.data.endDate] = [new Date(moment().startOf("year")), new Date()];
             }
 
@@ -144,7 +144,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         this.change ++;
     }
 
-    setCategoriesOption(options: IActivityCategory[]) {
+    public setCategoriesOption(options: IActivityCategory[]) {
         this.categories = options;
 
         this.categoriesByOwner = pipe(
@@ -156,15 +156,15 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
 
     }
 
-    setActivityTypesOptions(options: IActivityType[]) {
+    public setActivityTypesOptions(options: IActivityType[]) {
         this.activityTypes.options = options;
     }
 
-    setUsersModel(model: string[]) {
+    public setUsersModel(model: string[]) {
         this.users.model = model;
     }
 
-    setActivityTypes(model: number[], mode: "basic" | "single", transform: boolean) {
+    public setActivityTypes(model: number[], mode: "basic" | "single", transform: boolean) {
         if (mode === "basic" && transform) {
             model.map((id) => this.activityTypes.model.push(...getSportsByBasicId(Number(id))));
         } else {
@@ -173,69 +173,69 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         this.change ++;
     }
 
-    setActivityCategories(model: number[]) {
+    public setActivityCategories(model: number[]) {
         this.activityCategories.model = model;
         this.change ++;
     }
 
-    setPeriods(model: any, data?: any) {
+    public setPeriods(model: any, data?: any) {
         [this.periods.model, this.periods.data] = [model, data];
         this.change ++;
     }
 
-    usersSelectedText():string {
+    public usersSelectedText(): string {
         if (this.users.model && this.users.model.length > 0) {
             return `${this.$filter("username")(
-                this.users.options.filter((u) => u.userId === Number(this.users.model[0]))[0])}      
+                this.users.options.filter((u) => u.userId === Number(this.users.model[0]))[0])}
                 ${this.users.model.length > 1 ?
-                this.$filter("translate")("analytics.filter.more",{num: this.users.model.length - 1}) : ""}`;
+                this.$filter("translate")("analytics.filter.more", {num: this.users.model.length - 1}) : ""}`;
         } else {
             return this.$filter("translate")("analytics.filter.users.empty");
         }
     }
 
-    activityTypesSelectedText():string {
-        if(this.activityTypes.model && this.activityTypes.model.length > 0) {
+    public activityTypesSelectedText(): string {
+        if (this.activityTypes.model && this.activityTypes.model.length > 0) {
             return `${this.$filter("translate")("sport." +
                 this.activityTypes.options.filter((t) => t.id === Number(this.activityTypes.model[0]))[0].code)}
                 ${this.activityTypes.model.length > 1 ?
-                this.$filter("translate")("analytics.filter.more",{num: this.activityTypes.model.length - 1}) : ""}`;
+                this.$filter("translate")("analytics.filter.more", {num: this.activityTypes.model.length - 1}) : ""}`;
         } else {
             return this.$filter("translate")("analytics.filter.activityTypes.empty");
         }
     }
 
-    activityCategoriesSelectedText():string {
-        if(this.activityCategories.model && this.activityCategories.model.length > 0) {
+    public activityCategoriesSelectedText(): string {
+        if (this.activityCategories.model && this.activityCategories.model.length > 0) {
             return `${this.$filter("categoryCode")(
                 this.activityCategories.options.filter((c) => c.id === this.activityCategories.model[0])[0])}
                 ${this.activityCategories.model.length > 1 ?
-                this.$filter("translate")("analytics.filter.more",{num: this.activityCategories.model.length - 1}) : ""}`;
+                this.$filter("translate")("analytics.filter.more", {num: this.activityCategories.model.length - 1}) : ""}`;
         } else {
             return this.$filter("translate")("analytics.filter.activityCategories.empty");
         }
     }
 
-    periodsSelectedText(): string {
-        if(this.periods.model) {
+    public periodsSelectedText(): string {
+        if (this.periods.model) {
             return `${this.$filter("translate")("analytics.params." + this.periods.model)}`;
         } else {
             return this.$filter("translate")("analytics.filter.periods.empty");
         }
     }
 
-    descriptions(): string {
+    public descriptions(): string {
         return `
-            ${this.$filter("translate")("analytics.filter.periods.placeholder")}: 
-            ${this.periods.model !== "customPeriod" ? 
+            ${this.$filter("translate")("analytics.filter.periods.placeholder")}:
+            ${this.periods.model !== "customPeriod" ?
                 this.$filter("translate")("analytics.params." + this.periods.model) :
-                this.$filter("date")(moment(this.periods.model.startDate).toDate(),"shortDate") + "-" +
-            this.$filter("date")(moment(this.periods.model.endDate).toDate(),"shortDate")}, 
-            ${this.$filter("translate")("analytics.filter.activityTypes.placeholder")}: ${this.activityTypesSelectedText()}, 
+                this.$filter("date")(moment(this.periods.model.startDate).toDate(), "shortDate") + "-" +
+            this.$filter("date")(moment(this.periods.model.endDate).toDate(), "shortDate")},
+            ${this.$filter("translate")("analytics.filter.activityTypes.placeholder")}: ${this.activityTypesSelectedText()},
             ${this.$filter("translate")("analytics.filter.users.placeholder")}: ${this.usersSelectedText()}`;
     }
 
-    chartParams(): IChartParams {
+    public chartParams(): IChartParams {
         return {
             users: this.users.model,
             activityTypes: this.activityTypes.model.map((v) => Number(v)) || [],
@@ -244,7 +244,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         };
     }
 
-    save(): IAnalyticsChartFilter {
+    public save(): IAnalyticsChartFilter {
         return {
             users: this.users,
             activityTypes: this.activityTypes,
@@ -252,7 +252,6 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
             periods: this.periods,
         };
     }
-
 
     private prepareUsers() {
         this.users = {
@@ -269,7 +268,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
             public: this.user.public,
         });
 
-        if(this.user.public.isCoach && this.user.connections.hasOwnProperty("allAthletes")) {
+        if (this.user.public.isCoach && this.user.connections.hasOwnProperty("allAthletes")) {
             this.users.options.push(...this.user.connections.allAthletes.groupMembers.map((a) => ({
                 userId: a.userId,
                 public: a.public,
@@ -277,7 +276,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
         }
     }
 
-    private prepareActivityTypes(){
+    private prepareActivityTypes() {
         this.activityTypes = {
             type: "checkbox",
             area: "params",
@@ -310,7 +309,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
             area: "params",
             name: "periods",
             text: "periods",
-            options: ["thisYear","thisMonth","thisWeek","customPeriod"],
+            options: ["thisYear", "thisMonth", "thisWeek", "customPeriod"],
             model: this.storage && this.storage.periods.model || null,
             data: this.storage && this.storage.periods.data || {
                 model: null,
@@ -318,12 +317,9 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter{
                 endDate: null,
             },
         };
-        if(!this.periods.model){
+        if (!this.periods.model) {
             this.periods.model = this.periods.options[0];
         }
     }
-
-
-
 
 }

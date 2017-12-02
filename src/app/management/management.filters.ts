@@ -9,10 +9,10 @@ import { MembersList } from "./members-list.datamodel";
  * @param addRoles: Array<ClubRole>
  * @param removeRoles: Array<ClubRole>
  * @returns {string}
-*/  
-export const getEditRolesMessage = ($translate) => (addRoles: ClubRole[], removeRoles: ClubRole[]) : string => {
-    let translateRole = (role) => $translate.instant(`dialogs.${role}`);
-    let translateRoles = (roles) => roles.map(translateRole).join(", ");
+*/
+export const getEditRolesMessage = ($translate) => (addRoles: ClubRole[], removeRoles: ClubRole[]): string => {
+    const translateRole = (role) => $translate.instant(`dialogs.${role}`);
+    const translateRoles = (roles) => roles.map(translateRole).join(", ");
 
     if (addRoles.length && removeRoles.length) {
         return $translate.instant("users.editRoles.confirm.text.addAndRemove", { addRoles: translateRoles(addRoles), removeRoles: translateRoles(removeRoles) });
@@ -35,10 +35,10 @@ getEditRolesMessage.$inject = ["$translate"];
  * @param addTariffs: Array<ClubTariff>
  * @param removeTariffs: Array<ClubTariff>
  * @returns {string}
-*/  
-export const getEditTariffsMessage = ($translate) => (addTariffs: ClubTariff[], removeTariffs: ClubTariff[]) : string => {
-    let translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
-    let translateTariffCodes = (tariffCodes) => tariffCodes.map(translateTariffCode).join(", ");
+*/
+export const getEditTariffsMessage = ($translate) => (addTariffs: ClubTariff[], removeTariffs: ClubTariff[]): string => {
+    const translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
+    const translateTariffCodes = (tariffCodes) => tariffCodes.map(translateTariffCode).join(", ");
 
     if (addTariffs.length && removeTariffs.length) {
         return $translate.instant("users.editTariffs.confirm.text.addAndRemove", { addTariffCodes: translateTariffCodes(addTariffs), removeTariffCodes: translateTariffCodes(removeTariffs) });
@@ -57,8 +57,8 @@ getEditTariffsMessage.$inject = ["$translate"];
  * @param filterParams: MembersFilterParams
  * @param membersList: MembersList
  * @returns {string}
-*/  
-export const membersFiltersFilter = ($translate) => (filterParams: MembersFilterParams, membersList: MembersList) : string => {
+*/
+export const membersFiltersFilter = ($translate) => (filterParams: MembersFilterParams, membersList: MembersList): string => {
     return (
         filterParams.noCoach && $translate.instant("users.filters.noCoach")
     ) || (
@@ -78,7 +78,7 @@ membersFiltersFilter.$inject = ["$translate"];
  * @param filterParams: MembersFilterParams
  * @param membersList: MembersList
  * @returns {string}
-*/  
+*/
 export const roleMembershipFilter = ($translate) => (roleMemberships) => {
     roleMemberships = ["ClubManagement", "ClubCoaches", "ClubAthletes"].filter((m) => roleMemberships.indexOf(m) !== -1);
 
@@ -88,7 +88,7 @@ export const roleMembershipFilter = ($translate) => (roleMemberships) => {
         return $translate.instant("users.clubRoles." + roleMemberships[0]);
     } else if (roleMemberships.length > 1) {
         return `${$translate.instant("users.clubRoles." + roleMemberships[0])}, +${roleMemberships.length - 1}`;
-    } 
+    }
 };
 
 roleMembershipFilter.$inject = ["$translate"];

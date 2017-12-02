@@ -14,7 +14,7 @@ class CalendarItemTemplateSelectorCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     private templatesByOwner: { [owner: string]: IActivityTemplate[] };
 
-    static $inject = ["$scope","ReferenceService"];
+    public static $inject = ["$scope", "ReferenceService"];
 
     constructor(
         private $scope,
@@ -22,15 +22,15 @@ class CalendarItemTemplateSelectorCtrl implements IComponentController {
 
     }
 
-    $onInit(): void {
+    public $onInit(): void {
     }
 
-    $onDestroy(): void {
+    public $onDestroy(): void {
     }
 
 }
 
-const CalendarItemTemplateSelectorComponent:IComponentOptions = {
+const CalendarItemTemplateSelectorComponent: IComponentOptions = {
     bindings: {
         templatesByOwner: "<",
         onBack: "&",

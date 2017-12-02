@@ -31,7 +31,7 @@ class AthleteInvitationCtrl implements IComponentController {
         activatePremiumTrial: true,
     };
     private users: UserCredentials[] = [];
-    public options:Object = {
+    public options: Object = {
         rowSelection: true,
         multiSelect: true,
         autoSelect: true,
@@ -42,32 +42,32 @@ class AthleteInvitationCtrl implements IComponentController {
         pageSelect: false,
     };
 
-    static $inject = ["$scope", "AuthService", "message"];
+    public static $inject = ["$scope", "AuthService", "message"];
 
     constructor(private $scope: any, private AuthService: IAuthService, private message: MessageService) {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.users = Array.from(new Array(10)).map(() => copy(this.credTempl));
         //this.users.push(copy(this.credTempl), copy(this.credTempl), copy(this.credTempl));
     }
 
-    invite() {
-        let users = this.users.filter((u) => u.email && u.public.firstName && u.public.lastName);
+    public invite() {
+        const users = this.users.filter((u) => u.email && u.public.firstName && u.public.lastName);
         if (users && users.length > 0) {
-            this.AuthService.inviteUsers(this.groupId,users)
-                .then((result)=>{
-                    if(result.hasOwnProperty("resultArray") && result.resultArray.every((r) => r.status === "I" || r.status === "A")) {
+            this.AuthService.inviteUsers(this.groupId, users)
+                .then((result) => {
+                    if (result.hasOwnProperty("resultArray") && result.resultArray.every((r) => r.status === "I" || r.status === "A")) {
                         this.message.toastInfo("inviteSuccess");
                         this.onCancel();
                     }
-                }, (error)=>{});
+                }, (error) => {});
         }
     }
 }
 
-const AthleteInvitationComponent:IComponentOptions = {
+const AthleteInvitationComponent: IComponentOptions = {
     bindings: {
         groupId: "<",
         onCancel: "&",

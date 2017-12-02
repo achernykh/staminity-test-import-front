@@ -3,21 +3,21 @@ import { IActivityMeasure, ICalcMeasures, IDurationMeasure, IIntensityMeasure} f
  * Генерируем пустую структуру IActivityMeasure
  * @param code
  */
-export class ActivityMeasure implements IActivityMeasure{
+export class ActivityMeasure implements IActivityMeasure {
 
-    value: number =null;
-    minValue: number = null;
-    maxValue: number = null;
-    avgValue: number = null;
+    public value: number = null;
+    public minValue: number = null;
+    public maxValue: number = null;
+    public avgValue: number = null;
 
     constructor(public code: string) {
 
     }
 }
 
-export class ActivityIntervalCalcMeasure implements ICalcMeasures{
+export class ActivityIntervalCalcMeasure implements ICalcMeasures {
 
-    params: string[] = [
+    public params: string[] = [
         "heartRate", "heartRateDistancePeaks", "speed", "speedDistancePeaks", "duration", "movingDuration",
         "distance", "cadence", "strideLength", "swolf", "calories", "power", "powerDistancePeaks", "adjustedPower",
         "altitude", "elevationGain", "elevationLoss", "grade", "vam", "vamPowerKg", "temperature", "intensityLevel",
@@ -29,12 +29,12 @@ export class ActivityIntervalCalcMeasure implements ICalcMeasures{
     }
 }
 
-export class DurationMeasure implements IDurationMeasure{
+export class DurationMeasure implements IDurationMeasure {
     constructor(
-        public durationValue: number = null){}
+        public durationValue: number = null) {}
 }
 
-export class IntensityMeasure implements IIntensityMeasure{
+export class IntensityMeasure implements IIntensityMeasure {
     constructor(
         public intensityByFtpFrom: number = null,
         public intensityByFtpTo: number = null,

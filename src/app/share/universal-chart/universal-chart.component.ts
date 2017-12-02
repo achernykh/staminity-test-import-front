@@ -11,25 +11,25 @@ class UniversalChartCtrl implements IComponentController {
     private container: any;
     private onResize: Function;
 
-    static $inject = ["$element","$window"];
+    public static $inject = ["$element", "$window"];
 
     constructor(private $element: any, private $window: IWindowService) {
 
     }
 
-    $onInit() {
+    public $onInit() {
     }
 
-    $onDestroy() {
+    public $onDestroy() {
 
-        if(this.hasOwnProperty("chart") && this.chart) {
+        if (this.hasOwnProperty("chart") && this.chart) {
             this.chart.remove();
         }
 
     };
 
-    $postLink():void {
-        let self = this;
+    public $postLink(): void {
+        const self = this;
         this.$element.ready(() => self.redraw());
 
         this.onResize = () => {
@@ -40,10 +40,9 @@ class UniversalChartCtrl implements IComponentController {
         //angular.element(this.$window).on('resize', this.onResize);
     }
 
-
-    $onChanges(changes: any) {
-        if(changes.hasOwnProperty("update") && !changes.update.isFirstChange()){
-            if(!this.chart){
+    public $onChanges(changes: any) {
+        if (changes.hasOwnProperty("update") && !changes.update.isFirstChange()) {
+            if (!this.chart) {
                 return;
             }
             setTimeout(() => {
@@ -53,13 +52,13 @@ class UniversalChartCtrl implements IComponentController {
         }
     }
 
-    redraw():void {
+    public redraw(): void {
         this.container = this.$element[0];
         this.chart = UChartFactory.getInstance(this.data).renderTo(this.container);
     }
 }
 
-const UniversalChartComponent:IComponentOptions = {
+const UniversalChartComponent: IComponentOptions = {
     bindings: {
         data: "<",
         update: "<",

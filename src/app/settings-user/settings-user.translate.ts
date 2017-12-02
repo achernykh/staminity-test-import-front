@@ -36,7 +36,7 @@ export const _translate = {
             isFreeTrue: "Принимаю учеников",
             isFreeFalse: "Набор завершен",
             contacts: {
-                header:"Контакты (доступно только вам и тренеру)",
+                header: "Контакты (доступно только вам и тренеру)",
                 extEmail: "Дополнительный email",
                 phone: "Телефон",
             },
@@ -153,11 +153,11 @@ export const _translate = {
             conditionsText: `
 Начисления по тарифу "{{tariff}}" будут объединены с начислениями по ранее подключенному тарифу.
 
-Ближайший счёт на оплату будет вам выставлен [{{validThrough}}]. 
+Ближайший счёт на оплату будет вам выставлен [{{validThrough}}].
 
 В разделе "Счета" вы можете контролировать общую сумму начислений по счетам.`,
             trialConditionsText: `
-Подключение бесплатно. Во время пробного периода начисления по тарифу не производятся. 
+Подключение бесплатно. Во время пробного периода начисления по тарифу не производятся.
 
 Период пробного использования до [{{validThrough}}].
 `,
@@ -297,15 +297,15 @@ export const _translate = {
                 onSyncing: {
                     button: "Изменить",
                     title: "Синхронизация...",
-                    text: "Выполняется начальная синхронизация"},                   
+                    text: "Выполняется начальная синхронизация"},
                 onSyncComplete: {
                     button: "Изменить",
                     title: "Синхронизировано",
-                    text: "Последняя тренировка загружена {{lastSync | date:'short' }}"}, 
+                    text: "Последняя тренировка загружена {{lastSync | date:'short' }}"},
                 onSyncCreate: {
                     button: "Изменить",
                     title: "Ожидание...",
-                    text: "Ожидается подтверждение"}, 
+                    text: "Ожидается подтверждение"},
                 onSyncPendingRequest: {
                     button: "Изменить",
                     title: "Ожидание...",
@@ -443,7 +443,7 @@ export const _translate = {
             isFreeTrue: "Yes, i am available",
             isFreeFalse: "No, i am not available",
             contacts: {
-                header:"Personal contacts (only for you and your coach)",
+                header: "Personal contacts (only for you and your coach)",
                 extEmail: "Personal email",
                 phone: "Phone",
             },
@@ -554,11 +554,11 @@ export const _translate = {
             conditionsText: `
 Calculated tariff's fees for "{{tariff}}" tariff will be added to your existed bill.
 
-Next bill will be issued at [{{validThrough}}]. 
+Next bill will be issued at [{{validThrough}}].
 
 You could control the calculated amount for every tariff in Bills`,
             trialConditionsText: `
-Trial subscription is free. 
+Trial subscription is free.
 
 Trial subscription is valid until [{{validThrough}}].`,
             tariffDisconnectionUnavailable: `

@@ -8,14 +8,14 @@ import "./measure-split-table.component.scss";
 
 class MeasureSplitTableCtrl implements IComponentController {
 
-    public splits:IActivityIntervalL[];
+    public splits: IActivityIntervalL[];
     public sport: string;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
-    public selected:any[] = [];
+    public selected: any[] = [];
     public max: {};
     public zones: any;
 
-    public options:Object = {
+    public options: Object = {
         rowSelection: true,
         multiSelect: true,
         autoSelect: true,
@@ -25,7 +25,7 @@ class MeasureSplitTableCtrl implements IComponentController {
         limitSelect: false,
         pageSelect: false,
     };
-    private query:Object = {
+    private query: Object = {
         order: "code",
         limit: 5,
         page: 1,
@@ -33,16 +33,16 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     //private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain'];
 
-    static $inject = ["$scope"];
+    public static $inject = ["$scope"];
 
     constructor(private $scope: any) {
     }
 
-    $onInit() {
+    public $onInit() {
         //this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
         //this.$scope.selected = [];
-        this.$scope.splits = this.splits.map( (d,i) => {
-            d["ind"] = i;
+        this.$scope.splits = this.splits.map( (d, i) => {
+            d.ind = i;
             return d;
         });
         this.$scope.change = () => this.onSelected({
@@ -56,18 +56,18 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     }
 
-    getFTP(factor: string, sport: string = this.sport):number {
-        return (this.zones[factor].hasOwnProperty(sport) && this.zones[factor][sport]["FTP"]) ||
-            this.zones[factor]["default"]["FTP"];
+    public getFTP(factor: string, sport: string = this.sport): number {
+        return (this.zones[factor].hasOwnProperty(sport) && this.zones[factor][sport].FTP) ||
+            this.zones[factor].default.FTP;
     }
 
-    change(){
+    public change() {
         //console.log('change', this.selected);
         //this.onSelected({type: 'L', selected: this.selected.map(i => i.ind)});
     }
 }
 
-const MeasureSplitTableComponent:IComponentOptions = {
+const MeasureSplitTableComponent: IComponentOptions = {
     bindings: {
         splits: "<",
         sport: "<",

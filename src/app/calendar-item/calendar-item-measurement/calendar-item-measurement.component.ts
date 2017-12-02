@@ -6,9 +6,9 @@ import {IMessageService} from "../../core/message.service";
 import {CalendarItem} from "../calendar-item.datamodel";
 import "./calendar-item-measurement.component.scss";
 
-const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
-const _FEELING: string[] = ["sentiment_very_satisfied","sentiment_satisfied","sentiment_neutral",
-    "sentiment_dissatisfied","sentiment_very_dissatisfied"];
+const profileShort = (user: IUserProfile): IUserProfileShort => ({userId: user.userId, public: user.public});
+const _FEELING: string[] = ["sentiment_very_satisfied", "sentiment_satisfied", "sentiment_neutral",
+    "sentiment_dissatisfied", "sentiment_very_dissatisfied"];
 
 class CalendarItemMeasurementCtrl {
 
@@ -20,7 +20,7 @@ class CalendarItemMeasurementCtrl {
     public onAnswer: (response: Object) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
 
-    static $inject = ["CalendarService","SessionService", "message"];
+    public static $inject = ["CalendarService", "SessionService", "message"];
 
     constructor(
         private CalendarService: CalendarService,
@@ -28,7 +28,7 @@ class CalendarItemMeasurementCtrl {
         private message: IMessageService) {
     }
 
-    $onInit() {
+    public $onInit() {
 
         if (this.mode === "post") {
             this.data = {
@@ -43,28 +43,28 @@ class CalendarItemMeasurementCtrl {
         this.item.prepare();
     }
 
-    onSave() {
+    public onSave() {
         if (this.mode === "post") {
             this.CalendarService.postItem(this.item.package())
                 .then((response) => this.item.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.message.toastInfo("measurementCreated"))
-                .then(() => this.onAnswer({response: {type:"post",item:this.item}}),
+                .then(() => this.onAnswer({response: {type: "post", item: this.item}}),
                     (error) => this.message.toastError(error));
         }
         if (this.mode === "put") {
             this.CalendarService.putItem(this.item.package())
                 .then((response) => this.item.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.message.toastInfo("measurementUpdated"))
-                .then(() => this.onAnswer({response: {type:"put",item:this.item}}),
+                .then(() => this.onAnswer({response: {type: "put", item: this.item}}),
                     (error) => this.message.toastError(error));
         }
     }
 
-    onDelete() {
+    public onDelete() {
         this.CalendarService.deleteItem("F", [this.item.calendarItemId])
             .then((response) => {
                 this.message.toastInfo("measurementDeleted");
-                this.onAnswer({response: {type:"delete",item:this.item}});
+                this.onAnswer({response: {type: "delete", item: this.item}});
             }, (error) => this.message.toastError(error));
     }
 }

@@ -10,21 +10,20 @@ import "./application-frame.component.scss";
 class ApplicationFrameCtrl implements IComponentController {
 
     // bind
-    data: any;
-    onEvent: (response: Object) => IPromise<void>;
+    public data: any;
+    public onEvent: (response: Object) => IPromise<void>;
 
     // public
-    user: IUserProfile;
-    connectionStatus: boolean = true;
+    public user: IUserProfile;
+    public connectionStatus: boolean = true;
 
     //private
     private notificationsList: Notification[] = [];
     private requestsList: IGroupMembershipRequest[] = [];
 
-
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ["$scope", "$mdSidenav", "$mdMedia", "SessionService","SocketService","NotificationService","RequestsService",
+    public static $inject = ["$scope", "$mdSidenav", "$mdMedia", "SessionService", "SocketService", "NotificationService", "RequestsService",
         "AuthService"];
 
     constructor(
@@ -48,7 +47,7 @@ class ApplicationFrameCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
         this.notificationsList = this.NotificationService.notifications;
 
@@ -70,7 +69,7 @@ class ApplicationFrameCtrl implements IComponentController {
 
     }
 
-    $onDestroy() {
+    public $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
@@ -80,7 +79,7 @@ class ApplicationFrameCtrl implements IComponentController {
     }
 
     get requests() {
-        let userId = this.user.userId;
+        const userId = this.user.userId;
         return this.requestsList.filter((request) => request.receiver.userId === userId && !request.updated).length;
     }
 
@@ -88,12 +87,12 @@ class ApplicationFrameCtrl implements IComponentController {
      * Показать/скрыть панель
      * @param component
      */
-    sideNav (component: string): void {
+    public sideNav(component: string): void {
         this.$mdSidenav(component).toggle().then(() => {});
     }
 }
 
-const ApplicationFrameComponent:IComponentOptions = {
+const ApplicationFrameComponent: IComponentOptions = {
     transclude: {
         title: "?stApplicationFrameTitle",
         toolbar: "?stApplicationFrameToolbar",

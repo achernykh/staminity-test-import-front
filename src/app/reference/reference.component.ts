@@ -14,7 +14,6 @@ import "./reference.component.scss";
 import { categoriesFilters, getOwner, Owner, ReferenceFilterParams } from "./reference.datamodel";
 import ReferenceService from "./reference.service";
 
-
 export class ReferenceCtrl implements IComponentController {
 
     public user: IUserProfile;
@@ -23,30 +22,30 @@ export class ReferenceCtrl implements IComponentController {
     public templates: IActivityTemplate[] = [];
     public clubUri: string;
     public club: IGroupProfile;
-    
-    private filterParams: ReferenceFilterParams = { 
+
+    private filterParams: ReferenceFilterParams = {
         club: null,
         activityType: activityTypes[0],
         category: null,
     };
-    
+
     private tab: "templates" | "categories" = "templates";
     private activityTypes: IActivityType[] = activityTypes;
     private destroy: Subject<void> = new Subject<void>();
 
-    static $inject = ["$scope", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
+    public static $inject = ["$scope", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
 
-    constructor (
-        private $scope, 
-        private $mdDialog, 
+    constructor(
+        private $scope,
+        private $mdDialog,
         private $mdMedia,
         private message: IMessageService,
         private ReferenceService: ReferenceService,
     ) {
-        
+
     }
 
-    $onInit () {
+    public $onInit() {
         this.filterParams.club = this.club;
 
         this.categories = this.ReferenceService.categories;
@@ -69,38 +68,38 @@ export class ReferenceCtrl implements IComponentController {
 
         this.updateFilterParams();
     }
-    
-    $onChanges () {
+
+    public $onChanges() {
         this.updateFilterParams();
     }
-    
-    $onDestroy () {
-        this.destroy.next(); 
+
+    public $onDestroy() {
+        this.destroy.next();
         this.destroy.complete();
     }
 
-    updateFilterParams () {
-        let filters = pick(["club", "activityType", "isActive"]) (categoriesFilters);
-        let categories = this.categories.filter(filtersToPredicate(filters, this.filterParams));
-        let category = this.filterParams.category;
-            
-        this.filterParams = { 
-            ...this.filterParams, 
-            category: category && categories.find(({ id }) => category.id === id)? category : categories[0],
+    public updateFilterParams() {
+        const filters = pick(["club", "activityType", "isActive"]) (categoriesFilters);
+        const categories = this.categories.filter(filtersToPredicate(filters, this.filterParams));
+        const category = this.filterParams.category;
+
+        this.filterParams = {
+            ...this.filterParams,
+            category: category && categories.find(({ id }) => category.id === id) ? category : categories[0],
         };
-        
+
         this.categoriesByOwner = pipe(
             orderBy(prop("sortOrder")),
             groupBy(getOwner(this.user)),
         ) (categories);
     }
-    
-    get isMobileLayout () : boolean {
-        let maxWidth = {
+
+    get isMobileLayout(): boolean {
+        const maxWidth = {
             templates: "1200px",
             categories: "960px",
         } [this.tab];
-        
+
         return this.$mdMedia(`(max-width: ${maxWidth})`);
     }
 }
@@ -114,6 +113,5 @@ const ReferenceComponent: IComponentOptions = {
     controller: ReferenceCtrl,
     template: require("./reference.component.html") as string,
 };
-
 
 export default ReferenceComponent;

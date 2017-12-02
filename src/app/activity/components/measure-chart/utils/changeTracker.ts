@@ -1,18 +1,18 @@
-﻿
+
 export class ChangeTracker {
 
     private userSelection;
 
     public isFirstChange(changes): boolean {
         let isFirstChange = true;
-        for (let item in changes) {
+        for (const item in changes) {
             isFirstChange = isFirstChange && changes[item].isFirstChange();
         }
         return isFirstChange;
     };
 
     public isZoomOnlyChange(changes): boolean {
-        let zoomChanges = ["autoZoom","zoomInClick","zoomOutClick"];
+        const zoomChanges = ["autoZoom", "zoomInClick", "zoomOutClick"];
         return Object.keys(changes).every((c) => zoomChanges.indexOf(c) !== -1);
     };
 
@@ -24,14 +24,14 @@ export class ChangeTracker {
         if (!changes.select) {
             return false;
         }
-        let prev = changes.select.previousValue || [];
-        let curr = changes.select.currentValue || [];
+        const prev = changes.select.previousValue || [];
+        const curr = changes.select.currentValue || [];
         // check if it's a user selection
         if (this.isUserSelection(curr)) {
             return false;
         }
         if (curr.length === 0 && !this.userSelection) {
-            return true;//false;
+            return true; //false;
         }
         if (prev.length !== curr.length) {
             return true;
@@ -46,7 +46,7 @@ export class ChangeTracker {
         return false;
     };
 
-    public isUserSelection(select) : boolean {
+    public isUserSelection(select): boolean {
         if (select && select.length === 1) {
             return this.isEqualIntervals(select[0], this.userSelection);
         }
@@ -57,7 +57,7 @@ export class ChangeTracker {
         this.userSelection = (!intervals || !intervals.length) ? null : intervals[0];
     };
 
-    public resetUserSelection():void {
+    public resetUserSelection(): void {
         this.userSelection = null;
     }
 

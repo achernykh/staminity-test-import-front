@@ -14,33 +14,33 @@ export class ActivityHeaderCtrl implements IComponentController {
 
     private comments: number = null;
 
-    static $inject = ["$mdMedia","CommentService"];
+    public static $inject = ["$mdMedia", "CommentService"];
 
     constructor(private $mdMedia: any, private comment: CommentService) {
     }
 
-    $onInit() {
+    public $onInit() {
     }
 
-    openChat():void {
-        let chat: ChatSession = {type: "activity", id: this.item.activity.calendarItemId};
+    public openChat(): void {
+        const chat: ChatSession = {type: "activity", id: this.item.activity.calendarItemId};
         this.comment.openChat$.next(chat);
     }
 
-    closeChat():void {
+    public closeChat(): void {
         this.comment.openChat$.next(null);
     }
 
-    updateComments(response):void {
+    public updateComments(response): void {
         this.comments = response && response.hasOwnProperty("count") && response.count || null;
     }
 
-    toggleStrucuredMode() {
+    public toggleStrucuredMode() {
         this.item.structuredMode = !this.item.structuredMode;
     }
 }
 
-const ActivityHeaderComponent:IComponentOptions = {
+const ActivityHeaderComponent: IComponentOptions = {
     require: {
         item: "^calendarItemActivity",
     },

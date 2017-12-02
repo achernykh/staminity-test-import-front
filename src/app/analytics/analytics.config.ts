@@ -6,12 +6,11 @@ import GroupService from "../core/group.service";
 import ReferenceService from "../reference/reference.service";
 import {translateAnalytics} from "./analytics.translate";
 
-
-function configure($stateProvider:StateProvider,
-                   $translateProvider:any) {
+function configure($stateProvider: StateProvider,
+                   $translateProvider: any) {
 
     $stateProvider
-        .state("analytics", <StateDeclaration>{
+        .state("analytics", {
             url: "/analytics",
             loginRequired: true,
             authRequired: ["user"],
@@ -29,10 +28,10 @@ function configure($stateProvider:StateProvider,
                     group.getManagementProfile(groupId, 'coach')]**/
             },
             views: DefaultTemplate("analytics"),
-        });
+        } as StateDeclaration);
 
-    $translateProvider.translations("en", {analytics: translateAnalytics["en"]});
-    $translateProvider.translations("ru", {analytics: translateAnalytics["ru"]});
+    $translateProvider.translations("en", {analytics: translateAnalytics.en});
+    $translateProvider.translations("ru", {analytics: translateAnalytics.ru});
 }
 
 configure.$inject = ["$stateProvider", "$translateProvider"];

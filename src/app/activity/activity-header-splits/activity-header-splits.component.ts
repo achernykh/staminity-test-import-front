@@ -7,18 +7,18 @@ class ActivityHeaderSplitsCtrl implements IComponentController {
     public splits: IActivityIntervalL[];
     public sport: string;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 }
 
-const ActivityHeaderSplitsComponent:IComponentOptions = {
+const ActivityHeaderSplitsComponent: IComponentOptions = {
     bindings: {
         splits: "<",
         sport: "<",

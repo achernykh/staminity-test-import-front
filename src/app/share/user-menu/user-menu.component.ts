@@ -6,13 +6,13 @@ import { getUser, SessionService } from "../../core";
 import DisplayService from "../../core/display.service";
 import { UserMenuSettings } from "../application-menu/application-menu.constants";
 
-class UserMenuCtrl implements IComponentController{
+class UserMenuCtrl implements IComponentController {
 
     private menu: any[] = UserMenuSettings;
     private user: IUserProfile;
     private destroy = new Subject();
 
-    static $inject = ["$mdSidenav","$location","SessionService", "$state", "DisplayService"];
+    public static $inject = ["$mdSidenav", "$location", "SessionService", "$state", "DisplayService"];
 
     constructor(
         private $mdSidenav: any,
@@ -29,33 +29,33 @@ class UserMenuCtrl implements IComponentController{
         });
     }
 
-    $onDestroy() {
-        this.destroy.next(); 
+    public $onDestroy() {
+        this.destroy.next();
         this.destroy.complete();
     }
 
-    onUserMenu($mdOpenMenu, ev){
-        let originatorEv = ev;
+    public onUserMenu($mdOpenMenu, ev) {
+        const originatorEv = ev;
         $mdOpenMenu(ev);
     }
 
-    transitionToState(url) {
+    public transitionToState(url) {
         if (this.$state.current.name === url) {
             return;
         }
-        if(url.includes("http")) {
+        if (url.includes("http")) {
             window.open(url);
         } else {
             if (url !== "user" && url !== "settings/user") {
                 this.$state.go(url);
             } else {
-                this.$state.go(url,{uri: this.user.public.uri});
+                this.$state.go(url, {uri: this.user.public.uri});
             }
         }
     }
 }
 
-let UserMenuComponent: IComponentOptions = {
+const UserMenuComponent: IComponentOptions = {
     bindings: {
         id: "<",
     },

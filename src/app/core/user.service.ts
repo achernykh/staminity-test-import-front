@@ -13,22 +13,21 @@ import ReferenceService from "../reference/reference.service";
 import {getCurrentUserId, getUser, SessionService, SocketService} from "./index";
 import {IRESTService, PostData, PostFile} from "./rest.service";
 
-
 export default class UserService {
 
-    messageHandlers = {
+    public messageHandlers = {
         "systemFunctions": ({ value }) => this.SessionService.setPermissions(value),
         "systemFunction": (message) => this.updatePermissions(message),
         "groupMembership": (message) => this.updateGroup(new ProtocolGroupUpdate(message)),
         "controlledClub": (message) => this.updateClubs(new ProtocolGroupUpdate(message)),
     };
 
-    static $inject = ["SessionService", "SocketService", "RESTService", "ReferenceService"];
+    public static $inject = ["SessionService", "SocketService", "RESTService", "ReferenceService"];
 
     constructor(
         private SessionService: SessionService,
         private SocketService: SocketService,
-        private RESTService:IRESTService,
+        private RESTService: IRESTService,
         private ReferenceService: ReferenceService,
     ) {
         this.SessionService.getObservable()
@@ -46,7 +45,7 @@ export default class UserService {
         this.SocketService.messages
         .filter(({ type }) => this.messageHandlers[type])
         .subscribe((message) => {
-            let messageHandler = this.messageHandlers[message.type];
+            const messageHandler = this.messageHandlers[message.type];
             if (messageHandler) {
                 messageHandler(message);
             }
@@ -64,17 +63,17 @@ export default class UserService {
      * зон атлетов
      * @param connections
      */
-    setConnections(connections: IUserConnections) {
+    public setConnections(connections: IUserConnections) {
         if (connections && connections.allAthletes) {
             this.getTrainingZones(null, connections.allAthletes.groupId)
-            .then((result:IGetTrainigZonesResponse[]) => {
+            .then((result: IGetTrainigZonesResponse[]) => {
                 connections.allAthletes.groupMembers =
                     connections.allAthletes.groupMembers.map((athlete) =>
                         Object.assign(athlete,
                             {trainingZones: result.filter((r) => r.userId === athlete.userId)[0].trainingZones}));
                 return connections;
             }, (error) => {
-                throw `error in getTrainingZones => ${error}`;
+                throw new Error(`error in getTrainingZones => ${error}`);
             })
             .then((connections) => this.SessionService.updateUser({connections}));
         } else {
@@ -86,7 +85,7 @@ export default class UserService {
      * Запрос обьекта connections из userProfile пользователя
      * @returns {Promise<any>}
      */
-    getConnections() : Promise<any> {
+    public getConnections(): Promise<any> {
         return this.SocketService.send(new GetUserConnectionsRequest()).then((result) => result);
     }
 
@@ -96,7 +95,7 @@ export default class UserService {
      * @param groupId
      * @returns {Promise<any>}
      */
-    getTrainingZones(userId: number, groupId: number = null) : Promise<any> {
+    public getTrainingZones(userId: number, groupId: number = null): Promise<any> {
         return this.SocketService.send(new GetTrainingZonesRequest(userId, groupId)).then((result) => result.arrayResult);
     }
 
@@ -106,7 +105,7 @@ export default class UserService {
      * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
+    public getProfile(key: string|number, ws: boolean = true): Promise<IUserProfile | ISystemMessage> {
         return ws ? (
             this.SocketService.send(new GetUserRequest(key))
         ) : (
@@ -125,11 +124,11 @@ export default class UserService {
      * @param profile - может содержать частичные данные профиля, по секциям
      * @returns {Promise<T>}
      */
-    putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
+    public putProfile(userChanges: IUserProfile): Promise<IUserProfile> {
         return this.SocketService.send(new PutUserRequest(userChanges))
         .then((result) => result.value)
         .then(({ revision }) => {
-            let updatedUser = merge({}, userChanges, { revision });
+            const updatedUser = merge({}, userChanges, { revision });
             if (this.SessionService.isCurrentUserId(userChanges.userId)) {
                 this.SessionService.updateUser(updatedUser);
             }
@@ -147,8 +146,8 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileAvatar(file:any) : IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile("/user/avatar",file))
+    public postProfileAvatar(file: any): IHttpPromise<any> {
+        return this.RESTService.postFile(new PostFile("/user/avatar", file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
                 return response.data;
@@ -160,8 +159,8 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileBackground(file:any) : IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile("/user/background",file))
+    public postProfileBackground(file: any): IHttpPromise<any> {
+        return this.RESTService.postFile(new PostFile("/user/background", file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
                 return response.data;
@@ -177,7 +176,7 @@ export default class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: string[], ws:boolean = true) : Promise<any> {
+    public getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: string[], ws: boolean = true): Promise<any> {
         return ws ?
             this.SocketService.send(new GetSummaryStatisticsRequest(id, start, end, group, data)) :
             this.RESTService.postData(new PostData("/api/wsgate", new GetSummaryStatisticsRequest(id, start, end, group, data)))
@@ -188,15 +187,15 @@ export default class UserService {
      * Обновление состава групп текущего пользователя
      * @param message
      */
-    private updateGroup(message: ProtocolGroupUpdate) : void {
-        let connections = copy(this.SessionService.getUser().connections) || null;
-        let group:IGroupProfile = connections && connections[message.groupCode] || null;
+    private updateGroup(message: ProtocolGroupUpdate): void {
+        const connections = copy(this.SessionService.getUser().connections) || null;
+        const group: IGroupProfile = connections && connections[message.groupCode] || null;
 
-        if(!group) {
+        if (!group) {
             return;
         }
-        if(message.action === "I" && group.hasOwnProperty("groupMembers")){
-            if(message.groupCode === "allAthletes"){
+        if (message.action === "I" && group.hasOwnProperty("groupMembers")) {
+            if (message.groupCode === "allAthletes") {
                 this.getTrainingZones(message.userProfile.userId)
                     .then((result) => Object.assign(message.userProfile, {trainingZones: result[0]}))
                     .then((profile) => {
@@ -207,10 +206,10 @@ export default class UserService {
             } else {
                 group.groupMembers.push(message.userProfile);
             }
-        } else if(message.action === "D"){
-            let index: number = group.groupMembers.findIndex((m) => m.userId === message.userProfile.userId);
-            if(index !== -1){
-                group.groupMembers.splice(index,1);
+        } else if (message.action === "D") {
+            const index: number = group.groupMembers.findIndex((m) => m.userId === message.userProfile.userId);
+            if (index !== -1) {
+                group.groupMembers.splice(index, 1);
             }
         }
         connections[message.groupCode] = group;
@@ -218,25 +217,25 @@ export default class UserService {
     }
 
     private updateClubs(message: ProtocolGroupUpdate): void {
-        let connections = copy(this.SessionService.getUser().connections) || null;
-        let clubs:IGroupProfile[] = connections && connections.ControlledClubs || null;
+        const connections = copy(this.SessionService.getUser().connections) || null;
+        const clubs: IGroupProfile[] = connections && connections.ControlledClubs || null;
 
-        if(!clubs) {
+        if (!clubs) {
             return;
         }
 
-        if(message.action === "I"){
-            clubs.push(<IGroupProfile>message.groupProfile);
+        if (message.action === "I") {
+            clubs.push(message.groupProfile as IGroupProfile);
             //controlledClub.groupMembers.push(message.userProfile);
-        } else if(message.action === "D"){
-            let index:number = clubs.findIndex((g) => g.groupId === message.groupProfile.groupId);
-            if(index !== -1){
-                clubs.splice(index,1);
+        } else if (message.action === "D") {
+            const index: number = clubs.findIndex((g) => g.groupId === message.groupProfile.groupId);
+            if (index !== -1) {
+                clubs.splice(index, 1);
             }
-        } else if(message.action === "U"){
-            let index:number = clubs.findIndex((g) => g.groupId === message.groupProfile.groupId);
-            if(index !== -1){
-                clubs[index] = <IGroupProfile>message.groupProfile;
+        } else if (message.action === "U") {
+            const index: number = clubs.findIndex((g) => g.groupId === message.groupProfile.groupId);
+            if (index !== -1) {
+                clubs[index] = message.groupProfile as IGroupProfile;
             }
         }
         connections.ControlledClubs = clubs;
@@ -248,7 +247,7 @@ export default class UserService {
      * Ассинхронное сообщение с функциями приходит при каждом открытие сессии
      * @param permissions
      */
-    private updatePermissions(message: {action: string, value: any}):void {
+    private updatePermissions(message: {action: string, value: any}): void {
         this.SessionService.setPermissions(message.value);
     }
 

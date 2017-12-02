@@ -4,24 +4,24 @@ import "./activity-route.component.scss";
 import ActivityRouteDatamodel from "./activity-route.datamodel";
 
 class ActivityRouteCtrl implements IComponentController {
-    private data: Array<{lat:number, lng: number}>;
+    private data: Array<{lat: number, lng: number}>;
     private select: Array<{start: number, end: number}>;
-    private options: MapOptions ={};
+    private options: MapOptions = {};
     private zoomEnabled: boolean;
     private map;
 
-    static $inject = ["leafletData"];
+    public static $inject = ["leafletData"];
     constructor(private leafletData: any) {
 
     }
 
-    $onChanges(change: any): void {
-        if(!change.select.isFirstChange()) {
+    public $onChanges(change: any): void {
+        if (!change.select.isFirstChange()) {
             this.$onInit();
         }
     }
 
-    $onInit() {
+    public $onInit() {
         this.map = new ActivityRouteDatamodel(this.data, this.select);
         // показывать или нет панель зума
         this.options.zoomControl = this.zoomEnabled;
@@ -29,15 +29,15 @@ class ActivityRouteCtrl implements IComponentController {
         this.leafletData.getMap()
             .then((map) => {
                 map.fitBounds(this.select.length === 0 ?
-                    this.map.route.map((e) => L.GeoJSON.coordsToLatLng([e.lng,e.lat])) :
-                    this.map.selectCoordinates.map((e) => L.GeoJSON.coordsToLatLng([e.lng,e.lat])));
+                    this.map.route.map((e) => L.GeoJSON.coordsToLatLng([e.lng, e.lat])) :
+                    this.map.selectCoordinates.map((e) => L.GeoJSON.coordsToLatLng([e.lng, e.lat])));
                 map.invalidateSize();
             });
     }
 
 }
 
-const ActivityRouteComponent:IComponentOptions = {
+const ActivityRouteComponent: IComponentOptions = {
 
     controller: ActivityRouteCtrl,
     template: `<leaflet width="100%" height="20vh"

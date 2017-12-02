@@ -26,7 +26,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     public FTPMeasures: string[] = ["heartRate", "speed", "power"];
     public from: string = "intensityLevelFrom" || "intensityByFtpFrom";
     public to: string = "intensityLevelTo" || "intensityByFtpTo";
-    private readonly index: any = [{from: "intensityByFtpFrom", to: "intensityByFtpTo"},{from: "intensityLevelFrom", to: "intensityLevelTo"}];
+    private readonly index: any = [{from: "intensityByFtpFrom", to: "intensityByFtpTo"}, {from: "intensityLevelFrom", to: "intensityLevelTo"}];
 
     private percentComplete: Object = {};
 
@@ -49,7 +49,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         limitSelect: false,
         pageSelect: false,
     };
-    private query:Object = {
+    private query: Object = {
         order: "code",
         limit: 5,
         page: 1,
@@ -63,7 +63,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         power: "avgValue",
     };
 
-    static $inject = ["$scope", "AuthService", "quillConfig"];
+    public static $inject = ["$scope", "AuthService", "quillConfig"];
 
     constructor(
         private $scope: any,
@@ -72,14 +72,14 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
         this.$scope.measure = {
-            swim: ["movingDuration","distance", "heartRate","speed"],
-            bike: ["movingDuration","distance","heartRate", "speed","power"],
-            run: ["movingDuration","distance","heartRate", "speed"],
-            strength: ["movingDuration","distance","heartRate"],
-            transition: ["movingDuration","distance","heartRate", "speed"],
-            ski: ["movingDuration","distance","heartRate", "speed"],
-            other: ["movingDuration","distance","heartRate", "speed"],
-            default: ["movingDuration","distance","heartRate", "speed"],
+            swim: ["movingDuration", "distance", "heartRate", "speed"],
+            bike: ["movingDuration", "distance", "heartRate", "speed", "power"],
+            run: ["movingDuration", "distance", "heartRate", "speed"],
+            strength: ["movingDuration", "distance", "heartRate"],
+            transition: ["movingDuration", "distance", "heartRate", "speed"],
+            ski: ["movingDuration", "distance", "heartRate", "speed"],
+            other: ["movingDuration", "distance", "heartRate", "speed"],
+            default: ["movingDuration", "distance", "heartRate", "speed"],
         };
 
         this.$scope.measureOrder = {
@@ -98,7 +98,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.$scope.measure[this.item.activity.sportBasic || "default"].indexOf(measure.$key) !== -1;
     }
 
-    $onInit() {
+    public $onInit() {
         // расчет процента по позициям планогово задания в тренировке
         this.prepareData();
         this.$scope.measure[this.item.activity.sportBasic || "default"].forEach((key) => {
@@ -110,12 +110,12 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     }
 
-    $onDestroy(): void {
+    public $onDestroy(): void {
         this.validateForm();
     }
 
-    $onChanges(changes: any): void {
-        if(changes.hasOwnProperty("change") && !changes.change.isFirstChange()) {
+    public $onChanges(changes: any): void {
+        if (changes.hasOwnProperty("change") && !changes.change.isFirstChange()) {
             this.plan = null;
             this.actual = null;
             setTimeout(() => {
@@ -126,11 +126,11 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
     }
 
-    link(url) {
+    public link(url) {
         window.open(url);
     }
 
-    showRow(measure: string) {
+    public showRow(measure: string) {
 
         if (this.item.mode !== "view") {
             return true;
@@ -143,14 +143,14 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
     }
 
-    prepareData(): void {
+    public prepareData(): void {
         this.plan = this.item.activity.intervalPW;
         this.actual = this.item.activity.intervalW.calcMeasures;
         this.$scope.$evalAsync();
     }
 
-    prepareValues() {
-        if(this.ftpMode) {
+    public prepareValues() {
+        if (this.ftpMode) {
             this.from = "intensityByFtpFrom";
             this.to = "intensityByFtpTo";
         } else {
@@ -159,29 +159,29 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
     }
 
-    ftpModeChange(mode: FtpState) {
+    public ftpModeChange(mode: FtpState) {
         this.ftpMode = mode;
         this.item.ftpMode = mode;
         this.prepareValues();
     }
 
-    isFTP() {
+    public isFTP() {
         return this.ftpMode === FtpState.On;
     }
 
-    isInterval(key) {
-        return ["speed","heartRate","power"].indexOf(key) !== -1;
+    public isInterval(key) {
+        return ["speed", "heartRate", "power"].indexOf(key) !== -1;
     }
 
-    getFTP(measure: string, sport: string = this.sport):number {
-        let zones = this.item.user.trainingZones;
+    public getFTP(measure: string, sport: string = this.sport): number {
+        const zones = this.item.user.trainingZones;
         return (this.isInterval(measure) && 0) ||
-            (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport]["FTP"]) ||
-            (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty("default") && zones[measure]["default"]["FTP"]) || null;
+            (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport].FTP) ||
+            (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty("default") && zones[measure].default.FTP) || null;
     }
 
-    changeValue(key) {
-        if(!!!key) {
+    public changeValue(key) {
+        if (!!!key) {
             return;
         }
         this.clearTemplate();
@@ -193,67 +193,67 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.updateForm();
     }
 
-    completeAbsoluteMeasure(key) {
-        this.plan[key][this.index[FtpState.Off]["from"]] = this.plan[key][this.index[FtpState.On]["from"]] * this.getFTP(key);
-        this.plan[key][this.index[FtpState.Off]["to"]] = this.plan[key][this.index[FtpState.On]["to"]] * this.getFTP(key);
+    public completeAbsoluteMeasure(key) {
+        this.plan[key][this.index[FtpState.Off].from] = this.plan[key][this.index[FtpState.On].from] * this.getFTP(key);
+        this.plan[key][this.index[FtpState.Off].to] = this.plan[key][this.index[FtpState.On].to] * this.getFTP(key);
     }
 
-    completeFtpMeasure(key) {
-        this.plan[key][this.index[FtpState.On]["from"]] = this.plan[key][this.index[FtpState.Off]["from"]] / this.getFTP(key);
-        this.plan[key][this.index[FtpState.On]["to"]] = this.plan[key][this.index[FtpState.Off]["to"]] / this.getFTP(key);
+    public completeFtpMeasure(key) {
+        this.plan[key][this.index[FtpState.On].from] = this.plan[key][this.index[FtpState.Off].from] / this.getFTP(key);
+        this.plan[key][this.index[FtpState.On].to] = this.plan[key][this.index[FtpState.Off].to] / this.getFTP(key);
     }
 
-    prepareDataForUpdate() {
-        this.plan.durationMeasure = (!!this.plan.distance["durationValue"] && "distance") ||
-            (!!this.plan.movingDuration["durationValue"] && "movingDuration") || null;
+    public prepareDataForUpdate() {
+        this.plan.durationMeasure = (!!this.plan.distance.durationValue && "distance") ||
+            (!!this.plan.movingDuration.durationValue && "movingDuration") || null;
 
         this.plan.durationValue =
-            (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure]["durationValue"]) || null;
+            (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure].durationValue) || null;
 
         this.plan.intensityMeasure =
-            ((this.plan.heartRate[this.index[FtpState.Off]["from"]] || this.plan.heartRate[this.index[FtpState.On]["from"]]) && "heartRate") ||
-            ((this.plan.speed[this.index[FtpState.Off]["from"]] || this.plan.speed[this.index[FtpState.On]["from"]]) && "speed") ||
-            ((this.plan.power[this.index[FtpState.Off]["from"]] || this.plan.power[this.index[FtpState.On]["from"]]) && "power") || null;
+            ((this.plan.heartRate[this.index[FtpState.Off].from] || this.plan.heartRate[this.index[FtpState.On].from]) && "heartRate") ||
+            ((this.plan.speed[this.index[FtpState.Off].from] || this.plan.speed[this.index[FtpState.On].from]) && "speed") ||
+            ((this.plan.power[this.index[FtpState.Off].from] || this.plan.power[this.index[FtpState.On].from]) && "power") || null;
 
         this.plan.intensityLevelFrom =
-            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.Off]["from"]]) || null;
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.Off].from]) || null;
         this.plan.intensityLevelTo =
-            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.Off]["to"]]) || null;
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.Off].to]) || null;
 
         this.plan.intensityByFtpFrom =
-            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.On]["from"]]) || null;
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.On].from]) || null;
         this.plan.intensityByFtpTo =
-            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.On]["to"]]) || null;
+            (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.On].to]) || null;
     }
 
-    calcPercent(key: string): number {
+    public calcPercent(key: string): number {
 
-        let plan = (this.plan[key].hasOwnProperty("durationValue") && this.plan[key].durationValue) ||
-            (this.plan[key][this.index[FtpState.Off]["from"]] === this.plan[key][this.index[FtpState.Off]["to"]] && this.plan[key][this.index[FtpState.Off]["from"]]) ||
-            (this.plan[key][this.index[FtpState.Off]["from"]] !== this.plan[key][this.index[FtpState.Off]["to"]] && this.plan[key]) || null;
+        const plan = (this.plan[key].hasOwnProperty("durationValue") && this.plan[key].durationValue) ||
+            (this.plan[key][this.index[FtpState.Off].from] === this.plan[key][this.index[FtpState.Off].to] && this.plan[key][this.index[FtpState.Off].from]) ||
+            (this.plan[key][this.index[FtpState.Off].from] !== this.plan[key][this.index[FtpState.Off].to] && this.plan[key]) || null;
 
-        let actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.valueType[key]]) || null;
+        const actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.valueType[key]]) || null;
 
         // для расчета процента необходимо наличие плана и факта по позиции
-        if(!!plan && !!actual){
+        if (!!plan && !!actual) {
             if (typeof plan !== "object") {
                 return actual / plan;
             } else if (key === "speed") { //TODO сделать метод для определния велечин с обратным счетом
-                return  ((actual <= plan[this.index[FtpState.Off]["from"]] && actual >= plan[this.index[FtpState.Off]["to"]]) && 1) ||
-                    ((actual <= plan[this.index[FtpState.Off]["to"]]) && actual/plan[this.index[FtpState.Off]["to"]]) ||
-                    ((actual >= plan[this.index[FtpState.Off]["from"]]) && actual/plan[this.index[FtpState.Off]["from"]]);
+                return  ((actual <= plan[this.index[FtpState.Off].from] && actual >= plan[this.index[FtpState.Off].to]) && 1) ||
+                    ((actual <= plan[this.index[FtpState.Off].to]) && actual / plan[this.index[FtpState.Off].to]) ||
+                    ((actual >= plan[this.index[FtpState.Off].from]) && actual / plan[this.index[FtpState.Off].from]);
             } else {
-                return  ((actual >= plan[this.index[FtpState.Off]["from"]] && actual <= plan[this.index[FtpState.Off]["to"]]) && 1) ||
-                    ((actual >= plan[this.index[FtpState.Off]["to"]]) && actual/plan[this.index[FtpState.Off]["to"]]) ||
-                    ((actual <= plan[this.index[FtpState.Off]["from"]]) && actual/plan[this.index[FtpState.Off]["from"]]);
+                return  ((actual >= plan[this.index[FtpState.Off].from] && actual <= plan[this.index[FtpState.Off].to]) && 1) ||
+                    ((actual >= plan[this.index[FtpState.Off].to]) && actual / plan[this.index[FtpState.Off].to]) ||
+                    ((actual <= plan[this.index[FtpState.Off].from]) && actual / plan[this.index[FtpState.Off].from]);
             }
         } else {
             return null;
         }
     }
 
-    changeParam() {
-        setTimeout(()=>{
+    public changeParam() {
+        setTimeout(() => {
             this.clearTemplate();
             this.validateForm();
             this.updateForm();
@@ -261,7 +261,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }, 100);
     }
 
-    validateForm() {
+    public validateForm() {
 
         /**if (this.form.hasOwnProperty('plan_distance')) {
             this.form.$setValidity('needDuration', this.item.activity.structured || (!this.item.activity.structured &&
@@ -270,40 +270,40 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }**/
 
         if (this.form.hasOwnProperty("plan_distance")) {
-            this.form["plan_distance"].$setValidity("needDuration",
-                this.form["plan_distance"].$modelValue > 0 ||
-                this.form["plan_movingDuration"].$modelValue > 0 ||
-                this.form.hasOwnProperty("actual_distance") && this.form["actual_distance"].$modelValue > 0 ||
-                this.form.hasOwnProperty("actual_movingDuration") &&this.form["actual_movingDuration"].$modelValue > 0);
+            this.form.plan_distance.$setValidity("needDuration",
+                this.form.plan_distance.$modelValue > 0 ||
+                this.form.plan_movingDuration.$modelValue > 0 ||
+                this.form.hasOwnProperty("actual_distance") && this.form.actual_distance.$modelValue > 0 ||
+                this.form.hasOwnProperty("actual_movingDuration") && this.form.actual_movingDuration.$modelValue > 0);
 
-            this.form["plan_movingDuration"].$setValidity("needDuration",
-                this.form["plan_distance"].$modelValue > 0 ||
-                this.form["plan_movingDuration"].$modelValue > 0 ||
-                this.form.hasOwnProperty("actual_distance") && this.form["actual_distance"].$modelValue > 0 ||
-                this.form.hasOwnProperty("actual_movingDuration") && this.form["actual_movingDuration"].$modelValue > 0);
+            this.form.plan_movingDuration.$setValidity("needDuration",
+                this.form.plan_distance.$modelValue > 0 ||
+                this.form.plan_movingDuration.$modelValue > 0 ||
+                this.form.hasOwnProperty("actual_distance") && this.form.actual_distance.$modelValue > 0 ||
+                this.form.hasOwnProperty("actual_movingDuration") && this.form.actual_movingDuration.$modelValue > 0);
 
             // Пользователь может указать или расстояние, или время
-            this.form["plan_distance"].$setValidity("singleDuration",
-                !(this.form["plan_distance"].$modelValue > 0 && this.form["plan_movingDuration"].$modelValue > 0));
-            this.form["plan_movingDuration"].$setValidity("singleDuration",
-                !(this.form["plan_distance"].$modelValue > 0 && this.form["plan_movingDuration"].$modelValue > 0));
+            this.form.plan_distance.$setValidity("singleDuration",
+                !(this.form.plan_distance.$modelValue > 0 && this.form.plan_movingDuration.$modelValue > 0));
+            this.form.plan_movingDuration.$setValidity("singleDuration",
+                !(this.form.plan_distance.$modelValue > 0 && this.form.plan_movingDuration.$modelValue > 0));
 
             // Пользователь может указать только один парметр интенсивности
-            if (this.form["plan_heartRate"] && this.form["plan_speed"]) {
-                this.form["plan_heartRate"].$setValidity("singleIntensity",
-                    !(this.form["plan_heartRate"].$modelValue[this.index[FtpState.Off]["from"]] > 0 &&
-                    this.form["plan_speed"].$modelValue[this.index[FtpState.Off]["from"]] > 0));
-                this.form["plan_speed"].$setValidity("singleIntensity",
-                    !(this.form["plan_heartRate"].$modelValue[this.index[FtpState.Off]["from"]] > 0 &&
-                    this.form["plan_speed"].$modelValue[this.index[FtpState.Off]["from"]] > 0));
+            if (this.form.plan_heartRate && this.form.plan_speed) {
+                this.form.plan_heartRate.$setValidity("singleIntensity",
+                    !(this.form.plan_heartRate.$modelValue[this.index[FtpState.Off].from] > 0 &&
+                    this.form.plan_speed.$modelValue[this.index[FtpState.Off].from] > 0));
+                this.form.plan_speed.$setValidity("singleIntensity",
+                    !(this.form.plan_heartRate.$modelValue[this.index[FtpState.Off].from] > 0 &&
+                    this.form.plan_speed.$modelValue[this.index[FtpState.Off].from] > 0));
             }
         }
 
         // Планировать в будущем может:
         // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
-        if (this.form["dateStart"]) {
-            this.form["dateStart"].$setValidity("needPermissionForFeature",
-                !isFutureDay(this.form["dateStart"].$modelValue) ||
+        if (this.form.dateStart) {
+            this.form.dateStart.$setValidity("needPermissionForFeature",
+                !isFutureDay(this.form.dateStart.$modelValue) ||
                 this.AuthService.isActivityPlan() ||
                 (!this.item.isOwner && this.AuthService.isActivityPlanAthletes()));
 
@@ -319,7 +319,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
      * 1) которые есть в фильтре задания
      * 2) по которым есть план
      */
-    calculateCompletePercent():number {
+    public calculateCompletePercent(): number {
 
         return ((this.plan.durationMeasure && this.plan.intensityMeasure) &&
             this.percentComplete[this.plan.durationMeasure] * this.percentComplete[this.plan.intensityMeasure] ) ||
@@ -327,11 +327,11 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             (this.plan.intensityMeasure && this.percentComplete[this.plan.intensityMeasure]) || null;
     }
 
-    changeStructuredMode(){
+    public changeStructuredMode() {
         this.item.structuredMode ? this.item.selectedTab = HeaderStructuredTab.Segments : angular.noop();
     }
 
-    clearTemplate() {
+    public clearTemplate() {
         this.item.activity.header.template = null;
     }
 
@@ -341,7 +341,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
 }
 
-const AssignmentSummaryNonStructuredComponent:IComponentOptions = {
+const AssignmentSummaryNonStructuredComponent: IComponentOptions = {
     bindings: {
         sport: "<",
         form: "<", // item.assignmentForm

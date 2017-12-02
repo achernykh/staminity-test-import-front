@@ -24,19 +24,19 @@ export class ActivityHeader implements IActivityHeader {
     // Вспомогательные поля фронт-енд
     public template: IActivityTemplate;
 
-    constructor(header?: IActivityHeader){
+    constructor(header?: IActivityHeader) {
         this.startTimestamp = new Date();
         Object.assign(this, header || {});
     }
 
-    build():IActivityHeader{
+    public build(): IActivityHeader {
         this.templateId = (this.template && this.template.id) || null;
         return this.clear();
     }
 
-    clear():IActivityHeader {
-        let params: string[] = ["template"];
+    public clear(): IActivityHeader {
+        const params: string[] = ["template"];
         params.map((p) => delete this[p]);
-        return <IActivityHeader>this;
+        return this as IActivityHeader;
     }
 }

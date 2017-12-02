@@ -5,17 +5,17 @@ import {IUserProfile} from "../../../../api";
 import {IAuthService} from "../../auth/auth.service";
 import {SessionService} from "../../core";
 import DisplayService from "../../core/display.service";
-require("./landingpage.component.scss");
+import "./landingpage.component.scss";
 
 class LandingPageCtrl implements IComponentController {
 
     private readonly slides: any = {
-        athlete: ["lp-user-01.png","lp-user-02.png","lp-user-03.png"],
+        athlete: ["lp-user-01.png", "lp-user-02.png", "lp-user-03.png"],
         coach: ["lp-coach-01.png"],
         club: ["lp-club-01.png"],
     };
 
-    static $inject = ["AuthService", "$state", "SessionService", "DisplayService"];
+    public static $inject = ["AuthService", "$state", "SessionService", "DisplayService"];
 
     constructor(private AuthService: IAuthService,
                 private $state: StateService,
@@ -24,12 +24,12 @@ class LandingPageCtrl implements IComponentController {
 
     }
 
-    get user () : IUserProfile {
+    get user(): IUserProfile {
         return this.SessionService.getUser();
     }
 
-    go() {
-        if(this.AuthService.isAuthenticated()) {
+    public go() {
+        if (this.AuthService.isAuthenticated()) {
             this.$state.go("calendar", {uri: this.user.public.uri});
         } else {
             this.$state.go("signup");

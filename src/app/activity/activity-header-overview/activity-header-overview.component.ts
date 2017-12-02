@@ -14,13 +14,13 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
     public intervalPW: ActivityIntervalPW;
     public intervalW: ActivityIntervalW;
 
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
         // для удобства верстки создаем быстрый путь к данным
         this.mode = this.item.mode;
         this.activity = this.item.activity;
@@ -28,12 +28,12 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         this.intervalW = this.item.activity.intervals.W;
     }
 
-    onChangeForm( plan: IActivityIntervalPW ,actual: ICalcMeasures, form: INgModelController) {
+    public onChangeForm( plan: IActivityIntervalPW , actual: ICalcMeasures, form: INgModelController) {
 
     }
 }
 
-const ActivityHeaderOverviewComponent:IComponentOptions = {
+const ActivityHeaderOverviewComponent: IComponentOptions = {
     require: {
         item: "^calendarItemActivity",
     },

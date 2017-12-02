@@ -25,8 +25,7 @@ export interface IAreaSettings {
     solidColor?: string;
 }
 
-export interface ISelectIntervalArea
-{
+export interface ISelectIntervalArea {
     area: IAreaSettings;
     borderArea: IAreaSettings;
 }
@@ -78,17 +77,16 @@ export interface IAnimationSettigs {
     ease: (input: number) => number;
 }
 
-export interface IActivityChartSettings
-{
-    // Min chart width. 
-    // if chart's container it is narrower than the value, 
+export interface IActivityChartSettings {
+    // Min chart width.
+    // if chart's container it is narrower than the value,
     // it size will be ignored
     minWidth: number;
-    // Min value of  the chart height to  its width 
+    // Min value of  the chart height to  its width
     minAspectRation: number;
     labelOffset: number;
     tooltipOffset: number;
-    // if true will resize on window resize according to 
+    // if true will resize on window resize according to
     // the new container size
     autoResizable: boolean;
     // chart anomation settings on load and data changes

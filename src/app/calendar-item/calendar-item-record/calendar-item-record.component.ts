@@ -12,46 +12,46 @@ import { CalendarItemRecord } from "./calendar-item-record.datamodel";
 class CalendarItemRecordCtrl implements IComponentController {
 
     // bind
-    data: ICalendarItem;
-    mode: "put" | "view" | "post";
-    owner: IUserProfile;
-    calendarRange: string[];
-    onCancel: () => IPromise<void>;
+    public data: ICalendarItem;
+    public mode: "put" | "view" | "post";
+    public owner: IUserProfile;
+    public calendarRange: string[];
+    public onCancel: () => IPromise<void>;
 
     // public
-    record: CalendarItemRecord;
-    user: IUserProfile;
+    public record: CalendarItemRecord;
+    public user: IUserProfile;
 
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
 
-    static $inject = ["calendarItemRecordConfig", "SessionService", "CalendarService", "message", "quillConfig"];
+    public static $inject = ["calendarItemRecordConfig", "SessionService", "CalendarService", "message", "quillConfig"];
 
-    constructor (private config: ICalendarItemRecordConfig,
-                 private session: SessionService,
-                 private calendarService: CalendarService,
-                 private message: MessageService,
-                 private quillConf: IQuillConfig) {
+    constructor(private config: ICalendarItemRecordConfig,
+                private session: SessionService,
+                private calendarService: CalendarService,
+                private message: MessageService,
+                private quillConf: IQuillConfig) {
 
     }
 
-    $onInit () {
+    public $onInit() {
         this.user = this.session.getUser();
         this.record = new CalendarItemRecord(this.data, this.user);
     }
 
-    toggle (item, list) {
-        let idx = list.indexOf(item);
+    public toggle(item, list) {
+        const idx = list.indexOf(item);
         idx > -1 ? list.splice(idx, 1) : list.push(item);
         this.changeForm();
     }
 
-    exists (item, list) {
+    public exists(item, list) {
         return list.indexOf(item) > -1;
     }
 
-    changeRepeatMode (): void {
+    public changeRepeatMode(): void {
         if (this.record.isRepeated) {
 
         } else {
@@ -59,12 +59,11 @@ class CalendarItemRecordCtrl implements IComponentController {
         }
     }
 
-    changeForm (): void {
+    public changeForm(): void {
         this.recordForm.$setDirty();
     }
 
-    onSave () {
-
+    public onSave() {
 
         [this.record.recordHeader.editParams.asyncEventsDateFrom,
             this.record.recordHeader.editParams.asyncEventsDateTo] = this.calendarRange;
@@ -72,14 +71,14 @@ class CalendarItemRecordCtrl implements IComponentController {
         if ( this.mode === "post" ) {
             this.calendarService.postItem(this.record.build(this.mode))
                 .then((response) => {
-                    this.record.compile(response);// сохраняем id, revision в обьекте
+                    this.record.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo("recordCreated");
                     this.close();
                 }, (error) => this.message.toastError(error));
         }
         if ( this.mode === "put" ) {
             this.calendarService.putItem(this.record.build(this.mode))
-                .then((response)=> {
+                .then((response) => {
                     this.record.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo("recordUpdated");
                     this.close();
@@ -87,7 +86,7 @@ class CalendarItemRecordCtrl implements IComponentController {
         }
     }
 
-    onDelete(rmParams: Object) {
+    public onDelete(rmParams: Object) {
         this.calendarService.deleteItem("F", [this.record.calendarItemId], rmParams)
             .then(() => {
                 this.message.toastInfo("recordDeleted");
@@ -95,11 +94,11 @@ class CalendarItemRecordCtrl implements IComponentController {
             }, (error) => this.message.toastError(error));
     }
 
-    private get isViewMode (): boolean {
+    private get isViewMode(): boolean {
         return this.mode === "view";
     }
 
-    private close (): void {
+    private close(): void {
         this.onCancel();
     }
 

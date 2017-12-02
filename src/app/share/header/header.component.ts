@@ -21,13 +21,13 @@ class HeaderCtrl implements IComponentController {
     private profile$: Observable<IUserProfile>;
     private internet$: Observable<boolean>;
     private readonly routeUri: string = ".uri"; //константа для формирования пути в роутере для атлета
-    private readonly athleteSelectorStates: string[] = ["calendar","calendar-my","settings/user"];
+    private readonly athleteSelectorStates: string[] = ["calendar", "calendar-my", "settings/user"];
     private openChat: ChatSession;
     private internetStatus: boolean = true;
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "RequestsService", "NotificationService",
-        "CommentService","$mdDialog", "$state","toaster", "DisplayService", "SocketService"];
+    public static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "RequestsService", "NotificationService",
+        "CommentService", "$mdDialog", "$state", "toaster", "DisplayService", "SocketService"];
 
     constructor(
         private $scope,
@@ -51,13 +51,13 @@ class HeaderCtrl implements IComponentController {
         this.socket.connections
         .takeUntil(this.destroy)
         .subscribe((status) => this.internetStatus = !!status);
-        
+
         this.comment.openChat$
         .takeUntil(this.destroy)
         .subscribe((chat) => this.openChat = chat);
     }
 
-    $onInit() {
+    public $onInit() {
         this.notificationsList = this.NotificationService.notifications;
 
         this.NotificationService.notificationsChanges
@@ -66,7 +66,7 @@ class HeaderCtrl implements IComponentController {
             this.notificationsList = notifications;
             this.$scope.$applyAsync();
         });
-        
+
         this.requestsList = this.RequestsService.requests;
 
         this.RequestsService.requestsChanges
@@ -77,38 +77,38 @@ class HeaderCtrl implements IComponentController {
         });
     }
 
-    $onDestroy() {
-        this.destroy.next(); 
+    public $onDestroy() {
+        this.destroy.next();
         this.destroy.complete();
     }
-    
+
     get notifications() {
         return this.notificationsList.filter((notification) => !notification.isRead).length;
     }
-    
+
     get requests() {
-        let userId = this.user.userId;
+        const userId = this.user.userId;
         return this.requestsList.filter((request) => request.receiver.userId === userId && !request.updated).length;
     }
 
-    onBack(){
+    public onBack() {
         window.history.back();
     }
 
-    historyLength():number {
+    public historyLength(): number {
         return window.history.length;
     }
 
-    onMenu($mdOpenMenu, ev){
-        let originatorEv = ev;
+    public onMenu($mdOpenMenu, ev) {
+        const originatorEv = ev;
         $mdOpenMenu(ev);
     }
 
-    toggleSlide(component) {
+    public toggleSlide(component) {
         this.$mdSidenav(component).toggle().then(() => angular.noop);
     }
 
-    showAthleteSelector($event){
+    public showAthleteSelector($event) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -135,14 +135,14 @@ class HeaderCtrl implements IComponentController {
                 console.log("cancel athlete selector"));
     }
 
-    setAthlete(response: {user: IUserProfile}) {
+    public setAthlete(response: {user: IUserProfile}) {
         //this.athlete = response.user;
         console.log("setAthlete", this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
         // костыли ((
         this.$state.go(this.$state.current.name === "calendar-my" ? "calendar" : this.$state.current.name , {uri: response.user.public.uri});
     }
 
-    isEnableAthleteSelector() {
+    public isEnableAthleteSelector() {
         return (this.athleteSelectorStates.indexOf(this.$state.current.name) !== -1) && this.AuthService.isCoach();
     }
 }
@@ -174,4 +174,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ["$scope","$mdDialog"];
+DialogController.$inject = ["$scope", "$mdDialog"];

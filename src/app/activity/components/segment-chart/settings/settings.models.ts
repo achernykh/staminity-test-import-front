@@ -54,8 +54,7 @@ export interface IScaleOffset {
     max: number;
 }
 
-export interface IPlanChartSettings
-{
+export interface IPlanChartSettings {
     minWidth: number;
     minAspectRation: number;
     autoResizable: boolean;

@@ -1,13 +1,13 @@
 export interface IWSResponse {
-    requestId:number;
+    requestId: number;
     errorMessage?: string;
-    data:any;
+    data: any;
 }
 
 export interface IWSRequest {
-    requestId?:number;
-    requestType?:string;
-    requestData?:any;
+    requestId?: number;
+    requestType?: string;
+    requestData?: any;
 }
 
 export interface ISocketAsyncMessage {
@@ -18,9 +18,9 @@ export interface ISocketAsyncMessage {
 
 export class Deferred<T> {
 
-    promise: Promise<T>;
-    resolve: (value?: T | PromiseLike<T>) => void;
-    reject:  (reason?: any) => void;
+    public promise: Promise<T>;
+    public resolve: (value?: T | PromiseLike<T>) => void;
+    public reject: (reason?: any) => void;
 
     constructor() {
         this.promise = new Promise<T>((resolve, reject) => {

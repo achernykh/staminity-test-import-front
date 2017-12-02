@@ -1,7 +1,6 @@
 ﻿import * as d3 from "d3";
 import { ActivityChartMode, FillType, IActivityChartSettings } from "./settings.models";
 
-
 const DefaultChartSettings: IActivityChartSettings = {
     minWidth: 320,
     minAspectRation: 0.40,
@@ -64,7 +63,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
         axis: {
             color: "#5677fc",
-            tickMinStep: 5,//30,
+            tickMinStep: 5, //30,
             tickMinDistance: 50,
             ticksPerLabel: 1,
             hideOnWidth: 0,

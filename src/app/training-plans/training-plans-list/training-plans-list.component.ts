@@ -10,54 +10,54 @@ import { TrainingPlansList } from "./training-plans-list.datamodel";
 class TrainingPlansListCtrl implements IComponentController {
 
     // bind
-    plans: TrainingPlansList;
-    filter: ITrainingPlanSearchRequest;
-    onEvent: (response: Object) => IPromise<void>;
+    public plans: TrainingPlansList;
+    public filter: ITrainingPlanSearchRequest;
+    public onEvent: (response: Object) => IPromise<void>;
 
     // private
 
     // inject
-    static $inject = ["$scope", "TrainingPlansService", "TrainingPlanDialogService"];
+    public static $inject = ["$scope", "TrainingPlansService", "TrainingPlanDialogService"];
 
-    constructor (private $scope: any,
-                 private trainingPlansService: TrainingPlansService,
-                 private trainingPlanDialogService: TrainingPlanDialogService) {
-
-    }
-
-    $onInit () {
+    constructor(private $scope: any,
+                private trainingPlansService: TrainingPlansService,
+                private trainingPlanDialogService: TrainingPlanDialogService) {
 
     }
 
-    $onChanges (changes): void {
-        if (this.filter && !changes[ "filter" ].isFirstChanges) {
+    public $onInit() {
+
+    }
+
+    public $onChanges(changes): void {
+        if (this.filter && !changes.filter.isFirstChanges) {
             this.trainingPlansService.search(this.filter).then(this.updateList.bind(this));
         }
     }
 
-    post (env: Event) {
+    public post(env: Event) {
         this.open(env, FormMode.Post);
     }
 
-    view (env: Event, plan: TrainingPlan) {
+    public view(env: Event, plan: TrainingPlan) {
         this.open(env, FormMode.View, plan);
     }
 
-    edit (env: Event, plan) {
+    public edit(env: Event, plan) {
         this.open(env, FormMode.Put, plan);
     }
 
-    delete (planId: number) {
+    public delete(planId: number) {
         this.trainingPlansService.delete(planId)
-            .then(() => this.plans.delete(planId), (error) => {debugger;})
+            .then(() => this.plans.delete(planId), (error) => {debugger; })
             .then(() => this.update());
     }
 
-    private updateList (list: ITrainingPlanSearchResult): void {
+    private updateList(list: ITrainingPlanSearchResult): void {
         this.plans = new TrainingPlansList(list.items);
     }
 
-    private open (env: Event, mode: FormMode, plan?: TrainingPlan): void {
+    private open(env: Event, mode: FormMode, plan?: TrainingPlan): void {
 
         this.trainingPlanDialogService.open(env, mode, plan)
             .then((response: {mode: FormMode, plan: TrainingPlan}) => {
@@ -71,7 +71,7 @@ class TrainingPlansListCtrl implements IComponentController {
             .then((plan) => this.update());
     }
 
-    private update (): void {
+    private update(): void {
         this.$scope.$applyAsync();
     }
 

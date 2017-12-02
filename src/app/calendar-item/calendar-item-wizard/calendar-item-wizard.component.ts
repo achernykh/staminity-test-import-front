@@ -13,15 +13,15 @@ class CalendarItemWizardCtrl implements IComponentController {
     public onSelect: (result: {itemType: string, activityType: IActivityType}) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
 
-    private activityTypes: IActivityType[] = activityTypes.filter((t)=>t.enabled && t.isBasic);
+    private activityTypes: IActivityType[] = activityTypes.filter((t) => t.enabled && t.isBasic);
 
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 }
@@ -32,14 +32,14 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
     public date: Date;
     public event: any;
 
-    static $inject = ["$scope","$mdDialog"];
+    public static $inject = ["$scope", "$mdDialog"];
 
-    constructor(private $scope, private $mdDialog){
+    constructor(private $scope, private $mdDialog) {
         $scope.hide = () => $mdDialog.hide();
         $scope.cancel = () => $mdDialog.cancel();
     }
 
-    answer(itemType, activityType) {
+    public answer(itemType, activityType) {
         this.$mdDialog.hide(itemType);
 
         switch (itemType) {
@@ -58,7 +58,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
         }
     }
 
-    postActivity(activityType: IActivityType){
+    public postActivity(activityType: IActivityType) {
         this.$mdDialog.show({
             controller: DialogCtrl,
             controllerAs: "$ctrl",
@@ -79,7 +79,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             locals: {
                 date: this.date, // дата дня в формате ГГГГ-ММ-ДД
                 user: this.user,
-                activityType: activityType,
+                activityType,
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -87,17 +87,17 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             fullscreen: true,
         })
             .then((response) => {
-                if(response.type === "post") {
+                if (response.type === "post") {
                     console.log("save activity", response);
                     //this.dashboard.onPostItem(response.item);
                     //this.message.toastInfo('Создана новая запись');
                 }
-            }, ()=> {
+            }, () => {
                 console.log("user cancel dialog");
             });
     }
 
-    postMeasurement(){
+    public postMeasurement() {
         this.$mdDialog.show({
             controller: DialogCtrl,
             controllerAs: "$ctrl",
@@ -120,15 +120,15 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             clickOutsideToClose: true,
             escapeToClose: true,
             fullscreen: true,
-        }).then(() => {}, ()=> {});
+        }).then(() => {}, () => {});
     }
 
-    postEvent(){
+    public postEvent() {
         this.$mdDialog.show({
             controller: DialogCtrl,
             controllerAs: "$ctrl",
             template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events 
+                        <calendar-item-events
                                 flex layout="column" class="calendar-item-events"
                                 data="$ctrl.data"
                                 mode="post"
@@ -154,7 +154,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
 
 }
 
-const CalendarItemWizardComponent:IComponentOptions = {
+const CalendarItemWizardComponent: IComponentOptions = {
     bindings: {
         user: "<",
         date: "<",
@@ -173,12 +173,11 @@ export default CalendarItemWizardComponent;
 
 class DialogCtrl implements IComponentController {
 
-    static $inject = ["$scope","$mdDialog"];
+    public static $inject = ["$scope", "$mdDialog"];
 
-    constructor(private $scope, private $mdDialog){
+    constructor(private $scope, private $mdDialog) {
         $scope.hide = () => $mdDialog.hide();
         $scope.cancel = () => $mdDialog.cancel();
         $scope.answer = (answer) => $mdDialog.hide(answer);
     }
 }
-

@@ -21,13 +21,13 @@ class DashboardActivityCtrl implements IComponentController {
     private bottomPanelData: any = null;
 
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ["$mdDialog","message"];
+    public static $inject = ["$mdDialog", "message"];
 
     constructor(private $mdDialog: any, private message: MessageService) {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.activity = new Activity(this.item);
         //this.activity.prepare();
 
@@ -42,7 +42,7 @@ class DashboardActivityCtrl implements IComponentController {
 
     }
 
-    onOpen($event, mode: string) {
+    public onOpen($event, mode: string) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -60,7 +60,7 @@ class DashboardActivityCtrl implements IComponentController {
             targetEvent: $event,
             locals: {
                 data: this.activity,
-                mode: mode,
+                mode,
                 user: this.athlete,
             },
             bindToController: true,
@@ -83,19 +83,18 @@ class DashboardActivityCtrl implements IComponentController {
                     this.message.toastInfo('Запись удалена');
                 }**/
 
-
-            }, ()=> {
+            }, () => {
                 console.log("user cancel dialog, data=");
             });
     }
 
-    onDelete() {
+    public onDelete() {
         this.dashboard.onDeleteItem(this.item);
     }
 
 }
 
-const DashboardActivityComponent:IComponentOptions = {
+const DashboardActivityComponent: IComponentOptions = {
     bindings: {
         item: "<",
         athlete: "<",
@@ -125,4 +124,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ["$scope","$mdDialog"];
+DialogController.$inject = ["$scope", "$mdDialog"];

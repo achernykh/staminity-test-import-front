@@ -22,10 +22,10 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private zoomOut: number = 0;
     private autoZoom: boolean = true;
 
-    private chartOptions: string[] = ["measures","segments"];
+    private chartOptions: string[] = ["measures", "segments"];
     private chartOption: "measures" | "segments";
 
-    private tableOptions: string[] = ["laps","segments"];
+    private tableOptions: string[] = ["laps", "segments"];
     private tableOption: "laps" | "segments";
 
     private chartData: IChartMeasureData; // класс для расчета данных для графика
@@ -33,22 +33,21 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private chartX: string = "elapsedDuration";
     private change: number = 0;
     private changeMeasure: string = null;
-    static $inject = ["$mdMedia","$filter"];
-
+    public static $inject = ["$mdMedia", "$filter"];
 
     constructor(private $mdMedia: any, private $filter: any) {
 
     }
 
-    $onChanges(changes){
-        if(changes.hasOwnProperty("hasDetails") && changes.hasDetails.currentValue) {
+    public $onChanges(changes) {
+        if (changes.hasOwnProperty("hasDetails") && changes.hasDetails.currentValue) {
             this.chartData = this.item.activity.details.chartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures);
             //this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.activity.details);
             this.completeDetails = true;
         }
     }
 
-    $onInit() {
+    public $onInit() {
 
         this.item.activity.structured ? this.tableOption = "segments" : this.tableOption = "laps";
         this.item.activity.structured ? this.chartOption = "segments" : this.chartOption = "measures";
@@ -109,42 +108,42 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
         });*/
     }
 
-    toggleMap() {
+    public toggleMap() {
         return this.showMap = !this.showMap;
     }
 
-    toggleChart() {
+    public toggleChart() {
         return this.showChart = !this.showChart;
     }
 
-    toggleTable() {
+    public toggleTable() {
         return this.showTable = !this.showTable;
     }
 
-    changeChartX(measure) {
+    public changeChartX(measure) {
         this.chartX = measure;
         this.change++;
     }
 
-    changeChartMetrics(measure) {
-        this.chartData.measures[measure]["show"] = !this.chartData.measures[measure]["show"];
+    public changeChartMetrics(measure) {
+        this.chartData.measures[measure].show = !this.chartData.measures[measure].show;
         this.changeMeasure = measure;
         this.change++;
     }
 
-    onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>){
-        if(select.length === 0) {
+    public onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>) {
+        if (select.length === 0) {
             this.item.clearUserInterval();
         } else {
             if (!select[0].startTimestamp) {
-                let index = this.chartData.measures["timestamp"]["idx"];
+                const index = this.chartData.measures.timestamp.idx;
                 select[0].startTimestamp = this.item.activity.details.metrics[0][index];
             }
             this.item.addUserInterval(select[0]);
         }
     }
 
-    onChartSelect(segmentId){
+    public onChartSelect(segmentId) {
         console.log("chart select interval=", segmentId);
     }
 }

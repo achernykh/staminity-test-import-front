@@ -28,18 +28,18 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     private settingsForm: INgModelController;
 
     public onSave: (response: {chart: IAnalyticsChart, update: boolean}) => IPromise<void>;
-    static $inject = ["$filter"];
+    public static $inject = ["$filter"];
 
     constructor(private $filter: any) {
 
     }
 
-    $onInit() {
-        if(this.chart.hasOwnProperty("localParams") && !this.chart.localParams) {
+    public $onInit() {
+        if (this.chart.hasOwnProperty("localParams") && !this.chart.localParams) {
             this.prepareLocalFilter("fromGlobal");
         }
 
-        if(this.chart.hasOwnProperty("localParams") && this.chart.localParams) {
+        if (this.chart.hasOwnProperty("localParams") && this.chart.localParams) {
             this.prepareLocalFilter("fromSettings");
         }
 
@@ -49,11 +49,11 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     private prepareLocalFilter(mode: "fromSettings" | "fromGlobal" = "fromSettings") {
 
-        if(mode === "fromSettings" && this.chart.localParams) {
+        if (mode === "fromSettings" && this.chart.localParams) {
             this.localFilter = this.chart.localParams;
         }
 
-        if(mode === "fromGlobal") {
+        if (mode === "fromGlobal") {
             this.localFilter = new AnalyticsChartFilter(
                 this.globalFilter.user,
                 this.globalFilter.categories,
@@ -68,14 +68,14 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
     }
 
-    changeParamsPoint() {
-        if(!this.globalParams) {
+    public changeParamsPoint() {
+        if (!this.globalParams) {
             this.prepareLocalFilter("fromGlobal");
         }
     }
 
-    change(param: IAnalyticsChartSettings<any>, value) {
-        switch(param.area) {
+    public change(param: IAnalyticsChartSettings<any>, value) {
+        switch (param.area) {
             case "series": {
                 param.ind.map((ind) =>
                     this.chart.charts[ind].series
@@ -95,33 +95,32 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             }
         }
 
-        if(Object.keys(param.change[value]).some((change) => ["seriesDateTrunc","unit","measureName"].indexOf(change) !== -1)) {
+        if (Object.keys(param.change[value]).some((change) => ["seriesDateTrunc", "unit", "measureName"].indexOf(change) !== -1)) {
             this.refresh = true;
         }
         this.update = true;
     }
 
-
-    getGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number): boolean {
+    public getGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number): boolean {
         return param.model[param.idx.indexOf(idx)];
     }
 
-    setGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number){
+    public setGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number) {
         param.model[param.idx.indexOf(idx)] = !param.model[param.idx.indexOf(idx)];
-        this.change(Object.assign({},param,{idx: [idx]}), param.model[param.idx.indexOf(idx)]);
+        this.change(Object.assign({}, param, {idx: [idx]}), param.model[param.idx.indexOf(idx)]);
         this.settingsForm.$setDirty();
     }
 
-    getCheckboxLabel(param: IAnalyticsChartSettings<any>, idx: number): string {
+    public getCheckboxLabel(param: IAnalyticsChartSettings<any>, idx: number): string {
         return this.chart.charts[param.ind[0]].measures.filter((a) => a.idx === idx)[0][param.multiTextParam];
     }
 
-    save() {
-        if(!this.globalParams) {
+    public save() {
+        if (!this.globalParams) {
             this.chart.charts[0].params = this.localFilter.chartParams();
             this.chart.localParams = this.localFilter;
         }
-        if(this.update) {
+        if (this.update) {
             this.chart.settings = this.settings;
         }
         this.onSave({
@@ -131,7 +130,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     }
 }
 
-const AnalyticsChartSettingsComponent:IComponentOptions = {
+const AnalyticsChartSettingsComponent: IComponentOptions = {
     bindings: {
         chart: "<",
         globalFilter: "<",

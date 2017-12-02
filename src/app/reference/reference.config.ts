@@ -13,13 +13,12 @@ import UserService from "../core/user.service";
 import ReferenceService from "./reference.service";
 import * as translate from "./reference.translate";
 
-
-function configure (
-    $stateProvider: StateProvider, 
+function configure(
+    $stateProvider: StateProvider,
     $translateProvider,
 ) {
     $stateProvider
-    .state("club-reference", <StateDeclaration> {
+    .state("club-reference", {
         url: "/reference/club/:uri",
         loginRequired: true,
         authRequired: ["user"],
@@ -36,13 +35,13 @@ function configure (
             user: ["UserService", "userId", (UserService: UserService, userId: number) => UserService.getProfile(userId, true)],
             access: ["club", "user", (club: IGroupProfile, user: IUserProfile) => {
                 if (!isMember(user, club)) {
-                    throw "noMembership";
+                    throw new Error("noMembership");
                 }
             }],
         },
         views: DefaultTemplate("reference"),
-    })
-    .state("reference", <StateDeclaration> {
+    } as StateDeclaration)
+    .state("reference", {
         url: "/reference",
         loginRequired: true,
         authRequired: ["user"],
@@ -52,13 +51,12 @@ function configure (
             user: ["UserService", "userId", (UserService: UserService, userId: number) => UserService.getProfile(userId, true)],
         },
         views: DefaultTemplate("reference"),
-    });
-    
-    $translateProvider.translations("en", translate["en"]);
-    $translateProvider.translations("ru", translate["ru"]);
+    } as StateDeclaration);
+
+    $translateProvider.translations("en", translate.en);
+    $translateProvider.translations("ru", translate.ru);
 }
 
 configure.$inject = ["$stateProvider", "$translateProvider"];
-
 
 export default configure;

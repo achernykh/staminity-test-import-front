@@ -16,7 +16,7 @@ export interface ICalendarWeek {
 export interface ICalendarDay {
     key: string; // формат дня в формате YYYY.MM.DD
     selected: boolean; // индикатор выбора дня
-    date: string;// формат дня в формате GMT
+    date: string; // формат дня в формате GMT
     data: ICalendarDayData;
 }
 

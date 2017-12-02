@@ -23,7 +23,7 @@ const CalendarItemMeasurement = module("staminity.calendar-item-measurement", []
     .component("calendarItemRecord", CalendarItemRecordComponent)
     .constant("calendarItemRecordConfig", CalendarItemRecordConfig)
     .config(["ngQuillConfigProvider", (quill) => quill.set({ modules: {}, theme: "snow"})])
-    .config(["$translateProvider",($translateProvider) => {
+    .config(["$translateProvider", ($translateProvider) => {
         $translateProvider.translations("ru", {activity: _translateActivity.ru});
         $translateProvider.translations("en", {activity: _translateActivity.en});
         $translateProvider.translations("ru", {measurement: _measurement.ru});

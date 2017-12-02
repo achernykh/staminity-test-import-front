@@ -1,6 +1,5 @@
 import {IActivityType} from "../../../api/activity/activity.interface";
 
-
 export const activityTypes: IActivityType[] = [
     {id: 2, code: "run", typeBasic: "run", enabled: true, isBasic: true},
     {id: 3, code: "streetRun", typeBasic: "run", enabled: true, isBasic: false},
@@ -22,12 +21,11 @@ export const activityTypes: IActivityType[] = [
     {id: 1, code: "other", typeBasic: "other", enabled: true, isBasic: true},
 ];
 
-export const getType = (id: number):IActivityType => activityTypes.filter((type) => type.id === id)[0];
-export const getSportBasic = ():IActivityType[] => activityTypes.filter((type) => type.isBasic);
-export const getSportsByBasicId = (basic: number):number[] => {
-    let basicType:IActivityType = getType(basic);
+export const getType = (id: number): IActivityType => activityTypes.filter((type) => type.id === id)[0];
+export const getSportBasic = (): IActivityType[] => activityTypes.filter((type) => type.isBasic);
+export const getSportsByBasicId = (basic: number): number[] => {
+    const basicType: IActivityType = getType(basic);
     return activityTypes.filter((type) => type.typeBasic === basicType.code).map((t) => t.id);
 };
 
 //export const getCategory(id: number):IActivityCategory => this.category.filter(type => type.id === id)[0];
-

@@ -26,11 +26,11 @@ class NotificationListCtrl implements IComponentController {
         newCoachComment: 3,
         newAthleteComment: 3,
     };
-    private readonly commentTemplates: string[] = ["newCoachComment","newAthleteComment"];
+    private readonly commentTemplates: string[] = ["newCoachComment", "newAthleteComment"];
     private currentUser: IUserProfile;
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ["$scope","$mdDialog","$mdSidenav","NotificationService","CalendarService", "UserService",
+    public static $inject = ["$scope", "$mdDialog", "$mdSidenav", "NotificationService", "CalendarService", "UserService",
         "SessionService"];
 
     constructor(
@@ -45,16 +45,16 @@ class NotificationListCtrl implements IComponentController {
 
     }
 
-    $onChanges(changes: any):void {
+    public $onChanges(changes: any): void {
         /*if(changes.hasOwnProperty('isOpen') && !changes.isOpen.isFirstChange()){
             this.timer = setTimeout(() => !!this.notifications && this.notifications.filter(n => !n.isRead)
                 .forEach(n => this.NotificationService.put(n.id, true)), this.readTime);
         }*/
     }
 
-    $onInit() {
+    public $onInit() {
         this.notifications = this.NotificationService.notifications;
-        
+
         this.NotificationService.notificationsChanges
         .takeUntil(this.destroy)
         .subscribe((notifications) => {
@@ -68,19 +68,19 @@ class NotificationListCtrl implements IComponentController {
         .subscribe((profile) => this.currentUser = angular.copy(profile));
     }
 
-    $onDestroy() {
-        this.destroy.next(); 
+    public $onDestroy() {
+        this.destroy.next();
         this.destroy.complete();
     }
 
-    fromNow (date) {
+    public fromNow(date) {
         return moment.utc(date).fromNow(true);
     }
 
-    close () {
+    public close() {
         //clearTimeout(this.timer);
         this.$mdSidenav("notifications").toggle();
-        this.NotificationService.put(null, moment().utc() ,true);
+        this.NotificationService.put(null, moment().utc() , true);
         /*setTimeout(() => {
             if(this.notifications) {
                 this.notifications.filter(n => !n.isRead).forEach(n => this.NotificationService.put(n.id, true));
@@ -88,12 +88,12 @@ class NotificationListCtrl implements IComponentController {
         },1);*/
     }
 
-    onClick($event, notification: Notification):void {
-        if(Object.keys(this.activityTemplates).some((k) => k === notification.template)) {
+    public onClick($event, notification: Notification): void {
+        if (Object.keys(this.activityTemplates).some((k) => k === notification.template)) {
 
-            this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
+            this.CalendarService.getCalendarItem(null, null, null, null, notification.context[this.activityTemplates[notification.template]])
                 .then((response) => {
-                    let activity: ICalendarItem = response[0];
+                    const activity: ICalendarItem = response[0];
                     this.$mdDialog.show({
                         controller: DialogController,
                         controllerAs: "$ctrl",
@@ -128,7 +128,7 @@ class NotificationListCtrl implements IComponentController {
 
                     }).then((response) => console.log(response), (error) => console.log(error));
 
-                }, (error) => {throw new Error(error);});
+                }, (error) => {throw new Error(error); });
 
             this.NotificationService.put(notification.id, null, true).catch();
 
@@ -137,7 +137,7 @@ class NotificationListCtrl implements IComponentController {
 
 }
 
-const NotificationListComponent:IComponentOptions = {
+const NotificationListComponent: IComponentOptions = {
     bindings: {
         data: "<",
         isOpen: "<",
@@ -166,4 +166,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ["$scope","$mdDialog"];
+DialogController.$inject = ["$scope", "$mdDialog"];

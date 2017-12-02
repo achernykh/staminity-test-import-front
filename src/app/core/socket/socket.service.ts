@@ -9,8 +9,8 @@ import { Deferred, IConnectionSettings, SessionService } from "../index";
 export class SocketService {
 
     // public
-    connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
-    messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
+    public connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
+    public messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
 
     // private
     private ws: WebSocketSubject<Object>; // наблюдаемая переменная WebSocketSubject
@@ -20,12 +20,12 @@ export class SocketService {
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
 
-    static $inject = ["ConnectionSettingsConfig", "SessionService", "LoaderService"];
+    public static $inject = ["ConnectionSettingsConfig", "SessionService", "LoaderService"];
 
-    constructor (private settings: IConnectionSettings,
-                 private session: SessionService,
-                 private loader: LoaderService,
-                 private $state: StateService) {
+    constructor(private settings: IConnectionSettings,
+                private session: SessionService,
+                private loader: LoaderService,
+                private $state: StateService) {
 
         this.connections.subscribe((status: boolean) => this.socketStarted = status);
     }
@@ -35,7 +35,7 @@ export class SocketService {
      * Выполняется при конфигурации root component app
      * @returns {Promise<boolean>}
      */
-    init (): Promise<boolean> {
+    public init(): Promise<boolean> {
 
         console.log("socket: init");
 
@@ -70,7 +70,7 @@ export class SocketService {
      * Открытие сессии
      * @param token
      */
-    open (token: string = this.session.getToken()): void {
+    public open(token: string = this.session.getToken()): void {
 
         if ( this.socket && !this.socket.closed ) { return; }
 
@@ -96,11 +96,11 @@ export class SocketService {
     /**
      * Проверка сессии
      */
-    private check () {
+    private check() {
         this.lastMessageTimestamp = Date.now();
         // Через таймаут проверяем пришел ли hb/сообщение, если нет, то считаем сессию потерянной и пробуем переоткрыть
         setTimeout(() => {
-            let now = Date.now();
+            const now = Date.now();
             if ( this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat ) {
                 this.connections.next(false);
                 this.socket.unsubscribe();
@@ -112,9 +112,9 @@ export class SocketService {
     /**
      * Режим восстановления сессии
      */
-    private pendingSession (): void {
+    private pendingSession(): void {
 
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
 
             this.init().then(() => clearTimeout(interval), () => console.info("reopen session failed"));
 
@@ -126,11 +126,11 @@ export class SocketService {
      * Обработка входящего сообщения из сессии
      * @param message
      */
-    public response (message: IWSResponse) {
+    public response(message: IWSResponse) {
 
         if ( message.hasOwnProperty("requestId") && this.requests[message.requestId] ) {
 
-            let request: Deferred<any> = this.requests[message.requestId];
+            const request: Deferred<any> = this.requests[message.requestId];
             this.loader.hide();
 
             if ( !message.hasOwnProperty("errorMessage") ) {
@@ -152,7 +152,7 @@ export class SocketService {
     /**
      * Закрытие сессии
      */
-    close () {
+    public close() {
         this.ws.complete();
     }
 
@@ -161,7 +161,7 @@ export class SocketService {
      * @param request
      * @returns {any}
      */
-    public send (request: IWSRequest): Promise<any> {
+    public send(request: IWSRequest): Promise<any> {
 
         /**
          * Можно будет раскоментировать после перехода на Angular 4

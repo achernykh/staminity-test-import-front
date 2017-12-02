@@ -1,5 +1,4 @@
-﻿export enum IntervalStatus
-{
+﻿export enum IntervalStatus {
     SUCCESS,
     WARN,
     FAILED,
@@ -15,7 +14,7 @@ export interface IPlanMeasures {
     movingDuration: ICalcMeasure;
     distance: ICalcMeasure;
     heartRate: ICalcMeasure;
-    speed: ICalcMeasure;   
+    speed: ICalcMeasure;
     completePercent: ICompletePercent;
 }
 
@@ -23,8 +22,7 @@ interface ICompletePercent {
     value: number;
 }
 
-export interface IInputPlanSegment
-{
+export interface IInputPlanSegment {
     type: string;
     pos: string;
     keyInterval: boolean;

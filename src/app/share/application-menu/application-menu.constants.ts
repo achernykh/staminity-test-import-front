@@ -87,4 +87,3 @@ export const AppMenuSettings = [
         //role: [_UserRoles.user, _UserRoles.coach]
     },
 ];
-

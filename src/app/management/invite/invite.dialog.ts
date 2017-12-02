@@ -13,25 +13,25 @@ export const inviteDialogConf = (groupId, $event) => {
 
     };
 };
-        
+
 class InviteDialogController {
 
-    static $inject = ["$scope","$mdDialog"];
+    public static $inject = ["$scope", "$mdDialog"];
 
-    hide = () => {
+    public hide = () => {
         this.$mdDialog.hide();
     }
 
-    cancel = () => {
+    public cancel = () => {
         this.$mdDialog.cancel();
     }
 
-    answer = (answer) => {
+    public answer = (answer) => {
         this.$mdDialog.hide(answer);
     }
 
-    constructor (
-        private $scope: any, 
+    constructor(
+        private $scope: any,
         private $mdDialog: any,
     ) {
         $scope.hide = this.hide;

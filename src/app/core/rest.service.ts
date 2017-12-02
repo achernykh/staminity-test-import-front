@@ -4,43 +4,43 @@ import * as _connection from "./env.js";
 import { SessionService} from "./index";
 
 export interface IPostDataRequest {
-    method:string;
-    url:string;
-    headers:{
-        "Authorization":string,
+    method: string;
+    url: string;
+    headers: {
+        "Authorization": string,
     };
-    data:{
-        requestData:any;
-        token?:string;
+    data: {
+        requestData: any;
+        token?: string;
     };
 }
 
 interface IPostFileRequest {
-    method:string;
-    url:string;
-    headers:{
-        "Authorization":string,
-        "Content-Type":string,
+    method: string;
+    url: string;
+    headers: {
+        "Authorization": string,
+        "Content-Type": string,
     };
-    withCredentials:boolean;
-    data:any;
+    withCredentials: boolean;
+    data: any;
 
 }
 
 export class PostData implements IPostDataRequest {
 
-    method:string;
-    url:string;
-    headers:{
-        "Authorization":string,
+    public method: string;
+    public url: string;
+    public headers: {
+        "Authorization": string,
     };
-    data:{
+    public data: {
         //requestType:string;
-        requestData:any;
-        token?:string; // указывается в момент отправки запроса
+        requestData: any;
+        token?: string; // указывается в момент отправки запроса
     };
 
-    constructor(type:string, data:any) {
+    constructor(type: string, data: any) {
         this.method = "POST";
         this.url = _connection.protocol.rest + _connection.server + type;
         this.headers = {
@@ -52,18 +52,18 @@ export class PostData implements IPostDataRequest {
 
 export class GetData implements IPostDataRequest {
 
-    method:string;
-    url:string;
-    headers:{
-        "Authorization":string,
+    public method: string;
+    public url: string;
+    public headers: {
+        "Authorization": string,
     };
-    data:{
+    public data: {
         //requestType:string;
-        requestData:any;
-        token?:string; // указывается в момент отправки запроса
+        requestData: any;
+        token?: string; // указывается в момент отправки запроса
     };
 
-    constructor(type:string, data:any) {
+    constructor(type: string, data: any) {
         this.method = "GET";
         this.url = _connection.protocol.rest + _connection.server + type;
         this.headers = {
@@ -75,22 +75,22 @@ export class GetData implements IPostDataRequest {
 
 export class PostFile implements IPostFileRequest {
 
-    method:string;
-    url:string;
-    headers:{
-        "Authorization":string,
-        "Content-Type":string,
+    public method: string;
+    public url: string;
+    public headers: {
+        "Authorization": string,
+        "Content-Type": string,
     };
-    withCredentials:boolean;
-    mode:string;
-    data:any;
+    public withCredentials: boolean;
+    public mode: string;
+    public data: any;
 
-    constructor(type:string, file:any, attr?: Object) {
+    constructor(type: string, file: any, attr?: Object) {
         this.method = "POST";
         this.url = _connection.protocol.rest + _connection.server + type;
         this.headers = {
             "Authorization": "Bearer ",
-            "Content-Type": undefined,//'multipart/form-data'//
+            "Content-Type": undefined, //'multipart/form-data'//
         };
         this.mode = "cors";
         this.withCredentials = true;
@@ -101,59 +101,59 @@ export class PostFile implements IPostFileRequest {
 }
 
 export interface IRESTService {
-    postData(request:IPostDataRequest):IHttpPromise<{}>;
-    postFile(request:IPostFileRequest):IHttpPromise<{}>;
+    postData(request: IPostDataRequest): IHttpPromise<{}>;
+    postFile(request: IPostFileRequest): IHttpPromise<{}>;
 }
 
 export class RESTService implements IRESTService {
     //$http:any;
     //SessionService:ISessionService;
 
-    static $inject = ["$http", "SessionService","LoaderService"];
+    public static $inject = ["$http", "SessionService", "LoaderService"];
 
-    constructor(private $http:IHttpService, private SessionService: SessionService, private loader: LoaderService) {
+    constructor(private $http: IHttpService, private SessionService: SessionService, private loader: LoaderService) {
         //this.$http = $http;
         //this.SessionService = SessionService;
     }
 
-    postData(request:IPostDataRequest):IHttpPromise<{}> {
+    public postData(request: IPostDataRequest): IHttpPromise<{}> {
         this.loader.show();
 
-        let token: string = this.SessionService.getToken();
-        if (token){
-            request.headers["Authorization"] += token;
+        const token: string = this.SessionService.getToken();
+        if (token) {
+            request.headers.Authorization += token;
             request.data.token = token;
         } else {
-            delete request.headers["Authorization"];
+            delete request.headers.Authorization;
         }
 
         return this.$http(request)
-            .finally(()=>this.loader.hide())
-            .then((response:any)=> {
+            .finally(() => this.loader.hide())
+            .then((response: any) => {
                 console.log("REST Service => postData success=", response);
-                if(response.data.hasOwnProperty("errorMessage")) {
+                if (response.data.hasOwnProperty("errorMessage")) {
                     throw response.data;
                 } else {
                     return response.data;
                 }
             }, (response) => {
-                if (response.hasOwnProperty("status") && response.status === -1){
-                    throw "internetConnectionLost";
-                } else if(response.hasOwnProperty("data") && response.data.hasOwnProperty("errorMessage")) {
+                if (response.hasOwnProperty("status") && response.status === -1) {
+                    throw new Error("internetConnectionLost");
+                } else if (response.hasOwnProperty("data") && response.data.hasOwnProperty("errorMessage")) {
                     throw response.data.errorMessage;
                 } else {
-                    throw "unknownErrorMessage";
+                    throw new Error("unknownErrorMessage");
                 }
             });
     }
 
-    postFile(request:IPostFileRequest):IHttpPromise<{}> {
+    public postFile(request: IPostFileRequest): IHttpPromise<{}> {
         this.loader.show();
-        request.headers["Authorization"] += this.SessionService.getToken();
+        request.headers.Authorization += this.SessionService.getToken();
         return this.$http(request)
-            .finally(()=>this.loader.hide())
-            .then((response:any) => {
-                if(response.data.hasOwnProperty("errorMessage")){
+            .finally(() => this.loader.hide())
+            .then((response: any) => {
+                if (response.data.hasOwnProperty("errorMessage")) {
                     throw response.data.errorMessage;
                 } else {
                     return response.data;
@@ -163,4 +163,3 @@ export class RESTService implements IRESTService {
             });
     }
 }
-

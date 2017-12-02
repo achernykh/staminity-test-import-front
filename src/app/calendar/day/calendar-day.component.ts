@@ -1,5 +1,5 @@
 import { IUserProfile } from "@api/user";
-import { copy, IComponentController, IComponentOptions,IFormController, IPromise, IScope, merge} from "angular";
+import { copy, IComponentController, IComponentOptions, IFormController, IPromise, IScope, merge} from "angular";
 import * as angular from "angular";
 import moment from "moment/src/moment.js";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
@@ -14,13 +14,13 @@ import "./calendar-day.component.scss";
 
 class CalendarDayCtrl {
 
-    today: any;
-    data: ICalendarDayData;
-    owner: IUserProfile;
-    currentUser: IUserProfile;
-    selected: boolean;
+    public today: any;
+    public data: ICalendarDayData;
+    public owner: IUserProfile;
+    public currentUser: IUserProfile;
+    public selected: boolean;
 
-    static $inject = ["$mdDialog","message","ActivityService","CalendarService","$scope","dialogs"];
+    public static $inject = ["$mdDialog", "message", "ActivityService", "CalendarService", "$scope", "dialogs"];
 
     constructor(
         private $mdDialog: any,
@@ -28,38 +28,37 @@ class CalendarDayCtrl {
         private ActivityService: ActivityService,
         private CalendarService: CalendarService,
         private $scope: IScope,
-        private dialogs: any){
+        private dialogs: any) {
 
     }
 
-    isSpecified(item: ICalendarItem):boolean {
+    public isSpecified(item: ICalendarItem): boolean {
         return isSpecifiedActivity(item);
     }
 
-
-    $onInit(){
-        let diff = moment().diff(moment(this.data.date),"days",true);
+    public $onInit() {
+        const diff = moment().diff(moment(this.data.date), "days", true);
         this.today = diff >= 0 && diff < 1;
     }
 
-    onSelect() {
+    public onSelect() {
         this.selected = !this.selected;
     }
 
-    onDelete(){
+    public onDelete() {
         //this.dialogs.confirm({ text: 'deletePlanActivity' })
          //   .then(()=>this.calendar.onDelete(this.data.calendarItems));
     }
-    onPaste(){
+    public onPaste() {
         //this.calendar.onPasteDay(this.data.date)
     }
-    onCopy(){
+    public onCopy() {
         //this.calendar.onCopyItem(this.data.calendarItems)
     }
 
-    onOpen($event, type, data) {
+    public onOpen($event, type, data) {
 
-        if(type === "measurement"){
+        if (type === "measurement") {
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: "$ctrl",
@@ -74,21 +73,21 @@ class CalendarDayCtrl {
                 parent: angular.element(document.body),
                 targetEvent: $event,
                 locals: {
-                    data: data,
+                    data,
                 },
                 bindToController: true,
                 clickOutsideToClose: false,
                 escapeToClose: true,
                 fullscreen: true,
 
-            }).then((response) => {}, ()=> {});
+            }).then((response) => {}, () => {});
         }
-        if(type === "event"){
+        if (type === "event") {
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: "$ctrl",
                 template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events 
+                        <calendar-item-events
                                 flex layout="column" class="calendar-item-events"
                                 data="$ctrl.data"
                                 mode="put"
@@ -99,7 +98,7 @@ class CalendarDayCtrl {
                 parent: angular.element(document.body),
                 targetEvent: $event,
                 locals: {
-                    data: data,
+                    data,
                     user: this.owner,
                 },
                 bindToController: true,
@@ -107,14 +106,14 @@ class CalendarDayCtrl {
                 escapeToClose: true,
                 fullscreen: true,
 
-            }).then((response) => {}, ()=> {});
+            }).then((response) => {}, () => {});
         }
-        if(type === "record"){
+        if (type === "record") {
             this.$mdDialog.show({
                 controller: DialogController,
                 controllerAs: "$ctrl",
                 template: `<md-dialog id="calendar-item-record" aria-label="Record">
-                        <calendar-item-record 
+                        <calendar-item-record
                                 data="$ctrl.data"
                                 calendar-range="$ctrl.calendarRange"
                                 mode="view"
@@ -124,19 +123,19 @@ class CalendarDayCtrl {
                 parent: angular.element(document.body),
                 targetEvent: $event,
                 locals: {
-                    data: data,
-                    calendarRange: [null, null],//this.calendar.calendarRange
+                    data,
+                    calendarRange: [null, null], //this.calendar.calendarRange
                 },
                 bindToController: true,
                 clickOutsideToClose: false,
                 escapeToClose: true,
                 fullscreen: true,
 
-            }).then((response) => {}, ()=> {});
+            }).then((response) => {}, () => {});
         }
     }
 
-    newActivity($event, data){
+    public newActivity($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -153,17 +152,17 @@ class CalendarDayCtrl {
             parent: angular.element(document.body),
             targetEvent: $event,
             locals: {
-                date: data.date,//new Date(data.date), // дата дня в формате ГГГГ-ММ-ДД Date.UTC(data.date) + Date().getTimezoneOffset() * 60 * 1000, //
+                date: data.date, //new Date(data.date), // дата дня в формате ГГГГ-ММ-ДД Date.UTC(data.date) + Date().getTimezoneOffset() * 60 * 1000, //
                 user: this.owner,
             },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: false,
             fullscreen: true,
-        }).then((response) => {}, ()=>{});
+        }).then((response) => {}, () => {});
     }
 
-    newMeasurement($event, data){
+    public newMeasurement($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -186,15 +185,15 @@ class CalendarDayCtrl {
             clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true,
-        }).then((response) => {}, ()=> {});
+        }).then((response) => {}, () => {});
     }
 
-    newEvent($event, data) {
+    public newEvent($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
             template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events 
+                        <calendar-item-events
                                 flex layout="column" class="calendar-item-events"
                                 data="$ctrl.data"
                                 mode="post"
@@ -218,12 +217,12 @@ class CalendarDayCtrl {
         }).then((response) => {}, () => {});
     }
 
-    postRecord($event, data) {
+    public postRecord($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
             template: `<md-dialog id="calendar-item-record" aria-label="Record">
-                        <calendar-item-record 
+                        <calendar-item-record
                                 data="$ctrl.data"
                                 calendar-range="$ctrl.calendarRange"
                                 mode="post"
@@ -234,7 +233,7 @@ class CalendarDayCtrl {
             targetEvent: $event,
             locals: {
                 data: getCalendarItem("record", data.date, this.owner, this.currentUser ),
-                calendarRange: [null,null],//this.calendar.calendarRange
+                calendarRange: [null, null], //this.calendar.calendarRange
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -244,16 +243,15 @@ class CalendarDayCtrl {
         }).then((response) => {}, () => {});
     }
 
+    public onDropActivity(srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number) {
 
-    onDropActivity(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number) {
-
-        let item: ICalendarItem = copy(srcItem);
-        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(),"minutes").format();//new Date(date);
-        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(),"minutes").format();//new Date(date);
+        const item: ICalendarItem = copy(srcItem);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
 
         switch (operation) {
             case "move": {
-                if(isCompletedActivity(item)){
+                if (isCompletedActivity(item)) {
                     this.dialogs.confirm({ text: "dialogs.moveActualActivity" })
                     .then(() => this.CalendarService.postItem(clearActualDataActivity(item)))
                     .then(() => this.message.toastInfo("activityCopied"), (error) => error && this.message.toastError(error));
@@ -265,7 +263,7 @@ class CalendarDayCtrl {
                 break;
             }
             case "copy": {
-                this.CalendarService.postItem(isCompletedActivity(item)? clearActualDataActivity(item) : item)
+                this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
                     .then(() => this.message.toastInfo("activityCopied"))
                     .catch((error) => this.message.toastError(error));
                 break;
@@ -274,10 +272,10 @@ class CalendarDayCtrl {
         return true;
     }
 
-    onDropEvent(srcItem: ICalendarItem, operation: string, srcIndex:number, trgDate:string, trgIndex: number):boolean {
-        let item: ICalendarItem = copy(srcItem);
-        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(),"minutes").format();//new Date(date);
-        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(),"minutes").format();//new Date(date);
+    public onDropEvent(srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number): boolean {
+        const item: ICalendarItem = copy(srcItem);
+        item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
+        item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
 
         switch (operation) {
             case "move": {
@@ -297,18 +295,18 @@ class CalendarDayCtrl {
         return true;
     }
 
-    onDrag(event) {
-        console.info("dnd drag event",event);
+    public onDrag(event) {
+        console.info("dnd drag event", event);
     }
 
-    onCopied(item) {
+    public onCopied(item) {
         //debugger;
         //this.message.toastInfo('activityCopied');
-        console.info("dnd copied event",item);
+        console.info("dnd copied event", item);
 
     }
 
-    onMoved(item) {
+    public onMoved(item) {
         //debugger;
         console.info("dnd moved event", item);
 
@@ -349,4 +347,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ["$scope","$mdDialog"];
+DialogController.$inject = ["$scope", "$mdDialog"];

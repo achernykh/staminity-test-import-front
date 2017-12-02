@@ -7,18 +7,17 @@ import { path } from "../share/utility";
 import { getUser, ISession, SessionService} from "./index";
 import UserService from "./user.service";
 
-
-let getDisplay = (session: ISession) : string => path([getUser, "display"]) (session) || {};
-let getLocale = (session: ISession) : string => path([getUser, "display", "language"]) (session) || "ru";
-let getUnits = (session: ISession) : string => path([getUser, "display", "units"]) (session) || "metric";
-let getTimezone = (session: ISession) : string => path([getUser, "display", "timezone"]) (session) || "+00:00";
-let getFirstDayOfWeek = (session: ISession) : number => path([getUser, "display", "firstDayOfWeek"]) (session) || 0;
+const getDisplay = (session: ISession): string => path([getUser, "display"]) (session) || {};
+const getLocale = (session: ISession): string => path([getUser, "display", "language"]) (session) || "ru";
+const getUnits = (session: ISession): string => path([getUser, "display", "units"]) (session) || "metric";
+const getTimezone = (session: ISession): string => path([getUser, "display", "timezone"]) (session) || "+00:00";
+const getFirstDayOfWeek = (session: ISession): number => path([getUser, "display", "firstDayOfWeek"]) (session) || 0;
 
 export default class DisplayService {
 
     private handleChanges = () => {
-        let locale = this.getLocale();
-        let firstDayOfWeek = this.getFirstDayOfWeek();
+        const locale = this.getLocale();
+        const firstDayOfWeek = this.getFirstDayOfWeek();
 
         this.$translate.use(locale);
         this.tmhDynamicLocale.set(locale);
@@ -38,12 +37,12 @@ export default class DisplayService {
         en: "English",
     };
 
-    static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
+    public static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
 
-    constructor (
+    constructor(
         private SessionService: SessionService,
         private UserService: UserService,
-        private $translate: any, 
+        private $translate: any,
         private tmhDynamicLocale: any,
         private $mdDateLocale: any,
     ) {
@@ -53,41 +52,40 @@ export default class DisplayService {
         .subscribe(this.handleChanges);
     }
 
-    getLocale () : string {
+    public getLocale(): string {
         return getLocale(this.SessionService.get());
     }
 
-    setLocale (locale: string) {
-        let userChanges = { display: { language: locale } };
+    public setLocale(locale: string) {
+        const userChanges = { display: { language: locale } };
 
         if (this.SessionService.getToken()) {
-            this.UserService.putProfile(<any>userChanges);
+            this.UserService.putProfile(userChanges as any);
         } else {
-            this.SessionService.updateUser(<any>userChanges);
+            this.SessionService.updateUser(userChanges as any);
         }
     }
 
-    getUnits () : string {
+    public getUnits(): string {
         return getUnits(this.SessionService.get());
     }
 
-    getTimezone () : string {
+    public getTimezone(): string {
         return getTimezone(this.SessionService.get());
     }
 
-    getFirstDayOfWeek () : number {
+    public getFirstDayOfWeek(): number {
         return getFirstDayOfWeek(this.SessionService.get());
     }
 }
 
-
-export function configure (
-    $translateProvider: any, 
-    tmhDynamicLocaleProvider: any, 
+export function configure(
+    $translateProvider: any,
+    tmhDynamicLocaleProvider: any,
     $mdDateLocaleProvider: any,
 ) {
     tmhDynamicLocaleProvider.localeLocationPattern("/assets/locale/angular-locale_{{locale}}.js");
-    
+
     $mdDateLocaleProvider.parseDate = (s) => moment(s, "L", true).toDate();
     $mdDateLocaleProvider.formatDate = (date) => moment(date).format("L");
 }

@@ -5,10 +5,10 @@ import GroupService from "../core/group.service";
 import {_translate} from "./club.translate";
 
 function configure(
-    $stateProvider:StateProvider,
+    $stateProvider: StateProvider,
     $translateProvider: any) {
     $stateProvider
-        .state("club", <StateDeclaration>{
+        .state("club", {
             url: "/club/:uri",
             loginRequired: false,
             //authRequired: ['func1'],
@@ -16,25 +16,25 @@ function configure(
                 view: () => new DisplayView("club"),
                 auth: ["AuthService", (AuthService: IAuthService) => AuthService.isAuthenticated()],
                 //userId: ['SessionService', (SessionService) => SessionService.getUser().userId],
-                club: ["GroupService","$stateParams","$location", "auth",
-                    (GroupService: GroupService,$stateParams, $location, auth: boolean) =>
-                        GroupService.getProfile($stateParams.uri,"club",auth)
+                club: ["GroupService", "$stateParams", "$location", "auth",
+                    (GroupService: GroupService, $stateParams, $location, auth: boolean) =>
+                        GroupService.getProfile($stateParams.uri, "club", auth)
                             .catch((error) => {
-                                if(error.hasOwnProperty("errorMessage") && error.errorMessage === "groupNotFound"){
+                                if (error.hasOwnProperty("errorMessage") && error.errorMessage === "groupNotFound") {
                                     $location.path("/404");
                                 }
                                 throw error;
                             })],
             },
             views: DefaultTemplate("club"),
-        });
+        } as StateDeclaration);
 
     // Текст представлений
-    $translateProvider.translations("en", {"club": _translate["en"]});
-    $translateProvider.translations("ru", {"club": _translate["ru"]});
+    $translateProvider.translations("en", {"club": _translate.en});
+    $translateProvider.translations("ru", {"club": _translate.ru});
 
 }
 
-configure.$inject = ["$stateProvider","$translateProvider"];
+configure.$inject = ["$stateProvider", "$translateProvider"];
 
 export default configure;

@@ -9,7 +9,6 @@ import ReferenceService from "./reference.service";
 import TemplateComponent from "./template/template.component";
 import TemplatesComponent from "./templates/templates.component";
 
-
 export default module("staminity.reference", [])
     .service("ReferenceService", ReferenceService)
     .component("reference", ReferenceComponent)

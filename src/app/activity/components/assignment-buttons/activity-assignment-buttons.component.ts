@@ -6,22 +6,22 @@ class ActivityAssignmentButtonsCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
     public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 
-    onSave(){
+    public onSave() {
         this.item.template ? this.item.onSaveTemplate() : this.item.onSave();
     }
 }
 
-const ActivityAssignmentButtonsComponent:IComponentOptions = {
+const ActivityAssignmentButtonsComponent: IComponentOptions = {
     bindings: {
         data: "<",
         onEvent: "&",

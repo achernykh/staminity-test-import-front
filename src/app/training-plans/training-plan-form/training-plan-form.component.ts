@@ -10,24 +10,24 @@ import "./training-plan-form.component.scss";
 class TrainingPlanFormCtrl implements IComponentController {
 
     // bind
-    plan: TrainingPlan;
-    mode: FormMode;
-    onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
+    public plan: TrainingPlan;
+    public mode: FormMode;
+    public onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
 
     //inject
-    static $inject = [ "TrainingPlansService", "trainingPlanConfig", "message" ];
+    public static $inject = [ "TrainingPlansService", "trainingPlanConfig", "message" ];
 
-    constructor (private trainingPlanService: TrainingPlansService,
-                 private config: TrainingPlanConfig,
-                 private message: MessageService) {
+    constructor(private trainingPlanService: TrainingPlansService,
+                private config: TrainingPlanConfig,
+                private message: MessageService) {
 
     }
 
-    $onInit () {
+    public $onInit() {
         this.plan = new TrainingPlan(this.plan); //Object.assign({}, this.plan);//deepCopy(this.plan);
     }
 
-    save () {
+    public save() {
         if (this.mode === FormMode.Post) {
             this.trainingPlanService
                 .post(this.plan.clear())
@@ -49,25 +49,24 @@ class TrainingPlanFormCtrl implements IComponentController {
         }
     }
 
-    get isViewMode (): boolean {
+    get isViewMode(): boolean {
         return this.mode === FormMode.View;
     }
 
-    setChangeMode (): void {
+    public setChangeMode(): void {
         this.mode = FormMode.Put;
     }
 
-    private toggle (item, list): void {
-        let idx = list.indexOf(item);
+    private toggle(item, list): void {
+        const idx = list.indexOf(item);
         if (idx > -1) {
             list.splice(idx, 1);
-        }
-        else {
+        } else {
             list.push(item);
         }
     }
 
-    private exists (item, list): boolean {
+    private exists(item, list): boolean {
         return list.indexOf(item) > -1;
     }
 }

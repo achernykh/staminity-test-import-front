@@ -29,20 +29,19 @@ class AnalyticsChartCtrl implements IComponentController {
 
     public updateCount: number = 0;
 
-    static $inject = ["$scope","statistics","$mdDialog","$filter"];
+    public static $inject = ["$scope", "statistics", "$mdDialog", "$filter"];
 
     constructor(private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any, private $filter: any) {
 
     }
 
-    $onInit() {
+    public $onInit() {
 
     }
 
-
-    $onChanges(changes): void {
-        if((changes.hasOwnProperty("chart") && changes.filterChanges.isFirstChange()) ||
-            (changes.hasOwnProperty("filterChanges") && !changes.filterChanges.isFirstChange() && this.chart.globalParams)){
+    public $onChanges(changes): void {
+        if ((changes.hasOwnProperty("chart") && changes.filterChanges.isFirstChange()) ||
+            (changes.hasOwnProperty("filterChanges") && !changes.filterChanges.isFirstChange() && this.chart.globalParams)) {
             this.chart.clearMetrics();
             this.prepareTitleContext();
             this.prepareParams();
@@ -50,15 +49,15 @@ class AnalyticsChartCtrl implements IComponentController {
         }
     }
 
-    onSettings(env: Event) {
+    public onSettings(env: Event) {
         //debugger;
         //this.config.openFrom = env;
         //this.$mdPanel.open(this.config);
         this.$mdDialog.show({
-            controller: ["$scope","$mdDialog", ($scope, $mdDialog) => {
+            controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (chart,update) => $mdDialog.hide({chart: chart,update: update});
+                $scope.answer = (chart, update) => $mdDialog.hide({chart, update});
             }],
             controllerAs: "$ctrl",
             template:
@@ -87,7 +86,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
     }
 
-    descriptions(): string {
+    public descriptions(): string {
         if (this.chart.globalParams) {
             return `${this.$filter("translate")("analytics." + this.chart.code + ".description", this.context)}`;
         } else {
@@ -98,15 +97,15 @@ class AnalyticsChartCtrl implements IComponentController {
     private updateSettings(chart: AnalyticsChart, update: boolean) {
         this.chart = copy(chart);
         this.prepareTitleContext();
-        if(update){
+        if (update) {
             this.prepareParams();
             this.prepareData();
         }
         this.updateCount++;
     }
 
-    update(param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
-        switch(param.area) {
+    public update(param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
+        switch (param.area) {
             case "series": {
                 param.ind.map((ind) =>
                     this.chart.charts[ind].series
@@ -125,7 +124,7 @@ class AnalyticsChartCtrl implements IComponentController {
                 break;
             }
             case "params": {
-                if(protectedOption) {
+                if (protectedOption) {
 
                 } else {
                     param.ind.map((ind) => this.chart.charts[ind].params[param.name] = value);
@@ -134,22 +133,22 @@ class AnalyticsChartCtrl implements IComponentController {
             }
         }
 
-        if(param.area === "params" || protectedOption ||
-            Object.keys(param.change[value]).some((change) => ["seriesDateTrunc","measureName","unit"].indexOf(change) !== -1)) {
+        if (param.area === "params" || protectedOption ||
+            Object.keys(param.change[value]).some((change) => ["seriesDateTrunc", "measureName", "unit"].indexOf(change) !== -1)) {
             this.prepareData();
         }
         this.prepareTitleContext();
         this.onChangeFilter(); // сохраняем настройки в браузере
     }
 
-    grow() {
+    public grow() {
         this.chart.layout.gridColumnEnd === 1 ? this.chart.layout.gridColumnEnd = 2 : this.chart.layout.gridColumnEnd = 1;
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 1 ? this.chart.layout.gridRowEnd = 2 : angular.noop();
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 2 ? this.chart.layout.gridRowEnd = 1 : angular.noop();
         this.updateCount++;
     }
 
-    fullScreen() {
+    public fullScreen() {
         this.chart.layout.fullScreen = !this.chart.layout.fullScreen;
         setTimeout(() => {
                 this.updateCount++;
@@ -158,7 +157,7 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     private prepareTitleContext() {
-        if(this.chart.hasOwnProperty("context")) {
+        if (this.chart.hasOwnProperty("context")) {
             this.chart.context.map((c) => {
                 this.context[c.param] = this.chart.charts[c.ind][c.area].filter((s) => s.idx === c.idx)[0][c.param];
             });
@@ -168,7 +167,7 @@ class AnalyticsChartCtrl implements IComponentController {
     private prepareParams() {
 
         //let periodsParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'periods')[0];
-        let globalParams: {
+        const globalParams: {
             users: number[];
             activityTypes: number[];
             periods: IReportPeriod[];
@@ -181,7 +180,7 @@ class AnalyticsChartCtrl implements IComponentController {
         globalParams.users = [Number(this.filter.users.model)];
         globalParams.periods = this.filter.periods.model !== "customPeriod" ? periodByType(this.filter.periods.model) : this.filter.periods.model;
 
-        this.chart.charts.map((c,i) => c.params = {
+        this.chart.charts.map((c, i) => c.params = {
             users:
                 (this.chart.globalParams && globalParams.users) ||
                 (c.params.users && c.params.users) ||
@@ -200,25 +199,25 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     private prepareData() {
-        let request: IReportRequestData = {
+        const request: IReportRequestData = {
             charts: this.chart.charts,
         };
 
         this.statistics.getMetrics(request).then((result) => {
             this.errorStack = [];
-            if(result && result.hasOwnProperty("charts") && !result["charts"].some((c) => c.hasOwnProperty("errorMessage"))) {
-                result["charts"].map((r,i) => this.chart.prepareMetrics(i, r.metrics));
+            if (result && result.hasOwnProperty("charts") && !result.charts.some((c) => c.hasOwnProperty("errorMessage"))) {
+                result.charts.map((r, i) => this.chart.prepareMetrics(i, r.metrics));
                 this.updateCount++;
                 this.$scope.$apply();
 
-            } else if(result["charts"].some((c) => c.hasOwnProperty("errorMessage"))) {
-                this.errorStack = result["charts"].filter((c) => c.hasOwnProperty("errorMessage")).map((c) => c.errorMessage);
+            } else if (result.charts.some((c) => c.hasOwnProperty("errorMessage"))) {
+                this.errorStack = result.charts.filter((c) => c.hasOwnProperty("errorMessage")).map((c) => c.errorMessage);
             }
         }, (error) => this.errorStack.push(error));
     }
 }
 
-const AnalyticsChartComponent:IComponentOptions = {
+const AnalyticsChartComponent: IComponentOptions = {
     bindings: {
         chart: "<",
         filter: "<",

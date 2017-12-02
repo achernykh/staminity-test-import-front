@@ -7,44 +7,44 @@ import MessageService from "../core/message.service";
 import UserService from "../core/user.service";
 import {_translate} from "./calendar.translate";
 
-function configure($stateProvider:StateProvider,
-                   $translateProvider:any) {
+function configure($stateProvider: StateProvider,
+                   $translateProvider: any) {
 
     $stateProvider
-        .state("calendar-my", <StateDeclaration>{
+        .state("calendar-my", {
             url: "/calendar",
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
-                view: () => {return new DisplayView("calendar");},
+                view: () => new DisplayView("calendar"),
                 user: ["SessionService", "message",
-                    (SessionService:SessionService, message:MessageService, $stateParams) => SessionService.getUser()],
+                    (SessionService: SessionService, message: MessageService, $stateParams) => SessionService.getUser()],
             },
             views: DefaultTemplate("calendar"),
-        })
-        .state("calendar", <StateDeclaration>{
+        } as StateDeclaration)
+        .state("calendar", {
             url: "/calendar/:uri",
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
-                view: () => {return new DisplayView("calendar");},
+                view: () => new DisplayView("calendar"),
                 user: ["UserService", "message", "$stateParams",
-                    function (UserService:UserService, message:MessageService, $stateParams) {
+                    function(UserService: UserService, message: MessageService, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
-                            .catch((info)=> {
+                            .catch((info) => {
                                 message.systemWarning(info);
                                 // TODO перейти на страницу 404
                                 throw info;
                             });
                     }],
-                athlete: ["SessionService","user", (SessionService: SessionService, user:IUserProfile) =>
+                athlete: ["SessionService", "user", (SessionService: SessionService, user: IUserProfile) =>
                     SessionService.getUser().userId !== user.userId ? user : null],
-                checkPermissions: ["AuthService", "SessionService", "message","athlete",
-                    (AuthService:IAuthService, SessionService: SessionService, message:MessageService, athlete:IUserProfile) => {
-                        if(athlete) {
+                checkPermissions: ["AuthService", "SessionService", "message", "athlete",
+                    (AuthService: IAuthService, SessionService: SessionService, message: MessageService, athlete: IUserProfile) => {
+                        if (athlete) {
                             if (AuthService.isCoach()) {
                                 return AuthService.isMyAthlete(athlete)
-                                    .catch((error)=>{
+                                    .catch((error) => {
                                         athlete = null;
                                         message.systemWarning(error);
                                         throw error;
@@ -52,7 +52,7 @@ function configure($stateProvider:StateProvider,
                             } else {
                                 athlete = null;
                                 message.systemWarning("forbidden_InsufficientRights");
-                                throw "need permissions";
+                                throw new Error("need permissions");
                             }
                         }
                 }],
@@ -78,11 +78,11 @@ function configure($stateProvider:StateProvider,
                     },
                 },
             },
-        });
+        } as StateDeclaration);
 
     // Текст представлений
-    $translateProvider.translations("en", {calendar: _translate["en"]});
-    $translateProvider.translations("ru", {calendar: _translate["ru"]});
+    $translateProvider.translations("en", {calendar: _translate.en});
+    $translateProvider.translations("ru", {calendar: _translate.ru});
 
 }
 

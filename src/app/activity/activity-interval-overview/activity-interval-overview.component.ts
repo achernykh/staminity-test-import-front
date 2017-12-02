@@ -28,13 +28,13 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
     };
 
     public onBack: (response: Object) => IPromise<void>;
-    static $inject = ["$filter"];
+    public static $inject = ["$filter"];
 
     constructor(private $filter: IFilterService) {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.prepareInterval();
         this.prepareTitle();
         this.prepareSelection();
@@ -43,11 +43,11 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
     private prepareInterval() {
         this.isSegment = this.interval.type === "P";
         this.isSegmentGroup = this.isSegment && this.interval.hasOwnProperty("totalMeasures");
-        this.groupInfo = this.isSegmentGroup && this.item.activity.intervals.G.filter((g) => g.code === this.interval["parentGroupCode"])[0] || null;
+        this.groupInfo = this.isSegmentGroup && this.item.activity.intervals.G.filter((g) => g.code === this.interval.parentGroupCode)[0] || null;
     }
 
-    private prepareTitle(){
-        if(this.isSegment) {
+    private prepareTitle() {
+        if (this.isSegment) {
             this.title = this.interval.hasOwnProperty("totalMeasures") &&
                 `${this.$filter("translate")("activity.split.segmentGroup", {count: this.groupInfo.repeatCount})}` ||
                 `${this.$filter("translate")("activity.split.segment")} #${this.interval.pos}`;
@@ -56,10 +56,10 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
         }
     }
 
-    private prepareSelection(){
-        if(this.isSegmentGroup) {
+    private prepareSelection() {
+        if (this.isSegmentGroup) {
             this.item.activity.intervals.stack.
-                filter((i) => i.hasOwnProperty("parentGroupCode") && i["parentGroupCode"] === this.interval["parentGroupCode"] &&
+                filter((i) => i.hasOwnProperty("parentGroupCode") && i.parentGroupCode === this.interval.parentGroupCode &&
                     (i.pos - this.interval.pos) % this.groupInfo.grpLength === 0 &&
                     this.selection.push({startTimestamp: i.startTimestamp, endTimestamp: i.endTimestamp}));
         } else {
@@ -69,7 +69,7 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
 
 }
 
-const ActivityIntervalOverviewComponent:IComponentOptions = {
+const ActivityIntervalOverviewComponent: IComponentOptions = {
     bindings: {
         interval: "<",
         onBack: "&",

@@ -4,7 +4,7 @@ export const landingTariffsData = [
         description: "basic",
         color: "#e91e63",
         functions: [
-            "func1", "func2", "func3", "func4","func5",
+            "func1", "func2", "func3", "func4", "func5",
         ],
         buttonText: "connect",
         connectText: "connectFree",
@@ -33,7 +33,7 @@ export const landingTariffsData = [
         description: "premium",
         color: "#2196f3",
         functions: [
-            "func6", "func7", "func8", "func9","func10",
+            "func6", "func7", "func8", "func9", "func10",
         ],
         buttonText: "connectTrialBtn",
         connectText: "connectTrial",
@@ -61,7 +61,7 @@ export const landingTariffsData = [
         description: "coach",
         color: "#009688",
         functions: [
-            "func11", "func12", "func13", "func14","func15", "func16","func17",
+            "func11", "func12", "func13", "func14", "func15", "func16", "func17",
         ],
         buttonText: "connectTrialBtn",
         connectText: "connectTrial",
@@ -108,7 +108,7 @@ export const landingTariffsData = [
         description: "club",
         color: "#9c27b0",
         functions: [
-            "func18", "func19", "func20", "func21","func22", "func23","func24",
+            "func18", "func19", "func20", "func21", "func22", "func23", "func24",
         ],
         buttonText: "connectTrialBtn",
         connectText: "connectTrial",
@@ -125,7 +125,7 @@ export const landingTariffsData = [
             },
             variable: {
                 ru: {
-                    rules: ["clubAthletes","clubCoaches"],
+                    rules: ["clubAthletes", "clubCoaches"],
                     clubAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
@@ -138,7 +138,7 @@ export const landingTariffsData = [
                     },
                 },
                 en: {
-                    rules: ["clubAthletes","clubCoaches"],
+                    rules: ["clubAthletes", "clubCoaches"],
                     clubAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,

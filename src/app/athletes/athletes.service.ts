@@ -5,25 +5,24 @@ import GroupService from "../core/group.service";
 import { arrays } from "../share/utility";
 import { getMemberId, getTariffGroupId, isClubAthlete, tariffsByUser, tariffsNotByUser } from "./athletes.functions";
 
-
 export class AthletesService {
 
-    static $inject = ["$mdDialog", "$translate", "GroupService", "dialogs"];
+    public static $inject = ["$mdDialog", "$translate", "GroupService", "dialogs"];
 
-    constructor (
-        private $mdDialog: any, 
-        private $translate: any, 
-        private groupService: GroupService, 
-        private dialogs: any, 
+    constructor(
+        private $mdDialog: any,
+        private $translate: any,
+        private groupService: GroupService,
+        private dialogs: any,
     ) {
-        
+
     }
 
     /**
      * Доступно ли удаление выбранных спортсменов
      * @returns {boolean}
-     */  
-    isRemoveAvailable (user: IUserProfile, members: IGroupManagementProfileMember[]) : boolean {
+     */
+    public isRemoveAvailable(user: IUserProfile, members: IGroupManagementProfileMember[]): boolean {
         return members.every((member) => !isClubAthlete(user, member));
     }
 
@@ -32,8 +31,8 @@ export class AthletesService {
      * @param management: IGroupManagementProfile
      * @param members: Array<Member>
      * @returns {boolean}
-     */  
-    isEditTariffsAvailable (user: IUserProfile, members: IGroupManagementProfileMember[]) : boolean {
+     */
+    public isEditTariffsAvailable(user: IUserProfile, members: IGroupManagementProfileMember[]): boolean {
         return members.every((member) => !isClubAthlete(user, member))
             && arrays.allEqual(members.map(tariffsByUser(user.userId)), equals)
             && arrays.allEqual(members.map(tariffsNotByUser(user.userId)), equals);
@@ -44,15 +43,15 @@ export class AthletesService {
      * @param management: IGroupManagementProfile
      * @param members: Array<Member>
      * @returns {Promise<any>}
-     */  
-    editTariffs (user: IUserProfile, management: IGroupManagementProfile, members: IGroupManagementProfileMember[]) : Promise<any> {
-        let byUs = tariffsByUser(user.userId) (members[0]);
-        let bySelf = tariffsNotByUser(user.userId) (members[0]);
+     */
+    public editTariffs(user: IUserProfile, management: IGroupManagementProfile, members: IGroupManagementProfileMember[]): Promise<any> {
+        const byUs = tariffsByUser(user.userId) (members[0]);
+        const bySelf = tariffsNotByUser(user.userId) (members[0]);
 
         return this.dialogs.tariffs(["Premium"], byUs, bySelf, "dialogs.byCoach")
             .then((selectedTariffs) => {
-                let addTariffs = arrays.difference(selectedTariffs, byUs);
-                let removeTariffs = arrays.difference(byUs, selectedTariffs);
+                const addTariffs = arrays.difference(selectedTariffs, byUs);
+                const removeTariffs = arrays.difference(byUs, selectedTariffs);
                 if (addTariffs.length || removeTariffs.length) {
                     return this.dialogs.confirm({
                         title: this.$translate.instant(`athletes.editTariffs.confirm.title`),
@@ -64,7 +63,7 @@ export class AthletesService {
             })
             .then((selectedTariffs) => {
                 if (selectedTariffs) {
-                    let memberships = [
+                    const memberships = [
                         ...arrays.difference(selectedTariffs, byUs).map(getTariffGroupId(management)).map(addToGroup),
                         ...arrays.difference(byUs, selectedTariffs).map(getTariffGroupId(management)).map(removeFromGroup),
                     ];
@@ -72,21 +71,21 @@ export class AthletesService {
                 }
             });
     }
-    
+
     /**
      * Удаление выбранных членов
      * @param management: IGroupManagementProfile
      * @param members: Array<Member>
      * @returns {Promise<any>}
-     */  
-    remove (management: IGroupManagementProfile, members: IGroupManagementProfileMember[]) : Promise<any> {
+     */
+    public remove(management: IGroupManagementProfile, members: IGroupManagementProfileMember[]): Promise<any> {
         return this.dialogs.confirm({ text: "dialogs.excludeClub" })
             .then(() => members.map((member) => this.groupService.leave(management.groupId, member.userProfile.userId)))
             .then((promises) => Promise.all(promises));
     }
 
-    editTariffsMessage (addTariffs, removeTariffs) {
-        let translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
+    public editTariffsMessage(addTariffs, removeTariffs) {
+        const translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
 
         if (addTariffs.length) {
             return this.$translate.instant("athletes.editTariffs.confirm.text.addOne", { tariffCode: translateTariffCode(addTariffs[0]) });
@@ -94,5 +93,5 @@ export class AthletesService {
             return this.$translate.instant("athletes.editTariffs.confirm.text.removeOne", { tariffCode: translateTariffCode(removeTariffs[0]) });
         }
     }
-    
+
 }

@@ -11,7 +11,7 @@ export class CalendarItem implements ICalendarItem {
     public dateStart: string;
     public dateEnd: string;
     public calendarItemType: string;
-    public measurementHeader:IMeasurementHeader;
+    public measurementHeader: IMeasurementHeader;
     public activityHeader: IActivityHeader;
     public userProfileOwner: IUserProfileShort;
     public userProfileCreator: IUserProfileShort;
@@ -20,11 +20,11 @@ export class CalendarItem implements ICalendarItem {
     public index: number; // index for ng-repeat in calendar-day component
 
     constructor(item: ICalendarItem) {
-        merge(this,item); // deep copy
+        merge(this, item); // deep copy
     }
 
     // Подготовка данных для модели отображения
-    prepare(method?: string) {
+    public prepare(method?: string) {
         //this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
         //this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
         this._dateStart = new Date(this.dateStart);
@@ -33,16 +33,16 @@ export class CalendarItem implements ICalendarItem {
     }
 
     // Подготовка данных для передачи в API
-    package(userProfile?: IUserProfileShort) {
-        this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),"minutes").format();
-        this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),"minutes").format();
+    public package(userProfile?: IUserProfileShort) {
+        this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(), "minutes").format();
+        this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(), "minutes").format();
         this.userProfileOwner = userProfile || this.userProfileOwner;
         return this;
     }
 
     // Обновление данных, после сохранения
-    compile(response) {
-        console.log("response",response);
+    public compile(response) {
+        console.log("response", response);
         this.revision = response.value.revision;
         this.calendarItemId = response.value.id;
         this.index = Number(`${this.calendarItemId}${this.revision}`);

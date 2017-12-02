@@ -13,7 +13,7 @@ class SettingsZonesEditCtrl implements IComponentController {
 
     private viewMode: boolean;
 
-    public options:Object = {
+    public options: Object = {
         rowSelection: false,
         multiSelect: true,
         autoSelect: false,
@@ -23,45 +23,43 @@ class SettingsZonesEditCtrl implements IComponentController {
         limitSelect: false,
         pageSelect: false,
     };
-    public selected:any[] = [];
-    private readonly measures: string[] = ["minValue","ATP","FTP","maxValue"];
+    public selected: any[] = [];
+    private readonly measures: string[] = ["minValue", "ATP", "FTP", "maxValue"];
     private readonly calculationMethod: any = _CalculationMethod;
 
-    static $inject = [];
+    public static $inject = [];
 
     constructor() {
 
     }
 
-    $onInit() {
+    public $onInit() {
         this.settings = copy(this.sportSettings);
-        this.viewMode = ["5","7","9"].indexOf(this.settings.calculateMethod) === -1;
+        this.viewMode = ["5", "7", "9"].indexOf(this.settings.calculateMethod) === -1;
     }
 
-    selectMethod(method: string, factor: string) {
+    public selectMethod(method: string, factor: string) {
         this.settings.calculateMethod = method;
         this.settings.zones = this.calculateMethod(method, {
-            FTP: this.settings["FTP"],
-            minValue: this.settings["minValue"],
-            maxValue: this.settings["maxValue"]}, factor);
+            FTP: this.settings.FTP,
+            minValue: this.settings.minValue,
+            maxValue: this.settings.maxValue}, factor);
 
         this.viewMode = this.settings.calculateMethod === "custom";
     }
 
-    changeZone(i: number, value: number, factor: string) {
-        let step: number = factor !== "speed" ? 1 : 0.00000000000001;
+    public changeZone(i: number, value: number, factor: string) {
+        const step: number = factor !== "speed" ? 1 : 0.00000000000001;
         if (i === this.settings.zones.length) {
             return;
         }
-        this.settings.zones[i+1].valueFrom = value + step;
+        this.settings.zones[i + 1].valueFrom = value + step;
     }
 
-
-
-    calculateMethod(method: string, measure: {FTP?: number, minValue?:number, maxValue?: number}, factor: string):any[] {
+    public calculateMethod(method: string, measure: {FTP?: number, minValue?: number, maxValue?: number}, factor: string): any[] {
 
         let zones: any[] = [];
-        let step: number = factor !== "speed" ? 1 : 0.00000000000001;
+        const step: number = factor !== "speed" ? 1 : 0.00000000000001;
 
         switch (method) {
             case "JoeFrielHeartRateRunning7": {
@@ -204,31 +202,31 @@ class SettingsZonesEditCtrl implements IComponentController {
                     {
                         id: "new",
                         code: "A1: Аэробная (низкая интенсивность)",
-                        valueFrom: Math.round(measure.maxValue * 0.70)+step,
+                        valueFrom: Math.round(measure.maxValue * 0.70) + step,
                         valueTo: Math.round(measure.maxValue * 0.80),
                     },
                     {
                         id: "new",
                         code: "A2: Аэробная (средняя интенсивность)",
-                        valueFrom: Math.round(measure.maxValue * 0.80)+step,
+                        valueFrom: Math.round(measure.maxValue * 0.80) + step,
                         valueTo: Math.round(measure.maxValue * 0.85),
                     },
                     {
                         id: "new",
                         code: "E1: Развивающая (транзитная)",
-                        valueFrom: Math.round(measure.maxValue * 0.85)+step,
+                        valueFrom: Math.round(measure.maxValue * 0.85) + step,
                         valueTo: Math.round(measure.maxValue * 0.90),
                     },
                     {
                         id: "new",
                         code: "E2: Развивающая (высокая интенсивность)",
-                        valueFrom: Math.round(measure.maxValue * 0.90)+step,
+                        valueFrom: Math.round(measure.maxValue * 0.90) + step,
                         valueTo: Math.round(measure.maxValue * 0.95),
                     },
                     {
                         id: "new",
                         code: "An: Анаэробная",
-                        valueFrom: Math.round(measure.maxValue * 0.95)+step,
+                        valueFrom: Math.round(measure.maxValue * 0.95) + step,
                         valueTo: Math.round(measure.maxValue * 1),
                     },
                 ];
@@ -276,17 +274,17 @@ class SettingsZonesEditCtrl implements IComponentController {
                         id: "new",
                         code: "Neuromuscular Power",
                         valueFrom: Math.round(measure.FTP * 1.40) + step,
-                        valueTo: Math.round(measure.FTP * 1.40)*10,
+                        valueTo: Math.round(measure.FTP * 1.40) * 10,
                     },
                 ];
                 break;
             }
-            case "JoeFrielSpeed7":{
+            case "JoeFrielSpeed7": {
                 zones = [
                     {
                         id: "new",
                         code: "Zone 1: Recovery",
-                        valueFrom: measure.minValue || (1000+0.1)/3600, //59:59 мин/км,
+                        valueFrom: measure.minValue || (1000 + 0.1) / 3600, //59:59 мин/км,
                         valueTo: measure.FTP / 1.29, //1.29
                     },
                     {
@@ -329,27 +327,27 @@ class SettingsZonesEditCtrl implements IComponentController {
                 break;
             }
             case "5": {
-                zones = Array.from(new Array(5)).map((_,i) => ({
+                zones = Array.from(new Array(5)).map((_, i) => ({
                     id: "new",
-                    code: `Zone #${i+1}`,
+                    code: `Zone #${i + 1}`,
                     valueFrom: i === 0 && measure.minValue || null,
                     valueTo: i === 4 && Math.round(measure.FTP * 1.11) || null,
                 }));
                 break;
             }
             case "7": {
-                zones = Array.from(new Array(7)).map((_,i) => ({
+                zones = Array.from(new Array(7)).map((_, i) => ({
                     id: "new",
-                    code: `Zone #${i+1}`,
+                    code: `Zone #${i + 1}`,
                     valueFrom: i === 0 && measure.minValue || null,
                     valueTo: i === 6 && Math.round(measure.FTP * 1.11) || null,
                 }));
                 break;
             }
             case "9": {
-                zones = Array.from(new Array(9)).map((_,i) => ({
+                zones = Array.from(new Array(9)).map((_, i) => ({
                     id: "new",
-                    code: `Zone #${i+1}`,
+                    code: `Zone #${i + 1}`,
                     valueFrom: i === 0 && measure.minValue || null,
                     valueTo: i === 8 && Math.round(measure.FTP * 1.11) || null,
                 }));
@@ -361,7 +359,7 @@ class SettingsZonesEditCtrl implements IComponentController {
     }
 }
 
-const SettingsZonesEditComponent:IComponentOptions = {
+const SettingsZonesEditComponent: IComponentOptions = {
     bindings: {
         intensityFactor: "<",
         sport: "<",

@@ -5,7 +5,7 @@ import {ActivityIntervalCalcMeasure} from "./activity.models";
 
 export class ActivityIntervalL extends ActivityInterval implements IActivityIntervalL {
 
-    calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
+    public calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
 
     constructor(type: string, params: any) {
         super(type, params);

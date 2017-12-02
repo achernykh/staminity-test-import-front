@@ -269,21 +269,21 @@ export const getSportLimit = (sport, limit) => sportLimit[sport][limit];
 export const measurementUnit = (measure) => _measurement[measure].unit;
 export const measurementUnitView = (sport, measure) => _activity_measurement_view[sport][measure].unit;
 export const measurementUnitDisplay = (sport, measure) =>
-    ((_activity_measurement_view[sport].hasOwnProperty(measure)) && measurementUnitView(sport,measure)) ||
+    ((_activity_measurement_view[sport].hasOwnProperty(measure)) && measurementUnitView(sport, measure)) ||
         measurementUnit(measure);
 
 export const measurementFixed = (measure) => _measurement[measure].fixed;
 
 // Перечень показателей релевантных для пересчета скорости в темп (10км/ч = 6:00 мин/км)
-export const _measurement_pace_unit = ["minpkm","minp100m"];
+export const _measurement_pace_unit = ["minpkm", "minp100m"];
 
 export const isDuration = (unit) => ["min"].indexOf(unit) !== -1;
-export const isPace = (unit) => ["mps","minpkm","minp100m"].indexOf(unit) !== -1;
+export const isPace = (unit) => ["mps", "minpkm", "minp100m"].indexOf(unit) !== -1;
 export const typeOf = (unit) => (isDuration(unit) && "duration") || (isPace(unit) && "pace") || "number";
 
-export const validators = (sport,measure) => {
-    let unit = measurementUnitDisplay(sport,measure);
-    if(isDuration(unit) || isPace(unit)) {
+export const validators = (sport, measure) => {
+    const unit = measurementUnitDisplay(sport, measure);
+    if (isDuration(unit) || isPace(unit)) {
         return {
             step: 1,
         };
@@ -299,12 +299,12 @@ export const validators = (sport,measure) => {
  */
 export class Measure {
 
-    unit: string; // единица изменения
-    fixed: number; // число знаков после запятой для view показателя, релевантно для типа number
-    value: number; // значение показателя
+    public unit: string; // единица изменения
+    public fixed: number; // число знаков после запятой для view показателя, релевантно для типа number
+    public value: number; // значение показателя
 
-    constructor(public name: string, public sport?: string, value?: number | {}){
-        this.unit = (_activity_measurement_view[sport].hasOwnProperty(name) && _activity_measurement_view[sport][name]["unit"]) || _measurement[name].unit;
+    constructor(public name: string, public sport?: string, value?: number | {}) {
+        this.unit = (_activity_measurement_view[sport].hasOwnProperty(name) && _activity_measurement_view[sport][name].unit) || _measurement[name].unit;
         this.fixed = _measurement[name].fixed;
     }
 
@@ -315,17 +315,17 @@ export class Measure {
         return (isDuration(this.unit) && "duration") || (isPace(this.unit) && "pace") || "number";
     }
 
-    isPace():boolean {
+    public isPace(): boolean {
         return this.type === "pace";
     }
 
-	/**
+    /**
      * Пересчет единиц измерения
      * @param unit - целевая единица измерения
      * @param value - значение показателя
      * @returns {any|null}
      */
-    recalculation(unit: string, value: number):number {
+    public recalculation(unit: string, value: number): number {
         return _recalculation[this.unit][unit](value) || null;
     }
 }
@@ -393,28 +393,28 @@ const _recalculation = _measurement_calculate;
  * @param units - система мер (метрическая/имперская
  * @returns {string} - результат пересчета
  */
-export const measureValue = (input: number, sport: string, measure: string, chart:boolean = false, units:string = "metric") => {
+export const measureValue = (input: number, sport: string, measure: string, chart: boolean = false, units: string = "metric") => {
     if (!!input) {
-        let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
-            (_measurement[measure].hasOwnProperty("view") && _measurement[measure]["view"]) || _measurement[measure].unit;
-        let fixed = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].fixed) || _measurement[measure].fixed;
+        const unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
+            (_measurement[measure].hasOwnProperty("view") && _measurement[measure].view) || _measurement[measure].unit;
+        const fixed = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].fixed) || _measurement[measure].fixed;
 
         // Необходимо пересчет единиц измерения
-        if (unit !== _measurement[measure].unit){
+        if (unit !== _measurement[measure].unit) {
             input = _measurement_calculate[_measurement[measure].unit][unit](input);
         }
 
         // Необходим пересчет системы мер
-        if (units && units !== "metric"){
+        if (units && units !== "metric") {
             input = input * _measurement_system_calculate[unit].multiplier;
         }
 
         // Показатель релевантен для пересчета скорости в темп
-        if (!chart && (isDuration(unit) || isPace(unit))){
-            let format = input >= 60*60 ? "HH:mm:ss" : "mm:ss";
-            let time = moment().startOf("day").millisecond(input*1000).startOf("millisecond");
+        if (!chart && (isDuration(unit) || isPace(unit))) {
+            const format = input >= 60 * 60 ? "HH:mm:ss" : "mm:ss";
+            const time = moment().startOf("day").millisecond(input * 1000).startOf("millisecond");
 
-            if(time.milliseconds() >= 500) {
+            if (time.milliseconds() >= 500) {
                 time.add(1, "second");
             }
 
@@ -422,8 +422,7 @@ export const measureValue = (input: number, sport: string, measure: string, char
             //return moment().startOf('day').millisecond(input*1000).startOf('millisecond').format(format);
 
             return time.format(format);
-        }
-        else {
+        } else {
             return Number(input).toFixed(fixed);
         }
     } else {
@@ -432,9 +431,7 @@ export const measureValue = (input: number, sport: string, measure: string, char
 };
 
 export const measureUnit = (measure, sport = "default", units = "metric") => {
-    let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
-        (_measurement[measure].hasOwnProperty("view") && _measurement[measure]["view"]) || _measurement[measure].unit;
+    const unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
+        (_measurement[measure].hasOwnProperty("view") && _measurement[measure].view) || _measurement[measure].unit;
     return (units && units !== "metric") ? _measurement_system_calculate[unit].unit : unit;
 };
-
-

@@ -16,8 +16,8 @@ export class MeasureChartData {
     public maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
 
     public measuresX: string[] = ["distance", "elapsedDuration"];
-    public measuresY: string[] = ["heartRate", "speed", "power","altitude"];
-    private measuresSecondary: string[] = ["timestamp","duration"];
+    public measuresY: string[] = ["heartRate", "speed", "power", "altitude"];
+    private measuresSecondary: string[] = ["timestamp", "duration"];
 
     /**
      *
@@ -34,8 +34,8 @@ export class MeasureChartData {
             if (this.details.measures.hasOwnProperty(key) &&
                 (this.calcMeasure.hasOwnProperty(key) && this.calcMeasure[key].value > 0)) {
                 this.measures[key] = this.details.measures[key];
-                this.measures[key]["show"] = true;
-                if(this.calcMeasure[key] && this.calcMeasure[key].hasOwnProperty("minValue")) {
+                this.measures[key].show = true;
+                if (this.calcMeasure[key] && this.calcMeasure[key].hasOwnProperty("minValue")) {
                     this.maxValue[key] = {
                         max: this.calcMeasure[key].maxValue,
                         min: this.calcMeasure[key].minValue,
@@ -51,7 +51,7 @@ export class MeasureChartData {
             if (this.details.measures.hasOwnProperty(key) &&
                 (!this.calcMeasure.hasOwnProperty(key) || (this.calcMeasure.hasOwnProperty(key) && this.calcMeasure[key].value > 0))) {
                 this.measures[key] = this.details.measures[key];
-                this.measures[key]["show"] = true;
+                this.measures[key].show = true;
             } else {
                 this.measuresX.splice(this.measuresX.indexOf(key), 1);
             }
@@ -59,16 +59,16 @@ export class MeasureChartData {
 
         this.measuresSecondary.forEach((key) => {
             this.measures[key] = this.details.measures[key];
-            this.measures[key]["show"] = true;
+            this.measures[key].show = true;
         });
 
         this.details.metrics.forEach((info) => {
-            let cleaned = {};
-            for (let key in this.measures) {
-                let measure: Measure = new Measure(key,this.sportBasic);
+            const cleaned = {};
+            for (const key in this.measures) {
+                const measure: Measure = new Measure(key, this.sportBasic);
                 cleaned[key] = measure.isPace() ?
-                    Math.max(info[this.measures[key]["idx"]], getSportLimit(this.sportBasic,key)["min"]) :
-                    info[this.measures[key]["idx"]];
+                    Math.max(info[this.measures[key].idx], getSportLimit(this.sportBasic, key).min) :
+                    info[this.measures[key].idx];
             }
             this.data.push(cleaned);
         });
@@ -80,9 +80,9 @@ export class MeasureChartData {
  * Тренировка имеет план?
  * @param item
  */
-export const isSpecifiedActivity = (item: ICalendarItem):boolean => {
-    let intervalP: IActivityIntervalP[] = <IActivityIntervalP[]>item.activityHeader.intervals.filter((i) => i.type === "P");
-    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter((i) => i.type === "pW")[0];
+export const isSpecifiedActivity = (item: ICalendarItem): boolean => {
+    const intervalP: IActivityIntervalP[] = item.activityHeader.intervals.filter((i) => i.type === "P") as IActivityIntervalP[];
+    const intervalPW: IActivityIntervalPW = item.activityHeader.intervals.filter((i) => i.type === "pW")[0] as IActivityIntervalPW;
     return (!!intervalP && intervalP.length > 0) ||
         (!!intervalPW && (intervalPW.durationValue > 0 || intervalPW.intensityLevelFrom > 0));
 };
@@ -92,11 +92,11 @@ export const isSpecifiedActivity = (item: ICalendarItem):boolean => {
  * @param item
  * @returns {boolean}
  */
-export const isCompletedActivity = (item: ICalendarItem):boolean => {
-    let intervalW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter((i) => i.type === "W")[0];
+export const isCompletedActivity = (item: ICalendarItem): boolean => {
+    const intervalW: IActivityIntervalPW = item.activityHeader.intervals.filter((i) => i.type === "W")[0] as IActivityIntervalPW;
     return (!!intervalW && Object.keys(intervalW.calcMeasures)
-            .filter((m) => intervalW.calcMeasures[m]["value"] || intervalW.calcMeasures[m]["minValue"] ||
-                intervalW.calcMeasures[m]["maxValue"] || intervalW.calcMeasures[m]["avgValue"]).length > 0);
+            .filter((m) => intervalW.calcMeasures[m].value || intervalW.calcMeasures[m].minValue ||
+                intervalW.calcMeasures[m].maxValue || intervalW.calcMeasures[m].avgValue).length > 0);
 };
 
 /**
@@ -105,7 +105,7 @@ export const isCompletedActivity = (item: ICalendarItem):boolean => {
  * @returns {ICalendarItem}
  */
 export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
-    if(item.calendarItemType !== "activity") {
+    if (item.calendarItemType !== "activity") {
         return item;
     }
     item.activityHeader.intervals = item.activityHeader.intervals.filter((i) => i.type === "pW" || i.type === "P");
@@ -115,10 +115,10 @@ export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
 
 export const updateIntensity = (item: ICalendarItem, trgZones: ITrainingZones): ICalendarItem => {
     // TODO for interval P
-    let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter((i) => i.type === "pW")[0];
-    let sport: string = item.activityHeader.activityType.code;
-    let measure: string = intervalPW.intensityMeasure;
-    let ftp: number = getFTP(trgZones,measure,sport);
+    const intervalPW: IActivityIntervalPW = item.activityHeader.intervals.filter((i) => i.type === "pW")[0] as IActivityIntervalPW;
+    const sport: string = item.activityHeader.activityType.code;
+    const measure: string = intervalPW.intensityMeasure;
+    const ftp: number = getFTP(trgZones, measure, sport);
     if (!intervalPW || !trgZones || !measure || !sport) {
         return item;
     }
@@ -134,8 +134,7 @@ export const changeUserOwner = (item: ICalendarItem, user: IUserProfile): ICalen
 };
 
 export const shiftDate = (item: ICalendarItem, shift: number) => {
-    item.dateStart = moment(item.dateStart, "YYYY-MM-DD").add(shift,"d").format("YYYY-MM-DD");
-    item.dateEnd = moment(item.dateEnd, "YYYY-MM-DD").add(shift,"d").format("YYYY-MM-DD");
+    item.dateStart = moment(item.dateStart, "YYYY-MM-DD").add(shift, "d").format("YYYY-MM-DD");
+    item.dateEnd = moment(item.dateEnd, "YYYY-MM-DD").add(shift, "d").format("YYYY-MM-DD");
     return item;
 };
-
