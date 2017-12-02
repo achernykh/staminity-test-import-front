@@ -1,5 +1,5 @@
-var build = '240';
-var version = '1.4.3';
+var build = '242';
+var version = '1.4.4';
 var protocol = {
   ws: 'wss://',
   rest: 'https://'

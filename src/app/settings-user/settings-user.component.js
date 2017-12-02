@@ -99,6 +99,7 @@ class SettingsUserCtrl {
     }
 
     setUser (user) {
+
         if (user.userId === this.user.userId) {
             this.user = angular.copy(user);
         }
@@ -118,6 +119,7 @@ class SettingsUserCtrl {
     }
 
     reload () {
+        debugger;
         this.UserService.getProfile(this.user.public.uri)
         .then(this.setUser.bind(this), this.errorHandler());
     }
@@ -537,6 +539,7 @@ class SettingsUserCtrl {
     uploadAvatar () {
         this.dialogs.uploadPicture()
         .then(picture => this.UserService.postProfileAvatar(picture))
+        .then((response) => this.setUser(response))
         .then(this.successHandler('updateAvatar'))
         .catch(this.errorHandler());
     }
@@ -544,6 +547,7 @@ class SettingsUserCtrl {
     uploadBackground () {
         this.dialogs.uploadPicture()
         .then((picture) => this.UserService.postProfileBackground(picture))
+        .then((response) => this.setUser(response))
         .then(this.successHandler('updateBackgroundImage'))
         .catch(this.errorHandler());
     }
