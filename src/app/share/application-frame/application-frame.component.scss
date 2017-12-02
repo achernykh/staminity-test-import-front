@@ -147,8 +147,8 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
   }
 
   &__content {
-
     width: auto;
+    background: none;
     top: $app-toolbar-height;
     min-height: calc(100vh - 64px);
     //margin-left: $app-sidenav-desktop-width-collapsed;

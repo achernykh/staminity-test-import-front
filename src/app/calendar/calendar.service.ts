@@ -1,8 +1,8 @@
 import {SocketService} from '../core';
 import {
-    ICalendarItem,
+    ICalendarItem, ISearchCalendarItemsParams, ISearchCalendarItemsResult,
     GetCalendarItemRequest, PostCalendarItemRequest,
-    PutCalendarItemRequest, DeleteCalendarItemRequest} from '../../../api';
+    PutCalendarItemRequest, DeleteCalendarItemRequest, SearchCalendarItem} from '../../../api';
 import {Observable} from "rxjs/Rx";
 import {IRESTService, PostFile} from "../core/rest.service";
 import {IHttpPromise, copy} from 'angular';
@@ -66,5 +66,14 @@ export class CalendarService {
     postFile(file: any, activityId?:number):IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile(`/api/private/upload`,file, { activityId: activityId}))
             .then((response) => response.data);
+    }
+
+    /**
+     * Поиск записей календаря
+     * @param request
+     * @returns {Promise<any>}
+     */
+    search (request: ISearchCalendarItemsParams): Promise<ISearchCalendarItemsResult> {
+        return this.SocketService.send(new SearchCalendarItem(request));
     }
 }

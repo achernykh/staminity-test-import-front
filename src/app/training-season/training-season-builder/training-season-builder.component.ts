@@ -2,21 +2,29 @@ import './training-season-builder.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IUserProfile } from "../../../../api/user/user.interface";
+import { ICalendarItem } from '@api/calendar';
 import { TrainingSeasonData } from "../training-season-data/training-season-data.datamodel";
+import { CalendarService } from "../../calendar/calendar.service";
+import MessageService from "../../core/message.service";
+import { TrainingSeasonService } from "../training-season.service";
 
 class TrainingSeasonBuilderCtrl implements IComponentController {
-
     // bind
     season: TrainingSeason;
     currentUser: IUserProfile;
     owner: IUserProfile;
 
     // private
-    data: TrainingSeasonData;
+    private competitions: Array<ICalendarItem>;
+    private data: TrainingSeasonData;
 
-    static $inject = [];
+    // inject
+    static $inject = ['CalendarService', 'TrainingSeasonService', 'message'];
 
-    constructor() {
+    constructor (
+        private calendarService: CalendarService,
+        private trainingSeasonService: TrainingSeasonService,
+        private messageService: MessageService) {
 
     }
 
@@ -27,6 +35,20 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             dateStart: '2017.10.30',
             dateEnd: '2018.10.10'
         });
+
+        this.trainingSeasonService.get()
+            .then(
+                success => {  },
+                error => {  }
+            );
+
+        this.calendarService.search({
+            userIdOwner: this.currentUser.userId,
+            calendarItemTypes: ['competition']
+        }).then(
+            result => this.data.setCompetitions(result.arrayResult),
+            error => { }
+        );
 
         this.data = new TrainingSeasonData(this.season, []);
     }

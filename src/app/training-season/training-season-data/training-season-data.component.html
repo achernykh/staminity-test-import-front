@@ -2,7 +2,7 @@
     <!-- Заголовок таблицы -->
     <md-toolbar class="md-table-toolbar md-default" ng-hide="$ctrl.selected.length">
         <div class="md-toolbar-tools">
-            <span>Nutrition</span>
+            <span translate="trainingSeason.data"></span>
             <div flex></div>
             <md-button class="md-icon-button" ng-click="loadStuff()">
                 <md-icon>refresh</md-icon>
@@ -11,7 +11,7 @@
     </md-toolbar>
 
     <!-- Заголовок таблицы: веделены строки -->
-    <md-toolbar class="md-table-toolbar alternate" ng-show="$ctrl.selected.length">
+    <md-toolbar class="md-table-toolbar md-default alternate" ng-show="$ctrl.selected.length">
         <div class="md-toolbar-tools">
             <span>{{$ctrl.selected.length}} {{$ctrl.selected.length > 1 ? 'items' : 'item'}} selected</span>
         </div>
@@ -19,7 +19,7 @@
 
     <!-- Таблица периодизации -->
     <md-table-container class="training-season-data">
-        <table md-table md-row-select multiple ng-model="$ctrl.selected" class="md-primary">
+        <table md-table md-row-select multiple ng-model="$ctrl.selected">
             <thead md-head>
             <tr md-row>
                 <th md-column class="period"><span translate="trainingSeason.period"></span></th>
@@ -40,22 +40,27 @@
                 </td>
                 <!-- Перечень соревнований периода -->
                 <td md-cell class="competition">
-                    <div ng-if="cycle.competition"
-                         layout="row" layout-align="center center">
+                    <div ng-if="cycle.competition" layout="row" layout-align="start center">
                         <div flex="none"
                              layout="row" layout-align="center center"
-                             class="competition-icon bg-circle-32"
-                             ng-class="{color: !$ctrl.competition.isCompleted || !$ctrl.competition.isSpecified}">
+                             class="competition-icon color bg-circle-32">
                             <md-icon class="material-icons md-light md-18"
                                      md-svg-src="/assets/icon/competition.svg"></md-icon>
                         </div>
-                        <span flex="auto">{{cycle.competition.name}}</span>
+                        <div layout="column" class="data">
+                            <div flex="none" class="md-caption md-dark">
+                                <span>{{cycle.competition.competitionHeader.type}}</span>
+                                <span>:</span>
+                                <span>{{cycle.competition.competitionHeader.distanceType}}</span>
+                            </div>
+                            <div flex="auto" class="name md-body-2 md-dark">{{cycle.competition.competitionHeader.name}}</div>
+                        </div>
                     </div>
                 </td>
                 <!-- Мезоцикл -->
                 <td md-cell class="mesocycle">
-                    <div class="block">
-                        <md-select flex="auto" ng-model="cycle.mesocycle" placeholder="Other">
+                    <div class="block {{cycle.code}}" ng-class="{selected: cycle.mesocycle}">
+                        <md-select flex="auto" ng-model="cycle.mesocycle" placeholder="Не указан">
                             <md-option ng-value="cycle.code" ng-repeat="cycle in $ctrl.mesocycles">{{cycle.code}}
                             </md-option>
                         </md-select>
@@ -63,7 +68,7 @@
                 </td>
                 <!-- Номер недели -->
                 <td md-cell class="week">
-                    Week {{$ctrl.getWeekCount($index)}}
+                    <span ng-if="cycle.mesocycle">Week {{$ctrl.getWeekCount($index)}}</span>
                 </td>
                 <!-- Обьем -->
                 <td md-cell

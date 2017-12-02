@@ -1,3 +1,5 @@
+@import "../../../sass/color";
+
 .training-season-data {
 
   .mesocycle-icon {
@@ -15,17 +17,21 @@
   .competition {
     width: 250px;
     max-width: 250px;
+    .competition-icon {
+      margin-right: 12px;
+    }
+    .name {
+      line-height: 18px;
+    }
   }
 
   .mesocycle {
     width: 150px;
     max-width: 150px;
-
     .md-text {
       text-overflow: ellipsis;
       overflow: hidden;
     }
-
   }
 
   .week {
@@ -33,16 +39,26 @@
     max-width: 50px;
   }
 
-  .mesocycle .block {
-    background: darkorange;
-    color: white;
-    height: 24px;
-    line-height: 24px;
-    padding: 4px 16px;
-    border-radius: 24px;
+  .mesocycle {
+    div.block {
+      padding: 4px 16px;
+      &.selected {
+        background: darkorange;
+        color: white;
+        height: 24px;
+        line-height: 24px;
+        border-radius: 24px;
+      }
+    }
   }
 
   .md-table {
+    .md-checked .md-ink-ripple {
+      color: $grey-500;
+    }
+    .md-checked .md-icon {
+      background-color: $grey-400;
+    }
 
   }
 }
