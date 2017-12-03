@@ -6,7 +6,7 @@
         "max-classes-per-file": false,
         "one-variable-per-declaration": false,
         "interface-name": false,
-        "Forbidden bitwise operation": false,
+        "no-bitwise": false, 
         "prefer-for-of": false,
         "no-empty-interface": false,
         "radix": false,
