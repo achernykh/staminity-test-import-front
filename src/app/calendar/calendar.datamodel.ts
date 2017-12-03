@@ -7,8 +7,8 @@ import { CalendarService } from "./calendar.service";
 
 export class Calendar {
 
-    public weeks: ICalendarWeek[] = []; //todo rename to weeks
-    public pos: number = 0;
+    weeks: ICalendarWeek[] = []; //todo rename to weeks
+    pos: number = 0;
 
     // private
     // todo need comment
@@ -25,7 +25,7 @@ export class Calendar {
 
     }
 
-    public toDate(date) {
+    toDate(date) {
         const week = this.takeWeek(date);
         this.scrollToWeek(week);
 
@@ -35,7 +35,7 @@ export class Calendar {
             }, 1));
     }
 
-    public reset(date: Date) {
+    reset(date: Date) {
         this.date = date;
         this.range = [0, 1];
         this.weeks = [];
@@ -43,32 +43,32 @@ export class Calendar {
         return this.up();
     }
 
-    public setCurrentWeek(week) {
+    setCurrentWeek(week) {
         if (this.currentWeek !== week) {
             this.currentWeek = week;
             //this.$location.hash(week.anchor).replace();
         }
     }
 
-    public toPrevWeek() {
+    toPrevWeek() {
         this.toDate(moment(this.currentWeek.date).add(-1, "week"));
     }
 
-    public toNextWeek() {
+    toNextWeek() {
         this.toDate(moment(this.currentWeek.date).add(1, "week"));
     }
 
-    public toCurrentWeek() {
+    toCurrentWeek() {
         this.toDate(moment().startOf("week"));
     }
 
-    public scrollToWeek(week) {
+    scrollToWeek(week) {
         this.setCurrentWeek(week);
         const anchor = "hotfix" + week.anchor;
         this.$anchorScroll("hotfix" + week.anchor); //todo this is used?
     }
 
-    public takeWeek(date) {
+    takeWeek(date) {
         date = moment(date).startOf("week");
         const week = this.weeks.find((w) => w.date.isSame(date, "week"));
         const calendarFirst = this.weeks[0] && moment(this.weeks[0].date);
@@ -90,7 +90,7 @@ export class Calendar {
      * @param date
      * @param calendarItems
      */
-    public dayItem(date, calendarItems): ICalendarDay {
+    dayItem(date, calendarItems): ICalendarDay {
         //debugger;
         //console.log('dayItem',date.utc(),date.utc().add(moment().utcOffset(),'minutes').format());
         return {
@@ -114,7 +114,7 @@ export class Calendar {
      * @param date - дата начала недели
      * @param days : DayItem[]
      */
-    public weekItem(index, date, days, loading): ICalendarWeek {
+    weekItem(index, date, days, loading): ICalendarWeek {
         return {
             sid: index,
             date,
@@ -133,7 +133,7 @@ export class Calendar {
      * Подгрузка n записей вверх
      * @param n
      */
-    public up(n = 1) {
+    up(n = 1) {
         const i0 = this.range[0];
         this.range[0] -= n;
 
@@ -159,7 +159,7 @@ export class Calendar {
      * Подгрузка n записей вниз
      * @param n
      */
-    public down(n = 1) {
+    down(n = 1) {
         const i0 = this.range[1];
         this.range[1] += n;
 
@@ -186,7 +186,7 @@ export class Calendar {
      * @param date - любой Datetime недели
      * @param index - позиция в списке
      */
-    public getWeek(date, index) {
+    getWeek(date, index) {
         const start = moment(date).startOf("week");
         const end = moment(start).add(6, "d");
 

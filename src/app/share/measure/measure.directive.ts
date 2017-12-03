@@ -296,7 +296,6 @@ export function MeasurementInput($filter): IDirective {
 
         $scope.$watch("ftpMode", (value: boolean, last: boolean) => {
             console.log($scope, $attrs);
-            const newValue: any;
 
             if (FTPMeasures.indexOf($scope.measure) === -1 || value === last) {
                 return;
@@ -377,18 +376,18 @@ export function MeasurementInput($filter): IDirective {
 
             $scope.isFTPMeasure = FTPMeasures.indexOf($scope.measure) !== -1;
 
-            if ($scope.measure && $attrs.sport) {
-                measure = new Measure($scope.measure, $attrs.sport);
+            if ($scope.measure && $attrs["sport"]) {
+                measure = new Measure($scope.measure, $attrs["sport"]);
 
                 switch (measure.type) {
                     case "pace": {
                         if ($scope.interval) {
-                            $ctrl.$validators.pace = ($scope.ftpMode && $scope.isFTPMeasure) ? numberIntervalValidators : paceIntervalValidators;
+                            $ctrl.$validators["pace"] = ($scope.ftpMode && $scope.isFTPMeasure) ? numberIntervalValidators : paceIntervalValidators;
                             $ctrl.$formatters = ($scope.ftpMode && $scope.isFTPMeasure) ? [numberFtpIntervalFormatters] : [paceIntervalFormatters];
                             $ctrl.$parsers = ($scope.ftpMode && $scope.isFTPMeasure) ? [numberFtpIntervalParsers] : [paceIntervalParsers];
                             mask = ($scope.ftpMode && $scope.isFTPMeasure) ? toNumberInterval : toPaceInterval;
                         } else {
-                            $ctrl.$validators.pace = paceValidators;
+                            $ctrl.$validators["pace"] = paceValidators;
                             $ctrl.$formatters = ($scope.ftpMode && $scope.isFTPMeasure) ? [durationFtpFormatters] : [paceFormatters];
                             $ctrl.$parsers = ($scope.ftpMode && $scope.isFTPMeasure) ? [numberFtpParsers] : [paceParsers];
                             mask = ($scope.ftpMode && $scope.isFTPMeasure) ? toNumber : toPace;
@@ -399,7 +398,7 @@ export function MeasurementInput($filter): IDirective {
                         if ($scope.interval) {
 
                         } else {
-                            $ctrl.$validators.duration = durationValidators;
+                            $ctrl.$validators["duration"] = durationValidators;
                             $ctrl.$formatters = [durationFormatters];
                             $ctrl.$parsers = [durationParsers];
                             convert = convertToDuration;
@@ -408,12 +407,12 @@ export function MeasurementInput($filter): IDirective {
                     }
                     case "number": {
                         if ($scope.interval) {
-                            $ctrl.$validators.number = numberIntervalValidators;
+                            $ctrl.$validators["number"] = numberIntervalValidators;
                             $ctrl.$formatters = ($scope.ftpMode && $scope.isFTPMeasure) ? [numberFtpIntervalFormatters] : [numberIntervalFormatters];
                             $ctrl.$parsers = ($scope.ftpMode && $scope.isFTPMeasure) ? [numberFtpIntervalParsers] : [numberIntervalParsers];
                             mask = ($scope.ftpMode && $scope.isFTPMeasure) ? toNumberInterval : toNumberInterval;
                         } else {
-                            $ctrl.$validators.number = durationValidators;
+                            $ctrl.$validators["number"] = durationValidators;
                             $ctrl.$formatters = ($scope.ftpMode && $scope.isFTPMeasure) ? [durationFtpFormatters] : [durationFormatters];
                             $ctrl.$parsers = ($scope.ftpMode && $scope.isFTPMeasure) ? [numberFtpParsers] : [numberParsers];
                             mask = ($scope.ftpMode && $scope.isFTPMeasure) ? toNumber : toNumber;

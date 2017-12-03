@@ -9,18 +9,18 @@ import "./activity-header-overview.component.scss";
 class ActivityHeaderOverviewCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public mode: string;
-    public activity: Activity;
-    public intervalPW: ActivityIntervalPW;
-    public intervalW: ActivityIntervalW;
+    mode: string;
+    activity: Activity;
+    intervalPW: ActivityIntervalPW;
+    intervalW: ActivityIntervalW;
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
         // для удобства верстки создаем быстрый путь к данным
         this.mode = this.item.mode;
         this.activity = this.item.activity;
@@ -28,7 +28,7 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         this.intervalW = this.item.activity.intervals.W;
     }
 
-    public onChangeForm( plan: IActivityIntervalPW , actual: ICalcMeasures, form: INgModelController) {
+    onChangeForm( plan: IActivityIntervalPW , actual: ICalcMeasures, form: INgModelController) {
 
     }
 }

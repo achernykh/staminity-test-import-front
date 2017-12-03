@@ -299,9 +299,9 @@ export const validators = (sport, measure) => {
  */
 export class Measure {
 
-    public unit: string; // единица изменения
-    public fixed: number; // число знаков после запятой для view показателя, релевантно для типа number
-    public value: number; // значение показателя
+    unit: string; // единица изменения
+    fixed: number; // число знаков после запятой для view показателя, релевантно для типа number
+    value: number; // значение показателя
 
     constructor(public name: string, public sport?: string, value?: number | {}) {
         this.unit = (_activity_measurement_view[sport].hasOwnProperty(name) && _activity_measurement_view[sport][name].unit) || _measurement[name].unit;
@@ -315,7 +315,7 @@ export class Measure {
         return (isDuration(this.unit) && "duration") || (isPace(this.unit) && "pace") || "number";
     }
 
-    public isPace(): boolean {
+    isPace(): boolean {
         return this.type === "pace";
     }
 
@@ -325,7 +325,7 @@ export class Measure {
      * @param value - значение показателя
      * @returns {any|null}
      */
-    public recalculation(unit: string, value: number): number {
+    recalculation(unit: string, value: number): number {
         return _recalculation[this.unit][unit](value) || null;
     }
 }

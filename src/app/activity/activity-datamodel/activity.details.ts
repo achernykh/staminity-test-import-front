@@ -19,16 +19,16 @@ export interface IChartMeasureData {
 }
 
 export class ActivityDetails implements IActivityDetails {
-    public activityId: number;
-    public revision: number; // поле полностью соответствует calendarItem.revision
+    activityId: number;
+    revision: number; // поле полностью соответствует calendarItem.revision
     // показатели, по которым имеются метрики в разрезе каждой временной отсечки на часах
-    public social: IActivityDetailsSocial;
+    social: IActivityDetailsSocial;
     // значения показателей. Порядок значений соответствует порядку idx ключей объекта $.measures.<measureCode>.idx
-    public measures: IActivityDetailsMeasure;
-    public metrics: number[][] = [];
+    measures: IActivityDetailsMeasure;
+    metrics: number[][] = [];
 
-    public isEmpty: boolean = true;
-    public isRouteExist: boolean = false;
+    isEmpty: boolean = true;
+    isRouteExist: boolean = false;
 
     private _route: IRoute[] = [];
 
@@ -43,7 +43,7 @@ export class ActivityDetails implements IActivityDetails {
         return this._route;
     }
 
-    public chartData(sportBasic: string, calcMeasure: ICalcMeasures): IChartMeasureData {
+    chartData(sportBasic: string, calcMeasure: ICalcMeasures): IChartMeasureData {
         const measures: {} = {}; // Перечень показателей, которые будут показаны на графике
         const data: Array<{}> = []; // Массив данных для показа на графике
         const maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
@@ -122,9 +122,9 @@ export class ActivityDetails implements IActivityDetails {
             !this.measures.hasOwnProperty("latitude"))) {
             return [];
         }
-        const lng = this.measures.longitude.idx; // lng index in array
-        const lat = this.measures.latitude.idx; // lat index in array
-        const timestamp = this.measures.timestamp.idx; // timestamp index in array
+        const lng = this.measures["longitude"].idx; // lng index in array
+        const lat = this.measures["latitude"].idx; // lat index in array
+        const timestamp = this.measures["timestamp"].idx; // timestamp index in array
 
         return this.metrics
             .filter((m) => m[lng] > 0 || m[lat] > 0)

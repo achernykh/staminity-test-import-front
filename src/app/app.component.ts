@@ -4,7 +4,7 @@ import "./app.component.scss";
 import {IAuthService} from "./auth/auth.service";
 
 class AppController implements IComponentController {
-    public static $inject = ["$mdSidenav", "AuthService"];
+    static $inject = ["$mdSidenav", "AuthService"];
     constructor(private $mdSidenav: any,
                 private auth: IAuthService) { }
 }

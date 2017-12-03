@@ -4,20 +4,20 @@ import "./calendar-item-athlete-selector.component.scss";
 
 class CalendarItemAthleteSelectorCtrl implements IComponentController {
 
-    public coach: any; //IUserProfile
+    coach: any; //IUserProfile
     private athletes: Array<{profile: IUserProfile, active: boolean}> = [];
     private recalculateMode: boolean;
-    public onSelect: (response: {result: Array<{profile: IUserProfile, active: boolean}>, recalculate: boolean}) => IPromise<void>;
-    public static $inject = [];
+    onSelect: (response: {result: Array<{profile: IUserProfile, active: boolean}>, recalculate: boolean}) => IPromise<void>;
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
     }
 
-    public onBack() {
+    onBack() {
         this.onSelect({result: this.athletes, recalculate: this.recalculateMode});
     }
 }

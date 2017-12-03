@@ -10,12 +10,12 @@ import NotificationService from "./notification.service";
 
 class NotificationListCtrl implements IComponentController {
 
-    public isOpen: boolean;
-    public notifications: Notification[];
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
-    public readonly readTime: 5000;
-    public timer: number;
+    isOpen: boolean;
+    notifications: Notification[];
+    data: any;
+    onEvent: (response: Object) => IPromise<void>;
+    readonly readTime: 5000;
+    timer: number;
     private readonly activityTemplates = {
         uploadActivityByProvider: 2,
         activityCompletedByAthlete: 2,
@@ -30,7 +30,7 @@ class NotificationListCtrl implements IComponentController {
     private currentUser: IUserProfile;
     private destroy: Subject<any> = new Subject();
 
-    public static $inject = ["$scope", "$mdDialog", "$mdSidenav", "NotificationService", "CalendarService", "UserService",
+    static $inject = ["$scope", "$mdDialog", "$mdSidenav", "NotificationService", "CalendarService", "UserService",
         "SessionService"];
 
     constructor(
@@ -45,14 +45,14 @@ class NotificationListCtrl implements IComponentController {
 
     }
 
-    public $onChanges(changes: any): void {
+    $onChanges(changes: any): void {
         /*if(changes.hasOwnProperty('isOpen') && !changes.isOpen.isFirstChange()){
             this.timer = setTimeout(() => !!this.notifications && this.notifications.filter(n => !n.isRead)
                 .forEach(n => this.NotificationService.put(n.id, true)), this.readTime);
         }*/
     }
 
-    public $onInit() {
+    $onInit() {
         this.notifications = this.NotificationService.notifications;
 
         this.NotificationService.notificationsChanges
@@ -68,16 +68,16 @@ class NotificationListCtrl implements IComponentController {
         .subscribe((profile) => this.currentUser = angular.copy(profile));
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    public fromNow(date) {
+    fromNow(date) {
         return moment.utc(date).fromNow(true);
     }
 
-    public close() {
+    close() {
         //clearTimeout(this.timer);
         this.$mdSidenav("notifications").toggle();
         this.NotificationService.put(null, moment().utc() , true);
@@ -88,7 +88,7 @@ class NotificationListCtrl implements IComponentController {
         },1);*/
     }
 
-    public onClick($event, notification: Notification): void {
+    onClick($event, notification: Notification): void {
         if (Object.keys(this.activityTemplates).some((k) => k === notification.template)) {
 
             this.CalendarService.getCalendarItem(null, null, null, null, notification.context[this.activityTemplates[notification.template]])

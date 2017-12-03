@@ -17,10 +17,10 @@ class CalendarItemMeasurementCtrl {
     private mode: string;
     private item: any;
     private user: IUserProfile;
-    public onAnswer: (response: Object) => IPromise<void>;
-    public onCancel: (response: Object) => IPromise<void>;
+    onAnswer: (response: Object) => IPromise<void>;
+    onCancel: (response: Object) => IPromise<void>;
 
-    public static $inject = ["CalendarService", "SessionService", "message"];
+    static $inject = ["CalendarService", "SessionService", "message"];
 
     constructor(
         private CalendarService: CalendarService,
@@ -28,7 +28,7 @@ class CalendarItemMeasurementCtrl {
         private message: IMessageService) {
     }
 
-    public $onInit() {
+    $onInit() {
 
         if (this.mode === "post") {
             this.data = {
@@ -43,7 +43,7 @@ class CalendarItemMeasurementCtrl {
         this.item.prepare();
     }
 
-    public onSave() {
+    onSave() {
         if (this.mode === "post") {
             this.CalendarService.postItem(this.item.package())
                 .then((response) => this.item.compile(response)) // сохраняем id, revision в обьекте
@@ -60,7 +60,7 @@ class CalendarItemMeasurementCtrl {
         }
     }
 
-    public onDelete() {
+    onDelete() {
         this.CalendarService.deleteItem("F", [this.item.calendarItemId])
             .then((response) => {
                 this.message.toastInfo("measurementDeleted");

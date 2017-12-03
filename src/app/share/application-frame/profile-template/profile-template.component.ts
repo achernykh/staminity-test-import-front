@@ -4,9 +4,9 @@ import "./profile-template.component.scss";
 
 class ApplicationProfileTemplateCtrl implements IComponentController {
 
-    public user: IUserProfile;
-    public onEvent: (response: Object) => IPromise<void>;
-    public static $inject = ["$mdMedia"];
+    user: IUserProfile;
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = ["$mdMedia"];
 
     constructor(
         private $mdMedia: any,
@@ -14,7 +14,7 @@ class ApplicationProfileTemplateCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 }

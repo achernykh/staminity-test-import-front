@@ -4,15 +4,15 @@ import "./application-user-toolbar.component.scss";
 
 class ApplicationUserToolbarCtrl implements IComponentController {
 
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
-    public static $inject = ["AuthService"];
+    data: any;
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = ["AuthService"];
 
     constructor(private AuthService: AuthService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 }

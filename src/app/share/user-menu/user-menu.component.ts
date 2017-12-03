@@ -12,7 +12,7 @@ class UserMenuCtrl implements IComponentController {
     private user: IUserProfile;
     private destroy = new Subject();
 
-    public static $inject = ["$mdSidenav", "$location", "SessionService", "$state", "DisplayService"];
+    static $inject = ["$mdSidenav", "$location", "SessionService", "$state", "DisplayService"];
 
     constructor(
         private $mdSidenav: any,
@@ -29,17 +29,17 @@ class UserMenuCtrl implements IComponentController {
         });
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    public onUserMenu($mdOpenMenu, ev) {
+    onUserMenu($mdOpenMenu, ev) {
         const originatorEv = ev;
         $mdOpenMenu(ev);
     }
 
-    public transitionToState(url) {
+    transitionToState(url) {
         if (this.$state.current.name === url) {
             return;
         }

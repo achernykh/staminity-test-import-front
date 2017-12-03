@@ -4,9 +4,9 @@ import "./activity-segments-table.component.scss";
 
 class ActivitySegmentsTableCtrl implements IComponentController {
 
-    public segments: ActivityIntervalP[];
-    public onSelect: (response: Object) => IPromise<void>;
-    public selected: any[] = [];
+    segments: ActivityIntervalP[];
+    onSelect: (response: Object) => IPromise<void>;
+    selected: any[] = [];
 
     private options: Object = {
         rowSelection: true,
@@ -24,15 +24,15 @@ class ActivitySegmentsTableCtrl implements IComponentController {
         page: 1,
     };
 
-    public static $inject = ["$scope"];
+    static $inject = ["$scope"];
 
     constructor(private $scope: IScope) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.prepareSegments();
-        this.$scope.change = () => this.onSelect({
+        this.$scope["change"] = () => this.onSelect({
             initiator: "splits",
             selection: {
                 U: null,
@@ -41,11 +41,11 @@ class ActivitySegmentsTableCtrl implements IComponentController {
         });
     }
 
-    public prepareSegments() {
-        this.$scope.segments = this.segments;
+    prepareSegments() {
+        this.$scope["segments"] = this.segments;
     }
 
-    public $onChanges() {
+    $onChanges() {
         this.prepareSegments();
     }
 }

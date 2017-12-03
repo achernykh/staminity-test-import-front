@@ -35,28 +35,28 @@ export class ActivityChartDatamodel implements IComponentController {
         this.selectIntervals = select || [];
     };
 
-    public getData(ind: number = null): Array<IActivityMetrics<number>> | any {
+    getData(ind: number = null): Array<IActivityMetrics<number>> | any {
         return ind ? this.data[ind] : this.data;
     };
 
-    public getSelect(): ITimestampInterval[] {
+    getSelect(): ITimestampInterval[] {
         return this.selectIntervals;
     };
 
-    public setSelect(intervals): void {
+    setSelect(intervals): void {
         this.selectIntervals = !intervals ? [] : intervals;
     };
 
-    public getMeasures(): IActivityMetrics<IMeasureInfo> {
+    getMeasures(): IActivityMetrics<IMeasureInfo> {
         return this.measures;
     }
 
-    public getBaseMetrics(except: string[] = []): string[] {
+    getBaseMetrics(except: string[] = []): string[] {
         const baseMetrics = ["timestamp", "distance", "elapsedDuration", "duration"];
         return Object.keys(this.measures).filter((m) => baseMetrics.indexOf(m) > -1 && except.indexOf(m) === -1);
     }
 
-    public supportedMetrics(): string[] {
+    supportedMetrics(): string[] {
         const except = ["timestamp", "distance", "elapsedDuration", "duration"];
         return Object.keys(this.measures).filter((m) => except.indexOf(m) === -1);
     }

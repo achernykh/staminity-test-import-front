@@ -5,19 +5,19 @@ import "./dashboard-athlete.component.scss";
 
 class DashboardAthleteCtrl implements IComponentController {
 
-    public profile: IUserProfile;
-    public dashboard: DashboardCtrl;
-    public onSelect: (response: Object) => IPromise<void>;
+    profile: IUserProfile;
+    dashboard: DashboardCtrl;
+    onSelect: (response: Object) => IPromise<void>;
 
     private selected: boolean = null;
 
-    public static $inject = ["$state"];
+    static $inject = ["$state"];
 
     constructor(private $state: any, private $mdDialog: any) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         //this.selected = this.dashboard.selectedAthletes.indexOf(this.profile.userId) !== -1;
     }
 }

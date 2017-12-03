@@ -14,7 +14,7 @@ import NotificationService from "../notification/notification.service";
 import "./header.component.scss";
 
 class HeaderCtrl implements IComponentController {
-    public requestsList: IGroupMembershipRequest[] = [];
+    requestsList: IGroupMembershipRequest[] = [];
     private notificationsList: Notification[] = [];
     private user: IUserProfile;
     private athlete: IUserProfile;
@@ -26,7 +26,7 @@ class HeaderCtrl implements IComponentController {
     private internetStatus: boolean = true;
     private destroy: Subject<any> = new Subject();
 
-    public static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "RequestsService", "NotificationService",
+    static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "RequestsService", "NotificationService",
         "CommentService", "$mdDialog", "$state", "toaster", "DisplayService", "SocketService"];
 
     constructor(
@@ -57,7 +57,7 @@ class HeaderCtrl implements IComponentController {
         .subscribe((chat) => this.openChat = chat);
     }
 
-    public $onInit() {
+    $onInit() {
         this.notificationsList = this.NotificationService.notifications;
 
         this.NotificationService.notificationsChanges
@@ -77,7 +77,7 @@ class HeaderCtrl implements IComponentController {
         });
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
@@ -91,24 +91,24 @@ class HeaderCtrl implements IComponentController {
         return this.requestsList.filter((request) => request.receiver.userId === userId && !request.updated).length;
     }
 
-    public onBack() {
+    onBack() {
         window.history.back();
     }
 
-    public historyLength(): number {
+    historyLength(): number {
         return window.history.length;
     }
 
-    public onMenu($mdOpenMenu, ev) {
+    onMenu($mdOpenMenu, ev) {
         const originatorEv = ev;
         $mdOpenMenu(ev);
     }
 
-    public toggleSlide(component) {
+    toggleSlide(component) {
         this.$mdSidenav(component).toggle().then(() => angular.noop);
     }
 
-    public showAthleteSelector($event) {
+    showAthleteSelector($event) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -135,14 +135,14 @@ class HeaderCtrl implements IComponentController {
                 console.log("cancel athlete selector"));
     }
 
-    public setAthlete(response: {user: IUserProfile}) {
+    setAthlete(response: {user: IUserProfile}) {
         //this.athlete = response.user;
         console.log("setAthlete", this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
         // костыли ((
         this.$state.go(this.$state.current.name === "calendar-my" ? "calendar" : this.$state.current.name , {uri: response.user.public.uri});
     }
 
-    public isEnableAthleteSelector() {
+    isEnableAthleteSelector() {
         return (this.athleteSelectorStates.indexOf(this.$state.current.name) !== -1) && this.AuthService.isCoach();
     }
 }

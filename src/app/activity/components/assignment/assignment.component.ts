@@ -19,17 +19,17 @@ export enum FtpState {
 class ActivityAssignmentCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
+    onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
 
     private selected: number[] = [];
     private percentComplete: Object = {};
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 
@@ -37,7 +37,7 @@ class ActivityAssignmentCtrl implements IComponentController {
      * Проверки на уровне полей выполняется отдельно в компонентах assignment-summary-non-structured
      * В данной функции делаются комплексные проверки
      */
-    public checkForm(form?: INgModelController) {
+    checkForm(form?: INgModelController) {
 
         this.item.assignmentForm.$setValidity("needDuration",
             this.item.activity.movingDuration > 0 || this.item.activity.distance > 0); /*
@@ -53,7 +53,7 @@ class ActivityAssignmentCtrl implements IComponentController {
      * @param actual - фактические данные (пользователь мог ввести факт руками)
      * @param form - статус формы ввода
      */
-    public changeForm( form: INgModelController, plan: IActivityIntervalPW, actual: ICalcMeasures) {
+    changeForm( form: INgModelController, plan: IActivityIntervalPW, actual: ICalcMeasures) {
 
         this.item.assignmentForm.$dirty = this.item.assignmentForm.$dirty || form.$dirty;
         this.item.assignmentForm.$valid = this.item.assignmentForm.$valid || form.$valid;

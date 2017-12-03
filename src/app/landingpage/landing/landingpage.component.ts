@@ -15,7 +15,7 @@ class LandingPageCtrl implements IComponentController {
         club: ["lp-club-01.png"],
     };
 
-    public static $inject = ["AuthService", "$state", "SessionService", "DisplayService"];
+    static $inject = ["AuthService", "$state", "SessionService", "DisplayService"];
 
     constructor(private AuthService: IAuthService,
                 private $state: StateService,
@@ -28,7 +28,7 @@ class LandingPageCtrl implements IComponentController {
         return this.SessionService.getUser();
     }
 
-    public go() {
+    go() {
         if (this.AuthService.isAuthenticated()) {
             this.$state.go("calendar", {uri: this.user.public.uri});
         } else {

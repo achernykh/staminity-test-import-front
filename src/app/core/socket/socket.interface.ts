@@ -18,9 +18,9 @@ export interface ISocketAsyncMessage {
 
 export class Deferred<T> {
 
-    public promise: Promise<T>;
-    public resolve: (value?: T | PromiseLike<T>) => void;
-    public reject: (reason?: any) => void;
+    promise: Promise<T>;
+    resolve: (value?: T | PromiseLike<T>) => void;
+    reject: (reason?: any) => void;
 
     constructor() {
         this.promise = new Promise<T>((resolve, reject) => {

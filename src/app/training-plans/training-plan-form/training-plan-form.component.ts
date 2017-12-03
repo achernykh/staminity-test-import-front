@@ -10,12 +10,12 @@ import "./training-plan-form.component.scss";
 class TrainingPlanFormCtrl implements IComponentController {
 
     // bind
-    public plan: TrainingPlan;
-    public mode: FormMode;
-    public onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
+    plan: TrainingPlan;
+    mode: FormMode;
+    onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
 
     //inject
-    public static $inject = [ "TrainingPlansService", "trainingPlanConfig", "message" ];
+    static $inject = [ "TrainingPlansService", "trainingPlanConfig", "message" ];
 
     constructor(private trainingPlanService: TrainingPlansService,
                 private config: TrainingPlanConfig,
@@ -23,11 +23,11 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.plan = new TrainingPlan(this.plan); //Object.assign({}, this.plan);//deepCopy(this.plan);
     }
 
-    public save() {
+    save() {
         if (this.mode === FormMode.Post) {
             this.trainingPlanService
                 .post(this.plan.clear())
@@ -53,7 +53,7 @@ class TrainingPlanFormCtrl implements IComponentController {
         return this.mode === FormMode.View;
     }
 
-    public setChangeMode(): void {
+    setChangeMode(): void {
         this.mode = FormMode.Put;
     }
 

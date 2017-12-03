@@ -4,9 +4,9 @@ import { MembersList } from "./members-list.datamodel";
 
 export class Member implements IGroupManagementProfileMember {
 
-    public userProfile: IUserManagementProfile;
-    public roleMembership: string[];
-    public coaches: number[];
+    userProfile: IUserManagementProfile;
+    roleMembership: string[];
+    coaches: number[];
 
     constructor(
         public membersList: MembersList,
@@ -21,7 +21,7 @@ export class Member implements IGroupManagementProfileMember {
      * UserId члена клуба
      * @returns {number}
     */
-    public getUserId = (): number => {
+    getUserId = (): number => {
         return this.userProfile.userId;
     }
 
@@ -30,7 +30,7 @@ export class Member implements IGroupManagementProfileMember {
      * @param role: ClubRole
      * @returns {boolean}
     */
-    public hasClubRole = (role: ClubRole): boolean => {
+    hasClubRole = (role: ClubRole): boolean => {
         return this.roleMembership.indexOf(role) !== -1;
     }
 
@@ -38,7 +38,7 @@ export class Member implements IGroupManagementProfileMember {
      * Список спортсменов, тренируемых членом клуба
      * @returns {Array<Member>}
     */
-    public getAthletes = (): Member[] => {
+    getAthletes = (): Member[] => {
         return this.membersList.getAthletesByCoachId(this.getUserId());
     }
 
@@ -47,7 +47,7 @@ export class Member implements IGroupManagementProfileMember {
      * @param bill: IBillingTariff
      * @returns {boolean}
     */
-    public getCoaches = (): Member[] => {
+    getCoaches = (): Member[] => {
         return this.coaches.map(this.membersList.getMember);
     }
 
@@ -56,7 +56,7 @@ export class Member implements IGroupManagementProfileMember {
      * @param bill: IBillingTariff
      * @returns {boolean}
     */
-    public getAthletesGroupId = (): number => {
-        return this.member.ClubAthletesGroupId;
+    getAthletesGroupId = (): number => {
+        return this.member["ClubAthletesGroupId"];
     }
 }

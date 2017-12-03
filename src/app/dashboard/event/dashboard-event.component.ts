@@ -7,22 +7,22 @@ import "./dashboard-event.component.scss";
 
 class DashboardEventCtrl implements IComponentController {
 
-    public event: ICalendarItem;
-    public athlete: IUserProfile;
+    event: ICalendarItem;
+    athlete: IUserProfile;
 
     private dashboard: DashboardCtrl;
-    public onEvent: (response: Object) => IPromise<void>;
-    public static $inject = ["$mdDialog", "message"];
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = ["$mdDialog", "message"];
 
     constructor(private $mdDialog: any, private message: MessageService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 
-    public onOpen($event, mode: string) {
+    onOpen($event, mode: string) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",

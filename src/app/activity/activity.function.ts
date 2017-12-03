@@ -11,12 +11,12 @@ import {getSportLimit, Measure} from "../share/measure/measure.constants";
 
 export class MeasureChartData {
 
-    public measures: {} = {}; // Перечень показателей, которые будут показаны на графике
-    public data: Array<{}> = []; // Массив данных для показа на графике
-    public maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
+    measures: {} = {}; // Перечень показателей, которые будут показаны на графике
+    data: Array<{}> = []; // Массив данных для показа на графике
+    maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
 
-    public measuresX: string[] = ["distance", "elapsedDuration"];
-    public measuresY: string[] = ["heartRate", "speed", "power", "altitude"];
+    measuresX: string[] = ["distance", "elapsedDuration"];
+    measuresY: string[] = ["heartRate", "speed", "power", "altitude"];
     private measuresSecondary: string[] = ["timestamp", "duration"];
 
     /**

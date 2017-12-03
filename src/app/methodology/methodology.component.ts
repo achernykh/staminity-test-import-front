@@ -15,12 +15,12 @@ import "./methodology.component.scss";
 class MethodologyCtrl implements IComponentController {
 
     // public
-    public currentUser: IUserProfile;
-    public club: IGroupProfile;
-    public onEvent: (response: Object) => IPromise<void>;
-    public categories: IActivityCategory[] = [];
-    public categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
-    public templates: IActivityTemplate[] = [];
+    currentUser: IUserProfile;
+    club: IGroupProfile;
+    onEvent: (response: Object) => IPromise<void>;
+    categories: IActivityCategory[] = [];
+    categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
+    templates: IActivityTemplate[] = [];
 
     // private
     private leftBarShow: boolean = true;
@@ -35,14 +35,14 @@ class MethodologyCtrl implements IComponentController {
     };
     private destroy: Subject<void> = new Subject<void>();
 
-    public static $inject = ["$scope", "ReferenceService"];
+    static $inject = ["$scope", "ReferenceService"];
 
     constructor(private $scope,
                 private referenceService: ReferenceService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.filterParams.club = this.club;
 
         this.categories = this.referenceService.categories;
@@ -67,11 +67,11 @@ class MethodologyCtrl implements IComponentController {
         this.updateFilterParams();
     }
 
-    public $onChanges() {
+    $onChanges() {
         this.updateFilterParams();
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
@@ -82,11 +82,11 @@ class MethodologyCtrl implements IComponentController {
         };
     }
 
-    public changeTrainingPlansFilter(filter: ITrainingPlanSearchRequest): void {
+    changeTrainingPlansFilter(filter: ITrainingPlanSearchRequest): void {
         this.trainingPlansFilter = filter;
     }
 
-    public updateFilterParams() {
+    updateFilterParams() {
         const filters = pick(["club", "activityType", "isActive"])(categoriesFilters);
         const categories = this.categories.filter(filtersToPredicate(filters, this.filterParams));
         const category = this.filterParams.category;

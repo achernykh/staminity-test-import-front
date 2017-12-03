@@ -3,7 +3,7 @@ import {ActivityInterval} from "./activity.interval";
 import {ActivityIntervalCalcMeasure} from "./activity.models";
 
 export class ActivityIntervalU extends ActivityInterval implements IActivityIntervalU {
-    public calcMeasures: ICalcMeasures;
+    calcMeasures: ICalcMeasures;
 
     constructor(type: string, params: any) {
         super(type, params);

@@ -4,16 +4,16 @@ import "./activity-header-splits.component.scss";
 
 class ActivityHeaderSplitsCtrl implements IComponentController {
 
-    public splits: IActivityIntervalL[];
-    public sport: string;
-    public onEvent: (response: Object) => IPromise<void>;
-    public static $inject = [];
+    splits: IActivityIntervalL[];
+    sport: string;
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 }

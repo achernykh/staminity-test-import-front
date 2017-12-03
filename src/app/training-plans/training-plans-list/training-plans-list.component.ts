@@ -10,14 +10,14 @@ import { TrainingPlansList } from "./training-plans-list.datamodel";
 class TrainingPlansListCtrl implements IComponentController {
 
     // bind
-    public plans: TrainingPlansList;
-    public filter: ITrainingPlanSearchRequest;
-    public onEvent: (response: Object) => IPromise<void>;
+    plans: TrainingPlansList;
+    filter: ITrainingPlanSearchRequest;
+    onEvent: (response: Object) => IPromise<void>;
 
     // private
 
     // inject
-    public static $inject = ["$scope", "TrainingPlansService", "TrainingPlanDialogService"];
+    static $inject = ["$scope", "TrainingPlansService", "TrainingPlanDialogService"];
 
     constructor(private $scope: any,
                 private trainingPlansService: TrainingPlansService,
@@ -25,29 +25,29 @@ class TrainingPlansListCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 
-    public $onChanges(changes): void {
+    $onChanges(changes): void {
         if (this.filter && !changes.filter.isFirstChanges) {
             this.trainingPlansService.search(this.filter).then(this.updateList.bind(this));
         }
     }
 
-    public post(env: Event) {
+    post(env: Event) {
         this.open(env, FormMode.Post);
     }
 
-    public view(env: Event, plan: TrainingPlan) {
+    view(env: Event, plan: TrainingPlan) {
         this.open(env, FormMode.View, plan);
     }
 
-    public edit(env: Event, plan) {
+    edit(env: Event, plan) {
         this.open(env, FormMode.Put, plan);
     }
 
-    public delete(planId: number) {
+    delete(planId: number) {
         this.trainingPlansService.delete(planId)
             .then(() => this.plans.delete(planId), (error) => {debugger; })
             .then(() => this.update());

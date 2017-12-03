@@ -22,12 +22,12 @@ export enum SegmentChangeReason {
 
 class ActivitySegmentsCtrl implements IComponentController {
 
-    public item: CalendarItemActivityCtrl;
-    public onEvent: (response: Object) => IPromise<void>;
+    item: CalendarItemActivityCtrl;
+    onEvent: (response: Object) => IPromise<void>;
 
-    public viewPlan: boolean = true;
-    public viewActual: boolean = false;
-    public viewGroup: boolean = true;
+    viewPlan: boolean = true;
+    viewActual: boolean = false;
+    viewGroup: boolean = true;
 
     private durationMeasure: string = "movingDuration";
     private intensityMeasure: string = "heartRate";
@@ -35,9 +35,9 @@ class ActivitySegmentsCtrl implements IComponentController {
     private select: number[] = [];
     private scenario: any = getSegmentTemplates();
 
-    public ftpMode: number;
+    ftpMode: number;
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
@@ -50,28 +50,28 @@ class ActivitySegmentsCtrl implements IComponentController {
         return this.intervals.P.some((i) => i.isSelected) && this.intervals.P.filter((i) => i.isSelected)[0].pos || null;
     }
 
-    public $onInit() {
+    $onInit() {
         this.valid();
         this.prepareIntervals();
         //this.addInterval();
     }
 
-    public $onChanges(): void {
+    $onChanges(): void {
         this.prepareIntervals();
     }
 
-    public prepareIntervals(): void {
+    prepareIntervals(): void {
         this.intervals = this.item.activity.intervals;
     }
 
-    public valid(): void {
+    valid(): void {
         this.item.assignmentForm.$setValidity("needInterval", this.intervals.P.length > 0);
         this.item.assignmentForm.$setValidity("needDuration", this.intervals.P.length > 0);
     }
     /**
      * @description Обновление модели данных
      */
-    public update(reason: SegmentChangeReason): void {
+    update(reason: SegmentChangeReason): void {
         this.intervals = this.item.activity.intervals;
         this.valid();
         this.item.assignmentForm.$setDirty();
@@ -92,7 +92,7 @@ class ActivitySegmentsCtrl implements IComponentController {
         }
     }
 
-    public onChartSelection(id: number) {
+    onChartSelection(id: number) {
         if (this.intervals[id]) {
             //this.intervals[id].isSelected = true;
         }
@@ -101,7 +101,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     /**
      *
      */
-    public addInterval(scenarioType: string = "default") {
+    addInterval(scenarioType: string = "default") {
         const sport: string = this.item.activity.sportBasic;
         const ftp: {[measure: string]: number} = getFtpBySport(this.item.user.trainingZones, sport);
         let interval: ActivityIntervalP;
@@ -132,7 +132,7 @@ class ActivitySegmentsCtrl implements IComponentController {
         this.update(SegmentChangeReason.addInterval);
     }
 
-    public delete() {
+    delete() {
         this.intervals.P.filter((interval) =>
             interval.isSelected &&
             (!interval.hasOwnProperty("repeatPos") || interval.repeatPos === null || interval.repeatPos === 0))
@@ -141,17 +141,17 @@ class ActivitySegmentsCtrl implements IComponentController {
         this.update(SegmentChangeReason.deleteInterval);
     }
 
-    public isKey(): boolean {
+    isKey(): boolean {
         return this.selectedInterval().length === this.selectedKeyInterval().length;
     }
 
-    public isIndeterminate(): boolean {
+    isIndeterminate(): boolean {
         console.log(this.selectedInterval().length, this.selectedKeyInterval().length);
         //return false;
         return this.selectedKeyInterval().length !== 0 && this.selectedInterval().length !== this.selectedKeyInterval().length;
     }
 
-    public toggleKey() {
+    toggleKey() {
         if (this.selectedInterval().length === this.selectedKeyInterval().length) {
             this.intervals.P.filter((interval) => interval.isSelected).forEach((interval) => interval.keyInterval = false);
         } else if (this.selectedKeyInterval().length === 0 || this.selectedKeyInterval().length > 0) {
@@ -160,15 +160,15 @@ class ActivitySegmentsCtrl implements IComponentController {
         this.update(SegmentChangeReason.keyInterval);
     }
 
-    public selectedInterval(): any[] {
+    selectedInterval(): any[] {
         return this.intervals.P.filter((interval) => interval.isSelected) || [];
     }
 
-    public selectedKeyInterval(): any[] {
+    selectedKeyInterval(): any[] {
         return this.intervals.P.filter((interval) => interval.isSelected && interval.keyInterval);
     }
 
-    public ftpModeChange(mode: FtpState) {
+    ftpModeChange(mode: FtpState) {
         this.ftpMode = mode;
         this.item.ftpMode = mode;
     }

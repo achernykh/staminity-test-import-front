@@ -10,12 +10,12 @@ import "./application-frame.component.scss";
 class ApplicationFrameCtrl implements IComponentController {
 
     // bind
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
+    data: any;
+    onEvent: (response: Object) => IPromise<void>;
 
     // public
-    public user: IUserProfile;
-    public connectionStatus: boolean = true;
+    user: IUserProfile;
+    connectionStatus: boolean = true;
 
     //private
     private notificationsList: Notification[] = [];
@@ -23,7 +23,7 @@ class ApplicationFrameCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    public static $inject = ["$scope", "$mdSidenav", "$mdMedia", "SessionService", "SocketService", "NotificationService", "RequestsService",
+    static $inject = ["$scope", "$mdSidenav", "$mdMedia", "SessionService", "SocketService", "NotificationService", "RequestsService",
         "AuthService"];
 
     constructor(
@@ -47,7 +47,7 @@ class ApplicationFrameCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
         this.notificationsList = this.NotificationService.notifications;
 
@@ -69,7 +69,7 @@ class ApplicationFrameCtrl implements IComponentController {
 
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
@@ -87,7 +87,7 @@ class ApplicationFrameCtrl implements IComponentController {
      * Показать/скрыть панель
      * @param component
      */
-    public sideNav(component: string): void {
+    sideNav(component: string): void {
         this.$mdSidenav(component).toggle().then(() => {});
     }
 }

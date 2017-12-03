@@ -7,15 +7,15 @@ export class StorageService {
         this.storage = window[ this.location ];
     }
 
-    public get(key: string): any {
+    get(key: string): any {
         return JSON.parse(this.storage.getItem(key)) || null;
     }
 
-    public set(key: string, data: any): void {
+    set(key: string, data: any): void {
         this.storage.setItem(key, JSON.stringify(data));
     }
 
-    public remove(key: string) {
+    remove(key: string) {
         this.storage.removeItem(key);
     }
 

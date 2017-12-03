@@ -35,36 +35,36 @@ export enum ActivityStatus {
 }
 
 export class Interval implements IActivityInterval {
-    public trainersPrescription: string;
-    public durationMeasure: string; //movingDuration/distance, каким показателем задается длительность планового сегмента
-    public durationValue: number; // длительность интервала в ед.изм. показателя длительности
-    public keyInterval: boolean; // признак того, что плановый сегмент является ключевым
-    public intensityMeasure: string; //heartRate/speed/power, показатель, по которому задается интенсивность на данном интервале
-    public intensityLevelFrom: number; // начальное абсолютное значение интенсивности
-    public intensityByFtpFrom: number; // начальное относительное значение интенсивности
-    public intensityLevelTo: number; // конечное абсолютное значение интенсивности
-    public intensityByFtpTo: number; // конечное относительное значение интенсивности
-    public intensityDistribution: string; // [A] = любое значение по показателю интенсивности в заданном интервале. [I] = рост значенией показателя. [D] = снижение
-    public intensityFtpMax: number; // максимальная средняя интенсивность среди фактических данных , относящихся к разметке плановых сегментов. Пригодно к использованию только в рамках интервала с type = [P].
-    public intensityMaxZone: number; // максимальная зона интенсивности
-    public movingDurationLength: number; // времени
-    public distanceLength: number; // по дистанции
-    public actualDurationValue: number; // Указанная вручную пользователем длительность сегмента
-    public movingDurationApprox: boolean; // признак, что movingDuration определен приблизительно
-    public distanceApprox: boolean; // признак, что distance рассчитан приблизительно
+    trainersPrescription: string;
+    durationMeasure: string; //movingDuration/distance, каким показателем задается длительность планового сегмента
+    durationValue: number; // длительность интервала в ед.изм. показателя длительности
+    keyInterval: boolean; // признак того, что плановый сегмент является ключевым
+    intensityMeasure: string; //heartRate/speed/power, показатель, по которому задается интенсивность на данном интервале
+    intensityLevelFrom: number; // начальное абсолютное значение интенсивности
+    intensityByFtpFrom: number; // начальное относительное значение интенсивности
+    intensityLevelTo: number; // конечное абсолютное значение интенсивности
+    intensityByFtpTo: number; // конечное относительное значение интенсивности
+    intensityDistribution: string; // [A] = любое значение по показателю интенсивности в заданном интервале. [I] = рост значенией показателя. [D] = снижение
+    intensityFtpMax: number; // максимальная средняя интенсивность среди фактических данных , относящихся к разметке плановых сегментов. Пригодно к использованию только в рамках интервала с type = [P].
+    intensityMaxZone: number; // максимальная зона интенсивности
+    movingDurationLength: number; // времени
+    distanceLength: number; // по дистанции
+    actualDurationValue: number; // Указанная вручную пользователем длительность сегмента
+    movingDurationApprox: boolean; // признак, что movingDuration определен приблизительно
+    distanceApprox: boolean; // признак, что distance рассчитан приблизительно
 
     // Дополнительные поля для модели данных отображения сегмента pW | P
-    public movingDuration: IDurationMeasure;
-    public distance: IDurationMeasure;
-    public heartRate: IIntensityMeasure;
-    public power: IIntensityMeasure;
-    public speed: IIntensityMeasure;
+    movingDuration: IDurationMeasure;
+    distance: IDurationMeasure;
+    heartRate: IIntensityMeasure;
+    power: IIntensityMeasure;
+    speed: IIntensityMeasure;
 
     // Поля для типа интервала G
-    public code: string;
-    public repeatCount: number;
+    code: string;
+    repeatCount: number;
 
-    public calcMeasures: ICalcMeasures;
+    calcMeasures: ICalcMeasures;
 
     constructor(public type: string, obj?: {}) {
         this.type = type;
@@ -145,37 +145,37 @@ export let toDay = (date): Date => {
  */
 export class Activity extends CalendarItem {
 
-    public activityHeader: IActivityHeader;
-    public header: ActivityHeader;
-    public categoriesList: IActivityCategory[] = [];
+    activityHeader: IActivityHeader;
+    header: ActivityHeader;
+    categoriesList: IActivityCategory[] = [];
 
-    public intervals: ActivityIntervals;
-    public categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
-    public intervalPW: ActivityIntervalPW;
-    public intervalW: ActivityIntervalW;
-    public intervalL: ActivityIntervalL[] = [];
-    public intervalP: ActivityIntervalP[] = [];
-    public intervalG: ActivityIntervalG[] = [];
-    public intervalU: ActivityIntervalU[] = [];
+    intervals: ActivityIntervals;
+    categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
+    intervalPW: ActivityIntervalPW;
+    intervalW: ActivityIntervalW;
+    intervalL: ActivityIntervalL[] = [];
+    intervalP: ActivityIntervalP[] = [];
+    intervalG: ActivityIntervalG[] = [];
+    intervalU: ActivityIntervalU[] = [];
 
     private route: IRoute[];
     private isRouteExist: boolean = true; // ставим начально значени true, чтобы отобразить процесс загрузки данных, далее значение будет переопределно наличем координат
     private hasDetails: boolean = false;
-    public hasImportedData: boolean = false;
+    hasImportedData: boolean = false;
     private peaks: any[];
     private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
     //public actualDataIsImported: boolean = false;
     private _startDate: Date;
-    public details: ActivityDetails;
+    details: ActivityDetails;
 
     // Дополнительные поля для использования в шаблонах тренировки
-    public isTemplate: boolean;
-    public templateId: number;
-    public code: string;
-    public description: string;
-    public favourite: boolean;
-    public visible: boolean;
-    public groupProfile: IGroupProfileShort;
+    isTemplate: boolean;
+    templateId: number;
+    code: string;
+    description: string;
+    favourite: boolean;
+    visible: boolean;
+    groupProfile: IGroupProfileShort;
 
     constructor(private item: ICalendarItem) {
         super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
@@ -185,18 +185,18 @@ export class Activity extends CalendarItem {
         this.prepare();
     }
 
-    public completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
+    completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
         this.header.intervals = [];
         this.header.intervals.push(...this.intervalP, this.intervalPW, ...intervals, this.intervalW);
         this.intervalL = this.header.intervals.filter((i) => i.type === "L") as ActivityIntervalL[];
         this.hasImportedData = this.intervalL.hasOwnProperty("length") && this.intervalL.length > 0;
     }
 
-    public hasImport(): boolean {
+    hasImport(): boolean {
         return this.intervals.L.length > 0;
     }
 
-    public completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG | ActivityIntervalU) {
+    completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG | ActivityIntervalU) {
         //this.header.intervals.push(interval);
         switch (interval.type) {
             case "U": {
@@ -215,7 +215,7 @@ export class Activity extends CalendarItem {
         }
     }
 
-    public calculateInterval(type: string) {
+    calculateInterval(type: string) {
         switch (type) {
             /**case 'pW': {
                 let intervalPW:Interval = new Interval('pW');
@@ -240,7 +240,7 @@ export class Activity extends CalendarItem {
         }
     }
 
-    public spliceInterval(type: string, id: number) {
+    spliceInterval(type: string, id: number) {
         switch (type) {
             case "P": {
                 this.intervalP.splice(id, 1);
@@ -252,7 +252,7 @@ export class Activity extends CalendarItem {
     }
 
     // Подготовка данных для модели отображения
-    public prepare() {
+    prepare() {
         super.prepare();
         // Заголовок тренировки
         this.header = new ActivityHeader(this.item.activityHeader);
@@ -264,7 +264,7 @@ export class Activity extends CalendarItem {
         this.updateIntervals();
     }
 
-    public updateIntervals() {
+    updateIntervals() {
         // Ссылки на интервалы для быстрого доступа
         this.intervalPW = this.intervals.PW as ActivityIntervalPW;
         this.intervalW = this.intervals.W as ActivityIntervalW;
@@ -279,7 +279,7 @@ export class Activity extends CalendarItem {
     }
 
     // Подготовка данных для передачи в API
-    public build(userProfile?: IUserProfileShort): ICalendarItem {
+    build(userProfile?: IUserProfileShort): ICalendarItem {
         super.package();
         this.dateEnd = this.dateStart;
         //this.header = this.header.build();
@@ -389,7 +389,7 @@ export class Activity extends CalendarItem {
      * Опредлеям нужно ли выводить дополнительную панель с информацией
      * @returns {boolean}
      */
-    public hasBottomData() {
+    hasBottomData() {
         return !!this.bottomPanel;
     }
 
@@ -397,7 +397,7 @@ export class Activity extends CalendarItem {
         return this.intervalPW && this.intervalPW.percent();
     }
 
-    public printPercent() {
+    printPercent() {
         return ((this.percent && this.completed) && `${this.percent.toFixed(0)}%`);
     }
 
@@ -500,7 +500,7 @@ export class Activity extends CalendarItem {
             .filter((measure) => !!measure && !!measure.value);
     }
 
-    public prepareSegmentList() {
+    prepareSegmentList() {
 
         const segmentList: any[] = [];
         let segment: any = {};
@@ -534,11 +534,11 @@ export class Activity extends CalendarItem {
      * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
      * @returns {any[]}
      */
-    public formChart(): number[][] {
+    formChart(): number[][] {
         return this.intervalP && this.intervals.chart() || null;
     }
 
-    public setCategoriesList(categoriesList: IActivityCategory[], userProfile: IUserProfile) {
+    setCategoriesList(categoriesList: IActivityCategory[], userProfile: IUserProfile) {
         this.categoriesList = categoriesList;
         this.categoriesByOwner = pipe(
             orderBy(prop("sortOrder")),

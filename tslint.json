@@ -2,6 +2,7 @@
 	"extends": ["tslint:recommended"],
     "rules": {
         "member-access": [true, "no-public"],
+        "no-string-literal": false,
         "no-namespace": false,
         "max-classes-per-file": false,
         "one-variable-per-declaration": false,

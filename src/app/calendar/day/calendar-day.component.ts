@@ -14,13 +14,13 @@ import "./calendar-day.component.scss";
 
 class CalendarDayCtrl {
 
-    public today: any;
-    public data: ICalendarDayData;
-    public owner: IUserProfile;
-    public currentUser: IUserProfile;
-    public selected: boolean;
+    today: any;
+    data: ICalendarDayData;
+    owner: IUserProfile;
+    currentUser: IUserProfile;
+    selected: boolean;
 
-    public static $inject = ["$mdDialog", "message", "ActivityService", "CalendarService", "$scope", "dialogs"];
+    static $inject = ["$mdDialog", "message", "ActivityService", "CalendarService", "$scope", "dialogs"];
 
     constructor(
         private $mdDialog: any,
@@ -32,31 +32,31 @@ class CalendarDayCtrl {
 
     }
 
-    public isSpecified(item: ICalendarItem): boolean {
+    isSpecified(item: ICalendarItem): boolean {
         return isSpecifiedActivity(item);
     }
 
-    public $onInit() {
+    $onInit() {
         const diff = moment().diff(moment(this.data.date), "days", true);
         this.today = diff >= 0 && diff < 1;
     }
 
-    public onSelect() {
+    onSelect() {
         this.selected = !this.selected;
     }
 
-    public onDelete() {
+    onDelete() {
         //this.dialogs.confirm({ text: 'deletePlanActivity' })
          //   .then(()=>this.calendar.onDelete(this.data.calendarItems));
     }
-    public onPaste() {
+    onPaste() {
         //this.calendar.onPasteDay(this.data.date)
     }
-    public onCopy() {
+    onCopy() {
         //this.calendar.onCopyItem(this.data.calendarItems)
     }
 
-    public onOpen($event, type, data) {
+    onOpen($event, type, data) {
 
         if (type === "measurement") {
             this.$mdDialog.show({
@@ -135,7 +135,7 @@ class CalendarDayCtrl {
         }
     }
 
-    public newActivity($event, data) {
+    newActivity($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -162,7 +162,7 @@ class CalendarDayCtrl {
         }).then((response) => {}, () => {});
     }
 
-    public newMeasurement($event, data) {
+    newMeasurement($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -188,7 +188,7 @@ class CalendarDayCtrl {
         }).then((response) => {}, () => {});
     }
 
-    public newEvent($event, data) {
+    newEvent($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -217,7 +217,7 @@ class CalendarDayCtrl {
         }).then((response) => {}, () => {});
     }
 
-    public postRecord($event, data) {
+    postRecord($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -243,7 +243,7 @@ class CalendarDayCtrl {
         }).then((response) => {}, () => {});
     }
 
-    public onDropActivity(srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number) {
+    onDropActivity(srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number) {
 
         const item: ICalendarItem = copy(srcItem);
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
@@ -272,7 +272,7 @@ class CalendarDayCtrl {
         return true;
     }
 
-    public onDropEvent(srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number): boolean {
+    onDropEvent(srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number): boolean {
         const item: ICalendarItem = copy(srcItem);
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
         item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
@@ -295,18 +295,18 @@ class CalendarDayCtrl {
         return true;
     }
 
-    public onDrag(event) {
+    onDrag(event) {
         console.info("dnd drag event", event);
     }
 
-    public onCopied(item) {
+    onCopied(item) {
         //debugger;
         //this.message.toastInfo('activityCopied');
         console.info("dnd copied event", item);
 
     }
 
-    public onMoved(item) {
+    onMoved(item) {
         //debugger;
         console.info("dnd moved event", item);
 

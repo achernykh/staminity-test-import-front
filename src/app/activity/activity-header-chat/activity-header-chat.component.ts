@@ -10,19 +10,19 @@ import "./activity-header-chat.component.scss";
 
 class ActivityHeaderChatCtrl implements IComponentController {
 
-    public data: any;
-    public activityId: number;
-    public social: IActivitySocial;
-    public user: IUserProfile;
-    public currentUser: IUserProfile;
-    public coach: boolean;
+    data: any;
+    activityId: number;
+    social: IActivitySocial;
+    user: IUserProfile;
+    currentUser: IUserProfile;
+    coach: boolean;
 
     private comments: IObjectComment[] = [];
     private text: string = null;
     private readonly commentType: string = "activity";
     private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
-    public onUpdate: (response: Object) => IPromise<void>;
-    public static $inject = ["CommentService", "message", "$scope"];
+    onUpdate: (response: Object) => IPromise<void>;
+    static $inject = ["CommentService", "message", "$scope"];
 
     constructor(private comment: CommentService, private message: MessageService, private $scope: IScope) {
         this.comment.comment$
@@ -31,13 +31,13 @@ class ActivityHeaderChatCtrl implements IComponentController {
             .subscribe((item) => this.comments.push(item.value));
     }
 
-    public $onInit() {
+    $onInit() {
         this.comment.get(this.commentType, this.activityId, true, 50)
             .then((result) => this.comments = result, (error) => this.message.toastError(error))
             .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
     }
 
-    public onPostComment(text) {
+    onPostComment(text) {
         this.inAction = true;
         this.comment.post(this.commentType, this.activityId, true, text)
             .then((result) => {
@@ -49,11 +49,11 @@ class ActivityHeaderChatCtrl implements IComponentController {
             //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
     }
 
-    public isMe(id: number): boolean {
+    isMe(id: number): boolean {
         return (this.currentUser.hasOwnProperty("userId") && id === this.currentUser.userId) || false;
     }
 
-    public localDate(date) {
+    localDate(date) {
         console.log("date: ", date, moment.utc(date).format("DD MMM HH:mm"), new Date().getTimezoneOffset());
         return moment(date).add("minutes", -1 * (new Date().getTimezoneOffset())).format("DD MMM HH:mm");
     }

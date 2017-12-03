@@ -7,7 +7,7 @@ import "./activity-interval-overview.component.scss";
 
 class ActivityIntervalOverviewCtrl implements IComponentController {
 
-    public interval: ActivityIntervalP | ActivityIntervalL;
+    interval: ActivityIntervalP | ActivityIntervalL;
     private item: CalendarItemActivityCtrl;
 
     private title: string = null;
@@ -27,14 +27,14 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
         },
     };
 
-    public onBack: (response: Object) => IPromise<void>;
-    public static $inject = ["$filter"];
+    onBack: (response: Object) => IPromise<void>;
+    static $inject = ["$filter"];
 
     constructor(private $filter: IFilterService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.prepareInterval();
         this.prepareTitle();
         this.prepareSelection();
@@ -43,7 +43,7 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
     private prepareInterval() {
         this.isSegment = this.interval.type === "P";
         this.isSegmentGroup = this.isSegment && this.interval.hasOwnProperty("totalMeasures");
-        this.groupInfo = this.isSegmentGroup && this.item.activity.intervals.G.filter((g) => g.code === this.interval.parentGroupCode)[0] || null;
+        this.groupInfo = this.isSegmentGroup && this.item.activity.intervals.G.filter((g) => g.code === this.interval["parentGroupCode"])[0] || null;
     }
 
     private prepareTitle() {
@@ -59,7 +59,7 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
     private prepareSelection() {
         if (this.isSegmentGroup) {
             this.item.activity.intervals.stack.
-                filter((i) => i.hasOwnProperty("parentGroupCode") && i.parentGroupCode === this.interval.parentGroupCode &&
+                filter((i) => i.hasOwnProperty("parentGroupCode") && i["parentGroupCode"] === this.interval["parentGroupCode"] &&
                     (i.pos - this.interval.pos) % this.groupInfo.grpLength === 0 &&
                     this.selection.push({startTimestamp: i.startTimestamp, endTimestamp: i.endTimestamp}));
         } else {

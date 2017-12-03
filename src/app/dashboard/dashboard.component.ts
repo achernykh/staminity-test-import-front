@@ -57,9 +57,9 @@ export interface IDashboardDay {
 
 export class DashboardCtrl implements IComponentController {
 
-    public coach: IUserProfile;
-    public groupId: number;
-    public athletes: IGroupManagementProfile;
+    coach: IUserProfile;
+    groupId: number;
+    athletes: IGroupManagementProfile;
 
     private cache: IDashboardWeek[];
     private dashboard: IDashboardWeek;
@@ -74,7 +74,7 @@ export class DashboardCtrl implements IComponentController {
     private buffer: ICalendarItem[] = [];
     private firstSrcDay: string;
 
-    public static $inject = ["$scope", "$mdDialog", "CalendarService", "SessionService", "message", "storage", "dialogs"];
+    static $inject = ["$scope", "$mdDialog", "CalendarService", "SessionService", "message", "storage", "dialogs"];
 
     constructor(
         private $scope: IScope,
@@ -87,11 +87,11 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
-    public toolbarDate() {
+    toolbarDate() {
         return new Date(moment(this.currentDate).format(this.dateFormat));
     }
 
-    public changeOrder(up: boolean) {
+    changeOrder(up: boolean) {
         const from: number[] = this.selectedAthletes.map((a) => this.orderAthletes.indexOf(a));
         const to: number[] = from.map((a) => up ?
             this.orderAthletes.indexOf(this.viewAthletes[this.viewAthletes.indexOf(this.orderAthletes[a]) - 1]) :
@@ -115,11 +115,11 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
-    public isVisible(id: number) {
+    isVisible(id: number) {
         return this.viewAthletes.indexOf(id) !== -1;
     }
 
-    public setVisible(view: boolean, id: number) {
+    setVisible(view: boolean, id: number) {
         const ind: number = this.viewAthletes.indexOf(id);
         if (view) {
             this.viewAthletes.push(id);
@@ -129,7 +129,7 @@ export class DashboardCtrl implements IComponentController {
         this.storage.set("dashboard_viewAthletes", this.viewAthletes);
     }
 
-    public onSelectAthlete(select: boolean, id: number) {
+    onSelectAthlete(select: boolean, id: number) {
         const ind: number = this.selectedAthletes.indexOf(id);
         if (select) {
             this.selectedAthletes.push(id);
@@ -139,7 +139,7 @@ export class DashboardCtrl implements IComponentController {
         this.storage.set("dashboard_selectedAthletes", this.selectedAthletes);
     }
 
-    public $onInit() {
+    $onInit() {
         this.cache = [];
         this.currentWeek = 0;
         this.currentDate = moment().startOf("week");
@@ -149,17 +149,17 @@ export class DashboardCtrl implements IComponentController {
         this.orderAthletes = this.storage.get("dashboard_orderAthletes") || this.athletes.members.map((p) => p.userProfile.userId);
         this.selectedAthletes = this.storage.get("dashboard_selectedAthletes") || [];
 
-        this.$scope.filter = (calendar) => {
+        this.$scope["filter"] = (calendar) => {
             return this.isVisible(calendar.profile.userId);
         };
 
-        this.$scope.order = (calendar) => {
+        this.$scope["order"] = (calendar) => {
             return this.orderAthletes.indexOf(calendar.profile.userId);
         };
 
         this.athletes.members.forEach((p) => {
-            p.view = this.isVisible(p.userProfile.userId);
-            p.order = (this.orderAthletes.indexOf(p.userProfile.userId) + 1) * 100;
+            p["view"] = this.isVisible(p.userProfile.userId);
+            p["order"] = (this.orderAthletes.indexOf(p.userProfile.userId) + 1) * 100;
         });
 
         this.calendar.item$
@@ -192,19 +192,19 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
-    public next() {
+    next() {
         this.currentWeek++;
         this.currentDate = moment(this.currentDate).startOf("week").add(1, "w");
         this.getData(this.currentDate);
     }
 
-    public prev() {
+    prev() {
         this.currentWeek--;
         this.currentDate = moment(this.currentDate).startOf("week").add(-1, "w");
         this.getData(this.currentDate);
     }
 
-    public getData(date) {
+    getData(date) {
 
         console.log("getDate", date.format("YYYY-MM-DD"));
         const start = moment(date).startOf("week");
@@ -234,7 +234,7 @@ export class DashboardCtrl implements IComponentController {
                     });
                     response.map((item) => {
                         //if(item.calendarItemType === 'activity') {
-                            item.index = Number(`${item.calendarItemId}${item.revision}`);
+                            item["index"] = Number(`${item.calendarItemId}${item.revision}`);
                         //}
 
                             const sidId = this.cache.findIndex((d) => d.sid === this.currentWeek);
@@ -258,7 +258,7 @@ export class DashboardCtrl implements IComponentController {
      * Создание записи календаря
      * @param item
      */
-    public onPostItem(item: ICalendarItem) {
+    onPostItem(item: ICalendarItem) {
 
         const id: string = moment(item.dateStart).format("GGGG-WW");
         const w: number = this.cache.findIndex((d) => d.week === id);
@@ -273,7 +273,7 @@ export class DashboardCtrl implements IComponentController {
      * Удаление записи календаря
      * @param item
      */
-    public onDeleteItem(item: ICalendarItem) {
+    onDeleteItem(item: ICalendarItem) {
 
         const id: string = moment(item.dateStart).format("GGGG-WW");
         const w: number = this.cache.findIndex((d) => d.week === id);
@@ -285,7 +285,7 @@ export class DashboardCtrl implements IComponentController {
         this.cache[w].calendar[c].changes++;
     }
 
-    public onCopy(items: ICalendarItem[]) {
+    onCopy(items: ICalendarItem[]) {
         this.buffer = [];
         this.firstSrcDay = null;
 
@@ -310,7 +310,7 @@ export class DashboardCtrl implements IComponentController {
         }
     }
 
-    public onPaste(firstTrgDay: string, athlete: IUserProfile) {
+    onPaste(firstTrgDay: string, athlete: IUserProfile) {
         const shift = moment(firstTrgDay, "YYYY-MM-DD").diff(moment(this.firstSrcDay, "YYYY-MM-DD"), "days");
         const updateZones: boolean = false;
 
@@ -326,7 +326,7 @@ export class DashboardCtrl implements IComponentController {
         }
     }
 
-    public onProcessPaste(shift: number) {
+    onProcessPaste(shift: number) {
 
         let task: Array<Promise<any>> = [];
         task = this.buffer
@@ -339,7 +339,7 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
-    public onDelete(items: ICalendarItem[] = []) {
+    onDelete(items: ICalendarItem[] = []) {
         const selected: ICalendarItem[] = [];
         this.cache
             .forEach((w) => w.calendar
@@ -355,17 +355,17 @@ export class DashboardCtrl implements IComponentController {
             .then(() => inSelection && this.clearBuffer());
     }
 
-    public clearBuffer() {
+    clearBuffer() {
         this.buffer = [];
         this.firstSrcDay = null;
         this.unSelect();
     }
 
-    public unSelect() {
+    unSelect() {
         this.cache.forEach((d) => d.calendar.forEach((w) => w.subItem.forEach((d) => d.selected && (d.selected = false))));
     }
 
-    public onOpen($event, mode, data) {
+    onOpen($event, mode, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -416,7 +416,7 @@ export class DashboardCtrl implements IComponentController {
             });
     }
 
-    public onSelectWeek(select: boolean, id: number) {
+    onSelectWeek(select: boolean, id: number) {
 
     }
 

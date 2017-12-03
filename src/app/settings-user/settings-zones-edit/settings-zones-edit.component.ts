@@ -8,12 +8,12 @@ class SettingsZonesEditCtrl implements IComponentController {
     private sportSettings: any;
     private settings: any;
 
-    public onSave: (response: {intensityFactor: string, sport: string, settings: any}) => IPromise<void>;
-    public onCancel: () => IPromise<void>;
+    onSave: (response: {intensityFactor: string, sport: string, settings: any}) => IPromise<void>;
+    onCancel: () => IPromise<void>;
 
     private viewMode: boolean;
 
-    public options: Object = {
+    options: Object = {
         rowSelection: false,
         multiSelect: true,
         autoSelect: false,
@@ -23,22 +23,22 @@ class SettingsZonesEditCtrl implements IComponentController {
         limitSelect: false,
         pageSelect: false,
     };
-    public selected: any[] = [];
+    selected: any[] = [];
     private readonly measures: string[] = ["minValue", "ATP", "FTP", "maxValue"];
     private readonly calculationMethod: any = _CalculationMethod;
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.settings = copy(this.sportSettings);
         this.viewMode = ["5", "7", "9"].indexOf(this.settings.calculateMethod) === -1;
     }
 
-    public selectMethod(method: string, factor: string) {
+    selectMethod(method: string, factor: string) {
         this.settings.calculateMethod = method;
         this.settings.zones = this.calculateMethod(method, {
             FTP: this.settings.FTP,
@@ -48,7 +48,7 @@ class SettingsZonesEditCtrl implements IComponentController {
         this.viewMode = this.settings.calculateMethod === "custom";
     }
 
-    public changeZone(i: number, value: number, factor: string) {
+    changeZone(i: number, value: number, factor: string) {
         const step: number = factor !== "speed" ? 1 : 0.00000000000001;
         if (i === this.settings.zones.length) {
             return;
@@ -56,7 +56,7 @@ class SettingsZonesEditCtrl implements IComponentController {
         this.settings.zones[i + 1].valueFrom = value + step;
     }
 
-    public calculateMethod(method: string, measure: {FTP?: number, minValue?: number, maxValue?: number}, factor: string): any[] {
+    calculateMethod(method: string, measure: {FTP?: number, minValue?: number, maxValue?: number}, factor: string): any[] {
 
         let zones: any[] = [];
         const step: number = factor !== "speed" ? 1 : 0.00000000000001;

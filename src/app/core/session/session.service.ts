@@ -13,58 +13,58 @@ export class SessionService {
 
     private session: BehaviorSubject<ISession>;
 
-    public static $inject = [ "storage" ];
+    static $inject = [ "storage" ];
 
     constructor(private storage: StorageService) {
         const session = storage.get("session") || {};
         this.session = new BehaviorSubject<ISession>(session);
     }
 
-    public set(session: ISession = {}) {
+    set(session: ISession = {}) {
         this.storage.set("session", session);
         this.session.next(session);
     }
 
-    public change(changes: Object) {
+    change(changes: Object) {
         const session = this.get();
         this.set(merge({}, session, changes));
     }
 
-    public get(): ISession {
+    get(): ISession {
         return this.session.getValue();
     }
 
-    public getObservable(): Observable<ISession> {
+    getObservable(): Observable<ISession> {
         return this.session.asObservable();
     }
 
-    public getUser(): IUserProfile {
+    getUser(): IUserProfile {
         return getUser(this.get()) || {};
     }
 
-    public getCurrentUserId(): number | string {
+    getCurrentUserId(): number | string {
         return getCurrentUserId(this.get());
     }
 
-    public isCurrentUserId(userId: number | string): boolean {
+    isCurrentUserId(userId: number | string): boolean {
         return userId === this.getCurrentUserId();
     }
 
-    public updateUser(userProfile: Object) {
-        if (!userProfile.userId || this.isCurrentUserId(userProfile.userId)) {
+    updateUser(userProfile: Object) {
+        if (!userProfile["userId"] || this.isCurrentUserId(userProfile["userId"])) {
             this.change({ userProfile: { ...userProfile } });
         }
     }
 
-    public getToken(): string {
+    getToken(): string {
         return getToken(this.get());
     }
 
-    public getPermissions(): Object {
+    getPermissions(): Object {
         return getPermissions(this.get());
     }
 
-    public setPermissions(permissions: Object) {
+    setPermissions(permissions: Object) {
         this.change({ systemFunctions: { ...permissions } });
     }
 }

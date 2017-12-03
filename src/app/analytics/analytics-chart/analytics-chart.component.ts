@@ -15,31 +15,31 @@ import {AnalyticsChart, IAnalyticsChart} from "./analytics-chart.model";
 
 class AnalyticsChartCtrl implements IComponentController {
 
-    public analytics: AnalyticsCtrl;
-    public chart: AnalyticsChart;
-    public filter: AnalyticsChartFilter;
+    analytics: AnalyticsCtrl;
+    chart: AnalyticsChart;
+    filter: AnalyticsChartFilter;
 
     private context: Object = {};
 
     private filterChange: number = null;
     private errorStack: string[] = [];
 
-    public onChangeFilter: () => IPromise<void>;
-    public onFullScreen: () => IPromise<void>;
+    onChangeFilter: () => IPromise<void>;
+    onFullScreen: () => IPromise<void>;
 
-    public updateCount: number = 0;
+    updateCount: number = 0;
 
-    public static $inject = ["$scope", "statistics", "$mdDialog", "$filter"];
+    static $inject = ["$scope", "statistics", "$mdDialog", "$filter"];
 
     constructor(private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any, private $filter: any) {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 
-    public $onChanges(changes): void {
+    $onChanges(changes): void {
         if ((changes.hasOwnProperty("chart") && changes.filterChanges.isFirstChange()) ||
             (changes.hasOwnProperty("filterChanges") && !changes.filterChanges.isFirstChange() && this.chart.globalParams)) {
             this.chart.clearMetrics();
@@ -49,7 +49,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
     }
 
-    public onSettings(env: Event) {
+    onSettings(env: Event) {
         //debugger;
         //this.config.openFrom = env;
         //this.$mdPanel.open(this.config);
@@ -86,7 +86,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
     }
 
-    public descriptions(): string {
+    descriptions(): string {
         if (this.chart.globalParams) {
             return `${this.$filter("translate")("analytics." + this.chart.code + ".description", this.context)}`;
         } else {
@@ -104,7 +104,7 @@ class AnalyticsChartCtrl implements IComponentController {
         this.updateCount++;
     }
 
-    public update(param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
+    update(param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
         switch (param.area) {
             case "series": {
                 param.ind.map((ind) =>
@@ -141,14 +141,14 @@ class AnalyticsChartCtrl implements IComponentController {
         this.onChangeFilter(); // сохраняем настройки в браузере
     }
 
-    public grow() {
+    grow() {
         this.chart.layout.gridColumnEnd === 1 ? this.chart.layout.gridColumnEnd = 2 : this.chart.layout.gridColumnEnd = 1;
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 1 ? this.chart.layout.gridRowEnd = 2 : angular.noop();
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 2 ? this.chart.layout.gridRowEnd = 1 : angular.noop();
         this.updateCount++;
     }
 
-    public fullScreen() {
+    fullScreen() {
         this.chart.layout.fullScreen = !this.chart.layout.fullScreen;
         setTimeout(() => {
                 this.updateCount++;
@@ -205,13 +205,13 @@ class AnalyticsChartCtrl implements IComponentController {
 
         this.statistics.getMetrics(request).then((result) => {
             this.errorStack = [];
-            if (result && result.hasOwnProperty("charts") && !result.charts.some((c) => c.hasOwnProperty("errorMessage"))) {
-                result.charts.map((r, i) => this.chart.prepareMetrics(i, r.metrics));
+            if (result && result.hasOwnProperty("charts") && !result["charts"].some((c) => c.hasOwnProperty("errorMessage"))) {
+                result["charts"].map((r, i) => this.chart.prepareMetrics(i, r.metrics));
                 this.updateCount++;
                 this.$scope.$apply();
 
-            } else if (result.charts.some((c) => c.hasOwnProperty("errorMessage"))) {
-                this.errorStack = result.charts.filter((c) => c.hasOwnProperty("errorMessage")).map((c) => c.errorMessage);
+            } else if (result["charts"].some((c) => c.hasOwnProperty("errorMessage"))) {
+                this.errorStack = result["charts"].filter((c) => c.hasOwnProperty("errorMessage")).map((c) => c.errorMessage);
             }
         }, (error) => this.errorStack.push(error));
     }

@@ -7,26 +7,26 @@ import "./training-plans-filter.component.scss";
 class TrainingPlansFilterCtrl implements IComponentController {
 
     // bind
-    public filter: ITrainingPlanSearchRequest;
-    public onChangeFilter: (response: { filter: ITrainingPlanSearchRequest }) => IPromise<void>;
+    filter: ITrainingPlanSearchRequest;
+    onChangeFilter: (response: { filter: ITrainingPlanSearchRequest }) => IPromise<void>;
 
     // public
     // private
     private panel: "plans" | "events" | "hide" = "plans";
 
     // inject
-    public static $inject = ["TrainingPlanDialogService"];
+    static $inject = ["TrainingPlanDialogService"];
 
     constructor(
         private trainingPlanDialogService: TrainingPlanDialogService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.onChangeFilter({filter: this.filter});
     }
 
-    public onPost(env: Event) {
+    onPost(env: Event) {
         //this.trainingPlanDialogService.post(env);
     }
 

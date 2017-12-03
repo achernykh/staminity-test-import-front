@@ -5,18 +5,18 @@ import "./activity-assignment-buttons.component.scss";
 class ActivityAssignmentButtonsCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public onEvent: (response: Object) => IPromise<void>;
-    public static $inject = [];
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 
-    public onSave() {
+    onSave() {
         this.item.template ? this.item.onSaveTemplate() : this.item.onSave();
     }
 }

@@ -11,8 +11,8 @@ import {  } from "../core/session.service";
 
 export default class ReferenceService {
 
-    public categories: IActivityCategory[] = [];
-    public categoriesChanges = new Subject<IActivityCategory[]>();
+    categories: IActivityCategory[] = [];
+    categoriesChanges = new Subject<IActivityCategory[]>();
 
     private categoriesReducers = {
         "I": (category: IActivityCategory) => [...this.categories, category],
@@ -28,8 +28,8 @@ export default class ReferenceService {
             });
     }
 
-    public templates: IActivityTemplate[] = [];
-    public templatesChanges = new Subject<IActivityTemplate[]> ();
+    templates: IActivityTemplate[] = [];
+    templatesChanges = new Subject<IActivityTemplate[]> ();
     private templatesReducers = {
         "I": (template: IActivityTemplate) => [...this.templates, template],
         "U": (template: IActivityTemplate) => this.templates.map((t) => t.id === template.id ? template : t),
@@ -44,7 +44,7 @@ export default class ReferenceService {
             });
     }
 
-    public static $inject = ["SocketService", "SessionService"];
+    static $inject = ["SocketService", "SessionService"];
 
     constructor(
         private SocketService: SocketService,
@@ -75,7 +75,7 @@ export default class ReferenceService {
             });
     }
 
-    public getActivityCategories(
+    getActivityCategories(
         activityTypeId: number,
         onlyMine: boolean,
         showInvisible: boolean,
@@ -85,7 +85,7 @@ export default class ReferenceService {
         ));
     }
 
-    public postActivityCategory(
+    postActivityCategory(
         activityTypeId: number,
         code: string,
         description: string,
@@ -96,7 +96,7 @@ export default class ReferenceService {
         ));
     }
 
-    public putActivityCategory(
+    putActivityCategory(
         activityCategoryId: number,
         code: string,
         description: string,
@@ -109,11 +109,11 @@ export default class ReferenceService {
         ));
     }
 
-    public deleteActivityCategory(activityCategoryId: number): Promise<any> {
+    deleteActivityCategory(activityCategoryId: number): Promise<any> {
         return this.SocketService.send(new DeleteActivityCategoryRequest(activityCategoryId));
     }
 
-    public getActivityTemplates(
+    getActivityTemplates(
         activityCategoryId: number,
         activityTypeId: number,
         onlyVisible: boolean,
@@ -125,7 +125,7 @@ export default class ReferenceService {
         .then((response) => response.arrayResult);
     }
 
-    public postActivityTemplate(
+    postActivityTemplate(
         id: number,
         activityCategoryId: number,
         groupId: number,
@@ -139,7 +139,7 @@ export default class ReferenceService {
         ));
     }
 
-    public putActivityTemplate(
+    putActivityTemplate(
         id: number,
         activityCategoryId: number,
         groupId: number,
@@ -155,7 +155,7 @@ export default class ReferenceService {
         ));
     }
 
-    public deleteActivityTemplate(id: number): Promise<any> {
+    deleteActivityTemplate(id: number): Promise<any> {
         return this.SocketService.send(new DeleteActivityTemplateRequest(id));
     }
 }

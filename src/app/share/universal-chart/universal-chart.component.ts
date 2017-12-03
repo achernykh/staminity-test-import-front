@@ -4,23 +4,23 @@ import "./universal-chart.component.scss";
 
 class UniversalChartCtrl implements IComponentController {
 
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
+    data: any;
+    onEvent: (response: Object) => IPromise<void>;
 
     private chart: any;
     private container: any;
     private onResize: Function;
 
-    public static $inject = ["$element", "$window"];
+    static $inject = ["$element", "$window"];
 
     constructor(private $element: any, private $window: IWindowService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
     }
 
-    public $onDestroy() {
+    $onDestroy() {
 
         if (this.hasOwnProperty("chart") && this.chart) {
             this.chart.remove();
@@ -28,7 +28,7 @@ class UniversalChartCtrl implements IComponentController {
 
     };
 
-    public $postLink(): void {
+    $postLink(): void {
         const self = this;
         this.$element.ready(() => self.redraw());
 
@@ -40,7 +40,7 @@ class UniversalChartCtrl implements IComponentController {
         //angular.element(this.$window).on('resize', this.onResize);
     }
 
-    public $onChanges(changes: any) {
+    $onChanges(changes: any) {
         if (changes.hasOwnProperty("update") && !changes.update.isFirstChange()) {
             if (!this.chart) {
                 return;
@@ -52,7 +52,7 @@ class UniversalChartCtrl implements IComponentController {
         }
     }
 
-    public redraw(): void {
+    redraw(): void {
         this.container = this.$element[0];
         this.chart = UChartFactory.getInstance(this.data).renderTo(this.container);
     }

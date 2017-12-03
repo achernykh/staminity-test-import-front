@@ -15,12 +15,12 @@ import "./analytics.component.scss";
 
 export class AnalyticsCtrl implements IComponentController {
 
-    public user: IUserProfile;
-    public categories: IActivityCategory[];
-    public charts: AnalyticsChart[];
-    public onEvent: (response: Object) => IPromise<void>;
+    user: IUserProfile;
+    categories: IActivityCategory[];
+    charts: AnalyticsChart[];
+    onEvent: (response: Object) => IPromise<void>;
 
-    public filter: AnalyticsChartFilter;
+    filter: AnalyticsChartFilter;
 
     private globalFilterChange: number = null;
 
@@ -32,7 +32,7 @@ export class AnalyticsCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    public static $inject = ["$scope", "SessionService", "statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
+    static $inject = ["$scope", "SessionService", "statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
         "AuthService", "$filter"];
 
     constructor(private $scope: IScope,
@@ -60,11 +60,11 @@ export class AnalyticsCtrl implements IComponentController {
             });
     }
 
-    public $onInit() {
+    $onInit() {
         this.prepareData();
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
@@ -74,7 +74,7 @@ export class AnalyticsCtrl implements IComponentController {
         this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
     }
 
-    public restoreSettings() {
+    restoreSettings() {
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.charts}`);
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.filter}`);
         this.prepareCharts(this.defaultSettings);

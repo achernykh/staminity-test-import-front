@@ -43,8 +43,8 @@ export interface IMessageService {
  */
 export default class MessageService implements IMessageService {
 
-    public id: number = 1;
-    public toastTemplate =
+    id: number = 1;
+    toastTemplate =
         `<md-toast>
             <md-icon class="material-icons" style="color: darkred"></md-icon>
             <span class="md-toast-text" flex>{{$ctrl.code + '.text' | translate:$ctrl.context}}</span>
@@ -52,7 +52,7 @@ export default class MessageService implements IMessageService {
             <md-button ng-click="hide()">Close</md-button>
         </md-toast>`;
 
-    public static $inject = ["$rootScope", "$compile", "$timeout", "$mdToast"];
+    static $inject = ["$rootScope", "$compile", "$timeout", "$mdToast"];
 
     constructor(
         private $rootScope: IRootScopeService,
@@ -70,7 +70,7 @@ export default class MessageService implements IMessageService {
      * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
      * @delay {number} delay Задержка в с показа сообщения на экране
      */
-    public system(code: string, status: string = "error", context: {} = null, delay: number = 10) {
+    system(code: string, status: string = "error", context: {} = null, delay: number = 10) {
         const id = "system-message#" + ++this.id;
 
         angular
@@ -90,15 +90,15 @@ export default class MessageService implements IMessageService {
 
     }
 
-    public systemError(code: string, context?: {}, delay?: number) {
+    systemError(code: string, context?: {}, delay?: number) {
         this.system(code, "error", context, delay);
     }
 
-    public systemWarning(code: string, context?: {}, delay?: number) {
+    systemWarning(code: string, context?: {}, delay?: number) {
         this.system(code, "warning", context, delay);
     }
 
-    public systemSuccess(code: string, context?: {}, delay?: number) {
+    systemSuccess(code: string, context?: {}, delay?: number) {
         this.system(code, "success", context, delay);
     }
 
@@ -111,7 +111,7 @@ export default class MessageService implements IMessageService {
      * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
      * @delay {number} delay Задержка в с показа сообщения на экране
      */
-    public toast(code: string, status: string = "error", context: {} = null, delay: number = 10) {
+    toast(code: string, status: string = "error", context: {} = null, delay: number = 10) {
         this.$mdToast.show({
             hideDelay: delay * 1000,
             position: "bottom center",
@@ -127,15 +127,15 @@ export default class MessageService implements IMessageService {
         });
     }
 
-    public toastError(code: string, context?: {}, delay?: number) {
+    toastError(code: string, context?: {}, delay?: number) {
         this.toast(code, "error", context, delay);
     }
 
-    public toastWarning(code: string, context?: {}, delay?: number) {
+    toastWarning(code: string, context?: {}, delay?: number) {
         this.toast(code, "warning", context, delay);
     }
 
-    public toastInfo(code: string, context?: {}, delay?: number) {
+    toastInfo(code: string, context?: {}, delay?: number) {
         this.toast(code, "info", context, delay);
     }
 

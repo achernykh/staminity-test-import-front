@@ -30,7 +30,7 @@ export interface IAuthService {
 
 export default class AuthService implements IAuthService {
 
-    public static $inject = ["SessionService", "RESTService", "SocketService", "GroupService"];
+    static $inject = ["SessionService", "RESTService", "SocketService", "GroupService"];
 
     constructor(
         private SessionService: SessionService,
@@ -48,7 +48,7 @@ export default class AuthService implements IAuthService {
      * отображения отдельных закрытых страниц сервиса для не зарегестрированных пользователей
      * @returns {boolean} - true - авторизован, false - не авторизован
      */
-    public isAuthenticated(): boolean {
+    isAuthenticated(): boolean {
         return !!this.SessionService.getToken();
     }
 
@@ -57,16 +57,16 @@ export default class AuthService implements IAuthService {
      * @param authorizedRoles
      * @returns {boolean}
      */
-    public isAuthorized(authorizedRoles: any[] = []): boolean {
+    isAuthorized(authorizedRoles: any[] = []): boolean {
         const userRoles = this.SessionService.getPermissions();
         return authorizedRoles.every((role) => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
     }
 
-    public isCoach(role: string = "Calendar_Athletes"): boolean {
+    isCoach(role: string = "Calendar_Athletes"): boolean {
         return this.isAuthorized([role]);
     }
 
-    public isMyAthlete(user: IUserProfile = null): Promise<any> {
+    isMyAthlete(user: IUserProfile = null): Promise<any> {
         if (!user) {
             throw new Error("userNotFound");
         }
@@ -87,7 +87,7 @@ export default class AuthService implements IAuthService {
         }
     }
 
-    public isMyClub(uri: string): Promise<any> {
+    isMyClub(uri: string): Promise<any> {
         const userClubs = this.SessionService.getUser().connections.ControlledClubs;
         if (userClubs && userClubs.some((club) => club.groupUri === uri)) {
             return Promise.resolve();
@@ -96,15 +96,15 @@ export default class AuthService implements IAuthService {
         }
     }
 
-    public isActivityPlan(role: string[] = ["ActivitiesPlan_User"]): boolean {
+    isActivityPlan(role: string[] = ["ActivitiesPlan_User"]): boolean {
         return this.isAuthorized([role[0]]);
     }
 
-    public isActivityPlanAthletes(role: string[] = ["ActivitiesPlan_Athletes"]): boolean {
+    isActivityPlanAthletes(role: string[] = ["ActivitiesPlan_Athletes"]): boolean {
         return this.isAuthorized([role[0]]);
     }
 
-    public isActivityPro(role: string[] = ["ActivitiesProView_User", "ActivitiesProView_Athletes"]): boolean {
+    isActivityPro(role: string[] = ["ActivitiesProView_User", "ActivitiesProView_Athletes"]): boolean {
         return this.isCoach() && this.isAuthorized([role[1]]) ||  this.isAuthorized([role[0]]); //this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
     }
 
@@ -113,7 +113,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    public signUp(request): IHttpPromise<{}> {
+    signUp(request): IHttpPromise<{}> {
         return this.RESTService.postData(new PostData("/signup", request));
     }
 
@@ -122,7 +122,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>|Promise<TResult2|TResult1>|Promise<TResult>|*|Promise.<TResult>}
      */
-    public signIn(request): IPromise<void> {
+    signIn(request): IPromise<void> {
         return this.RESTService.postData(new PostData("/signin", request))
             .then((response: IHttpPromiseCallbackArg<any>) => {
                 if (response.data.hasOwnProperty("userProfile") && response.data.hasOwnProperty("token")) {
@@ -134,12 +134,12 @@ export default class AuthService implements IAuthService {
             });
     }
 
-    public signedIn(sessionData: any) {
+    signedIn(sessionData: any) {
         this.SessionService.set(sessionData);
         this.SocketService.open(sessionData.token);
     }
 
-    public signOut() {
+    signOut() {
         this.SessionService.set();
         this.SocketService.close();
     }
@@ -149,7 +149,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    public confirm(request): IHttpPromise<{}> {
+    confirm(request): IHttpPromise<{}> {
         return this.RESTService.postData(new PostData("/confirm", request));
     }
 
@@ -158,7 +158,7 @@ export default class AuthService implements IAuthService {
      * @param email
      * @returns {IPromise<TResult>}
      */
-    public resetPassword(email: string): IHttpPromise<{}> {
+    resetPassword(email: string): IHttpPromise<{}> {
         return this.RESTService.postData(new ResetPasswordRequest(email))
             .then((result) => result.data);
     }
@@ -167,7 +167,7 @@ export default class AuthService implements IAuthService {
      * @param password
      * @returns {Promise<any>}
      */
-    public setPassword(password: string, token: string): IHttpPromise<{}> {
+    setPassword(password: string, token: string): IHttpPromise<{}> {
         return this.RESTService.postData(new SetPasswordRequest(token, password))
             .then((result) => result.data); // Ожидаем system message
     }
@@ -178,11 +178,11 @@ export default class AuthService implements IAuthService {
      * @param users -
      * @returns {Promise<any>}
      */
-    public inviteUsers(group: number, users: Object[]): Promise<any> {
+    inviteUsers(group: number, users: Object[]): Promise<any> {
         return this.SocketService.send(new InviteUserRequest(group, users));
     }
 
-    public putInvite(credentials: UserCredentials): Promise<any> {
+    putInvite(credentials: UserCredentials): Promise<any> {
         return this.RESTService.postData(new PostData("/api/wsgate", new PutUserInviteRequest(credentials)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }

@@ -6,13 +6,13 @@ import "./activity-header-zones.component.scss";
 
 class ActivityHeaderZonesCtrl implements IComponentController {
 
-    public zones: any;
-    public sport: string;
-    public hasDetails: boolean;
-    public item: CalendarItemActivityCtrl;
-    public calcMeasures: ICalcMeasures;
-    public movingDuration: number;
-    public onEvent: (response: Object) => IPromise<void>;
+    zones: any;
+    sport: string;
+    hasDetails: boolean;
+    item: CalendarItemActivityCtrl;
+    calcMeasures: ICalcMeasures;
+    movingDuration: number;
+    onEvent: (response: Object) => IPromise<void>;
 
     private factor: string = null;
     private readonly filter = {
@@ -21,13 +21,13 @@ class ActivityHeaderZonesCtrl implements IComponentController {
         powerTimeInZone: "power",
     };
     private readonly colors: {} = {heartRate: 0xE91E63, speed: 0x2196F3, power: 0x9C27B0};
-    public static $inject = ["$scope"];
+    static $inject = ["$scope"];
 
     constructor(private $scope: any) {
 
     }
 
-    public $onChanges(changes) {
+    $onChanges(changes) {
         if (changes.sport && !changes.sport.isFirstChange()) {
             console.log("sport change", this.sport);
         }
@@ -36,12 +36,12 @@ class ActivityHeaderZonesCtrl implements IComponentController {
         }
     }
 
-    public changeFactor(factor: string) {
+    changeFactor(factor: string) {
         this.factor = factor;
         //this.$scope.$apply();
     }
 
-    public getZone(factor: string = this.factor, sport: string = this.sport): any[] {
+    getZone(factor: string = this.factor, sport: string = this.sport): any[] {
         if (this.hasDetails) {
             return this.calcMeasures.hasOwnProperty(factor) && this.calcMeasures[factor].zones;
         } else {
@@ -51,13 +51,13 @@ class ActivityHeaderZonesCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.movingDuration = this.item.activity.movingDuration;
         this.calcMeasures = this.item.activity.intervalW.calcMeasures;
         this.factor = this.prepareFactor();
     }
 
-    public prepareFactor(): string {
+    prepareFactor(): string {
         return (!this.hasDetails && "heartRateTimeInZone") ||
             (this.hasDetails && this.calcMeasures.hasOwnProperty("heartRateTimeInZone") && "heartRateTimeInZone") ||
             (this.hasDetails && this.calcMeasures.hasOwnProperty("speedTimeInZone") && "speedTimeInZone") ||

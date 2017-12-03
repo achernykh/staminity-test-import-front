@@ -14,7 +14,7 @@ class TemplateCtrl implements IComponentController {
     private onCopy: () => any;
     private reference: ReferenceCtrl;
 
-    public static $inject = ["$scope", "$filter", "$mdDialog"];
+    static $inject = ["$scope", "$filter", "$mdDialog"];
 
     constructor(
         private $scope,

@@ -15,14 +15,14 @@ import {IRESTService, PostData, PostFile} from "./rest.service";
 
 export default class UserService {
 
-    public messageHandlers = {
+    messageHandlers = {
         "systemFunctions": ({ value }) => this.SessionService.setPermissions(value),
         "systemFunction": (message) => this.updatePermissions(message),
         "groupMembership": (message) => this.updateGroup(new ProtocolGroupUpdate(message)),
         "controlledClub": (message) => this.updateClubs(new ProtocolGroupUpdate(message)),
     };
 
-    public static $inject = ["SessionService", "SocketService", "RESTService", "ReferenceService"];
+    static $inject = ["SessionService", "SocketService", "RESTService", "ReferenceService"];
 
     constructor(
         private SessionService: SessionService,
@@ -63,7 +63,7 @@ export default class UserService {
      * зон атлетов
      * @param connections
      */
-    public setConnections(connections: IUserConnections) {
+    setConnections(connections: IUserConnections) {
         if (connections && connections.allAthletes) {
             this.getTrainingZones(null, connections.allAthletes.groupId)
             .then((result: IGetTrainigZonesResponse[]) => {
@@ -85,7 +85,7 @@ export default class UserService {
      * Запрос обьекта connections из userProfile пользователя
      * @returns {Promise<any>}
      */
-    public getConnections(): Promise<any> {
+    getConnections(): Promise<any> {
         return this.SocketService.send(new GetUserConnectionsRequest()).then((result) => result);
     }
 
@@ -95,7 +95,7 @@ export default class UserService {
      * @param groupId
      * @returns {Promise<any>}
      */
-    public getTrainingZones(userId: number, groupId: number = null): Promise<any> {
+    getTrainingZones(userId: number, groupId: number = null): Promise<any> {
         return this.SocketService.send(new GetTrainingZonesRequest(userId, groupId)).then((result) => result.arrayResult);
     }
 
@@ -105,7 +105,7 @@ export default class UserService {
      * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    public getProfile(key: string|number, ws: boolean = true): Promise<IUserProfile | ISystemMessage> {
+    getProfile(key: string|number, ws: boolean = true): Promise<IUserProfile | ISystemMessage> {
         return ws ? (
             this.SocketService.send(new GetUserRequest(key))
         ) : (
@@ -124,7 +124,7 @@ export default class UserService {
      * @param profile - может содержать частичные данные профиля, по секциям
      * @returns {Promise<T>}
      */
-    public putProfile(userChanges: IUserProfile): Promise<IUserProfile> {
+    putProfile(userChanges: IUserProfile): Promise<IUserProfile> {
         return this.SocketService.send(new PutUserRequest(userChanges))
         .then((result) => result.value)
         .then(({ revision }) => {
@@ -146,7 +146,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    public postProfileAvatar(file: any): IHttpPromise<any> {
+    postProfileAvatar(file: any): IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile("/user/avatar", file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
@@ -159,7 +159,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    public postProfileBackground(file: any): IHttpPromise<any> {
+    postProfileBackground(file: any): IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile("/user/background", file))
             .then((response) => {
                 this.SessionService.updateUser(response.data);
@@ -176,7 +176,7 @@ export default class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    public getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: string[], ws: boolean = true): Promise<any> {
+    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: string[], ws: boolean = true): Promise<any> {
         return ws ?
             this.SocketService.send(new GetSummaryStatisticsRequest(id, start, end, group, data)) :
             this.RESTService.postData(new PostData("/api/wsgate", new GetSummaryStatisticsRequest(id, start, end, group, data)))

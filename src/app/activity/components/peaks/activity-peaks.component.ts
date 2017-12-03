@@ -14,19 +14,19 @@ class ActivityPeaksCtrl implements IComponentController {
         "cadenceTimePeaks", "cadenceDistancePeaks"];
 
     //private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain','elevationLoss'];
-    public static $inject = ["$scope"];
+    static $inject = ["$scope"];
 
     constructor(private $scope: any) {
 
     }
 
-    public $onChanges(change: any): void {
+    $onChanges(change: any): void {
         if (change.hasOwnProperty("calcMeasures") && !change.calcMeasures.isFirstChange()) {
             this.$onInit();
         }
     }
 
-    public $onInit() {
+    $onInit() {
         this.peaks = this.peaksMeasure
             .filter((m) => this.calcMeasures.hasOwnProperty(m) &&
                 this.calcMeasures[m].hasOwnProperty("peaks") &&
@@ -44,7 +44,7 @@ class ActivityPeaksCtrl implements IComponentController {
         this.$scope.filter = (this.measures.length > 0 && { measure: this.measures[0] }) || "";
     }
 
-    public setFilter(code) {
+    setFilter(code) {
         this.$scope.filter = { measure: code };
     }
 

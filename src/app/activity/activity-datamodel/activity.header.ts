@@ -4,37 +4,37 @@ import {IActivityCategory, IActivityTemplate} from "../../../../api/reference/re
 
 export class ActivityHeader implements IActivityHeader {
 
-    public activityId: number;
-    public startTimestamp: Date = new Date();
-    public activityCategory: IActivityCategory = { // категория тренировки
+    activityId: number;
+    startTimestamp: Date = new Date();
+    activityCategory: IActivityCategory = { // категория тренировки
         id: null,
         revision: null,
         code: null,
         activityTypeId: null,
         sortOrder: null,
     };
-    public activityType: IActivityType = { //вид спорта
+    activityType: IActivityType = { //вид спорта
         id: null,
         code: null,
         typeBasic: null,
     };
-    public intervals: IActivityIntervals[] = [];
-    public templateId: number;
+    intervals: IActivityIntervals[] = [];
+    templateId: number;
 
     // Вспомогательные поля фронт-енд
-    public template: IActivityTemplate;
+    template: IActivityTemplate;
 
     constructor(header?: IActivityHeader) {
         this.startTimestamp = new Date();
         Object.assign(this, header || {});
     }
 
-    public build(): IActivityHeader {
+    build(): IActivityHeader {
         this.templateId = (this.template && this.template.id) || null;
         return this.clear();
     }
 
-    public clear(): IActivityHeader {
+    clear(): IActivityHeader {
         const params: string[] = ["template"];
         params.map((p) => delete this[p]);
         return this as IActivityHeader;

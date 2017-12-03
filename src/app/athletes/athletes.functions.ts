@@ -62,7 +62,7 @@ export const tariffsNotByUser = (userId: number) => (member: IGroupManagementPro
 export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProfileMember): boolean => {
     return arrays.intersection(
         coach.connections.Clubs.map((club) => club.groupId),
-        athlete.clubs.map((club) => club.groupId),
+        athlete["clubs"].map((club) => club.groupId),
     ).length > 0;
 };
 
@@ -73,7 +73,7 @@ export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProf
  * @returns {number}
  */
 export const getTariffGroupId = (management: IGroupManagementProfile) => (tariffCode: string) => {
-    return management.tariffGroups[tariffCode + "ByCoach"];
+    return management["tariffGroups"][tariffCode + "ByCoach"];
 };
 
 /**

@@ -8,9 +8,9 @@ import "./athlete-invitation.component.scss";
 
 class AthleteInvitationCtrl implements IComponentController {
 
-    public groupId: number;
-    public onEvent: (response: Object) => IPromise<void>;
-    public onCancel: () => IPromise<void>;
+    groupId: number;
+    onEvent: (response: Object) => IPromise<void>;
+    onCancel: () => IPromise<void>;
 
     private credTempl: UserCredentials = {
         public: {
@@ -31,7 +31,7 @@ class AthleteInvitationCtrl implements IComponentController {
         activatePremiumTrial: true,
     };
     private users: UserCredentials[] = [];
-    public options: Object = {
+    options: Object = {
         rowSelection: true,
         multiSelect: true,
         autoSelect: true,
@@ -42,18 +42,18 @@ class AthleteInvitationCtrl implements IComponentController {
         pageSelect: false,
     };
 
-    public static $inject = ["$scope", "AuthService", "message"];
+    static $inject = ["$scope", "AuthService", "message"];
 
     constructor(private $scope: any, private AuthService: IAuthService, private message: MessageService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.users = Array.from(new Array(10)).map(() => copy(this.credTempl));
         //this.users.push(copy(this.credTempl), copy(this.credTempl), copy(this.credTempl));
     }
 
-    public invite() {
+    invite() {
         const users = this.users.filter((u) => u.email && u.public.firstName && u.public.lastName);
         if (users && users.length > 0) {
             this.AuthService.inviteUsers(this.groupId, users)

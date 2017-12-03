@@ -6,25 +6,25 @@ import {IUserProfileShort} from "../../../api/user/user.interface";
 
 export class CalendarItem implements ICalendarItem {
 
-    public revision: any;
-    public calendarItemId: any;
-    public dateStart: string;
-    public dateEnd: string;
-    public calendarItemType: string;
-    public measurementHeader: IMeasurementHeader;
-    public activityHeader: IActivityHeader;
-    public userProfileOwner: IUserProfileShort;
-    public userProfileCreator: IUserProfileShort;
-    public _dateStart: Date;
-    public _dateEnd: Date;
-    public index: number; // index for ng-repeat in calendar-day component
+    revision: any;
+    calendarItemId: any;
+    dateStart: string;
+    dateEnd: string;
+    calendarItemType: string;
+    measurementHeader: IMeasurementHeader;
+    activityHeader: IActivityHeader;
+    userProfileOwner: IUserProfileShort;
+    userProfileCreator: IUserProfileShort;
+    _dateStart: Date;
+    _dateEnd: Date;
+    index: number; // index for ng-repeat in calendar-day component
 
     constructor(item: ICalendarItem) {
         merge(this, item); // deep copy
     }
 
     // Подготовка данных для модели отображения
-    public prepare(method?: string) {
+    prepare(method?: string) {
         //this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
         //this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
         this._dateStart = new Date(this.dateStart);
@@ -33,7 +33,7 @@ export class CalendarItem implements ICalendarItem {
     }
 
     // Подготовка данных для передачи в API
-    public package(userProfile?: IUserProfileShort) {
+    package(userProfile?: IUserProfileShort) {
         this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(), "minutes").format();
         this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(), "minutes").format();
         this.userProfileOwner = userProfile || this.userProfileOwner;
@@ -41,7 +41,7 @@ export class CalendarItem implements ICalendarItem {
     }
 
     // Обновление данных, после сохранения
-    public compile(response) {
+    compile(response) {
         console.log("response", response);
         this.revision = response.value.revision;
         this.calendarItemId = response.value.id;

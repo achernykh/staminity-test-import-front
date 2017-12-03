@@ -5,16 +5,16 @@ import "./activity.component.scss";
 
 class ActivityCtrl implements IComponentController {
 
-    public item: ICalendarItem;
-    public athlete: IUserProfile;
-    public onEvent: (response: Object) => IPromise<void>;
-    public static $inject = [];
+    item: ICalendarItem;
+    athlete: IUserProfile;
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 }

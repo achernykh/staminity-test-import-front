@@ -8,14 +8,14 @@ import "./training-plan-builder.component.scss";
 
 class TrainingPlanBuilderCtrl implements IComponentController {
 
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
-    public currentUser: IUserProfile;
+    data: any;
+    onEvent: (response: Object) => IPromise<void>;
+    currentUser: IUserProfile;
 
     // private
     private weekdayNames: number[] = [];
     private calendar: Calendar;
-    public static $inject = ["$scope", "$anchorScroll", "CalendarService", "SessionService"];
+    static $inject = ["$scope", "$anchorScroll", "CalendarService", "SessionService"];
 
     constructor(
         private $scope: IScope,
@@ -26,7 +26,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.weekdayNames = moment.weekdays(true);
         this.currentUser = this.session.getUser();
         this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.currentUser);

@@ -9,9 +9,9 @@ import "./category.component.scss";
 
 class CategoryCtrl implements IComponentController {
 
-    public category: IActivityCategory;
+    category: IActivityCategory;
 
-    public static $inject = ["$scope", "$filter", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
+    static $inject = ["$scope", "$filter", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
 
     constructor(
         private $scope,

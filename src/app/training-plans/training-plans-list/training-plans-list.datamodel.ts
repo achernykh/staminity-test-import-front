@@ -6,7 +6,7 @@ interface ITrainingPlans {
 
 export class TrainingPlansList implements ITrainingPlans {
 
-    public list: TrainingPlan[] = [];
+    list: TrainingPlan[] = [];
 
     constructor(list?: any[][]) {
         if (list) {
@@ -14,11 +14,11 @@ export class TrainingPlansList implements ITrainingPlans {
         }
     }
 
-    public push(plan: TrainingPlan): void {
+    push(plan: TrainingPlan): void {
         this.list.push(plan);
     }
 
-    public put(plan: TrainingPlan): void {
+    put(plan: TrainingPlan): void {
         const id: number = this.list.findIndex((p) => p.id === plan.id);
 
         if (id !== -1) {
@@ -26,7 +26,7 @@ export class TrainingPlansList implements ITrainingPlans {
         }
     }
 
-    public delete(planId: number): void {
+    delete(planId: number): void {
         const id: number = this.list.findIndex((p) => p.id === planId);
 
         if (id !== -1) {

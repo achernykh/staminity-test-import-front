@@ -8,14 +8,14 @@ import "./measure-split-table.component.scss";
 
 class MeasureSplitTableCtrl implements IComponentController {
 
-    public splits: IActivityIntervalL[];
-    public sport: string;
-    public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
-    public selected: any[] = [];
-    public max: {};
-    public zones: any;
+    splits: IActivityIntervalL[];
+    sport: string;
+    onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
+    selected: any[] = [];
+    max: {};
+    zones: any;
 
-    public options: Object = {
+    options: Object = {
         rowSelection: true,
         multiSelect: true,
         autoSelect: true,
@@ -33,16 +33,16 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     //private filter: Array<string> = ['heartRate', 'speed', 'cadence', 'elevationGain'];
 
-    public static $inject = ["$scope"];
+    static $inject = ["$scope"];
 
     constructor(private $scope: any) {
     }
 
-    public $onInit() {
+    $onInit() {
         //this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
         //this.$scope.selected = [];
         this.$scope.splits = this.splits.map( (d, i) => {
-            d.ind = i;
+            d["ind"] = i;
             return d;
         });
         this.$scope.change = () => this.onSelected({
@@ -56,12 +56,12 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     }
 
-    public getFTP(factor: string, sport: string = this.sport): number {
+    getFTP(factor: string, sport: string = this.sport): number {
         return (this.zones[factor].hasOwnProperty(sport) && this.zones[factor][sport].FTP) ||
             this.zones[factor].default.FTP;
     }
 
-    public change() {
+    change() {
         //console.log('change', this.selected);
         //this.onSelected({type: 'L', selected: this.selected.map(i => i.ind)});
     }

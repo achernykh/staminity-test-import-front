@@ -3,13 +3,13 @@ import { TrainingPlan } from "./training-plan/training-plan.datamodel";
 
 export class TrainingPlanDialogService {
 
-    public static $inject = ["$mdDialog"];
+    static $inject = ["$mdDialog"];
 
     constructor(private $mdDialog: any) {
 
     }
 
-    public open(env: Event, mode: FormMode, plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
+    open(env: Event, mode: FormMode, plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
 
         return this.$mdDialog.show({
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {

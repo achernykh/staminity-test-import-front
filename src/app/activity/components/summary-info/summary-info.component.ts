@@ -11,13 +11,13 @@ class ActivitySummaryInfoCtrl implements IComponentController {
     private durationInfo: string = "";
     private intensityInfo: string = "";
 
-    public static $inject = ["$filter"];
+    static $inject = ["$filter"];
 
     constructor(private $filter: any) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         /**
          * Если статус тренировки плановая или пропущена, то выводятся только плановые показатели, по которым задан план
          * В противном случае выводится файтические значения как по длительности (время, расстояние) и интенсиности по
@@ -67,15 +67,15 @@ class ActivitySummaryInfoCtrl implements IComponentController {
                         this.$filter("translate")(this.$filter("measureUnit")(durationMeasure, sportBasic));
 
                     if (intensityMeasure) {
-                        if (intensityValue.to === intensityValue.from) {// если значение
-                            this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty("from") && this.$filter("measureCalc")(intensityValue.from, sportBasic, intensityMeasure)) || "";
+                        if (intensityValue["to"] === intensityValue["from"]) {// если значение
+                            this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty("from") && this.$filter("measureCalc")(intensityValue["from"], sportBasic, intensityMeasure)) || "";
                         } else { // если интервал
                             if (measure.isPace()) {
-                                this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty("to") && this.$filter("measureCalc")(intensityValue.to, sportBasic, intensityMeasure) || "") +
-                                    "-" + (this.$filter("measureCalc")(intensityValue.from, sportBasic, intensityMeasure) || "");
+                                this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty("to") && this.$filter("measureCalc")(intensityValue["to"], sportBasic, intensityMeasure) || "") +
+                                    "-" + (this.$filter("measureCalc")(intensityValue["from"], sportBasic, intensityMeasure) || "");
                             } else {
-                                this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty("from") && this.$filter("measureCalc")(intensityValue.from, sportBasic, intensityMeasure) || "") +
-                                    "-" + (this.$filter("measureCalc")(intensityValue.to, sportBasic, intensityMeasure) || "");
+                                this.intensityInfo = (this.item.activity.intensityValue.hasOwnProperty("from") && this.$filter("measureCalc")(intensityValue["from"], sportBasic, intensityMeasure) || "") +
+                                    "-" + (this.$filter("measureCalc")(intensityValue["to"], sportBasic, intensityMeasure) || "");
                             }
                         }
                         this.intensityInfo += " " + this.$filter("translate")(this.$filter("measureUnit")(intensityMeasure, sportBasic));
@@ -108,7 +108,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         }
     }
 
-    public view(id: number) {
+    view(id: number) {
         //debugger;
         //window.open(`${window.location.origin}/activity/${id}`);
     }

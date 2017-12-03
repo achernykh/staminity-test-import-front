@@ -12,8 +12,8 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private completeDetails: boolean = false;
 
     private item: CalendarItemActivityCtrl;
-    public mode: string;
-    public activity: Activity;
+    mode: string;
+    activity: Activity;
     private showMap: boolean = true;
     private showChart: boolean = true;
     private showTable: boolean = true;
@@ -33,13 +33,13 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private chartX: string = "elapsedDuration";
     private change: number = 0;
     private changeMeasure: string = null;
-    public static $inject = ["$mdMedia", "$filter"];
+    static $inject = ["$mdMedia", "$filter"];
 
     constructor(private $mdMedia: any, private $filter: any) {
 
     }
 
-    public $onChanges(changes) {
+    $onChanges(changes) {
         if (changes.hasOwnProperty("hasDetails") && changes.hasDetails.currentValue) {
             this.chartData = this.item.activity.details.chartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures);
             //this.chartData = new MeasureChartData(this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.activity.details);
@@ -47,7 +47,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
         }
     }
 
-    public $onInit() {
+    $onInit() {
 
         this.item.activity.structured ? this.tableOption = "segments" : this.tableOption = "laps";
         this.item.activity.structured ? this.chartOption = "segments" : this.chartOption = "measures";
@@ -108,42 +108,42 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
         });*/
     }
 
-    public toggleMap() {
+    toggleMap() {
         return this.showMap = !this.showMap;
     }
 
-    public toggleChart() {
+    toggleChart() {
         return this.showChart = !this.showChart;
     }
 
-    public toggleTable() {
+    toggleTable() {
         return this.showTable = !this.showTable;
     }
 
-    public changeChartX(measure) {
+    changeChartX(measure) {
         this.chartX = measure;
         this.change++;
     }
 
-    public changeChartMetrics(measure) {
+    changeChartMetrics(measure) {
         this.chartData.measures[measure].show = !this.chartData.measures[measure].show;
         this.changeMeasure = measure;
         this.change++;
     }
 
-    public onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>) {
+    onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>) {
         if (select.length === 0) {
             this.item.clearUserInterval();
         } else {
             if (!select[0].startTimestamp) {
-                const index = this.chartData.measures.timestamp.idx;
+                const index = this.chartData.measures["timestamp"].idx;
                 select[0].startTimestamp = this.item.activity.details.metrics[0][index];
             }
             this.item.addUserInterval(select[0]);
         }
     }
 
-    public onChartSelect(segmentId) {
+    onChartSelect(segmentId) {
         console.log("chart select interval=", segmentId);
     }
 }

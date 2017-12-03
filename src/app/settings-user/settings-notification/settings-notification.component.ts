@@ -5,19 +5,19 @@ import { groupStructure, INotificationGroup } from "./settings-notification.conf
 
 class SettingsNotificationCtrl implements IComponentController {
 
-    public notifications: IUserNotifications;
-    public onChange: () => IPromise<void>;
+    notifications: IUserNotifications;
+    onChange: () => IPromise<void>;
 
     private list: IUserNotifications;
     private listGroup: INotificationGroup = {};
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.list = Object.assign({}, this.notifications);
         this.prepareNotificationGroup();
     }

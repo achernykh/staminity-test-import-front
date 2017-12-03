@@ -12,7 +12,7 @@ import {
 
 export class AnalyticsChartLayout {
 
-    public fullScreen: boolean = false;
+    fullScreen: boolean = false;
 
     constructor(public gridColumnEnd: number,
                 public gridRowEnd: number) {
@@ -55,22 +55,22 @@ export interface IAnalyticsChart {
 
 export class AnalyticsChart implements IAnalyticsChart {
 
-    public order: number;
-    public revision: number;
-    public auth: string[];
-    public active: boolean;
-    public icon?: string;
-    public code: string;
-    public context?: IAnalyticsChartTitleContext[]; //Контекст переводов для заголовка отчета
-    public description?: string;
+    order: number;
+    revision: number;
+    auth: string[];
+    active: boolean;
+    icon?: string;
+    code: string;
+    context?: IAnalyticsChartTitleContext[]; //Контекст переводов для заголовка отчета
+    description?: string;
     //filter: IAnalyticsChartFilter;
-    public globalParams?: boolean;
-    public localParams?: any;
-    public paramsDescription?: string;
-    public layout: AnalyticsChartLayout;
-    public charts: IChart[];
+    globalParams?: boolean;
+    localParams?: any;
+    paramsDescription?: string;
+    layout: AnalyticsChartLayout;
+    charts: IChart[];
 
-    public isAuthorized: boolean; //результат проверки полномочий пользователя
+    isAuthorized: boolean; //результат проверки полномочий пользователя
 
     private keys: string[] = ["params", "user", "categories", "isAuthorized", "globalFilter", "keys"];
 
@@ -97,15 +97,15 @@ export class AnalyticsChart implements IAnalyticsChart {
         }
     }
 
-    public clearMetrics() {
+    clearMetrics() {
         this.charts.map((c) => c.hasOwnProperty("metrics") && delete c.metrics);
     }
 
-    public hasMetrics(): boolean {
+    hasMetrics(): boolean {
         return this.charts.some((c) => c.hasOwnProperty("metrics"));
     }
 
-    public transfer(keys: string[] = this.keys): IAnalyticsChart {
+    transfer(keys: string[] = this.keys): IAnalyticsChart {
 
         const obj: IAnalyticsChart = copy(this);
         // удаляем вспомогательные данные
@@ -165,7 +165,7 @@ export class AnalyticsChart implements IAnalyticsChart {
         }
     }
 
-    public prepareMetrics(ind: number, metrics: any[][]): void {
+    prepareMetrics(ind: number, metrics: any[][]): void {
         this.charts[ind].metrics = [];
         metrics.map((m) => {
             const metric: any[] = [];

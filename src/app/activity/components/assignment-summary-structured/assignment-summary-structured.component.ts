@@ -8,7 +8,7 @@ import "./assignment-summary-structured.component.scss";
 class AssignmentSummaryStructuredCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public onChange: () => IPromise<void>;
+    onChange: () => IPromise<void>;
 
     private readonly structuredMeasure: any = {
         movingDuration: {
@@ -21,13 +21,13 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
         },
     };
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.onChange();
     }
 }

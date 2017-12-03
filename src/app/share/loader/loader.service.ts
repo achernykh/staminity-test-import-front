@@ -6,15 +6,15 @@ class LoaderService {
 
     constructor() { }
 
-    public showRequested$ = this.showRequestedSource.asObservable();
-    public hideRequested$ = this.hideRequestedSource.asObservable();
+    showRequested$ = this.showRequestedSource.asObservable();
+    hideRequested$ = this.hideRequestedSource.asObservable();
 
-    public show() {
+    show() {
         console.log("LoaderService => show");
         this.showRequestedSource.next(null);
     }
 
-    public hide() {
+    hide() {
         console.log("LoaderService => hide");
         this.hideRequestedSource.next(null);
     }

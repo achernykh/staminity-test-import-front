@@ -5,10 +5,10 @@ import { IActivityMeasure, ICalcMeasures, IDurationMeasure, IIntensityMeasure} f
  */
 export class ActivityMeasure implements IActivityMeasure {
 
-    public value: number = null;
-    public minValue: number = null;
-    public maxValue: number = null;
-    public avgValue: number = null;
+    value: number = null;
+    minValue: number = null;
+    maxValue: number = null;
+    avgValue: number = null;
 
     constructor(public code: string) {
 
@@ -17,7 +17,7 @@ export class ActivityMeasure implements IActivityMeasure {
 
 export class ActivityIntervalCalcMeasure implements ICalcMeasures {
 
-    public params: string[] = [
+    params: string[] = [
         "heartRate", "heartRateDistancePeaks", "speed", "speedDistancePeaks", "duration", "movingDuration",
         "distance", "cadence", "strideLength", "swolf", "calories", "power", "powerDistancePeaks", "adjustedPower",
         "altitude", "elevationGain", "elevationLoss", "grade", "vam", "vamPowerKg", "temperature", "intensityLevel",

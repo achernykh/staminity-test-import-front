@@ -6,7 +6,7 @@ import "./background.template.scss";
 class BackgroundCtrl implements IComponentController {
 
     private internetStatus: boolean = true;
-    public static $inject = ["SocketService", "AuthService"];
+    static $inject = ["SocketService", "AuthService"];
 
     constructor(private socket: SocketService, private auth: IAuthService) {
         this.socket.connections.subscribe((status) => this.internetStatus = !!status || !this.auth.isAuthenticated());

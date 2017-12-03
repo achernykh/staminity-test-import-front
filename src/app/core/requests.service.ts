@@ -12,9 +12,9 @@ const isSameRequest = (r0) => (r1) => r0.userGroupRequestId === r1.userGroupRequ
 const requestsOrder = (a, b) => parseDate(requestDate(a)) >= parseDate(requestDate(b)) ? -1 : 1;
 
 export default class RequestsService {
-    public messages: Observable<IGroupMembershipRequest>;
-    public requests: IGroupMembershipRequest[] = [];
-    public requestsChanges = new Subject<IGroupMembershipRequest[]>();
+    messages: Observable<IGroupMembershipRequest>;
+    requests: IGroupMembershipRequest[] = [];
+    requestsChanges = new Subject<IGroupMembershipRequest[]>();
     private requestsReducers = {
         "I": (request: IGroupMembershipRequest) => [...this.requests, request].sort(requestsOrder),
         "U": (request: IGroupMembershipRequest) => this.requests.map((r) => isSameRequest(request)(r) ? request : r).sort(requestsOrder),
@@ -27,7 +27,7 @@ export default class RequestsService {
         });
     }
 
-    public static $inject = ["SocketService", "SessionService"];
+    static $inject = ["SocketService", "SessionService"];
 
     constructor(
         private SocketService: SocketService,
@@ -60,7 +60,7 @@ export default class RequestsService {
      * @param limit
      * @returns {Promise<any>}
      */
-    public getMembershipRequest(offset: number, limit: number): Promise<any> {
+    getMembershipRequest(offset: number, limit: number): Promise<any> {
         return this.SocketService.send(new GetGroupMembershipRequest(offset, limit));
     }
 
@@ -69,7 +69,7 @@ export default class RequestsService {
      * @param id
      * @returns {Promise<any>}
      */
-    public processMembershipRequest(action: string, groupId?: number, requestId?: number): Promise<any> {
+    processMembershipRequest(action: string, groupId?: number, requestId?: number): Promise<any> {
         return this.SocketService.send(new ProcessGroupMembershipRequest(action, groupId, requestId));
     }
 
@@ -78,7 +78,7 @@ export default class RequestsService {
      * @param userId
      * @returns Observable<any>
      */
-    public requestWithUser(userId: number): Observable<any> {
+    requestWithUser(userId: number): Observable<any> {
         return this.messages.filter((r) => r.initiator.userId === userId || r.receiver.userId === userId);
     }
 
@@ -87,7 +87,7 @@ export default class RequestsService {
      * @param clubId
      * @returns Observable<any>
      */
-    public requestWithClub(clubId: number): Observable<any> {
+    requestWithClub(clubId: number): Observable<any> {
         return this.messages.filter((r) => r.groupProfile.groupId === clubId);
     }
 }

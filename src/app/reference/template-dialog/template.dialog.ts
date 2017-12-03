@@ -9,7 +9,7 @@ export type TemplateDialogMode = "post" | "put" | "view";
 
 class TemplateDialogCtrl implements IComponentController {
 
-    public static $inject = ["$scope", "$mdDialog"];
+    static $inject = ["$scope", "$mdDialog"];
 
     constructor(private $scope, private $mdDialog) {
         $scope.hide = () => $mdDialog.hide();

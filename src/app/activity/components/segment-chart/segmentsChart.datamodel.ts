@@ -98,11 +98,11 @@ export class PlanChartDatamodel {
         }
     };
 
-    public getIntervals(): IPlanInterval[] {
+    getIntervals(): IPlanInterval[] {
         return this.intervals || [];
     }
 
-    public getSelect(): number[] {
+    getSelect(): number[] {
         const select: number[] = [];
         this.intervals.forEach((interval, i) => interval.isSelected && select.push(i));
         return select || [];

@@ -13,9 +13,9 @@ interface TariffCalc {
 
 class LandingTariffsCtrl implements IComponentController {
 
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
-    public selectedTab: string = "month";
+    data: any;
+    onEvent: (response: Object) => IPromise<void>;
+    selectedTab: string = "month";
 
     private calc: TariffCalc = {
         premium: false,
@@ -32,7 +32,7 @@ class LandingTariffsCtrl implements IComponentController {
 
     private readonly country: string = "ru";
 
-    public static $inject = ["$scope", "$location", "$state"];
+    static $inject = ["$scope", "$location", "$state"];
 
     constructor(
         private $scope: IScope,
@@ -41,7 +41,7 @@ class LandingTariffsCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.selectedTab = this.$location.search().tab || "month";
         /**if(this.selectedTab === 'calculator') {
             Object.assign(this.calc, this.$location.search());
@@ -54,50 +54,50 @@ class LandingTariffsCtrl implements IComponentController {
         this.athleteByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[this.country].coachAthletes.athlete;
     }
 
-    public onChangeTab(tab: string): void {
+    onChangeTab(tab: string): void {
         this.selectedTab = tab;
     }
 
-    public getVariableIconPath(variable: Object): string {
+    getVariableIconPath(variable: Object): string {
         const path: string = "/assets/icon";
         return variable.hasOwnProperty("coachAthletes") && `${path}/variable_athlete.svg` ||
             variable.hasOwnProperty("clubAthletes") && `${path}/variable_athlete_coach.svg`;
     }
 
-    public getVariableIconSize(variable: Object): string {
+    getVariableIconSize(variable: Object): string {
         return variable.hasOwnProperty("coachAthletes") && "width: 32px; height: 32px" ||
             variable.hasOwnProperty("clubAthletes") && "width: 38px; height: 32px";
     }
 
-    public getVariableType(rule: string): string {
+    getVariableType(rule: string): string {
         return rule.search("Athlete") !== -1 ? "person_outline" : "person";
     }
 
-    public getAthletePriceLimit(): {athletes: number} {
+    getAthletePriceLimit(): {athletes: number} {
         return ({
             athletes: this.calc.coaches * 10,
         });
     }
 
-    public onCoachChange(): void {
+    onCoachChange(): void {
         this.calc.athletes = Math.min(this.calc.athletes, this.calc.coaches * 10);
         //this.calc.athletes = Math.max(this.calc.athletes, this.calc.coaches);
     }
 
-    public onAthleteChange(): void {
+    onAthleteChange(): void {
         this.calc.proAthletes = Math.min(this.calc.proAthletes, this.calc.athletes);
     }
 
-    public calculate(): number {
+    calculate(): number {
         return  this.calculateSubscription() + this.calculateVariable();
     }
 
-    public calculateSubscription(): number {
+    calculateSubscription(): number {
         return  (this.calc.premium && this.premiumPriceByUser) +
                 (this.calc.coaches && this.calc.coaches * this.coachByUser);
     }
 
-    public calculateVariable(): number {
+    calculateVariable(): number {
         return  Math.max(0, this.calc.athletes - this.calc.coaches) * this.athleteByCoach +
                 this.calc.proAthletes * this.premiumPriceByCoach; ;
 

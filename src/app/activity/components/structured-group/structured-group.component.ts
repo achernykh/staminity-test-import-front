@@ -4,29 +4,29 @@ import "./structured-group.component.scss";
 
 class StructuredGroupCtrl implements IComponentController {
 
-    public loop: Loop;
-    public hiddenPos: number = 0;
+    loop: Loop;
+    hiddenPos: number = 0;
 
     private readonly box: {top: number, height: number} = {top: 21, height: 44}; //px
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit(): void {
+    $onInit(): void {
 
     }
 
-    public height(): number {
+    height(): number {
         return this.box.height * (this.loop.length - 1);
     }
 
-    public top(): number {
+    top(): number {
         return (this.loop.start - this.hiddenPos - 1) * this.box.height + this.box.top;
     }
 
-    public changeMode() {
+    changeMode() {
         this.loop.mode === LoopMode.Group ? this.loop.mode = LoopMode.Input : this.loop.mode = LoopMode.Group;
     }
 }

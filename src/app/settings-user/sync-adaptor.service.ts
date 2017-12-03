@@ -5,7 +5,7 @@ import { SocketService} from "../core";
 
 export default class SyncAdaptorService {
 
-    public static $inject = ["SocketService"];
+    static $inject = ["SocketService"];
 
     constructor(private SocketService: SocketService) {
 
@@ -17,7 +17,7 @@ export default class SyncAdaptorService {
      * @param deleteData
      * @returns {Promise<any>}
      */
-    public delete(provider: string, deleteData: boolean = false): Promise<any> {
+    delete(provider: string, deleteData: boolean = false): Promise<any> {
         return this.SocketService.send(new DeleteUserExternalAccountRequest(provider, deleteData));
     }
 
@@ -30,7 +30,7 @@ export default class SyncAdaptorService {
      * @param enabled
      * @returns {Promise<any>}
      */
-    public put(provider: string, username: string, password: string, startDate: Date, state: string): Promise<any> {
+    put(provider: string, username: string, password: string, startDate: Date, state: string): Promise<any> {
         return this.SocketService.send(new PutUserExternalAccountRequest(provider, username, password, startDate, state));
     }
 
@@ -43,7 +43,7 @@ export default class SyncAdaptorService {
      * @param enabled
      * @returns {Promise<any>}
      */
-    public post(provider: string, username: string, password: string, startDate: Date): Promise<any> {
+    post(provider: string, username: string, password: string, startDate: Date): Promise<any> {
         return this.SocketService.send(new PostUserExternalAccountRequest(provider, username, password, startDate));
     }
 

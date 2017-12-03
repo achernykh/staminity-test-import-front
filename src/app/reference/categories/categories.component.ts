@@ -17,17 +17,17 @@ import "./categories.component.scss";
 
 class CategoriesCtrl implements IComponentController {
 
-    public user: IUserProfile;
-    public categories: IActivityCategory[];
-    public templates: IActivityTemplate[];
-    public club: IGroupProfile;
-    public filterParams: ReferenceFilterParams;
+    user: IUserProfile;
+    categories: IActivityCategory[];
+    templates: IActivityTemplate[];
+    club: IGroupProfile;
+    filterParams: ReferenceFilterParams;
 
     private categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
     private activityTypes: IActivityType[] = activityTypes;
     private getType: (id: number) => IActivityType = getType;
 
-    public static $inject = ["$scope", "$mdDialog", "message", "ReferenceService"];
+    static $inject = ["$scope", "$mdDialog", "message", "ReferenceService"];
 
     constructor(
         private $scope,
@@ -38,11 +38,11 @@ class CategoriesCtrl implements IComponentController {
 
     }
 
-    public $onChanges(changes) {
+    $onChanges(changes) {
         this.handleChanges();
     }
 
-    public handleChanges() {
+    handleChanges() {
         const filters = pick(["club", "activityType"]) (categoriesFilters);
 
         this.categoriesByOwner = pipe(
@@ -52,7 +52,7 @@ class CategoriesCtrl implements IComponentController {
         ) (this.categories);
     }
 
-    public categoryReorder(index: number, category: IActivityCategory) {
+    categoryReorder(index: number, category: IActivityCategory) {
         const { id, code, description, groupProfile, visible } = category;
         const owner = getOwner(this.user)(category);
         const groupId = groupProfile && groupProfile.groupId;
@@ -66,7 +66,7 @@ class CategoriesCtrl implements IComponentController {
         });
     }
 
-    public createCategory() {
+    createCategory() {
         const data = {
             activityTypeId: this.filterParams.activityType.id,
             groupProfile: this.club,
@@ -75,12 +75,12 @@ class CategoriesCtrl implements IComponentController {
         this.categoryDialog(data, "create");
     }
 
-    public selectCategory(category: IActivityCategory) {
+    selectCategory(category: IActivityCategory) {
         const mode: CategoryDialogCtrl.Mode  = isOwner(this.user, category) || isManager(this.user, this.club) ? "edit" : "view";
         this.categoryDialog(category, mode);
     }
 
-    public categoryDialog(category: any, mode: CategoryDialogCtrl.Mode) {
+    categoryDialog(category: any, mode: CategoryDialogCtrl.Mode) {
         const locals = {
             mode,
             category: { ...category },

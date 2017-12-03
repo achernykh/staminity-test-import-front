@@ -25,8 +25,8 @@ const searchMeasure = (point, interval) => {
 
 class CalendarTotalCtrl implements IComponentController {
 
-    public week: ICalendarWeek;
-    public selected: boolean;
+    week: ICalendarWeek;
+    selected: boolean;
 
     private data: CalendarWeekData;
     private title: string;
@@ -40,21 +40,21 @@ class CalendarTotalCtrl implements IComponentController {
 
     private readonly primarySport: [string] = ["run", "bike", "swim"];
 
-    public static $inject = ["$mdDialog"];
+    static $inject = ["$mdDialog"];
 
     constructor(private $mdDialog: any) {
     }
 
-    public $onInit() {
+    $onInit() {
         this.title = moment(this.week.week, "YYYY-WW").week();
     }
 
-    public onToggle() {
+    onToggle() {
         this.selected = !this.selected;
         this.week.subItem.forEach((day) => day.selected = !day.selected);
     }
 
-    public $onChanges(changes) {
+    $onChanges(changes) {
 
         if (changes.update) {
             this.data = new CalendarWeekData(this.week);

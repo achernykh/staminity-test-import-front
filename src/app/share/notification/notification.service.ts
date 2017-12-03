@@ -19,15 +19,15 @@ export interface INotificationSettings {
 }
 
 export default class NotificationService {
-    public timeouts: { [index: string]: number } = {};
+    timeouts: { [index: string]: number } = {};
 
-    public notifications: Notification[] = [];
-    public notificationsChanges = new Subject<Notification[]>();
-    public notificationsReducers = {
+    notifications: Notification[] = [];
+    notificationsChanges = new Subject<Notification[]>();
+    notificationsReducers = {
         "I": (notification: Notification) => [...this.notifications, notification].sort(notificationsOrder),
         "U": (notification: Notification) => this.notifications.map((n) => n.id === notification.id && notification.revision > n.revision ? notification : n).sort(notificationsOrder),
     };
-    public resetNotifications = () => {
+    resetNotifications = () => {
         this.get(100, 0)
         .then((notifications) => {
             this.notifications = notifications.sort(notificationsOrder);
@@ -35,10 +35,10 @@ export default class NotificationService {
         });
     }
 
-    public openChat: ChatSession;
+    openChat: ChatSession;
     private readonly commentTemplates: string[] = ["newCoachComment", "newAthleteComment"];
 
-    public defaultSettings: INotificationSettings = {
+    defaultSettings: INotificationSettings = {
         newestOnTop: false,
         timeOut: 7000,
         tapToDismiss: true,
@@ -46,7 +46,7 @@ export default class NotificationService {
         hideDuration: 300,
     };
 
-    public static $inject = ["SocketService", "toaster", "CommentService"];
+    static $inject = ["SocketService", "toaster", "CommentService"];
 
     constructor(
         private socket: SocketService, private toaster: any, private comment: CommentService) {
@@ -87,7 +87,7 @@ export default class NotificationService {
      * @param offset - отступ от начального элемента, попадающего под условия фильтрации
      * @returns {Promise<Array<INotification>>}
      */
-    public get(limit: number = null, offset: number = null): Promise<Notification[]> {
+    get(limit: number = null, offset: number = null): Promise<Notification[]> {
         return this.socket.send(new GetNotificationRequest(limit, offset))
             .then((result: {resultArray: any[]}) => result.resultArray.map((n) => new Notification(n)));
     }
@@ -98,11 +98,11 @@ export default class NotificationService {
      * @param isRead
      * @returns {Promise<any>}
      */
-    public put(id: number, readUntil: string, isRead: boolean): Promise<any> {
+    put(id: number, readUntil: string, isRead: boolean): Promise<any> {
         return this.socket.send(new PutNotificationRequest(id, readUntil, isRead));
     }
 
-    public show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {
+    show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {
         this.timeouts[notification.index] = Date.now();
 
         this.toaster.pop({

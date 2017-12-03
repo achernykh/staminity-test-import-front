@@ -7,35 +7,35 @@ import "./activity-header.component.scss";
 
 export class ActivityHeaderCtrl implements IComponentController {
 
-    public item: CalendarItemActivityCtrl;
-    public calendarActivity: CalendarItemActivityCtrl;
-    public mode: string;
-    public activity: Activity;
+    item: CalendarItemActivityCtrl;
+    calendarActivity: CalendarItemActivityCtrl;
+    mode: string;
+    activity: Activity;
 
     private comments: number = null;
 
-    public static $inject = ["$mdMedia", "CommentService"];
+    static $inject = ["$mdMedia", "CommentService"];
 
     constructor(private $mdMedia: any, private comment: CommentService) {
     }
 
-    public $onInit() {
+    $onInit() {
     }
 
-    public openChat(): void {
+    openChat(): void {
         const chat: ChatSession = {type: "activity", id: this.item.activity.calendarItemId};
         this.comment.openChat$.next(chat);
     }
 
-    public closeChat(): void {
+    closeChat(): void {
         this.comment.openChat$.next(null);
     }
 
-    public updateComments(response): void {
+    updateComments(response): void {
         this.comments = response && response.hasOwnProperty("count") && response.count || null;
     }
 
-    public toggleStrucuredMode() {
+    toggleStrucuredMode() {
         this.item.structuredMode = !this.item.structuredMode;
     }
 }

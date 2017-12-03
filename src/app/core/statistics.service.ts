@@ -7,7 +7,7 @@ import {SocketService} from "./index";
  */
 export default class StatisticsService {
 
-    public static $inject = ["SocketService"];
+    static $inject = ["SocketService"];
 
     constructor(private socket: SocketService) {
 
@@ -18,7 +18,7 @@ export default class StatisticsService {
      * @param request
      * @returns {Promise<any>}
      */
-    public getMetrics(request: IReportRequestData): Promise<IReportResponse> {
+    getMetrics(request: IReportRequestData): Promise<IReportResponse> {
         return this.socket.send(new GetIChartMetricsRequest(request));
     }
 

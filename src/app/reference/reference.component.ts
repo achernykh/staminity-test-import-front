@@ -16,12 +16,12 @@ import ReferenceService from "./reference.service";
 
 export class ReferenceCtrl implements IComponentController {
 
-    public user: IUserProfile;
-    public categories: IActivityCategory[] = [];
-    public categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
-    public templates: IActivityTemplate[] = [];
-    public clubUri: string;
-    public club: IGroupProfile;
+    user: IUserProfile;
+    categories: IActivityCategory[] = [];
+    categoriesByOwner: { [owner in Owner]: IActivityCategory[] };
+    templates: IActivityTemplate[] = [];
+    clubUri: string;
+    club: IGroupProfile;
 
     private filterParams: ReferenceFilterParams = {
         club: null,
@@ -33,7 +33,7 @@ export class ReferenceCtrl implements IComponentController {
     private activityTypes: IActivityType[] = activityTypes;
     private destroy: Subject<void> = new Subject<void>();
 
-    public static $inject = ["$scope", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
+    static $inject = ["$scope", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
 
     constructor(
         private $scope,
@@ -45,7 +45,7 @@ export class ReferenceCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.filterParams.club = this.club;
 
         this.categories = this.ReferenceService.categories;
@@ -69,16 +69,16 @@ export class ReferenceCtrl implements IComponentController {
         this.updateFilterParams();
     }
 
-    public $onChanges() {
+    $onChanges() {
         this.updateFilterParams();
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    public updateFilterParams() {
+    updateFilterParams() {
         const filters = pick(["club", "activityType", "isActive"]) (categoriesFilters);
         const categories = this.categories.filter(filtersToPredicate(filters, this.filterParams));
         const category = this.filterParams.category;

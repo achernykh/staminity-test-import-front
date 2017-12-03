@@ -29,12 +29,12 @@ interface IPostFileRequest {
 
 export class PostData implements IPostDataRequest {
 
-    public method: string;
-    public url: string;
-    public headers: {
+    method: string;
+    url: string;
+    headers: {
         "Authorization": string,
     };
-    public data: {
+    data: {
         //requestType:string;
         requestData: any;
         token?: string; // указывается в момент отправки запроса
@@ -52,12 +52,12 @@ export class PostData implements IPostDataRequest {
 
 export class GetData implements IPostDataRequest {
 
-    public method: string;
-    public url: string;
-    public headers: {
+    method: string;
+    url: string;
+    headers: {
         "Authorization": string,
     };
-    public data: {
+    data: {
         //requestType:string;
         requestData: any;
         token?: string; // указывается в момент отправки запроса
@@ -75,15 +75,15 @@ export class GetData implements IPostDataRequest {
 
 export class PostFile implements IPostFileRequest {
 
-    public method: string;
-    public url: string;
-    public headers: {
+    method: string;
+    url: string;
+    headers: {
         "Authorization": string,
         "Content-Type": string,
     };
-    public withCredentials: boolean;
-    public mode: string;
-    public data: any;
+    withCredentials: boolean;
+    mode: string;
+    data: any;
 
     constructor(type: string, file: any, attr?: Object) {
         this.method = "POST";
@@ -109,14 +109,14 @@ export class RESTService implements IRESTService {
     //$http:any;
     //SessionService:ISessionService;
 
-    public static $inject = ["$http", "SessionService", "LoaderService"];
+    static $inject = ["$http", "SessionService", "LoaderService"];
 
     constructor(private $http: IHttpService, private SessionService: SessionService, private loader: LoaderService) {
         //this.$http = $http;
         //this.SessionService = SessionService;
     }
 
-    public postData(request: IPostDataRequest): IHttpPromise<{}> {
+    postData(request: IPostDataRequest): IHttpPromise<{}> {
         this.loader.show();
 
         const token: string = this.SessionService.getToken();
@@ -147,7 +147,7 @@ export class RESTService implements IRESTService {
             });
     }
 
-    public postFile(request: IPostFileRequest): IHttpPromise<{}> {
+    postFile(request: IPostFileRequest): IHttpPromise<{}> {
         this.loader.show();
         request.headers.Authorization += this.SessionService.getToken();
         return this.$http(request)

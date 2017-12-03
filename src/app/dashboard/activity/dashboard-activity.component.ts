@@ -8,8 +8,8 @@ import "./dashboard-activity.component.scss";
 
 class DashboardActivityCtrl implements IComponentController {
 
-    public item: ICalendarItem;
-    public selected: boolean;
+    item: ICalendarItem;
+    selected: boolean;
     private activity: Activity;
     private athlete: IUserProfile;
     private dashboard: DashboardCtrl;
@@ -20,14 +20,14 @@ class DashboardActivityCtrl implements IComponentController {
     private isCreator: boolean = false;
     private bottomPanelData: any = null;
 
-    public onEvent: (response: Object) => IPromise<void>;
-    public static $inject = ["$mdDialog", "message"];
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = ["$mdDialog", "message"];
 
     constructor(private $mdDialog: any, private message: MessageService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.activity = new Activity(this.item);
         //this.activity.prepare();
 
@@ -42,7 +42,7 @@ class DashboardActivityCtrl implements IComponentController {
 
     }
 
-    public onOpen($event, mode: string) {
+    onOpen($event, mode: string) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -88,7 +88,7 @@ class DashboardActivityCtrl implements IComponentController {
             });
     }
 
-    public onDelete() {
+    onDelete() {
         this.dashboard.onDeleteItem(this.item);
     }
 

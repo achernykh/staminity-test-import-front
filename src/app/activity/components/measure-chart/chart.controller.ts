@@ -24,7 +24,7 @@ class ActivityChartController implements IComponentController {
     private autoZoom: boolean;
     private zoomInClick: number;
     private zoomOutClick: number;
-    public onSelected: (result: {select: Array<{startTimeStamp: number, endTimeStamp: number}>}) => void;
+    onSelected: (result: {select: Array<{startTimeStamp: number, endTimeStamp: number}>}) => void;
 
     private onResize: Function;
 
@@ -48,7 +48,7 @@ class ActivityChartController implements IComponentController {
         inSelection: boolean,
     };
 
-    public static $inject = ["$element", "$location", "$window", "activityChartSettings", "$mdMedia"];
+    static $inject = ["$element", "$location", "$window", "activityChartSettings", "$mdMedia"];
 
     constructor(
         private $element,
@@ -64,14 +64,14 @@ class ActivityChartController implements IComponentController {
         this.changeTracker = new ChangeTracker();
     }
 
-    public $onInit() {
+    $onInit() {
         this.absUrl = this.$location.absUrl().split("#")[0];
         this.zoomDispatch = d3.dispatch("zoom");
         setTimeout(() => this.prepareData(), 0);
         //this.prepareData();
     }
 
-    public $postLink(): void {
+    $postLink(): void {
         const self = this;
         this.$element.ready(function() {
            setTimeout(() => {
@@ -86,7 +86,7 @@ class ActivityChartController implements IComponentController {
         }
     }
 
-    public $onChanges(changes: any): void {
+    $onChanges(changes: any): void {
         if (this.changeTracker.isFirstChange(changes)) {
             return;
         }
@@ -110,7 +110,7 @@ class ActivityChartController implements IComponentController {
         this.redraw();
     }
 
-    public $onDestroy(): void {
+    $onDestroy(): void {
         if (this.activityChartSettings.autoResizable && !!this.onResize) {
             angular.element(this.$window).off("resize", this.onResize);
         }
@@ -146,7 +146,7 @@ class ActivityChartController implements IComponentController {
                 if (current.startTimestamp < unionInterval.startTimestamp ) { unionInterval.startTimestamp  = current.startTimestamp; }
                 if (current.endTimestamp > unionInterval.endTimestamp ) { unionInterval.endTimestamp  = current.endTimestamp; }
             }
-            const tsBisector =  d3.bisector(function(d) { return d.timestamp; }).left;
+            const tsBisector =  d3.bisector(function(d) { return d["timestamp"]; }).left;
             const startIndex = Math.max(0, tsBisector(data, unionInterval.startTimestamp));
             const endIndex = Math.min(data.length - 1, tsBisector(data, unionInterval.endTimestamp));
             data = data.slice(startIndex, endIndex);
@@ -364,7 +364,7 @@ class ActivityChartController implements IComponentController {
         const domain = ActivityChartMode[this.currentMode];
         const fillStyle = this.getFillColor(this.activityChartSettings.selectedArea.area);
         const strokeStyle = this.getFillColor(this.activityChartSettings.selectedArea.borderArea);
-        const tsBisector =  d3.bisector(function(d) { return d.timestamp; }).left;
+        const tsBisector =  d3.bisector(function(d) { return d["timestamp"]; }).left;
         const xScale = this.scales[domain].scale;
         const data = this.chartData.getData();
         const selectIntervals = this.chartData.getSelect();
@@ -490,8 +490,8 @@ class ActivityChartController implements IComponentController {
             let intervals = [];
             if (endPos !== initPos) {
                 const endData = getInterpolatedData(endPos);
-                const endTimestamp = Math.round(endData.timestamp);
-                const startTimestamp = Math.round(initData.timestamp);
+                const endTimestamp = Math.round(endData["timestamp"]);
+                const startTimestamp = Math.round(initData["timestamp"]);
                 // swap endTimestamp and startTimestamp in case of user selected the interval from right to left
                 intervals = endTimestamp > startTimestamp ?
                     [{ "startTimestamp": startTimestamp, "endTimestamp": endTimestamp }] :

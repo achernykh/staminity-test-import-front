@@ -12,21 +12,21 @@ import { CalendarItemRecord } from "./calendar-item-record.datamodel";
 class CalendarItemRecordCtrl implements IComponentController {
 
     // bind
-    public data: ICalendarItem;
-    public mode: "put" | "view" | "post";
-    public owner: IUserProfile;
-    public calendarRange: string[];
-    public onCancel: () => IPromise<void>;
+    data: ICalendarItem;
+    mode: "put" | "view" | "post";
+    owner: IUserProfile;
+    calendarRange: string[];
+    onCancel: () => IPromise<void>;
 
     // public
-    public record: CalendarItemRecord;
-    public user: IUserProfile;
+    record: CalendarItemRecord;
+    user: IUserProfile;
 
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
 
-    public static $inject = ["calendarItemRecordConfig", "SessionService", "CalendarService", "message", "quillConfig"];
+    static $inject = ["calendarItemRecordConfig", "SessionService", "CalendarService", "message", "quillConfig"];
 
     constructor(private config: ICalendarItemRecordConfig,
                 private session: SessionService,
@@ -36,22 +36,22 @@ class CalendarItemRecordCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.user = this.session.getUser();
         this.record = new CalendarItemRecord(this.data, this.user);
     }
 
-    public toggle(item, list) {
+    toggle(item, list) {
         const idx = list.indexOf(item);
         idx > -1 ? list.splice(idx, 1) : list.push(item);
         this.changeForm();
     }
 
-    public exists(item, list) {
+    exists(item, list) {
         return list.indexOf(item) > -1;
     }
 
-    public changeRepeatMode(): void {
+    changeRepeatMode(): void {
         if (this.record.isRepeated) {
 
         } else {
@@ -59,11 +59,11 @@ class CalendarItemRecordCtrl implements IComponentController {
         }
     }
 
-    public changeForm(): void {
+    changeForm(): void {
         this.recordForm.$setDirty();
     }
 
-    public onSave() {
+    onSave() {
 
         [this.record.recordHeader.editParams.asyncEventsDateFrom,
             this.record.recordHeader.editParams.asyncEventsDateTo] = this.calendarRange;
@@ -86,7 +86,7 @@ class CalendarItemRecordCtrl implements IComponentController {
         }
     }
 
-    public onDelete(rmParams: Object) {
+    onDelete(rmParams: Object) {
         this.calendarService.deleteItem("F", [this.record.calendarItemId], rmParams)
             .then(() => {
                 this.message.toastInfo("recordDeleted");

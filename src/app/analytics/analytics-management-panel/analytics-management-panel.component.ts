@@ -6,26 +6,26 @@ import "./analytics-management-panel.component.scss";
 
 class AnalyticsManagementPanelCtrl implements IComponentController {
 
-    public data: any;
+    data: any;
     private filter: AnalyticsChartFilter;
     private analytics: AnalyticsCtrl;
 
     private panel: "filters" | "settings" | "hide" = "filters";
-    public onChangeFilter: () => IPromise<void>;
-    public onChangeCharts: () => IPromise<void>;
-    public onChangePanelSize: () => IPromise<void>;
+    onChangeFilter: () => IPromise<void>;
+    onChangeCharts: () => IPromise<void>;
+    onChangePanelSize: () => IPromise<void>;
 
-    public static $inject = ["$filter", "storage"];
+    static $inject = ["$filter", "storage"];
 
     constructor(private $filter: any, private storage: StorageService) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.panel = this.storage.get(`${this.analytics.user.userId}#panelStatus`) || "filters";
     }
 
-    public panelChange(value) {
+    panelChange(value) {
         if ((this.panel !== "hide" && value === "hide") || (this.panel === "hide" && value !== "hide")) {
             this.onChangePanelSize();
         }

@@ -12,9 +12,9 @@ import { parseYYYYMMDD } from "../share/share.module";
 import { maybe, prop } from "../share/util.js";
 
 export default class BillingService {
-    public messages: Observable<any>;
+    messages: Observable<any>;
 
-    public static $inject = ["SocketService", "SessionService"];
+    static $inject = ["SocketService", "SessionService"];
 
     constructor(private SocketService: SocketService, private SessionService: SessionService) {
         this.messages = this.SocketService.messages
@@ -27,7 +27,7 @@ export default class BillingService {
      * @param promoCodeString
      * @returns {Promise<IBillingTariff>}
      */
-    public getTariff(tariffId: number, promoCodeString: string): Promise<IBillingTariff> {
+    getTariff(tariffId: number, promoCodeString: string): Promise<IBillingTariff> {
         return this.SocketService.send(new GetTariffRequest(tariffId, promoCodeString));
     }
 
@@ -41,7 +41,7 @@ export default class BillingService {
      * @param paymentSystem
      * @returns {Promise<any>}
      */
-    public enableTariff(
+    enableTariff(
         tariffId: number,
         userIdReceiver: number,
         term: number,
@@ -61,7 +61,7 @@ export default class BillingService {
      * @param promoCode
      * @returns {Promise<any>}
      */
-    public updateTariff(
+    updateTariff(
         tariffId: number,
         autoRenewal: boolean,
         promoCode: string,
@@ -74,14 +74,14 @@ export default class BillingService {
      * @param userIdReceiver
      * @returns {Promise<any>}
      */
-    public disableTariff(tariffId: number, userIdReceiver: number): Promise<any> {
+    disableTariff(tariffId: number, userIdReceiver: number): Promise<any> {
         return this.SocketService.send(new DeleteTariffSubscriptionRequest(tariffId, userIdReceiver));
     }
 
     /**
      * @returns {Promise<[IBill]]>}
      */
-    public getBillsList(): Promise<[IBill]> {
+    getBillsList(): Promise<[IBill]> {
         return this.SocketService.send(new GetBillRequest(new Date(0), new Date()))
             .then((data) => data.arrayResult);
     }
@@ -91,7 +91,7 @@ export default class BillingService {
      * @param userIdReceiver
      * @returns {Promise<any>}
      */
-    public getBillDetails(billId: number): Promise<any> {
+    getBillDetails(billId: number): Promise<any> {
         return this.SocketService.send(new GetBillDetailsRequest(billId, true));
     }
 
@@ -100,7 +100,7 @@ export default class BillingService {
      * @param paymentSystem
      * @returns {Promise<any>}
      */
-    public updatePaymentSystem(billId: number, paymentSystem: string): Promise<any> {
+    updatePaymentSystem(billId: number, paymentSystem: string): Promise<any> {
         return this.SocketService.send(new PutProcessingCenterRequest(billId, paymentSystem));
     }
 
@@ -108,7 +108,7 @@ export default class BillingService {
      * @param checkoutUrl
      * @returns {Promise<any>}
      */
-    public checkout(checkoutUrl: string): Promise<any> {
+    checkout(checkoutUrl: string): Promise<any> {
         const [width, height] = [500, 500];
         const left = (screen.width - width) / 2;
         const top = (screen.height - height) / 2;
@@ -120,7 +120,7 @@ export default class BillingService {
      * @param tariff
      * @returns IClubProfile?
      */
-    public tariffEnablerClub(tariff): any {
+    tariffEnablerClub(tariff): any {
         return tariff.clubProfile;
     }
 
@@ -128,7 +128,7 @@ export default class BillingService {
      * @param tariff
      * @returns IUserProfile?
      */
-    public tariffEnablerCoach(tariff): any {
+    tariffEnablerCoach(tariff): any {
         return (
             maybe(tariff.userProfilePayer) (prop("userId")) () !==
             maybe(this.SessionService.getUser()) (prop("userId")) ()
@@ -139,7 +139,7 @@ export default class BillingService {
      * @param tariff
      * @returns 'enabled' | enabledByCoach' | 'enabledByClub' | 'notEnabled' | trial' | 'isPaid' | 'isBlocked' | undefined
      */
-    public tariffStatus(tariff): string {
+    tariffStatus(tariff): string {
         const tariffEnablerClub = this.tariffEnablerClub(tariff);
         const tariffEnablerCoach = this.tariffEnablerCoach(tariff);
 
@@ -158,7 +158,7 @@ export default class BillingService {
      * @param bill
      * @returns 'complete' | ready' | 'new'
      */
-    public billStatus(bill: IBill): string {
+    billStatus(bill: IBill): string {
         const now = moment();
         const startPeriod = parseYYYYMMDD(bill.startPeriod);
         const endPeriod = parseYYYYMMDD(bill.endPeriod);

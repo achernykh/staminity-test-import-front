@@ -6,40 +6,40 @@ import "./calendar-item-wizard.component.scss";
 
 class CalendarItemWizardCtrl implements IComponentController {
 
-    public user: IUserProfile;
-    public data: any;
-    public event: any;
+    user: IUserProfile;
+    data: any;
+    event: any;
 
-    public onSelect: (result: {itemType: string, activityType: IActivityType}) => IPromise<void>;
-    public onCancel: (response: Object) => IPromise<void>;
+    onSelect: (result: {itemType: string, activityType: IActivityType}) => IPromise<void>;
+    onCancel: (response: Object) => IPromise<void>;
 
     private activityTypes: IActivityType[] = activityTypes.filter((t) => t.enabled && t.isBasic);
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 }
 
 export class CalendarItemWizardSelectCtrl implements IComponentController {
 
-    public user: IUserProfile;
-    public date: Date;
-    public event: any;
+    user: IUserProfile;
+    date: Date;
+    event: any;
 
-    public static $inject = ["$scope", "$mdDialog"];
+    static $inject = ["$scope", "$mdDialog"];
 
     constructor(private $scope, private $mdDialog) {
         $scope.hide = () => $mdDialog.hide();
         $scope.cancel = () => $mdDialog.cancel();
     }
 
-    public answer(itemType, activityType) {
+    answer(itemType, activityType) {
         this.$mdDialog.hide(itemType);
 
         switch (itemType) {
@@ -58,7 +58,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
         }
     }
 
-    public postActivity(activityType: IActivityType) {
+    postActivity(activityType: IActivityType) {
         this.$mdDialog.show({
             controller: DialogCtrl,
             controllerAs: "$ctrl",
@@ -97,7 +97,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             });
     }
 
-    public postMeasurement() {
+    postMeasurement() {
         this.$mdDialog.show({
             controller: DialogCtrl,
             controllerAs: "$ctrl",
@@ -123,7 +123,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
         }).then(() => {}, () => {});
     }
 
-    public postEvent() {
+    postEvent() {
         this.$mdDialog.show({
             controller: DialogCtrl,
             controllerAs: "$ctrl",
@@ -173,7 +173,7 @@ export default CalendarItemWizardComponent;
 
 class DialogCtrl implements IComponentController {
 
-    public static $inject = ["$scope", "$mdDialog"];
+    static $inject = ["$scope", "$mdDialog"];
 
     constructor(private $scope, private $mdDialog) {
         $scope.hide = () => $mdDialog.hide();

@@ -5,13 +5,13 @@ import {IAnalyticsChartFilter} from "./analytics-chart-filter.model";
 
 class AnalyticsChartFilterCtrl implements IComponentController {
 
-    public filter: IAnalyticsChartFilter;
-    public onEvent: (response: Object) => IPromise<void>;
+    filter: IAnalyticsChartFilter;
+    onEvent: (response: Object) => IPromise<void>;
 
     private position;
     private config;
 
-    public static $inject = ["$mdPanel", "$mdDialog"];
+    static $inject = ["$mdPanel", "$mdDialog"];
 
     constructor(private $mdPanel: any, private $mdDialog: any) {
 
@@ -38,11 +38,11 @@ class AnalyticsChartFilterCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 
-    public onOpen(env: Event) {
+    onOpen(env: Event) {
         //this.config.openFrom = env;
         //this.$mdPanel.open(this.config);
         this.$mdDialog.show({
@@ -76,7 +76,7 @@ class AnalyticsChartFilterCtrl implements IComponentController {
 
     }
 
-    public change(param, option) {
+    change(param, option) {
         debugger;
     }
 }

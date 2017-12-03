@@ -15,9 +15,9 @@ import {CalendarService} from "./calendar.service";
 
 export class CalendarCtrl implements IComponentController {
 
-    public static $inject = ["$scope", "$mdDialog", "$rootScope", "$anchorScroll", "$location", "message",
+    static $inject = ["$scope", "$mdDialog", "$rootScope", "$anchorScroll", "$location", "message",
         "CalendarService", "SessionService", "dialogs", "DisplayService"];
-    public user: IUserProfile; // calendar owner
+    user: IUserProfile; // calendar owner
     private weekdayNames: number[] = [];
     private buffer: ICalendarItem[] = [];
     private firstSrcDay: string;
@@ -28,7 +28,7 @@ export class CalendarCtrl implements IComponentController {
     private calendar: Calendar;
     private currentWeek: ICalendarWeek;
     private lockScroll: boolean;
-    public currentUser: IUserProfile;
+    currentUser: IUserProfile;
 
     constructor(
         private $scope: IScope,
@@ -45,7 +45,7 @@ export class CalendarCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.CalendarService, this.user);
         this.calendar.toDate(new Date());
         //let date = moment(this.$location.hash());
@@ -274,7 +274,7 @@ export class CalendarCtrl implements IComponentController {
         return items;
     }**/
 
-    public onAddActivity($event) {
+    onAddActivity($event) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -314,7 +314,7 @@ export class CalendarCtrl implements IComponentController {
             });
     }
 
-    public onAddMeasurement($event) {
+    onAddMeasurement($event) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -350,7 +350,7 @@ export class CalendarCtrl implements IComponentController {
             });
     }
 
-    public onAddEvent($event, data) {
+    onAddEvent($event, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -389,7 +389,7 @@ export class CalendarCtrl implements IComponentController {
      * Создание записи календаря
      * @param item<ICalendarItem>
      */
-    public onPostItem(item) {
+    onPostItem(item) {
         const w = this.getDayIndex(moment(item.dateStart).format("GGGG-WW"));
         const d = moment(item.dateStart).weekday();
 
@@ -403,7 +403,7 @@ export class CalendarCtrl implements IComponentController {
      * Удаление записи календаря
      * @param item
      */
-    public onDeleteItem(item) {
+    onDeleteItem(item) {
         const w = this.getDayIndex(moment(item.dateStart).format("GGGG-WW"));
         const d = moment(item.dateStart).weekday();
         const p = this.calendar.weeks[w].subItem[d].data.calendarItems.findIndex((i) => i.calendarItemId === item.calendarItemId);
@@ -414,7 +414,7 @@ export class CalendarCtrl implements IComponentController {
         }
     }
 
-    public onFileUpload() {
+    onFileUpload() {
         this.dialogs.uploadFile()
             .then((file) => this.CalendarService.postFile(file, null))
             .then((response) => this.message.toastInfo(response), (error) => this.message.toastInfo(error));
@@ -425,11 +425,11 @@ export class CalendarCtrl implements IComponentController {
      * @param w - неделя в формате GGGG-WW
      * @returns {number}
      */
-    public getDayIndex(w) {
+    getDayIndex(w) {
         return this.calendar.weeks.findIndex((item) => item.week === w);
     }
 
-    public onCopy(items: ICalendarItem[]) {
+    onCopy(items: ICalendarItem[]) {
         this.buffer = [];
         this.firstSrcDay = null;
 
@@ -453,7 +453,7 @@ export class CalendarCtrl implements IComponentController {
         }
     }
 
-    public onPaste(firstTrgDay: string) {
+    onPaste(firstTrgDay: string) {
         const shift = moment(firstTrgDay, "YYYY-MM-DD").diff(moment(this.firstSrcDay, "YYYY-MM-DD"), "days");
         let task: Array<Promise<any>> = [];
 
@@ -468,7 +468,7 @@ export class CalendarCtrl implements IComponentController {
 
     }
 
-    public onPostPlan(env: Event) {
+    onPostPlan(env: Event) {
         this.$mdDialog.show({
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
@@ -501,7 +501,7 @@ export class CalendarCtrl implements IComponentController {
         }).then((response) => {}, () => {});
     }
 
-    public onDelete(items: ICalendarItem[]) {
+    onDelete(items: ICalendarItem[]) {
         const selected: ICalendarItem[] = [];
 
         this.calendar.weeks.forEach((w) => w.subItem.forEach((d) => {
@@ -518,7 +518,7 @@ export class CalendarCtrl implements IComponentController {
         .then(() => inSelection && this.clearBuffer());
     }
 
-    public clearBuffer() {
+    clearBuffer() {
         this.buffer = [];
         this.firstSrcDay = null;
         this.calendar.weeks.forEach((w) => w.subItem.forEach((d) => {

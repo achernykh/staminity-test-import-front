@@ -18,19 +18,19 @@ class CalendarItemEventsCtrl {
     private item: CalendarItem;
 
     private types: string[] = _eventsType;
-    public onAnswer: (response: Object) => IPromise<void>;
-    public onCancel: (response: Object) => IPromise<void>;
+    onAnswer: (response: Object) => IPromise<void>;
+    onCancel: (response: Object) => IPromise<void>;
 
     private showSelectAthletes: boolean = false;
     private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
 
-    public currentUser: IUserProfile = null;
-    public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
-    public isCreator: boolean;
-    public isPro: boolean;
-    public isMyCoach: boolean;
+    currentUser: IUserProfile = null;
+    isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
+    isCreator: boolean;
+    isPro: boolean;
+    isMyCoach: boolean;
 
-    public static $inject = ["CalendarService", "SessionService", "message"];
+    static $inject = ["CalendarService", "SessionService", "message"];
 
     constructor(
         private CalendarService: CalendarService,
@@ -38,7 +38,7 @@ class CalendarItemEventsCtrl {
         private message: IMessageService) {
     }
 
-    public $onInit() {
+    $onInit() {
         this.currentUser = this.SessionService.getUser();
         if (this.mode === "post") {
             this.data = {
@@ -75,7 +75,7 @@ class CalendarItemEventsCtrl {
      * Функция получает выделенных атлетов для планирования трениовки
      * @param response
      */
-    public selectAthletes(response) {
+    selectAthletes(response) {
         this.showSelectAthletes = false;
         this.forAthletes = response;
     }
@@ -85,7 +85,7 @@ class CalendarItemEventsCtrl {
      * @param pos
      * @returns {IUserProfileShort}
      */
-    public firstAthlete(pos: number) {
+    firstAthlete(pos: number) {
         return this.forAthletes.filter((athlete) => athlete.active)[pos].profile;
     }
 
@@ -93,11 +93,11 @@ class CalendarItemEventsCtrl {
      * Указывает, что тренировка планируется для более чем одного атлета
      * @returns {boolean}
      */
-    public multiAthlete() {
+    multiAthlete() {
         return this.forAthletes.filter((athlete) => athlete.active).length > 1;
     }
 
-    public onSave() {
+    onSave() {
         if (this.mode === "post") {
             const athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
             athletes.push(...this.forAthletes.filter((athlete) => athlete.active));
@@ -120,7 +120,7 @@ class CalendarItemEventsCtrl {
         }
     }
 
-    public onDelete() {
+    onDelete() {
         this.CalendarService.deleteItem("F", [this.item.calendarItemId])
             .then(() => {
                 this.message.toastInfo("eventDeleted");

@@ -8,13 +8,13 @@ import "./athlete-selector.component.scss";
 
 class AthleteSelectorCtrl implements IComponentController {
 
-    public data: any;
-    public onAnswer: (response: {uri: string}) => IPromise<void>;
-    public onCancel: (response: Object) => IPromise<void>;
+    data: any;
+    onAnswer: (response: {uri: string}) => IPromise<void>;
+    onCancel: (response: Object) => IPromise<void>;
     private athletes: IGroupManagementProfileMember[];
     private destroy = new Subject();
 
-    public static $inject = ["SessionService", "GroupService", "message", "$scope"];
+    static $inject = ["SessionService", "GroupService", "message", "$scope"];
 
     constructor(
         private SessionService: SessionService,
@@ -30,7 +30,7 @@ class AthleteSelectorCtrl implements IComponentController {
         });
     }
 
-    public $onInit() {
+    $onInit() {
         /**let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
         if (groupId) {
             this.GroupService.getManagementProfile(groupId,'coach')
@@ -41,7 +41,7 @@ class AthleteSelectorCtrl implements IComponentController {
         }**/
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }

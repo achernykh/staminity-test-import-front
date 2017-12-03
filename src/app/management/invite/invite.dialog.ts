@@ -16,17 +16,17 @@ export const inviteDialogConf = (groupId, $event) => {
 
 class InviteDialogController {
 
-    public static $inject = ["$scope", "$mdDialog"];
+    static $inject = ["$scope", "$mdDialog"];
 
-    public hide = () => {
+    hide = () => {
         this.$mdDialog.hide();
     }
 
-    public cancel = () => {
+    cancel = () => {
         this.$mdDialog.cancel();
     }
 
-    public answer = (answer) => {
+    answer = (answer) => {
         this.$mdDialog.hide(answer);
     }
 

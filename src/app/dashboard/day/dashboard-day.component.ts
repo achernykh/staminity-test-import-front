@@ -14,13 +14,13 @@ import "./dashboard-day.component.scss";
 
 class DashboardDayCtrl implements IComponentController {
 
-    public day: IDashboardDay;
-    public athlete: IUserProfile;
-    public selected: boolean;
-    public onEvent: (response: Object) => IPromise<void>;
+    day: IDashboardDay;
+    athlete: IUserProfile;
+    selected: boolean;
+    onEvent: (response: Object) => IPromise<void>;
     private dashboard: DashboardCtrl;
 
-    public static $inject = ["$mdDialog", "message", "dialogs", "CalendarService"];
+    static $inject = ["$mdDialog", "message", "dialogs", "CalendarService"];
 
     constructor(private $mdDialog: any,
                 private message: any,
@@ -29,17 +29,18 @@ class DashboardDayCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 
-    public onDrop(srcItem: ICalendarItem,
-                  operation: string,
-                  srcIndex: number,
-                  trgDate: string,
-                  trgIndex: number,
-                  srcAthlete: IUserProfile) {
-
+    onDrop(
+        srcItem: ICalendarItem,
+        operation: string,
+        srcIndex: number,
+        trgDate: string,
+        trgIndex: number,
+        srcAthlete: IUserProfile,
+    ) {
         let item: ICalendarItem = copy(srcItem);
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
         item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), "minutes").format(); //new Date(date);
@@ -56,7 +57,7 @@ class DashboardDayCtrl implements IComponentController {
         return true;
     }
 
-    public onProcess(item: ICalendarItem, operation: string, post: boolean = false) {
+    onProcess(item: ICalendarItem, operation: string, post: boolean = false) {
         switch (operation) {
             case "move": {
                 if (!post && isCompletedActivity(item)) {
@@ -83,15 +84,15 @@ class DashboardDayCtrl implements IComponentController {
         }
     }
 
-    public onSelect() {
+    onSelect() {
         this.selected = !this.selected;
     }
 
-    public isSpecified(item: ICalendarItem): boolean {
+    isSpecified(item: ICalendarItem): boolean {
         return isSpecifiedActivity(item);
     }
 
-    public postItem($event, date) {
+    postItem($event, date) {
         this.$mdDialog.show({
             controller: CalendarItemWizardSelectCtrl,
             controllerAs: "$ctrl",

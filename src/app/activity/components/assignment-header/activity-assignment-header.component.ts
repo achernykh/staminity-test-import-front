@@ -12,15 +12,15 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     private onChange: (result: { form: INgModelController }) => IPromise<void>;
 
     private form: INgModelController;
-    public ftpMode: number;
+    ftpMode: number;
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 

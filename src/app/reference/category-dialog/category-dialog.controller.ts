@@ -24,7 +24,7 @@ export class CategoryDialogCtrl implements IComponentController {
         view: this.close.bind(this),
     };
 
-    public static $inject = ["$scope", "$mdDialog", "$translate", "message", "ReferenceService", "mode", "category", "user"];
+    static $inject = ["$scope", "$mdDialog", "$translate", "message", "ReferenceService", "mode", "category", "user"];
 
     constructor(
         private $scope,
@@ -49,11 +49,11 @@ export class CategoryDialogCtrl implements IComponentController {
         this.category.code = value;
     }
 
-    public close() {
+    close() {
         this.$mdDialog.cancel();
     }
 
-    public delete() {
+    delete() {
         this.ReferenceService.deleteActivityCategory(this.category.id)
         .then(() => this.$mdDialog.hide())
         .catch((info) => {
@@ -62,7 +62,7 @@ export class CategoryDialogCtrl implements IComponentController {
         });
     }
 
-    public create() {
+    create() {
         const { id, code, description, groupProfile, sortOrder, visible } = this.category;
         const groupId = groupProfile && groupProfile.groupId;
 
@@ -78,7 +78,7 @@ export class CategoryDialogCtrl implements IComponentController {
         });
     }
 
-    public update() {
+    update() {
         const { id, code, description, groupProfile, sortOrder, visible } = this.category;
         const groupId = groupProfile && groupProfile.groupId;
 

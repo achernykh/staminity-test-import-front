@@ -7,21 +7,21 @@ import "./dashboard-total.component.scss";
 
 class DashboardTotalCtrl implements IComponentController {
 
-    public week: any;
-    public total: ICalendarWeekTotal;
-    public summary: ICalendarWeekSummary;
-    public onEvent: (response: Object) => IPromise<void>;
-    public static $inject = [];
+    week: any;
+    total: ICalendarWeekTotal;
+    summary: ICalendarWeekSummary;
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
 
     }
 
-    public $onChanges(changes) {
+    $onChanges(changes) {
         if (changes.update) {
             this.total = calculateCalendarTotals(this.week.subItem);
             this.summary = calculateCalendarSummary(this.total);

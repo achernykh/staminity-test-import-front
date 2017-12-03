@@ -5,7 +5,7 @@ import LoaderService from "./loader.service";
 
 class LoaderController implements IComponentController {
 
-    public static $inject = ["LoaderService", "$scope"];
+    static $inject = ["LoaderService", "$scope"];
 
     private isVisible: boolean;
 

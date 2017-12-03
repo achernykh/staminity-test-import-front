@@ -5,23 +5,23 @@ import "./settings-zones.component.scss";
 
 class SettingsZonesCtrl implements IComponentController {
 
-    public zones: any;
+    zones: any;
     private parent: any;
-    public onEvent: (response: Object) => IPromise<void>;
+    onEvent: (response: Object) => IPromise<void>;
     private readonly colors: {} = {heartRate: 0xE91E63, speed: 0x2196F3, power: 0x9C27B0};
     private readonly sportBasic: IActivityType[] = getSportBasic();
 
-    public static $inject = ["$mdDialog"];
+    static $inject = ["$mdDialog"];
 
     constructor(private $mdDialog: any) {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.prepareZones();
     }
 
-    public prepareZones() {
+    prepareZones() {
         Object.keys(this.zones)
             .forEach((measure) => Object.keys(this.zones[measure])
                 .forEach((sport) => {
@@ -53,7 +53,7 @@ class SettingsZonesCtrl implements IComponentController {
                 }));
     }
 
-    public putZones($event, intensityFactor, sport, sportSettings) {
+    putZones($event, intensityFactor, sport, sportSettings) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -86,20 +86,20 @@ class SettingsZonesCtrl implements IComponentController {
 
     }
 
-    public postZones($event) {
+    postZones($event) {
 
     }
 
-    public deleteZones() {
+    deleteZones() {
 
     }
 
-    public addSport(factor: string, sport: string) {
+    addSport(factor: string, sport: string) {
         this.zones[factor][sport] = this.zones[factor].default;
         this.parent.update({trainingZones: true});
     }
 
-    public deleteSport(factor: string, sport: string) {
+    deleteSport(factor: string, sport: string) {
         delete this.zones[factor][sport];
         this.parent.update({trainingZones: true});
     }

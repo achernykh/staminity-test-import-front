@@ -23,19 +23,19 @@ class MeasuresAvgTableCtrl implements IComponentController {
         page: 1,
     };
 
-    public static $inject = ["$scope"];
+    static $inject = ["$scope"];
 
     constructor(private $scope: any) {
 
     }
 
-    public $onChanges(change: any): void {
+    $onChanges(change: any): void {
         if (change.hasOwnProperty("changes") && !change.changes.isFirstChange()) {
             this.$onInit();
         }
     }
 
-    public $onInit() {
+    $onInit() {
         // Пришлось добавить $scope, так как иначе при использования фильтра для ng-repeat в функции нет доступа к
         // this, а значит и нет доступа к массиву для фильтрации
         this.$scope.measure = ["heartRate", "speed", "power", "cadence"]; // elevationGain

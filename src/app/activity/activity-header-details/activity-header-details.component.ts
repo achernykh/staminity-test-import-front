@@ -22,14 +22,14 @@ interface SelectionOptions<T> {
 }
 class ActivityHeaderDetailsCtrl implements IComponentController {
 
-    public hasImport: boolean;
-    public hasDetails: boolean;
+    hasImport: boolean;
+    hasDetails: boolean;
 
     private item: CalendarItemActivityCtrl;
     private completeDetails: boolean = false;
 
     private selectionIndex: ISelectionIndex;
-    public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
+    onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
     private chartData: MeasureChartData; // класс для расчета данных для графика
 
     private readonly intervalTypes = ["P", "L", "U"];
@@ -37,13 +37,13 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
     private changes: number = 0;
     private selectedIntervals: string[] = [];
 
-    public static $inject = [];
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public prepareIntervals() {
+    prepareIntervals() {
         this.intervalTypes.forEach((type) =>
             this.item.activity.intervals.stack
                 .filter((interval) => interval.type === type && interval.hasOwnProperty("calcMeasures"))
@@ -58,7 +58,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         );
     }
 
-    public calculateIndex(selection: ISelectionIndex) {
+    calculateIndex(selection: ISelectionIndex) {
         const type = Object.keys(selection);
         const selectionIndex: string[] = [];
 
@@ -72,13 +72,13 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
 
     }
 
-    public $onInit() {
+    $onInit() {
         /**this.chartData = new MeasureChartData(
             this.item.activity.sportBasic, this.item.activity.intervalW.calcMeasures, this.item.details);**/
         this.prepareIntervals();
     }
 
-    public $onChanges(changes: any): void {
+    $onChanges(changes: any): void {
 
         if (changes.hasOwnProperty("change") && !changes.change.isFirstChange()) {
             this.prepareIntervals();
@@ -94,7 +94,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         }
     }
 
-    public changeSelect() {
+    changeSelect() {
 
         this.changes++;
         const selection: ISelectionIndex = { L: [], P: [], U: []};
@@ -110,7 +110,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         });
     }
 
-    public getCalcMeasure(selection: string[]): ICalcMeasures {
+    getCalcMeasure(selection: string[]): ICalcMeasures {
         if (selection.length === 0) {
             return this.item.activity.intervalW.calcMeasures;
         }
@@ -124,7 +124,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         return this.item.activity[type][index].calcMeasures;
     }
 
-    public lapIndex(index: string[]): number {
+    lapIndex(index: string[]): number {
         console.log("lapIndex", Number(index[0].substr(1)) - 1);
         return index ? Number(index[0].substr(1)) - 1 : null;
     }

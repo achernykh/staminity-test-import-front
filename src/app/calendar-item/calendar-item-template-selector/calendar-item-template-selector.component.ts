@@ -10,11 +10,11 @@ import "./calendar-item-template-selector.component.scss";
 
 class CalendarItemTemplateSelectorCtrl implements IComponentController {
 
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
+    data: any;
+    onEvent: (response: Object) => IPromise<void>;
     private templatesByOwner: { [owner: string]: IActivityTemplate[] };
 
-    public static $inject = ["$scope", "ReferenceService"];
+    static $inject = ["$scope", "ReferenceService"];
 
     constructor(
         private $scope,
@@ -22,10 +22,10 @@ class CalendarItemTemplateSelectorCtrl implements IComponentController {
 
     }
 
-    public $onInit(): void {
+    $onInit(): void {
     }
 
-    public $onDestroy(): void {
+    $onDestroy(): void {
     }
 
 }

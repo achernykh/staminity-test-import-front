@@ -304,9 +304,9 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
         $translateProvider.translations("ru", translateNotification.ru);
         $translateProvider.translations("en", translateNotification.en);
         $translateProvider.translations("ru", {"404": _translate_PageNotFound.ru});
-        $translateProvider.translations("en", {"404": _translate_PageNotFound.en});
+        $translateProvider.translations("en", {"404": _translate_PageNotFound["en"]});
         $translateProvider.translations("ru", {header: translateHeader.ru});
-        $translateProvider.translations("en", {header: translateHeader.en});
+        $translateProvider.translations("en", {header: translateHeader["en"]});
     }])
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал

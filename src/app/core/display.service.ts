@@ -32,12 +32,12 @@ export default class DisplayService {
         this.$mdDateLocale.shortDays = moment.weekdaysMin();
     }
 
-    public locales = {
+    locales = {
         ru: "Русский",
         en: "English",
     };
 
-    public static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
+    static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
 
     constructor(
         private SessionService: SessionService,
@@ -52,11 +52,11 @@ export default class DisplayService {
         .subscribe(this.handleChanges);
     }
 
-    public getLocale(): string {
+    getLocale(): string {
         return getLocale(this.SessionService.get());
     }
 
-    public setLocale(locale: string) {
+    setLocale(locale: string) {
         const userChanges = { display: { language: locale } };
 
         if (this.SessionService.getToken()) {
@@ -66,15 +66,15 @@ export default class DisplayService {
         }
     }
 
-    public getUnits(): string {
+    getUnits(): string {
         return getUnits(this.SessionService.get());
     }
 
-    public getTimezone(): string {
+    getTimezone(): string {
         return getTimezone(this.SessionService.get());
     }
 
-    public getFirstDayOfWeek(): number {
+    getFirstDayOfWeek(): number {
         return getFirstDayOfWeek(this.SessionService.get());
     }
 }

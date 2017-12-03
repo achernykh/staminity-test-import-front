@@ -7,17 +7,17 @@ import {ActivityIntervalCalcMeasure, DurationMeasure, IntensityMeasure} from "./
 
 export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIntervalPW {
 
-    public trainersPrescription: string;
-    public calcMeasures: ICalcMeasures;
-    public movingDurationApprox: boolean; // временя рассчитано приблизительно
-    public distanceApprox: boolean; // дистанция рассчитана приблизительно
+    trainersPrescription: string;
+    calcMeasures: ICalcMeasures;
+    movingDurationApprox: boolean; // временя рассчитано приблизительно
+    distanceApprox: boolean; // дистанция рассчитана приблизительно
 
     // Дополнительные поля для ввода неструктурированной тренировке
-    public movingDuration: IDurationMeasure = new DurationMeasure();
-    public distance: IDurationMeasure = new DurationMeasure();
-    public heartRate: IIntensityMeasure = new IntensityMeasure();
-    public speed: IIntensityMeasure = new IntensityMeasure();
-    public power: IIntensityMeasure = new IntensityMeasure();
+    movingDuration: IDurationMeasure = new DurationMeasure();
+    distance: IDurationMeasure = new DurationMeasure();
+    heartRate: IIntensityMeasure = new IntensityMeasure();
+    speed: IIntensityMeasure = new IntensityMeasure();
+    power: IIntensityMeasure = new IntensityMeasure();
 
     constructor(type: string, params: any) {
         super(type, params);
@@ -27,7 +27,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
     /**
      * @description Подготовка данных модели
      */
-    public prepareData(): void {
+    prepareData(): void {
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
         this.durationValue = this.durationValue || 0;
         this.movingDurationLength = this.movingDurationLength || 0;
@@ -69,7 +69,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
         }
     }
 
-    public update(params: Object) {
+    update(params: Object) {
         Object.assign(this, params);
     }
 
@@ -78,7 +78,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @param keys
      * @returns {IActivityIntervalPW}
      */
-    public clear(keys: string[] = ["params", "distance", "movingDuration", "heartRate", "power", "speed"]): IActivityIntervalPW {
+    clear(keys: string[] = ["params", "distance", "movingDuration", "heartRate", "power", "speed"]): IActivityIntervalPW {
         keys.map((p) => delete this[p]);
         return this as IActivityIntervalPW;
     }
@@ -87,7 +87,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @description Тренировка имеет плановые данные?
      * @returns {boolean}
      */
-    public specified(): boolean {
+    specified(): boolean {
         return this.durationValue > 0;
     }
 
@@ -95,7 +95,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * Пересчет значений инетрвала на основе массива отдельных интервалов
      * @param intervals = массив интревалов с типом P
      */
-    public calculate(intervals: ActivityIntervalP[]) {
+    calculate(intervals: ActivityIntervalP[]) {
         const update: {
             durationMeasure: string,
             intensityMeasure: string,

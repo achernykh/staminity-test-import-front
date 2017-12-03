@@ -8,15 +8,15 @@ const template: string = "<img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAS
 
 export class CalendarItemRecord extends CalendarItem {
 
-    public recordHeader: IRecordHeader;
-    public isRepeated: boolean = false;
+    recordHeader: IRecordHeader;
+    isRepeated: boolean = false;
 
     constructor(private param: ICalendarItem, user?: IUserProfile) {
         super(param);
         this.prepareDefaultType();
     }
 
-    public build(mode: string = "post"): ICalendarItem {
+    build(mode: string = "post"): ICalendarItem {
         //super.package();
         const item: ICalendarItem = this;
         const format: string = "YYYY-MM-DD";

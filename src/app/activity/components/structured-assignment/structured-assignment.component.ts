@@ -28,34 +28,34 @@ export interface Loop {
 
 class StructuredAssignmentCtrl implements IComponentController {
 
-    public intervals: ActivityIntervals;
-    public segments: ActivityIntervalP[];
-    public item: CalendarItemActivityCtrl;
-    public viewPlan: boolean;
-    public viewActual: boolean;
-    public viewGroup: boolean;
+    intervals: ActivityIntervals;
+    segments: ActivityIntervalP[];
+    item: CalendarItemActivityCtrl;
+    viewPlan: boolean;
+    viewActual: boolean;
+    viewGroup: boolean;
 
     private mode: "input" | "colapse" | "group" = "group";
     private loops: Loop[];
     private sequence: Loop;
 
-    public onEvent: (response: Object) => IPromise<void>;
-    public onChange: (response: {reason: SegmentChangeReason}) => IPromise<void>;
-    public static $inject = [];
+    onEvent: (response: Object) => IPromise<void>;
+    onChange: (response: {reason: SegmentChangeReason}) => IPromise<void>;
+    static $inject = [];
 
     constructor() {
 
     }
 
-    public $onInit() {
+    $onInit() {
         this.loops = this.loopsFromGroups;
     }
 
-    public $onChanges(changes: any): void {
+    $onChanges(changes: any): void {
         this.loops = this.loopsFromGroups;
     }
 
-    public onChangeValue(interval: ActivityIntervalP) {
+    onChangeValue(interval: ActivityIntervalP) {
         this.intervals.setValue(interval.type, interval.pos, interval.assignment());
         this.intervals.PW.calculate(this.intervals.P);
         if (this.item.activity.completed) {
@@ -64,7 +64,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         this.onChange({reason: SegmentChangeReason.changeValue});
     }
 
-    public onChangeSelection(interval: ActivityIntervalP): void {
+    onChangeSelection(interval: ActivityIntervalP): void {
         interval.isSelected ? this.intervals.deselect(interval.type, interval.pos) : this.intervals.select(interval.type, interval.pos);
         this.checkSequence();
         this.onChange({reason: SegmentChangeReason.selectInterval});
@@ -82,7 +82,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         }));
     }
 
-    public calcPrevLoops(currLoop: Loop): number {
+    calcPrevLoops(currLoop: Loop): number {
         let count: number = 0;
         this.loops.forEach((l) => {
             if (currLoop.start > l.start) {
@@ -94,7 +94,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         return count;
     }
 
-    public checkSequence(): void {
+    checkSequence(): void {
         let sequence: number[] = [];
 
         this.intervals.P.forEach((i) => {
@@ -116,7 +116,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         } : null;
     }
 
-    public haveLoops(): boolean {
+    haveLoops(): boolean {
         return this.loops.length > 0 || !!this.sequence;
     }
 
@@ -126,7 +126,7 @@ class StructuredAssignmentCtrl implements IComponentController {
      * Количество повторений вводится в последнем интервале первого повтора группы
      * @param interval
      */
-    public myLoop(interval: ActivityIntervalP): Loop {
+    myLoop(interval: ActivityIntervalP): Loop {
         // Повтор в котором участвует интервал
         const loop: Loop = ((!interval.hasOwnProperty("parentGroupCode") || interval.parentGroupCode === null)  && this.sequence) || // для выделения
             this.loops.filter((l) => l.code === interval.parentGroupCode)[0] || null; // для группы
@@ -140,7 +140,7 @@ class StructuredAssignmentCtrl implements IComponentController {
      * @param loop
      * @param repeat
      */
-    public setRepeat(loop: Loop, repeat: number): void {
+    setRepeat(loop: Loop, repeat: number): void {
         let success: boolean = false;
         let loopSegment: ActivityIntervalP[] = [];
 
@@ -168,11 +168,11 @@ class StructuredAssignmentCtrl implements IComponentController {
 
     }
 
-    public changeMode(): string {
+    changeMode(): string {
         return this.mode === "group" ? "input" : "group";
     }
 
-    public group(interval: ActivityIntervalP): ActivityIntervalG {
+    group(interval: ActivityIntervalP): ActivityIntervalG {
         return ((this.viewGroup && interval.hasOwnProperty("parentGroupCode") && interval.parentGroupCode) &&
             this.intervals.G.filter((i) => i.code === interval.parentGroupCode)[0]) || null;
     }

@@ -49,7 +49,7 @@ class SegmentChartController implements IComponentController {
     private width: number;
     private onResize: Function;
 
-    public static $inject = ["$element", "$location", "$window", "segmentChartSettings", "$mdMedia"];
+    static $inject = ["$element", "$location", "$window", "segmentChartSettings", "$mdMedia"];
 
     constructor(
         private $element: JQuery,
@@ -65,12 +65,12 @@ class SegmentChartController implements IComponentController {
         }
     }
 
-    public $onInit(): void {
+    $onInit(): void {
         this.absUrl = this.$location.absUrl().split("#")[0];
         this.prepareData();
     }
 
-    public $postLink(): void {
+    $postLink(): void {
         const self = this;
         this.$element.ready(function() {
             setTimeout(() => {
@@ -86,7 +86,7 @@ class SegmentChartController implements IComponentController {
         }
     }
 
-    public $onChanges(changes: any): void {
+    $onChanges(changes: any): void {
         this.durationMeasure = PlanChartMode.ensure(this.durationMeasure);
         let isFirst = true;
         for (const item in changes) {
@@ -104,13 +104,13 @@ class SegmentChartController implements IComponentController {
         }
     }
 
-    public $onDestroy(): void {
+    $onDestroy(): void {
         if (this.chartSettings.autoResizable && !!this.onResize) {
             angular.element(this.$window).off("resize", this.onResize);
         }
     }
 
-    public redraw() {
+    redraw() {
         if (!!this.$placeholder) {
             this.$placeholder.remove();
         }
@@ -544,7 +544,7 @@ class SegmentChartController implements IComponentController {
     }
 
     //todo shared utils
-    public getFillColor(areaSettings: IFilledShape): string {
+    getFillColor(areaSettings: IFilledShape): string {
         switch (areaSettings.fillType) {
             case FillType.Gradient:
                 const gradientId = this.getGradient(areaSettings.gradient);

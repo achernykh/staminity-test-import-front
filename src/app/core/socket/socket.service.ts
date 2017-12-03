@@ -9,8 +9,8 @@ import { Deferred, IConnectionSettings, SessionService } from "../index";
 export class SocketService {
 
     // public
-    public connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
-    public messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
+    connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
+    messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
 
     // private
     private ws: WebSocketSubject<Object>; // наблюдаемая переменная WebSocketSubject
@@ -20,7 +20,7 @@ export class SocketService {
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
 
-    public static $inject = ["ConnectionSettingsConfig", "SessionService", "LoaderService"];
+    static $inject = ["ConnectionSettingsConfig", "SessionService", "LoaderService"];
 
     constructor(private settings: IConnectionSettings,
                 private session: SessionService,
@@ -35,7 +35,7 @@ export class SocketService {
      * Выполняется при конфигурации root component app
      * @returns {Promise<boolean>}
      */
-    public init(): Promise<boolean> {
+    init(): Promise<boolean> {
 
         console.log("socket: init");
 
@@ -70,7 +70,7 @@ export class SocketService {
      * Открытие сессии
      * @param token
      */
-    public open(token: string = this.session.getToken()): void {
+    open(token: string = this.session.getToken()): void {
 
         if ( this.socket && !this.socket.closed ) { return; }
 
@@ -126,7 +126,7 @@ export class SocketService {
      * Обработка входящего сообщения из сессии
      * @param message
      */
-    public response(message: IWSResponse) {
+    response(message: IWSResponse) {
 
         if ( message.hasOwnProperty("requestId") && this.requests[message.requestId] ) {
 
@@ -152,7 +152,7 @@ export class SocketService {
     /**
      * Закрытие сессии
      */
-    public close() {
+    close() {
         this.ws.complete();
     }
 
@@ -161,7 +161,7 @@ export class SocketService {
      * @param request
      * @returns {any}
      */
-    public send(request: IWSRequest): Promise<any> {
+    send(request: IWSRequest): Promise<any> {
 
         /**
          * Можно будет раскоментировать после перехода на Angular 4

@@ -14,12 +14,12 @@ class ApplicationMenuCtrl implements IComponentController {
     private appmenu: any[] = AppMenuSettings;
     private usermenu: any[] = UserMenuSettings;
     private user: IUserProfile;
-    public showUserMenu: boolean = false;
+    showUserMenu: boolean = false;
     private date: Date = new Date();
     private env: Object = env;
     private destroy = new Subject();
 
-    public static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "$state"];
+    static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "$state"];
 
     constructor(
         private $scope: IScope,
@@ -41,21 +41,21 @@ class ApplicationMenuCtrl implements IComponentController {
         .subscribe(() => $scope.$evalAsync());
     }
 
-    public $onDestroy() {
+    $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    public toggleSlide() {
+    toggleSlide() {
         this.$mdSidenav("appmenu").toggle().then(() => angular.noop);
     }
 
-    public checkAuth(role) {
+    checkAuth(role) {
         return this.AuthService.isAuthorized(role);
     }
 
-    public transitionToState(url, param) {
-        if (this.$state.current.name === url && param === this.$state.params.uri) {
+    transitionToState(url, param) {
+        if (this.$state.current.name === url && param === this.$state.params["uri"]) {
             return;
         }
         if (url.includes("http")) {
@@ -72,7 +72,7 @@ class ApplicationMenuCtrl implements IComponentController {
         this.toggleSlide();
     }
 
-    public close() {
+    close() {
         this.$mdSidenav("appmenu").toggle();
     }
 
