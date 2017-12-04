@@ -40,7 +40,7 @@
                 </td>
                 <!-- Перечень соревнований периода -->
                 <td md-cell class="competition">
-                    <div ng-if="cycle.competition" layout="row" layout-align="start center">
+                    <div ng-if="cycle._competition" layout="row" layout-align="start center">
                         <div flex="none"
                              layout="row" layout-align="center center"
                              class="competition-icon color bg-circle-32">
@@ -49,11 +49,11 @@
                         </div>
                         <div layout="column" class="data">
                             <div flex="none" class="md-caption md-dark">
-                                <span>{{cycle.competition.competitionHeader.type}}</span>
+                                <span>{{cycle._competition.competitionHeader.type}}</span>
                                 <span>:</span>
-                                <span>{{cycle.competition.competitionHeader.distanceType}}</span>
+                                <span>{{cycle._competition.competitionHeader.distanceType}}</span>
                             </div>
-                            <div flex="auto" class="name md-body-2 md-dark">{{cycle.competition.competitionHeader.name}}</div>
+                            <div flex="auto" class="name md-body-2 md-dark">{{cycle._competition.competitionHeader.name}}</div>
                         </div>
                     </div>
                 </td>

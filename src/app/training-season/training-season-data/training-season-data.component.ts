@@ -36,11 +36,13 @@ class TrainingSeasonDataCtrl implements IComponentController {
     }
 
     change (cycle: Microcycle): void {
-        debugger;
-        if ( cycle.id ) {
+        if ( !cycle.mesocycle.id ) { return; }
 
+        if ( cycle.id ) {
+            this.trainingSeason.putItem(cycle.prepare())
+                .then(result => cycle.applyRevision(result));
         } else {
-            this.trainingSeason.postMicrocycle(cycle.prepare())
+            this.trainingSeason.postItem(this.data.season.id, cycle.prepare())
                 .then(result => cycle.applyRevision(result));
         }
     }
@@ -59,6 +61,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
 
     editDurationValue (event: Event, cycle: any): void {
 
+        let _this = this;
         event.stopPropagation(); // in case autoselect is enabled
 
         let editDialog = {
@@ -74,6 +77,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
                     return cycle.durationValue = 'FEEL THE BERN!';
                 }
                 cycle.durationValue = input.$modelValue;
+                _this.change(cycle);
             },
             targetEvent: event,
             title: 'Add a comment',

@@ -31,8 +31,8 @@ export class TrainingSeasonData {
         if (!gridLength || gridLength === 0) { return; }
 
         this.grid = times(gridLength)
-            .map(i => new Microcycle({
-                startDate: moment(start).format('YYYY.WW'),
+            .map(i => new Microcycle(Object.assign({
+                weekNumber: moment(start).add(i,'week').format('YYYY.WW'),
                 _dateStart: moment(start).add(i,'week'),
                 _dateEnd: moment(start).add(i,'week').endOf('week'),
                 mesocycle: {
@@ -41,7 +41,7 @@ export class TrainingSeasonData {
                 _competition: null,
                 durationMeasure: this.season.intensityMeasure,
                 durationValue: null
-            }));
+            }, this.microcycles.filter(m => m.weekNumber === moment(start).add(i,'week').format('YYYY.WW'))[0])));
     }
 
 }

@@ -60,22 +60,18 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     private prepareData (): void {
         // 1. Получаем детали по периодизации
-        this.trainingSeasonService.get({ userId: this.currentUser.userId })
+        this.trainingSeasonService.getItems(this.season.id)
             .then(
-                success => { },
+                result => this.data = new TrainingSeasonData(this.season, result.arrayResult),
+                error => { })
+            // 2. Получаем данные по соревнованиям
+            .then(() => this.calendarService.search({
+                userIdOwner: this.currentUser.userId,
+                calendarItemTypes: ['competition']}))
+            .then(
+                result => this.data.setCompetitions(result.arrayResult),
                 error => { }
             );
-
-        // 2. Получаем перечень соревнований
-        this.calendarService.search({
-            userIdOwner: this.currentUser.userId,
-            calendarItemTypes: ['competition']
-        }).then(
-            result => this.data.setCompetitions(result.arrayResult),
-            error => { }
-        );
-        // 3. Строим модель периодиацзии
-        this.data = new TrainingSeasonData(this.season, []);
     }
 
     private update (): void {

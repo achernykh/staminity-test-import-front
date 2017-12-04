@@ -9,7 +9,7 @@ export class Microcycle implements IMicrocycle {
 
     id: number;
     revision: number;
-    startDate: string; // дата начала недели в формате YYYY.WW
+    weekNumber: string; // дата начала недели в формате YYYY.WW
     description: string; // заметка тренеру к микроциклу
     mesocycle: IMesocycle;
     durationMeasure: string;
@@ -21,7 +21,7 @@ export class Microcycle implements IMicrocycle {
     _dateEnd: Moment;
     _competition: ICalendarItem;
 
-    private keys: Array<string> = ['keys', 'revision', '_dateStart', '_dateEnd', '_competition'];
+    private keys: Array<string> = ['keys', '_dateStart', '_dateEnd', '_competition'];
 
     constructor (data?: IMicrocycle | any) {
         Object.assign(this, data);
@@ -43,13 +43,13 @@ export class Microcycle implements IMicrocycle {
     }
 
     prepare (keys: Array<string> = this.keys): IMicrocycle {
+        let cycle: IMicrocycle = Object.assign({}, this);
 
+        cycle.mesocycle = { id: Number(this.mesocycle.id) };
+        cycle.durationValue = Number(this.durationValue);
 
-        this.mesocycle.id = Number(this.mesocycle.id);
-
-        keys.map(p => delete this[p]);
-
-        return <IMicrocycle>this;
+        keys.map(p => delete cycle[p]);
+        return cycle;
     }
 
     private prepareDefaultData (): void {

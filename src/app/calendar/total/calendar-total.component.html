@@ -39,10 +39,16 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-
     </div>
+</section>
 
-
+<section flex="none" class="periodization md-caption md-dark md-inactive" ng-if="$ctrl.periodizationData">
+    <div>{{$ctrl.periodizationData.code}}</div>
+    <div>
+        <span>{{$ctrl.periodizationData.durationMeasure}}</span>
+        <span>:&nbsp;</span>
+        <span>{{$ctrl.periodizationData.durationValue}}</span>
+    </div>
 </section>
 
 <section flex="none" class="summary">

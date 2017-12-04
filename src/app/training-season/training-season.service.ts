@@ -1,21 +1,23 @@
 import { SocketService } from "@app/core";
 import {
     ISeasonPlan,
+    IMicrocycle,
     IGetSeasonPlanRequest,
-    GetPeriodizationScheme,
-    IPeriodizationScheme,
+    IWeekPeriodizationData,
+    IGetMicrocycleResponse,
+    IGetSeasonPlanResponse,
     GetSeasonPlan,
     PostSeasonPlan,
     PutSeasonPlan,
-    IMesocycle,
-    PutMesocycle,
-    PostMesocycle,
-    DeletePeriodizationScheme,
-    DeleteMesocycle
+    DeleteSeasonPlan,
+    GetMicrocycle,
+    DeleteMicrocycle,
+    PostMicrocycle,
+    PutMicrocycle,
+    GetWeekPeriodizationData
 } from "../../../api/seasonPlanning";
 import { IRevisionResponse, IWSResponse } from "@api/core";
-import { IGetSeasonPlanResponse, IMicrocycle } from "../../../api/seasonPlanning/seasonPlanning.interface";
-import { PostMicrocycle } from "../../../api/seasonPlanning/seasonPlanning.request";
+import { IWeekPeriodizationDataResponse } from "../../../api/seasonPlanning/seasonPlanning.interface";
 
 export class TrainingSeasonService {
 
@@ -50,8 +52,8 @@ export class TrainingSeasonService {
         return this.socket.send(new PutSeasonPlan(season));
     }
 
-    delete (scheme: IPeriodizationScheme): Promise<IWSResponse> {
-        return this.socket.send(new DeletePeriodizationScheme(scheme));
+    delete (season: ISeasonPlan): Promise<IWSResponse> {
+        return this.socket.send(new DeleteSeasonPlan(season));
     }
 
     /**
@@ -59,8 +61,65 @@ export class TrainingSeasonService {
      * @param cycle
      * @returns {Promise<IRevisionResponse>}
      */
-    postMicrocycle (cycle: IMicrocycle): Promise<IRevisionResponse> {
-        return this.socket.send(new PostMicrocycle(cycle));
+    postMicrocycle (seasonId: number, cycle: IMicrocycle): Promise<IRevisionResponse> {
+        return this.socket.send(new PostMicrocycle(seasonId, cycle));
+    }
+
+    /**
+     * Перечень микроциклов по плану
+     * @param seasonPlanId
+     * @returns {Promise<any>}
+     */
+    getItems (seasonPlanId: number): Promise<IGetMicrocycleResponse> {
+        return this.socket.send(new GetMicrocycle(seasonPlanId));
+    }
+
+    /**
+     * Создать микроцикл
+     * @param seasonId
+     * @param item
+     * @returns {Promise<IRevisionResponse>}
+     */
+    postItem (seasonId: number, item: IMicrocycle): Promise<IRevisionResponse> {
+        return this.socket.send(new PostMicrocycle(seasonId, item));
+    }
+
+    /**
+     * Изменить микроцикл
+     * @param item
+     * @returns {Promise<IRevisionResponse>}
+     */
+    putItem (item: IMicrocycle): Promise<IRevisionResponse> {
+        return this.socket.send(new PutMicrocycle(item));
+    }
+
+    /**
+     * Удалить микроцикл
+     * @param item
+     * @returns {Promise<any>}
+     */
+    deleteItem (item: IMicrocycle): Promise<IWSResponse> {
+        return this.socket.send(new DeleteMicrocycle(item));
+    }
+
+    /**
+     * Данные по периодизации для пользователя
+     * @param userId
+     * @param week
+     * @returns {Promise<IWeekPeriodizationDataResponse>}
+     */
+    getUserWeekData (userId: number, week: string): Promise<IWeekPeriodizationDataResponse> {
+        return this.socket.send(new GetWeekPeriodizationData(userId, null, week));
+    }
+
+    /**
+     * Данные по периодизации для группы пользователей
+     * @param groupId
+     * @param week
+     * @returns {Promise<IWeekPeriodizationDataResponse>}
+     */
+    getGroupWeekData (groupId: number, week: string): Promise<IWeekPeriodizationDataResponse> {
+        return this.socket.send(new GetWeekPeriodizationData(null, groupId, week));
     }
 
 }
