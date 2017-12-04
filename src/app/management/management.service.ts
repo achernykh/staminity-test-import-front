@@ -129,11 +129,13 @@ export class ManagementService {
         return this.dialogs.selectUsers(membersList.getAthletes(), checkedAthletes, "athletes")
             .then((athletes) => {
                 if (athletes) {
-                    const groupIds = members.map((member) => member.getAthletesGroupId());
+                    let groupIds = members.map((member) => member.getAthletesGroupId());
+                    let athletesToAdd = arrays.difference(athletes, checkedAthletes).map((member) => member.getUserId());
+                    let athletesToRemove = arrays.difference(checkedAthletes, athletes).map((member) => member.getUserId());
                     // нельзя выполнить все действия одним батч-запросом, но можно двумя
                     return Promise.all([
-                        this.groupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(addToGroup), arrays.difference(athletes, checkedAthletes)),
-                        this.groupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(removeFromGroup), arrays.difference(checkedAthletes, athletes)),
+                        this.groupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(addToGroup), athletesToAdd),
+                        this.groupService.putGroupMembershipBulk(membersList.groupId, groupIds.map(removeFromGroup), athletesToRemove),
                     ]);
                 }
             });
