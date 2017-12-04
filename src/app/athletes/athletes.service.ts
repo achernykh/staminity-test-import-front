@@ -49,6 +49,8 @@ export class AthletesService {
         let byUs = tariffsByUser(user.userId) (members[0]);
         let bySelf = tariffsNotByUser(user.userId) (members[0]);
 
+        console.log('editTariffs', user.connections.Athletes.groupId, management.groupId);
+
         return this.dialogs.tariffs(["Premium"], byUs, bySelf, "dialogs.byCoach")
             .then((selectedTariffs) => {
                 let addTariffs = arrays.difference(selectedTariffs, byUs);
@@ -68,7 +70,7 @@ export class AthletesService {
                         ...arrays.difference(selectedTariffs, byUs).map(getTariffGroupId(management)).map(addToGroup),
                         ...arrays.difference(byUs, selectedTariffs).map(getTariffGroupId(management)).map(removeFromGroup),
                     ];
-                    return this.groupService.putGroupMembershipBulk(user.connections.Athletes.groupId, memberships, members.map(getMemberId));
+                    return this.groupService.putGroupMembershipBulk(management.groupId, memberships, members.map(getMemberId));
                 }
             });
     }
