@@ -54,16 +54,15 @@ export const tariffsNotByUser = (userId: number) => (member: IGroupManagementPro
 };
 
 /**
- * Состоят ли тренер и его спортсмен в одном клубе
+ * Назначен ли спортсмен тренеру клубом
  * @param user: IUserProfile
  * @param member: IGroupManagementProfileMember
  * @returns {boolean}
- */
-export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProfileMember): boolean => {
-    return arrays.intersection(
-        coach.connections.Clubs.map((club) => club.groupId),
-        athlete["clubs"].map((club) => club.groupId),
-    ).length > 0;
+ */  
+export const isClubAthlete = (coach: IUserProfile, athlete: IGroupManagementProfileMember) : boolean => {
+    return -1 === coach.connections.Athletes.groupMembers
+        .map((user) => user.userId)
+        .indexOf(getMemberId(athlete));
 };
 
 /**
