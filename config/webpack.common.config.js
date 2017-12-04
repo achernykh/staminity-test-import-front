@@ -70,7 +70,8 @@ module.exports = {
             {
                 test: /\.ts$/,
                 enforce: "pre",
-                loader: "tslint-loader"
+                loader: "tslint-loader",
+                exclude: [/node_modules/,/bower_components/]
             },
             {
                 test: /\.ts$/,
