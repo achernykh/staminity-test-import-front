@@ -2,7 +2,7 @@
     <!-- Заголовок таблицы -->
     <md-toolbar class="md-table-toolbar md-default" ng-hide="$ctrl.selected.length">
         <div class="md-toolbar-tools">
-            <span translate="trainingSeason.data"></span>
+            <span translate="trainingSeason.periodization"></span>
             <div flex></div>
             <md-button class="md-icon-button" ng-click="loadStuff()">
                 <md-icon>refresh</md-icon>
@@ -59,16 +59,22 @@
                 </td>
                 <!-- Мезоцикл -->
                 <td md-cell class="mesocycle">
-                    <div class="block {{cycle.code}}" ng-class="{selected: cycle.mesocycle}">
-                        <md-select flex="auto" ng-model="cycle.mesocycle" placeholder="Не указан">
-                            <md-option ng-value="cycle.code" ng-repeat="cycle in $ctrl.mesocycles">{{cycle.code}}
+                    <div ng-if="$ctrl.schemes"
+                         class="block {{cycle.mesocycle.code}}" ng-class="{selected: cycle.mesocycle.id}">
+                        <md-select flex="auto"
+                                   ng-model="cycle.mesocycle.id"
+                                   ng-change="$ctrl.change(cycle)"
+                                   placeholder="Не указан">
+                            <md-option ng-repeat="meso in $ctrl.getMesocycles() track by meso.id"
+                                       value="{{meso.id}}">
+                                <span>{{meso.code}}</span>
                             </md-option>
                         </md-select>
                     </div>
                 </td>
                 <!-- Номер недели -->
                 <td md-cell class="week">
-                    <span ng-if="cycle.mesocycle">Week {{$ctrl.getWeekCount($index)}}</span>
+                    <span ng-if="cycle.mesocycle.id">Week {{$ctrl.getWeekCount($index)}}</span>
                 </td>
                 <!-- Обьем -->
                 <td md-cell

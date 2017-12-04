@@ -1,0 +1,41 @@
+md-dialog#training-season-form{
+
+  @media (min-width: 960px) {
+    min-width: 640px;
+    max-width: 640px;
+    min-height: 90vh;
+    height: 100%;
+  }
+
+}
+
+.training-season-form {
+
+  .label {
+    transform: translate3d(0, 6px, 0) scale(0.75);
+    transform-origin: left top;
+  }
+
+  md-icon.dense {
+    margin-right: 20px !important;
+  }
+
+  .md-subheader {
+    background: none !important;
+  }
+
+  .intensity-measure {
+    margin-left: 16px;
+    .md-label {
+      margin-left: 42px !important;
+    }
+  }
+
+  md-input-container._md-datepicker-floating-label {
+    label {  transform: translate3d(42px, 6px, 0) scale(0.75); }
+    md-datepicker {  margin-left: 41px;  }
+    .md-datepicker-input-container {  width: calc(100% - 43px);  }
+    input {  max-width: 100%;  }
+  }
+
+}

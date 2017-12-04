@@ -4,13 +4,14 @@ import { times } from '../../share/util.js';
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IMicrocycle } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
+import { Microcycle } from "../training-season/training-season-microcycle.datamodel";
 
 export class TrainingSeasonData {
 
-    grid: Array<any>;
+    grid: Array<Microcycle>;
 
     constructor (
-        private season: TrainingSeason,
+        public season: TrainingSeason,
         private microcycles: Array<IMicrocycle>) {
         this.prepare();
     }
@@ -18,8 +19,8 @@ export class TrainingSeasonData {
     setCompetitions (items: Array<ICalendarItem>): void {
         items.map(item =>
             this.grid.filter(m =>
-            moment(item.dateStart).isAfter(m.dateStart) &&
-            moment(item.dateStart).isBefore(m.dateEnd))[0].competition = item);
+            moment(item.dateStart).isAfter(m._dateStart) &&
+            moment(item.dateStart).isBefore(m._dateEnd))[0]._competition = item);
     }
 
     private prepare (): void {
@@ -30,24 +31,17 @@ export class TrainingSeasonData {
         if (!gridLength || gridLength === 0) { return; }
 
         this.grid = times(gridLength)
-            .map(i => ({
-                dateStart: moment(start).add(i,'week'),
-                dateEnd: moment(start).add(i,'week').endOf('week'),
-                mesocylce: null,
-                competition: null,
-                durationMeasure: 'TSS',
+            .map(i => new Microcycle({
+                startDate: moment(start).format('YYYY.WW'),
+                _dateStart: moment(start).add(i,'week'),
+                _dateEnd: moment(start).add(i,'week').endOf('week'),
+                mesocycle: {
+                    id: null
+                },
+                _competition: null,
+                durationMeasure: this.season.intensityMeasure,
                 durationValue: null
-            }))
-            .map(c => Object.assign(c, {title: TrainingSeasonData.getTitle(c.dateStart, c.dateEnd)}));
-
-    }
-
-    static getTitle (start: Moment, end: Moment): string {
-        let next: Moment = moment(start).add(1, 'week');
-
-        return moment(next).startOf('month').diff(moment(start).startOf('month'), 'months') > 0 ?
-            `${start.format('DD')}-${end.format('MMM DD')}` :
-            `${start.format('DD')}-${end.format('DD')}`;
+            }));
     }
 
 }

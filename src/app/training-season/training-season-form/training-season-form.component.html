@@ -1,0 +1,128 @@
+<md-toolbar flex="none" class="md-primary">
+    <div class="md-toolbar-tools">
+        <h2 class="">{{::'trainingSeason.fullTitle' | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+    <div class="avatar-block" ng-if="false">
+        <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
+                 profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true">
+            <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">
+                Edit
+            </button>
+        </userpic>
+        <div flex=none hide show-gt-xs>
+            <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+        </div>
+    </div>
+</md-toolbar>
+<md-dialog-content flex="auto" layout="column">
+    <form flex="auto" layout="column" name="$ctrl.seasonForm">
+        <md-list flex="auto" class="md-dense">
+            <!-- Название плана -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="trainingPlans.name.label"></label>
+                    <md-icon flex="none" class="material-icons md-dark" md-svg-src="/assets/icon/season.svg"></md-icon>
+                    <input flex="auto"
+                           name="name" required
+                           type="text"
+                           placeholder="{{trainingPlans.name.placeholder}}"
+                           ng-model="$ctrl.season.code">
+                    <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Начальная дата плана -->
+            <md-list-item layout="row" layout-align="start center">
+                <md-input-container flex="auto" class="no-message">
+                    <label translate="trainingPlans.startDate.label"></label>
+                    <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
+                    <md-datepicker flex="auto"
+                                   ng-model="$ctrl.season._dateStart"
+                                   name="dateStart" md-hide-icons="calendar">
+                    </md-datepicker>
+                </md-input-container>
+            </md-list-item>
+            <!-- Начальная дата плана -->
+            <md-list-item layout="row" layout-align="start center">
+                <md-input-container flex="auto" class="no-message">
+                    <label translate="trainingPlans.startDate.label"></label>
+                    <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
+                    <md-datepicker flex="auto"
+                                   ng-model="$ctrl.season._dateEnd"
+                                   name="dateEnd" md-hide-icons="calendar">
+                    </md-datepicker>
+                </md-input-container>
+            </md-list-item>
+            <!-- Схема периодизации -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" md-no-float layout="row">
+                    <label translate="trainingSeason.periodizationScheme.label"></label>
+                    <md-icon flex="none" class="md-dark"
+                             md-svg-src="/assets/icon/methodology.svg"></md-icon>
+                    <md-select flex type="number"
+                               name="periodizationScheme" class="icon"
+                               ng-model="$ctrl.season.periodizationScheme.id"
+                               placeholder="{{trainingSeason.periodizationScheme.placeholder}}"
+                               ng-change="$ctrl.changeParam()">
+                        <md-option
+                                ng-repeat="scheme in $ctrl.schemeList track by scheme.id"
+                                type="number" value="{{scheme.id}}">{{scheme.code | translate}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="$ctrl.planForm.distanceType.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Выбор параметра интенсивности -->
+            <md-subheader><span>Парметр интенсивности плана</span></md-subheader>
+            <div layout="column" class="intensity-measure">
+                <md-radio-group flex="none"
+                                name="intensityMeasure" class="md-primary"
+                                ng-model="$ctrl.season.intensityMeasure"
+                                ng-change="$ctrl.change(param, param.model)">
+                    <md-radio-button ng-repeat="measure in ['TL', 'distance', 'movingDuration']"
+                                     ng-value="measure">
+                        <span class="md-body-1">{{measure | translate}}</span>
+                    </md-radio-button>
+                </md-radio-group>
+            </div>
+            <!-- Описание плана на сезон -->
+            <md-subheader><span>Описание</span></md-subheader>
+            <ng-quill-editor ng-if="true" flex="auto"
+                             ng-model="$ctrl.season.description"
+                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbarFull"
+                             on-content-changed="$ctrl.changeForm()"
+                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
+                             read-only="$ctrl.isViewMode">
+            </ng-quill-editor>
+        </md-list>
+    </form>
+</md-dialog-content>
+<md-dialog-actions flex="none" layout="row" class="bg-grey-050">
+    <span flex></span>
+    <md-button ng-if="$ctrl.isViewMode"
+               ng-click="$ctrl.setChangeMode()">
+        <span translate="trainingPlans.actions.edit"></span>
+    </md-button>
+    <md-button ng-if="!$ctrl.isViewMode"
+               ng-class="{'md-warn': !$ctrl.seasonForm.$valid}"
+               ng-disabled="!$ctrl.seasonForm.$dirty"
+               ng-click="($ctrl.seasonForm.$valid) ? $ctrl.save() : null">
+        <span translate="trainingPlans.actions.save"></span>
+    </md-button>
+</md-dialog-actions>

@@ -13,7 +13,9 @@ import {
     DeleteMicrocycle,
     IWeekPeriodizationData,
     GetWeekPeriodizationData,
-    IGetSeasonPlanResponse
+    IGetSeasonPlanResponse,
+    GetPeriodizationScheme,
+    IGetPeriodizationSchemeResponse
 } from "../../../api/seasonPlanning";
 import { IRevisionResponse, IWSResponse } from "@api/core";
 
@@ -25,12 +27,11 @@ export class PeriodizationService {
     }
 
     /**
-     * Получить перечень Планов на сезон
-     * @param search
+     * Получить перечень Схем периодизации
      * @returns {Promise<any>}
      */
-    get (search: IGetSeasonPlanRequest): Promise<IGetSeasonPlanResponse> {
-        return this.socket.send(new GetSeasonPlan(search));
+    get (): Promise<IGetPeriodizationSchemeResponse> {
+        return this.socket.send(new GetPeriodizationScheme());
     }
 
     /**

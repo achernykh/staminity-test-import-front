@@ -2,6 +2,10 @@ import './training-season-data.component.scss';
 import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { TrainingSeasonData } from "./training-season-data.datamodel";
 import { TrainingSeason } from "@app/training-season/training-season/training-season.datamodel";
+import { IMesocycle, IMicrocycle, IPeriodizationScheme } from "../../../../api/seasonPlanning/seasonPlanning.interface";
+import { TrainingSeasonService } from "../training-season.service";
+import { Microcycle } from "../training-season/training-season-microcycle.datamodel";
+import { PeriodizationService } from "../../methodology/periodization.service";
 
 class TrainingSeasonDataCtrl implements IComponentController {
 
@@ -10,39 +14,42 @@ class TrainingSeasonDataCtrl implements IComponentController {
 
     // private
     private selected: Array<any> = [];
-    private readonly mesocycles: Array<{ code: string; color: string }> = [
-        {
-            code: 'base',
-            color: '#000000'
-        },
-        {
-            code: 'build',
-            color: '#000000'
-        },
-        {
-            code: 'prepare',
-            color: '#000000'
-        },
-        {
-            code: 'transition',
-            color: '#000000'
-        }
-    ];
+    private schemes: Array<IPeriodizationScheme>;
 
-    static $inject = [ '$mdEditDialog' ];
+    static $inject = [ '$mdEditDialog', 'TrainingSeasonService', 'PeriodizationService' ];
 
-    constructor (private $mdEditDialog: any) {
+    constructor (
+        private $mdEditDialog: any,
+        private trainingSeason: TrainingSeasonService,
+        private periodizationService: PeriodizationService) {
 
     }
 
     $onInit () {
+        this.periodizationService.get().then(result => this.schemes = result.arrayResult);
+    }
 
+    getMesocycles(): Array<IMesocycle> {
+        if (this.schemes && this.data.season) {
+            return this.schemes.filter(s => s.id === this.data.season.periodizationScheme.id)[0].mesocycles;
+        }
+    }
+
+    change (cycle: Microcycle): void {
+        debugger;
+        if ( cycle.id ) {
+
+        } else {
+            this.trainingSeason.postMicrocycle(cycle.prepare())
+                .then(result => cycle.applyRevision(result));
+        }
     }
 
     getWeekCount (pos: number): number {
         let count: number = 1;
 
-        while (pos !== 0 && this.data.grid[pos].mesocycle === this.data.grid[pos-1].mesocycle) {
+        while (pos !== 0 && this.data.grid[pos].mesocycle.id &&
+            this.data.grid[pos].mesocycle.id === this.data.grid[pos-1].mesocycle.id) {
             count ++;
             pos --;
         }

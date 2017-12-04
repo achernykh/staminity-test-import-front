@@ -1,43 +1,53 @@
 import { SocketService } from "@app/core";
 import {
-    IGetPeriodizationSchemeResponse, GetPeriodizationScheme, IPeriodizationScheme,
-    PostPeriodizationScheme, PutPeriodizationScheme, IMesocycle, PutMesocycle, PostMesocycle, DeletePeriodizationScheme,
+    ISeasonPlan,
+    IGetSeasonPlanRequest,
+    GetPeriodizationScheme,
+    IPeriodizationScheme,
+    GetSeasonPlan,
+    PostSeasonPlan,
+    PutSeasonPlan,
+    IMesocycle,
+    PutMesocycle,
+    PostMesocycle,
+    DeletePeriodizationScheme,
     DeleteMesocycle
 } from "../../../api/seasonPlanning";
 import { IRevisionResponse, IWSResponse } from "@api/core";
+import { IGetSeasonPlanResponse, IMicrocycle } from "../../../api/seasonPlanning/seasonPlanning.interface";
+import { PostMicrocycle } from "../../../api/seasonPlanning/seasonPlanning.request";
 
 export class TrainingSeasonService {
 
     static $inject = ['SocketService'];
 
-    constructor (
-        private socket: SocketService) {
+    constructor (private socket: SocketService) {
     }
 
     /**
-     * Получить Схемы периодизации
-     * @returns {Promise<any>}
+     * Получить список планов на сезон
+     * @returns {Promise<IGetSeasonPlanRequest>}
      */
-    get (): Promise<IGetPeriodizationSchemeResponse> {
-        return this.socket.send(new GetPeriodizationScheme());
+    get (search: IGetSeasonPlanRequest): Promise<IGetSeasonPlanResponse> {
+        return this.socket.send(new GetSeasonPlan(search));
     }
 
     /**
-     * Создать схему периодизации
-     * @param scheme
-     * @returns {Promise<any>}
+     * Создать План на сезон
+     * @param season
+     * @returns {Promise<IRevisionResponse>}
      */
-    post (scheme: IPeriodizationScheme): Promise<IRevisionResponse> {
-        return this.socket.send(new PostPeriodizationScheme(scheme));
+    post (season: ISeasonPlan): Promise<IRevisionResponse> {
+        return this.socket.send(new PostSeasonPlan(season));
     }
 
     /**
-     * Изменить схему периодизации
-     * @param scheme
-     * @returns {Promise<any>}
+     * Изменить План на сезон
+     * @param season
+     * @returns {Promise<IRevisionResponse>}
      */
-    put (scheme: IPeriodizationScheme): Promise<IRevisionResponse> {
-        return this.socket.send(new PutPeriodizationScheme(scheme));
+    put (season: ISeasonPlan): Promise<IRevisionResponse> {
+        return this.socket.send(new PutSeasonPlan(season));
     }
 
     delete (scheme: IPeriodizationScheme): Promise<IWSResponse> {
@@ -45,33 +55,12 @@ export class TrainingSeasonService {
     }
 
     /**
-     * Создать мезоцикл в схеме периодизации
-     * @param schemeId
-     * @param mesocycle
-     * @returns {Promise<any>}
+     * Сохранить новый микроцикл в плане
+     * @param cycle
+     * @returns {Promise<IRevisionResponse>}
      */
-    postMesocycle (schemeId: number, mesocycle: IMesocycle): Promise<IRevisionResponse> {
-        return this.socket.send(new PostMesocycle(schemeId, mesocycle));
-    }
-
-    /**
-     * Изменить мезоцикл в схеме периодизации
-     * @param schemeId
-     * @param mesocycle
-     * @returns {Promise<any>}
-     */
-    putMesocycle (schemeId: number, mesocycle: IMesocycle): Promise<IRevisionResponse> {
-        return this.socket.send(new PutMesocycle(schemeId, mesocycle));
-    }
-
-    /**
-     * Удалить мезоцикл в схеме периодизации
-     * @param schemeId
-     * @param mesocycleId
-     * @returns {Promise<any>}
-     */
-    deleteMesocycle (schemeId: number, mesocycleId: number): Promise<IWSResponse> {
-        return this.socket.send(new DeleteMesocycle(schemeId, mesocycleId));
+    postMicrocycle (cycle: IMicrocycle): Promise<IRevisionResponse> {
+        return this.socket.send(new PostMicrocycle(cycle));
     }
 
 }

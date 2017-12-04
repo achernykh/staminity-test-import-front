@@ -9,9 +9,11 @@ import { TrainingSeasonDataComponent } from "./training-season-data/training-sea
 import { TrainingSeasonChartComponent } from "./training-season-chart/training-season-chart.component";
 import { supportLng } from "../core/display.constants";
 import { translateTrainingSeason } from "./training-season.translate";
+import { TrainingSeasonDialogSerivce } from './training-season-dialog.service';
 
 export const TrainingSeason = module('staminity.training-season', [])
     .service('TrainingSeasonService', TrainingSeasonService)
+    .service('TrainingSeasonDialogService', TrainingSeasonDialogSerivce)
     .component('stTrainingSeasonBuilder', TrainingSeasonBuilderComponent)
     .component('stTrainingSeasonForm', TrainingSeasonFormComponent)
     .component('stTrainingSeasonList', TrainingSeasonListComponent)
