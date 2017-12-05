@@ -11,6 +11,8 @@ import { IUserProfile } from "../../../api/user";
 import { IGroupProfile } from "../../../api/group";
 import { IActivityType } from "../../../api/activity/activity.interface";
 import { ITrainingPlanSearchRequest } from "@api/trainingPlans";
+import { PeriodizationService } from "./periodization/periodization.service";
+import { IPeriodizationScheme } from "@api/seasonPlanning";
 
 class MethodologyCtrl implements IComponentController {
 
@@ -34,12 +36,15 @@ class MethodologyCtrl implements IComponentController {
         activityType: activityTypes[0],
         category: null
     };
+    private periodizationData: Array<IPeriodizationScheme>;
+    private currentPeriodizationScheme: IPeriodizationScheme;
     private destroy: Subject<void> = new Subject<void>();
 
-    static $inject = ['$scope', 'ReferenceService'];
+    static $inject = ['$scope', 'ReferenceService', 'PeriodizationService'];
 
     constructor (private $scope,
-                 private referenceService: ReferenceService) {
+                 private referenceService: ReferenceService,
+                 private periodizationService: PeriodizationService) {
 
     }
 
@@ -64,6 +69,9 @@ class MethodologyCtrl implements IComponentController {
                 this.$scope.$apply();
             });
 
+        this.periodizationService.get()
+            .then(result => this.periodizationData = result.arrayResult);
+
         this.prepareTrainingPlansFilter();
         this.updateFilterParams();
     }
@@ -81,6 +89,10 @@ class MethodologyCtrl implements IComponentController {
         this.trainingPlansFilter = {
             ownerId: this.currentUser.userId
         };
+    }
+
+    selectPeriodizationScheme (scheme: IPeriodizationScheme): void {
+        this.currentPeriodizationScheme = scheme;
     }
 
     changeTrainingPlansFilter (filter: ITrainingPlanSearchRequest): void {

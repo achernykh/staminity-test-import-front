@@ -5,7 +5,7 @@ import { TrainingSeason } from "@app/training-season/training-season/training-se
 import { IMesocycle, IMicrocycle, IPeriodizationScheme } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { TrainingSeasonService } from "../training-season.service";
 import { Microcycle } from "../training-season/training-season-microcycle.datamodel";
-import { PeriodizationService } from "../../methodology/periodization.service";
+import { PeriodizationService } from "../../methodology/periodization/periodization.service";
 
 class TrainingSeasonDataCtrl implements IComponentController {
 

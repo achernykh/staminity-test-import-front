@@ -348,3 +348,11 @@ md-pagination-wrapper {
     background: $red-500 !important;
   }
 }
+
+// стиль для аваторок во всплывающих панелях
+.st-avatar {
+  width: 36px;
+  height: 36px;
+  margin-right: 20px;
+  border-radius: 18px;
+}

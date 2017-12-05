@@ -6,7 +6,7 @@ import MessageService from "../../core/message.service";
 import { IQuillConfig } from "../../share/quill/quill.config";
 import { TrainingSeasonService } from "../training-season.service";
 import { IRevisionResponse } from "../../../../api/core/core";
-import { PeriodizationService } from "../../methodology/periodization.service";
+import { PeriodizationService } from "../../methodology/periodization/periodization.service";
 import { IPeriodizationScheme } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 
 class TrainingSeasonFormCtrl implements IComponentController {

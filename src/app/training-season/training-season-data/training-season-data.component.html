@@ -60,7 +60,8 @@
                 <!-- Мезоцикл -->
                 <td md-cell class="mesocycle">
                     <div ng-if="$ctrl.schemes"
-                         class="block {{cycle.mesocycle.code}}" ng-class="{selected: cycle.mesocycle.id}">
+                         class="block" ng-class="{selected: cycle.mesocycle.id}"
+                         ng-style="{'background-color': cycle.mesocycle.color}">
                         <md-select flex="auto"
                                    ng-model="cycle.mesocycle.id"
                                    ng-change="$ctrl.change(cycle)"

@@ -1,0 +1,18 @@
+@import "../../../sass/animation";
+
+// animated.css
+#periodization-scheme-list__fab {
+  @include animate(0.3s, 1s, 1);
+}
+
+.periodization-scheme-list {
+
+  min-height: calc(100vh - 130px);
+
+  &__post {
+    position: fixed;
+    bottom: 8px;
+    right: 8px;
+  }
+
+}
