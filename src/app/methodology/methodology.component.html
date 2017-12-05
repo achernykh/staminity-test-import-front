@@ -65,13 +65,13 @@
 
     <!-- Схемы периодизации -->
     <st-application-frame-left-bar ng-switch-when="periodization">
-        <section class="methodology__left-bar">
+        <md-content class="methodology__left-bar">
             <st-periodization-scheme-filter
                 layout="column" layout-fill="true"
                 schemes="$ctrl.periodizationData"
                 on-select="$ctrl.selectPeriodizationScheme(scheme)">
             </st-periodization-scheme-filter>
-        </section>
+        </md-content>
     </st-application-frame-left-bar>
 
     <st-application-frame-content ng-switch-when="periodization">

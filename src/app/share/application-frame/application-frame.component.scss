@@ -167,8 +167,8 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     }
 
     @media (min-width: 1440px) {
-      max-width: 1440px;
-      margin: auto !important;
+      //max-width: 1440px;
+      //margin: auto !important;
     }
 
   }
