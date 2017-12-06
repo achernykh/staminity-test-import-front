@@ -57,7 +57,7 @@ const trainingSeasonList: any = {
 
 const trainingSeasonBuilder: any = {
     name: 'training-season-builder',
-    url: '/training-season-builder/',
+    url: '/training-season-builder?userId&seasonId',
     loginRequired: false,
     authRequired: [],
     params: {
@@ -67,10 +67,10 @@ const trainingSeasonBuilder: any = {
     resolve: {
         currentUser: ['SessionService', (session: SessionService) => session.getUser()],
         owner: ['SessionService', (session: SessionService) => session.getUser()],
-        seasons: ['TrainingSeasonService', 'currentUser',
+        /**seasons: ['TrainingSeasonService', 'currentUser',
             (trainingSeasonService: TrainingSeasonService, currentUser: IUserProfile) =>
                 trainingSeasonService.get({ userId: currentUser.userId })
-                    .then(result => result && result.arrayResult)]
+                    .then(result => result && result.arrayResult)]**/
     },
     views: {
         "application": {

@@ -1,7 +1,7 @@
 import "./training-season-builder.component.scss";
 import { IComponentOptions, IComponentController, IScope } from "angular";
 import { TrainingSeason } from "../training-season/training-season.datamodel";
-import { IUserProfile } from "../../../../api/user/user.interface";
+import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
 import { ICalendarItem } from "@api/calendar";
 import { TrainingSeasonData } from "../training-season-data/training-season-data.datamodel";
 import { CalendarService } from "../../calendar/calendar.service";
@@ -12,17 +12,24 @@ import { FormMode } from "../../application.interface";
 import { IPeriodizationScheme, ISeasonPlan } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { profileShort } from "../../core/user.function";
 
+export enum TrainingSeasonViewState {
+    List,
+    Builder
+}
+
 class TrainingSeasonBuilderCtrl implements IComponentController {
     // bind
-    seasons: Array<ISeasonPlan>;
+    state: TrainingSeasonViewState;
     currentUser: IUserProfile;
     owner: IUserProfile;
     schemes: Array<IPeriodizationScheme>;
 
     // private
+    private seasons: Array<ISeasonPlan>;
     private season: TrainingSeason;
     private competitions: Array<ICalendarItem>;
     private data: TrainingSeasonData;
+    private athletes: Array<IUserProfileShort>;
 
     // inject
     static $inject = ['$scope', '$stateParams', 'CalendarService', 'TrainingSeasonService', 'TrainingSeasonDialogService', 'message'];
@@ -37,10 +44,23 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     }
 
     $onInit () {
-        if ( this.seasons && this.seasons ) {
-            this.season = new TrainingSeason(this.seasons[0]);
+
+        this.prepareAthletesList();
+        this.prepareState();
+
+        this.trainingSeasonService.get({userId: this.currentUser.userId})
+            .then(response => this.seasons = response.arrayResult)
+            .then(() => this.season = new TrainingSeason(this.seasons[0]))
+            .then(() => this.prepareData());
+    }
+
+    private prepareState (): void {
+        if (this.$stateParams.userId && this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
+            this.changeOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
+            this.isListState = true;
+        } else {
+            this.isBuilderState = true;
         }
-        this.prepareData();
     }
 
     open (env: Event): void {
@@ -54,8 +74,16 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     }
 
     changeSeason (season: ISeasonPlan): void {
+        this.state = TrainingSeasonViewState.Builder;
         this.season = new TrainingSeason(season);
         this.prepareData();
+    }
+
+    changeOwner (user: IUserProfile | IUserProfileShort): void {
+        this.owner = user;
+        this.trainingSeasonService.get({userId: this.owner.userId})
+            .then(response => this.seasons = response.arrayResult, error => this.messageService.toastInfo(error))
+            .then(() => this.update());
     }
 
     private prepareData (): void {
@@ -74,14 +102,37 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             );
     }
 
+    private prepareAthletesList(): void {
+        if (this.currentUser.public.isCoach) {
+            this.athletes = this.currentUser.connections.allAthletes.groupMembers;
+        }
+    }
+
     private update (): void {
         this.$scope.$applyAsync();
     }
+
+    get isListState (): boolean {
+        return this.state === TrainingSeasonViewState.List;
+    }
+
+    set isListState (value: boolean) {
+        value ? this.state = TrainingSeasonViewState.List : this.state = TrainingSeasonViewState.Builder;
+    }
+
+    get isBuilderState (): boolean {
+        return this.state === TrainingSeasonViewState.Builder;
+    }
+
+    set isBuilderState (value: boolean) {
+        value ? this.state = TrainingSeasonViewState.Builder : this.state = TrainingSeasonViewState.List;
+    }
+
 }
 
 const TrainingSeasonBuilderComponent: IComponentOptions = {
     bindings: {
-        seasons: '<',
+        state: '<',
         currentUser: '<',
         owner: '<',
         schemes: '<',

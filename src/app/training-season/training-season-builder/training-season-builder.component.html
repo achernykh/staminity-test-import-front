@@ -1,5 +1,5 @@
 <st-application-frame
-        class="st-application-frame training-season"
+        class="st-application-frame training-season-builder"
         has-nav-bar="false"
         left-bar-hide-type="'hidden'"
         left-bar-show="$ctrl.leftBarShow"
@@ -8,18 +8,32 @@
     <st-application-frame-title>
         <span translate="trainingSeason.fullTitle"></span>
         <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
-        <span>{{$ctrl.owner | userName:'short'}}</span>
-        <!--<md-menu>
-            <md-button class="md-icon-button">
+        <span ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'short'}}</span>
+        <md-menu ng-if="$ctrl.isListState && $ctrl.currentUser.public.isCoach">
+            <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content>
-
+                <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                    <md-button ng-click="$ctrl.changeOwner(athlete)"
+                               ng-disable="athlete.userId === $ctrl.owner.userId">
+                        <userpic profile="athlete"></userpic>
+                        <span>{{athlete | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.changeOwner($ctrl.currentUser)"
+                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                        <userpic profile="$ctrl.currentUser"></userpic>
+                        <span>{{$ctrl.currentUser | userName}}</span>
+                    </md-button>
+                </md-menu-item>
             </md-menu-content>
-        </md-menu> -->
-        <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
-        <span>{{$ctrl.season.code}}</span>
-        <md-menu ng-if="$ctrl.seasons.length > 0">
+        </md-menu>
+        <md-icon class="material-icons" aria-label="Back" ng-if="$ctrl.isBuilderState">keyboard_arrow_right</md-icon>
+        <span ng-if="$ctrl.isBuilderState">{{$ctrl.season.code}}</span>
+        <md-menu ng-if="$ctrl.seasons.length > 0 && $ctrl.isBuilderState">
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
@@ -51,19 +65,17 @@
     </st-application-frame-toolbar>
 
     <st-application-frame-content>
-        <!--
-        <md-toolbar class="training-plan-builder__calendar-days-header bg-grey-300 md-whiteframe-1dp md-caption md-dark"
-                    hide show-gt-sm>
-        </md-toolbar>
-
-        <st-training-season-chart>
-
-        </st-training-season-chart>-->
-
-        <st-training-season-data data="$ctrl.data">
-
-        </st-training-season-data>
-
+        <!-- Перечень Планов на сезон по пользователю -->
+        <st-training-season-list id="st-training-season-list" class="state"
+                                 ng-if="$ctrl.isListState"
+                                 data="$ctrl.seasons"
+                                 owner="$ctrl.owner"
+                                 on-select="$ctrl.changeSeason(season)"></st-training-season-list>
+        <!-- План на сезон -->
+        <st-training-season-data id="st-training-season-data"
+                                 class="state"
+                                 ng-if="$ctrl.isBuilderState"
+                                 data="$ctrl.data"></st-training-season-data>
     </st-application-frame-content>
 
 </st-application-frame>

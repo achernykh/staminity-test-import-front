@@ -1,3 +1,4 @@
+<!-- Заголовок -->
 <md-toolbar class="st-application-frame__primary-toolbar md-whiteframe-4dp">
     <div class="md-toolbar-tools">
         <section ng-transclude="profile"></section>
@@ -11,21 +12,22 @@
         <st-application-user-toolbar></st-application-user-toolbar>
     </div>
 </md-toolbar>
+<!-- Навигация: табы -->
 <md-nav-bar class="st-application-frame__navbar"
         md-no-ink-bar="false"
         md-selected-nav-item="$ctrl.navBarState"
         nav-bar-aria-label="navigation links">
     <div flex ng-transclude="navBar"></div>
 </md-nav-bar>
-
+<!-- Левая панель -->
 <section class="st-application-frame__left-bar" ng-transclude="leftBar"></section>
-
+<!-- Контент представления -->
 <md-content ng-transclude="content"
             class="st-application-frame__content"
             ng-class="{'{{$ctrl.leftBarHideType}}': !$ctrl.leftBarShow, 'left-bar': $ctrl.leftBarHideType}"></md-content>
-
+<!-- Правая панель -->
 <section class="st-application-frame__right-bar" ng-transclude="rightBar"></section>
-
+<!-- Панель Меню приложения -->
 <md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu"
             ng-if="$ctrl.auth.isAuthenticated()">
     <application-menu/>

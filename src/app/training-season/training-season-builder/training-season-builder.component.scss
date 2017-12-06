@@ -1,0 +1,24 @@
+.training-season-builder {
+  .state {
+    position: relative;
+  }
+  .state.ng-animate {
+    -webkit-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  }
+  .state.ng-enter {
+    left: 100%;
+  }
+  .state.ng-enter.ng-enter-active {
+    left: 0;
+  }
+  .state.ng-leave {
+    left: 0;
+  }
+  .state.ng-leave.ng-leave-active {
+    left: -100%;
+  }
+}
