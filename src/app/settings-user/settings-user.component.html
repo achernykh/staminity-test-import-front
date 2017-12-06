@@ -54,18 +54,13 @@
                 </md-card>
             </header>
             <section class="settings-feed" flex="grow" layout="column" id="settings-scroll-container">
-
                 <article flex="none" ng-include="'settings.personal.html'" ng-if="!$ctrl.athlete"></article>
-                <ng-include src="'settings.privacy.html'" ng-if="!$ctrl.athlete"></ng-include>
-                <ng-include src="'settings.display.html'" ng-if="!$ctrl.athlete"></ng-include>
-                <ng-include src="'settings.account.html'" ng-if="!$ctrl.athlete"></ng-include>
-                <ng-include src="'settings.sync.html'" ng-if="!$ctrl.athlete"></ng-include>
-                <settings-zones zones="$ctrl.user.trainingZones"></settings-zones>
-                <settings-notification notifications="$ctrl.user.notifications" on-change="$ctrl.notificationDirty = true" ng-if="!$ctrl.athlete"></settings-notification>
-
-                <!--
-                <article flex="none" ng-include="'settings/articles/settings.notifications.html'"></article>
-                <!--<ng-include src="'settings/articles/settings.templates.html'"></ng-include> -->
+                <ng-include flex="none" src="'settings.privacy.html'" ng-if="!$ctrl.athlete"></ng-include>
+                <ng-include flex="none" src="'settings.display.html'" ng-if="!$ctrl.athlete"></ng-include>
+                <ng-include flex="none" src="'settings.account.html'" ng-if="!$ctrl.athlete"></ng-include>
+                <ng-include flex="none" src="'settings.sync.html'" ng-if="!$ctrl.athlete"></ng-include>
+                <settings-zones flex="none" zones="$ctrl.user.trainingZones"></settings-zones>
+                <settings-notification flex="none" notifications="$ctrl.user.notifications" on-change="$ctrl.notificationDirty = true" ng-if="!$ctrl.athlete"></settings-notification>
             </section>
         </section>
         <!--</div>-->

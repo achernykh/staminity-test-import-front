@@ -1,11 +1,11 @@
 <section layout-gt-sm="row" layout="column" class="analytics__application">
-    <analytics-management-panel user="$ctrl.user" ng-if="$ctrl.filter.prepareComplete"
+    <analytics-management-panel flex="none" style="height: 100%; min-height: 100%"
+                                user="$ctrl.user" ng-if="$ctrl.filter.prepareComplete"
                                 charts="$ctrl.charts"
                                 filter="$ctrl.filter"
                                 on-change-filter="$ctrl.globalFilterChange = $ctrl.globalFilterChange + 1"
                                 on-change-charts="$ctrl.saveSettings('charts')"
-                                on-change-panel-size="$ctrl.panelSizeChange = $ctrl.panelSizeChange + 1"
-    >
+                                on-change-panel-size="$ctrl.panelSizeChange = $ctrl.panelSizeChange + 1">
     </analytics-management-panel>
     <!--<nav class="analytics__navigator md-whiteframe-2dp bg-grey-100" layout="column"
          ng-class="{'hide': $ctrl.showPanel}">

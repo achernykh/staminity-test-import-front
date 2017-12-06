@@ -76,7 +76,9 @@ export class ActivityIntervals {
                 this.setParams('P', group.fPos + ind, {totalMeasures: total})));
     }
 
-    add(intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = [], mode: 'insert' | 'update' = 'insert'):void {
+    add(
+        intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = [],
+        mode: 'insert' | 'update' = 'insert'): void {
         intervals.forEach(i => {
             if(mode === 'insert') { // режим добавления
                 if(typeof i === 'object') {
@@ -202,7 +204,7 @@ export class ActivityIntervals {
     }
 
     /**
-     * @description Установка/добавление свойст в интервал
+     * @description Установка/добавление свойств в интервал
      * @param type - P - плановые сегменты, G - группы
      * @param id - pos - для плановых сегментов, code - для группы
      * @param params - обновленный набор свойств интервала
@@ -210,6 +212,7 @@ export class ActivityIntervals {
     setParams(type: string, id: string | number, params: Object): void {
         if(!id) {return;}
         let i: number = this.find(type,id);
+        debugger;
         if(i !== -1) {
             Object.assign(this.stack[i], params);
         }
@@ -440,8 +443,13 @@ export class ActivityIntervals {
      * @param shift
      */
     reorganisation(start: number, shift: number):void {
-        this.P.filter(i => i.pos >= start).forEach(i => this.setParams(i.type, i.pos, { pos: i.pos + shift}));
-        this.G.filter(g => g.fPos >= start).forEach(g => this.setParams(g.type, g.code, { fPos: g.fPos + shift}));
+        debugger;
+
+        this.P.filter(i => i.pos >= start).forEach(i => Object.assign(i, { pos: i.pos + shift })); // this.setParams(i.type, i.pos, { pos: i.pos + shift}));
+        this.G.filter(g => g.fPos >= start).forEach(g => Object.assign(g, { fPos: g.fPos + shift })); //this.setParams(g.type, g.code, { fPos: g.fPos + shift}));
+
+        //this.P.filter(i => i.pos >= start).forEach(i => this.setParams(i.type, i.pos, { pos: i.pos + shift}));
+        //this.G.filter(g => g.fPos >= start).forEach(g => this.setParams(g.type, g.code, { fPos: g.fPos + shift}));
     }
 
     /**
