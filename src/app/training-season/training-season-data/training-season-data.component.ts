@@ -35,6 +35,14 @@ class TrainingSeasonDataCtrl implements IComponentController {
         }
     }
 
+    getMesocycle (id: string | number): IMesocycle {
+        if (this.schemes && id) {
+            return this.schemes
+                .filter(s => s.id === this.data.season.periodizationScheme.id)[0]
+                .mesocycles.filter(m => m.id === Number(id))[0];
+        }
+    }
+
     change (cycle: Microcycle): void {
         if ( !cycle.mesocycle.id ) { return; }
 

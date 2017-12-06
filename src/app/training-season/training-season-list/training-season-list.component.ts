@@ -69,7 +69,7 @@ class TrainingSeasonListCtrl implements IComponentController {
     }
 
     private prepareData (): void {
-        this.seasons = [...this.data];
+        this.seasons = this.data && [...this.data];
     }
 
     private update (): void {

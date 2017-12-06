@@ -10,7 +10,12 @@ import AuthService from "../../auth/auth.service";
 class ApplicationFrameCtrl implements IComponentController {
 
     // bind
-    data: any;
+    template: 'application' | 'profile'; // тип шаблона: application | profile
+    navigationBar: boolean; // наличие навигационной панели md-nav-bar: true | false
+    navigationBarState: string; // текущий стейт панели navigationBar
+    leftBar: boolean; // наличие левой панели: true | false
+    rightBar: boolean; // наличие правой панели: true | false
+
     onEvent: (response: Object) => IPromise<void>;
 
     // public
@@ -104,6 +109,12 @@ const ApplicationFrameComponent:IComponentOptions = {
         rightBar: '?stApplicationFrameRightBar'
     },
     bindings: {
+        template: '=', // тип шаблона: application | profile
+        navigationBar: '=', // наличие навигационной панели md-nav-bar: true | false
+        navigationBarState: '=', // текущий стейт панели navigationBar
+        leftBar: '=', // наличие левой панели: true | false
+        rightBar: '=', // наличие правой панели: true | false
+
         navBar: '=', // наличие навигационной панели md-nav-bar
         navBarState: '<', // текущий стейт в панели md-nav-bar
         leftBarShow: '<',

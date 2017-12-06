@@ -6,6 +6,23 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
 .st-application-frame {
 
+  // Нет левой панели
+  &[left-bar=false] {
+    .st-application-frame__left-bar {
+      display: none;
+    }
+  }
+
+  // Нет правой панели
+  &[right-bar=false] {
+    .st-application-frame__right-bar {
+      display: none;
+    }
+  }
+
+  /**
+  Шаблон с Навигационной панелью
+   */
   &[nav-bar=true] {
     
     .st-application-frame__primary-toolbar {
@@ -28,6 +45,9 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     
   }
 
+  /**
+  Шаблон типа Профиль
+   */
   &[template=profile] {
 
     .st-application-frame__primary-toolbar {
@@ -65,7 +85,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
   }
 
-
+  // Заголовок Представления
   &__primary-toolbar {
     position: fixed;
     top: 0;
@@ -75,7 +95,6 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
       margin-right: 32px;
       margin-left: -8px;
     }
-
     .icon-bar {
       margin-left: 64px;
       margin-right: 16px;
@@ -90,9 +109,24 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
       }
 
     }
+    span.button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 200ms;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:hover {
+        background: rgba(0,0,0,0.1);
+      }
+    }
 
   }
 
+  // Навигационная панель
   &__navbar {
     display: none;
     position: fixed;
@@ -110,12 +144,14 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
   }
 
+  // Вторая строка заголовка
   &__secondary-toolbar {
     position: fixed;
     top: $app-toolbar-height;
     z-index: 2;
   }
 
+  // Левая панель / Правая панель
   &__left-bar, &__right-bar {
     top: $app-toolbar-height;
     width: $app-sidenav-desktop-width;
@@ -124,20 +160,24 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     height: calc(100vh - 64px);
   }
 
+  // Левая панель
   &__left-bar {
     left: 0;
   }
 
+  // Правая панель
   &__right-bar {
     right: 0;
     display: none;
   }
 
+  // Область Представления
   &__wrapper {
     width: 100vw;
     min-height: 100vh;
   }
 
+  // Название Представления
   &__title {
     margin-left: 24px;
   }
@@ -146,6 +186,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     margin-left: 50px;
   }
 
+  // Наполнение основной части Представления
   &__content {
     width: auto;
     background: none;
@@ -173,6 +214,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
   }
 
+  //
   &__sidenav {
     min-width: $app-sidenav-desktop-width !important;
     max-width: $app-sidenav-desktop-width;

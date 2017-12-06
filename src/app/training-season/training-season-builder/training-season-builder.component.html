@@ -1,5 +1,9 @@
 <st-application-frame
         class="st-application-frame training-season-builder"
+        template="application"
+        navigation-bar="false"
+        left-bar="false"
+
         has-nav-bar="false"
         left-bar-hide-type="'hidden'"
         left-bar-show="$ctrl.leftBarShow"
@@ -8,7 +12,7 @@
     <st-application-frame-title>
         <span translate="trainingSeason.fullTitle"></span>
         <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
-        <span ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'short'}}</span>
+        <span class="button" ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'short'}}</span>
         <md-menu ng-if="$ctrl.isListState && $ctrl.currentUser.public.isCoach">
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -49,7 +53,7 @@
     </st-application-frame-title>
 
     <!-- Toolbar -->
-    <st-application-frame-toolbar layout="row">
+    <st-application-frame-toolbar layout="row"><!--
         <md-button layout="row" ng-click="$ctrl.open($event)" class="md-icon-button" aria-label="Settings">
             <md-icon class="material-icons" aria-label="New">add_circle_outline</md-icon>
             <span translate="trainingSeason.create">settings</span>
@@ -61,7 +65,7 @@
         <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
             <md-icon class="material-icons" md-svg-src="/assets/icon/competition.svg" aria-label="Back"></md-icon>
             <span translate="trainingSeason.addCompetition"></span>
-        </md-button>
+        </md-button>-->
     </st-application-frame-toolbar>
 
     <st-application-frame-content>

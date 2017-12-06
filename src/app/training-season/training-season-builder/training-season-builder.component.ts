@@ -46,21 +46,40 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     $onInit () {
 
         this.prepareAthletesList();
-        this.prepareState();
+        this.isBuilderState = true;
 
-        this.trainingSeasonService.get({userId: this.currentUser.userId})
+        this.trainingSeasonService.get({userId: Number(this.$stateParams.userId) || this.currentUser.userId})
             .then(response => this.seasons = response.arrayResult)
-            .then(() => this.season = new TrainingSeason(this.seasons[0]))
-            .then(() => this.prepareData());
+            .then(() => this.prepareState());
     }
 
     private prepareState (): void {
-        if (this.$stateParams.userId && this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
+
+        if (!this.$stateParams.seasonId && this.$stateParams.userId && this.athletes &&
+            this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
+
             this.changeOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
             this.isListState = true;
-        } else {
+
+        } else if (this.$stateParams.seasonId && this.$stateParams.userId && this.seasons &&
+            this.seasons.some(s => s.id === Number(this.$stateParams.seasonId))) {
+
+            this.season = new TrainingSeason(this.seasons.filter(s => s.id === Number(this.$stateParams.seasonId))[0]);
             this.isBuilderState = true;
+
+        } else if (this.seasons) {
+
+            this.isBuilderState = true;
+            this.season = new TrainingSeason(this.seasons[0]);
+
+        } else {
+            this.isListState = true;
         }
+
+        if (this.season) {
+            this.prepareData();
+        }
+
     }
 
     open (env: Event): void {
@@ -103,7 +122,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     }
 
     private prepareAthletesList(): void {
-        if (this.currentUser.public.isCoach) {
+        if (this.currentUser.public.isCoach && this.currentUser.connections.hasOwnProperty('allAthletes')) {
             this.athletes = this.currentUser.connections.allAthletes.groupMembers;
         }
     }

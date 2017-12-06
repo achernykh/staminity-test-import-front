@@ -75,7 +75,7 @@ export const AppMenuSettings = [
     {
         icon: "season",
         name: "appMenu.season",
-        link: "training-season",
+        link: "training-season-builder",
         //state: 'soon'
         //role: [_UserRoles.user]
     },

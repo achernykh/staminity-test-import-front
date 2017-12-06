@@ -26,8 +26,7 @@
             <thead md-head>
             <tr md-row>
                 <th md-column class="code"><span translate="trainingSeason.list.code"></span></th>
-                <th md-column class="dateStart"><span translate="trainingSeason.list.dateStart"></span></th>
-                <th md-column class="dateEnd"><span translate="trainingSeason.list.dateEnd"></span></th>
+                <th md-column class="period"><span translate="trainingSeason.list.period"></span></th>
                 <th md-column class="scheme"><span translate="trainingSeason.list.scheme"></span></th>
                 <th md-column class="action" md-numeric><span translate="trainingSeason.list.action"></span></th>
             </tr>
@@ -40,8 +39,7 @@
                     <div class="md-body-2 md-dark">{{season.code}}</div>
                     <div class="md-caption">{{season.description | htmlToPlainText}}</div>
                 </td>
-                <td md-cell class="dateStart">{{season.dateStart}}</td>
-                <td md-cell class="dateEnd">{{season.dateEnd}}</td>
+                <td md-cell class="period">{{season.dateStart}} - {{season.dateEnd}}</td>
                 <td md-cell class="scheme">{{season.periodizationScheme.code}}</td>
                 <td md-cell class="action">
                     <md-menu>
