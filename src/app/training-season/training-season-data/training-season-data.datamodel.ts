@@ -39,7 +39,7 @@ export class TrainingSeasonData {
                     id: null
                 },
                 _competition: null,
-                durationMeasure: this.season.intensityMeasure,
+                durationMeasure: this.season.durationMeasure,
                 durationValue: null
             }, this.microcycles.filter(m => m.weekNumber === moment(start).add(i,'week').format('YYYY.WW'))[0])));
     }

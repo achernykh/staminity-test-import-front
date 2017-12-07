@@ -3,7 +3,7 @@ import { IUserProfile } from "@api/user";
 export class ActivityAthletes {
 
     isRecalculateMode: boolean;
-    list: Array<{profile: IUserProfile, active: boolean}>;
+    list: Array<{profile: IUserProfile, active: boolean}> = [];
 
     constructor(private owner: IUserProfile, private currentUser: IUserProfile) {
 

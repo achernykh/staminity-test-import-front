@@ -8,6 +8,7 @@ import { TrainingSeasonService } from "../training-season.service";
 import { IRevisionResponse } from "../../../../api/core/core";
 import { PeriodizationService } from "../../methodology/periodization/periodization.service";
 import { IPeriodizationScheme } from "../../../../api/seasonPlanning/seasonPlanning.interface";
+import { ITrainingSeasonSettings } from "../training-season.settings";
 
 class TrainingSeasonFormCtrl implements IComponentController {
     // bind
@@ -21,9 +22,10 @@ class TrainingSeasonFormCtrl implements IComponentController {
     private seasonForm: INgModelController;
 
     // inject
-    static $inject = ['TrainingSeasonService', 'PeriodizationService', 'message', 'quillConfig'];
+    static $inject = ['TrainingSeasonSettings', 'TrainingSeasonService', 'PeriodizationService', 'message', 'quillConfig'];
 
     constructor (
+        private settings: ITrainingSeasonSettings,
         private trainingSeasonService: TrainingSeasonService,
         private periodizationService: PeriodizationService,
         private message: MessageService,

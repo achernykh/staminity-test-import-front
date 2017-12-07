@@ -10,8 +10,10 @@ import { TrainingSeasonChartComponent } from "./training-season-chart/training-s
 import { supportLng } from "../core/display.constants";
 import { translateTrainingSeason } from "./training-season.translate";
 import { TrainingSeasonDialogSerivce } from './training-season-dialog.service';
+import { trainingSeasonSettings } from './training-season.settings';
 
 export const TrainingSeason = module('staminity.training-season', [])
+    .constant('TrainingSeasonSettings', trainingSeasonSettings)
     .service('TrainingSeasonService', TrainingSeasonService)
     .service('TrainingSeasonDialogService', TrainingSeasonDialogSerivce)
     .component('stTrainingSeasonBuilder', TrainingSeasonBuilderComponent)

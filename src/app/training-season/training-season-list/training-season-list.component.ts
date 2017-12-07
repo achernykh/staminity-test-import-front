@@ -8,6 +8,7 @@ import { FormMode } from "../../application.interface";
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { profileShort } from "../../core/user.function";
+import { TrainingSeasonData } from "../training-season-data/training-season-data.datamodel";
 
 class TrainingSeasonListCtrl implements IComponentController {
 
@@ -39,16 +40,25 @@ class TrainingSeasonListCtrl implements IComponentController {
         }
     }
 
+    openMenu ($mdMenu, ev) {
+        $mdMenu.open(ev);
+    }
+
     post (env: Event): void {
         this.trainingSeasonDialog.open(env, FormMode.Post, Object.assign({}, { userProfileOwner: profileShort(this.owner) }))
             .then((response: {mode: FormMode, season: TrainingSeason}) =>
                 response.mode === FormMode.Post && this.postData(response.season),
                 error => {})
+            .then(season => this.fillSeason(season))
             .then(() => this.update());
     }
 
-    open (env: Event): void {
-        this.trainingSeasonDialog.open(env, FormMode.Post, Object.assign({}, { userProfileOwner: profileShort(this.owner) }))
+    open (season: TrainingSeason): void {
+        this.onSelect({season: season});
+    }
+
+    edit (env: Event): void {
+        this.trainingSeasonDialog.open(env, FormMode.Put, Object.assign({}, { userProfileOwner: profileShort(this.owner) }))
             .then((response: {mode: FormMode, season: TrainingSeason}) => {}, error => {})
             .then(() => this.update());
     }
@@ -60,12 +70,27 @@ class TrainingSeasonListCtrl implements IComponentController {
             .then(() => this.deleteData(season));
     }
 
-    private postData (season): void {
+    /**
+     * Заполняем Сезон микроциклами
+     * По всем неделям создаются пустые микроциклы, это позволит получить факт по всем сторокам плана
+     * @param season
+     * @returns {Promise<void>}
+     */
+    private fillSeason (season: TrainingSeason): Promise<any> {
+        let data: TrainingSeasonData = new TrainingSeasonData(season, []);
+        return Promise.all(<Array<Promise<any>>>data.grid.map(c =>
+            this.trainingSeasonService.postItem(season.id, c.prepare())))
+            .then(() => this.open(season));
+    }
+
+    private postData (season: TrainingSeason): TrainingSeason {
         this.seasons.push(season);
+        return season;
     }
 
     private deleteData (season: TrainingSeason): void {
-
+        let ind: number = this.seasons.findIndex(s => s.id === season.id);
+        this.seasons.splice(ind,1);
     }
 
     private prepareData (): void {

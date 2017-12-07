@@ -47,6 +47,9 @@ export class Microcycle implements IMicrocycle {
 
         cycle.mesocycle = { id: Number(this.mesocycle.id) };
         cycle.durationValue = Number(this.durationValue);
+        if (!cycle.mesocycle.id) {
+            cycle.mesocycle = null;
+        }
 
         keys.map(p => delete cycle[p]);
         return cycle;

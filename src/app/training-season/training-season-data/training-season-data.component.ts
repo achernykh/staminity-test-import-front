@@ -9,12 +9,13 @@ import { PeriodizationService } from "../../methodology/periodization/periodizat
 
 class TrainingSeasonDataCtrl implements IComponentController {
 
-    public data: TrainingSeasonData;
-    public onEvent: (response: Object) => IPromise<void>;
+    data: TrainingSeasonData;
+    onEvent: (response: Object) => IPromise<void>;
 
     // private
     private selected: Array<any> = [];
     private schemes: Array<IPeriodizationScheme>;
+    private update: number = 0;
 
     static $inject = [ '$mdEditDialog', 'TrainingSeasonService', 'PeriodizationService' ];
 
@@ -26,7 +27,21 @@ class TrainingSeasonDataCtrl implements IComponentController {
     }
 
     $onInit () {
-        this.periodizationService.get().then(result => this.schemes = result.arrayResult);
+
+    }
+
+    $onChanges (changes): void {
+        if (changes.hasOwnProperty('data') && !changes.data.isFirstChange() && this.data) {
+            this.prepareScheme();
+        }
+    }
+
+    private prepareScheme (): void {
+        this.periodizationService.get()
+            .then(result => this.schemes = result.arrayResult)
+            // Если у пользователя нет Схемы периодизации, то добавляем ему для возможности редактирования
+            .then(() => !this.schemes.some(s => s.id === this.data.season.periodizationScheme.id) &&
+                this.schemes.push(this.data.season.periodizationScheme));
     }
 
     getMesocycles(): Array<IMesocycle> {
@@ -53,6 +68,8 @@ class TrainingSeasonDataCtrl implements IComponentController {
             this.trainingSeason.postItem(this.data.season.id, cycle.prepare())
                 .then(result => cycle.applyRevision(result));
         }
+
+        this.update ++;
     }
 
     getWeekCount (pos: number): number {
@@ -112,9 +129,6 @@ export const TrainingSeasonDataComponent: IComponentOptions = {
     bindings: {
         data: '<',
         onEvent: '&'
-    },
-    require: {
-        //component: '^component'
     },
     controller: TrainingSeasonDataCtrl,
     template: require('./training-season-data.component.html') as string

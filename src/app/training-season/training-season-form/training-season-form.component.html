@@ -89,12 +89,12 @@
             </md-list-item>
             <!-- Выбор параметра интенсивности -->
             <md-subheader><span>Парметр интенсивности плана</span></md-subheader>
-            <div layout="column" class="intensity-measure">
+            <div layout="column" class="duration-measure">
                 <md-radio-group flex="none"
-                                name="intensityMeasure" class="md-primary"
-                                ng-model="$ctrl.season.intensityMeasure"
+                                name="durationMeasure" class="md-primary"
+                                ng-model="$ctrl.season.durationMeasure"
                                 ng-change="$ctrl.change(param, param.model)">
-                    <md-radio-button ng-repeat="measure in ['TL', 'distance', 'movingDuration']"
+                    <md-radio-button ng-repeat="measure in $ctrl.settings.durationMeasures track by $index"
                                      ng-value="measure">
                         <span class="md-body-1">{{measure | translate}}</span>
                     </md-radio-button>

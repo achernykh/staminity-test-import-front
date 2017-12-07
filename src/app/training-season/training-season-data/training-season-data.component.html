@@ -1,8 +1,11 @@
-<section class="training-season-data" ng-if="!$ctrl.data" layout-fill layout="column" layout-align="center center">
+<section class="training-season-data" ng-if="!$ctrl.data || !$ctrl.schemes" layout-fill layout="column" layout-align="center center">
     <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
     <p flex="none" class="md-body-1 md-dark" translate="trainingSeason.loading"></p>
 </section>
 <md-card class="training-season-data" ng-if="$ctrl.data.grid.length > 0">
+    <st-training-season-chart data="$ctrl.data" update="$ctrl.update" class="training-season-chart" layout="column">
+    </st-training-season-chart>
+
     <!-- Заголовок таблицы -->
     <md-toolbar class="md-table-toolbar md-default" ng-hide="$ctrl.selected.length">
         <div class="md-toolbar-tools">
@@ -13,7 +16,6 @@
             </md-button>
         </div>
     </md-toolbar>
-
     <!-- Заголовок таблицы: веделены строки -->
     <md-toolbar class="md-table-toolbar md-default alternate" ng-show="$ctrl.selected.length">
         <div class="md-toolbar-tools">
@@ -30,9 +32,9 @@
                 <th md-column class="competition"><span translate="trainingSeason.competition"></span></th>
                 <th md-column class="mesocycle"><span translate="trainingSeason.mesocycle"></span></th>
                 <th md-column class="week"><span translate="trainingSeason.week"></span></th>
-                <th md-column class="duration" md-numeric><span translate="TSS"></span></th>
-                <th md-column class="weekPlan" md-numeric><span translate="trainingSeason.calendar.TSS"></span></th>
-                <th md-column class="weekActual" md-numeric><span translate="trainingSeason.actual.TSS"></span></th>
+                <th md-column class="plan" md-numeric><span translate="trainingSeason.plan"></span></th>
+                <th md-column class="weekPlan" md-numeric><span translate="trainingSeason.calendar.{{$ctrl.data.season.durationMeasure}}"></span></th>
+                <th md-column class="weekActual" md-numeric><span translate="trainingSeason.actual.{{$ctrl.data.season.durationMeasure}}"></span></th>
                 <th md-column class="complete" md-numeric><span translate="trainingSeason.complete"></span></th>
             </tr>
             </thead>
@@ -85,7 +87,7 @@
                 <!-- Обьем -->
                 <td md-cell
                     ng-click="$ctrl.editDurationValue($event, cycle)"
-                    ng-class="{'md-placeholder': !cycle.durationValue}">{{cycle.durationValue || 'TSS'}}
+                    ng-class="{'md-placeholder': !cycle.durationValue}">{{cycle.durationValue || cycle.durationMeasure}}
                 </td>
                 <!--<td md-cell class="duration">
                     <md-input-container class="no-message">
@@ -98,10 +100,10 @@
 
                 </td>
                 <!-- Факт по неделе -->
-                <td md-cell>{{cycle.calcMeasures.trainingLoad.value | measureCalc:'default':'trainingLoad'}}
+                <td md-cell>{{cycle.calcMeasures[cycle.durationMeasure].sum | measureCalc:'default':cycle.durationMeasure}}
                 </td>
                 <!-- Выполнение () -->
-                <td md-cell class="complete">{{cycle.calcMeasures.trainingLoad.value / cycle.durationValue | percent}}</td>
+                <td md-cell class="complete">{{cycle.durationValue ? (cycle.calcMeasures[cycle.durationMeasure].sum / cycle.durationValue / 1000 | percent) : ''}}</td>
             </tr>
             </tbody>
         </table>

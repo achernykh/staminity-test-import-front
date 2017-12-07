@@ -20,11 +20,11 @@
     <div flex ng-transclude="navBar"></div>
 </md-nav-bar>
 <!-- Левая панель -->
-<section class="st-application-frame__left-bar" ng-transclude="leftBar"></section>
+<section class="st-application-frame__left-bar" ng-transclude="leftBar" ng-if="$ctrl.leftBar"></section>
 <!-- Контент представления -->
 <md-content ng-transclude="content"
             class="st-application-frame__content"
-            ng-class="{'{{$ctrl.leftBarHideType}}': !$ctrl.leftBarShow, 'left-bar': $ctrl.leftBarHideType}"></md-content>
+            ng-class="{'{{$ctrl.leftBarHideType}}': !$ctrl.leftBarShow, 'left-bar': $ctrl.leftBar}"></md-content>
 <!-- Правая панель -->
 <section class="st-application-frame__right-bar" ng-transclude="rightBar"></section>
 <!-- Панель Меню приложения -->

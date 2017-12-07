@@ -13,7 +13,7 @@ export class TrainingSeason implements ISeasonPlan {
     description: string;
     dateStart: string;
     dateEnd: string;
-    intensityMeasure: 'TL' | 'distance' | 'movingDuration';
+    durationMeasure: 'trainingLoad' | 'distance' | 'movingDuration';
     periodizationScheme: IPeriodizationScheme;
 
     private _dateStart: Date;
@@ -45,7 +45,7 @@ export class TrainingSeason implements ISeasonPlan {
     private prepareDefaultData (): void {
         if ( !this._dateStart ) { this._dateStart = moment().toDate(); }
         if ( !this._dateEnd ) { this._dateEnd = moment().add(1,'year').toDate(); }
-        if ( !this.intensityMeasure ) { this.intensityMeasure = 'TL'; }
+        if ( !this.durationMeasure ) { this.durationMeasure = 'trainingLoad'; }
         if ( !this.periodizationScheme ) { this.periodizationScheme = { id: null }; }
     }
 

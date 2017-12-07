@@ -10,14 +10,18 @@ export const translateTrainingSeason = {
         create: 'Новый план',
         edit: 'Изменить',
         addCompetition: 'Добавить соревнование',
+        plan: 'План',
         calendar: {
-            TSS: 'Нагрузка: Календарь',
-            movingDuration: 'Время',
-            distance: 'Расстояние'
+            trainingLoad: 'Календарь',
+            movingDuration: 'Календарь',
+            distance: 'Календарь'
         },
         actual: {
-            TSS: 'Нагрузка: Факт'
+            trainingLoad: 'Факт',
+            movingDuration: 'Факт',
+            distance: 'Факт'
         },
+        complete: '%',
         note: 'Заметка'
     },
     en: {

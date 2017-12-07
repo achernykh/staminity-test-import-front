@@ -4,16 +4,16 @@
         navigation-bar="false"
         left-bar="false"
 
-        has-nav-bar="false"
-        left-bar-hide-type="'hidden'"
-        left-bar-show="$ctrl.leftBarShow"
-        right-bar-show="$ctrl.rightBarShow">
+        has-nav-bar=""
+        left-bar-hide-type=""
+        left-bar-show=""
+        right-bar-show="">
 
     <st-application-frame-title>
         <span translate="trainingSeason.fullTitle"></span>
         <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
         <span class="button" ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'short'}}</span>
-        <md-menu ng-if="$ctrl.isListState && $ctrl.currentUser.public.isCoach">
+        <md-menu ng-if="$ctrl.isListState && $ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
@@ -67,6 +67,16 @@
             <span translate="trainingSeason.addCompetition"></span>
         </md-button>-->
     </st-application-frame-toolbar>
+
+    <st-application-frame-left-bar>
+        <md-content class="training-season-builder__left-bar">
+            <section
+                    layout="column" layout-fill="true"
+                    schemes="$ctrl.periodizationData"
+                    on-select="$ctrl.selectPeriodizationScheme(scheme)">
+            </section>
+        </md-content>
+    </st-application-frame-left-bar>
 
     <st-application-frame-content>
         <!-- Перечень Планов на сезон по пользователю -->

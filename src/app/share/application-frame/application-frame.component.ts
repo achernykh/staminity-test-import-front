@@ -112,8 +112,8 @@ const ApplicationFrameComponent:IComponentOptions = {
         template: '=', // тип шаблона: application | profile
         navigationBar: '=', // наличие навигационной панели md-nav-bar: true | false
         navigationBarState: '=', // текущий стейт панели navigationBar
-        leftBar: '=', // наличие левой панели: true | false
-        rightBar: '=', // наличие правой панели: true | false
+        leftBar: '<', // наличие левой панели: true | false
+        rightBar: '<', // наличие правой панели: true | false
 
         navBar: '=', // наличие навигационной панели md-nav-bar
         navBarState: '<', // текущий стейт в панели md-nav-bar

@@ -5,21 +5,6 @@ $app-nav-bar-height: 48px;
 $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
 .st-application-frame {
-
-  // Нет левой панели
-  &[left-bar=false] {
-    .st-application-frame__left-bar {
-      display: none;
-    }
-  }
-
-  // Нет правой панели
-  &[right-bar=false] {
-    .st-application-frame__right-bar {
-      display: none;
-    }
-  }
-
   /**
   Шаблон с Навигационной панелью
    */

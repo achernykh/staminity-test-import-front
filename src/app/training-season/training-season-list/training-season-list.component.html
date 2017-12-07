@@ -1,65 +1,45 @@
 <section class="training-season-list" ng-if="$ctrl.seasons.length === 0" layout-fill layout="column" layout-align="center center">
     <span flex="none" class="md-body-1 md-dark" translate="trainingSeason.emptyList"></span>
 </section>
+
+
 <md-card class="training-season-list" ng-if="$ctrl.seasons.length > 0">
-    <!-- Заголовок таблицы -->
-    <md-toolbar class="md-table-toolbar md-default" ng-hide="$ctrl.selected.length">
+    <md-toolbar class="md-default" ng-hide="$ctrl.selected.length">
         <div class="md-toolbar-tools">
             <span translate="trainingSeason.list.title"></span>
             <div flex></div>
-            <md-button class="md-icon-button" ng-click="loadStuff()">
-                <md-icon>refresh</md-icon>
-            </md-button>
         </div>
     </md-toolbar>
 
-    <!-- Заголовок таблицы: веделены строки -->
-    <md-toolbar class="md-table-toolbar md-default alternate" ng-show="$ctrl.selected.length">
-        <div class="md-toolbar-tools">
-            <span>{{$ctrl.selected.length}} {{$ctrl.selected.length > 1 ? 'items' : 'item'}} selected</span>
-        </div>
-    </md-toolbar>
-
-    <!-- Таблица c перечнем планов на сезон -->
-    <md-table-container>
-        <table md-table md-row-select="false" multiple="false" ng-model="$ctrl.selected">
-            <thead md-head>
-            <tr md-row>
-                <th md-column class="code"><span translate="trainingSeason.list.code"></span></th>
-                <th md-column class="period"><span translate="trainingSeason.list.period"></span></th>
-                <th md-column class="scheme"><span translate="trainingSeason.list.scheme"></span></th>
-                <th md-column class="action" md-numeric><span translate="trainingSeason.list.action"></span></th>
-            </tr>
-            </thead>
-            <tbody md-body>
-            <tr md-row md-select="season" ng-click="$ctrl.onSelect({season: season})"
-                ng-repeat="season in $ctrl.seasons track by $index">
-                <!-- Название и описание -->
-                <td md-cell class="code">
-                    <div class="md-body-2 md-dark">{{season.code}}</div>
-                    <div class="md-caption">{{season.description | htmlToPlainText}}</div>
-                </td>
-                <td md-cell class="period">{{season.dateStart}} - {{season.dateEnd}}</td>
-                <td md-cell class="scheme">{{season.periodizationScheme.code}}</td>
-                <td md-cell class="action">
-                    <md-menu>
-                        <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
-                            <md-icon class="material-icons">more_vert</md-icon>
+    <md-list class="md-dense">
+        <md-list-item class="md-3-line"
+                      ng-repeat="season in $ctrl.seasons track by season.id"
+                      ng-click="$ctrl.open(season)">
+            <md-icon md-svg-src="/assets/icon/season.svg"></md-icon>
+            <div class="md-list-item-text" layout="column">
+                <h3>{{ season.code }}</h3>
+                <h4>{{ season.dateStart }} - {{ season.dateEnd }}</h4>
+                <p>{{ season.description | htmlToPlainText }}</p>
+            </div>
+            <md-menu class="md-secondary">
+                <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                    <md-icon class="material-icons">more_vert</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.delete(season)">
+                            <span translate="methodology.periodization.delete"></span>
                         </md-button>
-                        <md-menu-content>
-                            <md-menu-item ng-click="$ctrl.delete(mesocycle)">
-                                <span translate="methodology.periodization.delete"></span>
-                            </md-menu-item>
-                            <md-menu-item ng-click="$ctrl.open($event, mesocycle)">
-                                <span translate="methodology.periodization.edit"></span>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </md-table-container>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.open($event, season)">
+                            <span translate="methodology.periodization.edit"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </md-list-item>
+    </md-list>
 </md-card>
 
 <div class="training-season-list__post">

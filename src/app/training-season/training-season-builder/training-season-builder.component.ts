@@ -46,7 +46,9 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     $onInit () {
 
         this.prepareAthletesList();
-        this.isBuilderState = true;
+        //this.isBuilderState = true;
+
+
 
         this.trainingSeasonService.get({userId: Number(this.$stateParams.userId) || this.currentUser.userId})
             .then(response => this.seasons = response.arrayResult)
@@ -67,7 +69,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             this.season = new TrainingSeason(this.seasons.filter(s => s.id === Number(this.$stateParams.seasonId))[0]);
             this.isBuilderState = true;
 
-        } else if (this.seasons) {
+        } else if (this.seasons && this.seasons.length > 0) {
 
             this.isBuilderState = true;
             this.season = new TrainingSeason(this.seasons[0]);
@@ -151,10 +153,8 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
 const TrainingSeasonBuilderComponent: IComponentOptions = {
     bindings: {
-        state: '<',
         currentUser: '<',
         owner: '<',
-        schemes: '<',
         onEvent: '&'
     },
     require: {
