@@ -9,6 +9,7 @@ import { Microcycle } from "../training-season/training-season-microcycle.datamo
 export class TrainingSeasonData {
 
     grid: Array<Microcycle>;
+    competitions: Array<ICalendarItem>;
 
     constructor (
         public season: TrainingSeason,
@@ -17,7 +18,8 @@ export class TrainingSeasonData {
     }
 
     setCompetitions (items: Array<ICalendarItem>): void {
-        items.map(item =>
+        this.competitions = items;
+        this.competitions.map(item =>
             this.grid.filter(m =>
             moment(item.dateStart).isAfter(m._dateStart) &&
             moment(item.dateStart).isBefore(m._dateEnd))[0]._competition = item);

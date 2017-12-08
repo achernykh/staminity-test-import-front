@@ -167,7 +167,7 @@
             <st-competition-compact ng-switch-when="competition"
                                     layout="column" flex="auto"
                                     ng-click="$ctrl.open($event,item.calendarItemType, item)"
-                                    view="calendar"
+                                    view="$ctrl.isMobile ? 'list' : 'calendar'"
                                     item="::item"
                                     options="$ctrl.itemOptions"
                                     dnd-draggable="item"

@@ -2,7 +2,7 @@
         class="st-application-frame training-season-builder"
         template="application"
         navigation-bar="false"
-        left-bar="false"
+        left-bar="$ctrl.isListState || $ctrl.isLargeScreen"
 
         has-nav-bar=""
         left-bar-hide-type=""
@@ -70,10 +70,25 @@
 
     <st-application-frame-left-bar>
         <md-content class="training-season-builder__left-bar">
-            <section
-                    layout="column" layout-fill="true"
-                    schemes="$ctrl.periodizationData"
-                    on-select="$ctrl.selectPeriodizationScheme(scheme)">
+            <!--<md-toolbar class="md-default">
+                <div class="md-toolbar-tools">
+                    <span translate="trainingSeason.competitions"></span>
+                    <div flex></div>
+                </div>
+            </md-toolbar>-->
+            <md-subheader>
+                <span translate="trainingSeason.competitions"></span>
+            </md-subheader>
+            <section class="competition-list" layout="column">
+                <div flex="none" class="date md-caption md-dark" ng-repeat-start="item in $ctrl.data.competitions track by $index">
+                    <span>{{item.dateStart | date}}</span>
+                </div>
+                <st-competition-compact ng-repeat-end layout="column" flex="none"
+                                        ng-click="$ctrl.open($event,item.calendarItemType, item)"
+                                        view="'list'"
+                                        item="item"
+                                        options="$ctrl.itemOptions">
+                </st-competition-compact>
             </section>
         </md-content>
     </st-application-frame-left-bar>

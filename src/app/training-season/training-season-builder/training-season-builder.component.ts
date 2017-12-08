@@ -11,6 +11,7 @@ import { TrainingSeasonDialogSerivce } from "../training-season-dialog.service";
 import { FormMode } from "../../application.interface";
 import { IPeriodizationScheme, ISeasonPlan } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { profileShort } from "../../core/user.function";
+import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
 
 export enum TrainingSeasonViewState {
     List,
@@ -30,11 +31,13 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     private competitions: Array<ICalendarItem>;
     private data: TrainingSeasonData;
     private athletes: Array<IUserProfileShort>;
+    private itemOptions: ICalendarItemDialogOptions;
 
     // inject
-    static $inject = ['$scope', '$stateParams', 'CalendarService', 'TrainingSeasonService', 'TrainingSeasonDialogService', 'message'];
+    static $inject = ['$scope', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService', 'TrainingSeasonDialogService', 'message'];
 
     constructor (private $scope: IScope,
+                 private $mdMedia: any,
                  private $stateParams: any,
                  private calendarService: CalendarService,
                  private trainingSeasonService: TrainingSeasonService,
@@ -45,11 +48,16 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     $onInit () {
 
+        this.itemOptions = {
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: FormMode.View,
+            trainingPlanMode: false,
+            planId: null
+        };
+
         this.prepareAthletesList();
-        //this.isBuilderState = true;
-
-
-
         this.trainingSeasonService.get({userId: Number(this.$stateParams.userId) || this.currentUser.userId})
             .then(response => this.seasons = response.arrayResult)
             .then(() => this.prepareState());
@@ -131,6 +139,10 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     private update (): void {
         this.$scope.$applyAsync();
+    }
+
+    get isLargeScreen (): boolean {
+        return this.$mdMedia('min-width: 1440px');
     }
 
     get isListState (): boolean {

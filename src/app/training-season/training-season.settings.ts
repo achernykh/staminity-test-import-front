@@ -37,6 +37,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             id: "1",
             label: "Plan",
             chartType: "bar",
+            colorPalette: true,
             tooltipType: "label",
             tooltipLabel: "План",
             legend: false,

@@ -1,7 +1,38 @@
 <div class="competition-compact" ng-switch="$ctrl.view">
     <!-- Элемент списка -->
-    <section ng-switch-when="list">
-
+    <section ng-switch-when="list" class="competition-compact__list">
+        <header class="competition-header {{::$ctrl.competition.status}}" ng-class="{selected: $ctrl.selected}"
+                layout="row" layout-align="start center">
+            <div flex="none" layout="row" layout-align="center center"
+                 class="competition-icon bg-circle-32"
+                 ng-class="{color: !$ctrl.competition.isCompleted || !$ctrl.competition.isSpecified}">
+                <md-icon class="material-icons md-light md-18" md-svg-src="/assets/icon/competition.svg"></md-icon>
+            </div>
+            <div flex="auto" layout="column">
+                <section flex layout="row" layout-align="start center"
+                         ng-class="::{'md-dark' : (!$ctrl.competition.isCompleted)}"
+                         class="md-caption md-active center">
+                    <div flex="none" class="line-14">{{$ctrl.competition.competitionHeader.name}}</div>
+                </section>
+                <section flex layout="row" layout-align="start center"
+                         ng-class="::{'md-dark' : (!$ctrl.competition.isCompleted)}"
+                         class="md-title-small md-active center tight-10">
+                    <span flex="none" ng-if="::$ctrl.competition.movingDuration">
+                    {{::$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
+                    </span>
+                    <span>&nbsp;&nbsp;</span>
+                    <div flex="none" ng-if="::$ctrl.competition.distance">
+                        {{::$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
+                        {{::'distance' | measureUnit:$ctrl.competition.sportBasic | translate}}
+                    </div>
+                </section>
+            </div>
+            <div flex="none">
+                <md-button class="md-icon-button" aria-label="More Event" style="margin-right: 0px">
+                    <md-icon class="material-icons md-18">more_vert</md-icon>
+                </md-button>
+            </div>
+        </header>
     </section>
     <!-- Элемент дня календаря -->
     <section ng-switch-when="calendar" class="competition-compact__calendar md-whiteframe-1dp">

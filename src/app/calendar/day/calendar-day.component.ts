@@ -35,16 +35,21 @@ class CalendarDayCtrl {
 
     onSave: (response: ICalendarItemDialogResponse) => Promise<any>;
 
-    static $inject = [ '$mdDialog', 'message', 'ActivityService', 'CalendarService', '$scope', 'dialogs', 'CalendarItemDialogService' ];
+    static $inject = [ '$mdDialog', '$mdMedia', 'CalendarItemDialogService', 'message', 'ActivityService', 'CalendarService', '$scope', 'dialogs' ];
 
     constructor (private $mdDialog: any,
+                 private $mdMedia: any,
+                 private calendarItemDialog: CalendarItemDialogService,
                  private message: IMessageService,
                  private ActivityService: ActivityService,
                  private CalendarService: CalendarService,
                  private $scope: IScope,
-                 private dialogs: any,
-                 private calendarItemDialog: CalendarItemDialogService) {
+                 private dialogs: any) {
 
+    }
+
+    get isMobile (): boolean {
+        return this.$mdMedia('xs');
     }
 
     isSpecified (item: ICalendarItem): boolean {

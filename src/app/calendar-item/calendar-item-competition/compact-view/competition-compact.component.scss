@@ -4,6 +4,7 @@
 
   position: relative;
   cursor: pointer;
+  min-height: 50px;
 
   .priority {
     background-color: $grey-500;
@@ -14,24 +15,31 @@
     line-height: 18px;
   }
 
+  header {
+    padding: 10px 12px 12px 12px;
+    background: $grey-300;
+  }
+
   &__list {
+    border-radius: 0px;
+    margin: 0px 4px 8px 4px;
+    min-width: 200px;
+    padding-bottom: 0px;
+
+    .competition-icon {
+      margin-right: 16px;
+    }
 
   }
 
   &__calendar {
     background-color: $grey-300;
-    min-height: 50px;
     margin: 6px 0 0 0;
     border-radius: 3px;
 
     @media (max-width: 1279px) and (min-width: 960px) {
       box-shadow: none !important;
       border-radius: 0;
-    }
-
-    header {
-      padding: 10px 12px 12px 12px;
-
     }
 
   }

@@ -20,6 +20,9 @@ export const preparePeriodizationChart = (template: IChart, data: Array<Microcyc
     return chart;**/
 
     return [ Object.assign({}, template, {
+        options: {
+            palette: data.map(c => c.mesocycle && c.mesocycle.hasOwnProperty('color') && c.mesocycle.color || null)
+        },
         metrics: data.map(c => [
             moment(c._dateStart).format('MM-DD-YYYY'),
             c.durationValue,

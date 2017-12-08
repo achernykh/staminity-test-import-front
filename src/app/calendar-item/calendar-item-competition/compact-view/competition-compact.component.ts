@@ -6,7 +6,7 @@ const CompetitionCompactComponent:IComponentOptions = {
     bindings: {
         item: '<',
         options: '<',
-        view: '@',
+        view: '<',
         onAnswer: '&',
         onCancel: '&'
     },

@@ -2,6 +2,7 @@ export const translateTrainingSeason = {
     ru: {
         fullTitle: 'План на сезон',
         shortTitle: 'Сезон',
+        competitions: 'Лист соревнований',
         periodization: 'Периодизация',
         period: 'Период',
         competition: 'Соревнование',

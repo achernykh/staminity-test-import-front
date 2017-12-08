@@ -1,3 +1,5 @@
+@import '../../../sass/color';
+
 $app-sidenav-desktop-width: 320px;
 $app-sidenav-desktop-width-collapsed: 52px;
 $app-toolbar-height: 64px;
@@ -138,11 +140,17 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
   // Левая панель / Правая панель
   &__left-bar, &__right-bar {
+    background: $grey-200;
     top: $app-toolbar-height;
     width: $app-sidenav-desktop-width;
     position: fixed;
     z-index: 2;
     height: calc(100vh - 64px);
+
+    .md-subheader {
+      background: $grey-200 !important;
+    }
+
   }
 
   // Левая панель
@@ -174,7 +182,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
   // Наполнение основной части Представления
   &__content {
     width: auto;
-    background: none;
+    background-color: $grey-300;
     top: $app-toolbar-height;
     min-height: calc(100vh - 64px);
     //margin-left: $app-sidenav-desktop-width-collapsed;
