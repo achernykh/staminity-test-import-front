@@ -6,6 +6,10 @@
   cursor: pointer;
   min-height: 50px;
 
+  &:focus {
+    outline: none;
+  }
+
   .priority {
     background-color: $grey-500;
     color: white;

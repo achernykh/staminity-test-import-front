@@ -84,7 +84,8 @@
                     <span>{{item.dateStart | date}}</span>
                 </div>
                 <st-competition-compact ng-repeat-end layout="column" flex="none"
-                                        ng-click="$ctrl.open($event,item.calendarItemType, item)"
+                                        class="competition-compact"
+                                        ng-click="$ctrl.competition($event, item)"
                                         view="'list'"
                                         item="item"
                                         options="$ctrl.itemOptions">

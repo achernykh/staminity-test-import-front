@@ -11,7 +11,11 @@ import { TrainingSeasonDialogSerivce } from "../training-season-dialog.service";
 import { FormMode } from "../../application.interface";
 import { IPeriodizationScheme, ISeasonPlan } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { profileShort } from "../../core/user.function";
-import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
+import {
+    ICalendarItemDialogOptions,
+    ICalendarItemDialogResponse
+} from "../../calendar-item/calendar-item-dialog.interface";
+import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
 
 export enum TrainingSeasonViewState {
     List,
@@ -34,7 +38,8 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     private itemOptions: ICalendarItemDialogOptions;
 
     // inject
-    static $inject = ['$scope', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService', 'TrainingSeasonDialogService', 'message'];
+    static $inject = ['$scope', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService',
+        'TrainingSeasonDialogService', 'message', 'CalendarItemDialogService'];
 
     constructor (private $scope: IScope,
                  private $mdMedia: any,
@@ -42,7 +47,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
                  private calendarService: CalendarService,
                  private trainingSeasonService: TrainingSeasonService,
                  private trainingSeasonDialog: TrainingSeasonDialogSerivce,
-                 private messageService: MessageService) {
+                 private messageService: MessageService, private calendarItemDialog: CalendarItemDialogService) {
 
     }
 
@@ -98,6 +103,11 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             .then(() => this.update());
     }
 
+    competition (event: Event, item: ICalendarItem): void {
+        this.calendarItemDialog.competition(event, this.itemOptions, item)
+            .then(() => {}, () => {});
+    }
+
     openMenu ($mdMenu, ev) {
         $mdMenu.open(ev);
     }
@@ -112,7 +122,13 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         this.owner = user;
         this.trainingSeasonService.get({userId: this.owner.userId})
             .then(response => this.seasons = response.arrayResult, error => this.messageService.toastInfo(error))
+            .then(() => this.calendarService.search({ userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
+            .then(response => response.arrayResult && this.changeCompetitionList(response.arrayResult))
             .then(() => this.update());
+    }
+
+    changeCompetitionList (list: Array<ICalendarItem>): void {
+        this.competitions = list;
     }
 
     private prepareData (): void {
