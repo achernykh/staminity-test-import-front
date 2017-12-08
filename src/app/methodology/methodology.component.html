@@ -1,5 +1,9 @@
 <st-application-frame
         class="methodology st-application-frame"
+        template="application"
+        navigation-bar="true"
+        left-bar="true"
+
         nav-bar="true"
         nav-bar-state="$ctrl.currentState"
         left-bar-hide-type="'hidden'"
@@ -61,6 +65,23 @@
                 user="$ctrl.currentUser"
                 club="$ctrl.club">
         </categories>
+    </st-application-frame-content>
+
+    <!-- Схемы периодизации -->
+    <st-application-frame-left-bar ng-switch-when="periodization">
+        <md-content class="methodology__left-bar">
+            <st-periodization-scheme-filter
+                layout="column" layout-fill="true"
+                schemes="$ctrl.periodizationData"
+                on-select="$ctrl.selectPeriodizationScheme(scheme)">
+            </st-periodization-scheme-filter>
+        </md-content>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="periodization">
+        <st-periodization-scheme-list
+            scheme="$ctrl.currentPeriodizationScheme">
+        </st-periodization-scheme-list>
     </st-application-frame-content>
 
     <!-- Шаблоны тренировок -->

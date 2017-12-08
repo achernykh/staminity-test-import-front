@@ -1,7 +1,8 @@
-import { Activity } from "../activity/activity-datamodel/activity.datamodel";
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "./calendar-item-dialog.interface";
 import { profileShort } from "../core/user.function";
 import { ICalendarItem } from "../../../api/calendar/calendar.interface";
+import AuthService from "../auth/auth.service";
+import { IUserProfile } from "../../../api/user/user.interface";
 
 export class CalendarItemDialogService {
 
@@ -21,9 +22,10 @@ export class CalendarItemDialogService {
     };
 
     // inject
-    static $inject = ['$mdDialog'];
+    static $inject = ['$mdDialog', 'AuthService'];
 
-    constructor (private $mdDialog: any) {}
+    constructor (private $mdDialog: any,
+                 private auth: AuthService) {}
 
     /**
      * Диалог ведения Тренировки
@@ -47,7 +49,10 @@ export class CalendarItemDialogService {
             targetEvent: env,
             locals: {
                 activity: activity,
-                options: options,
+                options: Object.assign(options, {
+                    isPro: this.isPro,
+                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                })
             }
         }));
     }
@@ -103,7 +108,38 @@ export class CalendarItemDialogService {
             targetEvent: env,
             locals: {
                 item: item,
-                calendarRange: [null,null]//this.calendar.calendarRange
+                calendarRange: [null, null]//this.calendar.calendarRange
+            }
+        }));
+    }
+
+    /**
+     * Диалог ведения Соревнования
+     * @param env
+     * @param options
+     * @param item
+     * @returns {any}
+     */
+    competition (env: Event,
+                 options: ICalendarItemDialogOptions,
+                 item: ICalendarItem = this.competitionFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+
+        return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
+            template: `<md-dialog id="calendar-item-competition" aria-label="Competition">
+                        <st-calendar-item-competition 
+                                item="$ctrl.item"
+                                options="$ctrl.options"
+                                on-cancel="cancel()"
+                                on-answer="answer(formMode, item)">
+                        </st-calendar-item-competition>
+                   </md-dialog>`,
+            targetEvent: env,
+            locals: {
+                item: item,
+                options: Object.assign(options, {
+                    isPro: this.isPro,
+                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                })
             }
         }));
     }
@@ -167,6 +203,51 @@ export class CalendarItemDialogService {
             userProfileCreator: profileShort(options.currentUser),
             groupProfile: options.groupCreator
         };
+    }
+
+    /**
+     * Пустая запись Соревнования на основе параметров
+     * @param options
+     * @returns {ICalendarItem}
+     */
+    private competitionFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+        return {
+            calendarItemId: null,
+            calendarItemType: 'competition',
+            revision: null,
+            dateStart: options.dateStart,
+            dateEnd: options.dateStart,
+            competitionHeader: {
+                type: 'triathlon',
+                distanceType: 'olympic',
+                priority: 'C'
+            },
+            userProfileOwner: profileShort(options.owner),
+            userProfileCreator: profileShort(options.currentUser),
+            groupProfile: options.groupCreator
+        };
+    }
+
+    private get isPro (): boolean {
+        return this.auth.isActivityPro();
+    }
+
+    private getAthleteList (currentUser: IUserProfile, owner: IUserProfile): Array<{profile: IUserProfile, active: boolean}> {
+        let athleteList: Array<{profile: IUserProfile, active: boolean}> = [];
+
+        //
+        if ( currentUser.connections.hasOwnProperty('allAthletes') && currentUser.connections.allAthletes ) {
+            athleteList = currentUser.connections.allAthletes.groupMembers
+                .filter(user => user.hasOwnProperty('trainingZones'))
+                .map(user => ({profile: user, active: user.userId === owner.userId}));
+        }
+        //
+        if(athleteList.length === 0 || !athleteList.some(athlete => athlete.active)) {
+            athleteList.push({profile: owner, active: true});
+        }
+
+        return athleteList;
+
     }
 
 }

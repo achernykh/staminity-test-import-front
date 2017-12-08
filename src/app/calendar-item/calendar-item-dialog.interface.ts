@@ -10,20 +10,20 @@ enum CalendarItemTabs {
 }
 
 export interface ICalendarItemDialogOptions {
-    dateStart?: string;
-    activityType?: IActivityType;
-    activityCategory?: IActivityCategory;
-    currentUser: IUserProfile;
-    owner: IUserProfile;
+    dateStart?: string; // предустановленная дата начала итема
+    activityType?: IActivityType; // предустановленный вид спорта для activity
+    activityCategory?: IActivityCategory; // предустановленная категория для activity
+    currentUser: IUserProfile; // текущий пользователь сервис, от чьего лица ведутся действия
+    owner: IUserProfile; // будущий или текущий владелец итема
     groupCreator?: IGroupProfileShort;
     currentTab?: CalendarItemTabs;
-    formMode?: FormMode;
-    // вид
-    popupMode?: boolean;
-    // Образы создания
-    templateMode?: boolean;
-    trainingPlanMode?: boolean;
-    planId?: number;
+    formMode?: FormMode; // режим формы: просмотр, изменение, создание
+    popupMode?: boolean; // true - если режим показа в формате всплывающего окна, false - для отдельного экрана
+    templateMode?: boolean; // true - если режим ввода шаблона
+    trainingPlanMode?: boolean; // true - если режим ввода Долгосрочного плана
+    planId?: number; // ссылка на долгосрочный план, если идет планирование в рамках него
+    isPro?: boolean; // Полномочия пользователя не режим Про
+    athleteList?: Array<{profile: IUserProfile, active: boolean}>; // Перечень атлетов доступных для планирования
 }
 
 export interface ICalendarItemDialogResponse {

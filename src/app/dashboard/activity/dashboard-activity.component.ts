@@ -16,8 +16,8 @@ class DashboardActivityCtrl implements IComponentController {
 
     private segmentChart: Array<any> = [];
 
-    private isOwner: boolean = false;
-    private isCreator: boolean = false;
+    //private isOwner: boolean = false;
+    //private isCreator: boolean = false;
     private bottomPanelData: any = null;
 
     public onEvent: (response: Object) => IPromise<void>;
@@ -31,8 +31,8 @@ class DashboardActivityCtrl implements IComponentController {
         this.activity = new Activity(this.item);
         //this.activity.prepare();
 
-        this.isOwner = this.activity.userProfileOwner.userId === this.dashboard.coach.userId;
-        this.isCreator = this.activity.userProfileCreator.userId === this.dashboard.coach.userId;
+        //this.isOwner = this.activity.userProfileOwner.userId === this.dashboard.coach.userId;
+        //this.isCreator = this.activity.userProfileCreator.userId === this.dashboard.coach.userId;
 
         if (this.activity.bottomPanel === 'data') {
             this.bottomPanelData = this.activity.summaryAvg;

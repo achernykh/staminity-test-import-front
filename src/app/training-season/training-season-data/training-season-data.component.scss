@@ -1,0 +1,79 @@
+@import "../../../sass/color";
+@import "../../../sass/animation";
+
+// animated.css
+#training-season-data__fab {
+  @include animate(0.3s, 1s, 1);
+}
+
+.training-season-data {
+
+  min-height: calc(100vh - 80px);
+
+  &__post {
+    position: fixed;
+    bottom: 8px;
+    right: 8px;
+  }
+
+  .mesocycle-icon {
+    height: 16px;
+    width: 16px;
+    border-radius: 8px;
+    background: rebeccapurple;
+  }
+
+  .period {
+    width: 120px;
+    max-width: 120px;
+    min-width: 120px;
+  }
+
+  .competition {
+    width: 250px;
+    max-width: 250px;
+    .competition-icon {
+      margin-right: 12px;
+    }
+    .name {
+      line-height: 18px;
+    }
+  }
+
+  .mesocycle {
+    width: 150px;
+    max-width: 150px;
+    .md-text {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
+  .week {
+    width: 50px;
+    max-width: 50px;
+  }
+
+  .mesocycle {
+    div.block {
+      padding: 4px 16px;
+      &.selected {
+        background: $grey-600;
+        color: white;
+        height: 24px;
+        line-height: 24px;
+        border-radius: 24px;
+      }
+    }
+  }
+
+  .md-table {
+    .md-checked .md-ink-ripple {
+      color: $grey-500;
+    }
+    .md-checked .md-icon {
+      background-color: $grey-400;
+    }
+
+  }
+}

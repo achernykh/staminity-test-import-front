@@ -123,10 +123,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
 
     public currentUser: IUserProfile = null;
-    public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
-    public isCreator: boolean;
-    public isPro: boolean;
-    public isMyCoach: boolean;
+    //public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
+    //public isCreator: boolean;
+    //public isPro: boolean;
+    //public isMyCoach: boolean;
 
     public isLoadingDetails: boolean = false;
 
@@ -290,10 +290,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareAuth(){
-        this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
-        this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
-        this.isPro = this.AuthService.isActivityPro();
-        this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
+        //this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
+        //this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
+        //this.isPro = this.AuthService.isActivityPro();
+        //this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
     }
 
     updateFilterParams(): void {
@@ -484,10 +484,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
 
-        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details && this.isPro) {
+        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details && this.activity.auth.isPro) {
             this.selectedTab = HeaderStructuredTab.Details;
         }
-        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details && this.isPro) {
+        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details && this.activity.auth.isPro) {
             this.selectedTab = HeaderTab.Details;
         }
 

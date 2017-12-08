@@ -1,0 +1,37 @@
+<md-card class="periodization-scheme-list">
+    <md-card-header>{{$ctrl.scheme.code}}</md-card-header>
+    <section ng-bind-html="$ctrl.scheme.description">
+    </section>
+    <md-list dense class="md-dense">
+        <md-list-item class="md-2-line"
+                      ng-click="$ctrl.open($event, mesocycle)"
+                      ng-repeat="mesocycle in $ctrl.scheme.mesocycles track by mesocycle.id">
+            <div class="md-avatar" ng-style="{'background-color': mesocycle.color}"></div>
+            <div class="md-list-item-text">
+                <h3>{{ mesocycle.code }}</h3>
+                <p>{{ mesocycle.description | htmlToPlainText }}</p>
+            </div>
+            <md-menu class="md-secondary">
+                <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                    <md-icon class="material-icons">more_vert</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item ng-click="$ctrl.delete(mesocycle)">
+                        <span translate="methodology.periodization.delete"></span>
+                    </md-menu-item>
+                    <md-menu-item ng-click="$ctrl.open($event, mesocycle)">
+                        <span translate="methodology.periodization.edit"></span>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </md-list-item>
+    </md-list>
+</md-card>
+
+<div class="periodization-scheme-list__post">
+    <md-button id="periodization-scheme-list__fab"
+               ng-click="$ctrl.post($event)"
+               class="md-fab md-accent md-hue-2 animated bounce zoomIn">
+        <md-icon class="material-icons">add</md-icon>
+    </md-button>
+</div>

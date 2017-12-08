@@ -1,0 +1,67 @@
+<md-table-container class="competition-single-stage">
+    <table md-table md-row-select="false" multiple="false" ng-model="$ctrl.items">
+        <thead md-head>
+        <tr md-row>
+            <th md-column class="stage"><span translate="competition.stage"></span></th>
+            <th md-column class="plan" md-numeric><span translate="activity.plan"></span></th>
+            <th md-column class="actual" md-numeric><span translate="activity.actual"></span></th>
+            <th md-column class="percent" md-numeric><span translate="activity.completeShort"></span></th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row ng-repeat="stage in $ctrl.items track by $index">
+            <!-- Этап соревнования: иконка со статусом + основная величина этапа -->
+            <td md-cell class="stage" layout="row" layout-align="start center">
+                <div flex="none" layout="row" layout-align="center center"
+                     class="calendar-item-activity-icon bg-circle-32 {{stage.item.status}}"
+                     ng-class="{color: !stage.item.isCompleted || !stage.item.isSpecified}">
+                    <md-icon md-svg-src="assets/icon/{{stage.item.header.sportBasic}}.svg" class="md-dark md-light md-18"></md-icon>
+                </div>
+                <span>{{$ctrl.oppositeValue(stage.item) | measureCalc:stage.item.header.sportBasic:$ctrl.oppositeMeasure(stage.item)}}</span>
+                <span>{{$ctrl.oppositeMeasure(stage.item) | measureUnit:stage.item.header.sportBasic | translate}}</span>
+            </td>
+            <!-- План по велчине второстипенной величине этапа -->
+            <td md-cell>
+                <md-input-container>
+                    <input measure-input
+                           name="{{$index}}_plan"
+                           ng-model="stage.item.intervals.PW[$ctrl.durationMeasure(stage.item)].durationValue"
+                           change="$ctrl.change"
+                           measure="$ctrl.durationMeasure(stage.item)"
+                           ng-attr-sport={{stage.item.header.sportBasic}}
+                           interval="false"
+                           ftp-mode="false"
+                           ftp="null"
+                           ng-change="$ctrl.changeValue(stage.item)"
+                           ng-disabled="stage.item.hasActualData">
+                </md-input-container>
+            </td>
+            <!-- Факт по величине второстипенной величине этапа -->
+            <td md-cell>
+                <md-input-container>
+                    <input measure-input
+                           name="{{$index}}_actual"
+                           ng-model="stage.item.intervals.W.calcMeasures[$ctrl.durationMeasure(stage.item)].value"
+                           measure="$ctrl.durationMeasure(stage.item)"
+                           ng-attr-sport={{stage.item.header.sportBasic}}
+                           interval="false"
+                           ftp-mode="false"
+                           ftp="null"
+                           ng-change="$ctrl.changeValue(stage.item)"
+                           ng-disabled="stage.item.hasActualData">
+                </md-input-container>
+            </td>
+            <!-- Процент выполнения -->
+            <td md-cell ng-if="!stage.item.hasActualData">
+                <span>{{stage.item.intervals.PW.calcMeasures.completePercent.value | percent}}</span>
+            </td>
+            <!-- Кнопка перехода к тренировке -->
+            <td md-cell ng-if="stage.item.hasActualData">
+                <md-button class="md-icon-button" ng-click="$ctrl.open($event, stage.item)">
+                    <md-icon class="material-icons md-dark">keyboard_arrow_right</md-icon>
+                </md-button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</md-table-container>

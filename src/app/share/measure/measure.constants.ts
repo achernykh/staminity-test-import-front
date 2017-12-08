@@ -102,7 +102,21 @@ export const _activity_measurement_view = {
             unit: 'minpkm',
             fixed: 0
         }
-    }
+    },
+    triathlon: {
+        distance: {
+            unit: 'km',
+            fixed: 2
+        },
+        speed: {
+            unit: 'kmph',
+            fixed: 0
+        },
+        adjustedSpeed: {
+            unit: 'kmph',
+            fixed: 0
+        }
+    },
 };
 
 // Справочник показателей

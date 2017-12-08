@@ -11,3 +11,19 @@
     top: 0 !important;
     overflow: hidden;
 }
+
+//
+.md-button.md-default-theme.md-accent, .md-button.md-accent {
+    color: white;
+}
+
+//
+md-toolbar.md-default {
+  background-color: white;
+  color: black;
+}
+
+//
+.md-subheader {
+  background: white;
+}

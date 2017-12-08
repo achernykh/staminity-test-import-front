@@ -21,6 +21,7 @@ module.exports = {
             'angular-material/angular-material.scss',
             'angular-translate',
             'moment',
+            'moment/min/moment-with-locales.js',
             'moment-timezone/builds/moment-timezone-with-data',
             'angular-scroll',
             'satellizer',

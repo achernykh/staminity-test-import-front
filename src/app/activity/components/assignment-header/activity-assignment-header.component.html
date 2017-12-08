@@ -6,7 +6,7 @@
                        ng-model="$ctrl.item.activity.header.sport"
                        ng-model-options="{ getterSetter: true }"
                        ng-change="$ctrl.changeParam()"
-                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.activity.view.isView">
+                       ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                 <md-option ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
                            value="{{type.id}}">
                     {{'sport.'+type.code | translate}}
@@ -32,7 +32,7 @@
                     md-no-asterisk="false"
                     placeholder="{{::'activity.assignment.categoryLabel' | translate}}"
                     ng-change="$ctrl.changeParam()"
-                    ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.activity.view.isView
+                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView"
                     name="category"
                     class="icon">
                 <md-optgroup
@@ -74,7 +74,7 @@
             <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                            ng-change="$ctrl.changeParam()"
                            name="dateStart" md-hide-icons="calendar"
-                           ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
+                           ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach"
                            style="margin-left: 42px"></md-datepicker>
             <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
                 <div ng-message="needPermissionForFeature"

@@ -3,9 +3,11 @@ import {IComponentOptions, IComponentController, IPromise, element} from 'angula
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {activityTypes} from "../../activity/activity.constants";
 import {IUserProfile} from "../../../../api/user/user.interface";
+import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 
 class CalendarItemWizardCtrl implements IComponentController {
 
+    // bind
     public user: IUserProfile;
     public data: any;
     public event: any;
@@ -13,6 +15,7 @@ class CalendarItemWizardCtrl implements IComponentController {
     public onSelect: (result: {itemType: string, activityType: IActivityType}) => IPromise<void>;
     public onCancel: (response: Object) => IPromise<void>;
 
+    // private
     private activityTypes: Array<IActivityType> = activityTypes.filter(t=>t.enabled && t.isBasic);
 
     static $inject = [];
@@ -32,9 +35,9 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
     public date: Date;
     public event: any;
 
-    static $inject = ['$scope','$mdDialog'];
+    static $inject = ['$scope','$mdDialog','CalendarItemDialogService'];
 
-    constructor(private $scope, private $mdDialog){
+    constructor(private $scope, private $mdDialog, private calendarItemDialog: CalendarItemDialogService){
         $scope.hide = () => $mdDialog.hide();
         $scope.cancel = () => $mdDialog.cancel();
     }

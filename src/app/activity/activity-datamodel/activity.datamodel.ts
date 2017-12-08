@@ -146,7 +146,7 @@ export class Activity extends CalendarItem {
 
     get movingDuration():number {
         return this.intervals.W.movingDuration() ||
-            (this.isStructured && this.intervals.PW.movingDurationLength) ||
+            (this.intervals.PW.movingDurationLength > 0 && this.intervals.PW.movingDurationLength) ||
             (this.intervals.PW.durationMeasure === 'movingDuration' && this.intervals.PW.durationValue) || null;
     }
 
@@ -162,7 +162,7 @@ export class Activity extends CalendarItem {
 
     get distance() {
         return this.intervals.W.distance() ||
-            (this.isStructured && this.intervals.PW.distanceLength) ||
+            (this.intervals.PW.distanceLength > 0 && this.intervals.PW.distanceLength) ||
             (this.intervals.PW.durationMeasure === 'distance' && this.intervals.PW.durationValue) || null;
     }
 
@@ -238,6 +238,7 @@ export class Activity extends CalendarItem {
             calendarItemId: this.calendarItemId,
             calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
             revision: this.revision,
+            parentId: this.parentId,
             dateStart: this.dateStart, // timestamp даты и времени начала
             dateEnd: this.dateEnd, // timestamp даты и времени окончания
             userProfileOwner: userProfile || this.userProfileOwner,
@@ -255,7 +256,8 @@ export class Activity extends CalendarItem {
         this.header = new ActivityHeader(this.item.activityHeader);
         this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
         this.details = new ActivityDetails();
-        //this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
+        this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
+        this.auth = new ActivityAuth(this.userProfileOwner, this.userProfileCreator, this.options);
 
     }
 

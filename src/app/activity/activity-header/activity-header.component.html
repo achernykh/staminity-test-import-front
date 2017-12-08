@@ -9,7 +9,7 @@
             <md-menu-content width="4">
                 <md-menu-item>
                     <md-button ng-click="$ctrl.item.onDelete()"
-                               ng-disabled="!(!$ctrl.item.activity.view.isPost && $ctrl.item.isCreator)">
+                               ng-disabled="!(!$ctrl.item.activity.view.isPost && $ctrl.item.activity.auth.isCreator)">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                         <span translate="measurement.toolbar.delete"></span>
                     </md-button>
@@ -73,7 +73,7 @@
                 </activity-segments>
             </md-tab-body>
         </md-tab>
-        <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
+        <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.activity.auth.isPro"
                 ng-if="$ctrl.item.activity.hasActualData">
             <md-tab-label><md-icon class="material-icons">assessment</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
@@ -108,7 +108,7 @@
                                       activity-id="$ctrl.item.activity.header.id"
                                       social="$ctrl.item.activity.header.social"
                                       user="$ctrl.item.user" current-user="$ctrl.item.currentUser"
-                                      coach="$ctrl.item.isMyCoach"
+                                      coach="$ctrl.item.activity.auth.isMyCoach"
                                       on-update="$ctrl.updateComments(response)">
                 </activity-header-chat>
             </md-tab-body>

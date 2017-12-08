@@ -13,6 +13,12 @@ import { CalendarItemRecordComponent } from "./calendar-item-record/calendar-ite
 import { CalendarItemRecordConfig } from "./calendar-item-record/calendar-item-record.config";
 import { _translateRecord } from "./calendar-item-record/calendar-item-record.translate";
 import { CalendarItemDialogService } from "./calendar-item-dialog.service";
+import { CalendarItemCompetitionComponent } from "./calendar-item-competition/calendar-item-competition.component";
+import { CompetitionConfig } from "./calendar-item-competition/calendar-item-competition.config";
+import { translateCompetition } from "./calendar-item-competition/calendar-item-competition.translate";
+import { CompetitionSingleStageComponent } from "./calendar-item-competition/single-stage/competition-single-stage.component";
+import { CompetitionMultiStageComponent } from "./calendar-item-competition/multi-stage/competition-multi-stage.component";
+import CompetitionCompactComponent from "./calendar-item-competition/compact-view/competition-compact.component";
 
 const CalendarItemMeasurement = module('staminity.calendar-item-measurement', [])
     .component('calendarItemActivity', CalendarItemActivityComponent)
@@ -22,6 +28,11 @@ const CalendarItemMeasurement = module('staminity.calendar-item-measurement', []
     .component('calendarItemAthleteSelector', CalendarItemAthleteSelectorComponent)
     .component('calendarItemTemplateSelector', CalendarItemTemplateSelectorComponent)
     .component('calendarItemRecord', CalendarItemRecordComponent)
+    .component('stCalendarItemCompetition', CalendarItemCompetitionComponent)
+    .component('stCompetitionSingleStage', CompetitionSingleStageComponent)
+    .component('stCompetitionMultiStage', CompetitionMultiStageComponent)
+    .component('stCompetitionCompact', CompetitionCompactComponent)
+    .constant('CompetitionConfig', new CompetitionConfig())
     .service('CalendarItemDialogService', CalendarItemDialogService)
     .constant('calendarItemRecordConfig', CalendarItemRecordConfig)
     .config(['ngQuillConfigProvider', (quill) => quill.set({ modules: {}, theme: 'snow'})])
@@ -36,6 +47,9 @@ const CalendarItemMeasurement = module('staminity.calendar-item-measurement', []
         $translateProvider.translations('en', {record: _translateRecord.en});
         $translateProvider.translations('ru', {wizard: _translateWizard.ru});
         $translateProvider.translations('en', {wizard: _translateWizard.en});
+            $translateProvider.translations('ru', {competition: translateCompetition.ru});
+            $translateProvider.translations('en', {competition: translateCompetition.en});
+
     }])
     .name;
 

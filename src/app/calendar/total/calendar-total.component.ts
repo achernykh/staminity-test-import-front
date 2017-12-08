@@ -7,6 +7,13 @@ import {
 } from './calendar-total.function';
 import {ICalendarWeek} from "../calendar.interface";
 import {CalendarWeekData} from "./calendar-week-total.datamodel";
+import { TrainingSeasonDialogSerivce } from "../../training-season/training-season-dialog.service";
+import { TrainingSeasonService } from "../../training-season/training-season.service";
+import { IUserProfile } from "../../../../api/user/user.interface";
+import {
+    IWeekPeriodizationDataResponse,
+    IWeekPeriodizationData
+} from "../../../../api/seasonPlanning/seasonPlanning.interface";
 
 const searchMeasure = (point, interval) => {
     if (point === 'plan') {
@@ -25,6 +32,8 @@ const searchMeasure = (point, interval) => {
 
 class CalendarTotalCtrl implements IComponentController {
 
+    // bind
+    owner: IUserProfile;
     public week: ICalendarWeek;
     public selected: boolean;
     dynamicDates: boolean;
@@ -37,17 +46,24 @@ class CalendarTotalCtrl implements IComponentController {
     //private totalTemplate: ICalendarTotals;
     private summary: ICalendarWeekSummary;
 
+    // private
+    private periodizationData: IWeekPeriodizationData;
+
     private shoMenu: boolean = false;
 
     private readonly primarySport: [string] = ['run', 'bike', 'swim'];
 
-    static $inject = ['$mdDialog'];
+    static $inject = ['$mdDialog', 'TrainingSeasonService'];
 
-    constructor(private $mdDialog: any){
+    constructor(
+        private $mdDialog: any,
+        private trainingSeasonService: TrainingSeasonService){
     }
 
-    $onInit(){
+    $onInit(): void {
         this.title = moment(this.week.week,'YYYY-WW').week();
+        this.trainingSeasonService.getUserWeekData(this.owner.userId, moment(this.week.week,'YYYY-WW').format('YYYY.WW'))
+            .then(result => this.periodizationData = result.arrayResult[0]);
     }
 
     onToggle() {
@@ -79,6 +95,7 @@ const CalendarTotalComponent: IComponentOptions =  {
         selected: '<',
         accent: '<',//,
         dynamicDates: '<',
+        owner: '<'
         //onToggle: '&'
     },
     require: {

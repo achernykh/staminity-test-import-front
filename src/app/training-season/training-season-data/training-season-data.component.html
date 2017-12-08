@@ -1,0 +1,121 @@
+<section class="training-season-data" ng-if="!$ctrl.data || !$ctrl.schemes" layout-fill layout="column" layout-align="center center">
+    <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingSeason.loading"></p>
+</section>
+<md-card class="training-season-data" ng-if="$ctrl.data.grid.length > 0">
+    <st-training-season-chart data="$ctrl.data" update="$ctrl.update" class="training-season-chart" layout="column">
+    </st-training-season-chart>
+
+    <!-- Заголовок таблицы -->
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="$ctrl.selected.length">
+        <div class="md-toolbar-tools">
+            <span translate="trainingSeason.periodization"></span>
+            <span>&nbsp;:&nbsp;{{$ctrl.data.season.dateStart}} - {{$ctrl.data.season.dateEnd}}</span>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="loadStuff()">
+                <md-icon>refresh</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <!-- Заголовок таблицы: веделены строки -->
+    <md-toolbar class="md-table-toolbar md-default alternate" ng-show="$ctrl.selected.length">
+        <div class="md-toolbar-tools">
+            <span>{{$ctrl.selected.length}} {{$ctrl.selected.length > 1 ? 'items' : 'item'}} selected</span>
+        </div>
+    </md-toolbar>
+
+    <!-- Таблица периодизации -->
+    <md-table-container>
+        <table md-table md-row-select multiple ng-model="$ctrl.selected">
+            <thead md-head>
+            <tr md-row>
+                <th md-column class="period"><span translate="trainingSeason.period"></span></th>
+                <th md-column class="competition"><span translate="trainingSeason.competition"></span></th>
+                <th md-column class="mesocycle"><span translate="trainingSeason.mesocycle"></span></th>
+                <th md-column class="week"><span translate="trainingSeason.week"></span></th>
+                <th md-column class="plan" md-numeric><span translate="trainingSeason.plan"></span></th>
+                <th md-column class="weekPlan" md-numeric><span translate="trainingSeason.calendar.{{$ctrl.data.season.durationMeasure}}"></span></th>
+                <th md-column class="weekActual" md-numeric><span translate="trainingSeason.actual.{{$ctrl.data.season.durationMeasure}}"></span></th>
+                <th md-column class="complete" md-numeric><span translate="trainingSeason.complete"></span></th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row md-select="cycle"
+                ng-repeat="cycle in $ctrl.data.grid track by $index">
+                <!-- Период -->
+                <td md-cell class="period">
+                    <div>{{cycle.title}}</div>
+                </td>
+                <!-- Перечень соревнований периода -->
+                <td md-cell class="competition">
+                    <div ng-if="cycle._competition" layout="row" layout-align="start center">
+                        <div flex="none"
+                             layout="row" layout-align="center center"
+                             class="competition-icon color bg-circle-32">
+                            <md-icon class="material-icons md-light md-18"
+                                     md-svg-src="/assets/icon/competition.svg"></md-icon>
+                        </div>
+                        <div layout="column" class="data">
+                            <div flex="none" class="md-caption md-dark">
+                                <span>{{cycle._competition.competitionHeader.type}}</span>
+                                <span>:</span>
+                                <span>{{cycle._competition.competitionHeader.distanceType}}</span>
+                            </div>
+                            <div flex="auto" class="name md-body-2 md-dark">{{cycle._competition.competitionHeader.name}}</div>
+                        </div>
+                    </div>
+                </td>
+                <!-- Мезоцикл -->
+                <td md-cell class="mesocycle">
+                    <div ng-if="$ctrl.schemes"
+                         class="block" ng-class="{selected: cycle.mesocycle.id}"
+                         ng-style="{'background-color': $ctrl.getMesocycle(cycle.mesocycle.id).color}">
+                        <md-select flex="auto"
+                                   ng-model="cycle.mesocycle.id"
+                                   ng-change="$ctrl.change(cycle)"
+                                   placeholder="Не указан">
+                            <md-option ng-repeat="meso in $ctrl.getMesocycles() track by meso.id"
+                                       value="{{meso.id}}">
+                                <span>{{meso.code}}</span>
+                            </md-option>
+                        </md-select>
+                    </div>
+                </td>
+                <!-- Номер недели -->
+                <td md-cell class="week">
+                    <span ng-if="cycle.mesocycle.id">Week {{$ctrl.getWeekCount($index)}}</span>
+                </td>
+                <!-- Обьем -->
+                <td md-cell
+                    ng-click="$ctrl.editDurationValue($event, cycle)"
+                    ng-class="{'md-placeholder': !cycle.durationValue}">{{cycle.durationValue || cycle.durationMeasure}}
+                </td>
+                <!--<td md-cell class="duration">
+                    <md-input-container class="no-message">
+                        <input name="volume" type="number"
+                               ng-model="cycle.durationValue">
+                    </md-input-container>
+                </td>-->
+                <!-- План по неделе -->
+                <td md-cell>
+
+                </td>
+                <!-- Факт по неделе -->
+                <td md-cell>{{cycle.calcMeasures[cycle.durationMeasure].sum | measureCalc:'default':cycle.durationMeasure}}
+                </td>
+                <!-- Выполнение () -->
+                <td md-cell class="complete">{{cycle.durationValue ? (cycle.calcMeasures[cycle.durationMeasure].sum / cycle.durationValue / 1000 | percent) : ''}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+
+</md-card>
+
+<div class="training-season-data__post">
+    <md-button id="training-season-data__fab"
+               ng-click="$ctrl.post($event)"
+               class="md-fab md-accent md-hue-2 animated bounce zoomIn">
+        <md-icon class="material-icons md-ligth" md-svg-src="/assets/icon/competition.svg">add</md-icon>
+    </md-button>
+</div>
