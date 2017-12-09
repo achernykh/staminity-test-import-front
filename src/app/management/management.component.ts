@@ -65,7 +65,7 @@ class ManagementCtrl implements IComponentController {
         .then((management) => { 
             this.management = management;
             this.checked = [];
-            this.$scope.$asyncApply();
+            this.$scope.$applyAsync();
         }, (error) => { 
             this.systemMessageService.show(error);
         });

@@ -89,7 +89,7 @@ export class ManagementService {
                 if (selectedTariffs) {
                     let memberships = [
                         ...arrays.difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(addToGroup),
-                        ...arrays.difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(removeFromGroup),
+                        ...arrays.difference(byClub, selectedTariffs).map(membersList.getTariffGroupId).map(removeFromGroup),
                     ];
                     return this.groupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
                 }

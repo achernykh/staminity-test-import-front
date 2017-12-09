@@ -57,7 +57,7 @@ class SettingsUserCtrl {
         this.destroy = new Subject();
         this.adaptors = [];
 
-        console.log('SettingsUserCtrl', SettingsUserCtrl);
+        console.log('SettingsUserCtrl', this);
     }
 
     $onInit () {

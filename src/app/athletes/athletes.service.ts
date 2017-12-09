@@ -87,7 +87,13 @@ export class AthletesService {
             .then((promises) => Promise.all(promises));
     }
 
-    editTariffsMessage (addTariffs, removeTariffs) {
+    /**
+     * Текст сообщения о добавлении/удалении тарифов
+     * @param addTariffs: Array<string>
+     * @param removeTariffs: Array<string>
+     * @returns {string}
+     */  
+    editTariffsMessage (addTariffs: Array<string>, removeTariffs: Array<string>) : string {
         let translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
 
         if (addTariffs.length) {
