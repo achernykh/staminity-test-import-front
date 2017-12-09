@@ -32,11 +32,22 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             idx: 0,
             dataType: "date",
             dateFormat: "DD.MM"
+        },{
+            label: "Мезоцикл",
+            unit: "",
+            xAxis: true,
+            tooltipType: "none",
+            tooltipLabel: "План",
+            legend: false,
+            currentPositionLine: true,
+            idx: 1,
+            dataType: "string"
         }],
         measures : [{
             id: "1",
             label: "Plan",
             chartType: "bar",
+            stacked: true,
             colorPalette: true,
             tooltipType: "label",
             tooltipLabel: "План",
@@ -44,7 +55,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             lineColor: "#607D8B", // deep-orange-300
             lineStyle: "solid",
             lineWidth: 0,
-            fillType: "gradient",
+            fillType: "solid",
             fillColor: "#CFD8DC", // deep-orange-200
             gradient: [{
                 offset: "0%",
@@ -57,7 +68,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             }],
             markerColor: "#455A64", // deep-orange-300
             minValue: 0,
-            idx: 1,
+            idx: 2,
             measureName: "microcycle",
             scaleVisible: false
         }, {
@@ -87,7 +98,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             markerColor: "#FF5722", //  blue-grey-500
             scaleVisible: false,
             minValue: 0,
-            idx: 2,
+            idx: 3,
             measureName: "microcycle"
         }],
         metrics : null

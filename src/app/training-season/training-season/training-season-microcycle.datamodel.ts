@@ -20,8 +20,12 @@ export class Microcycle implements IMicrocycle {
     _dateStart: Moment;
     _dateEnd: Moment;
     _competition: ICalendarItem;
+    _data: {
+        plan: number,
+        fact: number
+    };
 
-    private keys: Array<string> = ['keys', '_dateStart', '_dateEnd', '_competition'];
+    private keys: Array<string> = ['keys', '_dateStart', '_dateEnd', '_competition', '_data'];
 
     constructor (data?: IMicrocycle | any) {
         Object.assign(this, data);
@@ -56,6 +60,39 @@ export class Microcycle implements IMicrocycle {
     }
 
     private prepareDefaultData (): void {
-
+        if (!this._data) {
+            if (this.calcMeasures && this.calcMeasures.hasOwnProperty(this.durationMeasure)) {
+                this._data = { plan: null, fact: null};
+                switch (this.durationMeasure) {
+                    case 'distance': {
+                        this._data.fact = this.calcMeasures[this.durationMeasure].sum / 1000;
+                        break;
+                    }
+                    case 'movingDuration': {
+                        this._data.fact = this.calcMeasures[this.durationMeasure].sum * 60 * 60;
+                        break;
+                    }
+                    default: {
+                        this._data.fact = this.calcMeasures[this.durationMeasure].sum;
+                    }
+                }
+            }
+            if (this.planMeasures && this.planMeasures.hasOwnProperty(this.durationMeasure)) {
+                this._data = { plan: null, fact: this._data.hasOwnProperty('fact') && this._data.fact};
+                switch (this.durationMeasure) {
+                    case 'distance': {
+                        this._data.plan = this.planMeasures[this.durationMeasure].value / 1000;
+                        break;
+                    }
+                    case 'movingDuration': {
+                        this._data.plan = this.planMeasures[this.durationMeasure].value * 60 * 60;
+                        break;
+                    }
+                    default: {
+                        this._data.plan = this.planMeasures[this.durationMeasure].value;
+                    }
+                }
+            }
+        }
     }
 }

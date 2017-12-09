@@ -97,14 +97,11 @@
                     </md-input-container>
                 </td>-->
                 <!-- План по неделе -->
-                <td md-cell>
-
-                </td>
+                <td md-cell>{{cycle._data.plan | number:0}}</td>
                 <!-- Факт по неделе -->
-                <td md-cell>{{cycle.calcMeasures[cycle.durationMeasure].sum | measureCalc:'default':cycle.durationMeasure}}
-                </td>
+                <td md-cell>{{cycle._data.fact | number:0}}</td>
                 <!-- Выполнение () -->
-                <td md-cell class="complete">{{cycle.durationValue ? (cycle.calcMeasures[cycle.durationMeasure].sum / cycle.durationValue / 1000 | percent) : ''}}</td>
+                <td md-cell class="complete">{{cycle.durationValue ? (cycle._data.fact / cycle.durationValue | percent) : ''}}</td>
             </tr>
             </tbody>
         </table>

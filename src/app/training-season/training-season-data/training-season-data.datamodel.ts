@@ -19,7 +19,9 @@ export class TrainingSeasonData {
 
     setCompetitions (items: Array<ICalendarItem>): void {
         this.competitions = items;
-        this.competitions.map(item =>
+        this.competitions
+            .filter(item => moment(item.dateStart).isAfter(moment(this.season.dateStart)) && moment(item.dateEnd).isBefore(moment(this.season.dateEnd)))
+            .map(item =>
             this.grid.filter(m =>
             moment(item.dateStart).isAfter(m._dateStart) &&
             moment(item.dateStart).isBefore(m._dateEnd))[0]._competition = item);
