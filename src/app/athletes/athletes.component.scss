@@ -5,6 +5,7 @@
     position: absolute;
     z-index: 10;
     height: calc(100vh - 75px);
+    overflow-y: auto;
     
     @media (max-width: 959px) {
         left: 0 !important;
