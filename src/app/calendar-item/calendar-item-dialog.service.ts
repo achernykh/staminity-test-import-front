@@ -28,6 +28,42 @@ export class CalendarItemDialogService {
                  private auth: AuthService) {}
 
     /**
+     * Диалог создания новой записи календаря
+     * Можно выбрать
+     * 1) базовые виды спорта по тренироке
+     * 2) базовые события: день отдаых, болезнь, режим питания
+     * 3) измерение
+     * 4) соревнование
+     * @param env
+     * @param options
+     * @param item
+     */
+    wizard (env: Event, options: ICalendarItemDialogOptions,
+            item: ICalendarItem = this.itemFromOptions(options)): Promise<any> {
+
+        return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
+            template: `<md-dialog id="wizard" aria-label="Wizard">
+                            <calendar-item-wizard 
+                                    layout="column"
+                                    class="calendar-item-wizard"
+                                    data="$ctrl.item"
+                                    options="$ctrl.options"
+                                    on-cancel="cancel()" on-answer="answer(formMode, item)">
+                            </calendar-item-wizard>
+                       </md-dialog>`,
+            targetEvent: env,
+            locals: {
+                item: item,
+                options: Object.assign(options, {
+                    isPro: this.isPro,
+                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                })
+            }
+        })).then(response => this[response.item.calendarItemType](env, options, response.item));
+
+    }
+
+    /**
      * Диалог ведения Тренировки
      * @param env - элемент от куда вызван диалог
      * @param options - опции ведения тренировки
@@ -36,19 +72,19 @@ export class CalendarItemDialogService {
      */
     activity (env: Event,
               options: ICalendarItemDialogOptions,
-              activity: ICalendarItem = this.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+              item: ICalendarItem = this.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="post-activity" aria-label="Activity">
                             <calendar-item-activity layout="row" class="calendar-item-activity"
-                                    data="$ctrl.activity"
+                                    data="$ctrl.item"
                                     options="$ctrl.options"
                                     on-cancel="cancel()" on-answer="answer(formMode, item)">
                             </calendar-item-activity>
                        </md-dialog>`,
             targetEvent: env,
             locals: {
-                activity: activity,
+                item: item,
                 options: Object.assign(options, {
                     isPro: this.isPro,
                     athleteList: this.getAthleteList(options.currentUser, options.owner)
@@ -142,6 +178,25 @@ export class CalendarItemDialogService {
                 })
             }
         }));
+    }
+
+    /**
+     * Пустая запись календаря на основе парметров
+     * Используется для визарда
+     * @param options
+     * @returns {{calendarItemId: null, calendarItemType: string, revision: null, dateStart: string, dateEnd: string, userProfileOwner: IUserProfileShort, userProfileCreator: IUserProfileShort, groupProfile: IGroupProfileShort}}
+     */
+    private itemFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+        return {
+            calendarItemId: null,
+            calendarItemType: 'activity',
+            revision: null,
+            dateStart: options.dateStart,
+            dateEnd: options.dateStart,
+            userProfileOwner: profileShort(options.owner),
+            userProfileCreator: profileShort(options.currentUser),
+            groupProfile: options.groupCreator
+        };
     }
 
     /**

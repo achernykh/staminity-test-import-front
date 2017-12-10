@@ -4,6 +4,8 @@ import {IActivityType} from "../../../../api/activity/activity.interface";
 import {activityTypes} from "../../activity/activity.constants";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
+import { ICalendarItem } from "@api/calendar";
+import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
 
 class CalendarItemWizardCtrl implements IComponentController {
 
@@ -31,17 +33,17 @@ class CalendarItemWizardCtrl implements IComponentController {
 
 export class CalendarItemWizardSelectCtrl implements IComponentController {
 
-    public user: IUserProfile;
-    public date: Date;
-    public event: any;
+    // bind
+    data: ICalendarItem;
+    options: ICalendarItemDialogOptions;
 
     static $inject = ['$scope','$mdDialog','CalendarItemDialogService'];
 
     constructor(private $scope, private $mdDialog, private calendarItemDialog: CalendarItemDialogService){
         $scope.hide = () => $mdDialog.hide();
-        $scope.cancel = () => $mdDialog.cancel();
+        $scope.answer = (item) => $mdDialog.answer(item);
     }
-
+    /**
     answer(itemType, activityType) {
         this.$mdDialog.hide(itemType);
 
@@ -153,17 +155,16 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
             fullscreen: true
 
         }).then(() => {}, () => {});
-    }
+    } **/
 
 }
 
 const CalendarItemWizardComponent:IComponentOptions = {
     bindings: {
-        user: '<',
-        date: '<',
-        event: '<',
+        data: '<',
+        options: '<',
         onCancel: '&',
-        onSelect: '&'
+        onAnswer: '&'
     },
     require: {
         //component: '^component'

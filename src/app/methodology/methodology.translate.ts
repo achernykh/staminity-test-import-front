@@ -48,8 +48,7 @@ export const translateMethodology = {
                     }
                 }
             },
-        },
-        templates: 'Шаблоны'
+        }
 
     },
     en: {

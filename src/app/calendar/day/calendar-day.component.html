@@ -205,7 +205,7 @@
 
     <!-- add item: start -->
     <section class="actions" layout="row" layout-align="center center" flex="none" hide show-gt-sm>
-        <md-button  class="md-icon-button" aria-label="More"
+        <!--<md-button  class="md-icon-button" aria-label="More"
                     ng-click="$ctrl.post($event, 'activity', $ctrl.data)">
             <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
         </md-button>
@@ -220,6 +220,10 @@
         <md-button  class="md-icon-button" aria-label="Competition"
                     ng-click="$ctrl.post($event, 'competition', $ctrl.data)">
             <md-icon class="material-icon" md-svg-src="/assets/icon/competition.svg" aria-label="Competition"></md-icon>
+        </md-button>-->
+        <md-button  class="md-icon-button" aria-label="Wizard"
+                    ng-click="$ctrl.wizard($event, $ctrl.data)">
+            <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
         </md-button>
     </section>
     <!-- add item: end -->

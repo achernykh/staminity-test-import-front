@@ -186,6 +186,16 @@ class CalendarDayCtrl {
     }
 
     /**
+     * Визард создания записи календаря
+     * @param e
+     * @param data
+     */
+    wizard (e: Event, data: ICalendarDayData): void {
+        this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
+            .then(response => { debugger; },  error => { debugger; });
+    }
+
+    /**
      * Создание записи календаря
      * @param e
      * @param type

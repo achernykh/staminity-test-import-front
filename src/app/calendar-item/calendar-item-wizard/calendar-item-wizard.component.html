@@ -1,4 +1,4 @@
-<md-toolbar flex="none" class="" style="background-color: white; color: black">
+<md-toolbar flex="none" class="md-default">
     <div class="md-toolbar-tools">
         <!--<md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -28,19 +28,34 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-content flex="auto" layout="column">
-    <md-subheader flex="none" class="md-no-sticky">{{::'activity.toolbar.title' | translate}}</md-subheader>
-    <md-list flex="auto" class="md-dense slim-input">
-        <md-list-item ng-repeat="type in $ctrl.activityTypes track by type.id"
-                      ng-click="$ctrl.onSelect({itemType:'activity',activityType: type})">
-            <div flex="none" layout="row" layout-align="center center" class="icon bg-grey-600">
-                <md-icon flex="none" md-svg-src="/assets/icon/{{::type.typeBasic}}.svg"
-                         class="s18 sport md-light">
-                </md-icon>
-            </div>
-            <p class="md-body-1 md-dark">{{'sport.'+type.code | translate}}</p>
-        </md-list-item>
-    </md-list>
+<md-content flex="auto" layout="row" layout-xs="column" layout-fill="true">
+    <section class="activity" flex="25" flex-xs="auto">
+        <md-subheader flex="none">{{::'activity.toolbar.title' | translate}}</md-subheader>
+        <md-list flex="auto" class="md-dense">
+            <md-list-item ng-repeat="type in $ctrl.activityTypes track by type.id"
+                          ng-click="$ctrl.onAnswer({ formMode: 0, item: $ctrl.data})">
+                <div flex="none" layout="row" layout-align="center center"
+                     class="calendar-item-activity-icon bg-circle-32 md-avatar color-{{type.typeBasic}}">
+                    <md-icon flex="none" md-svg-src="/assets/icon/{{::type.typeBasic}}.svg"
+                             class="md-light">
+                    </md-icon>
+                </div>
+                <p class="md-body-1 md-dark">{{'sport.'+type.code | translate}}</p>
+            </md-list-item>
+        </md-list>
+    </section>
+    <section class="record" flex="25" flex-xs="auto">
+        <md-subheader flex="none">{{::'record.toolbar.title' | translate}}</md-subheader>
+
+    </section>
+    <section class="competition" flex="25" flex-xs="auto">
+        <md-subheader flex="none">{{::'competition.toolbar.title' | translate}}</md-subheader>
+
+    </section>
+    <section class="measurement" flex="25" flex-xs="auto">
+        <md-subheader flex="none">{{::'measurement.toolbar.title' | translate}}</md-subheader>
+
+    </section><!--
     <md-divider></md-divider>
     <md-list flex="none" class="md-dense slim-input" style="background-color: white">
         <md-list-item ng-repeat="other in ['measurement','event'] track by $index" ng-click="$ctrl.onSelect({itemType:other})">
@@ -51,8 +66,5 @@
             </div>
             <p class="md-body-1 md-dark">{{other + '.toolbar.title' | translate}}</p>
         </md-list-item>
-    </md-list>
+    </md-list>-->
 </md-content>
-<!--<md-dialog-actions flex="none" layout="row">
-
-</md-dialog-actions>-->
