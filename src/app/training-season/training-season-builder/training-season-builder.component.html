@@ -19,7 +19,7 @@
             </md-button>
             <md-menu-content>
                 <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
-                    <md-button ng-click="$ctrl.changeOwner(athlete)"
+                    <md-button ng-click="$ctrl.setOwner(athlete)"
                                ng-disable="athlete.userId === $ctrl.owner.userId">
                         <userpic profile="athlete"></userpic>
                         <span>{{athlete | userName}}</span>
@@ -27,7 +27,7 @@
                 </md-menu-item>
                 <md-divider></md-divider>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.changeOwner($ctrl.currentUser)"
+                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
                                ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
                         <userpic profile="$ctrl.currentUser"></userpic>
                         <span>{{$ctrl.currentUser | userName}}</span>
@@ -43,7 +43,7 @@
             </md-button>
             <md-menu-content>
                 <md-menu-item ng-repeat="season in $ctrl.seasons track by season.id">
-                    <md-button ng-click="$ctrl.changeSeason(season)"
+                    <md-button ng-click="$ctrl.setSeason(season)"
                                ng-disabled="season.id === $ctrl.season.id">
                         <span>{{season.code}}&nbsp;({{season.dateStart}}-{{season.dateEnd}})</span>
                     </md-button>
@@ -80,7 +80,7 @@
                 <span translate="trainingSeason.competitions"></span>
             </md-subheader>
             <section class="competition-list" layout="column">
-                <div flex="none" class="date md-caption md-dark" ng-repeat-start="item in $ctrl.data.competitions track by $index">
+                <div flex="none" class="date md-caption md-dark" ng-repeat-start="item in $ctrl.competitions track by $index">
                     <span>{{item.dateStart | date}}</span>
                 </div>
                 <st-competition-compact ng-repeat-end layout="column" flex="none"
@@ -100,7 +100,7 @@
                                  ng-if="$ctrl.isListState"
                                  data="$ctrl.seasons"
                                  owner="$ctrl.owner"
-                                 on-select="$ctrl.changeSeason(season)"></st-training-season-list>
+                                 on-select="$ctrl.setSeason(season)"></st-training-season-list>
         <!-- План на сезон -->
         <st-training-season-data id="st-training-season-data"
                                  class="state"

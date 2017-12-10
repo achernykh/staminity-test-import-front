@@ -9,7 +9,10 @@ import MessageService from "../../core/message.service";
 import { TrainingSeasonService } from "../training-season.service";
 import { TrainingSeasonDialogSerivce } from "../training-season-dialog.service";
 import { FormMode } from "../../application.interface";
-import { IPeriodizationScheme, ISeasonPlan } from "../../../../api/seasonPlanning/seasonPlanning.interface";
+import {
+    IPeriodizationScheme, ISeasonPlan,
+    IMicrocycle
+} from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { profileShort } from "../../core/user.function";
 import {
     ICalendarItemDialogOptions,
@@ -73,7 +76,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         if (!this.$stateParams.seasonId && this.$stateParams.userId && this.athletes &&
             this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
 
-            this.changeOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
+            this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
             this.isListState = true;
 
         } else if (this.$stateParams.seasonId && this.$stateParams.userId && this.seasons &&
@@ -112,39 +115,37 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         $mdMenu.open(ev);
     }
 
-    changeSeason (season: ISeasonPlan): void {
-        this.state = TrainingSeasonViewState.Builder;
+    setSeason (season: ISeasonPlan): void {
         this.season = new TrainingSeason(season);
         this.prepareData();
+        this.state = TrainingSeasonViewState.Builder;
     }
 
-    changeOwner (user: IUserProfile | IUserProfileShort): void {
+    setSeasonData (data: Array<IMicrocycle>): void {
+        this.data = new TrainingSeasonData(this.season, data);
+    }
+
+    setOwner (user: IUserProfile | IUserProfileShort): void {
         this.owner = user;
         this.trainingSeasonService.get({userId: this.owner.userId})
             .then(response => this.seasons = response.arrayResult, error => this.messageService.toastInfo(error))
             .then(() => this.calendarService.search({ userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
-            .then(response => response.arrayResult && this.changeCompetitionList(response.arrayResult))
+            .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult))
             .then(() => this.update());
     }
 
-    changeCompetitionList (list: Array<ICalendarItem>): void {
+    setCompetitionList (list: Array<ICalendarItem>): void {
         this.competitions = list;
     }
 
     private prepareData (): void {
         // 1. Получаем детали по периодизации
         this.trainingSeasonService.getItems(this.season.id)
-            .then(
-                result => this.data = new TrainingSeasonData(this.season, result.arrayResult),
-                error => { })
+            .then(result => this.setSeasonData(result.arrayResult), error => {})
             // 2. Получаем данные по соревнованиям
-            .then(() => this.calendarService.search({
-                userIdOwner: this.currentUser.userId,
-                calendarItemTypes: ['competition']}))
-            .then(
-                result => this.data.setCompetitions(result.arrayResult),
-                error => { }
-            );
+            .then(() => this.calendarService.search({userIdOwner: this.currentUser.userId, calendarItemTypes: ['competition']}))
+            // 3. Устанавливаем список соревнований
+            .then(result => this.data.setCompetitions(result.arrayResult), error => {});
     }
 
     private prepareAthletesList(): void {

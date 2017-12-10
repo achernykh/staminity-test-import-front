@@ -28,6 +28,7 @@ class TrainingSeasonChartCtrl implements IComponentController {
         if ((changes.hasOwnProperty('data') && this.data) ||
             (changes.hasOwnProperty('update') && !changes.update.isFirstChange())) {
             this.chart = [...preparePeriodizationChart(this.settings.chartTemplate, this.data.grid)];
+            console.log('chart', JSON.stringify(this.chart));
         }
     }
 
