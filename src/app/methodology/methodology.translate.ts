@@ -7,8 +7,6 @@ export const translateMethodology = {
         trainingPlans: 'Тренировочные планы',
         periodization: 'Периодизация',
         categories: 'Категории',
-        templates: 'Шаблоны',
-
         schemes: {
             title: 'Схемы периодизации',
             JoeFriel: {

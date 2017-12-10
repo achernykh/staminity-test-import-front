@@ -1,9 +1,12 @@
-import './training-season-chart.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import "./training-season-chart.component.scss";
+import { IComponentOptions, IComponentController, IPromise } from "angular";
 import { ITrainingSeasonSettings } from "../training-season.settings";
 import { TrainingSeasonData } from "../training-season-data/training-season-data.datamodel";
 import { IChart } from "../../../../api/statistics/statistics.interface";
-import { preparePeriodizationChart } from "./training-season-chart.function";
+import {
+    preparePeriodizationDurationChart,
+    preparePeriodizationMesocyclesChart
+} from "./training-season-chart.function";
 
 class TrainingSeasonChartCtrl implements IComponentController {
 
@@ -12,7 +15,8 @@ class TrainingSeasonChartCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
 
     // private
-    chart: Array<IChart>;
+    chartDuration: Array<IChart>;
+    chartMesocycles: Array<IChart>;
 
     static $inject = ['TrainingSeasonSettings'];
 
@@ -20,21 +24,23 @@ class TrainingSeasonChartCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
     $onChanges (changes): void {
-        if ((changes.hasOwnProperty('data') && this.data) ||
-            (changes.hasOwnProperty('update') && !changes.update.isFirstChange())) {
-            this.chart = [...preparePeriodizationChart(this.settings.chartTemplate, this.data.grid)];
-            console.log('chart', JSON.stringify(this.chart));
+        if ( (changes.hasOwnProperty('data') && this.data) ||
+            (changes.hasOwnProperty('update') && !changes.update.isFirstChange()) ) {
+            this.chartDuration = preparePeriodizationDurationChart(this.settings.chartTemplate, this.data.grid);
+            this.chartMesocycles = preparePeriodizationMesocyclesChart(this.settings.chartMesocyclesTemplate, this.data.grid);
+
+            console.log('chart', JSON.stringify(this.chartDuration), JSON.stringify(this.chartMesocycles));
         }
     }
 
 }
 
-export const TrainingSeasonChartComponent:IComponentOptions = {
+export const TrainingSeasonChartComponent: IComponentOptions = {
     bindings: {
         data: '<',
         update: '<',

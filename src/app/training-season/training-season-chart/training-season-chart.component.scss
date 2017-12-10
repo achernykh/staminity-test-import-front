@@ -1,4 +1,19 @@
 .training-season-chart {
   height: 12vh;
   margin: 16px;
+  margin-bottom: 0px;
+
+  .chart-duration {
+    .series-axis {
+      display: none;
+    }
+  }
+
+  .chart-mesocycles {
+    position: relative;
+    top: -20px;
+    height: 40px;
+    min-height: 40px;
+  }
+
 }
