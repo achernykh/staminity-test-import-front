@@ -1,7 +1,7 @@
 .training-season-chart {
-  height: 12vh;
+  position: relative;
+  height: 15vh;
   margin: 16px;
-  margin-bottom: 0px;
 
   .chart-duration {
     .series-axis {
@@ -10,10 +10,20 @@
   }
 
   .chart-mesocycles {
-    position: relative;
-    top: -20px;
+    position: absolute;
+    width: 100%;
+    bottom: -10px;
     height: 40px;
     min-height: 40px;
+
+    .domain, .tick line {
+      stroke: rgba(0,0,0, 0.34);
+    }
+
+    .tick text {
+      fill: rgba(0,0,0, 0.34);
+    }
+
   }
 
 }

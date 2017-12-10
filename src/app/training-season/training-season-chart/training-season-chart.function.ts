@@ -4,7 +4,7 @@ import { Microcycle } from "../training-season/training-season-microcycle.datamo
 import { hexToRgbA } from "../../share/utility";
 
 const feature: string = '#E0E0E0';
-const past: string = '#9E9E9E';
+const past: string = '#BDBDBD';
 
 export const preparePeriodizationDurationChart = (template: IChart, data: Array<Microcycle> = []): Array<IChart> => {
     return [ Object.assign({}, template, {
