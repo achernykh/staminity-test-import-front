@@ -492,6 +492,7 @@ DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'mes
 function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, message, tariff, billing) {
     this.tariff = tariff;
     this.billing = billing;
+    this.terms = [1, 14];
 
     this.tariffStatus = BillingService.tariffStatus(tariff);
     this.tariffIsOwn = !BillingService.tariffEnablerClub(tariff) && !BillingService.tariffEnablerCoach(tariff);
@@ -529,7 +530,9 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
         this.autoRenewal = this.fixedFee.autoRenewal;
     };
 
-    this.setBilling(billing);
+    this.isTrial = () => {
+        return this.tariffStatus === 'trial';
+    };
 
     this.submitPromo = (promoCode) => {
         BillingService.getTariff(tariff.tariffId, promoCode)
@@ -565,6 +568,8 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
             throw info;
         });
     };
+
+    this.setBilling(billing);
 
     console.log('TariffDetailsController', this);
 }
