@@ -6,28 +6,72 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 import { ICalendarItem } from "@api/calendar";
 import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
+import { FormMode } from "../../application.interface";
+import { ICalendarItemRecordConfig } from "../calendar-item-record/calendar-item-record.config";
+import { CompetitionConfig } from "../calendar-item-competition/calendar-item-competition.config";
 
 class CalendarItemWizardCtrl implements IComponentController {
 
     // bind
-    public user: IUserProfile;
-    public data: any;
-    public event: any;
+    data: ICalendarItem;
+    options: ICalendarItemDialogOptions;
 
-    public onSelect: (result: {itemType: string, activityType: IActivityType}) => IPromise<void>;
-    public onCancel: (response: Object) => IPromise<void>;
+    onAnswer: (result: {formMode: FormMode, item: ICalendarItem}) => Promise<void>;
+    onCancel: (response: Object) => Promise<void>;
 
     // private
     private activityTypes: Array<IActivityType> = activityTypes.filter(t=>t.enabled && t.isBasic);
+    private competitionConfig: CompetitionConfig = new CompetitionConfig();
 
-    static $inject = [];
+    static $inject = ['calendarItemRecordConfig'];
 
-    constructor() {
+    constructor (private recordConfig: ICalendarItemRecordConfig) {
 
     }
 
-    $onInit() {
+    $onInit () {
 
+    }
+
+    activity (param: any): void {
+        this.onAnswer({
+            formMode: FormMode.Post, item: Object.assign(this.data, {
+                calendarItemType: 'activity',
+                activityHeader: {
+                    activityType: param
+                }
+            })
+        });
+    }
+
+    record (param: any): void {
+        this.onAnswer({
+            formMode: FormMode.Post, item: Object.assign(this.data, {
+                calendarItemType: 'record',
+                recordHeader: {
+                    type: param
+                }
+            })
+        });
+    }
+
+    competition (param: any): void {
+        this.onAnswer({
+            formMode: FormMode.Post, item: Object.assign(this.data, {
+                calendarItemType: 'competition',
+                competitionHeader: {
+                    type: param
+                }
+            })
+        });
+    }
+
+    measurement (): void {
+        this.onAnswer({
+            formMode: FormMode.Post, item: Object.assign(this.data, {
+                calendarItemType: 'measurement'
+            })
+        });
     }
 }
 
@@ -39,7 +83,10 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
 
     static $inject = ['$scope','$mdDialog','CalendarItemDialogService'];
 
-    constructor(private $scope, private $mdDialog, private calendarItemDialog: CalendarItemDialogService){
+    constructor(
+        private $scope,
+        private $mdDialog,
+        private calendarItemDialog: CalendarItemDialogService) {
         $scope.hide = () => $mdDialog.hide();
         $scope.answer = (item) => $mdDialog.answer(item);
     }

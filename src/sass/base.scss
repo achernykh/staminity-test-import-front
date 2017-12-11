@@ -270,6 +270,12 @@ md-pagination-wrapper {
   &.color-swim {
     background-color: $activity-color-swim !important;
   }
+  &.color-triathlon {
+    background-color: $activity-color-triathlon !important;
+  }
+  &.color-strength {
+    background-color: $activity-color-strength !important;
+  }
   &.color-other {
     background-color: $activity-color-other !important;
   }
@@ -282,6 +288,16 @@ md-pagination-wrapper {
   &.complete-error {
     background-color: $red-800;
   }
+}
+
+.calendar-item-record-icon {
+  background-color: $grey-500;
+  transition: background-color 0.3s 0.1s;
+}
+
+.calendar-item-measurement {
+  background-color: $grey-500;
+  transition: background-color 0.3s 0.1s;
 }
 
 // Задание выполнено без отклонений

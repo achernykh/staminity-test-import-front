@@ -67,8 +67,8 @@ export class CalendarItemDialogService {
      * Диалог ведения Тренировки
      * @param env - элемент от куда вызван диалог
      * @param options - опции ведения тренировки
-     * @param activity - объект тренировки
-     * @returns {any}
+     * @param item - объект тренировки
+     * @returns {Promise<ICalendarItemDialogResponse>}
      */
     activity (env: Event,
               options: ICalendarItemDialogOptions,

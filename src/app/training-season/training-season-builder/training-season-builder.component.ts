@@ -1,5 +1,5 @@
 import "./training-season-builder.component.scss";
-import { IComponentOptions, IComponentController, IScope } from "angular";
+import { IComponentOptions, IComponentController, IScope, ILocationService } from "angular";
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
 import { ICalendarItem } from "@api/calendar";
@@ -41,10 +41,11 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     private itemOptions: ICalendarItemDialogOptions;
 
     // inject
-    static $inject = ['$scope', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService',
+    static $inject = ['$scope', '$location', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService',
         'TrainingSeasonDialogService', 'message', 'CalendarItemDialogService'];
 
     constructor (private $scope: IScope,
+                 private $location: ILocationService,
                  private $mdMedia: any,
                  private $stateParams: any,
                  private calendarService: CalendarService,
@@ -117,6 +118,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     setSeason (season: ISeasonPlan): void {
         this.season = new TrainingSeason(season);
+        this.$location.search('seasonId', this.season.id);
         this.prepareData();
         this.state = TrainingSeasonViewState.Builder;
     }
@@ -127,6 +129,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     setOwner (user: IUserProfile | IUserProfileShort): void {
         this.owner = user;
+        this.$location.search('userId', this.owner.userId);
         this.trainingSeasonService.get({userId: this.owner.userId})
             .then(response => this.seasons = response.arrayResult, error => this.messageService.toastInfo(error))
             .then(() => this.calendarService.search({ userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
