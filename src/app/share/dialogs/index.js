@@ -492,13 +492,14 @@ DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'mes
 function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, message, tariff, billing) {
     this.tariff = tariff;
     this.billing = billing;
-    this.terms = [1, 14];
+    this.terms = [1, 12];
 
     this.tariffStatus = BillingService.tariffStatus(tariff);
     this.tariffIsOwn = !BillingService.tariffEnablerClub(tariff) && !BillingService.tariffEnablerCoach(tariff);
 
     this.promoCode = '';
     this.rejectedPromoCode = '';
+    this.fixedFeeTerm = 1;
 
     this.discountedFee = (fee) => fee.rate * (1 + (fee.promo.discount || 0) / 100);
 
@@ -525,6 +526,7 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
     this.setBilling = (billing) => {
         this.billing = billing;
         this.fixedFee = this.getFixedFee();
+        this.fixedFeeTerm = this.fixedFee.term;
         this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
         this.activePromo = this.getActivePromo(billing);
         this.autoRenewal = this.fixedFee.autoRenewal;
@@ -561,7 +563,7 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
             tariff.tariffId, 
             this.autoRenewal,
             maybe(this.activePromo) (prop('code')) (),
-            this.billing.trialConditions ? this.billing.trialConditions.term : undefined,
+            this.fixedFeeTerm,
         ).then(() => {
             $mdDialog.hide();
         }, (info) => {
