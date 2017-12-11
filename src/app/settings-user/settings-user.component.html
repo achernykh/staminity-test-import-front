@@ -28,10 +28,10 @@
                     <md-card-content layout="row" layout-align="space-between start" style="width: 100%">
                         <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
                                  profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true">
-                            <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
+                            <button ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
                         </userpic>
                         <div flex=none hide show-gt-xs>
-                            <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+                            <md-button ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
                         </div>
                         <md-fab-speed-dial ng-cloak class="animated bounceIn" md-theme="default">
                             <md-fab-trigger>

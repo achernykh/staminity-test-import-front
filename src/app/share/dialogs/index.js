@@ -561,6 +561,7 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
             tariff.tariffId, 
             this.autoRenewal,
             maybe(this.activePromo) (prop('code')) (),
+            this.billing.trialConditions ? this.billing.trialConditions.term : undefined,
         ).then(() => {
             $mdDialog.hide();
         }, (info) => {

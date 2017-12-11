@@ -98,6 +98,10 @@ class SettingsUserCtrl {
         this.destroy.complete();
     }
 
+    isOwnSettings () {
+        return this.SessionService.isCurrentUserId(this.user.userId);
+    }
+
     setUser (user) {
 
         if (user.userId === this.user.userId) {
