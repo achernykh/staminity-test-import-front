@@ -30,6 +30,12 @@ $gt-sm: 960px;
   @include border-radius(9px);
 }
 
+.bg-circle-20 {
+  min-width: 20px;
+  height: 20px;
+  @include border-radius(10px);
+}
+
 .bg-circle-56 {
   min-width: 56px;
   height: 56px;

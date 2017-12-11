@@ -1,0 +1,57 @@
+<md-list class="md-dense slim-input" md-theme="grey" class="template-list__filter">
+    <md-list-item>
+        <md-input-container>
+            <md-input-container class="md-block no-message" md-no-float>
+                <!--<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.filterParams.activityType.code || 'run' }}.svg"></md-icon>-->
+                <md-select
+                        placeholder="{{ 'reference.sport' | translate }}"
+                        flex name="activity-type" class="icon"
+                        ng-model="$ctrl.filterParams.activityType"
+                        ng-change="$ctrl.updateFilterParams()">
+                    <md-option
+                            ng-repeat="activityType in $ctrl.activityTypes | filter:{isBasic: true} track by activityType.id"
+                            ng-value="activityType">
+                        {{ 'sport.' + activityType.code | translate }}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </md-input-container>
+    </md-list-item>
+    <md-list-item>
+        <md-input-container class="md-block no-message" md-no-float>
+            <md-select
+                    ng-model="$ctrl.filterParams.category"
+                    ng-model-options="{ trackBy: '$value.id' }"
+                    required=""
+                    md-no-asterisk="false"
+                    placeholder="{{::'activity.assignment.categoryLabel' | translate}}"
+                    ng-change="$ctrl.updateFilterParams()"
+                    class="icon">
+                <md-optgroup
+                        ng-repeat="owner in ['user', 'coach', 'club', 'system']"
+                        ng-if="$ctrl.categoriesByOwner[owner].length"
+                        label="{{ 'reference.categories.' + owner | translate }}">
+                    <md-option class="md-caption"
+                               ng-repeat="category in $ctrl.categoriesByOwner[owner] track by category.id"
+                               ng-value="category">
+                        {{ category | categoryCode }}
+                    </md-option>
+                </md-optgroup>
+            </md-select>
+        </md-input-container>
+    </md-list-item>
+</md-list>
+<section layout="column" class="template-list__data">
+    <activity-template ng-repeat="template in $ctrl.templatesByOwner track by template.id"
+                       class=""
+                       flex="none"
+                       dnd-draggable="template"
+                       dnd-type="'user-template'"
+                       draggable="true"
+                       template="template"
+                       is-mobile-layout="true"
+                       on-copy="$ctrl.copyTemplate(template)"
+                       on-select="$ctrl.openTemplate(template)"
+                       on-delete="$ctrl.deleteTemplate(template)">
+    </activity-template>
+</section>

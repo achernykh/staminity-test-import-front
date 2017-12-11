@@ -14,7 +14,7 @@
   transition: all 0s ease-in-out 0s;
 
   .toolbar {
-    padding: 0px 6px 0px 6px;
+    padding: 0 6px 0 6px;
     height: 30px;
 
     .md-menu {
@@ -23,7 +23,7 @@
   }
 
   .summary {
-    padding: 0px 6px 8px 6px;
+    padding: 0 6px 8px 6px;
   }
 
   md-icon.md-18, md-icon.s18{
@@ -35,11 +35,11 @@
   }
 
   .sum {
-    padding: 12px 0px;
+    padding: 12px 0;
   }
 
   .sport-sum {
-    padding: 12px 0px;
+    padding: 12px 0;
   }
 
   .summary-bar {
@@ -50,7 +50,7 @@
     background: grey;
     color: white;
     border-radius: 10px;
-    padding: 0px 5px;
+    padding: 0 5px;
 
     //transition: background-color 1s ease-in-out;
 

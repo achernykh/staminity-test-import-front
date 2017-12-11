@@ -9,10 +9,10 @@ calendar-day {
   display: inline-block;
   vertical-align: top;
   min-height: 170px;
-  padding: 0px 6px 8px 6px;
+  padding: 0 4px 0 4px;
   height: 100%;
   width: 12.4%;
-  vertical-align:top;
+  vertical-align: top;
 
   // xs & sm size
   @media (min-width: 0px) and (max-width: 959px) {
@@ -43,6 +43,8 @@ calendar-day {
   transition: all 0s ease-in-out 0s;
 
   section.toolbar {
+    height: 26px;
+
     .day, .weekday {
       text-align: center;
       min-width:24px;
@@ -51,9 +53,29 @@ calendar-day {
     @media (min-width: 0px) and (max-width: 959px) {
       margin-right: 8px;
     }
+
+    .day-title {
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      margin: auto;
+
+      &__number {
+        text-align: center;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        margin: auto;
+        border-radius: 10px;
+      }
+
+      &__month {
+        margin-left: 0.4em;
+      }
+    }
     
     &.today {
-      border-top:solid 4px $orange-800;
+      //border-top:solid 4px $orange-800;
       // xs & sm size
       @media (min-width: 0px) and (max-width: 959px) {
         .day, .weekday {

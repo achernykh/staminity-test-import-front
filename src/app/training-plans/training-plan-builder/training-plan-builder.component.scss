@@ -6,8 +6,8 @@
     min-height: 32px;
     display: block;
     line-height: 32px;
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 0;
+    padding-right: 0;
 
     .day {
       box-sizing: border-box;
@@ -17,7 +17,7 @@
       width: 12.4%;
       vertical-align:top;
       text-transform: capitalize;
-      padding: 0px 6px 0px 6px;
+      padding: 0 6px 0 6px;
 
       @media (min-width: 959px) and (max-width: 1279px){
         width: 13.9%;
@@ -30,9 +30,9 @@
       -webkit-box-sizing: border-box;
       display:inline-block;
       width: 12.8%;
-      display:inline-block;
+      display: inline-block;
       vertical-align:top;
-      padding: 0px 6px 0px 6px;
+      padding: 0 6px 0 6px;
     }
 
   }

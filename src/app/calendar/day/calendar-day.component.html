@@ -1,14 +1,13 @@
 <div flex layout-xs="row" layout-sm="row" layout-gt-sm="column">
     <!-- day header: start -->
-    <section class="toolbar" flex-gt-sm="none" flex="none" style="height: 30px" layout="row" layout-align="space-between center"
+    <section class="toolbar" flex-gt-sm="none" flex="none" layout="row" layout-align="space-between center"
          ng-class="{today: $ctrl.today}">
         <div flex="none">
-            <!--<div show hide-gt-sm flex="none" class="md-body-1" style="min-width: 24px">
-                {{::$ctrl.data.month | uppercase}}
-            </div>-->
-            <div flex="none" layout="raw" class="md-body-1" style="min-width: 24px" hide show-gt-sm>
-                <span>{{::($ctrl.dynamicDates ? $ctrl.data.pos : $ctrl.data.title)}}</span>
-                <span ng-if="$ctrl.data.title == '01' && !$ctrl.dynamicDates" style="margin-left: 0.4em;">{{::$ctrl.data.month}}</span>
+            <div flex="none" layout="raw" class="day-title md-caption md-dark" hide show-gt-sm>
+                <span class="day-title__number"
+                      md-colors="::{backgroundColor: $ctrl.today ? 'accent-700' : 'grey-primary-50'}"
+                      ng-class="{'md-light': $ctrl.today}">{{::($ctrl.dynamicDates ? $ctrl.data.pos : $ctrl.data.title)}}</span>
+                <span class="day-title__month" ng-if="$ctrl.data.title == '01' && !$ctrl.dynamicDates" style="">{{::$ctrl.data.month}}</span>
             </div>
             <div hide-gt-sm class="md-title day">{{::$ctrl.data.title}}</div>
             <div hide-gt-sm class="md-caption weekday">{{::$ctrl.data.day}}</div>
@@ -63,7 +62,7 @@
     <!-- calendar items: start -->
     <section class="items" flex="auto" layout="column"
              dnd-list="items"
-             dnd-allowed-types="['itemType']"
+             dnd-allowed-types="['itemType','user-template']"
              dnd-drop="callback({date: $ctrl.data.date, operation: dropEffect, index: index})">
         <div flex="none" layout-wrap ng-switch on="item.calendarItemType"
              ng-repeat="item in $ctrl.data.calendarItems | orderBy:'dateStart' track by item.index">

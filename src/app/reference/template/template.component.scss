@@ -5,15 +5,15 @@
 activity-template {
 	vertical-align: top;
 	display: inline-block;
-	width: calc(20% - 12px);
-	padding: 6px;
+	//width: calc(20% - 12px);
+	//padding: 6px;
 	margin: 0;
 	cursor: pointer;
 	outline: none;
 	
 	&:hover {
-		background-color: $grey-300;
-		transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+		//background-color: $grey-300;
+		//transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 	}
 	
 	@media (max-width: $maxMobileWidth) {
@@ -26,6 +26,29 @@ activity-template {
 
 
 .template {
+
+	&__list {
+		padding: 8px;
+		min-height: 54px;
+		max-height: 54px;
+		background-color: $grey-200;
+		border-radius: 4px;
+
+		&:hover {
+			background-color: $grey-300;
+			transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+		}
+
+		.description {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			line-height: 14px;
+			max-height: 28px;
+		}
+	}
 	
 	&-row {
 		padding: 16px !important;

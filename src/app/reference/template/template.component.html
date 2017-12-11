@@ -54,7 +54,7 @@
 </div>
 
 
-<md-list-item 
+<!--<md-list-item
 	ng-if="$ctrl.isMobileLayout"
 	class="template-row" 
 	layout="row" layout-align="start start"
@@ -67,5 +67,32 @@
 		<div class="template-row__description">{{ $ctrl.description | truncate }}</div>
 	</div>
 	<md-icon ng-if="$ctrl.template.favourite" class="material-icon template-row__favorite-icon">star</md-icon>
-</md-list-item>
+</md-list-item>-->
+
+<section class="template__list md-whiteframe-1dp" ng-if="$ctrl.isMobileLayout">
+	<header class="template-header" layout="row" layout-align="center center">
+		<div class="calendar-item-activity-icon color-{{$ctrl.activityType.code}} bg-circle-20" ng-if="false"
+			 layout-align="center center">
+			<md-icon class="material-icons md-light md-18" md-svg-src="/assets/icon/{{ $ctrl.activityType.code }}.svg"></md-icon>
+		</div>
+		<div flex="auto" layout="column">
+			<section flex layout="row" layout-align="start center"
+					 class="md-caption md-dark md-active center" ng-if="false">
+				<div flex="none" class="line-14">{{$ctrl.template.activityCategory | categoryCode}}</div>
+			</section>
+			<section flex layout="row" layout-align="start center"
+					 class="md-body-2 md-dark center tight-10">
+                    <span flex="none">{{ $ctrl.name }}</span>
+			</section>
+		</div>
+		<div flex="none" ng-if="false">
+			<md-button class="md-icon-button" aria-label="More Event" style="margin-right: 0px">
+				<md-icon class="material-icons md-18">more_vert</md-icon>
+			</md-button>
+		</div>
+	</header>
+	<section>
+		<div class="description md-caption md-dark md-inactive">{{ $ctrl.description }}</div>
+	</section>
+</section>
 

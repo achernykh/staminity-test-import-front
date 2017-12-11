@@ -1,20 +1,19 @@
 <!-- weektotal header: start -->
 
 <section class="toolbar" flex-gt-sm="none" flex="none" layout="row" layout-align="space-between center"
+         ng-style="{background: $ctrl.periodizationData ? $ctrl.periodizationData.color : 'none',
+                    color: $ctrl.periodizationData ? 'white' : 'auto'}"
+
          ng-mouseover="$ctrl.showMenu = true" ng-mouseleave="$ctrl.showMenu = false">
 
-    <div flex="none" class="md-body-1" style="min-width: 24px">
+    <div flex="none" class="md-caption md-dark" style="min-width: 24px">
         Неделя {{$ctrl.dynamicDates ? $ctrl.week.sid + 1 : $ctrl.title}}
     </div>
     <div flex="auto" layout="row" layout-align="end center">
 
-        <!--<div flex="none" ng-if="$ctrl.data.hasSummary()"
-             class="md-body-1 summary-status {{$ctrl.data.summaryStatus()}}">
-            {{$ctrl.data.summaryPercent() |number:0}}%</div> -->
-
         <md-menu flex="none" md-position-mode="target-right target">
             <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
-                <md-icon class="material-icons md-18">more_vert</md-icon>
+                <md-icon class="material-icons md-18" ng-class="{'md-light': $ctrl.periodizationData}">more_vert</md-icon>
             </md-button>
             <md-menu-content>
                 <md-menu-item>
@@ -42,10 +41,13 @@
     </div>
 </section>
 
-<section flex="none" class="periodization md-caption md-dark md-inactive" ng-if="$ctrl.periodizationData">
+<section flex="none" class="periodization md-caption md-light md-active"
+         ng-if="$ctrl.periodizationData"
+         ng-style="{background: $ctrl.periodizationData ? $ctrl.periodizationData.color : 'none'}">
     <div>{{$ctrl.periodizationData.code}}</div>
+    <div></div>
     <div>
-        <span>{{$ctrl.periodizationData.durationMeasure}}</span>
+        <span>{{$ctrl.periodizationData.durationMeasure | translate}}</span>
         <span>:&nbsp;</span>
         <span>{{$ctrl.periodizationData.durationValue}}</span>
     </div>

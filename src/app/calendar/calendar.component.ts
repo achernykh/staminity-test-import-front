@@ -6,7 +6,7 @@ import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, 
 import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";
 import {SessionService} from "../core";
-import {ICalendarItem, IUserProfile} from "../../../api";
+import {ICalendarItem, IUserProfile, IUserProfileShort} from "../../../api";
 import DisplayService from "../core/display.service";
 import {TrainingPlan} from "../training-plans/training-plan/training-plan.datamodel";
 import { ICalendarWeek, ICalendarDay, ICalendarDayData } from './calendar.interface';
@@ -15,7 +15,15 @@ import { Calendar } from "./calendar.datamodel";
 
 export class CalendarCtrl implements IComponentController{
 
-    static $inject = ['$scope', '$mdDialog', '$rootScope', '$anchorScroll', '$location','message',
+    // bind
+    currentUser: IUserProfile;
+    owner: IUserProfile | IUserProfileShort;
+
+    // private
+
+
+    // inject
+    static $inject = ['$scope', '$mdDialog', '$mdMedia', '$anchorScroll', '$location', '$stateParams', 'message',
         'CalendarService', 'SessionService', 'dialogs', 'DisplayService'];
     public user: IUserProfile; // calendar owner
     private weekdayNames: Array<number> = [];
@@ -28,16 +36,17 @@ export class CalendarCtrl implements IComponentController{
     private calendar: Calendar;
     private currentWeek: ICalendarWeek;
     private lockScroll: boolean;
-    public currentUser: IUserProfile;
+    private athletes: Array<IUserProfileShort>;
 
     constructor(
         private $scope: IScope,
         private $mdDialog: any,
-        private $rootScope: IRootScopeService,
+        private $mdMedia: any,
         private $anchorScroll: IAnchorScrollService,
         private $location: ILocationService,
+        private $stateParams: any,
         private message: IMessageService,
-        private CalendarService: CalendarService,
+        private calendarService: CalendarService,
         private session: SessionService,
         private dialogs: any,
         private display: DisplayService
@@ -45,14 +54,36 @@ export class CalendarCtrl implements IComponentController{
 
     }
 
-    $onInit() {
-        this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.CalendarService, this.user);
-        this.calendar.toDate(new Date());
-        //let date = moment(this.$location.hash());
-        this.currentUser = this.session.getUser();
-        //this.toDate(date.isValid()? date.toDate() : new Date());
+    private prepareAthletesList(): void {
+        if (this.currentUser.public.isCoach && this.currentUser.connections.hasOwnProperty('allAthletes')) {
+            this.athletes = this.currentUser.connections.allAthletes.groupMembers;
+        }
+    }
 
-        this.CalendarService.item$
+    openMenu ($mdMenu, ev) {
+        $mdMenu.open(ev);
+    }
+
+    setData (date: Date = new Date()): void {
+        this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.owner);
+        this.calendar.toDate(date);
+    }
+
+    setOwner (user: IUserProfile | IUserProfileShort): void {
+        this.owner = user;
+        this.$location.search('userId', this.owner.userId);
+        this.setData();
+    }
+
+    $onInit() {
+        this.prepareAthletesList();
+        if (this.$stateParams.userId && this.athletes &&
+            this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
+            this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
+        }
+        this.setData();
+
+        this.calendarService.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
                 message.value.userProfileOwner.userId === this.user.userId)
             .map(message => {
@@ -81,6 +112,10 @@ export class CalendarCtrl implements IComponentController{
             });
 
         this.weekdayNames = moment.weekdays(true);
+    }
+
+    get isLargeScreen (): boolean {
+        return this.$mdMedia('min-width: 1440px');
     }
 
     /**
@@ -418,7 +453,7 @@ export class CalendarCtrl implements IComponentController{
 
     onFileUpload(){
         this.dialogs.uploadFile()
-            .then(file => this.CalendarService.postFile(file,null))
+            .then(file => this.calendarService.postFile(file,null))
             .then(response => this.message.toastInfo(response), error => this.message.toastInfo(error));
     }
 
@@ -463,7 +498,7 @@ export class CalendarCtrl implements IComponentController{
         if (shift && this.buffer && this.buffer.length > 0) {
             task = this.buffer
                 .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
-                .map(item => this.CalendarService.postItem(prepareItem(item, shift)));
+                .map(item => this.calendarService.postItem(prepareItem(item, shift)));
             Promise.all(task)
                 .then(()=> this.message.toastInfo('itemsPasted'), (error)=> this.message.toastError(error))
                 .then(()=> this.clearBuffer());;
@@ -516,7 +551,7 @@ export class CalendarCtrl implements IComponentController{
         let inSelection: boolean = (selected && selected.length > 0) && selected.some(s => items.some(i => i.calendarItemId === s.calendarItemId));
 
         this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
-        .then(() => this.CalendarService.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))
+        .then(() => this.calendarService.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))
         .then(() => this.message.toastInfo('itemsDeleted'), (error) => error && this.message.toastError(error))
         .then(() => inSelection && this.clearBuffer());
     }
@@ -546,6 +581,8 @@ export class CalendarCtrl implements IComponentController{
 
 const CalendarComponent: IComponentOptions = {
     bindings: {
+        currentUser: '<',
+        owner: '<',
         view: '<',
         user: '<'
     },

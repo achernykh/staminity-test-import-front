@@ -19,11 +19,11 @@
 
 //
 md-toolbar.md-default {
-  background-color: white;
-  color: black;
+  background-color: white !important;
+  color: black !important;
 }
 
 //
 .md-subheader {
-  background: white;
+  background: $grey-050;
 }

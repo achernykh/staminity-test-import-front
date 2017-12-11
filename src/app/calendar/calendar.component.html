@@ -1,3 +1,149 @@
+<st-application-frame class="st-application-frame calendar"
+                      ng-class="{'left-bar-show': $ctrl.isLargeScreen}"
+                      template="application"
+                      navigation-bar="false"
+                      left-bar="$ctrl.isLargeScreen">
+
+    <st-application-frame-title>
+        <span class="md-title" translate="calendar.fullTitle"></span>
+        <span class="md-title">{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
+        <md-icon class="material-icons" aria-label="Next">keyboard_arrow_right</md-icon>
+        <span class="button">{{$ctrl.owner | userName:'short'}}</span>
+        <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
+            <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                    <md-button ng-click="$ctrl.setOwner(athlete)"
+                               ng-disable="athlete.userId === $ctrl.owner.userId">
+                        <userpic profile="athlete"></userpic>
+                        <span>{{athlete | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                        <userpic profile="$ctrl.currentUser"></userpic>
+                        <span>{{$ctrl.currentUser | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </st-application-frame-title>
+
+    <st-application-frame-toolbar layout="row">
+        <md-button  ng-click="$ctrl.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+            <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
+        </md-button>
+        <md-button ng-click="$ctrl.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+            <md-icon class="material-icons md-18" aria-label="Back">navigate_next</md-icon>
+        </md-button>
+        <md-datepicker ng-model="$ctrl.myDate" ng-change="$ctrl.toDate($ctrl.myDate)" class="picker">
+        </md-datepicker>
+        <md-button ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings" ng-init="today = 0">
+            <span translate="calendar.today" class="md-body-1"></span>
+            <!--<md-icon class="material-icons" aria-label="Back">today</md-icon>-->
+        </md-button>
+        <md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
+            <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
+        </md-button>
+        <span class="md-body-1" translate>
+                {{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details'}}
+        </span>
+    </st-application-frame-toolbar>
+
+    <st-application-frame-left-bar>
+        <md-content class="calendar__left-bar">
+            <md-subheader>
+                <span translate="calendar.templates"></span>
+            </md-subheader>
+            <st-template-list current-user="$ctrl.currentUser"></st-template-list>
+        </md-content>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content>
+        <section class="calendar__content md-whiteframe-4dp">
+            <!-- weekdays panel: start -->
+            <md-toolbar md-theme="grey" class="calendar__days-header md-default" hide show-gt-sm>
+                <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day md-caption md-dark font-medium">{{::day}}</div>
+                <div hide show-gt-md class="total md-caption md-dark font-medium">Итоги</div>
+            </md-toolbar>
+            <!-- grid: start -->
+            <section class="calendar__grid"
+                     scroll-container
+                     on-scroll-hit-top="$ctrl.calendar.up(1)"
+                     on-scroll-hit-bottom="$ctrl.calendar.down(1)"
+                     scroll-keep-position="{{'#hotfix' + $ctrl.calendar.currentWeek.anchor}}">
+                <!-- grid-week: start -->
+                <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
+                     id="hotfix{{::week.anchor}}"
+                     ng-mouseover="$ctrl.setCurrentWeek(week)"
+                     class="calendar-week"
+                     ng-class="{'calendar__week--current': week.sid == $ctrl.calendar.currentWeek.sid, 'calendar__week--loading': week.loading}">
+                    <calendar-day
+                            ng-repeat="day in week.subItem track by day.key"
+                            ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
+                            ng-init="accent=false"
+                            ng-class="{select: day.selected}"
+                            selected="day.selected"
+                            accent="accentDay"
+                            data="day.data"
+                            owner="$ctrl.owner"
+                            current-user="$ctrl.currentUser"
+                            on-save="$ctrl.save(formMode, item)"
+                            on-select="day.selected = !day.selected">
+                    </calendar-day>
+
+                    <calendar-total
+                            hide show-gt-md
+                            layout="column"
+                            class="calendar-total  md-caption summary"
+                            ng-mouseover="accentTotal=true" ng-mouseleave="accentTotal=false"
+                            ng-init="accent=false"
+                            ng-class="{select: day.selected}"
+                            selected="week.selected"
+                            accent="accentTotal"
+                            update="week.changes"
+                            week="week"
+                            owner="$ctrl.owner"
+                            on-toggle="$ctrl.onToggleWeek(sid, value)">
+                        <div class="md-body-1">Неделя {{$index}}</div>
+                    </calendar-total>
+
+                </div>
+                <!-- grid-week: end -->
+
+                <div class="scroll__bottom-pad" style="height:100%"></div>
+
+            </section>
+            <!-- grid-weekdays: end -->
+
+        </section>
+        <md-fab-speed-dial  ng-init="isOpen = false" md-open="isOpen" md-direction="left" hide-gt-sm class="md-scale">
+            <md-fab-trigger>
+                <md-button aria-label="menu" class="md-fab md-accent">
+                    <md-icon class="material-icons">add</md-icon>
+                </md-button>
+            </md-fab-trigger>
+
+            <md-fab-actions>
+                <md-button aria-label="Events" class="md-fab md-raised md-mini" ng-click="$ctrl.onAddEvent($event)">
+                    <md-icon class="material-icons md-inactive" aria-label="Events">weekend</md-icon>
+                </md-button>
+                <md-button aria-label="Measures" class="md-fab md-raised md-mini" ng-click="$ctrl.onAddMeasurement($event)">
+                    <md-icon class="material-icons" aria-label="Measures">straighten</md-icon>
+                </md-button>
+                <md-button aria-label="Activity" class="md-fab md-raised md-mini" ng-click="$ctrl.onAddActivity($event)">
+                    <md-icon class="material-icons" aria-label="Activity">directions_run</md-icon>
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
+    </st-application-frame-content>
+
+</st-application-frame>
+<!--
 <div class="application">
     <div hide-md class="margin-left"></div>
     <section class="application-body">
@@ -38,19 +184,19 @@
         </section>
         <section id="calendar" class="content animated zoomIn">
 
-            <!-- weekdays panel: start -->
+
             <md-toolbar class="calendar-days-header md-primary md-whiteframe-1dp" hide show-gt-sm>
                 <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day md-caption">{{::day}}</div>
                 <div hide show-gt-md class="total md-caption">Итоги</div>
             </md-toolbar>
 
-            <!-- grid: start -->
+
             <section class="calendar-grid bg-grey-200"
                      scroll-container
                      on-scroll-hit-top="$ctrl.calendar.up(1)"
                      on-scroll-hit-bottom="$ctrl.calendar.down(1)"
                      scroll-keep-position="{{'#hotfix' + $ctrl.currentWeek.anchor}}">
-                <!-- grid-week: start -->
+
                 <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
                      style=""
                      id="hotfix{{::week.anchor}}"
@@ -90,17 +236,17 @@
                     </calendar-total>
 
                 </div>
-                <!-- grid-week: end -->
+
 
                 <div class="scroll__bottom-pad" style="height:100%"></div>
 
             </section>
-            <!-- grid-weekdays: end -->
+
 
         </section>
 
     </section>
-    <!-- common right margin -->
+
     <div hide-md class="margin-right"></div>
 </div>
 
@@ -123,5 +269,5 @@
         </md-button>
     </md-fab-actions>
 </md-fab-speed-dial>
-
+-->
 
