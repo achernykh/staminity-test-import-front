@@ -65,4 +65,14 @@ export class CalendarService {
         return this.RESTService.postFile(new PostFile(`/api/private/upload`,file, { activityId: activityId}))
             .then((response) => response.data);
     }
+
+    /**
+     * Загрузка картинки
+     * @param image
+     * @returns {Promise<string>}
+     */
+    postImage(image: any):Promise<string> {
+        return this.RESTService.postFile(new PostFile(`/calendarItem/recordImage/1`, image))
+            .then((response: any) => response.fileName);
+    }
 }
