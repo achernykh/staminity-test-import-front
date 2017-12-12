@@ -499,7 +499,6 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
 
     this.promoCode = '';
     this.rejectedPromoCode = '';
-    this.fixedFeeTerm = 1;
 
     this.discountedFee = (fee) => fee.rate * (1 + (fee.promo.discount || 0) / 100);
 
@@ -519,6 +518,20 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
         dialogs.usersList(fee.varObjects, 'users');
     };
 
+    this.fixedFeeTerm = (value) => {
+        if (typeof value !== 'number') {
+            return this.getFixedFee().term;
+        }
+
+        BillingService.getTariff(tariff.tariffId, '', value)
+        .then((billing) => {
+            const fixedFee = billing.rates.find((rate) => rate.rateType === 'Fixed' && rate.term === value);
+            this.billing.rates = this.billing.rates.map((rate) => rate.rateType === 'Fixed' ? fixedFee : rate);
+            this.fixedFee = this.getFixedFee();
+            $scope.$apply();
+        });
+    };
+
     this.getActivePromo = (billing) => {
         return billing.rates.map(prop('promo')).find((promo) => promo && promo.code);
     };
@@ -526,7 +539,6 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
     this.setBilling = (billing) => {
         this.billing = billing;
         this.fixedFee = this.getFixedFee();
-        this.fixedFeeTerm = this.fixedFee.term;
         this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
         this.activePromo = this.getActivePromo(billing);
         this.autoRenewal = this.fixedFee.autoRenewal;
@@ -563,7 +575,7 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
             tariff.tariffId, 
             this.autoRenewal,
             maybe(this.activePromo) (prop('code')) (),
-            this.fixedFeeTerm,
+            this.fixedFeeTerm(),
         ).then(() => {
             $mdDialog.hide();
         }, (info) => {
