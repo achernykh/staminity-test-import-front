@@ -40,13 +40,21 @@ activity-template {
 		}
 
 		.description {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 2;
-			line-height: 14px;
-			max-height: 28px;
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-height: 14px;
+        max-height: 28px;
+      }
+
+      svg {
+        margin-top: 8px !important;
+        max-height: 20px !important;
+      }
+
 		}
 	}
 	

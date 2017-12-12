@@ -139,3 +139,31 @@ export const shiftDate = (item: ICalendarItem, shift: number) => {
     return item;
 };
 
+/**
+ * Сборка массива координат для мини-граифка
+ * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
+ * @param intervals
+ */
+export const getIntervalsChartData = (intervals: Array<IActivityIntervalP>): Array<Array<number>> => {
+    let start: number = 0; //начало отсечки на графике
+    let finish: number = 0; // конец отсечки на графике
+    let maxFtp: number = 0;
+    let minFtp: number = 100;
+    let data: Array<any> = [];
+
+    intervals.map( interval => {
+        start = finish;
+        finish = start + interval.movingDurationLength;
+        maxFtp = Math.max(interval.intensityByFtpTo, maxFtp);
+        minFtp = Math.min(interval.intensityByFtpFrom, minFtp);
+        data.push([start, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2],
+            [finish, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2]);
+    });
+
+    minFtp = minFtp * 0.90;
+    data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
+
+    // Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
+    return (data.length > 0 && data) || null;
+};
+

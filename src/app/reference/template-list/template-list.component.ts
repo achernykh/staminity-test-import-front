@@ -9,12 +9,14 @@ import { activityTypes } from "../../activity/activity.constants";
 import ReferenceService from "../reference.service";
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters, templatesFilters } from "../reference.datamodel";
 import { Subject } from "rxjs/Rx";
+import { ICalendarItem } from "@api/calendar";
 
 class TemplateListCtrl implements IComponentController {
 
     // bind
     currentUser: IUserProfile | IUserProfilePublic;
     onSelect: (response: Object) => Promise<void>;
+    onDrop: (response: {template: IActivityTemplate, date: string}) => Promise<void>;
 
     // private
     private destroy: Subject<void> = new Subject<void>();
@@ -91,11 +93,18 @@ class TemplateListCtrl implements IComponentController {
 
     }
 
-}
+    dropTemplate (srcItem: IActivityTemplate, operation: string, srcIndex: number, trgDate: string, trgIndex: number) {
+        this.onDrop({template: srcItem, date: trgDate});
+    }
+
+
+
+    }
 
 const TemplateListComponent: IComponentOptions = {
     bindings: {
         currentUser: '<',
+        onDrop: '&',
         onSelect: '&'
     },
     controller: TemplateListCtrl,

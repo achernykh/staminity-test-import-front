@@ -12,6 +12,8 @@ import {TrainingPlan} from "../training-plans/training-plan/training-plan.datamo
 import { ICalendarWeek, ICalendarDay, ICalendarDayData } from './calendar.interface';
 import { prepareItem, getItemById } from './calendar.functions';
 import { Calendar } from "./calendar.datamodel";
+import { IActivityTemplate } from "@api/reference";
+import { profileShort } from "../core/user.function";
 
 export class CalendarCtrl implements IComponentController{
 
@@ -554,6 +556,24 @@ export class CalendarCtrl implements IComponentController{
         .then(() => this.calendarService.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))
         .then(() => this.message.toastInfo('itemsDeleted'), (error) => error && this.message.toastError(error))
         .then(() => inSelection && this.clearBuffer());
+    }
+
+    onDropTemplate (template: IActivityTemplate, date: string): void {
+        let item: ICalendarItem = {
+            revision: null,
+            calendarItemId: null,
+            calendarItemType: 'activity',
+            dateStart: date,
+            dateEnd: date,
+            activityHeader: {
+                activityType: template.activityCategory.activityType,
+                activityCategory: template.activityCategory,
+                intervals: template.content
+            },
+            userProfileCreator: profileShort(this.currentUser),
+            userProfileOwner: profileShort(this.owner)
+        };
+        this.onPostItem(item);
     }
 
     clearBuffer() {

@@ -91,8 +91,14 @@
 			</md-button>
 		</div>
 	</header>
-	<section>
-		<div class="description md-caption md-dark md-inactive">{{ $ctrl.description }}</div>
+	<section ng-switch="$ctrl.isStructured" class="description">
+        <span class="md-caption md-dark md-inactive"
+              ng-switch-when="false">{{ $ctrl.description }}</span>
+        <calendar-activity-chart ng-switch-when="true"
+                                 ng-if="::$ctrl.segmentChart"
+                                 data="::$ctrl.segmentChart"
+                                 status="'template'">
+        </calendar-activity-chart>
 	</section>
 </section>
 

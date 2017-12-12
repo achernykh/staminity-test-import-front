@@ -5,6 +5,8 @@ import { ReferenceCtrl } from '../reference.component';
 import { path } from '../../share/utility';
 import { getType, activityTypes } from "../../activity/activity.constants";
 import './template.component.scss';
+import { getIntervalsChartData } from "../../activity/activity.function";
+import { IActivityIntervalP } from "@api/activity";
 
 
 class TemplateCtrl implements IComponentController {
@@ -14,15 +16,26 @@ class TemplateCtrl implements IComponentController {
 	private onSelect: () => any;
 	private onCopy: () => any;
 	private reference: ReferenceCtrl;
+	private segmentChart: any;
 
 	static $inject = ['$scope', '$filter', '$mdDialog'];
 
 	constructor (
 		private $scope, 
 		private $filter, 
-		private $mdDialog
-	) {
+		private $mdDialog) {
+
 	}
+
+	$onInit (): void {
+	    this.segmentChart = this.isStructured ?
+            getIntervalsChartData(<Array<IActivityIntervalP>>this.template.content.filter(i => i.type === 'P')) :
+            null;
+    }
+
+	get isStructured (): boolean {
+	    return this.template.content.some(i => i.type === 'P');
+    }
 
 	get activityType () {
 		let { activityTypeId } = this.template.activityCategory;

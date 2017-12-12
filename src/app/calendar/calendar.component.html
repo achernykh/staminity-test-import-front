@@ -59,7 +59,9 @@
             <md-subheader>
                 <span translate="calendar.templates"></span>
             </md-subheader>
-            <st-template-list current-user="$ctrl.currentUser"></st-template-list>
+            <st-template-list
+                current-user="$ctrl.currentUser"
+                on-drop="$ctrl.onDropTemplate(template,date)"></st-template-list>
         </md-content>
     </st-application-frame-left-bar>
 

@@ -47,6 +47,8 @@
                        flex="none"
                        dnd-draggable="template"
                        dnd-type="'user-template'"
+                       dnd-effect-allowed="copy"
+                       dnd-callback="$ctrl.dropTemplate(template, operation, $index, date, index)"
                        draggable="true"
                        template="template"
                        is-mobile-layout="true"
