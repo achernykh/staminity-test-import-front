@@ -48,16 +48,16 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         debugger;
         switch (formMode) {
             case FormMode.Post: {
-                this.calendar.postItem(item);
+                this.calendar.post(item);
                 break;
             }
             case FormMode.Put: {
-                this.calendar.deleteItem(getItemById(this.calendar.weeks, item.calendarItemId));
-                this.calendar.postItem(item);
+                this.calendar.delete(getItemById(this.calendar.weeks, item.calendarItemId));
+                this.calendar.post(item);
                 break;
             }
             case FormMode.Delete: {
-                this.calendar.deleteItem(getItemById(this.calendar.weeks, item.calendarItemId));
+                this.calendar.delete(getItemById(this.calendar.weeks, item.calendarItemId));
                 break;
             }
         }

@@ -86,10 +86,11 @@ export class CalendarCtrl implements IComponentController{
         this.setData();
 
         this.calendarService.item$
-            .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
-                message.value.userProfileOwner.userId === this.user.userId)
+            .filter(message =>
+                message.value.hasOwnProperty('userProfileOwner') &&
+                message.value.userProfileOwner.userId === this.user.userId &&
+                !this.calendar.include(message.value.calendarItemId, message.value.revision))
             .map(message => {
-                console.log('new calendar message: ', message);
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
             .subscribe((message) => {
@@ -558,7 +559,17 @@ export class CalendarCtrl implements IComponentController{
         .then(() => inSelection && this.clearBuffer());
     }
 
+    post (item: ICalendarItem): void {
+        this.calendarService.postItem(item)
+            .then(response => response && Object.assign(item, {
+                index: Number(`${response.value.id}${response.value.revision}`),
+                calendarItemId: response.value.id,
+                revision: response.value.revision }))
+            .then((item: ICalendarItem) => this.calendar.post(item));
+    }
+
     onDropTemplate (template: IActivityTemplate, date: string): void {
+        debugger;
         let item: ICalendarItem = {
             revision: null,
             calendarItemId: null,
@@ -573,7 +584,7 @@ export class CalendarCtrl implements IComponentController{
             userProfileCreator: profileShort(this.currentUser),
             userProfileOwner: profileShort(this.owner)
         };
-        this.onPostItem(item);
+        this.post(item);
     }
 
     clearBuffer() {

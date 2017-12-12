@@ -227,7 +227,7 @@ export class Calendar {
      * Создание записи календаря
      * @param item<ICalendarItem>
      */
-    postItem(item: ICalendarItem) {
+    post (item: ICalendarItem): void {
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
@@ -240,10 +240,22 @@ export class Calendar {
     }
 
     /**
+     * Проверка наличия итема в календаре
+     * @param id
+     * @param revision
+     * @returns {boolean}
+     */
+    include (id: number, revision: number): boolean {
+        return this.weeks.some(w =>
+            w.subItem.some(d =>
+                d.data.calendarItems.some(i =>
+                    i.calendarItemId === id && i.revision === revision)));
+    }
+    /**
      * Удаление записи календаря
      * @param item
      */
-    deleteItem(item) {
+    delete (item): void {
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
         let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);

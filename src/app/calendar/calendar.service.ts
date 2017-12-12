@@ -6,6 +6,7 @@ import {
 import {Observable} from "rxjs/Rx";
 import {IRESTService, PostFile} from "../core/rest.service";
 import {IHttpPromise, copy} from 'angular';
+import { IRevisionResponse } from "@api/core";
 
 export class CalendarService {
     item$: Observable<any>;
@@ -38,9 +39,9 @@ export class CalendarService {
      * @param request {Object}
      * @returns {Promise}
      */
-    postItem(item:ICalendarItem):Promise<any> {
-        let data: ICalendarItem = copy(item);
-        return this.SocketService.send(new PostCalendarItemRequest(data));
+    postItem(item:ICalendarItem):Promise<IRevisionResponse> {
+        //let data: ICalendarItem = copy(item);
+        return this.SocketService.send(new PostCalendarItemRequest(item));
     }
 
     /**
