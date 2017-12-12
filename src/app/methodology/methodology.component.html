@@ -6,17 +6,15 @@
 
         nav-bar="true"
         nav-bar-state="$ctrl.currentState"
-        left-bar-hide-type="'hidden'"
-        left-bar-show="$ctrl.leftBarShow"
-        right-bar-show="$ctrl.rightBarShow" ng-switch="$ctrl.currentState">
+        ng-switch="$ctrl.currentState">
 
     <st-application-frame-title>
-        <span translate="methodology.title"></span>
+        <span class="md-title" translate="methodology.title"></span>
     </st-application-frame-title>
 
     <st-application-frame-navbar layout="row">
         <md-nav-item  ng-repeat="state in $ctrl.navBarStates track by $index"
-                      md-nav-click="$ctrl.currentState = state" name="{{::state}}">
+                      md-nav-click="$ctrl.setState(state)" name="{{::state}}">
             <span translate="methodology.{{::state}}"></span>
         </md-nav-item>
     </st-application-frame-navbar>
@@ -73,7 +71,7 @@
             <st-periodization-scheme-filter
                 layout="column" layout-fill="true"
                 schemes="$ctrl.periodizationData"
-                on-select="$ctrl.selectPeriodizationScheme(scheme)">
+                on-select="$ctrl.setPeriodizationScheme(scheme)">
             </st-periodization-scheme-filter>
         </md-content>
     </st-application-frame-left-bar>

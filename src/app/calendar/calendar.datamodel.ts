@@ -228,10 +228,11 @@ export class Calendar {
      * @param item<ICalendarItem>
      */
     post (item: ICalendarItem): void {
-        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
+        debugger;
+        let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
-        if (w !== -1 && d >= 0) {
+        if (w && d >= 0) {
             Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)});
             this.weeks[w].subItem[d].data.calendarItems.push(item);
             this.weeks[w].changes++;
@@ -249,20 +250,20 @@ export class Calendar {
         return this.weeks.some(w =>
             w.subItem.some(d =>
                 d.data.calendarItems.some(i =>
-                    i.calendarItemId === id && i.revision === revision)));
+                    i.calendarItemId === id && (revision && i.revision === revision || true))));
     }
     /**
      * Удаление записи календаря
      * @param item
      */
     delete (item): void {
-        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
+        let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
-        let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+        let p = this.weeks.filter(d => d.sid === w)[0].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
 
-        if (w !== -1 && d >= 0 && p !== -1) {
-            this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
-            this.weeks[w].changes++;
+        if (w && d >= 0 && p !== -1) {
+            this.weeks.filter(d => d.sid === w)[0].subItem[d].data.calendarItems.splice(p,1);
+            this.weeks.filter(d => d.sid === w)[0].changes++;
             this.$scope.$applyAsync();
         }
     }
@@ -272,8 +273,8 @@ export class Calendar {
      * @param w - неделя в формате GGGG-WW
      * @returns {number}
      */
-    private getDayIndex( w: string ): number {
-        return this.weeks.findIndex(item => item.week === w);
+    private getWeekSeed( w: string ): number {
+        return this.weeks.some(d => d.week === w) && this.weeks.findIndex(d => d.week === w) || null;
     }
 
 

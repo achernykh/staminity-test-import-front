@@ -29,6 +29,7 @@ class CalendarDayCtrl {
     dynamicDates: boolean;
     trainingPlanMode: boolean;
     planId: number;
+    onUpdate: (response: {formMode: FormMode, item: ICalendarItem}) => Promise<any>;
 
     // private
     private itemOptions: ICalendarItemDialogOptions;
@@ -192,7 +193,10 @@ class CalendarDayCtrl {
      */
     wizard (e: Event, data: ICalendarDayData): void {
         this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
-            .then(response => { debugger; },  error => { debugger; });
+            .then(response => {
+                debugger;
+                this.onUpdate({formMode: response.formMode, item: response.item});
+            },  error => { debugger; });
     }
 
     /**
@@ -425,7 +429,7 @@ const CalendarDayComponent: IComponentOptions = {
         dynamicDates: '<',
         trainingPlanMode: '<',
         planId: '<',
-        onSave: '&',
+        onUpdate: '&',
         onSelect: '&'
     },
     require: {

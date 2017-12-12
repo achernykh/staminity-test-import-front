@@ -5,6 +5,7 @@ import { PeriodizationDialogService } from "./periodization-dialog.service";
 import { FormMode } from "../../application.interface";
 import { PeriodizationService } from "@app/methodology/periodization/periodization.service";
 import MessageService from "@app/core/message.service";
+import { IQuillConfig } from "../../share/quill/quill.config";
 
 class PeriodizationSchemeListCtrl implements IComponentController {
 
@@ -13,12 +14,12 @@ class PeriodizationSchemeListCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
 
     // inject
-    static $inject = ['message', 'PeriodizationService', 'PeriodizationDialogService'];
+    static $inject = ['message', 'PeriodizationService', 'PeriodizationDialogService', 'quillConfig'];
 
     constructor (
         private message: MessageService,
         private periodizationService: PeriodizationService,
-        private periodizationDialogScheme: PeriodizationDialogService) {
+        private periodizationDialogScheme: PeriodizationDialogService, private quillConfig: IQuillConfig) {
 
     }
 

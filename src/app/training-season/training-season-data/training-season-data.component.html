@@ -3,7 +3,11 @@
     <p flex="none" class="md-body-1 md-dark" translate="trainingSeason.loading"></p>
 </section>
 <md-card class="training-season-data" ng-if="$ctrl.data.grid.length > 0">
-    <st-training-season-chart data="$ctrl.data" update="$ctrl.update" class="training-season-chart" layout="column">
+    <st-training-season-chart
+            data="$ctrl.data"
+            update="$ctrl.update"
+            class="training-season-chart"
+            layout="column">
     </st-training-season-chart>
 
     <!-- Заголовок таблицы -->

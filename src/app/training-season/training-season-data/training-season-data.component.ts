@@ -32,6 +32,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
 
     $onChanges (changes): void {
         if (changes.hasOwnProperty('data') && !changes.data.isFirstChange() && this.data) {
+            this.update ++;
             this.prepareScheme();
         }
     }

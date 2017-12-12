@@ -14,6 +14,7 @@ import { prepareItem, getItemById } from './calendar.functions';
 import { Calendar } from "./calendar.datamodel";
 import { IActivityTemplate } from "@api/reference";
 import { profileShort } from "../core/user.function";
+import { FormMode } from "../application.interface";
 
 export class CalendarCtrl implements IComponentController{
 
@@ -88,8 +89,8 @@ export class CalendarCtrl implements IComponentController{
         this.calendarService.item$
             .filter(message =>
                 message.value.hasOwnProperty('userProfileOwner') &&
-                message.value.userProfileOwner.userId === this.user.userId &&
-                !this.calendar.include(message.value.calendarItemId, message.value.revision))
+                message.value.userProfileOwner.userId === this.owner.userId &&
+                !message.value.parentId)
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
@@ -430,6 +431,8 @@ export class CalendarCtrl implements IComponentController{
      * @param item<ICalendarItem>
      */
     onPostItem(item) {
+        if (this.calendar.include(item.calendarItemId, item.revision)) { return; };
+
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
@@ -444,6 +447,9 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     onDeleteItem(item) {
+        debugger;
+        if (!this.calendar.include(item.calendarItemId, item.revision)) { return; };
+
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
         let p = this.calendar.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
@@ -566,6 +572,27 @@ export class CalendarCtrl implements IComponentController{
                 calendarItemId: response.value.id,
                 revision: response.value.revision }))
             .then((item: ICalendarItem) => this.calendar.post(item));
+    }
+
+    /**
+     * Обновление данных календаря по синхронным ответам от бэка
+     * Вызов приходит из calendar-day
+     * @param mode
+     * @param item
+     */
+    update (mode: FormMode, item: ICalendarItem): void {
+        let FormMode = { Post: 1, Put: 2, View: 3, Delete: 4 }; // TODO не работает enum
+
+        switch (mode) {
+            case FormMode.Post: {
+                this.calendar.post(item);
+                break;
+            }
+            case FormMode.Delete: {
+                this.calendar.delete(item);
+                break;
+            }
+        }
     }
 
     onDropTemplate (template: IActivityTemplate, date: string): void {

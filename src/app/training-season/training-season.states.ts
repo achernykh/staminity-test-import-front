@@ -60,6 +60,7 @@ const trainingSeasonBuilder: any = {
     url: '/training-season-builder?userId&seasonId',
     loginRequired: false,
     authRequired: [],
+    reloadOnSearch: false,
     params: {
         athlete: null,
         season: null

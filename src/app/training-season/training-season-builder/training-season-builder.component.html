@@ -10,7 +10,7 @@
         right-bar-show="">
 
     <st-application-frame-title>
-        <span translate="trainingSeason.fullTitle"></span>
+        <span class="md-title" translate="trainingSeason.fullTitle"></span>
         <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
         <span class="button" ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'short'}}</span>
         <md-menu ng-if="$ctrl.isListState && $ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">

@@ -74,7 +74,30 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     private prepareState (): void {
 
-        if (!this.$stateParams.seasonId && this.$stateParams.userId && this.athletes &&
+        // Устанавливаем владельца данных
+        if (this.$stateParams.userId && this.athletes &&
+            this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
+            this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
+        } else {
+            this.setOwner(this.currentUser);
+        }
+
+        // Устанавливаем тренировочный сезон
+        if (this.$stateParams.seasonId && this.seasons &&
+            this.seasons.some(s => s.id === Number(this.$stateParams.seasonId))) {
+            this.season = new TrainingSeason(this.seasons.filter(s => s.id === Number(this.$stateParams.seasonId))[0]);
+        } else if (this.seasons && this.seasons.length > 0) {
+            this.season = new TrainingSeason(this.seasons[0]);
+        }
+
+        // Устанвливаем экран
+        if (this.$stateParams.seasonId && this.season) {
+            this.isBuilderState = true;
+        } else {
+            this.isListState = true;
+        }
+
+        /**if (!this.$stateParams.seasonId && this.$stateParams.userId && this.athletes &&
             this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
 
             this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
@@ -93,7 +116,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
         } else {
             this.isListState = true;
-        }
+        }**/
 
         if (this.season) {
             this.prepareData();

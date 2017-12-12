@@ -88,7 +88,6 @@ export class CalendarItem implements ICalendarItem {
 
 	// Обновление данных, после сохранения
 	compile(response: IRevisionResponse) {
-		debugger;
 		this.revision = response.value.revision;
 		this.calendarItemId = response.value.id;
 		this.index = Number(`${this.calendarItemId}${this.revision}`);

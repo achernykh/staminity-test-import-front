@@ -1,5 +1,5 @@
 import "./methodology.component.scss";
-import { IComponentOptions, IComponentController, IPromise } from "angular";
+import { IComponentOptions, IComponentController, ILocationService } from "angular";
 import { Subject } from "rxjs/Rx";
 import ReferenceService from "../reference/reference.service";
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
@@ -19,7 +19,7 @@ class MethodologyCtrl implements IComponentController {
     // public
     currentUser: IUserProfile;
     club: IGroupProfile;
-    onEvent: (response: Object) => IPromise<void>;
+    onEvent: (response: Object) => Promise<void>;
     categories: Array<IActivityCategory> = [];
     categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
     templates: Array<IActivityTemplate> = [];
@@ -27,6 +27,7 @@ class MethodologyCtrl implements IComponentController {
     // private
     private leftBarShow: boolean = true;
     private navBarStates: Array<string> = ['trainingPlans', 'periodization', 'categories', 'templates'];
+    private readonly defaultBarState: string = 'trainingPlans';
     private currentState: string = 'trainingPlans';
     private activityTypes: Array<IActivityType> = activityTypes;
     private trainingPlansFilter: ITrainingPlanSearchRequest;
@@ -40,17 +41,21 @@ class MethodologyCtrl implements IComponentController {
     private currentPeriodizationScheme: IPeriodizationScheme;
     private destroy: Subject<void> = new Subject<void>();
 
-    static $inject = ['$scope', 'ReferenceService', 'PeriodizationService'];
+    static $inject = ['$scope', '$stateParams', '$location', 'ReferenceService', 'PeriodizationService'];
 
     constructor (private $scope,
+                 private $stateParams: any,
+                 private $location: ILocationService,
                  private referenceService: ReferenceService,
                  private periodizationService: PeriodizationService) {
 
+        // Устанавливаем приложение
+        this.setState(this.$stateParams.hasOwnProperty('state') && this.$stateParams.state ?
+            this.$stateParams.state : this.defaultBarState);
     }
 
     $onInit () {
         this.filterParams.club = this.club;
-
         this.categories = this.referenceService.categories;
         this.referenceService.categoriesChanges
             .takeUntil(this.destroy)
@@ -70,7 +75,9 @@ class MethodologyCtrl implements IComponentController {
             });
 
         this.periodizationService.get()
-            .then(result => this.periodizationData = result.arrayResult);
+            .then(result => result.arrayResult &&
+                this.setPeriodizationData(result.arrayResult,
+                    this.$stateParams.scheme ? Number(this.$stateParams.scheme) : null));
 
         this.prepareTrainingPlansFilter();
         this.updateFilterParams();
@@ -85,14 +92,29 @@ class MethodologyCtrl implements IComponentController {
         this.destroy.complete();
     }
 
+    setState (state: string): void {
+        if (this.navBarStates.indexOf(state) === -1) { return; }
+        this.currentState = state;
+        this.$location.search('state', state);
+        this.$scope.$applyAsync();
+    }
+
+    private setPeriodizationData (schemes: Array<IPeriodizationScheme>, id: number): void {
+        this.periodizationData = schemes;
+        this.setPeriodizationScheme(id ? this.periodizationData.filter(s => s.id === id) : this.periodizationData[0]);
+    }
+
     private prepareTrainingPlansFilter (): void {
         this.trainingPlansFilter = {
             ownerId: this.currentUser.userId
         };
     }
 
-    selectPeriodizationScheme (scheme: IPeriodizationScheme): void {
+    setPeriodizationScheme (scheme: IPeriodizationScheme): void {
         this.currentPeriodizationScheme = scheme;
+        if (this.currentState === 'periodization') {
+            this.$location.search('scheme', scheme.id);
+        }
     }
 
     changeTrainingPlansFilter (filter: ITrainingPlanSearchRequest): void {

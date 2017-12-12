@@ -1,7 +1,13 @@
 <md-card class="periodization-scheme-list">
-    <md-card-header>{{$ctrl.scheme.code}}</md-card-header>
-    <section ng-bind-html="$ctrl.scheme.description">
-    </section>
+    <md-card-header>
+        <span>{{$ctrl.scheme.code}}</span>
+    </md-card-header>
+    <ng-quill-editor ng-model="$ctrl.scheme.description"
+                     placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                     modules="$ctrl.quillConfig.toolbar"
+                     class="hide-toolbar md-caption md-dark"
+                     read-only="true">
+    </ng-quill-editor>
     <md-list dense class="md-dense">
         <md-list-item class="md-2-line"
                       ng-click="$ctrl.open($event, mesocycle)"
@@ -16,11 +22,15 @@
                     <md-icon class="material-icons">more_vert</md-icon>
                 </md-button>
                 <md-menu-content>
-                    <md-menu-item ng-click="$ctrl.delete(mesocycle)">
-                        <span translate="methodology.periodization.delete"></span>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.delete(mesocycle)">
+                            <span translate="methodology.periodization.delete"></span>
+                        </md-button>
                     </md-menu-item>
-                    <md-menu-item ng-click="$ctrl.open($event, mesocycle)">
-                        <span translate="methodology.periodization.edit"></span>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.open($event, mesocycle)">
+                            <span translate="methodology.periodization.edit"></span>
+                        </md-button>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>

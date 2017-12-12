@@ -33,7 +33,7 @@
         </md-menu>
     </st-application-frame-title>
 
-    <st-application-frame-toolbar layout="row">
+    <st-application-frame-toolbar layout="row" ng-if="false">
         <md-button  ng-click="$ctrl.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
             <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
         </md-button>
@@ -94,6 +94,7 @@
                             data="day.data"
                             owner="$ctrl.owner"
                             current-user="$ctrl.currentUser"
+                            on-update="$ctrl.update(formMode, item)"
                             on-save="$ctrl.save(formMode, item)"
                             on-select="day.selected = !day.selected">
                     </calendar-day>

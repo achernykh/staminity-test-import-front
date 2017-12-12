@@ -8,7 +8,9 @@
     </md-list-item>
 </md-list>
 <md-list flex="none" dense class="md-dense">
-    <md-subheader><span translate="methodology.periodization.userSchemes"></span></md-subheader>
+    <md-subheader>
+        <span translate="methodology.periodization.userSchemes"></span>
+    </md-subheader>
     <md-list-item class="md-2-line"
                   ng-repeat="scheme in $ctrl.schemes"
                   ng-click="$ctrl.onSelect({scheme: scheme})">
@@ -21,11 +23,15 @@
                 <md-icon class="material-icons">more_vert</md-icon>
             </md-button>
             <md-menu-content>
-                <md-menu-item ng-click="$ctrl.delete(scheme)">
-                    <span translate="methodology.periodization.delete"></span>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.delete(scheme)">
+                        <span translate="methodology.periodization.delete"></span>
+                    </md-button>
                 </md-menu-item>
-                <md-menu-item ng-click="$ctrl.open($event, scheme)">
-                    <span translate="methodology.periodization.edit"></span>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.open($event, scheme)">
+                        <span translate="methodology.periodization.edit"></span>
+                    </md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>

@@ -42,9 +42,8 @@ export class CalendarItemCompetition extends CalendarItem {
     }
 
     setItems(template: Array<ICompetitionStageConfig>, options: ICalendarItemDialogOptions = this.options) {
-
         this.items = [];
-
+        if (!template || template.length === 0) { return; }
         template.map(t => {
            let activity: Activity = new Activity({
                calendarItemId: null,
@@ -74,6 +73,7 @@ export class CalendarItemCompetition extends CalendarItem {
 
     build (): ICalendarItem {
         let item: ICalendarItem = Object.assign({}, this);
+        item.calendarItems = this.items.map(i => new Activity(i.item, this.options));
         ['item', 'items', 'options','statusLimit'].map(k => delete item[k]);
         return this;
     }
