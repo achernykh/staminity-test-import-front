@@ -601,26 +601,28 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onSaveTemplate() {
-        if (!this.template) {
+        if (!this.activity.view.isTemplate) {
             this.onCancel();
         }
 
+        debugger;
+
         this.activity.build();
 
-        let name = this.name;
-        let description = this.activity.intervals.PW.trainersPrescription;
-        let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
-        let groupId = groupProfile && groupProfile.groupId;
-        let { activityCategory, intervals } = header;
+        //let name = this.code;
+        //let description = this.activity.intervals.PW.trainersPrescription;
+        //let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
+        //let groupId = groupProfile && groupProfile.groupId;
+        //let { activityCategory, intervals } = header;
 
-        if (this.mode === 'post') {
+        if (this.activity.view.isPost) {
             this.ReferenceService.postActivityTemplate(
                 null,
-                activityCategory.id,
-                groupId,
-                name,
-                description,
-                favourite,
+                this.activity.header.category.id,
+                this.options.templateOptions.groupProfile && this.options.templateOptions.groupProfile.groupId,
+                this.code,
+                this.activity.intervals.PW.trainersPrescription,
+                this.options.templateOptions.favourite,
                 this.activity.intervals.buildTemplate())
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
@@ -629,16 +631,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => this.message.toastError(error));
         }
 
-        if (this.mode === 'put' || this.mode === 'view') {
+        if (this.activity.view.isPut) {
             this.ReferenceService.putActivityTemplate(
-                templateId,
-                activityCategory.id,
-                groupId,
+                this.options.templateOptions.templateId,
+                this.activity.header.category.id,
+                this.options.templateOptions.groupProfile && this.options.templateOptions.groupProfile.groupId,
                 null,
-                name,
-                description,
-                favourite,
-                visible,
+                this.code,
+                this.activity.intervals.PW.trainersPrescription,
+                this.options.templateOptions.favourite,
+                this.options.templateOptions.visible,
                 this.activity.intervals.buildTemplate())
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
@@ -658,19 +660,19 @@ export class CalendarItemActivityCtrl implements IComponentController{
         //this.activity.updateIntervals();
     }
 
-    get name () {
-        if (this.template) {
-            let { code, activityHeader } = this.activity;
-            let sport = activityHeader.activityType.typeBasic;
-            return code || nameFromInterval(this.$translate) (this.activity.intervals.PW, sport);
+    get code () {
+        if (this.activity.view.isTemplate) {
+            let sport = this.activity.header.sportBasic;
+            return this.options.templateOptions.code ||
+                nameFromInterval(this.$translate) (this.activity.intervals.PW, sport);
         } else {
-            return this.activity.code;
+            return this.options.templateOptions.code;
         }
     }
 
-    set name (value) {
-        if (value !== this.name) {
-            this.activity.code = value;
+    set code (value) {
+        if (value !== this.code) {
+            this.options.templateOptions.code = value;
         }
     }
 
@@ -706,7 +708,6 @@ const CalendarItemActivityComponent: IComponentOptions = {
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
-        popup: '=', //true - режим popup dialog, false - отдельное окно
         template: '=',
         onCancel: '&',
         onAnswer: '&'

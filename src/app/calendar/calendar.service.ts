@@ -36,20 +36,20 @@ export class CalendarService {
 
     /**
      * Создать запись календаря
-     * @param request {Object}
+     * @param item {Object}
      * @returns {Promise}
      */
-    postItem(item:ICalendarItem):Promise<IRevisionResponse> {
+    postItem(item: ICalendarItem):Promise<IRevisionResponse> {
         //let data: ICalendarItem = copy(item);
         return this.SocketService.send(new PostCalendarItemRequest(item));
     }
 
     /**
      * Изменить запись календаря
-     * @param request {Object}
+     * @param item {Object}
      * @returns {Promise}
      */
-    putItem(item:ICalendarItem):Promise<any> {
+    putItem(item: ICalendarItem):Promise<IRevisionResponse> {
         return this.SocketService.send(new PutCalendarItemRequest(item));
     }
 

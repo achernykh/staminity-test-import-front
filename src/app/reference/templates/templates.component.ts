@@ -13,6 +13,9 @@ import { filtersToPredicate } from "../../share/utility";
 import { templateDialog, TemplateDialogMode } from "../template-dialog/template.dialog";
 import { isManager } from "../../club/club.datamodel";
 import "./templates.component.scss";
+import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
+import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
+import { FormMode } from "../../application.interface";
 
 
 class TemplatesCtrl implements IComponentController {
@@ -24,8 +27,10 @@ class TemplatesCtrl implements IComponentController {
 	public filterParams: ReferenceFilterParams;
 	
 	private templatesByOwner: { [owner in Owner]: Array<IActivityTemplate> };
+	private dialogOptions: ICalendarItemDialogOptions;
 
-	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'dialogs', 'ReferenceService'];
+	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'dialogs', 'ReferenceService',
+		'CalendarItemDialogService'];
 
 	constructor (
 		private $scope, 
@@ -33,9 +38,29 @@ class TemplatesCtrl implements IComponentController {
 		private $mdMedia, 
 		private message: IMessageService,
 		private dialogs: DialogsService,
-		private ReferenceService: ReferenceService
+		private ReferenceService: ReferenceService,
+		private calendarDialog: CalendarItemDialogService
 	) {
 
+	}
+
+	$onInit (): void {
+		this.dialogOptions = {
+			currentUser: this.user,
+			owner: this.user,
+			popupMode: true,
+			formMode: FormMode.Post,
+			trainingPlanMode: false,
+			planId: null,
+			templateMode: true,
+			templateOptions: {
+				templateId: null,
+				code: null,
+				visible: true,
+				favourite: false,
+				groupProfile: this.club
+			}
+		};
 	}
 
 	$onChanges (changes) {
@@ -79,6 +104,10 @@ class TemplatesCtrl implements IComponentController {
 		};
 		
 		return this.$mdDialog.show(templateDialog('post', template, this.user, { targetEvent }));
+	}
+
+	post (e: Event): void {
+		this.calendarDialog.activity(e, this.dialogOptions).then(response => {});
 	}
 
 	copyTemplate (template: IActivityTemplate) {

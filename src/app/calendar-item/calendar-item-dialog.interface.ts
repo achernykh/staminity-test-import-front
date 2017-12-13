@@ -20,6 +20,14 @@ export interface ICalendarItemDialogOptions {
     formMode?: FormMode; // режим формы: просмотр, изменение, создание
     popupMode?: boolean; // true - если режим показа в формате всплывающего окна, false - для отдельного экрана
     templateMode?: boolean; // true - если режим ввода шаблона
+    templateOptions?: {
+        templateId: number;
+        code: string;
+        visible: boolean;
+        favourite: boolean;
+        groupProfile: IGroupProfileShort;
+    }; //
+
     trainingPlanMode?: boolean; // true - если режим ввода Долгосрочного плана
     planId?: number; // ссылка на долгосрочный план, если идет планирование в рамках него
     isPro?: boolean; // Полномочия пользователя не режим Про

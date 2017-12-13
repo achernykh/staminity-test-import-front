@@ -49,7 +49,8 @@
             </md-list-item>
         </md-list>
         <!-- Режим редактирования -->
-        <form flex="none" ng-if="!$ctrl.isViewMode" layout="column" name="$ctrl.form">
+        <form flex="none" ng-if="!$ctrl.isViewMode" layout="column"
+              name="$ctrl.form" ng-disabled="$ctrl.competition.view.isView">
             <md-list flex="none" class="md-dense bg-grey-050">
                 <md-subheader><span translate="competition.about"></span></md-subheader>
                 <!-- Название соревнования -->
@@ -82,7 +83,8 @@
                         <md-select flex name="type" class="icon" required
                                    placeholder="{{competition.type.placeholder}}"
                                    ng-model="$ctrl.competition.competitionHeader.type"
-                                   ng-change="$ctrl.changeParam()">
+                                   ng-change="$ctrl.setType()"
+                                   ng-disabled="$ctrl.competition.view.isView">
                             <md-option ng-repeat="type in $ctrl.config.getTypes() track by $index"
                                        value="{{type}}">
                                 {{'competition.types.' + type | translate}}
@@ -104,7 +106,8 @@
                         <md-select flex name="distanceType" class="icon" required"
                                    ng-model="$ctrl.competition.competitionHeader.distanceType"
                                    placeholder="{{competition.distanceType.placeholder}}"
-                                   ng-change="$ctrl.setDistanceType()">
+                                   ng-change="$ctrl.setDistanceType()"
+                                    ng-disabled="$ctrl.competition.view.isView">
                             <md-option
                                     ng-repeat="type in $ctrl.config.getDistance($ctrl.competition.competitionHeader.type) track by $index"
                                     value="{{type}}">
@@ -126,7 +129,8 @@
                         <md-select flex name="priority" class="icon" required
                                    placeholder="{{competition.priority.placeholder}}"
                                    ng-model="$ctrl.competition.competitionHeader.priority"
-                                   ng-change="$ctrl.changeParam()">
+                                   ng-change="$ctrl.changeParam()"
+                                   ng-disabled="$ctrl.competition.view.isView">
                             <md-option ng-repeat="rang in $ctrl.config.priorities track by $index"
                                        value="{{rang}}">
                                 {{'competition.priorities.' + rang | translate}}
@@ -162,7 +166,8 @@
             <st-competition-single-stage
                     ng-switch-when="true"
                     items="$ctrl.competition.items"
-                    options="$ctrl.options">
+                    options="$ctrl.options"
+                    on-change="$ctrl.setDirty()">
             </st-competition-single-stage>
         </md-list>
         <!-- Описание -->
@@ -172,17 +177,17 @@
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
                              placeholder="{{'competition.trainersPrescriptionPlaceholder' | translate}}"
                              modules="$ctrl.quillConf.toolbarFull"
-                             on-content-changed="$ctrl.changeForm()"
-                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                             read-only="$ctrl.isViewMode">
+                             on-content-changed="$ctrl.setDirty()"
+                             ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
+                             read-only="$ctrl.competition.view.isView">
             </ng-quill-editor>
             <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
                              placeholder="{{'competition.trainersPrescriptionPlaceholder' | translate}}"
                              modules="$ctrl.quillConf.toolbar"
-                             on-content-changed="$ctrl.changeForm()"
-                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                             read-only="$ctrl.isViewMode">
+                             on-content-changed="$ctrl.setDirty()"
+                             ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
+                             read-only="$ctrl.competition.view.isView">
             </ng-quill-editor>
         </md-list>
     </md-content>
@@ -191,13 +196,13 @@
 
     <md-dialog-actions flex="none" layout="row" style="background: white">
         <span flex></span>
-        <md-button ng-if="$ctrl.isViewMode" type="submit"
-                   ng-click="$ctrl.mode = 'put'">
+        <md-button ng-if="$ctrl.competition.view.isView" type="submit"
+                   ng-click="$ctrl.competition.view.isPut = true">
             <span translate="activity.edit"></span>
         </md-button>
-        <md-button ng-if="!$ctrl.isViewMode" type="submit"
+        <md-button ng-if="!$ctrl.competition.view.isView" type="submit"
                    ng-class="{'md-warn': !$ctrl.form.$valid}"
-                   ng-disabled="$ctrl.mode === 'put' && !$ctrl.form.$dirty"
+                   ng-disabled="$ctrl.competition.view.isPut && !$ctrl.form.$dirty"
                    ng-click="($ctrl.form.$valid) ? $ctrl.save() : null">
             <span translate="activity.save"></span>
         </md-button>

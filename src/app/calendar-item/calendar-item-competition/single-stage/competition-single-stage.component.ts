@@ -10,6 +10,7 @@ class CompetitionSingleStageCtrl implements IComponentController {
     // bind
     items: Array<CompetitionItems>;
     options: ICalendarItemDialogOptions;
+    onChange: () => Promise<any>;
 
     // private
     private readonly opposite = {
@@ -39,14 +40,16 @@ class CompetitionSingleStageCtrl implements IComponentController {
             .then(() => {}, () => {});
     }
 
-    changeValue (item: Activity): void {
+    changeValue (stage: CompetitionItems): void {
         // обсчитываем данные по плану, заполяем значение durationValue
-        item.intervals.PW.durationValue = item.intervals.PW[this.durationMeasure(item)].durationValue;
+        stage.item.intervals.PW.durationValue = stage.item.intervals.PW[this.durationMeasure(stage.item)].durationValue;
         // процент выполнения
-        if (item.intervals.W.calcMeasures[this.durationMeasure(item)].value) {
-            item.intervals.PW.calcMeasures.completePercent.value =
-                item.intervals.W.calcMeasures[this.durationMeasure(item)].value / item.intervals.PW.durationValue;
+        if (stage.item.intervals.W.calcMeasures[this.durationMeasure(stage.item)].value) {
+            stage.item.intervals.PW.calcMeasures.completePercent.value =
+                stage.item.intervals.W.calcMeasures[this.durationMeasure(stage.item)].value / stage.item.intervals.PW.durationValue;
         }
+        stage.dirty = true;
+        this.onChange();
     }
 
     durationMeasure (item: Activity): string {

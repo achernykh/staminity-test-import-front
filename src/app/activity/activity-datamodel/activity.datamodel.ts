@@ -15,6 +15,7 @@ import { pipe, orderBy, prop, groupBy } from "../../share/util.js";
 import { ActivityAuth } from "./activity.auth";
 import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
 import { ActivityAthletes } from "./activity.athletes";
+import { ActivityView } from "./activity.view";
 
 export class Activity extends CalendarItem {
 
@@ -28,7 +29,6 @@ export class Activity extends CalendarItem {
     athletes: ActivityAthletes; // класс для работы с переченем пользователей для планирования
     auth: ActivityAuth; // класс для работы с полномочиями
 
-    // new ActivityAuth
     categoriesList: Array<IActivityCategory> = [];
     categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
 
@@ -37,7 +37,7 @@ export class Activity extends CalendarItem {
 
     // TODO refactoring to ActivityTemplate class extends Activity
     // Дополнительные поля для использования в шаблонах тренировки
-    public isTemplate: boolean;
+    //public isTemplate: boolean;
     public templateId: number;
     public code: string;
     public description: string;
@@ -87,7 +87,7 @@ export class Activity extends CalendarItem {
 
     // Статус выполнения тренировки
     get status() {
-        return this.isTemplate? 'template' : (
+        return this.options.hasOwnProperty('templateMode') && this.options.templateMode ? 'template' : (
             !this.isToday ?
                 // приоритет статусов, если запись не сегодня
             (this.isComing && 'coming')
@@ -258,7 +258,6 @@ export class Activity extends CalendarItem {
         this.details = new ActivityDetails();
         this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
         this.auth = new ActivityAuth(this.userProfileOwner, this.userProfileCreator, this.options);
-
     }
 
 }

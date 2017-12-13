@@ -11,8 +11,8 @@ import { FormMode } from "../../application.interface";
 import { toDay } from "../../activity/activity.datamodel";
 
 export interface CompetitionItems {
-    mode: FormMode;
     item: Activity;
+    dirty: boolean;
 }
 
 export class CalendarItemCompetition extends CalendarItem {
@@ -33,7 +33,7 @@ export class CalendarItemCompetition extends CalendarItem {
         super.prepare();
         if (this.calendarItems && this.calendarItems.length) {
             this.items = [];
-            this.calendarItems.map(i => this.items.push({ mode: FormMode.View, item: new Activity(i, this.options)}));
+            this.calendarItems.map(i => this.items.push({ dirty: false, item: new Activity(i, this.options)}));
         }
     }
 
@@ -66,7 +66,7 @@ export class CalendarItemCompetition extends CalendarItem {
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
 
-            this.items.push({mode: FormMode.Post, item: activity});
+            this.items.push({dirty: false, item: activity});
 
         });
     }

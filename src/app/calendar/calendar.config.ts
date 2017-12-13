@@ -30,6 +30,7 @@ function configure($stateProvider:StateProvider,
             url: "/calendar?userId",
             loginRequired: true,
             authRequired: ['user'],
+            reloadOnSearch: false,
             resolve: {
                 view: () => {return new DisplayView('calendar');},
                 currentUser: ['SessionService', (session: SessionService) => session.getUser()],

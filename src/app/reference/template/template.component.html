@@ -72,7 +72,7 @@
     <!-- Вид: компактная плитка-лист
          Используется в панели шаблонов, при выборе шаблона в тренировке.
          Вид спорта и категория не выводятся -->
-    <section class="template__compact-list" ng-switch-when="compact-list">
+    <section class="template__compact-list" ng-switch-when="compact-list" ng-click="$ctrl.open($event)">
         <header class="template-header"
                 layout="row" layout-align="center center">
             <div class="calendar-item-activity-icon color-{{$ctrl.activityType.code}} bg-circle-20"
@@ -91,10 +91,10 @@
                     <span class="name" flex="none">{{ $ctrl.name }}</span>
                 </section>
             </div>
-            <div flex="none" ng-if="false">
-                <md-button class="md-icon-button" aria-label="More Event" style="margin-right: 0px">
-                    <md-icon class="material-icons md-18">more_vert</md-icon>
-                </md-button>
+            <div flex="none" class="favourite-icon" md-colors="{background: 'accent-hue-2'}"
+                 layout="row" layout-align="center center"
+                 ng-if="$ctrl.template.favourite">
+                <md-icon class="material-icons md-light md-18" ng-bind="'star'"></md-icon>
             </div>
         </header>
         <section ng-switch="$ctrl.isStructured" class="description">
@@ -109,13 +109,18 @@
     </section>
     <!-- Вид: карточка
          Используется в сетке шаблонов. Вид спорта и категория выводятся -->
-    <section class="template__card" ng-switch-when="card">
+    <section class="template__card" ng-switch-when="card" ng-click="$ctrl.open($event)">
         <header class="template-header"
                 layout="row" layout-align="center center">
             <div class="calendar-item-activity-icon color-{{$ctrl.activityType.code}} bg-circle-32"
                  layout="row" layout-align="center center">
                 <md-icon class="material-icons md-light md-24"
                          md-svg-src="/assets/icon/{{ $ctrl.activityType.code }}.svg"></md-icon>
+                <div class="favourite-icon" md-colors="{background: 'accent-hue-2'}"
+                     layout="row" layout-align="center center"
+                     ng-if="$ctrl.template.favourite">
+                    <md-icon class="material-icons md-light md-18" ng-bind="'star'"></md-icon>
+                </div>
             </div>
             <div flex="auto" layout="column">
                 <section flex="none" class="name md-body-2"
@@ -125,19 +130,22 @@
                 </section>
             </div>
             <div flex="none">
-                <md-button class="md-icon-button" aria-label="More Event" style="margin-right: 0px">
-                    <md-icon class="material-icons md-18">more_vert</md-icon>
+                <md-button class="menu md-icon-button" aria-label="More Event">
+                    <md-icon class="material-icons md-24">more_vert</md-icon>
                 </md-button>
             </div>
         </header>
         <section ng-switch="$ctrl.isStructured" class="description">
-        <span class="md-caption md-dark"
-              ng-switch-when="false" ng-bind="$ctrl.description"></span>
-            <calendar-activity-chart ng-switch-when="true"
-                                     ng-if="::$ctrl.segmentChart"
-                                     data="::$ctrl.segmentChart"
-                                     status="'template'">
-            </calendar-activity-chart>
+            <!--<span flex class="category md-body-1 line-14"
+                     ng-bind="$ctrl.template.activityCategory | categoryCode">
+            </span>-->
+            <span class="md-caption md-dark"
+                  ng-switch-when="false" ng-bind="$ctrl.description"></span>
+                <calendar-activity-chart ng-switch-when="true"
+                                         ng-if="::$ctrl.segmentChart"
+                                         data="::$ctrl.segmentChart"
+                                         status="'template'">
+                </calendar-activity-chart>
         </section>
     </section>
 </div>

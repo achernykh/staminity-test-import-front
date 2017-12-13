@@ -105,7 +105,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             this.percentComplete[key] = this.calcPercent(key) || null;
         });
         this.prepareValues();
-        this.ftpMode = this.item.template ? FtpState.On : FtpState.Off;
+        this.ftpMode = this.item.options.templateMode ? FtpState.On : FtpState.Off;
         this.validateForm();
 
     }
@@ -174,7 +174,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     getFTP(measure: string, sport: string = this.sport):number {
-        let zones = this.item.user.trainingZones;
+        let zones = this.item.options.owner.trainingZones;
         return (this.isInterval(measure) && 0) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport]['FTP']) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty('default') && zones[measure]['default']['FTP']) || null;

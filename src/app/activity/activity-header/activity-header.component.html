@@ -34,7 +34,7 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <h2 flex-order="2" translate="{{::$ctrl.item.template ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
+        <h2 flex-order="2" translate="{{::$ctrl.item.options.templateMode ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
         <span flex flex-order="3"></span>
         <userpic flex-order="4" class="border-light" profile="$ctrl.item.firstAthlete(0)" is-premium="$ctrl.item.user.isPremium" unlink="true"></userpic>
         <md-button flex-order="5" class="md-icon-button" hide-gt-sm

@@ -11,10 +11,10 @@
 			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.user track by template.id"
                 view="'card'"
+				current-user="$ctrl.user"
 				dnd-draggable="template"
 				dnd-type="'user-template'"
 				draggable="true"
-				ng-click="$ctrl.openTemplate(template, $event)"
 				template="template"
 				is-mobile-layout="$ctrl.reference.isMobileLayout"
 				on-copy="$ctrl.copyTemplate(template)"
@@ -36,8 +36,8 @@
 				dnd-draggable="template"
 				dnd-type="'coach-template'"
 				draggable="true"
-				ng-click="$ctrl.openTemplate(template, $event)"
 				template="template"
+				current-user="$ctrl.user"
                 view="'compact-list'"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"
@@ -58,7 +58,6 @@
 				dnd-draggable="template"
 				dnd-type="'club-template'"
 				draggable="true"
-				ng-click="$ctrl.openTemplate(template, $event)"
 				template="template"
                 view="'compact-list'"
 				on-copy="$ctrl.copyTemplate(template)"
@@ -80,7 +79,6 @@
 				dnd-draggable="template"
 				dnd-type="'system-template'"
 				draggable="true"
-				ng-click="$ctrl.openTemplate(template, $event)"
 				template="template"
                 view="'compact-list'"
 				on-copy="$ctrl.copyTemplate(template)"
@@ -92,7 +90,7 @@
 </div>
 
 <div class="templates__create">
-	<md-button ng-click="$ctrl.createTemplate($event)" class="md-fab md-accent md-hue-2">
+	<md-button ng-click="$ctrl.post($event)" class="md-fab md-accent md-hue-2">
 		<md-icon class="material-icons">add</md-icon>
 	</md-button>
 </div>
