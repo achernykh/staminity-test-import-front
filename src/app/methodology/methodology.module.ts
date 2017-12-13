@@ -5,10 +5,10 @@ import MethodologyComponent from "./methodology.component";
 import { supportLng } from "../core/display.constants";
 import { translateMethodology } from "./methodology.translate";
 import { PeriodizationService } from "./periodization/periodization.service";
-import { PeriodizationSchemeFilterComponent } from "./periodization/periodization-scheme-filter.component";
-import { PeriodizationSchemeListComponent } from "./periodization/periodization-scheme-list.component";
-import { PeriodizationMesocycleDialogComponent } from "./periodization/periodization-mesocycle-dialog.component";
-import { PeriodizationSchemeDialogComponent } from "./periodization/periodization-scheme-dialog.component";
+import { PeriodizationSchemeFilterComponent } from "./periodization/scheme-filter/periodization-scheme-filter.component";
+import { PeriodizationSchemeListComponent } from "./periodization/scheme-list/periodization-scheme-list.component";
+import { PeriodizationMesocycleDialogComponent } from "./periodization/mesocycle-dialog/periodization-mesocycle-dialog.component";
+import { PeriodizationSchemeDialogComponent } from "./periodization/scheme-dialog/periodization-scheme-dialog.component";
 import { PeriodizationDialogService } from "./periodization/periodization-dialog.service";
 
 export const Methodology = module('staminity.methodology', [])

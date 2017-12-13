@@ -1,14 +1,19 @@
-<md-card class="periodization-scheme-list">
-    <md-card-header>
+<md-card class="periodization-scheme-list" layout="column">
+    <md-card-header flex="none">
         <span>{{$ctrl.scheme.code}}</span>
     </md-card-header>
-    <ng-quill-editor ng-model="$ctrl.scheme.description"
+    <ng-quill-editor flex="none"
+                     ng-model="$ctrl.scheme.description"
                      placeholder="{{'record.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConfig.toolbar"
                      class="hide-toolbar md-caption md-dark"
                      read-only="true">
     </ng-quill-editor>
-    <md-list dense class="md-dense">
+    <section ng-if="!$ctrl.scheme.mesocycles || $ctrl.scheme.mesocycles.length === 0"
+             flex="auto" layout="column" layout-align="center-center">
+        <span translate="methodology.periodization.emptySchemeList"></span>
+    </section>
+    <md-list ng-if="$ctrl.scheme.mesocycles.length > 0" flex="auto" class="md-dense">
         <md-list-item class="md-2-line"
                       ng-click="$ctrl.open($event, mesocycle)"
                       ng-repeat="mesocycle in $ctrl.scheme.mesocycles track by mesocycle.id">

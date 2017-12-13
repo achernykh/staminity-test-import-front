@@ -7,13 +7,13 @@ export class PeriodizationDialogService {
 
     }
 
-    scheme (env: Event, mode: FormMode, scheme?: IPeriodizationScheme): Promise<{mode: FormMode, scheme: IPeriodizationScheme}> {
+    scheme (env: Event, mode: FormMode, scheme?: IPeriodizationScheme): Promise<{formMode: FormMode, scheme: IPeriodizationScheme}> {
 
         return this.$mdDialog.show({
             controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (mode, scheme) => $mdDialog.hide({mode: mode, scheme: scheme});
+                $scope.answer = (mode, scheme) => $mdDialog.hide({formMode: mode, scheme: scheme});
             }],
             controllerAs: '$ctrl',
             template: `<md-dialog id="periodization-scheme-dialog" aria-label="Training Season Form">
@@ -38,13 +38,13 @@ export class PeriodizationDialogService {
         });
     }
 
-    mesocycle (env: Event, mode: FormMode, schemeId: number, mesocycle?: IMesocycle): Promise<{mode: FormMode, mesocycle: IMesocycle}> {
+    mesocycle (env: Event, mode: FormMode, schemeId: number, mesocycle?: IMesocycle): Promise<{formMode: FormMode, mesocycle: IMesocycle}> {
 
         return this.$mdDialog.show({
             controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (mode, mesocycle) => $mdDialog.hide({mode: mode, mesocycle: mesocycle});
+                $scope.answer = (mode, mesocycle) => $mdDialog.hide({formMode: mode, mesocycle: mesocycle});
             }],
             controllerAs: '$ctrl',
             template: `<md-dialog id="periodization-mesocycle-dialog" aria-label="Training Season Form">
