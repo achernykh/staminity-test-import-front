@@ -1,6 +1,6 @@
 import './periodization-mesocycle-dialog.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
-import { FormMode } from "../../application.interface";
+import { FormMode } from "../../../application.interface";
 import { IMesocycle, IPeriodizationScheme } from "@api/seasonPlanning";
 import { PeriodizationService } from "@app/methodology/periodization/periodization.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";

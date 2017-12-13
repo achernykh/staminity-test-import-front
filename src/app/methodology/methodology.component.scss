@@ -1,10 +1,21 @@
 @import "../../sass/color";
 
+.methodology .st-application-frame__left-bar {
+  width: 300px;
+  .md-subheader {
+    background-color: $grey-050 !important;
+  }
+}
+
+.methodology.left-bar-show .st-application-frame__content {
+  margin-left: 300px;
+}
+
 .methodology {
 
   &__left-bar {
     height: 100%;
-    background-color: $grey-200;
+    background-color: $grey-050;
     border-right: 1px solid $grey-300;
 
     .active {

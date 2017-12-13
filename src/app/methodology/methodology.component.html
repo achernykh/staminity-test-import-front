@@ -1,5 +1,5 @@
 <st-application-frame
-        class="methodology st-application-frame"
+        class="methodology st-application-frame left-bar-show"
         template="application"
         navigation-bar="true"
         left-bar="true"
@@ -70,6 +70,7 @@
         <md-content class="methodology__left-bar">
             <st-periodization-scheme-filter
                 layout="column" layout-fill="true"
+                active="$ctrl.currentPeriodizationScheme.id"
                 schemes="$ctrl.periodizationData"
                 on-select="$ctrl.setPeriodizationScheme(scheme)">
             </st-periodization-scheme-filter>
