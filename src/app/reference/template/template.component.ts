@@ -55,6 +55,7 @@ class TemplateCtrl implements IComponentController {
 const TemplateComponent: IComponentOptions = {
 	bindings: {
 		template: '<',
+        view: '<',
         isMobileLayout: '<',
 		onDelete: '&',
 		onSelect: '&',

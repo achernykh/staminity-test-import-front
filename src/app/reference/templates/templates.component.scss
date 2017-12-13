@@ -66,12 +66,11 @@ templates {
 	}
 	
 	&__items {
-		display: flex;
-		flex-wrap: wrap;
-	
-		@media (max-width: $maxMobileWidth) {
-			display: block;
-		}
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 8px;
+    //grid-auto-rows: 140px;
 
 		.dndPlaceholder {
 			display: inline-block;

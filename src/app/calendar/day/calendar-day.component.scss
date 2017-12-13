@@ -149,11 +149,11 @@ calendar-day {
     min-height: 50px;
     margin: 6px 0px 0px 0px;
     cursor: pointer;
-    @include border-radius(3px);
+    //@include border-radius(3px);
 
     // md size
     @media (min-width: 960px) and (max-width: 1279px){
-      border-radius: 0px !important;
+      //border-radius: 0px !important;
       box-shadow: none !important;
 
       .data-category {
@@ -161,13 +161,8 @@ calendar-day {
       }
     }
 
-    @media (max-width: 1919px) and (min-width: 1280px){
-      -min-width: 10%;
-      -max-width: 175px;
-    }
-
     @media (max-width: 959px){
-      border-radius: 0px;
+      //border-radius: 0px;
       margin: 0px 4px 8px 4px;
       min-width: 200px;
       padding-bottom: 0px;

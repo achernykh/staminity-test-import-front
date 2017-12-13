@@ -1,15 +1,16 @@
 <div class="templates__content">
 	<section ng-if="$ctrl.templatesByOwner.user.length" class="templates__section">
 		<div class="templates__subheader md-body-2 md-padding">{{ 'reference.templates.user' | translate }}</div>
-		<div 
+		<div
+            layout-row layout-wrap
 			dnd-list
 			dnd-allowed-types="['user-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
-			class="templates__items"
-		>
+			class="templates__items">
 			<activity-template
-				ng-repeat="template in $ctrl.templatesByOwner.user track by template.id" 
+				ng-repeat="template in $ctrl.templatesByOwner.user track by template.id"
+                view="'card'"
 				dnd-draggable="template"
 				dnd-type="'user-template'"
 				draggable="true"
@@ -18,8 +19,8 @@
 				is-mobile-layout="$ctrl.reference.isMobileLayout"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"
-				on-delete="$ctrl.deleteTemplate(template)"
-			></activity-template>
+				on-delete="$ctrl.deleteTemplate(template)">
+            </activity-template>
 		</div>
 	</section>
 	<section ng-if="$ctrl.templatesByOwner.coach.length" class="templates__section">
@@ -29,8 +30,7 @@
 			dnd-allowed-types="['coach-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
-			class="templates__items"
-		>
+			class="templates__items">
 			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.coach track by template.id" 
 				dnd-draggable="template"
@@ -38,6 +38,7 @@
 				draggable="true"
 				ng-click="$ctrl.openTemplate(template, $event)"
 				template="template"
+                view="'compact-list'"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"
 				on-delete="$ctrl.deleteTemplate(template)"
@@ -51,8 +52,7 @@
 			dnd-allowed-types="['club-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
-			class="templates__items"
-		>
+			class="templates__items">
 			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.club track by template.id" 
 				dnd-draggable="template"
@@ -60,6 +60,7 @@
 				draggable="true"
 				ng-click="$ctrl.openTemplate(template, $event)"
 				template="template"
+                view="'compact-list'"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"
 				on-delete="$ctrl.deleteTemplate(template)"
@@ -73,8 +74,7 @@
 			dnd-allowed-types="['system-template']"
 			dnd-drop="$ctrl.templateReorder(index, item)"
 			dnd-horizontal-list="true"
-			class="templates__items"
-		>
+			class="templates__items">
 			<activity-template
 				ng-repeat="template in $ctrl.templatesByOwner.system track by template.id" 
 				dnd-draggable="template"
@@ -82,6 +82,7 @@
 				draggable="true"
 				ng-click="$ctrl.openTemplate(template, $event)"
 				template="template"
+                view="'compact-list'"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"
 				on-delete="$ctrl.deleteTemplate(template)"
