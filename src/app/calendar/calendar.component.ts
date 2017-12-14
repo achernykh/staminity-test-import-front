@@ -2,7 +2,7 @@ import './calendar.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import { Subject } from 'rxjs/Subject';
 import { times } from '../share/util.js';
-import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService, IRootScopeService, copy} from 'angular';
+import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService, IDocumentService, copy} from 'angular';
 import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";
 import {SessionService} from "../core";
@@ -15,6 +15,8 @@ import { Calendar } from "./calendar.datamodel";
 import { IActivityTemplate } from "@api/reference";
 import { profileShort } from "../core/user.function";
 import { FormMode } from "../application.interface";
+import { CalendarItemDialogService } from "../calendar-item/calendar-item-dialog.service";
+import { ICalendarItemDialogOptions } from "../calendar-item/calendar-item-dialog.interface";
 
 export class CalendarCtrl implements IComponentController{
 
@@ -27,9 +29,11 @@ export class CalendarCtrl implements IComponentController{
 
     // inject
     static $inject = ['$scope', '$mdDialog', '$mdMedia', '$anchorScroll', '$location', '$stateParams', 'message',
-        'CalendarService', 'SessionService', 'dialogs', 'DisplayService'];
+        'CalendarService', 'CalendarItemDialogService', 'SessionService', 'dialogs', 'DisplayService'];
     public user: IUserProfile; // calendar owner
     private weekdayNames: Array<number> = [];
+    private selectedItems: Array<ICalendarItem> = []; // буфер выделенных записей
+    private copiedItems: Array<ICalendarItem> = []; // буфер скопированных записей
     private buffer: Array<ICalendarItem> = [];
     private firstSrcDay: string;
     private dateFormat: string = 'YYYY-MM-DD';
@@ -50,11 +54,35 @@ export class CalendarCtrl implements IComponentController{
         private $stateParams: any,
         private message: IMessageService,
         private calendarService: CalendarService,
+        private calendarDialog: CalendarItemDialogService,
         private session: SessionService,
         private dialogs: any,
         private display: DisplayService
     ) {
 
+    }
+
+    private copyPasteKeyboardListener (): void {
+        let ctrlDown = false, ctrlKey = 17, cmdKey = 91, vKey = 86, cKey = 67;
+
+        window.addEventListener('keydown', (e: any) => {
+            if (e.keyCode === ctrlKey || e.keyCode === cmdKey) {
+                ctrlDown = true;
+            }
+            if (ctrlDown && e.keyCode === cKey && this.selectedItems.length > 0) {
+                this.copyItems();
+            }
+            if (ctrlDown && e.keyCode === vKey && this.copiedItems.length > 0 &&
+                this.calendar.selectedDaysCount === 1) {
+                this.pasteItems(this.calendar.firstDaySelected);
+            }
+        });
+
+        window.addEventListener('keyup', (e: any) => {
+            if (e.keyCode === ctrlKey || e.keyCode === cmdKey) {
+                ctrlDown = false;
+            }
+        });
     }
 
     private prepareAthletesList(): void {
@@ -85,6 +113,7 @@ export class CalendarCtrl implements IComponentController{
             this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
         }
         this.setData();
+        this.copyPasteKeyboardListener();
 
         this.calendarService.item$
             .filter(message =>
@@ -325,118 +354,33 @@ export class CalendarCtrl implements IComponentController{
         return items;
     }**/
 
-    onAddActivity($event){
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template:
-                `<md-dialog id="post-activity" aria-label="Activity">
-                        <calendar-item-activity
-                                layout="row" class="calendar-item-activity"
-                                date="$ctrl.date"
-                                mode="'post'"
-                                user="$ctrl.user" popup="true"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-activity>
-                   </md-dialog>`,
-            parent: angular.element(document.body),
-            targetEvent: $event,
-            locals: {
-                date: new Date(), // дата дня в формате ГГГГ-ММ-ДД
-                user: this.user
-            },
-            //resolve: {
-            //    details: () => this.ActivityService.getDetails(data.activityHeader.activityId)
-            //        .then(response => response, error => console.error(error))
-            //},
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: false,
-            fullscreen: true
-        })
-            .then(response => {
-                if(response.type === 'post') {
-                    console.log('save activity', response);
-                    //this.calendar.onPostItem(response.item);
-                    //this.message.toastInfo('Создана новая запись');
-                }
-            }, ()=> {
-                console.log('user cancel dialog');
-            });
+    /**
+     * Вызов диалога создания записи календаря
+     * @param e
+     * @param type
+     */
+    itemDialog (e: Event, type: 'activity' | 'measurement' | 'record' | 'competition'): void {
+        this.calendarDialog[ type ](e, this.getOptions())
+            .then(response => this.calendar.post(response.item));
     }
 
-    onAddMeasurement($event){
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template: `<calendar-item-measurement
-                            class="calendar-item-measurement"
-                            data="$ctrl.data"
-                            mode="post"
-                            user="$ctrl.user"
-                            on-cancel="cancel()" on-answer="answer(response)">
-                      </calendar-item-measurement>`,
-            parent: angular.element(document.body),
-            targetEvent: $event,
-            locals: {
-                data: {
-                    date: new Date() // дата дня в формате ГГГГ-ММ-ДД
-                },
-                user: this.user
-            },
-            bindToController: true,
-            clickOutsideToClose: true,
-            escapeToClose: true,
-            fullscreen: true
-
-        })
-            .then(response => {
-                if(response.type === 'post') {
-                    //this.calendar.onPostItem(response.item)
-                    //this.message.toastInfo('Создана новая запись');
-                }
-
-            }, ()=> {
-                console.log('user cancel dialog');
-            });
+    /**
+     * Набор опций для диалога Записи календаря (тренировки, события, соревнования...)
+     * @param mode
+     * @param date
+     * @returns {{dateStart: string, currentUser: IUserProfile, owner: (IUserProfile|IUserProfileShort), popupMode: boolean, formMode: FormMode, trainingPlanMode: boolean, planId: null}}
+     */
+    private getOptions(mode: FormMode = FormMode.Post, date: string = new Date().toISOString()): ICalendarItemDialogOptions {
+        return {
+            dateStart: date,
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: mode,
+            trainingPlanMode: false,
+            planId: null
+        };
     }
-
-    onAddEvent($event, data) {
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events
-                                flex layout="column" class="calendar-item-events"
-                                data="$ctrl.data"
-                                user="$ctrl.user"
-                                mode="post"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-events>
-                   </md-dialog>`,
-            parent: angular.element(document.body),
-            targetEvent: $event,
-            locals: {
-                data: {
-                    date: new Date() // дата дня в формате ГГГГ-ММ-ДД
-                },
-                user: this.user
-            },
-            bindToController: true,
-            clickOutsideToClose: true,
-            escapeToClose: true,
-            fullscreen: true
-
-        })
-            .then(response => {
-                console.log('user close dialog with =', response);
-
-            }, () => {
-                console.log('user cancel dialog, data=', data);
-            });
-    }
-
-
 
     /**
      * Создание записи календаря
@@ -458,9 +402,8 @@ export class CalendarCtrl implements IComponentController{
      * Удаление записи календаря
      * @param item
      */
-    onDeleteItem(item) {
-        debugger;
-        if (!this.calendar.include(item.calendarItemId, item.revision)) { return; };
+    onDeleteItem(item): void {
+        if (!this.calendar.include(item.calendarItemId, item.revision)) { return; }
 
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
@@ -488,43 +431,56 @@ export class CalendarCtrl implements IComponentController{
     }
 
 
-    onCopy(items: Array<ICalendarItem>){
-        this.buffer = [];
-        this.firstSrcDay = null;
+    selectItems (): void {
+        this.selectedItems = [];
+        this.calendar.weeks.forEach(w => w.subItem.forEach(d =>
+            d.selected && d.data.calendarItems && d.data.calendarItems.length > 0 &&
+            this.selectedItems.push(...copy(d.data.calendarItems))));
+    }
 
+    /**
+     * Копирование записей календаря
+     * @param items
+     */
+    copyItems(items: Array<ICalendarItem> = [...copy(this.selectedItems)]){
+        this.copiedItems = [];
+        this.firstSrcDay = null;
         if(items){
-            this.buffer.push(...copy(items));
+            this.copiedItems.push(...copy(items));
             this.firstSrcDay = moment(items[0].dateStart).format('YYYY-MM-DD');
-        } else {
-            this.calendar.weeks.forEach(w => w.subItem.forEach(d => {
-                if(d.selected) {
-                    if(!this.firstSrcDay) {
-                        this.firstSrcDay = d.data.date;
-                    }
-                    if (d.data.calendarItems && d.data.calendarItems.length > 0) {
-                        this.buffer.push(...copy(d.data.calendarItems));
-                    }
-                }
-            }));
         }
-        if(this.buffer && this.buffer.length > 0) {
+        if(this.copiedItems && this.copiedItems.length > 0) {
+            this.calendar.deselect();
             this.message.toastInfo('itemsCopied');
         }
     }
 
-    onPaste(firstTrgDay: string){
+    /**
+     * Вставить записи календаря в указанную пользователем дату
+     * Копирование осущстествляется со сдвижкой = выбранная дата - дата первого скопированного элемента
+     * @param firstTrgDay
+     */
+    pasteItems (firstTrgDay: string){
+        if (!firstTrgDay) { return; }
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
 
-        if (shift && this.buffer && this.buffer.length > 0) {
-            task = this.buffer
+        if (shift && this.copiedItems && this.copiedItems.length > 0) {
+            task = this.copiedItems
                 .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
                 .map(item => this.calendarService.postItem(prepareItem(item, shift)));
-            Promise.all(task)
-                .then(()=> this.message.toastInfo('itemsPasted'), (error)=> this.message.toastError(error))
-                .then(()=> this.clearBuffer());;
-        }
 
+            Promise.all(task)
+                .then(response => {
+                    response.forEach((r,i) => {
+                        if (r.type === 'revision') {
+                            this.calendar.post(this.copiedItems[i]);
+                        }
+                    });
+                    this.message.toastInfo('itemsPasted');
+                }, (error)=> this.message.toastError(error))
+                .then(()=> this.clearBuffer());
+        }
     }
 
     onPostPlan(env: Event){
@@ -560,21 +516,31 @@ export class CalendarCtrl implements IComponentController{
         }).then((response) => {}, () => {});
     }
 
-    onDelete(items:Array<ICalendarItem>) {
-        let selected: Array<ICalendarItem> = [];
-
-        this.calendar.weeks.forEach(w => w.subItem.forEach(d => {
-            if(d.selected && d.data.calendarItems && d.data.calendarItems.length > 0) {
-                selected.push(...d.data.calendarItems);
-            }
-        }));
-
-        let inSelection: boolean = (selected && selected.length > 0) && selected.some(s => items.some(i => i.calendarItemId === s.calendarItemId));
+    /**
+     * Удаление записей календаря
+     * Если в параметрах передан массив эдементов, то удаляем его,
+     * иначе удаляем выделенные позиции
+     * @param items
+     */
+    deleteItems(items: Array<ICalendarItem>): void {
+        let isSelection: boolean = !!items;
+        if (!isSelection) { items = [...copy(this.selectedItems)];}
 
         this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
-        .then(() => this.calendarService.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))
-        .then(() => this.message.toastInfo('itemsDeleted'), (error) => error && this.message.toastError(error))
-        .then(() => inSelection && this.clearBuffer());
+            .then(() => this.calendarService.deleteItem('F', items.map(item => item.calendarItemId)))
+            .then(response => items.map(item => this.calendar.delete(item)), error => this.errorHandler(error))
+            .then(() => this.message.toastInfo('itemsDeleted'))
+            .then(() => isSelection && this.calendar.deselect() || this.clearBuffer());
+    }
+
+    /**
+     * Обработчик ответа с ошибкой
+     * Выводим тост и реджектим цепочку прописов
+     * @param error
+     */
+    private errorHandler (error: string): Promise<any> {
+        this.message.toastError(error);
+        throw new Error();
     }
 
     post (item: ICalendarItem): void {
@@ -628,12 +594,9 @@ export class CalendarCtrl implements IComponentController{
 
     clearBuffer() {
         this.buffer = [];
+        this.selectedItems = [];
+        this.copiedItems = [];
         this.firstSrcDay = null;
-        this.calendar.weeks.forEach(w => w.subItem.forEach(d => {
-            if(d.selected) {
-                d.selected = false;
-            }
-        }));
     }
 
     /**

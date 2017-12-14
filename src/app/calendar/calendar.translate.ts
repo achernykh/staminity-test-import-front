@@ -5,7 +5,11 @@ export const _translate = {
         details: 'Скрыть детали',
         action: {
             today: 'Сегодня',
-            selectDate: 'Перейти на дату'
+            selectDate: 'Перейти на дату',
+            copy: 'Скопировать',
+            paste: 'Вставить',
+            delete: 'Удалить',
+            post: 'Создать'
         }
     },
     en: {

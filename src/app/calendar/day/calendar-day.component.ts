@@ -75,19 +75,6 @@ class CalendarDayCtrl {
         this.selected = !this.selected;
     }
 
-    onDelete () {
-        //this.dialogs.confirm({ text: 'deletePlanActivity' })
-        //   .then(()=>this.calendar.onDelete(this.data.calendarItems));
-    }
-
-    onPaste () {
-        //this.calendar.onPasteDay(this.data.date)
-    }
-
-    onCopy () {
-        //this.calendar.onCopyItem(this.data.calendarItems)
-    }
-
     onOpen ($event, type, data) {
 
         if (type === 'measurement') {
@@ -428,7 +415,7 @@ const CalendarDayComponent: IComponentOptions = {
         currentUser: '<',
         trainingPlanMode: '<',
         planId: '<',
-        bufferLength: '<', // обьем буфера скопированных тренировок
+        copiedItemsLength: '<', // обьем буфера скопированных тренировок
 
         onCopy: '&', // пользователь скопировал дни/недели (без параметров)
         onPaste: '&', // пользователь выбрал даты у нажал вставить, параметр - дата начала

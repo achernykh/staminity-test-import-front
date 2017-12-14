@@ -54,6 +54,7 @@ import { shareStates } from "./share.states";
 import { htmlToPlainText } from "./text/plain-text.filter";
 import { quillConfig } from "./quill/quill.config";
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -286,6 +287,7 @@ const Share = module('staminity.share', ['ui.router','pascalprecht.translate'])
             }
         };
     })
+    .filter('keyboardShortcut', keyboardShortcut)
     .component('stApplicationFrame', ApplicationFrameComponent)
     .component('stApplicationUserToolbar', ApplicationUserToolbarComponent)
     .filter('htmlToPlainText', htmlToPlainText)

@@ -41,18 +41,38 @@
             <md-button ng-click="$ctrl.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons" aria-label="Back">navigate_next</md-icon>
             </md-button>
-            <md-button ng-click="$ctrl.toCurrentWeek()" class="" aria-label="Settings">
-                <md-icon class="material-icons" aria-label="Back">today</md-icon>
-                <span translate="calendar.action.today"></span>
+            <md-button flex="none" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
+                <md-tooltip ng-bind="'calendar.action.today' | translate"></md-tooltip>
+                <md-icon class="material-icons" aria-label="Back" ng-bind="'today'"></md-icon>
             </md-button>
             <md-datepicker ng-model="$ctrl.myDate" style="display: inline-block; width: 0; height: 0"
                            ng-change="$ctrl.calendar.toDate($ctrl.myDate)"
                            class="picker"
                            md-is-open="ctrl.isOpenDatePicker">
             </md-datepicker>
-            <md-button ng-click="ctrl.isOpenDatePicker = true" class="" aria-label="Settings">
-                <md-icon class="material-icons" aria-label="Back">today</md-icon>
-                <span translate="calendar.action.selectDate"></span>
+            <md-button flex="none" ng-click="ctrl.isOpenDatePicker = true" class="md-icon-button" aria-label="Settings">
+                <md-tooltip ng-bind="'calendar.action.selectDate' | translate"></md-tooltip>
+                <md-icon class="material-icons" aria-label="Back">date_range</md-icon>
+            </md-button>
+            <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+            <md-button flex="none" ng-click="$ctrl.copyItems()" class="md-icon-button" aria-label="Copy"
+                       ng-disabled="$ctrl.selectedItems.length === 0">
+                <md-tooltip ng-bind-template="{{'calendar.action.copy' | translate}} {{'M-C' | keyboardShortcut}}"></md-tooltip>
+                <md-icon class="material-icons" aria-label="Copy">content_copy</md-icon>
+                <span class="badge superscript" md-colors="{background: 'accent-hue-2'}"
+                      ng-if="$ctrl.copiedItems.length > 0">{{$ctrl.copiedItems.length}}</span>
+            </md-button>
+            <md-button flex="none" ng-click="$ctrl.pasteItems($ctrl.calendar.firstDaySelected)"
+                       class="md-icon-button" aria-label="Paste"
+                       ng-disabled="$ctrl.copiedItems.length === 0 ||
+                       ($ctrl.copiedItems.length > 0 && $ctrl.calendar.selectedDaysCount !== 1)">
+                <md-tooltip ng-bind-template="{{'calendar.action.paste' | translate}} {{'M-V' | keyboardShortcut}}"></md-tooltip>
+                <md-icon class="material-icons" aria-label="Paste">content_paste</md-icon>
+            </md-button>
+            <md-button flex="none" ng-click="$ctrl.deleteItems()" class="md-icon-button" aria-label="Delete"
+                       ng-disabled="$ctrl.selectedItems.length === 0">
+                <md-tooltip ng-bind="'calendar.action.delete' | translate"></md-tooltip>
+                <md-icon class="material-icons" aria-label="Delete">delete</md-icon>
             </md-button>
             <!--<md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
                 <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
@@ -130,9 +150,13 @@
                             data="day.data"
                             owner="$ctrl.owner"
                             current-user="$ctrl.currentUser"
+                            copied-items-length="$ctrl.copiedItems.length"
+                            on-copy="$ctrl.copyItems()"
+                            on-paste="$ctrl.pasteItems(date)"
+                            on-delete="$ctrl.deleteItems(items)"
+                            on-post-plan=""
                             on-update="$ctrl.update(formMode, item)"
-                            on-save="$ctrl.save(formMode, item)"
-                            on-select="day.selected = !day.selected">
+                            on-select="day.selected = !day.selected; $ctrl.selectItems()">
                     </calendar-day>
 
                     <calendar-total
@@ -167,16 +191,12 @@
                     <md-icon class="material-icons">add</md-icon>
                 </md-button>
             </md-fab-trigger>
-
             <md-fab-actions>
-                <md-button aria-label="Events" class="md-fab md-raised md-mini" ng-click="$ctrl.onAddEvent($event)">
-                    <md-icon class="material-icons md-inactive" aria-label="Events">weekend</md-icon>
-                </md-button>
-                <md-button aria-label="Measures" class="md-fab md-raised md-mini" ng-click="$ctrl.onAddMeasurement($event)">
-                    <md-icon class="material-icons" aria-label="Measures">straighten</md-icon>
-                </md-button>
-                <md-button aria-label="Activity" class="md-fab md-raised md-mini" ng-click="$ctrl.onAddActivity($event)">
-                    <md-icon class="material-icons" aria-label="Activity">directions_run</md-icon>
+                <md-button ng-repeat="type in ['activity', 'measurement', 'record', 'competition'] track by $index"
+                           aria-label="Events" class="md-fab md-raised md-mini"
+                           ng-click="$ctrl.itemDialog($event, type)">
+                    <md-icon class="material-icons md-inactive" aria-label="{{type}}"
+                             md-svg-src="/assets/icon/{{::type}}.svg"></md-icon>
                 </md-button>
             </md-fab-actions>
         </md-fab-speed-dial>

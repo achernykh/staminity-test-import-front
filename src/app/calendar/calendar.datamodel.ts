@@ -228,7 +228,6 @@ export class Calendar {
      * @param item<ICalendarItem>
      */
     post (item: ICalendarItem): void {
-        debugger;
         let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
@@ -266,6 +265,33 @@ export class Calendar {
             this.weeks.filter(d => d.sid === w)[0].changes++;
             this.$scope.$applyAsync();
         }
+    }
+
+    /**
+     * Снять выделение с дней недели
+     */
+    deselect (): void {
+        this.weeks.forEach(w => w.subItem.forEach(d => {
+            if(d.selected) {
+                d.selected = false;
+            }
+        }));
+    }
+
+    get selectedDaysCount (): number {
+        let count: number = 0;
+        this.weeks.forEach(w => w.subItem.forEach(d => d.selected && count++));
+        return count;
+    }
+
+    get firstDaySelected (): string {
+        let date: string = null;
+        this.weeks.forEach(w => w.subItem.forEach(d => {
+            if (d.selected && !date) {
+                date = d.date;
+            }
+        }));
+        return date;
     }
 
     /**

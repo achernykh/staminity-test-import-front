@@ -7,7 +7,11 @@ export const prepareItem = (item: ICalendarItem, shift: number) => {
     item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     if(item.calendarItemType === 'activity') {
         item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
-        delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+
+        if (item.activityHeader.intervals.filter(i => i.type === 'pW')[0].hasOwnProperty('calcMeasures') &&
+            item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.hasOwnProperty('completePercent')) {
+            delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+        }
     }
     return item;
 };
