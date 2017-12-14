@@ -27,7 +27,6 @@ class MethodologyCtrl implements IComponentController {
     // private
     private leftBarShow: boolean = true;
     private navBarStates: Array<string> = ['trainingPlans', 'periodization', 'categories', 'templates'];
-    private readonly defaultBarState: string = 'trainingPlans';
     private currentState: string = 'trainingPlans';
     private activityTypes: Array<IActivityType> = activityTypes;
     private trainingPlansFilter: ITrainingPlanSearchRequest;
@@ -49,13 +48,36 @@ class MethodologyCtrl implements IComponentController {
                  private referenceService: ReferenceService,
                  private periodizationService: PeriodizationService) {
 
-        // Устанавливаем приложение
-        this.setState(this.$stateParams.hasOwnProperty('state') && this.$stateParams.state ?
-            this.$stateParams.state : this.defaultBarState);
     }
 
-    $onInit () {
+    $onInit (): void {
         this.filterParams.club = this.club;
+        this.setState(this.$stateParams.hasOwnProperty('state') &&
+            this.$stateParams.state ? this.$stateParams.state : this.currentState);
+        this.getCategories();
+        this.getTemplates();
+        this.getSchemes();
+        this.prepareTrainingPlansFilter();
+        this.updateFilterParams();
+    }
+
+    $onChanges (): void {
+        this.updateFilterParams();
+    }
+
+    $onDestroy (): void {
+        this.destroy.next();
+        this.destroy.complete();
+    }
+
+    private getSchemes (): void {
+        this.periodizationService.get()
+            .then(result => result.arrayResult &&
+            this.setPeriodizationData(result.arrayResult,
+                this.$stateParams.scheme ? Number(this.$stateParams.scheme) : null));
+    }
+
+    private getCategories (): void {
         this.categories = this.referenceService.categories;
         this.referenceService.categoriesChanges
             .takeUntil(this.destroy)
@@ -64,7 +86,9 @@ class MethodologyCtrl implements IComponentController {
                 this.updateFilterParams();
                 this.$scope.$apply();
             });
+    }
 
+    private getTemplates (): void {
         this.templates = this.referenceService.templates;
         this.referenceService.templatesChanges
             .takeUntil(this.destroy)
@@ -73,30 +97,13 @@ class MethodologyCtrl implements IComponentController {
                 this.updateFilterParams();
                 this.$scope.$apply();
             });
-
-        this.periodizationService.get()
-            .then(result => result.arrayResult &&
-                this.setPeriodizationData(result.arrayResult,
-                    this.$stateParams.scheme ? Number(this.$stateParams.scheme) : null));
-
-        this.prepareTrainingPlansFilter();
-        this.updateFilterParams();
     }
 
-    $onChanges () {
-        this.updateFilterParams();
-    }
-
-    $onDestroy () {
-        this.destroy.next();
-        this.destroy.complete();
-    }
-
-    setState (state: string): void {
+    private setState (state: string): void {
         if (this.navBarStates.indexOf(state) === -1) { return; }
         this.currentState = state;
         this.$location.search('state', state);
-        this.$scope.$applyAsync();
+        //this.$scope.$applyAsync();
     }
 
     private setPeriodizationData (schemes: Array<IPeriodizationScheme>, id: number): void {

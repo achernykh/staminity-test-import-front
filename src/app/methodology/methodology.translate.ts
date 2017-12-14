@@ -4,14 +4,18 @@ export const translateMethodology = {
         fullTitle: 'Методология тренировочного процесса',
         shortTitle: 'Методология',
 
-        // вкладки
-        trainingPlans: 'Тренировочные планы',
-        periodization: 'Схемы периодизации',
-        categories: 'Категории',
-        templates: 'Шаблоны',
-
+        trainingPlans: {
+            title: 'Тренировочные планы'
+        },
+        categories: {
+            title: 'Категории'
+        },
+        templates: {
+            title: 'Шаблоны'
+        },
         // периодизация
         periodization: {
+            title: 'Схемы периодизации',
             edit: "Изменить описание схемы",
             delete: "Удалить схему",
             emptySchemeList: "Добавьте мезоциклы",
@@ -27,11 +31,11 @@ export const translateMethodology = {
                     red: "Красный",
                     pink: "Розовый",
                     purple: "Фиолетовый",
-                    "deep-Purple": "Темно-фиолетовый",
-                    indigo: "Индиго",
+                    "deep-purple": "Темно-фиолетовый",
+                    indigo: "Темно-синий",
                     blue: "Синий",
-                    cyan: "Голубой",
-                    teal: "Чирок (teal)",
+                    cyan: "Сине-зеленый",
+                    teal: "Темный цвет морской волны",
                     green: "Зеленый",
                     "deep-orange": "Темно-оранжевый",
                     brown: "Коричневый",

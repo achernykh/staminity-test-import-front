@@ -1,4 +1,5 @@
 <st-application-frame
+        ng-cloak
         class="methodology st-application-frame left-bar-show"
         template="application"
         navigation-bar="true"
@@ -15,14 +16,13 @@
     <st-application-frame-navbar layout="row">
         <md-nav-item  ng-repeat="state in $ctrl.navBarStates track by $index"
                       md-nav-click="$ctrl.setState(state)" name="{{::state}}">
-            <span translate="methodology.{{::state}}"></span>
+            <span translate="methodology.{{::state}}.title"></span>
         </md-nav-item>
     </st-application-frame-navbar>
 
     <!-- Тренировочные планы -->
-    <st-application-frame-left-bar ng-switch-when="trainingPlans">
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'trainingPlans'">
         <training-plans-filter class="training-plans-search__filter"
-                               charts="$ctrl.charts"
                                filter="$ctrl.trainingPlansFilter"
                                on-hide="$ctrl.toggleLeftBar()"
                                on-change-filter="$ctrl.changeTrainingPlansFilter(filter)"
@@ -42,7 +42,7 @@
     </st-application-frame-content>
 
     <!-- Категории -->
-    <st-application-frame-left-bar ng-switch-when="categories">
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'categories'">
         <section class="methodology__left-bar">
             <md-list class="md-dense">
                 <md-list-item ng-repeat="activity in $ctrl.activityTypes | filter:{enabled: true} track by activity.id"
@@ -66,7 +66,7 @@
     </st-application-frame-content>
 
     <!-- Схемы периодизации -->
-    <st-application-frame-left-bar ng-switch-when="periodization">
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'periodization'">
         <md-content class="methodology__left-bar">
             <st-periodization-scheme-filter
                 layout="column" layout-fill="true"
@@ -84,7 +84,7 @@
     </st-application-frame-content>
 
     <!-- Шаблоны тренировок -->
-    <st-application-frame-left-bar ng-switch-when="templates">
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'templates'">
         <section class="methodology__left-bar">
             <md-list class="md-dense">
                 <md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">

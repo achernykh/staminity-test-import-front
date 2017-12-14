@@ -2,7 +2,8 @@ export const translateTrainingSeason = {
     ru: {
         action: {
             deleteSeason: "Удалить план на сезон",
-            editSeason: "Изменить план на сезон"
+            editSeason: "Изменить план на сезон",
+            postCompetition: 'Добавить соревнование'
         },
         fullTitle: 'План на сезон',
         shortTitle: 'Сезон',
@@ -23,11 +24,6 @@ export const translateTrainingSeason = {
         },
         period: 'Период',
         competition: 'Соревнование',
-        competition: {
-            action: {
-                post: "Добавить соревнование"
-            }
-        },
         inputPlaceholder: {
             movingDuration: "Время (ч)",
             trainingLoad: "Нагрузка (TL)",
