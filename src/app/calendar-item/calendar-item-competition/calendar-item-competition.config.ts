@@ -28,22 +28,139 @@ export class CompetitionConfig implements CompetitionConfig {
     } =
     {
         run: {
-            marathon: [
+            runMarathon: [
                 {
                     activityTypeId: 2,
                     durationMeasure: 'movingDuration',
-                    distanceLength: 42.125*1000,
+                    distanceLength: 42.195*1000
                 }
             ],
-            halfMarathon: [
+            runHalfMarathon: [
                 {
                     activityTypeId: 2,
                     durationMeasure: 'movingDuration',
-                    distanceLength: 21.075*1000
+                    distanceLength: 21.097*1000
+                }
+            ],
+            runTenKm: [
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 10*1000
+                }
+            ],
+            runFiveKm: [
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 5*1000
+                }
+            ],
+            runRandom: [
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                }
+            ],
+            runFullDay: [
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 24*60*60
+                }
+            ],
+            runOneHour: [
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 24*60
                 }
             ]
+
         },
         triathlon: {
+            ironmanFull: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 3.8*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 180*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 42.195*1000
+                }
+            ],
+            ironmanHalf: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 1.9*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 90*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 21.097*1000
+                }
+            ],
+            ironmanOneFourth: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 1*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 45*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 10*1000
+                }
+            ],
             olympic: [
                 {
                     activityTypeId: 7,
@@ -69,6 +186,190 @@ export class CompetitionConfig implements CompetitionConfig {
                     activityTypeId: 2,
                     durationMeasure: 'movingDuration',
                     distanceLength: 10*1000
+                }
+            ],
+            sprint: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 0.75*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 20*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 5*1000
+                }
+            ],
+            ironmanOneEight: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 0.5*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 22*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 5*1000
+                }
+            ],
+            indoor: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 10*60
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 0,
+                    distanceLength: 0                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 30*60
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 0,
+                    distanceLength: 0
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 20*60
+                }
+            ]
+        },
+        swim: {
+            swimTen: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 10*1000
+                }
+            ],
+            swimFive: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 5*1000
+                }
+            ],
+            swimThree: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 3*1000
+                }
+            ],
+            swimMile: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 1.852*1000
+                }
+            ],
+            swimOne: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 1*1000
+                }
+            ],
+            swimEightHundred: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 8*100
+                }
+            ],
+            swimFourHundred: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 4*100
+                }
+            ],
+            swimTwoHundred: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 2*100
+                }
+            ],
+            swimOneHundred: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 1*100
+                }
+            ],
+            swimFifty: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 50
+                }
+            ],
+            swimRandom: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                }
+            ],
+            swimSixtyMin: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 60*60
+                }
+            ],
+            swimThirtyMin: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 30*60
+                }
+            ],
+        },
+        bike: {
+            bikeDistanceRandom: [
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null,
                 }
             ]
         }

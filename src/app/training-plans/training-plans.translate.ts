@@ -1,7 +1,7 @@
 export const _translateTrainingPlans = {
     ru: {
-        fullTitle: 'Поиск плана подготовкото',
-        shortTitle: 'Поиск плана',
+        fullTitle: 'Поиск тренировочных планов',
+        shortTitle: 'Поиск планов',
         filter: 'Фильтр',
         filterResult: 'Найдено планов {{total}}',
 
@@ -9,7 +9,7 @@ export const _translateTrainingPlans = {
         tabs: {
             general: 'Основные параметры',
             description: 'Описание',
-            commerce: 'Коммерция'
+            commerce: 'Условия продажи'
         },
 
         form: {
@@ -28,7 +28,7 @@ export const _translateTrainingPlans = {
 
         // поля плана
         isPublic: {
-            label: 'Коммерческий план'
+            label: 'План на продажу'
         },
         name: {
             label: 'Название'
@@ -37,11 +37,11 @@ export const _translateTrainingPlans = {
             label: 'Вид спорта'
         },
         distanceType: {
-            label: 'Вид соревнований'
+            label: 'Тип соревнований'
         },
         isFixedCalendarDates: {
-            label: 'Фиксированные календарные даты',
-            hint: 'Пояснение к фиксированным и гибким календарным датам. Пояснение, что может и так и так и на что это повлияет.'
+            label: 'Привязан к календарным датам',
+            hint: 'В плане, привязанном к календарным датам....'
         },
         propagateMods: {
             label: 'Транслировать изменения плана',
@@ -52,11 +52,11 @@ export const _translateTrainingPlans = {
         },
         tags: {
             label: 'Характеристики плана',
-            beginner: 'Новичек',
+            beginner: 'Новичок',
             advanced: 'Продвинутый',
             pro: 'Профессионал',
-            powerMeter: 'По мощности',
-            hrBelt: 'По пульсу',
+            powerMeter: 'Интенсивность по мощности',
+            hrBelt: 'Интенсивность по пульсу',
             weightLoss: 'Потеря веса',
             fitness: 'Привести в форму',
             health: 'Здоровье',

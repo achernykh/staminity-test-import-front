@@ -1,12 +1,65 @@
 export const translateMethodology = {
     ru: {
         title: 'Методология',
-        fullTitle: 'Поиск плана подготовкото',
-        shortTitle: 'Поиск плана',
+        fullTitle: 'Методология тренировочного процесса',
+        shortTitle: 'Методология',
 
+        // вкладки
         trainingPlans: 'Тренировочные планы',
-        periodization: 'Периодизация',
+        periodization: 'Схемы периодизации',
         categories: 'Категории',
+        templates: 'Шаблоны',
+
+        // периодизация
+        periodization: {
+            edit: "Изменить описание схемы",
+            delete: "Удалить схему",
+            emptySchemeList: "Добавьте мезоциклы",
+            postScheme: "Создать новую схему",
+            systemSchemes: "Системные схемы",
+            userSchemes: "Мои схемы",
+            mesocycle: {
+                title: "Мезоцикл",
+                code: {
+                    label: "Название мезоцикла"
+                },
+                color: {
+                    red: "Красный",
+                    pink: "Розовый",
+                    purple: "Фиолетовый",
+                    "deep-Purple": "Темно-фиолетовый",
+                    indigo: "Индиго",
+                    blue: "Синий",
+                    cyan: "Голубой",
+                    teal: "Чирок (teal)",
+                    green: "Зеленый",
+                    "deep-orange": "Темно-оранжевый",
+                    brown: "Коричневый",
+                    grey: "Серый"
+
+                },
+                description: "Описание",
+                descriptionPlaceholder: "Основные цели мезоцикла, объем и интенсивность тренировок и т.п.",
+                save: "Сохранить",
+                delete: "Удалить мезоцикл",
+                edit: "Изменить мезоцикл"
+            }
+
+        },
+
+        //создание схемы периодизации
+        scheme: {
+            title: "Схема периодизации",
+            code: {
+                label: "Название схемы"
+            },
+            description: "Описание схемы",
+            descriptionPlaceholder: "Опишите схему...",
+            save: "Сохранить",
+            delete: "Удалить схему",
+            edit: "Изменить схему"
+
+        },
         schemes: {
             title: 'Схемы периодизации',
             JoeFriel: {
