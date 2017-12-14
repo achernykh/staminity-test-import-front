@@ -12,7 +12,7 @@
     <st-application-frame-title>
         <span class="md-title" translate="trainingSeason.fullTitle"></span>
         <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
-        <span class="button" ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'short'}}</span>
+        <span class="button" ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'compact'}}</span>
         <md-menu ng-if="$ctrl.isListState && $ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -69,28 +69,28 @@
     </st-application-frame-toolbar>
 
     <st-application-frame-left-bar>
-        <md-content class="training-season-builder__left-bar">
-            <!--<md-toolbar class="md-default">
-                <div class="md-toolbar-tools">
-                    <span translate="trainingSeason.competitions"></span>
-                    <div flex></div>
-                </div>
-            </md-toolbar>-->
-            <md-subheader>
+        <md-content class="training-season-builder__left-bar" layout="column" layout-fill="true">
+            <md-subheader flex="none">
                 <span translate="trainingSeason.competitions"></span>
             </md-subheader>
-            <section class="competition-list" layout="column">
-                <div flex="none" class="date md-caption md-dark" ng-repeat-start="item in $ctrl.competitions track by $index">
+            <section flex="auto" class="competition-list" layout="column">
+                <div flex="none" class="date md-caption md-dark"
+                     ng-repeat-start="item in $ctrl.competitions track by $index">
                     <span>{{item.dateStart | date}}</span>
                 </div>
                 <st-competition-compact ng-repeat-end layout="column" flex="none"
                                         class="competition-compact"
-                                        ng-click="$ctrl.competition($event, item)"
                                         view="'list'"
                                         item="item"
                                         options="$ctrl.itemOptions">
                 </st-competition-compact>
             </section>
+            <md-dialog-buttons flex="none" layout="row">
+                <div flex></div>
+                <md-button ng-click="$ctrl.postCompetition($event)">
+                    <span translate="competition.action.post"></span>
+                </md-button>
+            </md-dialog-buttons>
         </md-content>
     </st-application-frame-left-bar>
 

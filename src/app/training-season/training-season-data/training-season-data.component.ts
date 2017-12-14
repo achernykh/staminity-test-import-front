@@ -1,5 +1,5 @@
 import './training-season-data.component.scss';
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IComponentOptions, IComponentController, IFilterService } from 'angular';
 import { TrainingSeasonData } from "./training-season-data.datamodel";
 import { TrainingSeason } from "@app/training-season/training-season/training-season.datamodel";
 import { IMesocycle, IMicrocycle, IPeriodizationScheme } from "../../../../api/seasonPlanning/seasonPlanning.interface";
@@ -10,17 +10,18 @@ import { PeriodizationService } from "../../methodology/periodization/periodizat
 class TrainingSeasonDataCtrl implements IComponentController {
 
     data: TrainingSeasonData;
-    onEvent: (response: Object) => IPromise<void>;
+    onEvent: (response: Object) => Promise<void>;
 
     // private
     private selected: Array<any> = [];
     private schemes: Array<IPeriodizationScheme>;
     private update: number = 0;
 
-    static $inject = [ '$mdEditDialog', 'TrainingSeasonService', 'PeriodizationService' ];
+    static $inject = [ '$mdEditDialog', '$filter', 'TrainingSeasonService', 'PeriodizationService' ];
 
     constructor (
         private $mdEditDialog: any,
+        private $filter: IFilterService,
         private trainingSeason: TrainingSeasonService,
         private periodizationService: PeriodizationService) {
 
@@ -92,7 +93,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
 
         let editDialog = {
             modelValue: cycle.durationValue,
-            placeholder: 'Add a comment',
+            placeholder: this.$filter('translate')(`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
             save: function (input) {
                 if (input.$modelValue === 'Donald Trump') {
                     input.$invalid = true;

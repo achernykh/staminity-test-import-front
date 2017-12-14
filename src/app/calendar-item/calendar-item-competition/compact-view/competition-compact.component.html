@@ -1,6 +1,6 @@
 <div class="competition-compact" ng-switch="$ctrl.view">
     <!-- Элемент списка -->
-    <section ng-switch-when="list" class="competition-compact__list">
+    <section ng-switch-when="list" class="competition-compact__list" ng-click="$ctrl.open($event)">
         <header class="competition-header {{::$ctrl.competition.status}}" ng-class="{selected: $ctrl.selected}"
                 layout="row" layout-align="start center">
             <div flex="none" layout="row" layout-align="center center"
@@ -35,7 +35,7 @@
         </header>
     </section>
     <!-- Элемент дня календаря -->
-    <section ng-switch-when="calendar" class="competition-compact__calendar">
+    <section ng-switch-when="calendar" class="competition-compact__calendar" ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
         <header class="competition-header {{::$ctrl.competition.status}}"
                 ng-class="{selected: $ctrl.selected}">

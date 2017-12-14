@@ -88,7 +88,9 @@
                 </md-input-container>
             </md-list-item>
             <!-- Выбор параметра интенсивности -->
-            <md-subheader><span>Парметр интенсивности плана</span></md-subheader>
+            <md-subheader>
+                <span translate="trainingSeason.durationMeasure.label"></span>
+            </md-subheader>
             <div layout="column" class="duration-measure">
                 <md-radio-group flex="none"
                                 name="durationMeasure" class="md-primary"
@@ -96,15 +98,17 @@
                                 ng-change="$ctrl.change(param, param.model)">
                     <md-radio-button ng-repeat="measure in $ctrl.settings.durationMeasures track by $index"
                                      ng-value="measure">
-                        <span class="md-body-1">{{measure | translate}}</span>
+                        <span class="md-body-1">{{'trainingSeason.durationMeasure.' + measure | translate}}</span>
                     </md-radio-button>
                 </md-radio-group>
             </div>
             <!-- Описание плана на сезон -->
-            <md-subheader><span>Описание</span></md-subheader>
+            <md-subheader>
+                <span translate="trainingSeason.description.label"></span>
+            </md-subheader>
             <ng-quill-editor ng-if="true" flex="auto"
                              ng-model="$ctrl.season.description"
-                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                             placeholder="{{'trainingSeason.description.placeholder' | translate}}"
                              modules="$ctrl.quillConf.toolbarFull"
                              on-content-changed="$ctrl.changeForm()"
                              ng-class="{'hide-toolbar': $ctrl.isViewMode}"

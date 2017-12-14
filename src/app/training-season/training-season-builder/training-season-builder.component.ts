@@ -130,7 +130,21 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             .then(() => this.update());
     }
 
-    competition (event: Event, item: ICalendarItem): void {
+    /**
+     * Диалого создания Соревнования
+     * @param event
+     */
+    postCompetition (event: Event): void {
+        this.calendarItemDialog.competition(event, Object.assign(this.itemOptions, {formMode: FormMode.Post}))
+            .then(() => {}, () => {});
+    }
+
+    /**
+     * Диалог просмотра Соревнования
+     * @param event
+     * @param item
+     */
+    viewCompetition (event: Event, item: ICalendarItem): void {
         this.calendarItemDialog.competition(event, this.itemOptions, item)
             .then(() => {}, () => {});
     }
@@ -139,6 +153,10 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         $mdMenu.open(ev);
     }
 
+    /**
+     * Устанваливаем План на сезон
+     * @param season
+     */
     setSeason (season: ISeasonPlan): void {
         this.season = new TrainingSeason(season);
         this.$location.search('seasonId', this.season.id);
@@ -146,12 +164,23 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         this.state = TrainingSeasonViewState.Builder;
     }
 
+    /**
+     * Устанавливаем данные Плана на сезон
+     * Содержит перечень микроциклов по всему периоду плана
+     * @param data
+     */
     setSeasonData (data: Array<IMicrocycle>): void {
         this.data = new TrainingSeasonData(this.season, data);
     }
 
+    /**
+     * Устанавливаем владельца данных - атлета
+     * При смене владельца запрашиваем данные по сеоревнованиям
+     * @param user
+     */
     setOwner (user: IUserProfile | IUserProfileShort): void {
         this.owner = user;
+        this.itemOptions.owner = this.owner;
         this.$location.search('userId', this.owner.userId);
         this.trainingSeasonService.get({userId: this.owner.userId})
             .then(response => this.seasons = response.arrayResult, error => this.messageService.toastInfo(error))
@@ -160,20 +189,30 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             .then(() => this.update());
     }
 
+    /**
+     * Устанавливаем перечень соревнований владельца
+     * @param list
+     */
     setCompetitionList (list: Array<ICalendarItem>): void {
         this.competitions = list;
     }
 
+    /**
+     * Подготовка данных
+     * 1. Получаем микроциклы и устанвливаем их
+     * 2. Получаем перечень соревнований и устанавливаем их
+     */
     private prepareData (): void {
-        // 1. Получаем детали по периодизации
         this.trainingSeasonService.getItems(this.season.id)
             .then(result => this.setSeasonData(result.arrayResult), error => {})
-            // 2. Получаем данные по соревнованиям
-            .then(() => this.calendarService.search({userIdOwner: this.currentUser.userId, calendarItemTypes: ['competition']}))
-            // 3. Устанавливаем список соревнований
+            .then(() => this.calendarService.search({userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
             .then(result => this.data.setCompetitions(result.arrayResult), error => {});
     }
 
+    /**
+     * Подготавливаем перечень атлетов для тренера
+     * Перечень используемтся при смене владельца
+     */
     private prepareAthletesList(): void {
         if (this.currentUser.public.isCoach && this.currentUser.connections.hasOwnProperty('allAthletes')) {
             this.athletes = this.currentUser.connections.allAthletes.groupMembers;

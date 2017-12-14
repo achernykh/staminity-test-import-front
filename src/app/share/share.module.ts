@@ -53,6 +53,7 @@ import ApplicationProfileTemplateComponent from "./application-frame/profile-tem
 import { shareStates } from "./share.states";
 import { htmlToPlainText } from "./text/plain-text.filter";
 import { quillConfig } from "./quill/quill.config";
+import { IUserProfile, IUserProfileShort } from "@api/user";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -70,9 +71,33 @@ const userBackground = () => (url:string) => url && url !== 'default.jpg' ? _con
 
 const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty('avatar') && user.public.avatar !== 'default.jpg' ? image() ('/user/avatar/',user.public.avatar) : '/assets/picture/default_avatar.png'})`;
 
-const userName = () => (user, options) => maybe(user) (prop('public')) (
+const _userName = () => (user, options) => maybe(user) (prop('public')) (
     options === 'short'? prop('firstName') : ({ firstName, lastName }) => `${firstName} ${lastName}`
 ) ();
+
+/**
+ * Функция для фильтра вывода имени пользователя
+ * short: Только имя
+ * compact: Имя и первую букву Фамилии
+ * full: Имя и Фамилию
+ */
+const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'full'): string => {
+    if (!profile.hasOwnProperty('public') ||
+        !profile.public.hasOwnProperty('firstName') ||
+        !profile.public.hasOwnProperty('lastName')) {return null;}
+
+    switch (options) {
+        case 'short': {
+            return profile.public.firstName;
+        }
+        case 'compact': {
+            return `${profile.public.firstName} ${profile.public.lastName[0]}.`;
+        }
+        default: {
+            return `${profile.public.firstName} ${profile.public.lastName}`;
+        }
+    }
+};
 
 const clubName = () => (club) => maybe(club) (prop('public')) (prop('name')) ();
 

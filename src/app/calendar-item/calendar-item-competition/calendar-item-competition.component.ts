@@ -9,6 +9,7 @@ import MessageService from "../../core/message.service";
 import { IQuillConfig } from "../../share/quill/quill.config";
 import { FormMode } from "../../application.interface";
 import { IRevisionResponse } from "../../../../api/core/core";
+import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 ;
 
 export class CalendarItemCompetitionCtrl implements IComponentController {
@@ -24,10 +25,11 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     private competition: CalendarItemCompetition;
 
     // inject
-    static $inject = ['CompetitionConfig', 'CalendarService', 'message', 'quillConfig'];
+    static $inject = ['CompetitionConfig', 'CalendarService', 'CalendarItemDialogService', 'message', 'quillConfig'];
 
     constructor (private config: ICompetitionConfig,
                  private calendarService: CalendarService,
+                 private calendarDialog: CalendarItemDialogService,
                  private message: MessageService,
                  private quillConf: IQuillConfig) {
 
@@ -40,6 +42,15 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
             this.setDistanceType();
         }
     }
+
+    /**
+     * Диалог просмотра Соревнования
+     * @param e
+     */
+    open (e: Event): void {
+        this.calendarDialog.competition(e, this.options, this.competition).then(response => {debugger;});
+    }
+
 
     setType (): void {
         this.competition.competitionHeader.distanceType = null;

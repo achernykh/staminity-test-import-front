@@ -36,8 +36,8 @@ export class Microcycle implements IMicrocycle {
         let next: Moment = moment(this._dateStart).add(1, 'week');
 
         return moment(next).startOf('month').diff(moment(this._dateStart).startOf('month'), 'months') > 0 ?
-            `${this._dateStart.format('DD')}-${this._dateEnd.format('MMM DD')}` :
-            `${this._dateStart.format('DD')}-${this._dateEnd.format('DD')}`;
+            `${this._dateStart.format('DD.MM')}-${this._dateEnd.format('DD.MM')}` :
+            `${this._dateStart.format('DD.MM')}-${this._dateEnd.format('DD.MM')}`;
     }
 
     applyRevision (revision: IRevisionResponse): Microcycle {

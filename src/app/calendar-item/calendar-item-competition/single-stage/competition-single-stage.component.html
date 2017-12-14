@@ -22,9 +22,10 @@
             </td>
             <!-- План по велчине второстипенной величине этапа -->
             <td md-cell>
-                <md-input-container>
+                <md-input-container md-no-float>
                     <input measure-input
                            name="{{$index}}_plan"
+                           placeholder="{{'competition.planPlaceholder.' + $ctrl.durationMeasure(stage.item) | translate}}"
                            ng-model="stage.item.intervals.PW[$ctrl.durationMeasure(stage.item)].durationValue"
                            change="$ctrl.change"
                            measure="$ctrl.durationMeasure(stage.item)"
