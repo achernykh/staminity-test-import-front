@@ -17,7 +17,8 @@ calendar-day {
   // xs & sm size
   @media (min-width: 0px) and (max-width: 959px) {
     width: 100%;
-    height:auto;
+    min-width: 100%;
+    height: auto;
     min-height: 70px;
     padding: 12px 8px 12px 8px;
     //border-bottom: 1px solid $grey-400;
@@ -222,6 +223,13 @@ calendar-day {
     .icon {
       margin-left: 0px;
       margin-right: 8px;
+    }
+
+    @media(max-width: 959px){
+      min-height: 62px;
+      margin: 0px 4px 8px 4px;
+      min-width: 200px;
+      border-radius: 3px;
     }
 
   }

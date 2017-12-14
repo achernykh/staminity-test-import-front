@@ -102,6 +102,7 @@ const ApplicationFrameComponent:IComponentOptions = {
     transclude: {
         title: '?stApplicationFrameTitle',
         toolbar: '?stApplicationFrameToolbar',
+        mobileMenu: '?stApplicationFrameMobileMenu',
         navBar: '?stApplicationFrameNavbar',
         profile: '?stApplicationFrameProfile',
         content: 'stApplicationFrameContent',

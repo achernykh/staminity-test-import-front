@@ -19,6 +19,9 @@
 
   &__content {
     margin: 8px 8px 0 8px;
+    @media (max-width: 959px) {
+      margin: 0;
+    }
   }
 
   &__days-header {
@@ -64,13 +67,9 @@
     scroll-behavior: auto;
     overflow-y: scroll;
     overflow-x: hidden;
-    //padding-left: 4px;
-    //padding-right: 4px;
-    // xs & sm size
-    @media (min-width: 0px) and (max-width: 959px) {
-      //height: 100%;
+    @media (max-width: 959px) {
+      height: calc(100vh - 56px);
     }
-
     .calendar-week {
       position: relative; //todo проверит производительность
       display: flex;
@@ -78,7 +77,10 @@
       border-bottom: 1px solid $grey-300;
 
       @media(max-width: 959px){
+        display: block;
         padding: 0;
+        border-bottom: none;
+        min-height: auto;
         border-bottom: none;
       }
 
@@ -106,6 +108,12 @@
     .calendar__week.ng-move.ng-move-active {
       opacity: 1;
     }
+  }
+
+  &__fab {
+    bottom: 8px;
+    right: 8px;
+    position: absolute;
   }
 }
 
