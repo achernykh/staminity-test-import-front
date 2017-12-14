@@ -9,7 +9,8 @@
         <h2 class="md-title" ng-transclude="title"></h2>
         <div flex></div>
         <div flex="none" layout="row" ng-transclude="toolbar" class="icon-bar" md-colors="{background: 'primary-600'}"></div>
-        <st-application-user-toolbar></st-application-user-toolbar>
+        <st-application-user-toolbar flex="none"></st-application-user-toolbar>
+        <section class="st-application-frame__mobile-menu" flex="none" ng-transclude="mobileMenu"></section>
     </div>
 </md-toolbar>
 <!-- Навигация: табы -->

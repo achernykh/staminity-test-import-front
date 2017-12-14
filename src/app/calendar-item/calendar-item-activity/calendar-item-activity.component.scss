@@ -17,8 +17,9 @@ md-dialog#post-activity{
 
   @media (min-width: 960px) {
     max-height: $dialog_height;
-    //min-height: 600px;
     max-width: $dialog_width;
+    background: none !important;
+    box-shadow: none !important;
   }
 
 }
@@ -31,7 +32,7 @@ calendar-item-activity {
 
   height: 100vh;
   overflow: hidden;
-  background: linear-gradient(to right, rgba(white,1), rgba(white,1) 60%, rgba(white, 0.0));
+  background: linear-gradient(to right, rgba(white,1), rgba(white,1) 60%, rgba(white, 0.0) 80%);
 
 
 

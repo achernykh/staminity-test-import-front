@@ -1,4 +1,4 @@
-<md-toolbar class="md-hue-3">
+<md-toolbar class="md-primary">
     <div class="md-toolbar-tools">
         <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -34,7 +34,7 @@
         <md-list class="md-dense">
             <md-list-item layout="row">
                 <md-input-container flex md-no-float class="md-block no-message">
-                    <md-datepicker ng-model="$ctrl.item._dateStart"
+                    <md-datepicker ng-model="$ctrl.measurement._dateStart"
                                    name="date" md-min-date="minDate"
                                    md-max-date="maxDate"></md-datepicker>
                     <div ng-messages="$ctrl.measurementForm.date.$error">
@@ -65,7 +65,7 @@
                 <md-input-container flex class="no-message">
                     <label>{{'weight' | translate}}({{'weight' | measureUnit | translate}})</label>
                     <input type="number" name="weight" autofocus autocomplete="off"
-                           ng-model="$ctrl.item.measurementHeader.sizes.weight"
+                           ng-model="$ctrl.measurement.measurementHeader.sizes.weight"
                            ng-disabled="false" step="0.1"
                            min="10" max="300">
                 </md-input-container>
@@ -73,7 +73,7 @@
                 <md-input-container flex class="no-message">
                     <label>{{'height' | translate}}({{'height' | measureUnit | translate}})</label>
                     <input type="number" name="height" autofocus autocomplete="off"
-                           ng-model="$ctrl.item.measurementHeader.sizes.height"
+                           ng-model="$ctrl.measurement.measurementHeader.sizes.height"
                            ng-disabled="false"
                            min="10" max="300">
                 </md-input-container>
@@ -82,7 +82,7 @@
                 <md-input-container flex class="no-message">
                     <label translate="waterPercent"></label>
                     <input type="number" name="waterPercent" autofocus autocomplete="off"
-                           ng-model="$ctrl.item.measurementHeader.generalMeasures.waterPercent"
+                           ng-model="$ctrl.measurement.measurementHeader.generalMeasures.waterPercent"
                            ng-disabled="false"
                            min="0" max="100">
                 </md-input-container>
@@ -90,7 +90,7 @@
                 <md-input-container flex class="no-message">
                     <label translate="percentFat"></label>
                     <input type="number" name="percentFat" autofocus autocomplete="off"
-                           ng-model="$ctrl.item.measurementHeader.generalMeasures.percentFat"
+                           ng-model="$ctrl.measurement.measurementHeader.generalMeasures.percentFat"
                            ng-disabled="false"
                            min="0" max="100">
                 </md-input-container>
@@ -99,7 +99,7 @@
                 <md-input-container flex class="no-message">
                     <label translate="musculeMass"></label>
                     <input type="number" name="musculeMass" autofocus autocomplete="off"
-                           ng-model="$ctrl.item.measurementHeader.generalMeasures.musculeMass"
+                           ng-model="$ctrl.measurement.measurementHeader.generalMeasures.musculeMass"
                            ng-disabled="false"
                            min="0" max="100">
                 </md-input-container>
@@ -107,7 +107,7 @@
                 <md-input-container flex class="no-message">
                     <label translate="pulse"></label>
                     <input type="number" name="pulse" autofocus autocomplete="off"
-                           ng-model="$ctrl.item.measurementHeader.generalMeasures.pulse"
+                           ng-model="$ctrl.measurement.measurementHeader.generalMeasures.pulse"
                            ng-disabled="false"
                            min="0" max="200">
                 </md-input-container>
@@ -120,7 +120,7 @@
                 <md-input-container flex class="no-message">
                     <label translate="sleepQuality"></label>
                     <md-select flex class=""
-                               ng-model="$ctrl.item.measurementHeader.sleepData.sleepQuality"
+                               ng-model="$ctrl.measurement.measurementHeader.sleepData.sleepQuality"
                                arial-label="Privacy Level">
                         <md-option class="" ng-value="$index" ng-repeat="level in $ctrl.feeling"
                                    translate="{{'measurement.sentiment.'+level | translate}}"></md-option>
@@ -130,7 +130,7 @@
                 <md-input-container flex class="no-message">
                     <label translate="sleepHours"></label>
                     <input type="number" name="lastName"
-                           ng-model="$ctrl.item.measurementHeader.sleepData.sleepHours"
+                           ng-model="$ctrl.measurement.measurementHeader.sleepData.sleepHours"
                            autocomplete="off" ng-disabled="false" min="1" max="24">
                 </md-input-container>
             </md-list-item>
@@ -141,7 +141,7 @@
             <md-list-item flex layout="row">
                 <md-input-container flex class="md-block no-message">
                     <label translate="overallFeeling"></label>
-                    <textarea ng-model="$ctrl.item.measurementHeader.feeling.overallFeeling"
+                    <textarea ng-model="$ctrl.measurement.measurementHeader.feeling.overallFeeling"
                               name="about" rows="1" md-select-on-focus></textarea>
                 </md-input-container>
             </md-list-item>

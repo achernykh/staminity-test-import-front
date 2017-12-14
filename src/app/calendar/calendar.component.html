@@ -6,10 +6,10 @@
 
     <st-application-frame-title>
         <span class="md-title" translate="calendar.fullTitle"></span>
-        <span class="md-title">{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
-        <md-icon class="material-icons" aria-label="Next">keyboard_arrow_right</md-icon>
-        <span class="button">{{$ctrl.owner | userName:'short'}}</span>
-        <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
+        <span class="md-title" hide show-gt-sm>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
+        <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <span class="button" hide show-gt-sm>{{$ctrl.owner | userName:'compact'}}</span>
+        <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0"  hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
@@ -33,26 +33,62 @@
         </md-menu>
     </st-application-frame-title>
 
-    <st-application-frame-toolbar layout="row" ng-if="false">
-        <md-button  ng-click="$ctrl.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
-            <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
-        </md-button>
-        <md-button ng-click="$ctrl.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
-            <md-icon class="material-icons md-18" aria-label="Back">navigate_next</md-icon>
-        </md-button>
-        <md-datepicker ng-model="$ctrl.myDate" ng-change="$ctrl.toDate($ctrl.myDate)" class="picker">
-        </md-datepicker>
-        <md-button ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings" ng-init="today = 0">
-            <span translate="calendar.today" class="md-body-1"></span>
-            <!--<md-icon class="material-icons" aria-label="Back">today</md-icon>-->
-        </md-button>
-        <md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
-            <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
-        </md-button>
-        <span class="md-body-1" translate>
-                {{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details'}}
+    <st-application-frame-toolbar layout="row">
+        <section class="desktop" hide show-gt-sm>
+            <md-button  ng-click="$ctrl.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Back">navigate_before</md-icon>
+            </md-button>
+            <md-button ng-click="$ctrl.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Back">navigate_next</md-icon>
+            </md-button>
+            <md-button ng-click="$ctrl.toCurrentWeek()" class="" aria-label="Settings">
+                <md-icon class="material-icons" aria-label="Back">today</md-icon>
+                <span translate="calendar.action.today"></span>
+            </md-button>
+            <md-datepicker ng-model="$ctrl.myDate" style="display: inline-block; width: 0; height: 0"
+                           ng-change="$ctrl.calendar.toDate($ctrl.myDate)"
+                           class="picker"
+                           md-is-open="ctrl.isOpenDatePicker">
+            </md-datepicker>
+            <md-button ng-click="ctrl.isOpenDatePicker = true" class="" aria-label="Settings">
+                <md-icon class="material-icons" aria-label="Back">today</md-icon>
+                <span translate="calendar.action.selectDate"></span>
+            </md-button>
+            <!--<md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
+                <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
+            </md-button>
+            <span class="md-body-1" translate>
+                {{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details'}}-->
         </span>
+        </section>
+        <section class="mobile" hide show-xs show-sm>
+            <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
+                <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                    <md-icon class="material-icons">person_add</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                        <md-button ng-click="$ctrl.setOwner(athlete)"
+                                   ng-disable="athlete.userId === $ctrl.owner.userId">
+                            <userpic profile="athlete"></userpic>
+                            <span>{{athlete | userName}}</span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-divider></md-divider>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                                   ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                            <userpic profile="$ctrl.currentUser"></userpic>
+                            <span>{{$ctrl.currentUser | userName}}</span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </section>
     </st-application-frame-toolbar>
+
+    <st-application-frame-mobile-menu>
+    </st-application-frame-mobile-menu>
 
     <st-application-frame-left-bar>
         <md-content class="calendar__left-bar">
@@ -81,7 +117,7 @@
                 <!-- grid-week: start -->
                 <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
                      id="hotfix{{::week.anchor}}"
-                     ng-mouseover="$ctrl.setCurrentWeek(week)"
+                     ng-mouseover="$ctrl.calendar.setCurrentWeek(week)"
                      class="calendar-week"
                      ng-class="{'calendar__week--current': week.sid == $ctrl.calendar.currentWeek.sid, 'calendar__week--loading': week.loading}">
                     <calendar-day
@@ -124,9 +160,10 @@
             <!-- grid-weekdays: end -->
 
         </section>
-        <md-fab-speed-dial  ng-init="isOpen = false" md-open="isOpen" md-direction="left" hide-gt-sm class="md-scale">
+        <md-fab-speed-dial  ng-init="isOpen = false" md-open="isOpen" md-direction="left" hide-gt-sm
+                            class="calendar__fab md-scale">
             <md-fab-trigger>
-                <md-button aria-label="menu" class="md-fab md-accent">
+                <md-button aria-label="menu" class="md-fab md-accent md-hue-2">
                     <md-icon class="material-icons">add</md-icon>
                 </md-button>
             </md-fab-trigger>

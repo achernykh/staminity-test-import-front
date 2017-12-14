@@ -122,6 +122,18 @@ export class CalendarCtrl implements IComponentController{
         return this.$mdMedia('min-width: 1440px');
     }
 
+    toPrevWeek () {
+        this.calendar.toDate(moment(this.currentWeek.date).add(-1, 'week'));
+    }
+
+    toNextWeek () {
+        this.calendar.toDate(moment(this.currentWeek.date).add(1, 'week'));
+    }
+
+    toCurrentWeek () {
+        this.calendar.toDate(moment().startOf('week'));
+    }
+
     /**
     takeWeek (date) {
         date = moment(date).startOf('week');

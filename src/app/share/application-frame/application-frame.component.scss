@@ -3,6 +3,7 @@
 $app-sidenav-desktop-width: 320px;
 $app-sidenav-desktop-width-collapsed: 52px;
 $app-toolbar-height: 64px;
+$app-toolbar-height-mobile: 56px;
 $app-nav-bar-height: 48px;
 $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
@@ -77,40 +78,40 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     position: fixed;
     top: 0;
     z-index: 3;
-
     .md-button.app-menu {
       margin-right: 32px;
       margin-left: -8px;
+      @media (max-width: 959px) {
+        margin-right: 16px;
+      }
     }
     .icon-bar {
       margin-left: 64px;
       margin-right: 16px;
       border-radius: 5px;
-
       .md-button.md-icon-button {
         width: auto;
       }
-
       span {
         margin-left: 8px;
       }
-
+      @media (max-width: 959px) {
+        margin: 0;
+        background: none !important;
+      }
     }
     span.button {
       padding: 8px 16px;
       border-radius: 4px;
       cursor: pointer;
       transition: all 200ms;
-
       &:focus {
         outline: none;
       }
-
       &:hover {
         background: rgba(0,0,0,0.1);
       }
     }
-
   }
 
   // Навигационная панель
@@ -136,6 +137,21 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     position: fixed;
     top: $app-toolbar-height;
     z-index: 2;
+  }
+
+  // Кнопка мобильного меню в тулбаре
+  &__mobile-menu {
+    display: none;
+    .md-button {
+      margin: 0;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      min-height: 24px;
+    }
+    @media (max-width: 959px) {
+      display: flex;
+    }
   }
 
   // Левая панель / Правая панель
@@ -185,21 +201,19 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     background-color: $grey-300;
     top: $app-toolbar-height;
     min-height: calc(100vh - 64px);
-    //margin-left: $app-sidenav-desktop-width-collapsed;
-
+    @media (max-width: 959px) {
+      top: $app-toolbar-height-mobile;
+      min-height: calc(100vh - 56px);
+    }
     &.left-bar {
-
       margin-left: $app-sidenav-desktop-width;
-
       &.collapsed {
         margin-left: $app-sidenav-desktop-width-collapsed;
       }
-
       &.hidden {
         margin-left: 0;
       }
     }
-
     @media (min-width: 1440px) {
       //max-width: 1440px;
       //margin: auto !important;

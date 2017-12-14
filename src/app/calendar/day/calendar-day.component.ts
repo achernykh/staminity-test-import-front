@@ -420,19 +420,22 @@ class CalendarDayCtrl {
 
 const CalendarDayComponent: IComponentOptions = {
     bindings: {
-        data: '<',
-        owner: '<',
-        currentUser: '<',
+        data: '<', // ICalendarItem
         selected: '<',
         accent: '<',
-        dynamicDates: '<',
+        dynamicDates: '<', // Используется для динамических планов
+        owner: '<', // Опции отдельной записи: автор, владелец и пр..
+        currentUser: '<',
         trainingPlanMode: '<',
         planId: '<',
+        bufferLength: '<', // обьем буфера скопированных тренировок
+
+        onCopy: '&', // пользователь скопировал дни/недели (без параметров)
+        onPaste: '&', // пользователь выбрал даты у нажал вставить, параметр - дата начала
+        onPostPlan: '&', // создание тренировочного плана на основе выдленных элементов
+        onDelete: '&', // удалить
         onUpdate: '&',
         onSelect: '&'
-    },
-    require: {
-        //calendar: '^calendar'
     },
     controller: CalendarDayCtrl,
     template: require('./calendar-day.component.html') as string
