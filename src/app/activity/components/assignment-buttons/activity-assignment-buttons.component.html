@@ -2,7 +2,7 @@
 <md-dialog-actions ng-if="!($ctrl.item.activity.view.isTrainingPlan || $ctrl.item.activity.view.isTemplate)"
                    flex="none" layout="row" style="background: white">
     <span flex></span>
-    <md-button ng-if="$ctrl.item.activity.view.isView && !$ctrl.item.options.templateMode && $ctrl.item.activity.specified"
+    <md-button ng-if="$ctrl.item.activity.view.isView && $ctrl.item.activity.isSpecified"
                ng-click="$ctrl.item.toTemplate()"
                translate="activity.toTemplate">
     </md-button>
