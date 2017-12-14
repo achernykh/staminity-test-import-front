@@ -6,12 +6,7 @@
 
     <st-application-frame-title>
         <span class="md-title" translate="calendar.fullTitle"></span>
-        <md-datepicker ng-model="$ctrl.myDate" style="display: inline-block; width: 0; height: 0"
-                       ng-change="$ctrl.calendar.toDate($ctrl.myDate)"
-                       class="picker"
-                       md-is-open="ctrl.isOpenDatePicker">
-        </md-datepicker>
-        <span class="md-title button" hide show-gt-sm ng-click="ctrl.isOpenDatePicker = true">{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
+        <span class="md-title" hide show-gt-sm>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
         <span class="button" hide show-gt-sm>{{$ctrl.owner | userName:'compact'}}</span>
         <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0"  hide show-gt-sm>
@@ -48,7 +43,16 @@
             </md-button>
             <md-button ng-click="$ctrl.toCurrentWeek()" class="" aria-label="Settings">
                 <md-icon class="material-icons" aria-label="Back">today</md-icon>
-                <span translate="calendar.today"></span>
+                <span translate="calendar.action.today"></span>
+            </md-button>
+            <md-datepicker ng-model="$ctrl.myDate" style="display: inline-block; width: 0; height: 0"
+                           ng-change="$ctrl.calendar.toDate($ctrl.myDate)"
+                           class="picker"
+                           md-is-open="ctrl.isOpenDatePicker">
+            </md-datepicker>
+            <md-button ng-click="ctrl.isOpenDatePicker = true" class="" aria-label="Settings">
+                <md-icon class="material-icons" aria-label="Back">today</md-icon>
+                <span translate="calendar.action.selectDate"></span>
             </md-button>
             <!--<md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
                 <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
@@ -113,7 +117,7 @@
                 <!-- grid-week: start -->
                 <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
                      id="hotfix{{::week.anchor}}"
-                     ng-mouseover="$ctrl.setCurrentWeek(week)"
+                     ng-mouseover="$ctrl.calendar.setCurrentWeek(week)"
                      class="calendar-week"
                      ng-class="{'calendar__week--current': week.sid == $ctrl.calendar.currentWeek.sid, 'calendar__week--loading': week.loading}">
                     <calendar-day
