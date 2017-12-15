@@ -98,6 +98,10 @@ class SettingsUserCtrl {
         this.destroy.complete();
     }
 
+    isOwnSettings () {
+        return this.SessionService.isCurrentUserId(this.user.userId);
+    }
+
     setUser (user) {
 
         if (user.userId === this.user.userId) {
@@ -119,7 +123,6 @@ class SettingsUserCtrl {
     }
 
     reload () {
-        debugger;
         this.UserService.getProfile(this.user.public.uri)
         .then(this.setUser.bind(this), this.errorHandler());
     }
@@ -531,8 +534,12 @@ class SettingsUserCtrl {
             billing: { autoPayment: isOn }
         };
 
-        this.UserService.updateCurrentUser(userChanges)
-        .then(this.successHandler('settingsSaveComplete'))
+        this.UserService.putProfile(userChanges)
+        .then(() => {
+            this.user.billing.autoPayment = isOn;
+            this.message.toastInfo('settingsSaveComplete');
+            this.$scope.$apply();
+        })
         .catch(this.errorHandler());
     }
 

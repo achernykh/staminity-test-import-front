@@ -175,6 +175,13 @@ div.avatar{
   .md-button.md-icon-button {
     margin: 0 0;
   }
+
+  @media (max-width: 960px) {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 170px;
+    overflow: hidden;
+  }
 }
 
 .app-toolbar {

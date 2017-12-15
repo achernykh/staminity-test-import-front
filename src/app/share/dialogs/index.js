@@ -492,6 +492,7 @@ DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'mes
 function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, message, tariff, billing) {
     this.tariff = tariff;
     this.billing = billing;
+    this.terms = [1, 12];
 
     this.tariffStatus = BillingService.tariffStatus(tariff);
     this.tariffIsOwn = !BillingService.tariffEnablerClub(tariff) && !BillingService.tariffEnablerCoach(tariff);
@@ -517,6 +518,20 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
         dialogs.usersList(fee.varObjects, 'users');
     };
 
+    this.fixedFeeTerm = (value) => {
+        if (typeof value !== 'number') {
+            return this.getFixedFee().term;
+        }
+
+        BillingService.getTariff(tariff.tariffId, '', value)
+        .then((billing) => {
+            const fixedFee = billing.rates.find((rate) => rate.rateType === 'Fixed' && rate.term === value);
+            this.billing.rates = this.billing.rates.map((rate) => rate.rateType === 'Fixed' ? fixedFee : rate);
+            this.fixedFee = this.getFixedFee();
+            $scope.$apply();
+        });
+    };
+
     this.getActivePromo = (billing) => {
         return billing.rates.map(prop('promo')).find((promo) => promo && promo.code);
     };
@@ -529,7 +544,9 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
         this.autoRenewal = this.fixedFee.autoRenewal;
     };
 
-    this.setBilling(billing);
+    this.isTrial = () => {
+        return this.tariffStatus === 'trial';
+    };
 
     this.submitPromo = (promoCode) => {
         BillingService.getTariff(tariff.tariffId, promoCode)
@@ -558,6 +575,7 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
             tariff.tariffId, 
             this.autoRenewal,
             maybe(this.activePromo) (prop('code')) (),
+            this.fixedFeeTerm(),
         ).then(() => {
             $mdDialog.hide();
         }, (info) => {
@@ -565,6 +583,8 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
             throw info;
         });
     };
+
+    this.setBilling(billing);
 
     console.log('TariffDetailsController', this);
 }

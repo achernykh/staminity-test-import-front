@@ -44,6 +44,13 @@
 
             <md-list ng-if="$ctrl.tariffIsOwn" class="md-dense">
                 <md-subheader class="md-no-sticky">{{ 'settings.billing.fixedFee' | translate }}</md-subheader>
+                <md-list-item ng-if="$ctrl.isTrial()">
+                    <md-radio-group ng-model="$ctrl.fixedFeeTerm" ng-model-options="{getterSetter:true}" layout="row" layout-align="space-around center" flex="100">
+                        <md-radio-button ng-repeat="term in $ctrl.terms" ng-value="term" class="tariff-details-dialog__term-label">
+                            {{ 'settings.billing.terms.' + term | translate  }}
+                        </md-radio-button>
+                    </md-radio-group>
+                </md-list-item>
                 <md-list-item>
                     <span>{{ 'settings.billing.subscriptionFees' | translate }}</span>
                     <span flex></span>
