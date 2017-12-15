@@ -6,16 +6,22 @@ import { IMesocycle, IMicrocycle, IPeriodizationScheme } from "../../../../api/s
 import { TrainingSeasonService } from "../training-season.service";
 import { Microcycle } from "../training-season/training-season-microcycle.datamodel";
 import { PeriodizationService } from "../../methodology/periodization/periodization.service";
+import { IUserProfile } from "@api/user";
+import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
+import { FormMode } from "../../application.interface";
 
 class TrainingSeasonDataCtrl implements IComponentController {
 
     data: TrainingSeasonData;
+    currentUser: IUserProfile;
+    owner: IUserProfile;
     onEvent: (response: Object) => Promise<void>;
 
     // private
     private selected: Array<any> = [];
     private schemes: Array<IPeriodizationScheme>;
     private update: number = 0;
+    private itemOptions: ICalendarItemDialogOptions;
 
     static $inject = [ '$mdEditDialog', '$filter', 'TrainingSeasonService', 'PeriodizationService' ];
 
@@ -28,6 +34,14 @@ class TrainingSeasonDataCtrl implements IComponentController {
     }
 
     $onInit () {
+        this.itemOptions = {
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: FormMode.View,
+            trainingPlanMode: false,
+            planId: null
+        };
 
     }
 
@@ -130,6 +144,8 @@ class TrainingSeasonDataCtrl implements IComponentController {
 export const TrainingSeasonDataComponent: IComponentOptions = {
     bindings: {
         data: '<',
+        currentUser: '<',
+        owner: '<',
         onEvent: '&'
     },
     controller: TrainingSeasonDataCtrl,

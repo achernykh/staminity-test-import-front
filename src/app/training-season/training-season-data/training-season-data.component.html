@@ -47,12 +47,21 @@
             <tr md-row md-select="cycle"
                 ng-repeat="cycle in $ctrl.data.grid track by $index">
                 <!-- Период -->
-                <td md-cell class="period">
+                <td md-cell class="period md-body-2">
                     <div>{{cycle.title}}</div>
                 </td>
                 <!-- Перечень соревнований периода -->
                 <td md-cell class="competition">
-                    <div ng-if="cycle._competition" layout="row" layout-align="start center">
+
+                    <st-competition-compact ng-if="cycle._competition"
+                                            layout="column" flex="none"
+                                            class="competition-compact"
+                                            view="'table'"
+                                            item="cycle._competition"
+                                            options="$ctrl.itemOptions">
+                    </st-competition-compact>
+
+                    <!--<div ng-if="cycle._competition" layout="row" layout-align="start center">
                         <div flex="none"
                              layout="row" layout-align="center center"
                              class="competition-icon color bg-circle-32">
@@ -67,7 +76,7 @@
                             </div>
                             <div flex="auto" class="name md-body-2 md-dark">{{cycle._competition.competitionHeader.name}}</div>
                         </div>
-                    </div>
+                    </div>-->
                 </td>
                 <!-- Мезоцикл -->
                 <td md-cell class="mesocycle">

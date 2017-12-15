@@ -62,6 +62,9 @@ export class CalendarCtrl implements IComponentController{
 
     }
 
+    /**
+     * Обраотка событий Ctrl+C, Ctrl+V
+     */
     private copyPasteKeyboardListener (): void {
         let ctrlDown = false, ctrlKey = 17, cmdKey = 91, vKey = 86, cKey = 67;
 
@@ -85,6 +88,9 @@ export class CalendarCtrl implements IComponentController{
         });
     }
 
+    /**
+     * Подготовка перечня ателтов для тренера
+     */
     private prepareAthletesList(): void {
         if (this.currentUser.public.isCoach && this.currentUser.connections.hasOwnProperty('allAthletes')) {
             this.athletes = this.currentUser.connections.allAthletes.groupMembers;
@@ -95,11 +101,21 @@ export class CalendarCtrl implements IComponentController{
         $mdMenu.open(ev);
     }
 
+    /**
+     * Установка данных для календарной сетки
+     * Передается один параметр - начальная - текущая дата
+     * @param date
+     */
     setData (date: Date = new Date()): void {
         this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.owner);
         this.calendar.toDate(date);
     }
 
+    /**
+     * Установка владельца
+     * После смены владельца выполняется переустановка данных календаря
+     * @param user
+     */
     setOwner (user: IUserProfile | IUserProfileShort): void {
         this.owner = user;
         this.$location.search('userId', this.owner.userId);
@@ -474,7 +490,11 @@ export class CalendarCtrl implements IComponentController{
                 .then(response => {
                     response.forEach((r,i) => {
                         if (r.type === 'revision') {
-                            this.calendar.post(this.copiedItems[i]);
+                            // Сохраняем данные, предварительно обновив, полученным номером и ревизией
+                            this.calendar.post(Object.assign(this.copiedItems[i], {
+                                calendarItemId: r.value.id,
+                                revision: r.value.revision
+                            }));
                         }
                     });
                     this.message.toastInfo('itemsPasted');

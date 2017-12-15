@@ -4,7 +4,7 @@
 
   position: relative;
   cursor: pointer;
-  min-height: 50px;
+  //min-height: 50px;
 
   &:focus {
     outline: none;
@@ -39,7 +39,7 @@
     padding: 8px 12px 8px 12px;
   }
 
-  &__list {
+  &__list, &__table {
     border-radius: 0px;
     margin: 0px 4px 8px 4px;
     min-width: 200px;
@@ -49,6 +49,15 @@
       margin-right: 16px;
     }
 
+  }
+
+  &__table {
+    margin: 0;
+    min-height: auto;
+    header {
+      padding: 4px;
+      background: none;
+    }
   }
 
   &__calendar {

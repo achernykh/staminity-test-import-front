@@ -29,7 +29,7 @@
 <!-- Правая панель -->
 <section class="st-application-frame__right-bar" ng-transclude="rightBar"></section>
 <!-- Панель Меню приложения -->
-<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2" md-component-id="appmenu"
+<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2 st-fixed" md-component-id="appmenu"
             ng-if="$ctrl.auth.isAuthenticated()">
     <application-menu/>
 </md-sidenav>
