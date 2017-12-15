@@ -32,20 +32,20 @@ class CalendarItemMeasurementCtrl {
     }
 
     $onInit () {
-
+        debugger;
         this.measurement = new CalendarItem(this.data, this.options);
         this.measurement.prepare();
     }
 
-    onSave () {
-        if (this.options.formMode === FormMode.Post) {
+    save () {
+        if (this.measurement.view.isPost) {
             this.CalendarService.postItem(this.measurement.package())
                 .then(response => this.measurement.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.message.toastInfo('measurementCreated'))
                 .then(() => this.onAnswer({ formMode: FormMode.Post, item: this.measurement }),
                     error => this.message.toastError(error));
         }
-        if (this.options.formMode === FormMode.Put) {
+        if (this.measurement.view.isPut) {
             this.CalendarService.putItem(this.measurement.package())
                 .then(response => this.measurement.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.message.toastInfo('measurementUpdated'))
@@ -54,7 +54,7 @@ class CalendarItemMeasurementCtrl {
         }
     }
 
-    onDelete () {
+    delete () {
         this.CalendarService.deleteItem('F', [ this.measurement.calendarItemId ])
             .then(response => {
                 this.message.toastInfo('measurementDeleted');

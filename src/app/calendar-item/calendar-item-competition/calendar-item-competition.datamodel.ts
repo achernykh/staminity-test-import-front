@@ -65,9 +65,7 @@ export class CalendarItemCompetition extends CalendarItem {
            // создаем плановый интервал
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
-
             this.items.push({dirty: false, item: activity});
-
         });
     }
 

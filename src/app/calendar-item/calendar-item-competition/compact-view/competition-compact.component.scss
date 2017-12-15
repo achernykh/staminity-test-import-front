@@ -58,6 +58,16 @@
       padding: 4px;
       background: none;
     }
+    .name {
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      line-height: 16px;
+      max-height: 16px;
+    }
   }
 
   &__calendar {

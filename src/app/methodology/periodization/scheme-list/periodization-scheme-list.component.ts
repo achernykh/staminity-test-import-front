@@ -52,7 +52,7 @@ class PeriodizationSchemeListCtrl implements IComponentController {
      */
     delete (mesocycle: IMesocycle): void {
         this.periodizationService.deleteMesocycle(this.scheme.id, mesocycle.id)
-            .then(response => this.message.toastInfo('methodology.periodization.mesocycle.deleted'),
+            .then(response => this.message.toastInfo('mesocycleDeleted'),
                 error => this.message.toastError(error))
             .then(() => this.splice(mesocycle.id));
     }

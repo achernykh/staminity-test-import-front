@@ -47,8 +47,7 @@ class TrainingSeasonListCtrl implements IComponentController {
     post (env: Event): void {
         this.trainingSeasonDialog.open(env, FormMode.Post, Object.assign({}, { userProfileOwner: profileShort(this.owner) }))
             .then((response: {mode: FormMode, season: TrainingSeason}) =>
-                response.mode === FormMode.Post && this.postData(response.season),
-                error => {})
+                response.mode === FormMode.Post && this.postData(response.season), error => {})
             .then(season => this.fillSeason(season))
             .then(() => this.update());
     }
@@ -57,17 +56,30 @@ class TrainingSeasonListCtrl implements IComponentController {
         this.onSelect({season: season});
     }
 
-    edit (env: Event): void {
-        this.trainingSeasonDialog.open(env, FormMode.Put, Object.assign({}, { userProfileOwner: profileShort(this.owner) }))
-            .then((response: {mode: FormMode, season: TrainingSeason}) => {}, error => {})
+    edit (env: Event, season: TrainingSeason): void {
+        this.trainingSeasonDialog.open(env, FormMode.Put, Object.assign(season, { userProfileOwner: profileShort(this.owner) }))
+            .then(response => this.splice(response.season.id, response.season), error => {})
             .then(() => this.update());
     }
 
+    /**
+     * Запрос удаления Плана на сезон
+     * @param season
+     */
     delete (season: TrainingSeason): void {
         this.trainingSeasonService.delete(season)
-            .then(response => this.messageService.toastInfo('trainingSeason.seasonDeleted'),
-                error => this.messageService.toastError(error))
-            .then(() => this.deleteData(season));
+            .then(response => this.messageService.toastInfo('trainingSeasonDeleted'), error => this.messageService.toastError(error))
+            .then(() => this.splice(season.id));
+    }
+
+    /**
+     * Удаление или замена элемента в списке планов
+     * @param id - номер схемы
+     * @param season - схема для замены
+     */
+    private splice (id: number, season: TrainingSeason = null): void {
+        this.seasons
+            .splice(this.seasons.findIndex(s => s.id === id), 1, season);
     }
 
     /**
@@ -86,11 +98,6 @@ class TrainingSeasonListCtrl implements IComponentController {
     private postData (season: TrainingSeason): TrainingSeason {
         this.seasons.push(season);
         return season;
-    }
-
-    private deleteData (season: TrainingSeason): void {
-        let ind: number = this.seasons.findIndex(s => s.id === season.id);
-        this.seasons.splice(ind,1);
     }
 
     private prepareData (): void {

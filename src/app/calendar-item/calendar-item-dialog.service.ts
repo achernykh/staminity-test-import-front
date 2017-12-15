@@ -103,16 +103,13 @@ export class CalendarItemDialogService {
     measurement (env: Event,
                  options: ICalendarItemDialogOptions,
                  item: ICalendarItem = this.measurementFromOptions(options)): Promise<ICalendarItemDialogResponse> {
-
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
                 template: `<md-dialog id="post-measurement" aria-label="Measurement">
                                 <calendar-item-measurement
                                     class="calendar-item-measurement"
                                     data="$ctrl.item"
                                     options="$ctrl.options"
-                                    mode="post"
-                                    user="$ctrl.user"
-                                    on-cancel="cancel()" on-answer="answer(response)">
+                                    on-cancel="cancel()" on-answer="answer(formMode, item)">
                                 </calendar-item-measurement>
                             </md-dialog>`,
                 targetEvent: env,

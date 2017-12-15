@@ -35,13 +35,13 @@
 
     <st-application-frame-toolbar layout="row">
         <section class="desktop" hide show-gt-sm>
-            <md-button  ng-click="$ctrl.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+            <md-button  ng-click="$ctrl.calendar.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons" aria-label="Back">navigate_before</md-icon>
             </md-button>
-            <md-button ng-click="$ctrl.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+            <md-button ng-click="$ctrl.calendar.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons" aria-label="Back">navigate_next</md-icon>
             </md-button>
-            <md-button flex="none" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
+            <md-button flex="none" ng-click="$ctrl.calendar.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
                 <md-tooltip ng-bind="'calendar.action.today' | translate"></md-tooltip>
                 <md-icon class="material-icons" aria-label="Back" ng-bind="'today'"></md-icon>
             </md-button>

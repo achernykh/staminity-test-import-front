@@ -1,5 +1,5 @@
 import './training-season-data.component.scss';
-import { IComponentOptions, IComponentController, IFilterService } from 'angular';
+import { IComponentOptions, IComponentController, IFilterService, copy } from 'angular';
 import { TrainingSeasonData } from "./training-season-data.datamodel";
 import { TrainingSeason } from "@app/training-season/training-season/training-season.datamodel";
 import { IMesocycle, IMicrocycle, IPeriodizationScheme } from "../../../../api/seasonPlanning/seasonPlanning.interface";
@@ -74,8 +74,12 @@ class TrainingSeasonDataCtrl implements IComponentController {
         }
     }
 
-    change (cycle: Microcycle): void {
-        if ( !cycle.mesocycle.id ) { return; }
+    change (cycle: Microcycle, pos?: number): void {
+        if ( cycle.mesocycle.id ) {
+            cycle.mesocycle = this.getMesocycle(cycle.mesocycle.id);
+        } else { return; }
+
+        if ( pos >= 0) { this.recalcMesoWeekNumber(); }
 
         if ( cycle.id ) {
             this.trainingSeason.putItem(cycle.prepare())
@@ -84,19 +88,29 @@ class TrainingSeasonDataCtrl implements IComponentController {
             this.trainingSeason.postItem(this.data.season.id, cycle.prepare())
                 .then(result => cycle.applyRevision(result));
         }
-
         this.update ++;
+    }
+
+    recalcMesoWeekNumber (): void {
+        this.data.grid.forEach( (cycle, i) => {
+            cycle.mesoWeekNumber = 1;
+            let pos = copy(i);
+
+            while (pos !== 0 && this.data.grid[pos].mesocycle.id &&
+                this.data.grid[pos].mesocycle.id === this.data.grid[pos-1].mesocycle.id) {
+                cycle.mesoWeekNumber ++;
+                pos --;
+            }
+        });
     }
 
     getWeekCount (pos: number): number {
         let count: number = 1;
-
         while (pos !== 0 && this.data.grid[pos].mesocycle.id &&
             this.data.grid[pos].mesocycle.id === this.data.grid[pos-1].mesocycle.id) {
             count ++;
             pos --;
         }
-
         return count;
     }
 
@@ -117,7 +131,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
                 if (input.$modelValue === 'Bernie Sanders') {
                     return cycle.durationValue = 'FEEL THE BERN!';
                 }
-                cycle.durationValue = input.$modelValue;
+                cycle.durationValue = Number(input.$modelValue);
                 _this.change(cycle);
             },
             targetEvent: event,
