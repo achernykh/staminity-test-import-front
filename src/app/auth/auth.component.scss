@@ -95,3 +95,11 @@ auth {
 		}
 	}
 }
+
+.auth {
+
+	&__content {
+		overflow-y: auto;
+	}
+
+}

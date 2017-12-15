@@ -208,6 +208,7 @@
                              placeholder="{{'record.descriptionPlaceholder' | translate}}"
                              modules="$ctrl.quillConf.toolbarFull"
                              on-content-changed="$ctrl.changeForm()"
+                             on-editor-created="$ctrl.onEditorCreated(editor)"
                              ng-class="{'hide-toolbar': $ctrl.isViewMode}"
                              read-only="$ctrl.isViewMode">
             </ng-quill-editor>
@@ -216,6 +217,7 @@
                              placeholder="{{'record.descriptionPlaceholder' | translate}}"
                              modules="$ctrl.quillConf.toolbar"
                              on-content-changed="$ctrl.changeForm()"
+                             on-editor-created="$ctrl.onEditorCreated(editor)"
                              ng-class="{'hide-toolbar': $ctrl.isViewMode}"
                              read-only="$ctrl.isViewMode">
             </ng-quill-editor>

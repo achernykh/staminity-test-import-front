@@ -24,10 +24,11 @@ export default class BillingService {
     /**
      * @param tariffId
      * @param promoCodeString
+     * @param term
      * @returns {Promise<IBillingTariff>}
      */
-    getTariff (tariffId: number, promoCodeString: string) : Promise<IBillingTariff> {
-        return this.SocketService.send(new GetTariff(tariffId, promoCodeString));
+    getTariff (tariffId: number, promoCodeString: string, term?: number) : Promise<IBillingTariff> {
+        return this.SocketService.send(new GetTariff(tariffId, promoCodeString, term));
     }
 
     /**
@@ -58,14 +59,16 @@ export default class BillingService {
      * @param tariffId
      * @param autoRenewal
      * @param promoCode
+     * @param term
      * @returns {Promise<any>}
      */
     updateTariff (
         tariffId: number,
         autoRenewal: boolean,
-        promoCode: string
+        promoCode: string,
+        term?: number
     ) : Promise<any> {
-        return this.SocketService.send(new PutTariffSubscription(tariffId, autoRenewal, promoCode));
+        return this.SocketService.send(new PutTariffSubscription(tariffId, autoRenewal, promoCode, term));
     }
 
     /**
@@ -143,7 +146,7 @@ export default class BillingService {
         let tariffEnablerCoach = this.tariffEnablerCoach(tariff);
 
         return (
-            tariff.isTrial && tariff.expireDate && 'trial' ||
+            tariff.isTrial && 'trial' ||
             tariffEnablerClub && 'enabledByClub' ||
             tariffEnablerCoach && 'enabledByCoach' ||
             tariff.isBlocked && 'isBlocked' ||
