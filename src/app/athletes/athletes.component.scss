@@ -4,12 +4,12 @@
     left: calc(50% - 600px);
     position: absolute;
     z-index: 10;
-    height: calc(100vh - 75px);
-    overflow-y: auto;
+    height: calc(100% - 75px);
     
     @media (max-width: 959px) {
         left: 0 !important;
         width: 100% !important;
+        overflow-y: auto;
         background: white;
     }
 
