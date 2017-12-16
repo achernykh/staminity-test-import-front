@@ -77,9 +77,10 @@ class TrainingSeasonListCtrl implements IComponentController {
      * @param id - номер схемы
      * @param season - схема для замены
      */
-    private splice (id: number, season: TrainingSeason = null): void {
-        this.seasons
-            .splice(this.seasons.findIndex(s => s.id === id), 1, season);
+    private splice (id: number, season?: TrainingSeason): void {
+        season ?
+            this.seasons.splice(this.seasons.findIndex(s => s.id === id), 1, season) :
+            this.seasons.splice(this.seasons.findIndex(s => s.id === id), 1);
     }
 
     /**

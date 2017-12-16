@@ -17,6 +17,7 @@ import { profileShort } from "../core/user.function";
 import { FormMode } from "../application.interface";
 import { CalendarItemDialogService } from "../calendar-item/calendar-item-dialog.service";
 import { ICalendarItemDialogOptions } from "../calendar-item/calendar-item-dialog.interface";
+import AuthService from "@app/auth/auth.service";
 
 export class CalendarCtrl implements IComponentController{
 
@@ -29,7 +30,7 @@ export class CalendarCtrl implements IComponentController{
 
     // inject
     static $inject = ['$scope', '$mdDialog', '$mdMedia', '$anchorScroll', '$location', '$stateParams', 'message',
-        'CalendarService', 'CalendarItemDialogService', 'SessionService', 'dialogs', 'DisplayService'];
+        'CalendarService', 'CalendarItemDialogService', 'SessionService', 'dialogs', 'DisplayService', 'AuthService'];
     public user: IUserProfile; // calendar owner
     private weekdayNames: Array<number> = [];
     private selectedItems: Array<ICalendarItem> = []; // буфер выделенных записей
@@ -57,7 +58,8 @@ export class CalendarCtrl implements IComponentController{
         private calendarDialog: CalendarItemDialogService,
         private session: SessionService,
         private dialogs: any,
-        private display: DisplayService
+        private display: DisplayService,
+        private auth: AuthService
     ) {
 
     }
@@ -165,6 +167,10 @@ export class CalendarCtrl implements IComponentController{
 
     get isLargeScreen (): boolean {
         return this.$mdMedia('min-width: 1440px');
+    }
+
+    get panelAuthCheck (): boolean {
+        return this.auth.isCoach() || this.auth.isActivityPlan();
     }
 
     /**

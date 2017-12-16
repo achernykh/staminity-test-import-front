@@ -133,6 +133,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
+    private segmentChart: Array<any> = [];
+    private bottomPanelData: any = null;
 
     static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
         'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService'];
@@ -187,6 +189,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }**/
 
         this.activity = new Activity(this.data, this.options);
+        this.segmentChart = this.activity.formChart();
+
+        if (this.activity.bottomPanel === 'data') {
+            this.bottomPanelData = this.activity.summaryAvg;
+        }
 
         this.types = activityTypes; // Список видов спорта
         this.structuredMode = this.activity.isStructured;

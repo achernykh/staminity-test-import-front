@@ -62,9 +62,10 @@ class PeriodizationSchemeListCtrl implements IComponentController {
      * @param id - номер схемы
      * @param scheme - схема для замены
      */
-    private splice (id: number, mesocycle: IMesocycle = null): void {
-        this.scheme.mesocycles
-            .splice(this.scheme.mesocycles.findIndex(s => s.id === id), 1, mesocycle);
+    private splice (id: number, mesocycle?: IMesocycle): void {
+        mesocycle ?
+            this.scheme.mesocycles.splice(this.scheme.mesocycles.findIndex(s => s.id === id), 1, mesocycle) :
+            this.scheme.mesocycles.splice(this.scheme.mesocycles.findIndex(s => s.id === id), 1);
     }
 
     openMenu ($mdMenu, ev) {

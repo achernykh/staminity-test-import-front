@@ -1,9 +1,13 @@
 <md-list flex="none" dense class="md-dense periodization-scheme-filter">
     <md-subheader><span translate="methodology.periodization.systemSchemes"></span></md-subheader>
-    <md-list-item class="md-2-line" ng-repeat="scheme in $ctrl.schemes | filter:{isSystem: true}">
+    <md-list-item class="md-2-line"
+                  ng-repeat="scheme in $ctrl.schemes | filter:{isSystem: true}"
+                  ng-click="$ctrl.onSelect({scheme: scheme})">
         <div class="md-list-item-text">
-            <h3>{{scheme.code}}</h3>
-            <p>{{scheme.description}}</p>
+            <div class="code md-body-2"
+                 md-colors="{color: $ctrl.active === scheme.id ? 'primary-hue-2' : 'grey-hue-2'}">
+                {{ scheme.code }}</div>
+            <p class="description md-caption md-dark" ng-bind="scheme.description | htmlToPlainText"></p>
         </div>
     </md-list-item>
 </md-list>
@@ -12,7 +16,7 @@
         <span translate="methodology.periodization.userSchemes"></span>
     </md-subheader>
     <md-list-item class="md-2-line"
-                  ng-repeat="scheme in $ctrl.schemes"
+                  ng-repeat="scheme in $ctrl.schemes | filter:{isSystem: false}"
                   ng-click="$ctrl.onSelect({scheme: scheme})">
         <div class="md-list-item-text">
             <div class="code md-body-2"

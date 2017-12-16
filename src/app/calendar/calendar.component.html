@@ -2,11 +2,11 @@
                       ng-class="{'left-bar-show': $ctrl.isLargeScreen}"
                       template="application"
                       navigation-bar="false"
-                      left-bar="$ctrl.isLargeScreen">
+                      left-bar="$ctrl.isLargeScreen && $ctrl.panelAuthCheck">
 
     <st-application-frame-title>
         <span class="md-title" translate="calendar.fullTitle"></span>
-        <span class="md-title" hide show-gt-sm>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
+        <span class="md-title" hide show-gt-md>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
         <span class="button" hide show-gt-sm>{{$ctrl.owner | userName:'compact'}}</span>
         <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0"  hide show-gt-sm>
@@ -34,7 +34,7 @@
     </st-application-frame-title>
 
     <st-application-frame-toolbar layout="row">
-        <section class="desktop" hide show-gt-sm>
+        <section class="desktop" hide show-gt-sm layout="row">
             <md-button  ng-click="$ctrl.calendar.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons" aria-label="Back">navigate_before</md-icon>
             </md-button>
@@ -54,26 +54,30 @@
                 <md-tooltip ng-bind="'calendar.action.selectDate' | translate"></md-tooltip>
                 <md-icon class="material-icons" aria-label="Back">date_range</md-icon>
             </md-button>
-            <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
-            <md-button flex="none" ng-click="$ctrl.copyItems()" class="md-icon-button" aria-label="Copy"
-                       ng-disabled="$ctrl.selectedItems.length === 0">
-                <md-tooltip ng-bind-template="{{'calendar.action.copy' | translate}} {{'M-C' | keyboardShortcut}}"></md-tooltip>
-                <md-icon class="material-icons" aria-label="Copy">content_copy</md-icon>
-                <span class="badge superscript" md-colors="{background: 'accent-hue-2'}"
-                      ng-if="$ctrl.copiedItems.length > 0">{{$ctrl.copiedItems.length}}</span>
-            </md-button>
-            <md-button flex="none" ng-click="$ctrl.pasteItems($ctrl.calendar.firstDaySelected)"
-                       class="md-icon-button" aria-label="Paste"
-                       ng-disabled="$ctrl.copiedItems.length === 0 ||
+            <section flex="none" layout="row" layout-align="start center"
+                     class="calendar-operations" hide show-gt-md>
+                <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+                <md-button flex="none" ng-click="$ctrl.copyItems()" class="md-icon-button" aria-label="Copy"
+                           ng-disabled="$ctrl.selectedItems.length === 0">
+                    <md-tooltip ng-bind-template="{{'calendar.action.copy' | translate}} {{'M-C' | keyboardShortcut}}"></md-tooltip>
+                    <md-icon class="material-icons" aria-label="Copy">content_copy</md-icon>
+                    <span class="badge superscript" md-colors="{background: 'accent-hue-2'}"
+                          ng-if="$ctrl.copiedItems.length > 0">{{$ctrl.copiedItems.length}}</span>
+                </md-button>
+                <md-button flex="none" ng-click="$ctrl.pasteItems($ctrl.calendar.firstDaySelected)"
+                           class="md-icon-button" aria-label="Paste"
+                           ng-disabled="$ctrl.copiedItems.length === 0 ||
                        ($ctrl.copiedItems.length > 0 && $ctrl.calendar.selectedDaysCount !== 1)">
-                <md-tooltip ng-bind-template="{{'calendar.action.paste' | translate}} {{'M-V' | keyboardShortcut}}"></md-tooltip>
-                <md-icon class="material-icons" aria-label="Paste">content_paste</md-icon>
-            </md-button>
-            <md-button flex="none" ng-click="$ctrl.deleteItems()" class="md-icon-button" aria-label="Delete"
-                       ng-disabled="$ctrl.selectedItems.length === 0">
-                <md-tooltip ng-bind="'calendar.action.delete' | translate"></md-tooltip>
-                <md-icon class="material-icons" aria-label="Delete">delete</md-icon>
-            </md-button>
+                    <md-tooltip ng-bind-template="{{'calendar.action.paste' | translate}} {{'M-V' | keyboardShortcut}}"></md-tooltip>
+                    <md-icon class="material-icons" aria-label="Paste">content_paste</md-icon>
+                </md-button>
+                <md-button flex="none" ng-click="$ctrl.deleteItems()" class="md-icon-button" aria-label="Delete"
+                           ng-disabled="$ctrl.selectedItems.length === 0">
+                    <md-tooltip ng-bind="'calendar.action.delete' | translate"></md-tooltip>
+                    <md-icon class="material-icons" aria-label="Delete">delete</md-icon>
+                </md-button>
+            </section>
+
             <!--<md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
                 <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
             </md-button>

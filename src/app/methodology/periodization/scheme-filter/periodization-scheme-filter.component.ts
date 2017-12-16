@@ -63,8 +63,10 @@ class PeriodizationSchemeFilterCtrl implements IComponentController {
      * @param id - номер схемы
      * @param scheme - схема для замены
      */
-    private splice (id: number, scheme: IPeriodizationScheme = null): void {
-        this.schemes.splice(this.schemes.findIndex(s => s.id === id), 1, scheme);
+    private splice (id: number, scheme?: IPeriodizationScheme): void {
+        scheme?
+            this.schemes.splice(this.schemes.findIndex(s => s.id === id), 1, scheme):
+            this.schemes.splice(this.schemes.findIndex(s => s.id === id), 1);
     }
 
     openMenu ($mdMenu, ev) {
