@@ -28,9 +28,38 @@
   &__calendar {
     background-color: $grey-300;
     margin: 6px 0 0 0;
+    &:focus {
+      outline: none !important;
+    }
   }
 
   &__dashboard {
+    &:focus {
+      outline: none !important;
+    }
+    footer, calendar-activity-chart {
+      display: none;
+    }
+
+    .first-column {
+      margin-right: 8px;
+    }
+
+    .second-column {
+      width: calc(100% - 32px);
+    }
+
+    .category, .duration {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    .duration {
+      text-transform: lowercase;
+    }
+
 
   }
 

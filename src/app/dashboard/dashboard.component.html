@@ -58,7 +58,8 @@
                                    layout="column" layout-align="space-between start"
                                    ng-repeat="day in calendar.subItem track by $index"
                                    day="day"
-                                   athlete="calendar.profile"
+                                   current-user="$ctrl.coach"
+                                   owner="calendar.profile"
                                    selected="day.selected"
                                    on-select="day.selected = !day.selected">
                     </dashboard-day>

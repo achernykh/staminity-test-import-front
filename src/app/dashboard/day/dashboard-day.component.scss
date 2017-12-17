@@ -94,3 +94,13 @@ dashboard-day {
   }
 }
 
+div.dashboard-week.selected footer{
+  display: block;
+  padding-top: 8px;
+  //background-color: red;
+}
+
+div.dashboard-week.selected calendar-activity-chart{
+  display: block;
+}
+

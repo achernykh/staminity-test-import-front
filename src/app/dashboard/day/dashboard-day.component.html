@@ -4,18 +4,19 @@
          dnd-drop="callback({date: $ctrl.day.date, operation: dropEffect, index: index, athlete: $ctrl.athlete})">
     <div flex="none" layout-wrap ng-switch on="item.calendarItemType" style="margin-bottom: 2px"
          ng-repeat="item in $ctrl.day.data.calendarItems | orderBy:'dateStart' track by item.index">
-        <dashboard-activity flex="none" ng-switch-when="activity"
-                            layout="column" flex="auto"
-                            item="item"
-                            athlete="$ctrl.athlete"
-                            selected="$ctrl.selected"
-                            class="dashboard-activity"
-                            dnd-draggable="item"
-                            dnd-disable-if="::!$ctrl.isSpecified(item)"
-                            dnd-type="'itemType'"
-                            dnd-effect-allowed="copyMove"
-                            dnd-callback="$ctrl.onDrop(item, operation, $index, date, index, athlete)">
-        </dashboard-activity>
+        <st-activity-compact flex="none" layout="column" flex="auto"
+                             ng-switch-when="activity"
+                             selected="$ctrl.selected"
+                             view="'dashboard'"
+                             data="item"
+                             options="$ctrl.itemOptions"
+                             class="dashboard-activity"
+                             dnd-draggable="item"
+                             dnd-disable-if="::!$ctrl.isSpecified(item)"
+                             dnd-type="'itemType'"
+                             dnd-effect-allowed="copyMove"
+                             dnd-callback="$ctrl.onDrop(item, operation, $index, date, index, athlete)">
+        </st-activity-compact>
         <dashboard-event flex="none" ng-switch-when="event"
                          layout="column" flex="auto"
                          event="item"

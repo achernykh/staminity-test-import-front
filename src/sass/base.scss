@@ -263,39 +263,89 @@ md-pagination-wrapper {
   }
 }
 
-.calendar-item-activity-icon {
+
+
+// Заголовок тренировки
+// Сейчас используется дл плитки в календаре, дэшборде
+.calendar-item-activity-header, .calendar-item-competition-header {
+  color: white;
   background-color: $grey-500;
   transition: background-color 0.3s 0.1s;
 
-  &.color-run {
-    background-color: $activity-color-run !important;
+  .calendar-item-activity-icon, .calendar-item-competition-icon {
+    background-color: $grey-500;
+    transition: background-color 0.3s 0.1s;
+
+    &.color-run {
+      background-color: $activity-color-run !important;
+    }
+    &.color-bike {
+      background-color: $activity-color-bike !important;
+    }
+    &.color-swim {
+      background-color: $activity-color-swim !important;
+    }
+    &.color-triathlon {
+      background-color: $activity-color-triathlon !important;
+    }
+    &.color-ski {
+      background-color: $activity-color-ski !important;
+    }
+    &.color-strength {
+      background-color: $activity-color-strength !important;
+    }
+    &.color-other {
+      background-color: $activity-color-other !important;
+    }
   }
-  &.color-bike {
-    background-color: $activity-color-bike !important;
-  }
-  &.color-swim {
-    background-color: $activity-color-swim !important;
-  }
-  &.color-triathlon {
-    background-color: $activity-color-triathlon !important;
-  }
-  &.color-ski {
-    background-color: $activity-color-ski !important;
-  }
-  &.color-strength {
-    background-color: $activity-color-strength !important;
-  }
-  &.color-other {
-    background-color: $activity-color-other !important;
-  }
+
   &.complete {
-    background-color: $teal-800;
+    background: $bg-teal-gradient-800-500 !important;
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $teal-500 !important;
+    }
+    &:hover, &.selected {
+      background: $bg-teal-gradient-900-800;
+    }
+    .calendar-item-activity-icon {
+      background-color: $teal-800 !important;
+    }
   }
   &.complete-warn {
-    background-color: $orange-800;
+    background: $bg-orange-gradient-800-500 !important;
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $orange-500 !important;
+    }
+    &:hover, &.selected {
+      background: $bg-orange-gradient-900-800;
+    }
+    .calendar-item-activity-icon {
+      background-color: $orange-800 !important;
+    }
   }
-  &.complete-error {
-    background-color: $red-800;
+  &.complete-error, &.dismiss {
+    background: $bg-red-gradient-800-500 !important;
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $red-500 !important;
+    }
+    &:hover, &.selected {
+      background: $bg-red-gradient-900-800;
+    }
+    .calendar-item-activity-icon {
+      background-color: $red-800 !important;
+    }
+  }
+  &.not-specified {
+    background: $bg-blue-grey-gradient-600-400 !important;
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $blue-grey-500 !important;
+    }
+    &:hover, &.selected {
+      background: $bg-blue-grey-gradient-800-500 !important;
+    }
+    .calendar-item-activity-icon {
+      background-color: $blue-grey-700 !important;
+    }
   }
 }
 
@@ -307,71 +357,6 @@ md-pagination-wrapper {
 .calendar-item-measurement {
   background-color: $grey-500;
   transition: background-color 0.3s 0.1s;
-}
-
-// Задание выполнено без отклонений
-.activity-header.complete, .competition-header.complete {
-
-  color: white;
-  background-image: $bg-teal-gradient-800-500;
-
-  .bg-circle-32 {
-    background: $teal-800 !important;
-  }
-
-  &:hover, &.selected {
-    background-image: $bg-teal-gradient-900-800;
-    .bg-circle-32 {
-      background: $teal-900 !important;
-    }
-  }
-
-  // xs & sm size
-  @media (min-width: 0px) and (max-width: 959px) {
-    background: $teal-500 !important;
-  }
-
-}
-// Задание выполнено с отклонениями
-.activity-header.complete-warn, .competition-header.complete-warn {
-
-  color: white;
-  background-image: $bg-orange-gradient-800-500;
-  .bg-circle-32 {
-    background-color: $orange-800 !important;
-  }
-
-  &:hover, &.selected {
-    background-image: $bg-orange-gradient-900-800;
-
-    .bg-circle-32 {
-      background-color: $orange-900 !important;
-    }
-  }
-  // xs & sm size
-  @media (min-width: 0px) and (max-width: 959px) {
-    background: $orange-500 !important;
-  }
-}
-
-// Задание выполнено с существенным отклонением
-.activity-header.complete-error, .competition-header.complete-error {
-  color: white;
-  background-image: $bg-red-gradient-900-800;
-  .bg-circle-32 {
-    background-color: $red-800 !important;
-  }
-
-  &:hover, &.selected {
-    background-image: $bg-red-gradient-900-800;
-    .bg-circle-32 {
-      background-color: $red-900 !important;
-    }
-  }
-  // xs & sm size
-  @media (min-width: 0px) and (max-width: 959px) {
-    background: $red-500 !important;
-  }
 }
 
 // стиль для аваторок во всплывающих панелях
