@@ -47,7 +47,7 @@
                 <md-input-container flex="auto" class="no-message">
                     <label translate="trainingPlans.startDate.label"></label>
                     <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
-                    <md-datepicker flex="auto"
+                    <md-datepicker flex="auto" ng-disabled="!$ctrl.isViewMode && $ctrl.season.id"
                                    ng-model="$ctrl.season._dateStart"
                                    name="dateStart" md-hide-icons="calendar">
                     </md-datepicker>
@@ -56,9 +56,9 @@
             <!-- Начальная дата плана -->
             <md-list-item layout="row" layout-align="start center">
                 <md-input-container flex="auto" class="no-message">
-                    <label translate="trainingPlans.startDate.label"></label>
+                    <label translate="trainingPlans.endDate.label"></label>
                     <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
-                    <md-datepicker flex="auto"
+                    <md-datepicker flex="auto" ng-disabled="!$ctrl.isViewMode && $ctrl.season.id"
                                    ng-model="$ctrl.season._dateEnd"
                                    name="dateEnd" md-hide-icons="calendar">
                     </md-datepicker>
@@ -71,6 +71,7 @@
                     <md-icon flex="none" class="md-dark"
                              md-svg-src="/assets/icon/methodology.svg"></md-icon>
                     <md-select flex type="number" required
+                               ng-disabled="!$ctrl.isViewMode && $ctrl.season.id"
                                name="periodizationScheme" class="icon"
                                ng-model="$ctrl.season.periodizationScheme.id"
                                placeholder="{{trainingSeason.periodizationScheme.placeholder}}"
@@ -93,6 +94,7 @@
             </md-subheader>
             <div layout="column" class="duration-measure">
                 <md-radio-group flex="none"
+                                ng-disabled="!$ctrl.isViewMode && $ctrl.season.id"
                                 name="durationMeasure" class="md-primary"
                                 ng-model="$ctrl.season.durationMeasure"
                                 ng-change="$ctrl.change(param, param.model)">

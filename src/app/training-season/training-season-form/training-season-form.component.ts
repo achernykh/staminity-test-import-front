@@ -65,6 +65,10 @@ class TrainingSeasonFormCtrl implements IComponentController {
         }
     }
 
+    get isPostMode (): boolean {
+        return this.mode === FormMode.Post;
+    }
+
     get isViewMode (): boolean {
         return this.mode === FormMode.View;
     }

@@ -41,7 +41,7 @@
                     <md-select flex
                                name="color" class="icon"
                                ng-model="$ctrl.mesocycle.color"
-                               md-selected-text="$ctrl.getSelectedText()"
+                               md-selected-text="'methodology.periodization.mesocycle.color.' + $ctrl.getSelectedText() | translate"
                                placeholder="{{methodology.periodization.mesocycle.color.placeholder}}"
                                ng-change="$ctrl.changeParam()">
                         <md-option

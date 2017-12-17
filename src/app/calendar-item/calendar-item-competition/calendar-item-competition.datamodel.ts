@@ -65,9 +65,7 @@ export class CalendarItemCompetition extends CalendarItem {
            // создаем плановый интервал
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
-
             this.items.push({dirty: false, item: activity});
-
         });
     }
 
@@ -75,7 +73,7 @@ export class CalendarItemCompetition extends CalendarItem {
         let item: ICalendarItem = Object.assign({}, this);
         item.calendarItems = this.items.map(i => new Activity(i.item, this.options));
         ['item', 'items', 'options','statusLimit'].map(k => delete item[k]);
-        return this;
+        return item;
     }
 
     get status (): string {

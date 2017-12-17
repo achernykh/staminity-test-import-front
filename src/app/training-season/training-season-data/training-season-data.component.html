@@ -85,7 +85,7 @@
                          ng-style="{'background-color': $ctrl.getMesocycle(cycle.mesocycle.id).color}">
                         <md-select flex="auto"
                                    ng-model="cycle.mesocycle.id"
-                                   ng-change="$ctrl.change(cycle)"
+                                   ng-change="$ctrl.change(cycle, $index)"
                                    placeholder="Не указан">
                             <md-option ng-repeat="meso in $ctrl.getMesocycles() track by meso.id"
                                        value="{{meso.id}}">
@@ -96,7 +96,7 @@
                 </td>
                 <!-- Номер недели -->
                 <td md-cell class="week">
-                    <span ng-if="cycle.mesocycle.id">Week {{$ctrl.getWeekCount($index)}}</span>
+                    <span ng-if="cycle.mesocycle.id">Week {{cycle.mesoWeekNumber}}</span>
                 </td>
                 <!-- Обьем -->
                 <td md-cell

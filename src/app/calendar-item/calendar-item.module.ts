@@ -19,6 +19,7 @@ import { translateCompetition } from "./calendar-item-competition/calendar-item-
 import { CompetitionSingleStageComponent } from "./calendar-item-competition/single-stage/competition-single-stage.component";
 import { CompetitionMultiStageComponent } from "./calendar-item-competition/multi-stage/competition-multi-stage.component";
 import CompetitionCompactComponent from "./calendar-item-competition/compact-view/competition-compact.component";
+import { ActivityCompactComponent } from "./calendar-item-activity/compact-view/compact-activity.component";
 
 const CalendarItemMeasurement = module('staminity.calendar-item-measurement', [])
     .component('calendarItemActivity', CalendarItemActivityComponent)
@@ -32,6 +33,7 @@ const CalendarItemMeasurement = module('staminity.calendar-item-measurement', []
     .component('stCompetitionSingleStage', CompetitionSingleStageComponent)
     .component('stCompetitionMultiStage', CompetitionMultiStageComponent)
     .component('stCompetitionCompact', CompetitionCompactComponent)
+    .component('stActivityCompact', ActivityCompactComponent)
     .constant('CompetitionConfig', new CompetitionConfig())
     .service('CalendarItemDialogService', CalendarItemDialogService)
     .constant('calendarItemRecordConfig', CalendarItemRecordConfig)

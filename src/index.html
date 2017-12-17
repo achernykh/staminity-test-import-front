@@ -191,6 +191,9 @@
 <![endif]-->
 
 <script type="text/javascript">
+    document.addEventListener('touchstart', function(){}, true);
+    document.addEventListener('touchmove', function(){}, true);
+
     navigator.serviceWorker.register('/sw.js')
             .then(function(reg) {
                 console.info('SW registered!', reg);

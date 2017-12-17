@@ -12,6 +12,7 @@ export class Microcycle implements IMicrocycle {
     weekNumber: string; // дата начала недели в формате YYYY.WW
     description: string; // заметка тренеру к микроциклу
     mesocycle: IMesocycle;
+    mesoWeekNumber: number; // номер недели в рамках мезоцикла
     durationMeasure: string;
     durationValue: number;
     calcMeasures: ICalcMeasures;
@@ -50,7 +51,7 @@ export class Microcycle implements IMicrocycle {
         let cycle: IMicrocycle = Object.assign({}, this);
 
         cycle.mesocycle = { id: Number(this.mesocycle.id) };
-        cycle.durationValue = Number(this.durationValue);
+        cycle.durationValue = this.durationValue && Number(this.durationValue);
         if (!cycle.mesocycle.id) {
             cycle.mesocycle = null;
         }

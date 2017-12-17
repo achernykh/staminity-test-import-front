@@ -11,15 +11,21 @@ import {
 } from "../../activity/activity.function";
 import {CalendarService} from "../../calendar/calendar.service";
 import {profileShort} from "../../core/user.function";
-
+import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
+import { FormMode } from '../../application.interface';
 
 class DashboardDayCtrl implements IComponentController {
 
-    public day: IDashboardDay;
-    public athlete: IUserProfile;
-    public selected: boolean;
-    public onEvent: (response: Object) => IPromise<void>;
+    // bind
+    day: IDashboardDay;
+    currentUser: IUserProfile;
+    owner: IUserProfile;
+    selected: boolean;
+    onEvent: (response: Object) => IPromise<void>;
+
+    //private
     private dashboard: DashboardCtrl;
+    private itemOptions: ICalendarItemDialogOptions;
 
     static $inject = ['$mdDialog','message','dialogs','CalendarService'];
 
@@ -31,7 +37,14 @@ class DashboardDayCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        this.itemOptions = {
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: FormMode.Put,
+            trainingPlanMode: false,
+            planId: null
+        };
     }
 
     onDrop(srcItem: ICalendarItem,
@@ -45,7 +58,7 @@ class DashboardDayCtrl implements IComponentController {
         let item:ICalendarItem = copy(srcItem);
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
         item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
-        if (srcAthlete.userId !== this.athlete.userId) {
+        if (srcAthlete.userId !== this.owner.userId) {
             item.userProfileOwner = profileShort(srcAthlete);
             //operation = 'copy';
             this.dialogs.confirm({ text: 'dialogs.updateIntensity' })
@@ -111,7 +124,7 @@ class DashboardDayCtrl implements IComponentController {
             targetEvent: $event,
             locals: {
                 date: new Date(date), // дата дня в формате ГГГГ-ММ-ДД
-                user: this.athlete,
+                user: this.owner,
                 event: $event
             },
             //resolve: {
@@ -129,7 +142,8 @@ class DashboardDayCtrl implements IComponentController {
 const DashboardDayComponent:IComponentOptions = {
     bindings: {
         day: '<',
-        athlete: '<',
+        currentUser: '<',
+        owner: '<',
         selected: '<',
         onSelect: '&'
     },

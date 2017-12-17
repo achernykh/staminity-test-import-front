@@ -37,8 +37,6 @@ export class SocketService {
      */
     init (): Promise<boolean> {
 
-        console.log('socket: init');
-
         if ( this.socketStarted ) {
             return Promise.resolve(true);
         }
@@ -52,12 +50,12 @@ export class SocketService {
                 if ( this.socketStarted ) {
                     // Свзяь с сервером есть
                     //this.connections.next(true);
-                    console.log('socket: resolve true');
+                    //console.log('socket: resolve true');
                     return resolve(true);
                 } else {
                     // Свзязи с сервером нет
                     //this.connections.next(false);
-                    console.log('socket: reject false');
+                    //console.log('socket: reject false');
                     return reject(false);
                 }
 

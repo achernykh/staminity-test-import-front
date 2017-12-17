@@ -52,7 +52,7 @@ class PeriodizationSchemeListCtrl implements IComponentController {
      */
     delete (mesocycle: IMesocycle): void {
         this.periodizationService.deleteMesocycle(this.scheme.id, mesocycle.id)
-            .then(response => this.message.toastInfo('methodology.periodization.mesocycle.deleted'),
+            .then(response => this.message.toastInfo('mesocycleDeleted'),
                 error => this.message.toastError(error))
             .then(() => this.splice(mesocycle.id));
     }
@@ -62,9 +62,10 @@ class PeriodizationSchemeListCtrl implements IComponentController {
      * @param id - номер схемы
      * @param scheme - схема для замены
      */
-    private splice (id: number, mesocycle: IMesocycle = null): void {
-        this.scheme.mesocycles
-            .splice(this.scheme.mesocycles.findIndex(s => s.id === id), 1, mesocycle);
+    private splice (id: number, mesocycle?: IMesocycle): void {
+        mesocycle ?
+            this.scheme.mesocycles.splice(this.scheme.mesocycles.findIndex(s => s.id === id), 1, mesocycle) :
+            this.scheme.mesocycles.splice(this.scheme.mesocycles.findIndex(s => s.id === id), 1);
     }
 
     openMenu ($mdMenu, ev) {

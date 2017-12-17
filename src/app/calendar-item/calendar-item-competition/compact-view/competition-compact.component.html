@@ -51,11 +51,11 @@
                 <section flex layout="row" layout-align="start center"
                          ng-class="::{'md-dark' : (!$ctrl.competition.isCompleted)}"
                          class="md-caption md-active center">
-                    <div flex="none" class="line-14">{{$ctrl.competition.competitionHeader.name}}</div>
+                    <div flex="none" class="name line-14">{{$ctrl.competition.competitionHeader.name}}</div>
                 </section>
                 <section flex layout="row" layout-align="start center"
                          ng-class="::{'md-dark' : (!$ctrl.competition.isCompleted)}"
-                         class="md-title-small md-active center tight-10">
+                         class="md-body-2 md-active center tight-10">
                     <span flex="none" ng-if="::$ctrl.competition.movingDuration">
                     {{::$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
                     </span>
@@ -69,7 +69,8 @@
         </header>
     </section>
     <!-- Элемент дня календаря -->
-    <section ng-switch-when="calendar" class="competition-compact__calendar" ng-click="$ctrl.open($event)">
+    <section ng-switch-when="calendar" class="competition-compact__calendar"
+             ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
         <header class="competition-header {{::$ctrl.competition.status}}"
                 ng-class="{selected: $ctrl.selected}">

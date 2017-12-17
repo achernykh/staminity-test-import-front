@@ -1,7 +1,7 @@
 <div flex layout-xs="row" layout-sm="row" layout-gt-sm="column">
     <!-- day header: start -->
     <section class="toolbar" flex-gt-sm="none" flex="none" layout="row" layout-align="space-between center"
-         ng-class="{today: $ctrl.today}">
+             ng-class="{today: $ctrl.today}">
         <div flex="none">
             <div flex="none" layout="raw" class="day-title md-caption md-dark" hide show-gt-sm>
                 <span class="day-title__number"
@@ -21,22 +21,25 @@
             </md-checkbox>
         </div>
 
-        <div  hide show-gt-sm flex="none"  ng-show="$ctrl.selected || $ctrl.accent">
+        <div hide show-gt-sm flex="none" ng-show="$ctrl.selected || $ctrl.accent">
             <md-menu>
-                <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More" style="margin: 0px; padding: 0px; width: 24px">
+                <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More"
+                           style="margin: 0px; padding: 0px; width: 24px">
                     <md-icon class="material-icons md-18"
-                             aria-label="More">more_vert</md-icon>
+                             aria-label="More">more_vert
+                    </md-icon>
                 </md-button>
                 <md-menu-content>
                     <md-menu-item>
-                        <md-button>
-                            <md-icon class="material-icons" md-menu-align-target ng-bind="'add_circle_outline'"></md-icon>
+                        <md-button aria-label="post">
+                            <md-icon class="material-icons" aria-label="post" md-menu-align-target
+                                     ng-bind="'add_circle_outline'"></md-icon>
                             <span translate="calendar.action.post"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.onSelect(); $ctrl.checked = !$ctrl.checked">
-                            <md-icon class="material-icons" md-menu-align-target
+                        <md-button ng-click="$ctrl.onSelect(); $ctrl.checked = !$ctrl.checked" aria-label="checkbox">
+                            <md-icon class="material-icons" md-menu-align-target aria-label="checkbox"
                                      ng-bind="!$ctrl.selected ? 'checkbox' : 'checkbox_outline_box'">
                             </md-icon>
                             <span ng-bind="!$ctrl.selected ? 'Выделить' : 'Снять выделение'"></span>
@@ -44,19 +47,31 @@
                     </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.onDelete({items:$ctrl.data.calendarItems})">
-                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>Удалить</md-button></md-menu-item>
-                    <md-menu-item><md-button ng-click="$ctrl.selected ? angular.noop() : $ctrl.onSelect(); $ctrl.onCopy()">
-                        <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
-                        Скопировать</md-button></md-menu-item>
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            Удалить
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.selected ? angular.noop() : $ctrl.onSelect(); $ctrl.onCopy()"
+                                   aria-label="copy">
+                            <md-icon class="material-icons" md-menu-align-target aria-label="copy">content_copy
+                            </md-icon>
+                            <span>Скопировать</span>
+                        </md-button>
+                    </md-menu-item>
                     <md-menu-item ng-if="$ctrl.copiedItemsLength > 0">
-                        <md-button ng-click="$ctrl.onPaste({date: $ctrl.data.date})">
-                            <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
-                            Вставить ({{$ctrl.copiedItemsLength}})</md-button>
+                        <md-button ng-click="$ctrl.onPaste({date: $ctrl.data.date})" aria-label="paste">
+                            <md-icon class="material-icons" md-menu-align-target aria-label="paste">content_paste
+                            </md-icon>
+                            Вставить ({{$ctrl.copiedItemsLength}})
+                        </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="$ctrl.calendar.buffer.length > 0">
-                        <md-button ng-click="$ctrl.calendar.onPostPlan($event)">
-                            <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
-                            Создать тренировочный план ({{$ctrl.calendar.buffer.length}})</md-button>
+                        <md-button ng-click="$ctrl.calendar.onPostPlan($event)" aria-label="plan">
+                            <md-icon class="material-icons" md-menu-align-target aria-label="plan">content_paste
+                            </md-icon>
+                            Создать тренировочный план ({{$ctrl.calendar.buffer.length}})
+                        </md-button>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
@@ -78,7 +93,7 @@
                                   dnd-dragstart="$ctrl.onDrag(event)"
                                   dnd-copied="$ctrl.onCopied(item)"
                                   dnd-moved="$ctrl.onMoved(item)"
-                                  ng-click="$ctrl.onOpen($event,item.calendarItemType, item)">
+                                  ng-click="$ctrl.open($event,item.calendarItemType, item)">
                 <div flex="none">
                     <md-icon class="material-icons md-18" style="margin-right: 8px">straighten</md-icon>
                 </div>
@@ -118,10 +133,14 @@
                 <header ng-click="$ctrl.open($event,item.calendarItemType, item)">
                     <div layout="row" layout-align="space-between center">
                         <div flex="25" hide show-gt-sm></div>
-                        <section flex="none" layout="row" layout-align="center center" class="icon bg-circle-32 bg-grey-500">
-                            <md-icon class="md-light" md-svg-src="/assets/icon/{{item.eventHeader.eventType}}.svg"></md-icon>
+                        <section flex="none" layout="row" layout-align="center center"
+                                 class="icon bg-circle-32 bg-grey-500">
+                            <md-icon class="md-light"
+                                     md-svg-src="/assets/icon/{{item.eventHeader.eventType}}.svg"></md-icon>
                         </section>
-                        <div hide show-xs show-sm flex class="md-caption" translate>{{::'event.'+item.eventHeader.eventType}}</div>
+                        <div hide show-xs show-sm flex class="md-caption" translate>
+                            {{::'event.'+item.eventHeader.eventType}}
+                        </div>
                         <md-menu flex="none" flex-gt-sm="25">
                             <md-button class="md-icon-button" aria-label="More Event"
                                        style="margin-right: 0px"
@@ -188,19 +207,19 @@
                 <div class="md-caption md-dark" translate>{{::'record.'+item.recordHeader.type}}</div>
             </calendar-record>
 
-            <calendar-activity ng-switch-when="activity"
-                               layout="column" flex="auto"
-                               item="item" selected="$ctrl.selected"
-                               owner="$ctrl.owner"
-                               current-user="$ctrl.currentUser"
-                               training-plan-mode="$ctrl.trainingPlanMode"
-                               on-save="$ctrl.onSave(formMode, item)"
-                               dnd-draggable="item"
-                               dnd-disable-if="::!$ctrl.isSpecified(item)"
-                               dnd-type="'itemType'"
-                               dnd-effect-allowed="copyMove"
-                               dnd-callback="$ctrl.onDropActivity(item, operation, $index, date, index)"
-            </calendar-activity>
+            <st-activity-compact ng-switch-when="activity"
+                                 layout="column" flex="auto"
+                                 view="$ctrl.isMobile ? '' : 'calendar'"
+                                 selected="$ctrl.selected"
+                                 data="::item"
+                                 options="$ctrl.itemOptions"
+                                 on-save="$ctrl.onSave(formMode, item)"
+                                 dnd-draggable="item"
+                                 dnd-disable-if="::!$ctrl.isSpecified(item)"
+                                 dnd-type="'itemType'"
+                                 dnd-effect-allowed="copyMove"
+                                 dnd-callback="$ctrl.onDropActivity(item, operation, $index, date, index)"
+            </st-activity-compact>
         </div>
     </section>
     <!-- calendar items: end -->
@@ -223,8 +242,8 @@
                     ng-click="$ctrl.post($event, 'competition', $ctrl.data)">
             <md-icon class="material-icon" md-svg-src="/assets/icon/competition.svg" aria-label="Competition"></md-icon>
         </md-button>-->
-        <md-button  class="md-icon-button" aria-label="Wizard"
-                    ng-click="$ctrl.wizard($event, $ctrl.data)">
+        <md-button class="md-icon-button" aria-label="Wizard"
+                   ng-click="$ctrl.wizard($event, $ctrl.data)">
             <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
         </md-button>
     </section>

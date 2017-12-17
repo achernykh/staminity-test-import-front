@@ -33,8 +33,8 @@ export class TrainingSeason implements ISeasonPlan {
 
     prepare (keys: Array<string> = this.keys): ISeasonPlan {
 
-        this.dateStart = this._dateStart.toISOString().substring(0, 10); // YYYY-MM-DD
-        this.dateEnd = this._dateEnd.toISOString().substring(0, 10);
+        this.dateStart = moment(this._dateStart).format('YYYY-MM-DD');
+        this.dateEnd = moment(this._dateEnd).format('YYYY-MM-DD');
         this.periodizationScheme.id = Number(this.periodizationScheme.id);
 
         keys.map(p => delete this[p]);
@@ -43,10 +43,10 @@ export class TrainingSeason implements ISeasonPlan {
     }
 
     private prepareDefaultData (): void {
-        if ( !this._dateStart ) { this._dateStart = moment().toDate(); }
-        if ( !this._dateEnd ) { this._dateEnd = moment().add(1,'year').toDate(); }
+        if ( !this._dateStart ) { this._dateStart = this.dateStart || moment().toDate(); }
+        if ( !this._dateEnd ) { this._dateEnd = this.dateEnd || moment().add(1,'year').toDate(); }
         if ( !this.durationMeasure ) { this.durationMeasure = 'trainingLoad'; }
-        if ( !this.periodizationScheme ) { this.periodizationScheme = { id: null }; }
+        if ( !this.periodizationScheme ) { debugger; this.periodizationScheme = { id: null }; }
     }
 
 }

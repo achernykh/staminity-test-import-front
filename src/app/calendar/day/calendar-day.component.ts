@@ -75,89 +75,6 @@ class CalendarDayCtrl {
         this.selected = !this.selected;
     }
 
-    onOpen ($event, type, data) {
-
-        if (type === 'measurement') {
-            this.$mdDialog.show({
-                controller: DialogController,
-                controllerAs: '$ctrl',
-                template: `<md-dialog id="measurement" aria-label="Measurement">
-                        <calendar-item-measurement
-                                flex layout="column" class="calendar-item-measurement"
-                                data="$ctrl.data" mode="put"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-measurement>
-                   </md-dialog>`,
-                parent: angular.element(document.body),
-                targetEvent: $event,
-                locals: {
-                    data: data
-                },
-                bindToController: true,
-                clickOutsideToClose: false,
-                escapeToClose: true,
-                fullscreen: true
-
-            }).then(response => {
-            }, () => {
-            });
-        }
-        if (type === 'event') {
-            this.$mdDialog.show({
-                controller: DialogController,
-                controllerAs: '$ctrl',
-                template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events 
-                                flex layout="column" class="calendar-item-events"
-                                data="$ctrl.data"
-                                mode="put"
-                                user="$ctrl.user"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-events>
-                   </md-dialog>`,
-                parent: angular.element(document.body),
-                targetEvent: $event,
-                locals: {
-                    data: data,
-                    user: this.owner
-                },
-                bindToController: true,
-                clickOutsideToClose: false,
-                escapeToClose: true,
-                fullscreen: true
-
-            }).then(response => {
-            }, () => {
-            });
-        }
-        if (type === 'record') {
-            this.$mdDialog.show({
-                controller: DialogController,
-                controllerAs: '$ctrl',
-                template: `<md-dialog id="calendar-item-record" aria-label="Record">
-                        <calendar-item-record 
-                                data="$ctrl.data"
-                                calendar-range="$ctrl.calendarRange"
-                                mode="view"
-                                on-cancel="cancel()">
-                        </calendar-item-record>
-                   </md-dialog>`,
-                parent: angular.element(document.body),
-                targetEvent: $event,
-                locals: {
-                    data: data,
-                    calendarRange: [ null, null ]//this.calendar.calendarRange
-                },
-                bindToController: true,
-                clickOutsideToClose: false,
-                escapeToClose: true,
-                fullscreen: true
-
-            }).then(response => {
-            }, () => {
-            });
-        }
-    }
 
     /**
      * Создание записи календаря
@@ -187,134 +104,19 @@ class CalendarDayCtrl {
     }
 
     /**
-     * Создание записи календаря
+     * Диалог просмотра записи календаря
      * @param e
      * @param type
      * @param item
      */
     open (e: Event, type: 'activity' | 'measurement' | 'record', item: ICalendarItem): void {
-        this.calendarItemDialog[ type ](e, this.getOptions(this.trainingPlanMode ? FormMode.Put : FormMode.View, item.dateStart), item)
+        this.calendarItemDialog[ type ](e,
+            this.getOptions(this.trainingPlanMode || type === 'measurement' ? FormMode.Put : FormMode.View, item.dateStart), item)
             .then((response) => this.onSave(response), () => {
             });
 
     }
-
-    newActivity ($event, data) {
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template: `<md-dialog id="post-activity" aria-label="Activity">
-                        <calendar-item-activity
-                                layout="row" class="calendar-item-activity"
-                                date="$ctrl.date"
-                                mode="'post'"
-                                user="$ctrl.user" popup="true"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-activity>
-                   </md-dialog>`,
-            parent: angular.element(document.body),
-            targetEvent: $event,
-            locals: {
-                date: data.date,//new Date(data.date), // дата дня в формате ГГГГ-ММ-ДД Date.UTC(data.date) + Date().getTimezoneOffset() * 60 * 1000, //
-                user: this.owner
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: false,
-            fullscreen: true
-        }).then(response => {
-        }, () => {
-        });
-    }
-
-    newMeasurement ($event, data) {
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template: `<calendar-item-measurement
-                            class="calendar-item-measurement"
-                            data="$ctrl.data"
-                            mode="post"
-                            user="$ctrl.user"
-                            on-cancel="cancel()" on-answer="answer(response)">
-                      </calendar-item-measurement>`,
-            parent: angular.element(document.body),
-            targetEvent: $event,
-            locals: {
-                data: {
-                    date: data.date
-                },
-                user: this.owner
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: true,
-            fullscreen: true
-        }).then(response => {
-        }, () => {
-        });
-    }
-
-    newEvent ($event, data) {
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events 
-                                flex layout="column" class="calendar-item-events"
-                                data="$ctrl.data"
-                                mode="post"
-                                user="$ctrl.user"
-                                on-cancel="cancel()" on-answer="answer(response)">
-                        </calendar-item-events>
-                   </md-dialog>`,
-            parent: angular.element(document.body),
-            targetEvent: $event,
-            locals: {
-                data: {
-                    date: data.date
-                },
-                user: this.owner
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: true,
-            fullscreen: true
-
-        }).then(response => {
-        }, () => {
-        });
-    }
-
-    postRecord2 ($event, data) {
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template: `<md-dialog id="calendar-item-record" aria-label="Record">
-                        <calendar-item-record 
-                                data="$ctrl.data"
-                                calendar-range="$ctrl.calendarRange"
-                                mode="post"
-                                on-cancel="cancel()">
-                        </calendar-item-record>
-                   </md-dialog>`,
-            parent: angular.element(document.body),
-            targetEvent: $event,
-            locals: {
-                data: getCalendarItem('record', data.date, this.owner, this.currentUser),
-                calendarRange: [ null, null ]//this.calendar.calendarRange
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: true,
-            fullscreen: true
-
-        }).then(response => {
-        }, () => {
-        });
-    }
-
-
+    
     onDropActivity (srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number) {
 
         let item: ICalendarItem = copy(srcItem);

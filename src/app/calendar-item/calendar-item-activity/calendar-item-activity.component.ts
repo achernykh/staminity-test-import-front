@@ -34,6 +34,7 @@ import {ActivityIntervalP} from "../../activity/activity-datamodel/activity.inte
 import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
 import { TrainingPlansService } from "@app/training-plans/training-plans.service";
 import { FormMode } from "../../application.interface";
+import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -80,7 +81,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     popup: boolean;
     template: boolean = false; // режим создания, изменения шаблона
     club: IGroupProfileShort;
-    onAnswer: (response: ICalendarItemDialogOptions | any) => IPromise<void>;
+    onAnswer: (response: ICalendarItemDialogOptions | any) => Promise<void>;
     onCancel: () => IPromise<void>;
 
     public assignmentForm: INgModelController; // форма ввода задания структурированного / не структурированного
@@ -133,9 +134,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
+    private segmentChart: Array<any> = [];
+    private bottomPanelData: any = null;
 
     static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
-        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService'];
+        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService', 'CalendarItemDialogService'];
 
     constructor(
         private $scope: IScope,
@@ -150,7 +153,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private $mdDialog: any,
         private dialogs: any,
         private ReferenceService: ReferenceService,
-        private trainingPlansService: TrainingPlansService) {
+        private trainingPlansService: TrainingPlansService,
+        private calendarDialog: CalendarItemDialogService) {
 
     }
 
@@ -187,6 +191,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }**/
 
         this.activity = new Activity(this.data, this.options);
+        this.segmentChart = this.activity.formChart();
+
+        if (this.activity.bottomPanel === 'data') {
+            this.bottomPanelData = this.activity.summaryAvg;
+        }
 
         this.types = activityTypes; // Список видов спорта
         this.structuredMode = this.activity.isStructured;
@@ -272,6 +281,15 @@ export class CalendarItemActivityCtrl implements IComponentController{
             });
 
         this.updateFilterParams();
+    }
+
+    /**
+     * Диалог открытия тренировки
+     * @param e
+     */
+    open (e: Event): void {
+        this.calendarDialog.activity(e, this.options, this.activity)
+            .then(response => this.onAnswer(response));
     }
 
     /**
