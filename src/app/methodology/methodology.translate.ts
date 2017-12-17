@@ -28,6 +28,7 @@ export const translateMethodology = {
                     label: "Название мезоцикла"
                 },
                 color: {
+                    label: "Выберите цвет",
                     red: "Красный",
                     pink: "Розовый",
                     purple: "Фиолетовый",
