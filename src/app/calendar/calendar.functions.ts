@@ -6,7 +6,8 @@ export const prepareItem = (item: ICalendarItem, shift: number) => {
     item.dateStart = moment(item.dateStart, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     if(item.calendarItemType === 'activity') {
-        item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
+        item.activityHeader.intervals = item.activityHeader.intervals
+            .filter(i => i.type === 'pW' || i.type === 'P' || i.type === 'G');
 
         if (item.activityHeader.intervals.filter(i => i.type === 'pW')[0].hasOwnProperty('calcMeasures') &&
             item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.hasOwnProperty('completePercent')) {

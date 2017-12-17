@@ -47,9 +47,10 @@
     <div>{{$ctrl.periodizationData.code}}</div>
     <div></div>
     <div>
-        <span>{{$ctrl.periodizationData.durationMeasure | translate}}</span>
+        <span>{{'trainingSeason.durationMeasure.' + $ctrl.periodizationData.durationMeasure | translate}}</span>
         <span>:&nbsp;</span>
         <span>{{$ctrl.periodizationData.durationValue}}</span>
+        <span>{{'trainingSeason.durationUnit.' + $ctrl.periodizationData.durationMeasure | translate}}</span>
     </div>
 </section>
 

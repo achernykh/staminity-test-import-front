@@ -18,6 +18,11 @@ export const translateTrainingSeason = {
             trainingLoad: "Нагрузка (training load)",
             distance: "Расстояние"
         },
+        durationUnit: {
+            movingDuration: "ч",
+            trainingLoad: "TL",
+            distance: "км"
+        },
         description: {
             label: "Описание",
             placeholder: "Цели и задачи плана на сезон..."

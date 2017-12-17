@@ -121,7 +121,7 @@
                 <!-- Приоритет соревнования -->
                 <md-list-item>
                     <md-input-container class="md-block no-message" md-no-float layout="row">
-                        <label translate="competition.type.label"></label>
+                        <label translate="competition.priority.label"></label>
                         <md-icon flex="none" class="material-icons md-dark">format_list_numbered</md-icon>
                         <md-select flex name="priority" class="icon" required
                                    placeholder="{{competition.priority.placeholder}}"
@@ -170,7 +170,7 @@
             <md-subheader><span translate="competition.trainersPrescription"></span></md-subheader>
             <ng-quill-editor ng-if="$ctrl.fullScreenMode"
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
-                             placeholder="{{'competition.trainersPrescriptionPlaceholder' | translate}}"
+                             placeholder="{{::(!$ctrl.competition.view.isView ? 'competition.trainersPrescriptionPlaceholder' : '') | translate}}"
                              modules="$ctrl.quillConf.toolbarFull"
                              on-content-changed="$ctrl.setDirty()"
                              ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
@@ -178,7 +178,7 @@
             </ng-quill-editor>
             <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
-                             placeholder="{{'competition.trainersPrescriptionPlaceholder' | translate}}"
+                             placeholder="{{::(!$ctrl.competition.view.isView ? 'competition.trainersPrescriptionPlaceholder' : '') | translate}}"
                              modules="$ctrl.quillConf.toolbar"
                              on-content-changed="$ctrl.setDirty()"
                              ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"

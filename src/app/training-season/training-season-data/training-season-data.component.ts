@@ -79,16 +79,19 @@ class TrainingSeasonDataCtrl implements IComponentController {
             cycle.mesocycle = this.getMesocycle(cycle.mesocycle.id);
         } else { return; }
 
-        if ( pos >= 0) { this.recalcMesoWeekNumber(); }
+        //if ( pos >= 0) { this.recalcMesoWeekNumber(); }
 
         if ( cycle.id ) {
             this.trainingSeason.putItem(cycle.prepare())
-                .then(result => cycle.applyRevision(result));
+                .then(result => cycle.applyRevision(result))
+                .then(() => pos >= 0 && this.recalcMesoWeekNumber())
+                .then(() => this.update ++);
         } else {
             this.trainingSeason.postItem(this.data.season.id, cycle.prepare())
-                .then(result => cycle.applyRevision(result));
+                .then(result => cycle.applyRevision(result))
+                .then(() => pos >= 0 && this.recalcMesoWeekNumber())
+                .then(() => this.update ++);
         }
-        this.update ++;
     }
 
     recalcMesoWeekNumber (): void {
@@ -96,8 +99,14 @@ class TrainingSeasonDataCtrl implements IComponentController {
             cycle.mesoWeekNumber = 1;
             let pos = copy(i);
 
-            while (pos !== 0 && this.data.grid[pos].mesocycle.id &&
+            while (
+                pos !== 0 &&
+                this.data.grid[pos] &&
+                this.data.grid[pos].mesocycle &&
+                this.data.grid[pos].mesocycle.hasOwnProperty('id') &&
+                this.data.grid[pos].mesocycle.id &&
                 this.data.grid[pos].mesocycle.id === this.data.grid[pos-1].mesocycle.id) {
+
                 cycle.mesoWeekNumber ++;
                 pos --;
             }

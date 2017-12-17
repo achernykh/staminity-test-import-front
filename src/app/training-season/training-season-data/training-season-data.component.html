@@ -37,9 +37,18 @@
                 <th md-column class="competition"><span translate="trainingSeason.competition"></span></th>
                 <th md-column class="mesocycle"><span translate="trainingSeason.mesocycle"></span></th>
                 <th md-column class="week"><span translate="trainingSeason.week"></span></th>
-                <th md-column class="plan" md-numeric><span translate="trainingSeason.plan"></span></th>
-                <th md-column class="weekPlan" md-numeric><span translate="trainingSeason.calendar.{{$ctrl.data.season.durationMeasure}}"></span></th>
-                <th md-column class="weekActual" md-numeric><span translate="trainingSeason.actual.{{$ctrl.data.season.durationMeasure}}"></span></th>
+                <th md-column class="plan" md-numeric>
+                    <span translate="trainingSeason.plan"></span>
+                    <span>({{'trainingSeason.durationUnit.' + $ctrl.data.season.durationMeasure | translate}})</span>
+                </th>
+                <th md-column class="weekPlan" md-numeric>
+                    <span translate="trainingSeason.calendar.{{$ctrl.data.season.durationMeasure}}"></span>
+                    <span>({{'trainingSeason.durationUnit.' + $ctrl.data.season.durationMeasure | translate}})</span>
+                </th>
+                <th md-column class="weekActual" md-numeric>
+                    <span translate="trainingSeason.actual.{{$ctrl.data.season.durationMeasure}}"></span>
+                    <span>({{'trainingSeason.durationUnit.' + $ctrl.data.season.durationMeasure | translate}})</span>
+                </th>
                 <th md-column class="complete" md-numeric><span translate="trainingSeason.complete"></span></th>
             </tr>
             </thead>
@@ -60,23 +69,6 @@
                                             item="cycle._competition"
                                             options="$ctrl.itemOptions">
                     </st-competition-compact>
-
-                    <!--<div ng-if="cycle._competition" layout="row" layout-align="start center">
-                        <div flex="none"
-                             layout="row" layout-align="center center"
-                             class="competition-icon color bg-circle-32">
-                            <md-icon class="material-icons md-light md-18"
-                                     md-svg-src="/assets/icon/competition.svg"></md-icon>
-                        </div>
-                        <div layout="column" class="data">
-                            <div flex="none" class="md-caption md-dark">
-                                <span>{{cycle._competition.competitionHeader.type}}</span>
-                                <span>:</span>
-                                <span>{{cycle._competition.competitionHeader.distanceType}}</span>
-                            </div>
-                            <div flex="auto" class="name md-body-2 md-dark">{{cycle._competition.competitionHeader.name}}</div>
-                        </div>
-                    </div>-->
                 </td>
                 <!-- Мезоцикл -->
                 <td md-cell class="mesocycle">
@@ -101,14 +93,9 @@
                 <!-- Обьем -->
                 <td md-cell
                     ng-click="$ctrl.editDurationValue($event, cycle)"
-                    ng-class="{'md-placeholder': !cycle.durationValue}">{{cycle.durationValue || cycle.durationMeasure}}
+                    ng-class="{'md-placeholder': !cycle.durationValue}">
+                    {{cycle.durationValue || 'trainingSeason.durationMeasure.' + cycle.durationMeasure | translate}}
                 </td>
-                <!--<td md-cell class="duration">
-                    <md-input-container class="no-message">
-                        <input name="volume" type="number"
-                               ng-model="cycle.durationValue">
-                    </md-input-container>
-                </td>-->
                 <!-- План по неделе -->
                 <td md-cell>{{cycle._data.plan | number:0}}</td>
                 <!-- Факт по неделе -->

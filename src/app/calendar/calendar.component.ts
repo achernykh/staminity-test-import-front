@@ -445,7 +445,7 @@ export class CalendarCtrl implements IComponentController{
         this.selectedItems = [];
         this.calendar.weeks.forEach(w => w.subItem.forEach(d =>
             d.selected && d.data.calendarItems && d.data.calendarItems.length > 0 &&
-            this.selectedItems.push(...copy(d.data.calendarItems))));
+            this.selectedItems.push(...copy(d.data.calendarItems.filter(i => i.calendarItemType === 'activity')))));
     }
 
     /**

@@ -136,6 +136,7 @@ export class CalendarItemDialogService {
             template: `<md-dialog id="calendar-item-record" aria-label="Record">
                         <calendar-item-record 
                                 data="$ctrl.item"
+                                options="$ctrl.options"
                                 calendar-range="$ctrl.calendarRange"
                                 mode="post"
                                 on-cancel="cancel()">
@@ -144,6 +145,7 @@ export class CalendarItemDialogService {
             targetEvent: env,
             locals: {
                 item: item,
+                options: options,
                 calendarRange: [null, null]//this.calendar.calendarRange
             }
         }));
@@ -272,11 +274,11 @@ export class CalendarItemDialogService {
             revision: null,
             dateStart: options.dateStart,
             dateEnd: options.dateStart,
-            competitionHeader: {
+            /**competitionHeader: {
                 type: 'triathlon',
                 distanceType: 'olympic',
                 priority: 'C'
-            },
+            },**/
             userProfileOwner: profileShort(options.owner),
             userProfileCreator: profileShort(options.currentUser),
             groupProfile: options.groupCreator

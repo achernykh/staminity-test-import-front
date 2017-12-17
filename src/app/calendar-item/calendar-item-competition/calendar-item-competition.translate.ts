@@ -57,6 +57,9 @@ export const translateCompetition = {
             bikeDistanceRandom: "Другая дистанция"
 
         },
+        priority: {
+            label: 'Приоритет'
+        },
         priorities: {
             label: "Приоритет",
             A: "А",

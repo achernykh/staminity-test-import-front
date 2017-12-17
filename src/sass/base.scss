@@ -271,34 +271,6 @@ md-pagination-wrapper {
   color: white;
   background-color: $grey-500;
   transition: background-color 0.3s 0.1s;
-
-  .calendar-item-activity-icon, .calendar-item-competition-icon {
-    background-color: $grey-500;
-    transition: background-color 0.3s 0.1s;
-
-    &.color-run {
-      background-color: $activity-color-run !important;
-    }
-    &.color-bike {
-      background-color: $activity-color-bike !important;
-    }
-    &.color-swim {
-      background-color: $activity-color-swim !important;
-    }
-    &.color-triathlon {
-      background-color: $activity-color-triathlon !important;
-    }
-    &.color-ski {
-      background-color: $activity-color-ski !important;
-    }
-    &.color-strength {
-      background-color: $activity-color-strength !important;
-    }
-    &.color-other {
-      background-color: $activity-color-other !important;
-    }
-  }
-
   &.complete {
     background: $bg-teal-gradient-800-500 !important;
     @media (min-width: 0px) and (max-width: 959px) {
@@ -346,6 +318,33 @@ md-pagination-wrapper {
     .calendar-item-activity-icon {
       background-color: $blue-grey-700 !important;
     }
+  }
+}
+
+.calendar-item-activity-icon, .calendar-item-competition-icon {
+  background-color: $grey-500;
+  transition: background-color 0.3s 0.1s;
+
+  &.color-run {
+    background-color: $activity-color-run !important;
+  }
+  &.color-bike {
+    background-color: $activity-color-bike !important;
+  }
+  &.color-swim {
+    background-color: $activity-color-swim !important;
+  }
+  &.color-triathlon {
+    background-color: $activity-color-triathlon !important;
+  }
+  &.color-ski {
+    background-color: $activity-color-ski !important;
+  }
+  &.color-strength {
+    background-color: $activity-color-strength !important;
+  }
+  &.color-other {
+    background-color: $activity-color-other !important;
   }
 }
 
