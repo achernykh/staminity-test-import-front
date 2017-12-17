@@ -7,6 +7,9 @@ export const _measurement = {
             settings: 'Настроить отображение',
             save: 'Сохранить'
         },
+        action: {
+            save: "Сохранить"
+        },
         generalMeasures: 'Общее измерение',
         sleepData: 'Сон',
         feeling: 'Состояние',

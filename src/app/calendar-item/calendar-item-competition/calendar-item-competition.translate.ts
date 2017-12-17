@@ -11,6 +11,9 @@ export const translateCompetition = {
         type: {
           label: "Вид спорта"
         },
+        action: {
+          post: "Создать соревнование"
+        },
         types: {
             triathlon: "Триатлон",
             run: "Бег",
@@ -60,15 +63,26 @@ export const translateCompetition = {
         priority: {
             label: 'Приоритет'
         },
+        needDistanceType: "Выберите тип соревнования",
         priorities: {
             label: "Приоритет",
             A: "А",
             B: "B",
             C: "C"
         },
+        planPlaceholder: {
+            distance: "'distance' | measureUnit:'run' | translate",
+            movingDuration: "'movingDuration' | measureUnit:run | translate"
+        },
         startDate: {
             label: "Дата"
         },
+
+        // виды спорта
+        run: "Бег",
+        triathlon: "Триатлон",
+        swim: "Плавание",
+        bike: "Велоспорт",
         target: "План и факт",
         stage: "Этап",
         trainersPrescription: "Установка тренера",
