@@ -48,7 +48,15 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
      * @param e
      */
     open (e: Event): void {
-        this.calendarDialog.competition(e, this.options, this.competition).then(response => {debugger;});
+        this.competition.view.isView = true;
+        this.calendarDialog.competition(e, this.options, this.competition)
+            .then(response => response.formMode === FormMode.Put && this.onAnswer(response));
+    }
+
+    edit (e: Event): void {
+        //this.competition.view.isPut = true;
+        this.calendarDialog.competition(e, Object.assign(this.options, {formMode: FormMode.Put}), this.competition)
+            .then(response => response.formMode === FormMode.Put && this.onAnswer(response));
     }
 
 

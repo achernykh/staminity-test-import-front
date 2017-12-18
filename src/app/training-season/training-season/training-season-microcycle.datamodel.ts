@@ -49,7 +49,7 @@ export class Microcycle implements IMicrocycle {
 
     prepare (keys: Array<string> = this.keys): IMicrocycle {
         let cycle: IMicrocycle = Object.assign({}, this);
-
+        debugger;
         cycle.mesocycle = { id: Number(this.mesocycle.id) };
         cycle.durationValue = this.durationValue && Number(this.durationValue);
         if (!cycle.mesocycle.id) {
@@ -70,7 +70,7 @@ export class Microcycle implements IMicrocycle {
                         break;
                     }
                     case 'movingDuration': {
-                        this._data.fact = this.calcMeasures[this.durationMeasure].sum * 60 * 60;
+                        this._data.fact = this.calcMeasures[this.durationMeasure].sum / 60 / 60;
                         break;
                     }
                     default: {
@@ -86,7 +86,7 @@ export class Microcycle implements IMicrocycle {
                         break;
                     }
                     case 'movingDuration': {
-                        this._data.plan = this.planMeasures[this.durationMeasure].value * 60 * 60;
+                        this._data.plan = this.planMeasures[this.durationMeasure].value / 60 / 60;
                         break;
                     }
                     default: {

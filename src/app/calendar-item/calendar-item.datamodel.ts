@@ -7,6 +7,34 @@ import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "./calen
 import { FormMode } from "../application.interface";
 import { IRevisionResponse } from "../../../api/core/core";
 
+export class CalendarItemAuth {
+
+    constructor (
+        private owner: IUserProfileShort,
+        private creator: IUserProfileShort,
+        private options: ICalendarItemDialogOptions) {
+
+    }
+
+    get isOwner (): boolean {
+        return this.owner.userId === this.options.currentUser.userId;
+    }
+
+    get isCreator (): boolean {
+        return this.creator.userId === this.options.currentUser.userId;
+    }
+
+    get isPro (): boolean {
+        return this.options.isPro;
+    }
+
+    // TODO не корректная логика определения тренера
+    get isMyCoach (): boolean {
+        return this.creator.userId === this.options.currentUser.userId;
+    }
+
+}
+
 export class CalendarItemView {
 
 	constructor(private options: ICalendarItemDialogOptions) {
@@ -63,10 +91,12 @@ export class CalendarItem implements ICalendarItem {
 	public index: number; // index for ng-repeat in calendar-day component
 
 	view: CalendarItemView;
+	auth: CalendarItemAuth;
 
 	constructor(item: ICalendarItem, options?: ICalendarItemDialogOptions) {
 		merge(this,item); // deep copy
 		this.view = new CalendarItemView(options);
+		this.auth = new CalendarItemAuth(item.userProfileOwner, item.userProfileCreator, options);
 	}
 
 	// Подготовка данных для модели отображения

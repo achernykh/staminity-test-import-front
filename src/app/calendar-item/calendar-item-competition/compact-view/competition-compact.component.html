@@ -1,10 +1,10 @@
 <div class="competition-compact" ng-switch="$ctrl.view">
     <!-- Элемент списка -->
     <section ng-switch-when="list" class="competition-compact__list" ng-click="$ctrl.open($event)">
-        <header class="competition-header {{::$ctrl.competition.status}}" ng-class="{selected: $ctrl.selected}"
-                layout="row" layout-align="start center">
-            <div flex="none" layout="row"
-                 layout-align="center center"
+        <header layout="row" layout-align="start center"
+                class="calendar-item-competition-header {{::$ctrl.competition.status}} list-view"
+                ng-class="{selected: $ctrl.selected}">
+            <div flex="none" layout="row" layout-align="center center"
                  class="calendar-item-activity-icon color-{{$ctrl.competition.competitionHeader.type}} bg-circle-32"
                  ng-class="{color: !$ctrl.competition.isCompleted || !$ctrl.competition.isSpecified}">
                 <md-icon class="material-icons md-light md-18"
@@ -12,12 +12,12 @@
             </div>
             <div flex="auto" layout="column">
                 <section flex layout="row" layout-align="start center"
-                         ng-class="::{'md-dark' : (!$ctrl.competition.isCompleted)}"
+                         ng-class="::{'md-dark' : ($ctrl.competition.isComing)}"
                          class="md-caption md-active center">
                     <div flex="none" class="line-14">{{$ctrl.competition.competitionHeader.name}}</div>
                 </section>
                 <section flex layout="row" layout-align="start center"
-                         ng-class="::{'md-dark' : (!$ctrl.competition.isCompleted)}"
+                         ng-class="::{'md-dark' : ($ctrl.competition.isComing)}"
                          class="md-title-small md-active center tight-10">
                     <span flex="none" ng-if="::$ctrl.competition.movingDuration">
                     {{::$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
@@ -29,16 +29,39 @@
                     </div>
                 </section>
             </div>
-            <div flex="none">
-                <md-button class="md-icon-button" aria-label="More Event" style="margin-right: 0px">
+            <md-menu flex="none">
+                <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px"
+                           ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons md-18">more_vert</md-icon>
                 </md-button>
-            </div>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.edit($event)">
+                            <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+                            <span translate="activity.action.edit"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.copy([$ctrl.item])" ng-disabled="true">
+                            <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                            <span translate="activity.action.copy"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.delete()"
+                                   ng-disabled="::!($ctrl.competition.auth.isCreator || $ctrl.competition.auth.isOwner)">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            <span translate="activity.action.delete"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </header>
     </section>
     <!-- Элемент для таблицы -->
     <section ng-switch-when="table" class="competition-compact__table" ng-click="$ctrl.open($event)">
-        <header class="competition-header {{::$ctrl.competition.status}}" ng-class="{selected: $ctrl.selected}"
+        <header class="calendar-item-competition-header {{::$ctrl.competition.status}} table-view"
+                ng-class="{selected: $ctrl.selected}"
                 layout="row" layout-align="start center">
             <div flex="none" layout="row"
                  layout-align="center center"
@@ -72,7 +95,7 @@
     <section ng-switch-when="calendar" class="competition-compact__calendar"
              ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
-        <header class="competition-header {{::$ctrl.competition.status}}"
+        <header class="calendar-item-competition-header {{::$ctrl.competition.status}}"
                 ng-class="{selected: $ctrl.selected}">
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
             <section layout="row" layout-align="space-between center">
@@ -87,21 +110,43 @@
                              md-svg-src="assets/icon/competition-{{$ctrl.competition.competitionHeader.priority}}.svg"></md-icon>
                 </div>
 
-                <div flex="25">
-                    <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px">
+                <md-menu flex="25">
+                    <md-button class="md-icon-button" aria-label="More Event" style="margin-right: 0px"
+                               ng-click="$mdOpenMenu($event)">
                         <md-icon class="material-icons md-18">more_vert</md-icon>
                     </md-button>
-                </div>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.edit($event)">
+                                <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+                                <span translate="activity.action.edit"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.copy([$ctrl.item])" ng-disabled="true">
+                                <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                                <span translate="activity.action.copy"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.delete()"
+                                       ng-disabled="::!($ctrl.competition.auth.isCreator || $ctrl.competition.auth.isOwner)">
+                                <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                                <span translate="activity.action.delete"></span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
             </section>
             <!-- Вторая строка: Описание -->
             <section flex layout="row" layout-align="center center"
-                     ng-class="::{'md-dark' : (!$ctrl.competition.isCompleted)}"
+                     ng-class="::{'md-dark' : ($ctrl.competition.isComing)}"
                      class="md-caption secondary center">
                 <div flex="none" class="line-14">{{$ctrl.competition.competitionHeader.name}}</div>
             </section>
             <!-- Третья строка: Время и Расстояние -->
             <section flex layout="row" layout-align="center center"
-                     ng-class="::{'md-dark' : (!$ctrl.competition.isCompleted)}"
+                     ng-class="::{'md-dark' : ($ctrl.competition.isComing)}"
                      class="md-title-small secondary center tight-10">
                 <span flex="none" ng-if="::$ctrl.competition.movingDuration">
                     {{::$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}

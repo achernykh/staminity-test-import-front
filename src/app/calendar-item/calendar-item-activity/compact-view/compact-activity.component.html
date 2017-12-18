@@ -26,19 +26,20 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.onOpen($env,'put')">
+                            <md-button ng-click="$ctrl.edit($event)">
                                 <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
                                 <span translate="activity.action.edit"></span>
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.calendar.onCopy([$ctrl.item])">
+                            <md-button ng-click="$ctrl.copy([$ctrl.item])" ng-disabled="true">
                                 <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
                                 <span translate="activity.action.copy"></span>
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.activity.auth.isCreator">
+                            <md-button ng-click="$ctrl.delete()"
+                                       ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">
                                 <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                                 <span translate="activity.action.delete"></span>
                             </md-button>

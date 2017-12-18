@@ -84,19 +84,24 @@ class TrainingSeasonDataCtrl implements IComponentController {
         if ( cycle.id ) {
             this.trainingSeason.putItem(cycle.prepare())
                 .then(result => cycle.applyRevision(result))
-                .then(() => pos >= 0 && this.recalcMesoWeekNumber())
+                .then(() => pos >= 0 && this.recalculateMesoWeekNumber())
                 .then(() => this.update ++);
         } else {
             this.trainingSeason.postItem(this.data.season.id, cycle.prepare())
                 .then(result => cycle.applyRevision(result))
-                .then(() => pos >= 0 && this.recalcMesoWeekNumber())
+                .then(() => pos >= 0 && this.recalculateMesoWeekNumber())
                 .then(() => this.update ++);
         }
     }
 
-    recalcMesoWeekNumber (): void {
+    /**
+     * Перечсчет параметра mesoWeekNumber - неделя в рамках мезоцикла (идущие подряд микроциклы с одним мезоциклом)
+     * Выполняется пересчет по всем микроциклам и если номер недели меняется, то выполняется запрос на изменение
+     * микроцикла
+     */
+    recalculateMesoWeekNumber (): void {
         this.data.grid.forEach( (cycle, i) => {
-            cycle.mesoWeekNumber = 1;
+            let weekNumber: number = 1;
             let pos = copy(i);
 
             while (
@@ -107,8 +112,12 @@ class TrainingSeasonDataCtrl implements IComponentController {
                 this.data.grid[pos].mesocycle.id &&
                 this.data.grid[pos].mesocycle.id === this.data.grid[pos-1].mesocycle.id) {
 
-                cycle.mesoWeekNumber ++;
+                weekNumber ++;
                 pos --;
+            }
+            if (cycle.mesoWeekNumber !== weekNumber && cycle.id && cycle.mesocycle) {
+                cycle.mesoWeekNumber = weekNumber;
+                this.trainingSeason.putItem(cycle.prepare()).then(result => cycle.applyRevision(result));
             }
         });
     }

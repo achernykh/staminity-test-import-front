@@ -154,8 +154,7 @@
             </md-list>
         </form>
         <!-- Задание -->
-        <md-list flex="none" class="md-dense"
-                 ng-if="$ctrl.competition.items.length > 0">
+        <md-list flex="none" class="md-dense" ng-if="$ctrl.competition.items.length > 0">
             <md-subheader><span translate="competition.target"></span></md-subheader>
             <st-competition-single-stage
                     items="$ctrl.competition.items"
@@ -163,10 +162,10 @@
                     on-change="$ctrl.setDirty()">
             </st-competition-single-stage>
         </md-list>
-        <p class="md-body-1" layout-padding ng-if="$ctrl.competition.items.length === 0"
+        <p class="error-block md-caption md-dark" layout-padding ng-if="$ctrl.competition.items.length === 0"
            translate="competition.needDistanceType"></p>
         <!-- Описание -->
-        <md-list flex="none" class="md-dense description">
+        <md-list flex="none" class="md-dense description" ng-if="$ctrl.competition.items.length > 0">
             <md-subheader><span translate="competition.trainersPrescription"></span></md-subheader>
             <ng-quill-editor ng-if="$ctrl.fullScreenMode"
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"

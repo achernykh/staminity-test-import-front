@@ -63,7 +63,7 @@ export const translateCompetition = {
         priority: {
             label: 'Приоритет'
         },
-        needDistanceType: "Выберите тип соревнования",
+        needDistanceType: "Для ввода плана необходимо указать тип соревнования",
         priorities: {
             label: "Приоритет",
             A: "А",
@@ -72,7 +72,7 @@ export const translateCompetition = {
         },
         planPlaceholder: {
             distance: "'distance' | measureUnit:'run' | translate",
-            movingDuration: "'movingDuration' | measureUnit:run | translate"
+            movingDuration: "'movingDuration' | measureUnit:'run' | translate"
         },
         startDate: {
             label: "Дата"

@@ -297,6 +297,12 @@ md-pagination-wrapper {
   }
   &.complete-error, &.dismiss {
     background: $bg-red-gradient-800-500 !important;
+    &.list-view {
+      background: $red-500 !important;
+    }
+    &.table-view {
+      background: none !important;
+    }
     @media (min-width: 0px) and (max-width: 959px) {
       background: $red-500 !important;
     }

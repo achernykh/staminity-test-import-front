@@ -81,6 +81,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     popup: boolean;
     template: boolean = false; // режим создания, изменения шаблона
     club: IGroupProfileShort;
+    view: string; // для компоенета calendar-compact, отвечает за верстку элемента: calendar, dashboard...
     onAnswer: (response: ICalendarItemDialogOptions | any) => Promise<void>;
     onCancel: () => IPromise<void>;
 
@@ -210,7 +211,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareDetails(){
-        if (!this.activity.view.isTemplate) {
+        if (!this.activity.view.isTemplate && !this.view) {
             //Получаем детали по тренировке загруженной из внешнего источника
             if (!this.activity.view.isPost && this.activity.hasActualData) {
                 let intervalsType: Array<string> = this.activity.isStructured ? ['L','P','G'] : ['L'];
@@ -293,6 +294,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     /**
+     * Диалог изменения тренировки
+     * @param e
+     */
+    edit (e: Event): void {
+        this.calendarDialog.activity(e, Object.assign(this.options, {formMode: FormMode.Put}), this.activity)
+            .then(response => this.onAnswer(response));
+    }
+
+
+        /**
      * Выбран шаблон тренировки
      * @param template
      */
