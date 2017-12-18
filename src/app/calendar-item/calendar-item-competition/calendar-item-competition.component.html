@@ -83,7 +83,7 @@
                                    ng-model="$ctrl.competition.competitionHeader.type"
                                    ng-change="$ctrl.setType()"
                                    ng-disabled="$ctrl.competition.view.isView">
-                            <md-option ng-repeat="type in $ctrl.config.getTypes() track by $index" value="{{type}}">
+                            <md-option ng-repeat="type in $ctrl.config.types track by $index" value="{{type}}">
                                 {{'competition.types.' + type | translate}}
                             </md-option>
                         </md-select>
@@ -106,9 +106,8 @@
                                    placeholder="{{competition.distanceType.placeholder}}"
                                    ng-change="$ctrl.setDistanceType()"
                                    ng-disabled="$ctrl.competition.view.isView">
-                            <md-option
-                                    ng-repeat="(code, obj) in $ctrl.config.types[$ctrl.competition.competitionHeader.type] track by $index"
-                                    value="{{code}}">{{'competition.distanceType.' + code | translate}}
+                            <md-option ng-repeat="type in $ctrl.config.distanceTypes | filter:{type: $ctrl.competition.competitionHeader.type} track by $index" value="{{type.code}}">
+                                {{'competition.distanceType.' + type.code | translate}}
                             </md-option>
                         </md-select>
                         <div ng-messages="$ctrl.form.distanceType.$error" role="alert">

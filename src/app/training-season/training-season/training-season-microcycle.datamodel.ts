@@ -65,15 +65,15 @@ export class Microcycle implements IMicrocycle {
                 this._data = { plan: null, fact: null};
                 switch (this.durationMeasure) {
                     case 'distance': {
-                        this._data.fact = this.calcMeasures[this.durationMeasure].sum / 1000;
+                        this._data.fact = this.calcMeasures[this.durationMeasure].value / 1000;
                         break;
                     }
                     case 'movingDuration': {
-                        this._data.fact = this.calcMeasures[this.durationMeasure].sum / 60 / 60;
+                        this._data.fact = this.calcMeasures[this.durationMeasure].value / 60 / 60;
                         break;
                     }
                     default: {
-                        this._data.fact = this.calcMeasures[this.durationMeasure].sum;
+                        this._data.fact = this.calcMeasures[this.durationMeasure].value;
                     }
                 }
             }

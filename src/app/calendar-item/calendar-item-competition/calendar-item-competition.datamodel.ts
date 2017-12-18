@@ -76,6 +76,22 @@ export class CalendarItemCompetition extends CalendarItem {
         return item;
     }
 
+    get type (): string {
+        return this.competitionHeader.type;
+    }
+
+    set type (value: string) {
+        this.competitionHeader.type = value;
+    }
+
+    get distanceType (): string {
+        return this.competitionHeader.distanceType;
+    }
+
+    set distanceType (value: string) {
+        this.competitionHeader.distanceType = value;
+    }
+
     get status (): string {
         return !this.isToday ?
             // приоритетов статусов для дыты = сегодня;
@@ -94,11 +110,11 @@ export class CalendarItemCompetition extends CalendarItem {
     }
 
     get isSpecified (): boolean {
-        return this.items.some(i => i.item.intervals.PW && i.item.intervals.PW.specified());
+        return this.items && this.items.some(i => i.item.intervals.PW && i.item.intervals.PW.specified());
     }
 
     get isToday (): boolean {
-        return this._dateStart.getTime() === toDay(new Date()).getTime();
+        return this.items && this._dateStart.getTime() === toDay(new Date()).getTime();
     }
 
     get isComing (): boolean {
@@ -108,10 +124,11 @@ export class CalendarItemCompetition extends CalendarItem {
     }
 
     get isCompleted (): boolean {
-        return this.items.some(i => i.item.isCompleted);
+        return this.items && this.items.some(i => i.item.isCompleted);
     }
 
     get percent (): number {
+        if (!this.items) { return null; }
         let percent: number = null;
         this.items.map(i => percent = percent + i.item.percent);
         return this.isCompleted && percent / this.items.length || null;
@@ -123,12 +140,14 @@ export class CalendarItemCompetition extends CalendarItem {
     }
 
     get movingDuration (): number {
+        if (!this.items) { return null; }
         let sum: number = 0;
         this.items.map(i => sum = sum + i.item.movingDuration);
         return sum;
     }
 
     get distance  (): number {
+        if (!this.items) { return null; }
         let sum: number = 0;
         this.items.map(i => sum = sum + i.item.distance);
         return sum;

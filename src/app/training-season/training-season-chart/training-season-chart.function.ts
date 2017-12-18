@@ -16,7 +16,7 @@ export const preparePeriodizationDurationChart = (template: IChart, data: Array<
             moment(c._dateStart).format('MM-DD-YYYY'),
             moment(c._dateStart).isAfter(moment()) ? 'feature' : 'past',
             c.durationValue || null,
-            c.calcMeasures && c.calcMeasures.hasOwnProperty(c.durationMeasure) && c.calcMeasures[c.durationMeasure].sum / 1000 || null
+            c.hasOwnProperty('_data') && c._data.hasOwnProperty('fact') && c._data.fact || null
         ])
     })];
 };

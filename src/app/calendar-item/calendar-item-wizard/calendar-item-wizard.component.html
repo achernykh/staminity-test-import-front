@@ -63,7 +63,7 @@
     <section class="calendar-item-wizard__competition" flex="25" flex-xs="auto">
         <md-subheader flex="none">{{::'competition.toolbar.title' | translate}}</md-subheader>
         <md-list flex="auto" class="md-dense">
-            <md-list-item ng-repeat="type in $ctrl.competitionConfig.getTypes() track by $index"
+            <md-list-item ng-repeat="type in $ctrl.competitionConfig.types track by $index"
                           ng-click="$ctrl.competition(type)">
                 <div flex="none" layout="row" layout-align="center center"
                      class="calendar-item-activity-icon color-{{::type}} bg-circle-32 md-avatar">

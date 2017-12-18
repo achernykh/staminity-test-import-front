@@ -9,11 +9,8 @@ export interface ICompetitionStageConfig {
 
 export interface ICompetitionConfig {
     priorities: Array<string>;
-    types: {
-        [type: string]: {
-            [distance: string]: Array<ICompetitionStageConfig>;
-        };
-    };
+    types: any;
+    distanceTypes: any;
     getTypes: () => Array<string>;
     getDistance: () => Array<any>;
 
@@ -21,7 +18,50 @@ export interface ICompetitionConfig {
 
 export class CompetitionConfig implements CompetitionConfig {
     priorities: Array<string> = ['A','B','C'];
-    types: {
+    types: any = ['run', 'triathlon', 'swim', 'bike', 'other'];
+    distanceTypes: any = [
+        {
+            type: 'run',
+            code: 'marathon',
+            stages: [{
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 42.195*1000
+                }
+            ]
+        },
+        {
+            type: 'triathlon',
+            code: 'fullDistance',
+            stages: [{
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 3.8*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 180*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 42.195*1000
+                }
+            ]
+        }
+    ];
+    /**types: {
         [type: string]: {
             [distance: string]: Array<ICompetitionStageConfig>;
         };
@@ -373,7 +413,7 @@ export class CompetitionConfig implements CompetitionConfig {
                 }
             ]
         }
-    };
+    };**/
 
     getTypes (): Array<string> {
         return Object.keys(this.types);
