@@ -97,9 +97,9 @@
                     {{cycle.durationValue || 'trainingSeason.durationMeasure.' + cycle.durationMeasure | translate}}
                 </td>
                 <!-- План по неделе -->
-                <td md-cell>{{cycle._data.plan | number:0}}</td>
+                <td md-cell>{{cycle._data.plan | number:1}}</td>
                 <!-- Факт по неделе -->
-                <td md-cell>{{cycle._data.fact | number:0}}</td>
+                <td md-cell>{{cycle._data.fact | number:1}}</td>
                 <!-- Выполнение () -->
                 <td md-cell class="complete">{{cycle.durationValue ? (cycle._data.fact / cycle.durationValue | percent) : ''}}</td>
             </tr>

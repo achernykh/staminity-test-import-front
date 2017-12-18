@@ -15,7 +15,7 @@ export interface ICompetitionConfig {
         };
     };
     getTypes: () => Array<string>;
-    getDistance: (type: string) => Array<string>;
+    getDistance: () => Array<any>;
 
 }
 
@@ -379,7 +379,10 @@ export class CompetitionConfig implements CompetitionConfig {
         return Object.keys(this.types);
     }
 
-    getDistance (type: string): Array<string> {
-        return type ? Object.keys(this.types[type]) : [];
+    getDistance (): Array<any> {
+        return Object.keys(this.types).map(t => ({
+            type: t,
+            distanceType: Object.keys(this.types[t])
+        })); // type ? Object.keys(this.types[type]) : [];
     }
 };

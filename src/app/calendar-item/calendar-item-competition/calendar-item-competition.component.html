@@ -100,15 +100,15 @@
                         <label translate="competition.distanceType.label"></label>
                         <md-icon flex="none" class="md-dark"
                                  md-svg-src="/assets/icon/competition.svg"></md-icon>
-                        <md-select flex name="distanceType" class="icon" required
+                        <md-select flex class="icon"
+                                   required name="distanceType"
                                    ng-model="$ctrl.competition.competitionHeader.distanceType"
                                    placeholder="{{competition.distanceType.placeholder}}"
                                    ng-change="$ctrl.setDistanceType()"
                                    ng-disabled="$ctrl.competition.view.isView">
                             <md-option
-                                    ng-repeat="type in $ctrl.config.getDistance($ctrl.competition.competitionHeader.type) track by $index"
-                                    value="{{type}}">
-                                {{'competition.distanceType.' + type | translate}}
+                                    ng-repeat="(code, obj) in $ctrl.config.types[$ctrl.competition.competitionHeader.type] track by $index"
+                                    value="{{code}}">{{'competition.distanceType.' + code | translate}}
                             </md-option>
                         </md-select>
                         <div ng-messages="$ctrl.form.distanceType.$error" role="alert">
