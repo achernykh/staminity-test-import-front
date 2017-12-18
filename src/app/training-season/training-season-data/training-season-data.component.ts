@@ -105,11 +105,13 @@ class TrainingSeasonDataCtrl implements IComponentController {
             let pos = copy(i);
 
             while (
-                pos !== 0 &&
+                pos >= 1 &&
                 this.data.grid[pos] &&
                 this.data.grid[pos].mesocycle &&
                 this.data.grid[pos].mesocycle.hasOwnProperty('id') &&
                 this.data.grid[pos].mesocycle.id &&
+                this.data.grid[pos - 1].mesocycle &&
+                this.data.grid[pos - 1].mesocycle.hasOwnProperty('id') &&
                 this.data.grid[pos].mesocycle.id === this.data.grid[pos-1].mesocycle.id) {
 
                 weekNumber ++;

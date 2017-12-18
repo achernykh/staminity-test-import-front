@@ -1,6 +1,6 @@
 <md-card class="periodization-scheme-list" layout="column">
     <md-card-header flex="none">
-        <span>{{$ctrl.scheme.code}}</span>
+        <span>{{$ctrl.scheme | schemeCode}}</span>
     </md-card-header>
     <ng-quill-editor flex="none"
                      ng-model="$ctrl.scheme.description"
@@ -19,10 +19,10 @@
                       ng-repeat="mesocycle in $ctrl.scheme.mesocycles track by mesocycle.id">
             <div class="md-avatar" ng-style="{'background-color': mesocycle.color}"></div>
             <div class="md-list-item-text">
-                <h3>{{ mesocycle.code }}</h3>
-                <p>{{ mesocycle.description | htmlToPlainText }}</p>
+                <h3>{{::mesocycle | mesocycleCode:$ctrl.scheme }}</h3>
+                <p>{{::mesocycle | mesocycleDescription:$ctrl.scheme | htmlToPlainText }}</p>
             </div>
-            <md-menu class="md-secondary">
+            <md-menu class="md-secondary" ng-if="!$ctrl.scheme.isSystem">
                 <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                     <md-icon class="material-icons">more_vert</md-icon>
                 </md-button>

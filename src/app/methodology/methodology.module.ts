@@ -10,6 +10,10 @@ import { PeriodizationSchemeListComponent } from "./periodization/scheme-list/pe
 import { PeriodizationMesocycleDialogComponent } from "./periodization/mesocycle-dialog/periodization-mesocycle-dialog.component";
 import { PeriodizationSchemeDialogComponent } from "./periodization/scheme-dialog/periodization-scheme-dialog.component";
 import { PeriodizationDialogService } from "./periodization/periodization-dialog.service";
+import { schemeDescriptionFilter } from "./periodization/scheme-description.filter";
+import { schemeCodeFilter } from "./periodization/scheme-code.filter";
+import { mesocycleCodeFilter } from "./periodization/mesocycle-code.filter";
+import { mesocycleDescriptionFilter } from "./periodization/mesocycle-description.filter";
 
 export const Methodology = module('staminity.methodology', [])
     .component('stMethodology', MethodologyComponent)
@@ -19,6 +23,10 @@ export const Methodology = module('staminity.methodology', [])
     .component('stPeriodizationSchemeDialog', PeriodizationSchemeDialogComponent)
     .service('PeriodizationService', PeriodizationService)
     .service('PeriodizationDialogService', PeriodizationDialogService)
+    .filter('schemeCode', schemeCodeFilter)
+    .filter('schemeDescription', schemeDescriptionFilter)
+    .filter('mesocycleCode', mesocycleCodeFilter)
+    .filter('mesocycleDescription', mesocycleDescriptionFilter)
     .config(['$stateProvider', ($stateProvider: StateProvider) => methodologyState.map(k => $stateProvider.state(k))])
     .config(['$translateProvider', ($translate) =>
         supportLng.map(lng => $translate.translations(lng, {methodology: translateMethodology[lng]}))])

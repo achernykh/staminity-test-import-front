@@ -6,8 +6,8 @@
         <div class="md-list-item-text">
             <div class="code md-body-2"
                  md-colors="{color: $ctrl.active === scheme.id ? 'primary-hue-2' : 'grey-hue-2'}">
-                {{ scheme.code }}</div>
-            <p class="description md-caption md-dark" ng-bind="scheme.description | htmlToPlainText"></p>
+                {{ scheme | schemeCode }}</div>
+            <p class="description md-caption md-dark" ng-bind="scheme | schemeDescription | htmlToPlainText"></p>
         </div>
     </md-list-item>
 </md-list>
