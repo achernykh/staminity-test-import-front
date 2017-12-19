@@ -33,7 +33,8 @@ class PeriodizationSchemeListCtrl implements IComponentController {
      */
     post (env: Event): void {
         this.periodizationDialogScheme.mesocycle(env, FormMode.Post, this.scheme.id)
-            .then(result => this.scheme.mesocycles.push(result.mesocycle));
+            .then(result => this.scheme.mesocycles.push(result.mesocycle))
+            .then(() => this.message.toastInfo('periodizationMesocyclePosted'));
     }
 
     /**
@@ -41,9 +42,10 @@ class PeriodizationSchemeListCtrl implements IComponentController {
      * @param env
      * @param mesocycle
      */
-    open (env: Event, mesocycle: IMesocycle): void {
+    edit (env: Event, mesocycle: IMesocycle): void {
         this.periodizationDialogScheme.mesocycle(env, FormMode.Put, this.scheme.id, mesocycle)
-            .then(response => this.splice(response.mesocycle.id, response.mesocycle));
+            .then(response => this.splice(response.mesocycle.id, response.mesocycle))
+            .then(() => this.message.toastInfo('periodizationMesocycleEdited'));
     }
 
     /**
@@ -60,7 +62,7 @@ class PeriodizationSchemeListCtrl implements IComponentController {
     /**
      * Удаление или замена элемента в списке схем
      * @param id - номер схемы
-     * @param scheme - схема для замены
+     * @param mesocycle - схема для замены
      */
     private splice (id: number, mesocycle?: IMesocycle): void {
         mesocycle ?

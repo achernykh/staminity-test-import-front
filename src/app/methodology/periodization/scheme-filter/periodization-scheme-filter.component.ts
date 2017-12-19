@@ -1,5 +1,5 @@
 import './periodization-scheme-filter.component.scss';
-import { IComponentOptions, IComponentController, IPromise } from 'angular';
+import { IComponentOptions, IComponentController, IScope } from 'angular';
 import { IPeriodizationScheme } from "@api/seasonPlanning";
 import { PeriodizationDialogService } from "../periodization-dialog.service";
 import { FormMode } from "../../../application.interface";
@@ -10,10 +10,10 @@ class PeriodizationSchemeFilterCtrl implements IComponentController {
 
     // bind
     schemes: Array<IPeriodizationScheme>;
-    onSelect: (response: { scheme: IPeriodizationScheme }) => IPromise<void>;
+    onSelect: (response: { scheme: IPeriodizationScheme }) => Promise<void>;
 
     // inject
-    static $inject = [ 'message', 'PeriodizationService', 'PeriodizationDialogService' ];
+    static $inject = ['message', 'PeriodizationService', 'PeriodizationDialogService' ];
 
     constructor (private message: MessageService,
                  private periodizationService: PeriodizationService,
@@ -31,10 +31,10 @@ class PeriodizationSchemeFilterCtrl implements IComponentController {
      */
     post (env: Event): void {
         this.periodizationDialogScheme.scheme(env, FormMode.Post)
-            .then(result => {
-                this.schemes.push(result.scheme);
-                this.onSelect({ scheme: result.scheme });
-            });
+            .then(result => this.schemes.push(result.scheme))
+            .then(() => this.message.toastInfo('periodizationSchemePosted'))
+            .then(() => this.onSelect({ scheme: this.schemes.length && this.schemes[this.schemes.length - 1] || null }));;
+            //.then(() => this.$scope.$applyAsync());
     }
 
     /**
@@ -44,7 +44,9 @@ class PeriodizationSchemeFilterCtrl implements IComponentController {
      */
     edit (env: Event, scheme: IPeriodizationScheme): void {
         this.periodizationDialogScheme.scheme(env, FormMode.Put, scheme)
-            .then(response => this.splice(response.scheme.id, response.scheme));
+            .then(response => this.splice(response.scheme.id, response.scheme))
+            .then(() => this.message.toastInfo('periodizationSchemeEdited'));
+            //.then(() => this.$scope.$applyAsync());
     }
 
     /**
@@ -53,9 +55,10 @@ class PeriodizationSchemeFilterCtrl implements IComponentController {
      */
     delete (scheme: IPeriodizationScheme): void {
         this.periodizationService.delete(scheme)
-            .then(response => this.message.toastInfo('methodology.periodization.scheme.deleted'),
-                error => this.message.toastError(error))
-            .then(() => this.splice(scheme.id));
+            .then(() => this.message.toastInfo('periodizationSchemeDeleted'), error => this.message.toastError(error))
+            .then(() => this.splice(scheme.id))
+            .then(() => this.onSelect({ scheme: this.schemes.length && this.schemes[this.schemes.length - 1] || null }));
+            //.then(() => this.$scope.$applyAsync());
     }
 
     /**
@@ -64,7 +67,7 @@ class PeriodizationSchemeFilterCtrl implements IComponentController {
      * @param scheme - схема для замены
      */
     private splice (id: number, scheme?: IPeriodizationScheme): void {
-        scheme?
+        scheme ?
             this.schemes.splice(this.schemes.findIndex(s => s.id === id), 1, scheme):
             this.schemes.splice(this.schemes.findIndex(s => s.id === id), 1);
     }

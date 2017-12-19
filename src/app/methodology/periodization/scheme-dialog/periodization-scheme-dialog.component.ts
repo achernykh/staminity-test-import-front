@@ -29,7 +29,10 @@ class PeriodizationSchemeDialogCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.scheme = Object.assign({}, this.data);
+        this.scheme = Object.assign({},
+            this.data,
+            {isSystem: this.data.hasOwnProperty('isSystem') && this.data.isSystem || false},
+            {mesocycles: this.data.hasOwnProperty('mesocycles') && this.data.mesocycles || []});
     }
 
     save (): void {

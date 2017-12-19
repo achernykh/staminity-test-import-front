@@ -25,10 +25,12 @@ export const translateMethodology = {
             mesocycle: {
                 title: "Мезоцикл",
                 code: {
-                    label: "Название мезоцикла"
+                    label: "Название мезоцикла",
+                    placeholder: 'Укажите название',
                 },
                 color: {
-                    label: "Выберите цвет",
+                    placeholder: 'Укажите цвет мезоцикла',
+                    label: "Цвет",
                     red: "Красный",
                     pink: "Розовый",
                     purple: "Фиолетовый",

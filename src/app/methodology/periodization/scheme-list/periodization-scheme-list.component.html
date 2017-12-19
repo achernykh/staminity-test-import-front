@@ -19,8 +19,8 @@
                       ng-repeat="mesocycle in $ctrl.scheme.mesocycles track by mesocycle.id">
             <div class="md-avatar" ng-style="{'background-color': mesocycle.color}"></div>
             <div class="md-list-item-text">
-                <h3>{{::mesocycle | mesocycleCode:$ctrl.scheme }}</h3>
-                <p>{{::mesocycle | mesocycleDescription:$ctrl.scheme | htmlToPlainText }}</p>
+                <h3>{{mesocycle | mesocycleCode:$ctrl.scheme }}</h3>
+                <p>{{mesocycle | mesocycleDescription:$ctrl.scheme | htmlToPlainText }}</p>
             </div>
             <md-menu class="md-secondary" ng-if="!$ctrl.scheme.isSystem">
                 <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
@@ -33,7 +33,7 @@
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.open($event, mesocycle)">
+                        <md-button ng-click="$ctrl.edit($event, mesocycle)">
                             <span translate="methodology.periodization.edit"></span>
                         </md-button>
                     </md-menu-item>

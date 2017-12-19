@@ -123,7 +123,7 @@ class PeriodizationMesocycleDialogCtrl implements IComponentController {
     getSelectedText (): string {
         return this.mesocycle.color ?
             this.config.colors.filter(c => c.value === this.mesocycle.color)[0].code :
-            '';
+            'placeholder';
     }
 
     setChangeMode (): void {
