@@ -50,8 +50,8 @@ class ApplicationMenuCtrl implements IComponentController{
         this.$mdSidenav("appmenu").toggle().then(() => angular.noop);
     }
 
-    checkAuth(role) {
-        return this.AuthService.isAuthorized(role);
+    checkAuth(roles: Array<string>): boolean {
+        return !roles && true || this.AuthService.isAuthorized(roles, false);
     }
 
     transitionToState(url, param) {

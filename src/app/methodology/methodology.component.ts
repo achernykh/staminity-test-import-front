@@ -26,8 +26,8 @@ class MethodologyCtrl implements IComponentController {
 
     // private
     private leftBarShow: boolean = true;
-    private navBarStates: Array<string> = ['trainingPlans', 'periodization', 'categories', 'templates'];
-    private currentState: string = 'trainingPlans';
+    private navBarStates: Array<string> = ['periodization', 'categories', 'templates'];
+    private currentState: string = 'periodization';
     private activityTypes: Array<IActivityType> = activityTypes;
     private trainingPlansFilter: ITrainingPlanSearchRequest;
     private trainingPlansFilterChange: number = 0;

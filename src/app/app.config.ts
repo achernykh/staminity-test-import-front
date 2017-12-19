@@ -32,13 +32,13 @@ function configure(
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
 	$mdThemingProvider.theme('default')
-		/*.primaryPalette('blue-grey', {
+		.primaryPalette('blue-grey', {
 			'default': '700',
 				'hue-1': '50',
 				'hue-2': '600',
 				'hue-3': '900'
-		})*/
-		.primaryPalette('blue')
+		})
+		//.primaryPalette('blue')
 		.accentPalette('deep-orange')
 		//.accentPalette('amber')
 		.warnPalette('red');

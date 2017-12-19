@@ -3,7 +3,7 @@
                    flex="none" layout="row" style="background: white">
     <span flex></span>
     <md-button ng-if="$ctrl.item.activity.view.isView && $ctrl.item.activity.isSpecified"
-               ng-click="$ctrl.item.toTemplate()"
+               ng-click="$ctrl.item.toTemplate($event)"
                translate="activity.toTemplate">
     </md-button>
     <md-button ng-if="$ctrl.item.activity.view.isView"
@@ -31,7 +31,7 @@
     </md-button>
     <md-button ng-if="!$ctrl.item.activity.view.isView"
                type="submit"
-               ng-disabled="!$ctrl.item.assignmentForm.$dirty || !$ctrl.item.assignmentForm.$valid"
+               ng-disabled="!$ctrl.item.assignmentForm.$valid"
                translate="activity.save"
                ng-click="$ctrl.item.onSaveTemplate()">
     </md-button>

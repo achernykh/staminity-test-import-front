@@ -25,48 +25,49 @@ export const translateCompetition = {
         },
         distanceType: {
             label: "Тип соревнования",
-
-            // triathlon
-            ironmanFull: "Ironman",
-            ironmanHalf: "Ironman 1/2",
-            ironmanOneFourth: "Ironman 1/4",
-            olympic: "Олимпийская дистанция",
-            sprint: "Спринт",
-            ironmanOneEight: "Ironman 1/8",
-            indoor: "Indoor",
-
-            // run
-            runMarathon: "Марафон",
-            runHalfMarathon: "Полумарафон",
-            runOneHour: "Бег 1 час",
-            runFullDay: "Бег 24 часа",
-            runTenKm: "10 км",
-            runFiveKm: "5 км",
-            runRandom: "Другая дистанция",
-
-            // swim
-            swimTen: "10 000 метров",
-            swimFive: "5 000 метров",
-            swimThree: "3 000 метров",
-            swimMile: "Миля (1852 м)",
-            swimOne: "1000 метров",
-            swimEightHundred: "800 метров",
-            swimFourHundred: "400 метров",
-            swimTwoHundred: "200 метров",
-            swimOneHundred: "100 метров",
-            swimFifty: "50 метров",
-            swimRandom: "Другая дистанция",
-            swimSixtyMin: "60 минут",
-            swimThirtyMin: "30 минут",
-
-            // bike
-            bikeDistanceRandom: "Другая дистанция"
+            run: {
+                'marathon': "Марафон",
+                'halfMarathon': "Полумарафон",
+                '1h': "Бег 1 час",
+                '24h': "Бег 24 часа",
+                '10km': "10 км",
+                '5km': "5 км",
+                'custom': "Другая дистанция",
+            },
+            triathlon: {
+                'fullDistance': "Полная дистанция",
+                'halfDistance': "Полвина полной дистанции",
+                '1/4': "1/4 полной дистанции",
+                'olympic': "Олимпийская дистанция",
+                'sprint': "Спринт",
+                '1/8': "1/4 полной дистанции",
+                'indoor': "Indoor",
+            },
+            swim: {
+                '10km': "10 000 метров",
+                '5km': "5 000 метров",
+                '3km': "3 000 метров",
+                '1mile': "Миля (1852 м)",
+                '1km': "1000 метров",
+                '800m': "800 метров",
+                '400m': "400 метров",
+                '200m': "200 метров",
+                '100m': "100 метров",
+                '50m': "50 метров",
+                'custom': "Другая дистанция",
+                '60min': "60 минут",
+                '30min': "30 минут"
+            },
+            bike: {
+                custom: 'Другая дистанция'
+            }
 
         },
         priority: {
             label: 'Приоритет'
         },
         needDistanceType: "Для ввода плана необходимо указать тип соревнования",
+        needDuration: 'Для сохранения соревнования необходимо указать план по этапам',
         priorities: {
             label: "Приоритет",
             A: "А",

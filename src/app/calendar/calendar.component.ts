@@ -567,7 +567,10 @@ export class CalendarCtrl implements IComponentController{
             .then(response => response && Object.assign(item, {
                 index: Number(`${response.value.id}${response.value.revision}`),
                 calendarItemId: response.value.id,
-                revision: response.value.revision }))
+                revision: response.value.revision,
+                activityHeader: Object.assign(item.activityHeader, {
+                    activityId: response.value.activityId
+                })}))
             .then((item: ICalendarItem) => this.calendar.post(item));
     }
 

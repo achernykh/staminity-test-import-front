@@ -26,7 +26,7 @@ export const ConnectionSettings: IConnectionSettings = {
         calculateActivityRange: 15.0 * 1000,
         putCalendarItem: 15.0 * 1000,
         getActivityCategory: 10.0 * 1000,
-        postCalendarItem: 10.0 * 1000,
+        postCalendarItem: 15.0 * 1000,
         getGroupManagementProfile: 10.0 * 1000
     },
     internetResource: '/favicon.ico',

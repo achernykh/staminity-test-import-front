@@ -96,7 +96,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
     check (): void {
         this.form.$setValidity('needStage', this.competition.items && this.competition.items.length > 0);
-        this.form.$setValidity('needDuration', this.competition.items && this.competition.items.every(i => i.item.durationValue));
+        //this.form.$setValidity('needDuration', this.competition.items && this.competition.items.every(i => i.item.durationValue));
     }
 
     setDirty (): void {

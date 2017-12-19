@@ -18,7 +18,7 @@ export interface ICompetitionConfig {
 
 export class CompetitionConfig implements CompetitionConfig {
     priorities: Array<string> = ['A','B','C'];
-    types: any = ['run', 'triathlon', 'swim', 'bike', 'other'];
+    types: any = ['run', 'triathlon', 'swim', 'bike'];
     distanceTypes: any = [
         {
             type: 'run',
@@ -30,6 +30,67 @@ export class CompetitionConfig implements CompetitionConfig {
                 }
             ]
         },
+        {
+            type: 'run',
+            code: 'halfMarathon',
+            stages: [{
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 21.097*1000
+                }
+            ]
+        },
+        {
+            type: 'run',
+            code: '10km',
+            stages: [{
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 10*1000
+                }
+            ]
+        },
+        {
+            type: 'run',
+            code: '5km',
+            stages: [{
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 5*1000
+                }
+            ]
+        },
+        {
+            type: 'run',
+            code: 'custom',
+            stages: [{
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                }
+            ]
+        },
+        {
+            type: 'run',
+            code: '24h',
+            stages: [{
+                    activityTypeId: 2,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 24*60*60
+                }
+            ]
+        },
+        {
+            type: 'run',
+            code: '1h',
+            stages: [{
+                    activityTypeId: 2,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 24*60
+                }
+            ]
+        },
+        // triathlon competitions
         {
             type: 'triathlon',
             code: 'fullDistance',
@@ -59,7 +120,210 @@ export class CompetitionConfig implements CompetitionConfig {
                     distanceLength: 42.195*1000
                 }
             ]
+        },
+        {
+            type: 'triathlon',
+            code: 'halfDistance',
+            stages: [{
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 1.9*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 90*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 21.097*1000
+                }
+            ]
+        },
+        {
+            type: 'triathlon',
+            code: '1/4',
+            stages: [{
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 1*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 45*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 10*1000
+                }]
+        },
+        {
+            type: 'triathlon',
+            code: 'olympic',
+            stages: [{
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 1.5*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 40*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 10*1000
+                }
+            ]
+        },
+        {
+            type: 'triathlon',
+            code: 'sprint',
+            stages: [{
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 0.75*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 20*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 5*1000
+                }
+            ]
+        },
+        // swim
+        {
+            type: 'swim',
+            code: '10km',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'movingDuration',
+                distanceLength: 10*1000
+            }]
+        },
+        {
+            type: 'swim',
+            code: '5km',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'movingDuration',
+                distanceLength: 5*1000
+            }]
+        },
+        {
+            type: 'swim',
+            code: '3km',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'movingDuration',
+                distanceLength: 3*1000
+            }]
+        },
+        {
+            type: 'swim',
+            code: '1km',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'movingDuration',
+                distanceLength: 1*1000
+            }]
+        },
+        {
+            type: 'swim',
+            code: '1mile',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'movingDuration',
+                distanceLength: 1*1000
+            }]
+        },
+        {
+            type: 'swim',
+            code: '60min',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'distance',
+                movingDurationLength: 60*60
+            }]
+        },
+        {
+            type: 'swim',
+            code: '30min',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'distance',
+                movingDurationLength: 30*60
+            }]
+        },
+        {
+            type: 'swim',
+            code: 'custom',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'movingDuration',
+                distanceLength: null
+            }]
+        },
+        // bike
+        {
+            type: 'bike',
+            code: 'custom',
+            stages: [{
+                activityTypeId: 10,
+                durationMeasure: 'movingDuration',
+                distanceLength: null
+            }]
         }
+
     ];
     /**types: {
         [type: string]: {

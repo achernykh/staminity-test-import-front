@@ -111,7 +111,7 @@
                                 ng-repeat="type in $ctrl.config.distanceTypes |
                                     filter:{type: $ctrl.competition.competitionHeader.type}
                                     track by $index" ng-value="type.code">
-                                {{'competition.distanceType.' + type.code | translate}}
+                                {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                             </md-option>
                         </md-select>
                         <div ng-messages="$ctrl.form.distanceType.$error" role="alert">

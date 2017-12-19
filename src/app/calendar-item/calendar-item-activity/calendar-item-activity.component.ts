@@ -20,7 +20,10 @@ import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
 import {IAuthService} from "../../auth/auth.service";
 import ReferenceService from "../../reference/reference.service";
-import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
+import {
+    templateDialog, TemplateDialogMode,
+    templateToActivity
+} from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
 import {FtpState} from "../../activity/components/assignment/assignment.component";
 import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
@@ -705,7 +708,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    toTemplate () {
+    toTemplate (e: Event) {
         let { code, activityHeader } = this.activity;
         let sport = activityHeader.activityType.typeBasic;
         let activityCode = code || nameFromInterval(this.$translate) (this.activity.intervals.PW, sport);
@@ -718,11 +721,25 @@ export class CalendarItemActivityCtrl implements IComponentController{
             favourite: false,
             visible: true,
             activityCategory: activityCategory,
-            userProfileCreator: this.user,
+            userProfileCreator: this.options.currentUser,
             content: [this.activity.intervals.PW, ...this.activity.intervals.P, ...this.activity.intervals.G]
         };
+
+        let templateDialogOptions: ICalendarItemDialogOptions = Object.assign({}, this.options, {
+            formMode: FormMode.Post,
+            templateMode: true,
+            templateOptions: {
+                templateId: null,
+                code: null,
+                visible: true,
+                favourite: false,
+                groupProfile: null
+            }
+        });
         
-        return this.$mdDialog.show(templateDialog('post', template, this.user));
+        //return this.$mdDialog.show(templateDialog('post', template, this.options.owner));
+        this.calendarDialog.activity(e, templateDialogOptions, templateToActivity(template))
+            .then(() => { debugger; });
     }
 }
 

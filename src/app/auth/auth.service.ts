@@ -13,7 +13,7 @@ import {toDay} from "../activity/activity.datamodel";
 
 export interface IAuthService {
     isAuthenticated():boolean;
-    isAuthorized(roles:Array<string>):boolean;
+    isAuthorized(roles:Array<string>, strict?: boolean):boolean;
     isCoach(role?: string):boolean;
     isMyAthlete(user: IUserProfile):Promise<any>;
     isMyClub(uri: string):Promise<any>;
@@ -57,11 +57,14 @@ export default class AuthService implements IAuthService {
     /**
      * Проверка полномочий пользователя
      * @param authorizedRoles
+     * @param strict
      * @returns {boolean}
      */
-    isAuthorized(authorizedRoles: Array<any> = []) : boolean {
+    isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
         let userRoles = this.SessionService.getPermissions();
-        return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
+        return  strict ?
+            authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date())) :
+            authorizedRoles.some(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
     }
 
     isCoach(role: string = 'Calendar_Athletes') : boolean {

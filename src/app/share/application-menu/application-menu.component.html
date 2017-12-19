@@ -80,6 +80,7 @@
 
 <md-list>
     <md-list-item ng-repeat="menu in $ctrl.appmenu"
+                  ng-if="menu.state !== 'soon'"
                   ng-disabled="menu.state === 'soon'"
                   ng-click="$ctrl.transitionToState(menu.link)"
                   ng-show="true">

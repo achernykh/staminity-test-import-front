@@ -69,8 +69,8 @@ export const AppMenuSettings = [
     {
         icon: "methodology",
         name: "appMenu.methodology",
-        link: "methodology"
-        //role: [_UserRoles.user, _UserRoles.coach]
+        link: "methodology",
+        role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
     },
     {
         icon: "season",

@@ -78,7 +78,7 @@
                                ng-change="$ctrl.changeParam()">
                         <md-option
                                 ng-repeat="scheme in $ctrl.schemeList track by scheme.id"
-                                type="number" value="{{scheme.id}}">{{scheme.code | translate}}
+                                type="number" value="{{scheme.id}}">{{scheme | schemeCode}}
                         </md-option>
                     </md-select>
                     <div ng-messages="$ctrl.planForm.distanceType.$error" role="alert">
