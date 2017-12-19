@@ -70,7 +70,7 @@
                     <label translate="trainingSeason.periodizationScheme.label"></label>
                     <md-icon flex="none" class="md-dark"
                              md-svg-src="/assets/icon/methodology.svg"></md-icon>
-                    <md-select flex type="number" required
+                    <md-select flex type="number" ng-required="{{$ctrl.isPostMode || ($ctrl.isViewMode && $ctrl.season.id)}}"
                                ng-disabled="!$ctrl.isViewMode && $ctrl.season.id"
                                name="periodizationScheme" class="icon"
                                ng-model="$ctrl.season.periodizationScheme.id"
