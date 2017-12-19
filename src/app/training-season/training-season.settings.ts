@@ -108,7 +108,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
     chartMesocyclesTemplate: {
         options: {
             tooltip: {
-                combined: true
+                combined: false
             },
             currentPositionLine: {
                 enabled: true,
@@ -120,7 +120,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             label: "Дни",
             unit: "",
             xAxis: true,
-            tooltipType: "label",
+            tooltipType: "none",
             tooltipLabel: "Неделя",
             legend: false,
             currentPositionLine: true,
@@ -131,8 +131,8 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             label: "Мезоцикл",
             unit: "",
             xAxis: true,
-            tooltipType: "none",
-            tooltipLabel: "План",
+            tooltipType: "label",
+            tooltipLabel: "Мезоцикл",
             legend: false,
             currentPositionLine: true,
             idx: 1,
@@ -140,6 +140,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
         }],
         measures : [{
             id: "1",
+            unit: "",
             label: "Plan",
             chartType: "bar",
             stacked: true,

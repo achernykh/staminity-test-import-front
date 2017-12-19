@@ -16,8 +16,8 @@ export const translateMethodology = {
         // периодизация
         periodization: {
             title: 'Схемы периодизации',
-            edit: "Изменить описание схемы",
-            delete: "Удалить схему",
+            edit: "Изменить",
+            delete: "Удалить",
             emptySchemeList: "Добавьте мезоциклы",
             postScheme: "Создать новую схему",
             systemSchemes: "Системные схемы",

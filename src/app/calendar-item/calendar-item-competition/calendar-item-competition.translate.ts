@@ -12,7 +12,10 @@ export const translateCompetition = {
           label: "Вид спорта"
         },
         action: {
-          post: "Создать соревнование"
+            post: "Создать соревнование",
+            edit: "Изменить соревнование",
+            copy: "Скопировать соревнование",
+            delete: "Удалить соревнование"
         },
         types: {
             triathlon: "Триатлон",
