@@ -490,7 +490,26 @@ export const _translateMessage = {
 		searchResult: {
 			title: 'Информация',
 			text: 'Найдено {{count}} записей'
-		}
+		},
+
+		// ----- Периодизация
+
+        periodizationMesocycleEdited: {
+            title: '',
+            text: 'Мезоцикл изменен'
+        },
+        periodizationMesocyclePosted: {
+            title: '',
+            text: 'Мезоцикл добавлен'
+        },
+
+        // ----- Планы на сезон
+        trainingSeasonDeleted: {
+            title: '',
+            text: 'План на сезон удален'
+        }
+
+
 	},
 	en: {
 		null: {
@@ -823,7 +842,7 @@ export const _translateMessage = {
 		},
 
 
-		// -------- Запросы и групповые операции ---------
+    // -------- Запросы и групповые операции ---------
 		requestSent: { // отправить запрос из профиля пользователя, из профиля клуба
 			title: "",
 			text: "Operation was successful" // сделал такую нейтральную формулировку, т.к. есть запросы, требующие согласования, а есть например выход из клуба, который не требует согласования

@@ -54,7 +54,9 @@ export const translateTrainingSeason = {
             distance: 'Факт'
         },
         complete: '%',
-        note: 'Заметка'
+        note: 'Заметка',
+        loading: 'Загрузка ...',
+        emptyList: "Добавьте новый план на сезон"
     },
     en: {
 

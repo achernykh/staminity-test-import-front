@@ -50,6 +50,9 @@ export const _translateTrainingPlans = {
         startDate: {
             label: 'Начальная дата плана'
         },
+        endDate: {
+            label: 'Начальная дата плана'
+        },
         tags: {
             label: 'Характеристики плана',
             beginner: 'Новичок',

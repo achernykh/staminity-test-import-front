@@ -29,7 +29,9 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             idx: 0,
             dataType: "date",
             dateFormat: "DD.MM"
-        },{
+        }
+        /* Убрал 2 серию из-за ошибки масштаба плана и факта
+        ,{
             label: "История",
             unit: "",
             xAxis: true,
@@ -39,12 +41,14 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             currentPositionLine: true,
             idx: 1,
             dataType: "string"
-        }],
+        } */
+        ],
         measures : [{
             id: "1",
+            unit: "",
             label: "Plan",
             chartType: "bar",
-            stacked: true,
+            stacked: false, // поменял на false из-за ошибки масштаба
             colorPalette: true,
             tooltipType: "label",
             tooltipLabel: "План",
@@ -70,9 +74,10 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             scaleVisible: false
         }, {
             id: "2",
+            unit: "",
             label: "Fact",
             chartType: "area",
-            stacked: null,
+            stacked: false,
             smoothSettings: "curveStep",
             tooltipType: "label",
             tooltipLabel: "Факт",
@@ -139,7 +144,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             chartType: "bar",
             stacked: true,
             colorPalette: true,
-            tooltipType: "label",
+            tooltipType: "none",
             tooltipLabel: "План",
             legend: false,
             lineColor: "#607D8B", // deep-orange-300
