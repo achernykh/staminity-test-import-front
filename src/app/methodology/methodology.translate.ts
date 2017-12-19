@@ -66,7 +66,7 @@ export const translateMethodology = {
             },
             schemes: {
                 title: 'Схемы периодизации',
-                JoeFriel: {
+                joeFrielPeriodization: {
                     code: 'joeFrielPeriodization',
                     description: 'Схема периодизации из "Библии триатлета" Джо Фрила',
                     mesocycles: {
