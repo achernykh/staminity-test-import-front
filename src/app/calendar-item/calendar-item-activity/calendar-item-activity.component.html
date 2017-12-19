@@ -13,19 +13,19 @@
 
 <activity-metrics-details flex="auto" layout="column" hide show-gt-sm layout="column"
                           has-details="!$ctrl.activity.details.isEmpty"
-                          ng-if="$ctrl.mode !== 'post' && ($ctrl.activity.hasActualData)">
+                          ng-if="!$ctrl.activity.view.isPost && ($ctrl.activity.hasActualData)">
 
 </activity-metrics-details>
 <md-button flex="none" class="md-fab md-mini md-accent md-hue-2" aria-label="close" hide show-gt-sm
-           ng-if="$ctrl.popup && $ctrl.mode !== 'post' && ($ctrl.activity.hasActualData)"
+           ng-if="$ctrl.activity.view.isPopup && !$ctrl.activity.view.isPost && ($ctrl.activity.hasActualData)"
            ng-click="$ctrl.onCancel()">
     <md-icon class="material-icons">close</md-icon>
 </md-button>
 
-<calendar-item-athlete-selector ng-if="$ctrl.mode === 'post' && $ctrl.showSelectAthletes"
+<calendar-item-athlete-selector ng-if="$ctrl.activity.view.isPost && $ctrl.showSelectAthletes"
                                 ng-cloak
                                 coach="$ctrl.currentUser"
-                                list="$ctrl.forAthletes"
+                                list="$ctrl.activity.athletes.list"
                                 mode="$ctrl.recalculateMode"
                                 on-select="$ctrl.onSelectAthletes(list,mode)">
 </calendar-item-athlete-selector>

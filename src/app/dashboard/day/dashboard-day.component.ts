@@ -13,6 +13,7 @@ import {CalendarService} from "../../calendar/calendar.service";
 import {profileShort} from "../../core/user.function";
 import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
 import { FormMode } from '../../application.interface';
+import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
 
 class DashboardDayCtrl implements IComponentController {
 
@@ -21,18 +22,19 @@ class DashboardDayCtrl implements IComponentController {
     currentUser: IUserProfile;
     owner: IUserProfile;
     selected: boolean;
-    onEvent: (response: Object) => IPromise<void>;
+    onUpdate: (response: ICalendarItemDialogOptions) => Promise<any>;
 
     //private
     private dashboard: DashboardCtrl;
     private itemOptions: ICalendarItemDialogOptions;
 
-    static $inject = ['$mdDialog','message','dialogs','CalendarService'];
+    static $inject = ['$mdDialog','message','dialogs','CalendarService', 'CalendarItemDialogService'];
 
     constructor(private $mdDialog: any,
                 private message: any,
                 private dialogs: any,
-                private CalendarService: CalendarService) {
+                private CalendarService: CalendarService,
+                private calendarItemDialog: CalendarItemDialogService) {
 
     }
 
@@ -137,6 +139,35 @@ class DashboardDayCtrl implements IComponentController {
             fullscreen: true
         }).then(() => {}, ()=> {});
     }
+
+    /**
+     * Визард создания записи календаря
+     * @param e
+     * @param data
+     */
+    wizard (e: Event, data: IDashboardDay): void {
+        this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
+            .then(response => this.onUpdate(response),  error => { debugger; });
+    }
+
+    /**
+     * Набор опций для запуска диалога CalendarItem*
+     * @param mode
+     * @param date
+     * @returns {ICalendarItemDialogOptions}
+     */
+    private getOptions (mode: FormMode, date?: string): ICalendarItemDialogOptions {
+        return {
+            dateStart: date,
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: mode,
+            trainingPlanMode: false,
+            planId: null
+        };
+    }
+
 }
 
 const DashboardDayComponent:IComponentOptions = {
@@ -144,8 +175,10 @@ const DashboardDayComponent:IComponentOptions = {
         day: '<',
         currentUser: '<',
         owner: '<',
+
         selected: '<',
-        onSelect: '&'
+        onSelect: '&',
+        onUpdate: '&', // Изменение / Создание / Удаление записи
     },
     require: {
         dashboard: '^dashboard'

@@ -52,7 +52,7 @@ export interface IDashboardDay {
     data: {
         calendarItems: Array<ICalendarItem>;
     };
-    date: Date;
+    date: string;
     selected: boolean;
 }
 

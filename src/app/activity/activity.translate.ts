@@ -1,5 +1,14 @@
 export const translateActivity = {
   ru: {
+      title: 'Тренировка',
+      action: {
+          open: 'Открыть',
+          edit: 'Изменить',
+          delete: 'Удалить',
+          copy: 'Скопировать',
+          select: 'Выделить',
+          close: 'Закрыть'
+      },
       save: 'Сохранить',
       toTemplate: 'В Шаблон',
       edit: 'Изменить',

@@ -1,11 +1,50 @@
 import {merge} from 'angular';
 import moment from 'moment/src/moment.js';
 import {IMeasurementHeader, ICalendarItem, IEventHeader} from "../../../api/calendar/calendar.interface";
-import {IUserProfileShort} from "../../../api/user/user.interface";
+import {IUserProfile, IUserProfileShort} from "../../../api/user/user.interface";
 import {IActivityHeader} from "../../../api/activity/activity.interface";
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "./calendar-item-dialog.interface";
 import { FormMode } from "../application.interface";
 import { IRevisionResponse } from "../../../api/core/core";
+
+export class CalendarItemAthletes {
+	isRecalculateMode: boolean;
+	list: Array<{profile: IUserProfile, active: boolean}> = [];
+
+	constructor(private owner: IUserProfile, private currentUser: IUserProfile) {
+
+		if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
+			this.list = this.currentUser.connections.allAthletes.groupMembers
+				.filter(user => user.hasOwnProperty('trainingZones'))
+				.map(user => ({profile: user, active: user.userId === this.owner.userId}));
+
+		}
+
+		if(this.list.length === 0 || !this.list.some(athlete => athlete.active)) {
+			this.list.push({profile: this.owner, active: true});
+		}
+	}
+
+	set (list, mode: boolean): void {
+
+	}
+
+	/**
+	 * Первый активный атлет
+	 * @returns {Array<{profile: IUserProfile, active: boolean}>|IUserProfile|null}
+	 */
+	first (): IUserProfile {
+		return this.list && this.list.filter(a => a.active)[0].profile || null;
+	}
+
+	/**
+	 * Много пользователей для планирования
+	 * @returns {Array<{profile: IUserProfile, active: boolean}>|boolean}
+	 */
+	multi (): boolean {
+		return this.list && this.list.filter(a => a.active).length > 1 || false;
+	}
+}
 
 export class CalendarItemAuth {
 
@@ -92,11 +131,13 @@ export class CalendarItem implements ICalendarItem {
 
 	view: CalendarItemView;
 	auth: CalendarItemAuth;
+	athletes: CalendarItemAthletes;
 
 	constructor(item: ICalendarItem, options?: ICalendarItemDialogOptions) {
 		merge(this,item); // deep copy
 		this.view = new CalendarItemView(options);
 		this.auth = new CalendarItemAuth(item.userProfileOwner, item.userProfileCreator, options);
+		this.athletes = options && new CalendarItemAthletes(options.owner, options.currentUser);
 	}
 
 	// Подготовка данных для модели отображения

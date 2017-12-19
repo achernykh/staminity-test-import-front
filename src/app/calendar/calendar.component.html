@@ -76,6 +76,10 @@
                     <md-tooltip ng-bind="'calendar.action.delete' | translate"></md-tooltip>
                     <md-icon class="material-icons" aria-label="Delete">delete</md-icon>
                 </md-button>
+                <md-button ng-click="$ctrl.isCompactView = !$ctrl.isCompactView" class="md-icon-button" aria-label="Settings">
+                    <md-tooltip >{{$ctrl.isCompactView ? 'calendar.action.compact' : 'cakendar.action.detail' | translate}}</md-tooltip>
+                    <md-icon class="material-icons" aria-label="View Size">{{$ctrl.isCompactView ? 'view_compact' : 'view_comfy'}}</md-icon>
+                </md-button>
             </section>
 
             <!--<md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
@@ -155,6 +159,7 @@
                             owner="$ctrl.owner"
                             current-user="$ctrl.currentUser"
                             copied-items-length="$ctrl.copiedItems.length"
+                            compact-view="$ctrl.isCompactView"
                             on-copy="$ctrl.copyItems()"
                             on-paste="$ctrl.pasteItems(date)"
                             on-delete="$ctrl.deleteItems(items)"
@@ -175,6 +180,7 @@
                             update="week.changes"
                             week="week"
                             owner="$ctrl.owner"
+                            compact-view="$ctrl.isCompactView"
                             on-toggle="$ctrl.onToggleWeek(sid, value)">
                         <div class="md-body-1">Неделя {{$index}}</div>
                     </calendar-total>

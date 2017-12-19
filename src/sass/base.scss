@@ -280,6 +280,9 @@ md-pagination-wrapper {
   transition: background-color 0.3s 0.1s;
   &.complete {
     background: $bg-teal-gradient-800-500 !important;
+    &.list-view, &.dashboard-view {
+      background: $teal-500 !important;
+    }
     @media (min-width: 0px) and (max-width: 959px) {
       background: $teal-500 !important;
     }
@@ -292,6 +295,9 @@ md-pagination-wrapper {
   }
   &.complete-warn {
     background: $bg-orange-gradient-800-500 !important;
+    &.list-view, &.dashboard-view {
+      background: $orange-500 !important;
+    }
     @media (min-width: 0px) and (max-width: 959px) {
       background: $orange-500 !important;
     }
@@ -304,7 +310,7 @@ md-pagination-wrapper {
   }
   &.complete-error, &.dismiss {
     background: $bg-red-gradient-800-500 !important;
-    &.list-view {
+    &.list-view, &.dashboard-view {
       background: $red-500 !important;
     }
     &.table-view {
@@ -322,6 +328,9 @@ md-pagination-wrapper {
   }
   &.not-specified {
     background: $bg-blue-grey-gradient-600-400 !important;
+    &.list-view, &.dashboard-view {
+      background: $blue-grey-500 !important;
+    }
     @media (min-width: 0px) and (max-width: 959px) {
       background: $blue-grey-500 !important;
     }

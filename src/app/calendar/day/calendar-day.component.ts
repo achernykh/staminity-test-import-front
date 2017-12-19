@@ -29,6 +29,7 @@ class CalendarDayCtrl {
     dynamicDates: boolean;
     trainingPlanMode: boolean;
     planId: number;
+    compactView: boolean;
     onUpdate: (response: ICalendarItemDialogResponse) => Promise<any>;
 
     // private
@@ -49,6 +50,16 @@ class CalendarDayCtrl {
 
     get isMobile (): boolean {
         return this.$mdMedia('xs');
+    }
+
+    get viewLayout (): string {
+        if (this.isMobile) {
+            return 'list';
+        } else if (this.compactView) {
+            return 'dashboard';
+        } else {
+            return 'calendar';
+        }
     }
 
     isSpecified (item: ICalendarItem): boolean {
@@ -213,6 +224,7 @@ const CalendarDayComponent: IComponentOptions = {
         trainingPlanMode: '<',
         planId: '<',
         copiedItemsLength: '<', // обьем буфера скопированных тренировок
+        compactView: '<',
 
         onCopy: '&', // пользователь скопировал дни/недели (без параметров)
         onPaste: '&', // пользователь выбрал даты у нажал вставить, параметр - дата начала

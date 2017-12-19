@@ -20,13 +20,13 @@
                         <span translate="measurement.toolbar.settings"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item ng-if="::$ctrl.item.currentUser.connections.hasOwnProperty('allAthletes')">
+                <md-menu-item ng-if="::($ctrl.item.currentUser.connections.hasOwnProperty('allAthletes') && $ctrl.item.activity.view.isPost)">
                     <md-button ng-click="$ctrl.item.showSelectAthletes = true">
                         <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
                         <span translate="Добавить спортсмена"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item>
+                <md-menu-item ng-if="false">
                     <md-button ng-click="$ctrl.item.calculateActivityRange(false)">
                         <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
                         <span translate="Тест: обновить рассчет"></span>
@@ -36,7 +36,11 @@
         </md-menu>
         <h2 flex-order="2" translate="{{::$ctrl.item.options.templateMode ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
         <span flex flex-order="3"></span>
-        <userpic flex-order="4" class="border-light" profile="$ctrl.item.firstAthlete(0)" is-premium="$ctrl.item.user.isPremium" unlink="true"></userpic>
+        <userpic flex-order="4" class="border-light"
+                 profile="$ctrl.item.activity.athletes.first()"
+                 is-premium="$ctrl.item.activity.athletes.first().isPremium"
+                 unlink="true"></userpic>
+        <div class="multi-athletes" ng-if="$ctrl.item.activity.athletes.multi()"></div>
         <md-button flex-order="5" class="md-icon-button" hide-gt-sm
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
