@@ -83,7 +83,7 @@
         </section>
     </div>
 
-    <div ng-repeat="sport in $ctrl.data.primarySport track by $index">
+    <div ng-repeat="sport in $ctrl.data.primarySport track by $index" ng-if="!$ctrl.compactView">
         <div ng-if="$ctrl.data.hasTotalBySport(sport)">
             <md-divider></md-divider>
             <section layout="row" class="sport-sum">

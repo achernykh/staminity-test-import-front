@@ -17,10 +17,6 @@ export class ActivityAthletes {
         if(this.list.length === 0 || !this.list.some(athlete => athlete.active)) {
             this.list.push({profile: this.owner, active: true});
         }
-
-        /**if (this.template && this.data && this.data.userProfileCreator) {
-            this.list = [{ profile: this.data.userProfileCreator, active: true }];
-        }**/
     }
 
     set (list, mode: boolean): void {

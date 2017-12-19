@@ -38,20 +38,20 @@
                     <md-menu-item>
                         <md-button ng-click="$ctrl.edit($event)">
                             <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
-                            <span translate="activity.action.edit"></span>
+                            <span translate="competition.action.edit"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.copy([$ctrl.item])" ng-disabled="true">
                             <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
-                            <span translate="activity.action.copy"></span>
+                            <span translate="competition.action.copy"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.delete()"
                                    ng-disabled="::!($ctrl.competition.auth.isCreator || $ctrl.competition.auth.isOwner)">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                            <span translate="activity.action.delete"></span>
+                            <span translate="competition.action.delete"></span>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -119,20 +119,20 @@
                         <md-menu-item>
                             <md-button ng-click="$ctrl.edit($event)">
                                 <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
-                                <span translate="activity.action.edit"></span>
+                                <span translate="competition.action.edit"></span>
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.copy([$ctrl.item])" ng-disabled="true">
                                 <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
-                                <span translate="activity.action.copy"></span>
+                                <span translate="competition.action.copy"></span>
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.delete()"
                                        ng-disabled="::!($ctrl.competition.auth.isCreator || $ctrl.competition.auth.isOwner)">
                                 <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                                <span translate="activity.action.delete"></span>
+                                <span translate="competition.action.delete"></span>
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -165,7 +165,40 @@
         </footer>
     </section>
     <!-- Элемент дня дэшборда -->
-    <section ng-switch-when="dashboard">
-
+    <section ng-switch-when="dashboard" class="competition-compact__dashboard" ng-click="$ctrl.open($event)">
+        <!-- Заголовок. Окрашиваем в цвет статуса -->
+        <header class="calendar-item-competition-header {{::$ctrl.competition.status}} dashboard-view"
+                layout="row"
+                ng-class="{selected: $ctrl.selected, 'md-dark': $ctrl.competition.isComing}">
+            <section flex="none" class="first-column" layout="column">
+                <div flex="none" layout="row" layout-align="center center"
+                     class="calendar-item-activity-icon color-{{$ctrl.competition.competitionHeader.type}} bg-circle-32"
+                     ng-class="{color: !$ctrl.competition.isCompleted || !$ctrl.competition.isSpecified}">
+                    <md-icon class="material-icons md-light"
+                             md-svg-src="assets/icon/competition-{{$ctrl.competition.competitionHeader.priority}}.svg">
+                    </md-icon>
+                </div>
+            </section>
+            <section flex="auto" class="second-column" layout="column" layout-align="start start">
+                <div flex="none" class="md-caption name">
+                    {{$ctrl.competition.competitionHeader.name}}
+                </div>
+                <div flex="none" class="md-body-2 tight-02 line-14 font-medium duration "
+                     ng-if="::(!!$ctrl.competition.movingDuration || $ctrl.competition.distance)">
+                    <span flex="none" ng-if="::$ctrl.competition.movingDuration">
+                        {{::$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
+                    </span>
+                    <span flex="none" ng-if="::$ctrl.competition.distance">
+                        &nbsp{{::$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
+                        {{'distance' | measureUnit:$ctrl.competition.sportBasic | translate}}
+                    </span>
+                </div>
+            </section>
+        </header>
+        <!--Нижняя часть: данные, установка тренера или -->
+        <footer ng-if="$ctrl.competition.competitionHeader.trainersPrescription">
+            <span class="prescription md-caption md-dark"
+                  ng-bind="$ctrl.competition.competitionHeader.trainersPrescription | htmlToPlainText"></span>
+        </footer>
     </section>
 </div>

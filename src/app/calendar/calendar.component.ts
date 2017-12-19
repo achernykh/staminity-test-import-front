@@ -26,7 +26,7 @@ export class CalendarCtrl implements IComponentController{
     owner: IUserProfile | IUserProfileShort;
 
     // private
-
+    isCompactView: boolean = false;
 
     // inject
     static $inject = ['$scope', '$mdDialog', '$mdMedia', '$anchorScroll', '$location', '$stateParams', 'message',

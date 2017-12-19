@@ -188,7 +188,7 @@
             </calendar-event>
             <st-competition-compact ng-switch-when="competition"
                                     layout="column" flex="auto"
-                                    view="$ctrl.isMobile ? 'list' : 'calendar'"
+                                    view="$ctrl.viewLayout"
                                     item="::item"
                                     options="$ctrl.itemOptions"
                                     on-save="$ctrl.onUpdate(formMode, item)"
@@ -211,7 +211,7 @@
 
             <st-activity-compact ng-switch-when="activity"
                                  layout="column" flex="auto"
-                                 view="$ctrl.isMobile ? '' : 'calendar'"
+                                 view="$ctrl.viewLayout"
                                  selected="$ctrl.selected"
                                  data="::item"
                                  options="$ctrl.itemOptions"

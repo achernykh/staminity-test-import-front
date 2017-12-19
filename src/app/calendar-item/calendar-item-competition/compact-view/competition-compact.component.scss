@@ -44,6 +44,7 @@
     margin: 0px 4px 8px 4px;
     min-width: 200px;
     padding-bottom: 0px;
+
     .calendar-item-activity-icon {
       margin-right: 16px;
     }
@@ -92,7 +93,30 @@
   }
 
   &__dashboard {
+    &:focus {
+      outline: none !important;
+    }
+    footer {
+      display: none;
+    }
+    .first-column {
+      margin-right: 8px;
+    }
 
+    .second-column {
+      width: calc(100% - 32px);
+    }
+
+    .name, .duration {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    .duration {
+      text-transform: lowercase;
+    }
   }
 
 }

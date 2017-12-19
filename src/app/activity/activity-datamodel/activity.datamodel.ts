@@ -26,7 +26,7 @@ export class Activity extends CalendarItem {
     header: ActivityHeader; // класс для работы с заголовком тренировки
     intervals: ActivityIntervals; // класс для работы с интрвалами тренировки
     details: ActivityDetails; // класс для работы с деталями тренировки (маршрут, показатели..)
-    athletes: ActivityAthletes; // класс для работы с переченем пользователей для планирования
+    //athletes: ActivityAthletes; // класс для работы с переченем пользователей для планирования
     //auth: ActivityAuth; // класс для работы с полномочиями
 
     categoriesList: Array<IActivityCategory> = [];
@@ -256,7 +256,7 @@ export class Activity extends CalendarItem {
         this.header = new ActivityHeader(this.item.activityHeader);
         this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
         this.details = new ActivityDetails();
-        this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
+        //this.athletes = new ActivityAthletes(this.options.owner, this.options.currentUser);
         //this.auth = new ActivityAuth(this.userProfileOwner, this.userProfileCreator, this.options);
     }
 
