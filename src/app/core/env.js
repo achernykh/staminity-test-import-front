@@ -1,12 +1,12 @@
-var build = '280';
-var version = '1.4.0';
+var build = '281';
+var version = '1.4.5';
 var protocol = {
   ws: 'wss://',
   rest: 'https://'
 };
 var server = 'testapp.staminity.com:8080';
-var content = 'https://app.staminity.com';
-var frontend = 'http://dev1.staminity.com/';
+var content = 'https://testapp.staminity.com:8080';
+var frontend = 'https://dev2.staminity.com/';
 
 
 module.exports = {

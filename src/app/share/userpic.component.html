@@ -1,4 +1,4 @@
-<div ng-if="!$ctrl.unlink" class="avatar" style="background: {{$ctrl.profile | avatar}}; background-size: cover; position:relative;"
+<div ng-if="!$ctrl.unlink" class="avatar" style="background: {{$ctrl.profile | avatar}}; background-size: cover; position:relative; cursor:pointer"
      ui-sref="user({uri: $ctrl.profile.public.uri})">
     <div class="subscript" style="width: 8px; height: 8px; border-radius: 50%; background: #ff5722;" ng-if="$ctrl.isPremium"></div>
     <ng-transclude></ng-transclude>

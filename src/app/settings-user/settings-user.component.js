@@ -61,15 +61,16 @@ class SettingsUserCtrl {
     }
 
     $onInit () {
-        this.SessionService.getObservable()
-        .takeUntil(this.destroy)
-        .map((session) => session.userProfile)
-        .distinctUntilChanged()
-        .subscribe(this.setUser.bind(this));
+
+        /**this.SessionService.getObservable()
+            .takeUntil(this.destroy)
+            .map((session) => session.userProfile)
+            .distinctUntilChanged()
+            .subscribe(this.setUser.bind(this));**/
 
         this.BillingService.messages
-        .takeUntil(this.destroy)
-        .subscribe(this.reload.bind(this));
+            .takeUntil(this.destroy)
+            .subscribe(this.reload.bind(this));
 
         /**
          *
@@ -97,7 +98,12 @@ class SettingsUserCtrl {
         this.destroy.complete();
     }
 
+    isOwnSettings () {
+        return this.SessionService.isCurrentUserId(this.user.userId);
+    }
+
     setUser (user) {
+
         if (user.userId === this.user.userId) {
             this.user = angular.copy(user);
         }
@@ -528,14 +534,19 @@ class SettingsUserCtrl {
             billing: { autoPayment: isOn }
         };
 
-        this.UserService.updateCurrentUser(userChanges)
-        .then(this.successHandler('settingsSaveComplete'))
+        this.UserService.putProfile(userChanges)
+        .then(() => {
+            this.user.billing.autoPayment = isOn;
+            this.message.toastInfo('settingsSaveComplete');
+            this.$scope.$apply();
+        })
         .catch(this.errorHandler());
     }
 
     uploadAvatar () {
         this.dialogs.uploadPicture()
         .then(picture => this.UserService.postProfileAvatar(picture))
+        .then((response) => this.setUser(response))
         .then(this.successHandler('updateAvatar'))
         .catch(this.errorHandler());
     }
@@ -543,6 +554,7 @@ class SettingsUserCtrl {
     uploadBackground () {
         this.dialogs.uploadPicture()
         .then((picture) => this.UserService.postProfileBackground(picture))
+        .then((response) => this.setUser(response))
         .then(this.successHandler('updateBackgroundImage'))
         .catch(this.errorHandler());
     }

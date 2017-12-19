@@ -26,6 +26,12 @@ export class SessionService {
         this.session.next(session);
     }
 
+    refresh (changes: Object) {
+        let session = this.get();
+        this.set(Object.assign(session, changes));
+    }
+
+
     change (changes: Object) {
         let session = this.get();
         this.set(merge({}, session, changes));
@@ -56,6 +62,13 @@ export class SessionService {
             this.change({ userProfile: { ...userProfile } });
         }
     }
+
+    setUser (userProfile: Object) {
+        if (!userProfile['userId'] || this.isCurrentUserId(userProfile['userId'])) {
+            this.refresh({ userProfile: { ...userProfile } });
+        }
+    }
+
 
     getToken (): string {
         return getToken(this.get());

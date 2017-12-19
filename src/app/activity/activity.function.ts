@@ -105,34 +105,73 @@ export const isCompletedActivity = (item: ICalendarItem):boolean => {
  * @returns {ICalendarItem}
  */
 export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
+
     if(item.calendarItemType !== 'activity') {
         return item;
     }
-    item.activityHeader.intervals = item.activityHeader.intervals.filter(i => i.type === 'pW' || i.type === 'P');
+
+    // Копируем все интрвелы с плановыми данными
+    item.activityHeader.intervals = item.activityHeader.intervals
+        .filter(i => i.type === 'pW' || i.type === 'P' || i.type === 'G');
+
+    // В итоговом интервале есть рассчитанное относительно факта поле, его необходимо очистить
     delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
     return item;
 };
 
+/**
+ * Обновляем интенсивность тренировки в соответствии со значениями зон нового атлета
+ * @param item - календарная запись
+ * @param trgZones - зоны атлета получателя
+ * @returns {ICalendarItem}
+ */
 export const updateIntensity = (item: ICalendarItem, trgZones: ITrainingZones): ICalendarItem => {
     // TODO for interval P
+    debugger;
     let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
+    let intervalP: Array<IActivityIntervalP> = <Array<IActivityIntervalP>>item.activityHeader.intervals.filter(i => i.type === 'P');
     let sport: string = item.activityHeader.activityType.code;
     let measure: string = intervalPW.intensityMeasure;
     let ftp: number = getFTP(trgZones,measure,sport);
+
     if (!intervalPW || !trgZones || !measure || !sport) {
         return item;
     }
-    console.log(ftp);
+
+    // Пересчитываем значения по итоговому интервалу
     intervalPW.intensityLevelFrom = intervalPW.intensityByFtpFrom * ftp;
     intervalPW.intensityLevelTo = intervalPW.intensityByFtpTo * ftp;
+
+    // Если тренировка задана сегментами, то пересчитываем также отдельные сегменты
+    if (intervalP) {
+        intervalP.map(i => {
+            ftp = getFTP(trgZones, i.intensityMeasure, sport);
+            i.intensityLevelFrom = i.intensityByFtpFrom * ftp;
+            i.intensityLevelTo = i.intensityByFtpTo * ftp;
+        });
+    }
+
     return item;
 };
 
+/**
+ * Смена владельца теренировки
+ * @param item
+ * @param user
+ * @returns {ICalendarItem}
+ */
 export const changeUserOwner = (item: ICalendarItem, user: IUserProfile): ICalendarItem => {
     item.userProfileOwner = profileShort(user);
     return item;
 };
 
+
+/**
+ * Смещение тренировки на N-дней
+ * @param item
+ * @param shift
+ * @returns {ICalendarItem}
+ */
 export const shiftDate = (item: ICalendarItem, shift: number) => {
     item.dateStart = moment(item.dateStart, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');

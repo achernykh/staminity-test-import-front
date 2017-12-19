@@ -232,8 +232,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareTabPosition(){
-        this.selectedTab = (this.tab === 'chat' && this.activity.hasActualData && 3) ||
-            (this.tab === 'chat' && !this.activity.hasActualData && 2) || 0;
+        this.selectedTab = (this.tab === 'chat' && this.activity.hasActualData && 2) ||
+            (this.tab === 'chat' && !this.activity.hasActualData && 1) || 0;
     }
 
     changeTab(tab: string):void {

@@ -19,6 +19,12 @@ activity-assignment {
     overflow-y: auto;
   }
 
+  fieldset {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+  }
+
   md-table-container {
     width: 100%;
   }

@@ -1,5 +1,5 @@
 import './settings-zones-edit.component.scss';
-import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, INgModelController, copy} from 'angular';
 import {_CalculationMethod} from "../settings-user.constants";
 
 class SettingsZonesEditCtrl implements IComponentController {
@@ -7,6 +7,7 @@ class SettingsZonesEditCtrl implements IComponentController {
     private zone: any;
     private sportSettings: any;
     private settings: any;
+    private zones: INgModelController;
 
     public onSave: (response: {intensityFactor: string, sport: string, settings: any}) => IPromise<void>;
     public onCancel: () => IPromise<void>;
@@ -46,14 +47,55 @@ class SettingsZonesEditCtrl implements IComponentController {
             maxValue: this.settings['maxValue']}, factor);
 
         this.viewMode = this.settings.calculateMethod === 'custom';
+        this.checkForm();
     }
 
     changeZone(i: number, value: number, factor: string) {
         let step: number = factor !== 'speed' ? 1 : 0.00000000000001;
-        if (i === this.settings.zones.length) {
-            return;
+        if (i !== this.settings.zones.length - 1) {
+            this.settings.zones[i+1].valueFrom = value + step;
         }
-        this.settings.zones[i+1].valueFrom = value + step;
+        this.checkForm();
+    }
+
+    checkForm () {
+
+        this.zones.$setValidity('consistencyPositive', this.zoneConsistencyPositive());
+        this.zones.$setValidity('consistencyBetweenValues', this.zoneConsistencyBetweenValues());
+        this.zones.$setValidity('consistencyBetweenZones', this.zoneConsistencyBetweenZones());
+    }
+
+    zoneConsistencyPositive (): boolean {
+        let check: boolean = true;
+        this.settings.zones.forEach(z => {
+            if (z.valueFrom && z.valueTo && (z.valueFrom < 0 || z.valueTo <0)) {
+                check = false;
+            }
+        });
+        return check;
+    }
+
+    zoneConsistencyBetweenValues (): boolean {
+
+        let check: boolean = true;
+
+        this.settings.zones.forEach(z => {
+            if (z.valueFrom && z.valueTo && z.valueFrom >= z.valueTo) {
+                check = false;
+            }
+        });
+        return check;
+    }
+
+    zoneConsistencyBetweenZones (): boolean {
+        let check: boolean = true;
+
+        this.settings.zones.forEach((z,i) => {
+            if (i > 0 && this.settings.zones[i] < this.settings.zones[i - 1]) {
+                check =  false;
+            }
+        });
+        return check;
     }
 
 

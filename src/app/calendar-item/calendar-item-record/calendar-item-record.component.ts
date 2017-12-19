@@ -28,11 +28,13 @@ class CalendarItemRecordCtrl implements IComponentController {
 
     static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message', 'quillConfig'];
 
-    constructor (private config: ICalendarItemRecordConfig,
-                 private session: SessionService,
-                 private calendarService: CalendarService,
-                 private message: MessageService,
-                 private quillConf: IQuillConfig) {
+    constructor (
+        private config: ICalendarItemRecordConfig,
+        private session: SessionService,
+        private calendarService: CalendarService,
+        private message: MessageService,
+        private quillConf: IQuillConfig
+    ) {
 
     }
 
@@ -92,6 +94,33 @@ class CalendarItemRecordCtrl implements IComponentController {
                 this.message.toastInfo('recordDeleted');
                 this.close();
             }, error => this.message.toastError(error));
+    }
+
+    onEditorCreated (editor) {
+        editor.getModule('toolbar').addHandler('image', () => {
+            new Promise((resolve, reject) => {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.click();
+
+                input.onchange = () => {
+                    const file = input.files[0];
+
+                    if (/^image\//.test(file.type)) {
+                        resolve(file);
+                    } else {
+                        reject();
+                    }
+                };
+            })
+            .then((picture) => this.calendarService.postImage(picture))
+            .then((url) => {
+                const range = editor.getSelection();
+                editor.insertEmbed(range.index, 'image', url);
+            }, (error) => {
+                this.message.toastError(error);
+            });
+        });
     }
 
     private get isViewMode (): boolean {

@@ -34,7 +34,7 @@
                     <div class="md-caption" translate>request.history</div>
                     <div ng-if="!$ctrl.requests.inbox.old.length" translate>request.noRequest</div>
                     <div ng-repeat="request in $ctrl.requests.inbox.old | limitTo:$ctrl.limit.inbox" class="md-no-proxy">
-                        <div layout="row" ui-sref="/user/{{request.initiator.public.uri}}" style="width:100%">
+                        <div layout="row" style="width:100%">
                             <userpic profile="request.initiator" is-premium="request.initiator.isPremium"></userpic>
                             <div flex>
                                 <div>{{request.initiator | username}}</div>

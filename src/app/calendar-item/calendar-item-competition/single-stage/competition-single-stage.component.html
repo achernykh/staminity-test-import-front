@@ -25,7 +25,7 @@
                 <md-input-container md-no-float>
                     <input measure-input
                            name="{{$index}}_plan"
-                           placeholder="{{'competition.planPlaceholder.' + $ctrl.durationMeasure(stage.item) | translate}}"
+                           placeholder="{{$ctrl.durationMeasure(stage.item) | measureUnit:stage.item.header.sportBasic | translate}}"
                            ng-model="stage.item.intervals.PW[$ctrl.durationMeasure(stage.item)].durationValue"
                            change="$ctrl.change"
                            measure="$ctrl.durationMeasure(stage.item)"

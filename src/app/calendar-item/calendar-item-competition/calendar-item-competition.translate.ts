@@ -70,10 +70,6 @@ export const translateCompetition = {
             B: "B",
             C: "C"
         },
-        planPlaceholder: {
-            distance: "'distance' | measureUnit:'run' | translate",
-            movingDuration: "'movingDuration' | measureUnit:'run' | translate"
-        },
         startDate: {
             label: "Дата"
         },

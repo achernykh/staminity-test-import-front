@@ -402,7 +402,7 @@ export class CalendarCtrl implements IComponentController{
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
-        if (w !== -1 && d >= 0) {
+        if (w !== -1 && d >= 0 && this.calendar.weeks[w]) {
             this.calendar.weeks[w].subItem[d].data.calendarItems.push(item);
             this.calendar.weeks[w].changes++;
         }
@@ -417,6 +417,11 @@ export class CalendarCtrl implements IComponentController{
 
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
+
+        if (!this.calendar.weeks[w]) {
+            return;
+        }
+        
         let p = this.calendar.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
 
         if (w !== -1 && d >= 0 && p !== -1) {

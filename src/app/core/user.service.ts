@@ -109,35 +109,42 @@ export default class UserService {
     getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
         return ws ? (
             this.SocketService.send(new GetUserRequest(key))
-        ) : (
+        ) : 
             this.RESTService.postData(new PostData('/api/wsgate', new GetUserRequest(key)))
-            .then((response: IHttpPromiseCallbackArg<any>) => response.data)
-        )
+            .then((response: IHttpPromiseCallbackArg<any>) => response.data);
+        /*
         .then((user) => {
             if (this.SessionService.isCurrentUserId(user.userId)) {
                 this.SessionService.updateUser(user);
             }
-        });
+        });*/
     }
 
     /**
      * Обновляем данные пользователя
-     * @param profile - может содержать частичные данные профиля, по секциям
+     * @param userChanges - может содержать частичные данные профиля, по секциям
      * @returns {Promise<T>}
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
+        let needRefresh: boolean = userChanges.hasOwnProperty('trainingZones') || userChanges.hasOwnProperty('public');
+
         return this.SocketService.send(new PutUserRequest(userChanges))
         .then((result) => result.value)
         .then(({ revision }) => {
             let updatedUser = merge({}, userChanges, { revision });
             if (this.SessionService.isCurrentUserId(userChanges.userId)) {
-                this.SessionService.updateUser(updatedUser);
+                needRefresh ?
+                    this.SessionService.setUser(updatedUser):
+                    this.SessionService.updateUser(updatedUser);
             }
             return updatedUser;
         }, (error) => {
             if (error === 'expiredObject') {
                 this.getProfile(userChanges.userId)
-                .then((user) => this.putProfile({ ...user, ...userChanges }));
+                .then((user) => {
+                    const {revision} = <any> user;
+                    this.putProfile({ ...user, ...userChanges, revision });
+                });
             }
         });
     }
@@ -148,10 +155,12 @@ export default class UserService {
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
     postProfileAvatar(file:any) : IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile('/user/avatar',file))
+        const userId = this.SessionService.getCurrentUserId();
+        const url = `/user/avatar/${userId}`;
+        return this.RESTService.postFile(new PostFile(url, file))
             .then((response) => {
-                this.SessionService.updateUser(response.data);
-                return response.data;
+                this.SessionService.updateUser(response);
+                return response;
             });
             //.then((response) => response.data);
     }
@@ -161,10 +170,12 @@ export default class UserService {
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
     postProfileBackground(file:any) : IHttpPromise<any> {
-        return this.RESTService.postFile(new PostFile('/user/background',file))
+        const userId = this.SessionService.getCurrentUserId();
+        const url = `/user/background/${userId}`;
+        return this.RESTService.postFile(new PostFile(url, file))
             .then((response) => {
-                this.SessionService.updateUser(response.data);
-                return response.data;
+                this.SessionService.updateUser(response);
+                return response;
             });
     }
 

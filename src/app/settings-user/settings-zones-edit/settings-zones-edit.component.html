@@ -77,23 +77,26 @@
                             <td md-cell>{{$index+1}}</td>
                             <td md-cell>
                                 <md-input-container class="no-border">
-                                    <input type="text" ng-model="zone.code" name="code"
+                                    <input type="text" ng-model="zone.code" name="code" required
                                            style="text-align: left; border-color: rgba(0,0,0,0);"
                                            ng-disabled="$ctrl.viewMode">
                                 </md-input-container>
                             </td>
                             <td md-cell>
                                 <md-input-container style="max-width: 60px">
-                                    <input ng-model="zone.valueFrom" measure-input
+                                    <input style="color: rgba(0,0,0,0.54)"
+                                           ng-model="zone.valueFrom"
+                                           measure-input required
                                            name="valueFrom"
                                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
                                            ng-attr-sport={{$ctrl.sport}}
+                                           ng-change="$ctrl.checkForm()"
                                            ng-disabled="$ctrl.viewMode || (!$ctrl.viewMode && !$first)">
                                 </md-input-container>
                             </td>
                             <td md-cell>
                                 <md-input-container style="max-width: 60px">
-                                    <input ng-model="zone.valueTo" measure-input
+                                    <input ng-model="zone.valueTo" measure-input required
                                            name="valueTo"
                                            name="valueFrom"
                                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
@@ -109,6 +112,14 @@
             </md-list-item>
         </form>
     </md-list>
+    <div class="md-caption error-block"
+         ng-messages="$ctrl.zones.$error"
+         ng-if="$ctrl.zones.$dirty && $ctrl.zones.$invalid">
+        <div ng-message="required">{{'settings.zones.error.required' | translate}}</div>
+        <div ng-message="consistencyPositive">{{'settings.zones.error.consistencyPositive' | translate}}</div>
+        <div ng-message="consistencyBetweenValues">{{'settings.zones.error.consistencyBetweenValues' | translate}}</div>
+        <div ng-message="consistencyBetweenZones">{{'settings.zones.error.consistencyBetweenZones' | translate}}</div>
+    </div>
 </md-dialog-content>
 
 <md-dialog-actions layout="row" flex="none">
@@ -116,7 +127,7 @@
     <md-button
 
                ng-click="$ctrl.onCancel()">{{'form.cancel' | translate}}</md-button>
-    <md-button ng-disabled="!$ctrl.zones.$valid" type="submit"
-               ng-class="{'md-primary': $ctrl.zones.$valid, 'md-disabled': $ctrl.zones.$error}"
-               ng-click="$ctrl.onSave({ response: {intensityFactor: $ctrl.intensityFactor, sport: $ctrl.sport, settings: $ctrl.settings}})">{{'form.save' | translate}}</md-button>
+    <md-button type="submit"
+               ng-class="{'md-primary': $ctrl.zones.$valid, 'md-warn': $ctrl.zones.$invalid}"
+               ng-click="$ctrl.zones.$valid ? $ctrl.onSave({ response: {intensityFactor: $ctrl.intensityFactor, sport: $ctrl.sport, settings: $ctrl.settings}}) : angular.noop()">{{'form.save' | translate}}</md-button>
 </md-dialog-actions>
