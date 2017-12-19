@@ -60,15 +60,15 @@ export const translateMethodology = {
                 description: "Описание схемы",
                 descriptionPlaceholder: "Опишите схему...",
                 save: "Сохранить",
-                delete: "Удалить схему",
-                edit: "Изменить схему"
+                delete: "Удалить",
+                edit: "Изменить"
 
             },
             schemes: {
                 title: 'Схемы периодизации',
                 joeFrielPeriodization: {
-                    code: 'joeFrielPeriodization',
-                    description: 'Схема периодизации из "Библии триатлета" Джо Фрила',
+                    code: 'Схема Джо Фрила',
+                    description: 'Схема периодизации из "Библии триатлета" Джо Фрила. Включает Подготовительный период, Базовый период, Период строительства, Пиковый период, Гоночный период, Переходный период.',
                     mesocycles: {
                         transition: {
                             code: "Переходный",

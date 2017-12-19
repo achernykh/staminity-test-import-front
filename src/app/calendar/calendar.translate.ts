@@ -10,14 +10,21 @@ export const _translate = {
             paste: 'Вставить',
             delete: 'Удалить',
             post: 'Создать'
-        }
+        },
+        templates: "Шаблоны"
     },
     en: {
         fullTitle: 'Calendar',
         shortTitle: 'Calendar',
-        today: 'Today',
-        selectDate: 'Select Date',
-        compact: 'Show Details',
-        details: 'Hide Details'
+        details: 'Details',
+        action: {
+            today: 'Today',
+            selectDate: 'Go to date',
+            copy: 'Copy',
+            paste: 'Paste',
+            delete: 'Delete',
+            post: 'Create'
+        },
+        templates: "Templates"
     }
 };
