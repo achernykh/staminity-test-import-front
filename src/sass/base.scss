@@ -352,6 +352,9 @@ md-pagination-wrapper {
   &.color-other {
     background-color: $activity-color-other !important;
   }
+  &.complete {
+    background-color: $teal-800 !important;
+  }
 }
 
 .calendar-item-record-icon {

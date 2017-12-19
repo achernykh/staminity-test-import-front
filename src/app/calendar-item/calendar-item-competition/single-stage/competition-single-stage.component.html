@@ -12,8 +12,8 @@
         <tr md-row ng-repeat="stage in $ctrl.items track by $index">
             <!-- Этап соревнования: иконка со статусом + основная величина этапа -->
             <td md-cell class="stage" layout="row" layout-align="start center">
-                <div flex="none" layout="row" layout-align="center center"
-                     class="calendar-item-activity-icon bg-circle-32 {{stage.item.status}}"
+                <div flex="none" class="calendar-item-activity-icon layout-row layout-align-start-center
+                     bg-circle-32 color-{{$ctrl.competition.competitionHeader.type}} {{stage.item.status}}"
                      ng-class="{color: !stage.item.isCompleted || !stage.item.isSpecified}">
                     <md-icon md-svg-src="assets/icon/{{stage.item.header.sportBasic}}.svg" class="md-dark md-light md-18"></md-icon>
                 </div>

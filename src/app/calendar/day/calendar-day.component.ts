@@ -29,12 +29,10 @@ class CalendarDayCtrl {
     dynamicDates: boolean;
     trainingPlanMode: boolean;
     planId: number;
-    onUpdate: (response: {formMode: FormMode, item: ICalendarItem}) => Promise<any>;
+    onUpdate: (response: ICalendarItemDialogResponse) => Promise<any>;
 
     // private
     private itemOptions: ICalendarItemDialogOptions;
-
-    onSave: (response: ICalendarItemDialogResponse) => Promise<any>;
 
     static $inject = [ '$mdDialog', '$mdMedia', 'CalendarItemDialogService', 'message', 'ActivityService', 'CalendarService', '$scope', 'dialogs' ];
 
@@ -85,7 +83,7 @@ class CalendarDayCtrl {
     post (e: Event, type: 'activity' | 'measurement' | 'record', data: ICalendarDayData): void {
 
         this.calendarItemDialog[ type ](e, this.getOptions(FormMode.Post, data.date))
-            .then((response) => this.onSave(response), () => {
+            .then((response) => this.onUpdate(response), () => {
             });
 
     }
@@ -97,10 +95,7 @@ class CalendarDayCtrl {
      */
     wizard (e: Event, data: ICalendarDayData): void {
         this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
-            .then(response => {
-                debugger;
-                this.onUpdate({formMode: response.formMode, item: response.item});
-            },  error => { debugger; });
+            .then(response => this.onUpdate(response),  error => { debugger; });
     }
 
     /**
@@ -112,7 +107,7 @@ class CalendarDayCtrl {
     open (e: Event, type: 'activity' | 'measurement' | 'record', item: ICalendarItem): void {
         this.calendarItemDialog[ type ](e,
             this.getOptions(this.trainingPlanMode || type === 'measurement' ? FormMode.Put : FormMode.View, item.dateStart), item)
-            .then((response) => this.onSave(response), () => {
+            .then((response) => this.onUpdate(response), () => {
             });
 
     }
@@ -223,7 +218,7 @@ const CalendarDayComponent: IComponentOptions = {
         onPaste: '&', // пользователь выбрал даты у нажал вставить, параметр - дата начала
         onPostPlan: '&', // создание тренировочного плана на основе выдленных элементов
         onDelete: '&', // удалить
-        onUpdate: '&',
+        onUpdate: '&', // Изменение / Создание / Удаление записи
         onSelect: '&'
     },
     controller: CalendarDayCtrl,

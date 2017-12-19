@@ -10,7 +10,6 @@ import { IQuillConfig } from "../../share/quill/quill.config";
 import { FormMode } from "../../application.interface";
 import { IRevisionResponse } from "../../../../api/core/core";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
-;
 
 export class CalendarItemCompetitionCtrl implements IComponentController {
 
@@ -38,11 +37,6 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
     $onInit () {
         this.competition = new CalendarItemCompetition(this.item, this.options);
-        console.log('distanceType', this.config.getDistance());
-        if ( this.options.formMode === FormMode.Post &&
-            this.competition.competitionHeader.type && this.competition.competitionHeader ) {
-            this.setDistanceType();
-        }
     }
 
     /**
@@ -50,27 +44,39 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
      * @param e
      */
     open (e: Event): void {
-        this.calendarDialog.competition(e, this.options, this.competition)
-            .then(response => response.formMode === FormMode.Put && this.onAnswer(response));
+        this.calendarDialog.competition(e, Object.assign(this.options, {formMode: FormMode.View}), this.competition)
+            .then(response => this.onAnswer(response));
     }
 
     edit (e: Event): void {
         this.calendarDialog.competition(e, Object.assign(this.options, {formMode: FormMode.Put}), this.competition)
-            .then(response => response.formMode === FormMode.Put && this.onAnswer(response));
+            .then(response => this.onAnswer(response));
+    }
+
+    setDate (): void {
+        debugger;
+        if (this.competition.items) {
+            //////this.competition.setDate();
+        }
+
+
     }
 
 
     setType (): void {
         this.competition.competitionHeader.distanceType = null;
         this.clearItems();
+        this.check();
     }
 
     setDistanceType (): void {
         this.clearItems();
-        this.competition.setItems(
-            this.config.types
-                [this.competition.competitionHeader.type]
-                [this.competition.competitionHeader.distanceType]);
+        this.competition.setItems(this.config.distanceTypes.filter(t =>
+            t.type === this.competition.competitionHeader.type &&
+            t.code === this.competition.competitionHeader.distanceType)[0].stages);
+        this.check();
+                //[this.competition.competitionHeader.type]
+                //[this.competition.competitionHeader.distanceType]);
     }
 
     /**
@@ -90,10 +96,12 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
     check (): void {
         this.form.$setValidity('needStage', this.competition.items && this.competition.items.length > 0);
+        this.form.$setValidity('needDuration', this.competition.items && this.competition.items.every(i => i.item.durationValue));
     }
 
     setDirty (): void {
         this.form.$setDirty();
+        this.check();
     }
 
     save () {
@@ -141,6 +149,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     saveItems (): Promise<Array<IRevisionResponse>> {
+        debugger;
         return Promise.all(<any>this.competition.items.map(i => {
                 if ( this.competition.view.isPost ) {
                     return this.calendarService.postItem(i.item.build());

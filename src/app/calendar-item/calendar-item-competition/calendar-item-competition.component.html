@@ -50,9 +50,9 @@
         </md-list>
         <!-- Режим редактирования -->
         <form flex="none" ng-if="!$ctrl.isViewMode" layout="column"
-              name="$ctrl.form" ng-disabled="$ctrl.competition.view.isView">
+              name="$ctrl.form">
             <md-list flex="none" class="md-dense bg-grey-050">
-                <md-subheader><span translate="competition.about"></span></md-subheader>
+                <!--<md-subheader><span translate="competition.about"></span></md-subheader> -->
                 <!-- Название соревнования -->
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">
@@ -60,6 +60,7 @@
                         <md-icon flex="none" class="material-icons md-dark">timeline</md-icon>
                         <input flex="auto" name="name" required type="text"
                                placeholder="{{competition.name.placeholder}}"
+                               ng-disabled="$ctrl.competition.view.isView"
                                ng-model="$ctrl.competition.competitionHeader.name">
                         <div ng-messages="$ctrl.form.sport.$error" role="alert">
                             <div ng-message-exp="['required']"
@@ -82,8 +83,8 @@
                                    placeholder="{{competition.type.placeholder}}"
                                    ng-model="$ctrl.competition.competitionHeader.type"
                                    ng-change="$ctrl.setType()"
-                                   ng-disabled="$ctrl.competition.view.isView">
-                            <md-option ng-repeat="type in $ctrl.config.types track by $index" value="{{type}}">
+                                   ng-disabled="$ctrl.competition.view.isView || $ctrl.competition.isCompleted">
+                            <md-option ng-repeat="type in $ctrl.config.types track by $index" ng-value="type">
                                 {{'competition.types.' + type | translate}}
                             </md-option>
                         </md-select>
@@ -105,8 +106,11 @@
                                    ng-model="$ctrl.competition.competitionHeader.distanceType"
                                    placeholder="{{competition.distanceType.placeholder}}"
                                    ng-change="$ctrl.setDistanceType()"
-                                   ng-disabled="$ctrl.competition.view.isView">
-                            <md-option ng-repeat="type in $ctrl.config.distanceTypes | filter:{type: $ctrl.competition.competitionHeader.type} track by $index" value="{{type.code}}">
+                                   ng-disabled="$ctrl.competition.view.isView || $ctrl.competition.isCompleted">
+                            <md-option
+                                ng-repeat="type in $ctrl.config.distanceTypes |
+                                    filter:{type: $ctrl.competition.competitionHeader.type}
+                                    track by $index" ng-value="type.code">
                                 {{'competition.distanceType.' + type.code | translate}}
                             </md-option>
                         </md-select>
@@ -146,7 +150,10 @@
                         <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
                         <md-datepicker flex="auto"
                                        ng-model="$ctrl.competition._dateStart"
-                                       name="dateStart" md-hide-icons="calendar">
+                                       name="dateStart"
+                                       ng-change="$ctrl.competition.setDate($ctrl.competition._dateStart)"
+                                       ng-disabled="$ctrl.competition.view.isView || $ctrl.competition.isCompleted"
+                                       md-hide-icons="calendar">
                         </md-datepicker>
                     </md-input-container>
                 </md-list-item>
@@ -155,14 +162,24 @@
         <!-- Задание -->
         <md-list flex="none" class="md-dense" ng-if="$ctrl.competition.items.length > 0">
             <md-subheader><span translate="competition.target"></span></md-subheader>
+            <div class="error-block md-caption md-dark" ng-messages="$ctrl.form.$error" role="alert">
+                <div ng-message-exp="['needDuration']" translate="competition.needDuration">
+                </div>
+            </div>
             <st-competition-single-stage
                     items="$ctrl.competition.items"
                     options="$ctrl.options"
                     on-change="$ctrl.setDirty()">
             </st-competition-single-stage>
         </md-list>
-        <p class="error-block md-caption md-dark" layout-padding ng-if="$ctrl.competition.items.length === 0"
+        <div class="error-block md-caption md-dark" ng-messages="$ctrl.form.$error" role="alert">
+            <div ng-message-exp="['needDistanceType']" translate="competition.needDistanceType">
+            </div>
+        </div>
+        <p class="error-block md-caption md-dark" layout-padding
+           ng-if="$ctrl.competition.items.length === 0"
            translate="competition.needDistanceType"></p>
+
         <!-- Описание -->
         <md-list flex="none" class="md-dense description" ng-if="$ctrl.competition.items.length > 0">
             <md-subheader><span translate="competition.trainersPrescription"></span></md-subheader>

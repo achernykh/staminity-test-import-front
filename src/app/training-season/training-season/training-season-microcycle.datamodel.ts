@@ -49,7 +49,7 @@ export class Microcycle implements IMicrocycle {
 
     prepare (keys: Array<string> = this.keys): IMicrocycle {
         let cycle: IMicrocycle = Object.assign({}, this);
-        debugger;
+
         cycle.mesocycle = { id: Number(this.mesocycle.id) };
         cycle.durationValue = this.durationValue && Number(this.durationValue);
         if (!cycle.mesocycle.id) { cycle.mesocycle = null; }

@@ -29,11 +29,24 @@ export class CalendarItemCompetition extends CalendarItem {
         this.prepare();
     }
 
+    /**set dateStart(value: Date) {
+
+    }**/
+
     prepare (): void {
         super.prepare();
         if (this.calendarItems && this.calendarItems.length) {
             this.items = [];
             this.calendarItems.map(i => this.items.push({ dirty: false, item: new Activity(i, this.options)}));
+        }
+    }
+
+    setDate (date: Date): void {
+        if (this.items) {
+            this.items.forEach((s,i) => this.items[i] = {
+                dirty: true,
+                item: Object.assign(s.item, {_dateStart: date, _dateEnd: date})
+            });
         }
     }
 
@@ -70,26 +83,11 @@ export class CalendarItemCompetition extends CalendarItem {
     }
 
     build (): ICalendarItem {
+        super.package();
         let item: ICalendarItem = Object.assign({}, this);
         item.calendarItems = this.items.map(i => new Activity(i.item, this.options));
-        ['item', 'items', 'options','statusLimit'].map(k => delete item[k]);
+        [ 'item', 'items', 'options', 'statusLimit' ].map(k => delete item[ k ]);
         return item;
-    }
-
-    get type (): string {
-        return this.competitionHeader.type;
-    }
-
-    set type (value: string) {
-        this.competitionHeader.type = value;
-    }
-
-    get distanceType (): string {
-        return this.competitionHeader.distanceType;
-    }
-
-    set distanceType (value: string) {
-        this.competitionHeader.distanceType = value;
     }
 
     get status (): string {
