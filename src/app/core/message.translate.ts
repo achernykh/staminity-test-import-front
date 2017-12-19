@@ -333,6 +333,10 @@ export const _translateMessage = {
 			title: "",
 			text: "Шаблон сохранен"
 		},
+        forbidden_ExistsRelatedActivity: {
+            title: "Операция невозможна",
+            text: "Есть связанные тренировки, удаление невозможно"
+        },
 
 
 		// -------- Запросы и групповые операции ---------
@@ -502,11 +506,35 @@ export const _translateMessage = {
             title: '',
             text: 'Мезоцикл добавлен'
         },
+        mesocycleDeleted: {
+            title: '',
+            text: 'Мезоцикл удален'
+        },
+        periodizationSchemePosted: {
+            title: '',
+            text: 'Добавлена новая схема периодизации'
+        },
+        periodizationSchemeEdited: {
+            title: '',
+            text: 'Схема периодизации изменена'
+        },
+        periodizationSchemeDeleted: {
+            title: '',
+            text: 'Схема периодизации удалена'
+        },
 
         // ----- Планы на сезон
         trainingSeasonDeleted: {
             title: '',
             text: 'План на сезон удален'
+        },
+        trainingSeasonPosted: {
+            title: '',
+            text: 'Создан новый план на сезон'
+        },
+        trainingSeasonEdited: {
+            title: '',
+            text: 'План на сезон изменен'
         }
 
 
@@ -840,6 +868,10 @@ export const _translateMessage = {
 			title: "",
 			text: "New template have been created"
 		},
+        forbidden_ExistsRelatedActivity: {
+            title: "Action forbidden",
+            text: "Item has related activities"
+        },
 
 
     // -------- Запросы и групповые операции ---------
