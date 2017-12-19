@@ -83,9 +83,12 @@ const _userName = () => (user, options) => maybe(user) (prop('public')) (
  * full: Имя и Фамилию
  */
 const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'full'): string => {
-    if (!profile.hasOwnProperty('public') ||
+    if (
+        !profile ||
+        !profile.hasOwnProperty('public') ||
         !profile.public.hasOwnProperty('firstName') ||
-        !profile.public.hasOwnProperty('lastName')) {return null;}
+        !profile.public.hasOwnProperty('lastName')
+    ) {return null;}
 
     switch (options) {
         case 'short': {
