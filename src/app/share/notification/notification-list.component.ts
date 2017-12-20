@@ -7,6 +7,9 @@ import {CalendarService} from "../../calendar/calendar.service";
 import UserService from "../../core/user.service";
 import { SessionService, getUser} from "../../core";
 import {IUserProfile, ICalendarItem, INotification, Notification, Initiator} from "../../../../api";
+import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
+import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
+import {FormMode } from '../../application.interface';
 
 class NotificationListCtrl implements IComponentController {
 
@@ -16,6 +19,7 @@ class NotificationListCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     public readonly readTime: 5000;
     public timer: number;
+    private activityDialogOptions: ICalendarItemDialogOptions;
     private readonly activityTemplates = {
         uploadActivityByProvider: 2,
         activityCompletedByAthlete: 2,
@@ -31,7 +35,7 @@ class NotificationListCtrl implements IComponentController {
 	private destroy: Subject<any> = new Subject();
 
     static $inject = ['$scope','$mdDialog','$mdSidenav','NotificationService','CalendarService', 'UserService',
-        'SessionService'];
+        'SessionService', 'CalendarItemDialogService'];
 
     constructor(
         private $scope: IScope,
@@ -40,7 +44,8 @@ class NotificationListCtrl implements IComponentController {
         private NotificationService: NotificationService,
         private CalendarService: CalendarService,
         private UserService: UserService,
-        private session: SessionService
+        private session: SessionService,
+        private calendarDialogService: CalendarItemDialogService
     ) {
 
     }
@@ -66,6 +71,14 @@ class NotificationListCtrl implements IComponentController {
         .takeUntil(this.destroy)
         .map(getUser)
         .subscribe((profile) => this.currentUser = angular.copy(profile));
+
+        this.activityDialogOptions = {
+            currentUser: this.currentUser,
+            owner: null,
+            formMode: FormMode.View,
+            popupMode: true,
+            templateMode: false
+        };
     }
 
     $onDestroy() {
@@ -88,10 +101,35 @@ class NotificationListCtrl implements IComponentController {
         },1);*/
     }
 
-    onClick($event, notification: Notification):void {
+    /**
+     *
+     * @param e
+     * @param notification
+     */
+    onClick(e: Event, notification: Notification):void {
         if(Object.keys(this.activityTemplates).some(k => k === notification.template)) {
 
             this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
+                .then(response => {
+                    let activity: ICalendarItem = response[0];
+                    Promise.resolve(() => {
+                        debugger;
+                        if (this.currentUser.userId === activity.userProfileOwner.userId) {
+                            return this.currentUser;
+                        } else {
+                            return this.UserService.getProfile(activity.userProfileOwner.userId)
+                                .then(profile => {debugger; return profile;});
+                        }
+                    }).then(owner => {
+                        debugger;
+                        this.calendarDialogService.activity(e, Object.assign(this.activityDialogOptions, {owner: owner}), activity)
+                            .then(() => {});
+                    });
+                });
+
+
+
+            /**this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
                 .then(response => {
                     let activity: ICalendarItem = response[0];
                     this.$mdDialog.show({
@@ -128,7 +166,7 @@ class NotificationListCtrl implements IComponentController {
 
                     }).then(response => console.log(response), error => console.log(error));
 
-                }, error => {throw new Error(error);});
+                }, error => {throw new Error(error);});**/
 
             this.NotificationService.put(notification.id, null, true).catch();
 
