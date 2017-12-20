@@ -535,10 +535,22 @@ export const _translateMessage = {
         trainingSeasonEdited: {
             title: '',
             text: 'План на сезон изменен'
+        },
+        // ----- Планы на сезон
+        competitionCreated: {
+            title: '',
+            text: 'Соревнование создано'
+        },
+        competitionEdited: {
+            title: '',
+            text: 'Соревнование изменено'
+        },
+        competitionDeleted: {
+            title: '',
+            text: 'Соревнование удалено'
         }
 
-
-	},
+    },
 	en: {
 		null: {
 			title: 'Unknown error',

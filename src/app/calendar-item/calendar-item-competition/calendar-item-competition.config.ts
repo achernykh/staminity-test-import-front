@@ -108,7 +108,7 @@ export class CompetitionConfig implements CompetitionConfig {
                 {
                     activityTypeId: 10,
                     durationMeasure: 'movingDuration',
-                    distanceLength: 180*1000,
+                    distanceLength: 180*1000
                 },
                 {
                     activityTypeId: 16,
@@ -138,7 +138,7 @@ export class CompetitionConfig implements CompetitionConfig {
                 {
                     activityTypeId: 10,
                     durationMeasure: 'movingDuration',
-                    distanceLength: 90*1000,
+                    distanceLength: 90*1000
                 },
                 {
                     activityTypeId: 16,
@@ -168,7 +168,7 @@ export class CompetitionConfig implements CompetitionConfig {
                 {
                     activityTypeId: 10,
                     durationMeasure: 'movingDuration',
-                    distanceLength: 45*1000,
+                    distanceLength: 45*1000
                 },
                 {
                     activityTypeId: 16,
@@ -197,7 +197,7 @@ export class CompetitionConfig implements CompetitionConfig {
                 {
                     activityTypeId: 10,
                     durationMeasure: 'movingDuration',
-                    distanceLength: 40*1000,
+                    distanceLength: 40*1000
                 },
                 {
                     activityTypeId: 16,
@@ -227,7 +227,7 @@ export class CompetitionConfig implements CompetitionConfig {
                 {
                     activityTypeId: 10,
                     durationMeasure: 'movingDuration',
-                    distanceLength: 20*1000,
+                    distanceLength: 20*1000
                 },
                 {
                     activityTypeId: 16,
@@ -258,7 +258,7 @@ export class CompetitionConfig implements CompetitionConfig {
                 {
                     activityTypeId: 10,
                     durationMeasure: 'movingDuration',
-                    distanceLength: 22*1000,
+                    distanceLength: 22*1000
                 },
                 {
                     activityTypeId: 16,
@@ -285,7 +285,8 @@ export class CompetitionConfig implements CompetitionConfig {
                     activityTypeId: 15,
                     durationMeasure: 'distance',
                     movingDurationLength: 0,
-                    distanceLength: 0                },
+                    distanceLength: 0
+                },
                 {
                     activityTypeId: 10,
                     durationMeasure: 'distance',
