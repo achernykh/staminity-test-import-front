@@ -186,15 +186,27 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
      * @param list
      */
     setCompetitionList (list: Array<ICalendarItem>): void {
+        this.competitions = this.prepareCompetitions(list);
         if (this.isBuilderState && this.data) {
-            this.competitions = this.prepareCompetitions(list)
-                .map(i => Object.assign(i, {index: Number(`${i.calendarItemId}${i.revision}`)}));
             this.data.setCompetitions(this.competitions);
             this.recalculate ++;
-        } else {
-            this.competitions = list.map(i => Object.assign(i, {index: Number(`${i.calendarItemId}${i.revision}`)}));
         }
         this.update();
+    }
+
+    private prepareCompetitions (items: Array<ICalendarItem>): Array<ICalendarItem> {
+        items = items
+            .map(i => Object.assign(i, {index: Number(`${i.calendarItemId}${i.revision}`)}))
+            .sort((a,b) => moment(a.dateStart).isAfter(moment(b.dateStart)));
+
+        if (this.isBuilderState) {
+            items.filter(i => moment(i.dateStart).isAfter(moment(this.season.dateStart)) &&
+                moment(i.dateEnd).isBefore(moment(this.season.dateEnd)))
+                .sort((a,b) => moment(a.dateStart).isAfter(moment(b.dateStart)));
+        } else {
+            items.sort((a,b) => moment(a.dateStart).isBefore(moment(b.dateStart)));
+        }
+        return items;
     }
 
     /**
@@ -209,13 +221,6 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             .then(() => this.calendarService.search({userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
             .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult));
             //.then(() => this.state = TrainingSeasonViewState.Builder);
-    }
-
-    private prepareCompetitions (items: Array<ICalendarItem>): Array<ICalendarItem> {
-        return items
-            .filter(i => moment(i.dateStart).isAfter(moment(this.season.dateStart)) &&
-                moment(i.dateEnd).isBefore(moment(this.season.dateEnd)))
-            .sort((a,b) => moment(a.dateStart).isAfter(moment(b.dateStart)));
     }
 
     /**
