@@ -76,7 +76,7 @@ export class CompetitionConfig implements CompetitionConfig {
             stages: [{
                     activityTypeId: 2,
                     durationMeasure: 'distance',
-                    movingDurationLength: 24*60*60
+                    movingDurationLength: 24*60*60-1
                 }
             ]
         },
@@ -86,7 +86,7 @@ export class CompetitionConfig implements CompetitionConfig {
             stages: [{
                     activityTypeId: 2,
                     durationMeasure: 'distance',
-                    movingDurationLength: 24*60
+                    movingDurationLength: 60*60
                 }
             ]
         },
@@ -240,6 +240,70 @@ export class CompetitionConfig implements CompetitionConfig {
                 }
             ]
         },
+        {
+            type: 'triathlon',
+            code: '1/8',
+            stages: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 0.5*1000
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 22*1000,
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: null
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'movingDuration',
+                    distanceLength: 5*1000
+                }
+            ]
+        },
+        {
+            type: 'triathlon',
+            code: 'indoor',
+            stages: [
+                {
+                    activityTypeId: 7,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 10*60
+                },
+                {
+                    activityTypeId: 15,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 0,
+                    distanceLength: 0                },
+                {
+                    activityTypeId: 10,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 30*60
+                },
+                {
+                    activityTypeId: 16,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 0,
+                    distanceLength: 0
+                },
+                {
+                    activityTypeId: 2,
+                    durationMeasure: 'distance',
+                    movingDurationLength: 20*60
+                }
+            ]
+        },
+
         // swim
         {
             type: 'swim',
@@ -283,7 +347,7 @@ export class CompetitionConfig implements CompetitionConfig {
             stages: [{
                 activityTypeId: 7,
                 durationMeasure: 'movingDuration',
-                distanceLength: 1*1000
+                distanceLength: 1.852*1000
             }]
         },
         {

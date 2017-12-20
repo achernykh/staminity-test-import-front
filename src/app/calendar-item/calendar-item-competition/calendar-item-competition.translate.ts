@@ -36,11 +36,11 @@ export const translateCompetition = {
             },
             triathlon: {
                 'fullDistance': "Полная дистанция",
-                'halfDistance': "Полвина полной дистанции",
+                'halfDistance': "1/2 полной дистанции",
                 '1/4': "1/4 полной дистанции",
                 'olympic': "Олимпийская дистанция",
                 'sprint': "Спринт",
-                '1/8': "1/4 полной дистанции",
+                '1/8': "1/8 полной дистанции",
                 'indoor': "Indoor",
             },
             swim: {

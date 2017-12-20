@@ -15,7 +15,7 @@ export const translateTrainingSeason = {
         durationMeasure: {
             label: "Показатель планирования",
             movingDuration: "Время",
-            trainingLoad: "Нагрузка (training load)",
+            trainingLoad: "Нагрузка",
             distance: "Расстояние"
         },
         durationUnit: {
