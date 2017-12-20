@@ -63,7 +63,8 @@ export const AppMenuSettings = [
     {
         icon: "show_chart",
         name: "appMenu.plan",
-        link: "training-plans-search"
+        link: "training-plans-search",
+        state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
@@ -76,6 +77,7 @@ export const AppMenuSettings = [
         icon: "season",
         name: "appMenu.season",
         link: "training-season-builder",
+        role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
         //state: 'soon'
         //role: [_UserRoles.user]
     },

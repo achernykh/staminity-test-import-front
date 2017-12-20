@@ -70,6 +70,7 @@ export class CompetitionConfig implements CompetitionConfig {
                 }
             ]
         },
+        /* пока скрываем бег по времени
         {
             type: 'run',
             code: '24h',
@@ -89,7 +90,7 @@ export class CompetitionConfig implements CompetitionConfig {
                     movingDurationLength: 60*60
                 }
             ]
-        },
+        }, */
         // triathlon competitions
         {
             type: 'triathlon',
